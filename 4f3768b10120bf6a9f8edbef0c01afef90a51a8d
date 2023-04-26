@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58fb1935_7a4aea74",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2074,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-04-26T09:57:38Z",
+      "side": 1,
+      "message": "nit: remove some blanks to keep the columns aligned",
+      "range": {
+        "startLine": 2074,
+        "startChar": 14,
+        "endLine": 2074,
+        "endChar": 17
+      },
+      "revId": "4f3768b10120bf6a9f8edbef0c01afef90a51a8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

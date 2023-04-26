@@ -705,7 +705,7 @@ export class GrChangeMetadata extends LitElement {
     return html`<section id="webLinks">
       <span class="title">Links</span>
       <span class="value">
-        ${webLinks.map(info => html`<gr-weblink .info=${info}></gr-weblink>`)}
+        ${webLinks.map(info => html`<gr-weblink .info=${info}></gr-weblink> `)}
       </span>
     </section>`;
   }

@@ -915,7 +915,7 @@ export class GrDiffView extends LitElement {
         () => html`
           <span class="separator"></span>
           ${this.editWeblinks!.map(
-            weblink => html`<gr-weblink .info=${weblink}></gr-weblink>`
+            weblink => html`<gr-weblink .info=${weblink}></gr-weblink> `
           )}
         `
       )}

@@ -211,7 +211,7 @@ export class GrRepoAccess extends LitElement {
           <div class="weblinks ${this.weblinks?.length ? 'show' : ''}">
             History:
             ${this.weblinks?.map(
-              info => html`<gr-weblink .info=${info}></gr-weblink>`
+              info => html`<gr-weblink .info=${info}></gr-weblink> `
             )}
           </div>
           ${this.sections?.map((section, index) =>

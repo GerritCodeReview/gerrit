@@ -171,7 +171,7 @@ export class GrRepoList extends LitElement {
   }
 
   private renderWebLink(info: WebLinkInfo) {
-    return html`<gr-weblink imageAndText .info=${info}></gr-weblink>`;
+    return html`<gr-weblink imageAndText .info=${info}></gr-weblink> `;
   }
 
   override willUpdate(changedProperties: PropertyValues) {

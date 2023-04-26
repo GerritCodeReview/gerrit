@@ -237,7 +237,7 @@ export class GrPatchRangeSelect extends LitElement {
     if (!fileLinks) return;
     return html`<span class="filesWeblinks">
       ${fileLinks.map(
-        weblink => html`<gr-weblink .info=${weblink}></gr-weblink>`
+        weblink => html`<gr-weblink .info=${weblink}></gr-weblink> `
       )}</span
     > `;
   }

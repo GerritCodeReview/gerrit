@@ -69,6 +69,24 @@
       "parentUuid": "73e7f58e_82e47516",
       "revId": "ce718fa2aeba94c8e29bca8fc6e7097da7090548",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81367205_1eb64753",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-04-26T09:17:23Z",
+      "side": 1,
+      "message": "Can you not write a test that replicates the flow that you mention in the description of the commit:\n```\nCurrently when trying to add a user that doesn\u0027t exists as a reviewer\non a change...\n```",
+      "parentUuid": "2fb7abb9_c48ae960",
+      "revId": "ce718fa2aeba94c8e29bca8fc6e7097da7090548",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

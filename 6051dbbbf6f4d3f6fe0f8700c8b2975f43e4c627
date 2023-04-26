@@ -217,6 +217,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "79cc49f6_6de01020",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-04-26T14:01:36Z",
+      "side": 1,
+      "message": "I did not see an answer to this concern:\n\n\u003e Does this affect ssh queries at all? If not, should it? If yes, it likely should be documented?",
+      "parentUuid": "ecb07c4a_d34c1a54",
+      "revId": "6051dbbbf6f4d3f6fe0f8700c8b2975f43e4c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2b5a6bcb_50f3cc1f",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 22

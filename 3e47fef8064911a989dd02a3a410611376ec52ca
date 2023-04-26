@@ -22,6 +22,30 @@
       },
       "revId": "3e47fef8064911a989dd02a3a410611376ec52ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb2d7d20_b5534f78",
+        "filename": "java/com/google/gerrit/server/mail/EmailTokenVerifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-04-26T16:17:49Z",
+      "side": 1,
+      "message": "This is an email verification process (the whole \"click the link to verify your new email\")\n\nReworded to make it more clear.",
+      "parentUuid": "3f0769aa_9c906126",
+      "range": {
+        "startLine": 20,
+        "startChar": 32,
+        "endLine": 20,
+        "endChar": 50
+      },
+      "revId": "3e47fef8064911a989dd02a3a410611376ec52ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

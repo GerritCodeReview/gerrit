@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2fccbf91_3d2d0f4a",
+        "filename": "java/com/google/gerrit/server/restapi/change/QueryChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-04-26T16:10:53Z",
+      "side": 1,
+      "message": "TODO: Guard backfilling with a request parameter.",
+      "revId": "4802ac028bbc7b8979b65145c83405a221dab2df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

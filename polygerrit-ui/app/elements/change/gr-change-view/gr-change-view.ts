@@ -1967,7 +1967,7 @@ export class GrChangeView extends LitElement {
   async maybeScrollToMessage(hash: string) {
     if (hash.startsWith(PREFIX)) {
       await waitUntil(() => !!this.messagesList);
-      this.messagesList!.scrollToMessage(hash.substr(PREFIX.length));
+      await this.messagesList!.scrollToMessage(hash.substr(PREFIX.length));
     }
   }
 

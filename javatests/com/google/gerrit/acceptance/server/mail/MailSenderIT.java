@@ -62,7 +62,7 @@ public class MailSenderIT extends AbstractMailIT {
     Map<String, EmailHeader> headers = sender.getMessages().iterator().next().headers();
     String hostname = URI.create(canonicalWebUrl.get()).getHost();
     String listId = String.format("<gerrit-%s.%s>", project.get(), hostname);
-    String unsubscribeLink = String.format("<%ssettings>", canonicalWebUrl.get());
+    String unsubscribeLink = String.format("<%ssettings?usp=email>", canonicalWebUrl.get());
     String threadId =
         String.format(
             "<gerrit.%s.%s@%s>",

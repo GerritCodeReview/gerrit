@@ -85,19 +85,28 @@ public class CommentChangeEmailDecorator implements ChangeEmailDecorator {
       return args.urlFormatter
           .get()
           .getInlineCommentView(changeEmail.getChange(), uuid)
+          .map(EmailArguments::addUspParam)
           .orElse(null);
     }
 
     /** Returns a web link to the comment tab view of a change. */
     @Nullable
     public String getCommentsTabLink() {
-      return args.urlFormatter.get().getCommentsTabView(changeEmail.getChange()).orElse(null);
+      return args.urlFormatter
+          .get()
+          .getCommentsTabView(changeEmail.getChange())
+          .map(EmailArguments::addUspParam)
+          .orElse(null);
     }
 
     /** Returns a web link to the findings tab view of a change. */
     @Nullable
     public String getFindingsTabLink() {
-      return args.urlFormatter.get().getFindingsTabView(changeEmail.getChange()).orElse(null);
+      return args.urlFormatter
+          .get()
+          .getFindingsTabView(changeEmail.getChange())
+          .map(EmailArguments::addUspParam)
+          .orElse(null);
     }
 
     /**

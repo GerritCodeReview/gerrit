@@ -1262,6 +1262,7 @@ public class CommentsIT extends AbstractDaemonTest {
                 + c
                 + "/comment/"
                 + ps1List.get(0).id
+                + "?usp=email"
                 + " :\n"
                 + "PS1, Line 1: initial\n"
                 + "what happened to this?\n"
@@ -1274,6 +1275,7 @@ public class CommentsIT extends AbstractDaemonTest {
                 + c
                 + "/comment/"
                 + ps1List.get(1).id
+                + "?usp=email"
                 + " :\n"
                 + "PS1, Line 1: boring\n"
                 + "Is it that bad?\n"
@@ -1288,6 +1290,7 @@ public class CommentsIT extends AbstractDaemonTest {
                 + c
                 + "/comment/"
                 + ps2List.get(0).id
+                + "?usp=email"
                 + " :\n"
                 + "PS2, Line 1: initial content\n"
                 + "comment 1 on base\n"
@@ -1300,6 +1303,7 @@ public class CommentsIT extends AbstractDaemonTest {
                 + c
                 + "/comment/"
                 + ps2List.get(1).id
+                + "?usp=email"
                 + " :\n"
                 + "PS2, Line 2: \n"
                 + "comment 2 on base\n"
@@ -1312,6 +1316,7 @@ public class CommentsIT extends AbstractDaemonTest {
                 + c
                 + "/comment/"
                 + ps2List.get(2).id
+                + "?usp=email"
                 + " :\n"
                 + "PS2, Line 1: interesting\n"
                 + "better now\n"
@@ -1324,6 +1329,7 @@ public class CommentsIT extends AbstractDaemonTest {
                 + c
                 + "/comment/"
                 + ps2List.get(3).id
+                + "?usp=email"
                 + " :\n"
                 + "PS2, Line 2: cntent\n"
                 + "typo: content\n"

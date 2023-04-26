@@ -69,6 +69,8 @@ public class DeleteKeyEmailDecorator implements EmailDecorator {
     email.addSoyEmailDataParam("keyType", getKeyType());
     email.addSoyEmailDataParam("sshKey", getSshKey());
     email.addSoyEmailDataParam("userNameEmail", email.getUserNameEmailFor(user.getAccountId()));
+    email.addSoyEmailDataParam("sshKeysSettingsUrl", email.getSettingsUrl("ssh-keys"));
+    email.addSoyEmailDataParam("gpgKeysSettingsUrl", email.getSettingsUrl("gpg-keys"));
 
     email.appendText(email.textTemplate("DeleteKey"));
     if (email.useHtml()) {

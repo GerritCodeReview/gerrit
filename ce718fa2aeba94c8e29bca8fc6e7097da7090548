@@ -123,6 +123,24 @@
       "parentUuid": "a4f307ec_2fd1682f",
       "revId": "ce718fa2aeba94c8e29bca8fc6e7097da7090548",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66d8d70e_a2d1b0e6",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-04-26T14:46:55Z",
+      "side": 1,
+      "message": "\u003e should you return `404 NOT_FOUND` instead of `INTERNAL_SERVER_ERROR`?\n\n`INTERNAL_SERVER_ERROR` isn\u0027t a good status code, but also `404 NOT_FOUND` would suggest that the resource isn\u0027t there, which isn\u0027t true.\n\nWhat about a generic `400 INVALID REVIEWER`?",
+      "parentUuid": "88f1a768_e0bd079c",
+      "revId": "ce718fa2aeba94c8e29bca8fc6e7097da7090548",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -338,3 +338,29 @@ export function makeCancelable<T>(promise: Promise<T>) {
   };
   return wrappedPromise;
 }
+
+export async function waitUntil(
+  predicate: (() => boolean) | (() => Promise<boolean>),
+  message = 'The waitUntil() predicate is still false after 1000 ms.',
+  timeout_ms = 1000
+): Promise<void> {
+  if (await predicate()) return Promise.resolve();
+  const start = Date.now();
+  let sleep = 10;
+  const error = new Error(message);
+  return new Promise((resolve, reject) => {
+    const waiter = async () => {
+      if (await predicate()) {
+        resolve();
+        return;
+      }
+      if (Date.now() - start >= timeout_ms) {
+        reject(error);
+        return;
+      }
+      setTimeout(waiter, sleep);
+      sleep *= 2;
+    };
+    waiter();
+  });
+}

@@ -16,7 +16,9 @@ import {filter, take, timeout} from 'rxjs/operators';
 import {assert} from '@open-wc/testing';
 import {Route, ViewState} from '../models/views/base';
 import {PageContext} from '../elements/core/gr-router/gr-page';
+import {waitUntil} from '../utils/async-util';
 export {query, queryAll, queryAndAssert} from '../utils/common-util';
+export {waitUntil} from '../utils/async-util';
 
 export interface MockPromise<T> extends Promise<T> {
   resolve: (value?: T) => void;
@@ -164,32 +166,6 @@ export async function waitQueryAndAssert<E extends Element = Element>(
     `The element '${selector}' did not appear in the DOM within 1000 ms.`
   );
   return queryAndAssert<E>(el, selector);
-}
-
-export async function waitUntil(
-  predicate: (() => boolean) | (() => Promise<boolean>),
-  message = 'The waitUntil() predicate is still false after 1000 ms.',
-  timeout_ms = 1000
-): Promise<void> {
-  const start = Date.now();
-  let sleep = 0;
-  if (await predicate()) return Promise.resolve();
-  const error = new Error(message);
-  return new Promise((resolve, reject) => {
-    const waiter = async () => {
-      if (await predicate()) {
-        resolve();
-        return;
-      }
-      if (Date.now() - start >= timeout_ms) {
-        reject(error);
-        return;
-      }
-      setTimeout(waiter, sleep);
-      sleep = sleep === 0 ? 1 : sleep * 4;
-    };
-    waiter();
-  });
 }
 
 export async function waitUntilVisible(element: Element): Promise<void> {

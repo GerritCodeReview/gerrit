@@ -34,27 +34,16 @@ import '../../checks/gr-checks-tab';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {pluralize} from '../../../utils/string-util';
-import {whenVisible} from '../../../utils/dom-util';
+import {untilRendered, whenVisible} from '../../../utils/dom-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
-import {
-  ChangeStatus,
-  DefaultBase,
-  Tab,
-  DiffViewMode,
-} from '../../../constants/constants';
+import {ChangeStatus, Tab, DiffViewMode} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
-  findEdit,
-  findEditParentRevision,
   PatchSet,
 } from '../../../utils/patch-set-util';
 import {
-  changeIsAbandoned,
-  changeIsMerged,
-  changeIsOpen,
   changeStatuses,
   isInvolved,
   roleDetails,
@@ -78,10 +67,7 @@ import {
   LabelNameToInfoMap,
   NumericChangeId,
   PARENT,
-  PatchRange,
   PatchSetNum,
-  PatchSetNumber,
-  PreferencesInfo,
   QuickLabelInfo,
   RevisionInfo,
   RevisionPatchSetNum,
@@ -127,8 +113,9 @@ import {
   DelayedTask,
   throttleWrap,
   until,
+  waitUntil,
 } from '../../../utils/async-util';
-import {Interaction, Timing} from '../../../constants/reporting';
+import {Interaction} from '../../../constants/reporting';
 import {
   getAddedByReason,
   getRemovedByReason,
@@ -154,7 +141,6 @@ import {ShortcutController} from '../../lit/shortcut-controller';
 import {FilesExpandedState} from '../gr-file-list-constants';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
-import {filesModelToken} from '../../../models/change/files-model';
 import {getBaseUrl, prependOrigin} from '../../../utils/url-util';
 import {CopyLink, GrCopyLinks} from '../gr-copy-links/gr-copy-links';
 import {
@@ -191,8 +177,6 @@ const ReloadToastMessage = {
 
 // Making the tab names more unique in case a plugin adds one with same name
 const ROBOT_COMMENTS_LIMIT = 10;
-
-export type ChangeViewPatchRange = Partial<PatchRange>;
 
 @customElement('gr-change-view')
 export class GrChangeView extends LitElement {
@@ -252,32 +236,18 @@ export class GrChangeView extends LitElement {
 
   @query('gr-copy-links') private copyLinksDropdown?: GrCopyLinks;
 
-  private _viewState?: ChangeViewState;
-
-  @property({type: Object})
-  get viewState() {
-    return this._viewState;
-  }
-
-  set viewState(viewState: ChangeViewState | undefined) {
-    if (this._viewState === viewState) return;
-    const oldViewState = this._viewState;
-    this._viewState = viewState;
-    this.viewStateChanged();
-    this.requestUpdate('viewState', oldViewState);
-  }
+  @state()
+  viewState?: ChangeViewState;
 
   @property({type: String})
   backPage?: string;
 
-  // Private but used in tests.
   @state()
   commentThreads?: CommentThread[];
 
   // Don't use, use serverConfig instead.
   private _serverConfig?: ServerInfo;
 
-  // Private but used in tests.
   @state()
   get serverConfig() {
     return this._serverConfig;
@@ -293,10 +263,6 @@ export class GrChangeView extends LitElement {
 
   @state()
   private account?: AccountDetailInfo;
-
-  // Private but used in tests.
-  @state()
-  prefs?: PreferencesInfo;
 
   canStartReview() {
     return !!(
@@ -341,9 +307,6 @@ export class GrChangeView extends LitElement {
 
   @state() patchNum?: RevisionPatchSetNum;
 
-  // TODO: Migrate usages to this.patchNum and this.basePatchnum.
-  @state() patchRange?: ChangeViewPatchRange;
-
   @state() revision?: RevisionInfo | EditRevisionInfo;
 
   /**
@@ -369,10 +332,6 @@ export class GrChangeView extends LitElement {
 
   @state()
   private shownFileCount?: number;
-
-  // Private but used in tests.
-  @state()
-  initialLoadComplete = false;
 
   // Private but used in tests.
   @state()
@@ -488,8 +447,6 @@ export class GrChangeView extends LitElement {
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
-  private readonly getFilesModel = resolve(this, filesModelToken);
-
   private readonly getViewModel = resolve(this, changeViewModelToken);
 
   private readonly getRelatedChangesModel = resolve(
@@ -544,14 +501,7 @@ export class GrChangeView extends LitElement {
       this.handleCommitMessageCancel()
     );
     this.addEventListener('open-fix-preview', e => this.onOpenFixPreview(e));
-
     this.addEventListener('show-tab', e => this.setActiveTab(e));
-    this.addEventListener('reload', e => {
-      this.loadData(
-        /* isLocationChange= */ false,
-        /* clearPatchset= */ e.detail && e.detail.clearPatchset
-      );
-    });
   }
 
   private setupShortcuts() {
@@ -559,7 +509,7 @@ export class GrChangeView extends LitElement {
     this.shortcutsController.addAbstract(Shortcut.EMOJI_DROPDOWN, () => {}); // docOnly
     this.shortcutsController.addAbstract(Shortcut.MENTIONS_DROPDOWN, () => {}); // docOnly
     this.shortcutsController.addAbstract(Shortcut.REFRESH_CHANGE, () =>
-      fireReload(this, true)
+      this.getChangeModel().navigateToChangeResetReload()
     );
     this.shortcutsController.addAbstract(Shortcut.OPEN_REPLY_DIALOG, () =>
       this.handleOpenReplyDialog()
@@ -629,7 +579,7 @@ export class GrChangeView extends LitElement {
     subscribe(
       this,
       () => this.getViewModel().tab$,
-      t => (this.activeTab = t ?? Tab.FILES)
+      t => (this.activeTab = t)
     );
     subscribe(
       this,
@@ -664,6 +614,11 @@ export class GrChangeView extends LitElement {
       () => this.getViewModel().childView$,
       childView => {
         this.isViewCurrent = childView === ChangeChildView.OVERVIEW;
+        // When coming back from ChangeChildView.DIFF we want to restore the
+        // scroll position to what it was before leaving the OVERVIEW page.
+        if (this.isViewCurrent) {
+          document.documentElement.scrollTop = this.scrollPosition ?? 0;
+        }
       }
     );
     subscribe(
@@ -712,6 +667,15 @@ export class GrChangeView extends LitElement {
     );
     subscribe(
       this,
+      () => this.getChangeModel().changeNum$,
+      changeNum => {
+        // The change view is tied to a specific change number, so don't update
+        // changeNum to undefined and only set it once.
+        if (changeNum && !this.changeNum) this.changeNum = changeNum;
+      }
+    );
+    subscribe(
+      this,
       () => this.getChangeModel().patchNum$,
       patchNum => (this.patchNum = patchNum)
     );
@@ -729,6 +693,11 @@ export class GrChangeView extends LitElement {
       this,
       () => this.getChangeModel().revision$,
       revision => (this.revision = revision)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().changeLoadingStatus$,
+      status => (this.loading = status !== LoadingStatus.LOADED)
     );
     subscribe(
       this,
@@ -789,6 +758,8 @@ export class GrChangeView extends LitElement {
   }
 
   override firstUpdated() {
+    this.maybeScrollToMessage(window.location.hash);
+    this.maybeShowRevertDialog();
     // _onTabSizingChanged is called when iron-items-changed event is fired
     // from iron-selectable but that is called before the element is present
     // in view which whereas the method requires paper tabs already be visible
@@ -827,8 +798,7 @@ export class GrChangeView extends LitElement {
             new Error('Mismatch of headers and content.')
           );
         }
-      })
-      .then(() => this.initActiveTab());
+      });
 
     this.throttledToggleChangeStar = throttleWrap<KeyboardEvent>(_ =>
       this.handleToggleChangeStar()
@@ -1632,11 +1602,12 @@ export class GrChangeView extends LitElement {
   override updated() {
     const tabs = [...queryAll<HTMLElement>(this.tabs!, 'paper-tab')];
     const tabIndex = tabs.findIndex(t => t.dataset['name'] === this.activeTab);
-    assert(tabIndex !== -1, `tab ${this.activeTab} not found`);
 
-    if (this.tabs!.selected !== tabIndex) {
+    if (tabIndex !== -1 && this.tabs!.selected !== tabIndex) {
       this.tabs!.selected = tabIndex;
     }
+    this.reportChangeDisplayed();
+    this.reportFullyLoaded();
   }
 
   private readonly handleScroll = () => {
@@ -1752,7 +1723,7 @@ export class GrChangeView extends LitElement {
         }
 
         this.editingCommitMessage = false;
-        fireReload(this, true);
+        this.getChangeModel().navigateToChangeResetReload();
       })
       .catch(() => {
         assertIsDefined(this.commitMessageEditor);
@@ -1949,16 +1920,9 @@ export class GrChangeView extends LitElement {
 
   // Private but used in tests.
   handleReplySent() {
-    this.addEventListener(
-      'change-details-loaded',
-      () => {
-        this.reporting.timeEnd(Timing.SEND_REPLY);
-      },
-      {once: true}
-    );
     assertIsDefined(this.replyModal);
     this.replyModal.close();
-    fireReload(this);
+    this.getChangeModel().navigateToChangeResetReload();
   }
 
   private handleReplyCancel() {
@@ -2009,130 +1973,6 @@ export class GrChangeView extends LitElement {
   }
 
   // Private but used in tests.
-  hasPatchRangeChanged(viewState: ChangeViewState) {
-    if (!this.patchRange) return false;
-    if (this.patchRange.basePatchNum !== viewState.basePatchNum) return true;
-    return this.hasPatchNumChanged(viewState);
-  }
-
-  // Private but used in tests.
-  hasPatchNumChanged(viewState: ChangeViewState) {
-    if (!this.patchRange) return false;
-    if (viewState.patchNum !== undefined) {
-      return this.patchRange.patchNum !== viewState.patchNum;
-    } else {
-      // value.patchNum === undefined specifies the latest patchset
-      return (
-        this.patchRange.patchNum !== computeLatestPatchNum(this.allPatchSets)
-      );
-    }
-  }
-
-  // Private but used in tests.
-  viewStateChanged() {
-    if (!this.viewState) return;
-    if (this.isChangeObsolete()) return;
-
-    if (this.viewState.basePatchNum === undefined)
-      this.viewState.basePatchNum = PARENT;
-
-    this.patchRange = {
-      patchNum: this.viewState.patchNum,
-      basePatchNum: this.viewState.basePatchNum,
-    };
-
-    const patchKnown =
-      !this.patchRange.patchNum ||
-      (this.allPatchSets ?? []).some(
-        ps => ps.num === this.patchRange?.patchNum
-      );
-    // _allPatchsets does not know value.patchNum so force a reload.
-    const forceReload = this.viewState.forceReload || !patchKnown;
-
-    // If changeNum is defined that means the change has already been
-    // rendered once before so a full reload is not required.
-    if (this.changeNum !== undefined && !forceReload) {
-      if (!this.patchRange.patchNum) {
-        this.patchRange = {
-          ...this.patchRange,
-          patchNum: computeLatestPatchNum(this.allPatchSets),
-        };
-      }
-
-      // If there is no change in patchset or changeNum, such as when user goes
-      // to the diff view and then comes back to change page then there is no
-      // need to reload anything and we render the change view component as is.
-      document.documentElement.scrollTop = this.scrollPosition ?? 0;
-      this.reporting.reportInteraction('change-view-re-rendered');
-      // We still need to check if post load tasks need to be done such as when
-      // user wants to open the reply dialog when in the diff page, the change
-      // page should open the reply dialog
-      this.performPostLoadTasks();
-      return;
-    }
-
-    // If the change was loaded before, then we are firing a 'reload' event
-    // instead of calling `loadData()` directly for two reasons:
-    // 1. We want to avoid code such as `this.initialLoadComplete = false` that
-    //    is only relevant for the initial load of a change.
-    // 2. We have to somehow trigger the change-model reloading. Otherwise
-    //    this.change is not updated.
-    if (this.changeNum) {
-      if (!this.patchRange?.patchNum) {
-        this.patchRange = {
-          basePatchNum: PARENT,
-          patchNum: computeLatestPatchNum(this.allPatchSets),
-        };
-      }
-      fireReload(this);
-      return;
-    }
-
-    this.initialLoadComplete = false;
-    this.changeNum = this.viewState.changeNum;
-    this.loadData(true).then(() => {
-      this.performPostLoadTasks();
-    });
-
-    this.getPluginLoader()
-      .awaitPluginsLoaded()
-      .then(() => {
-        this.initActiveTab();
-      });
-  }
-
-  private initActiveTab() {
-    let tab = Tab.FILES;
-    if (this.viewState?.tab) {
-      tab = this.viewState?.tab as Tab;
-    } else if (this.viewState?.commentId) {
-      tab = Tab.COMMENT_THREADS;
-    }
-    this.setActiveTab(new CustomEvent('show-tab', {detail: {tab}}));
-  }
-
-  // Private but used in tests.
-  sendShowChangeEvent() {
-    assertIsDefined(this.patchRange, 'patchRange');
-    this.getPluginLoader().jsApiService.handleShowChange({
-      change: this.change,
-      patchNum: this.patchRange.patchNum,
-      info: {mergeable: this.mergeable ?? null},
-    });
-  }
-
-  private performPostLoadTasks() {
-    this.maybeShowRevertDialog();
-
-    this.sendShowChangeEvent();
-
-    this.updateComplete.then(() => {
-      this.maybeScrollToMessage(window.location.hash);
-      this.initialLoadComplete = true;
-    });
-  }
-
-  // Private but used in tests.
   handleMessageAnchorTap(e: CustomEvent<{id: string}>) {
     assertIsDefined(this.change, 'change');
     assertIsDefined(this.patchNum, 'patchNum');
@@ -2148,9 +1988,10 @@ export class GrChangeView extends LitElement {
   }
 
   // Private but used in tests.
-  maybeScrollToMessage(hash: string) {
-    if (hash.startsWith(PREFIX) && this.messagesList) {
-      this.messagesList.scrollToMessage(hash.substr(PREFIX.length));
+  async maybeScrollToMessage(hash: string) {
+    if (hash.startsWith(PREFIX)) {
+      await waitUntil(() => !!this.messagesList);
+      this.messagesList!.scrollToMessage(hash.substr(PREFIX.length));
     }
   }
 
@@ -2173,24 +2014,16 @@ export class GrChangeView extends LitElement {
   }
 
   // Private but used in tests.
-  maybeShowRevertDialog() {
-    this.getPluginLoader()
-      .awaitPluginsLoaded()
-      .then(() => {
-        if (
-          !this.loggedIn ||
-          !this.change ||
-          this.change.status !== ChangeStatus.MERGED
-        ) {
-          // Do not display dialog if not logged-in or the change is not
-          // merged.
-          return;
-        }
-        if (this._getUrlParameter('revert')) {
-          assertIsDefined(this.actions);
-          this.actions.showRevertDialog();
-        }
-      });
+  async maybeShowRevertDialog() {
+    if (!this._getUrlParameter('revert')) return;
+
+    await this.getPluginLoader().awaitPluginsLoaded();
+    await waitUntil(() => !!this.actions);
+    await waitUntil(() => !!this.change);
+
+    if (this.change?.status === ChangeStatus.MERGED && this.loggedIn) {
+      this.actions!.showRevertDialog();
+    }
   }
 
   // Private but used in tests.
@@ -2206,56 +2039,11 @@ export class GrChangeView extends LitElement {
       this.currentRobotCommentsPatchSet =
         this.change.revisions[this.change.current_revision]._number;
     }
-    if (!this.change || !this.patchRange || !this.allPatchSets) {
-      return;
-    }
-
-    // We get the parent first so we keep the original value for basePatchNum
-    // and not the updated value.
-    const parent = this.getBasePatchNum();
-
-    this.patchRange = {
-      ...this.patchRange,
-      basePatchNum: parent,
-      patchNum:
-        this.patchRange.patchNum || computeLatestPatchNum(this.allPatchSets),
-    };
   }
 
   /**
-   * Gets base patch number, if it is a parent try and decide from
-   * preference whether to default to `auto merge`, `Parent 1` or `PARENT`.
-   * Private but used in tests.
+   * This is the URL equivalent of changeModel.navigateToChangeResetReload().
    */
-  getBasePatchNum() {
-    if (
-      this.patchRange &&
-      this.patchRange.basePatchNum &&
-      this.patchRange.basePatchNum !== PARENT
-    ) {
-      return this.patchRange.basePatchNum;
-    }
-
-    const revisionInfo = this.getRevisionInfo();
-    if (!revisionInfo) return PARENT;
-
-    // TODO: It is a bit unclear why `1` is used here instead of
-    // `patchRange.patchNum`. Maybe that is a bug? Maybe if one patchset
-    // is a merge commit, then all patchsets are merge commits??
-    const isMerge = revisionInfo.isMergeCommit(1 as PatchSetNumber);
-    const preferFirst =
-      this.prefs &&
-      this.prefs.default_base_for_merges === DefaultBase.FIRST_PARENT;
-
-    // Verified via reportExecution that -1 is returned(1-5 times per day)
-    // changeChanged does set this.patchRange?.patchNum so it's still unclear
-    // how it is undefined.
-    if (isMerge && preferFirst && !this.patchRange?.patchNum) {
-      return -1 as BasePatchSetNum;
-    }
-    return PARENT;
-  }
-
   private computeChangeUrl(forceReload?: boolean) {
     if (!this.change) return undefined;
     return createChangeUrl({
@@ -2508,90 +2296,6 @@ export class GrChangeView extends LitElement {
     return msg.replace(REVIEWERS_REGEX, '$1=\u200B');
   }
 
-  /**
-   * Utility function to make the necessary modifications to a change in the
-   * case an edit exists.
-   * Private but used in tests.
-   */
-  processEdit(change: ParsedChangeInfo) {
-    const revisions = Object.values(change.revisions || {});
-    const editRev = findEdit(revisions);
-    const editParentRev = findEditParentRevision(revisions);
-    if (
-      !editRev &&
-      this.patchRange?.patchNum === EDIT &&
-      changeIsOpen(change)
-    ) {
-      fireAlert(this, 'Change edit not found. Please create a change edit.');
-      fireReload(this, true);
-      return;
-    }
-
-    if (
-      !editRev &&
-      (changeIsMerged(change) || changeIsAbandoned(change)) &&
-      (this.patchRange?.patchNum === EDIT || this.viewState?.edit)
-    ) {
-      fireAlert(
-        this,
-        'Change edits cannot be created if change is merged or abandoned. Redirecting to non edit mode.'
-      );
-      fireReload(this, true);
-      return;
-    }
-
-    if (!editRev) return;
-    assertIsDefined(this.patchRange, 'patchRange');
-    assertIsDefined(editRev.commit.commit, 'editRev.commit.commit');
-    assertIsDefined(editParentRev, 'editParentRev');
-
-    const latestPsNum = computeLatestPatchNum(computeAllPatchSets(change));
-    // If the change was loaded without a specific patchset, then this normally
-    // means that the *latest* patchset should be loaded. But if there is an
-    // active edit, then automatically switch to that edit as the current
-    // patchset.
-    // TODO: This goes together with `change.current_revision` being set, which
-    // is under change-model control. `patchRange.patchNum` should eventually
-    // also be model managed, so we can reconcile these two code snippets into
-    // one location.
-    if (!this.viewModelPatchNum && latestPsNum === editParentRev._number) {
-      this.patchRange = {...this.patchRange, patchNum: EDIT};
-    }
-  }
-
-  private async untilModelLoaded() {
-    // NOTE: Wait until this page is connected before determining whether the
-    // model is loaded.  This can happen when viewState changes when setting up
-    // this view. It's unclear whether this issue is related to Polymer
-    // specifically.
-    if (!this.isConnected) {
-      await until(this.connected$, connected => connected);
-    }
-    await until(
-      this.getChangeModel().changeLoadingStatus$,
-      status => status === LoadingStatus.LOADED
-    );
-  }
-
-  /**
-   * Process edits
-   * Check if a revert of this change has been submitted
-   * Calculate selected revision
-   */
-  // private but used in tests
-  async performPostChangeLoadTasks() {
-    assertIsDefined(this.changeNum, 'changeNum');
-
-    const prefCompletes = this.restApiService.getPreferences();
-    await this.untilModelLoaded();
-
-    this.prefs = await prefCompletes;
-
-    if (!this.change) return;
-
-    this.processEdit(this.change);
-  }
-
   private isParentCurrent() {
     const revisionActions = this.currentRevisionActions;
     if (revisionActions && revisionActions.rebase) {
@@ -2601,72 +2305,35 @@ export class GrChangeView extends LitElement {
     }
   }
 
-  /**
-   * Reload the change.
-   *
-   * @param isLocationChange Reloads the related changes
-   * when true and ends reporting events that started on location change.
-   * @param clearPatchset Reloads the change ignoring any patchset
-   * choice made.
-   * @return A promise that resolves when the core data has loaded.
-   * Some non-core data loading may still be in-flight when the core data
-   * promise resolves.
-   */
-  loadData(isLocationChange?: boolean, clearPatchset?: boolean) {
-    if (this.isChangeObsolete()) return Promise.resolve();
-    if (clearPatchset && this.change) {
-      this.getNavigation().setUrl(
-        createChangeUrl({change: this.change, forceReload: true})
-      );
-      return Promise.resolve();
+  private async reportChangeDisplayed() {
+    await waitUntil(() => !!this.metadata);
+    await untilRendered(this.metadata!);
+    await waitUntil(() => !!this.fileList);
+    await untilRendered(this.fileList!);
+    await waitUntil(() => !!this.messagesList);
+    await untilRendered(this.messagesList!);
+    // We are ending the timer after each change view update, because ending a
+    // timer that was not started is a no-op. :-)
+    if (this.change && this.isConnected && !this.isChangeObsolete()) {
+      this.reporting.changeDisplayed(roleDetails(this.change, this.account));
     }
-    this.loading = true;
-    this.reporting.time(Timing.CHANGE_RELOAD);
-    this.reporting.time(Timing.CHANGE_DATA);
-
-    // Array to house all promises related to data requests.
-    const allDataPromises: Promise<unknown>[] = [];
-
-    // Resolves when the change detail and the edit patch set (if available)
-    // are loaded.
-    const detailCompletes = this.untilModelLoaded();
-    allDataPromises.push(detailCompletes);
-
-    // Resolves when the loading flag is set to false, meaning that some
-    // change content may start appearing.
-    const loadingFlagSet = detailCompletes.then(() => {
-      this.loading = false;
-      this.performPostChangeLoadTasks();
-    });
-
-    const coreDataPromise = loadingFlagSet;
-    coreDataPromise.then(() => {
-      fire(this, 'change-details-loaded', {});
-      this.reporting.timeEnd(Timing.CHANGE_RELOAD);
-      if (isLocationChange) {
-        this.reporting.changeDisplayed(roleDetails(this.change, this.account));
-      }
-    });
-
-    if (isLocationChange) {
-      this.editingCommitMessage = false;
-    }
-    allDataPromises.push(this.filesLoaded());
-
-    Promise.all(allDataPromises).then(() => {
-      // Loading of commments data is no longer part of this reporting
-      this.reporting.timeEnd(Timing.CHANGE_DATA);
-      if (isLocationChange) {
-        this.reporting.changeFullyLoaded();
-      }
-    });
-
-    return coreDataPromise;
   }
 
-  private async filesLoaded() {
-    if (!this.isConnected) await until(this.connected$, connected => connected);
-    await until(this.getFilesModel().files$, f => f.length > 0);
+  private async reportFullyLoaded() {
+    await waitUntil(() => !!this.metadata);
+    await untilRendered(this.metadata!);
+    await waitUntil(() => !!this.fileList);
+    await untilRendered(this.fileList!);
+    await waitUntil(() => !!this.messagesList);
+    await untilRendered(this.messagesList!);
+    await waitUntil(() => this.mergeable !== undefined);
+    await until(this.getCommentsModel().comments$, c => c !== undefined);
+    await until(this.getCommentsModel().drafts$, c => c !== undefined);
+    // We are ending the timer after each change view update, because ending a
+    // timer that was not started is a no-op. :-)
+    if (this.change && this.isConnected && !this.isChangeObsolete()) {
+      this.reporting.changeFullyLoaded();
+    }
   }
 
   /**
@@ -2747,7 +2414,7 @@ export class GrChangeView extends LitElement {
             dismissOnNavigation: true,
             showDismiss: true,
             action: 'Reload',
-            callback: () => fireReload(this, true),
+            callback: () => this.getChangeModel().navigateToChangeResetReload(),
           });
         });
     }, this.serverConfig.change.update_delay * 1000);
@@ -2876,11 +2543,6 @@ export class GrChangeView extends LitElement {
     fire(this, 'hide-alert', {});
   }
 
-  private getRevisionInfo(): RevisionInfoClass | undefined {
-    if (this.change === undefined) return undefined;
-    return new RevisionInfoClass(this.change);
-  }
-
   createTitle(shortcutName: Shortcut, section: ShortcutSection) {
     return this.getShortcutsService().createTitle(shortcutName, section);
   }
@@ -2895,7 +2557,6 @@ export class GrChangeView extends LitElement {
 declare global {
   interface HTMLElementEventMap {
     'toggle-star': CustomEvent<ChangeStarToggleStarDetail>;
-    'change-details-loaded': CustomEvent<{}>;
   }
   interface HTMLElementTagNameMap {
     'gr-change-view': GrChangeView;

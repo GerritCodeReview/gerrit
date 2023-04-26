@@ -7,6 +7,7 @@ import {Subject} from 'rxjs';
 import {ChangeStatus} from '../../constants/constants';
 import '../../test/common-test-setup';
 import {
+  TEST_NUMERIC_CHANGE_ID,
   createChange,
   createChangeMessageInfo,
   createChangeViewState,
@@ -40,9 +41,15 @@ import {ChangeModel} from './change-model';
 import {assert} from '@open-wc/testing';
 import {testResolver} from '../../test/common-test-setup';
 import {userModelToken} from '../user/user-model';
-import {ChangeViewModel, changeViewModelToken} from '../views/change';
+import {
+  ChangeChildView,
+  ChangeViewModel,
+  changeViewModelToken,
+} from '../views/change';
 import {navigationToken} from '../../elements/core/gr-navigation/gr-navigation';
 import {SinonStub} from 'sinon';
+import {pluginLoaderToken} from '../../elements/shared/gr-js-api-interface/gr-plugin-loader';
+import {ShowChangeDetail} from '../../elements/shared/gr-js-api-interface/gr-js-api-types';
 
 suite('updateRevisionsWithCommitShas() tests', () => {
   test('undefined edit', async () => {
@@ -106,7 +113,9 @@ suite('change model tests', () => {
       testResolver(navigationToken),
       changeViewModel,
       getAppContext().restApiService,
-      testResolver(userModelToken)
+      testResolver(userModelToken),
+      testResolver(pluginLoaderToken),
+      getAppContext().reportingService
     );
     knownChange = {
       ...createChange(),
@@ -212,6 +221,27 @@ suite('change model tests', () => {
     });
   });
 
+  test('fireShowChange', async () => {
+    const pluginLoader = testResolver(pluginLoaderToken);
+    const jsApiService = pluginLoader.jsApiService;
+    const showChangeStub = sinon.stub(jsApiService, 'handleShowChange');
+
+    changeViewModel.updateState({
+      childView: ChangeChildView.OVERVIEW,
+      patchNum: 1 as PatchSetNumber,
+    });
+    changeModel.updateState({
+      change: createParsedChange(),
+      mergeable: true,
+    });
+
+    assert.isTrue(showChangeStub.calledOnce);
+    const detail: ShowChangeDetail = showChangeStub.lastCall.firstArg;
+    assert.equal(detail.change?._number, createParsedChange()._number);
+    assert.equal(detail.patchNum, 1 as PatchSetNumber);
+    assert.equal(detail.info.mergeable, true);
+  });
+
   test('load a change', async () => {
     const promise = mockPromise<ParsedChangeInfo | undefined>();
     const stub = stubRestApi('getChangeDetail').callsFake(() => promise);
@@ -240,16 +270,19 @@ suite('change model tests', () => {
     testResolver(changeViewModelToken).setState(createChangeViewState());
     promise.resolve(knownChange);
     state = await waitForLoadingStatus(LoadingStatus.LOADED);
+    assert.equal(stub.callCount, 1);
 
     // Reloading same change
     document.dispatchEvent(new CustomEvent('reload'));
     state = await waitForLoadingStatus(LoadingStatus.RELOADING);
-    assert.equal(stub.callCount, 2);
+    assert.equal(stub.callCount, 3);
+    assert.equal(stub.getCall(1).firstArg, undefined);
+    assert.equal(stub.getCall(2).firstArg, TEST_NUMERIC_CHANGE_ID);
     assert.deepEqual(state?.change, updateRevisionsWithCommitShas(knownChange));
 
     promise.resolve(knownChange);
     state = await waitForLoadingStatus(LoadingStatus.LOADED);
-    assert.equal(stub.callCount, 2);
+    assert.equal(stub.callCount, 3);
     assert.deepEqual(state?.change, updateRevisionsWithCommitShas(knownChange));
   });
 

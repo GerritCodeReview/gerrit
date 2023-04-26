@@ -155,7 +155,9 @@ export function createAppDependencies(
           resolver(navigationToken),
           resolver(changeViewModelToken),
           appContext.restApiService,
-          resolver(userModelToken)
+          resolver(userModelToken),
+          resolver(pluginLoaderToken),
+          appContext.reportingService
         ),
     ],
     [
@@ -175,7 +177,8 @@ export function createAppDependencies(
         new FilesModel(
           resolver(changeModelToken),
           resolver(commentsModelToken),
-          appContext.restApiService
+          appContext.restApiService,
+          appContext.reportingService
         ),
     ],
     [

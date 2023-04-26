@@ -327,7 +327,7 @@ export class GrSubmitRequirementHovercard extends base {
         review
       )
       .then(() => {
-        fireReload(this, true);
+        fireReload(this);
       });
   }
 

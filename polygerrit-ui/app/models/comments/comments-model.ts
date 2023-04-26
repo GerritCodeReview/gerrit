@@ -405,8 +405,6 @@ export class CommentsModel extends Model<CommentState> {
 
   private patchNum?: PatchSetNum;
 
-  private readonly reloadListener: () => void;
-
   private drafts: {[path: string]: DraftInfo[]} = {};
 
   private draftToastTask?: DelayedTask;
@@ -447,16 +445,6 @@ export class CommentsModel extends Model<CommentState> {
         this.reloadAllPortedComments();
       })
     );
-    this.reloadListener = () => {
-      this.reloadAllComments();
-      this.reloadAllPortedComments();
-    };
-    document.addEventListener('reload', this.reloadListener);
-  }
-
-  override finalize() {
-    document.removeEventListener('reload', this.reloadListener);
-    super.finalize();
   }
 
   // Note that this does *not* reload ported comments.

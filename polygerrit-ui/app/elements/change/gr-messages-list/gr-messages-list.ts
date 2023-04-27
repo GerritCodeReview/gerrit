@@ -349,7 +349,7 @@ export class GrMessagesList extends LitElement {
     super();
     subscribe(
       this,
-      () => this.getCommentsModel().threads$,
+      () => this.getCommentsModel().threadsSaved$,
       x => {
         this.commentThreads = x;
       }
@@ -440,7 +440,7 @@ export class GrMessagesList extends LitElement {
   }
 
   async scrollToMessage(messageID: string) {
-    await waitUntil(() => this.messages.length > 0);
+    await waitUntil(() => this.messages && this.messages.length > 0);
     await this.updateComplete;
 
     const selector = `[data-message-id="${messageID}"]`;

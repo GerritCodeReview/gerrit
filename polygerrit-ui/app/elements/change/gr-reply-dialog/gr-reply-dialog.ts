@@ -58,7 +58,6 @@ import {
   SuggestedReviewerGroupInfo,
   Suggestion,
   UserId,
-  UnsavedInfo,
   isDraft,
 } from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
@@ -72,7 +71,6 @@ import {
   queryAndAssert,
 } from '../../../utils/common-util';
 import {
-  createPatchsetLevelUnsavedDraft,
   getFirstComment,
   isPatchsetLevel,
   isUnresolved,
@@ -334,7 +332,7 @@ export class GrReplyDialog extends LitElement {
   patchsetLevelDraftIsResolved = true;
 
   @state()
-  patchsetLevelComment?: UnsavedInfo | DraftInfo;
+  patchsetLevelComment?: DraftInfo;
 
   @state()
   isOwner = false;
@@ -642,7 +640,7 @@ export class GrReplyDialog extends LitElement {
     );
     subscribe(
       this,
-      () => this.getCommentsModel().draftThreads$,
+      () => this.getCommentsModel().draftThreadsSaved$,
       threads =>
         (this.draftCommentThreads = threads.filter(
           t => !(isDraft(getFirstComment(t)) && isPatchsetLevel(t))
@@ -893,12 +891,7 @@ export class GrReplyDialog extends LitElement {
   }
 
   private renderPatchsetLevelComment() {
-    if (!this.patchsetLevelComment)
-      this.patchsetLevelComment = createPatchsetLevelUnsavedDraft(
-        this.latestPatchNum,
-        this.patchsetLevelDraftMessage,
-        !this.patchsetLevelDraftIsResolved
-      );
+    if (!this.patchsetLevelComment) return nothing;
     return html`
       <gr-comment
         id="patchsetLevelComment"
@@ -940,7 +933,8 @@ export class GrReplyDialog extends LitElement {
   }
 
   private renderDraftsSection() {
-    if (this.computeHideDraftList(this.draftCommentThreads)) return;
+    const threads = this.draftCommentThreads;
+    if (!threads || threads.length === 0) return;
     return html`
       <section class="draftsContainer">
         <div class="includeComments">
@@ -951,17 +945,13 @@ export class GrReplyDialog extends LitElement {
             ?checked=${this.includeComments}
           />
           <label for="includeComments"
-            >Publish ${this.computeDraftsTitle(this.draftCommentThreads)}</label
+            >Publish ${this.computeDraftsTitle(threads)}</label
           >
         </div>
         ${when(
           this.includeComments,
           () => html`
-            <gr-thread-list
-              id="commentList"
-              .threads=${this.draftCommentThreads}
-              hide-dropdown
-            >
+            <gr-thread-list id="commentList" .threads=${threads} hide-dropdown>
             </gr-thread-list>
           `
         )}
@@ -1228,7 +1218,7 @@ export class GrReplyDialog extends LitElement {
    * change view for initializing the dialog after opening the overlay. Maybe it
    * should be called `onOpened()` or `initialize()`?
    */
-  open(focusTarget?: FocusTarget, quote?: string) {
+  open(focusTarget?: FocusTarget) {
     assertIsDefined(this.change, 'change');
     this.knownLatestState = LatestPatchState.CHECKING;
     this.getChangeModel()
@@ -1240,10 +1230,6 @@ export class GrReplyDialog extends LitElement {
       });
 
     this.focusOn(focusTarget);
-    if (quote?.length) {
-      // If a reply quote has been provided, use it.
-      this.patchsetLevelDraftMessage = quote;
-    }
     if (this.restApiService.hasPendingDiffDrafts()) {
       this.savingComments = true;
       this.restApiService.awaitPendingDiffDrafts().then(() => {
@@ -1513,10 +1499,6 @@ export class GrReplyDialog extends LitElement {
       }
       fireServerError(response);
     });
-  }
-
-  computeHideDraftList(draftCommentThreads?: CommentThread[]) {
-    return !draftCommentThreads || draftCommentThreads.length === 0;
   }
 
   computeDraftsTitle(draftCommentThreads?: CommentThread[]) {

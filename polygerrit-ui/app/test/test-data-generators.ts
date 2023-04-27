@@ -66,13 +66,12 @@ import {
   SubmitTypeInfo,
   SuggestInfo,
   Timestamp,
-  TimezoneOffset,
   UrlEncodedCommentId,
   UserConfigInfo,
   CommentThread,
   DraftInfo,
   ChangeMessage,
-  UnsavedInfo,
+  SavingState,
 } from '../types/common';
 import {
   AccountsVisibility,
@@ -93,7 +92,7 @@ import {formatDate} from '../utils/date-util';
 import {GetDiffCommentsOutput} from '../services/gr-rest-api/gr-rest-api';
 import {CommitInfoWithRequiredCommit} from '../elements/change/gr-change-metadata/gr-change-metadata';
 import {WebLinkInfo} from '../types/diff';
-import {createCommentThreads} from '../utils/comment-util';
+import {createCommentThreads, createNew} from '../utils/comment-util';
 import {GerritView} from '../services/router/router-model';
 import {ChangeComments} from '../elements/diff/gr-comment-api/gr-comment-api';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
@@ -244,7 +243,6 @@ export function createGitPerson(name = 'Test name'): GitPersonInfo {
     name,
     email: `${name}@` as EmailAddress,
     date: dateToTimestamp(new Date(2019, 11, 6, 14, 5, 8)),
-    tz: 0 as TimezoneOffset,
   };
 }
 
@@ -844,18 +842,16 @@ export function createComment(
 export function createDraft(extra: Partial<CommentInfo> = {}): DraftInfo {
   return {
     ...createComment(),
-    __draft: true,
+    savingState: SavingState.OK,
     ...extra,
   };
 }
 
-export function createUnsaved(extra: Partial<CommentInfo> = {}): UnsavedInfo {
+export function createNewDraft(extra: Partial<CommentInfo> = {}): DraftInfo {
   return {
     ...createComment(),
-    __unsaved: true,
-    id: undefined,
-    updated: undefined,
     ...extra,
+    ...createNew(),
   };
 }
 
@@ -995,6 +991,9 @@ export function createChangeComments(): ChangeComments {
 export function createThread(
   ...comments: Partial<CommentInfo | DraftInfo>[]
 ): CommentThread {
+  if (comments.length === 0) {
+    comments = [createComment()];
+  }
   return {
     comments: comments.map(c => createComment(c)),
     rootId: 'test-root-id-comment-thread' as UrlEncodedCommentId,

@@ -11,6 +11,7 @@ import {
 } from '../../test/test-data-generators';
 import {
   AccountInfo,
+  CommentInfo,
   EmailAddress,
   NumericChangeId,
   Timestamp,
@@ -24,13 +25,13 @@ import {
 } from '../../test/test-data-generators';
 import {stubRestApi, waitUntil, waitUntilCalled} from '../../test/test-utils';
 import {getAppContext} from '../../services/app-context';
-import {PathToCommentsInfoMap} from '../../types/common';
 import {changeModelToken} from '../change/change-model';
 import {assert} from '@open-wc/testing';
 import {testResolver} from '../../test/common-test-setup';
 import {accountsModelToken} from '../accounts-model/accounts-model';
 import {ChangeComments} from '../../elements/diff/gr-comment-api/gr-comment-api';
 import {changeViewModelToken} from '../views/change';
+import {navigationToken} from '../../elements/core/gr-navigation/gr-navigation';
 
 suite('comments model tests', () => {
   test('updateStateDeleteDraft', () => {
@@ -76,7 +77,8 @@ suite('change service tests', () => {
       testResolver(changeModelToken),
       testResolver(accountsModelToken),
       getAppContext().restApiService,
-      getAppContext().reportingService
+      getAppContext().reportingService,
+      testResolver(navigationToken)
     );
     const diffCommentsSpy = stubRestApi('getDiffComments').returns(
       Promise.resolve({'foo.c': [createComment()]})
@@ -93,9 +95,9 @@ suite('change service tests', () => {
     const portedDraftsSpy = stubRestApi('getPortedDrafts').returns(
       Promise.resolve({})
     );
-    let comments: PathToCommentsInfoMap = {};
+    let comments: {[path: string]: CommentInfo[]} = {};
     subscriptions.push(model.comments$.subscribe(c => (comments = c ?? {})));
-    let portedComments: PathToCommentsInfoMap = {};
+    let portedComments: {[path: string]: CommentInfo[]} = {};
     subscriptions.push(
       model.portedComments$.subscribe(c => (portedComments = c ?? {}))
     );
@@ -134,7 +136,8 @@ suite('change service tests', () => {
       testResolver(changeModelToken),
       testResolver(accountsModelToken),
       getAppContext().restApiService,
-      getAppContext().reportingService
+      getAppContext().reportingService,
+      testResolver(navigationToken)
     );
     let mentionedUsers: AccountInfo[] = [];
     const draft = {...createDraft(), message: 'hey @abc@def.com'};
@@ -162,7 +165,8 @@ suite('change service tests', () => {
       testResolver(changeModelToken),
       testResolver(accountsModelToken),
       getAppContext().restApiService,
-      getAppContext().reportingService
+      getAppContext().reportingService,
+      testResolver(navigationToken)
     );
     let mentionedUsers: AccountInfo[] = [];
     const draft = {...createDraft(), message: 'hey @abc@def.com'};
@@ -200,7 +204,8 @@ suite('change service tests', () => {
       testResolver(changeModelToken),
       testResolver(accountsModelToken),
       getAppContext().restApiService,
-      getAppContext().reportingService
+      getAppContext().reportingService,
+      testResolver(navigationToken)
     );
 
     let changeComments: ChangeComments | undefined = undefined;

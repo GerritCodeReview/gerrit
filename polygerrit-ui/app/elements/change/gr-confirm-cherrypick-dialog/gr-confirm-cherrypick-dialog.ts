@@ -39,6 +39,7 @@ import {BindValueChangeEvent} from '../../../types/events';
 import {resolve} from '../../../models/dependency';
 import {createSearchUrl} from '../../../models/views/search';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {uuid} from '../../../utils/common-util';
 
 const SUGGESTIONS_LIMIT = 15;
 const CHANGE_SUBJECT_LIMIT = 50;
@@ -532,8 +533,7 @@ export class GrConfirmCherrypickDialog
   }
 
   private generateRandomCherryPickTopic(change: ChangeInfo) {
-    const randomString = Math.random().toString(36).substr(2, 10);
-    const message = `cherrypick-${change.topic}-${randomString}`;
+    const message = `cherrypick-${change.topic}-${uuid()}`;
     return message;
   }
 

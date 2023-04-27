@@ -17,10 +17,12 @@ import {
   dispatch,
   MockPromise,
   stubFlags,
+  waitUntil,
 } from '../../../test/test-utils';
 import {
   AccountId,
   DraftInfo,
+  SavingState,
   EmailAddress,
   NumericChangeId,
   PatchSetNum,
@@ -31,7 +33,7 @@ import {
   createComment,
   createDraft,
   createRobotComment,
-  createUnsaved,
+  createNewDraft,
 } from '../../../test/test-data-generators';
 import {ReplyToCommentEvent} from '../../../types/events';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
@@ -271,7 +273,7 @@ suite('gr-comment tests', () => {
 
     test('renders draft', async () => {
       element.initiallyCollapsed = false;
-      (element.comment as DraftInfo).__draft = true;
+      (element.comment as DraftInfo).savingState = SavingState.OK;
       await element.updateComplete;
       assert.shadowDom.equal(
         element,
@@ -351,7 +353,7 @@ suite('gr-comment tests', () => {
 
     test('renders draft in editing mode', async () => {
       element.initiallyCollapsed = false;
-      (element.comment as DraftInfo).__draft = true;
+      (element.comment as DraftInfo).savingState = SavingState.OK;
       element.editing = true;
       await element.updateComplete;
       assert.shadowDom.equal(
@@ -465,7 +467,7 @@ suite('gr-comment tests', () => {
       },
       line: 5,
       path: 'test',
-      __draft: true,
+      savingState: SavingState.OK,
       message: 'hello world',
     };
     element.editing = true;
@@ -490,7 +492,7 @@ suite('gr-comment tests', () => {
       },
       line: 5,
       path: 'test',
-      __draft: true,
+      savingState: SavingState.OK,
       message: 'hello world',
     };
     element.editing = true;
@@ -540,14 +542,13 @@ suite('gr-comment tests', () => {
       element.changeNum = 42 as NumericChangeId;
       element.comment = {
         ...createComment(),
-        __draft: true,
+        savingState: SavingState.OK,
         path: '/path/to/file',
         line: 5,
       };
     });
 
     test('isSaveDisabled', async () => {
-      element.saving = false;
       element.unresolved = true;
       element.comment = {...createComment(), unresolved: true};
       element.messageText = 'asdf';
@@ -564,7 +565,7 @@ suite('gr-comment tests', () => {
       await element.updateComplete;
       assert.isTrue(element.isSaveDisabled());
 
-      element.saving = true;
+      element.comment = {...element.comment, savingState: SavingState.SAVING};
       await element.updateComplete;
       assert.isTrue(element.isSaveDisabled());
     });
@@ -596,14 +597,12 @@ suite('gr-comment tests', () => {
       waitUntilCalled(stub, 'saveDraft()');
       assert.equal(stub.lastCall.firstArg.message, textToSave);
       assert.equal(stub.lastCall.firstArg.unresolved, true);
-      assert.isTrue(element.editing);
-      assert.isTrue(element.saving);
+      assert.isFalse(element.editing);
 
       savePromise.resolve();
       await element.updateComplete;
 
       assert.isFalse(element.editing);
-      assert.isFalse(element.saving);
     });
 
     test('previewing formatting triggers save', async () => {
@@ -624,22 +623,30 @@ suite('gr-comment tests', () => {
     });
 
     test('save failed', async () => {
-      sinon
-        .stub(commentsModel, 'saveDraft')
-        .returns(Promise.reject(new Error('saving failed')));
+      sinon.stub(commentsModel, 'saveDraft').returns(
+        Promise.resolve({
+          ...createNewDraft(),
+          message: 'something, not important',
+          unresolved: true,
+          savingState: SavingState.ERROR,
+        })
+      );
 
-      element.comment = createDraft();
+      element.comment = createNewDraft({
+        message: '',
+        unresolved: true,
+      });
+      element.unresolved = true;
       element.editing = true;
       await element.updateComplete;
       element.messageText = 'something, not important';
       await element.updateComplete;
 
       element.save();
-      await element.updateComplete;
+      assert.isFalse(element.editing);
 
-      assert.isTrue(element.unableToSave);
+      await waitUntil(() => element.hasAttribute('error'));
       assert.isTrue(element.editing);
-      assert.isFalse(element.saving);
     });
 
     test('discard', async () => {
@@ -657,21 +664,19 @@ suite('gr-comment tests', () => {
       await element.updateComplete;
       waitUntilCalled(stub, 'discardDraft()');
       assert.equal(stub.lastCall.firstArg, element.comment.id);
-      assert.isTrue(element.editing);
-      assert.isTrue(element.saving);
+      assert.isFalse(element.editing);
 
       discardPromise.resolve();
       await element.updateComplete;
 
       assert.isFalse(element.editing);
-      assert.isFalse(element.saving);
     });
 
     test('resolved comment state indicated by checkbox', async () => {
       const saveStub = sinon.stub(commentsModel, 'saveDraft');
       element.comment = {
         ...createComment(),
-        __draft: true,
+        savingState: SavingState.OK,
         unresolved: false,
       };
       await element.updateComplete;
@@ -752,7 +757,7 @@ suite('gr-comment tests', () => {
       savePromise = mockPromise<DraftInfo>();
       saveStub = sinon.stub(commentsModel, 'saveDraft').returns(savePromise);
 
-      element.comment = createUnsaved();
+      element.comment = createNewDraft();
       element.editing = true;
       await element.updateComplete;
     });
@@ -778,32 +783,43 @@ suite('gr-comment tests', () => {
     });
 
     test('saving while auto saving', async () => {
+      saveStub.reset();
+      const autoSavePromise = mockPromise<DraftInfo>();
+      saveStub.onCall(0).returns(autoSavePromise);
+      saveStub.onCall(1).returns(savePromise);
+
       const textarea = queryAndAssert<HTMLElement>(element, '#editTextarea');
       dispatch(textarea, 'text-changed', {value: 'auto save text'});
 
       clock.tick(2 * AUTO_SAVE_DEBOUNCE_DELAY_MS);
-      assert.isTrue(saveStub.called);
+      assert.equal(saveStub.callCount, 1);
       assert.equal(saveStub.firstCall.firstArg.message, 'auto save text');
-      saveStub.reset();
 
       element.messageText = 'actual save text';
       const save = element.save();
       await element.updateComplete;
       // First wait for the auto saving to finish.
-      assert.isFalse(saveStub.called);
+      assert.equal(saveStub.callCount, 1);
 
-      // Resolve auto-saving promise.
-      savePromise.resolve({
+      autoSavePromise.resolve({
         ...element.comment,
-        __draft: true,
+        savingState: SavingState.OK,
+        message: 'auto save text',
         id: 'exp123' as UrlEncodedCommentId,
         updated: '2018-02-13 22:48:48.018000000' as Timestamp,
       });
+      savePromise.resolve({
+        ...element.comment,
+        savingState: SavingState.OK,
+        message: 'actual save text',
+        id: 'exp123' as UrlEncodedCommentId,
+        updated: '2018-02-13 22:48:49.018000000' as Timestamp,
+      });
       await save;
       // Only then save.
-      assert.isTrue(saveStub.called);
-      assert.equal(saveStub.firstCall.firstArg.message, 'actual save text');
-      assert.equal(saveStub.firstCall.firstArg.id, 'exp123');
+      assert.equal(saveStub.callCount, 2);
+      assert.equal(saveStub.lastCall.firstArg.message, 'actual save text');
+      assert.equal(saveStub.lastCall.firstArg.id, 'exp123');
     });
   });
 
@@ -819,7 +835,7 @@ suite('gr-comment tests', () => {
         },
         line: 5,
         path: 'test',
-        __draft: true,
+        savingState: SavingState.OK,
         message: 'hello world',
       };
       element = await fixture(

@@ -57,7 +57,6 @@ import {
 import {GrAccountList} from '../../shared/gr-account-list/gr-account-list';
 import {GrLabelScoreRow} from '../gr-label-score-row/gr-label-score-row';
 import {GrLabelScores} from '../gr-label-scores/gr-label-scores';
-import {GrThreadList} from '../gr-thread-list/gr-thread-list';
 import {fixture, html, waitUntil, assert} from '@open-wc/testing';
 import {accountKey} from '../../../utils/account-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
@@ -70,6 +69,7 @@ import {
   commentsModelToken,
 } from '../../../models/comments/comments-model';
 import {isOwner} from '../../../utils/change-util';
+import {createNewPatchsetLevel} from '../../../utils/comment-util';
 
 function cloneableResponse(status: number, text: string) {
   return {
@@ -154,9 +154,12 @@ suite('gr-reply-dialog tests', () => {
       Verified: ['-1', ' 0', '+1'],
     };
     element.draftCommentThreads = [];
+    commentsModel = testResolver(commentsModelToken);
+    commentsModel.addNewDraft(
+      createNewPatchsetLevel(latestPatchNum, '', false)
+    );
 
     await element.updateComplete;
-    commentsModel = testResolver(commentsModelToken);
   });
 
   function stubSaveReview(
@@ -479,9 +482,6 @@ suite('gr-reply-dialog tests', () => {
       remove_from_attention_set: [],
       ignore_automatic_attention_set_rules: true,
     });
-    assert.isFalse(
-      queryAndAssert<GrThreadList>(element, '#commentList').hidden
-    );
   });
 
   test('modified attention set', async () => {

@@ -175,3 +175,10 @@ export async function copyToClipbard(text: string, copyTargetName?: string) {
   await navigator.clipboard.writeText(text);
   fireAlert(document, `${copyTargetName ?? text} was copied to clipboard`);
 }
+
+/**
+ * Produces strings such as `y364b4tm28n`.
+ */
+export function uuid() {
+  return Math.random().toString(36).substring(2);
+}

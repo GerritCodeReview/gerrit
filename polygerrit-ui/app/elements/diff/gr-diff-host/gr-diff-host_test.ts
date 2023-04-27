@@ -33,6 +33,7 @@ import {
   BasePatchSetNum,
   BlameInfo,
   CommentRange,
+  DraftInfo,
   EDIT,
   ImageInfo,
   NumericChangeId,
@@ -56,6 +57,10 @@ import {userModelToken, UserModel} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
+import {
+  CommentsModel,
+  commentsModelToken,
+} from '../../../models/comments/comments-model';
 
 suite('gr-diff-host tests', () => {
   let element: GrDiffHost;
@@ -999,7 +1004,12 @@ suite('gr-diff-host tests', () => {
   });
 
   suite('create-comment', () => {
+    let addDraftSpy: sinon.SinonSpy;
+
     setup(async () => {
+      const commentsModel: CommentsModel = testResolver(commentsModelToken);
+      addDraftSpy = sinon.spy(commentsModel, 'addNewDraft');
+
       account = createAccountDetailWithId(1);
       element.disconnectedCallback();
       element.connectedCallback();
@@ -1017,17 +1027,12 @@ suite('gr-diff-host tests', () => {
           },
         })
       );
-      assertIsDefined(element.diffElement);
-      let threads =
-        element.diffElement.querySelectorAll<GrCommentThread>(
-          'gr-comment-thread'
-        );
 
-      assert.equal(threads.length, 1);
-      assert.equal(threads[0].thread?.commentSide, CommentSide.PARENT);
-      assert.equal(threads[0].getAttribute('diff-side'), Side.LEFT);
-      assert.equal(threads[0].thread?.range, undefined);
-      assert.equal(threads[0].thread?.patchNum, 1 as RevisionPatchSetNum);
+      assert.equal(addDraftSpy.callCount, 1);
+      const draft1: DraftInfo = addDraftSpy.lastCall.firstArg;
+      assert.equal(draft1.side, CommentSide.PARENT);
+      assert.equal(draft1.range, undefined);
+      assert.equal(draft1.patch_set, 1 as RevisionPatchSetNum);
 
       // Try to fetch a thread with a different range.
       const range = {
@@ -1049,17 +1054,11 @@ suite('gr-diff-host tests', () => {
         })
       );
 
-      assertIsDefined(element.diffElement);
-      threads =
-        element.diffElement.querySelectorAll<GrCommentThread>(
-          'gr-comment-thread'
-        );
-
-      assert.equal(threads.length, 2);
-      assert.equal(threads[0].thread?.commentSide, CommentSide.PARENT);
-      assert.equal(threads[0].getAttribute('diff-side'), Side.LEFT);
-      assert.equal(threads[1].thread?.range, range);
-      assert.equal(threads[1].thread?.patchNum, 1 as RevisionPatchSetNum);
+      assert.equal(addDraftSpy.callCount, 2);
+      const draft2: DraftInfo = addDraftSpy.lastCall.firstArg;
+      assert.equal(draft2.side, CommentSide.PARENT);
+      assert.equal(draft2.range, range);
+      assert.equal(draft2.patch_set, 1 as RevisionPatchSetNum);
     });
 
     test('should not be on parent if on the right', async () => {
@@ -1074,16 +1073,10 @@ suite('gr-diff-host tests', () => {
         })
       );
 
-      assertIsDefined(element.diffElement);
-      const threads =
-        element.diffElement.querySelectorAll<GrCommentThread>(
-          'gr-comment-thread'
-        );
-      assert.equal(threads.length, 1);
-      const threadEl = threads[0];
-
-      assert.equal(threadEl.thread?.commentSide, CommentSide.REVISION);
-      assert.equal(threadEl.getAttribute('diff-side'), Side.RIGHT);
+      assert.equal(addDraftSpy.callCount, 1);
+      const draft1: DraftInfo = addDraftSpy.lastCall.firstArg;
+      assert.equal(draft1.side, CommentSide.REVISION);
+      assert.equal(draft1.patch_set, 3 as RevisionPatchSetNum);
     });
 
     test('should be on parent if right and base is PARENT', () => {
@@ -1097,15 +1090,10 @@ suite('gr-diff-host tests', () => {
         })
       );
 
-      assertIsDefined(element.diffElement);
-      const threads =
-        element.diffElement.querySelectorAll<GrCommentThread>(
-          'gr-comment-thread'
-        );
-      const threadEl = threads[0];
-
-      assert.equal(threadEl.thread?.commentSide, CommentSide.PARENT);
-      assert.equal(threadEl.getAttribute('diff-side'), Side.LEFT);
+      assert.equal(addDraftSpy.callCount, 1);
+      const draft1: DraftInfo = addDraftSpy.lastCall.firstArg;
+      assert.equal(draft1.side, CommentSide.PARENT);
+      assert.equal(draft1.patch_set, 1 as RevisionPatchSetNum);
     });
 
     test('should be on parent if right and base negative', () => {
@@ -1119,15 +1107,11 @@ suite('gr-diff-host tests', () => {
         })
       );
 
-      assertIsDefined(element.diffElement);
-      const threads =
-        element.diffElement.querySelectorAll<GrCommentThread>(
-          'gr-comment-thread'
-        );
-      const threadEl = threads[0];
-
-      assert.equal(threadEl.thread?.commentSide, CommentSide.PARENT);
-      assert.equal(threadEl.getAttribute('diff-side'), Side.LEFT);
+      assert.equal(addDraftSpy.callCount, 1);
+      const draft1: DraftInfo = addDraftSpy.lastCall.firstArg;
+      assert.equal(draft1.side, CommentSide.PARENT);
+      assert.equal(draft1.patch_set, 3 as RevisionPatchSetNum);
+      assert.equal(draft1.parent, 2);
     });
 
     test('should not be on parent otherwise', () => {
@@ -1140,15 +1124,10 @@ suite('gr-diff-host tests', () => {
         })
       );
 
-      assertIsDefined(element.diffElement);
-      const threads =
-        element.diffElement.querySelectorAll<GrCommentThread>(
-          'gr-comment-thread'
-        );
-      const threadEl = threads[0];
-
-      assert.equal(threadEl.thread?.commentSide, CommentSide.REVISION);
-      assert.equal(threadEl.getAttribute('diff-side'), Side.LEFT);
+      assert.equal(addDraftSpy.callCount, 1);
+      const draft1: DraftInfo = addDraftSpy.lastCall.firstArg;
+      assert.equal(draft1.side, CommentSide.REVISION);
+      assert.equal(draft1.patch_set, 2 as RevisionPatchSetNum);
     });
 
     test(
@@ -1168,14 +1147,11 @@ suite('gr-diff-host tests', () => {
           })
         );
 
-        assertIsDefined(element.diffElement);
-        const threads =
-          element.diffElement.querySelectorAll<GrCommentThread>(
-            'gr-comment-thread'
-          );
-        assert.equal(threads.length, 1);
-        assert.equal(threads[0].getAttribute('diff-side'), Side.LEFT);
-        assert.equal(threads[0].thread?.path, element.file.basePath);
+        assert.equal(addDraftSpy.callCount, 1);
+        const draft1: DraftInfo = addDraftSpy.lastCall.firstArg;
+        assert.equal(draft1.side, CommentSide.REVISION);
+        assert.equal(draft1.patch_set, 2 as RevisionPatchSetNum);
+        assert.equal(draft1.path, element.file.basePath);
       }
     );
 
@@ -1196,15 +1172,11 @@ suite('gr-diff-host tests', () => {
           })
         );
 
-        assertIsDefined(element.diffElement);
-        const threads =
-          element.diffElement.querySelectorAll<GrCommentThread>(
-            'gr-comment-thread'
-          );
-
-        assert.equal(threads.length, 1);
-        assert.equal(threads[0].getAttribute('diff-side'), Side.RIGHT);
-        assert.equal(threads[0].thread?.path, element.file.path);
+        assert.equal(addDraftSpy.callCount, 1);
+        const draft1: DraftInfo = addDraftSpy.lastCall.firstArg;
+        assert.equal(draft1.side, CommentSide.REVISION);
+        assert.equal(draft1.patch_set, 3 as RevisionPatchSetNum);
+        assert.equal(draft1.path, element.file.path);
       }
     );
 
@@ -1257,48 +1229,6 @@ suite('gr-diff-host tests', () => {
       assert.equal(threads.length, 2);
     });
 
-    test('unsaved thread changes to draft', async () => {
-      element.patchRange = createPatchRange(2, 3);
-      element.file = {basePath: 'file_renamed.txt', path: element.path ?? ''};
-      element.threads = [];
-      await element.updateComplete;
-
-      element.dispatchEvent(
-        new CustomEvent('create-comment', {
-          detail: {
-            side: Side.RIGHT,
-            path: element.path,
-            lineNum: 13,
-          },
-        })
-      );
-      await element.updateComplete;
-      assert.equal(element.getThreadEls().length, 1);
-      const threadEl = element.getThreadEls()[0];
-      assert.equal(threadEl.thread?.line, 13);
-      assert.isDefined(threadEl.unsavedComment);
-      assert.equal(threadEl.thread?.comments.length, 0);
-
-      const draftThread = createCommentThread([
-        {
-          path: element.path,
-          patch_set: 3 as RevisionPatchSetNum,
-          line: 13,
-          __draft: true,
-        },
-      ]);
-      element.threads = [draftThread];
-      await element.updateComplete;
-
-      // We expect that no additional thread element was created.
-      assert.equal(element.getThreadEls().length, 1);
-      // In fact the thread element must still be the same.
-      assert.equal(element.getThreadEls()[0], threadEl);
-      // But it must have been updated from unsaved to draft:
-      assert.isUndefined(threadEl.unsavedComment);
-      assert.equal(threadEl.thread?.comments.length, 1);
-    });
-
     test(
       'thread should use new file path if first created ' +
         'on patch set (left) but is base',
@@ -1316,15 +1246,11 @@ suite('gr-diff-host tests', () => {
           })
         );
 
-        assertIsDefined(element.diffElement);
-        const threads =
-          element.diffElement.querySelectorAll<GrCommentThread>(
-            'gr-comment-thread'
-          );
-
-        assert.equal(threads.length, 1);
-        assert.equal(threads[0].getAttribute('diff-side'), Side.LEFT);
-        assert.equal(threads[0].thread?.path, element.file.path);
+        assert.equal(addDraftSpy.callCount, 1);
+        const draft1: DraftInfo = addDraftSpy.lastCall.firstArg;
+        assert.equal(draft1.side, CommentSide.PARENT);
+        assert.equal(draft1.patch_set, 1 as RevisionPatchSetNum);
+        assert.equal(draft1.path, element.file.path);
       }
     );
 
@@ -1346,13 +1272,7 @@ suite('gr-diff-host tests', () => {
         })
       );
 
-      assertIsDefined(element.diffElement);
-      const threads =
-        element.diffElement.querySelectorAll<GrCommentThread>(
-          'gr-comment-thread'
-        );
-
-      assert.equal(threads.length, 0);
+      assert.isFalse(addDraftSpy.called);
       assert.isTrue(alertSpy.called);
     });
 
@@ -1374,12 +1294,7 @@ suite('gr-diff-host tests', () => {
         })
       );
 
-      assertIsDefined(element.diffElement);
-      const threads =
-        element.diffElement.querySelectorAll<GrCommentThread>(
-          'gr-comment-thread'
-        );
-      assert.equal(threads.length, 0);
+      assert.isFalse(addDraftSpy.called);
       assert.isTrue(alertSpy.called);
     });
   });

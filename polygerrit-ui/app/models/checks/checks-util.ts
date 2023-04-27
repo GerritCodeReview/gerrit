@@ -19,11 +19,11 @@ import {CommentSide} from '../../constants/constants';
 import {
   FixSuggestionInfo,
   FixReplacementInfo,
-  UnsavedInfo,
+  DraftInfo,
 } from '../../types/common';
 import {OpenFixPreviewEventDetail} from '../../types/events';
 import {isDefined} from '../../types/types';
-import {PROVIDED_FIX_ID} from '../../utils/comment-util';
+import {PROVIDED_FIX_ID, createNew} from '../../utils/comment-util';
 import {assert, assertIsDefined, assertNever} from '../../utils/common-util';
 import {fire} from '../../utils/event-util';
 import {CheckResult, CheckRun, RunResult} from './checks-model';
@@ -97,18 +97,16 @@ function pleaseFixMessage(result: RunResult) {
 ${result.message}`;
 }
 
-export function createPleaseFixComment(result: RunResult): UnsavedInfo {
+export function createPleaseFixComment(result: RunResult): DraftInfo {
   const pointer = result.codePointers?.[0];
   assertIsDefined(pointer, 'codePointer');
   return {
-    __unsaved: true,
+    ...createNew(pleaseFixMessage(result), true),
     path: pointer.path,
     patch_set: result.patchset as RevisionPatchSetNum,
     side: CommentSide.REVISION,
     line: pointer.range.end_line ?? pointer.range.start_line,
     range: pointer.range,
-    message: pleaseFixMessage(result),
-    unresolved: true,
   };
 }
 

@@ -20,10 +20,10 @@ import {
 import {
   computeDiffFromContext,
   getLastComment,
-  createUnsavedComment,
   getFirstComment,
-  createUnsavedReply,
+  createNewReply,
   NEWLINE_PATTERN,
+  id,
 } from '../../../utils/comment-util';
 import {ChangeMessageId} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
@@ -38,12 +38,9 @@ import {
   CommentRange,
   CommentThread,
   isDraft,
-  isDraftOrUnsaved,
   isRobot,
-  isUnsaved,
   NumericChangeId,
   RepoName,
-  UnsavedInfo,
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {CommentEditingChangedDetail, GrComment} from '../gr-comment/gr-comment';
@@ -51,7 +48,11 @@ import {FILE} from '../../../embed/diff/gr-diff/gr-diff-line';
 import {GrButton} from '../gr-button/gr-button';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {DiffLayer, RenderPreferences} from '../../../api/diff';
-import {assertIsDefined, copyToClipbard} from '../../../utils/common-util';
+import {
+  assert,
+  assertIsDefined,
+  copyToClipbard,
+} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
 import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
@@ -128,13 +129,14 @@ export class GrCommentThread extends LitElement {
   thread?: CommentThread;
 
   /**
-   * Id of the first comment and thus must not change. Will be derived from
+   * Id of the first comment, must not change. Will be derived from
    * the `thread` property in the first willUpdate() cycle.
    *
    * The `rootId` property is also used in gr-diff for maintaining lists and
    * maps of threads and their associated elements.
    *
-   * Only stays `undefined` for new threads that only have an unsaved comment.
+   * For newly created threads in this session the `client_id` property  of the
+   * first comment will be used instead of the `id` property.
    */
   @property({type: String})
   rootId?: UrlEncodedCommentId;
@@ -189,15 +191,6 @@ export class GrCommentThread extends LitElement {
    */
   @property({type: Boolean, attribute: 'false'})
   editing = false;
-
-  /**
-   * This can either be an unsaved reply to the last comment or the unsaved
-   * content of a brand new comment thread (then `comments` is empty).
-   * If set, then `thread.comments` must not contain a draft. A thread can only
-   * contain *either* an unsaved comment *or* a draft, not both.
-   */
-  @state()
-  unsavedComment?: UnsavedInfo;
 
   @state()
   changeNum?: NumericChangeId;
@@ -477,22 +470,26 @@ export class GrCommentThread extends LitElement {
   renderComments() {
     assertIsDefined(this.thread, 'thread');
     const publishedComments = repeat(
-      this.thread.comments.filter(c => !isDraftOrUnsaved(c)),
+      this.thread.comments.filter(c => !isDraft(c)),
       comment => comment.id,
       comment => this.renderComment(comment)
     );
     // We are deliberately not including the draft in the repeat directive,
     // because we ran into spurious issues with <gr-comment> being destroyed
     // and re-created when an unsaved draft transitions to 'saved' state.
-    const draftComment = this.renderComment(this.getDraftOrUnsaved());
+    // TODO: Revisit this, because this transition should not cause issues
+    // anymore. Just put the draft into the `repeat` directive above and
+    // then use `id()` instead of `.id` above.
+    const draftComment = this.renderComment(this.getDraft());
     return html`${publishedComments}${draftComment}`;
   }
 
   private renderComment(comment?: Comment) {
     if (!comment) return nothing;
-    const robotButtonDisabled = !this.account || this.isDraftOrUnsaved();
+    const robotButtonDisabled = !this.account || this.isDraft();
+    const isFirstComment = this.getFirstComment() === comment;
     const initiallyCollapsed =
-      !isDraftOrUnsaved(comment) &&
+      !isDraft(comment) &&
       (this.messageId
         ? comment.change_message_id !== this.messageId
         : !this.unresolved);
@@ -503,25 +500,23 @@ export class GrCommentThread extends LitElement {
         ?initially-collapsed=${initiallyCollapsed}
         ?robot-button-disabled=${robotButtonDisabled}
         ?show-patchset=${this.showPatchset}
-        ?show-ported-comment=${this.showPortedComment &&
-        comment.id === this.rootId}
+        ?show-ported-comment=${this.showPortedComment && isFirstComment}
         @reply-to-comment=${this.handleReplyToComment}
         @copy-comment-link=${this.handleCopyLink}
         @comment-editing-changed=${(
           e: CustomEvent<CommentEditingChangedDetail>
         ) => {
-          if (isDraftOrUnsaved(comment)) this.editing = e.detail.editing;
+          if (isDraft(comment)) this.editing = e.detail.editing;
         }}
         @comment-unresolved-changed=${(e: ValueChangedEvent<boolean>) => {
-          if (isDraftOrUnsaved(comment)) this.unresolved = e.detail.value;
+          if (isDraft(comment)) this.unresolved = e.detail.value;
         }}
       ></gr-comment>
     `;
   }
 
   renderActions() {
-    if (!this.account || this.isDraftOrUnsaved() || this.isRobotComment())
-      return;
+    if (!this.account || this.isDraft() || this.isRobotComment()) return;
     return html`
       <div id="actionsContainer">
         <span id="unresolvedLabel">${
@@ -613,9 +608,6 @@ export class GrCommentThread extends LitElement {
     if (this.firstWillUpdateDone) return;
     this.firstWillUpdateDone = true;
 
-    if (this.getFirstComment() === undefined) {
-      this.unsavedComment = createUnsavedComment(this.thread);
-    }
     this.unresolved = this.getLastComment()?.unresolved ?? true;
     this.diff = this.computeDiff();
     this.highlightRange = this.computeHighlightRange();
@@ -624,28 +616,18 @@ export class GrCommentThread extends LitElement {
   override willUpdate(changed: PropertyValues) {
     this.firstWillUpdate();
     if (changed.has('thread')) {
-      if (!this.isDraftOrUnsaved()) {
+      assertIsDefined(this.thread, 'thread');
+      assertIsDefined(this.getFirstComment(), 'first comment');
+      if (!this.isDraft()) {
         // We can only do this for threads without draft, because otherwise we
         // are relying on the <gr-comment> component for the draft to fire
         // events about the *dirty* `unresolved` state.
         this.unresolved = this.getLastComment()?.unresolved ?? true;
       }
-      this.hasDraft = this.isDraftOrUnsaved();
-      this.rootId = this.getFirstComment()?.id;
-      if (this.isDraft()) {
-        this.unsavedComment = undefined;
-      }
+      this.hasDraft = this.isDraft();
+      this.rootId = id(this.getFirstComment()!);
     }
     if (changed.has('editing')) {
-      // changed.get('editing') contains the old value. We only want to trigger
-      // when changing from editing to non-editing (user has cancelled/saved).
-      // We do *not* want to trigger on first render (old value is `null`)
-      if (!this.editing && changed.get('editing') === true) {
-        this.unsavedComment = undefined;
-        if (this.thread?.comments.length === 0) {
-          this.remove();
-        }
-      }
       fire(this, 'comment-thread-editing-changed', {value: this.editing});
     }
   }
@@ -670,22 +652,9 @@ export class GrCommentThread extends LitElement {
     return isDraft(this.getLastComment());
   }
 
-  private isDraftOrUnsaved(): boolean {
-    return this.isDraft() || this.isUnsaved();
-  }
-
-  private getDraftOrUnsaved(): Comment | undefined {
-    if (this.unsavedComment) return this.unsavedComment;
+  private getDraft(): Comment | undefined {
     if (this.isDraft()) return this.getLastComment();
     return undefined;
-  }
-
-  private isNewThread(): boolean {
-    return this.thread?.comments.length === 0;
-  }
-
-  private isUnsaved(): boolean {
-    return !!this.unsavedComment || this.thread?.comments.length === 0;
   }
 
   private isPatchsetLevel() {
@@ -717,7 +686,6 @@ export class GrCommentThread extends LitElement {
     if (!this.changeNum || !this.repoName || !this.thread?.path) {
       return undefined;
     }
-    if (this.isNewThread()) return undefined;
     return createDiffUrl({
       changeNum: this.changeNum,
       repo: this.repoName,
@@ -743,14 +711,12 @@ export class GrCommentThread extends LitElement {
 
   // Does not work for patchset level comments
   private getUrlForFileComment() {
-    if (!this.repoName || !this.changeNum || this.isNewThread()) {
-      return undefined;
-    }
-    assertIsDefined(this.rootId, 'rootId of comment thread');
+    const id = this.getFirstComment()?.id;
+    if (!id || !this.repoName || !this.changeNum) return undefined;
     return createDiffUrl({
       changeNum: this.changeNum,
       repo: this.repoName,
-      commentId: this.rootId,
+      commentId: id,
     });
   }
 
@@ -827,19 +793,14 @@ export class GrCommentThread extends LitElement {
     const replyingTo = this.getLastComment();
     assertIsDefined(this.thread, 'thread');
     assertIsDefined(replyingTo, 'the comment that the user wants to reply to');
-    if (isDraft(replyingTo)) {
-      throw new Error('cannot reply to draft');
-    }
-    if (isUnsaved(replyingTo)) {
-      throw new Error('cannot reply to unsaved comment');
-    }
-    const unsaved = createUnsavedReply(replyingTo, content, unresolved);
+    assert(!isDraft(replyingTo), 'cannot reply to draft');
+    const newReply = createNewReply(replyingTo, content, unresolved);
     if (userWantsToEdit) {
-      this.unsavedComment = unsaved;
+      this.getCommentsModel().addNewDraft(newReply);
     } else {
       try {
         this.saving = true;
-        await this.getCommentsModel().saveDraft(unsaved);
+        await this.getCommentsModel().saveDraft(newReply);
       } finally {
         this.saving = false;
       }
@@ -875,7 +836,7 @@ export class GrCommentThread extends LitElement {
     const author = this.getFirstComment()?.author ?? this.account;
     const user = getUserName(undefined, author);
     const unresolvedStatus = this.unresolved ? 'Unresolved ' : '';
-    const draftStatus = this.isDraftOrUnsaved() ? 'Draft ' : '';
+    const draftStatus = this.isDraft() ? 'Draft ' : '';
     return `${unresolvedStatus}${draftStatus}Comment thread by ${user}`;
   }
 }

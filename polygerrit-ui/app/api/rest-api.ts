@@ -696,7 +696,6 @@ export declare interface GitPersonInfo {
   name: string;
   email: EmailAddress;
   date: Timestamp;
-  tz: TimezoneOffset;
 }
 
 export type GroupId = BrandType<string, '_groupId'>;
@@ -1054,8 +1053,6 @@ export declare interface SuggestInfo {
 
 export type Timestamp = BrandType<string, '_timestamp'>;
 // The timezone offset from UTC in minutes
-
-export type TimezoneOffset = BrandType<number, '_timezoneOffset'>;
 
 export type TopicName = BrandType<string, '_topicName'>;
 

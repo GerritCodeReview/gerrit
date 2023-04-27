@@ -424,8 +424,7 @@ public class ChangeJson {
 
   private static void finish(ChangeInfo info) {
     info.id =
-        Joiner.on('~')
-            .join(Url.encode(info.project), Url.encode(info.branch), Url.encode(info.changeId));
+        Joiner.on('~').join(Url.encode(info.project), Url.encode(String.valueOf(info._number)));
   }
 
   private static boolean containsAnyOf(

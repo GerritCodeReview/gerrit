@@ -37,6 +37,8 @@ public class ChangeInfo {
   // protected by any ListChangesOption.
 
   public String id;
+  public String tripletId;
+
   public String project;
   public String branch;
   public String topic;

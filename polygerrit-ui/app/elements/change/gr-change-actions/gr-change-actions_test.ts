@@ -705,29 +705,6 @@ suite('gr-change-actions tests', () => {
     });
 
     suite('change edits', () => {
-      test('disableEdit', async () => {
-        element.editMode = false;
-        element.editBasedOnCurrentPatchSet = false;
-        element.change = {
-          ...createChangeViewChange(),
-          status: ChangeStatus.NEW,
-        };
-        element.disableEdit = true;
-        await element.updateComplete;
-
-        assert.isNotOk(
-          query(element, 'gr-button[data-action-key="publishEdit"]')
-        );
-        assert.isNotOk(
-          query(element, 'gr-button[data-action-key="rebaseEdit"]')
-        );
-        assert.isNotOk(
-          query(element, 'gr-button[data-action-key="deleteEdit"]')
-        );
-        assert.isNotOk(query(element, 'gr-button[data-action-key="edit"]'));
-        assert.isNotOk(query(element, 'gr-button[data-action-key="stopEdit"]'));
-      });
-
       test('shows confirm dialog for delete edit', async () => {
         element.loggedIn = true;
         element.editMode = true;

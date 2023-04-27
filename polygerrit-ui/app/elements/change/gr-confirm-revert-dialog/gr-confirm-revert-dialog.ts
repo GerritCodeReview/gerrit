@@ -15,6 +15,7 @@ import {BindValueChangeEvent} from '../../../types/events';
 import {resolve} from '../../../models/dependency';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {createSearchUrl} from '../../../models/views/search';
+import {ParsedChangeInfo} from '../../../types/types';
 
 const ERR_COMMIT_NOT_FOUND = 'Unable to find the commit hash of this change.';
 const INSERT_REASON_STRING = '<INSERT REASONING HERE>';
@@ -170,15 +171,23 @@ export class GrConfirmRevertDialog
     return this.revertType === RevertType.REVERT_SUBMISSION;
   }
 
-  modifyRevertMsg(change: ChangeInfo, commitMessage: string, message: string) {
+  modifyRevertMsg(
+    change: ParsedChangeInfo,
+    commitMessage: string,
+    message: string
+  ) {
     return this.getPluginLoader().jsApiService.modifyRevertMsg(
-      change,
+      change as ChangeInfo,
       message,
       commitMessage
     );
   }
 
-  populate(change: ChangeInfo, commitMessage: string, changesCount: number) {
+  populate(
+    change: ParsedChangeInfo,
+    commitMessage: string,
+    changesCount: number
+  ) {
     this.changesCount = changesCount;
     // The option to revert a single change is always available
     this.populateRevertSingleChangeMessage(
@@ -190,7 +199,7 @@ export class GrConfirmRevertDialog
   }
 
   populateRevertSingleChangeMessage(
-    change: ChangeInfo,
+    change: ParsedChangeInfo,
     commitMessage: string,
     commitHash?: CommitId
   ) {
@@ -215,18 +224,21 @@ export class GrConfirmRevertDialog
   }
 
   private modifyRevertSubmissionMsg(
-    change: ChangeInfo,
+    change: ParsedChangeInfo,
     msg: string,
     commitMessage: string
   ) {
     return this.getPluginLoader().jsApiService.modifyRevertSubmissionMsg(
-      change,
+      change as ChangeInfo,
       msg,
       commitMessage
     );
   }
 
-  populateRevertSubmissionMessage(change: ChangeInfo, commitMessage: string) {
+  populateRevertSubmissionMessage(
+    change: ParsedChangeInfo,
+    commitMessage: string
+  ) {
     // Follow the same convention of the revert
     const commitHash = change.current_revision;
     if (!commitHash) {

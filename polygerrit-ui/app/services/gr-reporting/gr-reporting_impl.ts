@@ -185,6 +185,12 @@ export function initVisibilityReporter(reportingService: ReportingService) {
   document.addEventListener('visibilitychange', () => {
     reportingService.onVisibilityChange();
   });
+  window.addEventListener('blur', () => {
+    reportingService.onFocusChange();
+  });
+  window.addEventListener('focus', () => {
+    reportingService.onFocusChange();
+  });
 }
 
 export function initClickReporter(reportingService: ReportingService) {
@@ -526,6 +532,20 @@ export class GrReporting implements ReportingService, Finalizable {
     this._reportNavResTimes();
   }
 
+  onFocusChange() {
+    this.reporter(
+      LIFECYCLE.TYPE,
+      LIFECYCLE.CATEGORY.VISIBILITY,
+      LifeCycle.FOCUS,
+      undefined,
+      {
+        isVisible: document.visibilityState === 'visible',
+        hasFocus: document.hasFocus(),
+      },
+      false
+    );
+  }
+
   onVisibilityChange() {
     this.hiddenDurationTimer.onVisibilityChange();
     let eventName;
@@ -542,6 +562,8 @@ export class GrReporting implements ReportingService, Finalizable {
         undefined,
         {
           hiddenDurationMs: this.hiddenDurationTimer.hiddenDurationMs,
+          isVisible: document.visibilityState === 'visible',
+          hasFocus: document.hasFocus(),
         },
         false
       );

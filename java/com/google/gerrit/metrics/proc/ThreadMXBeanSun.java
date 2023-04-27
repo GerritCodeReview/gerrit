@@ -37,6 +37,26 @@ class ThreadMXBeanSun implements ThreadMXBeanInterface {
   public long getCurrentThreadAllocatedBytes() {
     // TODO(ms): call getCurrentThreadAllocatedBytes as soon as this is available in the patched
     // Java version used by bazel
-    return sys.getThreadAllocatedBytes(Thread.currentThread().getId());
+    return getThreadAllocatedBytes(Thread.currentThread().getId());
+  }
+
+  @Override
+  public boolean supportsAllocatedBytes() {
+    return true;
+  }
+
+  @Override
+  public long getThreadAllocatedBytes(long threadId) {
+    return sys.getThreadAllocatedBytes(threadId);
+  }
+
+  @Override
+  public long[] getAllThreadsAllocatedBytes(long[] threadIds) {
+    return sys.getThreadAllocatedBytes(threadIds);
+  }
+
+  @Override
+  public long[] getAllThreadIds() {
+    return sys.getAllThreadIds();
   }
 }

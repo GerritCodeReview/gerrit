@@ -16,9 +16,8 @@ import {filter, take, timeout} from 'rxjs/operators';
 import {assert} from '@open-wc/testing';
 import {Route, ViewState} from '../models/views/base';
 import {PageContext} from '../elements/core/gr-router/gr-page';
-import {waitUntil} from '../utils/async-util';
+import {mockPromise, waitUntil} from '../utils/async-util';
 export {query, queryAll, queryAndAssert} from '../utils/common-util';
-export {mockPromise, waitUntil} from '../utils/async-util';
 export type {MockPromise} from '../utils/async-util';
 
 export function isHidden(el: Element | undefined | null) {

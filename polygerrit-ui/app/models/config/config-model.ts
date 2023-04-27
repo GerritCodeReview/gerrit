@@ -34,6 +34,11 @@ export class ConfigModel extends Model<ConfigState> {
     configState => configState.serverConfig
   );
 
+  public download$ = select(
+    this.serverConfig$,
+    serverConfig => serverConfig?.download
+  );
+
   public mergeabilityComputationBehavior$ = select(
     this.serverConfig$,
     serverConfig => serverConfig?.change?.mergeability_computation_behavior

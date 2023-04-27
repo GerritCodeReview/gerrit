@@ -5,7 +5,7 @@
  */
 import '../../shared/gr-download-commands/gr-download-commands';
 import {changeBaseURL, getRevisionKey} from '../../../utils/change-util';
-import {ChangeInfo, DownloadInfo, PatchSetNum} from '../../../types/common';
+import {DownloadInfo, PatchSetNum} from '../../../types/common';
 import {GrDownloadCommands} from '../../shared/gr-download-commands/gr-download-commands';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {copyToClipbard, hasOwnProperty} from '../../../utils/common-util';
@@ -13,13 +13,15 @@ import {fire} from '../../../utils/event-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
-import {customElement, property, state, query} from 'lit/decorators.js';
+import {customElement, state, query} from 'lit/decorators.js';
 import {assertIsDefined} from '../../../utils/common-util';
 import {BindValueChangeEvent} from '../../../types/events';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
+import {ParsedChangeInfo} from '../../../types/types';
+import {configModelToken} from '../../../models/config/config-model';
 
 @customElement('gr-download-dialog')
 export class GrDownloadDialog extends LitElement {
@@ -35,26 +37,36 @@ export class GrDownloadDialog extends LitElement {
 
   @query('#closeButton') protected closeButton?: GrButton;
 
-  @property({type: Object})
-  change: ChangeInfo | undefined;
+  @state() change?: ParsedChangeInfo;
 
-  @property({type: Object})
-  config?: DownloadInfo;
+  @state() config?: DownloadInfo;
 
   @state() patchNum?: PatchSetNum;
 
-  @state() private selectedScheme?: string;
+  @state() selectedScheme?: string;
 
   private readonly shortcuts = new ShortcutController(this);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
+  private readonly getConfigModel = resolve(this, configModelToken);
+
   constructor() {
     super();
     subscribe(
       this,
+      () => this.getChangeModel().change$,
+      x => (this.change = x)
+    );
+    subscribe(
+      this,
       () => this.getChangeModel().patchNum$,
       x => (this.patchNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().download$,
+      x => (this.config = x)
     );
     for (const key of ['1', '2', '3', '4', '5']) {
       this.shortcuts.addLocal({key}, e => this.handleNumberKey(e));

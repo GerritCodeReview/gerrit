@@ -203,6 +203,62 @@ export function initClickReporter(reportingService: ReportingService) {
   });
 }
 
+/**
+ * Reports generic user interaction every x seconds to detect, if the user is
+ * present and is using the application somehow. If you just look at
+ * `document.visibilityState`, then the user may have left the browser open
+ * without locking the screen. So it helps to know whether some interaction is
+ * actually happening.
+ */
+export class InteractionReporter implements Finalizable {
+  /** Accumulates event names until the next round of interaction reporting. */
+  private interactionEvents = new Set<string>();
+
+  /** Allows clearing the interval timer. Mostly useful for tests. */
+  private intervalId?: number;
+
+  constructor(
+    private readonly reportingService: ReportingService,
+    private readonly reportingIntervalMs = 10 * 1000
+  ) {
+    const events = ['mousemove', 'scroll', 'wheel', 'keydown', 'pointerdown'];
+    for (const eventName of events) {
+      document.addEventListener(eventName, () =>
+        this.interactionEvents.add(eventName)
+      );
+    }
+
+    this.intervalId = window.setInterval(
+      () => this.report(),
+      this.reportingIntervalMs
+    );
+  }
+
+  finalize() {
+    window.clearInterval(this.intervalId);
+  }
+
+  private report() {
+    const active = this.interactionEvents.size > 0;
+    if (active) {
+      this.reportingService.reportInteraction(Interaction.USER_ACTIVE, {
+        events: [...this.interactionEvents],
+      });
+    } else if (document.visibilityState === 'visible') {
+      this.reportingService.reportInteraction(Interaction.USER_PASSIVE, {});
+    }
+    this.interactionEvents.clear();
+  }
+}
+
+let interactionReporter: InteractionReporter;
+
+export function initInteractionReporter(reportingService: ReportingService) {
+  if (!interactionReporter) {
+    interactionReporter = new InteractionReporter(reportingService);
+  }
+}
+
 export function initWebVitals(reportingService: ReportingService) {
   function reportWebVitalMetric(name: Timing, metric: Metric) {
     let score = metric.value;

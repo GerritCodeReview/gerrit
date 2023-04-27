@@ -22,6 +22,30 @@
       },
       "revId": "04e44014643b5548ddff91ff5aadd844cb9d9a73",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b5d32e4_b3a6f319",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1045,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-27T20:36:47Z",
+      "side": 0,
+      "message": "Because `disableEdit` was obsolete. It was always `false`. This I have removed the variable. And this block was non-reachable.",
+      "parentUuid": "6047879e_43709fe1",
+      "range": {
+        "startLine": 1038,
+        "startChar": 0,
+        "endLine": 1045,
+        "endChar": 5
+      },
+      "revId": "04e44014643b5548ddff91ff5aadd844cb9d9a73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -34,6 +34,24 @@
       "parentUuid": "8f4c6be9_cfd97f9c",
       "revId": "4ec7225fc08951579e8bd26c701936cf6a3cd517",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b050ed0a_b8816fcd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-04-27T07:59:51Z",
+      "side": 1,
+      "message": "yes, I approved it at 09:21 after reviewing your update. \n\nThough after clicking the \"reply\" button I noticed that this vote was already copied earlier at 06:57 when you uploaded ps 37. Refer to the generated comment of your upload of ps 37",
+      "parentUuid": "8d16c0d0_2b41ad7f",
+      "revId": "4ec7225fc08951579e8bd26c701936cf6a3cd517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

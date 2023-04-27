@@ -281,6 +281,12 @@ export class ChangeModel extends Model<ChangeState> {
         viewModelState?.patchNum || latestPatchN
     );
 
+  /** The user can enter edit mode without an `EDIT` patchset existing yet. */
+  public readonly editMode$ = select(
+    combineLatest([this.viewModel.edit$, this.patchNum$]),
+    ([edit, patchNum]) => !!edit || patchNum === EDIT
+  );
+
   /**
    * Emits the base patchset number. This is identical to the
    * `viewModel.basePatchNum$`, but has some special logic for merges.

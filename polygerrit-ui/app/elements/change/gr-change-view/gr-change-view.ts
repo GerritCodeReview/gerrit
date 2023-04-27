@@ -335,10 +335,7 @@ export class GrChangeView extends LitElement {
   @state()
   private updateCheckTimerHandle?: number | null;
 
-  // Private but used in tests.
-  getEditMode(): boolean {
-    return !!this.viewState?.edit || this.patchNum === EDIT;
-  }
+  @state() editMode = false;
 
   isSubmitEnabled(): boolean {
     return !!(
@@ -661,6 +658,11 @@ export class GrChangeView extends LitElement {
         // changeNum to undefined and only set it once.
         if (changeNum && !this.changeNum) this.changeNum = changeNum;
       }
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().editMode$,
+      editMode => (this.editMode = editMode)
     );
     subscribe(
       this,
@@ -1280,27 +1282,18 @@ export class GrChangeView extends LitElement {
   }
 
   private renderCommitActions() {
-    return html` <div class="commitActions">
-      <!-- always show gr-change-actions regardless if logged in or not -->
-      <gr-change-actions
-        id="actions"
-        .change=${this.change}
-        .disableEdit=${false}
-        .account=${this.account}
-        .changeNum=${this.changeNum}
-        .changeStatus=${this.change?.status}
-        .commitNum=${this.revision?.commit?.commit}
-        .commitMessage=${this.latestCommitMessage}
-        .editMode=${this.getEditMode()}
-        .privateByDefault=${this.projectConfig?.private_by_default}
-        .loggedIn=${this.loggedIn}
-        @edit-tap=${() => this.handleEditTap()}
-        @stop-edit-tap=${() => this.handleStopEditTap()}
-        @download-tap=${() => this.handleOpenDownloadDialog()}
-        @included-tap=${() => this.handleOpenIncludedInDialog()}
-        @revision-actions-changed=${this.handleRevisionActionsChanged}
-      ></gr-change-actions>
-    </div>`;
+    return html`
+      <div class="commitActions">
+        <gr-change-actions
+          id="actions"
+          @edit-tap=${() => this.handleEditTap()}
+          @stop-edit-tap=${() => this.handleStopEditTap()}
+          @download-tap=${() => this.handleOpenDownloadDialog()}
+          @included-tap=${() => this.handleOpenIncludedInDialog()}
+          @revision-actions-changed=${this.handleRevisionActionsChanged}
+        ></gr-change-actions>
+      </div>
+    `;
   }
 
   private renderChangeInfo() {
@@ -1308,7 +1301,7 @@ export class GrChangeView extends LitElement {
       this.loggedIn,
       this.editingCommitMessage,
       this.change,
-      this.getEditMode()
+      this.editMode
     );
     return html` <div class="changeInfo">
       <div class="changeInfo-column changeMetadata">
@@ -1454,7 +1447,7 @@ export class GrChangeView extends LitElement {
           .changeNum=${this.changeNum}
           .commitInfo=${this.revision?.commit}
           .changeUrl=${this.computeChangeUrl()}
-          .editMode=${this.getEditMode()}
+          .editMode=${this.editMode}
           .loggedIn=${this.loggedIn}
           .shownFileCount=${this.shownFileCount}
           .filesExpanded=${this.fileList?.filesExpanded}
@@ -1468,7 +1461,7 @@ export class GrChangeView extends LitElement {
           id="fileList"
           .change=${this.change}
           .changeNum=${this.changeNum}
-          .editMode=${this.getEditMode()}
+          .editMode=${this.editMode}
           @files-shown-changed=${(e: CustomEvent<{length: number}>) => {
             this.shownFileCount = e.detail.length;
           }}
@@ -1950,7 +1943,7 @@ export class GrChangeView extends LitElement {
       change: this.change,
       patchNum: this.patchNum,
       basePatchNum: this.basePatchNum,
-      edit: this.getEditMode(),
+      edit: this.editMode,
       messageHash: hash,
     });
     history.replaceState(null, '', url);
@@ -2398,7 +2391,7 @@ export class GrChangeView extends LitElement {
   // Private but used in tests.
   computeHeaderClass() {
     const classes = ['header'];
-    if (this.getEditMode()) {
+    if (this.editMode) {
       classes.push('editMode');
     }
     return classes.join(' ');

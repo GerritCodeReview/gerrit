@@ -5,7 +5,7 @@
  */
 import {fixture, html, assert} from '@open-wc/testing';
 import '../../../test/common-test-setup';
-import {createChange} from '../../../test/test-data-generators';
+import {createParsedChange} from '../../../test/test-data-generators';
 import {ChangeSubmissionId, CommitId} from '../../../types/common';
 import './gr-confirm-revert-dialog';
 import {GrConfirmRevertDialog} from './gr-confirm-revert-dialog';
@@ -48,7 +48,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     const alertStub = sinon.stub();
     element.addEventListener('show-alert', alertStub);
     element.populateRevertSingleChangeMessage(
-      createChange(),
+      createParsedChange(),
       'not a commitHash in sight',
       undefined
     );
@@ -58,7 +58,7 @@ suite('gr-confirm-revert-dialog tests', () => {
   test('single line', () => {
     assert.isNotOk(element.message);
     element.populateRevertSingleChangeMessage(
-      createChange(),
+      createParsedChange(),
       'one line commit\n\nChange-Id: abcdefg\n',
       'abcd123' as CommitId
     );
@@ -72,7 +72,7 @@ suite('gr-confirm-revert-dialog tests', () => {
   test('multi line', () => {
     assert.isNotOk(element.message);
     element.populateRevertSingleChangeMessage(
-      createChange(),
+      createParsedChange(),
       'many lines\ncommit\n\nmessage\n\nChange-Id: abcdefg\n',
       'abcd123' as CommitId
     );
@@ -86,7 +86,7 @@ suite('gr-confirm-revert-dialog tests', () => {
   test('issue above change id', () => {
     assert.isNotOk(element.message);
     element.populateRevertSingleChangeMessage(
-      createChange(),
+      createParsedChange(),
       'much lines\nvery\n\ncommit\n\nBug: Issue 42\nChange-Id: abcdefg\n',
       'abcd123' as CommitId
     );
@@ -100,7 +100,7 @@ suite('gr-confirm-revert-dialog tests', () => {
   test('revert a revert', () => {
     assert.isNotOk(element.message);
     element.populateRevertSingleChangeMessage(
-      createChange(),
+      createParsedChange(),
       'Revert "one line commit"\n\nChange-Id: abcdefg\n',
       'abcd123' as CommitId
     );
@@ -115,7 +115,7 @@ suite('gr-confirm-revert-dialog tests', () => {
     element.changesCount = 3;
     element.populateRevertSubmissionMessage(
       {
-        ...createChange(),
+        ...createParsedChange(),
         submission_id: '5545' as ChangeSubmissionId,
         current_revision: 'abcd123' as CommitId,
       },

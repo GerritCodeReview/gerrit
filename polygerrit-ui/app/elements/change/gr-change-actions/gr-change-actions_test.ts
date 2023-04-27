@@ -129,6 +129,7 @@ suite('gr-change-actions tests', () => {
       element = await fixture<GrChangeActions>(html`
         <gr-change-actions></gr-change-actions>
       `);
+      element.changeStatus = ChangeStatus.NEW;
       element.change = {
         ...createChangeViewChange(),
         actions: {
@@ -155,7 +156,7 @@ suite('gr-change-actions tests', () => {
       await element.reload();
     });
 
-    test('render', () => {
+    test('render', async () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
@@ -198,6 +199,24 @@ suite('gr-change-actions tests', () => {
                 >
                   <gr-icon icon="rebase"> </gr-icon>
                   Rebase
+                </gr-button>
+              </gr-tooltip-content>
+              <gr-tooltip-content
+                has-tooltip=""
+                position-below=""
+                title="Edit this change"
+              >
+                <gr-button
+                  aria-disabled="false"
+                  class="edit"
+                  data-action-key="edit"
+                  data-label="Edit"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                >
+                  <gr-icon filled="" icon="edit"> </gr-icon>
+                  Edit
                 </gr-button>
               </gr-tooltip-content>
             </section>
@@ -705,29 +724,6 @@ suite('gr-change-actions tests', () => {
     });
 
     suite('change edits', () => {
-      test('disableEdit', async () => {
-        element.editMode = false;
-        element.editBasedOnCurrentPatchSet = false;
-        element.change = {
-          ...createChangeViewChange(),
-          status: ChangeStatus.NEW,
-        };
-        element.disableEdit = true;
-        await element.updateComplete;
-
-        assert.isNotOk(
-          query(element, 'gr-button[data-action-key="publishEdit"]')
-        );
-        assert.isNotOk(
-          query(element, 'gr-button[data-action-key="rebaseEdit"]')
-        );
-        assert.isNotOk(
-          query(element, 'gr-button[data-action-key="deleteEdit"]')
-        );
-        assert.isNotOk(query(element, 'gr-button[data-action-key="edit"]'));
-        assert.isNotOk(query(element, 'gr-button[data-action-key="stopEdit"]'));
-      });
-
       test('shows confirm dialog for delete edit', async () => {
         element.loggedIn = true;
         element.editMode = true;

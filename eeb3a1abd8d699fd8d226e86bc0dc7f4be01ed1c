@@ -46,6 +46,30 @@
       },
       "revId": "eeb3a1abd8d699fd8d226e86bc0dc7f4be01ed1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3479d56e_ca0e011e",
+        "filename": "java/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-04-27T18:20:45Z",
+      "side": 0,
+      "message": "Stable-3.5 release is going to be discontinue in the next days, so that we shouldn\u0027t really care.",
+      "parentUuid": "a6dbd44d_1563f0df",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 5
+      },
+      "revId": "eeb3a1abd8d699fd8d226e86bc0dc7f4be01ed1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

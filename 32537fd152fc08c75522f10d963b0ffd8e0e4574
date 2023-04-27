@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7632f53e_15aa7588",
+        "filename": "java/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-04-27T18:20:45Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "7842c6c3_dd08ba61",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 5
+      },
+      "revId": "32537fd152fc08c75522f10d963b0ffd8e0e4574",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d0193d1_6055e7dc",
@@ -78,6 +102,30 @@
       "writtenOn": "2023-04-25T07:15:28Z",
       "side": 1,
       "message": "We already have version information in `v`, can we use it and get rid of this?\nAfter all we just use it to log at  L#51.",
+      "range": {
+        "startLine": 49,
+        "startChar": 11,
+        "endLine": 49,
+        "endChar": 18
+      },
+      "revId": "32537fd152fc08c75522f10d963b0ffd8e0e4574",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "955ee14d_9a9699c9",
+        "filename": "java/Main.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-04-27T18:20:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d0193d1_6055e7dc",
       "range": {
         "startLine": 49,
         "startChar": 11,

@@ -269,6 +269,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ceb9b23_120c6757",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-04-27T14:31:49Z",
+      "side": 1,
+      "message": "\u003e \u003e I guess it would work there, too. However, I don\u0027t think we used to write dedicated tests for ssh and the entity docs are shared between SSH and REST I assume?\n\nListChangesOption \u0026 ChangeInfo are not used for SSH query output. That\u0027s the one major divergence remaining (AFAIK) in the SSH/REST APIs. So I would not expect this change (as of PS25) to affect SSH at all. If you did want to support SSH, you would need to update SSH-specific docs and tests.\n\nThat does point to a gap in this change in that there\u0027s no test coverage for ListChangesOption.CUSTOM_KEYED_VALUES added to javatests/com/google/gerrit/acceptance/rest/change/ListChangesOptionsIT.java.",
+      "parentUuid": "d0ed263d_c6fb0637",
+      "revId": "6051dbbbf6f4d3f6fe0f8700c8b2975f43e4c627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b5a6bcb_50f3cc1f",

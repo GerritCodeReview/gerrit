@@ -1419,7 +1419,7 @@ export class GrChangeView extends LitElement {
         )}
         ${this.pluginTabsHeaderEndpoints.map(
           tabHeader => html`
-            <paper-tab data-name=${tabHeader}>
+            <paper-tab data-name=${tabHeader} @click=${this.onPaperTabClick}>
               <gr-endpoint-decorator name=${tabHeader}>
                 <gr-endpoint-param name="change" .value=${this.change}>
                 </gr-endpoint-param>

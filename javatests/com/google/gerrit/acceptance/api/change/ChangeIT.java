@@ -248,7 +248,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void get() throws Exception {
     PushOneCommit.Result r = createChange();
-    String triplet = project.get() + "~master~" + r.getChangeId();
+    String triplet = project.get() + "~" + r.getChange().getId().get();
     ChangeInfo c = info(triplet);
     assertThat(c.id).isEqualTo(triplet);
     assertThat(c.project).isEqualTo(project.get());

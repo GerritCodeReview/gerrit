@@ -29,4 +29,8 @@ public class ExperimentFeaturesConstants {
   /** On BatchUpdate, do not await index completion before returning to the user */
   public static String GERRIT_BACKEND_FEATURE_DO_NOT_AWAIT_CHANGE_INDEXING =
       "GerritBackendFeature__do_not_await_change_indexing";
+
+  /** Sets ChangeInfo.id to "'<project>\~<_number>'", instead of "'<project>\~<branch>~<Change-Id>'", spearing an index lookup if the id is used in the follow-up rpc calls.*/
+  public static String GERRIT_BACKEND_FEATURE_RETURN_NEW_CHANGE_INFO_ID =
+      "GerritBackendFeature__return_new_change_info_id";
 }

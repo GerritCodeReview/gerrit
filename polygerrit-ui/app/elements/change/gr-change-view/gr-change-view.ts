@@ -1144,7 +1144,6 @@ export class GrChangeView extends LitElement {
       <dialog id="includedInModal" tabindex="-1">
         <gr-included-in-dialog
           id="includedInDialog"
-          .changeNum=${this.changeNum}
           @close=${this.handleIncludedInDialogClose}
         ></gr-included-in-dialog>
       </dialog>

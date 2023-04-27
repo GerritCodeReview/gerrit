@@ -10,9 +10,12 @@ import {getAppContext} from '../../../services/app-context';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
+import {customElement, state} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {fireNoBubble} from '../../../utils/event-util';
+import {resolve} from '../../../models/dependency';
+import {changeModelToken} from '../../../models/change/change-model';
+import {subscribe} from '../../lit/subscription-controller';
 
 interface DisplayGroup {
   title: string;
@@ -27,18 +30,17 @@ export class GrIncludedInDialog extends LitElement {
    * @event close
    */
 
-  @property({type: Object})
-  changeNum?: NumericChangeId;
+  @state() changeNum?: NumericChangeId;
 
-  // private but used in test
   @state() includedIn?: IncludedInInfo;
 
   @state() private loaded = false;
 
-  // private but used in test
   @state() filterText = '';
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly getChangeModel = resolve(this, changeModelToken);
 
   static override get styles() {
     return [
@@ -91,6 +93,15 @@ export class GrIncludedInDialog extends LitElement {
         }
       `,
     ];
+  }
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getChangeModel().changeNum$,
+      changeNum => (this.changeNum = changeNum)
+    );
   }
 
   override render() {

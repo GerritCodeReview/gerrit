@@ -966,12 +966,8 @@ export class GrDiffView extends LitElement {
   }
 
   private renderDialogs() {
-    return html` <gr-apply-fix-dialog
-        id="applyFixDialog"
-        .change=${this.change}
-        .changeNum=${this.changeNum}
-      >
-      </gr-apply-fix-dialog>
+    return html`
+      <gr-apply-fix-dialog id="applyFixDialog"></gr-apply-fix-dialog>
       <gr-diff-preferences-dialog
         id="diffPreferencesDialog"
         @reload-diff-preference=${this.handleReloadingDiffPreference}
@@ -985,7 +981,8 @@ export class GrDiffView extends LitElement {
           .config=${this.serverConfig?.download}
           @close=${this.handleDownloadDialogClose}
         ></gr-download-dialog>
-      </dialog>`;
+      </dialog>
+    `;
   }
 
   /**

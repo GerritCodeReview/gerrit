@@ -1134,11 +1134,7 @@ export class GrChangeView extends LitElement {
         ${this.renderTabHeaders()} ${this.renderTabContent()}
         ${this.renderChangeLog()}
       </div>
-      <gr-apply-fix-dialog
-        id="applyFixDialog"
-        .change=${this.change}
-        .changeNum=${this.changeNum}
-      ></gr-apply-fix-dialog>
+      <gr-apply-fix-dialog id="applyFixDialog"></gr-apply-fix-dialog>
       <dialog id="downloadModal" tabindex="-1">
         <gr-download-dialog
           id="downloadDialog"

@@ -24,7 +24,7 @@ import {DiffLayer, ParsedChangeInfo} from '../../../types/types';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
 import {css, html, LitElement, nothing} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators.js';
+import {customElement, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subscribe} from '../../lit/subscription-controller';
 import {assert} from '../../../utils/common-util';
@@ -39,6 +39,7 @@ import {anyLineTooLong} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {fireReload} from '../../../utils/event-util';
 import {when} from 'lit/directives/when.js';
 import {Timing} from '../../../constants/reporting';
+import {changeModelToken} from '../../../models/change/change-model';
 
 interface FilePreview {
   filepath: string;
@@ -62,10 +63,10 @@ export class GrApplyFixDialog extends LitElement {
   @query('#nextFix')
   nextFix?: GrButton;
 
-  @property({type: Object})
+  @state()
   change?: ParsedChangeInfo;
 
-  @property({type: Number})
+  @state()
   changeNum?: NumericChangeId;
 
   @state()
@@ -102,6 +103,8 @@ export class GrApplyFixDialog extends LitElement {
 
   private readonly getUserModel = resolve(this, userModelToken);
 
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
   private readonly getNavigation = resolve(this, navigationToken);
 
   private readonly reporting = getAppContext().reportingService;
@@ -132,6 +135,16 @@ export class GrApplyFixDialog extends LitElement {
         this.diffPrefs = diffPreferences;
         this.syntaxLayer.setEnabled(!!this.diffPrefs.syntax_highlighting);
       }
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().change$,
+      change => (this.change = change)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().changeNum$,
+      changeNum => (this.changeNum = changeNum)
     );
   }
 

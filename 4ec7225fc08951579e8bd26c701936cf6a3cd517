@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f4c6be9_cfd97f9c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-04-27T07:24:17Z",
+      "side": 1,
+      "message": "Why was my +2 vote copied from ps 36 to ps 37 ?\nThis was changing the jetty version which isn\u0027t a trivial rebase !",
+      "revId": "4ec7225fc08951579e8bd26c701936cf6a3cd517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

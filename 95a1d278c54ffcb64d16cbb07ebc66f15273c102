@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1702e7d4_2b144ab9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-04-27T15:19:15Z",
+      "side": 1,
+      "message": "I\u0027m confused why this is being called \"Backfill\". Maybe it\u0027s just an english language confusion, do you maybe mean \"Populate\"? Backfill makes me think of a one-time effort to fix data in one source by adding it from another source. Here I think you intend to convert the \u0027starred\u0027 field to an optional ChangeInfo field as a fix that should have been included in change I36c1e2f5. Am I understanding that right?\n\nI\u0027m making a point of this because it affects the naming in the rest of this change, especially the `BACKFILL_STARRED_FIELD` option. I think my understanding above is correct, then you can rename that option to `STARRED` and it will be clearer and more consistent with the other options (like `REVIEWED`).",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 8
+      },
+      "revId": "95a1d278c54ffcb64d16cbb07ebc66f15273c102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7ad2ef2_00ff0441",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-04-27T15:19:15Z",
+      "side": 1,
+      "message": "This is not \"very cheap\" for all RefDatabase implementations. I don\u0027t know if you have a way to do the lookup in bulk, but I would consider it if you can.",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 63
+      },
+      "revId": "95a1d278c54ffcb64d16cbb07ebc66f15273c102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c55bb30_69d74b8f",
+        "filename": "java/com/google/gerrit/server/restapi/change/QueryChanges.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-04-27T15:19:15Z",
+      "side": 1,
+      "message": "Why aren\u0027t you doing this in ChangeJson like all the other options are handled?",
+      "range": {
+        "startLine": 227,
+        "startChar": 33,
+        "endLine": 227,
+        "endChar": 51
+      },
+      "revId": "95a1d278c54ffcb64d16cbb07ebc66f15273c102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac2ff9c2_4ec8f5bf",
+        "filename": "java/com/google/gerrit/server/restapi/change/QueryChanges.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-04-27T15:19:15Z",
+      "side": 1,
+      "message": "This should be in a try-with-resources\n\n```\n try (Repository allUsersRepo \u003d repoManager.openRepository(allUsers)) {\n```",
+      "range": {
+        "startLine": 236,
+        "startChar": 6,
+        "endLine": 236,
+        "endChar": 69
+      },
+      "revId": "95a1d278c54ffcb64d16cbb07ebc66f15273c102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

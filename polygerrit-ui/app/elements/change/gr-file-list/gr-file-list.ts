@@ -1812,37 +1812,6 @@ export class GrFileList extends LitElement {
   }
 
   /**
-   * Computes a string with the number of comments and unresolved comments.
-   */
-  computeCommentsString(file?: NormalizedFileInfo) {
-    if (
-      this.changeComments === undefined ||
-      this.patchRange === undefined ||
-      file?.__path === undefined
-    ) {
-      return '';
-    }
-    return this.changeComments.computeCommentsString(
-      this.patchRange,
-      file.__path,
-      file
-    );
-  }
-
-  /**
-   * Computes a string with the number of drafts.
-   */
-  computeDraftsString(file?: NormalizedFileInfo) {
-    if (this.changeComments === undefined) return '';
-    const draftCount = this.changeComments.computeDraftCountForFile(
-      this.patchRange,
-      file
-    );
-    if (draftCount === 0) return '';
-    return pluralize(Number(draftCount), 'draft');
-  }
-
-  /**
    * Computes a shortened string with the number of drafts.
    * Private but used in tests.
    */

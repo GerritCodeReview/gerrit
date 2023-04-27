@@ -1307,14 +1307,7 @@ export class GrChangeView extends LitElement {
       <div class="changeInfo-column changeMetadata">
         <gr-change-metadata
           id="metadata"
-          .change=${this.change}
-          .revertedChange=${this.revertingChange}
-          .account=${this.account}
-          .revision=${this.revision}
-          .commitInfo=${this.revision?.commit}
-          .serverConfig=${this.serverConfig}
           .parentIsCurrent=${this.isParentCurrent()}
-          .repoConfig=${this.projectConfig}
           @show-reply-dialog=${this.handleShowReplyDialog}
         >
         </gr-change-metadata>

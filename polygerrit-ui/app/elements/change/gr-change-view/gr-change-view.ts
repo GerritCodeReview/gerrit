@@ -1138,8 +1138,6 @@ export class GrChangeView extends LitElement {
       <dialog id="downloadModal" tabindex="-1">
         <gr-download-dialog
           id="downloadDialog"
-          .change=${this.change}
-          .config=${this.serverConfig?.download}
           @close=${this.handleDownloadDialogClose}
         ></gr-download-dialog>
       </dialog>

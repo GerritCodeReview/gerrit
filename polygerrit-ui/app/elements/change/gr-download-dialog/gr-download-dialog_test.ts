@@ -8,6 +8,7 @@ import {
   createChange,
   createCommit,
   createDownloadInfo,
+  createParsedChange,
   createRevision,
 } from '../../../test/test-data-generators';
 import {
@@ -160,7 +161,7 @@ suite('gr-download-dialog', () => {
   suite('gr-download-dialog tests with no fetch options', () => {
     setup(async () => {
       element.change = {
-        ...createChange(),
+        ...createParsedChange(),
         revisions: {
           r1: {
             ...createRevision(),
@@ -204,7 +205,7 @@ suite('gr-download-dialog', () => {
 
     test('computed fields', () => {
       element.change = {
-        ...createChange(),
+        ...createParsedChange(),
         project: 'test/project' as RepoName,
         _number: 123 as NumericChangeId,
       };
@@ -233,7 +234,7 @@ suite('gr-download-dialog', () => {
     element.patchNum = 1 as PatchSetNum;
 
     element.change = {
-      ...createChange(),
+      ...createParsedChange(),
       revisions: {
         r1: {...createRevision(), commit: createCommit()},
       },
@@ -241,7 +242,7 @@ suite('gr-download-dialog', () => {
     assert.isTrue(element.computeHidePatchFile());
 
     element.change = {
-      ...createChange(),
+      ...createParsedChange(),
       revisions: {
         r1: {
           ...createRevision(),
@@ -255,7 +256,7 @@ suite('gr-download-dialog', () => {
     assert.isFalse(element.computeHidePatchFile());
 
     element.change = {
-      ...createChange(),
+      ...createParsedChange(),
       revisions: {
         r1: {
           ...createRevision(),

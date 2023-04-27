@@ -46,7 +46,6 @@ import {
   PreferencesInfo,
   RepoName,
   RevisionPatchSetNum,
-  ServerInfo,
   CommentMap,
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo, WebLinkInfo} from '../../../types/diff';
@@ -80,7 +79,6 @@ import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {subscribe} from '../../lit/subscription-controller';
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {configModelToken} from '../../../models/config/config-model';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';
@@ -194,9 +192,6 @@ export class GrDiffView extends LitElement {
   @property({type: Object})
   prefs?: DiffPreferencesInfo;
 
-  @state()
-  private serverConfig?: ServerInfo;
-
   // Private but used in tests.
   @state()
   userPrefs?: PreferencesInfo;
@@ -240,8 +235,6 @@ export class GrDiffView extends LitElement {
   private readonly getFilesModel = resolve(this, filesModelToken);
 
   private readonly getShortcutsService = resolve(this, shortcutsServiceToken);
-
-  private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getViewModel = resolve(this, changeViewModelToken);
 
@@ -336,13 +329,6 @@ export class GrDiffView extends LitElement {
       () => this.getUserModel().loggedIn$,
       loggedIn => {
         this.loggedIn = loggedIn;
-      }
-    );
-    subscribe(
-      this,
-      () => this.getConfigModel().serverConfig$,
-      config => {
-        this.serverConfig = config;
       }
     );
     subscribe(
@@ -976,9 +962,6 @@ export class GrDiffView extends LitElement {
       <dialog id="downloadModal" tabindex="-1">
         <gr-download-dialog
           id="downloadDialog"
-          .change=${this.change}
-          .patchNum=${this.patchNum}
-          .config=${this.serverConfig?.download}
           @close=${this.handleDownloadDialogClose}
         ></gr-download-dialog>
       </dialog>

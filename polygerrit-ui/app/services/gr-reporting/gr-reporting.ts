@@ -34,6 +34,7 @@ export interface ReportingService extends Finalizable {
 
   appStarted(): void;
   onVisibilityChange(): void;
+  onFocusChange(): void;
   beforeLocationChanged(): void;
   locationChanged(page: string): void;
   dashboardDisplayed(): void;

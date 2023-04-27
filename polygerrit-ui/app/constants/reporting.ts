@@ -10,6 +10,7 @@ export enum LifeCycle {
   STARTED_AS_GUEST = 'Started as guest',
   VISIBILILITY_HIDDEN = 'Visibility changed to hidden',
   VISIBILILITY_VISIBLE = 'Visibility changed to visible',
+  FOCUS = 'Focus changed',
   EXTENSION_DETECTED = 'Extension detected',
   PLUGINS_INSTALLED = 'Plugins installed',
   PLUGINS_FAILED = 'Some plugins failed to load',

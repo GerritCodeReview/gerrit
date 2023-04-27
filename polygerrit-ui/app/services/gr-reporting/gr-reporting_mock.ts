@@ -44,6 +44,9 @@ export const grReportingMock: ReportingService & Finalizable = {
   onVisibilityChange: () => {
     log('onVisibilityChange');
   },
+  onFocusChange: () => {
+    log('onFocusChange');
+  },
   pluginLoaded: () => {},
   pluginsLoaded: () => {},
   pluginsFailed: () => {},

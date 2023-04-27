@@ -246,11 +246,14 @@ public class ChangeIT extends AbstractDaemonTest {
   private Cache<DiffSummaryKey, DiffSummary> diffSummaryCache;
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = "GerritBackendFeature__return_new_change_info_id")
   public void get() throws Exception {
     PushOneCommit.Result r = createChange();
-    String triplet = project.get() + "~master~" + r.getChangeId();
-    ChangeInfo c = info(triplet);
-    assertThat(c.id).isEqualTo(triplet);
+    String id = project.get() + "~" + r.getChange().getId().get();
+    ChangeInfo c = info(id);
+    assertThat(c.id).isEqualTo(id);
     assertThat(c.project).isEqualTo(project.get());
     assertThat(c.branch).isEqualTo("master");
     assertThat(c.status).isEqualTo(ChangeStatus.NEW);

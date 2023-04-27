@@ -82,6 +82,12 @@ import {createSearchUrl} from '../../../models/views/search';
 import {createChangeUrl} from '../../../models/views/change';
 import {getChangeWeblinks} from '../../../utils/weblink-util';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {subscribe} from '../../lit/subscription-controller';
+import {userModelToken} from '../../../models/user/user-model';
+import {resolve} from '../../../models/dependency';
+import {configModelToken} from '../../../models/config/config-model';
+import {changeModelToken} from '../../../models/change/change-model';
+import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -118,54 +124,90 @@ interface PushCertificateValidationInfo {
 export class GrChangeMetadata extends LitElement {
   @query('#webLinks') webLinks?: HTMLElement;
 
-  @property({type: Object}) change?: ParsedChangeInfo;
-
-  @property({type: Object}) revertedChange?: ChangeInfo;
-
-  @property({type: Object}) account?: AccountDetailInfo;
-
-  @property({type: Object}) revision?: RevisionInfo | EditRevisionInfo;
-
-  // TODO: Just use `revision.commit` instead.
-  @property({type: Object}) commitInfo?: CommitInfoWithRequiredCommit;
-
-  @property({type: Object}) serverConfig?: ServerInfo;
-
+  // TODO: Convert to @state. That requires the change model to keep track of
+  // current revision actions. Then we can also get rid of the
+  // `revision-actions-changed` event.
   @property({type: Boolean}) parentIsCurrent?: boolean;
 
-  @property({type: Object}) repoConfig?: ConfigInfo;
+  @state() change?: ParsedChangeInfo;
 
-  // private but used in test
+  @state() revertedChange?: ChangeInfo;
+
+  @state() account?: AccountDetailInfo;
+
+  @state() revision?: RevisionInfo | EditRevisionInfo;
+
+  @state() serverConfig?: ServerInfo;
+
+  @state() repoConfig?: ConfigInfo;
+
   @state() mutable = false;
 
-  @state() private readonly notCurrentMessage = NOT_CURRENT_MESSAGE;
+  @state() readonly notCurrentMessage = NOT_CURRENT_MESSAGE;
 
-  // private but used in test
   @state() topicReadOnly = true;
 
-  // private but used in test
   @state() hashtagReadOnly = true;
 
-  @state() private pushCertificateValidation?: PushCertificateValidationInfo;
+  @state() pushCertificateValidation?: PushCertificateValidationInfo;
 
-  // private but used in test
   @state() settingTopic = false;
 
-  // private but used in test
   @state() currentParents: ParentCommitInfo[] = [];
 
-  @state() private showAllSections = false;
+  @state() showAllSections = false;
 
-  @state() private queryTopic?: AutocompleteQuery;
+  @state() queryTopic?: AutocompleteQuery;
 
-  @state() private queryHashtag?: AutocompleteQuery;
+  @state() queryHashtag?: AutocompleteQuery;
 
   private restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
 
+  private readonly getUserModel = resolve(this, userModelToken);
+
+  private readonly getConfigModel = resolve(this, configModelToken);
+
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getRelatedChangesModel = resolve(
+    this,
+    relatedChangesModelToken
+  );
+
   constructor() {
     super();
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      serverConfig => (this.serverConfig = serverConfig)
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().repoConfig$,
+      repoConfig => (this.repoConfig = repoConfig)
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().account$,
+      account => (this.account = account)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().change$,
+      change => (this.change = change)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().revision$,
+      revision => (this.revision = revision)
+    );
+    subscribe(
+      this,
+      () => this.getRelatedChangesModel().revertingChange$,
+      revertingChange => (this.revertedChange = revertingChange)
+    );
     this.queryTopic = (input: string) => this.getTopicSuggestions(input);
     this.queryHashtag = (input: string) => this.getHashtagSuggestions(input);
   }
@@ -735,7 +777,10 @@ export class GrChangeMetadata extends LitElement {
 
   // private but used in test
   computeWebLinks(): WebLinkInfo[] {
-    return getChangeWeblinks(this.commitInfo?.web_links, this.serverConfig);
+    return getChangeWeblinks(
+      this.revision?.commit?.web_links,
+      this.serverConfig
+    );
   }
 
   private computeStrategy() {

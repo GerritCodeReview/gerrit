@@ -61,18 +61,9 @@ suite('gr-change-metadata tests', () => {
   let element: GrChangeMetadata;
 
   setup(async () => {
-    stubRestApi('getLoggedIn').returns(Promise.resolve(false));
-    stubRestApi('getConfig').returns(
-      Promise.resolve({
-        ...createServerInfo(),
-        user: {
-          ...createUserConfig(),
-          anonymouscowardname: 'test coward name',
-        },
-      })
-    );
     element = await fixture(html`<gr-change-metadata></gr-change-metadata>`);
     element.change = createParsedChange();
+    element.account = undefined;
     await element.updateComplete;
   });
 
@@ -251,16 +242,22 @@ suite('gr-change-metadata tests', () => {
   });
 
   test('weblinks hidden when no weblinks', async () => {
-    element.commitInfo = createCommitInfoWithRequiredCommit();
+    element.revision = {
+      ...createRevision(),
+      commit: createCommitInfoWithRequiredCommit(),
+    };
     element.serverConfig = createServerInfo();
     await element.updateComplete;
     assert.isNull(element.webLinks);
   });
 
   test('weblinks hidden when only gitiles weblink', async () => {
-    element.commitInfo = {
-      ...createCommitInfoWithRequiredCommit(),
-      web_links: [{...createWebLinkInfo(), name: 'gitiles', url: '#'}],
+    element.revision = {
+      ...createRevision(),
+      commit: {
+        ...createCommitInfoWithRequiredCommit(),
+        web_links: [{...createWebLinkInfo(), name: 'gitiles', url: '#'}],
+      },
     };
     element.serverConfig = createServerInfo();
     await element.updateComplete;
@@ -270,9 +267,12 @@ suite('gr-change-metadata tests', () => {
 
   test('weblinks hidden when sole weblink is set as primary', async () => {
     const browser = 'browser';
-    element.commitInfo = {
-      ...createCommitInfoWithRequiredCommit(),
-      web_links: [{...createWebLinkInfo(), name: browser, url: '#'}],
+    element.revision = {
+      ...createRevision(),
+      commit: {
+        ...createCommitInfoWithRequiredCommit(),
+        web_links: [{...createWebLinkInfo(), name: browser, url: '#'}],
+      },
     };
     element.serverConfig = {
       ...createServerInfo(),
@@ -286,9 +286,12 @@ suite('gr-change-metadata tests', () => {
   });
 
   test('weblinks are visible when other weblinks', async () => {
-    element.commitInfo = {
-      ...createCommitInfoWithRequiredCommit(),
-      web_links: [{...createWebLinkInfo(), name: 'test', url: '#'}],
+    element.revision = {
+      ...createRevision(),
+      commit: {
+        ...createCommitInfoWithRequiredCommit(),
+        web_links: [{...createWebLinkInfo(), name: 'test', url: '#'}],
+      },
     };
     await element.updateComplete;
     const webLinks = element.webLinks!;
@@ -297,12 +300,15 @@ suite('gr-change-metadata tests', () => {
   });
 
   test('weblinks are visible when gitiles and other weblinks', async () => {
-    element.commitInfo = {
-      ...createCommitInfoWithRequiredCommit(),
-      web_links: [
-        {...createWebLinkInfo(), name: 'test', url: '#'},
-        {...createWebLinkInfo(), name: 'gitiles', url: '#'},
-      ],
+    element.revision = {
+      ...createRevision(),
+      commit: {
+        ...createCommitInfoWithRequiredCommit(),
+        web_links: [
+          {...createWebLinkInfo(), name: 'test', url: '#'},
+          {...createWebLinkInfo(), name: 'gitiles', url: '#'},
+        ],
+      },
     };
     await element.updateComplete;
     const webLinks = element.webLinks!;

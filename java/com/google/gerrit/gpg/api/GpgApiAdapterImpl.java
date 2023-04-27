@@ -14,8 +14,6 @@
 
 package com.google.gerrit.gpg.api;
 
-import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
-
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
 import com.google.gerrit.extensions.api.accounts.GpgKeysInput;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
@@ -71,7 +69,7 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
     } catch (PGPException | IOException e) {
       throw new GpgException(e);
     } catch (Exception e) {
-      throw asRestApiException("Cannot list GPG keys", e);
+      throw RestApiException.wrap("Cannot list GPG keys", e);
     }
   }
 
@@ -87,7 +85,7 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
     } catch (PGPException | IOException | ConfigInvalidException e) {
       throw new GpgException(e);
     } catch (Exception e) {
-      throw asRestApiException("Cannot put GPG keys", e);
+      throw RestApiException.wrap("Cannot put GPG keys", e);
     }
   }
 

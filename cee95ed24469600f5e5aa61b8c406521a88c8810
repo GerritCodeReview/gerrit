@@ -22,6 +22,30 @@
       },
       "revId": "cee95ed24469600f5e5aa61b8c406521a88c8810",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f16c9078_07a78f83",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-27T08:17:05Z",
+      "side": 1,
+      "message": "The guard `if (this.view !\u003d\u003d GerritView.PLUGIN_SCREEN) return nothing;` as the first statement is something that many methods share in this class. So I would like to keep it for symmetry and consistency. Otherwise you are right, your code would be slightly nicer.",
+      "parentUuid": "9cf09d6b_ce87d1d0",
+      "range": {
+        "startLine": 551,
+        "startChar": 0,
+        "endLine": 552,
+        "endChar": 37
+      },
+      "revId": "cee95ed24469600f5e5aa61b8c406521a88c8810",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

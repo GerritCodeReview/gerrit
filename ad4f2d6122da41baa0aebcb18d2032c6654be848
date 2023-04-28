@@ -16,6 +16,24 @@
       "message": "Did you manually check these?\nJust curious why these elements in the stack and not others.",
       "revId": "ad4f2d6122da41baa0aebcb18d2032c6654be848",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80150533_6f18bc50",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-04-28T06:12:19Z",
+      "side": 1,
+      "message": "Re tests: Yes, I have manually checked each of the component on at least one change. And they were looking identical to before.\n\nRe why these: Just random choice within `gr-change-view`.",
+      "parentUuid": "38eb527a_73f1afce",
+      "revId": "ad4f2d6122da41baa0aebcb18d2032c6654be848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

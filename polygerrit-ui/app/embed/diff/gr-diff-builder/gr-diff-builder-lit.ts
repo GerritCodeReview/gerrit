@@ -136,7 +136,7 @@ export class GrDiffBuilderLit extends GrDiffBuilder {
     };
   }
 
-  protected override buildSectionElement(group: GrDiffGroup) {
+  protected override buildSectionElement(group: GrDiffGroup): HTMLElement {
     const leftCl = `left-${group.startLine(Side.LEFT)}`;
     const rightCl = `right-${group.startLine(Side.RIGHT)}`;
     const section = html`

@@ -16,6 +16,24 @@
       "message": "Can you add in the description that is when a user is added for review? Then when you do `git log --pretty\u003doneline` (I copy this suggestion from @Ponch) you can see what the commit is about.",
       "revId": "1723def6b925151417b026d2b095b6256f51697d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a4dc7f1_a15b4a93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-04-28T09:54:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b2816ac_91026929",
+      "revId": "1723def6b925151417b026d2b095b6256f51697d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

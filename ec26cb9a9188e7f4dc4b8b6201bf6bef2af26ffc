@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2c38d86_46fd3f44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-04-28T09:33:49Z",
+      "side": 1,
+      "message": "Please, change the description of the commit message",
+      "revId": "ec26cb9a9188e7f4dc4b8b6201bf6bef2af26ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

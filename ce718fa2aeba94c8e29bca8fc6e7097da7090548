@@ -177,6 +177,24 @@
       "parentUuid": "1482bb14_8c65fec7",
       "revId": "ce718fa2aeba94c8e29bca8fc6e7097da7090548",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7441e16f_afa57ced",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-04-28T09:27:06Z",
+      "side": 1,
+      "message": "400 stands for \"BAD_REQUEST\" which I think it\u0027s better than the other options. The error message is pretty clear in telling you that the user wasn\u0027t found.\nThanks for the suggestions",
+      "parentUuid": "1482bb14_8c65fec7",
+      "revId": "ce718fa2aeba94c8e29bca8fc6e7097da7090548",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

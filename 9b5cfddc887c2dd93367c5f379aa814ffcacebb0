@@ -77,6 +77,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "31baf772_7470d666",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-04-28T09:27:06Z",
+      "side": 1,
+      "message": "Well, 400 is BAD_REQUEST, the error message contained in `modification.result` is quite clear about the cause of the problem, and often offers more insights into the issue. I believe it makes sense to leave that as is.",
+      "parentUuid": "f38e94e4_3f3c8a9c",
+      "revId": "9b5cfddc887c2dd93367c5f379aa814ffcacebb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ede2dca5_25859f0f",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
         "patchSetId": 11
@@ -88,6 +106,24 @@
       "writtenOn": "2023-04-28T08:58:01Z",
       "side": 1,
       "message": "This is not part of this change but it looks that these tests are testing too many things. Maybe we could create a card to split the tests per use cases. It would be much easy to reason about that.",
+      "revId": "9b5cfddc887c2dd93367c5f379aa814ffcacebb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "617d4520_5d8e1265",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-04-28T09:27:06Z",
+      "side": 1,
+      "message": "Well these tests now fail because of how I changed the implementation, so I believe they are part of this change.\n\nI agree that they seem to be testing too many things in one go, but yes, it would be a separate use case.\n\nWDYT, Shall I still add a test for this specific use case?",
+      "parentUuid": "ede2dca5_25859f0f",
       "revId": "9b5cfddc887c2dd93367c5f379aa814ffcacebb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

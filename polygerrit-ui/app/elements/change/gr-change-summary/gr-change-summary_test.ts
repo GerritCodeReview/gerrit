@@ -50,6 +50,7 @@ suite('gr-change-summary test', () => {
       },
       discardedDrafts: [],
     });
+    element.commentsLoading = false;
     element.commentThreads = [
       createCommentThread([createComment()]),
       createCommentThread([{...createComment(), unresolved: true}]),

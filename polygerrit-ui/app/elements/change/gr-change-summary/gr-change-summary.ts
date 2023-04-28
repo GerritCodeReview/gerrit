@@ -63,6 +63,9 @@ DETAILS_QUOTA.set(RunStatus.RUNNING, 2);
 @customElement('gr-change-summary')
 export class GrChangeSummary extends LitElement {
   @state()
+  commentsLoading = true;
+
+  @state()
   commentThreads?: CommentThread[];
 
   @state()
@@ -158,6 +161,11 @@ export class GrChangeSummary extends LitElement {
       this,
       () => this.getUserModel().account$,
       x => (this.selfAccount = x)
+    );
+    subscribe(
+      this,
+      () => this.getCommentsModel().commentsLoading$,
+      x => (this.commentsLoading = x)
     );
     subscribe(
       this,
@@ -530,6 +538,10 @@ export class GrChangeSummary extends LitElement {
           <tr>
             <td class="key">Comments</td>
             <td class="value">
+              ${when(
+                this.commentsLoading,
+                () => html`<span class="loadingSpin"></span>`
+              )}
               <gr-comments-summary
                 .commentThreads=${this.commentThreads}
                 .draftCount=${this.draftCount}

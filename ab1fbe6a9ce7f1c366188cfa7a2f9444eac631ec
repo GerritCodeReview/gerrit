@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f45264d9_3043a33d",
+        "filename": "java/com/google/gerrit/server/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-04-28T07:12:13Z",
+      "side": 1,
+      "message": "This change broke the plugin API, because the extracted rule was missed to be added to the rule: `plugins:plugin-lib`.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 0
+      },
+      "revId": "ab1fbe6a9ce7f1c366188cfa7a2f9444eac631ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

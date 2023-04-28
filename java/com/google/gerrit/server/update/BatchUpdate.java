@@ -52,6 +52,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.RefLogIdentityProvider;
@@ -667,8 +668,10 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   private boolean indexAsync() {
-    return experimentFeatures.isFeatureEnabled(
-        ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_DO_NOT_AWAIT_CHANGE_INDEXING);
+    return user.getAccessPath().equals(AccessPath.WEB_BROWSER)
+        && experimentFeatures.isFeatureEnabled(
+            ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_DO_NOT_AWAIT_CHANGE_INDEXING,
+            project);
   }
 
   private void fireRefChangeEvent() {
@@ -751,6 +754,8 @@ public class BatchUpdate implements AutoCloseable {
         }
       }
       if (indexAsync) {
+        logger.atFine().log(
+            "Asynchronously reindexing changes, %s in project %s", results.keySet(), project.get());
         // We want to index asynchronously. However, the callers will await all
         // index futures. This allows us to - even in synchronous case -
         // parallelize indexing changes.

@@ -241,6 +241,30 @@
       },
       "revId": "29706d92af0e4253d871aef0174dc79dd213dda8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a637bfe_6ab95196",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-04-28T14:16:41Z",
+      "side": 1,
+      "message": "It does make me slightly uncomfortable as the docs [1] and the type [2] both express the type is `short`, and there is no mention of support single-digit numbers only. I can also see the vote formatter specifically supports multi-digit numbers [3].\n\nHaving said that I looked at the tests, and I don\u0027t see a case for multi-digit numbers [4]. Adding such a test case does pass... but if these are never used by convention, and we are ok with silently breaking this (maybe other parts of Gerrit core also make this assumption?) then yes we can simplify this case.\n\nWDYT?\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-labels.html#label_value\n[2] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.5/java/com/google/gerrit/server/util/LabelVote.java#73\n[3] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.5/java/com/google/gerrit/server/util/LabelVote.java#73\n[4] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.5/javatests/com/google/gerrit/server/util/LabelVoteTest.java",
+      "parentUuid": "63bea3d7_e32cf5c2",
+      "range": {
+        "startLine": 830,
+        "startChar": 9,
+        "endLine": 830,
+        "endChar": 31
+      },
+      "revId": "29706d92af0e4253d871aef0174dc79dd213dda8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -206,6 +206,30 @@
       },
       "revId": "1c40a32e11376209838eb51d46a2cdef5116d023",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73d99520_2d3c59a4",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-04-28T14:16:41Z",
+      "side": 1,
+      "message": "The implementation in PS18 has a comparable performance. Over 1M runs it\u0027s 10-50% with the same input string above. So we\u0027re now \u003c100ms slower (on my machine) than the buggy version over 1M lines. Maybe that\u0027s acceptable?",
+      "parentUuid": "952430d7_6f8ef3ae",
+      "range": {
+        "startLine": 849,
+        "startChar": 20,
+        "endLine": 849,
+        "endChar": 26
+      },
+      "revId": "1c40a32e11376209838eb51d46a2cdef5116d023",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

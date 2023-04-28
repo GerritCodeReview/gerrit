@@ -986,7 +986,7 @@ public class RebaseIT {
     public void rebaseChain() throws Exception {
       // Create changes with the following hierarchy:
       // * HEAD
-      //   * r1
+      //   * r (merged)
       //   * r2
       //     * r3
       //       * r4
@@ -1043,7 +1043,7 @@ public class RebaseIT {
       final String newContent = "new content";
       // Create changes with the following revision hierarchy:
       // * HEAD
-      //   * r1
+      //   * r (merged)
       //   * r2
       //     * r3/1    r3/2
       //       * r4
@@ -1076,6 +1076,71 @@ public class RebaseIT {
       verifyChangeIsUpToDate(r2);
       verifyChangeIsUpToDate(r3);
       verifyChangeIsUpToDate(r4);
+    }
+
+    @Test
+    public void rebaseChainWithMergedAncestor() throws Exception {
+      final String file = "modified_file.txt";
+      final String newContent = "new content";
+
+      // Create changes with the following hierarchy:
+      // * HEAD
+      //   * r (merged)
+      //   * r2.1         r2.2 (merged)
+      //     * r3
+      //       * r4
+      //         *r5
+      PushOneCommit.Result r = createChange();
+      PushOneCommit.Result r2 = createChange();
+      PushOneCommit.Result r3 = createChange();
+      PushOneCommit.Result r4 = createChange();
+      PushOneCommit.Result r5 = createChange();
+
+      // Approve and submit the first change
+      RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
+      revision.review(ReviewInput.approve());
+      revision.submit();
+      testRepo.reset("HEAD~1");
+
+      // Create r2.2
+      gApi.changes()
+          .id(r2.getChangeId())
+          .edit()
+          .modifyFile(file, RawInputUtil.create(newContent.getBytes(UTF_8)));
+      gApi.changes().id(r2.getChangeId()).edit().publish();
+      // Approve and submit r2.2
+      revision = gApi.changes().id(r2.getChangeId()).current();
+      revision.review(ReviewInput.approve());
+      revision.submit();
+
+      // Add an approval whose score should be copied on trivial rebase
+      gApi.changes().id(r3.getChangeId()).current().review(ReviewInput.recommend());
+
+      // Rebase the chain through r4.
+      verifyRebaseChainResponse(gApi.changes().id(r4.getChangeId()).rebaseChain(), false, r3, r4);
+
+      // Only r3 and r4 are rebased.
+      verifyRebaseForChange(r3.getChange().getId(), r2.getChange().getId(), true);
+      verifyRebaseForChange(r4.getChange().getId(), r3.getChange().getId(), false);
+
+      verifyChangeIsUpToDate(r2);
+      verifyChangeIsUpToDate(r3);
+      verifyChangeIsUpToDate(r4);
+
+      // r5 wasn't rebased.
+      assertThat(
+              gApi.changes()
+                  .id(r5.getChangeId())
+                  .get(CURRENT_REVISION)
+                  .getCurrentRevision()
+                  ._number)
+          .isEqualTo(1);
+
+      // Rebasing r5
+      verifyRebaseChainResponse(
+          gApi.changes().id(r5.getChangeId()).rebaseChain(), false, r3, r4, r5);
+
+      verifyRebaseForChange(r5.getChange().getId(), r4.getChange().getId(), false);
     }
 
     @Test

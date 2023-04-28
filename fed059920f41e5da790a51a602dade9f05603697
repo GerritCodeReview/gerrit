@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1eccf525_6199778b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-04-28T10:53:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b906ac5e_875d7263",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 8
+      },
+      "revId": "fed059920f41e5da790a51a602dade9f05603697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ca3dee7_69f1d6fb",
@@ -97,6 +121,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bdf9984e_75c49ed3",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-04-28T10:53:01Z",
+      "side": 1,
+      "message": "Done - didn\u0027t log the value as we\u0027re erroring on the keys and it may not be relevant as well as make the log statement a fair bit noisier. We should be able to see their contents if we need to with access to the repo.\n\nLet me know if that works or if you think we should log them anyway.",
+      "parentUuid": "bb221919_43e9cdd0",
+      "range": {
+        "startLine": 178,
+        "startChar": 26,
+        "endLine": 178,
+        "endChar": 59
+      },
+      "revId": "fed059920f41e5da790a51a602dade9f05603697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9e517f56_ec419b05",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
         "patchSetId": 3
@@ -132,6 +180,30 @@
       "side": 1,
       "message": "Yes you\u0027re right, I\u0027m currently catching a checked exception too. I thought it might make sense to catch other errors too but this is too broad.",
       "parentUuid": "9e517f56_ec419b05",
+      "range": {
+        "startLine": 190,
+        "startChar": 15,
+        "endLine": 190,
+        "endChar": 24
+      },
+      "revId": "fed059920f41e5da790a51a602dade9f05603697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "840dba96_df9d8201",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-04-28T10:53:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "390a4fc2_ea6e11d7",
       "range": {
         "startLine": 190,
         "startChar": 15,

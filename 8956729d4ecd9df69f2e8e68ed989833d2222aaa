@@ -16,6 +16,24 @@
       "message": "Why are you using `this.content` in the iff but `userSuggestionMark.textContent` in the else?",
       "revId": "8956729d4ecd9df69f2e8e68ed989833d2222aaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50a41c79_d7e38c98",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-28T08:51:46Z",
+      "side": 1,
+      "message": "textContent is coming from markedjs from renderer for code snippet - line 215. Unfortunately it changes tabs to spaces.\n\nSo if there is a tab in content we get user suggestion from this.content (which has correct tabs) if there are not tabs in this.content, we expect markedjs renderer extracted correctly code snippet.",
+      "parentUuid": "355bbbaa_6f21daf4",
+      "revId": "8956729d4ecd9df69f2e8e68ed989833d2222aaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -5,7 +5,6 @@
  */
 import '../gr-diff-processor/gr-diff-processor';
 import '../../../elements/shared/gr-hovercard/gr-hovercard';
-import './gr-diff-builder-side-by-side';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
 import {
   DiffBuilder,

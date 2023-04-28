@@ -3,7 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side';
 import {ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {RenderPreferences, Side} from '../../../api/diff';
@@ -11,13 +10,14 @@ import '../gr-diff-image-viewer/gr-image-viewer';
 import {ImageDiffBuilder} from './gr-diff-builder';
 import {html, LitElement, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
+import {GrDiffBuilderLit} from './gr-diff-builder-lit';
 
 // MIME types for images we allow showing. Do not include SVG, it can contain
 // arbitrary JavaScript.
 const IMAGE_MIME_PATTERN = /^image\/(bmp|gif|x-icon|jpeg|jpg|png|tiff|webp)$/;
 
 export class GrDiffBuilderImage
-  extends GrDiffBuilderSideBySide
+  extends GrDiffBuilderLit
   implements ImageDiffBuilder
 {
   constructor(

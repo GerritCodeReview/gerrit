@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "90c17003_42deda20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1077393
+      },
+      "writtenOn": "2023-04-28T06:24:02Z",
+      "side": 1,
+      "message": "I think \"somewhere else\" is Gerrit\u0027s HTTP handler:\n\nGerrit seems to assume that headers are ISO-8859-1 encoded (which is pretty sensible assumption). So Gerrit decodes headers into Strings using ISO-8859-1.\n\nApparently some system encoded headers with UTF-8 and then Gerrit decoded those assuming ISO-8859-1 resulting in a broken string.\n\nThe reverted change encoded the broken string using ISO-8859-1 which resulted in the original byte array (which actually was UTF-8 encoded string). And then decoded the original string assuming it was UTF-8 resulting in the correct string.\n\nNaturally after the change, if the headers contained ISO-8859-1 string (containing non-ascii characters), the string was broken because now Gerrit interpreted ISO-8859-1 string as UTF-8.\n\n\nSo your reasoning is quite accurate - the only thing, as far as I can tell, is that it should say something like:\n\n\u003e Since the solution is basically to reverse a bug where someone sends display name header encoded in UTF-8...\n\n\nAs ISO-8859-1 can not represent all characters, there should be a way to achieve this. Maybe use some other mechanism for transferring names from SAML plugin. This would not probably work with HTTP authentication (beacuse SAML plugin also transfers the names in HTTP headers: https://gerrit.googlesource.com/plugins/saml/+/refs/heads/master#configure-http-authentication-for-gerrit).\n\nOne option would be to state that the headers could contain ASICII (for example, base64) encoded byte stream that is actually UTF-8 encoded string. This would, of course, be backward-incompatible change.\n\nAlso I think I\u0027ve seen UTF-8 used in HTTP headers even if the HTTP standard states HTTP headers should be ISO-8859-1. Because this is an easy way to allow transferring non-ascii/iso-8859-1 data in headers.\n\nSo if you go with the HTTP standards, you should not transfer names or any other data that might contain non-ascii/iso-8859-1 characters in headers (except file names which have https://datatracker.ietf.org/doc/html/rfc6266)\n\nAlso a good article about this is https://dzone.com/articles/utf-8-in-http-headers\n\nSo to fully fix the issue we are discussing, there should be a way to transfer strings encoded in UTF-8 from SAML plugin and maybe even from other processes as HTTP headers (beacuse https://gerrit-documentation.storage.googleapis.com/Documentation/3.7.2/config-gerrit.html#auth.httpDisplaynameHeader)",
+      "parentUuid": "eaa9c251_78877717",
+      "range": {
+        "startLine": 11,
+        "startChar": 19,
+        "endLine": 14,
+        "endChar": 36
+      },
+      "revId": "ac9f17022840509e7111430b0dd041e68feab0c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "31e1f8f2_542fadcd",

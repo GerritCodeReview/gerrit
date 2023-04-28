@@ -74,6 +74,16 @@ export function isImageDiffBuilder(
   return !!x && !!(x as ImageDiffBuilder).renderImageDiff;
 }
 
+export interface BinaryDiffBuilder extends DiffBuilder {
+  renderBinaryDiff(): void;
+}
+
+export function isBinaryDiffBuilder(
+  x: DiffBuilder | BinaryDiffBuilder | undefined
+): x is BinaryDiffBuilder {
+  return !!x && !!(x as BinaryDiffBuilder).renderBinaryDiff;
+}
+
 /**
  * Base class for different diff builders, like side-by-side, unified etc.
  *

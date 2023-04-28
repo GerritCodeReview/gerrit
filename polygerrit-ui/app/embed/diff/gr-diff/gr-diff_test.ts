@@ -3142,18 +3142,25 @@ suite('gr-diff tests', () => {
           element,
           /* HTML */ `
             <div class="diffContainer sideBySide">
+              <gr-diff-section class="left-FILE right-FILE"> </gr-diff-section>
+              <gr-diff-row class="left-FILE right-FILE"> </gr-diff-row>
               <table class="selected-right" id="diffTable">
                 <colgroup>
                   <col class="blame gr-diff" />
-                  <col class="gr-diff" width="48" />
-                  <col class="gr-diff" width="48" />
-                  <col class="gr-diff" />
+                  <col class="gr-diff left" width="48" />
+                  <col class="gr-diff left sign" />
+                  <col class="gr-diff left" />
+                  <col class="gr-diff right" width="48" />
+                  <col class="gr-diff right sign" />
+                  <col class="gr-diff right" />
                 </colgroup>
                 <tbody class="binary-diff gr-diff"></tbody>
-                <tbody class="binary-diff gr-diff">
+                <tbody class="both gr-diff section">
                   <tr
-                    aria-labelledby="left-button-FILE right-button-FILE right-content-FILE"
-                    class="both diff-row gr-diff unified"
+                    aria-labelledby="left-button-FILE left-content-FILE right-button-FILE right-content-FILE"
+                    class="diff-row gr-diff side-by-side"
+                    left-type="both"
+                    right-type="both"
                     tabindex="-1"
                   >
                     <td class="blame gr-diff" data-line-number="FILE"></td>
@@ -3168,6 +3175,14 @@ suite('gr-diff tests', () => {
                         File
                       </button>
                     </td>
+                    <td class="gr-diff left no-intraline-info sign"></td>
+                    <td
+                      class="both content file gr-diff left no-intraline-info"
+                    >
+                      <div class="thread-group" data-side="left">
+                        <slot name="left-FILE"> </slot>
+                      </div>
+                    </td>
                     <td class="gr-diff lineNum right" data-value="FILE">
                       <button
                         aria-label="Add file comment"
@@ -3179,16 +3194,20 @@ suite('gr-diff tests', () => {
                         File
                       </button>
                     </td>
+                    <td class="gr-diff no-intraline-info right sign"></td>
                     <td
                       class="both content file gr-diff no-intraline-info right"
                     >
-                      <div>
-                        <span> Difference in binary files </span>
-                      </div>
                       <div class="thread-group" data-side="right">
                         <slot name="right-FILE"> </slot>
-                        <slot name="left-FILE"> </slot>
                       </div>
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody class="binary-diff gr-diff">
+                  <tr class="gr-diff">
+                    <td class="gr-diff" colspan="5">
+                      <span> Difference in binary files </span>
                     </td>
                   </tr>
                 </tbody>

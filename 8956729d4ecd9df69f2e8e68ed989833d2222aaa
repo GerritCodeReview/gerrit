@@ -70,6 +70,24 @@
       "parentUuid": "33bbb7fc_36af2b66",
       "revId": "8956729d4ecd9df69f2e8e68ed989833d2222aaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d078ec05_e844e0b8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-04-28T08:57:32Z",
+      "side": 1,
+      "message": "Could you change this method then to make it only deal with one?\n\nSomething like:\n\n```\nconst marks \u003d this.renderRoot.querySelectorAll(\u0027mark\u0027);\nif (marks.length \u003e 0) { \n  .. process single mark\n}\n```",
+      "parentUuid": "82804bc6_1d128d78",
+      "revId": "8956729d4ecd9df69f2e8e68ed989833d2222aaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

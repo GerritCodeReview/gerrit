@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dddb3435_ad0bd41d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 6924,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-04-28T10:09:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd39346a_642efbce",
+      "range": {
+        "startLine": 6924,
+        "startChar": 69,
+        "endLine": 6924,
+        "endChar": 70
+      },
+      "revId": "f3964faee6515d01fef2f44c598a38be80102159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "20f05748_e129b989",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da8d7b52_5ef49244",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 6930,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-04-28T10:09:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20f05748_e129b989",
+      "range": {
+        "startLine": 6929,
+        "startChar": 33,
+        "endLine": 6930,
+        "endChar": 19
+      },
+      "revId": "f3964faee6515d01fef2f44c598a38be80102159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cec9fbbc_fdcf062f",
@@ -60,6 +108,24 @@
       "writtenOn": "2023-04-28T09:39:19Z",
       "side": 1,
       "message": "nit: long line, please wrap",
+      "revId": "f3964faee6515d01fef2f44c598a38be80102159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5336de9c_b8971011",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-04-28T10:09:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cec9fbbc_fdcf062f",
       "revId": "f3964faee6515d01fef2f44c598a38be80102159",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -104,6 +170,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a48aa1bb_ed1e4c30",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeaturesConstants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-04-28T10:09:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66dbecc0_f3a8285c",
+      "range": {
+        "startLine": 33,
+        "startChar": 39,
+        "endLine": 33,
+        "endChar": 40
+      },
+      "revId": "f3964faee6515d01fef2f44c598a38be80102159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a93448cf_98c0b0b7",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeaturesConstants.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-04-28T10:09:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9ceade7_f93d499c",
+      "revId": "f3964faee6515d01fef2f44c598a38be80102159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "643e929a_46edf07e",
@@ -117,6 +225,30 @@
       "writtenOn": "2023-04-28T09:39:19Z",
       "side": 1,
       "message": "nit: rename?",
+      "range": {
+        "startLine": 251,
+        "startChar": 11,
+        "endLine": 251,
+        "endChar": 18
+      },
+      "revId": "f3964faee6515d01fef2f44c598a38be80102159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5897f7be_680b0b41",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-04-28T10:09:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "643e929a_46edf07e",
       "range": {
         "startLine": 251,
         "startChar": 11,

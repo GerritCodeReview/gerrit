@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "3034b811_24a2b0e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-04-28T07:05:52Z",
+      "side": 1,
+      "message": "Thanks for the explanation Janne.\nI think for now we should adhere to how Gerrit currently assumes the HTTP headers are encoded and stick with ISO 8859-1.\nIdeally we should be able to use UTF-8 characters but that solution should be a global advertised change for entire Gerrit.\nPerhaps we could just add yet another header \"auth.httpDisplaynameHeaderBase64\" so that we could check for one header and fall back to the other?",
+      "parentUuid": "90c17003_42deda20",
+      "range": {
+        "startLine": 11,
+        "startChar": 19,
+        "endLine": 14,
+        "endChar": 36
+      },
+      "revId": "ac9f17022840509e7111430b0dd041e68feab0c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "31e1f8f2_542fadcd",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

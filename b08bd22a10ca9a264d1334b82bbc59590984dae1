@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d250c783_7f5217d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-04-28T15:07:35Z",
+      "side": 1,
+      "message": "Bump in gitiles too? Do those need to go together?",
+      "revId": "b08bd22a10ca9a264d1334b82bbc59590984dae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

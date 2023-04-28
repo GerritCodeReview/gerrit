@@ -6,7 +6,6 @@ junit_tests(
     srcs = glob(
         ["**/*.java"],
     ),
-    resource_strip_prefix = "resources",
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/server/ioutil",

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "107fac95_b35f3d7a",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeatures.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-04-28T09:43:45Z",
+      "side": 1,
+      "message": "Optional - deprecate the old method and make project Optional:\n```\n  @deprecate\n  default boolean isFeatureEnabled(String featureFlag) {\n    return isFeatureEnabled(featureFlag, Optional.empty);\n  }\n\n  // Caller must pass project name if it is available.\n  boolean isFeatureEnabled(String featureFlag, Optional\u003cProject.NameKey\u003e project);\n```\nWhen interface is defined in this way, all callers have to explicitly pass something as project - so it will bring attention of both developers and reviewers on it and reducing the chance of not passing the project.",
+      "range": {
+        "startLine": 27,
+        "startChar": 17,
+        "endLine": 27,
+        "endChar": 35
+      },
+      "revId": "4caf3043aa739093fdb54d8cc0b67063a4685f28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

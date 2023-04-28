@@ -153,6 +153,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ae4465e_67e7c00e",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-04-28T09:30:17Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "31baf772_7470d666",
+      "revId": "9b5cfddc887c2dd93367c5f379aa814ffcacebb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ede2dca5_25859f0f",
@@ -184,6 +202,24 @@
       "side": 1,
       "message": "Well these tests now fail because of how I changed the implementation, so I believe they are part of this change.\n\nI agree that they seem to be testing too many things in one go, but yes, it would be a separate use case.\n\nWDYT, Shall I still add a test for this specific use case?",
       "parentUuid": "ede2dca5_25859f0f",
+      "revId": "9b5cfddc887c2dd93367c5f379aa814ffcacebb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c50d0d8_0a4955ac",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-04-28T09:30:17Z",
+      "side": 1,
+      "message": "are the test failing? Then I dont know what I am reviewing to be honest. you need to fix them first and we should review later.",
+      "parentUuid": "617d4520_5d8e1265",
       "revId": "9b5cfddc887c2dd93367c5f379aa814ffcacebb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

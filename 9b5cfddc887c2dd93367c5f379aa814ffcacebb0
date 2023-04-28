@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f2bccad_e1d850ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-04-28T09:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44613552_c1cf7f0a",
+      "revId": "9b5cfddc887c2dd93367c5f379aa814ffcacebb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "745deb78_602e9935",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-04-28T09:09:46Z",
       "side": 1,
       "message": "The format is `Bug: Issue 16835` and it goes before the `Change-Id`",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 10
+      },
+      "revId": "9b5cfddc887c2dd93367c5f379aa814ffcacebb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e05e77a5_c16f488e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-04-28T09:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "745deb78_602e9935",
       "range": {
         "startLine": 13,
         "startChar": 0,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6089a1c3_531be601",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-04-28T09:56:23Z",
+      "side": 1,
+      "message": "Does Gerrit ever set WEB_BROWSER to the user accessPath? I can\u0027t find where it is set.",
+      "range": {
+        "startLine": 671,
+        "startChar": 11,
+        "endLine": 671,
+        "endChar": 62
+      },
+      "revId": "82737dfc4a27b21f357e0b7d1c4935cb8452ce29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -159,6 +159,24 @@
       "parentUuid": "66d8d70e_a2d1b0e6",
       "revId": "ce718fa2aeba94c8e29bca8fc6e7097da7090548",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8abfef4e_8faeefba",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-04-28T09:09:46Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "1482bb14_8c65fec7",
+      "revId": "ce718fa2aeba94c8e29bca8fc6e7097da7090548",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

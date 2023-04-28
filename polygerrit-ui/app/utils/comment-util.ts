@@ -476,13 +476,17 @@ export function hasUserSuggestion(comment: Comment) {
   return comment.message?.includes(USER_SUGGESTION_START_PATTERN) ?? false;
 }
 
+export function getUserSuggestionFromString(content: string) {
+  const start =
+    content.indexOf(USER_SUGGESTION_START_PATTERN) +
+    USER_SUGGESTION_START_PATTERN.length;
+  const end = content.indexOf('\n```', start);
+  return content.substring(start, end);
+}
+
 export function getUserSuggestion(comment: Comment) {
   if (!comment.message) return;
-  const start =
-    comment.message.indexOf(USER_SUGGESTION_START_PATTERN) +
-    USER_SUGGESTION_START_PATTERN.length;
-  const end = comment.message.indexOf('\n```', start);
-  return comment.message.substring(start, end);
+  return getUserSuggestionFromString(comment.message);
 }
 
 export function getContentInCommentRange(

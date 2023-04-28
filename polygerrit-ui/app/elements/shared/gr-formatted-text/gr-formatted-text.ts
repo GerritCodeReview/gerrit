@@ -21,7 +21,10 @@ import '../gr-account-chip/gr-account-chip';
 import '../gr-user-suggestion-fix/gr-user-suggestion-fix';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {getAppContext} from '../../../services/app-context';
-import {USER_SUGGESTION_INFO_STRING} from '../../../utils/comment-util';
+import {
+  getUserSuggestionFromString,
+  USER_SUGGESTION_INFO_STRING,
+} from '../../../utils/comment-util';
 
 /**
  * This element optionally renders markdown and also applies some regex
@@ -300,7 +303,12 @@ export class GrFormattedText extends LitElement {
   private convertCodeToSuggestions() {
     for (const userSuggestionMark of this.renderRoot.querySelectorAll('mark')) {
       const userSuggestion = document.createElement('gr-user-suggestion-fix');
-      userSuggestion.textContent = userSuggestionMark.textContent ?? '';
+      // Temporary workaround for bug - tabs replacement
+      if (this.content.includes('\t')) {
+        userSuggestion.textContent = getUserSuggestionFromString(this.content);
+      } else {
+        userSuggestion.textContent = userSuggestionMark.textContent ?? '';
+      }
       userSuggestionMark.parentNode?.replaceChild(
         userSuggestion,
         userSuggestionMark

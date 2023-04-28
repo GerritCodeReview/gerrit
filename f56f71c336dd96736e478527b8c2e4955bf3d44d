@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cafe8ae_7fb11f9e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-28T07:39:31Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "f56f71c336dd96736e478527b8c2e4955bf3d44d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1c0593c_6dabf7a7",
@@ -43,6 +60,29 @@
         "startChar": 0,
         "endLine": 221,
         "endChar": 35
+      },
+      "revId": "f56f71c336dd96736e478527b8c2e4955bf3d44d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fb114ca_0f16a079",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-04-28T07:39:31Z",
+      "side": 1,
+      "message": "Nice cleanup :)",
+      "range": {
+        "startLine": 1287,
+        "startChar": 6,
+        "endLine": 1294,
+        "endChar": 29
       },
       "revId": "f56f71c336dd96736e478527b8c2e4955bf3d44d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

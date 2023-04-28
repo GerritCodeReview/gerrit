@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44613552_c1cf7f0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-04-28T08:58:01Z",
+      "side": 1,
+      "message": "I think now you have to update the commit message.",
+      "revId": "9b5cfddc887c2dd93367c5f379aa814ffcacebb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86dab824_2b76b4ec",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-04-28T08:58:01Z",
+      "side": 1,
+      "message": "this line is unused: it looks that you need to run `google-java-format`",
+      "revId": "9b5cfddc887c2dd93367c5f379aa814ffcacebb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f38e94e4_3f3c8a9c",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-04-28T08:58:01Z",
+      "side": 1,
+      "message": "Did not Luca proposed to be `Http Status 400` and message: `INVALID REVIEWER`?",
+      "revId": "9b5cfddc887c2dd93367c5f379aa814ffcacebb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ede2dca5_25859f0f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-04-28T08:58:01Z",
+      "side": 1,
+      "message": "This is not part of this change but it looks that these tests are testing too many things. Maybe we could create a card to split the tests per use cases. It would be much easy to reason about that.",
+      "revId": "9b5cfddc887c2dd93367c5f379aa814ffcacebb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

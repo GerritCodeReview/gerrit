@@ -12,7 +12,6 @@ import './gr-diff-builder-element';
 import {stubBaseUrl, waitUntil} from '../../../test/test-utils';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
-import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side';
 import {
   DiffContent,
   DiffLayer,
@@ -21,26 +20,23 @@ import {
   Side,
 } from '../../../api/diff';
 import {stubRestApi} from '../../../test/test-utils';
-import {GrDiffBuilderLegacy} from './gr-diff-builder-legacy';
 import {waitForEventOnce} from '../../../utils/event-util';
 import {GrDiffBuilderElement} from './gr-diff-builder-element';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {KeyLocations} from '../gr-diff-processor/gr-diff-processor';
-import {BlameInfo} from '../../../types/common';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrDiffRow} from './gr-diff-row';
+import {GrDiffBuilderLit} from './gr-diff-builder-lit';
 
 const DEFAULT_PREFS = createDefaultDiffPrefs();
 
 suite('gr-diff-builder tests', () => {
   let element: GrDiffBuilderElement;
-  let builder: GrDiffBuilderLegacy;
+  let builder: GrDiffBuilderLit;
   let diffTable: HTMLTableElement;
 
-  const LINE_BREAK_HTML = '<span class="gr-diff br"></span>';
-
   const setBuilderPrefs = (prefs: Partial<DiffPreferencesInfo>) => {
-    builder = new GrDiffBuilderSideBySide(
+    builder = new GrDiffBuilderLit(
       createEmptyDiff(),
       {...createDefaultDiffPrefs(), ...prefs},
       diffTable
@@ -63,15 +59,6 @@ suite('gr-diff-builder tests', () => {
     setBuilderPrefs({});
   });
 
-  test('line_length applied with line break if line_wrapping is false', () => {
-    setBuilderPrefs({line_wrapping: false, tab_size: 4, line_length: 50});
-    const text = 'a'.repeat(51);
-    const expected = 'a'.repeat(50) + LINE_BREAK_HTML + 'a';
-    const result = builder.createTextEl(null, line(text)).firstElementChild
-      ?.firstElementChild?.innerHTML;
-    assert.equal(result, expected);
-  });
-
   [DiffViewMode.UNIFIED, DiffViewMode.SIDE_BY_SIDE].forEach(mode => {
     test(`line_length used for regular files under ${mode}`, () => {
       element.path = '/a.txt';
@@ -82,7 +69,7 @@ suite('gr-diff-builder tests', () => {
         tab_size: 4,
         line_length: 50,
       };
-      builder = element.getDiffBuilder() as GrDiffBuilderLegacy;
+      builder = element.getDiffBuilder() as GrDiffBuilderLit;
       assert.equal(builder._prefs.line_length, 50);
     });
 
@@ -95,24 +82,9 @@ suite('gr-diff-builder tests', () => {
         tab_size: 4,
         line_length: 50,
       };
-      builder = element.getDiffBuilder() as GrDiffBuilderLegacy;
+      builder = element.getDiffBuilder() as GrDiffBuilderLit;
       assert.equal(builder._prefs.line_length, 72);
     });
-  });
-
-  test('createTextEl linewrap with tabs', () => {
-    setBuilderPrefs({tab_size: 4, line_length: 10});
-    const text = '\t'.repeat(7) + '!';
-    const el = builder.createTextEl(null, line(text));
-    assert.equal(el.innerText, text);
-    // With line length 10 and tab size 4, there should be a line break
-    // after every two tabs.
-    const newlineEl = el.querySelector('.contentText .br');
-    assert.isOk(newlineEl);
-    assert.equal(
-      el.querySelector('.contentText .tab:nth-child(2)')?.nextSibling,
-      newlineEl
-    );
   });
 
   test('_handlePreferenceError throws with invalid preference', () => {
@@ -553,95 +525,6 @@ suite('gr-diff-builder tests', () => {
     });
   });
 
-  suite('rendering', () => {
-    let content: DiffContent[];
-    let outputEl: HTMLTableElement;
-    let keyLocations: KeyLocations;
-    let addColumnsStub: sinon.SinonStub;
-    let dispatchStub: sinon.SinonStub;
-    let builder: GrDiffBuilderSideBySide;
-
-    setup(() => {
-      const prefs = {...DEFAULT_PREFS};
-      content = [
-        {
-          a: ['all work and no play make andybons a dull boy'],
-          b: ['elgoog elgoog elgoog'],
-        },
-        {
-          ab: [
-            'Non eram nescius, Brute, cum, quae summis ingeniis ',
-            'exquisitaque doctrina philosophi Graeco sermone tractavissent',
-          ],
-        },
-      ];
-      dispatchStub = sinon.stub(diffTable, 'dispatchEvent');
-      outputEl = element.diffElement!;
-      keyLocations = {left: {}, right: {}};
-      sinon.stub(element, 'getDiffBuilder').callsFake(() => {
-        builder = new GrDiffBuilderSideBySide(
-          {...createEmptyDiff(), content},
-          prefs,
-          outputEl
-        );
-        addColumnsStub = sinon.stub(builder, 'addColumns');
-        builder.buildSectionElement = function (group) {
-          const section = document.createElement('stub');
-          section.style.display = 'block';
-          section.textContent = group.lines.reduce(
-            (acc, line) => acc + line.text,
-            ''
-          );
-          return section;
-        };
-        return builder;
-      });
-      element.diff = {...createEmptyDiff(), content};
-      element.prefs = prefs;
-      element.render(keyLocations);
-    });
-
-    test('addColumns is called', () => {
-      assert.isTrue(addColumnsStub.called);
-    });
-
-    test('getGroupsByLineRange one line', () => {
-      const section = outputEl.querySelector<HTMLElement>(
-        'stub:nth-of-type(3)'
-      );
-      const groups = builder.getGroupsByLineRange(1, 1, Side.LEFT);
-      assert.equal(groups.length, 1);
-      assert.strictEqual(groups[0].element, section);
-    });
-
-    test('getGroupsByLineRange over diff', () => {
-      const section = [
-        outputEl.querySelector<HTMLElement>('stub:nth-of-type(3)'),
-        outputEl.querySelector<HTMLElement>('stub:nth-of-type(4)'),
-      ];
-      const groups = builder.getGroupsByLineRange(1, 2, Side.LEFT);
-      assert.equal(groups.length, 2);
-      assert.strictEqual(groups[0].element, section[0]);
-      assert.strictEqual(groups[1].element, section[1]);
-    });
-
-    test('render-start and render-content are fired', async () => {
-      await waitUntil(() => dispatchStub.callCount >= 1);
-      let firedEventTypes = dispatchStub.getCalls().map(c => c.args[0].type);
-      assert.include(firedEventTypes, 'render-start');
-
-      await waitUntil(() => dispatchStub.callCount >= 2);
-      firedEventTypes = dispatchStub.getCalls().map(c => c.args[0].type);
-      assert.include(firedEventTypes, 'render-content');
-    });
-
-    test('cancel cancels the processor', () => {
-      const processorCancelStub = sinon.stub(element.processor, 'cancel');
-      element.cleanup();
-      assert.isTrue(processorCancelStub.called);
-    });
-  });
-
   suite('context hiding and expanding', () => {
     let dispatchStub: sinon.SinonStub;
 
@@ -745,103 +628,6 @@ suite('gr-diff-builder tests', () => {
       await element.untilGroupsRendered();
       const firedEventTypes = dispatchStub.getCalls().map(c => c.args[0].type);
       assert.include(firedEventTypes, 'render-content');
-    });
-  });
-
-  suite('blame', () => {
-    let mockBlame: BlameInfo[];
-
-    setup(() => {
-      mockBlame = [
-        {
-          author: 'test-author',
-          time: 314,
-          commit_msg: 'test-commit-message',
-          id: 'commit 1',
-          ranges: [
-            {start: 1, end: 2},
-            {start: 10, end: 16},
-          ],
-        },
-        {
-          author: 'test-author',
-          time: 314,
-          commit_msg: 'test-commit-message',
-          id: 'commit 2',
-          ranges: [
-            {start: 4, end: 10},
-            {start: 17, end: 32},
-          ],
-        },
-      ];
-    });
-
-    test('setBlame attempts to render each blamed line', () => {
-      const getBlameStub = sinon
-        .stub(builder, 'getBlameTdByLine')
-        .returns(undefined);
-      builder.setBlame(mockBlame);
-      assert.equal(getBlameStub.callCount, 32);
-    });
-
-    test('getBlameCommitForBaseLine', () => {
-      sinon.stub(builder, 'getBlameTdByLine').returns(undefined);
-      builder.setBlame(mockBlame);
-      assert.isOk(builder.getBlameCommitForBaseLine(1));
-      assert.equal(builder.getBlameCommitForBaseLine(1)?.id, 'commit 1');
-
-      assert.isOk(builder.getBlameCommitForBaseLine(11));
-      assert.equal(builder.getBlameCommitForBaseLine(11)?.id, 'commit 1');
-
-      assert.isOk(builder.getBlameCommitForBaseLine(32));
-      assert.equal(builder.getBlameCommitForBaseLine(32)?.id, 'commit 2');
-
-      assert.isUndefined(builder.getBlameCommitForBaseLine(33));
-    });
-
-    test('getBlameCommitForBaseLine w/o blame returns null', () => {
-      assert.isUndefined(builder.getBlameCommitForBaseLine(1));
-      assert.isUndefined(builder.getBlameCommitForBaseLine(11));
-      assert.isUndefined(builder.getBlameCommitForBaseLine(31));
-    });
-
-    test('createBlameCell', () => {
-      const mockBlameInfo = {
-        time: 1576155200,
-        id: '1234567890',
-        author: 'Clark Kent',
-        commit_msg: 'Testing Commit',
-        ranges: [{start: 4, end: 10}],
-      };
-      const getBlameStub = sinon
-        .stub(builder, 'getBlameCommitForBaseLine')
-        .returns(mockBlameInfo);
-      const line = new GrDiffLine(GrDiffLineType.BOTH);
-      line.beforeNumber = 3;
-      line.afterNumber = 5;
-
-      const result = builder.createBlameCell(line.beforeNumber);
-
-      assert.isTrue(getBlameStub.calledWithExactly(3));
-      assert.equal(result.getAttribute('data-line-number'), '3');
-      assert.dom.equal(
-        result,
-        /* HTML */ `
-          <span class="gr-diff">
-            <a class="blameDate gr-diff" href="/r/q/1234567890"> 12/12/2019 </a>
-            <span class="blameAuthor gr-diff">Clark</span>
-            <gr-hovercard class="gr-diff">
-              <span class="blameHoverCard gr-diff">
-                Commit 1234567890<br />
-                Author: Clark Kent<br />
-                Date: 12/12/2019<br />
-                <br />
-                Testing Commit
-              </span>
-            </gr-hovercard>
-          </span>
-        `
-      );
     });
   });
 });

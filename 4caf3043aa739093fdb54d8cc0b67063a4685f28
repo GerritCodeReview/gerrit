@@ -22,6 +22,30 @@
       },
       "revId": "4caf3043aa739093fdb54d8cc0b67063a4685f28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12fdb937_05977b79",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeatures.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-04-28T14:24:02Z",
+      "side": 1,
+      "message": "Thank you for suggesting!\n\nProject is not always available for the experiment. I think the method is easily discoverabale for the callers, in case they consider the rollout by project name.",
+      "parentUuid": "107fac95_b35f3d7a",
+      "range": {
+        "startLine": 27,
+        "startChar": 17,
+        "endLine": 27,
+        "endChar": 35
+      },
+      "revId": "4caf3043aa739093fdb54d8cc0b67063a4685f28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

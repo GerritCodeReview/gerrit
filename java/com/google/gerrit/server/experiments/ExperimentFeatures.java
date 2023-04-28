@@ -15,6 +15,7 @@
 package com.google.gerrit.server.experiments;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.entities.Project;
 
 /**
  * Features that can be enabled/disabled on Gerrit (e. g. experiments to research new behavior in
@@ -35,6 +36,12 @@ public interface ExperimentFeatures {
    * @return if the feature is enabled.
    */
   boolean isFeatureEnabled(String featureFlag);
+
+  /**
+   * Same {@link #isFeatureEnabled}, but takes into account {@code project}, when evaluating the
+   * experiment.
+   */
+  boolean isFeatureEnabled(String featureFlag, Project.NameKey project);
 
   /**
    * Returns the names of the features that are enabled on Gerrit instance (either by default or via

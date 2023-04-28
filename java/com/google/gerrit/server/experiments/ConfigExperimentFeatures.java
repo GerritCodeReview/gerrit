@@ -15,6 +15,7 @@
 package com.google.gerrit.server.experiments;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
@@ -54,6 +55,11 @@ public class ConfigExperimentFeatures implements ExperimentFeatures {
   @Override
   public boolean isFeatureEnabled(String featureFlag) {
     return getEnabledExperimentFeatures().contains(featureFlag);
+  }
+
+  @Override
+  public boolean isFeatureEnabled(String featureFlag, Project.NameKey project) {
+    return isFeatureEnabled(featureFlag);
   }
 
   @Override

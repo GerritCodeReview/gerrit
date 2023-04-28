@@ -317,10 +317,18 @@ public class RebaseChain
 
   private List<PatchSetData> getChainForCurrentPatchSet(ChangeResource rsrc)
       throws PermissionBackendException, IOException {
-    return Lists.reverse(
-        getRelatedChangesUtil.getAncestors(
-            changeDataFactory.create(rsrc.getNotes()),
-            patchSetUtil.current(rsrc.getNotes()),
-            true));
+    List<PatchSetData> ancestors =
+        Lists.reverse(
+            getRelatedChangesUtil.getAncestors(
+                changeDataFactory.create(rsrc.getNotes()),
+                patchSetUtil.current(rsrc.getNotes()),
+                true));
+    int eldestOpenAncestor = 0;
+    for (PatchSetData ps : ancestors) {
+      if (ps.data().change().isMerged()) {
+        eldestOpenAncestor++;
+      }
+    }
+    return ancestors.subList(eldestOpenAncestor, ancestors.size());
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "897399bd_682e6332",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-04-28T12:50:16Z",
+      "side": 1,
+      "message": "Adding @Patrick to reviewers as author of the differential cache loader.",
+      "revId": "224cc82b29c711784edf32f7a6b19f6e392e0998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

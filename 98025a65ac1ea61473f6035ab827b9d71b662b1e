@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcc5fa62_55e68652",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-04-28T07:57:24Z",
+      "side": 1,
+      "message": "Works fine for me:\n\n```\n➜  latest ./bin/gerrit.sh run\nRunning Gerrit Code Review:\nfatal: Gerrit Code Review requires Java 11.0.10 or later\n       (trying to run on Java 11.0.2+9)\n➜  latest\n```",
+      "revId": "98025a65ac1ea61473f6035ab827b9d71b662b1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

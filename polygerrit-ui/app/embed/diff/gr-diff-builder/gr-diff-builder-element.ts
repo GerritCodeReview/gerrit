@@ -12,6 +12,7 @@ import {
   ImageDiffBuilder,
   DiffContextExpandedEventDetail,
   isImageDiffBuilder,
+  isBinaryDiffBuilder,
 } from './gr-diff-builder';
 import {GrDiffBuilderImage} from './gr-diff-builder-image';
 import {GrDiffBuilderBinary} from './gr-diff-builder-binary';
@@ -211,6 +212,9 @@ export class GrDiffBuilderElement implements GroupConsumer {
         .then(async () => {
           if (isImageDiffBuilder(this.builder)) {
             this.builder.renderImageDiff();
+          }
+          if (isBinaryDiffBuilder(this.builder)) {
+            this.builder.renderBinaryDiff();
           }
           await this.untilGroupsRendered();
           fire(this.diffElement, 'render-content', {});
@@ -437,7 +441,6 @@ export class GrDiffBuilderElement implements GroupConsumer {
         this.useNewImageDiffUi
       );
     } else if (this.diff.binary) {
-      // If the diff is binary, but not an image.
       return new GrDiffBuilderBinary(this.diff, localPrefs, this.diffElement);
     } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
       this.renderPrefs = {

@@ -222,6 +222,24 @@
       "parentUuid": "617d4520_5d8e1265",
       "revId": "9b5cfddc887c2dd93367c5f379aa814ffcacebb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "372cbe3e_f6e75163",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-04-28T09:32:15Z",
+      "side": 1,
+      "message": "Sorry, I didn\u0027t say that well, no, they were failing, this line is needed to fix them.",
+      "parentUuid": "5c50d0d8_0a4955ac",
+      "revId": "9b5cfddc887c2dd93367c5f379aa814ffcacebb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1614,7 +1614,7 @@ public class RestApiServlet extends HttpServlet {
 
   private void checkUserSession(HttpServletRequest req) throws AuthException {
     CurrentUser user = globals.currentUser.get();
-    if (isRead(req)) {
+    if (isRead(req) && user.getAccessPath().equals(AccessPath.UNKNOWN)) {
       user.setAccessPath(AccessPath.REST_API);
     } else if (user instanceof AnonymousUser) {
       throw new AuthException("Authentication required");

@@ -46,6 +46,7 @@ import com.google.gerrit.gpg.Fingerprint;
 import com.google.gerrit.gpg.GerritPublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyChecker;
 import com.google.gerrit.gpg.PublicKeyStore;
+import com.google.gerrit.gpg.PublicKeyStoreUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -175,7 +176,8 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
     for (String id : input.delete) {
       try {
         ExternalId gpgKeyExtId = GpgKeys.findGpgKey(id, existingExtIds);
-        fingerprints.put(gpgKeyExtId, new Fingerprint(GpgKeys.parseFingerprint(gpgKeyExtId)));
+        fingerprints.put(
+            gpgKeyExtId, new Fingerprint(PublicKeyStoreUtil.parseFingerprint(gpgKeyExtId)));
       } catch (ResourceNotFoundException e) {
         // Skip removal.
       }

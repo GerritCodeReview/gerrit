@@ -723,28 +723,6 @@ suite('gr-file-list tests', () => {
       element.basePatchNum = PARENT;
       element.patchNum = 1 as RevisionPatchSetNum;
       assert.equal(
-        element.computeDraftsString({
-          __path: 'unresolved.file',
-          size: 0,
-          size_delta: 0,
-        }),
-        '1 draft'
-      );
-
-      element.basePatchNum = 1 as BasePatchSetNum;
-      element.patchNum = 2 as RevisionPatchSetNum;
-      assert.equal(
-        element.computeDraftsString({
-          __path: 'unresolved.file',
-          size: 0,
-          size_delta: 0,
-        }),
-        '1 draft'
-      );
-
-      element.basePatchNum = PARENT;
-      element.patchNum = 1 as RevisionPatchSetNum;
-      assert.equal(
         element.computeDraftsStringMobile({
           __path: 'unresolved.file',
           size: 0,
@@ -789,28 +767,6 @@ suite('gr-file-list tests', () => {
       element.basePatchNum = PARENT;
       element.patchNum = 1 as RevisionPatchSetNum;
       assert.equal(
-        element.computeDraftsString({
-          __path: 'myfile.txt',
-          size: 0,
-          size_delta: 0,
-        }),
-        ''
-      );
-
-      element.basePatchNum = 1 as BasePatchSetNum;
-      element.patchNum = 2 as RevisionPatchSetNum;
-      assert.equal(
-        element.computeDraftsString({
-          __path: 'myfile.txt',
-          size: 0,
-          size_delta: 0,
-        }),
-        ''
-      );
-
-      element.basePatchNum = PARENT;
-      element.patchNum = 1 as RevisionPatchSetNum;
-      assert.equal(
         element.computeDraftsStringMobile({
           __path: 'myfile.txt',
           size: 0,
@@ -845,28 +801,6 @@ suite('gr-file-list tests', () => {
       element.patchNum = 2 as RevisionPatchSetNum;
       assert.equal(
         element.computeCommentsStringMobile({
-          __path: 'file_added_in_rev2.txt',
-          size: 0,
-          size_delta: 0,
-        }),
-        ''
-      );
-
-      element.basePatchNum = PARENT;
-      element.patchNum = 1 as RevisionPatchSetNum;
-      assert.equal(
-        element.computeDraftsString({
-          __path: 'file_added_in_rev2.txt',
-          size: 0,
-          size_delta: 0,
-        }),
-        ''
-      );
-
-      element.basePatchNum = 1 as BasePatchSetNum;
-      element.patchNum = 2 as RevisionPatchSetNum;
-      assert.equal(
-        element.computeDraftsString({
           __path: 'file_added_in_rev2.txt',
           size: 0,
           size_delta: 0,
@@ -916,28 +850,6 @@ suite('gr-file-list tests', () => {
           size_delta: 0,
         }),
         '3c'
-      );
-
-      element.basePatchNum = PARENT;
-      element.patchNum = 1 as RevisionPatchSetNum;
-      assert.equal(
-        element.computeDraftsString({
-          __path: '/COMMIT_MSG',
-          size: 0,
-          size_delta: 0,
-        }),
-        '2 drafts'
-      );
-
-      element.basePatchNum = 1 as BasePatchSetNum;
-      element.patchNum = 2 as RevisionPatchSetNum;
-      assert.equal(
-        element.computeDraftsString({
-          __path: '/COMMIT_MSG',
-          size: 0,
-          size_delta: 0,
-        }),
-        '2 drafts'
       );
 
       element.basePatchNum = PARENT;

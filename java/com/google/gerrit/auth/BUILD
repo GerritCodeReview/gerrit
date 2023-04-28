@@ -12,8 +12,6 @@ java_library(
     srcs = glob(
         ["**/*.java"],
     ),
-    resource_strip_prefix = "resources",
-    resources = ["//resources/com/google/gerrit/server"],
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/common:annotations",

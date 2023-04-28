@@ -23,7 +23,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
-import com.google.gerrit.server.ProjectUtil;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;

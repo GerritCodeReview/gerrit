@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "88a434fb_d058c224",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1077393
+      },
+      "writtenOn": "2023-04-28T07:17:13Z",
+      "side": 1,
+      "message": "I started to write this new message before you answered so this is not direct answer to your message but your proposal is pretty close to what I was going to propose.\n\nAnd now that I started to think about this, I do prefer using UTF-8 because we already might have Gerrit users whose name can not be presented in ISO-8859-1 :)\n\nAlso, even if the original change caused regression for us, reverting this will cause regression for the original author.\n\nSo the above in mind, you most likely don\u0027t want to break things for current users at least without a way to make their setup work easily (without patching Gerrit or plugins).\n\nSo the optimal solution would be a way to transfer the strings in a way that would support unicode.\n\nFor SAML plugin (and other plugins) this could be achieved by not using HTTP headers to transfer display name from plugin side to Gerrit. The downside of this option is that it requires big changes to SAML plugin (and maybe also to Gerrit side) and this does not solve things for HTTP authentication.\n\nOne option is the one that the original author did and just use (and assume) that display name HTTP header is encoded in UTF-8. The downside is that some HTTP auth users using standard ISO-8859-1 will have issues. Though there apparently has not been any reports about this so this is pretty much no issue. For now.. maybe in the future someone using HTTP authentication would be bitten by this.\n\nOne way to fix this would be to introduce display name encoding setting on Gerrit side and on SAML plugin side. The default would be ISO-8859-1. This would break users who assume the current implementation but they would have a trivial way to fix the issue: just add proper configuration variable. This would also fix HTTP auth users; they could set the same encoding on Gerrit side that they use on the other side. The downside is that now HTTP headers might contain UTF-8 strings which might cause issues.\n\nTo improve the above situation, if any other encoding that the standard ISO-8859-1 is used, the string would be base64 encoded. This way HTTP headers would only contain valid ISO-8859-1 characters but there would be support for unicode.\n\nTo be as backward-compatible as possible, you could have, for example, the following values for the configuration variable:\n\n- utf-8: base64 encoded UTF-8 string in the header field (basically ascii / iso-8859-1 string on HTTP header level)\n- iso-8859-1: normal ISO-8859-1 encoded string\n- raw-utf-8: the current implementation where the UTF-8 string is on HTTP level\n\nTo clarify the above, my last name `Rönkkö` which is `0x52 0xf6 0x6e 0x6b 0x6b 0xf6` in ISO-8859-1 and `0x52 0xc3 0xb6 0x6b 0x6b 0xc3 0xb6` in UTF-8. Basically the difference is `ö`: `0xf6` (ISO-8859-1) and `0xc3 0xb6` in UTF-8:\n\n- utf-8: base64 encoded UTF-8 string `\\x55\\x73\\x4f\\x32\\x62\\x6d\\x74\\x72\\x77\\x37\\x59\\x3d` (which is `UsO2bmtrw7Y\u003d` when interpreted as ISO-8859-1)\n- iso-8859-1: ISO-8859-1 encoded string: `\\x52\\xf6\\x6e\\x6b\\x6b\\xf6`\n- raw-utf-8: UTF-8 encoded string: `\\x52\\xc3\\xb6\\x6e\\x6b\\x6b\\xc3\\xb6`\n\n\nSo you could select either ISO-8859-1 as default and allow users assuming UTF-8 to just manually configure Gerrit (and SAML plugin) to not break things.\n\nOr you could use `raw-utf-8` as default not breaking any current users (as this is the current behaviour) and just deprecate that value immediately; log a warning / error describing the issue and change the default to ISO-8859-1 in the following Gerrit release (the release after where the default `raw-utf-8` was introduced). And maybe even drop the raw-utf-8 option in the release following the one changing the default to iso-8859-1",
+      "parentUuid": "90c17003_42deda20",
+      "range": {
+        "startLine": 11,
+        "startChar": 19,
+        "endLine": 14,
+        "endChar": 36
+      },
+      "revId": "ac9f17022840509e7111430b0dd041e68feab0c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "31e1f8f2_542fadcd",

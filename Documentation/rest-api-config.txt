@@ -2089,10 +2089,11 @@ The state of the task, can be `DONE`, `CANCELLED`, `RUNNING`, `READY`,
 |`start_time` ||The start time of the task.
 |`delay`      ||The remaining delay of the task.
 |`command`    ||The command of the task.
+|`queue_name` ||The work queue the task is associated with.
 |`remote_name`|optional|
 The remote name. May only be set for tasks that are associated with a
 project.
-|`project`    |optional|The project the task is associated with.
+|`project_name`    |optional|The project the task is associated with.
 |====================================
 
 [[task-summary-info]]

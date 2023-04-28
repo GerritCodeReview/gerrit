@@ -25,8 +25,6 @@ junit_tests(
         ["**/*.java"],
         exclude = CUSTOM_TRUTH_SUBJECTS,
     ),
-    resource_strip_prefix = "resources",
-    resources = ["//resources/com/google/gerrit/server"],
     tags = ["no_windows"],
     visibility = ["//visibility:public"],
     runtime_deps = [

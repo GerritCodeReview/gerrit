@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b686b41_6c7cdc15",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-04-29T05:01:36Z",
+      "side": 1,
+      "message": "Conflict resolution in the frontend changes should be re-checked.",
+      "revId": "660a5411cf3ea33bc6d8b97ed644c840fd4453e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -19,4 +19,12 @@ public interface ThreadMXBeanInterface {
   long getCurrentThreadUserTime();
 
   long getCurrentThreadAllocatedBytes();
+
+  boolean supportsAllocatedBytes();
+
+  long getThreadAllocatedBytes(long threadId);
+
+  long[] getAllThreadsAllocatedBytes(long[] threadIds);
+
+  long[] getAllThreadIds();
 }

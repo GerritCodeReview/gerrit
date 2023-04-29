@@ -21,7 +21,6 @@ java_library(
         "//java/com/google/gerrit/json",
         "//java/com/google/gerrit/metrics",
         "//java/com/google/gerrit/server",
-        "//java/com/google/gerrit/server:project_util",
         "//java/com/google/gerrit/server/ioutil",
         "//java/com/google/gerrit/server/logging",
         "//java/com/google/gerrit/server/util/time",

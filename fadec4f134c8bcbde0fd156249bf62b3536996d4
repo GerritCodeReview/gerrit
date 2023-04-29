@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93cbbecd_ac055c69",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-04-29T04:27:58Z",
+      "side": 1,
+      "message": "This merge should be re-done because the conflict resolution on stable-3.7 was wrong.",
+      "revId": "fadec4f134c8bcbde0fd156249bf62b3536996d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

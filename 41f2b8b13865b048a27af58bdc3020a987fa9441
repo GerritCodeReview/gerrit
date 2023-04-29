@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7883c24c_52fd15ce",
+        "filename": "java/com/google/gerrit/metrics/proc/ThreadMXBeanSun.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-04-29T04:25:03Z",
+      "side": 0,
+      "message": "Acknowledged",
+      "parentUuid": "98d95bea_7a601ea4",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 67
+      },
+      "revId": "41f2b8b13865b048a27af58bdc3020a987fa9441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e7bcc04_0c50596b",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-04-29T04:15:02Z",
       "side": 0,
       "message": "The above chunk should have been kept.",
+      "range": {
+        "startLine": 46,
+        "startChar": 2,
+        "endLine": 64,
+        "endChar": 65
+      },
+      "revId": "41f2b8b13865b048a27af58bdc3020a987fa9441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49ef0fff_97db35e7",
+        "filename": "java/com/google/gerrit/metrics/proc/ThreadMXBeanSun.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-04-29T04:25:03Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "6e7bcc04_0c50596b",
       "range": {
         "startLine": 46,
         "startChar": 2,

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98d95bea_7a601ea4",
+        "filename": "java/com/google/gerrit/metrics/proc/ThreadMXBeanSun.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-04-29T04:15:02Z",
+      "side": 0,
+      "message": "This probably shouldn\u0027t have been changed in the original change 360221. See my comment there.",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 67
+      },
+      "revId": "41f2b8b13865b048a27af58bdc3020a987fa9441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e7bcc04_0c50596b",
+        "filename": "java/com/google/gerrit/metrics/proc/ThreadMXBeanSun.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-04-29T04:15:02Z",
+      "side": 0,
+      "message": "The above chunk should have been kept.",
+      "range": {
+        "startLine": 46,
+        "startChar": 2,
+        "endLine": 64,
+        "endChar": 65
+      },
+      "revId": "41f2b8b13865b048a27af58bdc3020a987fa9441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d33dd6b0_56f2e242",
+        "filename": "java/com/google/gerrit/metrics/proc/ThreadMXBeanSun.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-04-29T04:09:10Z",
+      "side": 1,
+      "message": "In change 335625, that was included on stable-3.7, this was fixed and replaced with: `sys.getCurrentThreadAllocatedBytes()`.\n\nSo, either the code should have been kept as is, or the TODO comment should have been removed.\n\nWe could restore the code and cherry-pick change 335625 to stable-3.6 branch.\n\nAlso note, that change 370835 is also related where the minimum Java version is checked to be 11.0.10. If the method getCurrentThreadAllocatedBytes doesn\u0027t used any more, then this restriction doesn\u0027t apply any more and we could/should downgrade the check in change 370835 from 11.0.10 to just 11.0.",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 67
+      },
+      "revId": "ad6c87732b3a8bab3ecf6e04e39197aaaeaf62b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

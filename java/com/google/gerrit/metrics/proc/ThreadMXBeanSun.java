@@ -37,4 +37,24 @@ class ThreadMXBeanSun implements ThreadMXBeanInterface {
   public long getCurrentThreadAllocatedBytes() {
     return sys.getCurrentThreadAllocatedBytes();
   }
+
+  @Override
+  public boolean supportsAllocatedBytes() {
+    return true;
+  }
+
+  @Override
+  public long getThreadAllocatedBytes(long threadId) {
+    return sys.getThreadAllocatedBytes(threadId);
+  }
+
+  @Override
+  public long[] getAllThreadsAllocatedBytes(long[] threadIds) {
+    return sys.getThreadAllocatedBytes(threadIds);
+  }
+
+  @Override
+  public long[] getAllThreadIds() {
+    return sys.getAllThreadIds();
+  }
 }

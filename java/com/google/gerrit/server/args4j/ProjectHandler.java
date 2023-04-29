@@ -18,8 +18,8 @@ import static com.google.gerrit.util.cli.Localizable.localizable;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.ProjectUtil;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;

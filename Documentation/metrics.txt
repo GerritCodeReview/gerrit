@@ -131,6 +131,7 @@ setting.
 * `proc/cpu/usage`: CPU time used by the Gerrit process.
 * `proc/cpu/system_load`: System load average for the last minute.
 * `proc/num_open_fds`: Number of open file descriptors.
+* `proc/jvm/memory/allocated`: Total memory allocated by all threads since Gerrit process started.
 * `proc/jvm/memory/heap_committed`: Amount of memory guaranteed for user objects.
 * `proc/jvm/memory/heap_used`: Amount of memory holding user objects.
 * `proc/jvm/memory/non_heap_committed`: Amount of memory guaranteed for classes,

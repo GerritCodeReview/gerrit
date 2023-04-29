@@ -14,21 +14,11 @@ TESTING_SRC = [
     "account/externalids/testing/ExternalIdTestUtil.java",
 ]
 
-PROJECT_UTIL_SRC = [
-    "ProjectUtil.java",
-]
-
 PROLOG_SRC = ["rules/prolog/*.java"]
 
 java_library(
     name = "constants",
     srcs = CONSTANTS_SRC,
-    visibility = ["//visibility:public"],
-)
-
-java_library(
-    name = "project_util",
-    srcs = PROJECT_UTIL_SRC,
     visibility = ["//visibility:public"],
 )
 
@@ -43,14 +33,13 @@ java_library(
     srcs = glob(
         ["**/*.java"],
         exclude = CONSTANTS_SRC + GERRIT_GLOBAL_MODULE_SRC + TESTING_SRC +
-                  PROJECT_UTIL_SRC + PROLOG_SRC,
+                  PROLOG_SRC,
     ),
     resource_strip_prefix = "resources",
     resources = ["//resources/com/google/gerrit/server"],
     visibility = ["//visibility:public"],
     deps = [
         ":constants",
-        ":project_util",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/entities",

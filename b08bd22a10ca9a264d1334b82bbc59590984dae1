@@ -51,6 +51,24 @@
       "message": "Luca, I know we are late to 3.8 release, but can we consider moving this Guice update that improved JDK 17 support to stable-3.8 branch? See also Nasser comment in change 372014.",
       "revId": "b08bd22a10ca9a264d1334b82bbc59590984dae1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49828cf4_869989cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-01T20:25:47Z",
+      "side": 1,
+      "message": "It would be nice to have JDK 17 support in 3.8, but I think it would also be ok to do and advertise in a 3.8.1 release later after this guice bump has spent some time on master. We could even consider bringing this back to 3.6 or 3.7 so that when JDK 11 goes EOL in Sep \u002723 we could advertise JDK 17 support on all stable branches.",
+      "parentUuid": "e43e1a5e_2c0d3853",
+      "revId": "b08bd22a10ca9a264d1334b82bbc59590984dae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

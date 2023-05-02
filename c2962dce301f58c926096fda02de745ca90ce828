@@ -50,6 +50,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fbcaf0a0_e6694bc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-05-02T13:42:08Z",
+      "side": 1,
+      "message": "Is it correct? It seems code uses Custom-Keyed-Value instead",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 13
+      },
+      "revId": "c2962dce301f58c926096fda02de745ca90ce828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4a096857_ed7ccfa9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 25
@@ -90,6 +113,29 @@
         "startChar": 1,
         "endLine": 26,
         "endChar": 20
+      },
+      "revId": "c2962dce301f58c926096fda02de745ca90ce828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8229a63f_ebfa53cc",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-05-02T13:42:08Z",
+      "side": 1,
+      "message": "The interface is mutable inside the immutable AutoValue. Is it possible to change it to  ImmutableEntry/ImmutableMapEntry ?",
+      "range": {
+        "startLine": 304,
+        "startChar": 25,
+        "endLine": 304,
+        "endChar": 34
       },
       "revId": "c2962dce301f58c926096fda02de745ca90ce828",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

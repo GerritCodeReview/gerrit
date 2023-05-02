@@ -63,6 +63,7 @@ Apache2.0
 * guice:guice-assistedinject
 * guice:guice-library
 * guice:guice-servlet
+* guice:jakarta-inject
 * guice:javax_inject
 * httpcomponents:httpclient
 * httpcomponents:httpcore

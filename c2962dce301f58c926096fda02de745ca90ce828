@@ -71,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f10ff8f7_23f0e67b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-02T13:45:30Z",
+      "side": 1,
+      "message": "Oops, good catch",
+      "parentUuid": "fbcaf0a0_e6694bc0",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 13
+      },
+      "revId": "c2962dce301f58c926096fda02de745ca90ce828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a096857_ed7ccfa9",
@@ -131,6 +155,30 @@
       "writtenOn": "2023-05-02T13:42:08Z",
       "side": 1,
       "message": "The interface is mutable inside the immutable AutoValue. Is it possible to change it to  ImmutableEntry/ImmutableMapEntry ?",
+      "range": {
+        "startLine": 304,
+        "startChar": 25,
+        "endLine": 304,
+        "endChar": 34
+      },
+      "revId": "c2962dce301f58c926096fda02de745ca90ce828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57af60fb_22f07264",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-02T13:45:30Z",
+      "side": 1,
+      "message": "Will do as a follow-up, thanks.",
+      "parentUuid": "8229a63f_ebfa53cc",
       "range": {
         "startLine": 304,
         "startChar": 25,

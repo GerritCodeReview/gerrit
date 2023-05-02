@@ -3,19 +3,25 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import './gr-diff-section';
+import '../gr-context-controls/gr-context-controls';
 import {
   ContentLoadNeededEventDetail,
   DiffContextExpandedExternalDetail,
+  DiffViewMode,
   RenderPreferences,
 } from '../../../api/diff';
-import {GrDiffLine, GrDiffLineType, LineNumber} from '../gr-diff/gr-diff-line';
+import {LineNumber} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup} from '../gr-diff/gr-diff-group';
-import {assert} from '../../../utils/common-util';
-import '../gr-context-controls/gr-context-controls';
 import {BlameInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
-import {DiffLayer} from '../../../types/types';
+import {DiffLayer, isDefined} from '../../../types/types';
+import {GrDiffRow} from './gr-diff-row';
+import {GrDiffSection} from './gr-diff-section';
+import {html, render} from 'lit';
+import {diffClasses} from '../gr-diff/gr-diff-utils';
+import {when} from 'lit/directives/when.js';
 
 export interface DiffContextExpandedEventDetail
   extends DiffContextExpandedExternalDetail {
@@ -85,30 +91,21 @@ export function isBinaryDiffBuilder(
 }
 
 /**
- * Base class for different diff builders, like side-by-side, unified etc.
- *
  * The builder takes GrDiffGroups, and builds the corresponding DOM elements,
  * called sections. Only the builder should add or remove sections from the
  * DOM. Callers can use the ...group() methods to modify groups and thus cause
  * rendering changes.
- *
- * TODO: Do not subclass `GrDiffBuilder`. Use composition and interfaces.
  */
-export abstract class GrDiffBuilder implements DiffBuilder {
-  protected readonly _diff: DiffInfo;
+export class GrDiffBuilder implements DiffBuilder {
+  private readonly _diff: DiffInfo;
 
-  protected readonly numLinesLeft: number;
-
-  // visible for testing
   readonly _prefs: DiffPreferencesInfo;
 
-  protected renderPrefs?: RenderPreferences;
+  renderPrefs?: RenderPreferences;
 
-  protected readonly outputEl: HTMLElement;
+  readonly outputEl: HTMLElement;
 
-  protected groups: GrDiffGroup[];
-
-  private blameInfo: BlameInfo[] = [];
+  private groups: GrDiffGroup[];
 
   private readonly layerUpdateListener: (
     start: LineNumber,
@@ -124,12 +121,6 @@ export abstract class GrDiffBuilder implements DiffBuilder {
     renderPrefs?: RenderPreferences
   ) {
     this._diff = diff;
-    this.numLinesLeft = this._diff.content
-      ? this._diff.content.reduce((sum, chunk) => {
-          const left = chunk.a || chunk.ab;
-          return sum + (left?.length || chunk.skip || 0);
-        }, 0)
-      : 0;
     this._prefs = prefs;
     this.renderPrefs = renderPrefs;
     this.outputEl = outputEl;
@@ -149,6 +140,149 @@ export abstract class GrDiffBuilder implements DiffBuilder {
       side: Side
     ) => this.renderContentByRange(start, end, side);
     this.init();
+  }
+
+  getContentTdByLine(
+    lineNumber: LineNumber,
+    side?: Side,
+    _root: Element = this.outputEl
+  ): HTMLTableCellElement | null {
+    if (!side) return null;
+    const row = this.findRow(lineNumber, side);
+    return row?.getContentCell(side) ?? null;
+  }
+
+  getLineElByNumber(lineNumber: LineNumber, side: Side) {
+    const row = this.findRow(lineNumber, side);
+    return row?.getLineNumberCell(side) ?? null;
+  }
+
+  private findRow(lineNumber?: LineNumber, side?: Side): GrDiffRow | undefined {
+    if (!side || !lineNumber) return undefined;
+    const group = this.findGroup(side, lineNumber);
+    if (!group) return undefined;
+    const section = this.findSection(group);
+    if (!section) return undefined;
+    return section.findRow(side, lineNumber);
+  }
+
+  private getDiffRows() {
+    const sections = [
+      ...this.outputEl.querySelectorAll<GrDiffSection>('gr-diff-section'),
+    ];
+    return sections.map(s => s.getDiffRows()).flat();
+  }
+
+  getLineNumberRows(): HTMLTableRowElement[] {
+    const rows = this.getDiffRows();
+    return rows.map(r => r.getTableRow()).filter(isDefined);
+  }
+
+  getLineNumEls(side: Side): HTMLTableCellElement[] {
+    const rows = this.getDiffRows();
+    return rows.map(r => r.getLineNumberCell(side)).filter(isDefined);
+  }
+
+  getBlameTdByLine(lineNumber: number): Element | undefined {
+    return this.findRow(lineNumber, Side.LEFT)?.getBlameCell();
+  }
+
+  getContentByLine(
+    lineNumber: LineNumber,
+    side?: Side,
+    _root?: HTMLElement
+  ): HTMLElement | null {
+    const cell = this.getContentTdByLine(lineNumber, side);
+    return (cell?.firstChild ?? null) as HTMLElement | null;
+  }
+
+  /** This is used when layers initiate an update. */
+  renderContentByRange(start: LineNumber, end: LineNumber, side: Side) {
+    const groups = this.getGroupsByLineRange(start, end, side);
+    for (const group of groups) {
+      const section = this.findSection(group);
+      for (const row of section?.getDiffRows() ?? []) {
+        row.requestUpdate();
+      }
+    }
+  }
+
+  private findSection(group: GrDiffGroup): GrDiffSection | undefined {
+    const leftClass = `left-${group.startLine(Side.LEFT)}`;
+    const rightClass = `right-${group.startLine(Side.RIGHT)}`;
+    return (
+      this.outputEl.querySelector<GrDiffSection>(
+        `gr-diff-section.${leftClass}.${rightClass}`
+      ) ?? undefined
+    );
+  }
+
+  buildSectionElement(group: GrDiffGroup): HTMLElement {
+    const leftCl = `left-${group.startLine(Side.LEFT)}`;
+    const rightCl = `right-${group.startLine(Side.RIGHT)}`;
+    const section = html`
+      <gr-diff-section
+        class="${leftCl} ${rightCl}"
+        .group=${group}
+        .diff=${this._diff}
+        .layers=${this.layers}
+        .diffPrefs=${this._prefs}
+        .renderPrefs=${this.renderPrefs}
+      ></gr-diff-section>
+    `;
+    // When using Lit's `render()` method it wants to be in full control of the
+    // element that it renders into, so we let it render into a temp element.
+    // Rendering into the diff table directly would interfere with
+    // `clearDiffContent()`for example.
+    // TODO: Convert <gr-diff> to be fully lit controlled and incorporate this
+    // method into Lit's `render()` cycle.
+    const tempEl = document.createElement('div');
+    render(section, tempEl);
+    const sectionEl = tempEl.firstElementChild as GrDiffSection;
+    return sectionEl;
+  }
+
+  addColumns(outputEl: HTMLElement, lineNumberWidth: number): void {
+    const colgroup = html`
+      <colgroup>
+        <col class=${diffClasses('blame')}></col>
+        ${when(
+          this.renderPrefs?.view_mode === DiffViewMode.UNIFIED,
+          () => html` ${this.renderUnifiedColumns(lineNumberWidth)} `,
+          () => html`
+            ${this.renderSideBySideColumns(Side.LEFT, lineNumberWidth)}
+            ${this.renderSideBySideColumns(Side.RIGHT, lineNumberWidth)}
+          `
+        )}
+        
+      </colgroup>
+    `;
+    // When using Lit's `render()` method it wants to be in full control of the
+    // element that it renders into, so we let it render into a temp element.
+    // Rendering into the diff table directly would interfere with
+    // `clearDiffContent()`for example.
+    // TODO: Convert <gr-diff> to be fully lit controlled and incorporate this
+    // method into Lit's `render()` cycle.
+    const tempEl = document.createElement('div');
+    render(colgroup, tempEl);
+    const colgroupEl = tempEl.firstElementChild as HTMLElement;
+    outputEl.appendChild(colgroupEl);
+  }
+
+  private renderUnifiedColumns(lineNumberWidth: number) {
+    return html`
+      <col class=${diffClasses()} width=${lineNumberWidth}></col>
+      <col class=${diffClasses()} width=${lineNumberWidth}></col>
+      <col class=${diffClasses()}></col>
+    `;
+  }
+
+  private renderSideBySideColumns(side: Side, lineNumberWidth: number) {
+    return html`
+      <col class=${diffClasses(side)} width=${lineNumberWidth}></col>
+      <col class=${diffClasses(side, 'sign')}></col>
+      <col class=${diffClasses(side)}></col>
+    `;
   }
 
   /**
@@ -181,10 +315,6 @@ export abstract class GrDiffBuilder implements DiffBuilder {
       }
     }
   }
-
-  abstract addColumns(outputEl: HTMLElement, fontSize: number): void;
-
-  protected abstract buildSectionElement(group: GrDiffGroup): HTMLElement;
 
   addGroups(groups: readonly GrDiffGroup[]) {
     for (const group of groups) {
@@ -248,151 +378,19 @@ export abstract class GrDiffBuilder implements DiffBuilder {
       .filter(group => group.lines.length > 0);
   }
 
-  // TODO: Change `null` to `undefined`.
-  abstract getContentTdByLine(
-    lineNumber: LineNumber,
-    side?: Side,
-    root?: Element
-  ): HTMLTableCellElement | null;
-
-  // TODO: Change `null` to `undefined`.
-  abstract getLineElByNumber(
-    lineNumber: LineNumber,
-    side?: Side
-  ): HTMLTableCellElement | null;
-
-  abstract getLineNumberRows(): HTMLTableRowElement[];
-
-  abstract getLineNumEls(side: Side): HTMLTableCellElement[];
-
-  protected abstract getBlameTdByLine(lineNum: number): Element | undefined;
-
-  // TODO: Change `null` to `undefined`.
-  protected abstract getContentByLine(
-    lineNumber: LineNumber,
-    side?: Side,
-    root?: HTMLElement
-  ): HTMLElement | null;
-
-  /**
-   * Find line elements or line objects by a range of line numbers and a side.
-   *
-   * @param start The first line number
-   * @param end The last line number
-   * @param side The side of the range. Either 'left' or 'right'.
-   * @param out_lines The output list of line objects.
-   *        TODO: Change to camelCase.
-   * @param out_elements The output list of line elements.
-   *        TODO: Change to camelCase.
-   */
-  // visible for testing
-  findLinesByRange(
-    start: LineNumber,
-    end: LineNumber,
-    side: Side,
-    out_lines: GrDiffLine[],
-    out_elements: HTMLElement[]
-  ) {
-    const groups = this.getGroupsByLineRange(start, end, side);
-    for (const group of groups) {
-      let content: HTMLElement | null = null;
-      for (const line of group.lines) {
-        if (
-          (side === 'left' && line.type === GrDiffLineType.ADD) ||
-          (side === 'right' && line.type === GrDiffLineType.REMOVE)
-        ) {
-          continue;
-        }
-        const lineNumber =
-          side === 'left' ? line.beforeNumber : line.afterNumber;
-        if (lineNumber < start || lineNumber > end) {
-          continue;
-        }
-
-        if (content) {
-          content = this.getNextContentOnSide(content, side);
-        } else {
-          content = this.getContentByLine(lineNumber, side, group.element);
-        }
-        if (content) {
-          // out_lines and out_elements must match. So if we don't have an
-          // element to push, then also don't push a line.
-          out_lines.push(line);
-          out_elements.push(content);
-        }
-      }
-    }
-    assert(
-      out_lines.length === out_elements.length,
-      'findLinesByRange: lines and elements arrays must have same length'
-    );
-  }
-
-  protected abstract renderContentByRange(
-    start: LineNumber,
-    end: LineNumber,
-    side: Side
-  ): void;
-
-  protected abstract renderBlameByRange(
-    blame: BlameInfo,
-    start: number,
-    end: number
-  ): void;
-
-  /**
-   * Finds the next DIV.contentText element following the given element, and on
-   * the same side. Will only search within a group.
-   *
-   * TODO: Change `null` to `undefined`.
-   */
-  protected abstract getNextContentOnSide(
-    content: HTMLElement,
-    side: Side
-  ): HTMLElement | null;
-
-  /**
-   * Gets configuration for creating move controls for chunks marked with
-   * dueToMove
-   */
-  protected abstract getMoveControlsConfig(): {
-    numberOfCells: number;
-    movedOutIndex: number;
-    movedInIndex: number;
-    lineNumberCols: number[];
-    signCols?: {left: number; right: number};
-  };
-
   /**
    * Set the blame information for the diff. For any already-rendered line,
    * re-render its blame cell content.
    */
   setBlame(blame: BlameInfo[]) {
-    this.blameInfo = blame;
-    for (const commit of blame) {
-      for (const range of commit.ranges) {
-        this.renderBlameByRange(commit, range.start, range.end);
-      }
-    }
-  }
-
-  /**
-   * Given a base line number, return the commit containing that line in the
-   * current set of blame information. If no blame information has been
-   * provided, null is returned.
-   *
-   * @return The commit information.
-   */
-  // visible for testing
-  getBlameCommitForBaseLine(lineNum: LineNumber): BlameInfo | undefined {
-    for (const blameCommit of this.blameInfo) {
-      for (const range of blameCommit.ranges) {
-        if (range.start <= lineNum && range.end >= lineNum) {
-          return blameCommit;
+    for (const blameInfo of blame) {
+      for (const range of blameInfo.ranges) {
+        for (let line = range.start; line <= range.end; line++) {
+          const row = this.findRow(line, Side.LEFT);
+          if (row) row.blameInfo = blameInfo;
         }
       }
     }
-    return undefined;
   }
 
   /**

@@ -15,7 +15,7 @@ import {
 } from './gr-diff-builder';
 import {GrDiffBuilderImage} from './gr-diff-builder-image';
 import {GrDiffBuilderBinary} from './gr-diff-builder-binary';
-import {GrDiffBuilderLit} from './gr-diff-builder-lit';
+import {GrDiffBuilder} from './gr-diff-builder';
 import {CancelablePromise, makeCancelable} from '../../../utils/async-util';
 import {BlameInfo, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
@@ -445,7 +445,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
         ...this.renderPrefs,
         view_mode: DiffViewMode.SIDE_BY_SIDE,
       };
-      builder = new GrDiffBuilderLit(
+      builder = new GrDiffBuilder(
         this.diff,
         localPrefs,
         this.diffElement,
@@ -457,7 +457,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
         ...this.renderPrefs,
         view_mode: DiffViewMode.UNIFIED,
       };
-      builder = new GrDiffBuilderLit(
+      builder = new GrDiffBuilder(
         this.diff,
         localPrefs,
         this.diffElement,

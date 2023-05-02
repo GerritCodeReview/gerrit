@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cff77f49_61f6e1a4",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1619,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-05-02T12:15:40Z",
+      "side": 1,
+      "message": "Looking just at this part of code, I see that the method will throw AuthException if the access path has been already set for anonymous user. Is it expected?\n\nConsider nested if, i.e.:\n```\nif(isRead(req)) {\n  if(!user.getAccessPath().equals(AccessPath.UNKNOWN)) {\n    user.setAccessPath(AccessPath.REST_API)\n  }\n}\n```\n\nIt is more clear that it affects only accessPath and doesn\u0027t change behavior for non-read use-cases.",
+      "range": {
+        "startLine": 1617,
+        "startChar": 4,
+        "endLine": 1619,
+        "endChar": 5
+      },
+      "revId": "1dc021d66187a4b4c45a16c1de619c627f3bed5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

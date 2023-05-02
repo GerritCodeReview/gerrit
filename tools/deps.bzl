@@ -68,6 +68,12 @@ def java_dependencies():
         sha1 = "3cd63d075497751784b2fa84be59432f4905bf7c",
     )
 
+    maven_jar(
+        name = "jakarta-inject-api",
+        artifact = "jakarta.inject:jakarta.inject-api:2.0.1",
+        sha1 = "4c28afe1991a941d7702fe1362c365f0a8641d1e",
+    )
+
     # JGit's transitive dependencies
 
     maven_jar(

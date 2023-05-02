@@ -6,6 +6,7 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         ":guice-library",
+        ":jakarta-inject",
         ":javax_inject",
     ],
 )
@@ -38,6 +39,13 @@ java_library(
     name = "aopalliance",
     data = ["//lib:LICENSE-PublicDomain"],
     exports = ["@aopalliance//jar"],
+)
+
+java_library(
+    name = "jakarta-inject",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@jakarta-inject-api//jar"],
 )
 
 java_library(

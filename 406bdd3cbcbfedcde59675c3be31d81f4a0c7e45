@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "519fa927_486111f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-05-02T11:55:52Z",
+      "side": 1,
+      "message": "Gentle ping.\n\nAlso feel free to reassign, these are not assigned to you for a specific reason, but rather semi-randomly to load-balance reviews",
+      "revId": "406bdd3cbcbfedcde59675c3be31d81f4a0c7e45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -70,6 +70,30 @@
       },
       "revId": "82737dfc4a27b21f357e0b7d1c4935cb8452ce29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2441403e_eb85401a",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-05-02T11:53:30Z",
+      "side": 1,
+      "message": "Is it possible to fix upstream version too?\n\nuser.getAccessPath().equals(AccessPath.WEB_BROWSER) is always false in upstream - this can be broken without noticing, because we don\u0027t have appropriate tests neither upstream, nor internally for this code.\n\nWith this change, upstream will never use async index. It is better to share the same behaviour between upstream and internal implementation as much as possible.",
+      "parentUuid": "e29a96b0_53b7899f",
+      "range": {
+        "startLine": 671,
+        "startChar": 11,
+        "endLine": 671,
+        "endChar": 62
+      },
+      "revId": "82737dfc4a27b21f357e0b7d1c4935cb8452ce29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

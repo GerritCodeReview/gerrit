@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eab728cd_8d5fdfdf",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-02T08:54:15Z",
+      "side": 1,
+      "message": "Make this a required parameter.  Afaict, all usages guarantee a valid group. \n\nOr do you expect line 201 `group of groups` to contain undefined?",
+      "revId": "3bde222f918df8d4f6a0b2eca0ff1eabb28adb52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70678d7b_80fd9e20",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-02T08:54:15Z",
+      "side": 1,
+      "message": "Is this still applicable?",
+      "revId": "3bde222f918df8d4f6a0b2eca0ff1eabb28adb52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5a62d85_51e1bba1",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-02T08:54:15Z",
+      "side": 1,
+      "message": "Rather than always rendering all 3, consider moving the if condition into 250\n\n```\nwhen(this.renderPrefs?.view_mode !\u003d\u003d DiffViewMode.UNIFIED),\n  () \u003d\u003e html` ${this.renderUnifiedColumns(lineNumberWidth)}`,\n  () \u003d\u003e html` ${this.renderSideBySideColumns(Side.LEFT, lineNumberWidth)}\n              ${this.renderSideBySideColumns(Side.RIGHT, lineNumberWidth)}`\n```",
+      "revId": "3bde222f918df8d4f6a0b2eca0ff1eabb28adb52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69b75a3b_82d914f0",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-02T08:54:15Z",
+      "side": 1,
+      "message": "I wonder if it would be cleaner if diffClasses took as side \u0027UNIFIED\u0027.\n\nThere\u0027s a lot of overlap between this method and renderSideBySideColumns.",
+      "revId": "3bde222f918df8d4f6a0b2eca0ff1eabb28adb52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -7,15 +7,13 @@ import '../gr-diff-processor/gr-diff-processor';
 import '../../../elements/shared/gr-hovercard/gr-hovercard';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
 import {
-  DiffBuilder,
-  ImageDiffBuilder,
+  GrDiffBuilder,
   DiffContextExpandedEventDetail,
   isImageDiffBuilder,
   isBinaryDiffBuilder,
 } from './gr-diff-builder';
 import {GrDiffBuilderImage} from './gr-diff-builder-image';
 import {GrDiffBuilderBinary} from './gr-diff-builder-binary';
-import {GrDiffBuilderLit} from './gr-diff-builder-lit';
 import {CancelablePromise, makeCancelable} from '../../../utils/async-util';
 import {BlameInfo, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
@@ -117,7 +115,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
   layers: DiffLayer[] = [];
 
   // visible for testing
-  builder?: DiffBuilder | ImageDiffBuilder;
+  builder?: GrDiffBuilder;
 
   /**
    * All layers, both from the outside and the default ones. See `layers` for
@@ -263,31 +261,21 @@ export class GrDiffBuilderElement implements GroupConsumer {
     this.layersInternal = layers;
   }
 
-  getContentTdByLine(lineNumber: LineNumber, side?: Side, root?: Element) {
-    if (!this.builder) return null;
-    return this.builder.getContentTdByLine(lineNumber, side, root);
+  getContentTdByLine(lineNumber: LineNumber, side?: Side) {
+    if (!this.builder) return undefined;
+    return this.builder.getContentTdByLine(lineNumber, side);
   }
 
-  private getDiffRowByChild(child: Element) {
-    while (!child.classList.contains('diff-row') && child.parentElement) {
-      child = child.parentElement;
-    }
-    return child;
-  }
-
-  getContentTdByLineEl(lineEl?: Element): Element | null {
-    if (!lineEl) return null;
+  getContentTdByLineEl(lineEl?: Element): Element | undefined {
+    if (!lineEl) return undefined;
     const line = getLineNumber(lineEl);
-    if (!line) return null;
+    if (!line) return undefined;
     const side = getSideByLineEl(lineEl);
-    // Performance optimization because we already have an element in the
-    // correct row
-    const row = this.getDiffRowByChild(lineEl);
-    return this.getContentTdByLine(line, side, row);
+    return this.getContentTdByLine(line, side);
   }
 
   getLineElByNumber(lineNumber: LineNumber, side?: Side) {
-    if (!this.builder) return null;
+    if (!this.builder) return undefined;
     return this.builder.getLineElByNumber(lineNumber, side);
   }
 
@@ -409,7 +397,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
   }
 
   // visible for testing
-  getDiffBuilder(): DiffBuilder {
+  getDiffBuilder(): GrDiffBuilder {
     assertIsDefined(this.diff, 'diff');
     assertIsDefined(this.diffElement, 'diff table');
     if (isNaN(this.prefs.tab_size) || this.prefs.tab_size <= 0) {
@@ -445,7 +433,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
         ...this.renderPrefs,
         view_mode: DiffViewMode.SIDE_BY_SIDE,
       };
-      builder = new GrDiffBuilderLit(
+      builder = new GrDiffBuilder(
         this.diff,
         localPrefs,
         this.diffElement,
@@ -457,7 +445,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
         ...this.renderPrefs,
         view_mode: DiffViewMode.UNIFIED,
       };
-      builder = new GrDiffBuilderLit(
+      builder = new GrDiffBuilder(
         this.diff,
         localPrefs,
         this.diffElement,

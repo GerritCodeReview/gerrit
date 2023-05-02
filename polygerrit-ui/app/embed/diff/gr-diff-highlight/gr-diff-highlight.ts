@@ -44,7 +44,7 @@ interface NormalizedRange {
  * fully blown dependency on GrDiffBuilderElement.
  */
 export interface DiffBuilderInterface {
-  getContentTdByLineEl(lineEl?: Element): Element | null;
+  getContentTdByLineEl(lineEl?: Element): Element | undefined;
 }
 
 /**

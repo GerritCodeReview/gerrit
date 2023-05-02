@@ -1168,7 +1168,7 @@ suite('gr-diff-view tests', () => {
     });
 
     test(
-      '_prefs.manual_review true means set reviewed is not ' +
+      'prefs.manual_review true means set reviewed is not ' +
         'automatically called',
       async () => {
         const setReviewedFileStatusStub = sinon
@@ -1204,7 +1204,7 @@ suite('gr-diff-view tests', () => {
       }
     );
 
-    test('_prefs.manual_review false means set reviewed is called', async () => {
+    test('prefs.manual_review false means set reviewed is called', async () => {
       const setReviewedFileStatusStub = sinon
         .stub(changeModel, 'setReviewedFilesStatus')
         .callsFake(() => Promise.resolve());

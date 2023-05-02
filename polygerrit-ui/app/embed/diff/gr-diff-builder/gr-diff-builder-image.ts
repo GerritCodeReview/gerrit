@@ -7,19 +7,15 @@ import {ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {RenderPreferences, Side} from '../../../api/diff';
 import '../gr-diff-image-viewer/gr-image-viewer';
-import {ImageDiffBuilder} from './gr-diff-builder';
 import {html, LitElement, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {GrDiffBuilderLit} from './gr-diff-builder-lit';
+import {GrDiffBuilder} from './gr-diff-builder';
 
 // MIME types for images we allow showing. Do not include SVG, it can contain
 // arbitrary JavaScript.
 const IMAGE_MIME_PATTERN = /^image\/(bmp|gif|x-icon|jpeg|jpg|png|tiff|webp)$/;
 
-export class GrDiffBuilderImage
-  extends GrDiffBuilderLit
-  implements ImageDiffBuilder
-{
+export class GrDiffBuilderImage extends GrDiffBuilder {
   constructor(
     diff: DiffInfo,
     prefs: DiffPreferencesInfo,

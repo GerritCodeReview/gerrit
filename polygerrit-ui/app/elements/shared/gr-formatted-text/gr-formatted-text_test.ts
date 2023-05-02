@@ -502,7 +502,11 @@ suite('gr-formatted-text tests', () => {
     });
 
     test('renders inline links into <a> tags', async () => {
-      element.content = '[myLink](https://www.google.com)';
+      const origin = window.location.origin;
+      element.content = `[myLink1](https://www.google.com)
+        [myLink2](/destiny)
+        [myLink3](${origin}/destiny)
+      `;
       await element.updateComplete;
 
       assert.shadowDom.equal(
@@ -512,8 +516,12 @@ suite('gr-formatted-text tests', () => {
             <div slot="markdown-html" class="markdown-html">
               <p>
                 <a href="https://www.google.com" rel="noopener" target="_blank"
-                  >myLink</a
+                  >myLink1</a
                 >
+                <br />
+                <a href="/destiny">myLink2</a>
+                <br />
+                <a href="${origin}/destiny">myLink3</a>
               </p>
             </div>
           </marked-element>

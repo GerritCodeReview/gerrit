@@ -46,6 +46,30 @@
       },
       "revId": "76b979248d8681ddd9e4d63e4e4f37ecb2dc26c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93297085_28d91721",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-05-02T13:38:25Z",
+      "side": 1,
+      "message": "This seems fine. getConfig reads from cachedConfig which is an autovalue",
+      "parentUuid": "b7b439a4_8d4ace6b",
+      "range": {
+        "startLine": 479,
+        "startChar": 11,
+        "endLine": 479,
+        "endChar": 29
+      },
+      "revId": "76b979248d8681ddd9e4d63e4e4f37ecb2dc26c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

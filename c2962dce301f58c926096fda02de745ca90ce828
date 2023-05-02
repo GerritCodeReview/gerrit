@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35829dd1_d21e270c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-02T09:25:49Z",
+      "side": 1,
+      "message": "Plugin-specific metadata might be a good fit here, extended the commit-msg.",
+      "parentUuid": "c328dabd_6f8072cc",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 48
+      },
+      "revId": "c2962dce301f58c926096fda02de745ca90ce828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a096857_ed7ccfa9",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-04-27T14:31:49Z",
       "side": 1,
       "message": "Can you add a test for this to `javatests/com/google/gerrit/acceptance/rest/change/ListChangesOptionsIT.java` and/or `javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java`?",
+      "range": {
+        "startLine": 26,
+        "startChar": 1,
+        "endLine": 26,
+        "endChar": 20
+      },
+      "revId": "c2962dce301f58c926096fda02de745ca90ce828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0685e5e8_de334d06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 25
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-02T09:25:49Z",
+      "side": 1,
+      "message": "This is not yet possible because it needs the follow-up CL to be able to set keyed-values as part of the change.",
+      "parentUuid": "4a096857_ed7ccfa9",
       "range": {
         "startLine": 26,
         "startChar": 1,

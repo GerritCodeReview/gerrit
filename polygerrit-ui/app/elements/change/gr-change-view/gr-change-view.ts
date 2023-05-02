@@ -1706,7 +1706,6 @@ export class GrChangeView extends LitElement {
 
     const options = {
       mergeable: this.mergeable,
-      submitEnabled: !!this.isSubmitEnabled(),
       revertingChangeStatus: this.revertingChange?.status,
     };
     return changeStatuses(this.change as ChangeInfo, options);

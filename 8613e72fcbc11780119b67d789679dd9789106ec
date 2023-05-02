@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0e83cb9_61b66af6",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-05-02T13:47:05Z",
+      "side": 1,
+      "message": "```suggestion\n  private void populateStarField(List\u003cChangeInfo\u003e changeInfos) {\n    // We populate the \u0027starred\u0027 field for all change infos together so that we open the All-Users\n    // repository only once\n    if (!userProvider.get().isIdentifiedUser()) {\n      // Only registered users can star changes\n      return;\n    }\n    try (Repository allUsersRepo \u003d repoManager.openRepository(allUsers)) {\n```",
+      "range": {
+        "startLine": 976,
+        "startChar": 0,
+        "endLine": 979,
+        "endChar": 74
+      },
+      "revId": "8613e72fcbc11780119b67d789679dd9789106ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

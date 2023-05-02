@@ -22,6 +22,30 @@
       },
       "revId": "1dc021d66187a4b4c45a16c1de619c627f3bed5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68adba87_8c70245d",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1619,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-05-02T13:23:05Z",
+      "side": 1,
+      "message": "Thank you, I applied the suggestion.\n\nIt makes sense that Amonymous User might have the access path set so that this code will result in an exception.",
+      "parentUuid": "cff77f49_61f6e1a4",
+      "range": {
+        "startLine": 1617,
+        "startChar": 4,
+        "endLine": 1619,
+        "endChar": 5
+      },
+      "revId": "1dc021d66187a4b4c45a16c1de619c627f3bed5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

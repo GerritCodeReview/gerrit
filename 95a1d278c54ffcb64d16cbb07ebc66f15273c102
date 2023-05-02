@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "949d98b1_70465847",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-05-02T10:44:10Z",
+      "side": 1,
+      "message": "You\u0027re right. I meant \"Populate\" (excuse my English).\n\n\u003e Here I think you intend to convert the \u0027starred\u0027 field to an optional ChangeInfo field as a fix that should have been included in change I36c1e2f5. Am I understanding that right?\n\nRight.\n\nI agree my naming was bad. Thanks for the suggestion. It\u0027s much better since it\u0027s now on par with the other change options and more consistent.\n\nDone.",
+      "parentUuid": "1702e7d4_2b144ab9",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 8
+      },
+      "revId": "95a1d278c54ffcb64d16cbb07ebc66f15273c102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7ad2ef2_00ff0441",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-04-27T15:19:15Z",
       "side": 1,
       "message": "This is not \"very cheap\" for all RefDatabase implementations. I don\u0027t know if you have a way to do the lookup in bulk, but I would consider it if you can.",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 63
+      },
+      "revId": "95a1d278c54ffcb64d16cbb07ebc66f15273c102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b648693_10c295fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-05-02T10:44:10Z",
+      "side": 1,
+      "message": "In PS5 I was doing \u0027n\u0027 calls to RefDatabase#exactRef (once per change) to check if they\u0027re starred. I found another method: RefDatabase#exactRef(String... refs). I adapted the code and used the latter. Please note that the implementation of the new method loops on refs and delegates to #exactRef(String ref) so should make no difference, but I substituted it anyway in case another implementations of the multi-refs method allow optimizations.\n\nRE (this is not very cheap): I previously came across some of our internal traces and a call to `RefDatabase#exact` typically takes few microseconds. In this change we\u0027re also populating this field with a flag (default \u003d false) and on dashboards there are usually around 50 changes, so this should be performant.",
+      "parentUuid": "d7ad2ef2_00ff0441",
       "range": {
         "startLine": 26,
         "startChar": 4,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87c6a5ae_5bbba4fe",
+        "filename": "java/com/google/gerrit/server/restapi/change/QueryChanges.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-05-02T10:44:10Z",
+      "side": 1,
+      "message": "Right. thanks for pointing this out. Done.",
+      "parentUuid": "8c55bb30_69d74b8f",
+      "range": {
+        "startLine": 227,
+        "startChar": 33,
+        "endLine": 227,
+        "endChar": 51
+      },
+      "revId": "95a1d278c54ffcb64d16cbb07ebc66f15273c102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac2ff9c2_4ec8f5bf",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-04-27T15:19:15Z",
       "side": 1,
       "message": "This should be in a try-with-resources\n\n```\n try (Repository allUsersRepo \u003d repoManager.openRepository(allUsers)) {\n```",
+      "range": {
+        "startLine": 236,
+        "startChar": 6,
+        "endLine": 236,
+        "endChar": 69
+      },
+      "revId": "95a1d278c54ffcb64d16cbb07ebc66f15273c102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8020d435_ed10971f",
+        "filename": "java/com/google/gerrit/server/restapi/change/QueryChanges.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-05-02T10:44:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac2ff9c2_4ec8f5bf",
       "range": {
         "startLine": 236,
         "startChar": 6,

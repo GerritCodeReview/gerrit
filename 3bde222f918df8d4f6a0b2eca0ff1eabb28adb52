@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87205783_bbb848cb",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-02T12:13:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eab728cd_8d5fdfdf",
+      "revId": "3bde222f918df8d4f6a0b2eca0ff1eabb28adb52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "70678d7b_80fd9e20",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-05-02T08:54:15Z",
       "side": 1,
       "message": "Is this still applicable?",
+      "revId": "3bde222f918df8d4f6a0b2eca0ff1eabb28adb52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94d2807c_073a713d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-02T12:13:18Z",
+      "side": 1,
+      "message": "Updated.",
+      "parentUuid": "70678d7b_80fd9e20",
       "revId": "3bde222f918df8d4f6a0b2eca0ff1eabb28adb52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63189091_691642d2",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-02T12:13:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5a62d85_51e1bba1",
+      "revId": "3bde222f918df8d4f6a0b2eca0ff1eabb28adb52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69b75a3b_82d914f0",
@@ -65,6 +119,24 @@
       "writtenOn": "2023-05-02T08:54:15Z",
       "side": 1,
       "message": "I wonder if it would be cleaner if diffClasses took as side \u0027UNIFIED\u0027.\n\nThere\u0027s a lot of overlap between this method and renderSideBySideColumns.",
+      "revId": "3bde222f918df8d4f6a0b2eca0ff1eabb28adb52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27d14b57_04a7222b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-02T12:13:18Z",
+      "side": 1,
+      "message": "Not sure. Maybe. But that is too much detail that I don\u0027t want to dig into.\n\nI would only consider this, if it was obviously simpler and safe to change, but I don\u0027t see that. Other than that I would prefer to focus on the broader strokes atm.",
+      "parentUuid": "69b75a3b_82d914f0",
       "revId": "3bde222f918df8d4f6a0b2eca0ff1eabb28adb52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -413,10 +413,15 @@ export class GrDiff extends LitElement implements GrDiffApi {
         .image-diff .right.lineNumButton {
           border-left: 1px solid var(--border-color);
         }
-        .image-diff label,
-        .binary-diff label {
+        .image-diff label {
           font-family: var(--font-family);
           font-style: italic;
+        }
+        tbody.binary-diff td {
+          font-family: var(--font-family);
+          font-style: italic;
+          text-align: center;
+          padding: var(--spacing-s) 0;
         }
         .diff-row {
           outline: none;

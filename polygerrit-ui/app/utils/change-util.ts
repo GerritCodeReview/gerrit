@@ -16,10 +16,8 @@ import {
 import {ParsedChangeInfo} from '../types/types';
 import {getUserId, isServiceUser} from './account-util';
 
-// This can be wrong! See WARNING above
 interface ChangeStatusesOptions {
-  mergeable: boolean; // This can be wrong! See WARNING above
-  submitEnabled: boolean; // This can be wrong! See WARNING above
+  mergeable: boolean;
   /** Is there a reverting change and if so, what status has it? */
   revertingChangeStatus?: ChangeStatus;
 }
@@ -190,11 +188,9 @@ export function changeStatuses(
     return states;
   }
 
-  // If no missing requirements, either active or ready to submit.
-  if (change.submittable && options.submitEnabled) {
+  if (change.submittable) {
     states.push(ChangeStates.READY_TO_SUBMIT);
   } else {
-    // Otherwise it is active.
     states.push(ChangeStates.ACTIVE);
   }
   return states;

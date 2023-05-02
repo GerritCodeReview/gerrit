@@ -66,29 +66,24 @@ suite('change-util tests', () => {
     assert.deepEqual(statuses, []);
 
     change.submittable = false;
-    statuses = changeStatuses(change, {mergeable: true, submitEnabled: false});
+    statuses = changeStatuses(change, {mergeable: true});
     assert.deepEqual(statuses, [ChangeStates.ACTIVE]);
 
-    // With no missing labels but no submitEnabled option.
     change.submittable = true;
-    statuses = changeStatuses(change, {mergeable: true, submitEnabled: false});
-    assert.deepEqual(statuses, [ChangeStates.ACTIVE]);
-
-    // Without missing labels and enabled submit
-    statuses = changeStatuses(change, {mergeable: true, submitEnabled: true});
+    statuses = changeStatuses(change, {mergeable: true});
     assert.deepEqual(statuses, [ChangeStates.READY_TO_SUBMIT]);
 
     change.mergeable = false;
     change.submittable = true;
-    statuses = changeStatuses(change, {mergeable: false, submitEnabled: false});
+    statuses = changeStatuses(change, {mergeable: false});
     assert.deepEqual(statuses, [ChangeStates.MERGE_CONFLICT]);
 
     change.mergeable = true;
-    statuses = changeStatuses(change, {mergeable: true, submitEnabled: true});
+    statuses = changeStatuses(change, {mergeable: true});
     assert.deepEqual(statuses, [ChangeStates.READY_TO_SUBMIT]);
 
     change.submittable = true;
-    statuses = changeStatuses(change, {mergeable: false, submitEnabled: false});
+    statuses = changeStatuses(change, {mergeable: false});
     assert.deepEqual(statuses, [ChangeStates.MERGE_CONFLICT]);
   });
 
@@ -141,7 +136,6 @@ suite('change-util tests', () => {
       changeStatuses(change, {
         revertingChangeStatus: ChangeStatus.NEW,
         mergeable: true,
-        submitEnabled: true,
       }),
       [ChangeStates.MERGED, ChangeStates.REVERT_CREATED]
     );
@@ -149,7 +143,6 @@ suite('change-util tests', () => {
       changeStatuses(change, {
         revertingChangeStatus: ChangeStatus.MERGED,
         mergeable: true,
-        submitEnabled: true,
       }),
       [ChangeStates.MERGED, ChangeStates.REVERT_SUBMITTED]
     );

@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f7f3740_49983d1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-02T20:32:33Z",
+      "side": 1,
+      "message": "\u003e In PS5 I was doing \u0027n\u0027 calls to RefDatabase#exactRef (once per change) to check if they\u0027re starred. I found another method: RefDatabase#exactRef(String... refs). I adapted the code and used the latter. Please note that the implementation of the new method loops on refs and delegates to #exactRef(String ref) so should make no difference, but I substituted it anyway in case another implementations of the multi-refs method allow optimizations.\n\nThanks!\n\n\u003e \n\u003e RE (this is not very cheap): I previously came across some of our internal traces and a call to `RefDatabase#exact` typically takes few microseconds. In this change we\u0027re also populating this field with a flag (default \u003d false) and on dashboards there are usually around 50 changes, so this should be performant.\n\nYes, but isn\u0027t that `RefDatabase` a `ReftableDatabase`? Most Gerrit installs will be using `RefDirectory` instead and an exactRef could be much slower depending on what file system they\u0027re on, the values of core.trustFolderStat/core.trustPackedRefsStat, and overall # of refs in the All-Users repository.\n\nAll that said, I don\u0027t know that there\u0027s a better option, but I wanted to make sure you were aware in case it affects any design choices you made.",
+      "parentUuid": "5b648693_10c295fb",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 63
+      },
+      "revId": "95a1d278c54ffcb64d16cbb07ebc66f15273c102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c55bb30_69d74b8f",

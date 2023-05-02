@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43d760c5_daaae232",
+        "filename": "java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-02T20:32:33Z",
+      "side": 1,
+      "message": "Maybe a message more like the one on 341?\n\n```suggestion\n      logger.atWarning().withCause(e).log(\"Failed getting starred changes for account %d within changes: %s\", caller.get(), Joiner.on(\", \").join(changeIds));\n```",
+      "revId": "1bbb7d35553ff786f63221e153b731ed6142abb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "131d462a_b9b50839",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 985,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-02T20:32:33Z",
+      "side": 1,
+      "message": "You\u0027re repeating an iteration of this list at least 3 times.\n\n1) getting Change.Ids here\n2) inside starredChangesUtil.areStarred() to get the ref names\n3) populating c.starred on line 989\n\nand probably a 4th inside exactRef(), but you\u0027re using the best API you can there.\n\nYou can consolidate 1 \u0026 2 by making the parameter to areStarred() a `List\u003cChangeInfo\u003e` and doing the ChangeInfo-\u003eChange.Id-\u003erefname conversion in a single pass.\n\nIdeally you would iterate the returned `starredChanges` set on line 989 since it\u0027s guaranteed to be a strict subset of changeInfos. I don\u0027t see an easy way to do that, but you might want to at least add an `if (starredChanges.isEmpty()) return` shortcut before 989 so that you at least don\u0027t loop over all your changes when none have a star anyway.",
+      "range": {
+        "startLine": 985,
+        "startChar": 10,
+        "endLine": 985,
+        "endChar": 21
+      },
+      "revId": "1bbb7d35553ff786f63221e153b731ed6142abb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

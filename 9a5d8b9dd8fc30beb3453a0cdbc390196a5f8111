@@ -16,6 +16,24 @@
       "message": "Trailing whitespace",
       "revId": "9a5d8b9dd8fc30beb3453a0cdbc390196a5f8111",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56cbd96e_5183c808",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-02T13:23:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2566e97d_2d980947",
+      "revId": "9a5d8b9dd8fc30beb3453a0cdbc390196a5f8111",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

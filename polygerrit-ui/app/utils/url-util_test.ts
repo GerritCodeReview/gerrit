@@ -14,6 +14,7 @@ import {
   toSearchParams,
   getPatchRangeExpression,
   PatchRangeParams,
+  sameOrigin,
 } from './url-util';
 import {assert} from '@open-wc/testing';
 
@@ -67,6 +68,12 @@ suite('url-util tests', () => {
         assert.equal(singleDecodeURL('ghi+jkl'), 'ghi jkl');
       });
     });
+  });
+
+  test('sameOrigin', () => {
+    assert.isTrue(sameOrigin('/asdf'));
+    assert.isTrue(sameOrigin(window.location.origin + '/asdf'));
+    assert.isFalse(sameOrigin('http://www.goole.com/asdf'));
   });
 
   test('toPathname', () => {

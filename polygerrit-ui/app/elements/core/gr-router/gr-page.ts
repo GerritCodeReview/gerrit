@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import {sameOrigin} from '../../../utils/url-util';
+
 /**
  * This file was originally a copy of https://github.com/visionmedia/page.js.
  * It was converted to TypeScript and stripped off lots of code that we don't
@@ -250,17 +252,6 @@ export class Page {
       this.show(loc.pathname + loc.search + loc.hash, /* push */ false);
     }
   };
-}
-
-function sameOrigin(href: string) {
-  if (!href) return false;
-  const url = new URL(href, window.location.toString());
-  const loc = window.location;
-  return (
-    loc.protocol === url.protocol &&
-    loc.hostname === url.hostname &&
-    loc.port === url.port
-  );
 }
 
 function samePath(url: HTMLAnchorElement) {

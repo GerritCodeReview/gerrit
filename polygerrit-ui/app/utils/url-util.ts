@@ -149,3 +149,9 @@ export function toPath(pathname: string, searchParams: URLSearchParams) {
 export function generateAbsoluteUrl(url: string) {
   return new URL(url, window.location.href).toString();
 }
+
+export function sameOrigin(href: string) {
+  if (!href) return false;
+  const url = new URL(href, window.location.origin);
+  return url.origin === window.location.origin;
+}

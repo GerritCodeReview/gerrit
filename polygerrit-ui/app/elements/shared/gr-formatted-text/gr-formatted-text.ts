@@ -25,6 +25,7 @@ import {
   getUserSuggestionFromString,
   USER_SUGGESTION_INFO_STRING,
 } from '../../../utils/comment-util';
+import {sameOrigin} from '../../../utils/url-util';
 
 /**
  * This element optionally renders markdown and also applies some regex
@@ -203,9 +204,8 @@ export class GrFormattedText extends LitElement {
         /* HTML */
         `<a
           href="${href}"
-          target="_blank"
+          ${sameOrigin(href) ? '' : 'target="_blank" rel="noopener"'}
           ${title ? `title="${title}"` : ''}
-          rel="noopener"
           >${text}</a
         >`;
       renderer['image'] = (href: string, _title: string, text: string) =>

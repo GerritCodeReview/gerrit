@@ -88,7 +88,10 @@ public enum ListChangesOption implements ListOption {
   SKIP_DIFFSTAT(23),
 
   /** Include the evaluated submit requirements for the caller. */
-  SUBMIT_REQUIREMENTS(24);
+  SUBMIT_REQUIREMENTS(24),
+
+  /** Include custom keyed values. */
+  CUSTOM_KEYED_VALUES(25);
 
   private final int value;
 

@@ -379,6 +379,11 @@ link:#approval-info[ApprovalInfo] of the `all` attribute.
   as link:#tracking-id-info[TrackingIdInfo].
 --
 
+[[custom-keyed-values]]
+--
+* `CUSTOM_KEYED_VALUES`: include the custom key-value map
+---
+
 .Request
 ----
   GET /changes/?q=97&o=CURRENT_REVISION&o=CURRENT_COMMIT&o=CURRENT_FILES&o=DOWNLOAD_COMMANDS HTTP/1.0
@@ -6944,6 +6949,10 @@ link:#attention-set-info[AttentionSetInfo] is the latest and most recent removal
  of the account from the attention set.
 |`hashtags`           |optional|
 List of hashtags that are set on the change.
+|`custom_keyed_values`       |optional|
+A map that maps custom keys to custom values that are tied to a specific change,
+both in the form of strings. Only set if link:#custom-keyed-values[custom keyed
+values] are requested.
 |`change_id`          ||The Change-Id of the change.
 |`subject`            ||
 The subject of the change (header line of the commit message).

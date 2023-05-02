@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2dceef1a_a49a5f94",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-05-02T16:11:38Z",
+      "side": 1,
+      "message": "nit remove \"_\"?",
+      "range": {
+        "startLine": 102,
+        "startChar": 11,
+        "endLine": 102,
+        "endChar": 17
+      },
+      "revId": "de3784819f66008dbce4821e34887ec31b25fb85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff07af79_62c1af1a",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-05-02T16:11:38Z",
+      "side": 1,
+      "message": "why is unused property assigned a value?",
+      "range": {
+        "startLine": 148,
+        "startChar": 4,
+        "endLine": 148,
+        "endChar": 9
+      },
+      "revId": "de3784819f66008dbce4821e34887ec31b25fb85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf026058_51731680",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-05-02T16:11:38Z",
+      "side": 1,
+      "message": "I think we were trying to remove usages of null.\nIs it possible to use undefined here?",
+      "range": {
+        "startLine": 152,
+        "startChar": 40,
+        "endLine": 152,
+        "endChar": 44
+      },
+      "revId": "de3784819f66008dbce4821e34887ec31b25fb85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

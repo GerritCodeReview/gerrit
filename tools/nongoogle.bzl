@@ -177,24 +177,24 @@ def declare_nongoogle_deps():
         sha1 = GUAVA_TESTLIB_BIN_SHA1,
     )
 
-    GUICE_VERS = "5.1.0"
+    GUICE_VERS = "6.0.0-rc1"
 
     maven_jar(
         name = "guice-library",
         artifact = "com.google.inject:guice:" + GUICE_VERS,
-        sha1 = "da25056c694c54ba16e78e4fc35f17fc60f0d1b4",
+        sha1 = "d1deb25843ed9bd4296baddae36caa435f7e5e03",
     )
 
     maven_jar(
         name = "guice-assistedinject",
         artifact = "com.google.inject.extensions:guice-assistedinject:" + GUICE_VERS,
-        sha1 = "58a8956f00d6939978d7da735f393d7af7db5c02",
+        sha1 = "db3c3324d27599e0936a315821aa262e99fea51f",
     )
 
     maven_jar(
         name = "guice-servlet",
         artifact = "com.google.inject.extensions:guice-servlet:" + GUICE_VERS,
-        sha1 = "cb89ddec4246a469698a3461e69de1f245016c5d",
+        sha1 = "998bcb3a368621ea122dc30ed4b0ef5853ff3715",
     )
 
     # Keep this version of Soy synchronized with the version used in Gitiles.

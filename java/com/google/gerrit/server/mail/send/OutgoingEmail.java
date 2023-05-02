@@ -41,6 +41,8 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.RetryableAction.ActionType;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
+import com.google.template.soy.data.SanitizedContent.ContentKind;
+import com.google.template.soy.data.UnsafeSanitizedContentOrdainer;
 import com.google.template.soy.jbcsrc.api.SoySauce;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -154,6 +156,19 @@ public final class OutgoingEmail {
     this.messageId = messageId;
   }
 
+  private String constructTextEmail() {
+    soyContext.put("body", textBody.toString());
+    soyContext.put("footer", textTemplate("Footer"));
+    return textTemplate("Email");
+  }
+
+  private String constructHtmlEmail() {
+    soyContext.put(
+        "body", UnsafeSanitizedContentOrdainer.ordainAsSafe(htmlBody.toString(), ContentKind.HTML));
+    soyContext.put("footer", soyHtmlTemplate("FooterHtml"));
+    return soyHtmlTemplate("EmailHtml");
+  }
+
   /** Format and enqueue the message for delivery. */
   public void send() throws EmailException {
     try {
@@ -191,10 +206,6 @@ public final class OutgoingEmail {
     populateEmailContent();
     if (messageId == null) {
       throw new IllegalStateException("All emails must have a messageId");
-    }
-    appendText(textTemplate("Footer"));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("FooterHtml"));
     }
 
     Set<Address> smtpRcptToPlaintextOnly = new HashSet<>();
@@ -295,16 +306,15 @@ public final class OutgoingEmail {
         setHeader(FieldName.REPLY_TO, j.toString());
       }
 
-      String textPart = textBody.toString();
       OutgoingEmailValidationListener.Args va = new OutgoingEmailValidationListener.Args();
       va.messageClass = messageClass;
       va.smtpFromAddress = smtpFromAddress;
       va.smtpRcptTo = smtpRcptTo;
       va.headers = headers;
-      va.body = textPart;
+      va.body = constructTextEmail();
 
       if (useHtml()) {
-        va.htmlBody = htmlBody.toString();
+        va.htmlBody = constructHtmlEmail();
       } else {
         va.htmlBody = null;
       }

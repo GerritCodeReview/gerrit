@@ -17,6 +17,8 @@ package com.google.gerrit.server.mail.send;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.util.AttentionSetUtil.additionsOnly;
 
+import com.google.auto.factory.AutoFactory;
+import com.google.auto.factory.Provided;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -33,7 +35,6 @@ import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetInfo;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -57,8 +58,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.text.MessageFormat;
 import java.time.Instant;
 import java.util.Collection;
@@ -70,7 +69,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
-import org.apache.http.client.utils.URIBuilder;
 import org.apache.james.mime4j.dom.field.FieldName;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.internal.JGitText;
@@ -79,31 +77,59 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.eclipse.jgit.util.TemporaryBuffer;
 
-/** Sends an email to one or more interested parties. */
-public abstract class ChangeEmail extends OutgoingEmail {
+// TODO: Remove ChangeEmail and rename this class once all usages are migrated to ChangeEmailNew.
+/** Populates an email for change related notifications. */
+@AutoFactory
+public final class ChangeEmail implements OutgoingEmail.EmailDecorator {
+
+  /** Implementations of params interface populate details specific to the notification type. */
+  public interface ChangeEmailDecorator {
+    /**
+     * Stores the reference to the {@link OutgoingEmail} and {@link ChangeEmail} for the subsequent
+     * calls.
+     *
+     * <p>Both init and populateEmailContent can be called multiply times in case of retries. Init
+     * is therefore responsible for clearing up any changes which are not idempotent and
+     * initializing data for use in populateEmailContent.
+     *
+     * <p>Can be used to adjust any of the behaviour of the {@link
+     * ChangeEmail#populateEmailContent}.
+     */
+    void init(OutgoingEmail email, ChangeEmail changeEmail) throws EmailException;
+
+    /**
+     * Populate headers, recipients and body of the email.
+     *
+     * <p>Method operates on the email provided in the init method.
+     *
+     * <p>By default, all the contents and parameters of the email should be set in this method.
+     */
+    void populateEmailContent() throws EmailException;
+
+    /** If returns false email is not sent to any recipients. */
+    default boolean shouldSendMessage() throws EmailException {
+      return true;
+    }
+  }
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  protected static ChangeData newChangeData(
-      EmailArguments ea, Project.NameKey project, Change.Id id) {
-    return ea.changeDataFactory.create(project, id);
-  }
-
-  protected static ChangeData newChangeData(
-      EmailArguments ea, Project.NameKey project, Change.Id id, ObjectId metaId) {
-    return ea.changeDataFactory.create(ea.changeNotesFactory.createChecked(project, id, metaId));
-  }
-
+  // Available after construction
+  private final EmailArguments args;
   private final Set<Account.Id> currentAttentionSet;
   private final Change change;
   private final ChangeData changeData;
+  private final BranchNameKey branch;
+  private final ChangeEmailDecorator changeEmailDecorator;
+
+  // Available after init or after being explicitly set.
+  private OutgoingEmail email;
   private ListMultimap<Account.Id, String> stars;
   private PatchSet patchSet;
   private PatchSetInfo patchSetInfo;
   private String changeMessage;
+  private String changeMessageThreadId;
   private Instant timestamp;
-  private BranchNameKey branch;
-
   private ProjectState projectState;
   private Set<Account.Id> authors;
   private boolean emailOnlyAuthors;
@@ -112,15 +138,24 @@ public abstract class ChangeEmail extends OutgoingEmail {
   private Set<Account.Id> watcherAccounts = new HashSet<>();
   // Watcher can only be an email if it's specified in notify section of ProjectConfig.
   private Set<Address> watcherEmails = new HashSet<>();
+  private boolean isThreadReply = false;
 
-  protected ChangeEmail(EmailArguments args, String messageClass, ChangeData changeData) {
-    super(args, messageClass);
+  public ChangeEmail(
+      @Provided EmailArguments args,
+      ChangeData changeData,
+      ChangeEmailDecorator changeEmailDecorator) {
+    this.args = args;
     this.changeData = changeData;
     change = changeData.change();
     emailOnlyAuthors = false;
     emailOnlyAttentionSetIfEnabled = true;
     currentAttentionSet = getAttentionSet();
     branch = changeData.change().getDest();
+    this.changeEmailDecorator = changeEmailDecorator;
+  }
+
+  public void markAsReply() {
+    isThreadReply = true;
   }
 
   public Change getChange() {
@@ -131,6 +166,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
     return changeData;
   }
 
+  @Nullable
   public Instant getTimestamp() {
     return timestamp;
   }
@@ -139,6 +175,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
     patchSet = ps;
   }
 
+  @Nullable
   public PatchSet getPatchSet() {
     return patchSet;
   }
@@ -157,39 +194,24 @@ public abstract class ChangeEmail extends OutgoingEmail {
     emailOnlyAttentionSetIfEnabled = value;
   }
 
-  /** Format the message body by calling {@link #appendText(String)}. */
   @Override
-  protected void format() throws EmailException {
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("ChangeHeaderHtml"));
-    }
-    appendText(textTemplate("ChangeHeader"));
-    formatChange();
-    appendText(textTemplate("ChangeFooter"));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("ChangeFooterHtml"));
-    }
-    formatFooter();
+  public boolean shouldSendMessage() throws EmailException {
+    return changeEmailDecorator.shouldSendMessage();
   }
 
-  /** Format the message body by calling {@link #appendText(String)}. */
-  protected abstract void formatChange() throws EmailException;
-
-  /**
-   * Format the message footer by calling {@link #appendText(String)}.
-   *
-   * @throws EmailException if an error occurred.
-   */
-  protected void formatFooter() throws EmailException {}
-
-  /** Setup the message headers and envelope (TO, CC, BCC). */
   @Override
-  protected void init() throws EmailException {
-    super.init();
-    if (getFrom() != null) {
+  public void init(OutgoingEmail email) throws EmailException {
+    this.email = email;
+
+    changeMessageThreadId =
+        String.format(
+            "<gerrit.%s.%s@%s>",
+            change.getCreatedOn().toEpochMilli(), change.getKey().get(), email.getGerritHost());
+
+    if (email.getFrom() != null) {
       // Is the from user in an email squelching group?
       try {
-        args.permissionBackend.absentUser(getFrom()).check(GlobalPermission.EMAIL_REVIEWERS);
+        args.permissionBackend.absentUser(email.getFrom()).check(GlobalPermission.EMAIL_REVIEWERS);
       } catch (AuthException | PermissionBackendException e) {
         emailOnlyAuthors = true;
       }
@@ -210,7 +232,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
     }
 
     if (patchSet != null) {
-      setHeader(MailHeader.PATCH_SET.fieldName(), patchSet.number() + "");
+      email.setHeader(MailHeader.PATCH_SET.fieldName(), patchSet.number() + "");
       if (patchSetInfo == null) {
         try {
           patchSetInfo = args.patchSetInfoFactory.get(changeData.notes(), patchSet.id());
@@ -226,32 +248,34 @@ public abstract class ChangeEmail extends OutgoingEmail {
       throw new EmailException("Failed to load stars for change " + change.getChangeId(), e);
     }
 
-    BranchEmailUtils.setListIdHeader(this, branch);
+    BranchEmailUtils.setListIdHeader(email, branch);
     if (timestamp != null) {
-      setHeader(FieldName.DATE, timestamp);
+      email.setHeader(FieldName.DATE, timestamp);
     }
-    setHeader(MailHeader.CHANGE_ID.fieldName(), "" + change.getKey().get());
-    setHeader(MailHeader.CHANGE_NUMBER.fieldName(), "" + change.getChangeId());
-    setHeader(MailHeader.PROJECT.fieldName(), "" + change.getProject());
+    email.setHeader(MailHeader.CHANGE_ID.fieldName(), "" + change.getKey().get());
+    email.setHeader(MailHeader.CHANGE_NUMBER.fieldName(), "" + change.getChangeId());
+    email.setHeader(MailHeader.PROJECT.fieldName(), "" + change.getProject());
     setChangeUrlHeader();
     setCommitIdHeader();
+
+    changeEmailDecorator.init(email, this);
   }
 
   private void setChangeUrlHeader() {
     final String u = getChangeUrl();
     if (u != null) {
-      setHeader(MailHeader.CHANGE_URL.fieldName(), "<" + u + ">");
+      email.setHeader(MailHeader.CHANGE_URL.fieldName(), "<" + u + ">");
     }
   }
 
   private void setCommitIdHeader() {
     if (patchSet != null) {
-      setHeader(MailHeader.COMMIT.fieldName(), patchSet.commitId().name());
+      email.setHeader(MailHeader.COMMIT.fieldName(), patchSet.commitId().name());
     }
   }
 
   private void setChangeSubjectHeader() {
-    setHeader(FieldName.SUBJECT, textTemplate("ChangeSubject"));
+    email.setHeader(FieldName.SUBJECT, email.textTemplate("ChangeSubject"));
   }
 
   private int getInsertionsCount() {
@@ -275,25 +299,19 @@ public abstract class ChangeEmail extends OutgoingEmail {
    */
   @Nullable
   public String getChangeUrl() {
-    Optional<String> changeUrl =
-        args.urlFormatter.get().getChangeViewUrl(change.getProject(), change.getId());
-    if (!changeUrl.isPresent()) return null;
-    try {
-      URI uri = new URIBuilder(changeUrl.get()).addParameter("usp", "email").build();
-      return uri.toString();
-    } catch (URISyntaxException e) {
-      return null;
-    }
+    return args.urlFormatter
+        .get()
+        .getChangeViewUrl(change.getProject(), change.getId())
+        .map(EmailArguments::addUspParam)
+        .orElse(null);
   }
 
-  public String getChangeMessageThreadId() {
-    return "<gerrit."
-        + change.getCreatedOn().toEpochMilli()
-        + "."
-        + change.getKey().get()
-        + "@"
-        + getGerritHost()
-        + ">";
+  /** Sets headers for conversation grouping */
+  private void setThreadHeaders() {
+    if (isThreadReply) {
+      email.setHeader("In-Reply-To", changeMessageThreadId);
+    }
+    email.setHeader("References", changeMessageThreadId);
   }
 
   /** Get the text of the "cover letter". */
@@ -390,19 +408,19 @@ public abstract class ChangeEmail extends OutgoingEmail {
   /** TO or CC all vested parties (change owner, patch set uploader, author). */
   public void addAuthors(RecipientType rt) {
     for (Account.Id id : getAuthors()) {
-      addByAccountId(rt, id);
+      email.addByAccountId(rt, id);
     }
   }
 
   /** BCC any user who has starred this change. */
   public void bccStarredBy() {
-    if (!NotifyHandling.ALL.equals(getNotify().handling())) {
+    if (!NotifyHandling.ALL.equals(email.getNotify().handling())) {
       return;
     }
 
     for (Map.Entry<Account.Id, Collection<String>> e : stars.asMap().entrySet()) {
       if (e.getValue().contains(StarredChangesUtil.DEFAULT_LABEL)) {
-        super.addByAccountId(RecipientType.BCC, e.getKey());
+        email.addByAccountId(RecipientType.BCC, e.getKey());
       }
     }
   }
@@ -431,17 +449,17 @@ public abstract class ChangeEmail extends OutgoingEmail {
   private void addWatchers(RecipientType type, WatcherList watcherList) {
     watcherAccounts.addAll(watcherList.accounts);
     for (Account.Id user : watcherList.accounts) {
-      addByAccountId(type, user);
+      email.addByAccountId(type, user);
     }
 
     watcherEmails.addAll(watcherList.emails);
     for (Address addr : watcherList.emails) {
-      addByEmail(type, addr);
+      email.addByEmail(type, addr);
     }
   }
 
   private final Watchers getWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig) {
-    if (!NotifyHandling.ALL.equals(getNotify().handling())) {
+    if (!NotifyHandling.ALL.equals(email.getNotify().handling())) {
       return new Watchers();
     }
 
@@ -451,14 +469,14 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
   /** Any user who has published comments on this change. */
   public void ccAllApprovals() {
-    if (!NotifyHandling.ALL.equals(getNotify().handling())
-        && !NotifyHandling.OWNER_REVIEWERS.equals(getNotify().handling())) {
+    if (!NotifyHandling.ALL.equals(email.getNotify().handling())
+        && !NotifyHandling.OWNER_REVIEWERS.equals(email.getNotify().handling())) {
       return;
     }
 
     try {
       for (Account.Id id : changeData.reviewers().all()) {
-        addByAccountId(RecipientType.CC, id);
+        email.addByAccountId(RecipientType.CC, id);
       }
     } catch (StorageException err) {
       logger.atWarning().withCause(err).log("Cannot CC users that reviewed updated change");
@@ -467,14 +485,14 @@ public abstract class ChangeEmail extends OutgoingEmail {
 
   /** Users who were added as reviewers to this change. */
   public void ccExistingReviewers() {
-    if (!NotifyHandling.ALL.equals(getNotify().handling())
-        && !NotifyHandling.OWNER_REVIEWERS.equals(getNotify().handling())) {
+    if (!NotifyHandling.ALL.equals(email.getNotify().handling())
+        && !NotifyHandling.OWNER_REVIEWERS.equals(email.getNotify().handling())) {
       return;
     }
 
     try {
       for (Account.Id id : changeData.reviewers().byState(ReviewerStateInternal.REVIEWER)) {
-        addByAccountId(RecipientType.CC, id);
+        email.addByAccountId(RecipientType.CC, id);
       }
     } catch (StorageException err) {
       logger.atWarning().withCause(err).log("Cannot CC users that commented on updated change");
@@ -482,7 +500,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   @Override
-  protected boolean isRecipientAllowed(Address addr) throws PermissionBackendException {
+  public boolean isRecipientAllowed(Address addr) throws PermissionBackendException {
     if (!projectState.statePermitsRead()) {
       return false;
     }
@@ -503,7 +521,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   @Override
-  protected boolean isRecipientAllowed(Account.Id to) throws PermissionBackendException {
+  public boolean isRecipientAllowed(Account.Id to) throws PermissionBackendException {
     if (!projectState.statePermitsRead()) {
       return false;
     }
@@ -521,7 +539,6 @@ public abstract class ChangeEmail extends OutgoingEmail {
         return false;
       }
     }
-
     return args.permissionBackend.absentUser(to).change(changeData).test(ChangePermission.READ);
   }
 
@@ -532,7 +549,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
     }
     Set<Account.Id> authors = new HashSet<>();
 
-    switch (getNotify().handling()) {
+    switch (email.getNotify().handling()) {
       case NONE:
         break;
       case ALL:
@@ -559,20 +576,20 @@ public abstract class ChangeEmail extends OutgoingEmail {
   }
 
   @Override
-  protected void populateEmailContent() throws EmailException {
-    super.populateEmailContent();
-    BranchEmailUtils.addBranchData(this, args, branch);
+  public void populateEmailContent() throws EmailException {
+    BranchEmailUtils.addBranchData(email, args, branch);
+    setThreadHeaders();
 
-    addSoyParam("changeId", change.getKey().get());
-    addSoyParam("coverLetter", getCoverLetter());
-    addSoyParam("fromName", getNameFor(getFrom()));
-    addSoyParam("fromEmail", getNameEmailFor(getFrom()));
-    addSoyParam("diffLines", getDiffTemplateData(getUnifiedDiff()));
+    email.addSoyParam("changeId", change.getKey().get());
+    email.addSoyParam("coverLetter", getCoverLetter());
+    email.addSoyParam("fromName", email.getNameFor(email.getFrom()));
+    email.addSoyParam("fromEmail", email.getNameEmailFor(email.getFrom()));
+    email.addSoyParam("diffLines", getDiffTemplateData(getUnifiedDiff()));
 
-    addSoyEmailDataParam("unifiedDiff", getUnifiedDiff());
-    addSoyEmailDataParam("changeDetail", getChangeDetail());
-    addSoyEmailDataParam("changeUrl", getChangeUrl());
-    addSoyEmailDataParam("includeDiff", getIncludeDiff());
+    email.addSoyEmailDataParam("unifiedDiff", getUnifiedDiff());
+    email.addSoyEmailDataParam("changeDetail", getChangeDetail());
+    email.addSoyEmailDataParam("changeUrl", getChangeUrl());
+    email.addSoyEmailDataParam("includeDiff", getIncludeDiff());
 
     Map<String, String> changeData = new HashMap<>();
 
@@ -583,55 +600,65 @@ public abstract class ChangeEmail extends OutgoingEmail {
     changeData.put("shortSubject", shortenSubject(subject));
     changeData.put("shortOriginalSubject", shortenSubject(originalSubject));
 
-    changeData.put("ownerName", getNameFor(change.getOwner()));
-    changeData.put("ownerEmail", getNameEmailFor(change.getOwner()));
+    changeData.put("ownerName", email.getNameFor(change.getOwner()));
+    changeData.put("ownerEmail", email.getNameEmailFor(change.getOwner()));
     changeData.put("changeNumber", Integer.toString(change.getChangeId()));
     changeData.put(
         "sizeBucket",
         ChangeSizeBucket.getChangeSizeBucket(getInsertionsCount() + getDeletionsCount()));
-    addSoyParam("change", changeData);
+    email.addSoyParam("change", changeData);
 
     Map<String, Object> patchSetData = new HashMap<>();
     patchSetData.put("patchSetId", patchSet.number());
     patchSetData.put("refName", patchSet.refName());
-    addSoyParam("patchSet", patchSetData);
+    email.addSoyParam("patchSet", patchSetData);
 
     Map<String, Object> patchSetInfoData = new HashMap<>();
     patchSetInfoData.put("authorName", patchSetInfo.getAuthor().getName());
     patchSetInfoData.put("authorEmail", patchSetInfo.getAuthor().getEmail());
-    addSoyParam("patchSetInfo", patchSetInfoData);
+    email.addSoyParam("patchSetInfo", patchSetInfoData);
 
-    addFooter(MailHeader.CHANGE_ID.withDelimiter() + change.getKey().get());
-    addFooter(MailHeader.CHANGE_NUMBER.withDelimiter() + change.getChangeId());
-    addFooter(MailHeader.PATCH_SET.withDelimiter() + patchSet.number());
-    addFooter(MailHeader.OWNER.withDelimiter() + getNameEmailFor(change.getOwner()));
+    email.addFooter(MailHeader.CHANGE_ID.withDelimiter() + change.getKey().get());
+    email.addFooter(MailHeader.CHANGE_NUMBER.withDelimiter() + change.getChangeId());
+    email.addFooter(MailHeader.PATCH_SET.withDelimiter() + patchSet.number());
+    email.addFooter(MailHeader.OWNER.withDelimiter() + email.getNameEmailFor(change.getOwner()));
     for (String reviewer : getEmailsByState(ReviewerStateInternal.REVIEWER)) {
-      addFooter(MailHeader.REVIEWER.withDelimiter() + reviewer);
+      email.addFooter(MailHeader.REVIEWER.withDelimiter() + reviewer);
     }
     for (String reviewer : getEmailsByState(ReviewerStateInternal.CC)) {
-      addFooter(MailHeader.CC.withDelimiter() + reviewer);
+      email.addFooter(MailHeader.CC.withDelimiter() + reviewer);
     }
     for (Account.Id attentionUser : currentAttentionSet) {
-      addFooter(MailHeader.ATTENTION.withDelimiter() + getNameEmailFor(attentionUser));
+      email.addFooter(MailHeader.ATTENTION.withDelimiter() + email.getNameEmailFor(attentionUser));
     }
     if (!currentAttentionSet.isEmpty()) {
       // We need names rather than account ids / emails to make it user readable.
-      addSoyParam(
+      email.addSoyParam(
           "attentionSet",
-          currentAttentionSet.stream().map(this::getNameFor).sorted().collect(toImmutableList()));
+          currentAttentionSet.stream().map(email::getNameFor).sorted().collect(toImmutableList()));
     }
 
     setChangeSubjectHeader();
-    if (getNotify().handling().equals(NotifyHandling.OWNER_REVIEWERS)
-        || getNotify().handling().equals(NotifyHandling.ALL)) {
+    if (email.getNotify().handling().equals(NotifyHandling.OWNER_REVIEWERS)
+        || email.getNotify().handling().equals(NotifyHandling.ALL)) {
       try {
         this.changeData.reviewersByEmail().byState(ReviewerStateInternal.CC).stream()
-            .forEach(address -> addByEmail(RecipientType.CC, address));
+            .forEach(address -> email.addByEmail(RecipientType.CC, address));
         this.changeData.reviewersByEmail().byState(ReviewerStateInternal.REVIEWER).stream()
-            .forEach(address -> addByEmail(RecipientType.CC, address));
+            .forEach(address -> email.addByEmail(RecipientType.CC, address));
       } catch (StorageException e) {
         throw new EmailException("Failed to add unregistered CCs " + change.getChangeId(), e);
       }
+    }
+
+    if (email.useHtml()) {
+      email.appendHtml(email.soyHtmlTemplate("ChangeHeaderHtml"));
+    }
+    email.appendText(email.textTemplate("ChangeHeader"));
+    changeEmailDecorator.populateEmailContent();
+    email.appendText(email.textTemplate("ChangeFooter"));
+    if (email.useHtml()) {
+      email.appendHtml(email.soyHtmlTemplate("ChangeFooterHtml"));
     }
   }
 
@@ -650,7 +677,7 @@ public abstract class ChangeEmail extends OutgoingEmail {
     Set<String> reviewers = new TreeSet<>();
     try {
       for (Account.Id who : changeData.reviewers().byState(state)) {
-        reviewers.add(getNameEmailFor(who));
+        reviewers.add(email.getNameEmailFor(who));
       }
     } catch (StorageException e) {
       logger.atWarning().withCause(e).log("Cannot get change reviewers");

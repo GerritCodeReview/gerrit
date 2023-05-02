@@ -47,9 +47,9 @@
   You can also manage your {$email.keyType} keys by visiting
   {\n}
   {if $email.sshKey}
-    {$email.gerritUrl}#/settings/ssh-keys
+    {$email.sshKeysSettingsUrl}
   {elseif $email.gpgKey}
-    {$email.gerritUrl}#/settings/gpg-keys
+    {$email.gpgKeysSettingsUrl}
   {/if}
   {\n}
   {if $email.userNameEmail}

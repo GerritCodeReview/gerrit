@@ -33,7 +33,7 @@ import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.ChangeKind;
-import com.google.gerrit.server.mail.send.ChangeEmailNew.ChangeEmailDecorator;
+import com.google.gerrit.server.mail.send.ChangeEmail.ChangeEmailDecorator;
 import com.google.gerrit.server.util.LabelVote;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,8 +49,8 @@ public class ReplacePatchSetChangeEmailDecorator implements ChangeEmailDecorator
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final EmailArguments args;
-  private OutgoingEmailNew email;
-  private ChangeEmailNew changeEmail;
+  private OutgoingEmail email;
+  private ChangeEmail changeEmail;
   private final Set<Account.Id> reviewers = new HashSet<>();
   private final Set<Account.Id> extraCC = new HashSet<>();
   private final ChangeKind changeKind;
@@ -106,7 +106,7 @@ public class ReplacePatchSetChangeEmailDecorator implements ChangeEmailDecorator
   }
 
   @Override
-  public void init(OutgoingEmailNew email, ChangeEmailNew changeEmail) {
+  public void init(OutgoingEmail email, ChangeEmail changeEmail) {
     this.email = email;
     this.changeEmail = changeEmail;
     changeEmail.markAsReply();

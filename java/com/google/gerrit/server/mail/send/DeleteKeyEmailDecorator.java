@@ -14,52 +14,39 @@
 
 package com.google.gerrit.server.mail.send;
 
+import com.google.auto.factory.AutoFactory;
+import com.google.auto.factory.Provided;
 import com.google.common.base.Joiner;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountSshKey;
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
+import com.google.gerrit.server.mail.send.OutgoingEmail.EmailDecorator;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Sender that informs a user by email about the removal of an SSH or GPG key from their account.
- */
-public class DeleteKeySender extends OutgoingEmail {
-  public interface Factory {
-    DeleteKeySender create(IdentifiedUser user, AccountSshKey sshKey);
-
-    DeleteKeySender create(IdentifiedUser user, List<String> gpgKeyFingerprints);
-  }
+/** Informs a user by email about the removal of an SSH or GPG key from their account. */
+@AutoFactory
+public class DeleteKeyEmailDecorator implements EmailDecorator {
+  private OutgoingEmail email;
 
   private final IdentifiedUser user;
   private final AccountSshKey sshKey;
   private final List<String> gpgKeyFingerprints;
   private final MessageIdGenerator messageIdGenerator;
 
-  @AssistedInject
-  public DeleteKeySender(
-      EmailArguments args,
-      MessageIdGenerator messageIdGenerator,
-      @Assisted IdentifiedUser user,
-      @Assisted AccountSshKey sshKey) {
-    super(args, "deletekey");
+  public DeleteKeyEmailDecorator(
+      @Provided MessageIdGenerator messageIdGenerator, IdentifiedUser user, AccountSshKey sshKey) {
     this.messageIdGenerator = messageIdGenerator;
     this.user = user;
     this.gpgKeyFingerprints = Collections.emptyList();
     this.sshKey = sshKey;
   }
 
-  @AssistedInject
-  public DeleteKeySender(
-      EmailArguments args,
-      MessageIdGenerator messageIdGenerator,
-      @Assisted IdentifiedUser user,
-      @Assisted List<String> gpgKeyFingerprints) {
-    super(args, "deletekey");
+  public DeleteKeyEmailDecorator(
+      @Provided MessageIdGenerator messageIdGenerator,
+      IdentifiedUser user,
+      List<String> gpgKeyFingerprints) {
     this.messageIdGenerator = messageIdGenerator;
     this.user = user;
     this.gpgKeyFingerprints = gpgKeyFingerprints;
@@ -67,34 +54,28 @@ public class DeleteKeySender extends OutgoingEmail {
   }
 
   @Override
-  protected void init() throws EmailException {
-    super.init();
-    setHeader("Subject", String.format("[Gerrit Code Review] %s Keys Deleted", getKeyType()));
-    setMessageId(messageIdGenerator.fromAccountUpdate(user.getAccountId()));
-    addByAccountId(RecipientType.TO, user.getAccountId());
+  public void init(OutgoingEmail email) {
+    this.email = email;
+
+    email.setHeader("Subject", String.format("[Gerrit Code Review] %s Keys Deleted", getKeyType()));
+    email.setMessageId(messageIdGenerator.fromAccountUpdate(user.getAccountId()));
+    email.addByAccountId(RecipientType.TO, user.getAccountId());
   }
 
   @Override
-  protected boolean shouldSendMessage() {
-    return true;
-  }
+  public void populateEmailContent() {
+    email.addSoyEmailDataParam("email", getEmail());
+    email.addSoyEmailDataParam("gpgKeyFingerprints", getGpgKeyFingerprints());
+    email.addSoyEmailDataParam("keyType", getKeyType());
+    email.addSoyEmailDataParam("sshKey", getSshKey());
+    email.addSoyEmailDataParam("userNameEmail", email.getUserNameEmailFor(user.getAccountId()));
+    email.addSoyEmailDataParam("sshKeysSettingsUrl", email.getSettingsUrl("ssh-keys"));
+    email.addSoyEmailDataParam("gpgKeysSettingsUrl", email.getSettingsUrl("gpg-keys"));
 
-  @Override
-  protected void format() throws EmailException {
-    appendText(textTemplate("DeleteKey"));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("DeleteKeyHtml"));
+    email.appendText(email.textTemplate("DeleteKey"));
+    if (email.useHtml()) {
+      email.appendHtml(email.soyHtmlTemplate("DeleteKeyHtml"));
     }
-  }
-
-  @Override
-  protected void populateEmailContent() throws EmailException {
-    super.populateEmailContent();
-    addSoyEmailDataParam("email", getEmail());
-    addSoyEmailDataParam("gpgKeyFingerprints", getGpgKeyFingerprints());
-    addSoyEmailDataParam("keyType", getKeyType());
-    addSoyEmailDataParam("sshKey", getSshKey());
-    addSoyEmailDataParam("userNameEmail", getUserNameEmailFor(user.getAccountId()));
   }
 
   private String getEmail() {

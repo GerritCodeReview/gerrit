@@ -46,7 +46,7 @@ import com.google.gerrit.mail.MailProcessingUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.mail.receive.Protocol;
-import com.google.gerrit.server.mail.send.ChangeEmailNew.ChangeEmailDecorator;
+import com.google.gerrit.server.mail.send.ChangeEmail.ChangeEmailDecorator;
 import com.google.gerrit.server.patch.PatchFile;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.util.LabelVote;
@@ -85,19 +85,28 @@ public class CommentChangeEmailDecorator implements ChangeEmailDecorator {
       return args.urlFormatter
           .get()
           .getInlineCommentView(changeEmail.getChange(), uuid)
+          .map(EmailArguments::addUspParam)
           .orElse(null);
     }
 
     /** Returns a web link to the comment tab view of a change. */
     @Nullable
     public String getCommentsTabLink() {
-      return args.urlFormatter.get().getCommentsTabView(changeEmail.getChange()).orElse(null);
+      return args.urlFormatter
+          .get()
+          .getCommentsTabView(changeEmail.getChange())
+          .map(EmailArguments::addUspParam)
+          .orElse(null);
     }
 
     /** Returns a web link to the findings tab view of a change. */
     @Nullable
     public String getFindingsTabLink() {
-      return args.urlFormatter.get().getFindingsTabView(changeEmail.getChange()).orElse(null);
+      return args.urlFormatter
+          .get()
+          .getFindingsTabView(changeEmail.getChange())
+          .map(EmailArguments::addUspParam)
+          .orElse(null);
     }
 
     /**
@@ -117,8 +126,8 @@ public class CommentChangeEmailDecorator implements ChangeEmailDecorator {
   }
 
   private EmailArguments args;
-  private OutgoingEmailNew email;
-  private ChangeEmailNew changeEmail;
+  private OutgoingEmail email;
+  private ChangeEmail changeEmail;
   private List<? extends Comment> inlineComments = Collections.emptyList();
   @Nullable private String patchSetComment;
   private ImmutableList<LabelVote> labels = ImmutableList.of();
@@ -166,7 +175,7 @@ public class CommentChangeEmailDecorator implements ChangeEmailDecorator {
   }
 
   @Override
-  public void init(OutgoingEmailNew email, ChangeEmailNew changeEmail) {
+  public void init(OutgoingEmail email, ChangeEmail changeEmail) {
     this.email = email;
     this.changeEmail = changeEmail;
     // Add header that enables identifying comments on parsed email.

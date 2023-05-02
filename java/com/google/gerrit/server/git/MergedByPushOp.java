@@ -27,9 +27,9 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.mail.EmailModule.MergedChangeEmailFactories;
-import com.google.gerrit.server.mail.send.ChangeEmailNew;
+import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
-import com.google.gerrit.server.mail.send.OutgoingEmailNew;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -190,13 +190,13 @@ public class MergedByPushOp implements BatchUpdateOp {
                     try {
                       // The stickyApprovalDiff is always empty here since this is not supported
                       // for direct pushes.
-                      ChangeEmailNew changeEmail =
+                      ChangeEmail changeEmail =
                           mergedChangeEmailFactories.createChangeEmail(
                               ctx.getProject(),
                               psId.changeId(),
                               /* stickyApprovalDiff= */ Optional.empty());
                       changeEmail.setPatchSet(patchSet, info);
-                      OutgoingEmailNew outgoingEmail =
+                      OutgoingEmail outgoingEmail =
                           mergedChangeEmailFactories.createEmail(changeEmail);
                       outgoingEmail.setFrom(ctx.getAccountId());
                       outgoingEmail.setMessageId(

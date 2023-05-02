@@ -16,53 +16,44 @@ package com.google.gerrit.server.mail.send;
 
 import static java.util.Objects.requireNonNull;
 
+import com.google.auto.factory.AutoFactory;
+import com.google.auto.factory.Provided;
 import com.google.gerrit.entities.Address;
-import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.mail.EmailTokenVerifier;
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
+import com.google.gerrit.server.mail.send.OutgoingEmail.EmailDecorator;
 
 /**
  * Sender that informs a user by email about the registration of a new email address for their
  * account.
  */
-public class RegisterNewEmailSender extends OutgoingEmail {
-  public interface Factory {
-    RegisterNewEmailSender create(String address);
-  }
-
+@AutoFactory
+public class RegisterNewEmailDecorator implements EmailDecorator {
+  private OutgoingEmail email;
+  private final EmailArguments args;
   private final EmailTokenVerifier tokenVerifier;
   private final IdentifiedUser user;
   private final String addr;
   private String emailToken;
 
-  @Inject
-  public RegisterNewEmailSender(
-      EmailArguments args,
-      EmailTokenVerifier tokenVerifier,
-      IdentifiedUser callingUser,
-      @Assisted final String address) {
-    super(args, "registernewemail");
+  RegisterNewEmailDecorator(
+      @Provided EmailArguments args,
+      @Provided EmailTokenVerifier tokenVerifier,
+      @Provided IdentifiedUser callingUser,
+      final String address) {
+    this.args = args;
     this.tokenVerifier = tokenVerifier;
     this.user = callingUser;
     this.addr = address;
   }
 
   @Override
-  protected void init() throws EmailException {
-    super.init();
-    setHeader("Subject", "[Gerrit Code Review] Email Verification");
-    addByEmail(RecipientType.TO, Address.create(addr));
-  }
+  public void init(OutgoingEmail email) {
+    this.email = email;
 
-  @Override
-  protected void format() throws EmailException {
-    appendText(textTemplate("RegisterNewEmail"));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("RegisterNewEmailHtml"));
-    }
+    email.setHeader("Subject", "[Gerrit Code Review] Email Verification");
+    email.addByEmail(RecipientType.TO, Address.create(addr));
   }
 
   public boolean isAllowed() {
@@ -70,16 +61,20 @@ public class RegisterNewEmailSender extends OutgoingEmail {
   }
 
   @Override
-  protected void populateEmailContent() throws EmailException {
-    super.populateEmailContent();
-    addSoyEmailDataParam("emailRegistrationToken", getEmailRegistrationToken());
-    addSoyEmailDataParam("userNameEmail", getUserNameEmailFor(user.getAccountId()));
+  public void populateEmailContent() {
+    email.addSoyEmailDataParam("userNameEmail", email.getUserNameEmailFor(user.getAccountId()));
+    email.addSoyEmailDataParam("emailRegistrationLink", getEmailRegistrationLink());
+
+    email.appendText(email.textTemplate("RegisterNewEmail"));
+    if (email.useHtml()) {
+      email.appendHtml(email.soyHtmlTemplate("RegisterNewEmailHtml"));
+    }
   }
 
-  private String getEmailRegistrationToken() {
+  private String getEmailRegistrationLink() {
     if (emailToken == null) {
       emailToken = requireNonNull(tokenVerifier.encode(user.getAccountId(), addr), "token");
     }
-    return emailToken;
+    return args.urlFormatter.get().getWebUrl().orElse("") + "#/VE/" + emailToken;
   }
 }

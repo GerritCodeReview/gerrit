@@ -14,49 +14,36 @@
 
 package com.google.gerrit.server.mail.send;
 
+import com.google.auto.factory.AutoFactory;
+import com.google.auto.factory.Provided;
 import com.google.common.base.Joiner;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountSshKey;
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
+import com.google.gerrit.server.mail.send.OutgoingEmail.EmailDecorator;
 import java.util.List;
 
-/** Sender that informs a user by email about the addition of an SSH or GPG key to their account. */
-public class AddKeySender extends OutgoingEmail {
-  public interface Factory {
-    AddKeySender create(IdentifiedUser user, AccountSshKey sshKey);
-
-    AddKeySender create(IdentifiedUser user, List<String> gpgKey);
-  }
+/** Informs a user by email about the addition of an SSH or GPG key to their account. */
+@AutoFactory
+public class AddKeyEmailDecorator implements EmailDecorator {
+  private OutgoingEmail email;
 
   private final IdentifiedUser user;
   private final AccountSshKey sshKey;
   private final List<String> gpgKeys;
   private final MessageIdGenerator messageIdGenerator;
 
-  @AssistedInject
-  public AddKeySender(
-      EmailArguments args,
-      MessageIdGenerator messageIdGenerator,
-      @Assisted IdentifiedUser user,
-      @Assisted AccountSshKey sshKey) {
-    super(args, "addkey");
+  public AddKeyEmailDecorator(
+      @Provided MessageIdGenerator messageIdGenerator, IdentifiedUser user, AccountSshKey sshKey) {
     this.messageIdGenerator = messageIdGenerator;
     this.user = user;
     this.sshKey = sshKey;
     this.gpgKeys = null;
   }
 
-  @AssistedInject
-  public AddKeySender(
-      EmailArguments args,
-      MessageIdGenerator messageIdGenerator,
-      @Assisted IdentifiedUser user,
-      @Assisted List<String> gpgKeys) {
-    super(args, "addkey");
+  public AddKeyEmailDecorator(
+      @Provided MessageIdGenerator messageIdGenerator, IdentifiedUser user, List<String> gpgKeys) {
     this.messageIdGenerator = messageIdGenerator;
     this.user = user;
     this.sshKey = null;
@@ -64,15 +51,17 @@ public class AddKeySender extends OutgoingEmail {
   }
 
   @Override
-  protected void init() throws EmailException {
-    super.init();
-    setHeader("Subject", String.format("[Gerrit Code Review] New %s Keys Added", getKeyType()));
-    setMessageId(messageIdGenerator.fromAccountUpdate(user.getAccountId()));
-    addByAccountId(RecipientType.TO, user.getAccountId());
+  public void init(OutgoingEmail email) {
+    this.email = email;
+
+    email.setHeader(
+        "Subject", String.format("[Gerrit Code Review] New %s Keys Added", getKeyType()));
+    email.setMessageId(messageIdGenerator.fromAccountUpdate(user.getAccountId()));
+    email.addByAccountId(RecipientType.TO, user.getAccountId());
   }
 
   @Override
-  protected boolean shouldSendMessage() {
+  public boolean shouldSendMessage() {
     if (sshKey == null && (gpgKeys == null || gpgKeys.isEmpty())) {
       // Don't email if no keys were added.
       return false;
@@ -82,21 +71,19 @@ public class AddKeySender extends OutgoingEmail {
   }
 
   @Override
-  protected void format() throws EmailException {
-    appendText(textTemplate("AddKey"));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("AddKeyHtml"));
-    }
-  }
+  public void populateEmailContent() {
+    email.addSoyEmailDataParam("email", getEmail());
+    email.addSoyEmailDataParam("gpgKeys", getGpgKeys());
+    email.addSoyEmailDataParam("keyType", getKeyType());
+    email.addSoyEmailDataParam("sshKey", getSshKey());
+    email.addSoyEmailDataParam("userNameEmail", email.getUserNameEmailFor(user.getAccountId()));
+    email.addSoyEmailDataParam("sshKeysSettingsUrl", email.getSettingsUrl("ssh-keys"));
+    email.addSoyEmailDataParam("gpgKeysSettingsUrl", email.getSettingsUrl("gpg-keys"));
 
-  @Override
-  protected void populateEmailContent() throws EmailException {
-    super.populateEmailContent();
-    addSoyEmailDataParam("email", getEmail());
-    addSoyEmailDataParam("gpgKeys", getGpgKeys());
-    addSoyEmailDataParam("keyType", getKeyType());
-    addSoyEmailDataParam("sshKey", getSshKey());
-    addSoyEmailDataParam("userNameEmail", getUserNameEmailFor(user.getAccountId()));
+    email.appendText(email.textTemplate("AddKey"));
+    if (email.useHtml()) {
+      email.appendHtml(email.soyHtmlTemplate("AddKeyHtml"));
+    }
   }
 
   private String getEmail() {

@@ -17,9 +17,9 @@ package com.google.gerrit.server.mail.send;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
-import com.google.gerrit.exceptions.EmailException;
+import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.extensions.api.changes.RecipientType;
-import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.mail.send.ChangeEmail.ChangeEmailDecorator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -27,17 +27,17 @@ import java.util.List;
 import java.util.Set;
 
 /** Sends an email alerting a user to a new change for them to review. */
-public abstract class NewChangeSender extends ChangeEmail {
+public class StartReviewChangeEmailDecorator implements ChangeEmailDecorator {
+  private OutgoingEmail email;
+  private ChangeEmail changeEmail;
+
   private final Set<Account.Id> reviewers = new HashSet<>();
   private final Set<Address> reviewersByEmail = new HashSet<>();
   private final Set<Account.Id> extraCC = new HashSet<>();
   private final Set<Address> extraCCByEmail = new HashSet<>();
   private final Set<Account.Id> removedReviewers = new HashSet<>();
   private final Set<Address> removedByEmailReviewers = new HashSet<>();
-
-  protected NewChangeSender(EmailArguments args, ChangeData changeData) {
-    super(args, "newchange", changeData);
-  }
+  private boolean isCreateChange = false;
 
   public void addReviewers(Collection<Account.Id> cc) {
     reviewers.addAll(cc);
@@ -63,19 +63,14 @@ public abstract class NewChangeSender extends ChangeEmail {
     removedByEmailReviewers.addAll(removed);
   }
 
-  @Override
-  protected void init() throws EmailException {
-    super.init();
-    String threadId = getChangeMessageThreadId();
-    setHeader("References", threadId);
+  public void markAsCreateChange() {
+    isCreateChange = true;
   }
 
   @Override
-  protected void formatChange() throws EmailException {
-    appendText(textTemplate("NewChange"));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("NewChangeHtml"));
-    }
+  public void init(OutgoingEmail email, ChangeEmail changeEmail) {
+    this.email = email;
+    this.changeEmail = changeEmail;
   }
 
   @Nullable
@@ -85,7 +80,7 @@ public abstract class NewChangeSender extends ChangeEmail {
     }
     List<String> names = new ArrayList<>();
     for (Account.Id id : reviewers) {
-      names.add(getNameFor(id));
+      names.add(email.getNameFor(id));
     }
     return names;
   }
@@ -97,7 +92,7 @@ public abstract class NewChangeSender extends ChangeEmail {
     }
     List<String> names = new ArrayList<>();
     for (Account.Id id : removedReviewers) {
-      names.add(getNameFor(id));
+      names.add(email.getNameFor(id));
     }
     for (Address address : removedByEmailReviewers) {
       names.add(address.toString());
@@ -106,28 +101,43 @@ public abstract class NewChangeSender extends ChangeEmail {
   }
 
   @Override
-  protected void populateEmailContent() throws EmailException {
-    super.populateEmailContent();
-    addSoyParam("ownerName", getNameFor(getChange().getOwner()));
-    addSoyEmailDataParam("reviewerNames", getReviewerNames());
-    addSoyEmailDataParam("removedReviewerNames", getRemovedReviewerNames());
+  public void populateEmailContent() {
+    email.addSoyParam("ownerName", email.getNameFor(changeEmail.getChange().getOwner()));
+    email.addSoyEmailDataParam("reviewerNames", getReviewerNames());
+    email.addSoyEmailDataParam("removedReviewerNames", getRemovedReviewerNames());
 
-    switch (getNotify().handling()) {
+    switch (email.getNotify().handling()) {
       case NONE:
       case OWNER:
         break;
       case ALL:
       default:
-        extraCC.stream().forEach(cc -> addByAccountId(RecipientType.CC, cc));
-        extraCCByEmail.stream().forEach(cc -> addByEmail(RecipientType.CC, cc));
+        extraCC.stream().forEach(cc -> email.addByAccountId(RecipientType.CC, cc));
+        extraCCByEmail.stream().forEach(cc -> email.addByEmail(RecipientType.CC, cc));
         // $FALL-THROUGH$
       case OWNER_REVIEWERS:
-        reviewers.stream().forEach(r -> addByAccountId(RecipientType.TO, r, true));
-        reviewersByEmail.stream().forEach(r -> addByEmail(RecipientType.TO, r, true));
-        removedReviewers.stream().forEach(r -> addByAccountId(RecipientType.TO, r, true));
-        removedByEmailReviewers.stream().forEach(r -> addByEmail(RecipientType.TO, r, true));
+        reviewers.stream().forEach(r -> email.addByAccountId(RecipientType.TO, r, true));
+        reviewersByEmail.stream().forEach(r -> email.addByEmail(RecipientType.TO, r, true));
+        removedReviewers.stream().forEach(r -> email.addByAccountId(RecipientType.TO, r, true));
+        removedByEmailReviewers.stream().forEach(r -> email.addByEmail(RecipientType.TO, r, true));
         break;
     }
-    addAuthors(RecipientType.CC);
+    changeEmail.addAuthors(RecipientType.CC);
+
+    if (isCreateChange) {
+      changeEmail.includeWatchers(
+          NotifyType.NEW_CHANGES,
+          !changeEmail.getChange().isWorkInProgress() && !changeEmail.getChange().isPrivate());
+      changeEmail.includeWatchers(
+          NotifyType.NEW_PATCHSETS,
+          !changeEmail.getChange().isWorkInProgress() && !changeEmail.getChange().isPrivate());
+    } else {
+      changeEmail.ccExistingReviewers();
+    }
+
+    email.appendText(email.textTemplate("NewChange"));
+    if (email.useHtml()) {
+      email.appendHtml(email.soyHtmlTemplate("NewChangeHtml"));
+    }
   }
 }

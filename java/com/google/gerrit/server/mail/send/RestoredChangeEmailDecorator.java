@@ -16,15 +16,15 @@ package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.extensions.api.changes.RecipientType;
-import com.google.gerrit.server.mail.send.ChangeEmailNew.ChangeEmailDecorator;
+import com.google.gerrit.server.mail.send.ChangeEmail.ChangeEmailDecorator;
 
 /** Send notice about a change being restored by its owner. */
 public class RestoredChangeEmailDecorator implements ChangeEmailDecorator {
-  private OutgoingEmailNew email;
-  private ChangeEmailNew changeEmail;
+  private OutgoingEmail email;
+  private ChangeEmail changeEmail;
 
   @Override
-  public void init(OutgoingEmailNew email, ChangeEmailNew changeEmail) {
+  public void init(OutgoingEmail email, ChangeEmail changeEmail) {
     this.email = email;
     this.changeEmail = changeEmail;
     changeEmail.markAsReply();

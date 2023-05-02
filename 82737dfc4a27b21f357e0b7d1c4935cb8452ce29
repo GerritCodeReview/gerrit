@@ -118,6 +118,30 @@
       },
       "revId": "82737dfc4a27b21f357e0b7d1c4935cb8452ce29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49134889_0f69e0d8",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 671,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-05-02T13:23:00Z",
+      "side": 1,
+      "message": "Thank you for bringing this up!\n\nI don\u0027t think there is a reliable way upstream to detect this (e.g. internally we rely on the values of some special cookies).\nI added an annotation as per your suggestion.",
+      "parentUuid": "155c2f2e_ec7e1e7f",
+      "range": {
+        "startLine": 671,
+        "startChar": 11,
+        "endLine": 671,
+        "endChar": 62
+      },
+      "revId": "82737dfc4a27b21f357e0b7d1c4935cb8452ce29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

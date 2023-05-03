@@ -317,7 +317,7 @@ export class GrRelatedChangesList extends LitElement {
             >
               ${this.renderMarkers(
                 submittedTogetherMarkersPredicate(index)
-              )}${this.renderSubmittedTogetherLine(change, true)}
+              )}${this.renderSubmittedTogetherLine(change)}
             </div>`
         )}
       </gr-related-collapse>
@@ -327,17 +327,14 @@ export class GrRelatedChangesList extends LitElement {
     </section>`;
   }
 
-  private renderSubmittedTogetherLine(
-    change: ChangeInfo,
-    showSubmittabilityCheck: boolean
-  ) {
+  private renderSubmittedTogetherLine(change: ChangeInfo) {
     const truncatedRepo = truncatePath(change.project, 2);
     return html`
       <gr-related-change
         .label=${this.renderChangeTitle(change)}
         .change=${change}
         .href=${createChangeUrl({change, usp: 'submitted-together'})}
-        ?show-submittable-check=${showSubmittabilityCheck}
+        show-submittable-check
         >${change.subject}</gr-related-change
       >
       <span class="repo" .title=${change.project}>${truncatedRepo}</span
@@ -376,7 +373,7 @@ export class GrRelatedChangesList extends LitElement {
             >
               ${this.renderMarkers(
                 sameTopicMarkersPredicate(index)
-              )}${this.renderSubmittedTogetherLine(change, false)}
+              )}${this.renderSubmittedTogetherLine(change)}
             </div>`
         )}
       </gr-related-collapse>

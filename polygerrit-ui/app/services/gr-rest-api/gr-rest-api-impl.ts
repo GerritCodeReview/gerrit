@@ -1805,7 +1805,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }
     const options = listChangesOptionsToHex(
       ListChangesOption.CURRENT_REVISION,
-      ListChangesOption.CURRENT_COMMIT
+      ListChangesOption.CURRENT_COMMIT,
+      ListChangesOption.SUBMITTABLE
     );
     const params = {
       O: options,
@@ -1855,7 +1856,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       ListChangesOption.LABELS,
       ListChangesOption.CURRENT_REVISION,
       ListChangesOption.CURRENT_COMMIT,
-      ListChangesOption.DETAILED_LABELS
+      ListChangesOption.DETAILED_LABELS,
+      ListChangesOption.SUBMITTABLE
     );
     const queryTerms = [`topic:${escapeAndWrapSearchOperatorValue(topic)}`];
     if (options?.openChangesOnly) {

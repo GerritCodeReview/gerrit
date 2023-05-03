@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8f7ef16_35b6c629",
+        "filename": "java/com/google/gerrit/server/change/ChangeTriplet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-03T16:24:36Z",
+      "side": 1,
+      "message": "Are there any existing callers of this method? If yes, do they expect an encoded string?",
+      "range": {
+        "startLine": 26,
+        "startChar": 23,
+        "endLine": 26,
+        "endChar": 29
+      },
+      "revId": "71e09b27a07de9d38e51d70a44bc88cafaac4c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfbc54ef_3cda37ba",
+        "filename": "java/com/google/gerrit/server/change/ChangeTriplet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-03T16:24:36Z",
+      "side": 1,
+      "message": "Should this be printing the encoded string?",
+      "range": {
+        "startLine": 73,
+        "startChar": 11,
+        "endLine": 73,
+        "endChar": 17
+      },
+      "revId": "71e09b27a07de9d38e51d70a44bc88cafaac4c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -51,7 +51,7 @@ suite('gr-change-list basic tests', () => {
       time_format: TimeFormat.HHMM_12,
       change_table: [],
     };
-    element.account = {_account_id: 1001 as AccountId};
+    element.loggedInUser = {_account_id: 1001 as AccountId};
     element.config = createServerInfo();
     element.sections = [
       {
@@ -106,7 +106,7 @@ suite('gr-change-list basic tests', () => {
   });
 
   test('show change number disabled when not logged in', async () => {
-    element.account = undefined;
+    element.loggedInUser = undefined;
     element.preferences = undefined;
     element.config = createServerInfo();
     await element.updateComplete;
@@ -120,7 +120,7 @@ suite('gr-change-list basic tests', () => {
       time_format: TimeFormat.HHMM_12,
       change_table: [],
     };
-    element.account = {_account_id: 1001 as AccountId};
+    element.loggedInUser = {_account_id: 1001 as AccountId};
     element.config = createServerInfo();
     await element.updateComplete;
 
@@ -133,7 +133,7 @@ suite('gr-change-list basic tests', () => {
       time_format: TimeFormat.HHMM_12,
       change_table: [],
     };
-    element.account = {_account_id: 1001 as AccountId};
+    element.loggedInUser = {_account_id: 1001 as AccountId};
     element.config = createServerInfo();
     await element.updateComplete;
 
@@ -415,7 +415,7 @@ suite('gr-change-list basic tests', () => {
       stubFlags('isEnabled').returns(true);
       element = await fixture(html`<gr-change-list></gr-change-list>`);
       element.sections = [{results: [{...createChange()}]}];
-      element.account = {_account_id: 1001 as AccountId};
+      element.loggedInUser = {_account_id: 1001 as AccountId};
       element.preferences = {
         legacycid_in_change_table: true,
         time_format: TimeFormat.HHMM_12,
@@ -447,7 +447,7 @@ suite('gr-change-list basic tests', () => {
       stubFlags('isEnabled').returns(true);
       element = await fixture(html`<gr-change-list></gr-change-list>`);
       element.sections = [{results: [{...createChange()}]}];
-      element.account = {_account_id: 1001 as AccountId};
+      element.loggedInUser = {_account_id: 1001 as AccountId};
       element.preferences = {
         legacycid_in_change_table: true,
         time_format: TimeFormat.HHMM_12,
@@ -486,7 +486,7 @@ suite('gr-change-list basic tests', () => {
       stubFlags('isEnabled').returns(true);
       element = await fixture(html`<gr-change-list></gr-change-list>`);
       element.sections = [{results: [{...createChange()}]}];
-      element.account = {_account_id: 1001 as AccountId};
+      element.loggedInUser = {_account_id: 1001 as AccountId};
       element.preferences = {
         legacycid_in_change_table: true,
         time_format: TimeFormat.HHMM_12,
@@ -537,7 +537,7 @@ suite('gr-change-list basic tests', () => {
 
   test('loggedIn and showNumber', async () => {
     element.sections = [{results: [{...createChange()}], name: 'a'}];
-    element.account = {_account_id: 1001 as AccountId};
+    element.loggedInUser = {_account_id: 1001 as AccountId};
     element.preferences = {
       legacycid_in_change_table: false, // sets showNumber false
       time_format: TimeFormat.HHMM_12,
@@ -586,7 +586,7 @@ suite('gr-change-list basic tests', () => {
 
   test('garbage columns in preference are not shown', async () => {
     // This would only exist if somebody manually updated the config file.
-    element.account = {_account_id: 1001 as AccountId};
+    element.loggedInUser = {_account_id: 1001 as AccountId};
     element.preferences = {
       legacycid_in_change_table: true,
       time_format: TimeFormat.HHMM_12,
@@ -603,7 +603,7 @@ suite('gr-change-list basic tests', () => {
       html`<gr-change-list></gr-change-list>`
     );
     element.sections = [{results: [{...createChange()}]}];
-    element.account = {_account_id: 1001 as AccountId};
+    element.loggedInUser = {_account_id: 1001 as AccountId};
     element.preferences = {
       change_table: [
         'Status', // old status

@@ -79,7 +79,7 @@ export class GrDashboardView extends LitElement {
   protected confirmDeleteModal?: HTMLDialogElement;
 
   @property({type: Object})
-  account?: AccountDetailInfo;
+  loggedInUser?: AccountDetailInfo;
 
   @property({type: Object})
   preferences?: PreferencesInput;
@@ -126,7 +126,7 @@ export class GrDashboardView extends LitElement {
     subscribe(
       this,
       () => this.getUserModel().account$,
-      x => (this.account = x)
+      x => (this.loggedInUser = x)
     );
     subscribe(
       this,
@@ -286,7 +286,8 @@ export class GrDashboardView extends LitElement {
         ${this.renderUserHeader()}
         <h1 class="assistive-tech-only">Dashboard</h1>
         <gr-change-list
-          .account=${this.account}
+          .loggedInUser=${this.loggedInUser}
+          .user=${this.viewState?.user}
           .preferences=${this.preferences}
           .sections=${this.results}
           .usp=${'dashboard'}
@@ -392,15 +393,16 @@ export class GrDashboardView extends LitElement {
       : Promise.resolve(
           getUserDashboard(user, sections, title || this.computeTitle(user))
         );
-    // Checking `this.account` to make sure that the user is logged in.
+    // Checking `this.loggedInUser` to make sure that the user is logged in.
     // Otherwise sending a query for 'owner:self' will result in an error.
-    const checkForNewUser = !project && !!this.account && user === 'self';
+    const isLoggedInUserDashboard =
+      !project && !!this.loggedInUser && user === 'self';
     return dashboardPromise
       .then(res => {
         if (res && res.title) {
           fireTitleChange(res.title);
         }
-        return this.fetchDashboardChanges(res, checkForNewUser);
+        return this.fetchDashboardChanges(res, isLoggedInUserDashboard);
       })
       .then(() => {
         this.maybeShowDraftsBanner();
@@ -423,7 +425,7 @@ export class GrDashboardView extends LitElement {
    */
   fetchDashboardChanges(
     res: UserDashboard | undefined,
-    checkForNewUser: boolean
+    isLoggedInUserDashboard: boolean
   ): Promise<void> {
     if (!res) {
       return Promise.resolve();
@@ -442,7 +444,8 @@ export class GrDashboardView extends LitElement {
           : section.query
       );
 
-      if (checkForNewUser) {
+      if (isLoggedInUserDashboard) {
+        // The query to check if the user created any changes yet.
         queries.push('owner:self limit:1');
       }
     }
@@ -453,8 +456,9 @@ export class GrDashboardView extends LitElement {
         if (!changes) {
           throw new Error('getChanges returns undefined');
         }
-        if (checkForNewUser) {
-          // Last set of results is not meant for dashboard display.
+        if (isLoggedInUserDashboard) {
+          // Last query ('owner:self limit:1') is only for evaluation if
+          // the user is "New" ie. haven't created any changes yet.
           const lastResultSet = changes.pop();
           this.showNewUserHelp = lastResultSet!.length === 0;
         }
@@ -485,7 +489,10 @@ export class GrDashboardView extends LitElement {
    * And then we want to emphasize the changes where the waiting time is larger.
    */
   private maybeSortResults(name: string, results: ChangeInfo[]) {
-    const userId = this.account?._account_id;
+    const userId =
+      this.viewState?.user === 'self'
+        ? this.loggedInUser?._account_id
+        : this.viewState?.user;
     const sortedResults = [...results];
     if (name === YOUR_TURN.name && userId) {
       sortedResults.sort((c1, c2) => {

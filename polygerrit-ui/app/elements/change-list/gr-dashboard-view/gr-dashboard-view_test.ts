@@ -319,7 +319,7 @@ suite('gr-dashboard-view tests', () => {
 
   suite('selfOnly sections', () => {
     test('viewing self dashboard includes selfOnly sections', async () => {
-      element.account = undefined;
+      element.loggedInUser = undefined;
       element.viewState = {
         view: GerritView.DASHBOARD,
         user: 'self',
@@ -334,7 +334,7 @@ suite('gr-dashboard-view tests', () => {
     });
 
     test('viewing dashboard when logged in includes owner:self query', async () => {
-      element.account = createAccountDetailWithId(1);
+      element.loggedInUser = createAccountDetailWithId(1);
       element.viewState = {
         view: GerritView.DASHBOARD,
         user: 'self',

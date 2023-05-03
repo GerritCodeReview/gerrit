@@ -77,7 +77,15 @@ declare global {
 export class GrChangeListItem extends LitElement {
   /** The logged-in user's account, or null if no user is logged in. */
   @property({type: Object})
-  account: AccountInfo | null = null;
+  loggedInUser: AccountInfo | null = null;
+
+  /**
+   * The user relative to which the list is generated. Contains id or 'self'.
+   * Different from loggedInUser in some cases, for example when viewing
+   * dashboards for other users.
+   */
+  @property({type: String})
+  user?: string = undefined;
 
   @property({type: Array})
   visibleChangeTableColumns?: string[];
@@ -764,9 +772,9 @@ export class GrChangeListItem extends LitElement {
         !isServiceUser(r)
     );
     reviewers.sort((r1, r2) => {
-      if (this.account) {
-        if (isSelf(r1, this.account)) return -1;
-        if (isSelf(r2, this.account)) return 1;
+      if (this.loggedInUser) {
+        if (isSelf(r1, this.loggedInUser)) return -1;
+        if (isSelf(r2, this.loggedInUser)) return 1;
       }
       if (this.hasAttention(r1) && !this.hasAttention(r2)) return -1;
       if (this.hasAttention(r2) && !this.hasAttention(r1)) return 1;
@@ -825,9 +833,8 @@ export class GrChangeListItem extends LitElement {
   }
 
   private computeWaiting(): Timestamp | undefined {
-    if (!this.account?._account_id || !this.change?.attention_set)
-      return undefined;
-    return this.change?.attention_set[this.account._account_id]?.last_update;
+    if (!this.user || !this.change?.attention_set) return undefined;
+    return this.change?.attention_set[this.user]?.last_update;
   }
 
   private computeIsColumnHidden(
@@ -849,7 +856,7 @@ export class GrChangeListItem extends LitElement {
     // Don't prevent the default and neither stop bubbling. We just want to
     // report the click, but then let the browser handle the click on the link.
 
-    const selfId = (this.account && this.account._account_id) || -1;
+    const selfId = (this.loggedInUser && this.loggedInUser._account_id) || -1;
     const ownerId =
       (this.change && this.change.owner && this.change.owner._account_id) || -1;
 

@@ -177,7 +177,7 @@ export class GrChangeListView extends LitElement {
       <div ?hidden=${this.loading}>
         ${this.renderRepoHeader()} ${this.renderUserHeader()}
         <gr-change-list
-          .account=${this.account}
+          .loggedInUser=${this.account}
           .changes=${this.changes}
           @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) => {
             this.handleToggleStar(e);

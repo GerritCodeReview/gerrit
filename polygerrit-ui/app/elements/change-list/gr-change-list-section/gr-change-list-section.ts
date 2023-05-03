@@ -75,7 +75,15 @@ export class GrChangeListSection extends LitElement {
    * in.
    */
   @property({type: Object})
-  account: AccountInfo | undefined = undefined;
+  loggedInUser: AccountInfo | undefined = undefined;
+
+  /**
+   * The user relative to which the list is generated. Contains id or 'self'.
+   * Different from loggedInUser in some cases, for example when viewing
+   * dashboards for other users.
+   */
+  @property({type: String})
+  user?: string = undefined;
 
   @property({type: String})
   usp?: string;
@@ -319,7 +327,8 @@ export class GrChangeListSection extends LitElement {
     return html`
       <gr-change-list-item
         tabindex="0"
-        .account=${this.account}
+        .loggedInUser=${this.loggedInUser}
+        .user=${this.user}
         .selected=${selected}
         .change=${change}
         .sectionName=${this.changeSection.name}

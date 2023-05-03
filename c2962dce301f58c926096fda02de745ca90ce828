@@ -142,6 +142,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "080e2702_cc0a14bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-03T11:30:24Z",
+      "side": 1,
+      "message": "r",
+      "revId": "c2962dce301f58c926096fda02de745ca90ce828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8229a63f_ebfa53cc",
@@ -179,6 +196,30 @@
       "side": 1,
       "message": "Will do as a follow-up, thanks.",
       "parentUuid": "8229a63f_ebfa53cc",
+      "range": {
+        "startLine": 304,
+        "startChar": 25,
+        "endLine": 304,
+        "endChar": 34
+      },
+      "revId": "c2962dce301f58c926096fda02de745ca90ce828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c4a6ca9_dfd06845",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-03T11:30:24Z",
+      "side": 1,
+      "message": "Could you explain what part is mutable? Should I also change patchSets and approvals?",
+      "parentUuid": "57af60fb_22f07264",
       "range": {
         "startLine": 304,
         "startChar": 25,

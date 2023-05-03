@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60383f58_b6509f59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-05-03T09:01:17Z",
+      "side": 1,
+      "message": "\u003e Yes, but isn\u0027t that RefDatabase a ReftableDatabase?\n\nI think so but not quite sure. I think we use a custom implementation of the DfsReftableDatabase.\n\n\u003e Most Gerrit installs will be using RefDirectory instead and an exactRef could be much slower depending on what file system they\u0027re on, the values of core.trustFolderStat/core.trustPackedRefsStat, and overall # of refs in the All-Users repository.\n\nThanks for bringing to my attention. Out of curiosity, are you aware of similar performance numbers for file-based ref databases? Is the latency significantly higher?",
+      "parentUuid": "5f7f3740_49983d1b",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 63
+      },
+      "revId": "95a1d278c54ffcb64d16cbb07ebc66f15273c102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c55bb30_69d74b8f",

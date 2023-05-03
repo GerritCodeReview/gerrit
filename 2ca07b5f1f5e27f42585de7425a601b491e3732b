@@ -46,6 +46,30 @@
       },
       "revId": "2ca07b5f1f5e27f42585de7425a601b491e3732b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ba1aaea_62c06b4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-03T17:11:41Z",
+      "side": 1,
+      "message": "Here the release notes:\n- commons-compress: a lot of bug fixes, couple of new features, it could make sense to update it\nhttps://archive.apache.org/dist/commons/compress/RELEASE-NOTES.txt\n- javaEWAH: only minor changes in the build, adds Java module-info\nhttps://github.com/lemire/javaewah/compare/JavaEWAH-1.1.13...JavaEWAH-1.2.3",
+      "parentUuid": "91de7cef_4c78d5d1",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 73
+      },
+      "revId": "2ca07b5f1f5e27f42585de7425a601b491e3732b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -143,6 +143,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b2210c3_740cd06f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-03T16:38:37Z",
+      "side": 1,
+      "message": "\u003e \u003e Yes, but isn\u0027t that RefDatabase a ReftableDatabase?\n\u003e \n\u003e I think so but not quite sure. I think we use a custom implementation of the DfsReftableDatabase.\n\nAck.\n\n\u003e \n\u003e \u003e Most Gerrit installs will be using RefDirectory instead and an exactRef could be much slower depending on what file system they\u0027re on, the values of core.trustFolderStat/core.trustPackedRefsStat, and overall # of refs in the All-Users repository.\n\u003e \n\u003e Thanks for bringing to my attention. Out of curiosity, are you aware of similar performance numbers for file-based ref databases? Is the latency significantly higher?\n\nThe numbers vary significantly based on the actual filesystem, underlying storage, and JGit configuration. I can\u0027t find a good recording of metrics, but various JGit/Gerrit commit messages talk about times in the seconds with NFS storage and in the 10s of seconds for NFS storage with core.trustFolderStat\u003dfalse and 50k refs in the repo. Optimizing that lookup time is a huge reason why we created the new SnapshottingRefDirectory class and leverage it in Gerrit\u0027s PerThreadCache.\n\nAlso, I discovered your change to use `exactRef(String ...)` *will* matter for file-based ref databases because Jonathan optimized it in 49573: RefDirectory: Look up several exact refs in one shot | https://git.eclipse.org/r/c/jgit/jgit/+/49573\nThanks again for doing that!",
+      "parentUuid": "60383f58_b6509f59",
+      "range": {
+        "startLine": 26,
+        "startChar": 4,
+        "endLine": 26,
+        "endChar": 63
+      },
+      "revId": "95a1d278c54ffcb64d16cbb07ebc66f15273c102",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c55bb30_69d74b8f",

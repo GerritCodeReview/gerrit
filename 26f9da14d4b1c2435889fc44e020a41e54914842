@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d4130429_1719e557",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-03T08:22:45Z",
+      "side": 1,
+      "message": "IMHO, as long as Gerrit will interpret Prolog rules it should be Gerrit admins\ndecision if new prolog rules are allowed or not.",
+      "range": {
+        "startLine": 11,
+        "startChar": 48,
+        "endLine": 13,
+        "endChar": 50
+      },
+      "revId": "26f9da14d4b1c2435889fc44e020a41e54914842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "16199b40_c232b7cb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91de7cef_4c78d5d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-03T15:54:16Z",
+      "side": 1,
+      "message": "Gerrit is using commons-compress 1.20 and JavaEWAH 1.1.12. Do we need to update those on stable-3.8 or fine to do it when this merges up to master?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 73
+      },
+      "revId": "2ca07b5f1f5e27f42585de7425a601b491e3732b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

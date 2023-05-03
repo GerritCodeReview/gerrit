@@ -16,6 +16,29 @@
       "message": "Hi @luca.milanesio@gmail.com,\n\nI am sorry that I am bothering you, you are the only one I know 😊\n\nI added tests, is something else missing?\n\nThanks,",
       "revId": "29f011b251cdfdcea372d3233b197c0f12a87085",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbf816df_af58aa5a",
+        "filename": "javatests/com/google/gerrit/server/change/ChangeTripletTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-03T12:51:34Z",
+      "side": 1,
+      "message": "Can you think of a more representative name?\nWhat about parseUrlEncodedParts?",
+      "range": {
+        "startLine": 41,
+        "startChar": 14,
+        "endLine": 41,
+        "endChar": 19
+      },
+      "revId": "29f011b251cdfdcea372d3233b197c0f12a87085",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

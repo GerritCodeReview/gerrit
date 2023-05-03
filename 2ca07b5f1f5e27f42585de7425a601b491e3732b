@@ -22,6 +22,30 @@
       },
       "revId": "2ca07b5f1f5e27f42585de7425a601b491e3732b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66a8ce68_523e4805",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-03T16:44:39Z",
+      "side": 1,
+      "message": "I\u0027m still interested in this, but I see that Gerrit was already lagging behind JGit before this bump, so I don\u0027t think it blocks submitting this change. @matthias.sohn@gmail.com please let me know your thoughts when you get a chance.",
+      "parentUuid": "91de7cef_4c78d5d1",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 73
+      },
+      "revId": "2ca07b5f1f5e27f42585de7425a601b491e3732b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

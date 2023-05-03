@@ -2837,6 +2837,76 @@ As response the change's hashtags are returned as a list of strings.
   ]
 ----
 
+[[get-custom-keyed-values]]
+=== Get Custom Keyed Values
+--
+'GET /changes/link:#change-id[\{change-id\}]/custom-keyed-values'
+--
+
+Gets the custom keyed values associated with a change.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/custom-keyed-values HTTP/1.0
+----
+
+As response the change's custom keyed values are returned as a map of strings.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "key1": "value1",
+    "key2": "value2"
+  }
+----
+
+[[set-custom-keyed-values]]
+=== Set Custom Keyed Values
+--
+'POST /changes/link:#change-id[\{change-id\}]/custom-keyed-values'
+--
+
+Adds and/or removes custom keyed values from a change.
+
+The custom keyed values to add or remove must be provided in the request body
+inside a link:#custom-keyed-values-input[CustomKeyedValuesInput] entity.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/custom-keyed-values HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "add" : {
+      "key1": "value1"
+    },
+    "remove" : [
+      "key2"
+    ]
+  }
+----
+
+As response the change's custom keyed values are returned as a map of strings to strings.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "key1": "value1",
+    "key3": "value3"
+  }
+----
+
+
 [[list-change-messages]]
 === List Change Messages
 --
@@ -7693,6 +7763,19 @@ Whether the web link should be shown on the unified diff screen.
 [[apply-provided-fix-input]]
 === ApplyProvidedFixInput
 The `ApplyProvidedFixInput` entity contains the fixes to be applied on a review.
+
+[[custom-keyed-values-input]]
+=== CustomKeyedValuesInput
+
+The `CustomKeyedValuesInput` entity contains information about custom keyed values
+to add to, and/or remove from, a change.
+
+[options="header",cols="1,^1,5"]
+|=======================
+|Field Name||Description
+|`add`     |optional|The map of custom keyed values to be added to the change.
+|`remove`  |optional|The list of custom keys to be removed from the change.
+|=======================
 
 [options="header",cols="1,6"]
 |=======================

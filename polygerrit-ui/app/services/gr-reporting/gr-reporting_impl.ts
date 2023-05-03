@@ -88,6 +88,9 @@ const STARTUP_TIMERS: {[name: string]: number} = {
   [Timing.WEB_COMPONENTS_READY]: 0,
 };
 
+// List of timers that should NOT be reset before a location change.
+const LOCATION_CHANGE_OK_TIMERS: (string | Timing)[] = [Timing.SEND_REPLY];
+
 const SLOW_RPC_THRESHOLD = 500;
 
 export function initErrorReporter(reportingService: ReportingService) {
@@ -600,6 +603,7 @@ export class GrReporting implements ReportingService, Finalizable {
 
   beforeLocationChanged() {
     for (const prop of Object.keys(this._baselines)) {
+      if (LOCATION_CHANGE_OK_TIMERS.includes(prop)) continue;
       delete this._baselines[prop];
     }
     this.time(Timing.CHANGE_DISPLAYED);

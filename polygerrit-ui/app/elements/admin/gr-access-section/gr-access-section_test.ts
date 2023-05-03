@@ -355,7 +355,20 @@ suite('gr-access-section tests', () => {
 
       assert.equal(
         element.computePermissionName(permission),
-        'Label Code-Review(On Behalf Of)'
+        'Label Code-Review (On Behalf Of)'
+      );
+
+      permission = {
+        id: 'removeLabel-Code-Review' as GitRef,
+        value: {
+          label: 'Code-Review',
+          rules: {},
+        },
+      };
+
+      assert.equal(
+        element.computePermissionName(permission),
+        'Remove Label Code-Review'
       );
     });
 

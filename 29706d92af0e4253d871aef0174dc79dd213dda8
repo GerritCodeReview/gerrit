@@ -265,6 +265,30 @@
       },
       "revId": "29706d92af0e4253d871aef0174dc79dd213dda8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7943ab78_5d49f5be",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-03T07:56:34Z",
+      "side": 1,
+      "message": "I would suggest adding to the documentation that the maximum vote is +9 and minimum vote is -9, so that documentation and code are consistent.\n\nWe can also mention that in the release notes.",
+      "parentUuid": "5a637bfe_6ab95196",
+      "range": {
+        "startLine": 830,
+        "startChar": 9,
+        "endLine": 830,
+        "endChar": 31
+      },
+      "revId": "29706d92af0e4253d871aef0174dc79dd213dda8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

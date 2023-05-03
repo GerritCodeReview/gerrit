@@ -16,6 +16,24 @@
       "message": "Does this need a change to the default queries that we serve with PolyIndexGerrit?",
       "revId": "db6de691a713bd9a4a929b9ddf644938e28179b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49c6f091_0ac26d15",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-03T10:29:07Z",
+      "side": 1,
+      "message": "No. This file does not need any change: https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+      "parentUuid": "5ee58f41_64bac2dc",
+      "revId": "db6de691a713bd9a4a929b9ddf644938e28179b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

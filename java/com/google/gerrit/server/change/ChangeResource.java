@@ -24,6 +24,9 @@ import com.google.common.hash.Hashing;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
@@ -83,6 +86,7 @@ public class ChangeResource implements RestResource, HasETag {
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeNotes notes;
   private final CurrentUser user;
+  private final Timer0 etagChangeIndexLatency;
 
   @Inject
   ChangeResource(
@@ -94,6 +98,7 @@ public class ChangeResource implements RestResource, HasETag {
       StarredChangesUtil starredChangesUtil,
       ProjectCache projectCache,
       Provider<InternalChangeQuery> queryProvider,
+      MetricMaker metricMaker,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user) {
     this.db = db;
@@ -106,6 +111,12 @@ public class ChangeResource implements RestResource, HasETag {
     this.queryProvider = queryProvider;
     this.notes = notes;
     this.user = user;
+    this.etagChangeIndexLatency =
+        metricMaker.newTimer(
+            "change/etag/read_from_index_latency",
+            new Description("Latency for reading change information from index when preparing eTag")
+                .setCumulative()
+                .setUnit(Description.Units.MILLISECONDS));
   }
 
   public PermissionBackend.ForChange permissions() {
@@ -147,7 +158,7 @@ public class ChangeResource implements RestResource, HasETag {
         .putInt(user.isIdentifiedUser() ? user.getAccountId().get() : 0);
 
     // Add index status to ETag
-    try {
+    try (Timer0.Context ignored = etagChangeIndexLatency.start()) {
       for (ChangeData changeFromIndex : queryProvider.get().byLegacyChangeId(getChange().getId())) {
         h.putLong(changeFromIndex.change().getLastUpdatedOn().getTime())
             .putInt(changeFromIndex.change().getRowVersion());

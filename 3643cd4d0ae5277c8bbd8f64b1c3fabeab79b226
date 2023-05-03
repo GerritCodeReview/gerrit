@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a639715_6dc99f53",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-05-03T12:01:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1c4fff8_a075c188",
+      "range": {
+        "startLine": 88,
+        "startChar": 6,
+        "endLine": 88,
+        "endChar": 27
+      },
+      "revId": "3643cd4d0ae5277c8bbd8f64b1c3fabeab79b226",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12f84270_396c692a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-05-03T12:01:01Z",
+      "side": 1,
+      "message": "Renamed to dashboardUser.\n\nThe typing issue is complicated. Because the value of user can be id or email. That would require a more complex change to address (looking up Id before rendering the column). I\u0027ve left the TODOs and mentioned in the commit message. \n\nUnless You or @brohlfs@google.com can suggest a better approach (to do the lookup in the router model, maybe) I will leave it for the future.",
+      "parentUuid": "8e256378_cc0872b4",
+      "range": {
+        "startLine": 88,
+        "startChar": 2,
+        "endLine": 88,
+        "endChar": 6
+      },
+      "revId": "3643cd4d0ae5277c8bbd8f64b1c3fabeab79b226",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e909309_059bf315",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-05-03T11:10:34Z",
       "side": 1,
       "message": "why do we need `user` check here?\n`isLoggedInUserDashboard` can be checked from `this.loggedInUser` entirely?",
+      "range": {
+        "startLine": 399,
+        "startChar": 41,
+        "endLine": 399,
+        "endChar": 45
+      },
+      "revId": "3643cd4d0ae5277c8bbd8f64b1c3fabeab79b226",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0722e808_16bccf73",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-05-03T12:01:01Z",
+      "side": 1,
+      "message": "No, you do need to check that the current dashboard you\u0027re looking at is the dashboard for the loggedInUser (which is what `user \u003d\u003d\u003d \u0027self\u0027` means). LoggedInUser itself comes from the UserModel and doesn\u0027t know anything about the dashboard. Any other (non `self`) value would mean you\u0027re looking at someone else\u0027s dashboard. And we only want to show \"New User\" hint on your own dashboard.",
+      "parentUuid": "1e909309_059bf315",
       "range": {
         "startLine": 399,
         "startChar": 41,

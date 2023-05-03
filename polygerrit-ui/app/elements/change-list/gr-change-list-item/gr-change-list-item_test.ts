@@ -243,7 +243,9 @@ suite('gr-change-list-item tests', () => {
     attSetIds: number[],
     expected: number[]
   ) {
-    element.account = userId ? {_account_id: userId as AccountId} : null;
+    element.loggedInUser = userId
+      ? {_account_id: userId as AccountId}
+      : undefined;
     element.change = {
       ...change,
       owner: {
@@ -384,7 +386,7 @@ suite('gr-change-list-item tests', () => {
       registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
     });
     element.showNumber = true;
-    element.account = createAccountWithId(1);
+    element.loggedInUser = createAccountWithId(1);
     element.config = createServerInfo();
     element.change = change;
     await element.updateComplete;

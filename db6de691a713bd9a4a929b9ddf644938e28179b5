@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ee58f41_64bac2dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-03T10:01:36Z",
+      "side": 1,
+      "message": "Does this need a change to the default queries that we serve with PolyIndexGerrit?",
+      "revId": "db6de691a713bd9a4a929b9ddf644938e28179b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

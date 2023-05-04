@@ -10,6 +10,8 @@ import '../gr-diff-image-viewer/gr-image-viewer';
 import {html, LitElement, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {GrDiffBuilder} from './gr-diff-builder';
+import {createElementDiff} from '../gr-diff/gr-diff-utils';
+import {GrDiffGroup} from '../gr-diff/gr-diff-group';
 
 // MIME types for images we allow showing. Do not include SVG, it can contain
 // arbitrary JavaScript.
@@ -26,6 +28,13 @@ export class GrDiffBuilderImage extends GrDiffBuilder {
     private readonly useNewImageDiffUi: boolean = false
   ) {
     super(diff, prefs, outputEl, [], renderPrefs);
+  }
+
+  override buildSectionElement(group: GrDiffGroup): HTMLElement {
+    const section = createElementDiff('tbody');
+    // Do not create a diff row for 'LOST'.
+    if (group.lines[0].beforeNumber !== 'FILE') return section;
+    return super.buildSectionElement(group);
   }
 
   public renderImageDiff() {

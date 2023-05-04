@@ -14,13 +14,14 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.gerrit.extensions.restapi.Cacheability;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.inject.TypeLiteral;
 
-public class FileResource implements RestResource {
+public class FileResource implements RestResource, Cacheability {
   public static final TypeLiteral<RestView<FileResource>> FILE_KIND =
       new TypeLiteral<RestView<FileResource>>() {};
 
@@ -36,6 +37,7 @@ public class FileResource implements RestResource {
     return key;
   }
 
+  @Override
   public boolean isCacheable() {
     return rev.isCacheable();
   }

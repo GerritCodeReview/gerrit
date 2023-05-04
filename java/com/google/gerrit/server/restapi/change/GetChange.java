@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.restapi.Cacheability;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.ChangeJson;
@@ -26,7 +27,7 @@ import com.google.inject.Inject;
 import java.util.EnumSet;
 import org.kohsuke.args4j.Option;
 
-public class GetChange implements RestReadView<ChangeResource> {
+public class GetChange implements RestReadView<ChangeResource>, Cacheability {
   private final ChangeJson.Factory json;
   private final EnumSet<ListChangesOption> options = EnumSet.noneOf(ListChangesOption.class);
 
@@ -52,5 +53,10 @@ public class GetChange implements RestReadView<ChangeResource> {
 
   Response<ChangeInfo> apply(RevisionResource rsrc) throws OrmException {
     return Response.withMustRevalidate(json.create(options).format(rsrc));
+  }
+
+  @Override
+  public boolean isCacheable() {
+    return true;
   }
 }

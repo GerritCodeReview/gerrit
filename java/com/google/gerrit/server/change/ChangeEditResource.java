@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.extensions.restapi.RestResource;
+import com.google.gerrit.extensions.restapi.RestResource.Cacheable;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.inject.TypeLiteral;
@@ -29,7 +30,7 @@ import com.google.inject.TypeLiteral;
  *
  * distinguished by whether path is null or not.
  */
-public class ChangeEditResource implements RestResource {
+public class ChangeEditResource implements RestResource, Cacheable {
   public static final TypeLiteral<RestView<ChangeEditResource>> CHANGE_EDIT_KIND =
       new TypeLiteral<RestView<ChangeEditResource>>() {};
 
@@ -45,6 +46,7 @@ public class ChangeEditResource implements RestResource {
 
   // TODO(davido): Make this cacheable.
   // Should just depend on the SHA-1 of the edit itself.
+  @Override
   public boolean isCacheable() {
     return false;
   }

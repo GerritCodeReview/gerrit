@@ -15,12 +15,10 @@ import {
   GrDiffGroupType,
   hideInContextControl,
 } from '../gr-diff/gr-diff-group';
-import {CancelablePromise, makeCancelable} from '../../../utils/async-util';
 import {DiffContent} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
 import {debounce, DelayedTask} from '../../../utils/async-util';
-import {RenderPreferences} from '../../../api/diff';
-import {assertIsDefined} from '../../../utils/common-util';
+import {assert, assertIsDefined} from '../../../utils/common-util';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
 
 const WHOLE_FILE = -1;
@@ -95,14 +93,16 @@ export class GrDiffProcessor {
 
   keyLocations: KeyLocations = {left: {}, right: {}};
 
-  private asyncThreshold = 64;
-
-  private nextStepHandle: number | null = null;
-
-  private processPromise: CancelablePromise<void> | null = null;
+  asyncThreshold = 64;
 
   // visible for testing
   isScrolling?: boolean;
+
+  /** Just for making sure that process() is only called once. */
+  private isStarted = false;
+
+  /** Indicates that processing should be stopped. */
+  private isCancelled = false;
 
   private resetIsScrollingTask?: DelayedTask;
 
@@ -123,9 +123,9 @@ export class GrDiffProcessor {
    * array of GrDiffGroups when the diff is completely processed.
    */
   process(chunks: DiffContent[], isBinary: boolean) {
-    // Cancel any still running process() calls, because they append to the
-    // same groups field.
-    this.cancel();
+    assert(this.isStarted === false, 'diff processor cannot be started twice');
+    this.isStarted = true;
+
     window.addEventListener('scroll', this.handleWindowScroll);
 
     assertIsDefined(this.consumer, 'consumer');
@@ -133,81 +133,54 @@ export class GrDiffProcessor {
     this.consumer.addGroup(this.makeGroup('LOST'));
     this.consumer.addGroup(this.makeGroup(FILE));
 
-    // If it's a binary diff, we won't be rendering hunks of text differences
-    // so finish processing.
-    if (isBinary) {
-      return Promise.resolve();
-    }
+    if (isBinary) return Promise.resolve();
 
-    // TODO: Canceling this promise does not help much. `nextStep` will continue
-    // to be scheduled anyway. So either just remove the cancelable promise, so
-    // future programmers are not fooled about this promise can do. Or fix the
-    // scheduling of `nextStep` such that cancellation is taken into account.
-    // The easiest approach is likely to just not re-use the processor for
-    // multiple processing passes. There is no benefit from doing so.
-    this.processPromise = makeCancelable(
-      new Promise(resolve => {
-        const state = {
-          lineNums: {left: 0, right: 0},
-          chunkIndex: 0,
-        };
+    return new Promise<void>(resolve => {
+      const state = {
+        lineNums: {left: 0, right: 0},
+        chunkIndex: 0,
+      };
 
-        chunks = this.splitLargeChunks(chunks);
-        chunks = this.splitCommonChunksWithKeyLocations(chunks);
+      chunks = this.splitLargeChunks(chunks);
+      chunks = this.splitCommonChunksWithKeyLocations(chunks);
 
-        let currentBatch = 0;
-        const nextStep = () => {
-          if (this.isScrolling) {
-            this.nextStepHandle = window.setTimeout(nextStep, 100);
-            return;
-          }
-          // If we are done, resolve the promise.
-          if (state.chunkIndex >= chunks.length) {
-            resolve();
-            this.nextStepHandle = null;
-            return;
-          }
+      let currentBatch = 0;
+      const nextStep = () => {
+        if (this.isScrolling) {
+          window.setTimeout(nextStep, 100);
+          return;
+        }
+        if (this.isCancelled || state.chunkIndex >= chunks.length) {
+          resolve();
+          return;
+        }
 
-          // Process the next chunk and incorporate the result.
-          const stateUpdate = this.processNext(state, chunks);
-          for (const group of stateUpdate.groups) {
-            assertIsDefined(this.consumer, 'consumer');
-            this.consumer.addGroup(group);
-            currentBatch += group.lines.length;
-          }
-          state.lineNums.left += stateUpdate.lineDelta.left;
-          state.lineNums.right += stateUpdate.lineDelta.right;
+        const stateUpdate = this.processNext(state, chunks);
+        for (const group of stateUpdate.groups) {
+          this.consumer?.addGroup(group);
+          currentBatch += group.lines.length;
+        }
+        state.lineNums.left += stateUpdate.lineDelta.left;
+        state.lineNums.right += stateUpdate.lineDelta.right;
 
-          // Increment the index and recurse.
-          state.chunkIndex = stateUpdate.newChunkIndex;
-          if (currentBatch >= this.asyncThreshold) {
-            currentBatch = 0;
-            this.nextStepHandle = window.setTimeout(nextStep, 1);
-          } else {
-            nextStep.call(this);
-          }
-        };
+        state.chunkIndex = stateUpdate.newChunkIndex;
+        if (currentBatch >= this.asyncThreshold) {
+          currentBatch = 0;
+          window.setTimeout(nextStep, 1);
+        } else {
+          nextStep.call(this);
+        }
+      };
 
-        nextStep.call(this);
-      })
-    );
-    return this.processPromise.finally(() => {
-      this.processPromise = null;
-      window.removeEventListener('scroll', this.handleWindowScroll);
+      nextStep.call(this);
+    }).finally(() => {
+      this.cancel();
     });
   }
 
-  /**
-   * Cancel any jobs that are running.
-   */
   cancel() {
-    if (this.nextStepHandle !== null) {
-      window.clearTimeout(this.nextStepHandle);
-      this.nextStepHandle = null;
-    }
-    if (this.processPromise) {
-      this.processPromise.cancel();
-    }
+    this.isCancelled = true;
+    this.consumer = undefined;
     window.removeEventListener('scroll', this.handleWindowScroll);
   }
 
@@ -738,11 +711,5 @@ export class GrDiffProcessor {
     const tail = array.slice(array.length - size);
 
     return this.breakdown(head, size).concat([tail]);
-  }
-
-  updateRenderPrefs(renderPrefs: RenderPreferences) {
-    if (renderPrefs.num_lines_rendered_at_once) {
-      this.asyncThreshold = renderPrefs.num_lines_rendered_at_once;
-    }
   }
 }

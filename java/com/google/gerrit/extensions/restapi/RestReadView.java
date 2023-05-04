@@ -19,7 +19,7 @@ package com.google.gerrit.extensions.restapi;
  *
  * @param <R> type of resource the view reads.
  */
-public interface RestReadView<R extends RestResource> extends RestView<R> {
+public interface RestReadView<R extends RestResource> extends RestView<R>, Cacheability {
   /**
    * Process the view operation by reading from the resource.
    *

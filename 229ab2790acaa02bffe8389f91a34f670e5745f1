@@ -1,0 +1,245 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f3332d9_9ba2414d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-04T14:59:43Z",
+      "side": 1,
+      "message": "In case you didn\u0027t notice and do care, your author and committer names are different.",
+      "range": {
+        "startLine": 4,
+        "startChar": 12,
+        "endLine": 4,
+        "endChar": 19
+      },
+      "revId": "229ab2790acaa02bffe8389f91a34f670e5745f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0eb5923_abf6719d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-04T14:59:43Z",
+      "side": 1,
+      "message": "FYI, I think the idea with this footer is that it\u0027s intended to be used as the complete note for the release. For that to work you need to have a little more context 😊\n\nMaybe something more like line 9?\n\n```\n Release-Notes: Added APIs to set/get custom keyed-value change metadata\n```",
+      "revId": "229ab2790acaa02bffe8389f91a34f670e5745f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1db34f27_ae85ebf9",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 7254,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-04T14:59:43Z",
+      "side": 1,
+      "message": "Add `custom_keyed_values` as optional here too",
+      "revId": "229ab2790acaa02bffe8389f91a34f670e5745f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b7b54d1_afd6c522",
+        "filename": "java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-04T14:59:43Z",
+      "side": 1,
+      "message": "keyed values?",
+      "range": {
+        "startLine": 585,
+        "startChar": 44,
+        "endLine": 585,
+        "endChar": 52
+      },
+      "revId": "229ab2790acaa02bffe8389f91a34f670e5745f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "068fbbcc_4afeb369",
+        "filename": "java/com/google/gerrit/server/change/CustomKeyedValuesUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-04T14:59:43Z",
+      "side": 1,
+      "message": "2023",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "229ab2790acaa02bffe8389f91a34f670e5745f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7acc992_5f2ca999",
+        "filename": "java/com/google/gerrit/server/change/SetCustomKeyedValuesOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-04T14:59:43Z",
+      "side": 1,
+      "message": "2023",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "229ab2790acaa02bffe8389f91a34f670e5745f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec2a0c7c_b12210e3",
+        "filename": "java/com/google/gerrit/server/events/CustomKeyedValuesChangedEvent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-04T14:59:43Z",
+      "side": 1,
+      "message": "2023",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "229ab2790acaa02bffe8389f91a34f670e5745f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7da4a3d6_b17522ad",
+        "filename": "java/com/google/gerrit/server/permissions/ChangePermission.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-04T14:59:43Z",
+      "side": 1,
+      "message": "This perm needs to be added to the access control docs",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 26
+      },
+      "revId": "229ab2790acaa02bffe8389f91a34f670e5745f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78e3f450_6252d1b3",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostCustomKeyedValues.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-04T14:59:43Z",
+      "side": 1,
+      "message": "2023",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "229ab2790acaa02bffe8389f91a34f670e5745f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73b48063_fee520bd",
+        "filename": "java/com/google/gerrit/server/validators/CustomKeyedValueValidationListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-04T14:59:43Z",
+      "side": 1,
+      "message": "2023",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "229ab2790acaa02bffe8389f91a34f670e5745f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d1e2d20_266bd275",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/CustomKeyedValuesIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-04T14:59:43Z",
+      "side": 1,
+      "message": "2023",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "229ab2790acaa02bffe8389f91a34f670e5745f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

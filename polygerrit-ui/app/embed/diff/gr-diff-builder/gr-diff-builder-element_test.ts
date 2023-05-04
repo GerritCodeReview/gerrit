@@ -26,17 +26,17 @@ import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {KeyLocations} from '../gr-diff-processor/gr-diff-processor';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrDiffRow} from './gr-diff-row';
-import {GrDiffBuilderLit} from './gr-diff-builder-lit';
+import {GrDiffBuilder} from './gr-diff-builder';
 
 const DEFAULT_PREFS = createDefaultDiffPrefs();
 
 suite('gr-diff-builder tests', () => {
   let element: GrDiffBuilderElement;
-  let builder: GrDiffBuilderLit;
+  let builder: GrDiffBuilder;
   let diffTable: HTMLTableElement;
 
   const setBuilderPrefs = (prefs: Partial<DiffPreferencesInfo>) => {
-    builder = new GrDiffBuilderLit(
+    builder = new GrDiffBuilder(
       createEmptyDiff(),
       {...createDefaultDiffPrefs(), ...prefs},
       diffTable
@@ -69,8 +69,8 @@ suite('gr-diff-builder tests', () => {
         tab_size: 4,
         line_length: 50,
       };
-      builder = element.getDiffBuilder() as GrDiffBuilderLit;
-      assert.equal(builder._prefs.line_length, 50);
+      builder = element.getDiffBuilder();
+      assert.equal(builder.prefs.line_length, 50);
     });
 
     test(`line_length ignored for commit msg under ${mode}`, () => {
@@ -82,8 +82,8 @@ suite('gr-diff-builder tests', () => {
         tab_size: 4,
         line_length: 50,
       };
-      builder = element.getDiffBuilder() as GrDiffBuilderLit;
-      assert.equal(builder._prefs.line_length, 72);
+      builder = element.getDiffBuilder();
+      assert.equal(builder.prefs.line_length, 72);
     });
   });
 

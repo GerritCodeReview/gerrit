@@ -506,16 +506,8 @@ export class GrDiffGroup {
       return Promise.resolve();
     }
     assertIsDefined(this.element);
-    // This is a temporary hack while migration to lit based diff rendering:
-    // Elements with 'display: contents;' do not have a height, so they
-    // won't work as intended with `untilRendered()`.
-    const isLitDiff = this.element.tagName === 'GR-DIFF-SECTION';
-    if (isLitDiff) {
-      await (this.element as LitElement).updateComplete;
-      await untilRendered(this.element.firstElementChild as HTMLElement);
-    } else {
-      await untilRendered(this.element);
-    }
+    await (this.element as LitElement).updateComplete;
+    await untilRendered(this.element.firstElementChild as HTMLElement);
   }
 
   /**

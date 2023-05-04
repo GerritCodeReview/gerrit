@@ -41,7 +41,6 @@ import {ChangeModel} from '../change/change-model';
 import {Interaction, Timing} from '../../constants/reporting';
 import {assert, assertIsDefined} from '../../utils/common-util';
 import {debounce, DelayedTask} from '../../utils/async-util';
-import {pluralize} from '../../utils/string-util';
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {Model} from '../model';
 import {Deduping} from '../../api/reporting';
@@ -98,7 +97,7 @@ function getSavingMessage(numPending: number, requestFailed?: boolean) {
   if (numPending === 0) {
     return 'All changes saved';
   }
-  return `Saving ${pluralize(numPending, 'draft')}...`;
+  return undefined;
 }
 
 // Private but used in tests.
@@ -759,14 +758,10 @@ export class CommentsModel extends Model<CommentState> {
       this.numPendingDraftRequests,
       requestFailed
     );
+    if (!message) return;
     this.draftToastTask = debounce(
       this.draftToastTask,
-      () => {
-        // Note: the event is fired on the body rather than this element because
-        // this element may not be attached by the time this executes, in which
-        // case the event would not bubble.
-        fireAlert(document.body, message);
-      },
+      () => fireAlert(document.body, message),
       TOAST_DEBOUNCE_INTERVAL
     );
   }

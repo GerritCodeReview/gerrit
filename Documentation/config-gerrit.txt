@@ -3998,6 +3998,9 @@ Default is `cn`.
 All users must be a member of this group to allow account creation or
 authentication.
 +
+For example, setting to `ldap/gerritaccess` limits account creation or
+authentication to members of the ldap group `gerritaccess`.
++
 Setting mandatoryGroup implies enabling of `ldap.fetchMemberOfEagerly`
 +
 By default, unset.

@@ -55,8 +55,8 @@ def declare_nongoogle_deps():
     # Transitive dependency of commons-compress
     maven_jar(
         name = "tukaani-xz",
-        artifact = "org.tukaani:xz:1.8",
-        sha1 = "c4f7d054303948eb6a4066194253886c8af07128",
+        artifact = "org.tukaani:xz:1.9",
+        sha1 = "1ea4bec1a921180164852c65006d928617bd2caf",
     )
 
     maven_jar(

@@ -784,13 +784,16 @@ suite('gr-diff-processor tests', () => {
       ]);
     });
 
-    test('scrolling pauses rendering', () => {
+    test('isScrolling paused', () => {
       const content = Array(200).fill({ab: ['', '']});
       element.isScrolling = true;
       element.process(content, false);
-      // Just the files group - no more processing during scrolling.
+      // Just the FILE and LOST groups.
       assert.equal(groups.length, 2);
+    });
 
+    test('isScrolling unpaused', () => {
+      const content = Array(200).fill({ab: ['', '']});
       element.isScrolling = false;
       element.process(content, false);
       // More groups have been processed. How many does not matter here.

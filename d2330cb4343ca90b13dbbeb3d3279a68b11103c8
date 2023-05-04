@@ -16,6 +16,24 @@
       "message": "maybe we should also bump bouncycastle to 1.69 which is the version used by this jgit version",
       "revId": "d2330cb4343ca90b13dbbeb3d3279a68b11103c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "363918fe_8ee2928b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-04T14:09:45Z",
+      "side": 1,
+      "message": "Good point. We could do that, but there are multiple bouncycastle (BC) updates in v3.5.x releases:\n\n* v3.5.0 \u003d\u003e 1.65\n* v3.5.2 \u003d\u003e 1.69\n* v3.5.3 \u003d\u003e 1.70\n* v3.5.5 \u003d\u003e 1.72\n\nSo that we would just update it to the latest version: 1.72. Alternatively, we could update BC in a follow-up change. WDYT?",
+      "parentUuid": "fe1df14c_2cd53ea4",
+      "revId": "d2330cb4343ca90b13dbbeb3d3279a68b11103c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -19,7 +19,7 @@ package com.google.gerrit.extensions.restapi;
  *
  * @param <R> type of resource the view reads.
  */
-public interface RestReadView<R extends RestResource> extends RestView<R> {
+public interface RestReadView<R extends RestResource> extends RestView<R>, Cacheable {
   /**
    * Process the view operation by reading from the resource.
    *
@@ -36,4 +36,13 @@ public interface RestReadView<R extends RestResource> extends RestView<R> {
    */
   Object apply(R resource)
       throws AuthException, BadRequestException, ResourceConflictException, Exception;
+
+  /**
+   * A read resource is not cache-able by default unless it overrides this method and returns
+   * otherwise.
+   */
+  @Override
+  default boolean isCacheable() {
+    return false;
+  }
 }

@@ -16,6 +16,23 @@
       "message": "We need LC+1 here.",
       "revId": "e5c13bb2cf163014b7ee7fbeeecde94a1f39b340",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "859392ff_c3432a72",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-04T12:21:35Z",
+      "side": 1,
+      "message": "@matthias.sohn@gmail.com would it make sense to make the same change on JGit as well?",
+      "revId": "e5c13bb2cf163014b7ee7fbeeecde94a1f39b340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

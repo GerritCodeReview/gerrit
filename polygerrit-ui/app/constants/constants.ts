@@ -48,6 +48,8 @@ export {
   SubmitType,
 };
 
+export const foo = 'foo';
+
 export enum AccountTag {
   SERVICE_USER = 'SERVICE_USER',
 }

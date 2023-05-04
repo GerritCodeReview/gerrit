@@ -110,6 +110,30 @@
       },
       "revId": "b08bd22a10ca9a264d1334b82bbc59590984dae1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ce03961_4d6b9cd1",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-04T05:58:56Z",
+      "side": 1,
+      "message": "They do it indirectly: Guice (and all other transitive `gerrit` dependencies listed in this Skylark file) are all `google`\u0027s internal projects. Google is using huge monorepo within Piper repository. As mention in this research article: [1]:\n\n  Over 99% of files stored in Piper are visible to all full-time Google engineers.\n\nSo, what Google\u0027s internal Gerrit\u0027s fork build with `blaze` is doing, is to consume the `guice` from the source and thus from @HEAD. Also very interesting and related here, that Guice@HEAD included Bazel build of the whole `guice` project: [2].\n\nTheoretically we could link the Guice source as git submodule now, similarly to what we are doing with JGit.\n\n[1]: https://research.google/pubs/pub45424\n[2]: https://github.com/google/guice/blob/master/BUILD",
+      "parentUuid": "5d7b9544_2ec49a63",
+      "range": {
+        "startLine": 174,
+        "startChar": 4,
+        "endLine": 174,
+        "endChar": 24
+      },
+      "revId": "b08bd22a10ca9a264d1334b82bbc59590984dae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

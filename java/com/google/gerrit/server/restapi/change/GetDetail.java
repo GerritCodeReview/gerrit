@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.restapi.Cacheability;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -25,7 +26,7 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.inject.Inject;
 import org.kohsuke.args4j.Option;
 
-public class GetDetail implements RestReadView<ChangeResource>, DynamicOptions.BeanReceiver {
+public class GetDetail implements RestReadView<ChangeResource>, DynamicOptions.BeanReceiver, Cacheability {
   private final GetChange delegate;
 
   @Option(name = "-o", usage = "Output options")
@@ -61,5 +62,10 @@ public class GetDetail implements RestReadView<ChangeResource>, DynamicOptions.B
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc) throws RestApiException {
     return delegate.apply(rsrc);
+  }
+
+  @Override
+  public boolean isCacheable() {
+    return delegate.isCacheable();
   }
 }

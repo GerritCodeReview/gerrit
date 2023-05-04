@@ -74,6 +74,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.CacheControl;
+import com.google.gerrit.extensions.restapi.Cacheability;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -94,6 +95,7 @@ import com.google.gerrit.extensions.restapi.RestCollectionView;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestResource;
+import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -170,6 +172,7 @@ import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -336,6 +339,7 @@ public class RestApiServlet extends HttpServlet {
     Object inputRequestBody = null;
     RestResource rsrc = TopLevelResource.INSTANCE;
     ViewData viewData = null;
+    Optional<String> etag = Optional.empty();
 
     try (TraceContext traceContext = enableTracing(req, res)) {
       List<IdString> path = splitPath(req);
@@ -504,7 +508,10 @@ public class RestApiServlet extends HttpServlet {
             checkRequiresCapability(viewData);
           }
 
-          if (notModified(req, traceContext, viewData, rsrc)) {
+          if (isCacheableWithETag(req, rsrc, viewData.view)) {
+            etag = getETag(rsrc, viewData.view);
+          }
+          if (etag.isPresent() && notModified(req, traceContext, viewData, rsrc)) {
             logger.atFinest().log("REST call succeeded: %d", SC_NOT_MODIFIED);
             res.sendError(SC_NOT_MODIFIED);
             return;
@@ -593,7 +600,12 @@ public class RestApiServlet extends HttpServlet {
               throw new ResourceNotFoundException();
             }
 
-            if (response instanceof Response.Redirect) {
+            if (response instanceof Response) {
+              @SuppressWarnings("rawtypes")
+              Response<?> r = (Response) response;
+              statusCode = r.statusCode();
+              configureCaching(req, res, traceContext, rsrc, viewData, r.caching());
+            } else if (response instanceof Response.Redirect) {
               CacheHeaders.setNotCacheable(res);
               String location = ((Response.Redirect) response).location();
               res.sendRedirect(location);
@@ -605,6 +617,8 @@ public class RestApiServlet extends HttpServlet {
               res.setHeader(HttpHeaders.LOCATION, ((Response.Accepted) response).location());
               logger.atFinest().log("REST call succeeded: %d", response.statusCode());
               return;
+            } else {
+              CacheHeaders.setNotCacheable(res);
             }
 
             statusCode = response.statusCode();
@@ -1049,6 +1063,50 @@ public class RestApiServlet extends HttpServlet {
     return defaultMessage;
   }
 
+  @SuppressWarnings({"unchecked", "rawtypes"})
+  private Optional<String> getETag(RestResource rsrc, RestView<RestResource> view) {
+    if (view instanceof ETagView) {
+      return Optional.ofNullable(((ETagView) view).getETag(rsrc));
+    }
+
+    if (rsrc instanceof RestResource.HasETag) {
+      return Optional.ofNullable(((RestResource.HasETag) rsrc).getETag());
+    }
+    return Optional.empty();
+  }
+
+  static boolean isCacheableWithETag(
+      HttpServletRequest req, RestResource rsrc, RestView<RestResource> view) {
+    if (!isRead(req)
+        || rsrc instanceof RestResource.HasLastModified
+        || !(view instanceof ETagView || rsrc instanceof HasETag)
+        || requestHeadersHasAnyValue(req, HttpHeaders.PRAGMA, "no-cache")
+        || requestHeadersHasAnyValue(req, HttpHeaders.CACHE_CONTROL, "no-cache", "max-age=0")) {
+      return false;
+    }
+
+    boolean rsrcIsCacheable =
+        (rsrc instanceof Cacheability) && (((Cacheability) rsrc).isCacheable());
+    boolean viewIsCacheable =
+        (view instanceof Cacheability) && (((Cacheability) view).isCacheable());
+
+    return rsrcIsCacheable && viewIsCacheable;
+  }
+
+  private static boolean requestHeadersHasAnyValue(
+      HttpServletRequest req, String headerName, String... headerValues) {
+    Enumeration<String> headers = req.getHeaders(headerName);
+    while (headers.hasMoreElements()) {
+      String value = headers.nextElement();
+      for (String hdr : headerValues) {
+        if (value.equalsIgnoreCase(hdr)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   private boolean notModified(
       HttpServletRequest req, TraceContext traceContext, ViewData viewData, RestResource rsrc) {
     if (!isRead(req)) {
@@ -1098,9 +1156,17 @@ public class RestApiServlet extends HttpServlet {
           break;
         case PRIVATE:
           addResourceStateHeaders(req, res, traceContext, viewData, rsrc);
+          CacheHeaders.setCacheablePrivate(
+              res, cacheControl.getAge(), cacheControl.getUnit(), cacheControl.isMustRevalidate());
           break;
         case PUBLIC:
           addResourceStateHeaders(req, res, traceContext, viewData, rsrc);
+          CacheHeaders.setCacheable(
+              req,
+              res,
+              cacheControl.getAge(),
+              cacheControl.getUnit(),
+              cacheControl.isMustRevalidate());
           break;
       }
     }
@@ -1317,7 +1383,9 @@ public class RestApiServlet extends HttpServlet {
 
   @SuppressWarnings("unchecked")
   private static Object createInstance(Type type)
-      throws NoSuchMethodException, InstantiationException, IllegalAccessException,
+      throws NoSuchMethodException,
+          InstantiationException,
+          IllegalAccessException,
           InvocationTargetException {
     if (type instanceof Class) {
       Class<Object> clazz = (Class<Object>) type;

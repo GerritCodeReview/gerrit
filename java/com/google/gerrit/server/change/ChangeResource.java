@@ -18,6 +18,7 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
@@ -27,6 +28,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.restapi.Cacheability;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -53,7 +55,9 @@ import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
-public class ChangeResource implements RestResource, HasETag {
+public class ChangeResource implements RestResource, HasETag, Cacheability {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   /**
    * JSON format version number for ETag computations.
    *
@@ -140,7 +144,9 @@ public class ChangeResource implements RestResource, HasETag {
     return changeData.getId();
   }
 
-  /** @return true if {@link #getUser()} is the change's owner. */
+  /**
+   * @return true if {@link #getUser()} is the change's owner.
+   */
   public boolean isUserOwner() {
     Account.Id owner = getChange().getOwner();
     return user.isIdentifiedUser() && user.asIdentifiedUser().getAccountId().equals(owner);
@@ -247,6 +253,11 @@ public class ChangeResource implements RestResource, HasETag {
       prepareETag(h, user);
       return h.hash().toString();
     }
+  }
+
+  @Override
+  public boolean isCacheable() {
+    return true;
   }
 
   private void hashObjectId(Hasher h, @Nullable ObjectId id, byte[] buf) {

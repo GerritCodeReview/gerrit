@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
+import com.google.gerrit.extensions.restapi.Cacheability;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -53,7 +54,7 @@ import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
-public class ChangeResource implements RestResource, HasETag {
+public class ChangeResource implements RestResource, HasETag, Cacheability {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   /**
@@ -227,6 +228,11 @@ public class ChangeResource implements RestResource, HasETag {
     }
     prepareETag(h, user);
     return h.hash().toString();
+  }
+
+  @Override
+  public boolean isCacheable() {
+    return true;
   }
 
   private void hashObjectId(Hasher h, ObjectId id, byte[] buf) {

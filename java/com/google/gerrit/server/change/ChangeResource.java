@@ -20,6 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.base.MoreObjects;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
+<<<<<<< HEAD   (3d3a45 Merge "Add basePatchNum to SHOW_CHANGE plugin event")
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
@@ -27,6 +28,9 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
+=======
+import com.google.gerrit.extensions.restapi.Cacheability;
+>>>>>>> CHANGE (9c34cd RestApiServlet: Do not compute ETag when it is not useful)
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -53,7 +57,13 @@ import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
+<<<<<<< HEAD   (3d3a45 Merge "Add basePatchNum to SHOW_CHANGE plugin event")
 public class ChangeResource implements RestResource, HasETag {
+=======
+public class ChangeResource implements RestResource, HasETag, Cacheability {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+>>>>>>> CHANGE (9c34cd RestApiServlet: Do not compute ETag when it is not useful)
   /**
    * JSON format version number for ETag computations.
    *
@@ -244,7 +254,16 @@ public class ChangeResource implements RestResource, HasETag {
     }
   }
 
+<<<<<<< HEAD   (3d3a45 Merge "Add basePatchNum to SHOW_CHANGE plugin event")
   private void hashObjectId(Hasher h, @Nullable ObjectId id, byte[] buf) {
+=======
+  @Override
+  public boolean isCacheable() {
+    return true;
+  }
+
+  private void hashObjectId(Hasher h, ObjectId id, byte[] buf) {
+>>>>>>> CHANGE (9c34cd RestApiServlet: Do not compute ETag when it is not useful)
     MoreObjects.firstNonNull(id, ObjectId.zeroId()).copyRawTo(buf, 0);
     h.putBytes(buf);
   }

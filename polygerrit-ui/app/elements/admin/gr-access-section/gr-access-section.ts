@@ -39,8 +39,6 @@ const GLOBAL_NAME = 'GLOBAL_CAPABILITIES';
 // The name that gets automatically input when a new reference is added.
 const NEW_NAME = 'refs/heads/*';
 const REFS_NAME = 'refs/';
-const ON_BEHALF_OF = '(On Behalf Of)';
-const LABEL = 'Label';
 
 @customElement('gr-access-section')
 export class GrAccessSection extends LitElement {
@@ -360,14 +358,14 @@ export class GrAccessSection extends LitElement {
       labelOptions.push({
         id: 'label-' + labelName,
         value: {
-          name: `${LABEL} ${labelName}`,
+          name: `Label ${labelName}`,
           id: 'label-' + labelName,
         },
       });
       labelOptions.push({
         id: 'labelAs-' + labelName,
         value: {
-          name: `${LABEL} ${labelName} ${ON_BEHALF_OF}`,
+          name: `Label ${labelName} (On Behalf Of)`,
           id: 'labelAs-' + labelName,
         },
       });
@@ -384,11 +382,13 @@ export class GrAccessSection extends LitElement {
     } else if (AccessPermissions[permission.id]) {
       return AccessPermissions[permission.id]?.name;
     } else if (permission.value.label) {
-      let behalfOf = '';
       if (permission.id.startsWith('labelAs-')) {
-        behalfOf = ON_BEHALF_OF;
+        return `Label ${permission.value.label} (On Behalf Of)`;
+      } else if (permission.id.startsWith('removeLabel-')) {
+        return `Remove Label ${permission.value.label}`;
+      } else {
+        return `Label ${permission.value.label}`;
       }
-      return `${LABEL} ${permission.value.label}${behalfOf}`;
     }
     return undefined;
   }

@@ -267,6 +267,27 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(c.owner.username).isNull();
     assertThat(c.owner.avatars).isNull();
     assertThat(c.submissionId).isNull();
+
+
+    int repo = "googleplex-android/platform/framework/base".hashCode() * 31 +  Arrays.hashCode("AAX6qzgelb4KgFVIigXCvw.idx".getBytes(UTF_8));
+
+    System.out.println(repo);
+    repo = repo *31;
+    System.out.println(repo);
+
+    repo = (repo >>> 1) % 32;
+    System.out.println(repo);
+
+
+    repo = "chromium/chromium/src".hashCode() * 31 +  Arrays.hashCode("AAX6qzgelb4KgFVIigXCvw.idx".getBytes(UTF_8));
+
+    System.out.println(repo);
+    repo = repo *31;
+    System.out.println(repo);
+
+    repo = (repo >>> 1) % 32;
+    System.out.println(repo);
+
   }
 
   @Test

@@ -87,6 +87,35 @@ public class ProjectCacheIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void pluginConfig_inheritanceCanOverrideValuesAndKeepsRest() throws Exception {
+    try (AbstractDaemonTest.ProjectConfigUpdate u = updateProject(allProjects)) {
+      u.getConfig()
+          .updatePluginConfig(
+              "important-plugin2",
+              cfg -> {
+                cfg.setString("key", "kept");
+                cfg.setString("key2", "my-plugin-value2");
+              });
+      u.save();
+    }
+
+    try (AbstractDaemonTest.ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updatePluginConfig(
+              "important-plugin2",
+              cfg -> {
+                cfg.setString("key2", "overridden");
+              });
+      u.save();
+    }
+
+    PluginConfig pluginConfig =
+        pluginConfigFactory.getFromProjectConfigWithInheritance(project, "important-plugin2");
+    assertThat(pluginConfig.getString("key")).isEqualTo("kept");
+    assertThat(pluginConfig.getString("key2")).isEqualTo("overridden");
+  }
+
+  @Test
   public void allProjectsProjectsConfig_ChangeInFileInvalidatesPersistedCache() throws Exception {
     assertThat(projectCache.getAllProjects().getConfig().getCheckReceivedObjects()).isTrue();
     // Change etc/All-Projects-project.config

@@ -175,8 +175,8 @@ public final class ApplyPatchUtil {
   }
 
   private static Optional<String> verifyAppliedPatch(String originalPatch, String resultPatch) {
-    String cleanOriginalPatch = DiffUtil.cleanPatch(originalPatch);
-    String cleanResultPatch = DiffUtil.cleanPatch(resultPatch);
+    String cleanOriginalPatch = DiffUtil.normalizePatchForComparison(originalPatch);
+    String cleanResultPatch = DiffUtil.normalizePatchForComparison(resultPatch);
     if (cleanOriginalPatch.equals(cleanResultPatch)) {
       return Optional.empty();
     }

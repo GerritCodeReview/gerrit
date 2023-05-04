@@ -168,13 +168,12 @@ public class DiffUtil {
     }
   }
 
-  public static String cleanPatch(final String patch) {
+  public static String normalizePatchForComparison(final String patch) {
     String res = removePatchHeader(patch);
     return res
-        // Remove "index NN..NN" lines
-        .replaceAll("(?m)^index.*", "")
-        // Remove hunk-headers lines
-        .replaceAll("(?m)^@@ .*", "")
+        // Remove any lines which are not diff lines or file header lines - such index,
+        // hunk-headers, and context lines.
+        .replaceAll("(?m)^[^+-].*", "")
         // Remove empty lines
         .replaceAll("\n+", "\n")
         // Trim
@@ -197,8 +196,8 @@ public class DiffUtil {
         Strings.emptyToNull(patch.trim().substring(0, patch.indexOf("\ndiff --git"))));
   }
 
-  public static String cleanPatch(BinaryResult bin) throws IOException {
-    return cleanPatch(bin.asString());
+  public static String normalizePatchForComparison(BinaryResult bin) throws IOException {
+    return normalizePatchForComparison(bin.asString());
   }
 
   private static boolean isRootOrMergeCommit(RevCommit commit) {

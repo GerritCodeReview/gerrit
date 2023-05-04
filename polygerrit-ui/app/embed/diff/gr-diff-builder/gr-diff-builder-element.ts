@@ -14,7 +14,6 @@ import {
 } from './gr-diff-builder';
 import {GrDiffBuilderImage} from './gr-diff-builder-image';
 import {GrDiffBuilderBinary} from './gr-diff-builder-binary';
-import {CancelablePromise, makeCancelable} from '../../../utils/async-util';
 import {BlameInfo, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {CoverageRange, DiffLayer} from '../../../types/types';
@@ -130,21 +129,11 @@ export class GrDiffBuilderElement implements GroupConsumer {
   // visible for testing
   showTrailingWhitespace?: boolean;
 
-  /**
-   * The promise last returned from `render()` while the asynchronous
-   * rendering is running - `null` otherwise. Provides a `cancel()`
-   * method that rejects it with `{isCancelled: true}`.
-   */
-  private cancelableRenderPromise: CancelablePromise<unknown> | null = null;
-
   private coverageLayerLeft = new GrCoverageLayer(Side.LEFT);
 
   private coverageLayerRight = new GrCoverageLayer(Side.RIGHT);
 
   private rangeLayer?: GrRangedCommentLayer;
-
-  // visible for testing
-  processor = new GrDiffProcessor();
 
   /**
    * Groups are mostly just passed on to the diff builder (this.builder). But
@@ -156,10 +145,6 @@ export class GrDiffBuilderElement implements GroupConsumer {
    */
   private groups: GrDiffGroup[] = [];
 
-  constructor() {
-    this.processor.consumer = this;
-  }
-
   updateCommentRanges(ranges: CommentRangeLayer[]) {
     this.rangeLayer?.updateRanges(ranges);
   }
@@ -169,7 +154,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
     this.coverageLayerRight.setRanges(rs.filter(r => r?.side === Side.RIGHT));
   }
 
-  render(keyLocations: KeyLocations): Promise<void> {
+  render(keyLocations: KeyLocations) {
     assertIsDefined(this.diff, 'diff');
     assertIsDefined(this.diffElement, 'diff table');
 
@@ -186,9 +171,6 @@ export class GrDiffBuilderElement implements GroupConsumer {
     this.builder = this.getDiffBuilder();
     this.init();
 
-    this.processor.context = this.prefs.context;
-    this.processor.keyLocations = keyLocations;
-
     this.clearDiffContent();
     this.builder.addColumns(
       this.diffElement,
@@ -198,34 +180,20 @@ export class GrDiffBuilderElement implements GroupConsumer {
     const isBinary = !!(this.isImageDiff || this.diff.binary);
 
     fire(this.diffElement, 'render-start', {});
-    // TODO: processor.process() returns a cancelable promise already.
-    // Why wrap another one around it?
-    this.cancelableRenderPromise = makeCancelable(
-      this.processor.process(this.diff.content, isBinary)
-    );
-    // All then/catch/finally clauses must be outside of makeCancelable().
-    return (
-      this.cancelableRenderPromise
-        .then(async () => {
-          if (isImageDiffBuilder(this.builder)) {
-            this.builder.renderImageDiff();
-          } else if (isBinaryDiffBuilder(this.builder)) {
-            this.builder.renderBinaryDiff();
-          }
-          await this.untilGroupsRendered();
-          fire(this.diffElement, 'render-content', {});
-        })
-        // Mocha testing does not like uncaught rejections, so we catch
-        // the cancels which are expected and should not throw errors in
-        // tests.
-        .catch(e => {
-          if (!e.isCanceled) return Promise.reject(e);
-          return;
-        })
-        .finally(() => {
-          this.cancelableRenderPromise = null;
-        })
-    );
+    const processor = new GrDiffProcessor();
+    processor.consumer = this;
+    processor.context = this.prefs.context;
+    processor.keyLocations = keyLocations;
+    processor.process(this.diff.content, isBinary);
+
+    if (isImageDiffBuilder(this.builder)) {
+      this.builder.renderImageDiff();
+    } else if (isBinaryDiffBuilder(this.builder)) {
+      this.builder.renderBinaryDiff();
+    }
+    this.untilGroupsRendered().then(() => {
+      fire(this.diffElement, 'render-content', {});
+    });
   }
 
   // visible for testing
@@ -376,10 +344,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
    * gr-diff re-connects.
    */
   cleanup() {
-    this.processor.cancel();
     this.builder?.cleanup();
-    this.cancelableRenderPromise?.cancel();
-    this.cancelableRenderPromise = null;
     this.diffElement?.removeEventListener(
       'diff-context-expanded',
       this.onDiffContextExpanded
@@ -483,6 +448,12 @@ export class GrDiffBuilderElement implements GroupConsumer {
     this.groups.push(group);
   }
 
+  addGroups(groups: GrDiffGroup[]) {
+    if (!this.builder) return;
+    this.builder.addGroups(groups);
+    this.groups = [...this.groups, ...groups];
+  }
+
   // visible for testing
   createIntralineLayer(): DiffLayer {
     return {
@@ -584,6 +555,5 @@ export class GrDiffBuilderElement implements GroupConsumer {
 
   updateRenderPrefs(renderPrefs: RenderPreferences) {
     this.builder?.updateRenderPrefs(renderPrefs);
-    this.processor.updateRenderPrefs(renderPrefs);
   }
 }

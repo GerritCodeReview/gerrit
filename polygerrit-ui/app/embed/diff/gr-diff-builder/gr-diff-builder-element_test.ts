@@ -476,9 +476,6 @@ suite('gr-diff-builder tests', () => {
 
     setup(() => {
       element.viewMode = 'SIDE_BY_SIDE';
-      processStub = sinon
-        .stub(element.processor, 'process')
-        .returns(Promise.resolve());
       keyLocations = {left: {}, right: {}};
       element.prefs = {
         ...DEFAULT_PREFS,

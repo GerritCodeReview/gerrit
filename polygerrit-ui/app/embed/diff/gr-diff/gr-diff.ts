@@ -989,6 +989,11 @@ export class GrDiff extends LitElement implements GrDiffApi {
         gr-diff-row {
           display: contents;
         }
+
+        gr-diff-section {
+          content-visibility: auto;
+          contain-intrinsic-height: auto 200px;
+        }
       `,
     ];
   }

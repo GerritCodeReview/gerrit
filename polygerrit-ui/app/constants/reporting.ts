@@ -102,6 +102,8 @@ export enum Timing {
   APPLY_FIX_LOAD = 'ApplyFixLoad',
   // Time to copy target to clipboard
   COPY_TO_CLIPBOARD = 'CopyToClipboard',
+
+  DIFF_PROCESSING = 'DiffProcessing',
 }
 
 export enum Interaction {

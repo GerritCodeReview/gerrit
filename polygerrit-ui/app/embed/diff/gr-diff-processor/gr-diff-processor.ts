@@ -15,13 +15,13 @@ import {
   GrDiffGroupType,
   hideInContextControl,
 } from '../gr-diff/gr-diff-group';
-import {CancelablePromise, makeCancelable} from '../../../utils/async-util';
 import {DiffContent} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
-import {debounce, DelayedTask} from '../../../utils/async-util';
 import {RenderPreferences} from '../../../api/diff';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
+import {getAppContext} from '../../../services/app-context';
+import {Timing} from '../../../constants/reporting';
 
 const WHOLE_FILE = -1;
 
@@ -44,22 +44,10 @@ export interface KeyLocations {
   right: {[key: string]: boolean};
 }
 
-/**
- * The maximum size for an addition or removal chunk before it is broken down
- * into a series of chunks that are this size at most.
- *
- * Note: The value of 120 is chosen so that it is larger than the default
- * asyncThreshold of 64, but feel free to tune this constant to your
- * performance needs.
- */
-function calcMaxGroupSize(asyncThreshold?: number): number {
-  if (!asyncThreshold) return 120;
-  return asyncThreshold * 2;
-}
-
 /** Interface for listening to the output of the processor. */
 export interface GroupConsumer {
   addGroup(group: GrDiffGroup): void;
+  addGroups(groups: GrDiffGroup[]): void;
   clearGroups(): void;
 }
 
@@ -95,25 +83,7 @@ export class GrDiffProcessor {
 
   keyLocations: KeyLocations = {left: {}, right: {}};
 
-  private asyncThreshold = 64;
-
-  private nextStepHandle: number | null = null;
-
-  private processPromise: CancelablePromise<void> | null = null;
-
-  // visible for testing
-  isScrolling?: boolean;
-
-  private resetIsScrollingTask?: DelayedTask;
-
-  private readonly handleWindowScroll = () => {
-    this.isScrolling = true;
-    this.resetIsScrollingTask = debounce(
-      this.resetIsScrollingTask,
-      () => (this.isScrolling = false),
-      50
-    );
-  };
+  private readonly reporting = getAppContext().reportingService;
 
   /**
    * Asynchronously process the diff chunks into groups. As it processes, it
@@ -123,92 +93,34 @@ export class GrDiffProcessor {
    * array of GrDiffGroups when the diff is completely processed.
    */
   process(chunks: DiffContent[], isBinary: boolean) {
-    // Cancel any still running process() calls, because they append to the
-    // same groups field.
-    this.cancel();
-    window.addEventListener('scroll', this.handleWindowScroll);
-
     assertIsDefined(this.consumer, 'consumer');
     this.consumer.clearGroups();
     this.consumer.addGroup(this.makeGroup('LOST'));
     this.consumer.addGroup(this.makeGroup(FILE));
 
-    // If it's a binary diff, we won't be rendering hunks of text differences
-    // so finish processing.
-    if (isBinary) {
-      return Promise.resolve();
+    if (isBinary) return;
+
+    console.log(`asdf gr-diff-processor process() ${Date.now() % 100000}`);
+    this.reporting.time(Timing.DIFF_PROCESSING);
+    const state = {
+      lineNums: {left: 0, right: 0},
+      chunkIndex: 0,
+    };
+
+    chunks = this.splitLargeChunks(chunks);
+    chunks = this.splitCommonChunksWithKeyLocations(chunks);
+    let groups: GrDiffGroup[] = [];
+
+    while (state.chunkIndex < chunks.length) {
+      const stateUpdate = this.processNext(state, chunks);
+      groups = [...groups, ...stateUpdate.groups];
+      state.lineNums.left += stateUpdate.lineDelta.left;
+      state.lineNums.right += stateUpdate.lineDelta.right;
+      state.chunkIndex = stateUpdate.newChunkIndex;
     }
 
-    // TODO: Canceling this promise does not help much. `nextStep` will continue
-    // to be scheduled anyway. So either just remove the cancelable promise, so
-    // future programmers are not fooled about this promise can do. Or fix the
-    // scheduling of `nextStep` such that cancellation is taken into account.
-    // The easiest approach is likely to just not re-use the processor for
-    // multiple processing passes. There is no benefit from doing so.
-    this.processPromise = makeCancelable(
-      new Promise(resolve => {
-        const state = {
-          lineNums: {left: 0, right: 0},
-          chunkIndex: 0,
-        };
-
-        chunks = this.splitLargeChunks(chunks);
-        chunks = this.splitCommonChunksWithKeyLocations(chunks);
-
-        let currentBatch = 0;
-        const nextStep = () => {
-          if (this.isScrolling) {
-            this.nextStepHandle = window.setTimeout(nextStep, 100);
-            return;
-          }
-          // If we are done, resolve the promise.
-          if (state.chunkIndex >= chunks.length) {
-            resolve();
-            this.nextStepHandle = null;
-            return;
-          }
-
-          // Process the next chunk and incorporate the result.
-          const stateUpdate = this.processNext(state, chunks);
-          for (const group of stateUpdate.groups) {
-            assertIsDefined(this.consumer, 'consumer');
-            this.consumer.addGroup(group);
-            currentBatch += group.lines.length;
-          }
-          state.lineNums.left += stateUpdate.lineDelta.left;
-          state.lineNums.right += stateUpdate.lineDelta.right;
-
-          // Increment the index and recurse.
-          state.chunkIndex = stateUpdate.newChunkIndex;
-          if (currentBatch >= this.asyncThreshold) {
-            currentBatch = 0;
-            this.nextStepHandle = window.setTimeout(nextStep, 1);
-          } else {
-            nextStep.call(this);
-          }
-        };
-
-        nextStep.call(this);
-      })
-    );
-    return this.processPromise.finally(() => {
-      this.processPromise = null;
-      window.removeEventListener('scroll', this.handleWindowScroll);
-    });
-  }
-
-  /**
-   * Cancel any jobs that are running.
-   */
-  cancel() {
-    if (this.nextStepHandle !== null) {
-      window.clearTimeout(this.nextStepHandle);
-      this.nextStepHandle = null;
-    }
-    if (this.processPromise) {
-      this.processPromise.cancel();
-    }
-    window.removeEventListener('scroll', this.handleWindowScroll);
+    this.reporting.timeEnd(Timing.DIFF_PROCESSING);
+    this.consumer.addGroups(groups);
   }
 
   /**
@@ -489,7 +401,7 @@ export class GrDiffProcessor {
       // chunks so they can be rendered incrementally. Note: this is not
       // enabled for any other context preference because manipulating the
       // chunks in this way violates assumptions by the context grouper logic.
-      const MAX_GROUP_SIZE = calcMaxGroupSize(this.asyncThreshold);
+      const MAX_GROUP_SIZE = 120;
       if (this.context === -1 && chunk.ab.length > MAX_GROUP_SIZE * 2) {
         // Split large shared chunks in two, where the first is the maximum
         // group size.
@@ -707,7 +619,7 @@ export class GrDiffProcessor {
       return [chunk];
     }
 
-    const MAX_GROUP_SIZE = calcMaxGroupSize(this.asyncThreshold);
+    const MAX_GROUP_SIZE = 120;
     return this.breakdown(chunk[key]!, MAX_GROUP_SIZE).map(subChunkLines => {
       const subChunk: DiffContent = {};
       subChunk[key!] = subChunkLines;
@@ -740,9 +652,5 @@ export class GrDiffProcessor {
     return this.breakdown(head, size).concat([tail]);
   }
 
-  updateRenderPrefs(renderPrefs: RenderPreferences) {
-    if (renderPrefs.num_lines_rendered_at_once) {
-      this.asyncThreshold = renderPrefs.num_lines_rendered_at_once;
-    }
-  }
+  updateRenderPrefs(_: RenderPreferences) {}
 }

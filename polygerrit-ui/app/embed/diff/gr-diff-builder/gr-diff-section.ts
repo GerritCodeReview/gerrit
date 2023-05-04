@@ -64,7 +64,20 @@ export class GrDiffSection extends LitElement {
     return this;
   }
 
+  constructor() {
+    super();
+    this.addEventListener('contentvisibilityautostatechange', (event: any) =>
+      console.log(`asdf content visibility changed: skipped:${event.skipped}`)
+    );
+    console.log(`asdf gr-diff-section constructor() ${Date.now() % 100000}`);
+  }
+
+  override updated() {
+    console.log(`asdf gr-diff-section updated() ${Date.now() % 100000}`);
+  }
+
   override render() {
+    console.log(`asdf gr-diff-section render() ${Date.now() % 100000}`);
     if (!this.group) return;
     const extras: string[] = [];
     extras.push('section');
@@ -80,6 +93,19 @@ export class GrDiffSection extends LitElement {
     const hideFileCommentButton =
       this.diffPrefs?.show_file_comment_button === false ||
       this.renderPrefs?.show_file_comment_button === false;
+    const isControl = this.group.type === GrDiffGroupType.CONTEXT_CONTROL;
+    const line = pairs[0]?.left.beforeNumber;
+    if (!isControl && Number.isInteger(line) && (line as number) > 1000) {
+      return html`
+        <tbody class=${diffClasses(...extras)}></tbody>
+          <tr>
+            <td>
+              <div style="background: green; border: 1px solid yellow;"></div>
+            </td>
+          </tr>
+        </tbody>
+      `;
+    }
     const body = html`
       <tbody class=${diffClasses(...extras)}>
         ${this.renderContextControls()} ${this.renderMoveControls()}

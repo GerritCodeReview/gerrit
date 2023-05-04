@@ -34,6 +34,24 @@
       "parentUuid": "fe1df14c_2cd53ea4",
       "revId": "d2330cb4343ca90b13dbbeb3d3279a68b11103c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d38afeef_d0b9d533",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-04T14:25:52Z",
+      "side": 1,
+      "message": "Gerrit stable-3.5 currently includes bouncycastle 1.61 [1]\nThe JGit version 5ae8d28fa used by current stable-3.5 uses 1.72 [2]\n\nSo we should update to 1.72.\nWhat I said above (1.69) was wrong, not sure where I found 1.69 ;-)\n\nMeanwhile JGit master updated to 1.73 [3]\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.5/WORKSPACE#745\n[2] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/5ae8d28faaf6168921f673c89a4e6d601ffad78d/WORKSPACE#268\n[3] https://git.eclipse.org/r/c/jgit/jgit/+/201354",
+      "parentUuid": "363918fe_8ee2928b",
+      "revId": "d2330cb4343ca90b13dbbeb3d3279a68b11103c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

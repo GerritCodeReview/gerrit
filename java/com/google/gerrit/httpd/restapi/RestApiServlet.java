@@ -40,7 +40,11 @@ import static javax.servlet.http.HttpServletResponse.SC_REQUEST_TIMEOUT;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
+<<<<<<< HEAD   (3d3a45 Merge "Add basePatchNum to SHOW_CHANGE plugin event")
 import com.google.common.base.Throwables;
+=======
+import com.google.common.base.Suppliers;
+>>>>>>> CHANGE (9c34cd RestApiServlet: Do not compute ETag when it is not useful)
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
@@ -63,6 +67,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.CacheControl;
+import com.google.gerrit.extensions.restapi.Cacheability;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.ETagView;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -83,6 +88,7 @@ import com.google.gerrit.extensions.restapi.RestCollectionView;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestResource;
+import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -164,6 +170,7 @@ import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -172,7 +179,11 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
+<<<<<<< HEAD   (3d3a45 Merge "Add basePatchNum to SHOW_CHANGE plugin event")
 import java.util.concurrent.atomic.AtomicReference;
+=======
+import java.util.function.Supplier;
+>>>>>>> CHANGE (9c34cd RestApiServlet: Do not compute ETag when it is not useful)
 import java.util.regex.Pattern;
 import java.util.zip.GZIPOutputStream;
 import javax.servlet.ServletException;
@@ -322,6 +333,7 @@ public class RestApiServlet extends HttpServlet {
     Object inputRequestBody = null;
     RestResource rsrc = TopLevelResource.INSTANCE;
     ViewData viewData = null;
+    Optional<String> etag = Optional.empty();
 
     try (TraceContext traceContext = enableTracing(req, res)) {
       String requestUri = requestUri(req);
@@ -425,10 +437,21 @@ public class RestApiServlet extends HttpServlet {
           }
           checkRequiresCapability(viewData);
 
+<<<<<<< HEAD   (3d3a45 Merge "Add basePatchNum to SHOW_CHANGE plugin event")
           while (viewData.view instanceof RestCollection<?, ?>) {
             @SuppressWarnings("unchecked")
             RestCollection<RestResource, RestResource> c =
                 (RestCollection<RestResource, RestResource>) viewData.view;
+=======
+        if (isCacheableWithEtag(req, rsrc, viewData.view)) {
+          etag = getETag(rsrc, viewData.view);
+        }
+        if (etag.isPresent() && notModified(req, rsrc, etag.get())) {
+          logger.atFinest().log("REST call succeeded: %d", SC_NOT_MODIFIED);
+          res.sendError(SC_NOT_MODIFIED);
+          return;
+        }
+>>>>>>> CHANGE (9c34cd RestApiServlet: Do not compute ETag when it is not useful)
 
             if (path.isEmpty()) {
               if (isRead(req)) {
@@ -609,6 +632,7 @@ public class RestApiServlet extends HttpServlet {
             logger.atFinest().log("REST call succeeded: %d", statusCode);
           }
 
+<<<<<<< HEAD   (3d3a45 Merge "Add basePatchNum to SHOW_CHANGE plugin event")
           if (response != Response.none()) {
             Object value = Response.unwrap(response);
             if (value instanceof BinaryResult) {
@@ -616,6 +640,45 @@ public class RestApiServlet extends HttpServlet {
             } else {
               responseBytes = replyJson(req, res, false, qp.config(), value);
             }
+=======
+        if (result instanceof Response) {
+          @SuppressWarnings("rawtypes")
+          Response<?> r = (Response) result;
+          status = r.statusCode();
+          Optional<String> currentEtag = etag;
+          RestResource currentRsrc = rsrc;
+          RestView<RestResource> currentView = viewData.view;
+          configureCaching(
+              req,
+              res,
+              rsrc,
+              r.caching(),
+              () -> currentEtag.isPresent() ? currentEtag : getETag(currentRsrc, currentView));
+        } else if (result instanceof Response.Redirect) {
+          CacheHeaders.setNotCacheable(res);
+          String location = ((Response.Redirect) result).location();
+          res.sendRedirect(location);
+          logger.atFinest().log("REST call redirected to: %s", location);
+          return;
+        } else if (result instanceof Response.Accepted) {
+          CacheHeaders.setNotCacheable(res);
+          res.setStatus(SC_ACCEPTED);
+          res.setHeader(HttpHeaders.LOCATION, ((Response.Accepted) result).location());
+          logger.atFinest().log("REST call succeeded: %d", SC_ACCEPTED);
+          return;
+        } else {
+          CacheHeaders.setNotCacheable(res);
+        }
+        res.setStatus(status);
+        logger.atFinest().log("REST call succeeded: %d", status);
+
+        if (result != Response.none()) {
+          result = Response.unwrap(result);
+          if (result instanceof BinaryResult) {
+            responseBytes = replyBinaryResult(req, res, (BinaryResult) result);
+          } else {
+            responseBytes = replyJson(req, res, false, qp.config(), result);
+>>>>>>> CHANGE (9c34cd RestApiServlet: Do not compute ETag when it is not useful)
           }
         }
       } catch (MalformedJsonException | JsonParseException e) {
@@ -1008,8 +1071,60 @@ public class RestApiServlet extends HttpServlet {
     return defaultMessage;
   }
 
+<<<<<<< HEAD   (3d3a45 Merge "Add basePatchNum to SHOW_CHANGE plugin event")
   private boolean notModified(
       HttpServletRequest req, TraceContext traceContext, ViewData viewData, RestResource rsrc) {
+=======
+  @SuppressWarnings({"unchecked", "rawtypes"})
+  private Optional<String> getETag(RestResource rsrc, RestView<RestResource> view) {
+    if (view instanceof ETagView) {
+      try (Timer0.Context ignore = globals.getEtagViewLatency.start()) {
+        return Optional.ofNullable(((ETagView) view).getETag(rsrc));
+      }
+    }
+
+    if (rsrc instanceof RestResource.HasETag) {
+      try (Timer0.Context ignore = globals.getEtagResourceLatency.start()) {
+        return Optional.ofNullable(((RestResource.HasETag) rsrc).getETag());
+      }
+    }
+    return Optional.empty();
+  }
+
+  static boolean isCacheableWithEtag(
+      HttpServletRequest req, RestResource rsrc, RestView<RestResource> view) {
+    if (!isRead(req)
+        || rsrc instanceof RestResource.HasLastModified
+        || (!(view instanceof ETagView) && !(rsrc instanceof HasETag))
+        || requestHeadersHasAnyValue(req, HttpHeaders.PRAGMA, "no-cache")
+        || requestHeadersHasAnyValue(req, HttpHeaders.CACHE_CONTROL, "no-cache", "max-age=0")) {
+      return false;
+    }
+
+    boolean rsrcIsCacheable =
+        (rsrc instanceof Cacheability) && (((Cacheability) rsrc).isCacheable());
+    boolean viewIsCacheable =
+        (view instanceof Cacheability) && (((Cacheability) view).isCacheable());
+
+    return rsrcIsCacheable && viewIsCacheable;
+  }
+
+  private static boolean requestHeadersHasAnyValue(
+      HttpServletRequest req, String headerName, String... headerValues) {
+    Enumeration<String> headers = req.getHeaders(headerName);
+    while (headers.hasMoreElements()) {
+      String value = headers.nextElement();
+      for (String hdr : headerValues) {
+        if (value.equalsIgnoreCase(hdr)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private static boolean notModified(HttpServletRequest req, RestResource rsrc, String etag) {
+>>>>>>> CHANGE (9c34cd RestApiServlet: Do not compute ETag when it is not useful)
     if (!isRead(req)) {
       return false;
     }
@@ -1047,9 +1162,14 @@ public class RestApiServlet extends HttpServlet {
       HttpServletResponse res,
       TraceContext traceContext,
       R rsrc,
+<<<<<<< HEAD   (3d3a45 Merge "Add basePatchNum to SHOW_CHANGE plugin event")
       ViewData viewData,
       CacheControl cacheControl) {
     setCacheHeaders(req, res, cacheControl);
+=======
+      CacheControl c,
+      Supplier<Optional<String>> etag) {
+>>>>>>> CHANGE (9c34cd RestApiServlet: Do not compute ETag when it is not useful)
     if (isRead(req)) {
       switch (cacheControl.getType()) {
         case NONE:
@@ -1074,16 +1194,26 @@ public class RestApiServlet extends HttpServlet {
           CacheHeaders.setNotCacheable(res);
           break;
         case PRIVATE:
+<<<<<<< HEAD   (3d3a45 Merge "Add basePatchNum to SHOW_CHANGE plugin event")
           CacheHeaders.setCacheablePrivate(
               res, cacheControl.getAge(), cacheControl.getUnit(), cacheControl.isMustRevalidate());
+=======
+          addResourceStateHeaders(res, rsrc, etag.get());
+          CacheHeaders.setCacheablePrivate(res, c.getAge(), c.getUnit(), c.isMustRevalidate());
+>>>>>>> CHANGE (9c34cd RestApiServlet: Do not compute ETag when it is not useful)
           break;
         case PUBLIC:
+<<<<<<< HEAD   (3d3a45 Merge "Add basePatchNum to SHOW_CHANGE plugin event")
           CacheHeaders.setCacheable(
               req,
               res,
               cacheControl.getAge(),
               cacheControl.getUnit(),
               cacheControl.isMustRevalidate());
+=======
+          addResourceStateHeaders(res, rsrc, etag.get());
+          CacheHeaders.setCacheable(req, res, c.getAge(), c.getUnit(), c.isMustRevalidate());
+>>>>>>> CHANGE (9c34cd RestApiServlet: Do not compute ETag when it is not useful)
           break;
       }
     } else {
@@ -1835,7 +1965,11 @@ public class RestApiServlet extends HttpServlet {
     if (err != null) {
       RequestUtil.setErrorTraceAttribute(req, err);
     }
+<<<<<<< HEAD   (3d3a45 Merge "Add basePatchNum to SHOW_CHANGE plugin event")
     setCacheHeaders(req, res, cacheControl);
+=======
+    configureCaching(req, res, null, c, Suppliers.ofInstance(Optional.empty()));
+>>>>>>> CHANGE (9c34cd RestApiServlet: Do not compute ETag when it is not useful)
     checkArgument(statusCode >= 400, "non-error status: %s", statusCode);
     res.setStatus(statusCode);
     logger.atFinest().withCause(err).log("REST call failed: %d", statusCode);

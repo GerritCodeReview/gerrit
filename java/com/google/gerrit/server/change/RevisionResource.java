@@ -16,10 +16,14 @@ package com.google.gerrit.server.change;
 
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
+<<<<<<< HEAD   (3d3a45 Merge "Add basePatchNum to SHOW_CHANGE plugin event")
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+=======
+import com.google.gerrit.extensions.restapi.Cacheability;
+>>>>>>> CHANGE (9c34cd RestApiServlet: Do not compute ETag when it is not useful)
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -33,7 +37,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.inject.TypeLiteral;
 import java.util.Optional;
 
-public class RevisionResource implements RestResource, HasETag {
+public class RevisionResource implements RestResource, HasETag, Cacheability {
   public static final TypeLiteral<RestView<RevisionResource>> REVISION_KIND =
       new TypeLiteral<>() {};
 
@@ -62,6 +66,7 @@ public class RevisionResource implements RestResource, HasETag {
     this.cacheable = cacheable;
   }
 
+  @Override
   public boolean isCacheable() {
     return cacheable;
   }

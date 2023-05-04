@@ -174,4 +174,9 @@ public class GetChange
     throw new PreconditionFailedException(
         id.getName() + " not reachable from " + changeMetaRefName);
   }
+
+  @Override
+  public boolean isCacheable() {
+    return true;
+  }
 }

@@ -14,14 +14,24 @@
 
 package com.google.gerrit.server.change;
 
+<<<<<<< HEAD   (3d3a45 Merge "Add basePatchNum to SHOW_CHANGE plugin event")
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Patch;
+=======
+import com.google.gerrit.extensions.restapi.Cacheability;
+>>>>>>> CHANGE (9c34cd RestApiServlet: Do not compute ETag when it is not useful)
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.inject.TypeLiteral;
 
+<<<<<<< HEAD   (3d3a45 Merge "Add basePatchNum to SHOW_CHANGE plugin event")
 public class FileResource implements RestResource {
   public static final TypeLiteral<RestView<FileResource>> FILE_KIND = new TypeLiteral<>() {};
+=======
+public class FileResource implements RestResource, Cacheability {
+  public static final TypeLiteral<RestView<FileResource>> FILE_KIND =
+      new TypeLiteral<RestView<FileResource>>() {};
+>>>>>>> CHANGE (9c34cd RestApiServlet: Do not compute ETag when it is not useful)
 
   private final RevisionResource rev;
   private final Patch.Key key;
@@ -35,6 +45,7 @@ public class FileResource implements RestResource {
     return key;
   }
 
+  @Override
   public boolean isCacheable() {
     return rev.isCacheable();
   }

@@ -292,8 +292,8 @@ maven_jar(
 # When upgrading commons-compress, also upgrade tukaani-xz
 maven_jar(
     name = "commons-compress",
-    artifact = "org.apache.commons:commons-compress:1.18",
-    sha1 = "1191f9f2bc0c47a8cce69193feb1ff0a8bcb37d5",
+    artifact = "org.apache.commons:commons-compress:1.22",
+    sha1 = "691a8b4e6cf4248c3bc72c8b719337d5cb7359fa",
 )
 
 maven_jar(

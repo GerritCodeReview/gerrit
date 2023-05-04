@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "adff0318_c07a4bea",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-processor/gr-diff-processor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-04T10:38:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b7a3682_9eff777b",
+      "revId": "6cf8b18e8bd744290a42d3d71e8d9a2f558b99b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "90c7a265_4637f7c7",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff-processor/gr-diff-processor.ts",
         "patchSetId": 4
@@ -31,6 +49,24 @@
       "writtenOn": "2023-05-04T10:15:00Z",
       "side": 1,
       "message": "Food for thought: rather than hardcoding a batch size, consider doing somethng similar to incremental-repeat by measuring fps and using that to deduce whether or not to increase or decrease batch size.\n\nNot for this change.",
+      "revId": "6cf8b18e8bd744290a42d3d71e8d9a2f558b99b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bee069d_1788b9db",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-processor/gr-diff-processor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-04T10:38:54Z",
+      "side": 1,
+      "message": "+1 Yeah, I was thinking the same.",
+      "parentUuid": "90c7a265_4637f7c7",
       "revId": "6cf8b18e8bd744290a42d3d71e8d9a2f558b99b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -48,6 +84,24 @@
       "writtenOn": "2023-05-04T10:15:00Z",
       "side": 1,
       "message": "It\u0027s a bit weird to finally \u0027cancel\u0027.  It makes more sense to \u0027finish\u0027 and have \u0027cancel\u0027 also call \u0027finish\u0027 which does the removal of the window handelr.",
+      "revId": "6cf8b18e8bd744290a42d3d71e8d9a2f558b99b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "012fd612_c9240252",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-processor/gr-diff-processor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-04T10:38:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "370e9cb6_ef52e564",
       "revId": "6cf8b18e8bd744290a42d3d71e8d9a2f558b99b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

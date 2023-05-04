@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe1df14c_2cd53ea4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-04T13:32:20Z",
+      "side": 1,
+      "message": "maybe we should also bump bouncycastle to 1.69 which is the version used by this jgit version",
+      "revId": "d2330cb4343ca90b13dbbeb3d3279a68b11103c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -99,6 +99,9 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.restapi.ParameterParser.QueryParams;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
@@ -227,6 +230,8 @@ public class RestApiServlet extends HttpServlet {
     final PermissionBackend permissionBackend;
     final GroupAuditService auditService;
     final RestApiMetrics metrics;
+    private final Timer0 getEtagViewLatency;
+    private final Timer0 getEtagResourceLatency;
     final Pattern allowOrigin;
 
     @Inject
@@ -237,6 +242,7 @@ public class RestApiServlet extends HttpServlet {
         PermissionBackend permissionBackend,
         GroupAuditService auditService,
         RestApiMetrics metrics,
+        MetricMaker metricMaker,
         @GerritServerConfig Config cfg) {
       this.currentUser = currentUser;
       this.webSession = webSession;
@@ -244,6 +250,18 @@ public class RestApiServlet extends HttpServlet {
       this.permissionBackend = permissionBackend;
       this.auditService = auditService;
       this.metrics = metrics;
+      this.getEtagViewLatency =
+          metricMaker.newTimer(
+              "restapi/etag/view/get_latency",
+              new Description("Latency for getting getting Etag for a View")
+                  .setCumulative()
+                  .setUnit(Description.Units.MILLISECONDS));
+      this.getEtagResourceLatency =
+          metricMaker.newTimer(
+              "restapi/etag/resource/get_latency",
+              new Description("Latency for getting getting Etag for a REST resource")
+                  .setCumulative()
+                  .setUnit(Description.Units.MILLISECONDS));
       allowOrigin = makeAllowOrigin(cfg);
     }
 
@@ -756,11 +774,15 @@ public class RestApiServlet extends HttpServlet {
   @SuppressWarnings({"unchecked", "rawtypes"})
   private Optional<String> getETag(RestResource rsrc, RestView<RestResource> view) {
     if (view instanceof ETagView) {
-      return Optional.ofNullable(((ETagView) view).getETag(rsrc));
+      try (Timer0.Context ignore = globals.getEtagViewLatency.start()) {
+        return Optional.ofNullable(((ETagView) view).getETag(rsrc));
+      }
     }
 
     if (rsrc instanceof RestResource.HasETag) {
-      return Optional.ofNullable(((RestResource.HasETag) rsrc).getETag());
+      try (Timer0.Context ignore = globals.getEtagResourceLatency.start()) {
+        return Optional.ofNullable(((RestResource.HasETag) rsrc).getETag());
+      }
     }
     return Optional.empty();
   }

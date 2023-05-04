@@ -84,7 +84,14 @@ export class GrChangeList extends LitElement {
    * in.
    */
   @property({type: Object})
-  account: AccountInfo | undefined = undefined;
+  loggedInUser?: AccountInfo;
+
+  /**
+   * When the list is part of the dashboard, the user for which the dashboard is
+   * generated.
+   */
+  @property({type: String})
+  dashboardUser?: string;
 
   @property({type: Array})
   changes?: ChangeInfo[];
@@ -262,7 +269,8 @@ export class GrChangeList extends LitElement {
         .labelNames=${labelNames}
         .dynamicHeaderEndpoints=${this.dynamicHeaderEndpoints}
         .isCursorMoving=${this.isCursorMoving}
-        .account=${this.account}
+        .loggedInUser=${this.loggedInUser}
+        .dashboardUser=${this.dashboardUser}
         .selectedIndex=${computeRelativeIndex(
           this.selectedIndex,
           sectionIndex,
@@ -289,7 +297,7 @@ export class GrChangeList extends LitElement {
 
   override willUpdate(changedProperties: PropertyValues) {
     if (
-      changedProperties.has('account') ||
+      changedProperties.has('loggedInUser') ||
       changedProperties.has('preferences') ||
       changedProperties.has('config') ||
       changedProperties.has('sections')
@@ -340,7 +348,7 @@ export class GrChangeList extends LitElement {
     this.visibleChangeTableColumns = this.changeTableColumns.filter(col =>
       this.isColumnEnabled(col, this.config)
     );
-    if (this.account && this.preferences) {
+    if (this.loggedInUser && this.preferences) {
       this.showNumber = !!this.preferences?.legacycid_in_change_table;
       if (
         this.preferences?.change_table &&

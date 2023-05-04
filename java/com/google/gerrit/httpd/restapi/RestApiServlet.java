@@ -89,7 +89,13 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.restapi.ParameterParser.QueryParams;
+<<<<<<< HEAD   (3d3a45 Merge "Add basePatchNum to SHOW_CHANGE plugin event")
 import com.google.gerrit.json.OutputFormat;
+=======
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.Timer0;
+>>>>>>> CHANGE (91454f Add metrics around getEtag)
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CancellationMetrics;
@@ -235,6 +241,8 @@ public class RestApiServlet extends HttpServlet {
     final PermissionBackend permissionBackend;
     final GroupAuditService auditService;
     final RestApiMetrics metrics;
+    private final Timer0 getEtagViewLatency;
+    private final Timer0 getEtagResourceLatency;
     final Pattern allowOrigin;
     final RestApiQuotaEnforcer quotaChecker;
     final Config config;
@@ -256,6 +264,7 @@ public class RestApiServlet extends HttpServlet {
         PermissionBackend permissionBackend,
         GroupAuditService auditService,
         RestApiMetrics metrics,
+<<<<<<< HEAD   (3d3a45 Merge "Add basePatchNum to SHOW_CHANGE plugin event")
         RestApiQuotaEnforcer quotaChecker,
         @GerritServerConfig Config config,
         DynamicSet<PerformanceLogger> performanceLoggers,
@@ -266,6 +275,10 @@ public class RestApiServlet extends HttpServlet {
         DynamicMap<DynamicOptions.DynamicBean> dynamicBeans,
         DeadlineChecker.Factory deadlineCheckerFactory,
         CancellationMetrics cancellationMetrics) {
+=======
+        MetricMaker metricMaker,
+        @GerritServerConfig Config cfg) {
+>>>>>>> CHANGE (91454f Add metrics around getEtag)
       this.currentUser = currentUser;
       this.webSession = webSession;
       this.paramParser = paramParser;
@@ -273,6 +286,7 @@ public class RestApiServlet extends HttpServlet {
       this.permissionBackend = permissionBackend;
       this.auditService = auditService;
       this.metrics = metrics;
+<<<<<<< HEAD   (3d3a45 Merge "Add basePatchNum to SHOW_CHANGE plugin event")
       this.quotaChecker = quotaChecker;
       this.config = config;
       this.performanceLoggers = performanceLoggers;
@@ -284,6 +298,29 @@ public class RestApiServlet extends HttpServlet {
       this.dynamicBeans = dynamicBeans;
       this.deadlineCheckerFactory = deadlineCheckerFactory;
       this.cancellationMetrics = cancellationMetrics;
+=======
+      this.getEtagViewLatency =
+          metricMaker.newTimer(
+              "restapi/etag/view/get_latency",
+              new Description("Latency for getting getting Etag for a View")
+                  .setCumulative()
+                  .setUnit(Description.Units.MILLISECONDS));
+      this.getEtagResourceLatency =
+          metricMaker.newTimer(
+              "restapi/etag/resource/get_latency",
+              new Description("Latency for getting getting Etag for a REST resource")
+                  .setCumulative()
+                  .setUnit(Description.Units.MILLISECONDS));
+      allowOrigin = makeAllowOrigin(cfg);
+    }
+
+    private static Pattern makeAllowOrigin(Config cfg) {
+      String[] allow = cfg.getStringList("site", null, "allowOriginRegex");
+      if (allow.length > 0) {
+        return Pattern.compile(Joiner.on('|').join(allow));
+      }
+      return null;
+>>>>>>> CHANGE (91454f Add metrics around getEtag)
     }
   }
 
@@ -1008,8 +1045,28 @@ public class RestApiServlet extends HttpServlet {
     return defaultMessage;
   }
 
+<<<<<<< HEAD   (3d3a45 Merge "Add basePatchNum to SHOW_CHANGE plugin event")
   private boolean notModified(
       HttpServletRequest req, TraceContext traceContext, ViewData viewData, RestResource rsrc) {
+=======
+  @SuppressWarnings({"unchecked", "rawtypes"})
+  private Optional<String> getETag(RestResource rsrc, RestView<RestResource> view) {
+    if (view instanceof ETagView) {
+      try (Timer0.Context ignore = globals.getEtagViewLatency.start()) {
+        return Optional.ofNullable(((ETagView) view).getETag(rsrc));
+      }
+    }
+
+    if (rsrc instanceof RestResource.HasETag) {
+      try (Timer0.Context ignore = globals.getEtagResourceLatency.start()) {
+        return Optional.ofNullable(((RestResource.HasETag) rsrc).getETag());
+      }
+    }
+    return Optional.empty();
+  }
+
+  private static boolean notModified(HttpServletRequest req, RestResource rsrc, String etag) {
+>>>>>>> CHANGE (91454f Add metrics around getEtag)
     if (!isRead(req)) {
       return false;
     }

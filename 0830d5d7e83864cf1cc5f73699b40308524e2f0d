@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c27e6e88_1989ee3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-05-04T19:48:19Z",
+      "side": 1,
+      "message": "Why is this the case?\n\nAren\u0027t ETags useful for POST/PUT request having `If-Match` headers to prevent accidental overwrites?",
+      "range": {
+        "startLine": 13,
+        "startChar": 2,
+        "endLine": 13,
+        "endChar": 38
+      },
+      "revId": "0830d5d7e83864cf1cc5f73699b40308524e2f0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d359746e_2c6bc4ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-05-04T19:48:19Z",
+      "side": 1,
+      "message": "Should we not also consider:\n\n```\nCache-Control: no-cache\n```",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 36
+      },
+      "revId": "0830d5d7e83864cf1cc5f73699b40308524e2f0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

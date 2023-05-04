@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
 import com.google.gerrit.extensions.api.changes.RelatedChangesInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.extensions.restapi.RestResource.Cacheable;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -49,7 +50,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 @Singleton
-public class GetRelated implements RestReadView<RevisionResource> {
+public class GetRelated implements RestReadView<RevisionResource>, Cacheable {
   private final Provider<ReviewDb> db;
   private final Provider<InternalChangeQuery> queryProvider;
   private final PatchSetUtil psUtil;
@@ -167,5 +168,10 @@ public class GetRelated implements RestReadView<RevisionResource> {
     info.commit.author = CommonConverters.toGitPerson(c.getAuthorIdent());
     info.commit.subject = c.getShortMessage();
     return info;
+  }
+
+  @Override
+  public boolean isCacheable() {
+    return false;
   }
 }

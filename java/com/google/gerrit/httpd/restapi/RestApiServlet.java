@@ -94,6 +94,8 @@ import com.google.gerrit.extensions.restapi.RestCollectionView;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestResource;
+import com.google.gerrit.extensions.restapi.RestResource.Cacheable;
+import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -155,6 +157,7 @@ import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -306,6 +309,7 @@ public class RestApiServlet extends HttpServlet {
     Object inputRequestBody = null;
     RestResource rsrc = TopLevelResource.INSTANCE;
     ViewData viewData = null;
+    Optional<String> etag = Optional.empty();
 
     try (TraceContext traceContext = enableTracing(req, res)) {
       try (PerThreadCache ignored = PerThreadCache.create(req)) {
@@ -463,7 +467,9 @@ public class RestApiServlet extends HttpServlet {
           checkRequiresCapability(viewData);
         }
 
-        Optional<String> etag = getETag(rsrc, viewData.view);
+        if (isCacheableWithEtag(req, rsrc, viewData.view)) {
+          etag = getETag(rsrc, viewData.view);
+        }
         if (etag.isPresent() && notModified(req, rsrc, etag.get())) {
           logger.atFinest().log("REST call succeeded: %d", SC_NOT_MODIFIED);
           res.sendError(SC_NOT_MODIFIED);
@@ -785,6 +791,43 @@ public class RestApiServlet extends HttpServlet {
       }
     }
     return Optional.empty();
+  }
+
+  static boolean isCacheableWithEtag(
+      HttpServletRequest req, RestResource rsrc, RestView<RestResource> view) {
+    if (!isRead(req)
+        || rsrc instanceof RestResource.HasLastModified
+        || (!(view instanceof ETagView) && !(rsrc instanceof HasETag))
+        || requestHeadersHasAnyValue(req, HttpHeaders.PRAGMA, "no-cache")
+        || requestHeadersHasAnyValue(req, HttpHeaders.CACHE_CONTROL, "no-cache", "max-age=0")) {
+      return false;
+    }
+
+    boolean rsrcIsCacheable = true;
+    if (rsrc instanceof Cacheable) {
+      rsrcIsCacheable = (((Cacheable) rsrc).isCacheable());
+    }
+
+    boolean viewIsCacheable = true;
+    if (view instanceof Cacheable) {
+      viewIsCacheable = (((Cacheable) view).isCacheable());
+    }
+
+    return rsrcIsCacheable && viewIsCacheable;
+  }
+
+  private static boolean requestHeadersHasAnyValue(
+      HttpServletRequest req, String headerName, String... headerValues) {
+    Enumeration<String> headers = req.getHeaders(headerName);
+    while (headers.hasMoreElements()) {
+      String value = headers.nextElement();
+      for (String hdr : headerValues) {
+        if (value.equalsIgnoreCase(hdr)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   private static boolean notModified(HttpServletRequest req, RestResource rsrc, String etag) {

@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.extensions.restapi.RestResource.Cacheable;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
@@ -28,7 +29,7 @@ import com.google.inject.Provider;
 import java.util.List;
 import java.util.Map;
 
-public class ListChangeRobotComments implements RestReadView<ChangeResource> {
+public class ListChangeRobotComments implements RestReadView<ChangeResource>, Cacheable {
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final Provider<CommentJson> commentJson;
@@ -56,5 +57,10 @@ public class ListChangeRobotComments implements RestReadView<ChangeResource> {
         .setFillPatchSet(true)
         .newRobotCommentFormatter()
         .format(commentsUtil.robotCommentsByChange(cd.notes()));
+  }
+
+  @Override
+  public boolean isCacheable() {
+    return false;
   }
 }

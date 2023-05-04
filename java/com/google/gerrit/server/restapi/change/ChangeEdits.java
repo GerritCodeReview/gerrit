@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.restapi.RestCollectionDeleteMissingView;
 import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.extensions.restapi.RestResource.Cacheable;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -149,7 +150,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
 
   // TODO(davido): Turn the boolean options to ChangeEditOption enum,
   // like it's already the case for ListChangesOption/ListGroupsOption
-  public static class Detail implements RestReadView<ChangeResource> {
+  public static class Detail implements RestReadView<ChangeResource>, Cacheable {
     private final ChangeEditUtil editUtil;
     private final ChangeEditJson editJson;
     private final FileInfoJson fileInfoJson;
@@ -211,6 +212,11 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
         }
       }
       return Response.ok(editInfo);
+    }
+
+    @Override
+    public boolean isCacheable() {
+      return false;
     }
   }
 

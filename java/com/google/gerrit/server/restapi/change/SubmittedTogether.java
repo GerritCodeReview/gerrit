@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.extensions.restapi.RestResource.Cacheable;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeJson;
@@ -50,7 +51,7 @@ import java.util.List;
 import java.util.Set;
 import org.kohsuke.args4j.Option;
 
-public class SubmittedTogether implements RestReadView<ChangeResource> {
+public class SubmittedTogether implements RestReadView<ChangeResource>, Cacheable {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final EnumSet<SubmittedTogetherOption> options =
@@ -194,5 +195,10 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       cd.currentPatchSet();
     }
     return cds;
+  }
+
+  @Override
+  public boolean isCacheable() {
+    return false;
   }
 }

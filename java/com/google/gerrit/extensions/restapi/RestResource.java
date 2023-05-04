@@ -34,4 +34,9 @@ public interface RestResource {
   public interface HasETag {
     String getETag();
   }
+
+  /** A resource that could be cache-able. */
+  public interface Cacheable {
+    boolean isCacheable();
+  }
 }

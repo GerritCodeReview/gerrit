@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.extensions.restapi.RestResource.Cacheable;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommentsUtil;
@@ -32,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 @Singleton
-public class ListChangeDrafts implements RestReadView<ChangeResource> {
+public class ListChangeDrafts implements RestReadView<ChangeResource>, Cacheable {
   protected final Provider<ReviewDb> db;
   protected final ChangeData.Factory changeDataFactory;
   protected final Provider<CommentJson> commentJson;
@@ -86,5 +87,10 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
         .setFillAccounts(includeAuthorInfo())
         .setFillPatchSet(true)
         .newCommentFormatter();
+  }
+
+  @Override
+  public boolean isCacheable() {
+    return false;
   }
 }

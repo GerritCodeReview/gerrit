@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.extensions.restapi.RestResource;
+import com.google.gerrit.extensions.restapi.RestResource.Cacheable;
 import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.Account;
@@ -30,7 +31,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.inject.TypeLiteral;
 import java.util.Optional;
 
-public class RevisionResource implements RestResource, HasETag {
+public class RevisionResource implements RestResource, HasETag, Cacheable {
   public static final TypeLiteral<RestView<RevisionResource>> REVISION_KIND =
       new TypeLiteral<RestView<RevisionResource>>() {};
 
@@ -59,6 +60,7 @@ public class RevisionResource implements RestResource, HasETag {
     this.cacheable = cachable;
   }
 
+  @Override
   public boolean isCacheable() {
     return cacheable;
   }

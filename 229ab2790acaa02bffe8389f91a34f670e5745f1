@@ -396,6 +396,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a49d29d9_4742b7bd",
+        "filename": "java/com/google/gerrit/server/permissions/ChangePermission.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-04T21:41:27Z",
+      "side": 1,
+      "message": "Sure! They should all be in `Documentation/access-control.txt`\n\nFor example, that hashtags perm is at https://gerrit-review.googlesource.com/Documentation/access-control.html#category_edit_hashtags",
+      "parentUuid": "0e921745_a1018e04",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 26
+      },
+      "revId": "229ab2790acaa02bffe8389f91a34f670e5745f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "78e3f450_6252d1b3",
         "filename": "java/com/google/gerrit/server/restapi/change/PostCustomKeyedValues.java",
         "patchSetId": 5

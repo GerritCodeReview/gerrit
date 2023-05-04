@@ -16,6 +16,24 @@
       "message": "You need to add a \u0027Release-Notes:\u0027 footer too. Probably just `Release-Notes: skip` in this case or you could do a generic `Release-Notes: Improved documentation` so that it gets bundled with other minor doc improvements.",
       "revId": "9caf8f271a6873f0c801e3796496b25e2c7038ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8376e2ba_5c62c7ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1146580
+      },
+      "writtenOn": "2023-05-04T23:20:41Z",
+      "side": 1,
+      "message": "thanks.  I\u0027ve just pushed an update.",
+      "parentUuid": "a489b7c7_17cece92",
+      "revId": "9caf8f271a6873f0c801e3796496b25e2c7038ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

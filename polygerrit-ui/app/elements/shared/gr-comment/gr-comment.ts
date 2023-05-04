@@ -661,7 +661,7 @@ export class GrComment extends LitElement {
 
   private renderDateInner() {
     if (isError(this.comment)) return 'Error';
-    if (isSaving(this.comment)) return 'Saving';
+    if (isSaving(this.comment) && !this.autoSaving) return 'Saving';
     if (isNew(this.comment)) return 'New';
     return html`
       <gr-date-formatter

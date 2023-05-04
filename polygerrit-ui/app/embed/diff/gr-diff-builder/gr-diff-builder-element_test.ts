@@ -27,6 +27,7 @@ import {KeyLocations} from '../gr-diff-processor/gr-diff-processor';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrDiffRow} from './gr-diff-row';
 import {GrDiffBuilder} from './gr-diff-builder';
+import {querySelectorAll} from '../../../utils/dom-util';
 
 const DEFAULT_PREFS = createDefaultDiffPrefs();
 
@@ -470,15 +471,11 @@ suite('gr-diff-builder tests', () => {
   });
 
   suite('rendering text, images and binary files', () => {
-    let processStub: sinon.SinonStub;
     let keyLocations: KeyLocations;
     let content: DiffContent[] = [];
 
     setup(() => {
       element.viewMode = 'SIDE_BY_SIDE';
-      processStub = sinon
-        .stub(element.processor, 'process')
-        .returns(Promise.resolve());
       keyLocations = {left: {}, right: {}};
       element.prefs = {
         ...DEFAULT_PREFS,
@@ -503,8 +500,7 @@ suite('gr-diff-builder tests', () => {
       element.diff = {...createEmptyDiff(), content};
       element.render(keyLocations);
       await waitForEventOnce(diffTable, 'render-content');
-      assert.isTrue(processStub.calledOnce);
-      assert.isFalse(processStub.lastCall.args[1]);
+      assert.equal(querySelectorAll(diffTable, 'tbody')?.length, 4);
     });
 
     test('image', async () => {
@@ -512,16 +508,14 @@ suite('gr-diff-builder tests', () => {
       element.isImageDiff = true;
       element.render(keyLocations);
       await waitForEventOnce(diffTable, 'render-content');
-      assert.isTrue(processStub.calledOnce);
-      assert.isTrue(processStub.lastCall.args[1]);
+      assert.equal(querySelectorAll(diffTable, 'tbody')?.length, 4);
     });
 
     test('binary', async () => {
       element.diff = {...createEmptyDiff(), content, binary: true};
       element.render(keyLocations);
       await waitForEventOnce(diffTable, 'render-content');
-      assert.isTrue(processStub.calledOnce);
-      assert.isTrue(processStub.lastCall.args[1]);
+      assert.equal(querySelectorAll(diffTable, 'tbody')?.length, 3);
     });
   });
 

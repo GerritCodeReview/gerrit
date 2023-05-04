@@ -382,7 +382,7 @@ link:#approval-info[ApprovalInfo] of the `all` attribute.
 [[custom-keyed-values]]
 --
 * `CUSTOM_KEYED_VALUES`: include the custom key-value map
----
+--
 
 [[star]]
 --

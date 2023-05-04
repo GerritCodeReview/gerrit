@@ -83,6 +83,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d54eb3bf_50165c38",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-04T15:48:25Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "229ab2790acaa02bffe8389f91a34f670e5745f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1db34f27_ae85ebf9",
@@ -342,6 +359,30 @@
       "writtenOn": "2023-05-04T15:47:47Z",
       "side": 1,
       "message": "Could you point me where those exist?\n\nThanks!",
+      "parentUuid": "7da4a3d6_b17522ad",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 26
+      },
+      "revId": "229ab2790acaa02bffe8389f91a34f670e5745f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e921745_a1018e04",
+        "filename": "java/com/google/gerrit/server/permissions/ChangePermission.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-04T15:48:25Z",
+      "side": 1,
+      "message": "Could you point me where they are listed? Looking for \u0027EDIT_HASHTAGS\u0027 I see no docs referring to it.",
       "parentUuid": "7da4a3d6_b17522ad",
       "range": {
         "startLine": 41,

@@ -52,6 +52,24 @@
       "parentUuid": "363918fe_8ee2928b",
       "revId": "d2330cb4343ca90b13dbbeb3d3279a68b11103c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f16eb5b_01529066",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-04T15:06:42Z",
+      "side": 1,
+      "message": "Yeah, Gerrit master updated to 1.72 in [1], so I think we can cherry-pick that back to stable-3.5. I\u0027ve done that in [2] but there are conflicts I need to fix still.\n\n[1] 345774: Update bouncycastle to 1.72 | https://gerrit-review.googlesource.com/c/gerrit/+/345774\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/372814",
+      "parentUuid": "d38afeef_d0b9d533",
+      "revId": "d2330cb4343ca90b13dbbeb3d3279a68b11103c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

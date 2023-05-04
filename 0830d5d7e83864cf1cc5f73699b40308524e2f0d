@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b65e0d01_14533fa5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-04T20:29:48Z",
+      "side": 1,
+      "message": "True, but Gerrit doesn\u0027t support it AFAIK",
+      "parentUuid": "c27e6e88_1989ee3e",
+      "range": {
+        "startLine": 13,
+        "startChar": 2,
+        "endLine": 13,
+        "endChar": 38
+      },
+      "revId": "0830d5d7e83864cf1cc5f73699b40308524e2f0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d359746e_2c6bc4ce",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

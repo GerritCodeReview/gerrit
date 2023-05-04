@@ -53,4 +53,9 @@ public class GetChange implements RestReadView<ChangeResource> {
   Response<ChangeInfo> apply(RevisionResource rsrc) throws OrmException {
     return Response.withMustRevalidate(json.create(options).format(rsrc));
   }
+
+  @Override
+  public boolean isCacheable() {
+    return true;
+  }
 }

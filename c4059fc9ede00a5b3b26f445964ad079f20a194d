@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acdcce49_b3280e5b",
+        "filename": "java/com/google/gerrit/extensions/api/changes/RebaseInput.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-05T13:51:38Z",
+      "side": 1,
+      "message": "This new field should be documented in changes REST API documentation page.",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 25
+      },
+      "revId": "c4059fc9ede00a5b3b26f445964ad079f20a194d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ca87844_ebb00b9a",
+        "filename": "java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-05T13:51:38Z",
+      "side": 1,
+      "message": "Could you add a test to the ChangeIT tests?",
+      "revId": "c4059fc9ede00a5b3b26f445964ad079f20a194d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

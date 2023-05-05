@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b90ca83c_b94af53d",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-05-05T12:42:23Z",
+      "side": 1,
+      "message": "It looks like an empty commit to external-id is always added.\nVerified by setting a breakpoint just before `gitRefUpdated.fire()`[1] and query `batchRefUpdate.getCommands()` during `delete_deletesGeneralPreferences` test.\n\nIIUC, this is a result of [2].\n\n[1] https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/server/account/AccountsUpdate.java#550\n[2] https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/server/account/AccountsUpdate.java#406\n\nI think this covers the actionable part of this thread, so marking as resolved.",
+      "parentUuid": "7fed6a4f_41dda182",
+      "range": {
+        "startLine": 397,
+        "startChar": 37,
+        "endLine": 397,
+        "endChar": 50
+      },
+      "revId": "76f1a8cfbf307ced5183d9a142ab24cdc792410e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b026818c_a53290f8",
@@ -109,6 +133,30 @@
       "writtenOn": "2023-02-02T08:18:36Z",
       "side": 1,
       "message": "nit: move below the check is-self check before the place where it is first used.",
+      "range": {
+        "startLine": 109,
+        "startChar": 22,
+        "endLine": 109,
+        "endChar": 28
+      },
+      "revId": "76f1a8cfbf307ced5183d9a142ab24cdc792410e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5319fb8b_9527a7da",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-05-05T12:42:23Z",
+      "side": 1,
+      "message": "Reused it in the next line.",
+      "parentUuid": "b026818c_a53290f8",
       "range": {
         "startLine": 109,
         "startChar": 22,
@@ -144,6 +192,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e78dd04e_2760f746",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-05-05T12:42:23Z",
+      "side": 1,
+      "message": "Thanks for pointing that out!\nFixed, added a test, and found out about GPG keys (which were a long adventure 😊).",
+      "parentUuid": "fc468c26_90657e92",
+      "range": {
+        "startLine": 132,
+        "startChar": 6,
+        "endLine": 132,
+        "endChar": 29
+      },
+      "revId": "76f1a8cfbf307ced5183d9a142ab24cdc792410e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "d056df8c_0b620f09",
         "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
         "patchSetId": 7
@@ -155,6 +227,30 @@
       "writtenOn": "2023-02-02T08:18:36Z",
       "side": 1,
       "message": "optional nit: this API is a little strange. ususally, there\u0027d be two methods:\n\nStarredChangesUtil#star(cId, accId)\nStarredChangesUtil#unstar(cId, accId)",
+      "range": {
+        "startLine": 141,
+        "startChar": 25,
+        "endLine": 141,
+        "endChar": 29
+      },
+      "revId": "76f1a8cfbf307ced5183d9a142ab24cdc792410e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a114515b_f6163c1f",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-05-05T12:42:23Z",
+      "side": 1,
+      "message": "This change has full of refactoring ancestors already, pushing this one back for now.",
+      "parentUuid": "d056df8c_0b620f09",
       "range": {
         "startLine": 141,
         "startChar": 25,
@@ -178,6 +274,30 @@
       "writtenOn": "2023-02-02T08:18:36Z",
       "side": 1,
       "message": "This is quite expensive (We have hosts with thousands of repos) and scanning all edit refs synchronously will time out.\n\nCan we use the change index instead?\n\nInternalChangeQuery#editBy(accId)\n\nwhere that uses the EditByPredicate internally\n\nWe risk that that the index is stale (which internally, with our new index is guaranteed to not happen), but that seems acceptable. For installations without this guarantee there could be a background program that cleans up (outside the scope of our work).",
+      "range": {
+        "startLine": 147,
+        "startChar": 9,
+        "endLine": 147,
+        "endChar": 52
+      },
+      "revId": "76f1a8cfbf307ced5183d9a142ab24cdc792410e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94a0f987_270b95df",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-05-05T12:42:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4acbc405_f65f8983",
       "range": {
         "startLine": 147,
         "startChar": 9,

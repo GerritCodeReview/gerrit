@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "be25fda3_4f21afb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-05T14:32:11Z",
+      "side": 1,
+      "message": "This is wordy, but maybe this should now be:\n\n```\nRelease-Notes: Improved performance for plugin-provided SSH commands that perform multiple permission checks or ref lookups for the same project\n```",
+      "parentUuid": "f368f630_14388d33",
+      "revId": "107834b70c96fd3f353e81e7fea0b33e01fd7e8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "26097b63_8cd8e8ee",

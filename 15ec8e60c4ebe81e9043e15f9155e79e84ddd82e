@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7f6c267_1f47c98e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-05T16:29:39Z",
+      "side": 1,
+      "message": "From what I see, this is actually the only place `$site_path/git` is used as the default (other than tests). Everywhere else it expects it to be set in `etc/gerrit.config`.\n\n```\n$ git grep basePath -- java/ | grep \u0027\"git\"\u0027\njava/com/google/gerrit/acceptance/GerritServer.java:    cfg.setString(\"gerrit\", null, \"basePath\", \"git\");\njava/com/google/gerrit/pgm/init/InitGitManager.java:    Path d \u003d gerrit.path(\"Location of Git repositories\", \"basePath\", \"git\");\njava/com/google/gerrit/testing/InMemoryModule.java:    cfg.setString(\"gerrit\", null, \"basePath\", \"git\");\n```\n\nSo I think you need to modify your doc lines to be specific that the default is only for during the `init` command and not used any other time.",
+      "range": {
+        "startLine": 15,
+        "startChar": 6,
+        "endLine": 15,
+        "endChar": 47
+      },
+      "revId": "15ec8e60c4ebe81e9043e15f9155e79e84ddd82e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

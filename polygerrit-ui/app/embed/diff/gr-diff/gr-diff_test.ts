@@ -3022,7 +3022,7 @@ suite('gr-diff tests', () => {
   });
 
   test('cancel', () => {
-    const cleanupStub = sinon.stub(element.diffBuilder, 'cleanup');
+    const cleanupStub = sinon.stub(element, 'cleanup');
     element.cancel();
     assert.isTrue(cleanupStub.calledOnce);
   });
@@ -3796,7 +3796,7 @@ suite('gr-diff tests', () => {
     let renderStub: sinon.SinonStub;
 
     setup(async () => {
-      renderStub = sinon.stub(element.diffBuilder, 'render').callsFake(() => {
+      renderStub = sinon.stub(element, 'legacyRender').callsFake(() => {
         assertIsDefined(element.diffTable);
         const diffTable = element.diffTable;
         diffTable.dispatchEvent(
@@ -3847,7 +3847,7 @@ suite('gr-diff tests', () => {
 
       assert.equal(element.prefs.context, 3);
       assert.equal(element.safetyBypass, -1);
-      assert.equal(element.diffBuilder.prefs.context, -1);
+      assert.equal(element.prefs.context, -1);
     });
 
     test('toggles collapse context from bypass', async () => {
@@ -3860,7 +3860,7 @@ suite('gr-diff tests', () => {
 
       assert.equal(element.prefs.context, 3);
       assert.isNull(element.safetyBypass);
-      assert.equal(element.diffBuilder.prefs.context, 3);
+      assert.equal(element.prefs.context, 3);
     });
 
     test('toggles collapse context from pref using default', async () => {
@@ -3872,14 +3872,14 @@ suite('gr-diff tests', () => {
 
       assert.equal(element.prefs.context, -1);
       assert.equal(element.safetyBypass, 10);
-      assert.equal(element.diffBuilder.prefs.context, 10);
+      assert.equal(element.prefs.context, 10);
     });
   });
 
   suite('blame', () => {
     test('unsetting', async () => {
       element.blame = [];
-      const setBlameSpy = sinon.spy(element.diffBuilder, 'setBlame');
+      const setBlameSpy = sinon.spy(element, 'setBlame');
       element.classList.add('showBlame');
       element.blame = null;
       await element.updateComplete;
@@ -3962,7 +3962,7 @@ suite('gr-diff tests', () => {
     setup(async () => {
       element.prefs = {...MINIMAL_PREFS};
       element.diff = createDiff();
-      renderStub = sinon.stub(element.diffBuilder, 'render');
+      renderStub = sinon.stub(element, 'legacyRender');
       await element.updateComplete;
     });
 

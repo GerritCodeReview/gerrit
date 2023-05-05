@@ -3022,7 +3022,7 @@ suite('gr-diff tests', () => {
   });
 
   test('cancel', () => {
-    const cleanupStub = sinon.stub(element.diffBuilder, 'cleanup');
+    const cleanupStub = sinon.stub(element, 'cleanup');
     element.cancel();
     assert.isTrue(cleanupStub.calledOnce);
   });
@@ -3796,7 +3796,7 @@ suite('gr-diff tests', () => {
     let renderStub: sinon.SinonStub;
 
     setup(async () => {
-      renderStub = sinon.stub(element.diffBuilder, 'render').callsFake(() => {
+      renderStub = sinon.stub(element, 'legacyRender').callsFake(() => {
         assertIsDefined(element.diffTable);
         const diffTable = element.diffTable;
         diffTable.dispatchEvent(
@@ -3847,7 +3847,7 @@ suite('gr-diff tests', () => {
 
       assert.equal(element.prefs.context, 3);
       assert.equal(element.safetyBypass, -1);
-      assert.equal(element.diffBuilder.prefs.context, -1);
+      assert.equal(element.getBypassPrefs().context, -1);
     });
 
     test('toggles collapse context from bypass', async () => {
@@ -3860,7 +3860,7 @@ suite('gr-diff tests', () => {
 
       assert.equal(element.prefs.context, 3);
       assert.isNull(element.safetyBypass);
-      assert.equal(element.diffBuilder.prefs.context, 3);
+      assert.equal(element.getBypassPrefs().context, 3);
     });
 
     test('toggles collapse context from pref using default', async () => {
@@ -3872,14 +3872,14 @@ suite('gr-diff tests', () => {
 
       assert.equal(element.prefs.context, -1);
       assert.equal(element.safetyBypass, 10);
-      assert.equal(element.diffBuilder.prefs.context, 10);
+      assert.equal(element.getBypassPrefs().context, 10);
     });
   });
 
   suite('blame', () => {
     test('unsetting', async () => {
       element.blame = [];
-      const setBlameSpy = sinon.spy(element.diffBuilder, 'setBlame');
+      const setBlameSpy = sinon.spy(element, 'setBlame');
       element.classList.add('showBlame');
       element.blame = null;
       await element.updateComplete;
@@ -3957,20 +3957,15 @@ suite('gr-diff tests', () => {
   });
 
   suite('key locations', () => {
-    let renderStub: sinon.SinonStub;
-
     setup(async () => {
       element.prefs = {...MINIMAL_PREFS};
       element.diff = createDiff();
-      renderStub = sinon.stub(element.diffBuilder, 'render');
       await element.updateComplete;
     });
 
     test('lineOfInterest is a key location', () => {
       element.lineOfInterest = {lineNum: 789, side: Side.LEFT};
-      element.renderDiffTable();
-      assert.isTrue(renderStub.called);
-      assert.deepEqual(renderStub.lastCall.args[0], {
+      assert.deepEqual(element.computeKeyLocations(), {
         left: {789: true},
         right: {},
       });
@@ -3984,9 +3979,7 @@ suite('gr-diff tests', () => {
       element.appendChild(threadEl);
       await element.updateComplete;
 
-      element.renderDiffTable();
-      assert.isTrue(renderStub.called);
-      assert.deepEqual(renderStub.lastCall.args[0], {
+      assert.deepEqual(element.computeKeyLocations(), {
         left: {},
         right: {3: true},
       });
@@ -3999,9 +3992,7 @@ suite('gr-diff tests', () => {
       element.appendChild(threadEl);
       await element.updateComplete;
 
-      element.renderDiffTable();
-      assert.isTrue(renderStub.called);
-      assert.deepEqual(renderStub.lastCall.args[0], {
+      assert.deepEqual(element.computeKeyLocations(), {
         left: {FILE: true},
         right: {},
       });

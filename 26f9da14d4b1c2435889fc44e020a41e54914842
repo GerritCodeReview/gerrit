@@ -167,6 +167,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9427d42_497ec096",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-05-05T10:39:26Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.git.corp.google.com/c/gerrit/+/372916",
+      "parentUuid": "2a34b6b5_89f3c5df",
+      "range": {
+        "startLine": 15,
+        "startChar": 15,
+        "endLine": 15,
+        "endChar": 57
+      },
+      "revId": "26f9da14d4b1c2435889fc44e020a41e54914842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5bec4b7_5b30d759",
@@ -180,6 +204,24 @@
       "writtenOn": "2023-04-12T15:02:34Z",
       "side": 1,
       "message": "@ghareeb can we make this a warning instead of a hard breakage?",
+      "revId": "26f9da14d4b1c2435889fc44e020a41e54914842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30654636_22b69ff3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-05-05T10:39:26Z",
+      "side": 1,
+      "message": "Done https://gerrit-review.git.corp.google.com/c/gerrit/+/372916",
+      "parentUuid": "b5bec4b7_5b30d759",
       "revId": "26f9da14d4b1c2435889fc44e020a41e54914842",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

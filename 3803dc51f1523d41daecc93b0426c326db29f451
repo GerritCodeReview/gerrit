@@ -16,6 +16,24 @@
       "message": "Need to wrap this line.",
       "revId": "3803dc51f1523d41daecc93b0426c326db29f451",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c474a309_e4073aa5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-05-05T15:33:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baec216c_408d0c1e",
+      "revId": "3803dc51f1523d41daecc93b0426c326db29f451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

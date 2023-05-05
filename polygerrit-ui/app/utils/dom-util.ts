@@ -20,6 +20,10 @@ export function isElement(node: Node): node is Element {
   return node.nodeType === 1;
 }
 
+export function isHtmlElement(node: Node): node is HTMLElement {
+  return isElement(node) && node instanceof HTMLElement;
+}
+
 export function isElementTarget(
   target: EventTarget | null | undefined
 ): target is Element {

@@ -2335,13 +2335,6 @@ export class GrFileList extends LitElement {
    * Private but used in tests.
    */
   async expandedFilesChanged(oldFiles: Array<PatchSetFile>) {
-    // Clear content for any diffs that are not open so if they get re-opened
-    // the stale content does not flash before it is cleared and reloaded.
-    const collapsedDiffs = this.diffs.filter(
-      diff => this.expandedFiles.findIndex(f => f.path === diff.path) === -1
-    );
-    this.clearCollapsedDiffs(collapsedDiffs);
-
     this.filesExpanded = this.computeExpandedFiles();
 
     const newFiles = this.expandedFiles.filter(
@@ -2356,14 +2349,6 @@ export class GrFileList extends LitElement {
     }
     this.updateDiffCursor();
     this.diffCursor?.reInitAndUpdateStops();
-  }
-
-  // private but used in test
-  clearCollapsedDiffs(collapsedDiffs: GrDiffHost[]) {
-    for (const diff of collapsedDiffs) {
-      diff.cancel();
-      diff.clearDiffContent();
-    }
   }
 
   /**
@@ -2448,7 +2433,6 @@ export class GrFileList extends LitElement {
     if (this.cancelForEachDiff) {
       this.cancelForEachDiff();
     }
-    this.forEachDiff(d => d.cancel());
   }
 
   /**

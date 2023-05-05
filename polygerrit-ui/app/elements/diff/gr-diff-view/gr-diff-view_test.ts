@@ -806,9 +806,7 @@ suite('gr-diff-view tests', () => {
       element.patchNum = 1 as RevisionPatchSetNum;
       element.basePatchNum = PARENT;
       assertIsDefined(element.cursor);
-      sinon
-        .stub(element.cursor, 'getAddress')
-        .returns({number: lineNumber, leftSide: false});
+      sinon.stub(element.cursor, 'getTargetLineNumber').returns(lineNumber);
       await element.updateComplete;
       const editBtn = queryAndAssert<GrButton>(
         element,
@@ -818,7 +816,7 @@ suite('gr-diff-view tests', () => {
       editBtn.click();
       assert.equal(navToEditStub.callCount, 1);
       assert.deepEqual(navToEditStub.lastCall.args, [
-        {path: 't.txt', lineNum: 42},
+        {path: 't.txt', lineNum: lineNumber},
       ]);
     });
 
@@ -1026,7 +1024,7 @@ suite('gr-diff-view tests', () => {
         element.path = 'glados.txt';
         await element.updateComplete;
 
-        const linkEls = queryAll(element, '.navLink');
+        let linkEls = queryAll(element, '.navLink');
         assert.equal(linkEls.length, 3);
         assert.equal(
           linkEls[0].getAttribute('href'),
@@ -1040,6 +1038,7 @@ suite('gr-diff-view tests', () => {
 
         element.path = 'wheatley.md';
         await element.updateComplete;
+        linkEls = queryAll(element, '.navLink');
 
         assert.equal(
           linkEls[0].getAttribute('href'),
@@ -1050,6 +1049,7 @@ suite('gr-diff-view tests', () => {
 
         element.path = 'chell.go';
         await element.updateComplete;
+        linkEls = queryAll(element, '.navLink');
 
         assert.equal(linkEls[0].getAttribute('href'), '/c/test-project/+/42');
         assert.equal(linkEls[1].getAttribute('href'), '/c/test-project/+/42');
@@ -1060,6 +1060,7 @@ suite('gr-diff-view tests', () => {
 
         element.path = 'not_a_real_file';
         await element.updateComplete;
+        linkEls = queryAll(element, '.navLink');
 
         assert.equal(
           linkEls[0].getAttribute('href'),
@@ -1097,7 +1098,7 @@ suite('gr-diff-view tests', () => {
         await waitUntil(() => element.path === 'glados.txt');
         await waitUntil(() => element.patchRange?.patchNum === 10);
 
-        const linkEls = queryAll(element, '.navLink');
+        let linkEls = queryAll(element, '.navLink');
         assert.equal(linkEls.length, 3);
         assert.equal(
           linkEls[0].getAttribute('href'),
@@ -1114,6 +1115,7 @@ suite('gr-diff-view tests', () => {
 
         viewModel.updateState({diffView: {path: 'wheatley.md'}});
         await waitUntil(() => element.path === 'wheatley.md');
+        linkEls = queryAll(element, '.navLink');
 
         assert.equal(
           linkEls[0].getAttribute('href'),
@@ -1130,6 +1132,7 @@ suite('gr-diff-view tests', () => {
 
         viewModel.updateState({diffView: {path: 'chell.go'}});
         await waitUntil(() => element.path === 'chell.go');
+        linkEls = queryAll(element, '.navLink');
 
         assert.equal(
           linkEls[0].getAttribute('href'),
@@ -1428,9 +1431,6 @@ suite('gr-diff-view tests', () => {
     test('onLineSelected', () => {
       const replaceStateStub = sinon.stub(history, 'replaceState');
       assertIsDefined(element.cursor);
-      sinon
-        .stub(element.cursor, 'getAddress')
-        .returns({number: 123, leftSide: false});
 
       element.changeNum = 321 as NumericChangeId;
       element.change = {
@@ -1450,9 +1450,6 @@ suite('gr-diff-view tests', () => {
     test('line selected on left side', () => {
       const replaceStateStub = sinon.stub(history, 'replaceState');
       assertIsDefined(element.cursor);
-      sinon
-        .stub(element.cursor, 'getAddress')
-        .returns({number: 123, leftSide: true});
 
       element.changeNum = 321 as NumericChangeId;
       element.change = {

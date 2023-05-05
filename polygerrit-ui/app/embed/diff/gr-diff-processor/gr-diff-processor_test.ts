@@ -7,9 +7,15 @@ import '../../../test/common-test-setup';
 import './gr-diff-processor';
 import {GrDiffLineType, FILE, GrDiffLine} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
-import {GrDiffProcessor, State} from './gr-diff-processor';
+import {
+  GrDiffProcessor,
+  GroupConsumer,
+  ProcessingOptions,
+  State,
+} from './gr-diff-processor';
 import {DiffContent} from '../../../types/diff';
 import {assert} from '@open-wc/testing';
+import {FULL_CONTEXT} from '../gr-diff/gr-diff-utils';
 
 suite('gr-diff-processor tests', () => {
   const WHOLE_FILE = -1;
@@ -21,23 +27,26 @@ suite('gr-diff-processor tests', () => {
     'fugit assum per.';
 
   let element: GrDiffProcessor;
+  let options: ProcessingOptions = {
+    context: 4,
+  };
   let groups: GrDiffGroup[];
+  const consumer: GroupConsumer = {
+    addGroup(group: GrDiffGroup) {
+      groups.push(group);
+    },
+    clearGroups() {
+      groups = [];
+    },
+  };
 
   setup(() => {});
 
   suite('not logged in', () => {
     setup(() => {
       groups = [];
+      options = {context: 4};
       element = new GrDiffProcessor();
-      element.consumer = {
-        addGroup(group: GrDiffGroup) {
-          groups.push(group);
-        },
-        clearGroups() {
-          groups = [];
-        },
-      };
-      element.context = 4;
     });
 
     test('process loaded content', () => {
@@ -58,7 +67,7 @@ suite('gr-diff-processor tests', () => {
         },
       ];
 
-      return element.process(content, false).then(() => {
+      return element.process(content, consumer, options).then(() => {
         groups.shift(); // remove portedThreadsWithoutRangeGroup
         assert.equal(groups.length, 4);
 
@@ -119,7 +128,7 @@ suite('gr-diff-processor tests', () => {
     test('first group is for file', () => {
       const content = [{b: ['foo']}];
 
-      return element.process(content, false).then(() => {
+      return element.process(content, consumer, options).then(() => {
         groups.shift(); // remove portedThreadsWithoutRangeGroup
 
         assert.equal(groups[0].type, GrDiffGroupType.BOTH);
@@ -132,7 +141,7 @@ suite('gr-diff-processor tests', () => {
 
     suite('context groups', () => {
       test('at the beginning, larger than context', () => {
-        element.context = 10;
+        options.context = 10;
         const content = [
           {
             ab: Array.from<string>({length: 100}).fill(
@@ -142,28 +151,27 @@ suite('gr-diff-processor tests', () => {
           {a: ['all work and no play make andybons a dull boy']},
         ];
 
-        return element.process(content, false).then(() => {
-          groups.shift(); // remove portedThreadsWithoutRangeGroup
+        return element.process(content, consumer, options).then(() => {
+          // group[0] is the LOST group
+          // group[1] is the FILE group
 
-          // group[0] is the file group
-
-          assert.equal(groups[1].type, GrDiffGroupType.CONTEXT_CONTROL);
-          assert.instanceOf(groups[1].contextGroups[0], GrDiffGroup);
-          assert.equal(groups[1].contextGroups[0].lines.length, 90);
-          for (const l of groups[1].contextGroups[0].lines) {
+          assert.equal(groups[2].type, GrDiffGroupType.CONTEXT_CONTROL);
+          assert.instanceOf(groups[2].contextGroups[0], GrDiffGroup);
+          assert.equal(groups[2].contextGroups[0].lines.length, 90);
+          for (const l of groups[2].contextGroups[0].lines) {
             assert.equal(l.text, 'all work and no play make jack a dull boy');
           }
 
-          assert.equal(groups[2].type, GrDiffGroupType.BOTH);
-          assert.equal(groups[2].lines.length, 10);
-          for (const l of groups[2].lines) {
+          assert.equal(groups[3].type, GrDiffGroupType.BOTH);
+          assert.equal(groups[3].lines.length, 10);
+          for (const l of groups[3].lines) {
             assert.equal(l.text, 'all work and no play make jack a dull boy');
           }
         });
       });
 
       test('at the beginning with skip chunks', async () => {
-        element.context = 10;
+        options.context = 10;
         const content = [
           {
             ab: Array.from<string>({length: 20}).fill(
@@ -175,7 +183,7 @@ suite('gr-diff-processor tests', () => {
           {a: ['some other content']},
         ];
 
-        await element.process(content, false);
+        await element.process(content, consumer, options);
 
         groups.shift(); // remove portedThreadsWithoutRangeGroup
 
@@ -215,7 +223,7 @@ suite('gr-diff-processor tests', () => {
       });
 
       test('at the beginning, smaller than context', () => {
-        element.context = 10;
+        options.context = 10;
         const content = [
           {
             ab: Array.from<string>({length: 5}).fill(
@@ -225,7 +233,7 @@ suite('gr-diff-processor tests', () => {
           {a: ['all work and no play make andybons a dull boy']},
         ];
 
-        return element.process(content, false).then(() => {
+        return element.process(content, consumer, options).then(() => {
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -239,7 +247,7 @@ suite('gr-diff-processor tests', () => {
       });
 
       test('at the end, larger than context', () => {
-        element.context = 10;
+        options.context = 10;
         const content = [
           {a: ['all work and no play make andybons a dull boy']},
           {
@@ -249,7 +257,7 @@ suite('gr-diff-processor tests', () => {
           },
         ];
 
-        return element.process(content, false).then(() => {
+        return element.process(content, consumer, options).then(() => {
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -271,7 +279,7 @@ suite('gr-diff-processor tests', () => {
       });
 
       test('at the end, smaller than context', () => {
-        element.context = 10;
+        options.context = 10;
         const content = [
           {a: ['all work and no play make andybons a dull boy']},
           {
@@ -281,7 +289,7 @@ suite('gr-diff-processor tests', () => {
           },
         ];
 
-        return element.process(content, false).then(() => {
+        return element.process(content, consumer, options).then(() => {
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -296,7 +304,7 @@ suite('gr-diff-processor tests', () => {
       });
 
       test('for interleaved ab and common: true chunks', () => {
-        element.context = 10;
+        options.context = 10;
         const content = [
           {a: ['all work and no play make andybons a dull boy']},
           {
@@ -334,7 +342,7 @@ suite('gr-diff-processor tests', () => {
           },
         ];
 
-        return element.process(content, false).then(() => {
+        return element.process(content, consumer, options).then(() => {
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -411,7 +419,7 @@ suite('gr-diff-processor tests', () => {
       });
 
       test('in the middle, larger than context', () => {
-        element.context = 10;
+        options.context = 10;
         const content = [
           {a: ['all work and no play make andybons a dull boy']},
           {
@@ -422,7 +430,7 @@ suite('gr-diff-processor tests', () => {
           {a: ['all work and no play make andybons a dull boy']},
         ];
 
-        return element.process(content, false).then(() => {
+        return element.process(content, consumer, options).then(() => {
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -450,7 +458,7 @@ suite('gr-diff-processor tests', () => {
       });
 
       test('in the middle, smaller than context', () => {
-        element.context = 10;
+        options.context = 10;
         const content = [
           {a: ['all work and no play make andybons a dull boy']},
           {
@@ -461,7 +469,7 @@ suite('gr-diff-processor tests', () => {
           {a: ['all work and no play make andybons a dull boy']},
         ];
 
-        return element.process(content, false).then(() => {
+        return element.process(content, consumer, options).then(() => {
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -477,7 +485,7 @@ suite('gr-diff-processor tests', () => {
     });
 
     test('in the middle with skip chunks', async () => {
-      element.context = 10;
+      options.context = 10;
       const content = [
         {a: ['all work and no play make andybons a dull boy']},
         {
@@ -494,7 +502,7 @@ suite('gr-diff-processor tests', () => {
         {a: ['all work and no play make andybons a dull boy']},
       ];
 
-      await element.process(content, false);
+      await element.process(content, consumer, options);
 
       groups.shift(); // remove portedThreadsWithoutRangeGroup
 
@@ -530,7 +538,7 @@ suite('gr-diff-processor tests', () => {
     });
 
     test('works with skip === 0', async () => {
-      element.context = 3;
+      options.context = 3;
       const content = [
         {
           skip: 0,
@@ -546,7 +554,7 @@ suite('gr-diff-processor tests', () => {
           ],
         },
       ];
-      await element.process(content, false);
+      await element.process(content, consumer, options);
     });
 
     test('break up common diff chunks', () => {
@@ -602,7 +610,7 @@ suite('gr-diff-processor tests', () => {
         .fill(0)
         .map(() => `${Math.random()}`);
       const content = [{ab}];
-      element.context = -1;
+      element.context = FULL_CONTEXT;
       const result = element.splitLargeChunks(content);
       assert.equal(result.length, 2);
       assert.deepEqual(result[0].ab, content[0].ab.slice(0, maxGroupSize));
@@ -787,7 +795,7 @@ suite('gr-diff-processor tests', () => {
     test('isScrolling paused', () => {
       const content = Array(200).fill({ab: ['', '']});
       element.isScrolling = true;
-      element.process(content, false);
+      element.process(content, consumer, options);
       // Just the FILE and LOST groups.
       assert.equal(groups.length, 2);
     });
@@ -795,14 +803,15 @@ suite('gr-diff-processor tests', () => {
     test('isScrolling unpaused', () => {
       const content = Array(200).fill({ab: ['', '']});
       element.isScrolling = false;
-      element.process(content, false);
+      element.process(content, consumer, options);
       // More groups have been processed. How many does not matter here.
       assert.isAtLeast(groups.length, 3);
     });
 
     test('image diffs', () => {
       const content = Array(200).fill({ab: ['', '']});
-      element.process(content, true);
+      options.isBinary = true;
+      element.process(content, consumer, options);
       assert.equal(groups.length, 2);
 
       // Image diffs don't process content, just the 'FILE' line.

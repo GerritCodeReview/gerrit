@@ -16,11 +16,11 @@ import {
   getLineElByChild,
   getLineNumberByChild,
   getSideByLineEl,
-  GrDiffThreadElement,
+  GrDiffCommentThread,
 } from '../gr-diff/gr-diff-utils';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
-import {fire} from '../../../utils/event-util';
+import {DiffModel} from '../gr-diff-model/gr-diff-model';
 
 interface SidedRange {
   side: Side;
@@ -40,11 +40,12 @@ interface NormalizedRange {
 }
 
 /**
- * The methods that we actually want to call on the builder. We don't want a
- * fully blown dependency on GrDiffBuilderElement.
+ * The methods that we actually want to call on GrDiff. We don't want a
+ * fully blown dependency on GrDiff.
  */
-export interface DiffBuilderInterface {
+export interface GrDiffInterface {
   getContentTdByLineEl(lineEl?: Element): Element | undefined;
+  diffModel: DiffModel;
 }
 
 /**
@@ -56,17 +57,17 @@ export interface DiffBuilderInterface {
 export class GrDiffHighlight {
   selectedRange?: SidedRange;
 
-  private diffBuilder?: DiffBuilderInterface;
+  private grDiff?: GrDiffInterface;
 
   private diffTable?: HTMLElement;
 
   private selectionChangeTask?: DelayedTask;
 
-  init(diffTable: HTMLElement, diffBuilder: DiffBuilderInterface) {
+  init(diffTable: HTMLElement, grDiff: GrDiffInterface) {
     this.cleanup();
 
     this.diffTable = diffTable;
-    this.diffBuilder = diffBuilder;
+    this.grDiff = grDiff;
 
     diffTable.addEventListener(
       'comment-thread-mouseleave',
@@ -135,64 +136,31 @@ export class GrDiffHighlight {
     );
   }
 
-  private getThreadEl(e: Event): GrDiffThreadElement | null {
-    for (const pathEl of e.composedPath()) {
-      if (
-        pathEl instanceof HTMLElement &&
-        pathEl.classList.contains('comment-thread')
-      ) {
-        return pathEl as GrDiffThreadElement;
-      }
-    }
-    return null;
-  }
-
   private toggleRangeElHighlight(
-    threadEl: GrDiffThreadElement | null,
+    comment: GrDiffCommentThread,
     highlightRange = false
   ) {
-    const rootId = threadEl?.rootId;
+    const rootId = comment?.rootId;
     if (!rootId) return;
     if (!this.diffTable) return;
-    if (highlightRange) {
-      const selector = `.range.${strToClassName(rootId)}`;
-      const rangeNodes = this.diffTable.querySelectorAll(selector);
-      rangeNodes.forEach(rangeNode => {
-        rangeNode.classList.add('rangeHoverHighlight');
-      });
-      const hintNode = this.diffTable.querySelector(
-        `gr-ranged-comment-hint[threadElRootId="${rootId}"]`
-      );
-      hintNode?.shadowRoot
-        ?.querySelectorAll('.rangeHighlight')
-        .forEach(highlightNode =>
-          highlightNode.classList.add('rangeHoverHighlight')
-        );
-    } else {
-      const selector = `.rangeHoverHighlight.${strToClassName(rootId)}`;
-      const rangeNodes = this.diffTable.querySelectorAll(selector);
-      rangeNodes.forEach(rangeNode => {
-        rangeNode.classList.remove('rangeHoverHighlight');
-      });
-      const hintNode = this.diffTable.querySelector(
-        `gr-ranged-comment-hint[threadElRootId="${rootId}"]`
-      );
-      hintNode?.shadowRoot
-        ?.querySelectorAll('.rangeHoverHighlight')
-        .forEach(highlightNode =>
-          highlightNode.classList.remove('rangeHoverHighlight')
-        );
+    const highlightClass = highlightRange ? 'range' : 'rangeHoverHighlight';
+    const selector = `.${highlightClass}.${strToClassName(rootId)}`;
+    const rangeNodes = this.diffTable.querySelectorAll(selector);
+    for (const rangeNode of rangeNodes) {
+      rangeNode.classList.toggle('rangeHoverHighlight', highlightRange);
     }
   }
 
-  private handleCommentThreadMouseenter = (e: Event) => {
-    const threadEl = this.getThreadEl(e);
-    this.toggleRangeElHighlight(threadEl, /* highlightRange= */ true);
+  private handleCommentThreadMouseenter = (
+    e: CustomEvent<GrDiffCommentThread>
+  ) => {
+    this.toggleRangeElHighlight(e.detail, /* highlightRange= */ true);
   };
 
-  private handleCommentThreadMouseleave = (e: Event) => {
-    const threadEl = this.getThreadEl(e);
-    this.toggleRangeElHighlight(threadEl, /* highlightRange= */ false);
+  private handleCommentThreadMouseleave = (
+    e: CustomEvent<GrDiffCommentThread>
+  ) => {
+    this.toggleRangeElHighlight(e.detail, /* highlightRange= */ false);
   };
 
   /**
@@ -301,7 +269,7 @@ export class GrDiffHighlight {
   ): NormalizedPosition | null {
     let column;
     if (!this.diffTable) return null;
-    if (!this.diffBuilder) return null;
+    if (!this.grDiff) return null;
     if (!node || !this.diffTable.contains(node)) return null;
     const lineEl = getLineElByChild(node);
     if (!lineEl) return null;
@@ -309,7 +277,7 @@ export class GrDiffHighlight {
     if (!side) return null;
     const line = getLineNumberByChild(lineEl);
     if (!line || line === FILE || line === 'LOST') return null;
-    const contentTd = this.diffBuilder.getContentTdByLineEl(lineEl);
+    const contentTd = this.grDiff.getContentTdByLineEl(lineEl);
     if (!contentTd) return null;
     const contentText = contentTd.querySelector('.contentText');
     if (!contentTd.contains(node)) {
@@ -408,7 +376,7 @@ export class GrDiffHighlight {
       // is empty to see that it's at the end of a line.
       const content = domRange.cloneContents().querySelector('.contentText');
       if (isMouseUp && this.getLength(content) === 0) {
-        this.fireCreateRangeComment(start.side, {
+        this.createRangeComment(start.side, {
           start_line: start.line,
           start_character: 0,
           end_line: start.line,
@@ -458,10 +426,15 @@ export class GrDiffHighlight {
     }
   }
 
-  private fireCreateRangeComment(side: Side, range: CommentRange) {
-    if (this.diffTable) {
-      fire(this.diffTable, 'create-range-comment', {side, range});
-    }
+  private createRangeComment(side: Side, range: CommentRange) {
+    assertIsDefined(this.grDiff, 'grDiff');
+    assertIsDefined(this.diffTable, 'diffTable');
+    this.grDiff?.diffModel.createComment(
+      this.diffTable,
+      range.end_line,
+      side,
+      range
+    );
     this.removeActionBox();
   }
 
@@ -469,7 +442,7 @@ export class GrDiffHighlight {
     e.stopPropagation();
     assertIsDefined(this.selectedRange, 'selectedRange');
     const {side, range} = this.selectedRange;
-    this.fireCreateRangeComment(side, range);
+    this.createRangeComment(side, range);
   };
 
   // visible for testing
@@ -511,16 +484,5 @@ export class GrDiffHighlight {
     } else {
       return GrAnnotation.getLength(node);
     }
-  }
-}
-
-export interface CreateRangeCommentEventDetail {
-  side: Side;
-  range: CommentRange;
-}
-
-declare global {
-  interface HTMLElementEventMap {
-    'create-range-comment': CustomEvent<CreateRangeCommentEventDetail>;
   }
 }

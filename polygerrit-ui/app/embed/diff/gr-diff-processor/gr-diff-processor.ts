@@ -18,8 +18,9 @@ import {
 import {DiffContent} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
 import {debounce, DelayedTask} from '../../../utils/async-util';
-import {assert, assertIsDefined} from '../../../utils/common-util';
+import {assert} from '../../../utils/common-util';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
+import {FULL_CONTEXT} from '../gr-diff/gr-diff-utils';
 
 const WHOLE_FILE = -1;
 
@@ -61,6 +62,14 @@ export interface GroupConsumer {
   clearGroups(): void;
 }
 
+/** Interface for listening to the output of the processor. */
+export interface ProcessingOptions {
+  context: number;
+  keyLocations?: KeyLocations;
+  asyncThreshold?: number;
+  isBinary?: boolean;
+}
+
 /**
  * Converts the API's `DiffContent`s  to `GrDiffGroup`s for rendering.
  *
@@ -87,13 +96,15 @@ export interface GroupConsumer {
  *    the rest is not.
  */
 export class GrDiffProcessor {
+  // visible for testing
   context = 3;
 
-  consumer?: GroupConsumer;
+  private consumer?: GroupConsumer;
 
+  // visible for testing
   keyLocations: KeyLocations = {left: {}, right: {}};
 
-  asyncThreshold = 64;
+  private asyncThreshold = 64;
 
   // visible for testing
   isScrolling?: boolean;
@@ -122,18 +133,26 @@ export class GrDiffProcessor {
    * @return A promise that resolves with an
    * array of GrDiffGroups when the diff is completely processed.
    */
-  process(chunks: DiffContent[], isBinary: boolean) {
+  process(
+    chunks: DiffContent[],
+    consumer: GroupConsumer | undefined,
+    options: ProcessingOptions
+  ): Promise<GrDiffGroup[]> {
     assert(this.isStarted === false, 'diff processor cannot be started twice');
     this.isStarted = true;
+    if (options.asyncThreshold) this.asyncThreshold = options.asyncThreshold;
+    if (options.keyLocations) this.keyLocations = options.keyLocations;
+    this.context = options.context;
 
     window.addEventListener('scroll', this.handleWindowScroll);
 
-    assertIsDefined(this.consumer, 'consumer');
-    this.consumer.clearGroups();
-    this.consumer.addGroup(this.makeGroup('LOST'));
-    this.consumer.addGroup(this.makeGroup(FILE));
+    this.consumer = consumer;
+    this.consumer?.clearGroups();
+    const groups = [this.makeGroup('LOST'), this.makeGroup(FILE)];
+    this.consumer?.addGroup(groups[0]);
+    this.consumer?.addGroup(groups[1]);
 
-    if (isBinary) return Promise.resolve();
+    if (options.isBinary) return Promise.resolve(groups);
 
     return new Promise<void>(resolve => {
       const state = {
@@ -157,6 +176,7 @@ export class GrDiffProcessor {
 
         const stateUpdate = this.processNext(state, chunks);
         for (const group of stateUpdate.groups) {
+          groups.push(group);
           this.consumer?.addGroup(group);
           currentBatch += group.lines.length;
         }
@@ -173,9 +193,11 @@ export class GrDiffProcessor {
       };
 
       nextStep.call(this);
-    }).finally(() => {
-      this.finish();
-    });
+    })
+      .finally(() => {
+        this.finish();
+      })
+      .then(() => groups);
   }
 
   finish() {
@@ -467,7 +489,10 @@ export class GrDiffProcessor {
       // enabled for any other context preference because manipulating the
       // chunks in this way violates assumptions by the context grouper logic.
       const MAX_GROUP_SIZE = calcMaxGroupSize(this.asyncThreshold);
-      if (this.context === -1 && chunk.ab.length > MAX_GROUP_SIZE * 2) {
+      if (
+        this.context === FULL_CONTEXT &&
+        chunk.ab.length > MAX_GROUP_SIZE * 2
+      ) {
         // Split large shared chunks in two, where the first is the maximum
         // group size.
         newChunks.push({ab: chunk.ab.slice(0, MAX_GROUP_SIZE)});

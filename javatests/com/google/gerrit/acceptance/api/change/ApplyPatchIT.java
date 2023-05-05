@@ -21,7 +21,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMM
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_FILES;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.patch.DiffUtil.cleanPatch;
+import static com.google.gerrit.server.patch.DiffUtil.normalizePatchForComparison;
 import static com.google.gerrit.server.patch.DiffUtil.removePatchHeader;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -157,6 +157,28 @@ public class ApplyPatchIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void applyValidTraditionalPatch_success() throws Exception {
+    final String fileName = "file_name.txt";
+    final String originalContent = "original line";
+    final String newContent = "new line\n";
+    final String diff =
+        "diff file_name.txt file_name.txt\n"
+            + "--- file_name.txt\n"
+            + "+++ file_name.txt\n"
+            + "@@ -1 +1 @@\n"
+            + "-original line\n"
+            + "+new line\n";
+    initBaseWithFile(fileName, originalContent);
+    ApplyPatchPatchSetInput in = buildInput(diff);
+
+    ChangeInfo result = applyPatch(in);
+
+    DiffInfo fileDiff = fetchDiffForFile(result, fileName);
+    assertDiffForFullyModifiedFile(
+        fileDiff, result.currentRevision, fileName, originalContent, newContent);
+  }
+
+  @Test
   public void applyGerritBasedPatchWithSingleFile_success() throws Exception {
     String head = getHead(repo(), HEAD).name();
     createBranchWithRevision(BranchNameKey.create(project, "branch"), head);
@@ -169,7 +191,8 @@ public class ApplyPatchIT extends AbstractDaemonTest {
     ChangeInfo result = applyPatch(in);
 
     BinaryResult resultPatch = gApi.changes().id(result.id).current().patch();
-    assertThat(cleanPatch(resultPatch)).isEqualTo(cleanPatch(originalPatch));
+    assertThat(normalizePatchForComparison(resultPatch))
+        .isEqualTo(normalizePatchForComparison(originalPatch));
   }
 
   @Test
@@ -191,7 +214,8 @@ public class ApplyPatchIT extends AbstractDaemonTest {
     ChangeInfo result = applyPatch(in);
 
     BinaryResult resultPatch = gApi.changes().id(result.id).current().patch();
-    assertThat(cleanPatch(resultPatch)).isEqualTo(cleanPatch(originalPatch));
+    assertThat(normalizePatchForComparison(resultPatch))
+        .isEqualTo(normalizePatchForComparison(originalPatch));
   }
 
   @Test
@@ -214,7 +238,8 @@ public class ApplyPatchIT extends AbstractDaemonTest {
 
     resp.assertOK();
     BinaryResult resultPatch = gApi.changes().id(destChange.getChangeId()).current().patch();
-    assertThat(cleanPatch(resultPatch)).isEqualTo(cleanPatch(originalPatch));
+    assertThat(normalizePatchForComparison(resultPatch))
+        .isEqualTo(normalizePatchForComparison(originalPatch));
   }
 
   @Test
@@ -238,7 +263,8 @@ public class ApplyPatchIT extends AbstractDaemonTest {
 
     resp.assertOK();
     BinaryResult resultPatch = gApi.changes().id(destChange.getChangeId()).current().patch();
-    assertThat(cleanPatch(resultPatch)).isEqualTo(cleanPatch(originalDecodedPatch));
+    assertThat(normalizePatchForComparison(resultPatch))
+        .isEqualTo(normalizePatchForComparison(originalDecodedPatch));
   }
 
   @Test
@@ -428,7 +454,8 @@ public class ApplyPatchIT extends AbstractDaemonTest {
         .isEqualTo(inputParent.getCommit().name());
 
     BinaryResult resultPatch = gApi.changes().id(dest.getChangeId()).current().patch();
-    assertThat(cleanPatch(resultPatch)).isEqualTo(cleanPatch(ADDED_FILE_DIFF));
+    assertThat(normalizePatchForComparison(resultPatch))
+        .isEqualTo(normalizePatchForComparison(ADDED_FILE_DIFF));
   }
 
   @Test

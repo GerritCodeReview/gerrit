@@ -39,6 +39,30 @@
       },
       "revId": "4dec7af83a00039e2ebd69ee287e04a5896e6b09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1a0cbcb_baf9a578",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-05T22:01:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d384d28_ee34aa18",
+      "range": {
+        "startLine": 782,
+        "startChar": 4,
+        "endLine": 795,
+        "endChar": 5
+      },
+      "revId": "4dec7af83a00039e2ebd69ee287e04a5896e6b09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -159,6 +159,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.httpd.raw.IndexPreloadingUtil;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.PostFilterPredicate;
@@ -3607,10 +3608,12 @@ public class ChangeIT extends AbstractDaemonTest {
                     + "add_non_author_approval(S1,"
                     + " [label('Non-Author-Code-Review', need(_)) | S1]).")
             .to(RefNames.REFS_CONFIG);
-    pushResult.assertErrorStatus();
+    pushResult.assertOkStatus();
     pushResult.assertMessage(
-        "Uploading a new 'rules.pl' file is not allowed."
-            + " Please add submit-requirements instead.");
+        String.format(
+            "WARNING: commit %s: Uploading a new 'rules.pl' file is discouraged. "
+                + "Please consider adding submit-requirements instead.",
+            ObjectIds.abbreviateName(pushResult.getCommit())));
   }
 
   @Test

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "723aed1c_130d2b56",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1160105
+      },
+      "writtenOn": "2023-05-05T13:50:50Z",
+      "side": 1,
+      "message": "Comment removed by: Chris Poucet; Reason: Spam",
+      "revId": "cdefde2aa3d610b35ef34a24a1bde78c5dc5e846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

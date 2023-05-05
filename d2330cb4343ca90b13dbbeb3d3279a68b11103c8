@@ -70,6 +70,24 @@
       "parentUuid": "d38afeef_d0b9d533",
       "revId": "d2330cb4343ca90b13dbbeb3d3279a68b11103c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "947f35f4_3fc5fcdc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-05T05:05:53Z",
+      "side": 1,
+      "message": "Thanks for cherry-picking bouncycastle upgrade to stable-3.5 branch.",
+      "parentUuid": "1f16eb5b_01529066",
+      "revId": "d2330cb4343ca90b13dbbeb3d3279a68b11103c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

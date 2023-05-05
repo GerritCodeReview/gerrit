@@ -18,7 +18,7 @@ import {
 import {DiffContent} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
 import {debounce, DelayedTask} from '../../../utils/async-util';
-import {assert, assertIsDefined} from '../../../utils/common-util';
+import {assert} from '../../../utils/common-util';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
 
 const WHOLE_FILE = -1;
@@ -61,6 +61,14 @@ export interface GroupConsumer {
   clearGroups(): void;
 }
 
+/** Interface for listening to the output of the processor. */
+export interface ProcessingOptions {
+  context: number;
+  keyLocations?: KeyLocations;
+  asyncThreshold?: number;
+  isBinary?: boolean;
+}
+
 /**
  * Converts the API's `DiffContent`s  to `GrDiffGroup`s for rendering.
  *
@@ -87,13 +95,15 @@ export interface GroupConsumer {
  *    the rest is not.
  */
 export class GrDiffProcessor {
+  // visible for testing
   context = 3;
 
-  consumer?: GroupConsumer;
+  private consumer?: GroupConsumer;
 
+  // visible for testing
   keyLocations: KeyLocations = {left: {}, right: {}};
 
-  asyncThreshold = 64;
+  private asyncThreshold = 64;
 
   // visible for testing
   isScrolling?: boolean;
@@ -122,18 +132,25 @@ export class GrDiffProcessor {
    * @return A promise that resolves with an
    * array of GrDiffGroups when the diff is completely processed.
    */
-  process(chunks: DiffContent[], isBinary: boolean) {
+  process(
+    chunks: DiffContent[],
+    consumer: GroupConsumer,
+    options: ProcessingOptions
+  ) {
     assert(this.isStarted === false, 'diff processor cannot be started twice');
     this.isStarted = true;
+    if (options.asyncThreshold) this.asyncThreshold = options.asyncThreshold;
+    if (options.keyLocations) this.keyLocations = options.keyLocations;
+    this.context = options.context;
 
     window.addEventListener('scroll', this.handleWindowScroll);
 
-    assertIsDefined(this.consumer, 'consumer');
+    this.consumer = consumer;
     this.consumer.clearGroups();
     this.consumer.addGroup(this.makeGroup('LOST'));
     this.consumer.addGroup(this.makeGroup(FILE));
 
-    if (isBinary) return Promise.resolve();
+    if (options.isBinary) return Promise.resolve();
 
     return new Promise<void>(resolve => {
       const state = {

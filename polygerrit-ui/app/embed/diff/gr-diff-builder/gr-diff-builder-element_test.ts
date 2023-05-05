@@ -8,7 +8,6 @@ import {
   createConfig,
   createEmptyDiff,
 } from '../../../test/test-data-generators';
-import './gr-diff-builder-element';
 import {stubBaseUrl, waitUntil} from '../../../test/test-utils';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
@@ -21,9 +20,8 @@ import {
 } from '../../../api/diff';
 import {stubRestApi} from '../../../test/test-utils';
 import {waitForEventOnce} from '../../../utils/event-util';
-import {GrDiffBuilderElement} from './gr-diff-builder-element';
+import {GrDiff} from '../gr-diff/gr-diff';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
-import {KeyLocations} from '../gr-diff-processor/gr-diff-processor';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrDiffRow} from './gr-diff-row';
 import {GrDiffBuilder} from './gr-diff-builder';
@@ -32,7 +30,7 @@ import {querySelectorAll} from '../../../utils/dom-util';
 const DEFAULT_PREFS = createDefaultDiffPrefs();
 
 suite('gr-diff-builder tests', () => {
-  let element: GrDiffBuilderElement;
+  let element: GrDiff;
   let builder: GrDiffBuilder;
   let diffTable: HTMLTableElement;
 
@@ -52,8 +50,8 @@ suite('gr-diff-builder tests', () => {
 
   setup(async () => {
     diffTable = await fixture(html`<table id="diffTable"></table>`);
-    element = new GrDiffBuilderElement();
-    element.diffElement = diffTable;
+    element = new GrDiff();
+    element.diffTable = diffTable;
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     stubRestApi('getProjectConfig').returns(Promise.resolve(createConfig()));
     stubBaseUrl('/r');
@@ -471,12 +469,10 @@ suite('gr-diff-builder tests', () => {
   });
 
   suite('rendering text, images and binary files', () => {
-    let keyLocations: KeyLocations;
     let content: DiffContent[] = [];
 
     setup(() => {
-      element.viewMode = 'SIDE_BY_SIDE';
-      keyLocations = {left: {}, right: {}};
+      element.viewMode = DiffViewMode.SIDE_BY_SIDE;
       element.prefs = {
         ...DEFAULT_PREFS,
         context: -1,
@@ -498,7 +494,6 @@ suite('gr-diff-builder tests', () => {
 
     test('text', async () => {
       element.diff = {...createEmptyDiff(), content};
-      element.render(keyLocations);
       await waitForEventOnce(diffTable, 'render-content');
       assert.equal(querySelectorAll(diffTable, 'tbody')?.length, 4);
     });
@@ -506,14 +501,12 @@ suite('gr-diff-builder tests', () => {
     test('image', async () => {
       element.diff = {...createEmptyDiff(), content, binary: true};
       element.isImageDiff = true;
-      element.render(keyLocations);
       await waitForEventOnce(diffTable, 'render-content');
       assert.equal(querySelectorAll(diffTable, 'tbody')?.length, 4);
     });
 
     test('binary', async () => {
       element.diff = {...createEmptyDiff(), content, binary: true};
-      element.render(keyLocations);
       await waitForEventOnce(diffTable, 'render-content');
       assert.equal(querySelectorAll(diffTable, 'tbody')?.length, 3);
     });
@@ -534,12 +527,11 @@ suite('gr-diff-builder tests', () => {
       };
       element.viewMode = DiffViewMode.SIDE_BY_SIDE;
 
-      const keyLocations: KeyLocations = {left: {}, right: {}};
       element.prefs = {
         ...DEFAULT_PREFS,
         context: 1,
       };
-      element.render(keyLocations);
+      element.render();
       // Make sure all listeners are installed.
       await element.untilGroupsRendered();
     });

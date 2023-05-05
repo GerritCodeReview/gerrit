@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85fd3820_1096fbc1",
+        "filename": "java/com/google/gerrit/extensions/api/changes/RebaseInput.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1091855
+      },
+      "writtenOn": "2023-05-05T22:23:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "acdcce49_b3280e5b",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 25
+      },
+      "revId": "c4059fc9ede00a5b3b26f445964ad079f20a194d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ca87844_ebb00b9a",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-05-05T13:51:38Z",
       "side": 1,
       "message": "Could you add a test to the ChangeIT tests?",
+      "revId": "c4059fc9ede00a5b3b26f445964ad079f20a194d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae6db1e4_cb5b7c81",
+        "filename": "java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1091855
+      },
+      "writtenOn": "2023-05-05T22:23:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ca87844_ebb00b9a",
       "revId": "c4059fc9ede00a5b3b26f445964ad079f20a194d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

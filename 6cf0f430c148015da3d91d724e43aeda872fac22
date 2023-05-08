@@ -16,6 +16,24 @@
       "message": "For your use case(s), are permissions this broad acceptable?\n\nI know we have some feature requests where we would want to have much more restrictive permissions (read and write), likely based on some kind of a namespacing model. So we\u0027d want `Permission.EDIT_CUSTOM_KEYED_VALUES` to not be a global thing.",
       "revId": "6cf0f430c148015da3d91d724e43aeda872fac22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d7688ef_777f4b4d",
+        "filename": "java/com/google/gerrit/server/permissions/ChangeControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-08T15:41:17Z",
+      "side": 1,
+      "message": "Could you provide a bit more details with what you meam. Which part is too broad?",
+      "parentUuid": "407649a3_de0de5dc",
+      "revId": "6cf0f430c148015da3d91d724e43aeda872fac22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

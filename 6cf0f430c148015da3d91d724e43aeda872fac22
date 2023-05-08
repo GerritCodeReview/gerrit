@@ -34,6 +34,24 @@
       "parentUuid": "407649a3_de0de5dc",
       "revId": "6cf0f430c148015da3d91d724e43aeda872fac22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "328a08a9_a873fb4a",
+        "filename": "java/com/google/gerrit/server/permissions/ChangeControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-08T16:41:38Z",
+      "side": 1,
+      "message": "Are you thinking something more like canEditDescription?",
+      "parentUuid": "9d7688ef_777f4b4d",
+      "revId": "6cf0f430c148015da3d91d724e43aeda872fac22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

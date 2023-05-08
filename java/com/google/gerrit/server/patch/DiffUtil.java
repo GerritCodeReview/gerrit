@@ -185,17 +185,17 @@ public class DiffUtil {
   public static String removePatchHeader(final String patch) {
     String res = patch.trim();
     if (!res.startsWith("diff --") && res.contains("\ndiff --")) {
-      return res.substring(patch.indexOf("\ndiff --"), patch.length() - 1);
+      return res.substring(res.indexOf("\ndiff --"));
     }
     return res;
   }
 
   public static Optional<String> getPatchHeader(final String patch) {
-    if (patch.startsWith("diff ")) {
+    String res = patch.trim();
+    if (res.startsWith("diff ")) {
       return Optional.empty();
     }
-    return Optional.ofNullable(
-        Strings.emptyToNull(patch.trim().substring(0, patch.indexOf("\ndiff "))));
+    return Optional.ofNullable(Strings.emptyToNull(res.substring(0, res.indexOf("\ndiff "))));
   }
 
   public static String normalizePatchForComparison(BinaryResult bin) throws IOException {

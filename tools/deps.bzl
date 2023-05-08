@@ -19,7 +19,7 @@ GITILES_VERS = "1.0.0"
 GITILES_REPO = GERRIT
 
 # When updating Bouncy Castle, also update it in bazlets.
-BC_VERS = "1.64"
+BC_VERS = "1.72"
 HTTPCOMP_VERS = "4.5.2"
 JETTY_VERS = "9.4.36.v20210114"
 BYTE_BUDDY_VERSION = "1.10.7"
@@ -122,8 +122,8 @@ def java_dependencies():
     # When upgrading commons-compress, also upgrade tukaani-xz
     maven_jar(
         name = "commons-compress",
-        artifact = "org.apache.commons:commons-compress:1.20",
-        sha1 = "b8df472b31e1f17c232d2ad78ceb1c84e00c641b",
+        artifact = "org.apache.commons:commons-compress:1.22",
+        sha1 = "691a8b4e6cf4248c3bc72c8b719337d5cb7359fa",
     )
 
     maven_jar(
@@ -559,20 +559,26 @@ def java_dependencies():
 
     maven_jar(
         name = "bcprov",
-        artifact = "org.bouncycastle:bcprov-jdk15on:" + BC_VERS,
-        sha1 = "1467dac1b787b5ad2a18201c0c281df69882259e",
+        artifact = "org.bouncycastle:bcprov-jdk18on:" + BC_VERS,
+        sha1 = "d8dc62c28a3497d29c93fee3e71c00b27dff41b4",
     )
 
     maven_jar(
         name = "bcpg",
-        artifact = "org.bouncycastle:bcpg-jdk15on:" + BC_VERS,
-        sha1 = "56956a8c63ccadf62e7c678571cf86f30bd84441",
+        artifact = "org.bouncycastle:bcpg-jdk18on:" + BC_VERS,
+        sha1 = "1a36a1740d07869161f6f0d01fae8d72dd1d8320",
     )
 
     maven_jar(
         name = "bcpkix",
-        artifact = "org.bouncycastle:bcpkix-jdk15on:" + BC_VERS,
-        sha1 = "3dac163e20110817d850d17e0444852a6d7d0bd7",
+        artifact = "org.bouncycastle:bcpkix-jdk18on:" + BC_VERS,
+        sha1 = "bb3fdb5162ccd5085e8d7e57fada4d8eaa571f5a",
+    )
+
+    maven_jar(
+        name = "bcutil",
+        artifact = "org.bouncycastle:bcutil-jdk18on:" + BC_VERS,
+        sha1 = "41f19a69ada3b06fa48781120d8bebe1ba955c77",
     )
 
     maven_jar(

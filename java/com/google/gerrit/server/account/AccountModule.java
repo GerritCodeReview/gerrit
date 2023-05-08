@@ -20,5 +20,6 @@ public class AccountModule extends AbstractModule {
   @Override
   protected void configure() {
     bind(AuthRequest.Factory.class);
+    AccountsDataClassesBinder.bindAll(binder());
   }
 }

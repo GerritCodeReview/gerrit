@@ -20,6 +20,7 @@ import {Side} from '../../../constants/constants';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {assert} from '../../../utils/common-util';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
+import {FULL_CONTEXT} from '../gr-diff/gr-diff-utils';
 
 const WHOLE_FILE = -1;
 
@@ -134,9 +135,9 @@ export class GrDiffProcessor {
    */
   process(
     chunks: DiffContent[],
-    consumer: GroupConsumer,
+    consumer: GroupConsumer | undefined,
     options: ProcessingOptions
-  ) {
+  ): Promise<GrDiffGroup[]> {
     assert(this.isStarted === false, 'diff processor cannot be started twice');
     this.isStarted = true;
     if (options.asyncThreshold) this.asyncThreshold = options.asyncThreshold;
@@ -146,11 +147,12 @@ export class GrDiffProcessor {
     window.addEventListener('scroll', this.handleWindowScroll);
 
     this.consumer = consumer;
-    this.consumer.clearGroups();
-    this.consumer.addGroup(this.makeGroup('LOST'));
-    this.consumer.addGroup(this.makeGroup(FILE));
+    this.consumer?.clearGroups();
+    const groups = [this.makeGroup('LOST'), this.makeGroup(FILE)];
+    this.consumer?.addGroup(groups[0]);
+    this.consumer?.addGroup(groups[1]);
 
-    if (options.isBinary) return Promise.resolve();
+    if (options.isBinary) return Promise.resolve(groups);
 
     return new Promise<void>(resolve => {
       const state = {
@@ -174,6 +176,7 @@ export class GrDiffProcessor {
 
         const stateUpdate = this.processNext(state, chunks);
         for (const group of stateUpdate.groups) {
+          groups.push(group);
           this.consumer?.addGroup(group);
           currentBatch += group.lines.length;
         }
@@ -190,9 +193,11 @@ export class GrDiffProcessor {
       };
 
       nextStep.call(this);
-    }).finally(() => {
-      this.finish();
-    });
+    })
+      .finally(() => {
+        this.finish();
+      })
+      .then(() => groups);
   }
 
   finish() {
@@ -484,7 +489,10 @@ export class GrDiffProcessor {
       // enabled for any other context preference because manipulating the
       // chunks in this way violates assumptions by the context grouper logic.
       const MAX_GROUP_SIZE = calcMaxGroupSize(this.asyncThreshold);
-      if (this.context === -1 && chunk.ab.length > MAX_GROUP_SIZE * 2) {
+      if (
+        this.context === FULL_CONTEXT &&
+        chunk.ab.length > MAX_GROUP_SIZE * 2
+      ) {
         // Split large shared chunks in two, where the first is the maximum
         // group size.
         newChunks.push({ab: chunk.ab.slice(0, MAX_GROUP_SIZE)});

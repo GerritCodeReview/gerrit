@@ -28,6 +28,8 @@ import {
   getSideByLineEl,
   toCommentThreadModel,
   compareComments,
+  FullContext,
+  FULL_CONTEXT,
 } from './gr-diff-utils';
 import {BlameInfo, CommentRange, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
@@ -40,11 +42,7 @@ import {
   CommentRangeLayer,
   GrRangedCommentLayer,
 } from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
-import {
-  createDefaultDiffPrefs,
-  DiffViewMode,
-  Side,
-} from '../../../constants/constants';
+import {DiffViewMode, Side} from '../../../constants/constants';
 import {
   GrDiffProcessor,
   KeyLocations,
@@ -101,7 +99,6 @@ const NO_NEWLINE_LEFT = 'No newline at end of left file.';
 const NO_NEWLINE_RIGHT = 'No newline at end of right file.';
 
 const LARGE_DIFF_THRESHOLD_LINES = 10000;
-const FULL_CONTEXT = -1;
 
 const COMMIT_MSG_PATH = '/COMMIT_MSG';
 /**
@@ -239,17 +236,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
   @property({type: Boolean})
   override isContentEditable = isSafari();
 
-  /**
-   * Whether the safety check for large diffs when whole-file is set has
-   * been bypassed. If the value is null, then the safety has not been
-   * bypassed. If the value is a number, then that number represents the
-   * context preference to use when rendering the bypassed diff.
-   *
-   * Private but used in tests.
-   */
-  @state()
-  safetyBypass: number | null = null;
-
   // Private but used in tests.
   @state()
   showWarning?: boolean;
@@ -291,7 +277,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
   // Private but used in tests.
   highlights = new GrDiffHighlight();
 
-  private diffModel = new DiffModel(undefined);
+  private diffModel = new DiffModel();
 
   builder?: GrDiffBuilder;
 
@@ -315,6 +301,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
   private rangeLayer?: GrRangedCommentLayer;
 
   // visible for testing
+  // TODO: Remove. Let the model instantiate the processor.
   processor?: GrDiffProcessor;
 
   /**
@@ -327,7 +314,11 @@ export class GrDiff extends LitElement implements GrDiffApi {
    */
   private groups: GrDiffGroup[] = [];
 
+  // TODO: Can be removed when GrDiffProcessor is not instantiated anymore.
   private keyLocations: KeyLocations = {left: {}, right: {}};
+
+  // TODO: Can be removed when GrDiffProcessor is not instantiated anymore.
+  private context = 3;
 
   static override get styles() {
     return [
@@ -346,6 +337,11 @@ export class GrDiff extends LitElement implements GrDiffApi {
       this,
       () => this.diffModel.keyLocations$,
       keyLocations => (this.keyLocations = keyLocations)
+    );
+    subscribe(
+      this,
+      () => this.diffModel.context$,
+      context => (this.context = context)
     );
     this.addEventListener(
       'create-range-comment',
@@ -389,13 +385,16 @@ export class GrDiff extends LitElement implements GrDiffApi {
       changedProperties.has('prefs') ||
       changedProperties.has('lineOfInterest')
     ) {
-      this.diffModel.updateState({
-        diff: this.diff,
-        path: this.path,
-        renderPrefs: this.renderPrefs,
-        diffPrefs: this.prefs,
-        lineOfInterest: this.lineOfInterest,
-      });
+      if (this.diff && this.prefs) {
+        this.diffModel.updateState({
+          diff: this.diff,
+          path: this.path,
+          renderPrefs: this.renderPrefs ?? {},
+          diffPrefs: this.prefs,
+          lineOfInterest: this.lineOfInterest,
+          isImageDiff: this.isImageDiff,
+        });
+      }
     }
     if (
       changedProperties.has('path') ||
@@ -769,7 +768,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
   // visible for testing
   cleanup() {
     this.blame = null;
-    this.safetyBypass = null;
+    this.diffModel.updateState({showFullContext: FullContext.UNDECIDED});
     this.showWarning = false;
     this.clearDiffContent();
     this.processor?.cancel();
@@ -924,10 +923,10 @@ export class GrDiff extends LitElement implements GrDiffApi {
       return;
     }
     if (
-      this.getBypassPrefs().context === -1 &&
+      this.prefs.context === FULL_CONTEXT &&
+      this.diffModel.getState().showFullContext === FullContext.UNDECIDED &&
       this.diffLength &&
-      this.diffLength >= LARGE_DIFF_THRESHOLD_LINES &&
-      this.safetyBypass === null
+      this.diffLength >= LARGE_DIFF_THRESHOLD_LINES
     ) {
       this.showWarning = true;
       fire(this, 'render', {});
@@ -1063,18 +1062,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
     lostCell.insertBefore(div, lostCell.firstChild);
   }
 
-  /**
-   * Get the preferences object including the safety bypass context (if any).
-   */
-  // visible for testing
-  getBypassPrefs() {
-    assertIsDefined(this.prefs, 'prefs');
-    if (this.safetyBypass !== null) {
-      return {...this.prefs, context: this.safetyBypass};
-    }
-    return this.prefs;
-  }
-
   clearDiffContent() {
     this.unobserveNodes();
     if (!this.diffTable) return;
@@ -1098,28 +1085,23 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   private handleFullBypass() {
-    this.safetyBypass = FULL_CONTEXT;
+    this.diffModel.updateState({showFullContext: FullContext.YES});
     this.debounceRenderDiffTable();
   }
 
   private collapseContext() {
+    this.diffModel.updateState({showFullContext: FullContext.NO});
     // Uses the default context amount if the preference is for the entire file.
-    this.safetyBypass =
-      this.prefs?.context && this.prefs.context >= 0
-        ? null
-        : createDefaultDiffPrefs().context;
     this.debounceRenderDiffTable();
   }
 
+  // TODO: Migrate callers to just update prefs.context.
   toggleAllContext() {
-    if (!this.prefs) {
-      return;
-    }
-    if (this.getBypassPrefs().context < 0) {
-      this.collapseContext();
-    } else {
-      this.handleFullBypass();
-    }
+    const current = this.diffModel.getState().showFullContext;
+    this.diffModel.updateState({
+      showFullContext:
+        current === FullContext.YES ? FullContext.NO : FullContext.YES,
+    });
   }
 
   private computeNewlineWarning(): string | undefined {
@@ -1167,7 +1149,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
     this.processor = new GrDiffProcessor();
     const options: ProcessingOptions = {
-      context: this.getBypassPrefs().context,
+      context: this.context,
       keyLocations: this.keyLocations,
       isBinary: !!(this.isImageDiff || this.diff.binary),
     };
@@ -1282,7 +1264,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
     const groups = hideInContextControl(
       group.contextGroups,
       0,
-      lineOffset - 1 - this.getBypassPrefs().context
+      lineOffset - 1 - this.context
     );
     // If there is a context group, it will be the first group because we
     // start hiding from 0 offset
@@ -1292,7 +1274,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
     newGroups.push(
       ...hideInContextControl(
         groups,
-        lineOffset + 1 + this.getBypassPrefs().context,
+        lineOffset + 1 + this.context,
         // Both ends inclusive, so difference is the offset of the last line.
         // But we need to pass the first line not to hide, which is the element
         // after.

@@ -15,6 +15,7 @@ import {
 } from './gr-diff-processor';
 import {DiffContent} from '../../../types/diff';
 import {assert} from '@open-wc/testing';
+import {FULL_CONTEXT} from '../gr-diff/gr-diff-utils';
 
 suite('gr-diff-processor tests', () => {
   const WHOLE_FILE = -1;
@@ -609,7 +610,7 @@ suite('gr-diff-processor tests', () => {
         .fill(0)
         .map(() => `${Math.random()}`);
       const content = [{ab}];
-      element.context = -1;
+      element.context = FULL_CONTEXT;
       const result = element.splitLargeChunks(content);
       assert.equal(result.length, 2);
       assert.deepEqual(result[0].ab, content[0].ab.slice(0, maxGroupSize));

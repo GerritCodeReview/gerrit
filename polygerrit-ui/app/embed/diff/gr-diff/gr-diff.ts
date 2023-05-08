@@ -291,7 +291,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
   // Private but used in tests.
   highlights = new GrDiffHighlight();
 
-  private diffModel = new DiffModel(undefined);
+  private diffModel = new DiffModel();
 
   builder?: GrDiffBuilder;
 
@@ -389,13 +389,16 @@ export class GrDiff extends LitElement implements GrDiffApi {
       changedProperties.has('prefs') ||
       changedProperties.has('lineOfInterest')
     ) {
-      this.diffModel.updateState({
-        diff: this.diff,
-        path: this.path,
-        renderPrefs: this.renderPrefs,
-        diffPrefs: this.prefs,
-        lineOfInterest: this.lineOfInterest,
-      });
+      if (this.diff && this.prefs) {
+        this.diffModel.updateState({
+          diff: this.diff,
+          path: this.path,
+          renderPrefs: this.renderPrefs ?? {},
+          diffPrefs: this.prefs,
+          lineOfInterest: this.lineOfInterest,
+          isImageDiff: this.isImageDiff,
+        });
+      }
     }
     if (
       changedProperties.has('path') ||

@@ -16,6 +16,24 @@
       "message": "Test",
       "revId": "ff6d5b3a2836db72724a96ab51f5214983d947f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a5a162d_bec30bae",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-05-08T14:27:58Z",
+      "side": 0,
+      "message": "Test",
+      "parentUuid": "4980dda3_a6bda917",
+      "revId": "ff6d5b3a2836db72724a96ab51f5214983d947f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

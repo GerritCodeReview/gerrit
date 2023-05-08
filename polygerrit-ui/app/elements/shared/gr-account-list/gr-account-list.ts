@@ -36,6 +36,7 @@ import {difference, queryAndAssert} from '../../../utils/common-util';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {IronInputElement} from '@polymer/iron-input';
 import {ReviewerState} from '../../../api/rest-api';
+import {repeat} from 'lit/directives/repeat.js';
 
 const VALID_EMAIL_ALERT = 'Please input a valid email.';
 const VALID_USER_GROUP_ALERT = 'Please input a valid user or group.';
@@ -186,7 +187,9 @@ export class GrAccountList extends LitElement {
 
   override render() {
     return html`<div class="list">
-        ${this.accounts.map(
+        ${repeat(
+          this.accounts,
+          account => getUserId(account),
           account => html`
             <gr-account-chip
               .account=${account}

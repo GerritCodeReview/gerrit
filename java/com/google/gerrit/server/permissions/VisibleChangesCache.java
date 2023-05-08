@@ -14,19 +14,12 @@
 
 package com.google.gerrit.server.permissions;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
-
-import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.server.git.SearchingChangeCacheImpl;
-import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
+import com.google.gerrit.server.git.ChangesByProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
@@ -37,8 +30,8 @@ import java.util.Map;
 import org.eclipse.jgit.lib.Repository;
 
 /**
- * Gets all of the visible by current user changes in the repository that are available in the
- * change index and cache.
+ * Gets all the changes in a repository visible by the current user, potentially limited by index
+ * search limits.
  */
 class VisibleChangesCache {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -47,9 +40,8 @@ class VisibleChangesCache {
     VisibleChangesCache create(ProjectControl projectControl, Repository repository);
   }
 
-  @Nullable private final SearchingChangeCacheImpl changeCache;
   private final ProjectState projectState;
-  private final ChangeNotes.Factory changeNotesFactory;
+  private final ChangesByProjectCache changesByProjectCache;
   private final PermissionBackend.ForProject permissionBackendForProject;
 
   private final Repository repository;
@@ -57,16 +49,14 @@ class VisibleChangesCache {
 
   @Inject
   VisibleChangesCache(
-      @Nullable SearchingChangeCacheImpl changeCache,
       PermissionBackend permissionBackend,
-      ChangeNotes.Factory changeNotesFactory,
+      ChangesByProjectCache changesByProjectCache,
       @Assisted ProjectControl projectControl,
       @Assisted Repository repository) {
-    this.changeCache = changeCache;
     this.projectState = projectControl.getProjectState();
     this.permissionBackendForProject =
         permissionBackend.user(projectControl.getUser()).project(projectState.getNameKey());
-    this.changeNotesFactory = changeNotesFactory;
+    this.changesByProjectCache = changesByProjectCache;
     this.repository = repository;
   }
 
@@ -74,22 +64,17 @@ class VisibleChangesCache {
    * Returns {@code true} if the {@code changeId} in repository {@code repo} is visible to the user,
    * by looking at the cached visible changes.
    */
-  public boolean isVisible(Change.Id changeId) throws PermissionBackendException {
-    cachedVisibleChanges();
-    return visibleChanges.containsKey(changeId);
+  public boolean isVisible(Change.Id changeId) {
+    return cachedVisibleChanges().containsKey(changeId);
   }
 
   /**
    * Returns the visible changes in the repository {@code repo}. If not cached, computes the visible
    * changes and caches them.
    */
-  public Map<Change.Id, BranchNameKey> cachedVisibleChanges() throws PermissionBackendException {
+  public Map<Change.Id, BranchNameKey> cachedVisibleChanges() {
     if (visibleChanges == null) {
-      if (changeCache == null) {
-        visibleChangesByScan();
-      } else {
-        visibleChangesBySearch();
-      }
+      getVisibleChanges();
       logger.atFinest().log("Visible changes: %s", visibleChanges.keySet());
     }
     return visibleChanges;
@@ -105,64 +90,26 @@ class VisibleChangesCache {
     return cachedVisibleChanges().get(changeId);
   }
 
-  private void visibleChangesBySearch() throws PermissionBackendException {
+  private void getVisibleChanges() {
     visibleChanges = new HashMap<>();
     if (!projectState.statePermitsRead()) {
       return;
     }
     Project.NameKey project = projectState.getNameKey();
+    Map<Change.Id, ChangeData> changeDataById;
     try {
-      for (ChangeData cd : changeCache.getChangeData(project)) {
-        try {
-          permissionBackendForProject.change(cd).check(ChangePermission.READ);
-          visibleChanges.put(cd.getId(), cd.change().getDest());
-        } catch (AuthException e) {
-          // Do nothing.
-        }
-      }
-    } catch (StorageException e) {
-      logger.atSevere().withCause(e).log(
-          "Cannot load changes for project %s, assuming no changes are visible", project);
-    }
-  }
-
-  private void visibleChangesByScan() throws PermissionBackendException {
-    visibleChanges = new HashMap<>();
-    if (!projectState.statePermitsRead()) {
-      return;
-    }
-    Project.NameKey p = projectState.getNameKey();
-    ImmutableList<ChangeNotesResult> changes;
-    try {
-      changes = changeNotesFactory.scan(repository, p).collect(toImmutableList());
+      changeDataById = changesByProjectCache.getChangeDataByChange(project, repository);
     } catch (IOException e) {
       logger.atSevere().withCause(e).log(
-          "Cannot load changes for project %s, assuming no changes are visible", p);
+          "Cannot load changes for project %s, assuming no changes are visible", project);
       return;
     }
 
-    for (ChangeNotesResult notesResult : changes) {
-      ChangeNotes notes = toNotes(notesResult);
-      if (notes != null) {
-        visibleChanges.put(notes.getChangeId(), notes.getChange().getDest());
+    for (Map.Entry<Change.Id, ChangeData> e : changeDataById.entrySet()) {
+      ChangeData changeData = e.getValue();
+      if (permissionBackendForProject.change(changeData).testOrFalse(ChangePermission.READ)) {
+        visibleChanges.put(e.getKey(), changeData.branch());
       }
     }
-  }
-
-  @Nullable
-  private ChangeNotes toNotes(ChangeNotesResult r) throws PermissionBackendException {
-    if (r.error().isPresent()) {
-      logger.atWarning().withCause(r.error().get()).log(
-          "Failed to load change %s in %s", r.id(), projectState.getName());
-      return null;
-    }
-
-    try {
-      permissionBackendForProject.change(r.notes()).check(ChangePermission.READ);
-      return r.notes();
-    } catch (AuthException e) {
-      // Skip.
-    }
-    return null;
   }
 }

@@ -83,6 +83,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SysExecutorModule;
 import com.google.gerrit.server.events.EventBroker.EventBrokerModule;
 import com.google.gerrit.server.events.StreamEventsApiListener.StreamEventsApiListenerModule;
+import com.google.gerrit.server.git.ChangesByProjectCache.ChangesByProjectCacheModule;
 import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl.SearchingChangeCacheImplModule;
 import com.google.gerrit.server.git.WorkQueue.WorkQueueModule;
@@ -449,6 +450,7 @@ public class Daemon extends SiteProgram {
     modules.add(new PluginApiModule());
 
     modules.add(new SearchingChangeCacheImplModule(replica));
+    modules.add(new ChangesByProjectCacheModule());
     modules.add(new InternalAccountDirectoryModule());
     modules.add(new DefaultPermissionBackendModule());
     modules.add(new DefaultMemoryCacheModule());

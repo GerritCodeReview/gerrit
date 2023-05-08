@@ -76,6 +76,7 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
 import com.google.gerrit.server.experiments.ConfigExperimentFeatures.ConfigExperimentFeaturesModule;
+import com.google.gerrit.server.git.ChangesByProjectCache.ChangesByProjectCacheModule;
 import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
@@ -193,6 +194,7 @@ public class InMemoryModule extends FactoryModule {
     install(new PluginApiModule());
     install(new DefaultPermissionBackendModule());
     install(new SearchingChangeCacheImplModule());
+    install(new ChangesByProjectCacheModule());
     factory(GarbageCollection.Factory.class);
     install(new AuditModule());
     install(new SubscriptionGraphModule());

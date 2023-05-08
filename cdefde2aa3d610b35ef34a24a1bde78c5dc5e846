@@ -51,6 +51,24 @@
       "parentUuid": "3e27c78e_f922c8d6",
       "revId": "cdefde2aa3d610b35ef34a24a1bde78c5dc5e846",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce86adda_2bf1e921",
+        "filename": "project.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-08T14:16:44Z",
+      "side": 1,
+      "message": "Well that\u0027s why you still have the OR, no?\n\n```\n\tapplicableIf \u003d -branch:refs/meta/config AND (-file:\\\"^polygerrit-ui/.*$\\\" OR -branch:refs/heads/master)\n```",
+      "parentUuid": "0d2ab601_899fea8f",
+      "revId": "cdefde2aa3d610b35ef34a24a1bde78c5dc5e846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

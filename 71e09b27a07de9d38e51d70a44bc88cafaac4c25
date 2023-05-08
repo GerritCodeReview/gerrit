@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7e6c60d_38232ccc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2023-05-08T13:16:09Z",
+      "side": 1,
+      "message": "Hi @nasser.grainawi@linaro.org,\n\nThank you for the review, please see my response, this encoding is a must per gerrit spec[1]\n\n```\ntriplet_id: The ID of the change in the format \"\u0027\u003cproject\u003e~\u003cbranch\u003e~\u003cChange-Id\u003e\u0027\", where \u0027project\u0027, \u0027branch\u0027 and \u0027Change-Id\u0027 are URL encoded. For \u0027branch\u0027 the refs/heads/ prefix is omitted.\n```\n\nThanks,\nAlon\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-info",
+      "revId": "71e09b27a07de9d38e51d70a44bc88cafaac4c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8f7ef16_35b6c629",
@@ -26,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3cdfb03a_ff64972d",
+        "filename": "java/com/google/gerrit/server/change/ChangeTriplet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2023-05-08T13:16:09Z",
+      "side": 1,
+      "message": "there is single unit test that uses this, and it passes as no special chars.\n\nthe caller must expect that the string is encoded as gerrit reference states that it is encoded.",
+      "parentUuid": "e8f7ef16_35b6c629",
+      "range": {
+        "startLine": 26,
+        "startChar": 23,
+        "endLine": 26,
+        "endChar": 29
+      },
+      "revId": "71e09b27a07de9d38e51d70a44bc88cafaac4c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dfbc54ef_3cda37ba",
         "filename": "java/com/google/gerrit/server/change/ChangeTriplet.java",
         "patchSetId": 5
@@ -37,6 +78,30 @@
       "writtenOn": "2023-05-03T16:24:36Z",
       "side": 1,
       "message": "Should this be printing the encoded string?",
+      "range": {
+        "startLine": 73,
+        "startChar": 11,
+        "endLine": 73,
+        "endChar": 17
+      },
+      "revId": "71e09b27a07de9d38e51d70a44bc88cafaac4c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72264575_758b753a",
+        "filename": "java/com/google/gerrit/server/change/ChangeTriplet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2023-05-08T13:16:09Z",
+      "side": 1,
+      "message": "I think so, do you like a different formatting, json like?",
+      "parentUuid": "dfbc54ef_3cda37ba",
       "range": {
         "startLine": 73,
         "startChar": 11,

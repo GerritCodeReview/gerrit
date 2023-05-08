@@ -33,6 +33,7 @@ import com.google.gerrit.index.project.ProjectIndexRewriter;
 import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.index.project.ProjectSchemaDefinitions;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.account.AccountsStorageAccessorsBinder;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.WorkQueue;
@@ -119,6 +120,7 @@ public class IndexModule extends LifecycleModule {
         .setDefault()
         .toInstance(Ticker.systemTicker());
 
+    AccountsStorageAccessorsBinder.bindAll(binder());
     bind(AccountIndexRewriter.class);
     bind(AccountIndexCollection.class);
     listener().to(AccountIndexCollection.class);

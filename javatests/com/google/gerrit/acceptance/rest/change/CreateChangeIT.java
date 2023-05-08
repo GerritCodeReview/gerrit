@@ -81,6 +81,9 @@ import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
+import com.google.gerrit.server.patch.DiffOperations;
+import com.google.gerrit.server.patch.DiffOptions;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.submit.ChangeAlreadyMergedException;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gson.stream.JsonReader;
@@ -113,6 +116,8 @@ public class CreateChangeIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject
+  private DiffOperations diffOperations;
 
   @Before
   public void addNonCommitHead() throws Exception {
@@ -665,12 +670,18 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   public void createMergeChange() throws Exception {
-    changeInTwoBranches("branchA", "a.txt", "branchB", "b.txt");
-    ChangeInput in = newMergeChangeInput("branchA", "branchB", "");
-    ChangeInfo change = assertCreateSucceeds(in);
-
+    changeInTwoBranches("branchA", "a.txt", "branchB", "a.txt");
+    ChangeInput in = newMergeChangeInput("branchA", "branchB", "theirs", true);
+    TestCommitValidationListener testCommitValidationListener = new TestCommitValidationListener(diffOperations);
+    ChangeInfo changeInfo;
+    try (Registration registration =
+             extensionRegistry.newRegistration().add(testCommitValidationListener)) {
+      changeInfo = assertCreateSucceeds(in);
+      //assertThat(testCommitValidationListener.receiveEvent.pushOptions)
+       //   .containsExactly("key", "value");
+    }
     // Verify the message that has been posted on the change.
-    List<ChangeMessageInfo> messages = gApi.changes().id(change._number).messages();
+    List<ChangeMessageInfo> messages = gApi.changes().id(changeInfo._number).messages();
     assertThat(messages).hasSize(1);
     assertThat(Iterables.getOnlyElement(messages).message).isEqualTo("Uploaded patch set 1.");
   }
@@ -1499,10 +1510,28 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   private static class TestCommitValidationListener implements CommitValidationListener {
     public CommitReceivedEvent receiveEvent;
+    private final DiffOperations diffOperations;
+
+    public TestCommitValidationListener(DiffOperations diffOperations) {
+      this.diffOperations = diffOperations;
+    }
+
+    public TestCommitValidationListener() {
+      this.diffOperations = null;
+    }
 
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
+      try {
+        if(diffOperations != null) {
+          Map<String, FileDiffOutput> unused =
+              diffOperations.listModifiedFilesAgainstParent(
+                  receiveEvent.getProjectNameKey(), receiveEvent.commit, /* parentNum = */ 0, DiffOptions.DEFAULTS);
+        }
+      } catch (Exception e){
+        throw new IllegalStateException(e);
+      }
       this.receiveEvent = receiveEvent;
       return ImmutableList.of();
     }

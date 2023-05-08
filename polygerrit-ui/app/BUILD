@@ -180,9 +180,9 @@ filegroup(
             "**/*_test.ts",
         ],
     ) + [
+        "@npm//typescript",
         "@ui_dev_npm//:node_modules",
         "@ui_npm//:node_modules",
-        "@npm//typescript",
     ],
 )
 

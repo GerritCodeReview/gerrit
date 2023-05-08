@@ -105,6 +105,24 @@
       "parentUuid": "ce86adda_2bf1e921",
       "revId": "cdefde2aa3d610b35ef34a24a1bde78c5dc5e846",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b98479a7_5b201dcc",
+        "filename": "project.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-08T14:26:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a67d0581_bf27923e",
+      "revId": "cdefde2aa3d610b35ef34a24a1bde78c5dc5e846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

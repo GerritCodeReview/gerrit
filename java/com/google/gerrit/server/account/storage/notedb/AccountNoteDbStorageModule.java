@@ -1,4 +1,4 @@
-// Copyright (C) 2017 The Android Open Source Project
+// Copyright (C) 2023 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,14 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.pgm.init;
+package com.google.gerrit.server.account.storage.notedb;
 
-import com.google.gerrit.entities.Account;
-import java.io.IOException;
+import com.google.gerrit.server.account.Accounts;
+import com.google.inject.AbstractModule;
+import com.google.inject.Singleton;
 
-public interface AccountsOnInit {
-
-  Account insert(Account.Builder account) throws IOException;
-
-  boolean hasAnyAccount() throws IOException;
+public class AccountNoteDbStorageModule extends AbstractModule {
+  @Override
+  protected void configure() {
+    binder().bind(Accounts.class).to(AccountsNoteDbImpl.class).in(Singleton.class);
+  }
 }

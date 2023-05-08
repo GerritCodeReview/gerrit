@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c39eece_f9cd4028",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-08T13:41:07Z",
+      "side": 1,
+      "message": "Can any googler add LC+1?",
+      "revId": "7fdbbc90de1807da1bae8529b07068f96be3fb9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

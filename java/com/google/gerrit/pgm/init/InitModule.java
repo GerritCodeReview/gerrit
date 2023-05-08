@@ -55,6 +55,8 @@ public class InitModule extends FactoryModule {
     step().to(InitCache.class);
     step().to(InitPlugins.class);
     step().to(InitDev.class);
+
+    bind(AccountsOnInit.class).to(AccountsOnInitNoteDbImpl.class);
   }
 
   protected LinkedBindingBuilder<InitStep> step() {

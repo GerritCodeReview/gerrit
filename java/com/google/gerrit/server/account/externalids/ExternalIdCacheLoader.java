@@ -43,7 +43,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -184,8 +186,17 @@ public class ExternalIdCacheLoader {
         }
       }
 
-      AllExternalIds allExternalIds =
-          buildAllExternalIds(repo, oldExternalIds, additions, removals);
+      AllExternalIds allExternalIds;
+      try {
+        allExternalIds = buildAllExternalIds(repo, oldExternalIds, additions, removals);
+      } catch (IllegalArgumentException e) {
+        Set<String> additionKeys =
+            additions.keySet().stream().map(AnyObjectId::getName).collect(Collectors.toSet());
+        logger.atSevere().withCause(e).log(
+            "Failed to load external ID cache. Repository ref is %s, cache ref is %s, additions are %s",
+            extIdRef.getObjectId().getName(), parentWithCacheValue.getId().getName(), additionKeys);
+        throw e;
+      }
       reloadCounter.increment(true);
       reloadDifferential.record(System.nanoTime() - start, TimeUnit.NANOSECONDS);
       return allExternalIds;

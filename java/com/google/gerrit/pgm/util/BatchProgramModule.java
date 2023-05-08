@@ -65,6 +65,7 @@ import com.google.gerrit.server.extensions.events.EventUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.extensions.events.WorkInProgressStateChanged;
+import com.google.gerrit.server.git.ChangesByProjectCache.ChangesByProjectCacheModule;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.PureRevertCache;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
@@ -159,7 +160,7 @@ public class BatchProgramModule extends FactoryModule {
     factory(RebaseChangeOp.Factory.class);
 
     // As Reindex is a batch program, don't assume the index is available for
-    // the change cache.
+    // the searching change cache.
     bind(SearchingChangeCacheImpl.class).toProvider(Providers.of(null));
 
     bind(new TypeLiteral<ImmutableSet<GroupReference>>() {})
@@ -173,6 +174,7 @@ public class BatchProgramModule extends FactoryModule {
         .toInstance(Collections.emptySet());
 
     modules.add(new BatchGitModule());
+    modules.add(new ChangesByProjectCacheModule());
     modules.add(new DefaultPermissionBackendModule());
     modules.add(new DefaultMemoryCacheModule());
     modules.add(new H2CacheModule());

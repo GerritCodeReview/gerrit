@@ -185,7 +185,7 @@ public class DiffUtil {
   public static String removePatchHeader(final String patch) {
     String res = patch.trim();
     if (!res.startsWith("diff --") && res.contains("\ndiff --")) {
-      return res.substring(patch.indexOf("\ndiff --"), patch.length() - 1);
+      return res.substring(patch.indexOf("\ndiff --"), patch.length());
     }
     return res;
   }

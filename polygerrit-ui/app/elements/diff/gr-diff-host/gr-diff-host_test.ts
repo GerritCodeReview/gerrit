@@ -62,6 +62,7 @@ import {
   CommentsModel,
   commentsModelToken,
 } from '../../../models/comments/comments-model';
+import {FULL_CONTEXT} from '../../../embed/diff/gr-diff/gr-diff-utils';
 
 suite('gr-diff-host tests', () => {
   let element: GrDiffHost;
@@ -1354,7 +1355,7 @@ suite('gr-diff-host tests', () => {
         line_length: 10,
         show_tabs: true,
         tab_size: 4,
-        context: -1,
+        context: FULL_CONTEXT,
         syntax_highlighting: true,
       };
       element.patchRange = createPatchRange();
@@ -1416,7 +1417,7 @@ suite('gr-diff-host tests', () => {
         line_length: 10,
         show_tabs: true,
         tab_size: 4,
-        context: -1,
+        context: FULL_CONTEXT,
         syntax_highlighting: false,
       };
       element.patchRange = createPatchRange();
@@ -1486,7 +1487,7 @@ suite('gr-diff-host tests', () => {
         line_length: 10,
         show_tabs: true,
         tab_size: 4,
-        context: -1,
+        context: FULL_CONTEXT,
       };
       element.patchRange = createPatchRange();
       element.prefs = prefs;

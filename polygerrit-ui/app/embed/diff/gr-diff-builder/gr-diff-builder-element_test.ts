@@ -20,6 +20,7 @@ import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrDiffRow} from './gr-diff-row';
 import {querySelectorAll} from '../../../utils/dom-util';
+import {FULL_CONTEXT} from '../gr-diff/gr-diff-utils';
 
 const DEFAULT_PREFS = createDefaultDiffPrefs();
 
@@ -458,7 +459,7 @@ suite('gr-diff-builder tests', () => {
       element.viewMode = DiffViewMode.SIDE_BY_SIDE;
       element.prefs = {
         ...DEFAULT_PREFS,
-        context: -1,
+        context: FULL_CONTEXT,
         syntax_highlighting: true,
       };
       content = [

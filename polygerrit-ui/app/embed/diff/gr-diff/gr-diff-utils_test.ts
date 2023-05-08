@@ -17,6 +17,9 @@ import {
   GrDiffCommentThread,
   compareComments,
   toCommentThreadModel,
+  computeContext,
+  FullContext,
+  FULL_CONTEXT,
 } from './gr-diff-utils';
 import {FILE, LOST} from './gr-diff-line';
 
@@ -216,6 +219,26 @@ suite('gr-diff-utils tests', () => {
     threadEl.setAttribute('range', JSON.stringify(range));
     threadEl.setAttribute('slot', 'right-1');
     assert.isUndefined(getRange(threadEl));
+  });
+
+  suite('computeContext', () => {
+    test('computeContext 1', () => {
+      assert.equal(computeContext(1, FullContext.YES, 2), FULL_CONTEXT);
+      assert.equal(computeContext(1, FullContext.NO, 2), 1);
+      assert.equal(computeContext(1, FullContext.UNDECIDED, 2), 1);
+    });
+
+    test('computeContext FULL_CONTEXT', () => {
+      assert.equal(
+        computeContext(FULL_CONTEXT, FullContext.YES, 2),
+        FULL_CONTEXT
+      );
+      assert.equal(computeContext(FULL_CONTEXT, FullContext.NO, 2), 2);
+      assert.equal(
+        computeContext(FULL_CONTEXT, FullContext.UNDECIDED, 2),
+        FULL_CONTEXT
+      );
+    });
   });
 
   suite('key locations', () => {

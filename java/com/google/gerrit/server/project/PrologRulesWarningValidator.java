@@ -24,6 +24,7 @@ import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
+import com.google.gerrit.server.git.validators.ValidationMessage;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.DiffOptions;
@@ -35,17 +36,17 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * A validator than bans creation of new Prolog rules. Modification and deletion will be allowed so
- * that clients can get rid of prolog rules. New rules should use submit-requirements instead.
+ * A validator than emits a warning for newly added prolog rules file via git push. Modification and
+ * deletion are allowed so that clients can get rid of prolog rules.
  */
 @Singleton
-public class PrologRulesBlockerValidator implements CommitValidationListener {
+public class PrologRulesWarningValidator implements CommitValidationListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final DiffOperations diffOperations;
 
   @Inject
-  public PrologRulesBlockerValidator(DiffOperations diffOperations) {
+  public PrologRulesWarningValidator(DiffOperations diffOperations) {
     this.diffOperations = diffOperations;
   }
 
@@ -55,12 +56,11 @@ public class PrologRulesBlockerValidator implements CommitValidationListener {
     try {
       if (receiveEvent.refName.equals(RefNames.REFS_CONFIG)
           && isFileAdded(receiveEvent, RULES_PL_FILE)) {
-        throw new CommitValidationException(
-            "Uploading 'rule.pl' not allowed",
+        return ImmutableList.of(
             new CommitValidationMessage(
-                "Uploading a new 'rules.pl' file is not allowed."
-                    + " Please add submit-requirements instead.",
-                /*isError= */ true));
+                "Uploading a new 'rules.pl' file is discouraged."
+                    + " Please consider adding submit-requirements instead.",
+                ValidationMessage.Type.WARNING));
       }
     } catch (DiffNotAvailableException e) {
       logger.atWarning().withCause(e).log("Failed to retrieve the file diff.");

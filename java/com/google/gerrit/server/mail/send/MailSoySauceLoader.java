@@ -65,8 +65,6 @@ class MailSoySauceLoader {
     "DeleteReviewerHtml.soy",
     "DeleteVote.soy",
     "DeleteVoteHtml.soy",
-    "Email.soy",
-    "EmailHtml.soy",
     "InboundEmailRejection.soy",
     "InboundEmailRejectionHtml.soy",
     "Footer.soy",

@@ -2275,8 +2275,10 @@ export class GrChangeView extends LitElement {
   private async reportChangeDisplayed() {
     await waitUntil(() => !!this.metadata);
     await untilRendered(this.metadata!);
-    await waitUntil(() => !!this.fileList);
-    await untilRendered(this.fileList!);
+    if (this.activeTab === Tab.FILES) {
+      await waitUntil(() => !!this.fileList);
+      await untilRendered(this.fileList!);
+    }
     await waitUntil(() => !!this.messagesList);
     await untilRendered(this.messagesList!);
     // We are ending the timer after each change view update, because ending a
@@ -2289,8 +2291,10 @@ export class GrChangeView extends LitElement {
   private async reportFullyLoaded() {
     await waitUntil(() => !!this.metadata);
     await untilRendered(this.metadata!);
-    await waitUntil(() => !!this.fileList);
-    await untilRendered(this.fileList!);
+    if (this.activeTab === Tab.FILES) {
+      await waitUntil(() => !!this.fileList);
+      await untilRendered(this.fileList!);
+    }
     await waitUntil(() => !!this.messagesList);
     await untilRendered(this.messagesList!);
     await waitUntil(() => this.mergeable !== undefined);

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e853553_fa149555",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-05-08T05:19:06Z",
+      "side": 1,
+      "message": "This is now incomplete, it is not the only cache control header that is checked.",
+      "range": {
+        "startLine": 15,
+        "startChar": 19,
+        "endLine": 15,
+        "endChar": 36
+      },
+      "revId": "e911bf1fc01d744f5a57640585a2b9ebf9b39e76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5db371dc_09c7f2f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-05-08T05:19:06Z",
+      "side": 1,
+      "message": "does it actually fixes it completely?\nConsider using `mitigate` instead.\n\nIt would be nice to link some evidence that this is actually addressing the problem.",
+      "range": {
+        "startLine": 21,
+        "startChar": 5,
+        "endLine": 21,
+        "endChar": 10
+      },
+      "revId": "e911bf1fc01d744f5a57640585a2b9ebf9b39e76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

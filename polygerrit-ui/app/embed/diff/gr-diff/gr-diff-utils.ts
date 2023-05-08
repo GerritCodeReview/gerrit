@@ -186,6 +186,39 @@ export function toCommentThreadModel(
   return {side, line, range, rootId: threadEl.rootId};
 }
 
+export const FULL_CONTEXT = -1;
+
+export enum FullContext {
+  /** User has opted into showing the full context. */
+  YES = 'YES',
+  /** User has opted into showing only limited context. */
+  NO = 'NO',
+  /**
+   * User has not decided yet. Will see a warning message with two options then,
+   * if the file is too large.
+   */
+  UNDECIDED = 'UNDECIDED',
+}
+
+export function computeContext(
+  prefsContext: number | undefined,
+  showFullContext: FullContext,
+  defaultContext: number
+) {
+  if (showFullContext === FullContext.YES) {
+    return FULL_CONTEXT;
+  } else if (
+    showFullContext === FullContext.NO &&
+    prefsContext === FULL_CONTEXT
+  ) {
+    return defaultContext;
+  } else if (prefsContext) {
+    return prefsContext;
+  } else {
+    return defaultContext;
+  }
+}
+
 export function computeKeyLocations(
   lineOfInterest: DisplayLine | undefined,
   comments: GrDiffCommentThread[]

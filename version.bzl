@@ -3,3 +3,4 @@
 # when talking to the destination repository.
 #
 GERRIT_VERSION = "3.6.5-SNAPSHOT"
+

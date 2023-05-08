@@ -41,6 +41,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.RetryableAction.ActionType;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
+import com.google.template.soy.data.SanitizedContent;
 import com.google.template.soy.jbcsrc.api.SoySauce;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -112,7 +113,7 @@ public final class OutgoingEmail {
   private final Set<Address> smtpBccRcptTo = new HashSet<>();
   private Address smtpFromAddress;
   private StringBuilder textBody;
-  private StringBuilder htmlBody;
+  private ArrayList<SanitizedContent> htmlBodySections;
   private MessageIdGenerator.MessageId messageId;
   private Map<String, Object> soyContext;
   private Map<String, Object> soyContextEmailData;
@@ -154,6 +155,18 @@ public final class OutgoingEmail {
     this.messageId = messageId;
   }
 
+  private String constructTextEmail() {
+    soyContext.put("body", textBody.toString());
+    soyContext.put("footer", textTemplate("Footer"));
+    return textTemplate("Email");
+  }
+
+  private String constructHtmlEmail() {
+    soyContext.put("body_sections_html", htmlBodySections);
+    soyContext.put("footer_html", soyHtmlTemplate("FooterHtml"));
+    return soyHtmlTemplate("EmailHtml").toString();
+  }
+
   /** Format and enqueue the message for delivery. */
   public void send() throws EmailException {
     try {
@@ -191,10 +204,6 @@ public final class OutgoingEmail {
     populateEmailContent();
     if (messageId == null) {
       throw new IllegalStateException("All emails must have a messageId");
-    }
-    appendText(textTemplate("Footer"));
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("FooterHtml"));
     }
 
     Set<Address> smtpRcptToPlaintextOnly = new HashSet<>();
@@ -295,16 +304,15 @@ public final class OutgoingEmail {
         setHeader(FieldName.REPLY_TO, j.toString());
       }
 
-      String textPart = textBody.toString();
       OutgoingEmailValidationListener.Args va = new OutgoingEmailValidationListener.Args();
       va.messageClass = messageClass;
       va.smtpFromAddress = smtpFromAddress;
       va.smtpRcptTo = smtpRcptTo;
       va.headers = headers;
-      va.body = textPart;
+      va.body = constructTextEmail();
 
       if (useHtml()) {
-        va.htmlBody = htmlBody.toString();
+        va.htmlBody = constructHtmlEmail();
       } else {
         va.htmlBody = null;
       }
@@ -388,7 +396,7 @@ public final class OutgoingEmail {
     setHeader(MailHeader.MESSAGE_TYPE.fieldName(), messageClass);
     addFooter(MailHeader.MESSAGE_TYPE.withDelimiter() + messageClass);
     textBody = new StringBuilder();
-    htmlBody = new StringBuilder();
+    htmlBodySections = new ArrayList<>();
 
     if (fromId != null && args.fromAddressGenerator.get().isGenericAddress(fromId)) {
       appendText(getFromLine());
@@ -471,9 +479,9 @@ public final class OutgoingEmail {
   }
 
   /** Append html to the outgoing email body. */
-  public void appendHtml(String html) {
+  public void appendHtml(SanitizedContent html) {
     if (html != null) {
-      htmlBody.append(html);
+      htmlBodySections.add(html);
     }
   }
 
@@ -750,8 +758,8 @@ public final class OutgoingEmail {
   }
 
   /** Renders a soy template of kind="html". */
-  public String soyHtmlTemplate(String name) {
-    return configureRenderer(name).renderHtml().get().toString();
+  public SanitizedContent soyHtmlTemplate(String name) {
+    return configureRenderer(name).renderHtml().get();
   }
 
   /** Configures a soy renderer for the given template name and rendering data map. */

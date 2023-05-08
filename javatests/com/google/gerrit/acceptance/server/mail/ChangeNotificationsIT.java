@@ -680,6 +680,8 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
         .bcc(ALL_COMMENTS)
         .noOneElse();
     assertThat(sender).didNotSend();
+
+    System.out.println(sender.getMessages());
   }
 
   @Test

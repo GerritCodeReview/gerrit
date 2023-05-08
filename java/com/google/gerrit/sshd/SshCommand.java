@@ -23,6 +23,7 @@ import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.InvalidDeadlineException;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
+import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.cancellation.RequestStateContext;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -62,7 +63,8 @@ public abstract class SshCommand extends BaseCommand {
   public void start(ChannelSession channel, Environment env) throws IOException {
     startThread(
         () -> {
-          try (DynamicOptions pluginOptions = new DynamicOptions(injector, dynamicBeans)) {
+          try (PerThreadCache ignored = PerThreadCache.create();
+              DynamicOptions pluginOptions = new DynamicOptions(injector, dynamicBeans)) {
             parseCommandLine(pluginOptions);
             stdout = toPrintWriter(out);
             stderr = toPrintWriter(err);

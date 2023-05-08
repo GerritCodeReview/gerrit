@@ -161,9 +161,9 @@ sh_test(
         "$(location tsconfig_template_test.json)",
     ],
     data = [
-        "tsconfig_template_test.json",
-        "tsconfig_bazel.json",
         "tsconfig.json",
+        "tsconfig_bazel.json",
+        "tsconfig_template_test.json",
         "//tools/node_tools:tsc-bin",
         "@ui_npm//:node_modules",
     ] + templates_srcs + sources_for_template_checking,
@@ -267,9 +267,9 @@ filegroup(
             "**/*_test.ts",
         ],
     ) + [
+        "@npm//typescript",
         "@ui_dev_npm//:node_modules",
         "@ui_npm//:node_modules",
-        "@npm//typescript",
     ],
 )
 

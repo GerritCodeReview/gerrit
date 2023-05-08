@@ -102,10 +102,14 @@ public class ExternalIdCaseSensitivityMigrator {
         ExternalId oldExtId =
             externalIdFactory.create(
                 oldKey, extId.accountId(), extId.email(), extId.password(), extId.blobId());
-        extIdNotes.replace(
-            Collections.singleton(oldExtId),
-            Collections.singleton(updatedExtId),
-            (externalId) -> externalId.key().sha1());
+        try {
+          extIdNotes.replace(
+              Collections.singleton(oldExtId),
+              Collections.singleton(updatedExtId),
+              (externalId) -> externalId.key().sha1());
+        } catch (DuplicateExternalIdKeyException e) {
+          logger.atWarning().withCause(e).log("Unable to recompute external id %s", extId);
+        }
       }
     }
   }

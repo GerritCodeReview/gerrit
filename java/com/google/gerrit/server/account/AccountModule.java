@@ -15,10 +15,12 @@
 package com.google.gerrit.server.account;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Singleton;
 
 public class AccountModule extends AbstractModule {
   @Override
   protected void configure() {
     bind(AuthRequest.Factory.class);
+    bind(Accounts.class).to(AccountsNoteDbImpl.class).in(Singleton.class);
   }
 }

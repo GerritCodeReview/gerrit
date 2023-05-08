@@ -34,6 +34,7 @@ public class InitModule extends FactoryModule {
   @Override
   protected void configure() {
     bind(SitePaths.class);
+    bind(AccountsOnInit.class).to(AccountsOnInitNoteDbImpl.class);
     factory(Section.Factory.class);
     factory(VersionedAuthorizedKeysOnInit.Factory.class);
 

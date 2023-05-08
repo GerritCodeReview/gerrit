@@ -14,12 +14,16 @@
 
 package com.google.gerrit.acceptance.ssh;
 
+import com.google.gerrit.server.account.Accounts;
+import com.google.gerrit.server.account.AccountsNoteDbImpl;
 import com.google.gerrit.sshd.CommandModule;
+import com.google.inject.Singleton;
 
 public class TestSshCommandModule extends CommandModule {
   @Override
   protected void configure() {
     command("graceful").to(GracefulCommand.class);
     command("non-graceful").to(NonGracefulCommand.class);
+    bind(Accounts.class).to(AccountsNoteDbImpl.class).in(Singleton.class);
   }
 }

@@ -52,6 +52,24 @@
       "parentUuid": "9d7688ef_777f4b4d",
       "revId": "6cf0f430c148015da3d91d724e43aeda872fac22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67a35b7d_db5655d4",
+        "filename": "java/com/google/gerrit/server/permissions/ChangeControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-08T16:41:55Z",
+      "side": 1,
+      "message": "\u003e Could you provide a bit more details with what you meam. Which part is too broad?\n\nParticularly the jump from \"owners can edit\" to \"anyone with EDIT_CUSTOM_KEYED_VALUES can edit\", but also perhaps even the \"owners can edit\" part, depending on the exact use case. For example, imagine if there was some kind of custom key representing a legal hold on a change. In that case, maybe you wouldn\u0027t want owners to be able to add or remove it, but only a specific group of users or a bot.\n\nIf it\u0027s not a use case you expect for these keyed values then I don\u0027t think you have to solve it in this change. Maybe it becomes a parallel concept in a \"namespaced keyed values\" storage or something like that where you can enforce access controls in a different way (perhaps more like how access for labels is managed).",
+      "parentUuid": "9d7688ef_777f4b4d",
+      "revId": "6cf0f430c148015da3d91d724e43aeda872fac22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

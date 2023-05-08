@@ -40,6 +40,7 @@ import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
@@ -240,6 +241,19 @@ public class ChangeData {
       return assistedFactory.create(project, id, null, null);
     }
 
+    public ChangeData create(Project.NameKey project, Change.Id id, ObjectId revision) {
+      ChangeData cd = assistedFactory.create(project, id, null, null);
+      cd.setRevision(revision);
+      return cd;
+    }
+
+    public ChangeData createPublic(BranchNameKey branch, Change.Id id, ObjectId revision) {
+      ChangeData cd = create(branch.project(), id, revision);
+      cd.branch = branch.branch();
+      cd.isPublic = true;
+      return cd;
+    }
+
     public ChangeData create(Change change) {
       return assistedFactory.create(change.getProject(), change.getId(), change, null);
     }
@@ -330,7 +344,10 @@ public class ChangeData {
   private List<ChangeMessage> messages;
   private Optional<ChangedLines> changedLines;
   private SubmitTypeRecord submitTypeRecord;
+  private String branch;
+  private Boolean isPublic;
   private Boolean mergeable;
+  private ObjectId revision;
   private Set<String> hashtags;
   /**
    * Map from {@link com.google.gerrit.entities.Account.Id} to the tip of the edit ref for this
@@ -530,6 +547,41 @@ public class ChangeData {
     return project;
   }
 
+  public BranchNameKey branch() {
+    if (change == null && lazyload()) {
+      if (branch != null) {
+        return BranchNameKey.create(project, branch);
+      }
+      change();
+    }
+    return change.getDest();
+  }
+
+  public boolean isPublic() {
+    if (change == null && lazyload()) {
+      if (isPublic != null) {
+        return isPublic;
+      }
+      change();
+    }
+    return !change.isPrivate();
+  }
+
+  public ChangeData setRevision(ObjectId revision) {
+    this.revision = revision;
+    return this;
+  }
+
+  public ObjectId revision() {
+    if (notes == null && lazyload()) {
+      if (revision != null) {
+        return revision;
+      }
+      notes();
+    }
+    return notes.getRevision();
+  }
+
   boolean fastIsVisibleTo(CurrentUser user) {
     return visibleTo == user;
   }
@@ -540,7 +592,7 @@ public class ChangeData {
 
   public Change change() {
     if (change == null && lazyload()) {
-      reloadChange();
+      loadChange();
     }
     return change;
   }
@@ -550,12 +602,18 @@ public class ChangeData {
   }
 
   public Change reloadChange() {
+    revision = null;
+    return loadChange();
+  }
+
+  private Change loadChange() {
     try {
-      notes = notesFactory.createChecked(project, legacyId);
+      notes = notesFactory.createChecked(project, legacyId, revision);
     } catch (NoSuchChangeException e) {
       throw new StorageException("Unable to load change " + legacyId, e);
     }
     change = notes.getChange();
+    revision = null;
     setPatchSets(null);
     return change;
   }
@@ -573,7 +631,8 @@ public class ChangeData {
       if (!lazyload()) {
         throw new StorageException("ChangeNotes not available, lazyLoad = false");
       }
-      notes = notesFactory.create(project(), legacyId);
+      notes = notesFactory.create(project(), legacyId, revision);
+      change = notes.getChange();
     }
     return notes;
   }

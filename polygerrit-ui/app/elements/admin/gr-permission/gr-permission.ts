@@ -127,8 +127,9 @@ export class GrPermission extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues<GrPermission>): void {
-    if (changedProperties.has('editing')) {
-      this.handleEditingChanged(changedProperties.get('editing'));
+    const oldEditing = changedProperties.get('editing');
+    if (oldEditing !== null && oldEditing !== undefined) {
+      this.handleEditingChanged(oldEditing);
     }
     if (
       changedProperties.has('permission') ||

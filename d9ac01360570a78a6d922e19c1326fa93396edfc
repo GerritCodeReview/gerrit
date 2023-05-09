@@ -22,6 +22,30 @@
       },
       "revId": "d9ac01360570a78a6d922e19c1326fa93396edfc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8963305c_a225662a",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 3063,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-09T16:35:26Z",
+      "side": 1,
+      "message": "No, you can return promises from promises, they wait appropriately.\n\nI just don\u0027t know what it means to return yourself as a promise from a promise.",
+      "parentUuid": "f4e564a5_98aa1606",
+      "range": {
+        "startLine": 3063,
+        "startChar": 15,
+        "endLine": 3063,
+        "endChar": 45
+      },
+      "revId": "d9ac01360570a78a6d922e19c1326fa93396edfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

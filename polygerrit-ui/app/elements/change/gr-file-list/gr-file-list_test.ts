@@ -1356,7 +1356,6 @@ suite('gr-file-list tests', () => {
       await waitEventLoop();
 
       const renderSpy = sinon.spy(element, 'renderInOrder');
-      const collapseStub = sinon.stub(element, 'clearCollapsedDiffs');
 
       assert.equal(
         queryAndAssert<GrIcon>(element, 'gr-icon').icon,
@@ -1368,7 +1367,6 @@ suite('gr-file-list tests', () => {
       // Wait for expandedFilesChanged to finish.
       await waitEventLoop();
 
-      assert.equal(collapseStub.lastCall.args[0].length, 0);
       assert.equal(
         queryAndAssert<GrIcon>(element, 'gr-icon').icon,
         'expand_less'
@@ -1387,11 +1385,9 @@ suite('gr-file-list tests', () => {
       );
       assert.equal(renderSpy.callCount, 1);
       assert.isFalse(element.expandedFiles.some(f => f.path === path));
-      assert.equal(collapseStub.lastCall.args[0].length, 1);
     });
 
     test('expandAllDiffs and collapseAllDiffs', async () => {
-      const collapseStub = sinon.stub(element, 'clearCollapsedDiffs');
       assertIsDefined(element.diffCursor);
       const reInitStub = sinon.stub(element.diffCursor, 'reInitAndUpdateStops');
 
@@ -1406,7 +1402,6 @@ suite('gr-file-list tests', () => {
       await waitEventLoop();
       assert.equal(element.filesExpanded, FilesExpandedState.ALL);
       assert.isTrue(reInitStub.calledTwice);
-      assert.equal(collapseStub.lastCall.args[0].length, 0);
 
       element.collapseAllDiffs();
       await element.updateComplete;
@@ -1414,7 +1409,6 @@ suite('gr-file-list tests', () => {
       await waitEventLoop();
       assert.equal(element.expandedFiles.length, 0);
       assert.equal(element.filesExpanded, FilesExpandedState.NONE);
-      assert.equal(collapseStub.lastCall.args[0].length, 1);
     });
 
     test('expandedFilesChanged', async () => {
@@ -1448,19 +1442,6 @@ suite('gr-file-list tests', () => {
       await element.updateComplete;
       await waitEventLoop();
       await promise;
-    });
-
-    test('clearCollapsedDiffs', () => {
-      // Have to type as any because the type is 'GrDiffHost'
-      // which would require stubbing so many different
-      // methods / properties that it isn't worth it.
-      const diff = {
-        cancel: sinon.stub(),
-        clearDiffContent: sinon.stub(),
-      } as any;
-      element.clearCollapsedDiffs([diff]);
-      assert.isTrue(diff.cancel.calledOnce);
-      assert.isTrue(diff.clearDiffContent.calledOnce);
     });
 
     test('filesExpanded value updates to correct enum', async () => {

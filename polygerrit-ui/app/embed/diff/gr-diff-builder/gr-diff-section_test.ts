@@ -73,10 +73,7 @@ suite('gr-diff-section test', () => {
     });
 
     test('unified', async () => {
-      element.renderPrefs = {
-        ...element.renderPrefs,
-        view_mode: DiffViewMode.UNIFIED,
-      };
+      element.viewMode = DiffViewMode.UNIFIED;
       const row = await waitQueryAndAssert(element, 'tr.moveControls');
       // Semantic dom diff has a problem with just comparing table rows or
       // cells directly. So as a workaround put the row into an empty test
@@ -162,7 +159,7 @@ suite('gr-diff-section test', () => {
                   data-side="left"
                   id="left-content-1"
                 >
-                  <gr-diff-text> </gr-diff-text>
+                  <gr-diff-text>asdf</gr-diff-text>
                 </div>
                 <div class="thread-group" data-side="left">
                   <slot name="left-1"> </slot>
@@ -186,7 +183,7 @@ suite('gr-diff-section test', () => {
                   data-side="right"
                   id="right-content-1"
                 >
-                  <gr-diff-text> </gr-diff-text>
+                  <gr-diff-text>asdf</gr-diff-text>
                 </div>
                 <div class="thread-group" data-side="right">
                   <slot name="right-1"> </slot>
@@ -219,7 +216,7 @@ suite('gr-diff-section test', () => {
                   data-side="left"
                   id="left-content-1"
                 >
-                  <gr-diff-text> </gr-diff-text>
+                  <gr-diff-text>qwer</gr-diff-text>
                 </div>
                 <div class="thread-group" data-side="left">
                   <slot name="left-1"> </slot>
@@ -243,7 +240,7 @@ suite('gr-diff-section test', () => {
                   data-side="right"
                   id="right-content-1"
                 >
-                  <gr-diff-text> </gr-diff-text>
+                  <gr-diff-text>qwer</gr-diff-text>
                 </div>
                 <div class="thread-group" data-side="right">
                   <slot name="right-1"> </slot>
@@ -276,7 +273,7 @@ suite('gr-diff-section test', () => {
                   data-side="left"
                   id="left-content-1"
                 >
-                  <gr-diff-text> </gr-diff-text>
+                  <gr-diff-text>zxcv</gr-diff-text>
                 </div>
                 <div class="thread-group" data-side="left">
                   <slot name="left-1"> </slot>
@@ -300,7 +297,7 @@ suite('gr-diff-section test', () => {
                   data-side="right"
                   id="right-content-1"
                 >
-                  <gr-diff-text> </gr-diff-text>
+                  <gr-diff-text>zxcv</gr-diff-text>
                 </div>
                 <div class="thread-group" data-side="right">
                   <slot name="right-1"> </slot>

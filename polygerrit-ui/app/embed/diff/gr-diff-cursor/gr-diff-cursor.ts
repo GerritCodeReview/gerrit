@@ -137,6 +137,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
 
     window.addEventListener('scroll', this._boundHandleWindowScroll);
     this.targetSubscription = this.cursorManager.target$.subscribe(target => {
+      console.log(`${Date.now() % 100000} asdf diff cursor TARGET ${target}`);
       this.diffRow = target || undefined;
     });
   }
@@ -307,6 +308,9 @@ export class GrDiffCursor implements GrDiffCursorApi {
    */
   reInitCursor() {
     this._updateStops();
+    console.log(
+      `${Date.now() % 100000} asdf diff curosr reinit ${this.diffRow}`
+    );
     if (!this.diffRow) {
       // does not scroll during init unless requested
       this.cursorManager.scrollMode = this.initialLineNumber

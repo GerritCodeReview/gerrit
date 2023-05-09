@@ -40,6 +40,7 @@ suite('gr-diff-cursor tests', () => {
       cursor._updateStops();
       cursor.moveToFirstChunk();
       diffElement.removeEventListener('render', setupDone);
+      console.log(`${Date.now() % 100000} asdf TEEST SETUP DONE`);
       promise.resolve();
     };
     diffElement.addEventListener('render', setupDone);
@@ -98,6 +99,7 @@ suite('gr-diff-cursor tests', () => {
       ],
     };
 
+    console.log(`${Date.now() % 100000} asdf TEEEEEEEEEEST 1`);
     diffElement.diff = diff;
     // The file comment button, if present, is a cursor stop. Ensure
     // moveToFirstChunk() works correctly even if the button is not shown.
@@ -109,6 +111,9 @@ suite('gr-diff-cursor tests', () => {
     const chunks = [
       ...queryAll(diffElement, '.section.delta'),
     ] as HTMLElement[];
+    console.log(
+      `${Date.now() % 100000} asdf EEEEEE ${[...chunks.map(c => c.innerText)]}`
+    );
     assert.equal(chunks.length, 2);
 
     const rows = [
@@ -229,7 +234,10 @@ suite('gr-diff-cursor tests', () => {
   suite('unified diff', () => {
     setup(async () => {
       diffElement.viewMode = DiffViewMode.UNIFIED;
-      await waitForEventOnce(diffElement, 'render');
+      console.log(
+        `${Date.now() % 100000} asdf TEEEEEST 1 ${diffElement.viewMode}`
+      );
+      await diffElement.updateComplete;
       cursor.reInitCursor();
     });
 
@@ -457,9 +465,18 @@ suite('gr-diff-cursor tests', () => {
       .callsFake(() => {
         scrollBehaviorDuringMove = cursor.cursorManager.scrollMode;
       });
-    diffElement.diff = createDiff();
-    await diffElement.updateComplete;
-    await waitForEventOnce(diffElement, 'render');
+    cursor.dispose();
+    const diff = createDiff();
+    diff.content.push({ab: ['one more line']});
+    diffElement.diff = diff;
+    diffElement.prefs = createDefaultDiffPrefs();
+    console.log(`${Date.now() % 100000} asdf TEEEEEEEEEEEST 1`);
+    await Promise.all([
+      diffElement.updateComplete,
+      waitForEventOnce(diffElement, 'render'),
+    ]);
+    console.log(`${Date.now() % 100000} asdf TEEEEEEEEEEEST 2`);
+    console.log(`${Date.now() % 100000} asdf TEEEEEEEEEEEST 3`);
     cursor.reInitCursor();
     assert.isFalse(moveToNumStub.called);
     assert.isTrue(moveToChunkStub.called);
@@ -478,7 +495,10 @@ suite('gr-diff-cursor tests', () => {
     cursor.initialLineNumber = 10;
     cursor.side = Side.RIGHT;
 
-    diffElement.diff = createDiff();
+    cursor.dispose();
+    const diff = createDiff();
+    diff.content.push({ab: ['one more line']});
+    diffElement.diff = diff;
     await diffElement.updateComplete;
     await waitForEventOnce(diffElement, 'render');
     cursor.reInitCursor();

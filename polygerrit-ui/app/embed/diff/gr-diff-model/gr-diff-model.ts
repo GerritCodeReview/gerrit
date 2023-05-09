@@ -6,13 +6,17 @@
 import {Observable, combineLatest, from} from 'rxjs';
 import {debounceTime, filter, switchMap, withLatestFrom} from 'rxjs/operators';
 import {
+  CreateCommentEventDetail,
   DiffInfo,
   DiffLayer,
   DiffPreferencesInfo,
   DiffResponsiveMode,
   DiffViewMode,
   DisplayLine,
+  LineNumber,
+  LineSelectedEventDetail,
   RenderPreferences,
+  Side,
 } from '../../../api/diff';
 import {define} from '../../../models/dependency';
 import {Model} from '../../../models/model';
@@ -35,6 +39,7 @@ import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {assert} from '../../../utils/common-util';
 import {isImageDiff} from '../../../utils/diff-util';
 import {ImageInfo} from '../../../types/common';
+import {fire} from '../../../utils/event-util';
 
 export interface DiffState {
   diff?: DiffInfo;
@@ -140,7 +145,14 @@ export class DiffModel extends Model<DiffState> {
       computeKeyLocations(diffState.lineOfInterest, diffState.comments ?? [])
   );
 
-  constructor() {
+  constructor(
+    /**
+     * Normally a reference to the <gr-diff> component. Used for firing events
+     * that are meant for <gr-diff> or the host of <gr-diff>. For tests this
+     * can also be just `document`.
+     */
+    private readonly eventTarget: EventTarget
+  ) {
     super({
       diffPrefs: createDefaultDiffPrefs(),
       renderPrefs: {},
@@ -190,5 +202,22 @@ export class DiffModel extends Model<DiffState> {
     if (i === -1) throw new Error('cannot find context control group');
     groups.splice(i, 1, ...newGroups);
     this.updateState({groups});
+  }
+
+  selectLine(number: LineNumber, side: Side) {
+    const path = this.getState().path;
+    if (!path) return;
+
+    const detail: LineSelectedEventDetail = {number, side, path};
+    fire(this.eventTarget, 'line-selected', detail);
+  }
+
+  createComment(lineNum: LineNumber, side: Side) {
+    const detail: CreateCommentEventDetail = {
+      side,
+      lineNum,
+      range: undefined,
+    };
+    fire(this.eventTarget, 'create-comment', detail);
   }
 }

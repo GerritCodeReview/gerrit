@@ -27,6 +27,7 @@ suite('gr-diff-cursor tests', () => {
 
   setup(async () => {
     diffElement = await fixture(html`<gr-diff></gr-diff>`);
+    diffElement.path = 'some/path.ts';
     cursor = new GrDiffCursor();
     cursor.replaceDiffs([diffElement]);
 

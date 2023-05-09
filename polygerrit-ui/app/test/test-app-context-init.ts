@@ -53,6 +53,6 @@ export function createTestDependencies(
     highlightServiceToken,
     () => new MockHighlightService(appContext.reportingService)
   );
-  dependencies.set(diffModelToken, () => new DiffModel());
+  dependencies.set(diffModelToken, () => new DiffModel(document));
   return dependencies;
 }

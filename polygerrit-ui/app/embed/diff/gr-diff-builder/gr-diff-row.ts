@@ -21,6 +21,8 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
 import {getBaseUrl} from '../../../utils/url-util';
 import './gr-diff-text';
+import {resolve} from '../../../models/dependency';
+import {diffModelToken} from '../gr-diff-model/gr-diff-model';
 import '../../../elements/shared/gr-hovercard/gr-hovercard';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {diffClasses, isNewDiff, isResponsive} from '../gr-diff/gr-diff-utils';
@@ -92,6 +94,8 @@ export class GrDiffRow extends LitElement {
    * `updated()`.
    */
   private layersApplied = false;
+
+  private readonly getDiffModel = resolve(this, diffModelToken);
 
   /**
    * The browser API for handling selection does not (yet) work for selection
@@ -296,7 +300,8 @@ export class GrDiffRow extends LitElement {
         data-value=${lineNumber}
         aria-label=${ifDefined(
           this.computeLineNumberAriaLabel(line, lineNumber)
-        )}
+    )}
+        @click=${() => this.getDiffModel().createComment(lineNumber, side)}
         @mouseenter=${() =>
           fire(this, 'line-mouse-enter', {lineNum: lineNumber, side})}
         @mouseleave=${() =>
@@ -352,6 +357,11 @@ export class GrDiffRow extends LitElement {
       <td
         ${ref(this.contentCellRef(side))}
         class=${diffClasses(...extras)}
+        @click=${() => {
+          if (lineNumber) {
+            this.getDiffModel().selectLine(lineNumber, side);
+          }
+        }}
         @mouseenter=${() => {
           if (lineNumber)
             fire(this, 'line-mouse-enter', {lineNum: lineNumber, side});

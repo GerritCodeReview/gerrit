@@ -39,7 +39,7 @@ suite('gr-diff-element tests', () => {
   };
 
   setup(async () => {
-    model = new DiffModel();
+    model = new DiffModel(document);
     element = (
       await fixture(
         wrapInProvider(

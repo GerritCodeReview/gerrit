@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4e564a5_98aa1606",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 3063,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-09T16:34:07Z",
+      "side": 1,
+      "message": "This is a promise, so we should add `wait`",
+      "range": {
+        "startLine": 3063,
+        "startChar": 15,
+        "endLine": 3063,
+        "endChar": 45
+      },
+      "revId": "d9ac01360570a78a6d922e19c1326fa93396edfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

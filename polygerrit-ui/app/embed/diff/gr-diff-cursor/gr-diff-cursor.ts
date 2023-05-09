@@ -18,12 +18,14 @@ import {
   GrCursorManager,
   isTargetable,
 } from '../../../elements/shared/gr-cursor-manager/gr-cursor-manager';
+<<<<<<< PATCH SET (2afdb4 Simplify `isTargetBlank` in gr-diff-cursor)
+import {GrDiffLineType} from '../gr-diff/gr-diff-line';
+=======
 import {GrDiffGroupType} from '../gr-diff/gr-diff-group';
+>>>>>>> BASE      (4c4e81 Simplify gr-diff-cursor lookups)
 import {GrDiff} from '../gr-diff/gr-diff';
 import {fire} from '../../../utils/event-util';
 import {GrDiffRow} from '../gr-diff-builder/gr-diff-row';
-
-type GrDiffRowType = GrDiffLineType | GrDiffGroupType;
 
 const LEFT_SIDE_CLASS = 'target-side-left';
 const RIGHT_SIDE_CLASS = 'target-side-right';
@@ -153,14 +155,14 @@ export class GrDiffCursor implements GrDiffCursorApi {
 
   moveLeft() {
     this.side = Side.LEFT;
-    if (this._isTargetBlank()) {
+    if (this.isTargetBlank()) {
       this.moveUp();
     }
   }
 
   moveRight() {
     this.side = Side.RIGHT;
-    if (this._isTargetBlank()) {
+    if (this.isTargetBlank()) {
       this.moveUp();
     }
   }
@@ -252,12 +254,19 @@ export class GrDiffCursor implements GrDiffCursorApi {
    * making further assumptions about the internal DOM structure.
    */
   getTargetDiffRow(): GrDiffRow | undefined {
+<<<<<<< PATCH SET (2afdb4 Simplify `isTargetBlank` in gr-diff-cursor)
+    if (this.diffRowTR?.parentElement?.tagName !== 'GR-DIFF-ROW') {
+      return undefined;
+    }
+    return this.diffRowTR.parentElement as GrDiffRow;
+=======
     let el: HTMLElement | undefined = this.diffRowTR;
     while (el) {
       if (el.tagName === 'GR-DIFF-ROW') return el as GrDiffRow;
       el = el.parentElement ?? undefined;
     }
     return undefined;
+>>>>>>> BASE      (4c4e81 Simplify gr-diff-cursor lookups)
   }
 
   getTargetLineNumber(): LineNumber | undefined {
@@ -265,14 +274,14 @@ export class GrDiffCursor implements GrDiffCursorApi {
     return diffRow?.lineNumber(this.side);
   }
 
-  getTargetDiffElement(): GrDiff | null {
-    if (!this.diffRowTR) return null;
+  getTargetDiffElement(): GrDiff | undefined {
+    if (!this.diffRowTR) return undefined;
 
     const hostOwner = this.diffRowTR.getRootNode() as ShadowRoot;
     if (hostOwner?.host?.tagName === 'GR-DIFF') {
       return hostOwner.host as GrDiff;
     }
-    return null;
+    return undefined;
   }
 
   moveToFirstChunk() {
@@ -416,22 +425,15 @@ export class GrDiffCursor implements GrDiffCursorApi {
   _fixSide() {
     if (
       this._getViewMode() === DiffViewMode.SIDE_BY_SIDE &&
-      this._isTargetBlank()
+      this.isTargetBlank()
     ) {
       this.side = this.side === Side.LEFT ? Side.RIGHT : Side.LEFT;
     }
   }
 
-  _isTargetBlank() {
-    if (!this.diffRowTR) {
-      return false;
-    }
-
-    const actions = this._getActionsForRow();
-    return (
-      (this.side === Side.LEFT && !actions.left) ||
-      (this.side === Side.RIGHT && !actions.right)
-    );
+  private isTargetBlank() {
+    const line = this.getTargetDiffRow()?.line(this.side);
+    return line?.type === GrDiffLineType.BLANK;
   }
 
   private fireCursorMoved(
@@ -449,25 +451,6 @@ export class GrDiffCursor implements GrDiffCursorApi {
     }
     toggleClass(this.diffRowTR, LEFT_SIDE_CLASS, this.side === Side.LEFT);
     toggleClass(this.diffRowTR, RIGHT_SIDE_CLASS, this.side === Side.RIGHT);
-  }
-
-  _isActionType(type: GrDiffRowType) {
-    return (
-      type !== GrDiffLineType.BLANK && type !== GrDiffGroupType.CONTEXT_CONTROL
-    );
-  }
-
-  _getActionsForRow() {
-    const actions = {left: false, right: false};
-    if (this.diffRowTR) {
-      actions.left = this._isActionType(
-        this.diffRowTR.getAttribute('left-type') as GrDiffRowType
-      );
-      actions.right = this._isActionType(
-        this.diffRowTR.getAttribute('right-type') as GrDiffRowType
-      );
-    }
-    return actions;
   }
 
   _updateStops() {

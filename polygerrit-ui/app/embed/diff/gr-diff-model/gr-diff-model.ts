@@ -6,13 +6,17 @@
 import {Observable, combineLatest, from} from 'rxjs';
 import {debounceTime, filter, switchMap, withLatestFrom} from 'rxjs/operators';
 import {
+  CreateCommentEventDetail,
   DiffInfo,
   DiffLayer,
   DiffPreferencesInfo,
   DiffResponsiveMode,
   DiffViewMode,
   DisplayLine,
+  LineNumber,
+  LineSelectedEventDetail,
   RenderPreferences,
+  Side,
 } from '../../../api/diff';
 import {define} from '../../../models/dependency';
 import {Model} from '../../../models/model';
@@ -35,6 +39,7 @@ import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {assert} from '../../../utils/common-util';
 import {isImageDiff} from '../../../utils/diff-util';
 import {ImageInfo} from '../../../types/common';
+import {fire} from '../../../utils/event-util';
 
 export interface DiffState {
   diff?: DiffInfo;
@@ -190,5 +195,24 @@ export class DiffModel extends Model<DiffState> {
     if (i === -1) throw new Error('cannot find context control group');
     groups.splice(i, 1, ...newGroups);
     this.updateState({groups});
+  }
+
+  selectLine(target: EventTarget, number: LineNumber, side: Side) {
+    const path = this.getState().path;
+    if (!path) return;
+
+    const detail: LineSelectedEventDetail = {number, side, path};
+    fire(target, 'line-selected', detail);
+  }
+
+  createComment(target: EventTarget, lineNum: LineNumber, side: Side) {
+    const path = this.getState().path;
+    if (!path) return;
+    const detail: CreateCommentEventDetail = {
+      side,
+      lineNum,
+      range: undefined,
+    };
+    fire(target, 'create-comment', detail);
   }
 }

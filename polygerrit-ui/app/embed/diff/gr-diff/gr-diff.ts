@@ -17,7 +17,6 @@ import './gr-diff-element';
 import '../gr-diff-builder/gr-diff-row';
 import {
   getLine,
-  getLineElByChild,
   getLineNumber,
   getRange,
   getSide,
@@ -312,7 +311,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
         this.handleCreateRangeComment(e)
     );
     this.addEventListener('moved-link-clicked', (e: MovedLinkClickedEvent) => {
-      this.dispatchSelectedLine(e.detail.lineNum, e.detail.side);
+      this.diffModel.selectLine(this, e.detail.lineNum, e.detail.side);
     });
     this.addEventListener(
       'diff-context-expanded-internal-new',
@@ -430,7 +429,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   override render() {
     fire(this, 'render-start', {});
-    return html`<gr-diff-element @click=${this.handleTap}></gr-diff-element>`;
+    return html`<gr-diff-element></gr-diff-element>`;
   }
 
   private addSelectionListeners() {
@@ -565,40 +564,10 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   // Private but used in tests.
-  handleTap(e: Event) {
-    const el = e.target as Element;
-
-    if (
-      el.getAttribute('data-value') !== LOST &&
-      (el.classList.contains('lineNum') ||
-        el.classList.contains('lineNumButton'))
-    ) {
-      this.addDraftAtLine(el);
-    } else if (
-      el.tagName === 'HL' ||
-      el.classList.contains('content') ||
-      el.classList.contains('contentText')
-    ) {
-      const target = getLineElByChild(el);
-      if (target) {
-        this.selectLine(target);
-      }
-    }
-  }
-
-  // Private but used in tests.
   selectLine(el: Element) {
     const lineNumber = Number(el.getAttribute('data-value'));
     const side = el.classList.contains('left') ? Side.LEFT : Side.RIGHT;
-    this.dispatchSelectedLine(lineNumber, side);
-  }
-
-  private dispatchSelectedLine(number: LineNumber, side: Side) {
-    fire(this, 'line-selected', {
-      number,
-      side,
-      path: this.path,
-    });
+    this.diffModel.selectLine(this, lineNumber, side);
   }
 
   addDraftAtLine(el: Element) {

@@ -446,7 +446,8 @@ public class ChangeJson {
         Joiner.on('~')
             .join(Url.encode(info.project), Url.encode(info.branch), Url.encode(info.changeId));
     if (experimentFeatures.isFeatureEnabled(
-        ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_RETURN_NEW_CHANGE_INFO_ID)) {
+        ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_RETURN_NEW_CHANGE_INFO_ID,
+        Project.nameKey(info.project))) {
       info.id =
           Joiner.on('~').join(Url.encode(info.project), Url.encode(String.valueOf(info._number)));
     } else {

@@ -10,7 +10,10 @@ import {
   DiffPreferencesInfo,
   DiffViewMode,
   DisplayLine,
+  LineNumber,
+  LineSelectedEventDetail,
   RenderPreferences,
+  Side,
 } from '../../../api/diff';
 import {define} from '../../../models/dependency';
 import {Model} from '../../../models/model';
@@ -29,6 +32,8 @@ import {
 } from '../gr-diff-processor/gr-diff-processor';
 import {GrDiffGroup} from '../gr-diff/gr-diff-group';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
+import {fire} from '../../../utils/event-util';
+import {CreateCommentEventDetail} from '../gr-diff/gr-diff';
 
 export interface DiffState {
   diff?: DiffInfo;
@@ -157,5 +162,25 @@ export class DiffModel extends Model<DiffState> {
     if (i === -1) throw new Error('cannot find context control group');
     groups.splice(i, 1, ...newGroups);
     this.updateState({groups});
+  }
+
+  selectLine(target: EventTarget, number: LineNumber, side: Side) {
+    const path = this.getState().path;
+    if (!path) return;
+
+    const detail: LineSelectedEventDetail = {number, side, path};
+    fire(target, 'line-selected', detail);
+  }
+
+  createComment(target: EventTarget, lineNum: LineNumber, side: Side) {
+    const path = this.getState().path;
+    if (!path) return;
+    const detail: CreateCommentEventDetail = {
+      path,
+      side,
+      lineNum,
+      range: undefined,
+    };
+    fire(target, 'create-comment', detail);
   }
 }

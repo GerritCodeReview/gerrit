@@ -94,6 +94,30 @@
       },
       "revId": "d9ac01360570a78a6d922e19c1326fa93396edfc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fe8dfbc_f1a77fd6",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 3063,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-09T17:46:04Z",
+      "side": 1,
+      "message": "You can\u0027t return a promise from itself.\n\nThis will break if this._projectLookup only contains the current process and it fails to return a project. You\u0027ll get an infinite loop exception for the promise.",
+      "parentUuid": "98cf7b7e_ab24e943",
+      "range": {
+        "startLine": 3063,
+        "startChar": 15,
+        "endLine": 3063,
+        "endChar": 45
+      },
+      "revId": "d9ac01360570a78a6d922e19c1326fa93396edfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

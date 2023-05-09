@@ -30,7 +30,6 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.account.AccountAttributeLoader;
-import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
@@ -211,7 +210,7 @@ public class OutputStreamQuery {
         return;
       }
 
-      try (PerThreadCache ignored = PerThreadCache.create()) {
+      try {
         final QueryStatsAttribute stats = new QueryStatsAttribute();
         stats.runTimeMilliseconds = TimeUtil.nowMs();
 

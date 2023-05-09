@@ -96,6 +96,7 @@ import {
   FileNameToNormalizedFileInfoMap,
   filesModelToken,
 } from '../../../models/change/files-model';
+import {keyed} from 'lit/directives/keyed.js';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
@@ -725,30 +726,33 @@ export class GrDiffView extends LitElement {
       return html`<div class="loading">Loading...</div>`;
     }
     const file = this.getFileRange();
-    return html`
-      ${this.renderStickyHeader()}
-      <h2 class="assistive-tech-only">Diff view</h2>
-      <gr-diff-host
-        id="diffHost"
-        .changeNum=${this.changeNum}
-        .change=${this.change}
-        .patchRange=${this.patchRange}
-        .file=${file}
-        .lineOfInterest=${this.getLineOfInterest()}
-        .path=${this.path}
-        .projectName=${this.change?.project}
-        @is-blame-loaded-changed=${this.onIsBlameLoadedChanged}
-        @comment-anchor-tap=${this.onCommentAnchorTap}
-        @line-selected=${this.onLineSelected}
-        @diff-changed=${this.onDiffChanged}
-        @edit-weblinks-changed=${this.onEditWeblinksChanged}
-        @files-weblinks-changed=${this.onFilesWeblinksChanged}
-        @is-image-diff-changed=${this.onIsImageDiffChanged}
-        @render=${this.reInitCursor}
-      >
-      </gr-diff-host>
-      ${this.renderDialogs()}
-    `;
+    return keyed(
+      this.path,
+      html`
+        ${this.renderStickyHeader()}
+        <h2 class="assistive-tech-only">Diff view</h2>
+        <gr-diff-host
+          id="diffHost"
+          .changeNum=${this.changeNum}
+          .change=${this.change}
+          .patchRange=${this.patchRange}
+          .file=${file}
+          .lineOfInterest=${this.getLineOfInterest()}
+          .path=${this.path}
+          .projectName=${this.change?.project}
+          @is-blame-loaded-changed=${this.onIsBlameLoadedChanged}
+          @comment-anchor-tap=${this.onCommentAnchorTap}
+          @line-selected=${this.onLineSelected}
+          @diff-changed=${this.onDiffChanged}
+          @edit-weblinks-changed=${this.onEditWeblinksChanged}
+          @files-weblinks-changed=${this.onFilesWeblinksChanged}
+          @is-image-diff-changed=${this.onIsImageDiffChanged}
+          @render=${this.reInitCursor}
+        >
+        </gr-diff-host>
+        ${this.renderDialogs()}
+      `
+    );
   }
 
   private renderStickyHeader() {

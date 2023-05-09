@@ -40,10 +40,10 @@ interface NormalizedRange {
 }
 
 /**
- * The methods that we actually want to call on the builder. We don't want a
- * fully blown dependency on GrDiffBuilderElement.
+ * The methods that we actually want to call on GrDiff. We don't want a
+ * fully blown dependency on GrDiff.
  */
-export interface DiffBuilderInterface {
+export interface GrDiffInterface {
   getContentTdByLineEl(lineEl?: Element): Element | undefined;
 }
 
@@ -56,17 +56,17 @@ export interface DiffBuilderInterface {
 export class GrDiffHighlight {
   selectedRange?: SidedRange;
 
-  private diffBuilder?: DiffBuilderInterface;
+  private grDiff?: GrDiffInterface;
 
   private diffTable?: HTMLElement;
 
   private selectionChangeTask?: DelayedTask;
 
-  init(diffTable: HTMLElement, diffBuilder: DiffBuilderInterface) {
+  init(diffTable: HTMLElement, grDiff: GrDiffInterface) {
     this.cleanup();
 
     this.diffTable = diffTable;
-    this.diffBuilder = diffBuilder;
+    this.grDiff = grDiff;
 
     diffTable.addEventListener(
       'comment-thread-mouseleave',
@@ -301,7 +301,7 @@ export class GrDiffHighlight {
   ): NormalizedPosition | null {
     let column;
     if (!this.diffTable) return null;
-    if (!this.diffBuilder) return null;
+    if (!this.grDiff) return null;
     if (!node || !this.diffTable.contains(node)) return null;
     const lineEl = getLineElByChild(node);
     if (!lineEl) return null;
@@ -309,7 +309,7 @@ export class GrDiffHighlight {
     if (!side) return null;
     const line = getLineNumberByChild(lineEl);
     if (!line || line === FILE || line === 'LOST') return null;
-    const contentTd = this.diffBuilder.getContentTdByLineEl(lineEl);
+    const contentTd = this.grDiff.getContentTdByLineEl(lineEl);
     if (!contentTd) return null;
     const contentText = contentTd.querySelector('.contentText');
     if (!contentTd.contains(node)) {

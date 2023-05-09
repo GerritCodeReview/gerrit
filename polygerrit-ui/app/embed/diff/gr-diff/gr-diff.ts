@@ -673,16 +673,8 @@ export class GrDiff extends LitElement implements GrDiffApi {
     this.diffModel.selectLine(this, lineNumber, side);
   }
 
-  addDraftAtLine(el: Element) {
-    this.selectLine(el);
-
-    const lineNum = getLineNumber(el);
-    if (lineNum === null) {
-      fireAlert(this, 'Invalid line number');
-      return;
-    }
-
-    this.createComment(el, lineNum);
+  addDraftAtLine(lineNum: LineNumber, side: Side) {
+    this.diffModel.createComment(this, lineNum, side);
   }
 
   createRangeComment() {

@@ -16,6 +16,24 @@
       "message": "Could you explain what the intent is?\n\nLine 3071 means that projectFromLookup will be the projectPromise, which is returning itself, that seems like an error.",
       "revId": "e14f050cbe0aa1c7ffe598dde0fed665e093daa9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "028e7029_1b57120c",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 3060,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-09T16:49:35Z",
+      "side": 1,
+      "message": "The issue is this one:\n1. _projectLookup[changeNum] is loaded from the URL\n2. _projectLookup[changeNum] is *also* loaded from the change number only, because the URL may not contain the project name\n\nBecause 1. and 2. happen concurrently, you may have a situation where the change number index is stale (or ambiguous) and the project name is in the URL, but 2. happens sometimes before 1. and therefore the front-end fails to understand which project is the change referring to.\n\nDoes that make sense?",
+      "parentUuid": "f2dc0252_60a0100e",
+      "revId": "e14f050cbe0aa1c7ffe598dde0fed665e093daa9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

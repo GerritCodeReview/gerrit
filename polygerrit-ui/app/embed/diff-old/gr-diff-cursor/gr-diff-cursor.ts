@@ -375,6 +375,10 @@ export class GrDiffCursor implements GrDiffCursorApi {
     }
   }
 
+  getTargetLineNumber(): LineNumber | undefined {
+    return this.getAddress()?.number;
+  }
+
   /**
    * Get an object describing the location of the cursor. Such as
    * {leftSide: false, number: 123} for line 123 of the revision, or

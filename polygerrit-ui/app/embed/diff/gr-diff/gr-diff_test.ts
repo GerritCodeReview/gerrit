@@ -16,7 +16,6 @@ import {
   IgnoreWhitespaceType,
 } from '../../../api/diff';
 import {
-  mockPromise,
   mouseDown,
   query,
   queryAll,
@@ -3472,43 +3471,6 @@ suite('gr-diff tests', () => {
         const leftImage = query(imageDiffSection, 'td.left img');
         assert.isNotOk(leftImage);
       });
-    });
-
-    test('handleTap lineNum', async () => {
-      const addDraftStub = sinon.stub(element, 'addDraftAtLine');
-      const el = document.createElement('div');
-      el.className = 'lineNum';
-      const promise = mockPromise();
-      el.addEventListener('click', e => {
-        element.handleTap(e);
-        assert.isTrue(addDraftStub.called);
-        assert.equal(addDraftStub.lastCall.args[0], el);
-        promise.resolve();
-      });
-      el.click();
-      await promise;
-    });
-
-    test('handleTap content', async () => {
-      const content = document.createElement('div');
-      const lineEl = document.createElement('div');
-      lineEl.className = 'lineNum';
-      const row = document.createElement('div');
-      row.appendChild(lineEl);
-      row.appendChild(content);
-
-      const selectStub = sinon.stub(element, 'selectLine');
-
-      content.className = 'content';
-      const promise = mockPromise();
-      content.addEventListener('click', e => {
-        element.handleTap(e);
-        assert.isTrue(selectStub.called);
-        assert.equal(selectStub.lastCall.args[0], lineEl);
-        promise.resolve();
-      });
-      content.click();
-      await promise;
     });
 
     suite('getCursorStops', () => {

@@ -70,6 +70,24 @@
       "parentUuid": "9d7688ef_777f4b4d",
       "revId": "6cf0f430c148015da3d91d724e43aeda872fac22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bd93e90_b44a12f7",
+        "filename": "java/com/google/gerrit/server/permissions/ChangeControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-09T15:08:12Z",
+      "side": 1,
+      "message": "Let\u0027s see what @hiesel@google.com says.",
+      "parentUuid": "67a35b7d_db5655d4",
+      "revId": "6cf0f430c148015da3d91d724e43aeda872fac22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -86,6 +86,24 @@
       "message": "Running gatling against this version of gerrit I can see that we are calculating etag for the following endpoints:\n\n 616 URI:/changes/\u003cREPO\u003e/comments\n 616 URI:/changes/\u003cREPO\u003e/detail\n 615 URI:/changes/\u003cREPO\u003e/drafts\n 615 URI:/changes/\u003cREPO\u003e/edit/\n 616 URI:/changes/\u003cREPO\u003e/revisions/1/actions\n 615 URI:/changes/\u003cREPO\u003e/revisions/1/files\n 616 URI:/changes/\u003cREPO\u003e/revisions/1/related\n 616 URI:/changes/\u003cREPO\u003e/robotcomments\n 616 URI:/changes/\u003cREPO\u003e/submitted_together\n \n Before the change, only these endpoints triggered etags calculation\n \n 622 URI:/changes/\u003cREPO\u003e/detail\n622 URI:/changes/\u003cREPO\u003e/revisions/1/actions",
       "revId": "e911bf1fc01d744f5a57640585a2b9ebf9b39e76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "461e487f_03c58b0e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-09T14:26:15Z",
+      "side": 1,
+      "message": "interesting finding, let me see why the view supports ETag but we do not use it",
+      "parentUuid": "0e873b9e_11e0e9b4",
+      "revId": "e911bf1fc01d744f5a57640585a2b9ebf9b39e76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

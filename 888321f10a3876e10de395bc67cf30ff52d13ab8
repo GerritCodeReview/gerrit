@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40e0f25f_577be060",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-09T09:32:44Z",
+      "side": 1,
+      "message": "Frontend CI is failing with: `git submodule update`.",
+      "revId": "888321f10a3876e10de395bc67cf30ff52d13ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

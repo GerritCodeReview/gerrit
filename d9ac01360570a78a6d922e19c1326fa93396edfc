@@ -70,6 +70,30 @@
       },
       "revId": "d9ac01360570a78a6d922e19c1326fa93396edfc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98cf7b7e_ab24e943",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 3063,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-09T16:52:31Z",
+      "side": 1,
+      "message": "Can you add a test for this scenario.\n\nThis is what I am worried about:\n\nYou only have a single request, that one fails so you don\u0027t get a change or change.project back, but then you return the same promise that is being waited on in the first place.",
+      "parentUuid": "c9bd0cb1_cf0b4718",
+      "range": {
+        "startLine": 3063,
+        "startChar": 15,
+        "endLine": 3063,
+        "endChar": 45
+      },
+      "revId": "d9ac01360570a78a6d922e19c1326fa93396edfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

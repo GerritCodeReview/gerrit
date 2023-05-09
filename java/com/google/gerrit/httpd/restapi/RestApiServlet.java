@@ -164,6 +164,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.zip.GZIPOutputStream;
 import javax.servlet.ServletException;
@@ -787,6 +788,13 @@ public class RestApiServlet extends HttpServlet {
       String have = req.getHeader(HttpHeaders.IF_NONE_MATCH);
       if (have != null) {
         try (Timer0.Context ignore = globals.getEtagViewLatency.start()) {
+          logger.atWarning().log(
+              "TYPE:VIEW|METHOD:%s|URI:%s|PATH:%s|QUERY:%s|HEADERS:%s",
+              req.getMethod(),
+              req.getRequestURI(),
+              req.getPathInfo(),
+              req.getQueryString(),
+              headersAsString(req));
           return have.equals(((ETagView) view).getETag(rsrc));
         }
       }
@@ -796,6 +804,13 @@ public class RestApiServlet extends HttpServlet {
       String have = req.getHeader(HttpHeaders.IF_NONE_MATCH);
       if (have != null) {
         try (Timer0.Context ignore = globals.getEtagResourceLatency.start()) {
+          logger.atWarning().log(
+              "TYPE:RESOURCE|METHOD:%s|URI:%s|PATH:%s|QUERY:%s|HEADERS:%s",
+              req.getMethod(),
+              req.getRequestURI(),
+              req.getPathInfo(),
+              req.getQueryString(),
+              headersAsString(req));
           return have.equals(((RestResource.HasETag) rsrc).getETag());
         }
       }
@@ -809,6 +824,12 @@ public class RestApiServlet extends HttpServlet {
       return d / 1000L == m.getTime() / 1000L;
     }
     return false;
+  }
+
+  private static String headersAsString(HttpServletRequest req) {
+    return Collections.list(req.getHeaderNames()).stream()
+        .map(h -> String.join("|", Collections.list(req.getHeaders(h))))
+        .collect(Collectors.joining(", "));
   }
 
   private static <R extends RestResource> void configureCaching(
@@ -826,11 +847,11 @@ public class RestApiServlet extends HttpServlet {
           CacheHeaders.setNotCacheable(res);
           break;
         case PRIVATE:
-          addResourceStateHeaders(res, rsrc, view, getEtagResourceLatency, getEtagViewLatency);
+          addResourceStateHeaders(req, res, rsrc, view, getEtagResourceLatency, getEtagViewLatency);
           CacheHeaders.setCacheablePrivate(res, c.getAge(), c.getUnit(), c.isMustRevalidate());
           break;
         case PUBLIC:
-          addResourceStateHeaders(res, rsrc, view, getEtagResourceLatency, getEtagViewLatency);
+          addResourceStateHeaders(req, res, rsrc, view, getEtagResourceLatency, getEtagViewLatency);
           CacheHeaders.setCacheable(req, res, c.getAge(), c.getUnit(), c.isMustRevalidate());
           break;
       }
@@ -840,6 +861,7 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private static <R extends RestResource> void addResourceStateHeaders(
+      HttpServletRequest req,
       HttpServletResponse res,
       R rsrc,
       RestView<R> view,
@@ -847,10 +869,24 @@ public class RestApiServlet extends HttpServlet {
       Timer0 getEtagViewLatency) {
     if (view instanceof ETagView) {
       try (Timer0.Context ignore = getEtagViewLatency.start()) {
+        logger.atWarning().log(
+            "TYPE:VIEW|METHOD:%s|URI:%s|PATH:%s|QUERY:%s|HEADERS:%s",
+            req.getMethod(),
+            req.getRequestURI(),
+            req.getPathInfo(),
+            req.getQueryString(),
+            headersAsString(req));
         res.setHeader(HttpHeaders.ETAG, ((ETagView<R>) view).getETag(rsrc));
       }
     } else if (rsrc instanceof RestResource.HasETag) {
       try (Timer0.Context ignore = getEtagResourceLatency.start()) {
+        logger.atWarning().log(
+            "TYPE:RESOURCE|METHOD:%s|URI:%s|PATH:%s|QUERY:%s|HEADERS:%s",
+            req.getMethod(),
+            req.getRequestURI(),
+            req.getPathInfo(),
+            req.getQueryString(),
+            headersAsString(req));
         res.setHeader(HttpHeaders.ETAG, ((RestResource.HasETag) rsrc).getETag());
       }
     }

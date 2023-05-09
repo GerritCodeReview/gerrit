@@ -33,7 +33,7 @@ suite('gr-diff-cursor tests', () => {
 
     const promise = mockPromise();
     const setupDone = () => {
-      cursor._updateStops();
+      cursor.updateStops();
       cursor.moveToFirstChunk();
       diffElement.removeEventListener('render', setupDone);
       promise.resolve();
@@ -105,7 +105,7 @@ suite('gr-diff-cursor tests', () => {
     await waitForEventOnce(diffElement, 'render');
     await waitForEventOnce(diffElement, 'render');
 
-    cursor._updateStops();
+    cursor.updateStops();
 
     const chunks = [
       ...queryAll(diffElement, '.section.delta'),
@@ -166,7 +166,7 @@ suite('gr-diff-cursor tests', () => {
 
     await waitForEventOnce(diffElement, 'render');
     await waitForEventOnce(diffElement, 'render');
-    cursor._updateStops();
+    cursor.updateStops();
 
     const chunks = [
       ...queryAll(diffElement, '.section.delta'),
@@ -469,19 +469,19 @@ suite('gr-diff-cursor tests', () => {
     assert.isUndefined(cursor.getTargetLineNumber());
   });
 
-  test('_findRowByNumberAndFile', () => {
+  test('findRowByNumberAndFile', () => {
     // Get the first ab row after the first chunk.
     const rows = [...queryAll<HTMLTableRowElement>(diffElement, 'tr')];
     const row = rows[9];
     assert.ok(row);
 
     // It should be line 8 on the right, but line 5 on the left.
-    assert.equal(cursor._findRowByNumberAndFile(8, Side.RIGHT), row);
-    assert.equal(cursor._findRowByNumberAndFile(5, Side.LEFT), row);
+    assert.equal(cursor.findRowByNumberAndFile(8, Side.RIGHT), row);
+    assert.equal(cursor.findRowByNumberAndFile(5, Side.LEFT), row);
   });
 
   test('expand context updates stops', async () => {
-    const spy = sinon.spy(cursor, '_updateStops');
+    const spy = sinon.spy(cursor, 'updateStops');
     const controls = queryAndAssert(diffElement, 'gr-context-controls');
     const showContext = queryAndAssert<HTMLElement>(controls, '.showContext');
     showContext.click();
@@ -491,7 +491,7 @@ suite('gr-diff-cursor tests', () => {
   });
 
   test('updates stops when loading changes', () => {
-    const spy = sinon.spy(cursor, '_updateStops');
+    const spy = sinon.spy(cursor, 'updateStops');
     diffElement.dispatchEvent(new Event('loading-changed'));
     assert.isTrue(spy.called);
   });

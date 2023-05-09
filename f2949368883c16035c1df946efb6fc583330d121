@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "908678e8_b4ca2a30",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-09T14:26:56Z",
+      "side": 0,
+      "message": "`start_line` is 1-based. It cannot be `0`.\n\nIf you don\u0027t want to throw an error, then log a warning and return undefined.",
+      "revId": "f2949368883c16035c1df946efb6fc583330d121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

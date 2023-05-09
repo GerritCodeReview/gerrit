@@ -121,8 +121,8 @@ def java_dependencies():
     # When upgrading commons-compress, also upgrade tukaani-xz
     maven_jar(
         name = "commons-compress",
-        artifact = "org.apache.commons:commons-compress:1.20",
-        sha1 = "b8df472b31e1f17c232d2ad78ceb1c84e00c641b",
+        artifact = "org.apache.commons:commons-compress:1.22",
+        sha1 = "691a8b4e6cf4248c3bc72c8b719337d5cb7359fa",
     )
 
     maven_jar(

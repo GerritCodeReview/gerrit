@@ -222,6 +222,7 @@ suite('change model tests', () => {
   });
 
   test('fireShowChange', async () => {
+    await waitForLoadingStatus(LoadingStatus.NOT_LOADED);
     const pluginLoader = testResolver(pluginLoaderToken);
     const jsApiService = pluginLoader.jsApiService;
     const showChangeStub = sinon.stub(jsApiService, 'handleShowChange');
@@ -239,6 +240,7 @@ suite('change model tests', () => {
     const detail: ShowChangeDetail = showChangeStub.lastCall.firstArg;
     assert.equal(detail.change?._number, createParsedChange()._number);
     assert.equal(detail.patchNum, 1 as PatchSetNumber);
+    assert.equal(detail.basePatchNum, PARENT);
     assert.equal(detail.info.mergeable, true);
   });
 

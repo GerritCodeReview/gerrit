@@ -407,21 +407,24 @@ export class ChangeModel extends Model<ChangeState> {
     return combineLatest([
       this.viewModel.childView$,
       this.change$,
+      this.basePatchNum$,
       this.patchNum$,
       this.mergeable$,
     ])
       .pipe(
         filter(
-          ([childView, change, patchNum, mergeable]) =>
+          ([childView, change, basePatchNum, patchNum, mergeable]) =>
             childView === ChangeChildView.OVERVIEW &&
             !!change &&
+            !!basePatchNum &&
             !!patchNum &&
             mergeable !== undefined
         )
       )
-      .subscribe(([_, change, patchNum, mergeable]) => {
+      .subscribe(([_, change, basePatchNum, patchNum, mergeable]) => {
         this.pluginLoader.jsApiService.handleShowChange({
           change,
+          basePatchNum,
           patchNum,
           // `?? null` is for the TypeScript compiler only. We have a
           // `mergeable !== undefined` filter above, so this cannot happen.

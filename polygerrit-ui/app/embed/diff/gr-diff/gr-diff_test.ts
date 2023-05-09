@@ -22,7 +22,6 @@ import {
   Side,
 } from '../../../api/diff';
 import {
-  mockPromise,
   mouseDown,
   queryAll,
   stubBaseUrl,
@@ -188,6 +187,357 @@ suite('gr-diff tests', () => {
       assert.isFalse(element.classList.contains('no-left'));
     });
 
+<<<<<<< PATCH SET (48b21c Move click handling from gr-diff into gr-diff-row)
+    suite('binary diffs', () => {
+      test('render binary diff', async () => {
+        element.prefs = {
+          ...MINIMAL_PREFS,
+        };
+        element.diff = {
+          meta_a: {name: 'carrot.exe', content_type: 'binary', lines: 0},
+          meta_b: {name: 'carrot.exe', content_type: 'binary', lines: 0},
+          change_type: 'MODIFIED',
+          intraline_status: 'OK',
+          diff_header: [],
+          content: [],
+          binary: true,
+        };
+        await waitForEventOnce(element, 'render');
+
+        assert.shadowDom.equal(
+          element,
+          /* HTML */ `
+            <div class="diffContainer sideBySide">
+              <gr-diff-section class="left-FILE right-FILE"> </gr-diff-section>
+              <gr-diff-row class="left-FILE right-FILE"> </gr-diff-row>
+              <table class="selected-right" id="diffTable">
+                <colgroup>
+                  <col class="blame gr-diff" />
+                  <col class="gr-diff left" width="48" />
+                  <col class="gr-diff left sign" />
+                  <col class="gr-diff left" />
+                  <col class="gr-diff right" width="48" />
+                  <col class="gr-diff right sign" />
+                  <col class="gr-diff right" />
+                </colgroup>
+                <tbody class="both gr-diff section">
+                  <tr
+                    aria-labelledby="left-button-FILE left-content-FILE right-button-FILE right-content-FILE"
+                    class="diff-row gr-diff side-by-side"
+                    left-type="both"
+                    right-type="both"
+                    tabindex="-1"
+                  >
+                    <td class="blame gr-diff" data-line-number="FILE"></td>
+                    <td class="gr-diff left lineNum" data-value="FILE">
+                      <button
+                        aria-label="Add file comment"
+                        class="gr-diff left lineNumButton"
+                        data-value="FILE"
+                        id="left-button-FILE"
+                        tabindex="-1"
+                      >
+                        File
+                      </button>
+                    </td>
+                    <td class="gr-diff left no-intraline-info sign"></td>
+                    <td
+                      class="both content file gr-diff left no-intraline-info"
+                    >
+                      <div class="thread-group" data-side="left">
+                        <slot name="left-FILE"> </slot>
+                      </div>
+                    </td>
+                    <td class="gr-diff lineNum right" data-value="FILE">
+                      <button
+                        aria-label="Add file comment"
+                        class="gr-diff lineNumButton right"
+                        data-value="FILE"
+                        id="right-button-FILE"
+                        tabindex="-1"
+                      >
+                        File
+                      </button>
+                    </td>
+                    <td class="gr-diff no-intraline-info right sign"></td>
+                    <td
+                      class="both content file gr-diff no-intraline-info right"
+                    >
+                      <div class="thread-group" data-side="right">
+                        <slot name="right-FILE"> </slot>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody class="binary-diff gr-diff">
+                  <tr class="gr-diff">
+                    <td class="gr-diff" colspan="5">
+                      <span> Difference in binary files </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          `
+        );
+      });
+    });
+
+    suite('image diffs', () => {
+      let mockFile1: ImageInfo;
+      let mockFile2: ImageInfo;
+      setup(() => {
+        mockFile1 = {
+          body:
+            'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
+            'wsAAAAAAAAAAAAAAAAA/w==',
+          type: 'image/bmp',
+        };
+        mockFile2 = {
+          body:
+            'Qk06AAAAAAAAADYAAAAoAAAAAQAAAP////8BACAAAAAAAAAAAAATCwAAE' +
+            'wsAAAAAAAAAAAAA/////w==',
+          type: 'image/bmp',
+        };
+
+        element.isImageDiff = true;
+        element.prefs = {
+          context: 10,
+          cursor_blink_rate: 0,
+          font_size: 12,
+          ignore_whitespace: 'IGNORE_NONE',
+          line_length: 100,
+          line_wrapping: false,
+          show_line_endings: true,
+          show_tabs: true,
+          show_whitespace_errors: true,
+          syntax_highlighting: true,
+          tab_size: 8,
+        };
+      });
+
+      test('render image diff', async () => {
+        element.baseImage = mockFile1;
+        element.revisionImage = mockFile2;
+        element.diff = {
+          meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
+          meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 560},
+          intraline_status: 'OK',
+          change_type: 'MODIFIED',
+          diff_header: [
+            'diff --git a/carrot.jpg b/carrot.jpg',
+            'index 2adc47d..f9c2f2c 100644',
+            '--- a/carrot.jpg',
+            '+++ b/carrot.jpg',
+            'Binary files differ',
+          ],
+          content: [{skip: 66}],
+          binary: true,
+        };
+
+        await waitForEventOnce(element, 'render');
+        const imageDiffSection = queryAndAssert(element, 'tbody.image-diff');
+        assert.lightDom.equal(
+          imageDiffSection,
+          /* HTML */ `
+            <tbody class="gr-diff image-diff">
+              <tr class="gr-diff">
+                <td class="blank gr-diff left lineNum"></td>
+                <td class="gr-diff left">
+                  <img
+                    class="gr-diff left"
+                    src="data:image/bmp;base64,${mockFile1.body}"
+                  />
+                </td>
+                <td class="blank gr-diff lineNum right"></td>
+                <td class="gr-diff right">
+                  <img
+                    class="gr-diff right"
+                    src="data:image/bmp;base64,${mockFile2.body}"
+                  />
+                </td>
+              </tr>
+              <tr class="gr-diff">
+                <td class="blank gr-diff left lineNum"></td>
+                <td class="gr-diff left">
+                  <label class="gr-diff">
+                    <span class="gr-diff label"> 1×1 image/bmp </span>
+                  </label>
+                </td>
+                <td class="blank gr-diff lineNum right"></td>
+                <td class="gr-diff right">
+                  <label class="gr-diff">
+                    <span class="gr-diff label"> 1×1 image/bmp </span>
+                  </label>
+                </td>
+              </tr>
+            </tbody>
+          `
+        );
+        const endpoint = queryAndAssert(element, 'tbody.endpoint');
+        assert.dom.equal(
+          endpoint,
+          /* HTML */ `
+            <tbody class="gr-diff endpoint">
+              <tr class="gr-diff">
+                <gr-endpoint-decorator class="gr-diff" name="image-diff">
+                  <gr-endpoint-param class="gr-diff" name="baseImage">
+                  </gr-endpoint-param>
+                  <gr-endpoint-param class="gr-diff" name="revisionImage">
+                  </gr-endpoint-param>
+                </gr-endpoint-decorator>
+              </tr>
+            </tbody>
+          `
+        );
+      });
+
+      test('renders image diffs with a different file name', async () => {
+        const mockDiff: DiffInfo = {
+          meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
+          meta_b: {name: 'carrot2.jpg', content_type: 'image/jpeg', lines: 560},
+          intraline_status: 'OK',
+          change_type: 'MODIFIED',
+          diff_header: [
+            'diff --git a/carrot.jpg b/carrot2.jpg',
+            'index 2adc47d..f9c2f2c 100644',
+            '--- a/carrot.jpg',
+            '+++ b/carrot2.jpg',
+            'Binary files differ',
+          ],
+          content: [{skip: 66}],
+          binary: true,
+        };
+
+        element.baseImage = mockFile1;
+        element.baseImage._name = mockDiff.meta_a!.name;
+        element.revisionImage = mockFile2;
+        element.revisionImage._name = mockDiff.meta_b!.name;
+        element.diff = mockDiff;
+
+        await waitForEventOnce(element, 'render');
+        const imageDiffSection = queryAndAssert(element, 'tbody.image-diff');
+        const leftLabel = queryAndAssert(imageDiffSection, 'td.left label');
+        const rightLabel = queryAndAssert(imageDiffSection, 'td.right label');
+        assert.dom.equal(
+          leftLabel,
+          /* HTML */ `
+            <label class="gr-diff">
+              <span class="gr-diff name"> carrot.jpg </span>
+              <br class="gr-diff" />
+              <span class="gr-diff label"> 1×1 image/bmp </span>
+            </label>
+          `
+        );
+        assert.dom.equal(
+          rightLabel,
+          /* HTML */ `
+            <label class="gr-diff">
+              <span class="gr-diff name"> carrot2.jpg </span>
+              <br class="gr-diff" />
+              <span class="gr-diff label"> 1×1 image/bmp </span>
+            </label>
+          `
+        );
+      });
+
+      test('renders added image', async () => {
+        const mockDiff: DiffInfo = {
+          meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 560},
+          intraline_status: 'OK',
+          change_type: 'ADDED',
+          diff_header: [
+            'diff --git a/carrot.jpg b/carrot.jpg',
+            'index 0000000..f9c2f2c 100644',
+            '--- /dev/null',
+            '+++ b/carrot.jpg',
+            'Binary files differ',
+          ],
+          content: [{skip: 66}],
+          binary: true,
+        };
+        element.revisionImage = mockFile2;
+        element.diff = mockDiff;
+
+        await waitForEventOnce(element, 'render');
+        const imageDiffSection = queryAndAssert(element, 'tbody.image-diff');
+        const leftImage = query(imageDiffSection, 'td.left img');
+        const rightImage = queryAndAssert(imageDiffSection, 'td.right img');
+        assert.isNotOk(leftImage);
+        assert.dom.equal(
+          rightImage,
+          /* HTML */ `
+            <img
+              class="gr-diff right"
+              src="data:image/bmp;base64,${mockFile2.body}"
+            />
+          `
+        );
+      });
+
+      test('renders removed image', async () => {
+        const mockDiff: DiffInfo = {
+          meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 560},
+          intraline_status: 'OK',
+          change_type: 'DELETED',
+          diff_header: [
+            'diff --git a/carrot.jpg b/carrot.jpg',
+            'index f9c2f2c..0000000 100644',
+            '--- a/carrot.jpg',
+            '+++ /dev/null',
+            'Binary files differ',
+          ],
+          content: [{skip: 66}],
+          binary: true,
+        };
+        element.baseImage = mockFile1;
+        element.diff = mockDiff;
+
+        await waitForEventOnce(element, 'render');
+        const imageDiffSection = queryAndAssert(element, 'tbody.image-diff');
+        const leftImage = queryAndAssert(imageDiffSection, 'td.left img');
+        const rightImage = query(imageDiffSection, 'td.right img');
+        assert.isNotOk(rightImage);
+        assert.dom.equal(
+          leftImage,
+          /* HTML */ `
+            <img
+              class="gr-diff left"
+              src="data:image/bmp;base64,${mockFile1.body}"
+            />
+          `
+        );
+      });
+
+      test('does not render disallowed image type', async () => {
+        const mockDiff: DiffInfo = {
+          meta_a: {
+            name: 'carrot.jpg',
+            content_type: 'image/jpeg-evil',
+            lines: 560,
+          },
+          intraline_status: 'OK',
+          change_type: 'DELETED',
+          diff_header: [
+            'diff --git a/carrot.jpg b/carrot.jpg',
+            'index f9c2f2c..0000000 100644',
+            '--- a/carrot.jpg',
+            '+++ /dev/null',
+            'Binary files differ',
+          ],
+          content: [{skip: 66}],
+          binary: true,
+        };
+        mockFile1.type = 'image/jpeg-evil';
+        element.baseImage = mockFile1;
+        element.diff = mockDiff;
+
+        await waitForEventOnce(element, 'render');
+        const imageDiffSection = queryAndAssert(element, 'tbody.image-diff');
+        const leftImage = query(imageDiffSection, 'td.left img');
+        assert.isNotOk(leftImage);
+      });
+=======
     test('handleTap lineNum', async () => {
       const addDraftStub = sinon.stub(element, 'addDraftAtLine');
       const el = document.createElement('div');
@@ -223,6 +573,7 @@ suite('gr-diff tests', () => {
       });
       content.click();
       await promise;
+>>>>>>> BASE      (04da8f Merge changes I2016e5c2,Ida6f7b3c)
     });
 
     suite('getCursorStops', () => {

@@ -17,7 +17,6 @@ import './gr-diff-element';
 import '../gr-diff-builder/gr-diff-row';
 import {
   getLine,
-  getLineElByChild,
   getLineNumber,
   getRange,
   getSide,
@@ -312,7 +311,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
         this.handleCreateRangeComment(e)
     );
     this.addEventListener('moved-link-clicked', (e: MovedLinkClickedEvent) => {
-      this.dispatchSelectedLine(e.detail.lineNum, e.detail.side);
+      this.diffModel.selectLine(this, e.detail.lineNum, e.detail.side);
     });
     this.addEventListener(
       'diff-context-expanded-internal-new',
@@ -429,8 +428,94 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   override render() {
+<<<<<<< PATCH SET (48b21c Move click handling from gr-diff into gr-diff-row)
+    fire(this.diffTable, 'render-start', {});
+    return html`
+      ${this.renderHeader()} ${this.renderContainer()}
+      ${this.renderNewlineWarning()} ${this.renderLoadingError()}
+    `;
+  }
+
+  private renderHeader() {
+    const diffheaderItems = this.computeDiffHeaderItems();
+    if (diffheaderItems.length === 0) return nothing;
+    return html`
+      <div id="diffHeader">
+        ${diffheaderItems.map(item => html`<div>${item}</div>`)}
+      </div>
+    `;
+  }
+
+  private renderContainer() {
+    const cssClasses = {
+      diffContainer: true,
+      unified: this.viewMode === DiffViewMode.UNIFIED,
+      sideBySide: this.viewMode === DiffViewMode.SIDE_BY_SIDE,
+      canComment: this.loggedIn,
+    };
+    return html`
+      <div class=${classMap(cssClasses)}>
+        <table
+          id="diffTable"
+          class=${this.diffTableClass}
+          ?contenteditable=${this.isContentEditable}
+        >
+          ${this.renderColumns()}
+          ${when(!this.showWarning(), () =>
+            repeat(
+              this.groups,
+              group => group.id(),
+              group => this.renderSectionElement(group)
+            )
+          )}
+          ${this.renderImageDiff()} ${this.renderBinaryDiff()}
+        </table>
+        ${when(
+          this.showNoChangeMessage(),
+          () => html`
+            <div class="whitespace-change-only-message">
+              This file only contains whitespace changes. Modify the whitespace
+              setting to see the changes.
+            </div>
+          `
+        )}
+        ${when(this.showWarning(), () => this.renderSizeWarning())}
+      </div>
+    `;
+  }
+
+  private renderNewlineWarning() {
+    const newlineWarning = this.computeNewlineWarning();
+    if (!newlineWarning) return nothing;
+    return html`<div class="newlineWarning">${newlineWarning}</div>`;
+  }
+
+  private renderLoadingError() {
+    if (!this.errorMessage) return nothing;
+    return html`<div id="loadingError">${this.errorMessage}</div>`;
+  }
+
+  private renderSizeWarning() {
+    if (!this.showWarning()) return nothing;
+    // TODO: Update comment about 'Whole file' as it's not in settings.
+    return html`
+      <div id="sizeWarning">
+        <p>
+          Prevented render because "Whole file" is enabled and this diff is very
+          large (about ${this.diffLength} lines).
+        </p>
+        <gr-button @click=${this.collapseContext}>
+          Render with limited context
+        </gr-button>
+        <gr-button @click=${this.handleFullBypass}>
+          Render anyway (may be slow)
+        </gr-button>
+      </div>
+    `;
+=======
     fire(this, 'render-start', {});
     return html`<gr-diff-element @click=${this.handleTap}></gr-diff-element>`;
+>>>>>>> BASE      (04da8f Merge changes I2016e5c2,Ida6f7b3c)
   }
 
   private addSelectionListeners() {
@@ -565,6 +650,8 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   // Private but used in tests.
+<<<<<<< PATCH SET (48b21c Move click handling from gr-diff into gr-diff-row)
+=======
   handleTap(e: Event) {
     const el = e.target as Element;
 
@@ -587,18 +674,11 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   // Private but used in tests.
+>>>>>>> BASE      (04da8f Merge changes I2016e5c2,Ida6f7b3c)
   selectLine(el: Element) {
     const lineNumber = Number(el.getAttribute('data-value'));
     const side = el.classList.contains('left') ? Side.LEFT : Side.RIGHT;
-    this.dispatchSelectedLine(lineNumber, side);
-  }
-
-  private dispatchSelectedLine(number: LineNumber, side: Side) {
-    fire(this, 'line-selected', {
-      number,
-      side,
-      path: this.path,
-    });
+    this.diffModel.selectLine(this, lineNumber, side);
   }
 
   addDraftAtLine(el: Element) {

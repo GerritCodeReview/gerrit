@@ -6,6 +6,7 @@
 import {
   ActionInfo,
   ChangeInfo,
+  BasePatchSetNum,
   PatchSetNum,
   ReviewInput,
   RevisionInfo,
@@ -17,6 +18,7 @@ import {MenuLink} from '../../../api/admin';
 
 export interface ShowChangeDetail {
   change?: ParsedChangeInfo;
+  basePatchNum?: BasePatchSetNum;
   patchNum?: PatchSetNum;
   info: {mergeable: boolean | null};
 }

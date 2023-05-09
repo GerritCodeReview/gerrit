@@ -7,6 +7,7 @@ import {hasOwnProperty} from '../../../utils/common-util';
 import {
   ChangeInfo,
   LabelNameToValueMap,
+  PARENT,
   ReviewInput,
   RevisionInfo,
 } from '../../../types/common';
@@ -98,20 +99,21 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
         return detail.info && detail.info.mergeable;
       },
     };
-    const patchNum = detail.patchNum;
-    const info = detail.info;
+    const {patchNum, info, basePatchNum} = detail;
 
-    let revision;
+    let revision, baseRevision;
     for (const rev of Object.values(change.revisions || {})) {
       if (rev._number === patchNum) {
         revision = rev;
-        break;
+      }
+      if (rev._number === basePatchNum) {
+        baseRevision = rev;
       }
     }
 
     for (const cb of this._getEventCallbacks(EventType.SHOW_CHANGE)) {
       try {
-        cb(change, revision, info);
+        cb(change, revision, info, baseRevision ?? PARENT);
       } catch (err: unknown) {
         this.reporting.error(
           'GrJsApiInterface',

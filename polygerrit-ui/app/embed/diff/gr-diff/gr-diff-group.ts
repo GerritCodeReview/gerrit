@@ -444,7 +444,10 @@ export class GrDiffGroup {
     // For both CONTEXT_CONTROL groups and SKIP groups the `lines` array will
     // be empty. So we have to use `lineRange` instead of looking at the first
     // line.
-    if (this.type === GrDiffGroupType.CONTEXT_CONTROL || this.skip) {
+    if (
+      this.type === GrDiffGroupType.CONTEXT_CONTROL ||
+      this.skip !== undefined
+    ) {
       return side === Side.LEFT
         ? this.lineRange.left.start_line
         : this.lineRange.right.start_line;

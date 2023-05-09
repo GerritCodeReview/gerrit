@@ -5,9 +5,10 @@
  */
 import {BlameInfo, CommentRange} from '../../../types/common';
 import {FILE, LOST, LineNumber} from './gr-diff-line';
-import {Side} from '../../../constants/constants';
+import {Side, SpecialFilePath} from '../../../constants/constants';
 import {DiffInfo} from '../../../types/diff';
 import {
+  DiffContextExpandedExternalDetail,
   DiffPreferencesInfo,
   DiffResponsiveMode,
   DisplayLine,
@@ -15,6 +16,7 @@ import {
 } from '../../../api/diff';
 import {getBaseUrl} from '../../../utils/url-util';
 import {KeyLocations} from '../gr-diff-processor/gr-diff-processor';
+import {GrDiffGroup} from './gr-diff-group';
 
 /**
  * In JS, unicode code points above 0xFFFF occupy two elements of a string.
@@ -217,6 +219,20 @@ export function computeContext(
   } else {
     return defaultContext;
   }
+}
+
+export function computeLineLength(
+  prefs: DiffPreferencesInfo,
+  path: string | undefined
+): number {
+  if (path === SpecialFilePath.COMMIT_MESSAGE) {
+    return 72;
+  }
+  const lineLength = prefs.line_length;
+  if (Number.isInteger(lineLength) && lineLength > 0) {
+    return lineLength;
+  }
+  return 100;
 }
 
 export function computeKeyLocations(
@@ -505,4 +521,12 @@ export function getDiffLength(diff?: DiffInfo) {
       return sum + Math.max(sec.a?.length ?? 0, sec.b?.length ?? 0);
     }
   }, 0);
+}
+
+export interface DiffContextExpandedEventDetail
+  extends DiffContextExpandedExternalDetail {
+  /** The context control group that should be replaced by `groups`. */
+  contextGroup: GrDiffGroup;
+  groups: GrDiffGroup[];
+  numLines: number;
 }

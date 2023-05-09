@@ -1026,7 +1026,7 @@ suite('gr-diff-view tests', () => {
         element.path = 'glados.txt';
         await element.updateComplete;
 
-        const linkEls = queryAll(element, '.navLink');
+        let linkEls = queryAll(element, '.navLink');
         assert.equal(linkEls.length, 3);
         assert.equal(
           linkEls[0].getAttribute('href'),
@@ -1040,6 +1040,7 @@ suite('gr-diff-view tests', () => {
 
         element.path = 'wheatley.md';
         await element.updateComplete;
+        linkEls = queryAll(element, '.navLink');
 
         assert.equal(
           linkEls[0].getAttribute('href'),
@@ -1050,6 +1051,7 @@ suite('gr-diff-view tests', () => {
 
         element.path = 'chell.go';
         await element.updateComplete;
+        linkEls = queryAll(element, '.navLink');
 
         assert.equal(linkEls[0].getAttribute('href'), '/c/test-project/+/42');
         assert.equal(linkEls[1].getAttribute('href'), '/c/test-project/+/42');
@@ -1060,6 +1062,7 @@ suite('gr-diff-view tests', () => {
 
         element.path = 'not_a_real_file';
         await element.updateComplete;
+        linkEls = queryAll(element, '.navLink');
 
         assert.equal(
           linkEls[0].getAttribute('href'),
@@ -1097,7 +1100,7 @@ suite('gr-diff-view tests', () => {
         await waitUntil(() => element.path === 'glados.txt');
         await waitUntil(() => element.patchRange?.patchNum === 10);
 
-        const linkEls = queryAll(element, '.navLink');
+        let linkEls = queryAll(element, '.navLink');
         assert.equal(linkEls.length, 3);
         assert.equal(
           linkEls[0].getAttribute('href'),
@@ -1114,6 +1117,7 @@ suite('gr-diff-view tests', () => {
 
         viewModel.updateState({diffView: {path: 'wheatley.md'}});
         await waitUntil(() => element.path === 'wheatley.md');
+        linkEls = queryAll(element, '.navLink');
 
         assert.equal(
           linkEls[0].getAttribute('href'),
@@ -1130,6 +1134,7 @@ suite('gr-diff-view tests', () => {
 
         viewModel.updateState({diffView: {path: 'chell.go'}});
         await waitUntil(() => element.path === 'chell.go');
+        linkEls = queryAll(element, '.navLink');
 
         assert.equal(
           linkEls[0].getAttribute('href'),

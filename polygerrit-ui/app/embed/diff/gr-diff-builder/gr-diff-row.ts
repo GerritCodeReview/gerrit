@@ -17,6 +17,7 @@ import {BlameInfo} from '../../../types/common';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
 import {getBaseUrl} from '../../../utils/url-util';
+import '../../../elements/shared/gr-hovercard/gr-hovercard';
 import './gr-diff-text';
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {diffClasses, isResponsive} from '../gr-diff/gr-diff-utils';

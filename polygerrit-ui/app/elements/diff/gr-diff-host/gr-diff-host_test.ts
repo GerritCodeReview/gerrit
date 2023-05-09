@@ -28,7 +28,6 @@ import {
   queryAndAssert,
   stubReporting,
   stubRestApi,
-  waitUntil,
 } from '../../../test/test-utils';
 import {
   BasePatchSetNum,
@@ -44,7 +43,6 @@ import {
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {CoverageType} from '../../../types/types';
-import {GrDiffBuilderImage} from '../../../embed/diff/gr-diff-builder/gr-diff-builder-image';
 import {GrDiffHost, LineInfo} from './gr-diff-host';
 import {DiffInfo, DiffViewMode, IgnoreWhitespaceType} from '../../../api/diff';
 import {ErrorCallback} from '../../../api/rest';
@@ -153,24 +151,6 @@ suite('gr-diff-host tests', () => {
       `,
       {ignoreAttributes: ['style']}
     );
-  });
-
-  test('reload() cancels before network resolves', async () => {
-    assertIsDefined(element.diffElement);
-    const cancelStub = sinon.stub(element.diffElement, 'cancel');
-
-    // Stub the network calls into requests that never resolve.
-    sinon.stub(element, 'getDiff').callsFake(() => new Promise(() => {}));
-    element.patchRange = createPatchRange();
-    element.change = createChange();
-    element.prefs = undefined;
-
-    // Needs to be set to something first for it to cancel.
-    element.diff = createDiff();
-    await element.updateComplete;
-
-    element.reload();
-    await waitUntil(() => cancelStub.called);
   });
 
   test('prefetch getDiff', async () => {
@@ -320,7 +300,6 @@ suite('gr-diff-host tests', () => {
       // Recognizes that it should be an image diff.
       assert.isTrue(element.isImageDiff);
       assertIsDefined(element.diffElement);
-      assert.instanceOf(element.diffElement.builder, GrDiffBuilderImage);
 
       // Left image rendered with the parent commit's version of the file.
       assertIsDefined(element.diffElement);
@@ -392,7 +371,6 @@ suite('gr-diff-host tests', () => {
       // Recognizes that it should be an image diff.
       assert.isTrue(element.isImageDiff);
       assertIsDefined(element.diffElement);
-      assert.instanceOf(element.diffElement.builder, GrDiffBuilderImage);
 
       // Left image rendered with the parent commit's version of the file.
       assertIsDefined(element.diffElement.diffTable);
@@ -460,7 +438,6 @@ suite('gr-diff-host tests', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
         assertIsDefined(element.diffElement);
-        assert.instanceOf(element.diffElement.builder, GrDiffBuilderImage);
         assertIsDefined(element.diffElement.diffTable);
         const diffTable = element.diffElement.diffTable;
 
@@ -505,7 +482,6 @@ suite('gr-diff-host tests', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
         assertIsDefined(element.diffElement);
-        assert.instanceOf(element.diffElement.builder, GrDiffBuilderImage);
 
         assertIsDefined(element.diffElement.diffTable);
         const diffTable = element.diffElement.diffTable;
@@ -556,7 +532,6 @@ suite('gr-diff-host tests', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
         assertIsDefined(element.diffElement);
-        assert.instanceOf(element.diffElement.builder, GrDiffBuilderImage);
         assertIsDefined(element.diffElement.diffTable);
         const diffTable = element.diffElement.diffTable;
 
@@ -586,15 +561,6 @@ suite('gr-diff-host tests', () => {
     const threads = queryAll(element.diffElement, 'gr-comment-thread');
     assert.equal(threads.length, 0);
     assert.isTrue(showAuthRequireSpy.called);
-  });
-
-  test('delegates cancel()', () => {
-    assertIsDefined(element.diffElement);
-    const stub = sinon.stub(element.diffElement, 'cancel');
-    element.patchRange = createPatchRange();
-    element.cancel();
-    assert.isTrue(stub.calledOnce);
-    assert.equal(stub.lastCall.args.length, 0);
   });
 
   test('delegates getCursorStops()', () => {
@@ -645,7 +611,7 @@ suite('gr-diff-host tests', () => {
       element.clearBlame();
       await element.updateComplete;
       assert.isNull(element.blame);
-      assert.isTrue(setBlameSpy.calledWithExactly(null));
+      assert.isTrue(setBlameSpy.calledWithExactly([]));
       assert.isTrue(isBlameLoadedStub.calledOnce);
       assert.isFalse(isBlameLoadedStub.args[0][0].detail.value);
     });
@@ -723,14 +689,6 @@ suite('gr-diff-host tests', () => {
     assert.isTrue(stub.calledOnce);
     assert.equal(stub.lastCall.args.length, 1);
     assert.equal(stub.lastCall.args[0], param0);
-  });
-
-  test('delegates clearDiffContent()', () => {
-    assertIsDefined(element.diffElement);
-    const stub = sinon.stub(element.diffElement, 'clearDiffContent');
-    element.clearDiffContent();
-    assert.isTrue(stub.calledOnce);
-    assert.equal(stub.lastCall.args.length, 0);
   });
 
   test('delegates toggleAllContext()', () => {

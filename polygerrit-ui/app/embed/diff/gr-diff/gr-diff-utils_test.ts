@@ -12,6 +12,7 @@ import {
   formatText,
   createTabWrapper,
   isFileUnchanged,
+  getRange,
 } from './gr-diff-utils';
 
 const LINE_BREAK_HTML = '<span class="gr-diff br"></span>';
@@ -194,5 +195,21 @@ suite('gr-diff-utils tests', () => {
       ],
     };
     assert.equal(isFileUnchanged(diff), true);
+  });
+
+  test('getRange returns undefined with start_line = 0', () => {
+    const range = {
+      start_line: 0,
+      end_line: 12,
+      start_character: 0,
+      end_character: 0,
+    };
+    const threadEl = document.createElement('div');
+    threadEl.className = 'comment-thread';
+    threadEl.setAttribute('diff-side', 'right');
+    threadEl.setAttribute('line-num', '1');
+    threadEl.setAttribute('range', JSON.stringify(range));
+    threadEl.setAttribute('slot', 'right-1');
+    assert.isUndefined(getRange(threadEl));
   });
 });

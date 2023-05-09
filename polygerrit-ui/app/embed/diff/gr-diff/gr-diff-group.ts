@@ -428,7 +428,10 @@ export class GrDiffGroup {
 
   /** Returns true if it is, or contains, a skip group. */
   hasSkipGroup() {
-    return !!this.skip || this.contextGroups?.some(g => !!g.skip);
+    return (
+      this.skip !== undefined ||
+      this.contextGroups?.some(g => g.skip !== undefined)
+    );
   }
 
   containsLine(side: Side, line: LineNumber) {
@@ -444,7 +447,10 @@ export class GrDiffGroup {
     // For both CONTEXT_CONTROL groups and SKIP groups the `lines` array will
     // be empty. So we have to use `lineRange` instead of looking at the first
     // line.
-    if (this.type === GrDiffGroupType.CONTEXT_CONTROL || this.skip) {
+    if (
+      this.type === GrDiffGroupType.CONTEXT_CONTROL ||
+      this.skip !== undefined
+    ) {
       return side === Side.LEFT
         ? this.lineRange.left.start_line
         : this.lineRange.right.start_line;
@@ -498,7 +504,7 @@ export class GrDiffGroup {
     // The LOST or FILE lines may be hidden and thus never resolve an
     // untilRendered() promise.
     if (
-      this.skip ||
+      this.skip !== undefined ||
       lineNumber === 'LOST' ||
       lineNumber === 'FILE' ||
       this.type === GrDiffGroupType.CONTEXT_CONTROL

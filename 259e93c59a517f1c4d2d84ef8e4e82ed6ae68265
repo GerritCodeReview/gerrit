@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c464cc56_891cfbfc",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 3062,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-09T16:29:56Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by Common Typos: Common typo found: \"rather then\" -- should it be \"rather than\"?\n\nAnalyzer Description: Linter for catching common typos motivated by go/todo-fail and go/lol-codesearch. Shared with google3 common typos library go/common-typos.\nOwner: ayeaye-team@google.com\n\nCommon typo found: \"rather then\" -- should it be \"rather than\"?\nNote: a line containing \"common_typos_disable\" or \"common_typos_enable\" will turn off or on (respectively) the linter for subsequent lines in the file. Alternatively include the token \"NOTYPO\" within a line to skip typo linting that line or include \u0027No-Typo-Check: \u003creason\u003e\u0027in the commit message.",
+      "range": {
+        "startLine": 3062,
+        "startChar": 17,
+        "endLine": 3062,
+        "endChar": 28
+      },
+      "revId": "259e93c59a517f1c4d2d84ef8e4e82ed6ae68265",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

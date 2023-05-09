@@ -428,7 +428,7 @@ export class GrDiffRow extends LitElement {
     return this.line(side)?.lineNumber(side);
   }
 
-  private line(side: Side) {
+  line(side: Side) {
     return side === Side.LEFT ? this.left : this.right;
   }
 

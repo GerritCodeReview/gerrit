@@ -9,7 +9,7 @@ import {getTextOffset} from './gr-range-normalizer';
 import {fixture, fixtureCleanup, html, assert} from '@open-wc/testing';
 import {
   GrDiffHighlight,
-  DiffBuilderInterface,
+  GrDiffInterface,
   CreateRangeCommentEventDetail,
 } from './gr-diff-highlight';
 import {Side} from '../../../api/diff';
@@ -134,7 +134,7 @@ suite('gr-diff-highlight', () => {
     let diff: HTMLElement;
     let builder: {
       getContentTdByLineEl: SinonStubbedMember<
-        DiffBuilderInterface['getContentTdByLineEl']
+        GrDiffInterface['getContentTdByLineEl']
       >;
     };
 
@@ -213,7 +213,7 @@ suite('gr-diff-highlight', () => {
     let diff: HTMLElement;
     let builder: {
       getContentTdByLineEl: SinonStubbedMember<
-        DiffBuilderInterface['getContentTdByLineEl']
+        GrDiffInterface['getContentTdByLineEl']
       >;
     };
     let contentStubs;

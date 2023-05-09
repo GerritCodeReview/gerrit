@@ -806,9 +806,7 @@ suite('gr-diff-view tests', () => {
       element.patchNum = 1 as RevisionPatchSetNum;
       element.basePatchNum = PARENT;
       assertIsDefined(element.cursor);
-      sinon
-        .stub(element.cursor, 'getAddress')
-        .returns({number: lineNumber, leftSide: false});
+      sinon.stub(element.cursor, 'getTargetLineNumber').returns(lineNumber);
       await element.updateComplete;
       const editBtn = queryAndAssert<GrButton>(
         element,
@@ -818,7 +816,7 @@ suite('gr-diff-view tests', () => {
       editBtn.click();
       assert.equal(navToEditStub.callCount, 1);
       assert.deepEqual(navToEditStub.lastCall.args, [
-        {path: 't.txt', lineNum: 42},
+        {path: 't.txt', lineNum: lineNumber},
       ]);
     });
 
@@ -1428,9 +1426,6 @@ suite('gr-diff-view tests', () => {
     test('onLineSelected', () => {
       const replaceStateStub = sinon.stub(history, 'replaceState');
       assertIsDefined(element.cursor);
-      sinon
-        .stub(element.cursor, 'getAddress')
-        .returns({number: 123, leftSide: false});
 
       element.changeNum = 321 as NumericChangeId;
       element.change = {
@@ -1450,9 +1445,6 @@ suite('gr-diff-view tests', () => {
     test('line selected on left side', () => {
       const replaceStateStub = sinon.stub(history, 'replaceState');
       assertIsDefined(element.cursor);
-      sinon
-        .stub(element.cursor, 'getAddress')
-        .returns({number: 123, leftSide: true});
 
       element.changeNum = 321 as NumericChangeId;
       element.change = {

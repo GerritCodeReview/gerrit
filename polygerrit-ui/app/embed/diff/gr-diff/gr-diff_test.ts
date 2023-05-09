@@ -248,24 +248,9 @@ suite('gr-diff tests', () => {
   });
 
   suite('logged in', async () => {
-    let fakeLineEl: HTMLElement;
     setup(async () => {
       element.loggedIn = true;
-
-      fakeLineEl = {
-        getAttribute: sinon.stub().returns(42),
-        classList: {
-          contains: sinon.stub().returns(true),
-        },
-      } as unknown as HTMLElement;
       await element.updateComplete;
-    });
-
-    test('addDraftAtLine', () => {
-      sinon.stub(element, 'selectLine');
-      const createCommentStub = sinon.stub(element, 'createComment');
-      element.addDraftAtLine(fakeLineEl);
-      assert.isTrue(createCommentStub.calledWithExactly(fakeLineEl, 42));
     });
 
     test('adds long range comment hint', async () => {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af9e8202_c33505eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-09T09:41:46Z",
+      "side": 1,
+      "message": "this seems to be stale, currently stable-3.7 is at 0613ac0e81cb6fc656e12712e2fad729355a9b98, looks like this needs to be redone again",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 20
+      },
+      "revId": "a103018541383264e7a95d23c0939ab19bb83a4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

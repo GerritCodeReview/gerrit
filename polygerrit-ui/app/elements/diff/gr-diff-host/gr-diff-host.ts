@@ -905,11 +905,6 @@ export class GrDiffHost extends LitElement {
     );
   }
 
-  addDraftAtLine(el: Element) {
-    assertIsDefined(this.diffElement);
-    this.diffElement.addDraftAtLine(el);
-  }
-
   toggleAllContext() {
     assertIsDefined(this.diffElement);
     this.diffElement.toggleAllContext();

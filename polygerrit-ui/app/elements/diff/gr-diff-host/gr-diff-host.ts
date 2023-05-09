@@ -8,6 +8,7 @@ import '../../checks/gr-diff-check-result';
 import '../../../embed/diff/gr-diff/gr-diff';
 import {
   anyLineTooLong,
+  DiffContextExpandedEventDetail,
   getDiffLength,
   getLine,
   getSide,
@@ -64,7 +65,6 @@ import {
   waitForEventOnce,
 } from '../../../utils/event-util';
 import {assertIsDefined} from '../../../utils/common-util';
-import {DiffContextExpandedEventDetail} from '../../../embed/diff/gr-diff-builder/gr-diff-builder';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
 import {Timing} from '../../../constants/reporting';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
@@ -125,7 +125,6 @@ declare global {
   interface HTMLElementEventMap {
     // prettier-ignore
     'render': CustomEvent<{}>;
-    'diff-context-expanded': CustomEvent<DiffContextExpandedEventDetail>;
     'create-comment': CustomEvent<CreateCommentEventDetail>;
     'is-blame-loaded-changed': ValueChangedEvent<boolean>;
     'diff-changed': ValueChangedEvent<DiffInfo | undefined>;
@@ -396,7 +395,6 @@ export class GrDiffHost extends LitElement {
       this.checksSubscription.unsubscribe();
       this.checksSubscription = undefined;
     }
-    this.clear();
     super.disconnectedCallback();
   }
 
@@ -566,11 +564,6 @@ export class GrDiffHost extends LitElement {
   async reloadInternal(shouldReportMetric?: boolean) {
     this.reporting.time(Timing.DIFF_TOTAL);
     this.reporting.time(Timing.DIFF_LOAD);
-    // TODO: Find better names for these 3 clear/cancel methods. Ideally the
-    // <gr-diff-host> should not re-used at all for another diff rendering pass.
-    this.clear();
-    this.cancel();
-    this.clearDiffContent();
     assertIsDefined(this.path, 'path');
     assertIsDefined(this.changeNum, 'changeNum');
     this.diff = undefined;
@@ -585,6 +578,9 @@ export class GrDiffHost extends LitElement {
       // assets in parallel.
       const layerPromise = this.initLayers();
       const diff = await this.getDiff();
+      console.log(
+        `${Date.now() % 100000} asdf diff host getDiff completed ${this.path}`
+      );
       this.loadedWhitespaceLevel = whitespaceLevel;
       this.reportDiff(diff);
 
@@ -599,6 +595,9 @@ export class GrDiffHost extends LitElement {
       this.editWeblinks = this.getEditWeblinks(diff);
       this.filesWeblinks = this.getFilesWeblinks(diff);
       this.diff = diff;
+      console.log(
+        `${Date.now() % 100000} asdf diff host DIFF_LOAD completed ${this.path}`
+      );
       this.reporting.timeEnd(Timing.DIFF_LOAD, this.timingDetails());
 
       this.reporting.time(Timing.DIFF_CONTENT);
@@ -671,10 +670,6 @@ export class GrDiffHost extends LitElement {
     }
     layers.push(this.syntaxLayer);
     return layers;
-  }
-
-  clear() {
-    this.layers = [];
   }
 
   /**
@@ -848,11 +843,6 @@ export class GrDiffHost extends LitElement {
     };
   }
 
-  /** Cancel any remaining diff builder rendering work. */
-  cancel() {
-    this.diffElement?.cancel();
-  }
-
   getCursorStops() {
     assertIsDefined(this.diffElement);
     return this.diffElement.getCursorStops();
@@ -911,10 +901,6 @@ export class GrDiffHost extends LitElement {
   addDraftAtLine(el: Element) {
     assertIsDefined(this.diffElement);
     this.diffElement.addDraftAtLine(el);
-  }
-
-  clearDiffContent() {
-    this.diffElement?.clearDiffContent();
   }
 
   toggleAllContext() {

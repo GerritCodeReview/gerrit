@@ -24,7 +24,7 @@ import {FULL_CONTEXT} from '../gr-diff/gr-diff-utils';
 
 const DEFAULT_PREFS = createDefaultDiffPrefs();
 
-suite('gr-diff-builder tests', () => {
+suite('gr-diff tests', () => {
   let element: GrDiff;
 
   const line = (text: string) => {
@@ -40,39 +40,6 @@ suite('gr-diff-builder tests', () => {
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     stubRestApi('getProjectConfig').returns(Promise.resolve(createConfig()));
     stubBaseUrl('/r');
-  });
-
-  [DiffViewMode.UNIFIED, DiffViewMode.SIDE_BY_SIDE].forEach(mode => {
-    test(`line_length used for regular files under ${mode}`, () => {
-      element.path = '/a.txt';
-      element.viewMode = mode;
-      element.diff = createEmptyDiff();
-      element.prefs = {
-        ...createDefaultDiffPrefs(),
-        tab_size: 4,
-        line_length: 50,
-      };
-      const builder = element.getDiffBuilder();
-      assert.equal(builder.prefs.line_length, 50);
-    });
-
-    test(`line_length ignored for commit msg under ${mode}`, () => {
-      element.path = '/COMMIT_MSG';
-      element.viewMode = mode;
-      element.diff = createEmptyDiff();
-      element.prefs = {
-        ...createDefaultDiffPrefs(),
-        tab_size: 4,
-        line_length: 50,
-      };
-      const builder = element.getDiffBuilder();
-      assert.equal(builder.prefs.line_length, 72);
-    });
-  });
-
-  test('_handlePreferenceError throws with invalid preference', () => {
-    element.prefs = {...createDefaultDiffPrefs(), tab_size: 0};
-    assert.throws(() => element.getDiffBuilder());
   });
 
   test('_handlePreferenceError triggers alert and javascript error', () => {
@@ -234,7 +201,7 @@ suite('gr-diff-builder tests', () => {
     const lineNumberEl = document.createElement('td');
 
     setup(() => {
-      element.showTabs = true;
+      element.prefs = {...DEFAULT_PREFS, show_tabs: true};
       layer = element.createTabIndicatorLayer();
     });
 
@@ -278,7 +245,7 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('does not annotate when disabled', () => {
-      element.showTabs = false;
+      element.prefs = {...DEFAULT_PREFS, show_tabs: false};
 
       const str = '\tlorem upsum';
       const l = line(str);
@@ -333,44 +300,15 @@ suite('gr-diff-builder tests', () => {
     });
   });
 
-  suite('layers', () => {
-    let initialLayersCount = 0;
-    let withLayerCount = 0;
-    setup(() => {
-      const layers: DiffLayer[] = [];
-      element.layers = layers;
-      element.showTrailingWhitespace = true;
-      element.setupAnnotationLayers();
-      initialLayersCount = element.layersInternal.length;
-    });
-
-    test('no layers', () => {
-      element.setupAnnotationLayers();
-      assert.equal(element.layersInternal.length, initialLayersCount);
-    });
-
-    suite('with layers', () => {
-      const layers: DiffLayer[] = [{annotate: () => {}}, {annotate: () => {}}];
-      setup(() => {
-        element.layers = layers;
-        element.showTrailingWhitespace = true;
-        element.setupAnnotationLayers();
-        withLayerCount = element.layersInternal.length;
-      });
-      test('with layers', () => {
-        element.setupAnnotationLayers();
-        assert.equal(element.layersInternal.length, withLayerCount);
-        assert.equal(initialLayersCount + layers.length, withLayerCount);
-      });
-    });
-  });
-
   suite('trailing whitespace', () => {
     let layer: DiffLayer;
     const lineNumberEl = document.createElement('td');
 
     setup(() => {
-      element.showTrailingWhitespace = true;
+      element.prefs = {
+        ...createDefaultDiffPrefs(),
+        show_whitespace_errors: true,
+      };
       layer = element.createTrailingWhitespaceLayer();
     });
 
@@ -441,7 +379,10 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('does not annotate when disabled', () => {
-      element.showTrailingWhitespace = false;
+      element.prefs = {
+        ...createDefaultDiffPrefs(),
+        show_whitespace_errors: false,
+      };
       const str = 'lorem upsum\t \t ';
       const l = line(str);
       const el = document.createElement('div');
@@ -515,7 +456,6 @@ suite('gr-diff-builder tests', () => {
         context: 1,
       };
       await element.updateComplete;
-      element.legacyRender();
       // Make sure all listeners are installed.
       await element.untilGroupsRendered();
     });

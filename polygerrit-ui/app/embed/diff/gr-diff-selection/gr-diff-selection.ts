@@ -70,6 +70,11 @@ export class GrDiffSelection {
   }
 
   handleDown = (e: Event) => {
+    console.log(
+      `${Date.now() % 100000} asdf diff selection keydown ${
+        this.diff?.meta_a?.name
+      }`
+    );
     const target = e.target;
     if (!(target instanceof Element)) return;
 

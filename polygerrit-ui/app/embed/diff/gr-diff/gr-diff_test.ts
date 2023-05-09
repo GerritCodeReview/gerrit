@@ -3020,12 +3020,6 @@ suite('gr-diff tests', () => {
     });
   });
 
-  test('cancel', () => {
-    const cleanupStub = sinon.stub(element, 'cleanup');
-    element.cancel();
-    assert.isTrue(cleanupStub.calledOnce);
-  });
-
   test('line limit with line_wrapping', async () => {
     element.prefs = {...MINIMAL_PREFS, line_wrapping: true};
     await element.updateComplete;
@@ -3528,7 +3522,6 @@ suite('gr-diff tests', () => {
           ignore_whitespace: 'IGNORE_NONE',
         };
         await element.updateComplete;
-        element.renderDiffTable();
       }
 
       test('returns [] when hidden and noAutoRender', async () => {
@@ -3684,67 +3677,6 @@ suite('gr-diff tests', () => {
 
       assert.isEmpty(element.querySelectorAll('gr-ranged-comment-hint'));
     });
-
-    suite('change in preferences', () => {
-      setup(async () => {
-        element.diff = {
-          meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
-          meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 560},
-          diff_header: [],
-          intraline_status: 'OK',
-          change_type: 'MODIFIED',
-          content: [{skip: 66}],
-        };
-        await element.updateComplete;
-        await element.renderDiffTableTask?.flush();
-      });
-
-      test('change in preferences re-renders diff', async () => {
-        const stub = sinon.stub(element, 'renderDiffTable');
-        element.prefs = {
-          ...MINIMAL_PREFS,
-        };
-        await element.updateComplete;
-        await element.renderDiffTableTask?.flush();
-        assert.isTrue(stub.called);
-      });
-
-      test('adding/removing property in preferences re-renders diff', async () => {
-        const stub = sinon.stub(element, 'renderDiffTable');
-        const newPrefs1: DiffPreferencesInfo = {
-          ...MINIMAL_PREFS,
-          line_wrapping: true,
-        };
-        element.prefs = newPrefs1;
-        await element.updateComplete;
-        await element.renderDiffTableTask?.flush();
-        assert.isTrue(stub.called);
-        stub.reset();
-
-        const newPrefs2 = {...newPrefs1};
-        delete newPrefs2.line_wrapping;
-        element.prefs = newPrefs2;
-        await element.updateComplete;
-        await element.renderDiffTableTask?.flush();
-        assert.isTrue(stub.called);
-      });
-
-      test(
-        'change in preferences does not re-renders diff with ' +
-          'noRenderOnPrefsChange',
-        async () => {
-          const stub = sinon.stub(element, 'renderDiffTable');
-          element.noRenderOnPrefsChange = true;
-          element.prefs = {
-            ...MINIMAL_PREFS,
-            context: 12,
-          };
-          await element.updateComplete;
-          await element.renderDiffTableTask?.flush();
-          assert.isFalse(stub.called);
-        }
-      );
-    });
   });
 
   suite('diff header', () => {
@@ -3798,7 +3730,7 @@ suite('gr-diff tests', () => {
       element.classList.add('showBlame');
       element.blame = null;
       await element.updateComplete;
-      assert.isTrue(setBlameSpy.calledWithExactly(null));
+      assert.isTrue(setBlameSpy.calledWithExactly([]));
       assert.isFalse(element.classList.contains('showBlame'));
     });
 
@@ -3907,7 +3839,6 @@ suite('gr-diff tests', () => {
       binary,
     };
     await element.updateComplete;
-    await element.renderDiffTableTask;
   };
 
   test('clear diff table content as soon as diff changes', async () => {
@@ -3932,7 +3863,6 @@ suite('gr-diff tests', () => {
     assertIsDefined(element.diffTable);
     const diffTable = element.diffTable;
     assert.equal(diffTable.innerHTML, '');
-    element.renderDiffTable();
     await element.updateComplete;
     // rendered again
     await waitUntil(diffTableHasContent);

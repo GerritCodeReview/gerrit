@@ -521,4 +521,10 @@ export class GrDiffGroup {
       !(!this.adds.length && !this.removes.length)
     );
   }
+
+  id() {
+    return `${this.type} ${this.startLine(Side.LEFT)}  ${this.startLine(
+      Side.RIGHT
+    )}`;
+  }
 }

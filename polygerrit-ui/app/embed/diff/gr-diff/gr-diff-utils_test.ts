@@ -20,8 +20,10 @@ import {
   computeContext,
   FullContext,
   FULL_CONTEXT,
+  computeLineLength,
 } from './gr-diff-utils';
 import {FILE, LOST} from './gr-diff-line';
+import {createDefaultDiffPrefs} from '../../../constants/constants';
 
 const LINE_BREAK_HTML = '<span class="gr-diff br"></span>';
 
@@ -240,6 +242,49 @@ suite('gr-diff-utils tests', () => {
       );
     });
   });
+
+  suite('computeLineLength', () => {
+    test('computeLineLength(1, ...)', () => {
+      assert.equal(
+        computeLineLength(
+          {...createDefaultDiffPrefs(), line_length: 1},
+          'a.txt'
+        ),
+        1
+      );
+      assert.equal(
+        computeLineLength(
+          {...createDefaultDiffPrefs(), line_length: 1},
+          undefined
+        ),
+        1
+      );
+    });
+
+    test('computeLineLength(1, "/COMMIT_MSG")', () => {
+      assert.equal(
+        computeLineLength(
+          {...createDefaultDiffPrefs(), line_length: 1},
+          '/COMMIT_MSG'
+        ),
+        72
+      );
+    });
+  });
+
+  //   export function computeLineLength(
+  //   prefs: DiffPreferencesInfo,
+  //   path: string | undefined
+  // ): number {
+  //   if (path === SpecialFilePath.COMMIT_MESSAGE) {
+  //     return 72;
+  //   }
+  //   const lineLength = prefs.line_length;
+  //   if (Number.isInteger(lineLength) && lineLength > 0) {
+  //     return lineLength;
+  //   }
+  //   return 100;
+  // }
 
   suite('key locations', () => {
     test('lineOfInterest is a key location', () => {

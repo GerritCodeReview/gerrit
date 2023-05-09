@@ -21,7 +21,6 @@ import {
   query,
   queryAll,
   queryAndAssert,
-  waitEventLoop,
   waitQueryAndAssert,
   waitUntil,
 } from '../../../test/test-utils';
@@ -30,7 +29,6 @@ import {waitForEventOnce} from '../../../utils/event-util';
 import {GrDiff} from './gr-diff';
 import {ImageInfo} from '../../../types/common';
 import {GrRangedCommentHint} from '../gr-ranged-comment-hint/gr-ranged-comment-hint';
-import {assertIsDefined} from '../../../utils/common-util';
 import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-diff a11y test', () => {
@@ -61,7 +59,17 @@ suite('gr-diff tests', () => {
         element,
         /* HTML */ `
           <div class="diffContainer sideBySide">
-            <table id="diffTable"></table>
+            <table id="diffTable">
+              <colgroup>
+                <col class="blame gr-diff" />
+                <col class="gr-diff left" width="48" />
+                <col class="gr-diff left sign" />
+                <col class="gr-diff left" />
+                <col class="gr-diff right" width="48" />
+                <col class="gr-diff right sign" />
+                <col class="gr-diff right" />
+              </colgroup>
+            </table>
           </div>
         `
       );
@@ -3020,12 +3028,6 @@ suite('gr-diff tests', () => {
     });
   });
 
-  test('cancel', () => {
-    const cleanupStub = sinon.stub(element, 'cleanup');
-    element.cancel();
-    assert.isTrue(cleanupStub.calledOnce);
-  });
-
   test('line limit with line_wrapping', async () => {
     element.prefs = {...MINIMAL_PREFS, line_wrapping: true};
     await element.updateComplete;
@@ -3153,7 +3155,6 @@ suite('gr-diff tests', () => {
                   <col class="gr-diff right sign" />
                   <col class="gr-diff right" />
                 </colgroup>
-                <tbody class="binary-diff gr-diff"></tbody>
                 <tbody class="both gr-diff section">
                   <tr
                     aria-labelledby="left-button-FILE left-content-FILE right-button-FILE right-content-FILE"
@@ -3295,13 +3296,13 @@ suite('gr-diff tests', () => {
                 <td class="blank gr-diff left lineNum"></td>
                 <td class="gr-diff left">
                   <label class="gr-diff">
-                    <span class="gr-diff label"> image/bmp </span>
+                    <span class="gr-diff label"> 1×1 image/bmp </span>
                   </label>
                 </td>
                 <td class="blank gr-diff lineNum right"></td>
                 <td class="gr-diff right">
                   <label class="gr-diff">
-                    <span class="gr-diff label"> image/bmp </span>
+                    <span class="gr-diff label"> 1×1 image/bmp </span>
                   </label>
                 </td>
               </tr>
@@ -3359,7 +3360,7 @@ suite('gr-diff tests', () => {
             <label class="gr-diff">
               <span class="gr-diff name"> carrot.jpg </span>
               <br class="gr-diff" />
-              <span class="gr-diff label"> image/bmp </span>
+              <span class="gr-diff label"> 1×1 image/bmp </span>
             </label>
           `
         );
@@ -3369,7 +3370,7 @@ suite('gr-diff tests', () => {
             <label class="gr-diff">
               <span class="gr-diff name"> carrot2.jpg </span>
               <br class="gr-diff" />
-              <span class="gr-diff label"> image/bmp </span>
+              <span class="gr-diff label"> 1×1 image/bmp </span>
             </label>
           `
         );
@@ -3528,7 +3529,6 @@ suite('gr-diff tests', () => {
           ignore_whitespace: 'IGNORE_NONE',
         };
         await element.updateComplete;
-        element.renderDiffTable();
       }
 
       test('returns [] when hidden and noAutoRender', async () => {
@@ -3544,6 +3544,7 @@ suite('gr-diff tests', () => {
       test('returns one stop per line and one for the file row', async () => {
         await setupDiff();
         element.loading = false;
+        await waitUntil(() => element.groups.length > 2);
         await element.updateComplete;
         const ROWS = 48;
         const FILE_ROW = 1;
@@ -3557,10 +3558,12 @@ suite('gr-diff tests', () => {
       test('returns an additional AbortStop when still loading', async () => {
         await setupDiff();
         element.loading = true;
+        await waitUntil(() => element.groups.length > 2);
         await element.updateComplete;
         const ROWS = 48;
         const FILE_ROW = 1;
         const LOST_ROW = 1;
+        element.loading = true;
         const actual = element.getCursorStops();
         assert.equal(actual.length, ROWS + FILE_ROW + LOST_ROW + 1);
         assert.isTrue(actual[actual.length - 1] instanceof AbortStop);
@@ -3684,67 +3687,6 @@ suite('gr-diff tests', () => {
 
       assert.isEmpty(element.querySelectorAll('gr-ranged-comment-hint'));
     });
-
-    suite('change in preferences', () => {
-      setup(async () => {
-        element.diff = {
-          meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
-          meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 560},
-          diff_header: [],
-          intraline_status: 'OK',
-          change_type: 'MODIFIED',
-          content: [{skip: 66}],
-        };
-        await element.updateComplete;
-        await element.renderDiffTableTask?.flush();
-      });
-
-      test('change in preferences re-renders diff', async () => {
-        const stub = sinon.stub(element, 'renderDiffTable');
-        element.prefs = {
-          ...MINIMAL_PREFS,
-        };
-        await element.updateComplete;
-        await element.renderDiffTableTask?.flush();
-        assert.isTrue(stub.called);
-      });
-
-      test('adding/removing property in preferences re-renders diff', async () => {
-        const stub = sinon.stub(element, 'renderDiffTable');
-        const newPrefs1: DiffPreferencesInfo = {
-          ...MINIMAL_PREFS,
-          line_wrapping: true,
-        };
-        element.prefs = newPrefs1;
-        await element.updateComplete;
-        await element.renderDiffTableTask?.flush();
-        assert.isTrue(stub.called);
-        stub.reset();
-
-        const newPrefs2 = {...newPrefs1};
-        delete newPrefs2.line_wrapping;
-        element.prefs = newPrefs2;
-        await element.updateComplete;
-        await element.renderDiffTableTask?.flush();
-        assert.isTrue(stub.called);
-      });
-
-      test(
-        'change in preferences does not re-renders diff with ' +
-          'noRenderOnPrefsChange',
-        async () => {
-          const stub = sinon.stub(element, 'renderDiffTable');
-          element.noRenderOnPrefsChange = true;
-          element.prefs = {
-            ...MINIMAL_PREFS,
-            context: 12,
-          };
-          await element.updateComplete;
-          await element.renderDiffTableTask?.flush();
-          assert.isFalse(stub.called);
-        }
-      );
-    });
   });
 
   suite('diff header', () => {
@@ -3798,7 +3740,7 @@ suite('gr-diff tests', () => {
       element.classList.add('showBlame');
       element.blame = null;
       await element.updateComplete;
-      assert.isTrue(setBlameSpy.calledWithExactly(null));
+      assert.isTrue(setBlameSpy.calledWithExactly([]));
       assert.isFalse(element.classList.contains('showBlame'));
     });
 
@@ -3906,37 +3848,9 @@ suite('gr-diff tests', () => {
       content,
       binary,
     };
+    await waitUntil(() => element.groups.length > 1);
     await element.updateComplete;
-    await element.renderDiffTableTask;
   };
-
-  test('clear diff table content as soon as diff changes', async () => {
-    const content = [
-      {
-        a: ['all work and no play make andybons a dull boy'],
-      },
-      {
-        b: ['Non eram nescius, Brute, cum, quae summis ingeniis '],
-      },
-    ];
-    function diffTableHasContent() {
-      assertIsDefined(element.diffTable);
-      const diffTable = element.diffTable;
-      return diffTable.innerText.includes(content[0].a?.[0] ?? '');
-    }
-    await setupSampleDiff({content});
-    await waitUntil(diffTableHasContent);
-    element.diff = {...element.diff!};
-    await element.updateComplete;
-    // immediately cleaned up
-    assertIsDefined(element.diffTable);
-    const diffTable = element.diffTable;
-    assert.equal(diffTable.innerHTML, '');
-    element.renderDiffTable();
-    await element.updateComplete;
-    // rendered again
-    await waitUntil(diffTableHasContent);
-  });
 
   suite('selection test', () => {
     test('user-select set correctly on side-by-side view', async () => {
@@ -3953,8 +3867,9 @@ suite('gr-diff tests', () => {
         },
       ];
       await setupSampleDiff({content});
-      await waitEventLoop();
 
+      // We are selecting "Non eram nescius..." on the left side.
+      // The default is `selected-right`, so we will have to click.
       const diffLine = queryAll<HTMLElement>(element, '.contentText')[2];
       assert.equal(getComputedStyle(diffLine).userSelect, 'none');
       mouseDown(diffLine);
@@ -3974,10 +3889,12 @@ suite('gr-diff tests', () => {
           ],
         },
       ];
-      await setupSampleDiff({content});
       element.viewMode = DiffViewMode.UNIFIED;
-      await element.updateComplete;
-      const diffLine = queryAll<HTMLElement>(element, '.contentText')[2];
+      await setupSampleDiff({content});
+
+      // We are selecting "all work and no play..." on the left side.
+      // The default is `selected-right`, so we will have to click.
+      const diffLine = queryAll<HTMLElement>(element, '.contentText')[0];
       assert.equal(getComputedStyle(diffLine).userSelect, 'none');
       mouseDown(diffLine);
       assert.equal(getComputedStyle(diffLine).userSelect, 'text');

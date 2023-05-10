@@ -15,7 +15,10 @@ import {
 import {Side} from '../../../api/diff';
 import {SinonStubbedMember} from 'sinon';
 import {queryAndAssert} from '../../../utils/common-util';
-import {GrDiffThreadElement} from '../gr-diff/gr-diff-utils';
+import {
+  GrDiffThreadElement,
+  getDataFromCommentThreadEl,
+} from '../gr-diff/gr-diff-utils';
 import {
   stubElement,
   waitQueryAndAssert,
@@ -152,6 +155,8 @@ suite('gr-diff-highlight', () => {
       ) as unknown as GrDiffThreadElement;
       threadEl.className = 'comment-thread';
       threadEl.rootId = 'id314';
+      threadEl.setAttribute('line-num', '12');
+      threadEl.setAttribute('diff-side', 'right');
       diff.appendChild(threadEl);
     });
 
@@ -164,6 +169,7 @@ suite('gr-diff-highlight', () => {
       assert.isFalse(hlRange.classList.contains('rangeHoverHighlight'));
       threadEl.dispatchEvent(
         new CustomEvent('comment-thread-mouseenter', {
+          detail: getDataFromCommentThreadEl(threadEl),
           bubbles: true,
           composed: true,
         })
@@ -176,6 +182,7 @@ suite('gr-diff-highlight', () => {
       hlRange.classList.add('rangeHoverHighlight');
       threadEl.dispatchEvent(
         new CustomEvent('comment-thread-mouseleave', {
+          detail: getDataFromCommentThreadEl(threadEl),
           bubbles: true,
           composed: true,
         })

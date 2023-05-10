@@ -13,7 +13,6 @@ import '../gr-ranged-comment-themes/gr-ranged-comment-theme';
 import '../gr-ranged-comment-hint/gr-ranged-comment-hint';
 import {GrDiffLine, LOST, LineNumber} from './gr-diff-line';
 import {
-  getLine,
   getLineNumber,
   getRange,
   getSide,
@@ -894,49 +893,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
     addedThreadEls.forEach(threadEl =>
       this.redispatchHoverEvents(threadEl, threadEl)
     );
-    // Removed nodes do not need to be handled because all this code does is
-    // adding a slot for the added thread elements, and the extra slots do
-    // not hurt. It's probably a bigger performance cost to remove them than
-    // to keep them around. Medium term we can even consider to add one slot
-    // for each line from the start.
-    for (const threadEl of addedThreadEls) {
-      const lineNum = getLine(threadEl);
-      const commentSide = getSide(threadEl);
-      if (!commentSide) continue;
-      const lineEl = this.getLineElByNumber(lineNum, commentSide);
-      // When the line the comment refers to does not exist, log an error
-      // but don't crash. This can happen e.g. if the API does not fully
-      // validate e.g. (robot) comments
-      if (!lineEl) {
-        console.error(
-          'thread attached to line ',
-          commentSide,
-          lineNum,
-          ' which does not exist.'
-        );
-        continue;
-      }
-      const contentEl = this.getContentTdByLineEl(lineEl);
-      if (!contentEl) continue;
-      if (lineNum === 'LOST') {
-        this.insertPortedCommentsWithoutRangeMessage(contentEl);
-      }
-    }
-  }
-
-  private insertPortedCommentsWithoutRangeMessage(lostCell: Element) {
-    const existingMessage = lostCell.querySelector('div.lost-message');
-    if (existingMessage) return;
-
-    const div = document.createElement('div');
-    div.className = 'lost-message';
-    const icon = document.createElement('gr-icon');
-    icon.setAttribute('icon', 'info');
-    div.appendChild(icon);
-    const span = document.createElement('span');
-    span.innerText = 'Original comment position not found in this patchset';
-    div.appendChild(span);
-    lostCell.insertBefore(div, lostCell.firstChild);
   }
 
   // Private but used in tests.

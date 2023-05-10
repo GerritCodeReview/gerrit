@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5939be1_1507605b",
+        "filename": "java/com/google/gerrit/extensions/api/changes/RebaseInput.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-10T07:00:06Z",
+      "side": 1,
+      "message": "Since the values are limited to a valid submit strategy, we could use an Enum here.",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 15
+      },
+      "revId": "180e96f8ed909e1c38c2f8b94a418cf93046b5e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd2543bb_904abb99",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-10T07:00:06Z",
+      "side": 1,
+      "message": "Does it? Since the \"theirs\" strategy was used, there should be no remaining conflicts, right? This is also indicated by the assertion in line 729.",
+      "range": {
+        "startLine": 723,
+        "startChar": 6,
+        "endLine": 723,
+        "endChar": 73
+      },
+      "revId": "180e96f8ed909e1c38c2f8b94a418cf93046b5e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23479317_906d6ee7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-10T07:00:06Z",
+      "side": 1,
+      "message": "Both tests differ only in two lines. Can we just parameterise a single test or extract the code into a shared method?",
+      "range": {
+        "startLine": 739,
+        "startChar": 16,
+        "endLine": 739,
+        "endChar": 55
+      },
+      "revId": "180e96f8ed909e1c38c2f8b94a418cf93046b5e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

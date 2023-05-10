@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5c79dee8_d44df93e",
+        "filename": "java/com/google/gerrit/extensions/api/changes/RebaseInput.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1091855
+      },
+      "writtenOn": "2023-05-10T18:55:14Z",
+      "side": 1,
+      "message": "I used a String here because it\u0027s congruent with what we\u0027re doing in java/com/google/gerrit/extensions/common/MergeInput.java which this is attempting to mirror.  Does it make sense to change both of these?",
+      "parentUuid": "c5939be1_1507605b",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 15
+      },
+      "revId": "180e96f8ed909e1c38c2f8b94a418cf93046b5e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dd2543bb_904abb99",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseIT.java",
         "patchSetId": 8
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c4437bce_4f746ee0",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1091855
+      },
+      "writtenOn": "2023-05-10T18:55:14Z",
+      "side": 1,
+      "message": "You\u0027re correct, I missed this because I was re-using one of the other tests as a template.  Will fix.",
+      "parentUuid": "dd2543bb_904abb99",
+      "range": {
+        "startLine": 723,
+        "startChar": 6,
+        "endLine": 723,
+        "endChar": 73
+      },
+      "revId": "180e96f8ed909e1c38c2f8b94a418cf93046b5e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "23479317_906d6ee7",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseIT.java",
         "patchSetId": 8
@@ -60,6 +108,30 @@
       "writtenOn": "2023-05-10T07:00:06Z",
       "side": 1,
       "message": "Both tests differ only in two lines. Can we just parameterise a single test or extract the code into a shared method?",
+      "range": {
+        "startLine": 739,
+        "startChar": 16,
+        "endLine": 739,
+        "endChar": 55
+      },
+      "revId": "180e96f8ed909e1c38c2f8b94a418cf93046b5e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9aef6dd4_626734c6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1091855
+      },
+      "writtenOn": "2023-05-10T18:55:14Z",
+      "side": 1,
+      "message": "Sure.  I wasn\u0027t sure of the generally desired approach here because the adjacent tests don\u0027t appear to do this.",
+      "parentUuid": "23479317_906d6ee7",
       "range": {
         "startLine": 739,
         "startChar": 16,

@@ -289,6 +289,30 @@
       },
       "revId": "29706d92af0e4253d871aef0174dc79dd213dda8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec966bdb_e3669b9b",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-05-10T13:22:08Z",
+      "side": 1,
+      "message": "It is not needed anymore as all digits are walked over now - see the `for` loop in line #947",
+      "parentUuid": "7943ab78_5d49f5be",
+      "range": {
+        "startLine": 830,
+        "startChar": 9,
+        "endLine": 830,
+        "endChar": 31
+      },
+      "revId": "29706d92af0e4253d871aef0174dc79dd213dda8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

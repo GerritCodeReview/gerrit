@@ -39,6 +39,30 @@
       },
       "revId": "d7cc0952c68bc79ba64ce2bfe55f7974d6c73a38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7e19573_eb7f983c",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-05-10T13:22:08Z",
+      "side": 1,
+      "message": "Nope. When `i\u003d\u003d0` then it receives the first identity in line #832. In all other cases `lastIndex` is obtained from the list itself.",
+      "parentUuid": "7b446439_98e2b083",
+      "range": {
+        "startLine": 836,
+        "startChar": 38,
+        "endLine": 836,
+        "endChar": 67
+      },
+      "revId": "d7cc0952c68bc79ba64ce2bfe55f7974d6c73a38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

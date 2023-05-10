@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cf7412b_72e149a3",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-05-10T14:48:49Z",
+      "side": 0,
+      "message": "Do we know why this restriction existed in the past?",
+      "range": {
+        "startLine": 423,
+        "startChar": 12,
+        "endLine": 423,
+        "endChar": 53
+      },
+      "revId": "79b4a252d5fff127d09a7d00897d4406bbc35199",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

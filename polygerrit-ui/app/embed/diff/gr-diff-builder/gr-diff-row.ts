@@ -22,6 +22,10 @@ import {fire} from '../../../utils/event-util';
 import {getBaseUrl} from '../../../utils/url-util';
 import {otherSide} from '../../../utils/diff-util';
 import './gr-diff-text';
+<<<<<<< PATCH SET (542b05 Move rendering of "lost message" into diff row)
+import {GrDiffLine, GrDiffLineType, LOST} from '../gr-diff/gr-diff-line';
+=======
+>>>>>>> BASE      (0e47df Move comment awareness into gr-diff-row)
 import {
   diffClasses,
   GrDiffCommentThread,
@@ -409,7 +413,7 @@ export class GrDiffRow extends LitElement {
           if (lineNumber)
             fire(this, 'line-mouse-leave', {lineNum: lineNumber, side});
         }}
-      >${this.renderText(side)}${this.renderThreadGroup(side)}</td>
+      >${this.renderText(side)}${this.renderLostMessage(side)}${this.renderThreadGroup(side)}</td>
     `;
   }
 
@@ -428,6 +432,17 @@ export class GrDiffRow extends LitElement {
 
     const sign = isAdd ? '+' : isRemove ? '-' : '';
     return html`<td class=${diffClasses(...extras)}>${sign}</td>`;
+  }
+
+  private renderLostMessage(side: Side) {
+    if (this.lineNumber(side) !== LOST) return nothing;
+    if (this.comments(side).length === 0) return nothing;
+    // .content has `white-space: pre`, so prettier must not add spaces.
+    // prettier-ignore
+    return html`<div class="lost-message"
+      ><gr-icon icon="info"></gr-icon
+      ><span>Original comment position not found in this patchset</span
+    ></div>`;
   }
 
   private renderThreadGroup(side: Side) {

@@ -16,7 +16,6 @@ import '../gr-diff-builder/gr-diff-section';
 import './gr-diff-element';
 import '../gr-diff-builder/gr-diff-row';
 import {
-  getLine,
   getLineNumber,
   getRange,
   getSide,
@@ -774,6 +773,8 @@ export class GrDiff extends LitElement implements GrDiffApi {
     addedThreadEls.forEach(threadEl =>
       this.redispatchHoverEvents(threadEl, threadEl)
     );
+<<<<<<< PATCH SET (542b05 Move rendering of "lost message" into diff row)
+=======
     // Removed nodes do not need to be handled because all this code does is
     // adding a slot for the added thread elements, and the extra slots do
     // not hurt. It's probably a bigger performance cost to remove them than
@@ -817,6 +818,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
     span.innerText = 'Original comment position not found in this patchset';
     div.appendChild(span);
     lostCell.insertBefore(div, lostCell.firstChild);
+>>>>>>> BASE      (0e47df Move comment awareness into gr-diff-row)
   }
 
   /** TODO: Can be removed when diff-old is gone. */

@@ -44,6 +44,10 @@ export const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 // syntax highlighting for the entire file.
 export const SYNTAX_MAX_LINE_LENGTH = 500;
 
+export function otherSide(side: Side) {
+  return side === Side.LEFT ? Side.RIGHT : Side.LEFT;
+}
+
 export function countLines(diff?: DiffInfo, side?: Side) {
   if (!diff?.content || !side) return 0;
   return diff.content.reduce((sum, chunk) => {

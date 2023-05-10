@@ -25,6 +25,8 @@ import {css} from 'lit';
 import {nothing} from 'lit';
 import {fire} from '../../../utils/event-util';
 import {ShowReplyDialogEvent} from '../../../types/events';
+import {repeat} from 'lit/directives/repeat.js';
+import {accountKey} from '../../../utils/account-util';
 
 @customElement('gr-reviewer-list')
 export class GrReviewerList extends LitElement {
@@ -102,8 +104,10 @@ export class GrReviewerList extends LitElement {
     return html`
       <div class="container">
         <div>
-          ${this.displayedReviewers.map(reviewer =>
-            this.renderAccountChip(reviewer)
+          ${repeat(
+            this.displayedReviewers,
+            reviewer => accountKey(reviewer),
+            reviewer => this.renderAccountChip(reviewer)
           )}
           <div class="controlsContainer" ?hidden=${!this.mutable}>
             <gr-button

@@ -420,7 +420,8 @@ export class ChangeModel extends Model<ChangeState> {
       .pipe(
         filter(
           ([childView, change, basePatchNum, patchNum, mergeable]) =>
-            childView === ChangeChildView.OVERVIEW &&
+            (childView === ChangeChildView.OVERVIEW ||
+              childView === ChangeChildView.DIFF) &&
             !!change &&
             !!basePatchNum &&
             !!patchNum &&

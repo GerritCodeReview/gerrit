@@ -221,7 +221,7 @@ suite('change model tests', () => {
     });
   });
 
-  test('fireShowChange', async () => {
+  test('fireShowChange from overview', async () => {
     await waitForLoadingStatus(LoadingStatus.NOT_LOADED);
     const pluginLoader = testResolver(pluginLoaderToken);
     const jsApiService = pluginLoader.jsApiService;
@@ -229,6 +229,29 @@ suite('change model tests', () => {
 
     changeViewModel.updateState({
       childView: ChangeChildView.OVERVIEW,
+      patchNum: 1 as PatchSetNumber,
+    });
+    changeModel.updateState({
+      change: createParsedChange(),
+      mergeable: true,
+    });
+
+    assert.isTrue(showChangeStub.calledOnce);
+    const detail: ShowChangeDetail = showChangeStub.lastCall.firstArg;
+    assert.equal(detail.change?._number, createParsedChange()._number);
+    assert.equal(detail.patchNum, 1 as PatchSetNumber);
+    assert.equal(detail.basePatchNum, PARENT);
+    assert.equal(detail.info.mergeable, true);
+  });
+
+  test('fireShowChange from diff', async () => {
+    await waitForLoadingStatus(LoadingStatus.NOT_LOADED);
+    const pluginLoader = testResolver(pluginLoaderToken);
+    const jsApiService = pluginLoader.jsApiService;
+    const showChangeStub = sinon.stub(jsApiService, 'handleShowChange');
+
+    changeViewModel.updateState({
+      childView: ChangeChildView.DIFF,
       patchNum: 1 as PatchSetNumber,
     });
     changeModel.updateState({

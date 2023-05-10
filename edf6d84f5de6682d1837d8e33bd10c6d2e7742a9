@@ -16,6 +16,23 @@
       "message": "@alvaro.vilaplana@gmail.com Can you please verify this change on M2 machine? Thanks",
       "revId": "edf6d84f5de6682d1837d8e33bd10c6d2e7742a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d75ba43_e93c6ef3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-05-10T11:13:20Z",
+      "side": 1,
+      "message": "`bazel build gerrit` run successfully",
+      "revId": "edf6d84f5de6682d1837d8e33bd10c6d2e7742a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

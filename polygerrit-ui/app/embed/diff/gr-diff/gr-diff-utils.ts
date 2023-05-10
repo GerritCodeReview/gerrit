@@ -7,6 +7,7 @@ import {BlameInfo, CommentRange} from '../../../types/common';
 import {Side, SpecialFilePath} from '../../../constants/constants';
 import {
   DiffContextExpandedExternalDetail,
+  DiffInfo,
   DiffPreferencesInfo,
   DiffResponsiveMode,
   DisplayLine,
@@ -39,6 +40,28 @@ import {GrDiffGroup} from './gr-diff-group';
  *   A proposed JS API: https://github.com/tc39/proposal-intl-segmenter
  */
 export const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
+
+// If any line of the diff is more than the character limit, then disable
+// syntax highlighting for the entire file.
+export const SYNTAX_MAX_LINE_LENGTH = 500;
+
+export function otherSide(side: Side) {
+  return side === Side.LEFT ? Side.RIGHT : Side.LEFT;
+}
+
+export function countLines(diff?: DiffInfo, side?: Side) {
+  if (!diff?.content || !side) return 0;
+  return diff.content.reduce((sum, chunk) => {
+    const sideChunk = side === Side.LEFT ? chunk.a : chunk.b;
+    return sum + (sideChunk?.length ?? chunk.ab?.length ?? chunk.skip ?? 0);
+  }, 0);
+}
+
+export function isFileUnchanged(diff: DiffInfo) {
+  return !diff.content.some(
+    content => (content.a && !content.common) || (content.b && !content.common)
+  );
+}
 
 // TODO(newdiff-cleanup): Remove once newdiff migration is completed.
 export function isNewDiff() {

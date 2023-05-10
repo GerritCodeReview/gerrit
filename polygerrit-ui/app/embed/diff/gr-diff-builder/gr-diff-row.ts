@@ -3,7 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {html, LitElement, nothing, TemplateResult} from 'lit';
+import {html, LitElement, nothing, PropertyValues, TemplateResult} from 'lit';
 import {property, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {createRef, Ref, ref} from 'lit/directives/ref.js';
@@ -21,11 +21,21 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
 import {getBaseUrl} from '../../../utils/url-util';
 import './gr-diff-text';
+import {
+  diffClasses,
+  GrDiffCommentThread,
+  isLongCommentRange,
+  isNewDiff,
+  isResponsive,
+  otherSide,
+} from '../gr-diff/gr-diff-utils';
 import {resolve} from '../../../models/dependency';
 import {diffModelToken} from '../gr-diff-model/gr-diff-model';
+import {when} from 'lit/directives/when.js';
+import {isDefined} from '../../../types/types';
+import {Subscription} from 'rxjs';
 import '../../../elements/shared/gr-hovercard/gr-hovercard';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
-import {diffClasses, isNewDiff, isResponsive} from '../gr-diff/gr-diff-utils';
 
 export class GrDiffRow extends LitElement {
   contentLeftRef: Ref<LitElement> = createRef();
@@ -80,8 +90,15 @@ export class GrDiffRow extends LitElement {
    * running such tests the render() method has to wrap the DOM in a proper
    * <table> element.
    */
-  @state()
-  addTableWrapperForTesting = false;
+  @state() addTableWrapperForTesting = false;
+
+  @state() leftComments: GrDiffCommentThread[] = [];
+
+  @state() rightComments: GrDiffCommentThread[] = [];
+
+  private subLeftComments?: Subscription;
+
+  private subRightComments?: Subscription;
 
   /**
    * Keeps track of whether diff layers have already been applied to the diff
@@ -96,6 +113,28 @@ export class GrDiffRow extends LitElement {
   private layersApplied = false;
 
   private readonly getDiffModel = resolve(this, diffModelToken);
+
+  constructor() {
+    super();
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    const leftLine = this.lineNumber(Side.LEFT);
+    if (changedProperties.has('left') && leftLine) {
+      this.subLeftComments?.unsubscribe();
+      this.subLeftComments = this.getDiffModel()
+        .commentsPerLine(Side.LEFT, leftLine)
+        .subscribe(leftComments => (this.leftComments = leftComments));
+    }
+
+    const rightLine = this.lineNumber(Side.RIGHT);
+    if (changedProperties.has('right') && rightLine) {
+      this.subRightComments?.unsubscribe();
+      this.subRightComments = this.getDiffModel()
+        .commentsPerLine(Side.RIGHT, rightLine)
+        .subscribe(rightComments => (this.rightComments = rightComments));
+    }
+  }
 
   /**
    * The browser API for handling selection does not (yet) work for selection
@@ -392,20 +431,37 @@ export class GrDiffRow extends LitElement {
   }
 
   private renderThreadGroup(side: Side) {
-    const lineNumber = this.lineNumber(side);
-    if (!lineNumber) return nothing;
+    if (!this.lineNumber(side)) return nothing;
+    if (this.rightComments.length === 0 && this.leftComments.length === 0) {
+      return nothing;
+    }
     return html`<div class="thread-group" data-side=${side}>
-      <slot name="${side}-${lineNumber}"></slot>
-      ${this.renderSecondSlot()}
+      ${this.renderSlot(side)}
+      ${when(this.unifiedDiff, () => this.renderSlot(otherSide(side)))}
     </div>`;
   }
 
-  private renderSecondSlot() {
-    if (!this.unifiedDiff) return nothing;
-    if (this.line(Side.LEFT)?.type !== GrDiffLineType.BOTH) return nothing;
-    return html`<slot
-      name="${Side.LEFT}-${this.lineNumber(Side.LEFT)}"
-    ></slot>`;
+  private renderSlot(side: Side) {
+    const line = this.lineNumber(side);
+    if (!line) return nothing;
+    if (this.comments(side).length === 0) return nothing;
+    return html`
+      ${this.renderRangedCommentHints(side)}
+      <slot name="${side}-${line}"></slot>
+    `;
+  }
+
+  private renderRangedCommentHints(side: Side) {
+    const ranges = this.comments(side)
+      .map(c => c.range)
+      .filter(isDefined)
+      .filter(isLongCommentRange);
+    return ranges.map(
+      range =>
+        html`
+          <gr-ranged-comment-hint .range=${range}></gr-ranged-comment-hint>
+        `
+    );
   }
 
   private contentRef(side: Side) {
@@ -430,6 +486,10 @@ export class GrDiffRow extends LitElement {
 
   line(side: Side) {
     return side === Side.LEFT ? this.left : this.right;
+  }
+
+  comments(side: Side) {
+    return side === Side.LEFT ? this.leftComments : this.rightComments;
   }
 
   private getType(side?: Side): string | undefined {

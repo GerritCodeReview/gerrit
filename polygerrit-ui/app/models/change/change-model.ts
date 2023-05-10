@@ -411,7 +411,6 @@ export class ChangeModel extends Model<ChangeState> {
 
   private fireShowChange() {
     return combineLatest([
-      this.viewModel.childView$,
       this.change$,
       this.basePatchNum$,
       this.patchNum$,
@@ -419,15 +418,11 @@ export class ChangeModel extends Model<ChangeState> {
     ])
       .pipe(
         filter(
-          ([childView, change, basePatchNum, patchNum, mergeable]) =>
-            childView === ChangeChildView.OVERVIEW &&
-            !!change &&
-            !!basePatchNum &&
-            !!patchNum &&
-            mergeable !== undefined
+          ([change, basePatchNum, patchNum, mergeable]) =>
+            !!change && !!basePatchNum && !!patchNum && mergeable !== undefined
         )
       )
-      .subscribe(([_, change, basePatchNum, patchNum, mergeable]) => {
+      .subscribe(([change, basePatchNum, patchNum, mergeable]) => {
         this.pluginLoader.jsApiService.handleShowChange({
           change,
           basePatchNum,

@@ -5,7 +5,7 @@
  */
 import '../gr-range-header/gr-range-header';
 import {CommentRange} from '../../../types/common';
-import {LitElement, css, html} from 'lit';
+import {LitElement, css, html, nothing} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {grRangedCommentTheme} from '../gr-ranged-comment-themes/gr-ranged-comment-theme';
@@ -32,16 +32,13 @@ export class GrRangedCommentHint extends LitElement {
   }
 
   override render() {
-    return html`<div class="rangeHighlight row">
-      <gr-range-header icon="mode_comment" filled
-        >${this._computeRangeLabel(this.range)}</gr-range-header
-      >
-    </div>`;
-  }
-
-  _computeRangeLabel(range?: CommentRange): string {
-    if (!range) return '';
-    return `Long comment range ${range.start_line} - ${range.end_line}`;
+    if (!this.range) return nothing;
+    const text = `Long comment range ${this.range.start_line} - ${this.range.end_line}`;
+    return html`
+      <div class="rangeHighlight row">
+        <gr-range-header icon="mode_comment" filled>${text}</gr-range-header>
+      </div>
+    `;
   }
 }
 

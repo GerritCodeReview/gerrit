@@ -40,10 +40,33 @@ import {GrDiffGroup} from './gr-diff-group';
  */
 export const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
+<<<<<<< PATCH SET (9175de Move comment awareness into gr-diff-row)
+// If any line of the diff is more than the character limit, then disable
+// syntax highlighting for the entire file.
+export const SYNTAX_MAX_LINE_LENGTH = 500;
+
+export function otherSide(side: Side) {
+  return side === Side.LEFT ? Side.RIGHT : Side.LEFT;
+}
+
+export function countLines(diff?: DiffInfo, side?: Side) {
+  if (!diff?.content || !side) return 0;
+  return diff.content.reduce((sum, chunk) => {
+    const sideChunk = side === Side.LEFT ? chunk.a : chunk.b;
+    return sum + (sideChunk?.length ?? chunk.ab?.length ?? chunk.skip ?? 0);
+  }, 0);
+}
+
+export function isFileUnchanged(diff: DiffInfo) {
+  return !diff.content.some(
+    content => (content.a && !content.common) || (content.b && !content.common)
+  );
+=======
 // TODO(newdiff-cleanup): Remove once newdiff migration is completed.
 export function isNewDiff() {
   const flags = new Set(window.ENABLED_EXPERIMENTS ?? []);
   return flags.has('UiFeature__new_diff');
+>>>>>>> BASE      (1d03ce Simplify `isTargetBlank` in gr-diff-cursor)
 }
 
 export function getResponsiveMode(

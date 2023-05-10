@@ -18,6 +18,7 @@ import {GrAnnotationImpl} from '../gr-diff-highlight/gr-annotation';
 
 const rangeA: CommentRangeLayer = {
   side: Side.LEFT,
+  line: 39,
   range: {
     end_character: 9,
     end_line: 39,
@@ -29,6 +30,7 @@ const rangeA: CommentRangeLayer = {
 
 const rangeB: CommentRangeLayer = {
   side: Side.RIGHT,
+  line: 12,
   range: {
     end_character: 22,
     end_line: 12,
@@ -40,6 +42,7 @@ const rangeB: CommentRangeLayer = {
 
 const rangeC: CommentRangeLayer = {
   side: Side.RIGHT,
+  line: 100,
   range: {
     end_character: 15,
     end_line: 100,
@@ -50,6 +53,7 @@ const rangeC: CommentRangeLayer = {
 
 const rangeD: CommentRangeLayer = {
   side: Side.RIGHT,
+  line: 55,
   range: {
     end_character: 2,
     end_line: 55,
@@ -61,6 +65,7 @@ const rangeD: CommentRangeLayer = {
 
 const rangeE: CommentRangeLayer = {
   side: Side.RIGHT,
+  line: 71,
   range: {
     end_character: 1,
     end_line: 71,
@@ -71,6 +76,7 @@ const rangeE: CommentRangeLayer = {
 
 const rangeF: CommentRangeLayer = {
   side: Side.RIGHT,
+  line: 24,
   range: {
     end_character: 0,
     end_line: 24,

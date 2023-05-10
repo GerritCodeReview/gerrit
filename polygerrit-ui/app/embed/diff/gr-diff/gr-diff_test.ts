@@ -319,35 +319,6 @@ suite('gr-diff tests', () => {
         1
       );
     });
-
-    test('removes long range comment hint when comment is discarded', async () => {
-      const range = {
-        start_line: 1,
-        end_line: 7,
-        start_character: 0,
-        end_character: 0,
-      };
-      const threadEl = document.createElement('div');
-      threadEl.className = 'comment-thread';
-      threadEl.setAttribute('diff-side', 'right');
-      threadEl.setAttribute('line-num', '1');
-      threadEl.setAttribute('range', JSON.stringify(range));
-      threadEl.setAttribute('slot', 'right-1');
-      const content = [
-        {
-          ab: Array(8).fill('text'),
-        },
-      ];
-      await setupSampleDiff({content});
-
-      element.appendChild(threadEl);
-      await waitUntil(() => element.commentRanges.length === 1);
-
-      threadEl.remove();
-      await waitUntil(() => element.commentRanges.length === 0);
-
-      assert.isEmpty(element.querySelectorAll('gr-ranged-comment-hint'));
-    });
   });
 
   suite('blame', () => {

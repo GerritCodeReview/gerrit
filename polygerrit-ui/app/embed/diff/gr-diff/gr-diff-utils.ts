@@ -174,7 +174,7 @@ export interface GrDiffCommentThread {
 }
 
 export function toCommentThreadModel(
-  threadEl: HTMLElement
+  threadEl?: EventTarget | null
 ): GrDiffCommentThread | undefined {
   if (!isThreadEl(threadEl)) return undefined;
   const side = getSide(threadEl);
@@ -300,19 +300,53 @@ export function compareComments(
 // For Gerrit these are instances of GrCommentThread, but other gr-diff users
 // have different HTML elements in use for comment threads.
 // TODO: Also document the required HTML attributes that thread elements must
-// have, e.g. 'diff-side', 'range', 'line-num'.
+// have, e.g. 'diff-side', 'range' (optional), 'line-num'.
+// Comment widgets are also required to have `comment-thread` in their css
+// class list.
 export interface GrDiffThreadElement extends HTMLElement {
   rootId: string;
 }
 
-export function isThreadEl(node: Node): node is GrDiffThreadElement {
+export function isThreadEl(
+  node?: Node | EventTarget | null
+): node is GrDiffThreadElement {
   return (
-    node.nodeType === Node.ELEMENT_NODE &&
+    !!node &&
+    (node as Node).nodeType === Node.ELEMENT_NODE &&
     (node as Element).classList.contains('comment-thread')
   );
 }
 
 /**
+<<<<<<< PATCH SET (d97f11 Use model range for the ranged comment layer)
+ * This is all the data that gr-diff extracts from comment thread elements,
+ * see `GrDiffThreadElement`. Otherwise gr-diff treats such elements as a black
+ * box.
+ */
+export interface GrDiffCommentThread {
+  side: Side;
+  line: LineNumber;
+  range?: CommentRange;
+  rootId?: string;
+}
+
+/**
+ * @return whether any of the lines in diff are longer
+ * than SYNTAX_MAX_LINE_LENGTH.
+ */
+export function anyLineTooLong(diff?: DiffInfo) {
+  if (!diff) return false;
+  return diff.content.some(section => {
+    const lines = section.ab
+      ? section.ab
+      : (section.a || []).concat(section.b || []);
+    return lines.some(line => line.length >= SYNTAX_MAX_LINE_LENGTH);
+  });
+}
+
+/**
+=======
+>>>>>>> BASE      (a6a87c Move rendering of "lost message" into diff row)
  * Simple helper method for creating element classes in the context of
  * gr-diff. This is just a super simple convenience function.
  */

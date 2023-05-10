@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc413d54_c54d0dd2",
+        "filename": ".bazelversion",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-10T08:26:49Z",
+      "side": 1,
+      "message": "bazel 6.2.0 was released yesterday: https://github.com/bazelbuild/bazel/releases/tag/6.2.0",
+      "parentUuid": "1c41778d_3689e9b3",
+      "range": {
+        "startLine": 1,
+        "startChar": 5,
+        "endLine": 1,
+        "endChar": 8
+      },
+      "revId": "95f567c11204bdbb877edd7cc1a5cc7d703a266e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a6c1878e_8325df5d",

@@ -124,6 +124,11 @@ export class DiffModel extends Model<DiffState> {
     diffState => diffState.errorMessage
   );
 
+  readonly comments$: Observable<GrDiffCommentThread[]> = select(
+    this.state$,
+    diffState => diffState.comments ?? []
+  );
+
   readonly groups$: Observable<GrDiffGroup[]> = select(
     this.state$,
     diffState => diffState.groups ?? []

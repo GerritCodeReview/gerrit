@@ -16,6 +16,24 @@
       "message": "do we need to mention the Java version here ?",
       "revId": "0a31a565b08fae1129bd8d9bf919acc6ebc43c63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10284621_c1be828c",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommentTimestampAdapterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-10T09:15:03Z",
+      "side": 1,
+      "message": "Probably not, but this is a cherry-pick change (as the whole series) from this original change: [1].\n\n[1]: https://gerrit-review.googlesource.com/c/gerrit/+/327478",
+      "parentUuid": "21ad27b3_a55fb935",
+      "revId": "0a31a565b08fae1129bd8d9bf919acc6ebc43c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

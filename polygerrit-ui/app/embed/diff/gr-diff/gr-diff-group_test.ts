@@ -284,6 +284,15 @@ suite('gr-diff-group tests', () => {
       });
       assert.equal(group.startLine(Side.LEFT), 3);
       assert.equal(group.startLine(Side.RIGHT), 6);
+
+      const group2 = new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        skip: 0,
+        offsetLeft: 3,
+        offsetRight: 6,
+      });
+      assert.equal(group2.startLine(Side.LEFT), 3);
+      assert.equal(group2.startLine(Side.RIGHT), 6);
     });
 
     test('FILE', () => {

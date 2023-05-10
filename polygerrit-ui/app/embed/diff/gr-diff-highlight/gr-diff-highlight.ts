@@ -159,28 +159,12 @@ export class GrDiffHighlight {
       rangeNodes.forEach(rangeNode => {
         rangeNode.classList.add('rangeHoverHighlight');
       });
-      const hintNode = this.diffTable.querySelector(
-        `gr-ranged-comment-hint[threadElRootId="${rootId}"]`
-      );
-      hintNode?.shadowRoot
-        ?.querySelectorAll('.rangeHighlight')
-        .forEach(highlightNode =>
-          highlightNode.classList.add('rangeHoverHighlight')
-        );
     } else {
       const selector = `.rangeHoverHighlight.${strToClassName(rootId)}`;
       const rangeNodes = this.diffTable.querySelectorAll(selector);
       rangeNodes.forEach(rangeNode => {
         rangeNode.classList.remove('rangeHoverHighlight');
       });
-      const hintNode = this.diffTable.querySelector(
-        `gr-ranged-comment-hint[threadElRootId="${rootId}"]`
-      );
-      hintNode?.shadowRoot
-        ?.querySelectorAll('.rangeHoverHighlight')
-        .forEach(highlightNode =>
-          highlightNode.classList.remove('rangeHoverHighlight')
-        );
     }
   }
 

@@ -14,11 +14,7 @@ import '../gr-ranged-comment-hint/gr-ranged-comment-hint';
 import {GrDiffLine, LOST, LineNumber} from './gr-diff-line';
 import {
   getLineNumber,
-  getRange,
-  getSide,
-  GrDiffThreadElement,
   isThreadEl,
-  rangesEqual,
   getResponsiveMode,
   isResponsive,
   getDiffLength,
@@ -37,10 +33,7 @@ import {
   GrDiffHighlight,
 } from '../gr-diff-highlight/gr-diff-highlight';
 import {CoverageRange, DiffLayer, isDefined} from '../../../types/types';
-import {
-  CommentRangeLayer,
-  GrRangedCommentLayer,
-} from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
+import {GrRangedCommentLayer} from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
 import {
   DiffViewMode,
   Side,
@@ -57,7 +50,7 @@ import {
   DisplayLine,
   ContentLoadNeededEventDetail,
 } from '../../../api/diff';
-import {isHtmlElement, isSafari, toggleClass} from '../../../utils/dom-util';
+import {isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrDiffSelection} from '../gr-diff-selection/gr-diff-selection';
 import {
@@ -173,10 +166,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   @property({type: Boolean})
   noRenderOnPrefsChange?: boolean;
-
-  // Private but used in tests.
-  @state()
-  commentRanges: CommentRangeLayer[] = [];
 
   // explicitly highlight a range if it is not associated with any comment
   @property({type: Object})
@@ -575,63 +564,13 @@ export class GrDiff extends LitElement implements GrDiffApi {
       : document.getSelection();
   }
 
-  private updateRanges(
-    addedThreadEls: GrDiffThreadElement[],
-    removedThreadEls: GrDiffThreadElement[]
-  ) {
-    function commentRangeFromThreadEl(
-      threadEl: GrDiffThreadElement
-    ): CommentRangeLayer | undefined {
-      const side = getSide(threadEl);
-      if (!side) return undefined;
-      const range = getRange(threadEl);
-      if (!range) return undefined;
+  private commentThreadEnterRedispatcher = (e: Event) => {
+    fire(e.target ?? undefined, 'comment-thread-mouseenter', {});
+  };
 
-      return {side, range, rootId: threadEl.rootId};
-    }
-
-    // TODO(brohlfs): Rewrite `.map().filter() as ...` with `.reduce()` instead.
-    const addedCommentRanges = addedThreadEls
-      .map(commentRangeFromThreadEl)
-      .filter(range => !!range) as CommentRangeLayer[];
-    const removedCommentRanges = removedThreadEls
-      .map(commentRangeFromThreadEl)
-      .filter(range => !!range) as CommentRangeLayer[];
-    for (const removedCommentRange of removedCommentRanges) {
-      const i = this.commentRanges.findIndex(
-        cr =>
-          cr.side === removedCommentRange.side &&
-          rangesEqual(cr.range, removedCommentRange.range)
-      );
-      this.commentRanges.splice(i, 1);
-    }
-
-    if (addedCommentRanges?.length) {
-      this.commentRanges.push(...addedCommentRanges);
-    }
-    if (this.highlightRange) {
-      this.commentRanges.push({
-        side: Side.RIGHT,
-        range: this.highlightRange,
-        rootId: '',
-      });
-    }
-
-    this.rangeLayer?.updateRanges(this.commentRanges);
-  }
-
-  // Dispatch events that are handled by the gr-diff-highlight.
-  private redispatchHoverEvents(
-    hoverEl: HTMLElement,
-    threadEl: GrDiffThreadElement
-  ) {
-    hoverEl.addEventListener('mouseenter', () => {
-      fire(threadEl, 'comment-thread-mouseenter', {});
-    });
-    hoverEl.addEventListener('mouseleave', () => {
-      fire(threadEl, 'comment-thread-mouseleave', {});
-    });
-  }
+  private commentThreadLeaveRedispatcher = (e: Event) => {
+    fire(e.target ?? undefined, 'comment-thread-mouseleave', {});
+  };
 
   getCursorStops(): Array<HTMLElement | AbortStop> {
     if (this.hidden && this.noAutoRender) return [];
@@ -865,34 +804,26 @@ export class GrDiff extends LitElement implements GrDiffApi {
   private observeNodes() {
     if (this.nodeObserver) return;
     // Then introduce a Mutation observer that watches for children being added
-    // to gr-diff. If those children are `isThreadEl`, namely then they are
-    // processed.
-    this.nodeObserver = new MutationObserver(mutations => {
-      const addedThreadEls = extractAddedNodes(mutations).filter(isThreadEl);
-      const removedThreadEls =
-        extractRemovedNodes(mutations).filter(isThreadEl);
-      this.processNodes(addedThreadEls, removedThreadEls);
-    });
+    // to gr-diff. We are expecting only comment widgets to be direct children
+    // of gr-diff.
+    this.nodeObserver = new MutationObserver(() => this.processNodes());
     this.nodeObserver.observe(this, {childList: true});
     // Make sure to process existing gr-comment-threads that already exist.
-    this.processNodes([...this.childNodes].filter(isThreadEl), []);
+    this.processNodes();
   }
 
-  private processNodes(
-    addedThreadEls: GrDiffThreadElement[],
-    removedThreadEls: GrDiffThreadElement[]
-  ) {
-    this.diffModel.updateState({
-      comments: [...this.childNodes]
-        .filter(isHtmlElement)
-        .map(toCommentThreadModel)
-        .filter(isDefined)
-        .sort(compareComments),
-    });
-    this.updateRanges(addedThreadEls, removedThreadEls);
-    addedThreadEls.forEach(threadEl =>
-      this.redispatchHoverEvents(threadEl, threadEl)
-    );
+  private processNodes() {
+    const threadEls = [...this.childNodes].filter(isThreadEl);
+    const comments = threadEls
+      .map(toCommentThreadModel)
+      .filter(isDefined)
+      .sort(compareComments);
+    this.diffModel.updateState({comments});
+    this.rangeLayer.updateRanges(comments);
+    for (const el of threadEls) {
+      el.addEventListener('mouseenter', this.commentThreadEnterRedispatcher);
+      el.addEventListener('mouseenter', this.commentThreadLeaveRedispatcher);
+    }
   }
 
   // Private but used in tests.
@@ -1353,14 +1284,6 @@ function annotateSymbols(
 
     pos++;
   }
-}
-
-function extractAddedNodes(mutations: MutationRecord[]) {
-  return mutations.flatMap(mutation => [...mutation.addedNodes]);
-}
-
-function extractRemovedNodes(mutations: MutationRecord[]) {
-  return mutations.flatMap(mutation => [...mutation.removedNodes]);
 }
 
 declare global {

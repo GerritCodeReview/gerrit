@@ -161,9 +161,6 @@ suite('gr-diff-section test', () => {
                 >
                   <gr-diff-text>asdf</gr-diff-text>
                 </div>
-                <div class="thread-group" data-side="left">
-                  <slot name="left-1"> </slot>
-                </div>
               </td>
               <td class="gr-diff lineNum right" data-value="1">
                 <button
@@ -184,9 +181,6 @@ suite('gr-diff-section test', () => {
                   id="right-content-1"
                 >
                   <gr-diff-text>asdf </gr-diff-text>
-                </div>
-                <div class="thread-group" data-side="right">
-                  <slot name="right-1"> </slot>
                 </div>
               </td>
             </tr>
@@ -218,9 +212,6 @@ suite('gr-diff-section test', () => {
                 >
                   <gr-diff-text> qwer</gr-diff-text>
                 </div>
-                <div class="thread-group" data-side="left">
-                  <slot name="left-1"> </slot>
-                </div>
               </td>
               <td class="gr-diff lineNum right" data-value="1">
                 <button
@@ -241,9 +232,6 @@ suite('gr-diff-section test', () => {
                   id="right-content-1"
                 >
                   <gr-diff-text>qwer </gr-diff-text>
-                </div>
-                <div class="thread-group" data-side="right">
-                  <slot name="right-1"> </slot>
                 </div>
               </td>
             </tr>
@@ -275,9 +263,6 @@ suite('gr-diff-section test', () => {
                 >
                   <gr-diff-text>zxcv </gr-diff-text>
                 </div>
-                <div class="thread-group" data-side="left">
-                  <slot name="left-1"> </slot>
-                </div>
               </td>
               <td class="gr-diff lineNum right" data-value="1">
                 <button
@@ -298,9 +283,6 @@ suite('gr-diff-section test', () => {
                   id="right-content-1"
                 >
                   <gr-diff-text>zxcv </gr-diff-text>
-                </div>
-                <div class="thread-group" data-side="right">
-                  <slot name="right-1"> </slot>
                 </div>
               </td>
             </tr>

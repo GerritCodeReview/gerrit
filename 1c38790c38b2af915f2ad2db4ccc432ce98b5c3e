@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99bf94a4_662a1053",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-10T08:52:40Z",
+      "side": 1,
+      "message": "maybe this update should be mentioned in release notes ?",
+      "revId": "1c38790c38b2af915f2ad2db4ccc432ce98b5c3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

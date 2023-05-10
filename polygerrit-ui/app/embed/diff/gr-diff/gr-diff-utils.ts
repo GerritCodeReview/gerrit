@@ -168,7 +168,7 @@ export function getRange(threadEl: HTMLElement): CommentRange | undefined {
   const rangeAtt = threadEl.getAttribute('range');
   if (!rangeAtt) return undefined;
   const range = JSON.parse(rangeAtt) as CommentRange;
-  if (!range.start_line) throw new Error(`invalid range: ${rangeAtt}`);
+  if (!range.start_line) return undefined;
   return range;
 }
 

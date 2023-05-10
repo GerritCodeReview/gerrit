@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa281df0_e0414f9f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 723,
+      "author": {
+        "id": 1091855
+      },
+      "writtenOn": "2023-05-10T20:08:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4437bce_4f746ee0",
+      "range": {
+        "startLine": 723,
+        "startChar": 6,
+        "endLine": 723,
+        "endChar": 73
+      },
+      "revId": "180e96f8ed909e1c38c2f8b94a418cf93046b5e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23479317_906d6ee7",
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "Sure.  I wasn\u0027t sure of the generally desired approach here because the adjacent tests don\u0027t appear to do this.",
       "parentUuid": "23479317_906d6ee7",
+      "range": {
+        "startLine": 739,
+        "startChar": 16,
+        "endLine": 739,
+        "endChar": 55
+      },
+      "revId": "180e96f8ed909e1c38c2f8b94a418cf93046b5e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05f732cd_0a8a9f8d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1091855
+      },
+      "writtenOn": "2023-05-10T20:08:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9aef6dd4_626734c6",
       "range": {
         "startLine": 739,
         "startChar": 16,

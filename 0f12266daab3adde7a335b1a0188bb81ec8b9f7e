@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "fed09eec_ef356241",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-10T06:29:48Z",
+      "side": 1,
+      "message": "I am not sure. Changing this will likely affect a lot of custom tools written by Gerrit users, which would require work on their side. The least intrusive way to do this would be a configuration option, which of course just makes configuring Gerrit only harder.\nWe could also just send both events, which would increase the throughput that would have to be handled by event processing tools. This could be a way to deprecate the old event and provide some time to adapt third-party tools.\nIf we plan to have a hard switch, I would say that this might be a candidate to come with a new major version.\nWDYT?",
+      "parentUuid": "a0891046_342ea2aa",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 43
+      },
+      "revId": "0f12266daab3adde7a335b1a0188bb81ec8b9f7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c66baa31_94b48466",

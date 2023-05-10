@@ -15,7 +15,7 @@ import {
   getLineElByChild,
   getLineNumberByChild,
   getSideByLineEl,
-  GrDiffThreadElement,
+  GrDiffCommentThread,
 } from '../gr-diff/gr-diff-utils';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
@@ -134,48 +134,31 @@ export class GrDiffHighlight {
     );
   }
 
-  private getThreadEl(e: Event): GrDiffThreadElement | null {
-    for (const pathEl of e.composedPath()) {
-      if (
-        pathEl instanceof HTMLElement &&
-        pathEl.classList.contains('comment-thread')
-      ) {
-        return pathEl as GrDiffThreadElement;
-      }
-    }
-    return null;
-  }
-
   private toggleRangeElHighlight(
-    threadEl: GrDiffThreadElement | null,
+    comment: GrDiffCommentThread,
     highlightRange = false
   ) {
-    const rootId = threadEl?.rootId;
+    const rootId = comment?.rootId;
     if (!rootId) return;
     if (!this.diffTable) return;
-    if (highlightRange) {
-      const selector = `.range.${strToClassName(rootId)}`;
-      const rangeNodes = this.diffTable.querySelectorAll(selector);
-      rangeNodes.forEach(rangeNode => {
-        rangeNode.classList.add('rangeHoverHighlight');
-      });
-    } else {
-      const selector = `.rangeHoverHighlight.${strToClassName(rootId)}`;
-      const rangeNodes = this.diffTable.querySelectorAll(selector);
-      rangeNodes.forEach(rangeNode => {
-        rangeNode.classList.remove('rangeHoverHighlight');
-      });
+    const highlightClass = highlightRange ? 'range' : 'rangeHoverHighlight';
+    const selector = `.${highlightClass}.${strToClassName(rootId)}`;
+    const rangeNodes = this.diffTable.querySelectorAll(selector);
+    for (const rangeNode of rangeNodes) {
+      rangeNode.classList.toggle('rangeHoverHighlight', highlightRange);
     }
   }
 
-  private handleCommentThreadMouseenter = (e: Event) => {
-    const threadEl = this.getThreadEl(e);
-    this.toggleRangeElHighlight(threadEl, /* highlightRange= */ true);
+  private handleCommentThreadMouseenter = (
+    e: CustomEvent<GrDiffCommentThread>
+  ) => {
+    this.toggleRangeElHighlight(e.detail, /* highlightRange= */ true);
   };
 
-  private handleCommentThreadMouseleave = (e: Event) => {
-    const threadEl = this.getThreadEl(e);
-    this.toggleRangeElHighlight(threadEl, /* highlightRange= */ false);
+  private handleCommentThreadMouseleave = (
+    e: CustomEvent<GrDiffCommentThread>
+  ) => {
+    this.toggleRangeElHighlight(e.detail, /* highlightRange= */ false);
   };
 
   /**

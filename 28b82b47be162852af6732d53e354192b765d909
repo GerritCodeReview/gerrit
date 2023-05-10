@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81a0c925_15cff669",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-10T08:49:20Z",
+      "side": 1,
+      "message": "This series would allow us to use RBE on recent Bazel releases and also use Latest operating systems / compiler toolchains on 3.5 release.",
+      "revId": "28b82b47be162852af6732d53e354192b765d909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

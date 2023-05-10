@@ -409,7 +409,7 @@ export class GrDiffRow extends LitElement {
           if (lineNumber)
             fire(this, 'line-mouse-leave', {lineNum: lineNumber, side});
         }}
-      >${this.renderText(side)}${this.renderThreadGroup(side)}</td>
+      >${this.renderText(side)}${this.renderLostMessage(side)}${this.renderThreadGroup(side)}</td>
     `;
   }
 
@@ -428,6 +428,17 @@ export class GrDiffRow extends LitElement {
 
     const sign = isAdd ? '+' : isRemove ? '-' : '';
     return html`<td class=${diffClasses(...extras)}>${sign}</td>`;
+  }
+
+  private renderLostMessage(side: Side) {
+    if (this.lineNumber(side) !== LOST) return nothing;
+    if (this.getComments(side).length === 0) return nothing;
+    // .content has `white-space: pre`, so prettier must not add spaces.
+    // prettier-ignore
+    return html`<div class="lost-message"
+      ><gr-icon icon="info"></gr-icon
+      ><span>Original comment position not found in this patchset</span
+    ></div>`;
   }
 
   private renderThreadGroup(side: Side) {

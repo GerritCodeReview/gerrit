@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5622184_8720fd78",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 3111,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-10T15:55:56Z",
+      "side": 1,
+      "message": "```suggestion\n      if (projectFromLookup \u0026\u0026 projectFromLookup !\u003d projectPromise) {\n```",
+      "revId": "e04781bf179362322272d1d2153af64f32b17c10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -21,7 +21,6 @@ import {
   getRange,
   getSide,
   GrDiffThreadElement,
-  isLongCommentRange,
   isThreadEl,
   rangesEqual,
   getResponsiveMode,
@@ -783,7 +782,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
     for (const threadEl of addedThreadEls) {
       const lineNum = getLine(threadEl);
       const commentSide = getSide(threadEl);
-      const range = getRange(threadEl);
       if (!commentSide) continue;
       const lineEl = this.getLineElByNumber(lineNum, commentSide);
       // When the line the comment refers to does not exist, log an error
@@ -803,24 +801,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
       if (lineNum === LOST) {
         this.insertPortedCommentsWithoutRangeMessage(contentEl);
       }
-
-      const slotAtt = threadEl.getAttribute('slot');
-      if (range && isLongCommentRange(range) && slotAtt) {
-        const longRangeCommentHint = document.createElement(
-          'gr-ranged-comment-hint'
-        );
-        longRangeCommentHint.range = range;
-        longRangeCommentHint.setAttribute('threadElRootId', threadEl.rootId);
-        longRangeCommentHint.setAttribute('slot', slotAtt);
-        this.insertBefore(longRangeCommentHint, threadEl);
-        this.redispatchHoverEvents(longRangeCommentHint, threadEl);
-      }
-    }
-
-    for (const threadEl of removedThreadEls) {
-      this.querySelector(
-        `gr-ranged-comment-hint[threadElRootId="${threadEl.rootId}"]`
-      )?.remove();
     }
   }
 

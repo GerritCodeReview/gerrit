@@ -3,7 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {html, LitElement, nothing, TemplateResult} from 'lit';
+import {html, LitElement, nothing, PropertyValues, TemplateResult} from 'lit';
 import {property, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {createRef, Ref, ref} from 'lit/directives/ref.js';
@@ -20,12 +20,25 @@ import {BlameInfo} from '../../../types/common';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
 import {getBaseUrl} from '../../../utils/url-util';
+import {otherSide} from '../../../utils/diff-util';
 import './gr-diff-text';
+import {
+  diffClasses,
+  GrDiffCommentThread,
+  isLongCommentRange,
+  isNewDiff,
+  isResponsive,
+} from '../gr-diff/gr-diff-utils';
 import {resolve} from '../../../models/dependency';
 import {diffModelToken} from '../gr-diff-model/gr-diff-model';
+import {when} from 'lit/directives/when.js';
+import {isDefined} from '../../../types/types';
+import {BehaviorSubject, combineLatest} from 'rxjs';
 import '../../../elements/shared/gr-hovercard/gr-hovercard';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
-import {diffClasses, isNewDiff, isResponsive} from '../gr-diff/gr-diff-utils';
+import {distinctUntilChanged, map} from 'rxjs/operators';
+import {deepEqual} from '../../../utils/deep-util';
+import {subscribe} from '../../../elements/lit/subscription-controller';
 
 export class GrDiffRow extends LitElement {
   contentLeftRef: Ref<LitElement> = createRef();
@@ -47,8 +60,12 @@ export class GrDiffRow extends LitElement {
   @property({type: Object})
   left?: GrDiffLine;
 
+  private left$ = new BehaviorSubject<GrDiffLine | undefined>(undefined);
+
   @property({type: Object})
   right?: GrDiffLine;
+
+  private right$ = new BehaviorSubject<GrDiffLine | undefined>(undefined);
 
   @property({type: Object})
   blameInfo?: BlameInfo;
@@ -80,8 +97,11 @@ export class GrDiffRow extends LitElement {
    * running such tests the render() method has to wrap the DOM in a proper
    * <table> element.
    */
-  @state()
-  addTableWrapperForTesting = false;
+  @state() addTableWrapperForTesting = false;
+
+  @state() leftComments: GrDiffCommentThread[] = [];
+
+  @state() rightComments: GrDiffCommentThread[] = [];
 
   /**
    * Keeps track of whether diff layers have already been applied to the diff
@@ -96,6 +116,44 @@ export class GrDiffRow extends LitElement {
   private layersApplied = false;
 
   private readonly getDiffModel = resolve(this, diffModelToken);
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () =>
+        combineLatest([this.left$, this.getDiffModel().comments$]).pipe(
+          map(([left, comments]) =>
+            comments.filter(
+              c =>
+                c.line === left?.lineNumber(Side.LEFT) && c.side === Side.LEFT
+            )
+          ),
+          distinctUntilChanged(deepEqual)
+        ),
+      leftComments => (this.leftComments = leftComments)
+    );
+    subscribe(
+      this,
+      () =>
+        combineLatest([this.right$, this.getDiffModel().comments$]).pipe(
+          map(([right, comments]) =>
+            comments.filter(
+              c =>
+                c.line === right?.lineNumber(Side.RIGHT) &&
+                c.side === Side.RIGHT
+            )
+          ),
+          distinctUntilChanged(deepEqual)
+        ),
+      rightComments => (this.rightComments = rightComments)
+    );
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('left')) this.left$.next(this.left);
+    if (changedProperties.has('right')) this.right$.next(this.right);
+  }
 
   /**
    * The browser API for handling selection does not (yet) work for selection
@@ -150,6 +208,11 @@ export class GrDiffRow extends LitElement {
 
   override render() {
     if (!this.left || !this.right) return;
+    console.log(
+      `${Date.now() % 100000} asdf render ${this.lineNumber(
+        Side.LEFT
+      )} ${this.lineNumber(Side.RIGHT)}`
+    );
     const classes = this.unifiedDiff ? ['unified'] : ['side-by-side'];
     const unifiedType = this.unifiedType();
     if (this.unifiedDiff && unifiedType) classes.push(unifiedType);
@@ -392,20 +455,41 @@ export class GrDiffRow extends LitElement {
   }
 
   private renderThreadGroup(side: Side) {
-    const lineNumber = this.lineNumber(side);
-    if (!lineNumber) return nothing;
+    if (!this.lineNumber(side)) return nothing;
+
+    if (
+      this.getComments(side).length === 0 &&
+      (!this.unifiedDiff || this.getComments(otherSide(side)).length === 0)
+    ) {
+      return nothing;
+    }
     return html`<div class="thread-group" data-side=${side}>
-      <slot name="${side}-${lineNumber}"></slot>
-      ${this.renderSecondSlot()}
+      ${this.renderSlot(side)}
+      ${when(this.unifiedDiff, () => this.renderSlot(otherSide(side)))}
     </div>`;
   }
 
-  private renderSecondSlot() {
-    if (!this.unifiedDiff) return nothing;
-    if (this.line(Side.LEFT)?.type !== GrDiffLineType.BOTH) return nothing;
-    return html`<slot
-      name="${Side.LEFT}-${this.lineNumber(Side.LEFT)}"
-    ></slot>`;
+  private renderSlot(side: Side) {
+    const line = this.lineNumber(side);
+    if (!line) return nothing;
+    if (this.getComments(side).length === 0) return nothing;
+    return html`
+      ${this.renderRangedCommentHints(side)}
+      <slot name="${side}-${line}"></slot>
+    `;
+  }
+
+  private renderRangedCommentHints(side: Side) {
+    const ranges = this.getComments(side)
+      .map(c => c.range)
+      .filter(isDefined)
+      .filter(isLongCommentRange);
+    return ranges.map(
+      range =>
+        html`
+          <gr-ranged-comment-hint .range=${range}></gr-ranged-comment-hint>
+        `
+    );
   }
 
   private contentRef(side: Side) {
@@ -430,6 +514,10 @@ export class GrDiffRow extends LitElement {
 
   line(side: Side) {
     return side === Side.LEFT ? this.left : this.right;
+  }
+
+  private getComments(side: Side) {
+    return side === Side.LEFT ? this.leftComments : this.rightComments;
   }
 
   private getType(side?: Side): string | undefined {

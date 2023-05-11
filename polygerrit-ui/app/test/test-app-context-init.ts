@@ -22,6 +22,10 @@ import {
   DiffModel,
   diffModelToken,
 } from '../embed/diff/gr-diff-model/gr-diff-model';
+import {
+  DiffModel as DiffModelNew,
+  diffModelToken as diffModelTokenNew,
+} from '../embed/diff-new/gr-diff-model/gr-diff-model';
 
 export function createTestAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
@@ -53,6 +57,7 @@ export function createTestDependencies(
     highlightServiceToken,
     () => new MockHighlightService(appContext.reportingService)
   );
-  dependencies.set(diffModelToken, () => new DiffModel());
+  dependencies.set(diffModelToken, () => new DiffModel(undefined));
+  dependencies.set(diffModelTokenNew, () => new DiffModelNew());
   return dependencies;
 }

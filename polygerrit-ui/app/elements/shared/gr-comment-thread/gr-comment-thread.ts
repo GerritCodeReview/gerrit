@@ -8,6 +8,7 @@ import '../../../styles/shared-styles';
 import '../gr-comment/gr-comment';
 import '../gr-icon/gr-icon';
 import '../../../embed/diff/gr-diff/gr-diff';
+import '../../../embed/diff-new/gr-diff/gr-diff';
 import '../gr-copy-clipboard/gr-copy-clipboard';
 import {css, html, nothing, LitElement, PropertyValues} from 'lit';
 import {
@@ -44,7 +45,7 @@ import {
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {CommentEditingChangedDetail, GrComment} from '../gr-comment/gr-comment';
-import {FILE} from '../../../embed/diff/gr-diff/gr-diff-line';
+import {FILE} from '../../../embed/diff-new/gr-diff/gr-diff-line';
 import {GrButton} from '../gr-button/gr-button';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {DiffLayer, RenderPreferences} from '../../../api/diff';
@@ -54,9 +55,9 @@ import {
   copyToClipbard,
 } from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
-import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
-import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
-import {anyLineTooLong} from '../../../embed/diff/gr-diff/gr-diff-utils';
+import {GrSyntaxLayerWorker} from '../../../embed/diff-new/gr-syntax-layer/gr-syntax-layer-worker';
+import {TokenHighlightLayer} from '../../../embed/diff-new/gr-diff-builder/token-highlight-layer';
+import {anyLineTooLong} from '../../../embed/diff-new/gr-diff/gr-diff-utils';
 import {getUserName} from '../../../utils/display-name-util';
 import {generateAbsoluteUrl} from '../../../utils/url-util';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -74,6 +75,7 @@ import {whenRendered} from '../../../utils/dom-util';
 import {createChangeUrl, createDiffUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 declare global {
   interface HTMLElementEventMap {
@@ -238,6 +240,8 @@ export class GrCommentThread extends LitElement {
    */
   @state()
   saving = false;
+
+  private readonly flagsService = getAppContext().flagsService;
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
@@ -580,25 +584,46 @@ export class GrCommentThread extends LitElement {
     if (!this.changeNum || !this.showCommentContext || !this.diff) return;
     if (!this.thread?.path) return;
     const href = this.getUrlForFileComment() ?? '';
-    return html`
-      <div class="diff-container">
-        <gr-diff
-          id="diff"
-          .diff=${this.diff}
-          .layers=${this.layers}
-          .path=${this.thread.path}
-          .prefs=${this.prefs}
-          .renderPrefs=${this.renderPrefs}
-          .highlightRange=${this.highlightRange}
-        >
-        </gr-diff>
-        <div class="view-diff-container">
-          <a href=${href}>
-            <gr-button link class="view-diff-button">View Diff</gr-button>
-          </a>
-        </div>
-      </div>
-    `;
+    const newDiff = this.flagsService.isEnabled(KnownExperimentId.NEW_DIFF);
+    return newDiff
+      ? html`
+          <div class="diff-container">
+            <gr-diff-new
+              id="diff"
+              .diff=${this.diff}
+              .layers=${this.layers}
+              .path=${this.thread.path}
+              .prefs=${this.prefs}
+              .renderPrefs=${this.renderPrefs}
+              .highlightRange=${this.highlightRange}
+            >
+            </gr-diff-new>
+            <div class="view-diff-container">
+              <a href=${href}>
+                <gr-button link class="view-diff-button">View Diff</gr-button>
+              </a>
+            </div>
+          </div>
+        `
+      : html`
+          <div class="diff-container">
+            <gr-diff
+              id="diff"
+              .diff=${this.diff}
+              .layers=${this.layers}
+              .path=${this.thread.path}
+              .prefs=${this.prefs}
+              .renderPrefs=${this.renderPrefs}
+              .highlightRange=${this.highlightRange}
+            >
+            </gr-diff>
+            <div class="view-diff-container">
+              <a href=${href}>
+                <gr-button link class="view-diff-button">View Diff</gr-button>
+              </a>
+            </div>
+          </div>
+        `;
   }
 
   private firstWillUpdateDone = false;

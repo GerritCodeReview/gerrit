@@ -7,21 +7,21 @@ import '../../../test/common-test-setup';
 import './gr-diff-highlight';
 import {getTextOffset} from './gr-range-normalizer';
 import {fixture, fixtureCleanup, html, assert} from '@open-wc/testing';
-import {GrDiffHighlight, GrDiffInterface} from './gr-diff-highlight';
-import {Side} from '../../../api/diff';
-import {queryAndAssert} from '../../../utils/common-util';
 import {
-  GrDiffThreadElement,
-  toCommentThreadModel,
-} from '../gr-diff/gr-diff-utils';
+  GrDiffHighlight,
+  DiffBuilderInterface,
+  CreateRangeCommentEventDetail,
+} from './gr-diff-highlight';
+import {Side} from '../../../api/diff';
+import {SinonStubbedMember} from 'sinon';
+import {queryAndAssert} from '../../../utils/common-util';
+import {GrDiffThreadElement} from '../gr-diff/gr-diff-utils';
 import {
   stubElement,
   waitQueryAndAssert,
   waitUntil,
 } from '../../../test/test-utils';
-import {GrSelectionActionBox} from '../gr-selection-action-box/gr-selection-action-box';
-import {DiffModel} from '../gr-diff-model/gr-diff-model';
-import {SinonStubbedMember} from 'sinon';
+import {GrSelectionActionBox} from '../../diff-new/gr-selection-action-box/gr-selection-action-box';
 
 // Splitting long lines in html into shorter rows breaks tests:
 // zero-length text nodes and new lines are not expected in some places
@@ -132,13 +132,16 @@ suite('gr-diff-highlight', () => {
     let hlRange: HTMLElement;
     let element: GrDiffHighlight;
     let diff: HTMLElement;
-    let builder: GrDiffInterface;
+    let builder: {
+      getContentTdByLineEl: SinonStubbedMember<
+        DiffBuilderInterface['getContentTdByLineEl']
+      >;
+    };
 
     setup(async () => {
       diff = await fixture<HTMLTableElement>(diffTable);
       builder = {
         getContentTdByLineEl: sinon.stub(),
-        diffModel: new DiffModel(),
       };
       element = new GrDiffHighlight();
       element.init(diff, builder);
@@ -149,8 +152,6 @@ suite('gr-diff-highlight', () => {
       ) as unknown as GrDiffThreadElement;
       threadEl.className = 'comment-thread';
       threadEl.rootId = 'id314';
-      threadEl.setAttribute('line-num', '12');
-      threadEl.setAttribute('diff-side', 'right');
       diff.appendChild(threadEl);
     });
 
@@ -163,7 +164,6 @@ suite('gr-diff-highlight', () => {
       assert.isFalse(hlRange.classList.contains('rangeHoverHighlight'));
       threadEl.dispatchEvent(
         new CustomEvent('comment-thread-mouseenter', {
-          detail: toCommentThreadModel(threadEl),
           bubbles: true,
           composed: true,
         })
@@ -176,7 +176,6 @@ suite('gr-diff-highlight', () => {
       hlRange.classList.add('rangeHoverHighlight');
       threadEl.dispatchEvent(
         new CustomEvent('comment-thread-mouseleave', {
-          detail: toCommentThreadModel(threadEl),
           bubbles: true,
           composed: true,
         })
@@ -197,13 +196,14 @@ suite('gr-diff-highlight', () => {
           end_character: 42,
         },
       };
-      const createCommentStub = sinon.stub(builder.diffModel, 'createComment');
-
-      diff.dispatchEvent(new CustomEvent('create-comment-requested'));
-
-      assert.isTrue(createCommentStub.called);
-      assert.equal(createCommentStub.lastCall.args[1], 24);
-      assert.equal(createCommentStub.lastCall.args[2], Side.LEFT);
+      const requestEvent = new CustomEvent('create-comment-requested');
+      let createRangeEvent: CustomEvent<CreateRangeCommentEventDetail>;
+      diff.addEventListener('create-range-comment', e => {
+        createRangeEvent = e;
+      });
+      diff.dispatchEvent(requestEvent);
+      if (!createRangeEvent!) assert.fail('event not set');
+      assert.deepEqual(element.selectedRange, createRangeEvent.detail);
       assert.isTrue(removeActionBoxStub.called);
     });
   });
@@ -211,18 +211,18 @@ suite('gr-diff-highlight', () => {
   suite('selection', () => {
     let element: GrDiffHighlight;
     let diff: HTMLElement;
-    let getContentTdByLineElStub: SinonStubbedMember<
-      GrDiffInterface['getContentTdByLineEl']
-    >;
+    let builder: {
+      getContentTdByLineEl: SinonStubbedMember<
+        DiffBuilderInterface['getContentTdByLineEl']
+      >;
+    };
     let contentStubs;
 
     setup(async () => {
       diff = await fixture<HTMLTableElement>(diffTable);
-      const builder: GrDiffInterface = {
-        getContentTdByLineEl: () => undefined,
-        diffModel: new DiffModel(),
+      builder = {
+        getContentTdByLineEl: sinon.stub(),
       };
-      getContentTdByLineElStub = sinon.stub(builder, 'getContentTdByLineEl');
       element = new GrDiffHighlight();
       element.init(diff, builder);
       contentStubs = [];
@@ -251,7 +251,7 @@ suite('gr-diff-highlight', () => {
         contentTd,
         contentText,
       });
-      getContentTdByLineElStub.withArgs(lineEl).returns(contentTd);
+      builder.getContentTdByLineEl.withArgs(lineEl).returns(contentTd);
       return contentText;
     };
 

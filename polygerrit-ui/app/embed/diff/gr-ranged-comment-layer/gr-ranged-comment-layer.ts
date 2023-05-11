@@ -9,20 +9,19 @@ import {strToClassName} from '../../../utils/dom-util';
 import {Side} from '../../../constants/constants';
 import {CommentRange} from '../../../types/common';
 import {DiffLayer, DiffLayerListener} from '../../../types/types';
-import {
-  GrDiffCommentThread,
-  isLongCommentRange,
-} from '../gr-diff/gr-diff-utils';
+import {isLongCommentRange} from '../gr-diff/gr-diff-utils';
 
-/** Force `range` to be set for the objects that we are working with. */
-export interface CommentRangeLayer extends GrDiffCommentThread {
+/**
+ * Enhanced CommentRange by UI state. Interface for incoming ranges set from the
+ * outside.
+ *
+ * TODO(TS): Unify with what is used in gr-diff when these objects are created.
+ */
+export interface CommentRangeLayer {
+  side: Side;
   range: CommentRange;
-}
-
-function isCommentRangeLayer<T extends GrDiffCommentThread>(
-  x: T | CommentRangeLayer | undefined
-): x is CommentRangeLayer {
-  return !!x && !!(x as CommentRangeLayer).range;
+  // New drafts don't have a rootId.
+  rootId?: string;
 }
 
 /** Can be used for array functions like `some()`. */
@@ -124,9 +123,7 @@ export class GrRangedCommentLayer implements DiffLayer {
     }
   }
 
-  updateRanges(rawRanges: GrDiffCommentThread[]) {
-    const newRanges: CommentRangeLayer[] =
-      rawRanges.filter(isCommentRangeLayer);
+  updateRanges(newRanges: CommentRangeLayer[]) {
     for (const newRange of newRanges) {
       if (this.knownRanges.some(equals(newRange))) continue;
       this.addRange(newRange);

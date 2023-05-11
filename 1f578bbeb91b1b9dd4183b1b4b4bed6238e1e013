@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "787f4215_68587164",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-11T08:01:27Z",
+      "side": 1,
+      "message": "LC is needed. This change was cherry-picked from Gerrit@HEAD.",
+      "revId": "1f578bbeb91b1b9dd4183b1b4b4bed6238e1e013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

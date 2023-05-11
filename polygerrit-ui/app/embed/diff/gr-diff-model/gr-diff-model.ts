@@ -40,6 +40,12 @@ import {assert} from '../../../utils/common-util';
 import {isImageDiff} from '../../../utils/diff-util';
 import {ImageInfo} from '../../../types/common';
 import {fire} from '../../../utils/event-util';
+<<<<<<< PATCH SET (2e4e02 Simplify event handling for creating comments in gr-diff)
+import {CreateCommentEventDetail} from '../gr-diff/gr-diff';
+import {CommentRange} from '../../../api/rest-api';
+import {assertIsDefined} from '../../../utils/common-util';
+=======
+>>>>>>> BASE      (941958 Use the same comment data for the ranged comment layer as di)
 
 export interface DiffState {
   diff?: DiffInfo;
@@ -225,11 +231,22 @@ export class DiffModel extends Model<DiffState> {
     fire(this.eventTarget, 'line-selected', detail);
   }
 
+<<<<<<< PATCH SET (2e4e02 Simplify event handling for creating comments in gr-diff)
+  createComment(
+    target: EventTarget,
+    lineNum: LineNumber,
+    side: Side,
+    range?: CommentRange
+  ) {
+    const path = this.getState().path;
+    assertIsDefined(path, 'path');
+=======
   createComment(lineNum: LineNumber, side: Side) {
+>>>>>>> BASE      (941958 Use the same comment data for the ranged comment layer as di)
     const detail: CreateCommentEventDetail = {
       side,
       lineNum,
-      range: undefined,
+      range,
     };
     fire(this.eventTarget, 'create-comment', detail);
   }

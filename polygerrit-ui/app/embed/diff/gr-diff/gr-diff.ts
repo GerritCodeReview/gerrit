@@ -30,10 +30,7 @@ import {
 } from '../gr-diff/gr-diff-utils';
 import {BlameInfo, CommentRange, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
-import {
-  CreateRangeCommentEventDetail,
-  GrDiffHighlight,
-} from '../gr-diff-highlight/gr-diff-highlight';
+import {GrDiffHighlight} from '../gr-diff-highlight/gr-diff-highlight';
 import {CoverageRange, DiffLayer, isDefined} from '../../../types/types';
 import {GrRangedCommentLayer} from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
 import {DiffViewMode, Side} from '../../../constants/constants';
@@ -237,8 +234,12 @@ export class GrDiff extends LitElement implements GrDiffApi {
   // Private but used in tests.
   highlights = new GrDiffHighlight();
 
+<<<<<<< PATCH SET (2e4e02 Simplify event handling for creating comments in gr-diff)
+  diffModel = new DiffModel();
+=======
   // Private but used in tests.
   diffModel = new DiffModel(this);
+>>>>>>> BASE      (941958 Use the same comment data for the ranged comment layer as di)
 
   /**
    * Just the layers that are passed in from the outside. Will be joined with
@@ -291,11 +292,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
       this,
       () => this.diffModel.groups$,
       groups => (this.groups = groups)
-    );
-    this.addEventListener(
-      'create-range-comment',
-      (e: CustomEvent<CreateRangeCommentEventDetail>) =>
-        this.handleCreateRangeComment(e)
     );
     this.addEventListener('moved-link-clicked', (e: MovedLinkClickedEvent) => {
       this.diffModel.selectLine(e.detail.lineNum, e.detail.side);
@@ -521,12 +517,12 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   createRangeComment() {
-    if (!this.isRangeSelected()) {
-      throw Error('Selection is needed for new range comment');
-    }
     const selectedRange = this.highlights.selectedRange;
-    if (!selectedRange) throw Error('selected range not set');
+    assertIsDefined(selectedRange, 'no range selected');
     const {side, range} = selectedRange;
+<<<<<<< PATCH SET (2e4e02 Simplify event handling for creating comments in gr-diff)
+    this.diffModel.createComment(this, range.end_line, side, range);
+=======
     this.createCommentForSelection(side, range);
   }
 
@@ -571,6 +567,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
       contentEl.classList.contains('remove')
       ? Side.LEFT
       : Side.RIGHT;
+>>>>>>> BASE      (941958 Use the same comment data for the ranged comment layer as di)
   }
 
   private lineOfInterestChanged() {

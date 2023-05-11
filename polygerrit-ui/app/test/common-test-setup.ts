@@ -37,7 +37,7 @@ import {
   Provider,
 } from '../models/dependency';
 import * as sinon from 'sinon';
-import '../styles/themes/app-theme.ts';
+import '../styles/themes/app-theme';
 import {Creator} from '../services/app-context-init';
 import {pluginLoaderToken} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
 

@@ -16,6 +16,24 @@
       "message": "\u003e This seems to break the build, tried on Mac arm64\n\nThe last changes from this series should fix the build on arm64.",
       "revId": "6dd6fff4a3f82087e11f790c549ccd3f0a615581",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30d8ad99_c8cea4ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-11T09:57:41Z",
+      "side": 1,
+      "message": "nope, it doesn\u0027t. \n\n`bazelisk build gerrit` \nsucceeds but \n`bazelisk build release`\nfails with the following errors:\n\n```\nERROR: /Users/xxxxx/src/git/gerrit/plugins/gitiles/BUILD:5:14: //plugins/gitiles:gitiles__plugin: no such attribute \u0027resource_jars\u0027 in \u0027java_library\u0027 rule\nERROR: /Users/xxxxx/src/git/gerrit/plugins/codemirror-editor/BUILD:5:14: //plugins/codemirror-editor:codemirror-editor__plugin: no such attribute \u0027resource_jars\u0027 in \u0027java_library\u0027 rule\nERROR: /Users/xxxxx/src/git/gerrit/plugins/delete-project/BUILD:10:14: //plugins/delete-project:delete-project__plugin: no such attribute \u0027resource_jars\u0027 in \u0027java_library\u0027 rule\nERROR: /Users/xxxxx/src/git/gerrit/plugins/BUILD:21:9: Target \u0027//plugins/codemirror-editor:codemirror-editor.jar\u0027 contains an error and its package is in error and referenced by \u0027//plugins:core\u0027\nERROR: /Users/xxxxx/src/git/gerrit/plugins/BUILD:21:9: Target \u0027//plugins/delete-project:delete-project.jar\u0027 contains an error and its package is in error and referenced by \u0027//plugins:core\u0027\nERROR: /Users/xxxxx/src/git/gerrit/plugins/BUILD:21:9: Target \u0027//plugins/gitiles:gitiles.jar\u0027 contains an error and its package is in error and referenced by \u0027//plugins:core\u0027\nERROR: Analysis of target \u0027//:release\u0027 failed; build aborted:\n```\n\nI use M1 Max, `bazelisk build release` succeeds for predecessors of this change.",
+      "parentUuid": "f1b50764_9a51287a",
+      "revId": "6dd6fff4a3f82087e11f790c549ccd3f0a615581",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

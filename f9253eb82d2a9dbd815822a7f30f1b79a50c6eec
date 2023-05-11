@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1398d7a7_16a57b1b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-processor/gr-diff-processor.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-05-11T12:56:34Z",
+      "side": 1,
+      "message": "these options ideally belong in the constructor as in says in the commit message?",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 30
+      },
+      "revId": "f9253eb82d2a9dbd815822a7f30f1b79a50c6eec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

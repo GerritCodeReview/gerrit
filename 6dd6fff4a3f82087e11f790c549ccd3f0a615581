@@ -51,6 +51,24 @@
       "message": "LC is needed. This is a cherry-pick from Gerrit@HEAD.",
       "revId": "6dd6fff4a3f82087e11f790c549ccd3f0a615581",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39deff89_d469ae1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-11T10:05:43Z",
+      "side": 1,
+      "message": "I uploaded change 373537 as cherry-pick from stable-3.6 branch and rebased this change on top of it.",
+      "parentUuid": "30d8ad99_c8cea4ab",
+      "revId": "6dd6fff4a3f82087e11f790c549ccd3f0a615581",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

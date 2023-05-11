@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0f4595e_c11f5040",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-05-11T14:59:49Z",
+      "side": 1,
+      "message": "Made a first pass, but haven\u0027t looked at tests yet.\n\nCan we restrict the input (e.g. no more than N chars per key/value and no more than M values overall)",
+      "revId": "a5c4e1b6839a9b4b40e9a6cd4c9fce331939d6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32ab0dc7_d50f3d53",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-05-11T14:59:49Z",
+      "side": 1,
+      "message": "Should we let change owners modify this by default, too? Or instead of this default set?\n\nGranting permissions outside the default would entail a schema migration which is quite some effort.",
+      "range": {
+        "startLine": 963,
+        "startChar": 0,
+        "endLine": 965,
+        "endChar": 50
+      },
+      "revId": "a5c4e1b6839a9b4b40e9a6cd4c9fce331939d6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccca1cd5_cefcb1d2",
+        "filename": "java/com/google/gerrit/server/change/CustomKeyedValuesUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-05-11T14:59:49Z",
+      "side": 1,
+      "message": "nit:\n\nseems like this is just trimming whitespace, so you could do\n\ncustomKeyedValue.getKey().trim() ?",
+      "range": {
+        "startLine": 58,
+        "startChar": 19,
+        "endLine": 58,
+        "endChar": 29
+      },
+      "revId": "a5c4e1b6839a9b4b40e9a6cd4c9fce331939d6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e11d19f5_ddda36a1",
+        "filename": "java/com/google/gerrit/server/change/SetCustomKeyedValuesOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-05-11T14:59:49Z",
+      "side": 1,
+      "message": "Added and removed are empty? What is this validating?",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 37
+      },
+      "revId": "a5c4e1b6839a9b4b40e9a6cd4c9fce331939d6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47a14dd7_33177e8b",
+        "filename": "java/com/google/gerrit/server/change/SetCustomKeyedValuesOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-05-11T14:59:49Z",
+      "side": 1,
+      "message": "This is quite complex:\n\nWhy not do:\n\n```\n   Map\u003cString, String\u003e newValues \u003d new HashMap\u003c\u003e(existingCustomKeyedValues);\n   toRemove.stream().forEach(k -\u003e newValues.remove(k));\n   newValues.putAll(toAdd);\n   \n   removed \u003d Maps.filterEntries(toRemove, e -\u003e existingCustomKeyedValues.contains(e.key());\n   added \u003d Maps.filterEntries(toAdd, e-\u003e !existingCustomKeyedValues.contains(e));\n```",
+      "revId": "a5c4e1b6839a9b4b40e9a6cd4c9fce331939d6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28f03f4a_c2bf5714",
+        "filename": "java/com/google/gerrit/server/change/SetCustomKeyedValuesOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-05-11T14:59:49Z",
+      "side": 1,
+      "message": "nit: Don\u0027t use an ImmutableMap.Builder then :-)\n\nJust use a Map m \u003d new HashMap\u003c\u003e();\n\nwhen you are done do: ImmutableMap.copyOf();\n\nImmutableMap.Builder does just that internally.",
+      "range": {
+        "startLine": 112,
+        "startChar": 27,
+        "endLine": 112,
+        "endChar": 48
+      },
+      "revId": "a5c4e1b6839a9b4b40e9a6cd4c9fce331939d6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab1d1101_01c00830",
+        "filename": "java/com/google/gerrit/server/change/SetCustomKeyedValuesOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-05-11T14:59:49Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by Common Typos: Common typo found: \"explictly\" -- should it be \"explicitly\"?\n\nAnalyzer Description: Linter for catching common typos motivated by go/todo-fail and go/lol-codesearch. Shared with google3 common typos library go/common-typos.\nOwner: ayeaye-team@google.com\n\nCommon typo found: \"explictly\" -- should it be \"explicitly\"?\nNote: a line containing \"common_typos_disable\" or \"common_typos_enable\" will turn off or on (respectively) the linter for subsequent lines in the file. Alternatively include the token \"NOTYPO\" within a line to skip typo linting that line or include \u0027No-Typo-Check: \u003creason\u003e\u0027in the commit message.",
+      "range": {
+        "startLine": 113,
+        "startChar": 55,
+        "endLine": 113,
+        "endChar": 64
+      },
+      "revId": "a5c4e1b6839a9b4b40e9a6cd4c9fce331939d6e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

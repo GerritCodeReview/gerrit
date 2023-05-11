@@ -88,6 +88,24 @@
       "parentUuid": "67a35b7d_db5655d4",
       "revId": "6cf0f430c148015da3d91d724e43aeda872fac22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62f96efe_78231915",
+        "filename": "java/com/google/gerrit/server/permissions/ChangeControl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-05-11T14:59:49Z",
+      "side": 1,
+      "message": "For our use case, I think we want to restrict changing custom values to change owners? Maybe start with that and not even add a permission. We can always add that permission later on, when needed.",
+      "parentUuid": "8bd93e90_b44a12f7",
+      "revId": "6cf0f430c148015da3d91d724e43aeda872fac22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

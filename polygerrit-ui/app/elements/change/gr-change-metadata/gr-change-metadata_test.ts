@@ -473,7 +473,7 @@ suite('gr-change-metadata tests', () => {
     });
 
     test('Push Certificate Validation test BAD', () => {
-      change!.revisions.rev1!.push_certificate = {
+      change!.revisions.rev1.push_certificate = {
         certificate: 'Push certificate',
         key: {
           status: GpgKeyInfoStatus.BAD,
@@ -493,7 +493,7 @@ suite('gr-change-metadata tests', () => {
     });
 
     test('Push Certificate Validation test TRUSTED', () => {
-      change!.revisions.rev1!.push_certificate = {
+      change!.revisions.rev1.push_certificate = {
         certificate: 'Push certificate',
         key: {
           status: GpgKeyInfoStatus.TRUSTED,
@@ -531,7 +531,7 @@ suite('gr-change-metadata tests', () => {
     });
 
     test('isEnabledSignedPushOnRepo', () => {
-      change!.revisions.rev1!.push_certificate = {
+      change!.revisions.rev1.push_certificate = {
         certificate: 'Push certificate',
         key: {
           status: GpgKeyInfoStatus.TRUSTED,

@@ -29,10 +29,7 @@ import {
 } from './gr-diff-utils';
 import {BlameInfo, CommentRange, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
-import {
-  CreateRangeCommentEventDetail,
-  GrDiffHighlight,
-} from '../gr-diff-highlight/gr-diff-highlight';
+import {GrDiffHighlight} from '../gr-diff-highlight/gr-diff-highlight';
 import {CoverageRange, DiffLayer, isDefined} from '../../../types/types';
 import {GrRangedCommentLayer} from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
 import {
@@ -253,7 +250,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
   // Private but used in tests.
   highlights = new GrDiffHighlight();
 
-  private diffModel = new DiffModel();
+  diffModel = new DiffModel();
 
   /**
    * Just the layers that are passed in from the outside. See `layersAll`
@@ -311,11 +308,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
       this,
       () => this.diffModel.groups$,
       groups => (this.groups = groups)
-    );
-    this.addEventListener(
-      'create-range-comment',
-      (e: CustomEvent<CreateRangeCommentEventDetail>) =>
-        this.handleCreateRangeComment(e)
     );
     this.addEventListener('moved-link-clicked', (e: MovedLinkClickedEvent) => {
       this.diffModel.selectLine(this, e.detail.lineNum, e.detail.side);
@@ -625,58 +617,10 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   createRangeComment() {
-    if (!this.isRangeSelected()) {
-      throw Error('Selection is needed for new range comment');
-    }
     const selectedRange = this.highlights.selectedRange;
-    if (!selectedRange) throw Error('selected range not set');
+    assertIsDefined(selectedRange, 'no range selected');
     const {side, range} = selectedRange;
-    this.createCommentForSelection(side, range);
-  }
-
-  createCommentForSelection(side: Side, range: CommentRange) {
-    const lineNum = range.end_line;
-    const lineEl = this.getLineElByNumber(lineNum, side);
-    if (lineEl) {
-      this.createComment(lineEl, lineNum, side, range);
-    }
-  }
-
-  private handleCreateRangeComment(
-    e: CustomEvent<CreateRangeCommentEventDetail>
-  ) {
-    const range = e.detail.range;
-    const side = e.detail.side;
-    this.createCommentForSelection(side, range);
-  }
-
-  // Private but used in tests.
-  createComment(
-    lineEl: Element,
-    lineNum: LineNumber,
-    side?: Side,
-    range?: CommentRange
-  ) {
-    const contentEl = this.getContentTdByLineEl(lineEl);
-    if (!contentEl) throw new Error('content el not found for line el');
-    side = side ?? this.getCommentSideByLineAndContent(lineEl, contentEl);
-    assertIsDefined(this.path, 'path');
-    fire(this, 'create-comment', {
-      path: this.path,
-      side,
-      lineNum,
-      range,
-    });
-  }
-
-  private getCommentSideByLineAndContent(
-    lineEl: Element,
-    contentEl: Element
-  ): Side {
-    return lineEl.classList.contains(Side.LEFT) ||
-      contentEl.classList.contains('remove')
-      ? Side.LEFT
-      : Side.RIGHT;
+    this.diffModel.createComment(this, range.end_line, side, range);
   }
 
   private lineOfInterestChanged() {

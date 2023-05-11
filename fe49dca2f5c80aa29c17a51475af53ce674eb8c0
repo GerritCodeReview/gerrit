@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41b153b9_18ad93e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-11T12:44:55Z",
+      "side": 1,
+      "message": "fix for failing webhooks plugin tests: \nhttps://gerrit-review.googlesource.com/c/plugins/webhooks/+/373625",
+      "revId": "fe49dca2f5c80aa29c17a51475af53ce674eb8c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

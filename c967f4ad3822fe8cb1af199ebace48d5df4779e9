@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d10ca649_29907e16",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-05-11T17:51:52Z",
+      "side": 1,
+      "message": "I am really confused by the names.\n\nWhy is \"target row\" not the \"diffRow\" and the parentElement?\nCan you add some comments to these methods.\n\nHow come the parent of this.diffRowTR is a GrDiffRow.\n\n:D",
+      "range": {
+        "startLine": 245,
+        "startChar": 2,
+        "endLine": 245,
+        "endChar": 18
+      },
+      "revId": "c967f4ad3822fe8cb1af199ebace48d5df4779e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

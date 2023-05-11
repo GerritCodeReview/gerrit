@@ -12,9 +12,6 @@ import {diffClasses} from '../gr-diff/gr-diff-utils';
 import {getShowConfig} from './gr-context-controls';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {when} from 'lit/directives/when.js';
-import {subscribe} from '../../../elements/lit/subscription-controller';
-import {resolve} from '../../../models/dependency';
-import {diffModelToken} from '../gr-diff-model/gr-diff-model';
 
 @customElement('gr-context-controls-section')
 export class GrContextControlsSection extends LitElement {
@@ -39,20 +36,8 @@ export class GrContextControlsSection extends LitElement {
    * running such tests the render() method has to wrap the DOM in a proper
    * <table> element.
    */
-  @state() addTableWrapperForTesting = false;
-
-  @state() viewMode: DiffViewMode = DiffViewMode.SIDE_BY_SIDE;
-
-  private readonly getDiffModel = resolve(this, diffModelToken);
-
-  constructor() {
-    super();
-    subscribe(
-      this,
-      () => this.getDiffModel().viewMode$,
-      viewMode => (this.viewMode = viewMode)
-    );
-  }
+  @state()
+  addTableWrapperForTesting = false;
 
   /**
    * The browser API for handling selection does not (yet) work for selection
@@ -98,7 +83,7 @@ export class GrContextControlsSection extends LitElement {
   }
 
   private isSideBySide() {
-    return this.viewMode !== DiffViewMode.UNIFIED;
+    return this.renderPrefs?.view_mode !== DiffViewMode.UNIFIED;
   }
 
   private createContextControlRow() {

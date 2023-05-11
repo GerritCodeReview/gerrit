@@ -58,6 +58,8 @@ suite('gr-diff-row test', () => {
                 >
                   <gr-diff-text> lorem ipsum </gr-diff-text>
                 </div>
+                <div class="thread-group" data-side="left">
+                  <slot name="left-1"> </slot>
                 </div>
               </td>
               <td class="gr-diff lineNum right" data-value="1">
@@ -79,6 +81,9 @@ suite('gr-diff-row test', () => {
                   id="right-content-1"
                 >
                   <gr-diff-text> lorem ipsum </gr-diff-text>
+                </div>
+                <div class="thread-group" data-side="right">
+                  <slot name="right-1"> </slot>
                 </div>
               </td>
             </tr>
@@ -138,6 +143,10 @@ suite('gr-diff-row test', () => {
                 >
                   <gr-diff-text> lorem ipsum </gr-diff-text>
                 </div>
+                <div class="thread-group" data-side="right">
+                  <slot name="right-1"> </slot>
+                  <slot name="left-1"> </slot>
+                </div>
               </td>
             </tr>
             <slot name="post-left-line-1"></slot>
@@ -192,6 +201,9 @@ suite('gr-diff-row test', () => {
                 >
                   <gr-diff-text> lorem ipsum </gr-diff-text>
                 </div>
+                <div class="thread-group" data-side="right">
+                  <slot name="right-1"> </slot>
+                </div>
               </td>
               <slot name="post-right-line-1"></slot>
             </tr>
@@ -239,6 +251,9 @@ suite('gr-diff-row test', () => {
                   id="left-content-1"
                 >
                   <gr-diff-text> lorem ipsum </gr-diff-text>
+                </div>
+                <div class="thread-group" data-side="left">
+                  <slot name="left-1"> </slot>
                 </div>
               </td>
               <td class="blankLineNum gr-diff right"></td>

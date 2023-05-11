@@ -18,12 +18,19 @@ import {
   isTargetable,
 } from '../../../elements/shared/gr-cursor-manager/gr-cursor-manager';
 import {GrDiffLineType} from '../gr-diff/gr-diff-line';
+import {GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {GrDiff} from '../gr-diff/gr-diff';
 import {fire} from '../../../utils/event-util';
-import {GrDiffRow} from '../gr-diff-builder/gr-diff-row';
+
+type GrDiffRowType = GrDiffLineType | GrDiffGroupType;
 
 const LEFT_SIDE_CLASS = 'target-side-left';
 const RIGHT_SIDE_CLASS = 'target-side-right';
+
+interface Address {
+  leftSide: boolean;
+  number: number;
+}
 
 /**
  * From <tr> diff row go up to <tbody> diff chunk.
@@ -63,13 +70,17 @@ export class GrDiffCursor implements GrDiffCursorApi {
     if (this.sideInternal === side) {
       return;
     }
-    if (this.sideInternal && this.diffRowTR) {
-      this.fireCursorMoved('line-cursor-moved-out');
+    if (this.sideInternal && this.diffRow) {
+      this.fireCursorMoved(
+        'line-cursor-moved-out',
+        this.diffRow,
+        this.sideInternal
+      );
     }
     this.sideInternal = side;
     this.updateSideClass();
-    if (this.diffRowTR) {
-      this.fireCursorMoved('line-cursor-moved-in');
+    if (this.diffRow) {
+      this.fireCursorMoved('line-cursor-moved-in', this.diffRow, this.side);
     }
   }
 
@@ -79,27 +90,28 @@ export class GrDiffCursor implements GrDiffCursorApi {
 
   private sideInternal = Side.RIGHT;
 
-  set diffRowTR(diffRow: HTMLTableRowElement | undefined) {
-    if (this.diffRowTRInternal) {
-      this.diffRowTRInternal.classList.remove(
-        LEFT_SIDE_CLASS,
-        RIGHT_SIDE_CLASS
+  set diffRow(diffRow: HTMLElement | undefined) {
+    if (this.diffRowInternal) {
+      this.diffRowInternal.classList.remove(LEFT_SIDE_CLASS, RIGHT_SIDE_CLASS);
+      this.fireCursorMoved(
+        'line-cursor-moved-out',
+        this.diffRowInternal,
+        this.side
       );
-      this.fireCursorMoved('line-cursor-moved-out');
     }
-    this.diffRowTRInternal = diffRow;
+    this.diffRowInternal = diffRow;
 
     this.updateSideClass();
-    if (this.diffRowTR) {
-      this.fireCursorMoved('line-cursor-moved-in');
+    if (this.diffRow) {
+      this.fireCursorMoved('line-cursor-moved-in', this.diffRow, this.side);
     }
   }
 
-  get diffRowTR(): HTMLTableRowElement | undefined {
-    return this.diffRowTRInternal;
+  get diffRow(): HTMLElement | undefined {
+    return this.diffRowInternal;
   }
 
-  private diffRowTRInternal?: HTMLTableRowElement;
+  private diffRowInternal?: HTMLElement;
 
   private diffs: GrDiffCursorable[] = [];
 
@@ -125,7 +137,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
 
     window.addEventListener('scroll', this._boundHandleWindowScroll);
     this.targetSubscription = this.cursorManager.target$.subscribe(target => {
-      this.diffRowTR = (target ?? undefined) as HTMLTableRowElement | undefined;
+      this.diffRow = target || undefined;
     });
   }
 
@@ -147,14 +159,14 @@ export class GrDiffCursor implements GrDiffCursorApi {
 
   moveLeft() {
     this.side = Side.LEFT;
-    if (this.isTargetBlank()) {
+    if (this._isTargetBlank()) {
       this.moveUp();
     }
   }
 
   moveRight() {
     this.side = Side.RIGHT;
-    if (this.isTargetBlank()) {
+    if (this._isTargetBlank()) {
       this.moveUp();
     }
   }
@@ -239,31 +251,36 @@ export class GrDiffCursor implements GrDiffCursorApi {
     }
   }
 
-  getTargetDiffRow(): GrDiffRow | undefined {
-    if (this.diffRowTR?.parentElement?.tagName !== 'GR-DIFF-ROW') {
-      return undefined;
+  /**
+   * Get the line number element targeted by the cursor row and side.
+   */
+  getTargetLineElement(): HTMLElement | null {
+    let lineElSelector = '.lineNum';
+
+    if (!this.diffRow) {
+      return null;
     }
-    return this.diffRowTR.parentElement as GrDiffRow;
+
+    if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
+      lineElSelector += this.side === Side.LEFT ? '.left' : '.right';
+    }
+
+    return this.diffRow.querySelector(lineElSelector);
   }
 
-  getTargetLineNumber(): LineNumber | undefined {
-    const diffRow = this.getTargetDiffRow();
-    return diffRow?.lineNumber(this.side);
-  }
+  getTargetDiffElement(): GrDiff | null {
+    if (!this.diffRow) return null;
 
-  getTargetDiffElement(): GrDiff | undefined {
-    if (!this.diffRowTR) return undefined;
-
-    const hostOwner = this.diffRowTR.getRootNode() as ShadowRoot;
+    const hostOwner = this.diffRow.getRootNode() as ShadowRoot;
     if (hostOwner?.host?.tagName === 'GR-DIFF') {
       return hostOwner.host as GrDiff;
     }
-    return undefined;
+    return null;
   }
 
   moveToFirstChunk() {
     this.cursorManager.moveToStart();
-    if (this.diffRowTR && !this._isFirstRowOfChunk(this.diffRowTR)) {
+    if (this.diffRow && !this._isFirstRowOfChunk(this.diffRow)) {
       this.moveToNextChunk(true);
     } else {
       this._fixSide();
@@ -272,7 +289,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
 
   moveToLastChunk() {
     this.cursorManager.moveToEnd();
-    if (this.diffRowTR && !this._isFirstRowOfChunk(this.diffRowTR)) {
+    if (this.diffRow && !this._isFirstRowOfChunk(this.diffRow)) {
       this.moveToPreviousChunk();
     } else {
       this._fixSide();
@@ -290,7 +307,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
    */
   reInitCursor() {
     this._updateStops();
-    if (!this.diffRowTR) {
+    if (!this.diffRow) {
       // does not scroll during init unless requested
       this.cursorManager.scrollMode = this.initialLineNumber
         ? ScrollMode.KEEP_VISIBLE
@@ -350,21 +367,60 @@ export class GrDiffCursor implements GrDiffCursorApi {
     if (diffWithRangeSelected) {
       diffWithRangeSelected.createRangeComment();
     } else {
-      const diffRow = this.getTargetDiffRow();
-      const lineNumber = diffRow?.lineNumber(this.side);
+      const line = this.getTargetLineElement();
       const diff = this.getTargetDiffElement();
-      if (diff && lineNumber) {
-        diff.addDraftAtLine(lineNumber, this.side);
+      if (diff && line) {
+        diff.addDraftAtLine(line);
       }
     }
   }
 
-  _getViewMode() {
-    if (!this.diffRowTR) {
+  /**
+   * Get an object describing the location of the cursor. Such as
+   * {leftSide: false, number: 123} for line 123 of the revision, or
+   * {leftSide: true, number: 321} for line 321 of the base patch.
+   * Returns null if an address is not available.
+   */
+  getAddress(): Address | null {
+    if (!this.diffRow) {
+      return null;
+    }
+    // Get the line-number cell targeted by the cursor. If the mode is unified
+    // then prefer the revision cell if available.
+    return this.getAddressFor(this.diffRow, this.side);
+  }
+
+  private getAddressFor(diffRow: HTMLElement, side: Side): Address | null {
+    let cell;
+    if (this._getViewMode() === DiffViewMode.UNIFIED) {
+      cell = diffRow.querySelector('.lineNum.right');
+      if (!cell) {
+        cell = diffRow.querySelector('.lineNum.left');
+      }
+    } else {
+      cell = diffRow.querySelector('.lineNum.' + side);
+    }
+    if (!cell) {
       return null;
     }
 
-    if (this.diffRowTR.classList.contains('side-by-side')) {
+    const number = cell.getAttribute('data-value');
+    if (!number || number === 'FILE') {
+      return null;
+    }
+
+    return {
+      leftSide: cell.matches('.left'),
+      number: Number(number),
+    };
+  }
+
+  _getViewMode() {
+    if (!this.diffRow) {
+      return null;
+    }
+
+    if (this.diffRow.classList.contains('side-by-side')) {
       return DiffViewMode.SIDE_BY_SIDE;
     } else {
       return DiffViewMode.UNIFIED;
@@ -402,32 +458,64 @@ export class GrDiffCursor implements GrDiffCursorApi {
   _fixSide() {
     if (
       this._getViewMode() === DiffViewMode.SIDE_BY_SIDE &&
-      this.isTargetBlank()
+      this._isTargetBlank()
     ) {
       this.side = this.side === Side.LEFT ? Side.RIGHT : Side.LEFT;
     }
   }
 
-  private isTargetBlank() {
-    const line = this.getTargetDiffRow()?.line(this.side);
-    return line?.type === GrDiffLineType.BLANK;
+  _isTargetBlank() {
+    if (!this.diffRow) {
+      return false;
+    }
+
+    const actions = this._getActionsForRow();
+    return (
+      (this.side === Side.LEFT && !actions.left) ||
+      (this.side === Side.RIGHT && !actions.right)
+    );
   }
 
   private fireCursorMoved(
-    event: 'line-cursor-moved-out' | 'line-cursor-moved-in'
+    event: 'line-cursor-moved-out' | 'line-cursor-moved-in',
+    row: HTMLElement,
+    side: Side
   ) {
-    const lineNum = this.getTargetLineNumber();
-    const side = this.side;
-    if (!lineNum) return;
-    fire(this.diffRowTR, event, {lineNum, side});
+    const address = this.getAddressFor(row, side);
+    if (address) {
+      const {leftSide, number} = address;
+      fire(row, event, {
+        lineNum: number,
+        side: leftSide ? Side.LEFT : Side.RIGHT,
+      });
+    }
   }
 
   private updateSideClass() {
-    if (!this.diffRowTR) {
+    if (!this.diffRow) {
       return;
     }
-    toggleClass(this.diffRowTR, LEFT_SIDE_CLASS, this.side === Side.LEFT);
-    toggleClass(this.diffRowTR, RIGHT_SIDE_CLASS, this.side === Side.RIGHT);
+    toggleClass(this.diffRow, LEFT_SIDE_CLASS, this.side === Side.LEFT);
+    toggleClass(this.diffRow, RIGHT_SIDE_CLASS, this.side === Side.RIGHT);
+  }
+
+  _isActionType(type: GrDiffRowType) {
+    return (
+      type !== GrDiffLineType.BLANK && type !== GrDiffGroupType.CONTEXT_CONTROL
+    );
+  }
+
+  _getActionsForRow() {
+    const actions = {left: false, right: false};
+    if (this.diffRow) {
+      actions.left = this._isActionType(
+        this.diffRow.getAttribute('left-type') as GrDiffRowType
+      );
+      actions.right = this._isActionType(
+        this.diffRow.getAttribute('right-type') as GrDiffRowType
+      );
+    }
+    return actions;
   }
 
   _updateStops() {

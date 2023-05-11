@@ -14,7 +14,6 @@ export {GrDiffLineType};
 export type {LineNumber};
 
 export const FILE = 'FILE';
-export const LOST = 'LOST';
 
 export class GrDiffLine implements GrDiffLineApi {
   constructor(

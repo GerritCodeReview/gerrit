@@ -15,9 +15,10 @@ import '../../shared/gr-select/gr-select';
 import '../../shared/gr-weblink/gr-weblink';
 import '../../shared/revision-info/revision-info';
 import '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
+import '../../../embed/diff-new/gr-diff-cursor/gr-diff-cursor';
 import '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import '../gr-diff-host/gr-diff-host';
-import '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
+import '../../../embed/diff-new/gr-diff-mode-selector/gr-diff-mode-selector';
 import '../gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import '../gr-patch-range-select/gr-patch-range-select';
 import '../../change/gr-download-dialog/gr-download-dialog';
@@ -55,6 +56,7 @@ import {
   PatchRangeChangeEvent,
 } from '../gr-patch-range-select/gr-patch-range-select';
 import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
+import {GrDiffCursorNew as GrDiffCursorNew} from '../../../embed/diff-new/gr-diff-cursor/gr-diff-cursor';
 import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {OpenFixPreviewEvent, ValueChangedEvent} from '../../../types/events';
@@ -97,6 +99,7 @@ import {
   filesModelToken,
 } from '../../../models/change/files-model';
 import {keyed} from 'lit/directives/keyed.js';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
@@ -227,6 +230,8 @@ export class GrDiffView extends LitElement {
 
   private readonly reporting = getAppContext().reportingService;
 
+  private readonly flagsService = getAppContext().flagsService;
+
   private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
@@ -242,7 +247,7 @@ export class GrDiffView extends LitElement {
   private throttledToggleFileReviewed?: (e: KeyboardEvent) => void;
 
   @state()
-  cursor?: GrDiffCursor;
+  cursor?: GrDiffCursor | GrDiffCursorNew;
 
   private readonly shortcutsController = new ShortcutController(this);
 
@@ -659,7 +664,8 @@ export class GrDiffView extends LitElement {
       this.handleToggleFileReviewed()
     );
     this.addEventListener('open-fix-preview', e => this.onOpenFixPreview(e));
-    this.cursor = new GrDiffCursor();
+    const newDiff = this.flagsService.isEnabled(KnownExperimentId.NEW_DIFF);
+    this.cursor = newDiff ? new GrDiffCursorNew() : new GrDiffCursor();
     if (this.diffHost) this.reInitCursor();
   }
 
@@ -1259,10 +1265,20 @@ export class GrDiffView extends LitElement {
 
   private goToEditFile() {
     assertIsDefined(this.path, 'path');
+    assertIsDefined(this.cursor, 'cursor');
 
-    const lineNumber = this.cursor?.getTargetLineNumber();
-    const lineNum = typeof lineNumber === 'number' ? lineNumber : undefined;
-    this.getChangeModel().navigateToEdit({path: this.path, lineNum});
+    const newDiff = this.flagsService.isEnabled(KnownExperimentId.NEW_DIFF);
+    if (newDiff) {
+      const lineNumber = (this.cursor as GrDiffCursorNew).getTargetLineNumber();
+      const lineNum = typeof lineNumber === 'number' ? lineNumber : undefined;
+      this.getChangeModel().navigateToEdit({path: this.path, lineNum});
+    } else {
+      const cursorAddress = (this.cursor as GrDiffCursor).getAddress();
+      this.getChangeModel().navigateToEdit({
+        path: this.path,
+        lineNum: cursorAddress?.number,
+      });
+    }
   }
 
   /**

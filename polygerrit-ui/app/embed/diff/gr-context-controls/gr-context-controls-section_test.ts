@@ -3,9 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {provide} from '../../../models/dependency';
 import '../../../test/common-test-setup';
-import {DiffModel, diffModelToken} from '../gr-diff-model/gr-diff-model';
 import './gr-context-controls-section';
 import {GrContextControlsSection} from './gr-context-controls-section';
 import {fixture, html, assert} from '@open-wc/testing';
@@ -14,12 +12,9 @@ suite('gr-context-controls-section test', () => {
   let element: GrContextControlsSection;
 
   setup(async () => {
-    const diffModel = new DiffModel();
     element = await fixture<GrContextControlsSection>(
       html`<gr-context-controls-section></gr-context-controls-section>`
     );
-    provide(element, diffModelToken, () => diffModel);
-
     element.addTableWrapperForTesting = true;
     await element.updateComplete;
   });

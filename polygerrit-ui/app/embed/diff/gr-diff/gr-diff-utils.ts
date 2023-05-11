@@ -4,19 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {BlameInfo, CommentRange} from '../../../types/common';
-import {FILE, LOST, LineNumber} from './gr-diff-line';
-import {Side, SpecialFilePath} from '../../../constants/constants';
+import {FILE, LineNumber} from './gr-diff-line';
+import {Side} from '../../../constants/constants';
 import {DiffInfo} from '../../../types/diff';
 import {
-  DiffContextExpandedExternalDetail,
   DiffPreferencesInfo,
   DiffResponsiveMode,
-  DisplayLine,
   RenderPreferences,
 } from '../../../api/diff';
 import {getBaseUrl} from '../../../utils/url-util';
-import {KeyLocations} from '../gr-diff-processor/gr-diff-processor';
-import {GrDiffGroup} from './gr-diff-group';
 
 /**
  * In JS, unicode code points above 0xFFFF occupy two elements of a string.
@@ -43,10 +39,6 @@ export const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 // If any line of the diff is more than the character limit, then disable
 // syntax highlighting for the entire file.
 export const SYNTAX_MAX_LINE_LENGTH = 500;
-
-export function otherSide(side: Side) {
-  return side === Side.LEFT ? Side.RIGHT : Side.LEFT;
-}
 
 export function countLines(diff?: DiffInfo, side?: Side) {
   if (!diff?.content || !side) return 0;
@@ -180,149 +172,20 @@ export function getRange(threadEl: HTMLElement): CommentRange | undefined {
   return range;
 }
 
-export function toCommentThreadModel(
-  threadEl?: EventTarget | null
-): GrDiffCommentThread | undefined {
-  if (!isThreadEl(threadEl)) return undefined;
-  const side = getSide(threadEl);
-  const line = getLine(threadEl);
-  const range = getRange(threadEl);
-  if (!side) return undefined;
-  if (!line) return undefined;
-  return {side, line, range, rootId: threadEl.rootId};
-}
-
-export const FULL_CONTEXT = -1;
-
-export enum FullContext {
-  /** User has opted into showing the full context. */
-  YES = 'YES',
-  /** User has opted into showing only limited context. */
-  NO = 'NO',
-  /**
-   * User has not decided yet. Will see a warning message with two options then,
-   * if the file is too large.
-   */
-  UNDECIDED = 'UNDECIDED',
-}
-
-export function computeContext(
-  prefsContext: number | undefined,
-  showFullContext: FullContext,
-  defaultContext: number
-) {
-  if (showFullContext === FullContext.YES) {
-    return FULL_CONTEXT;
-  } else if (
-    showFullContext === FullContext.NO &&
-    prefsContext === FULL_CONTEXT
-  ) {
-    return defaultContext;
-  } else if (prefsContext) {
-    return prefsContext;
-  } else {
-    return defaultContext;
-  }
-}
-
-export function computeLineLength(
-  prefs: DiffPreferencesInfo,
-  path: string | undefined
-): number {
-  if (path === SpecialFilePath.COMMIT_MESSAGE) {
-    return 72;
-  }
-  const lineLength = prefs.line_length;
-  if (Number.isInteger(lineLength) && lineLength > 0) {
-    return lineLength;
-  }
-  return 100;
-}
-
-export function computeKeyLocations(
-  lineOfInterest: DisplayLine | undefined,
-  comments: GrDiffCommentThread[]
-) {
-  const keyLocations: KeyLocations = {left: {}, right: {}};
-
-  if (lineOfInterest) {
-    keyLocations[lineOfInterest.side][lineOfInterest.lineNum] = true;
-  }
-
-  for (const comment of comments) {
-    keyLocations[comment.side][comment.line] = true;
-    if (comment.range?.start_line) {
-      keyLocations[comment.side][comment.range.start_line] = true;
-    }
-  }
-
-  return keyLocations;
-}
-
-export function compareComments(
-  c1: GrDiffCommentThread,
-  c2: GrDiffCommentThread
-): number {
-  if (c1.side !== c2.side) {
-    return c1.side === Side.RIGHT ? 1 : -1;
-  }
-
-  if (c1.line !== c2.line) {
-    if (c1.line === FILE && c2.line !== FILE) return -1;
-    if (c1.line !== FILE && c2.line === FILE) return 1;
-    if (c1.line === LOST && c2.line !== LOST) return -1;
-    if (c1.line !== LOST && c2.line === LOST) return 1;
-    return (c1.line as number) - (c2.line as number);
-  }
-
-  if (c1.rootId !== c2.rootId) {
-    if (!c1.rootId) return -1;
-    if (!c2.rootId) return 1;
-    return c1.rootId > c2.rootId ? 1 : -1;
-  }
-
-  if (c1.range && c2.range) {
-    const r1 = JSON.stringify(c1.range);
-    const r2 = JSON.stringify(c2.range);
-    return r1 > r2 ? 1 : -1;
-  }
-  if (c1.range) return 1;
-  if (c2.range) return -1;
-
-  return 0;
-}
-
 // TODO: This type should be exposed to gr-diff clients in a separate type file.
 // For Gerrit these are instances of GrCommentThread, but other gr-diff users
 // have different HTML elements in use for comment threads.
 // TODO: Also document the required HTML attributes that thread elements must
-// have, e.g. 'diff-side', 'range' (optional), 'line-num'.
-// Comment widgets are also required to have `comment-thread` in their css
-// class list.
+// have, e.g. 'diff-side', 'range', 'line-num'.
 export interface GrDiffThreadElement extends HTMLElement {
   rootId: string;
 }
 
-export function isThreadEl(
-  node?: Node | EventTarget | null
-): node is GrDiffThreadElement {
+export function isThreadEl(node: Node): node is GrDiffThreadElement {
   return (
-    !!node &&
-    (node as Node).nodeType === Node.ELEMENT_NODE &&
+    node.nodeType === Node.ELEMENT_NODE &&
     (node as Element).classList.contains('comment-thread')
   );
-}
-
-/**
- * This is all the data that gr-diff extracts from comment thread elements,
- * see `GrDiffThreadElement`. Otherwise gr-diff treats such elements as a black
- * box.
- */
-export interface GrDiffCommentThread {
-  side: Side;
-  line: LineNumber;
-  range?: CommentRange;
-  rootId?: string;
 }
 
 /**
@@ -531,12 +394,4 @@ export function getDiffLength(diff?: DiffInfo) {
       return sum + Math.max(sec.a?.length ?? 0, sec.b?.length ?? 0);
     }
   }, 0);
-}
-
-export interface DiffContextExpandedEventDetail
-  extends DiffContextExpandedExternalDetail {
-  /** The context control group that should be replaced by `groups`. */
-  contextGroup: GrDiffGroup;
-  groups: GrDiffGroup[];
-  numLines: number;
 }

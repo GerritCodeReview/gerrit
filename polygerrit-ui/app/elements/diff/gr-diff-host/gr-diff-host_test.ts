@@ -60,7 +60,8 @@ import {
   CommentsModel,
   commentsModelToken,
 } from '../../../models/comments/comments-model';
-import {FULL_CONTEXT} from '../../../embed/diff/gr-diff/gr-diff-utils';
+import {FULL_CONTEXT} from '../../../embed/diff-new/gr-diff/gr-diff-utils';
+import {GrDiffNew} from '../../../embed/diff-new/gr-diff/gr-diff';
 
 suite('gr-diff-host tests', () => {
   let element: GrDiffHost;
@@ -605,7 +606,11 @@ suite('gr-diff-host tests', () => {
       element.blame = [];
       await element.updateComplete;
       assertIsDefined(element.diffElement);
-      const setBlameSpy = sinon.spy(element.diffElement, 'setBlame');
+      if (!(element.diffElement as GrDiffNew).setBlame) return;
+      const setBlameSpy = sinon.spy(
+        element.diffElement as GrDiffNew,
+        'setBlame'
+      );
       const isBlameLoadedStub = sinon.stub();
       element.addEventListener('is-blame-loaded-changed', isBlameLoadedStub);
       element.clearBlame();

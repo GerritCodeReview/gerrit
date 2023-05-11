@@ -359,7 +359,7 @@ export class GrDiffRow extends LitElement {
         aria-label=${ifDefined(
           this.computeLineNumberAriaLabel(line, lineNumber)
     )}
-        @click=${() => this.getDiffModel().createComment(lineNumber, side)}
+        @click=${() => this.getDiffModel().createCommentOnLine(lineNumber, side)}
         @mouseenter=${() =>
           fire(this, 'line-mouse-enter', {lineNum: lineNumber, side})}
         @mouseleave=${() =>

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4681061_450b974d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-05-11T17:40:50Z",
+      "side": 1,
+      "message": "This says individual components take care of it themselves but in this case the component is relying on the model to fire an event but using the component as a target.\n\nGiven the method in the model is not setting anything on the model, why are we not firing the event in the component and instead in the model?",
+      "range": {
+        "startLine": 11,
+        "startChar": 43,
+        "endLine": 12,
+        "endChar": 23
+      },
+      "revId": "48b21cb73b1fa6709cba8af9e02bdd9e5d8d4d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d14c7d57_4fd5c558",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-11T09:59:19Z",
+      "side": 1,
+      "message": "I am on M2 and somehow I can build 3.5 without these changes.\nFor what\u0027s worth i am on macOs `13.3.1 (a)` with xcode cmd line tools version `14.3`. I have tested with the changes as well and I am still able to build gerrit, so no regression, but I will let Alvaro give it a CR +2. \n\n```\n$ git checkout stable-3.5\n$ git pull -r\n$ git submodule update --init --recursive\n$ git log --oneline -n 1\n1f578bbeb9 (HEAD -\u003e stable-3.5, origin/stable-3.5) Bump error-prone annotations version to 2.10.0\n$ cat .bazelversion\n4.2.2\n$ bazelisk clean --expunge\n$ bazelisk build gerrit \n```",
+      "revId": "f04621830a92bd113a5a7c6b63efa03d3eaf414b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

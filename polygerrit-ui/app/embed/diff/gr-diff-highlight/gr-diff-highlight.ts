@@ -20,7 +20,7 @@ import {
 } from '../gr-diff/gr-diff-utils';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
-import {fire} from '../../../utils/event-util';
+import {DiffModel} from '../gr-diff-model/gr-diff-model';
 
 interface SidedRange {
   side: Side;
@@ -45,6 +45,7 @@ interface NormalizedRange {
  */
 export interface GrDiffInterface {
   getContentTdByLineEl(lineEl?: Element): Element | undefined;
+  diffModel: DiffModel;
 }
 
 /**
@@ -375,7 +376,7 @@ export class GrDiffHighlight {
       // is empty to see that it's at the end of a line.
       const content = domRange.cloneContents().querySelector('.contentText');
       if (isMouseUp && this.getLength(content) === 0) {
-        this.fireCreateRangeComment(start.side, {
+        this.createRangeComment(start.side, {
           start_line: start.line,
           start_character: 0,
           end_line: start.line,
@@ -425,10 +426,15 @@ export class GrDiffHighlight {
     }
   }
 
-  private fireCreateRangeComment(side: Side, range: CommentRange) {
-    if (this.diffTable) {
-      fire(this.diffTable, 'create-range-comment', {side, range});
-    }
+  private createRangeComment(side: Side, range: CommentRange) {
+    assertIsDefined(this.grDiff, 'grDiff');
+    assertIsDefined(this.diffTable, 'diffTable');
+    this.grDiff?.diffModel.createComment(
+      this.diffTable,
+      range.end_line,
+      side,
+      range
+    );
     this.removeActionBox();
   }
 
@@ -436,7 +442,7 @@ export class GrDiffHighlight {
     e.stopPropagation();
     assertIsDefined(this.selectedRange, 'selectedRange');
     const {side, range} = this.selectedRange;
-    this.fireCreateRangeComment(side, range);
+    this.createRangeComment(side, range);
   };
 
   // visible for testing
@@ -478,16 +484,5 @@ export class GrDiffHighlight {
     } else {
       return GrAnnotation.getLength(node);
     }
-  }
-}
-
-export interface CreateRangeCommentEventDetail {
-  side: Side;
-  range: CommentRange;
-}
-
-declare global {
-  interface HTMLElementEventMap {
-    'create-range-comment': CustomEvent<CreateRangeCommentEventDetail>;
   }
 }

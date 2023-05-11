@@ -34,6 +34,8 @@ import {GrDiffGroup} from '../gr-diff/gr-diff-group';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {fire} from '../../../utils/event-util';
 import {CreateCommentEventDetail} from '../gr-diff/gr-diff';
+import {CommentRange} from '../../../api/rest-api';
+import {assertIsDefined} from '../../../utils/common-util';
 
 export interface DiffState {
   diff?: DiffInfo;
@@ -180,14 +182,19 @@ export class DiffModel extends Model<DiffState> {
     fire(target, 'line-selected', detail);
   }
 
-  createComment(target: EventTarget, lineNum: LineNumber, side: Side) {
+  createComment(
+    target: EventTarget,
+    lineNum: LineNumber,
+    side: Side,
+    range?: CommentRange
+  ) {
     const path = this.getState().path;
-    if (!path) return;
+    assertIsDefined(path, 'path');
     const detail: CreateCommentEventDetail = {
       path,
       side,
       lineNum,
-      range: undefined,
+      range,
     };
     fire(target, 'create-comment', detail);
   }

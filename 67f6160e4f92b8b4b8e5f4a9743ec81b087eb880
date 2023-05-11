@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed7e5291_890dec41",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-11T15:06:32Z",
+      "side": 1,
+      "message": "- everything works nicely on Java 11\n- on Java 17 I get some test failures, if that\u0027s a goal those could be fixed in separate changes",
+      "revId": "67f6160e4f92b8b4b8e5f4a9743ec81b087eb880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

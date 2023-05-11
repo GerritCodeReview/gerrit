@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d82cc52_11bc9ea0",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-05-11T13:06:16Z",
+      "side": 1,
+      "message": "can you update the test so that each individual behaviour is tested?\nreading this I have no idea if the test is WAI or not.\n\n`function compareComments` has some rules for that and each rule should be clear from reading the test, such as SIDE\u003dRight is preferred when side is different.\n\nWhen side\u003dRIGHT, then decide on line number. So on.",
+      "range": {
+        "startLine": 302,
+        "startChar": 10,
+        "endLine": 302,
+        "endChar": 32
+      },
+      "revId": "8e30b4a95112c80ce9fc78dacf795aca697244ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

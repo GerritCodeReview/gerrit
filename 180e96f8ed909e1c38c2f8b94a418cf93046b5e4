@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33a9e9b4_65b4f54c",
+        "filename": "java/com/google/gerrit/extensions/api/changes/RebaseInput.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-05-11T06:30:57Z",
+      "side": 1,
+      "message": "Ok. Then if we do that, we should so it in a separate change and not here.",
+      "parentUuid": "5c79dee8_d44df93e",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 15
+      },
+      "revId": "180e96f8ed909e1c38c2f8b94a418cf93046b5e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd2543bb_904abb99",

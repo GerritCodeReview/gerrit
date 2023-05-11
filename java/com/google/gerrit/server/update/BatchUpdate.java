@@ -675,7 +675,7 @@ public class BatchUpdate implements AutoCloseable {
   private boolean indexAsync() {
     return user.getAccessPath().equals(AccessPath.WEB_BROWSER)
         && experimentFeatures.isFeatureEnabled(
-            ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_DO_NOT_AWAIT_CHANGE_INDEXING,
+            ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_DO_NOT_AWAIT_CHANGE_INDEXING,
             project);
   }
 

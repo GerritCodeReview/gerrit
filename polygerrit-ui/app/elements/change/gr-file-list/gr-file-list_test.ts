@@ -57,6 +57,7 @@ import {fixture, html, assert} from '@open-wc/testing';
 import {Modifier} from '../../../utils/dom-util';
 import {testResolver} from '../../../test/common-test-setup';
 import {FileMode} from '../../../utils/file-util';
+import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 
 suite('gr-diff a11y test', () => {
   test('audit', async () => {
@@ -2143,7 +2144,10 @@ suite('gr-file-list tests', () => {
           element.diffCursor,
           'moveToNextCommentThread'
         );
-        nextChunkStub = sinon.stub(element.diffCursor, 'moveToNextChunk');
+        nextChunkStub = sinon.stub(
+          element.diffCursor as GrDiffCursor,
+          'moveToNextChunk'
+        );
         fileRows = queryAll<HTMLDivElement>(element, '.row:not(.header-row)');
       });
 

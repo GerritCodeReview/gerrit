@@ -57,7 +57,7 @@ import {
   LoadingStatus,
 } from '../../../models/change/change-model';
 import {assertIsDefined} from '../../../utils/common-util';
-import {GrDiffModeSelector} from '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
+import {GrDiffModeSelector} from '../../../embed/diff-new/gr-diff-mode-selector/gr-diff-mode-selector';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {testResolver} from '../../../test/common-test-setup';
@@ -76,7 +76,7 @@ import {
 } from '../../../models/views/change';
 import {FileNameToNormalizedFileInfoMap} from '../../../models/change/files-model';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
-import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
+import {GrDiffCursorNew} from '../../../embed/diff-new/gr-diff-cursor/gr-diff-cursor';
 
 function createComment(
   id: string,
@@ -806,7 +806,10 @@ suite('gr-diff-view tests', () => {
       element.patchNum = 1 as RevisionPatchSetNum;
       element.basePatchNum = PARENT;
       assertIsDefined(element.cursor);
-      sinon.stub(element.cursor, 'getTargetLineNumber').returns(lineNumber);
+      if (!(element.cursor as GrDiffCursorNew).getTargetLineNumber) return;
+      sinon
+        .stub(element.cursor as GrDiffCursorNew, 'getTargetLineNumber')
+        .returns(lineNumber);
       await element.updateComplete;
       const editBtn = queryAndAssert<GrButton>(
         element,
@@ -1684,13 +1687,13 @@ suite('gr-diff-view tests', () => {
       let dispatchEventStub: SinonStubbedMember<Element['dispatchEvent']>;
       let navToFileStub: SinonStubbedMember<GrDiffView['navToFile']>;
       let moveToPreviousChunkStub: SinonStubbedMember<
-        GrDiffCursor['moveToPreviousChunk']
+        GrDiffCursorNew['moveToPreviousChunk']
       >;
       let moveToNextChunkStub: SinonStubbedMember<
-        GrDiffCursor['moveToNextChunk']
+        GrDiffCursorNew['moveToNextChunk']
       >;
-      let isAtStartStub: SinonStubbedMember<GrDiffCursor['isAtStart']>;
-      let isAtEndStub: SinonStubbedMember<GrDiffCursor['isAtEnd']>;
+      let isAtStartStub: SinonStubbedMember<GrDiffCursorNew['isAtStart']>;
+      let isAtEndStub: SinonStubbedMember<GrDiffCursorNew['isAtEnd']>;
       let nowStub: SinonStub;
 
       setup(() => {

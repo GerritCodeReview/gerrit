@@ -6,6 +6,7 @@
 import '../../shared/gr-comment-thread/gr-comment-thread';
 import '../../checks/gr-diff-check-result';
 import '../../../embed/diff/gr-diff/gr-diff';
+import '../../../embed/diff-new/gr-diff/gr-diff';
 import {
   anyLineTooLong,
   DiffContextExpandedEventDetail,
@@ -13,7 +14,7 @@ import {
   getLine,
   getSide,
   SYNTAX_MAX_LINE_LENGTH,
-} from '../../../embed/diff/gr-diff/gr-diff-utils';
+} from '../../../embed/diff-new/gr-diff/gr-diff-utils';
 import {getAppContext} from '../../../services/app-context';
 import {
   getParentIndex,
@@ -48,13 +49,14 @@ import {
   IgnoreWhitespaceType,
   WebLinkInfo,
 } from '../../../types/diff';
+import {GrDiff} from '../../../embed/diff/gr-diff/gr-diff';
 import {
   CreateCommentEventDetail,
-  GrDiff,
-} from '../../../embed/diff/gr-diff/gr-diff';
+  GrDiffNew,
+} from '../../../embed/diff-new/gr-diff/gr-diff';
 import {DiffViewMode, Side, CommentSide} from '../../../constants/constants';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
-import {LineNumber, FILE} from '../../../embed/diff/gr-diff/gr-diff-line';
+import {LineNumber, FILE} from '../../../embed/diff-new/gr-diff/gr-diff-line';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {
@@ -65,7 +67,7 @@ import {
   waitForEventOnce,
 } from '../../../utils/event-util';
 import {assertIsDefined} from '../../../utils/common-util';
-import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
+import {TokenHighlightLayer} from '../../../embed/diff-new/gr-diff-builder/token-highlight-layer';
 import {Timing} from '../../../constants/reporting';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {Subscription} from 'rxjs';
@@ -82,7 +84,7 @@ import {GrDiffCheckResult} from '../../checks/gr-diff-check-result';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {deepEqual} from '../../../utils/deep-util';
 import {Category} from '../../../api/checks';
-import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
+import {GrSyntaxLayerWorker} from '../../../embed/diff-new/gr-syntax-layer/gr-syntax-layer-worker';
 import {
   CODE_MAX_LINES,
   highlightServiceToken,
@@ -149,7 +151,7 @@ declare global {
 @customElement('gr-diff-host')
 export class GrDiffHost extends LitElement {
   @query('#diff')
-  diffElement?: GrDiff;
+  diffElement?: GrDiff | GrDiffNew;
 
   @property({type: Number})
   changeNum?: NumericChangeId;
@@ -360,7 +362,9 @@ export class GrDiffHost extends LitElement {
       e => this.handleCreateThread(e)
     );
     this.addEventListener('diff-context-expanded', event =>
-      this.handleDiffContextExpanded(event)
+      this.handleDiffContextExpanded(
+        event as CustomEvent<DiffContextExpandedEventDetail>
+      )
     );
     subscribe(
       this,
@@ -402,6 +406,7 @@ export class GrDiffHost extends LitElement {
       this.checksSubscription.unsubscribe();
       this.checksSubscription = undefined;
     }
+    this.clear();
     super.disconnectedCallback();
   }
 
@@ -497,35 +502,63 @@ export class GrDiffHost extends LitElement {
     const useNewImageDiffUi = this.flags.isEnabled(
       KnownExperimentId.NEW_IMAGE_DIFF_UI
     );
+    const newDiff = this.flags.isEnabled(KnownExperimentId.NEW_DIFF);
 
     return keyed(
       this.grDiffKey,
-      html`
-        <gr-diff
-          id="diff"
-          ?hidden=${this.hidden}
-          .noAutoRender=${this.noAutoRender}
-          .path=${this.path}
-          .prefs=${this.prefs}
-          .isImageDiff=${this.isImageDiff}
-          .noRenderOnPrefsChange=${this.noRenderOnPrefsChange}
-          .renderPrefs=${this.renderPrefs}
-          .lineWrapping=${this.lineWrapping}
-          .viewMode=${this.viewMode}
-          .lineOfInterest=${this.lineOfInterest}
-          .loggedIn=${this.loggedIn}
-          .errorMessage=${this.errorMessage}
-          .baseImage=${this.baseImage}
-          .revisionImage=${this.revisionImage}
-          .coverageRanges=${this.coverageRanges}
-          .blame=${this.blame}
-          .layers=${this.layers}
-          .diff=${this.diff}
-          .showNewlineWarningLeft=${showNewlineWarningLeft}
-          .showNewlineWarningRight=${showNewlineWarningRight}
-          .useNewImageDiffUi=${useNewImageDiffUi}
-        ></gr-diff>
-      `
+      newDiff
+        ? html`
+            <gr-diff-new
+              id="diff"
+              ?hidden=${this.hidden}
+              .noAutoRender=${this.noAutoRender}
+              .path=${this.path}
+              .prefs=${this.prefs}
+              .isImageDiff=${this.isImageDiff}
+              .noRenderOnPrefsChange=${this.noRenderOnPrefsChange}
+              .renderPrefs=${this.renderPrefs}
+              .lineWrapping=${this.lineWrapping}
+              .viewMode=${this.viewMode}
+              .lineOfInterest=${this.lineOfInterest}
+              .loggedIn=${this.loggedIn}
+              .errorMessage=${this.errorMessage}
+              .baseImage=${this.baseImage}
+              .revisionImage=${this.revisionImage}
+              .coverageRanges=${this.coverageRanges}
+              .blame=${this.blame}
+              .layers=${this.layers}
+              .diff=${this.diff}
+              .showNewlineWarningLeft=${showNewlineWarningLeft}
+              .showNewlineWarningRight=${showNewlineWarningRight}
+              .useNewImageDiffUi=${useNewImageDiffUi}
+            ></gr-diff-new>
+          `
+        : html`
+            <gr-diff
+              id="diff"
+              ?hidden=${this.hidden}
+              .noAutoRender=${this.noAutoRender}
+              .path=${this.path}
+              .prefs=${this.prefs}
+              .isImageDiff=${this.isImageDiff}
+              .noRenderOnPrefsChange=${this.noRenderOnPrefsChange}
+              .renderPrefs=${this.renderPrefs}
+              .lineWrapping=${this.lineWrapping}
+              .viewMode=${this.viewMode}
+              .lineOfInterest=${this.lineOfInterest}
+              .loggedIn=${this.loggedIn}
+              .errorMessage=${this.errorMessage}
+              .baseImage=${this.baseImage}
+              .revisionImage=${this.revisionImage}
+              .coverageRanges=${this.coverageRanges}
+              .blame=${this.blame}
+              .layers=${this.layers}
+              .diff=${this.diff}
+              .showNewlineWarningLeft=${showNewlineWarningLeft}
+              .showNewlineWarningRight=${showNewlineWarningRight}
+              .useNewImageDiffUi=${useNewImageDiffUi}
+            ></gr-diff>
+          `
     );
   }
 
@@ -576,6 +609,9 @@ export class GrDiffHost extends LitElement {
   async reloadInternal(shouldReportMetric?: boolean) {
     this.reporting.time(Timing.DIFF_TOTAL);
     this.reporting.time(Timing.DIFF_LOAD);
+    this.clear();
+    this.cancel();
+    this.clearDiffContent();
     assertIsDefined(this.path, 'path');
     assertIsDefined(this.changeNum, 'changeNum');
     this.grDiffKey++;
@@ -677,6 +713,10 @@ export class GrDiffHost extends LitElement {
     }
     layers.push(this.syntaxLayer);
     return layers;
+  }
+
+  clear() {
+    this.layers = [];
   }
 
   /**
@@ -850,6 +890,10 @@ export class GrDiffHost extends LitElement {
     };
   }
 
+  cancel() {
+    this.diffElement?.cancel();
+  }
+
   getCursorStops() {
     assertIsDefined(this.diffElement);
     return this.diffElement.getCursorStops();
@@ -903,6 +947,10 @@ export class GrDiffHost extends LitElement {
     return Array.from(
       this.diffElement?.querySelectorAll('gr-diff-check-result') ?? []
     );
+  }
+
+  clearDiffContent() {
+    this.diffElement?.clearDiffContent();
   }
 
   toggleAllContext() {

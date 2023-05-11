@@ -6,6 +6,7 @@
 import '../../../styles/gr-a11y-styles';
 import '../../../styles/shared-styles';
 import '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
+import '../../../embed/diff-new/gr-diff-cursor/gr-diff-cursor';
 import '../../diff/gr-diff-host/gr-diff-host';
 import '../../diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import '../../edit/gr-edit-file-controls/gr-edit-file-controls';
@@ -48,6 +49,7 @@ import {DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
 import {GrDiffPreferencesDialog} from '../../diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
+import {GrDiffCursorNew as GrDiffCursorNew} from '../../../embed/diff-new/gr-diff-cursor/gr-diff-cursor';
 import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {ParsedChangeInfo, PatchSetFile} from '../../../types/types';
@@ -86,6 +88,7 @@ import {
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {FileMode, fileModeToString} from '../../../utils/file-util';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -296,6 +299,8 @@ export class GrFileList extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
+  private readonly flagsService = getAppContext().flagsService;
+
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
   private readonly getUserModel = resolve(this, userModelToken);
@@ -316,7 +321,7 @@ export class GrFileList extends LitElement {
   fileCursor = new GrCursorManager();
 
   // private but used in test
-  diffCursor?: GrDiffCursor;
+  diffCursor?: GrDiffCursor | GrDiffCursorNew;
 
   static override get styles() {
     return [
@@ -904,7 +909,8 @@ export class GrFileList extends LitElement {
           );
         }
       });
-    this.diffCursor = new GrDiffCursor();
+    const newDiff = this.flagsService.isEnabled(KnownExperimentId.NEW_DIFF);
+    this.diffCursor = newDiff ? new GrDiffCursorNew() : new GrDiffCursor();
     this.diffCursor.replaceDiffs(this.diffs);
   }
 
@@ -2335,6 +2341,13 @@ export class GrFileList extends LitElement {
    * Private but used in tests.
    */
   async expandedFilesChanged(oldFiles: Array<PatchSetFile>) {
+    // Clear content for any diffs that are not open so if they get re-opened
+    // the stale content does not flash before it is cleared and reloaded.
+    const collapsedDiffs = this.diffs.filter(
+      diff => this.expandedFiles.findIndex(f => f.path === diff.path) === -1
+    );
+    this.clearCollapsedDiffs(collapsedDiffs);
+
     this.filesExpanded = this.computeExpandedFiles();
 
     const newFiles = this.expandedFiles.filter(
@@ -2349,6 +2362,14 @@ export class GrFileList extends LitElement {
     }
     this.updateDiffCursor();
     this.diffCursor?.reInitAndUpdateStops();
+  }
+
+  // private but used in test
+  clearCollapsedDiffs(collapsedDiffs: GrDiffHost[]) {
+    for (const diff of collapsedDiffs) {
+      diff.cancel();
+      diff.clearDiffContent();
+    }
   }
 
   /**
@@ -2433,6 +2454,7 @@ export class GrFileList extends LitElement {
     if (this.cancelForEachDiff) {
       this.cancelForEachDiff();
     }
+    this.forEachDiff(d => d.cancel());
   }
 
   /**

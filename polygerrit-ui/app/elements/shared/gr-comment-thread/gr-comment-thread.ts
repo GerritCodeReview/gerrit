@@ -7,7 +7,7 @@ import '../../../styles/gr-a11y-styles';
 import '../../../styles/shared-styles';
 import '../gr-comment/gr-comment';
 import '../gr-icon/gr-icon';
-import '../../../embed/diff/gr-diff/gr-diff';
+import '../../../embed/diff-new/gr-diff/gr-diff';
 import '../gr-copy-clipboard/gr-copy-clipboard';
 import {css, html, nothing, LitElement, PropertyValues} from 'lit';
 import {
@@ -44,7 +44,7 @@ import {
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {CommentEditingChangedDetail, GrComment} from '../gr-comment/gr-comment';
-import {FILE} from '../../../embed/diff/gr-diff/gr-diff-line';
+import {FILE} from '../../../embed/diff-new/gr-diff/gr-diff-line';
 import {GrButton} from '../gr-button/gr-button';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {DiffLayer, RenderPreferences} from '../../../api/diff';
@@ -54,9 +54,9 @@ import {
   copyToClipbard,
 } from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
-import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
-import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
-import {anyLineTooLong} from '../../../embed/diff/gr-diff/gr-diff-utils';
+import {GrSyntaxLayerWorker} from '../../../embed/diff-new/gr-syntax-layer/gr-syntax-layer-worker';
+import {TokenHighlightLayer} from '../../../embed/diff-new/gr-diff-builder/token-highlight-layer';
+import {anyLineTooLong} from '../../../embed/diff-new/gr-diff/gr-diff-utils';
 import {getUserName} from '../../../utils/display-name-util';
 import {generateAbsoluteUrl} from '../../../utils/url-util';
 import {sharedStyles} from '../../../styles/shared-styles';

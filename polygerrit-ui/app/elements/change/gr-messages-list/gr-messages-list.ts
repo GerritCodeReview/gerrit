@@ -21,14 +21,14 @@ import {
   PatchSetNum,
   VotingRangeInfo,
   isRobot,
-  EDIT,
-  PARENT,
+  PatchSetNumber,
 } from '../../../types/common';
 import {GrMessage, MessageAnchorTapDetail} from '../gr-message/gr-message';
 import {getVotingRange} from '../../../utils/label-util';
 import {
   FormattedReviewerUpdateInfo,
   ParsedChangeInfo,
+  isPatchSetNumber,
 } from '../../../types/types';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
@@ -157,27 +157,17 @@ function computeRevision(
   message: CombinedMessage,
   allMessages: CombinedMessage[]
 ): PatchSetNum | undefined {
-  if (
-    message._revision_number !== undefined &&
-    message._revision_number !== 0 &&
-    message._revision_number !== PARENT &&
-    message._revision_number !== EDIT
-  ) {
+  if (isPatchSetNumber(message._revision_number)) {
     return message._revision_number;
   }
-  let revision: PatchSetNum = 0 as PatchSetNum;
+  let revision: PatchSetNumber | undefined = undefined;
   for (const m of allMessages) {
     if (m.date > message.date) break;
-    if (
-      m._revision_number !== undefined &&
-      m._revision_number !== 0 &&
-      m._revision_number !== PARENT &&
-      m._revision_number !== EDIT
-    ) {
+    if (isPatchSetNumber(m._revision_number)) {
       revision = m._revision_number;
     }
   }
-  return revision > 0 ? revision : undefined;
+  return revision;
 }
 
 /**

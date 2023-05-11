@@ -12,8 +12,10 @@ import {
   CommitInfo,
   EditPatchSet,
   PatchSetNum,
+  PatchSetNumber,
   ReviewerUpdateInfo,
   RevisionInfo,
+  RevisionPatchSetNum,
   Timestamp,
 } from './common';
 
@@ -87,6 +89,17 @@ export function isPatchSetFile(
   x: PatchSetFile | PatchNumOnly
 ): x is PatchSetFile {
   return !!(x as PatchSetFile).path;
+}
+
+export function isPatchSetNumber(
+  x?:
+    | PatchSetNum
+    | PatchSetNumber
+    | RevisionPatchSetNum
+    | BasePatchSetNum
+    | null
+): x is PatchSetNumber {
+  return !!x && Number.isInteger(x) && (x as number) > 0;
 }
 
 export interface FileRange {

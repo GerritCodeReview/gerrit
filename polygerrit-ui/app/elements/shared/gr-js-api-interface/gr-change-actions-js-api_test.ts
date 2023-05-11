@@ -10,6 +10,7 @@ import {GrChangeActions} from '../../change/gr-change-actions/gr-change-actions'
 import {fixture, html, assert} from '@open-wc/testing';
 import {PluginApi} from '../../../api/plugin';
 import {
+  ActionPriority,
   ActionType,
   ChangeActionsPluginApi,
   PrimaryActionKey,
@@ -169,7 +170,11 @@ suite('gr-change-actions-js-api-interface tests', () => {
       let buttons = queryAll<GrButton>(element, '[data-action-key]');
       assert.equal(buttons[0].getAttribute('data-action-key'), key1);
       assert.equal(buttons[1].getAttribute('data-action-key'), key2);
-      changeActions.setActionPriority(ActionType.REVISION, key1, 10);
+      changeActions.setActionPriority(
+        ActionType.REVISION,
+        key1,
+        ActionPriority.PRIMARY
+      );
       await element.updateComplete;
       buttons = queryAll<GrButton>(element, '[data-action-key]');
       assert.equal(buttons[0].getAttribute('data-action-key'), key2);

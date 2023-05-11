@@ -40,6 +40,7 @@ import {assert} from '../../../utils/common-util';
 import {isImageDiff} from '../../../utils/diff-util';
 import {ImageInfo} from '../../../types/common';
 import {fire} from '../../../utils/event-util';
+import {CommentRange} from '../../../api/rest-api';
 
 export interface DiffState {
   diff?: DiffInfo;
@@ -217,11 +218,11 @@ export class DiffModel extends Model<DiffState> {
     fire(this.eventTarget, 'line-selected', detail);
   }
 
-  createComment(lineNum: LineNumber, side: Side) {
+  createComment(lineNum: LineNumber, side: Side, range?: CommentRange) {
     const detail: CreateCommentEventDetail = {
       side,
       lineNum,
-      range: undefined,
+      range,
     };
     fire(this.eventTarget, 'create-comment', detail);
   }

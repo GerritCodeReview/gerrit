@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3115dbd_c6c73d35",
+        "filename": "java/com/google/gerrit/extensions/api/changes/RebaseInput.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1091855
+      },
+      "writtenOn": "2023-05-11T17:25:02Z",
+      "side": 1,
+      "message": "Sounds good.  I\u0027ll try and spin up a separate change for this.",
+      "parentUuid": "33a9e9b4_65b4f54c",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 15
+      },
+      "revId": "180e96f8ed909e1c38c2f8b94a418cf93046b5e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd2543bb_904abb99",

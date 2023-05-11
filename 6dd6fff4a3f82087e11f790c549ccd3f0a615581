@@ -34,6 +34,23 @@
       "parentUuid": "f1b50764_9a51287a",
       "revId": "6dd6fff4a3f82087e11f790c549ccd3f0a615581",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4787dbb5_7fc04299",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-11T10:00:52Z",
+      "side": 1,
+      "message": "LC is needed. This is a cherry-pick from Gerrit@HEAD.",
+      "revId": "6dd6fff4a3f82087e11f790c549ccd3f0a615581",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

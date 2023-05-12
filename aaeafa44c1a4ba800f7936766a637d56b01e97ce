@@ -16,6 +16,23 @@
       "message": "I think this change isn\u0027t needed on this branch\n\n- I am using MacOS 13.3.1 and XCode 14.3 and the build works without this change\n- on stable-3.6 and higher the build didn\u0027t work without this change",
       "revId": "aaeafa44c1a4ba800f7936766a637d56b01e97ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f367919_514eb0ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-05-12T09:19:31Z",
+      "side": 1,
+      "message": "Build completed successfully",
+      "revId": "aaeafa44c1a4ba800f7936766a637d56b01e97ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

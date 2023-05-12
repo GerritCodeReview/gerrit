@@ -44,10 +44,9 @@ import {
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {CommentEditingChangedDetail, GrComment} from '../gr-comment/gr-comment';
-import {FILE} from '../../../embed/diff/gr-diff/gr-diff-line';
 import {GrButton} from '../gr-button/gr-button';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
-import {DiffLayer, RenderPreferences} from '../../../api/diff';
+import {DiffLayer, FILE, RenderPreferences} from '../../../api/diff';
 import {
   assert,
   assertIsDefined,

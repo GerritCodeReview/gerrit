@@ -4,12 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {BlameInfo, CommentRange} from '../../../types/common';
-import {FILE, LineNumber} from './gr-diff-line';
 import {Side} from '../../../constants/constants';
 import {DiffInfo} from '../../../types/diff';
 import {
   DiffPreferencesInfo,
   DiffResponsiveMode,
+  FILE,
+  LOST,
+  LineNumber,
   RenderPreferences,
 } from '../../../api/diff';
 import {getBaseUrl} from '../../../utils/url-util';
@@ -103,9 +105,7 @@ export function getLineNumberByChild(node?: Node) {
 }
 
 export function lineNumberToNumber(lineNumber?: LineNumber | null): number {
-  if (!lineNumber) return 0;
-  if (lineNumber === 'LOST') return 0;
-  if (lineNumber === 'FILE') return 0;
+  if (typeof lineNumber !== 'number') return 0;
   return lineNumber;
 }
 
@@ -138,15 +138,15 @@ export function getLineNumber(lineEl?: Element | null): LineNumber | null {
   const lineNumberStr = lineEl.getAttribute('data-value');
   if (!lineNumberStr) return null;
   if (lineNumberStr === FILE) return FILE;
-  if (lineNumberStr === 'LOST') return 'LOST';
+  if (lineNumberStr === LOST) return LOST;
   const lineNumber = Number(lineNumberStr);
   return Number.isInteger(lineNumber) ? lineNumber : null;
 }
 
 export function getLine(threadEl: HTMLElement): LineNumber {
   const lineAtt = threadEl.getAttribute('line-num');
-  if (lineAtt === 'LOST') return lineAtt;
-  if (!lineAtt || lineAtt === 'FILE') return FILE;
+  if (lineAtt === LOST) return lineAtt;
+  if (!lineAtt || lineAtt === FILE) return FILE;
   const line = Number(lineAtt);
   if (isNaN(line)) throw new Error(`cannot parse line number: ${lineAtt}`);
   if (line < 1) throw new Error(`line number smaller than 1: ${line}`);

@@ -4,8 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
-import {Side, TokenHighlightEventDetails} from '../../../api/diff';
-import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
+import {
+  GrDiffLineType,
+  Side,
+  TokenHighlightEventDetails,
+} from '../../../api/diff';
+import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {HOVER_DELAY_MS, TokenHighlightLayer} from './token-highlight-layer';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
 import {html, render} from 'lit';

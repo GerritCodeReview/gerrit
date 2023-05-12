@@ -5,7 +5,7 @@
  */
 import {ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
-import {RenderPreferences, Side} from '../../../api/diff';
+import {FILE, RenderPreferences, Side} from '../../../api/diff';
 import '../gr-diff-image-viewer/gr-image-viewer';
 import {html, LitElement, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
@@ -32,8 +32,8 @@ export class GrDiffBuilderImage extends GrDiffBuilder {
 
   override buildSectionElement(group: GrDiffGroup): HTMLElement {
     const section = createElementDiff('tbody');
-    // Do not create a diff row for 'LOST'.
-    if (group.lines[0].beforeNumber !== 'FILE') return section;
+    // Do not create a diff row for LOST.
+    if (group.lines[0].beforeNumber !== FILE) return section;
     return super.buildSectionElement(group);
   }
 

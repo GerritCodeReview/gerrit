@@ -44,7 +44,12 @@ import {
 } from '../../../types/common';
 import {CoverageType} from '../../../types/types';
 import {GrDiffHost, LineInfo} from './gr-diff-host';
-import {DiffInfo, DiffViewMode, IgnoreWhitespaceType} from '../../../api/diff';
+import {
+  DiffInfo,
+  DiffViewMode,
+  FILE,
+  IgnoreWhitespaceType,
+} from '../../../api/diff';
 import {ErrorCallback} from '../../../api/rest';
 import {SinonStub, SinonStubbedMember} from 'sinon';
 import {RunResult} from '../../../models/checks/checks-model';
@@ -1321,7 +1326,7 @@ suite('gr-diff-host tests', () => {
   });
 
   test('filterThreadElsForLocation for file comments', () => {
-    const line: LineInfo = {beforeNumber: 'FILE', afterNumber: 'FILE'};
+    const line: LineInfo = {beforeNumber: FILE, afterNumber: FILE};
 
     const l = document.createElement('gr-comment-thread');
     l.setAttribute('diff-side', Side.LEFT);

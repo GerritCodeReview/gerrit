@@ -8,6 +8,7 @@ import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {createElementDiff} from '../gr-diff/gr-diff-utils';
 import {GrDiffGroup} from '../gr-diff/gr-diff-group';
 import {html, render} from 'lit';
+import {FILE} from '../../../api/diff';
 
 export class GrDiffBuilderBinary extends GrDiffBuilder {
   constructor(
@@ -20,8 +21,8 @@ export class GrDiffBuilderBinary extends GrDiffBuilder {
 
   override buildSectionElement(group: GrDiffGroup): HTMLElement {
     const section = createElementDiff('tbody', 'binary-diff');
-    // Do not create a diff row for 'LOST'.
-    if (group.lines[0].beforeNumber !== 'FILE') return section;
+    // Do not create a diff row for LOST.
+    if (group.lines[0].beforeNumber !== FILE) return section;
     return super.buildSectionElement(group);
   }
 

@@ -3,9 +3,15 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {BLANK_LINE, GrDiffLine, GrDiffLineType} from './gr-diff-line';
-import {LineRange, Side} from '../../../api/diff';
-import {LineNumber} from './gr-diff-line';
+import {BLANK_LINE, GrDiffLine} from './gr-diff-line';
+import {
+  FILE,
+  GrDiffLineType,
+  LOST,
+  LineNumber,
+  LineRange,
+  Side,
+} from '../../../api/diff';
 import {assertIsDefined, assert} from '../../../utils/common-util';
 import {untilRendered} from '../../../utils/dom-util';
 import {isDefined} from '../../../types/types';
@@ -133,12 +139,10 @@ function splitGroupInTwo(
     for (const line of group.lines) {
       if (
         (line.beforeNumber &&
-          line.beforeNumber !== 'FILE' &&
-          line.beforeNumber !== 'LOST' &&
+          typeof line.beforeNumber === 'number' &&
           line.beforeNumber < leftSplit) ||
         (line.afterNumber &&
-          line.afterNumber !== 'FILE' &&
-          line.afterNumber !== 'LOST' &&
+          typeof line.afterNumber === 'number' &&
           line.afterNumber < rightSplit)
       ) {
         before.push(line);
@@ -435,7 +439,7 @@ export class GrDiffGroup {
   }
 
   containsLine(side: Side, line: LineNumber) {
-    if (line === 'FILE' || line === 'LOST') {
+    if (typeof line !== 'number') {
       // For FILE and LOST, beforeNumber and afterNumber are the same
       return this.lines[0]?.beforeNumber === line;
     }
@@ -462,14 +466,8 @@ export class GrDiffGroup {
   }
 
   private _updateRangeWithNewLine(line: GrDiffLine) {
-    if (
-      line.beforeNumber === 'FILE' ||
-      line.afterNumber === 'FILE' ||
-      line.beforeNumber === 'LOST' ||
-      line.afterNumber === 'LOST'
-    ) {
-      return;
-    }
+    if (typeof line.beforeNumber !== 'number') return;
+    if (typeof line.afterNumber !== 'number') return;
 
     if (line.type === GrDiffLineType.ADD || line.type === GrDiffLineType.BOTH) {
       if (
@@ -505,8 +503,8 @@ export class GrDiffGroup {
     // untilRendered() promise.
     if (
       this.skip !== undefined ||
-      lineNumber === 'LOST' ||
-      lineNumber === 'FILE' ||
+      lineNumber === LOST ||
+      lineNumber === FILE ||
       this.type === GrDiffGroupType.CONTEXT_CONTROL
     ) {
       return Promise.resolve();

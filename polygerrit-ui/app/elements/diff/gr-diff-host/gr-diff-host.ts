@@ -53,7 +53,6 @@ import {
 } from '../../../embed/diff/gr-diff/gr-diff';
 import {DiffViewMode, Side, CommentSide} from '../../../constants/constants';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
-import {LineNumber, FILE} from '../../../embed/diff/gr-diff/gr-diff-line';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {
@@ -71,7 +70,10 @@ import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {Subscription} from 'rxjs';
 import {
   DisplayLine,
+  FILE,
+  LineNumber,
   LineSelectedEventDetail,
+  LOST,
   RenderPreferences,
 } from '../../../api/diff';
 import {resolve} from '../../../models/dependency';
@@ -754,7 +756,7 @@ export class GrDiffHost extends LitElement {
     const pointer = check.codePointers?.[0];
     assertIsDefined(pointer, 'code pointer of check result in diff');
     const line: LineNumber =
-      pointer.range?.end_line || pointer.range?.start_line || 'FILE';
+      pointer.range?.end_line || pointer.range?.start_line || FILE;
     const el = document.createElement('gr-diff-check-result');
     // This is what gr-diff expects, even though this is a check, not a comment.
     el.className = 'comment-thread';
@@ -1212,9 +1214,9 @@ export class GrDiffHost extends LitElement {
     threadEl.showPortedComment = !!thread.ported;
     // These attributes are the "interface" between comment threads and gr-diff.
     // <gr-comment-thread> does not care about them and is not affected by them.
-    threadEl.setAttribute('slot', `${diffSide}-${thread.line || 'LOST'}`);
+    threadEl.setAttribute('slot', `${diffSide}-${thread.line || LOST}`);
     threadEl.setAttribute('diff-side', `${diffSide}`);
-    threadEl.setAttribute('line-num', `${thread.line || 'LOST'}`);
+    threadEl.setAttribute('line-num', `${thread.line || LOST}`);
     if (thread.range) {
       threadEl.setAttribute('range', `${JSON.stringify(thread.range)}`);
     }

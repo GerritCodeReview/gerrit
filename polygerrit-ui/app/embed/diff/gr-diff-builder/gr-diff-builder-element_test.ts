@@ -11,12 +11,13 @@ import {
 import './gr-diff-builder-element';
 import {stubBaseUrl, waitUntil} from '../../../test/test-utils';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
-import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
+import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {
   DiffContent,
   DiffLayer,
   DiffPreferencesInfo,
   DiffViewMode,
+  GrDiffLineType,
   Side,
 } from '../../../api/diff';
 import {stubRestApi} from '../../../test/test-utils';

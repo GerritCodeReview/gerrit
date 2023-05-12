@@ -8,6 +8,7 @@ import {AbortStop, CursorMoveResult, Stop} from '../../../api/core';
 import {
   DiffViewMode,
   GrDiffCursor as GrDiffCursorApi,
+  GrDiffLineType,
   LineNumber,
   LineSelectedEventDetail,
 } from '../../../api/diff';
@@ -17,7 +18,6 @@ import {
   GrCursorManager,
   isTargetable,
 } from '../../../elements/shared/gr-cursor-manager/gr-cursor-manager';
-import {GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {GrDiff} from '../gr-diff/gr-diff';
 import {fire} from '../../../utils/event-util';

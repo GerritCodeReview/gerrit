@@ -8,9 +8,14 @@ import '../gr-diff/gr-diff-group';
 import './gr-context-controls';
 import {GrContextControls} from './gr-context-controls';
 
-import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
+import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
-import {DiffFileMetaInfo, DiffInfo, SyntaxBlock} from '../../../api/diff';
+import {
+  DiffFileMetaInfo,
+  DiffInfo,
+  GrDiffLineType,
+  SyntaxBlock,
+} from '../../../api/diff';
 import {fixture, html, assert} from '@open-wc/testing';
 import {waitEventLoop} from '../../../test/test-utils';
 

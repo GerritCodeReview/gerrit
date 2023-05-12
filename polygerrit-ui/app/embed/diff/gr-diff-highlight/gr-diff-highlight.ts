@@ -11,7 +11,6 @@ import {strToClassName} from '../../../utils/dom-util';
 import {Side} from '../../../constants/constants';
 import {CommentRange} from '../../../types/common';
 import {GrSelectionActionBox} from '../gr-selection-action-box/gr-selection-action-box';
-import {FILE} from '../gr-diff/gr-diff-line';
 import {
   getLineElByChild,
   getLineNumberByChild,
@@ -308,7 +307,7 @@ export class GrDiffHighlight {
     const side = getSideByLineEl(lineEl);
     if (!side) return null;
     const line = getLineNumberByChild(lineEl);
-    if (!line || line === FILE || line === 'LOST') return null;
+    if (typeof line !== 'number') return null;
     const contentTd = this.diffBuilder.getContentTdByLineEl(lineEl);
     if (!contentTd) return null;
     const contentText = contentTd.querySelector('.contentText');

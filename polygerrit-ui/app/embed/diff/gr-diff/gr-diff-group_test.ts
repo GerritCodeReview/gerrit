@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
-import {GrDiffLine, GrDiffLineType, BLANK_LINE} from './gr-diff-line';
+import {GrDiffLine, BLANK_LINE} from './gr-diff-line';
 import {
   GrDiffGroup,
   GrDiffGroupType,
   hideInContextControl,
 } from './gr-diff-group';
 import {assert} from '@open-wc/testing';
-import {Side} from '../../../api/diff';
+import {FILE, GrDiffLineType, LOST, Side} from '../../../api/diff';
 
 suite('gr-diff-group tests', () => {
   test('delta line pairs', () => {
@@ -297,18 +297,18 @@ suite('gr-diff-group tests', () => {
 
     test('FILE', () => {
       const lines: GrDiffLine[] = [];
-      lines.push(new GrDiffLine(GrDiffLineType.BOTH, 'FILE', 'FILE'));
+      lines.push(new GrDiffLine(GrDiffLineType.BOTH, FILE, FILE));
       const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
-      assert.equal(group.startLine(Side.LEFT), 'FILE');
-      assert.equal(group.startLine(Side.RIGHT), 'FILE');
+      assert.equal(group.startLine(Side.LEFT), FILE);
+      assert.equal(group.startLine(Side.RIGHT), FILE);
     });
 
     test('LOST', () => {
       const lines: GrDiffLine[] = [];
-      lines.push(new GrDiffLine(GrDiffLineType.BOTH, 'LOST', 'LOST'));
+      lines.push(new GrDiffLine(GrDiffLineType.BOTH, LOST, LOST));
       const group = new GrDiffGroup({type: GrDiffGroupType.DELTA, lines});
-      assert.equal(group.startLine(Side.LEFT), 'LOST');
-      assert.equal(group.startLine(Side.RIGHT), 'LOST');
+      assert.equal(group.startLine(Side.LEFT), LOST);
+      assert.equal(group.startLine(Side.RIGHT), LOST);
     });
   });
 });

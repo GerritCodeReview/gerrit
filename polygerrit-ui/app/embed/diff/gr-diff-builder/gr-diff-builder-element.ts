@@ -27,9 +27,9 @@ import {
   GrRangedCommentLayer,
 } from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
 import {GrCoverageLayer} from '../gr-coverage-layer/gr-coverage-layer';
-import {DiffViewMode, RenderPreferences} from '../../../api/diff';
+import {DiffViewMode, LineNumber, RenderPreferences} from '../../../api/diff';
 import {createDefaultDiffPrefs, Side} from '../../../constants/constants';
-import {GrDiffLine, LineNumber} from '../gr-diff/gr-diff-line';
+import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {
   GrDiffGroup,
   GrDiffGroupType,

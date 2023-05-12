@@ -41,6 +41,7 @@ import {GrAccountLabel} from '../../shared/gr-account-label/gr-account-label';
 import {GrDropdownList} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
+import {FILE} from '../../../api/diff';
 
 suite('gr-thread-list tests', () => {
   let element: GrThreadList;
@@ -665,7 +666,7 @@ suite('compareThreads', () => {
 
   test('file level comment before line', () => {
     t1.line = 123;
-    t2.line = 'FILE';
+    t2.line = FILE;
     checkOrder([t2, t1]);
   });
 

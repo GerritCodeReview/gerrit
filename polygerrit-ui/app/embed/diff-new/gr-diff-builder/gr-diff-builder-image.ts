@@ -6,12 +6,12 @@
 import {ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {FILE, RenderPreferences, Side} from '../../../api/diff';
-import '../gr-diff-image-viewer/gr-image-viewer';
+import '../../diff/gr-diff-image-viewer/gr-image-viewer';
 import {html, LitElement, nothing} from 'lit';
 import {property, query, state} from 'lit/decorators.js';
 import {GrDiffBuilder} from './gr-diff-builder';
-import {createElementDiff, isNewDiff} from '../gr-diff/gr-diff-utils';
 import {GrDiffGroup} from '../gr-diff/gr-diff-group';
+import {isNewDiff, createElementDiff} from '../../diff/gr-diff/gr-diff-utils';
 
 // MIME types for images we allow showing. Do not include SVG, it can contain
 // arbitrary JavaScript.
@@ -266,7 +266,7 @@ function imageSrc(image?: ImageInfo): string {
     : '';
 }
 
-if (!isNewDiff()) {
+if (isNewDiff()) {
   customElements.define('gr-diff-image-new', GrDiffImageNew);
   customElements.define('gr-diff-image-old', GrDiffImageOld);
 }

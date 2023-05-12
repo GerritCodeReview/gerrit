@@ -9,9 +9,9 @@ import '../../../elements/shared/gr-icon/gr-icon';
 import '../gr-diff-builder/gr-diff-builder-element';
 import '../gr-diff-highlight/gr-diff-highlight';
 import '../gr-diff-selection/gr-diff-selection';
-import '../gr-syntax-themes/gr-syntax-theme';
-import '../gr-ranged-comment-themes/gr-ranged-comment-theme';
-import '../gr-ranged-comment-hint/gr-ranged-comment-hint';
+import '../../diff/gr-syntax-themes/gr-syntax-theme';
+import '../../diff/gr-ranged-comment-themes/gr-ranged-comment-theme';
+import '../../diff/gr-ranged-comment-hint/gr-ranged-comment-hint';
 import {
   getLine,
   getLineElByChild,
@@ -25,7 +25,7 @@ import {
   getResponsiveMode,
   isResponsive,
   isNewDiff,
-} from './gr-diff-utils';
+} from '../../diff/gr-diff/gr-diff-utils';
 import {BlameInfo, CommentRange, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {
@@ -37,7 +37,7 @@ import {
   getLineNumberCellWidth,
 } from '../gr-diff-builder/gr-diff-builder-element';
 import {CoverageRange, DiffLayer} from '../../../types/types';
-import {CommentRangeLayer} from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
+import {CommentRangeLayer} from '../../diff/gr-ranged-comment-layer/gr-ranged-comment-layer';
 import {
   createDefaultDiffPrefs,
   DiffViewMode,
@@ -67,8 +67,8 @@ import {property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {html, LitElement, nothing, PropertyValues} from 'lit';
 import {when} from 'lit/directives/when.js';
-import {grSyntaxTheme} from '../gr-syntax-themes/gr-syntax-theme';
-import {grRangedCommentTheme} from '../gr-ranged-comment-themes/gr-ranged-comment-theme';
+import {grSyntaxTheme} from '../../diff/gr-syntax-themes/gr-syntax-theme';
+import {grRangedCommentTheme} from '../../diff/gr-ranged-comment-themes/gr-ranged-comment-theme';
 import {classMap} from 'lit/directives/class-map.js';
 import {iconStyles} from '../../../styles/gr-icon-styles';
 import {expandFileMode} from '../../../utils/file-util';
@@ -1109,7 +1109,7 @@ function extractRemovedNodes(mutations: MutationRecord[]) {
   return mutations.flatMap(mutation => [...mutation.removedNodes]);
 }
 
-if (!isNewDiff()) {
+if (isNewDiff()) {
   customElements.define('gr-diff', GrDiff);
 }
 

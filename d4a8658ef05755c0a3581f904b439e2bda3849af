@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b73a82db_eda32d3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-12T10:19:27Z",
+      "side": 1,
+      "message": "ah great, didn\u0027t know this, thanks 👍",
+      "parentUuid": "815a22f6_96d28cab",
+      "revId": "d4a8658ef05755c0a3581f904b439e2bda3849af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ca152e4_93d59211",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-05-12T10:12:41Z",
       "side": 1,
       "message": "Nit: Keep the plugin list alphabetically sorted.",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 28
+      },
+      "revId": "d4a8658ef05755c0a3581f904b439e2bda3849af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9552f2b4_1b9269e4",
+        "filename": "java/com/google/gerrit/common/UsedAt.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-12T10:19:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ca152e4_93d59211",
       "range": {
         "startLine": 41,
         "startChar": 0,

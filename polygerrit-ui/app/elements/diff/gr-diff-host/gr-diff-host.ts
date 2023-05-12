@@ -6,6 +6,7 @@
 import '../../shared/gr-comment-thread/gr-comment-thread';
 import '../../checks/gr-diff-check-result';
 import '../../../embed/diff/gr-diff/gr-diff';
+import '../../../embed/diff-new/gr-diff/gr-diff';
 import {
   anyLineTooLong,
   getDiffLength,
@@ -45,10 +46,8 @@ import {
   IgnoreWhitespaceType,
   WebLinkInfo,
 } from '../../../types/diff';
-import {
-  CreateCommentEventDetail,
-  GrDiff,
-} from '../../../embed/diff/gr-diff/gr-diff';
+import {GrDiff} from '../../../embed/diff/gr-diff/gr-diff';
+import {GrDiff as GrDiffNew} from '../../../embed/diff-new/gr-diff/gr-diff';
 import {DiffViewMode, Side, CommentSide} from '../../../constants/constants';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
@@ -61,12 +60,13 @@ import {
   waitForEventOnce,
 } from '../../../utils/event-util';
 import {assertIsDefined} from '../../../utils/common-util';
-import {DiffContextExpandedEventDetail} from '../../../embed/diff/gr-diff-builder/gr-diff-builder';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
 import {Timing} from '../../../constants/reporting';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {Subscription} from 'rxjs';
 import {
+  CreateCommentEventDetail,
+  DiffContextExpandedExternalDetail,
   DisplayLine,
   FILE,
   LineNumber,
@@ -125,7 +125,6 @@ declare global {
   interface HTMLElementEventMap {
     // prettier-ignore
     'render': CustomEvent<{}>;
-    'diff-context-expanded': CustomEvent<DiffContextExpandedEventDetail>;
     'create-comment': CustomEvent<CreateCommentEventDetail>;
     'is-blame-loaded-changed': ValueChangedEvent<boolean>;
     'diff-changed': ValueChangedEvent<DiffInfo | undefined>;
@@ -148,8 +147,9 @@ declare global {
  */
 @customElement('gr-diff-host')
 export class GrDiffHost extends LitElement {
+  // TODO(newdiff-cleanup): Replace once newdiff migration is completed.
   @query('#diff')
-  diffElement?: GrDiff;
+  diffElement?: GrDiff | GrDiffNew;
 
   @property({type: Number})
   changeNum?: NumericChangeId;
@@ -1295,7 +1295,7 @@ export class GrDiffHost extends LitElement {
   }
 
   private handleDiffContextExpanded(
-    e: CustomEvent<DiffContextExpandedEventDetail>
+    e: CustomEvent<DiffContextExpandedExternalDetail>
   ) {
     this.reporting.reportInteraction('diff-context-expanded', {
       numLines: e.detail.numLines,

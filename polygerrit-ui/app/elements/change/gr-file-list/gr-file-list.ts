@@ -47,6 +47,7 @@ import {DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
 import {GrDiffPreferencesDialog} from '../../diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
+import {GrDiffCursor as GrDiffCursorNew} from '../../../embed/diff-new/gr-diff-cursor/gr-diff-cursor';
 import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {ParsedChangeInfo, PatchSetFile} from '../../../types/types';
@@ -85,6 +86,7 @@ import {
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {FileMode, fileModeToString} from '../../../utils/file-util';
+import {isNewDiff} from '../../../embed/diff/gr-diff/gr-diff-utils';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -315,7 +317,8 @@ export class GrFileList extends LitElement {
   fileCursor = new GrCursorManager();
 
   // private but used in test
-  diffCursor?: GrDiffCursor;
+  // TODO(newdiff-cleanup): Replace once newdiff migration is completed.
+  diffCursor?: GrDiffCursor | GrDiffCursorNew;
 
   static override get styles() {
     return [
@@ -903,7 +906,8 @@ export class GrFileList extends LitElement {
           );
         }
       });
-    this.diffCursor = new GrDiffCursor();
+    // TODO(newdiff-cleanup): Remove once newdiff migration is completed.
+    this.diffCursor = isNewDiff() ? new GrDiffCursorNew() : new GrDiffCursor();
     this.diffCursor.replaceDiffs(this.diffs);
   }
 

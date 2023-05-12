@@ -2,14 +2,50 @@ import { esbuildPlugin } from "@web/dev-server-esbuild";
 import { defaultReporter, summaryReporter } from "@web/test-runner";
 import { visualRegressionPlugin } from "@web/test-runner-visual-regression/plugin";
 
+function testRunnerHtmlFactory(options) {
+  const setNewDiffExp = `<script type="text/javascript">window.ENABLED_EXPERIMENTS = ['UiFeature__new_diff'];</script>`;
+  return (testFramework) => `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <link rel="stylesheet" href="polygerrit-ui/app/styles/main.css">
+        <link rel="stylesheet" href="polygerrit-ui/app/styles/fonts.css">
+        <link
+          rel="stylesheet"
+          href="polygerrit-ui/app/styles/material-icons.css">
+      </head>
+      <body>
+        ${options.newDiff ? setNewDiffExp : ''}
+        <script type="module" src="${testFramework}"></script>
+      </body>
+    </html>
+  `;
+}
+
 /** @type {import('@web/test-runner').TestRunnerConfig} */
 const config = {
   files: [
     "app/**/*_test.{ts,js}",
+    "!app/embed/diff-new/**/*_test.{ts,js}",
     "!**/node_modules/**/*",
     ...(process.argv.includes("--run-screenshots")
       ? []
       : ["!app/**/*_screenshot_test.{ts,js}"]),
+  ],
+  // TODO(newdiff-cleanup): Remove once newdiff migration is completed.
+  groups: [
+    {
+      name: "new-diff",
+      files: [
+        "app/embed/diff-new/**/*_test.{ts,js}",
+        "app/elements/change/gr-file-list/gr-file-list_test.{ts,js}",
+        "app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog_test.{ts,js}",
+        "app/elements/diff/gr-diff-host/gr-diff-host_test.{ts,js}",
+        "app/elements/diff/gr-diff-view/gr-diff-view_test.{ts,js}",
+        "app/elements/shared/gr-comment-thread/gr-comment-thread_test.{ts,js}",
+      ],
+      testRunnerHtml: testRunnerHtmlFactory({newDiff: true}),
+    },
   ],
   port: 9876,
   nodeResolve: true,
@@ -42,20 +78,6 @@ const config = {
       await next();
     },
   ],
-  testRunnerHtml: (testFramework) => `
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <link rel="stylesheet" href="polygerrit-ui/app/styles/main.css">
-        <link rel="stylesheet" href="polygerrit-ui/app/styles/fonts.css">
-        <link
-          rel="stylesheet"
-          href="polygerrit-ui/app/styles/material-icons.css">
-      </head>
-      <body>
-        <script type="module" src="${testFramework}"></script>
-      </body>
-    </html>
-  `,
+  testRunnerHtml: testRunnerHtmlFactory({newDiff: false}),
 };
 export default config;

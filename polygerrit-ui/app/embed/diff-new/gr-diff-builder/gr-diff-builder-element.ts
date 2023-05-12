@@ -25,8 +25,8 @@ import {
 import {
   CommentRangeLayer,
   GrRangedCommentLayer,
-} from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
-import {GrCoverageLayer} from '../gr-coverage-layer/gr-coverage-layer';
+} from '../../diff/gr-ranged-comment-layer/gr-ranged-comment-layer';
+import {GrCoverageLayer} from '../../diff/gr-coverage-layer/gr-coverage-layer';
 import {DiffViewMode, LineNumber, RenderPreferences} from '../../../api/diff';
 import {createDefaultDiffPrefs, Side} from '../../../constants/constants';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
@@ -350,7 +350,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
   init() {
     this.cleanup();
     this.diffElement?.addEventListener(
-      'diff-context-expanded-internal',
+      'diff-context-expanded-internal-new',
       this.onDiffContextExpanded
     );
     this.builder?.init();
@@ -367,7 +367,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
     this.processor?.cancel();
     this.builder?.cleanup();
     this.diffElement?.removeEventListener(
-      'diff-context-expanded-internal',
+      'diff-context-expanded-internal-new',
       this.onDiffContextExpanded
     );
   }

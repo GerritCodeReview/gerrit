@@ -15,19 +15,16 @@ import {
   DiffPreferencesInfo,
 } from '../../../api/diff';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
-import {
-  diffClasses,
-  getResponsiveMode,
-  isNewDiff,
-} from '../gr-diff/gr-diff-utils';
+import {diffClasses, getResponsiveMode} from '../gr-diff/gr-diff-utils';
 import {GrDiffRow} from './gr-diff-row';
 import '../gr-context-controls/gr-context-controls-section';
 import '../gr-context-controls/gr-context-controls';
-import '../gr-range-header/gr-range-header';
+import '../../diff/gr-range-header/gr-range-header';
 import './gr-diff-row';
 import {when} from 'lit/directives/when.js';
 import {fire} from '../../../utils/event-util';
 import {countLines} from '../../../utils/diff-util';
+import {isNewDiff} from '../../diff/gr-diff/gr-diff-utils';
 
 export class GrDiffSection extends LitElement {
   @property({type: Object})
@@ -243,7 +240,7 @@ export class GrDiffSection extends LitElement {
   }
 }
 
-if (!isNewDiff()) {
+if (isNewDiff()) {
   customElements.define('gr-diff-section', GrDiffSection);
 }
 

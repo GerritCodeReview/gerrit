@@ -8,10 +8,11 @@ import {html, LitElement} from 'lit';
 import {property, state} from 'lit/decorators.js';
 import {DiffInfo, DiffViewMode, RenderPreferences} from '../../../api/diff';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
-import {diffClasses, isNewDiff} from '../gr-diff/gr-diff-utils';
+import {diffClasses} from '../gr-diff/gr-diff-utils';
 import {getShowConfig} from './gr-context-controls';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {when} from 'lit/directives/when.js';
+import {isNewDiff} from '../../diff/gr-diff/gr-diff-utils';
 
 export class GrContextControlsSection extends LitElement {
   /** Should context controls be rendered for expanding above the section? */
@@ -124,7 +125,7 @@ export class GrContextControlsSection extends LitElement {
   }
 }
 
-if (!isNewDiff()) {
+if (isNewDiff()) {
   customElements.define(
     'gr-context-controls-section',
     GrContextControlsSection

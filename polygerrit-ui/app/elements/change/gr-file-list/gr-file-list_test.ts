@@ -57,6 +57,8 @@ import {fixture, html, assert} from '@open-wc/testing';
 import {Modifier} from '../../../utils/dom-util';
 import {testResolver} from '../../../test/common-test-setup';
 import {FileMode} from '../../../utils/file-util';
+import {SinonStubbedMember} from 'sinon';
+import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 
 suite('gr-diff a11y test', () => {
   test('audit', async () => {
@@ -2152,7 +2154,7 @@ suite('gr-file-list tests', () => {
 
     suite('n key presses', () => {
       let nextCommentStub: sinon.SinonStub;
-      let nextChunkStub: sinon.SinonStub;
+      let nextChunkStub: SinonStubbedMember<GrDiffCursor['moveToNextChunk']>;
       let fileRows: NodeListOf<HTMLDivElement>;
 
       setup(() => {

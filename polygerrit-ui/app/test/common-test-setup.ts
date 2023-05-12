@@ -50,6 +50,9 @@ declare global {
 
 window.sinon = sinon;
 
+// Uncommenting this line will run the entire test suite for the new diffs.
+window.ENABLED_EXPERIMENTS = ['UiFeature__new_diff'];
+
 installPolymerResin(safeTypesBridge, (isViolation, fmt, ...args) => {
   const log = _testOnly_defaultResinReportHandler;
   log(isViolation, fmt, ...args);

@@ -22,7 +22,8 @@ import {fire} from '../../../utils/event-util';
 import {getBaseUrl} from '../../../utils/url-util';
 import './gr-diff-text';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
-import {diffClasses, isNewDiff, isResponsive} from '../gr-diff/gr-diff-utils';
+import {diffClasses, isResponsive} from '../gr-diff/gr-diff-utils';
+import {isNewDiff} from '../../diff/gr-diff/gr-diff-utils';
 
 export class GrDiffRow extends LitElement {
   contentLeftRef: Ref<LitElement> = createRef();
@@ -469,7 +470,7 @@ export class GrDiffRow extends LitElement {
   }
 }
 
-if (!isNewDiff()) {
+if (isNewDiff()) {
   customElements.define('gr-diff-row', GrDiffRow);
 }
 

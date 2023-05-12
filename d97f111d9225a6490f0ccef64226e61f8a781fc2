@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bced63ee_1e46edef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-05-12T10:51:29Z",
+      "side": 1,
+      "message": "How is this using the model?\nI don\u0027t see any component subscribing to the DiffModel.\n\nMaybe write a more detailed commit message for this?\nCurrently it\u0027s pretty unclear what it\u0027s doing. 😞",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "d97f111d9225a6490f0ccef64226e61f8a781fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "390b32b1_fe646011",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-05-12T10:51:29Z",
+      "side": 1,
+      "message": "This name is a bit confusing.\n`toCommentThreadModel` returns an interface and not some model object?\n\nInternally it checks `line` and if line is undefined then it returns undefined?\nWhen can line be undefined?\nIs that an intentional check or is this because the type says `side` can sometimes be undefined but we never expect it to be.\n\nCan we choose a better name for this?\nI don\u0027t think I fully understand what this does so I can\u0027t recommend a better name. 😞\n\n\nInside the method `export function getSide`\n```\nconsole.warn(\u0027comment thread without side\u0027);\n```\nShould be convert this console warn into an error instead? Then the types can become stricter maybe?",
+      "range": {
+        "startLine": 578,
+        "startChar": 18,
+        "endLine": 578,
+        "endChar": 38
+      },
+      "revId": "d97f111d9225a6490f0ccef64226e61f8a781fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -10,7 +10,7 @@ import {
   anyLineTooLong,
   getDiffLength,
   SYNTAX_MAX_LINE_LENGTH,
-} from '../../../embed/diff/gr-diff/gr-diff-utils';
+} from '../../../utils/diff-util';
 import {getAppContext} from '../../../services/app-context';
 import {
   getParentIndex,

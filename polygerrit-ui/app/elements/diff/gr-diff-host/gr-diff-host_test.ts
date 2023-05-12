@@ -43,7 +43,6 @@ import {
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {CoverageType} from '../../../types/types';
-import {GrDiffBuilderImage} from '../../../embed/diff/gr-diff-builder/gr-diff-builder-image';
 import {GrDiffHost, LineInfo} from './gr-diff-host';
 import {DiffInfo, DiffViewMode, IgnoreWhitespaceType} from '../../../api/diff';
 import {ErrorCallback} from '../../../api/rest';
@@ -318,10 +317,6 @@ suite('gr-diff-host tests', () => {
       // Recognizes that it should be an image diff.
       assert.isTrue(element.isImageDiff);
       assertIsDefined(element.diffElement);
-      assert.instanceOf(
-        element.diffElement.diffBuilder.builder,
-        GrDiffBuilderImage
-      );
 
       // Left image rendered with the parent commit's version of the file.
       assertIsDefined(element.diffElement);
@@ -393,10 +388,6 @@ suite('gr-diff-host tests', () => {
       // Recognizes that it should be an image diff.
       assert.isTrue(element.isImageDiff);
       assertIsDefined(element.diffElement);
-      assert.instanceOf(
-        element.diffElement.diffBuilder.builder,
-        GrDiffBuilderImage
-      );
 
       // Left image rendered with the parent commit's version of the file.
       assertIsDefined(element.diffElement.diffTable);
@@ -464,10 +455,6 @@ suite('gr-diff-host tests', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
         assertIsDefined(element.diffElement);
-        assert.instanceOf(
-          element.diffElement.diffBuilder.builder,
-          GrDiffBuilderImage
-        );
         assertIsDefined(element.diffElement.diffTable);
         const diffTable = element.diffElement.diffTable;
 
@@ -512,11 +499,6 @@ suite('gr-diff-host tests', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
         assertIsDefined(element.diffElement);
-        assert.instanceOf(
-          element.diffElement.diffBuilder.builder,
-          GrDiffBuilderImage
-        );
-
         assertIsDefined(element.diffElement.diffTable);
         const diffTable = element.diffElement.diffTable;
 
@@ -566,10 +548,6 @@ suite('gr-diff-host tests', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
         assertIsDefined(element.diffElement);
-        assert.instanceOf(
-          element.diffElement.diffBuilder.builder,
-          GrDiffBuilderImage
-        );
         assertIsDefined(element.diffElement.diffTable);
         const diffTable = element.diffElement.diffTable;
 

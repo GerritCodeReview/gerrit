@@ -69,6 +69,7 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
+import com.google.gerrit.server.account.externalids.ExternalIdSerializer;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -143,6 +144,8 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   @Inject protected AccountIndexCollection indexes;
 
   @Inject protected ExternalIds externalIds;
+
+  @Inject protected ExternalIdSerializer externalIdSerializer;
 
   @Inject private ExternalIdKeyFactory externalIdKeyFactory;
 
@@ -705,7 +708,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     for (AccountExternalIdInfo info : externalIdInfos) {
       Optional<ExternalId> extId = externalIds.get(externalIdKeyFactory.parse(info.identity));
       assertThat(extId).isPresent();
-      blobs.add(new ByteArrayWrapper(extId.get().toByteArray()));
+      blobs.add(new ByteArrayWrapper(externalIdSerializer.toByteArray(extId.get())));
     }
 
     // Some installations do not store EXTERNAL_ID_STATE_SPEC

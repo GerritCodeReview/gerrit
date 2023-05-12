@@ -237,7 +237,7 @@ public class AccountField {
               a ->
                   a.externalIds().stream()
                       .filter(e -> e.blobId() != null)
-                      .map(ExternalId::toByteArray)
+                      .map(e -> a.externalIdSerializer().toByteArray(e))
                       .collect(toSet()));
 
   public static final IndexedField<AccountState, Iterable<byte[]>>.SearchSpec

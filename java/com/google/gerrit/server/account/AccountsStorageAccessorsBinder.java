@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.server.account.externalids.ExternalIdSerializer;
+import com.google.gerrit.server.account.externalids.ExternalIdSerializerNoteDbImpl;
 import com.google.inject.Binder;
 import com.google.inject.Singleton;
 
@@ -21,10 +23,18 @@ import com.google.inject.Singleton;
 public class AccountsStorageAccessorsBinder {
   public static void bindAll(Binder binder) {
     bindAccounts(binder);
+    bindExternalIdSerializer(binder);
   }
 
   private static void bindAccounts(Binder binder) {
     binder.bind(Accounts.class).to(AccountsNoteDbImpl.class).in(Singleton.class);
+  }
+
+  private static void bindExternalIdSerializer(Binder binder) {
+    binder
+        .bind(ExternalIdSerializer.class)
+        .to(ExternalIdSerializerNoteDbImpl.class)
+        .in(Singleton.class);
   }
 
   private AccountsStorageAccessorsBinder() {}

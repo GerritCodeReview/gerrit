@@ -18,12 +18,15 @@ import {
 } from '../../../api/diff';
 import {fixture, html, assert} from '@open-wc/testing';
 import {waitEventLoop} from '../../../test/test-utils';
+import {isNewDiff} from '../gr-diff/gr-diff-utils';
 
-suite('gr-context-control tests', () => {
+(!isNewDiff() ? suite : suite.skip)('gr-context-control tests', () => {
   let element: GrContextControls;
 
   setup(async () => {
-    element = document.createElement('gr-context-controls');
+    element = document.createElement(
+      'gr-context-controls'
+    ) as GrContextControls;
     element.diff = {content: []} as any as DiffInfo;
     element.renderPreferences = {};
     const div = await fixture(html`<div></div>`);

@@ -29,10 +29,11 @@ import {fixture, html, assert} from '@open-wc/testing';
 import {GrDiffRow} from './gr-diff-row';
 import {GrDiffBuilder} from './gr-diff-builder';
 import {querySelectorAll} from '../../../utils/dom-util';
+import {isNewDiff} from '../gr-diff/gr-diff-utils';
 
 const DEFAULT_PREFS = createDefaultDiffPrefs();
 
-suite('gr-diff-builder tests', () => {
+(!isNewDiff() ? suite : suite.skip)('gr-diff-builder tests', () => {
   let element: GrDiffBuilderElement;
   let builder: GrDiffBuilder;
   let diffTable: HTMLTableElement;

@@ -364,6 +364,7 @@ export enum ContextButtonType {
 export declare interface DiffContextExpandedExternalDetail {
   expandedLines: number;
   buttonType: ContextButtonType;
+  numLines: number;
 }
 
 /**

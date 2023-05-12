@@ -24,6 +24,7 @@ import {
   rangesEqual,
   getResponsiveMode,
   isResponsive,
+  isNewDiff,
 } from './gr-diff-utils';
 import {BlameInfo, CommentRange, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
@@ -48,7 +49,6 @@ import {MovedLinkClickedEvent, ValueChangedEvent} from '../../../types/events';
 import {getContentEditableRange} from '../../../utils/safari-selection-util';
 import {AbortStop} from '../../../api/core';
 import {
-  CreateCommentEventDetail as CreateCommentEventDetailApi,
   RenderPreferences,
   GrDiff as GrDiffApi,
   DisplayLine,
@@ -63,7 +63,7 @@ import {
   DELAYED_CANCELLATION,
 } from '../../../utils/async-util';
 import {GrDiffSelection} from '../gr-diff-selection/gr-diff-selection';
-import {customElement, property, query, state} from 'lit/decorators.js';
+import {property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {html, LitElement, nothing, PropertyValues} from 'lit';
 import {when} from 'lit/directives/when.js';
@@ -93,11 +93,6 @@ const COMMIT_MSG_PATH = '/COMMIT_MSG';
  */
 const COMMIT_MSG_LINE_LENGTH = 72;
 
-export interface CreateCommentEventDetail extends CreateCommentEventDetailApi {
-  path: string;
-}
-
-@customElement('gr-diff')
 export class GrDiff extends LitElement implements GrDiffApi {
   /**
    * Fired when the user selects a line.
@@ -698,9 +693,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
     const contentEl = this.diffBuilder.getContentTdByLineEl(lineEl);
     if (!contentEl) throw new Error('content el not found for line el');
     side = side ?? this.getCommentSideByLineAndContent(lineEl, contentEl);
-    assertIsDefined(this.path, 'path');
     fire(this, 'create-comment', {
-      path: this.path,
       side,
       lineNum,
       range,
@@ -1116,9 +1109,13 @@ function extractRemovedNodes(mutations: MutationRecord[]) {
   return mutations.flatMap(mutation => [...mutation.removedNodes]);
 }
 
+if (!isNewDiff()) {
+  customElements.define('gr-diff', GrDiff);
+}
+
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-diff': GrDiff;
+    'gr-diff': LitElement;
   }
   interface HTMLElementEventMap {
     'comment-thread-mouseenter': CustomEvent<{}>;

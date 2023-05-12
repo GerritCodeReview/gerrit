@@ -11,8 +11,9 @@ import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {DiffViewMode, GrDiffLineType} from '../../../api/diff';
 import {waitQueryAndAssert} from '../../../test/test-utils';
+import {isNewDiff} from '../gr-diff/gr-diff-utils';
 
-suite('gr-diff-section test', () => {
+(!isNewDiff() ? suite : suite.skip)('gr-diff-section test', () => {
   let element: GrDiffSection;
 
   setup(async () => {

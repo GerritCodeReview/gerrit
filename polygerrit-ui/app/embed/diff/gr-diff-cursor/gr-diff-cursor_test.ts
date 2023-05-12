@@ -20,8 +20,9 @@ import {waitForEventOnce} from '../../../utils/event-util';
 import {DiffInfo, DiffViewMode, Side} from '../../../api/diff';
 import {GrDiff} from '../gr-diff/gr-diff';
 import {assertIsDefined} from '../../../utils/common-util';
+import {isNewDiff} from '../gr-diff/gr-diff-utils';
 
-suite('gr-diff-cursor tests', () => {
+(!isNewDiff() ? suite : suite.skip)('gr-diff-cursor tests', () => {
   let cursor: GrDiffCursor;
   let diffElement: GrDiff;
   let diff: DiffInfo;

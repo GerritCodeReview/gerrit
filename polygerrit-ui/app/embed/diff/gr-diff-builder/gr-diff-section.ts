@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {html, LitElement} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
+import {property, state} from 'lit/decorators.js';
 import {
   DiffInfo,
   DiffLayer,
@@ -15,7 +15,11 @@ import {
   DiffPreferencesInfo,
 } from '../../../api/diff';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
-import {diffClasses, getResponsiveMode} from '../gr-diff/gr-diff-utils';
+import {
+  diffClasses,
+  getResponsiveMode,
+  isNewDiff,
+} from '../gr-diff/gr-diff-utils';
 import {GrDiffRow} from './gr-diff-row';
 import '../gr-context-controls/gr-context-controls-section';
 import '../gr-context-controls/gr-context-controls';
@@ -25,7 +29,6 @@ import {when} from 'lit/directives/when.js';
 import {fire} from '../../../utils/event-util';
 import {countLines} from '../../../utils/diff-util';
 
-@customElement('gr-diff-section')
 export class GrDiffSection extends LitElement {
   @property({type: Object})
   group?: GrDiffGroup;
@@ -240,8 +243,12 @@ export class GrDiffSection extends LitElement {
   }
 }
 
+if (!isNewDiff()) {
+  customElements.define('gr-diff-section', GrDiffSection);
+}
+
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-diff-section': GrDiffSection;
+    'gr-diff-section': LitElement;
   }
 }

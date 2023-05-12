@@ -15,12 +15,13 @@ import {mouseDown} from '../../../test/test-utils';
 import {GrDiff} from '../gr-diff/gr-diff';
 import {waitForEventOnce} from '../../../utils/event-util';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
+import {isNewDiff} from '../gr-diff/gr-diff-utils';
 
 function firstTextNode(el: HTMLElement) {
   return [...el.childNodes].filter(node => node.nodeType === Node.TEXT_NODE)[0];
 }
 
-suite('gr-diff-selection', () => {
+(!isNewDiff() ? suite : suite.skip)('gr-diff-selection', () => {
   let element: GrDiffSelection;
   let diffTable: HTMLElement;
   let grDiff: GrDiff;

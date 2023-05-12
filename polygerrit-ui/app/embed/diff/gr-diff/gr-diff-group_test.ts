@@ -12,8 +12,9 @@ import {
 } from './gr-diff-group';
 import {assert} from '@open-wc/testing';
 import {FILE, GrDiffLineType, LOST, Side} from '../../../api/diff';
+import {isNewDiff} from './gr-diff-utils';
 
-suite('gr-diff-group tests', () => {
+(!isNewDiff() ? suite : suite.skip)('gr-diff-group tests', () => {
   test('delta line pairs', () => {
     const l1 = new GrDiffLine(GrDiffLineType.ADD, 0, 128);
     const l2 = new GrDiffLine(GrDiffLineType.ADD, 0, 129);

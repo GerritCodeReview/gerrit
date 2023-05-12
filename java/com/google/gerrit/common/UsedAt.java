@@ -42,6 +42,7 @@ public @interface UsedAt {
     PLUGIN_SERVICEUSER,
     PLUGIN_HIGH_AVAILABILITY,
     PLUGIN_MULTI_SITE,
+    PLUGIN_PULL_REPLICATION,
     PLUGIN_WEBSESSION_FLATFILE,
     PLUGINS_ALL, // Use this project if a method/type is generally made available to all plugins.
   }

@@ -34,6 +34,23 @@
       "parentUuid": "6aedf63b_5a5ff4c0",
       "revId": "1276a961729a098c171b2b6777f337d8b5f43a75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61ed6df8_66c3b68c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-05-12T08:37:42Z",
+      "side": 1,
+      "message": "It failed with the:\n```\nERROR: /private/var/tmp/_bazel_alvarovilaplana/d839d78f75d88ac70b2556e01ee5c5c7/external/remote_java_tools/java_tools/zlib/BUILD.bazel:3:11: Compiling java_tools/zlib/gzread.c failed: (Aborted): wrapped_clang failed: error executing command external/local_config_cc/wrapped_clang \u0027-D_FORTIFY_SOURCE\u003d1\u0027 -fstack-protector -fcolor-diagnostics -Wall -Wthread-safety -Wself-assign -fno-omit-frame-pointer -g0 -O2 -DNDEBUG \u0027-DNS_BLOCK_ASSERTIONS\u003d1\u0027 ... (remaining 33 arguments skipped)\n\nUse --sandbox_debug to see verbose messages from the sandbox and retain the sandbox build root for debugging\nexternal/remote_java_tools/java_tools/zlib/gzread.c:35:15: error: call to undeclared function \u0027read\u0027; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]\n        ret \u003d read(state-\u003efd, buf + *have, get);\n              ^\nexternal/remote_java_tools/java_tools/zlib/gzread.c:35:15: note: did you mean \u0027fread\u0027?\n/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk/usr/include/stdio.h:158:9: note: \u0027fread\u0027 declared here\nsize_t   fread(void * __restrict __ptr, size_t __size, size_t __nitems, FILE * __restrict __stream);\n         ^\nexternal/remote_java_tools/java_tools/zlib/gzread.c:651:11: error: call to undeclared function \u0027close\u0027; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]\n    ret \u003d close(state-\u003efd);\n          ^\n2 errors generated.\n```",
+      "revId": "1276a961729a098c171b2b6777f337d8b5f43a75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

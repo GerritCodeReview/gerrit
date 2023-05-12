@@ -16,7 +16,7 @@ import {
 } from '../../../models/browser/browser-model';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
 import {createPreferences} from '../../../test/test-data-generators';
-import {GrButton} from '../../../elements/shared/gr-button/gr-button';
+import {GrButton} from '../../shared/gr-button/gr-button';
 import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-diff-mode-selector tests', () => {

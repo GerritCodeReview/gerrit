@@ -57,7 +57,7 @@ import {
   LoadingStatus,
 } from '../../../models/change/change-model';
 import {assertIsDefined} from '../../../utils/common-util';
-import {GrDiffModeSelector} from '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
+import {GrDiffModeSelector} from '../gr-diff-mode-selector/gr-diff-mode-selector';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {testResolver} from '../../../test/common-test-setup';

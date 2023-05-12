@@ -17,7 +17,7 @@ import '../../shared/revision-info/revision-info';
 import '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import '../gr-diff-host/gr-diff-host';
-import '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
+import '../gr-diff-mode-selector/gr-diff-mode-selector';
 import '../gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import '../gr-patch-range-select/gr-patch-range-select';
 import '../../change/gr-download-dialog/gr-download-dialog';

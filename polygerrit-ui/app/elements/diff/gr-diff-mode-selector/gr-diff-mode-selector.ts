@@ -5,8 +5,8 @@
  */
 import {Subscription} from 'rxjs';
 import '@polymer/iron-a11y-announcer/iron-a11y-announcer';
-import '../../../elements/shared/gr-button/gr-button';
-import '../../../elements/shared/gr-icon/gr-icon';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-icon/gr-icon';
 import {DiffViewMode} from '../../../constants/constants';
 import {customElement, property, state} from 'lit/decorators.js';
 import {fireIronAnnounce} from '../../../utils/event-util';
@@ -15,7 +15,7 @@ import {resolve} from '../../../models/dependency';
 import {css, html, LitElement} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {userModelToken} from '../../../models/user/user-model';
-import {ironAnnouncerRequestAvailability} from '../../../elements/polymer-util';
+import {ironAnnouncerRequestAvailability} from '../../polymer-util';
 
 @customElement('gr-diff-mode-selector')
 export class GrDiffModeSelector extends LitElement {

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb89923a_535a7d00",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-05-12T10:25:19Z",
+      "side": 1,
+      "message": "are these meant to be getters?\nThe fact they\u0027re not private and not starting with getX is what\u0027s confusing me.",
+      "range": {
+        "startLine": 491,
+        "startChar": 2,
+        "endLine": 491,
+        "endChar": 10
+      },
+      "revId": "9175de8b1880a99e82547eaf09766e099774a5ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e552842_eab47d43",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-model/gr-diff-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-05-12T10:25:19Z",
+      "side": 1,
+      "message": "nit: PerLineAndSide since it\u0027s taking Side as well?",
+      "range": {
+        "startLine": 102,
+        "startChar": 11,
+        "endLine": 102,
+        "endChar": 26
+      },
+      "revId": "9175de8b1880a99e82547eaf09766e099774a5ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

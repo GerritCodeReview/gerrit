@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a842e8e_fe09c1f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1160336
+      },
+      "writtenOn": "2023-05-12T12:28:57Z",
+      "side": 1,
+      "message": "git clone https://gerrit.googlesource.com/All-Users",
+      "revId": "aaa46dfdb4cf117c2d49e39d2eeb43ced186978a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

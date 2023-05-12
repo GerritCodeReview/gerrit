@@ -24,15 +24,37 @@ import com.google.common.collect.Streams;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.AccountsStorageAccessorsBinder;
 import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdSerializer;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.util.time.TimeUtil;
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
+import org.junit.Before;
 import org.junit.Test;
 
 public class AccountFieldTest {
+  private Injector injector;
+  private ExternalIdSerializer externalIdSerializer;
+
+  @Before
+  public void setUp() throws Exception {
+    AbstractModule mod =
+        new AbstractModule() {
+          @Override
+          protected void configure() {
+            AccountsStorageAccessorsBinder.bindExternalIdSerializer(binder());
+          }
+        };
+    injector = Guice.createInjector(mod);
+    externalIdSerializer = injector.getInstance(ExternalIdSerializer.class);
+  }
+
   @Test
   public void refStateFieldValues() throws Exception {
     AllUsersName allUsersName = new AllUsersName(AllUsersNameProvider.DEFAULT);
@@ -78,7 +100,8 @@ public class AccountFieldTest {
     List<String> values =
         toStrings(
             AccountField.EXTERNAL_ID_STATE_FIELD.get(
-                AccountState.forAccount(account, ImmutableSet.of(extId1, extId2, extId3))));
+                AccountState.forAccount(
+                    account, ImmutableSet.of(extId1, extId2, extId3), externalIdSerializer)));
     String expectedValue1 = extId1.key().sha1().name() + ":" + extId1.blobId().name();
     String expectedValue2 = extId2.key().sha1().name() + ":" + extId2.blobId().name();
     String expectedValue3 = extId3.key().sha1().name() + ":" + extId3.blobId().name();

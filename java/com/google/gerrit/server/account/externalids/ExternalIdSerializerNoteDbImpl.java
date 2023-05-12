@@ -1,4 +1,4 @@
-// Copyright (C) 2021 The Android Open Source Project
+// Copyright (C) 2023 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,15 +14,20 @@
 
 package com.google.gerrit.server.account.externalids;
 
-import com.google.gerrit.server.account.AccountsStorageAccessorsBinder;
-import com.google.inject.AbstractModule;
+import static com.google.common.base.Preconditions.checkState;
 
-public class ExternalIdModule extends AbstractModule {
+import com.google.gerrit.git.ObjectIds;
+import com.google.inject.Singleton;
+
+@Singleton
+public class ExternalIdSerializerNoteDbImpl implements ExternalIdSerializer {
   @Override
-  protected void configure() {
-    bind(ExternalIdFactory.class);
-    bind(ExternalIdKeyFactory.class);
-    bind(PasswordVerifier.class);
-    AccountsStorageAccessorsBinder.bindExternalIds(binder());
+  public byte[] toByteArray(ExternalId extId) {
+    checkState(extId.blobId() != null, "Missing blobId in external ID %s", extId.key().get());
+    byte[] b = new byte[2 * ObjectIds.STR_LEN + 1];
+    extId.key().sha1().copyTo(b, 0);
+    b[ObjectIds.STR_LEN] = ':';
+    extId.blobId().copyTo(b, ObjectIds.STR_LEN + 1);
+    return b;
   }
 }

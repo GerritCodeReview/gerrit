@@ -38,17 +38,20 @@ public class ExternalIds {
   private final ExternalIdCache externalIdCache;
   private final AuthConfig authConfig;
   private final ExternalIdKeyFactory externalIdKeyFactory;
+  private final ExternalIdSerializer externalIdSerializer;
 
   @Inject
   public ExternalIds(
       ExternalIdReader externalIdReader,
       ExternalIdCache externalIdCache,
       ExternalIdKeyFactory externalIdKeyFactory,
+      ExternalIdSerializer externalIdSerializer,
       AuthConfig authConfig) {
     this.externalIdReader = externalIdReader;
     this.externalIdCache = externalIdCache;
     this.externalIdKeyFactory = externalIdKeyFactory;
     this.authConfig = authConfig;
+    this.externalIdSerializer = externalIdSerializer;
   }
 
   /** Returns all external IDs. */
@@ -149,5 +152,9 @@ public class ExternalIds {
   /** Returns all external IDs by email. */
   public ImmutableSetMultimap<String, ExternalId> allByEmail() throws IOException {
     return externalIdCache.allByEmail();
+  }
+
+  public ExternalIdSerializer getSerializer() {
+    return externalIdSerializer;
   }
 }

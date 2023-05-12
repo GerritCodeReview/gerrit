@@ -17,6 +17,7 @@ package com.google.gerrit.server.account.externalids;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.server.account.AccountsStorageAccessorsBinder;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import java.io.IOException;
@@ -29,6 +30,7 @@ public class DisabledExternalIdCache implements ExternalIdCache {
 
       @Override
       protected void configure() {
+        AccountsStorageAccessorsBinder.bindExternalIds(binder());
         bind(ExternalIdCache.class).to(DisabledExternalIdCache.class);
       }
     };

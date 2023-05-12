@@ -17,6 +17,7 @@ package com.google.gerrit.pgm.init;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
+import com.google.gerrit.server.account.AccountsStorageAccessorsBinder;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.binder.LinkedBindingBuilder;
 import com.google.inject.internal.UniqueAnnotations;
@@ -56,6 +57,7 @@ public class InitModule extends FactoryModule {
     step().to(InitPlugins.class);
     step().to(InitDev.class);
 
+    AccountsStorageAccessorsBinder.bindExternalIds(binder());
     bind(AccountsOnInit.class).to(AccountsOnInitNoteDbImpl.class);
   }
 

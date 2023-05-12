@@ -24,9 +24,11 @@ import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
+import com.google.gerrit.server.account.externalids.ExternalIdSerializer;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.CachedPreferences;
 import java.io.IOException;
@@ -104,21 +106,11 @@ public abstract class AccountState {
         new AutoValue_AccountState(
             account,
             extIds,
+            externalIds.getSerializer(),
             ExternalId.getUserName(extIds),
             projectWatches,
             Optional.of(defaultPreferences),
             Optional.of(accountConfig.asCachedPreferences())));
-  }
-
-  /**
-   * Creates an AccountState for a given account with no external IDs, no project watches and
-   * default preferences.
-   *
-   * @param account the account
-   * @return the account state
-   */
-  public static AccountState forAccount(Account account) {
-    return forAccount(account, ImmutableSet.of());
   }
 
   /**
@@ -134,6 +126,7 @@ public abstract class AccountState {
     return new AutoValue_AccountState(
         account.account(),
         extIds,
+        externalIds.getSerializer(),
         ExternalId.getUserName(extIds),
         account.projectWatches(),
         Optional.of(defaultConfig),
@@ -141,16 +134,45 @@ public abstract class AccountState {
   }
 
   /**
+   * Creates an AccountState for a given account with no external IDs, no project watches and
+   * default preferences.
+   *
+   * @param account the account
+   * @return the account state
+   */
+  public static AccountState forAccount(Account account) {
+    return forAccount(account, ImmutableSet.of());
+  }
+
+  /**
    * Creates an AccountState for a given account with no project watches and default preferences.
+   *
+   * <p>Accounts created this way are not serializable.
    *
    * @param account the account
    * @param extIds the external IDs
    * @return the account state
    */
   public static AccountState forAccount(Account account, Collection<ExternalId> extIds) {
+    return forAccount(account, extIds, new UnimplementedExternalIdSerializer());
+  }
+
+  /**
+   * Creates an AccountState for a given account with no project watches and default preferences.
+   *
+   * <p>Accounts created this way are not serializable.
+   *
+   * @param account the account
+   * @param extIds the external IDs
+   * @param externalIdSerializer to use for serialization
+   * @return the account state
+   */
+  public static AccountState forAccount(
+      Account account, Collection<ExternalId> extIds, ExternalIdSerializer externalIdSerializer) {
     return new AutoValue_AccountState(
         account,
         ImmutableSet.copyOf(extIds),
+        externalIdSerializer,
         ExternalId.getUserName(extIds),
         ImmutableMap.of(),
         Optional.empty(),
@@ -161,6 +183,9 @@ public abstract class AccountState {
   public abstract Account account();
   /** The external identities that identify the account holder. */
   public abstract ImmutableSet<ExternalId> externalIds();
+
+  public abstract @Nullable ExternalIdSerializer externalIdSerializer();
+
   /**
    * Get the username, if one has been declared for this user.
    *
@@ -204,4 +229,12 @@ public abstract class AccountState {
 
   /** User preferences as stored in {@code preferences.config}. */
   protected abstract Optional<CachedPreferences> userPreferences();
+
+  protected static class UnimplementedExternalIdSerializer implements ExternalIdSerializer {
+    @Override
+    public byte[] toByteArray(ExternalId extId) {
+      throw new NotImplementedException(
+          "Serialization is not implemented for accounts created with this ExternalIdSerializer.");
+    }
+  }
 }

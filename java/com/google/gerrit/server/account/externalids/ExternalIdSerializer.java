@@ -1,4 +1,4 @@
-// Copyright (C) 2021 The Android Open Source Project
+// Copyright (C) 2023 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,14 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account;
+package com.google.gerrit.server.account.externalids;
 
-import com.google.inject.AbstractModule;
-
-public class AccountModule extends AbstractModule {
-  @Override
-  protected void configure() {
-    bind(AuthRequest.Factory.class);
-    AccountsStorageAccessorsBinder.bindAccounts(binder());
-  }
+public interface ExternalIdSerializer {
+  byte[] toByteArray(ExternalId extId);
 }

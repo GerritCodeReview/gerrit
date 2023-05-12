@@ -30,12 +30,12 @@ export interface DiffContextExpandedEventDetail
   /** The context control group that should be replaced by `groups`. */
   contextGroup: GrDiffGroup;
   groups: GrDiffGroup[];
-  numLines: number;
 }
 
 declare global {
   interface HTMLElementEventMap {
-    'diff-context-expanded': CustomEvent<DiffContextExpandedEventDetail>;
+    'diff-context-expanded-internal': CustomEvent<DiffContextExpandedEventDetail>;
+    'diff-context-expanded': CustomEvent<DiffContextExpandedExternalDetail>;
     'content-load-needed': CustomEvent<ContentLoadNeededEventDetail>;
   }
 }

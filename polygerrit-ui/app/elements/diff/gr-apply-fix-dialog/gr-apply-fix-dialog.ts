@@ -7,6 +7,7 @@ import '../../../styles/shared-styles';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-icon/gr-icon';
 import '../../../embed/diff/gr-diff/gr-diff';
+import '../../../embed/diff-new/gr-diff/gr-diff';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   NumericChangeId,

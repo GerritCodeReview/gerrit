@@ -15,7 +15,7 @@ import {
 import {Side} from '../../../api/diff';
 import {SinonStubbedMember} from 'sinon';
 import {queryAndAssert} from '../../../utils/common-util';
-import {GrDiffThreadElement} from '../gr-diff/gr-diff-utils';
+import {GrDiffThreadElement, isNewDiff} from '../gr-diff/gr-diff-utils';
 import {
   stubElement,
   waitQueryAndAssert,
@@ -126,7 +126,7 @@ const diffTable = html`
 `;
 /* eslint-enable max-len */
 
-suite('gr-diff-highlight', () => {
+(!isNewDiff() ? suite : suite.skip)('gr-diff-highlight', () => {
   suite('comment events', () => {
     let threadEl: GrDiffThreadElement;
     let hlRange: HTMLElement;

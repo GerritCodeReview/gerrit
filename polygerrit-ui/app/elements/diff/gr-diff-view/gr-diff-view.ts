@@ -14,7 +14,6 @@ import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-select/gr-select';
 import '../../shared/gr-weblink/gr-weblink';
 import '../../shared/revision-info/revision-info';
-import '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import '../gr-diff-host/gr-diff-host';
 import '../gr-diff-mode-selector/gr-diff-mode-selector';

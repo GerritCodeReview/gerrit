@@ -24,7 +24,6 @@ import {
   rangesEqual,
   getResponsiveMode,
   isResponsive,
-  getDiffLength,
 } from './gr-diff-utils';
 import {BlameInfo, CommentRange, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
@@ -76,6 +75,7 @@ import {expandFileMode} from '../../../utils/file-util';
 import {DiffModel, diffModelToken} from '../gr-diff-model/gr-diff-model';
 import {provide} from '../../../models/dependency';
 import {grDiffStyles} from './gr-diff-styles';
+import {getDiffLength} from '../../../utils/diff-util';
 
 const NO_NEWLINE_LEFT = 'No newline at end of left file.';
 const NO_NEWLINE_RIGHT = 'No newline at end of right file.';

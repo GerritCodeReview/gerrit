@@ -96,7 +96,7 @@ import {
   getPatchRangeForCommentUrl,
   isInBaseOfPatchRange,
 } from '../../../utils/comment-util';
-import {isFileUnchanged} from '../../../embed/diff/gr-diff/gr-diff-utils';
+import {isFileUnchanged} from '../../../utils/diff-util';
 import {Route, ViewState} from '../../../models/views/base';
 import {Model} from '../../../models/model';
 import {

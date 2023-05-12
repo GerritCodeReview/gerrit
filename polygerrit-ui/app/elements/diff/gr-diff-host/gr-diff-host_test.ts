@@ -709,16 +709,6 @@ suite('gr-diff-host tests', () => {
     assert.deepEqual(element.getThreadEls(), [threadEl]);
   });
 
-  test('delegates addDraftAtLine(el)', () => {
-    const param0 = document.createElement('b');
-    assertIsDefined(element.diffElement);
-    const stub = sinon.stub(element.diffElement, 'addDraftAtLine');
-    element.addDraftAtLine(param0);
-    assert.isTrue(stub.calledOnce);
-    assert.equal(stub.lastCall.args.length, 1);
-    assert.equal(stub.lastCall.args[0], param0);
-  });
-
   test('delegates clearDiffContent()', () => {
     assertIsDefined(element.diffElement);
     const stub = sinon.stub(element.diffElement, 'clearDiffContent');

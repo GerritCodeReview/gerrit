@@ -908,11 +908,6 @@ export class GrDiffHost extends LitElement {
     );
   }
 
-  addDraftAtLine(el: Element) {
-    assertIsDefined(this.diffElement);
-    this.diffElement.addDraftAtLine(el);
-  }
-
   clearDiffContent() {
     this.diffElement?.clearDiffContent();
   }

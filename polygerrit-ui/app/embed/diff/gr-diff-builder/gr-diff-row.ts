@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {html, LitElement, nothing, TemplateResult} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
+import {property, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {createRef, Ref, ref} from 'lit/directives/ref.js';
 import {
@@ -22,9 +22,8 @@ import {fire} from '../../../utils/event-util';
 import {getBaseUrl} from '../../../utils/url-util';
 import './gr-diff-text';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
-import {diffClasses, isResponsive} from '../gr-diff/gr-diff-utils';
+import {diffClasses, isNewDiff, isResponsive} from '../gr-diff/gr-diff-utils';
 
-@customElement('gr-diff-row')
 export class GrDiffRow extends LitElement {
   contentLeftRef: Ref<LitElement> = createRef();
 
@@ -470,8 +469,12 @@ export class GrDiffRow extends LitElement {
   }
 }
 
+if (!isNewDiff()) {
+  customElements.define('gr-diff-row', GrDiffRow);
+}
+
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-diff-row': GrDiffRow;
+    'gr-diff-row': LitElement;
   }
 }

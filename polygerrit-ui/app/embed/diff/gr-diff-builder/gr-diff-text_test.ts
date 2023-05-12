@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
+import {isNewDiff} from '../gr-diff/gr-diff-utils';
 import './gr-diff-text';
 import {GrDiffText} from './gr-diff-text';
 import {fixture, html, assert} from '@open-wc/testing';
@@ -16,7 +17,7 @@ const TAB = '<span class="" style=""></span>';
 
 const TAB_IGNORE = ['class', 'style'];
 
-suite('gr-diff-text test', () => {
+(!isNewDiff() ? suite : suite.skip)('gr-diff-text test', () => {
   let element: GrDiffText;
 
   setup(async () => {

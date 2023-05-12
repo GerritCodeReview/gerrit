@@ -350,7 +350,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
   init() {
     this.cleanup();
     this.diffElement?.addEventListener(
-      'diff-context-expanded',
+      'diff-context-expanded-internal',
       this.onDiffContextExpanded
     );
     this.builder?.init();
@@ -367,7 +367,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
     this.processor?.cancel();
     this.builder?.cleanup();
     this.diffElement?.removeEventListener(
-      'diff-context-expanded',
+      'diff-context-expanded-internal',
       this.onDiffContextExpanded
     );
   }

@@ -11,8 +11,9 @@ import {GrDiffProcessor, State} from './gr-diff-processor';
 import {DiffContent} from '../../../types/diff';
 import {assert} from '@open-wc/testing';
 import {FILE, GrDiffLineType} from '../../../api/diff';
+import {isNewDiff} from '../gr-diff/gr-diff-utils';
 
-suite('gr-diff-processor tests', () => {
+(!isNewDiff() ? suite : suite.skip)('gr-diff-processor tests', () => {
   const WHOLE_FILE = -1;
   const loremIpsum =
     'Lorem ipsum dolor sit amet, ei nonumes vituperata ius. ' +

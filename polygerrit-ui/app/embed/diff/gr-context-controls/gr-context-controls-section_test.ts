@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
+import {isNewDiff} from '../gr-diff/gr-diff-utils';
 import './gr-context-controls-section';
 import {GrContextControlsSection} from './gr-context-controls-section';
 import {fixture, html, assert} from '@open-wc/testing';
 
-suite('gr-context-controls-section test', () => {
+(!isNewDiff() ? suite : suite.skip)('gr-context-controls-section test', () => {
   let element: GrContextControlsSection;
 
   setup(async () => {

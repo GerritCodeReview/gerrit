@@ -33,14 +33,15 @@ import {ImageInfo} from '../../../types/common';
 import {GrRangedCommentHint} from '../gr-ranged-comment-hint/gr-ranged-comment-hint';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fixture, html, assert} from '@open-wc/testing';
+import {isNewDiff} from './gr-diff-utils';
 
-suite('gr-diff a11y test', () => {
+(!isNewDiff() ? suite : suite.skip)('gr-diff a11y test', () => {
   test('audit', async () => {
     assert.isAccessible(await fixture(html`<gr-diff></gr-diff>`));
   });
 });
 
-suite('gr-diff tests', () => {
+(!isNewDiff() ? suite : suite.skip)('gr-diff tests', () => {
   let element: GrDiff;
 
   const MINIMAL_PREFS: DiffPreferencesInfo = {

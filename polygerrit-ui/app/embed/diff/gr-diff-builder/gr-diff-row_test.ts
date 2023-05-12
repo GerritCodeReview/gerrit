@@ -9,8 +9,9 @@ import {GrDiffRow} from './gr-diff-row';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {GrDiffLineType} from '../../../api/diff';
+import {isNewDiff} from '../gr-diff/gr-diff-utils';
 
-suite('gr-diff-row test', () => {
+(!isNewDiff() ? suite : suite.skip)('gr-diff-row test', () => {
   let element: GrDiffRow;
 
   setup(async () => {

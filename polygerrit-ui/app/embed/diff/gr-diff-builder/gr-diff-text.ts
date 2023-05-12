@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {LitElement, html, TemplateResult} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import {property} from 'lit/decorators.js';
 import {styleMap} from 'lit/directives/style-map.js';
-import {diffClasses} from '../gr-diff/gr-diff-utils';
+import {diffClasses, isNewDiff} from '../gr-diff/gr-diff-utils';
 
 const SURROGATE_PAIR = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
@@ -25,7 +25,6 @@ const TAB = '\t';
  * performance. And be aware that building longer lived local state is not
  * useful here.
  */
-@customElement('gr-diff-text')
 export class GrDiffText extends LitElement {
   /**
    * The browser API for handling selection does not (yet) work for selection
@@ -145,8 +144,12 @@ export class GrDiffText extends LitElement {
   }
 }
 
+if (!isNewDiff()) {
+  customElements.define('gr-diff-text', GrDiffText);
+}
+
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-diff-text': GrDiffText;
+    'gr-diff-text': LitElement;
   }
 }

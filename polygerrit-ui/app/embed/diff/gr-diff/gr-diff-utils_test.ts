@@ -10,11 +10,12 @@ import {
   formatText,
   createTabWrapper,
   getRange,
+  isNewDiff,
 } from './gr-diff-utils';
 
 const LINE_BREAK_HTML = '<span class="gr-diff br"></span>';
 
-suite('gr-diff-utils tests', () => {
+(!isNewDiff() ? suite : suite.skip)('gr-diff-utils tests', () => {
   test('createElementDiff classStr applies all classes', () => {
     const node = createElementDiff('div', 'test classes');
     assert.isTrue(node.classList.contains('gr-diff'));

@@ -9,8 +9,6 @@ import '../../../embed/diff/gr-diff/gr-diff';
 import {
   anyLineTooLong,
   getDiffLength,
-  getLine,
-  getSide,
   SYNTAX_MAX_LINE_LENGTH,
 } from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {getAppContext} from '../../../services/app-context';
@@ -1221,44 +1219,6 @@ export class GrDiffHost extends LitElement {
       threadEl.setAttribute('range', `${JSON.stringify(thread.range)}`);
     }
     return threadEl;
-  }
-
-  // Private but used in tests.
-  filterThreadElsForLocation(
-    threadEls: GrCommentThread[],
-    lineInfo: LineInfo,
-    side: Side
-  ) {
-    function matchesLeftLine(threadEl: GrCommentThread) {
-      return (
-        getSide(threadEl) === Side.LEFT &&
-        getLine(threadEl) === lineInfo.beforeNumber
-      );
-    }
-    function matchesRightLine(threadEl: GrCommentThread) {
-      return (
-        getSide(threadEl) === Side.RIGHT &&
-        getLine(threadEl) === lineInfo.afterNumber
-      );
-    }
-    function matchesFileComment(threadEl: GrCommentThread) {
-      return getSide(threadEl) === side && getLine(threadEl) === FILE;
-    }
-
-    // Select the appropriate matchers for the desired side and line
-    const matchers: ((thread: GrCommentThread) => boolean)[] = [];
-    if (side === Side.LEFT) {
-      matchers.push(matchesLeftLine);
-    }
-    if (side === Side.RIGHT) {
-      matchers.push(matchesRightLine);
-    }
-    if (lineInfo.afterNumber === FILE || lineInfo.beforeNumber === FILE) {
-      matchers.push(matchesFileComment);
-    }
-    return threadEls.filter(threadEl =>
-      matchers.some(matcher => matcher(threadEl))
-    );
   }
 
   private getIgnoreWhitespace(): IgnoreWhitespaceType {

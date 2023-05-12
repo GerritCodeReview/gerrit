@@ -105,6 +105,30 @@
       },
       "revId": "d4a8658ef05755c0a3581f904b439e2bda3849af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "daa2f7cf_2db825ef",
+        "filename": "java/com/google/gerrit/common/UsedAt.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-12T11:08:02Z",
+      "side": 1,
+      "message": "I must have, yes 😭",
+      "parentUuid": "f171d708_310a1637",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 28
+      },
+      "revId": "d4a8658ef05755c0a3581f904b439e2bda3849af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -11,7 +11,6 @@ import {strToClassName} from '../../../utils/dom-util';
 import {Side} from '../../../constants/constants';
 import {CommentRange} from '../../../types/common';
 import {GrSelectionActionBox} from '../gr-selection-action-box/gr-selection-action-box';
-import {FILE} from '../gr-diff/gr-diff-line';
 import {
   getLineElByChild,
   getLineNumberByChild,
@@ -19,8 +18,13 @@ import {
   GrDiffThreadElement,
 } from '../gr-diff/gr-diff-utils';
 import {debounce, DelayedTask} from '../../../utils/async-util';
-import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
+import {
+  assert,
+  assertIsDefined,
+  queryAndAssert,
+} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
+import {FILE, LOST} from '../../../api/diff';
 
 interface SidedRange {
   side: Side;
@@ -308,7 +312,8 @@ export class GrDiffHighlight {
     const side = getSideByLineEl(lineEl);
     if (!side) return null;
     const line = getLineNumberByChild(lineEl);
-    if (!line || line === FILE || line === 'LOST') return null;
+    if (!line || line === FILE || line === LOST) return null;
+    assert(typeof line === 'number', 'line must be a number');
     const contentTd = this.diffBuilder.getContentTdByLineEl(lineEl);
     if (!contentTd) return null;
     const contentText = contentTd.querySelector('.contentText');

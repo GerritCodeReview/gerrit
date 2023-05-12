@@ -4,12 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
-import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
+import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {strToClassName} from '../../../utils/dom-util';
 import {Side} from '../../../constants/constants';
 import {CommentRange} from '../../../types/common';
 import {DiffLayer, DiffLayerListener} from '../../../types/types';
 import {isLongCommentRange} from '../gr-diff/gr-diff-utils';
+import {GrDiffLineType} from '../../../api/diff';
 
 /**
  * Enhanced CommentRange by UI state. Interface for incoming ranges set from the
@@ -192,7 +193,7 @@ export class GrRangedCommentLayer implements DiffLayer {
   // visible for testing
   getRangesForLine(line: GrDiffLine, side: Side): CommentRangeLineLayer[] {
     const lineNum = side === Side.LEFT ? line.beforeNumber : line.afterNumber;
-    if (lineNum === 'FILE' || lineNum === 'LOST') return [];
+    if (typeof lineNum !== 'number') return [];
     const ranges: CommentRangeLineLayer[] = this.rangesMap[side][lineNum] || [];
     return ranges.map(range => {
       // Make a copy, so that the normalization below does not mess with

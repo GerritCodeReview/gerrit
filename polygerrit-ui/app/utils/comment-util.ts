@@ -36,6 +36,7 @@ import {DiffInfo} from '../types/diff';
 import {FormattedReviewerUpdateInfo} from '../types/types';
 import {extractMentionedUsers} from './account-util';
 import {assertIsDefined, uuid} from './common-util';
+import {FILE} from '../api/diff';
 
 export function isFormattedReviewerUpdate(
   message: ChangeMessage
@@ -173,7 +174,7 @@ export function createCommentThreads(comments: Comment[]) {
       rootId: id(comment),
     };
     if (!comment.line && !comment.range) {
-      newThread.line = 'FILE';
+      newThread.line = FILE;
     }
     threads.push(newThread);
     if (id(comment)) idThreadMap[id(comment)] = newThread;

@@ -4,16 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {
+  FILE,
   GrDiffLine as GrDiffLineApi,
   GrDiffLineType,
   LineNumber,
   Side,
 } from '../../../api/diff';
-
-export {GrDiffLineType};
-export type {LineNumber};
-
-export const FILE = 'FILE';
 
 export class GrDiffLine implements GrDiffLineApi {
   constructor(

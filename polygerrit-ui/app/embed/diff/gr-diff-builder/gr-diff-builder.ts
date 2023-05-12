@@ -9,9 +9,9 @@ import {
   ContentLoadNeededEventDetail,
   DiffContextExpandedExternalDetail,
   DiffViewMode,
+  LineNumber,
   RenderPreferences,
 } from '../../../api/diff';
-import {LineNumber} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup} from '../gr-diff/gr-diff-group';
 import {BlameInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';

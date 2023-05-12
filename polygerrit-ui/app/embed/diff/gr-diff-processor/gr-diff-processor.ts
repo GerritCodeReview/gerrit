@@ -3,13 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {
-  GrDiffLine,
-  GrDiffLineType,
-  FILE,
-  Highlights,
-  LineNumber,
-} from '../gr-diff/gr-diff-line';
+import {GrDiffLine, Highlights} from '../gr-diff/gr-diff-line';
 import {
   GrDiffGroup,
   GrDiffGroupType,
@@ -20,6 +14,7 @@ import {Side} from '../../../constants/constants';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {assert, assertIsDefined} from '../../../utils/common-util';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
+import {FILE, GrDiffLineType, LOST, LineNumber} from '../../../api/diff';
 
 const WHOLE_FILE = -1;
 
@@ -130,7 +125,7 @@ export class GrDiffProcessor {
 
     assertIsDefined(this.consumer, 'consumer');
     this.consumer.clearGroups();
-    this.consumer.addGroup(this.makeGroup('LOST'));
+    this.consumer.addGroup(this.makeGroup(LOST));
     this.consumer.addGroup(this.makeGroup(FILE));
 
     if (isBinary) return Promise.resolve();

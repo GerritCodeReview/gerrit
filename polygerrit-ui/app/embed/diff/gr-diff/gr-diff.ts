@@ -12,7 +12,6 @@ import '../gr-diff-selection/gr-diff-selection';
 import '../gr-syntax-themes/gr-syntax-theme';
 import '../gr-ranged-comment-themes/gr-ranged-comment-theme';
 import '../gr-ranged-comment-hint/gr-ranged-comment-hint';
-import {LineNumber} from './gr-diff-line';
 import {
   getLine,
   getLineElByChild,
@@ -54,6 +53,8 @@ import {
   RenderPreferences,
   GrDiff as GrDiffApi,
   DisplayLine,
+  LineNumber,
+  LOST,
 } from '../../../api/diff';
 import {isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -617,7 +618,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
     const el = e.target as Element;
 
     if (
-      el.getAttribute('data-value') !== 'LOST' &&
+      el.getAttribute('data-value') !== LOST &&
       (el.classList.contains('lineNum') ||
         el.classList.contains('lineNumButton'))
     ) {
@@ -980,7 +981,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
       }
       const contentEl = this.diffBuilder.getContentTdByLineEl(lineEl);
       if (!contentEl) continue;
-      if (lineNum === 'LOST') {
+      if (lineNum === LOST) {
         this.insertPortedCommentsWithoutRangeMessage(contentEl);
       }
 

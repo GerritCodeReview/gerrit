@@ -1,0 +1,169 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1e35f04_cf03fe7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-12T16:42:43Z",
+      "side": 1,
+      "message": "Generally LGTM, just a few minor bits. Bear in mind i don\u0027t know the code, so my review is focused more on the code structure.",
+      "revId": "7987f94c5a8192864289d2d8d97d2c96635323f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c34efd72_83ee1946",
+        "filename": "java/com/google/gerrit/server/plugins/JarPluginProvider.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-12T16:42:43Z",
+      "side": 1,
+      "message": "the `Gerrit-ApiModule` is used in at least two classes, should be a constant.",
+      "revId": "7987f94c5a8192864289d2d8d97d2c96635323f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6d16ee0_774a93f7",
+        "filename": "java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-12T16:42:43Z",
+      "side": 1,
+      "message": "should we add the `@Nullable` annotation here?",
+      "revId": "7987f94c5a8192864289d2d8d97d2c96635323f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dafe05c5_767f3754",
+        "filename": "java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-12T16:42:43Z",
+      "side": 1,
+      "message": "make this final?",
+      "revId": "7987f94c5a8192864289d2d8d97d2c96635323f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f885c46_05009a40",
+        "filename": "java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-12T16:42:43Z",
+      "side": 1,
+      "message": "I think the same code is repeated at L299 but with an Optional (which I\u0027d prefer).",
+      "range": {
+        "startLine": 277,
+        "startChar": 6,
+        "endLine": 279,
+        "endChar": 7
+      },
+      "revId": "7987f94c5a8192864289d2d8d97d2c96635323f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fff4947d_fcc6a46d",
+        "filename": "java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-12T16:42:43Z",
+      "side": 1,
+      "message": "We could move all this `if` logic after L273, as at that point we know the `apiInjector` is not null.",
+      "revId": "7987f94c5a8192864289d2d8d97d2c96635323f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fcb1707_6fd155c2",
+        "filename": "java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-12T16:42:43Z",
+      "side": 1,
+      "message": "Could simplify with a List and a `foreach`, eg.\n```\n        List\u003cInjector\u003e injectors \u003d List.of(plugin.getSysInjector(), plugin.getSshInjector(), plugin.getHttpInjector());\n        injectors.forEach(injector -\u003e attachItem(apiItems, injector, plugin));\n        injectors.forEach(injector -\u003e attachSet(apiSets, injector, plugin));\n        injectors.forEach(injector -\u003e attachMap(apiMaps, injector, plugin));\n```\n\nAlso, does the order on which we attach an injector to Items/Sets/Maps matter? I am asking mainly because attaching into the apiModule-related data structures happens at the end of the method here (ie after we have attached to the sys/ssh/http items/sets/maps) but in the `onReloadPlugin` method we prioritise re-attaching of the apiModule-related injectors (eg. L350).",
+      "range": {
+        "startLine": 286,
+        "startChar": 8,
+        "endLine": 296,
+        "endChar": 61
+      },
+      "revId": "7987f94c5a8192864289d2d8d97d2c96635323f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "939961ba_cd57ab8f",
+        "filename": "java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-12T16:42:43Z",
+      "side": 1,
+      "message": "let\u0027s annotate with `@Nullable` here",
+      "revId": "7987f94c5a8192864289d2d8d97d2c96635323f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1234169d_01a77541",
+        "filename": "java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-05-12T16:42:43Z",
+      "side": 1,
+      "message": "do we want to return a reference of the `apiModules` here, which would allow mutating the list, or perhaps return a view?",
+      "revId": "7987f94c5a8192864289d2d8d97d2c96635323f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

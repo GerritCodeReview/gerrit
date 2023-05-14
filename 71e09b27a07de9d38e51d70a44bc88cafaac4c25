@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f470208_e18266ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2023-05-14T09:31:56Z",
+      "side": 1,
+      "message": "@nasser.grainawi@linaro.org, @luca.milanesio@gmail.com,\n\nCan we quickly work on any issue preventing this patch from being merged?\n\nThanks,",
+      "revId": "71e09b27a07de9d38e51d70a44bc88cafaac4c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8f7ef16_35b6c629",

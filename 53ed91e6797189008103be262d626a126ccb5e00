@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16715bb9_a9624a2c",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 3070,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-14T21:13:12Z",
+      "side": 1,
+      "message": "This should also be checked and returned early at L3059.",
+      "range": {
+        "startLine": 3070,
+        "startChar": 4,
+        "endLine": 3070,
+        "endChar": 43
+      },
+      "revId": "53ed91e6797189008103be262d626a126ccb5e00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

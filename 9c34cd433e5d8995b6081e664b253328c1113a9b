@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80032e27_22c62fd3",
+        "filename": "java/com/google/gerrit/extensions/restapi/Cacheability.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-05-15T12:53:12Z",
+      "side": 1,
+      "message": "Why not add this to the `RestResource` and `RestView`? I think it makes sense as an attribute, in fact the method is already there in some implementation of `Resources`/`ReviewView`.",
+      "range": {
+        "startLine": 26,
+        "startChar": 18,
+        "endLine": 26,
+        "endChar": 29
+      },
+      "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76d30918_d57dab3e",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-05-15T12:53:12Z",
+      "side": 1,
+      "message": "I think one of the 2 following cases might read better:\n\n* `!(view instanceof ETagView || rsrc instanceof HasETag)` \n* `view instanceof ETagView \u003d\u003d false || rsrc instanceof HasETag \u003d\u003d false`",
+      "range": {
+        "startLine": 810,
+        "startChar": 11,
+        "endLine": 810,
+        "endChar": 70
+      },
+      "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42dcfba2_3ec9799d",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-05-15T12:53:12Z",
+      "side": 1,
+      "message": "I wonder if written in a functional way would be more readable:\n\n```java\nprivate static boolean requestHeadersHasAnyValue(HttpServletRequest req, String headerName, String... headerValues) {\n    Enumeration\u003cString\u003e headers \u003d req.getHeaders(headerName);\n    List\u003cString\u003e headerList \u003d Collections.list(headers);\n\n    return headerList.stream()\n                .anyMatch(currentHeader -\u003e containsHeader(currentHeader, headerValues));\n}\n\nprivate static boolean containsHeader(String currentHeader, String... headerValues) {\n     return Arrays.stream(headerValues)\n               .anyMatch(hdr -\u003e currentHeader.equalsIgnoreCase(hdr));\n}\n\n```",
+      "range": {
+        "startLine": 823,
+        "startChar": 0,
+        "endLine": 836,
+        "endChar": 3
+      },
+      "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e078c7ea_b0b09258",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1130599
+      },
+      "writtenOn": "2023-05-15T06:00:18Z",
+      "side": 1,
+      "message": "Not too sure about this - should this be `skip` instead?",
+      "revId": "8e41e0ca52831f78fd8af523b81536a3a5279582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "566940c4_c4c828f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1130599
+      },
+      "writtenOn": "2023-05-15T06:00:18Z",
+      "side": 1,
+      "message": "Hi, this is my first Gerrit CL so I\u0027m not sure who to add as a reviewer, sorry!\n\nFeel free to direct this to another reviewer if needed.",
+      "revId": "8e41e0ca52831f78fd8af523b81536a3a5279582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

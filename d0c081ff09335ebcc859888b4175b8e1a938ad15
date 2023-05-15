@@ -22,6 +22,53 @@
       },
       "revId": "d0c081ff09335ebcc859888b4175b8e1a938ad15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac807018_69f26ff3",
+        "filename": "polygerrit-ui/app/embed/diff-new/gr-diff-builder/gr-diff-text.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-05-15T08:37:11Z",
+      "side": 1,
+      "message": "looked through everything and util seems to be the only case to reslove",
+      "parentUuid": "9d026dfb_74343e23",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 59
+      },
+      "revId": "d0c081ff09335ebcc859888b4175b8e1a938ad15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10ef22c4_79ae4f66",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-05-15T08:37:11Z",
+      "side": 1,
+      "message": "can you explain why these are disabled? It\u0027s the same in the fork I think. The place with the flag guard should test both sides, not just one",
+      "range": {
+        "startLine": 18,
+        "startChar": 14,
+        "endLine": 18,
+        "endChar": 34
+      },
+      "revId": "d0c081ff09335ebcc859888b4175b8e1a938ad15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

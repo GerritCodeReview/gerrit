@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b738e67_b12e8b9e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-15T10:48:38Z",
+      "side": 0,
+      "message": "asdf",
+      "range": {
+        "startLine": 185,
+        "startChar": 44,
+        "endLine": 185,
+        "endChar": 56
+      },
+      "revId": "1a06eeb0a9d8f441f0d20f921669a3f76740a84d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

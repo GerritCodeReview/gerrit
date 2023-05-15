@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf853eb0_22b8afaa",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-text_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-05-15T15:01:32Z",
+      "side": 1,
+      "message": "cleanup trailing changes",
+      "revId": "9e5a07bce0ee456f6fec91fed6566065b44891b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35713eea_53fac449",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-processor/gr-diff-processor_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-05-15T15:01:32Z",
+      "side": 1,
+      "message": "cleanup these files with random newlines leftover",
+      "revId": "9e5a07bce0ee456f6fec91fed6566065b44891b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea1e2d00_da03808b",
+        "filename": "polygerrit-ui/web-test-runner.config.mjs",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-05-15T15:01:32Z",
+      "side": 1,
+      "message": "and diff view and file list?",
+      "range": {
+        "startLine": 38,
+        "startChar": 13,
+        "endLine": 38,
+        "endChar": 14
+      },
+      "revId": "9e5a07bce0ee456f6fec91fed6566065b44891b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

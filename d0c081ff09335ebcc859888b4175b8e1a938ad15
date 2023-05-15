@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d026dfb_74343e23",
+        "filename": "polygerrit-ui/app/embed/diff-new/gr-diff-builder/gr-diff-text.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-05-15T08:07:23Z",
+      "side": 1,
+      "message": "it looks like this utils file got forked but you are referencing the old one in some places from new code. Is this correct? Some locations reference the forked version. Are you sure all other references to /embed/diff/ files are correct?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 59
+      },
+      "revId": "d0c081ff09335ebcc859888b4175b8e1a938ad15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -64,7 +64,7 @@ reviewurl="$(git config --get gerrit.reviewUrl)"
 if test -n "${reviewurl}" ; then
   token="Link"
   value="${reviewurl%/}/id/I$random"
-  pattern=".*/id/I[0-9a-f]\{40\}$"
+  pattern=".*/id/I[0-9a-f]\{40\}"
 else
   token="Change-Id"
   value="I$random"

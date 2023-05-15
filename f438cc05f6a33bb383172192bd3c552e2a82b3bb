@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7f699501_aa56da8e",
+        "filename": "polygerrit-ui/app/api/diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-15T15:35:49Z",
+      "side": 1,
+      "message": "That is not possible, because in the type declaration I need a type, but `FILE` is a value.\n\nAlso, if we would reverse the order of declaration, then `FILE` would be a `string`, but it is nice for it to have `LineNumber` as a type.",
+      "parentUuid": "ceaaee6f_3d93ef3e",
+      "revId": "f438cc05f6a33bb383172192bd3c552e2a82b3bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0a61472_88b9240e",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-group.ts",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2023-05-15T11:00:05Z",
       "side": 1,
       "message": "Should this be checking `typeof lineNumber !\u003d\u003d \u0027number\u0027` instead?",
+      "revId": "f438cc05f6a33bb383172192bd3c552e2a82b3bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "506b3819_3c81b94e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-group.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-15T15:35:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0a61472_88b9240e",
       "revId": "f438cc05f6a33bb383172192bd3c552e2a82b3bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

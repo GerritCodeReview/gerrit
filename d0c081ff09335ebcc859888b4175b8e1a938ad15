@@ -93,6 +93,30 @@
       },
       "revId": "d0c081ff09335ebcc859888b4175b8e1a938ad15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21ab595f_4ca43f8b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-15T08:43:16Z",
+      "side": 1,
+      "message": "Unfortunately the `customElements` does not allow to redefine/replace a component. So once the components are defined in one way or the other, we cannot switch anymore.\n\nI have tried to put the switch as the first statement into common-test-setup, but that did not work. Apparently test files do share a browser window and the custom elements are not reset between runs.\n\nBut I would also love to fix this. Maybe you have an idea?",
+      "parentUuid": "10ef22c4_79ae4f66",
+      "range": {
+        "startLine": 18,
+        "startChar": 14,
+        "endLine": 18,
+        "endChar": 34
+      },
+      "revId": "d0c081ff09335ebcc859888b4175b8e1a938ad15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

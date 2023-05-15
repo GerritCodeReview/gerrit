@@ -5545,18 +5545,6 @@ dependent on which plugin is used.
 +
 By default, false.
 
-[[tracing.exportPerformanceMetrics]]tracing.exportPerformanceMetrics::
-+
-Whether to export performance metrics.
-+
-Performace logged when link:#tracing.performanceLogging[`performanceLogging`] is
-enabled, can be exported as metrics.
-+
-NOTE: Since the payload returned could be of tens of thousands metrics,
-assess the latency of the metrics endpoint before enabling this option.
-+
-By default, false.
-
 [[tracing.traceid]]
 ==== Subsection tracing.<trace-id>
 

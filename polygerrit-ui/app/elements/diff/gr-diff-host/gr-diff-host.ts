@@ -6,13 +6,12 @@
 import '../../shared/gr-comment-thread/gr-comment-thread';
 import '../../checks/gr-diff-check-result';
 import '../../../embed/diff/gr-diff/gr-diff';
+import '../../../embed/diff-new/gr-diff/gr-diff';
 import {
   anyLineTooLong,
   getDiffLength,
-  getLine,
-  getSide,
   SYNTAX_MAX_LINE_LENGTH,
-} from '../../../embed/diff/gr-diff/gr-diff-utils';
+} from '../../../utils/diff-util';
 import {getAppContext} from '../../../services/app-context';
 import {
   getParentIndex,
@@ -47,13 +46,10 @@ import {
   IgnoreWhitespaceType,
   WebLinkInfo,
 } from '../../../types/diff';
-import {
-  CreateCommentEventDetail,
-  GrDiff,
-} from '../../../embed/diff/gr-diff/gr-diff';
+import {GrDiff} from '../../../embed/diff/gr-diff/gr-diff';
+import {GrDiff as GrDiffNew} from '../../../embed/diff-new/gr-diff/gr-diff';
 import {DiffViewMode, Side, CommentSide} from '../../../constants/constants';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
-import {LineNumber, FILE} from '../../../embed/diff/gr-diff/gr-diff-line';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {
@@ -64,14 +60,18 @@ import {
   waitForEventOnce,
 } from '../../../utils/event-util';
 import {assertIsDefined} from '../../../utils/common-util';
-import {DiffContextExpandedEventDetail} from '../../../embed/diff/gr-diff-builder/gr-diff-builder';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
 import {Timing} from '../../../constants/reporting';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {Subscription} from 'rxjs';
 import {
+  CreateCommentEventDetail,
+  DiffContextExpandedExternalDetail,
   DisplayLine,
+  FILE,
+  LineNumber,
   LineSelectedEventDetail,
+  LOST,
   RenderPreferences,
 } from '../../../api/diff';
 import {resolve} from '../../../models/dependency';
@@ -125,7 +125,6 @@ declare global {
   interface HTMLElementEventMap {
     // prettier-ignore
     'render': CustomEvent<{}>;
-    'diff-context-expanded': CustomEvent<DiffContextExpandedEventDetail>;
     'create-comment': CustomEvent<CreateCommentEventDetail>;
     'is-blame-loaded-changed': ValueChangedEvent<boolean>;
     'diff-changed': ValueChangedEvent<DiffInfo | undefined>;
@@ -148,8 +147,9 @@ declare global {
  */
 @customElement('gr-diff-host')
 export class GrDiffHost extends LitElement {
+  // TODO(newdiff-cleanup): Replace once newdiff migration is completed.
   @query('#diff')
-  diffElement?: GrDiff;
+  diffElement?: GrDiff | GrDiffNew;
 
   @property({type: Number})
   changeNum?: NumericChangeId;
@@ -754,7 +754,7 @@ export class GrDiffHost extends LitElement {
     const pointer = check.codePointers?.[0];
     assertIsDefined(pointer, 'code pointer of check result in diff');
     const line: LineNumber =
-      pointer.range?.end_line || pointer.range?.start_line || 'FILE';
+      pointer.range?.end_line || pointer.range?.start_line || FILE;
     const el = document.createElement('gr-diff-check-result');
     // This is what gr-diff expects, even though this is a check, not a comment.
     el.className = 'comment-thread';
@@ -906,11 +906,6 @@ export class GrDiffHost extends LitElement {
     return Array.from(
       this.diffElement?.querySelectorAll('gr-diff-check-result') ?? []
     );
-  }
-
-  addDraftAtLine(el: Element) {
-    assertIsDefined(this.diffElement);
-    this.diffElement.addDraftAtLine(el);
   }
 
   clearDiffContent() {
@@ -1212,51 +1207,13 @@ export class GrDiffHost extends LitElement {
     threadEl.showPortedComment = !!thread.ported;
     // These attributes are the "interface" between comment threads and gr-diff.
     // <gr-comment-thread> does not care about them and is not affected by them.
-    threadEl.setAttribute('slot', `${diffSide}-${thread.line || 'LOST'}`);
+    threadEl.setAttribute('slot', `${diffSide}-${thread.line || LOST}`);
     threadEl.setAttribute('diff-side', `${diffSide}`);
-    threadEl.setAttribute('line-num', `${thread.line || 'LOST'}`);
+    threadEl.setAttribute('line-num', `${thread.line || LOST}`);
     if (thread.range) {
       threadEl.setAttribute('range', `${JSON.stringify(thread.range)}`);
     }
     return threadEl;
-  }
-
-  // Private but used in tests.
-  filterThreadElsForLocation(
-    threadEls: GrCommentThread[],
-    lineInfo: LineInfo,
-    side: Side
-  ) {
-    function matchesLeftLine(threadEl: GrCommentThread) {
-      return (
-        getSide(threadEl) === Side.LEFT &&
-        getLine(threadEl) === lineInfo.beforeNumber
-      );
-    }
-    function matchesRightLine(threadEl: GrCommentThread) {
-      return (
-        getSide(threadEl) === Side.RIGHT &&
-        getLine(threadEl) === lineInfo.afterNumber
-      );
-    }
-    function matchesFileComment(threadEl: GrCommentThread) {
-      return getSide(threadEl) === side && getLine(threadEl) === FILE;
-    }
-
-    // Select the appropriate matchers for the desired side and line
-    const matchers: ((thread: GrCommentThread) => boolean)[] = [];
-    if (side === Side.LEFT) {
-      matchers.push(matchesLeftLine);
-    }
-    if (side === Side.RIGHT) {
-      matchers.push(matchesRightLine);
-    }
-    if (lineInfo.afterNumber === FILE || lineInfo.beforeNumber === FILE) {
-      matchers.push(matchesFileComment);
-    }
-    return threadEls.filter(threadEl =>
-      matchers.some(matcher => matcher(threadEl))
-    );
   }
 
   private getIgnoreWhitespace(): IgnoreWhitespaceType {
@@ -1338,7 +1295,7 @@ export class GrDiffHost extends LitElement {
   }
 
   private handleDiffContextExpanded(
-    e: CustomEvent<DiffContextExpandedEventDetail>
+    e: CustomEvent<DiffContextExpandedExternalDetail>
   ) {
     this.reporting.reportInteraction('diff-context-expanded', {
       numLines: e.detail.numLines,

@@ -8,6 +8,7 @@ import '../../../styles/shared-styles';
 import '../gr-comment/gr-comment';
 import '../gr-icon/gr-icon';
 import '../../../embed/diff/gr-diff/gr-diff';
+import '../../../embed/diff-new/gr-diff/gr-diff';
 import '../gr-copy-clipboard/gr-copy-clipboard';
 import {css, html, nothing, LitElement, PropertyValues} from 'lit';
 import {
@@ -44,10 +45,9 @@ import {
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {CommentEditingChangedDetail, GrComment} from '../gr-comment/gr-comment';
-import {FILE} from '../../../embed/diff/gr-diff/gr-diff-line';
 import {GrButton} from '../gr-button/gr-button';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
-import {DiffLayer, RenderPreferences} from '../../../api/diff';
+import {DiffLayer, FILE, RenderPreferences} from '../../../api/diff';
 import {
   assert,
   assertIsDefined,
@@ -56,7 +56,7 @@ import {
 import {fire} from '../../../utils/event-util';
 import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
-import {anyLineTooLong} from '../../../embed/diff/gr-diff/gr-diff-utils';
+import {anyLineTooLong} from '../../../utils/diff-util';
 import {getUserName} from '../../../utils/display-name-util';
 import {generateAbsoluteUrl} from '../../../utils/url-util';
 import {sharedStyles} from '../../../styles/shared-styles';

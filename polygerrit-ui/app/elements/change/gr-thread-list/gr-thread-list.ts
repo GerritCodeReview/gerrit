@@ -96,7 +96,7 @@ export function compareThreads(
     return specialFilePathCompare(c1.path, c2.path);
   }
 
-  // Convert 'FILE' and 'LOST' to undefined.
+  // Convert FILE and LOST to undefined.
   const line1 = typeof c1.line === 'number' ? c1.line : undefined;
   const line2 = typeof c2.line === 'number' ? c2.line : undefined;
   if (line1 !== line2) {

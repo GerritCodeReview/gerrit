@@ -5,12 +5,12 @@
  */
 import {ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
-import {RenderPreferences, Side} from '../../../api/diff';
+import {FILE, RenderPreferences, Side} from '../../../api/diff';
 import '../gr-diff-image-viewer/gr-image-viewer';
 import {html, LitElement, nothing} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators.js';
+import {property, query, state} from 'lit/decorators.js';
 import {GrDiffBuilder} from './gr-diff-builder';
-import {createElementDiff} from '../gr-diff/gr-diff-utils';
+import {createElementDiff, isNewDiff} from '../gr-diff/gr-diff-utils';
 import {GrDiffGroup} from '../gr-diff/gr-diff-group';
 
 // MIME types for images we allow showing. Do not include SVG, it can contain
@@ -32,8 +32,8 @@ export class GrDiffBuilderImage extends GrDiffBuilder {
 
   override buildSectionElement(group: GrDiffGroup): HTMLElement {
     const section = createElementDiff('tbody');
-    // Do not create a diff row for 'LOST'.
-    if (group.lines[0].beforeNumber !== 'FILE') return section;
+    // Do not create a diff row for LOST.
+    if (group.lines[0].beforeNumber !== FILE) return section;
     return super.buildSectionElement(group);
   }
 
@@ -45,7 +45,9 @@ export class GrDiffBuilderImage extends GrDiffBuilder {
   }
 
   private createImageDiffNew() {
-    const imageDiff = document.createElement('gr-diff-image-new');
+    const imageDiff = document.createElement(
+      'gr-diff-image-new'
+    ) as GrDiffImageNew;
     imageDiff.automaticBlink = this.autoBlink();
     imageDiff.baseImage = this.baseImage ?? undefined;
     imageDiff.revisionImage = this.revisionImage ?? undefined;
@@ -53,7 +55,9 @@ export class GrDiffBuilderImage extends GrDiffBuilder {
   }
 
   private createImageDiffOld() {
-    const imageDiff = document.createElement('gr-diff-image-old');
+    const imageDiff = document.createElement(
+      'gr-diff-image-old'
+    ) as GrDiffImageOld;
     imageDiff.baseImage = this.baseImage ?? undefined;
     imageDiff.revisionImage = this.revisionImage ?? undefined;
     return imageDiff;
@@ -75,7 +79,6 @@ export class GrDiffBuilderImage extends GrDiffBuilder {
   }
 }
 
-@customElement('gr-diff-image-new')
 class GrDiffImageNew extends LitElement {
   @property() baseImage?: ImageInfo;
 
@@ -113,7 +116,6 @@ class GrDiffImageNew extends LitElement {
   }
 }
 
-@customElement('gr-diff-image-old')
 class GrDiffImageOld extends LitElement {
   @property() baseImage?: ImageInfo;
 
@@ -264,9 +266,16 @@ function imageSrc(image?: ImageInfo): string {
     : '';
 }
 
+// TODO(newdiff-cleanup): Remove once newdiff migration is completed.
+if (!isNewDiff()) {
+  customElements.define('gr-diff-image-new', GrDiffImageNew);
+  customElements.define('gr-diff-image-old', GrDiffImageOld);
+}
+
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-diff-image-new': GrDiffImageNew;
-    'gr-diff-image-old': GrDiffImageOld;
+    // TODO(newdiff-cleanup): Replace once newdiff migration is completed.
+    'gr-diff-image-new': LitElement;
+    'gr-diff-image-old': LitElement;
   }
 }

@@ -3,7 +3,7 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
+import '../../diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import '../../diff/gr-patch-range-select/gr-patch-range-select';
 import '../../edit/gr-edit-controls/gr-edit-controls';
 import '../../shared/gr-select/gr-select';
@@ -23,7 +23,7 @@ import {
   PatchSetNumber,
 } from '../../../types/common';
 import {DiffPreferencesInfo} from '../../../types/diff';
-import {GrDiffModeSelector} from '../../../embed/diff/gr-diff-mode-selector/gr-diff-mode-selector';
+import {GrDiffModeSelector} from '../../diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fire, fireNoBubbleNoCompose} from '../../../utils/event-util';
 import {css, html, LitElement, nothing} from 'lit';

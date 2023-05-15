@@ -55,7 +55,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {subscribe} from '../../lit/subscription-controller';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {classMap} from 'lit/directives/class-map.js';
-import {LineNumber} from '../../../api/diff';
+import {FILE, LineNumber} from '../../../api/diff';
 import {CommentSide, SpecialFilePath} from '../../../constants/constants';
 import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
@@ -65,8 +65,6 @@ import {isBase64FileContent} from '../../../api/rest-api';
 import {createDiffUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
-
-const FILE = 'FILE';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;

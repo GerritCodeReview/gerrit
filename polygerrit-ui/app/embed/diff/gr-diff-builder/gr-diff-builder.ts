@@ -9,9 +9,9 @@ import {
   ContentLoadNeededEventDetail,
   DiffContextExpandedExternalDetail,
   DiffViewMode,
+  LineNumber,
   RenderPreferences,
 } from '../../../api/diff';
-import {LineNumber} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup} from '../gr-diff/gr-diff-group';
 import {BlameInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
@@ -30,12 +30,12 @@ export interface DiffContextExpandedEventDetail
   /** The context control group that should be replaced by `groups`. */
   contextGroup: GrDiffGroup;
   groups: GrDiffGroup[];
-  numLines: number;
 }
 
 declare global {
   interface HTMLElementEventMap {
-    'diff-context-expanded': CustomEvent<DiffContextExpandedEventDetail>;
+    'diff-context-expanded-internal': CustomEvent<DiffContextExpandedEventDetail>;
+    'diff-context-expanded': CustomEvent<DiffContextExpandedExternalDetail>;
     'content-load-needed': CustomEvent<ContentLoadNeededEventDetail>;
   }
 }

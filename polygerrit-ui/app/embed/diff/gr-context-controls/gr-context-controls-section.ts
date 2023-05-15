@@ -5,15 +5,14 @@
  */
 import '../../../elements/shared/gr-button/gr-button';
 import {html, LitElement} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
+import {property, state} from 'lit/decorators.js';
 import {DiffInfo, DiffViewMode, RenderPreferences} from '../../../api/diff';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
-import {diffClasses} from '../gr-diff/gr-diff-utils';
+import {diffClasses, isNewDiff} from '../gr-diff/gr-diff-utils';
 import {getShowConfig} from './gr-context-controls';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {when} from 'lit/directives/when.js';
 
-@customElement('gr-context-controls-section')
 export class GrContextControlsSection extends LitElement {
   /** Should context controls be rendered for expanding above the section? */
   @property({type: Boolean}) showAbove = false;
@@ -125,8 +124,17 @@ export class GrContextControlsSection extends LitElement {
   }
 }
 
+// TODO(newdiff-cleanup): Remove once newdiff migration is completed.
+if (!isNewDiff()) {
+  customElements.define(
+    'gr-context-controls-section',
+    GrContextControlsSection
+  );
+}
+
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-context-controls-section': GrContextControlsSection;
+    // TODO(newdiff-cleanup): Replace once newdiff migration is completed.
+    'gr-context-controls-section': LitElement;
   }
 }

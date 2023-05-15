@@ -11,8 +11,8 @@ import {
   GrRangedCommentLayer,
 } from './gr-ranged-comment-layer';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
-import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
-import {Side} from '../../../api/diff';
+import {GrDiffLine} from '../gr-diff/gr-diff-line';
+import {GrDiffLineType, Side} from '../../../api/diff';
 import {SinonStub} from 'sinon';
 import {assert} from '@open-wc/testing';
 

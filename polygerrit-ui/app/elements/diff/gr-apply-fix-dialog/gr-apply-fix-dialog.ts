@@ -7,6 +7,7 @@ import '../../../styles/shared-styles';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-icon/gr-icon';
 import '../../../embed/diff/gr-diff/gr-diff';
+import '../../../embed/diff-new/gr-diff/gr-diff';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   NumericChangeId,
@@ -35,7 +36,7 @@ import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';
-import {anyLineTooLong} from '../../../embed/diff/gr-diff/gr-diff-utils';
+import {anyLineTooLong} from '../../../utils/diff-util';
 import {fireReload} from '../../../utils/event-util';
 import {when} from 'lit/directives/when.js';
 import {Timing} from '../../../constants/reporting';

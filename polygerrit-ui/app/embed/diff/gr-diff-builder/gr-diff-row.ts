@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {html, LitElement, nothing, TemplateResult} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
+import {property, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {createRef, Ref, ref} from 'lit/directives/ref.js';
 import {
@@ -12,16 +12,18 @@ import {
   Side,
   LineNumber,
   DiffLayer,
+  GrDiffLineType,
+  LOST,
+  FILE,
 } from '../../../api/diff';
 import {BlameInfo} from '../../../types/common';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
 import {getBaseUrl} from '../../../utils/url-util';
 import './gr-diff-text';
-import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
-import {diffClasses, isResponsive} from '../gr-diff/gr-diff-utils';
+import {GrDiffLine} from '../gr-diff/gr-diff-line';
+import {diffClasses, isNewDiff, isResponsive} from '../gr-diff/gr-diff-utils';
 
-@customElement('gr-diff-row')
 export class GrDiffRow extends LitElement {
   contentLeftRef: Ref<LitElement> = createRef();
 
@@ -281,8 +283,8 @@ export class GrDiffRow extends LitElement {
     lineNumber: LineNumber,
     side: Side
   ) {
-    if (this.hideFileCommentButton && lineNumber === 'FILE') return;
-    if (lineNumber === 'LOST') return;
+    if (this.hideFileCommentButton && lineNumber === FILE) return;
+    if (lineNumber === LOST) return;
     // .lineNumButton has `white-space: pre`, so prettier must not add spaces.
     // prettier-ignore
     return html`
@@ -298,18 +300,18 @@ export class GrDiffRow extends LitElement {
           fire(this, 'line-mouse-enter', {lineNum: lineNumber, side})}
         @mouseleave=${() =>
           fire(this, 'line-mouse-leave', {lineNum: lineNumber, side})}
-      >${lineNumber === 'FILE' ? 'File' : lineNumber.toString()}</button>
+      >${lineNumber === FILE ? 'File' : lineNumber.toString()}</button>
     `;
   }
 
   private computeLineNumberAriaLabel(line: GrDiffLine, lineNumber: LineNumber) {
-    if (lineNumber === 'FILE') return 'Add file comment';
+    if (lineNumber === FILE) return 'Add file comment';
 
     // Add aria-labels for valid line numbers.
     // For unified diff, this method will be called with number set to 0 for
     // the empty line number column for added/removed lines. This should not
     // be announced to the screenreader.
-    if (lineNumber === 'LOST' || lineNumber <= 0) return undefined;
+    if (lineNumber === LOST || lineNumber <= 0) return undefined;
 
     switch (line.type) {
       case GrDiffLineType.REMOVE:
@@ -336,8 +338,8 @@ export class GrDiffRow extends LitElement {
     const extras: string[] = [line.type, side];
     if (line.type !== GrDiffLineType.BLANK) extras.push('content');
     if (!line.hasIntralineInfo) extras.push('no-intraline-info');
-    if (line.beforeNumber === 'FILE') extras.push('file');
-    if (line.beforeNumber === 'LOST') extras.push('lost');
+    if (line.beforeNumber === FILE) extras.push('file');
+    if (line.beforeNumber === LOST) extras.push('lost');
 
     // .content has `white-space: pre`, so prettier must not add spaces.
     // prettier-ignore
@@ -437,7 +439,7 @@ export class GrDiffRow extends LitElement {
   private renderText(side: Side) {
     const line = this.line(side);
     const lineNumber = this.lineNumber(side);
-    if (lineNumber === 'FILE' || lineNumber === 'LOST') return;
+    if (typeof lineNumber !== 'number') return;
 
     // Note that `this.layersApplied` will wipe away the <gr-diff-text>, and
     // another rendering cycle will be initiated in `updated()`.
@@ -467,8 +469,14 @@ export class GrDiffRow extends LitElement {
   }
 }
 
+// TODO(newdiff-cleanup): Remove once newdiff migration is completed.
+if (!isNewDiff()) {
+  customElements.define('gr-diff-row', GrDiffRow);
+}
+
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-diff-row': GrDiffRow;
+    // TODO(newdiff-cleanup): Replace once newdiff migration is completed.
+    'gr-diff-row': LitElement;
   }
 }

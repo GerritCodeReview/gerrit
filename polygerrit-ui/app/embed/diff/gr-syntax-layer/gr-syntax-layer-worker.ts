@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
-import {FILE, GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
+import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {DiffFileMetaInfo, DiffInfo} from '../../../types/diff';
 import {DiffLayer, DiffLayerListener} from '../../../types/types';
 import {Side} from '../../../constants/constants';
@@ -13,6 +13,8 @@ import {CancelablePromise, makeCancelable} from '../../../utils/async-util';
 import {HighlightService} from '../../../services/highlight/highlight-service';
 import {Provider} from '../../../models/dependency';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
+import {GrDiffLineType} from '../../../api/diff';
+import {assert} from '../../../utils/common-util';
 
 const LANGUAGE_MAP = new Map<string, string>([
   ['application/dart', 'dart'],
@@ -183,8 +185,8 @@ export class GrSyntaxLayerWorker implements DiffLayer {
 
   annotate(el: HTMLElement, _: HTMLElement, line: GrDiffLine) {
     if (!this.enabled) return;
-    if (line.beforeNumber === FILE || line.afterNumber === FILE) return;
-    if (line.beforeNumber === 'LOST' || line.afterNumber === 'LOST') return;
+    if (typeof line.beforeNumber !== 'number') return;
+    if (typeof line.afterNumber !== 'number') return;
 
     let side: Side | undefined;
     if (
@@ -203,6 +205,7 @@ export class GrSyntaxLayerWorker implements DiffLayer {
 
     const isLeft = side === Side.LEFT;
     const lineNumber = isLeft ? line.beforeNumber : line.afterNumber;
+    assert(typeof lineNumber === 'number', 'lineNumber must be a number');
     const rangesPerLine = isLeft ? this.leftRanges : this.rightRanges;
     const ranges = rangesPerLine[lineNumber - 1]?.ranges ?? [];
 

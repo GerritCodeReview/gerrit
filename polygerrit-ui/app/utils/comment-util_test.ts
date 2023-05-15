@@ -35,6 +35,7 @@ import {
   UrlEncodedCommentId,
 } from '../types/common';
 import {assert} from '@open-wc/testing';
+import {FILE} from '../api/diff';
 
 suite('comment-util', () => {
   test('isUnresolved', () => {
@@ -213,7 +214,7 @@ suite('comment-util', () => {
       assert.equal(actualThreads[1].comments.length, 1);
       assert.deepEqual(actualThreads[1].comments[0], comments[2]);
       assert.equal(actualThreads[1].patchNum, 1 as RevisionPatchSetNum);
-      assert.equal(actualThreads[1].line, 'FILE');
+      assert.equal(actualThreads[1].line, FILE);
     });
 
     test('derives patchNum and range', () => {

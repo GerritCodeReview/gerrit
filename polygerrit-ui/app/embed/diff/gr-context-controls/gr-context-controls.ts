@@ -21,7 +21,7 @@ import {fire} from '../../../utils/event-util';
 import {DiffInfo} from '../../../types/diff';
 import {assertIsDefined} from '../../../utils/common-util';
 import {css, html, LitElement, TemplateResult} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import {property} from 'lit/decorators.js';
 import {subscribe} from '../../../elements/lit/subscription-controller';
 
 import {
@@ -32,6 +32,7 @@ import {
 } from '../../../api/diff';
 
 import {GrDiffGroup, hideInContextControl} from '../gr-diff/gr-diff-group';
+import {isNewDiff} from '../gr-diff/gr-diff-utils';
 
 declare global {
   interface HTMLElementEventMap {
@@ -82,7 +83,6 @@ export function getShowConfig(
   return 'both';
 }
 
-@customElement('gr-context-controls')
 export class GrContextControls extends LitElement {
   @property({type: Object}) renderPreferences?: RenderPreferences;
 
@@ -365,6 +365,11 @@ export class GrContextControls extends LitElement {
         });
       } else {
         fire(this, 'diff-context-expanded', {
+          numLines: this.numLines(),
+          buttonType: type,
+          expandedLines: linesToExpand,
+        });
+        fire(this, 'diff-context-expanded-internal', {
           contextGroup: this.group,
           groups,
           numLines: this.numLines(),
@@ -510,9 +515,14 @@ export class GrContextControls extends LitElement {
     `;
   }
 }
+// TODO(newdiff-cleanup): Remove once newdiff migration is completed.
+if (!isNewDiff()) {
+  customElements.define('gr-context-controls', GrContextControls);
+}
 
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-context-controls': GrContextControls;
+    // TODO(newdiff-cleanup): Replace once newdiff migration is completed.
+    'gr-context-controls': LitElement;
   }
 }

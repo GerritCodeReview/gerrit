@@ -12,7 +12,6 @@ import '../gr-diff-selection/gr-diff-selection';
 import '../gr-syntax-themes/gr-syntax-theme';
 import '../gr-ranged-comment-themes/gr-ranged-comment-theme';
 import '../gr-ranged-comment-hint/gr-ranged-comment-hint';
-import {LineNumber} from './gr-diff-line';
 import {
   getLine,
   getLineElByChild,
@@ -25,7 +24,7 @@ import {
   rangesEqual,
   getResponsiveMode,
   isResponsive,
-  getDiffLength,
+  isNewDiff,
 } from './gr-diff-utils';
 import {BlameInfo, CommentRange, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
@@ -50,10 +49,11 @@ import {MovedLinkClickedEvent, ValueChangedEvent} from '../../../types/events';
 import {getContentEditableRange} from '../../../utils/safari-selection-util';
 import {AbortStop} from '../../../api/core';
 import {
-  CreateCommentEventDetail as CreateCommentEventDetailApi,
   RenderPreferences,
   GrDiff as GrDiffApi,
   DisplayLine,
+  LineNumber,
+  LOST,
 } from '../../../api/diff';
 import {isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -63,7 +63,7 @@ import {
   DELAYED_CANCELLATION,
 } from '../../../utils/async-util';
 import {GrDiffSelection} from '../gr-diff-selection/gr-diff-selection';
-import {customElement, property, query, state} from 'lit/decorators.js';
+import {property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {html, LitElement, nothing, PropertyValues} from 'lit';
 import {when} from 'lit/directives/when.js';
@@ -75,6 +75,7 @@ import {expandFileMode} from '../../../utils/file-util';
 import {DiffModel, diffModelToken} from '../gr-diff-model/gr-diff-model';
 import {provide} from '../../../models/dependency';
 import {grDiffStyles} from './gr-diff-styles';
+import {getDiffLength} from '../../../utils/diff-util';
 
 const NO_NEWLINE_LEFT = 'No newline at end of left file.';
 const NO_NEWLINE_RIGHT = 'No newline at end of right file.';
@@ -92,11 +93,6 @@ const COMMIT_MSG_PATH = '/COMMIT_MSG';
  */
 const COMMIT_MSG_LINE_LENGTH = 72;
 
-export interface CreateCommentEventDetail extends CreateCommentEventDetailApi {
-  path: string;
-}
-
-@customElement('gr-diff')
 export class GrDiff extends LitElement implements GrDiffApi {
   /**
    * Fired when the user selects a line.
@@ -617,7 +613,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
     const el = e.target as Element;
 
     if (
-      el.getAttribute('data-value') !== 'LOST' &&
+      el.getAttribute('data-value') !== LOST &&
       (el.classList.contains('lineNum') ||
         el.classList.contains('lineNumButton'))
     ) {
@@ -697,9 +693,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
     const contentEl = this.diffBuilder.getContentTdByLineEl(lineEl);
     if (!contentEl) throw new Error('content el not found for line el');
     side = side ?? this.getCommentSideByLineAndContent(lineEl, contentEl);
-    assertIsDefined(this.path, 'path');
     fire(this, 'create-comment', {
-      path: this.path,
       side,
       lineNum,
       range,
@@ -980,7 +974,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
       }
       const contentEl = this.diffBuilder.getContentTdByLineEl(lineEl);
       if (!contentEl) continue;
-      if (lineNum === 'LOST') {
+      if (lineNum === LOST) {
         this.insertPortedCommentsWithoutRangeMessage(contentEl);
       }
 
@@ -1115,9 +1109,15 @@ function extractRemovedNodes(mutations: MutationRecord[]) {
   return mutations.flatMap(mutation => [...mutation.removedNodes]);
 }
 
+// TODO(newdiff-cleanup): Remove once newdiff migration is completed.
+if (!isNewDiff()) {
+  customElements.define('gr-diff', GrDiff);
+}
+
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-diff': GrDiff;
+    // TODO(newdiff-cleanup): Replace once newdiff migration is completed.
+    'gr-diff': LitElement;
   }
   interface HTMLElementEventMap {
     'comment-thread-mouseenter': CustomEvent<{}>;

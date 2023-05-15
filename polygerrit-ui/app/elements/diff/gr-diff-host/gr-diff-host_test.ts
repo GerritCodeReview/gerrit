@@ -43,8 +43,7 @@ import {
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {CoverageType} from '../../../types/types';
-import {GrDiffBuilderImage} from '../../../embed/diff/gr-diff-builder/gr-diff-builder-image';
-import {GrDiffHost, LineInfo} from './gr-diff-host';
+import {GrDiffHost} from './gr-diff-host';
 import {DiffInfo, DiffViewMode, IgnoreWhitespaceType} from '../../../api/diff';
 import {ErrorCallback} from '../../../api/rest';
 import {SinonStub, SinonStubbedMember} from 'sinon';
@@ -318,10 +317,6 @@ suite('gr-diff-host tests', () => {
       // Recognizes that it should be an image diff.
       assert.isTrue(element.isImageDiff);
       assertIsDefined(element.diffElement);
-      assert.instanceOf(
-        element.diffElement.diffBuilder.builder,
-        GrDiffBuilderImage
-      );
 
       // Left image rendered with the parent commit's version of the file.
       assertIsDefined(element.diffElement);
@@ -393,10 +388,6 @@ suite('gr-diff-host tests', () => {
       // Recognizes that it should be an image diff.
       assert.isTrue(element.isImageDiff);
       assertIsDefined(element.diffElement);
-      assert.instanceOf(
-        element.diffElement.diffBuilder.builder,
-        GrDiffBuilderImage
-      );
 
       // Left image rendered with the parent commit's version of the file.
       assertIsDefined(element.diffElement.diffTable);
@@ -464,10 +455,6 @@ suite('gr-diff-host tests', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
         assertIsDefined(element.diffElement);
-        assert.instanceOf(
-          element.diffElement.diffBuilder.builder,
-          GrDiffBuilderImage
-        );
         assertIsDefined(element.diffElement.diffTable);
         const diffTable = element.diffElement.diffTable;
 
@@ -512,11 +499,6 @@ suite('gr-diff-host tests', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
         assertIsDefined(element.diffElement);
-        assert.instanceOf(
-          element.diffElement.diffBuilder.builder,
-          GrDiffBuilderImage
-        );
-
         assertIsDefined(element.diffElement.diffTable);
         const diffTable = element.diffElement.diffTable;
 
@@ -566,10 +548,6 @@ suite('gr-diff-host tests', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
         assertIsDefined(element.diffElement);
-        assert.instanceOf(
-          element.diffElement.diffBuilder.builder,
-          GrDiffBuilderImage
-        );
         assertIsDefined(element.diffElement.diffTable);
         const diffTable = element.diffElement.diffTable;
 
@@ -729,16 +707,6 @@ suite('gr-diff-host tests', () => {
     assertIsDefined(element.diffElement);
     element.diffElement.appendChild(threadEl);
     assert.deepEqual(element.getThreadEls(), [threadEl]);
-  });
-
-  test('delegates addDraftAtLine(el)', () => {
-    const param0 = document.createElement('b');
-    assertIsDefined(element.diffElement);
-    const stub = sinon.stub(element.diffElement, 'addDraftAtLine');
-    element.addDraftAtLine(param0);
-    assert.isTrue(stub.calledOnce);
-    assert.equal(stub.lastCall.args.length, 1);
-    assert.equal(stub.lastCall.args[0], param0);
   });
 
   test('delegates clearDiffContent()', () => {
@@ -1297,71 +1265,6 @@ suite('gr-diff-host tests', () => {
       assert.isFalse(addDraftSpy.called);
       assert.isTrue(alertSpy.called);
     });
-  });
-
-  test('filterThreadElsForLocation with no threads', () => {
-    const line = {beforeNumber: 3, afterNumber: 5};
-    const threads: GrCommentThread[] = [];
-    assert.deepEqual(
-      element.filterThreadElsForLocation(threads, line, Side.LEFT),
-      []
-    );
-    assert.deepEqual(
-      element.filterThreadElsForLocation(threads, line, Side.RIGHT),
-      []
-    );
-  });
-
-  test('filterThreadElsForLocation for line comments', () => {
-    const line = {beforeNumber: 3, afterNumber: 5};
-
-    const l3 = document.createElement('gr-comment-thread');
-    l3.setAttribute('line-num', '3');
-    l3.setAttribute('diff-side', Side.LEFT);
-
-    const l5 = document.createElement('gr-comment-thread');
-    l5.setAttribute('line-num', '5');
-    l5.setAttribute('diff-side', Side.LEFT);
-
-    const r3 = document.createElement('gr-comment-thread');
-    r3.setAttribute('line-num', '3');
-    r3.setAttribute('diff-side', Side.RIGHT);
-
-    const r5 = document.createElement('gr-comment-thread');
-    r5.setAttribute('line-num', '5');
-    r5.setAttribute('diff-side', Side.RIGHT);
-
-    const threadEls: GrCommentThread[] = [l3, l5, r3, r5];
-    assert.deepEqual(
-      element.filterThreadElsForLocation(threadEls, line, Side.LEFT),
-      [l3]
-    );
-    assert.deepEqual(
-      element.filterThreadElsForLocation(threadEls, line, Side.RIGHT),
-      [r5]
-    );
-  });
-
-  test('filterThreadElsForLocation for file comments', () => {
-    const line: LineInfo = {beforeNumber: 'FILE', afterNumber: 'FILE'};
-
-    const l = document.createElement('gr-comment-thread');
-    l.setAttribute('diff-side', Side.LEFT);
-    l.setAttribute('line-num', 'FILE');
-
-    const r = document.createElement('gr-comment-thread');
-    r.setAttribute('diff-side', Side.RIGHT);
-    r.setAttribute('line-num', 'FILE');
-
-    const threadEls: GrCommentThread[] = [l, r];
-    assert.deepEqual(
-      element.filterThreadElsForLocation(threadEls, line, Side.LEFT),
-      [l]
-    );
-    assert.deepEqual(
-      element.filterThreadElsForLocation(threadEls, line, Side.RIGHT),
-      [r]
-    );
   });
 
   suite('syntax layer with syntax_highlighting on', async () => {

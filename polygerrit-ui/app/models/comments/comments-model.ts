@@ -438,6 +438,7 @@ export class CommentsModel extends Model<CommentState> {
     private readonly navigation: NavigationService
   ) {
     super(initialState);
+    console.info('CommentsModel constrcutor');
     this.subscriptions.push(
       this.savingInProgress$.subscribe(savingInProgress => {
         if (savingInProgress) {
@@ -477,6 +478,7 @@ export class CommentsModel extends Model<CommentState> {
     );
     this.subscriptions.push(
       this.changeViewModel.changeNum$.subscribe(changeNum => {
+        console.info(`CommentsModel reload ${changeNum}`);
         this.changeNum = changeNum;
         this.setState({...initialState});
         this.reloadAllComments();
@@ -518,8 +520,18 @@ export class CommentsModel extends Model<CommentState> {
     this.setState(reducer({...this.getState()}));
   }
 
+  override setState(state: CommentState) {
+    const commentsUndefPrev = this.getState().comments === undefined;
+    const commentsUndefNext = state.comments === undefined;
+    console.info(
+      `CommentsModel setState ${commentsUndefPrev} ${commentsUndefNext} ${this.stateUpdateInProgress}`
+    );
+    super.setState(state);
+  }
+
   async reloadComments(changeNum: NumericChangeId): Promise<void> {
     const comments = await this.restApiService.getDiffComments(changeNum);
+    console.info(`CommentsModel setComments ${comments === undefined}`);
     this.modifyState(s => setComments(s, comments));
   }
 

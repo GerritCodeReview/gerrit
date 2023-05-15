@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8153a31f_cc8662ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-15T12:42:24Z",
+      "side": 1,
+      "message": "Overall I\u0027m ok with the approach, it\u0027s quite a lot of code so I want to do a deeper pass but high-level comments first.",
+      "revId": "5871cfc49e4c05c29e0f26aafba58283c516ee6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4510a839_365a03df",
@@ -44,6 +61,40 @@
         "endLine": 662,
         "endChar": 27
       },
+      "revId": "5871cfc49e4c05c29e0f26aafba58283c516ee6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ea01c49_b0fbf14a",
+        "filename": "polygerrit-ui/app/embed/diff-new/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-15T12:42:24Z",
+      "side": 1,
+      "message": "Please add a TODO here and elsewhere to clean this up post migration.",
+      "revId": "5871cfc49e4c05c29e0f26aafba58283c516ee6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4afb38d0_a05b1480",
+        "filename": "polygerrit-ui/app/embed/diff-new/gr-context-controls/gr-context-controls_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-15T12:42:24Z",
+      "side": 1,
+      "message": "Please add a comment here and elsewhere to remove this cast post-migration.",
       "revId": "5871cfc49e4c05c29e0f26aafba58283c516ee6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

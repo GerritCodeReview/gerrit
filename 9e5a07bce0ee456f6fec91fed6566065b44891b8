@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d444b0f8_d05d1fc0",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-text_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-15T16:01:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf853eb0_22b8afaa",
+      "revId": "9e5a07bce0ee456f6fec91fed6566065b44891b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35713eea_53fac449",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67076da3_bcd4393c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-processor/gr-diff-processor_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-15T16:01:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35713eea_53fac449",
+      "revId": "9e5a07bce0ee456f6fec91fed6566065b44891b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea1e2d00_da03808b",
@@ -48,6 +84,30 @@
       "writtenOn": "2023-05-15T15:01:32Z",
       "side": 1,
       "message": "and diff view and file list?",
+      "range": {
+        "startLine": 38,
+        "startChar": 13,
+        "endLine": 38,
+        "endChar": 14
+      },
+      "revId": "9e5a07bce0ee456f6fec91fed6566065b44891b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7ee8f75_89df6560",
+        "filename": "polygerrit-ui/web-test-runner.config.mjs",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-15T16:01:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea1e2d00_da03808b",
       "range": {
         "startLine": 38,
         "startChar": 13,

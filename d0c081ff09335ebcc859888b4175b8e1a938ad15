@@ -117,6 +117,30 @@
       },
       "revId": "d0c081ff09335ebcc859888b4175b8e1a938ad15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8b6d6d0_883ac73f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-15T14:37:05Z",
+      "side": 1,
+      "message": "I have managed to configure web-test-runner to run a test file group with different flags. PTAL",
+      "parentUuid": "21ab595f_4ca43f8b",
+      "range": {
+        "startLine": 18,
+        "startChar": 14,
+        "endLine": 18,
+        "endChar": 34
+      },
+      "revId": "d0c081ff09335ebcc859888b4175b8e1a938ad15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

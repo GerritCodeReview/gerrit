@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a461c3f2_c7245d26",
+        "filename": "java/com/google/gerrit/server/account/AccountModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-05-15T14:03:58Z",
+      "side": 1,
+      "message": "Why is the AccountsStorageAccessorsBinder class needed?\n\nCouldn\u0027t this be as simple as\n\n  bind(Accounts.class).to(AccountsNoteDbImpl.class)\n  \n?",
+      "revId": "00a230922f5f9f2ad829d0febf06acdf9246b0bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77afaa15_57d329ab",
+        "filename": "java/com/google/gerrit/server/account/Accounts.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-05-15T14:03:58Z",
+      "side": 1,
+      "message": "This method makes the assumption that accounts are stored in a repository and changes to accounts are versioned by commits. IIUC the purpose of this interface is to support different storages for accounts (e.g. non-repo-based storages), hence I\u0027m not sure this method belongs into this interface.",
+      "range": {
+        "startLine": 76,
+        "startChar": 2,
+        "endLine": 81,
+        "endChar": 44
+      },
+      "revId": "00a230922f5f9f2ad829d0febf06acdf9246b0bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab493747_f711348e",
+        "filename": "java/com/google/gerrit/server/account/AccountsStorageAccessorsBinder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-05-15T14:03:58Z",
+      "side": 1,
+      "message": "IIUC this is not needed if AccountsNoteDbImpl is annotated with @Singleton?",
+      "range": {
+        "startLine": 27,
+        "startChar": 60,
+        "endLine": 27,
+        "endChar": 80
+      },
+      "revId": "00a230922f5f9f2ad829d0febf06acdf9246b0bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

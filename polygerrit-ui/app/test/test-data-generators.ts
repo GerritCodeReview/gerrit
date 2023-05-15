@@ -104,7 +104,7 @@ import {
   SubmitRequirementStatus,
 } from '../api/rest-api';
 import {CheckResult, CheckRun, RunResult} from '../models/checks/checks-model';
-import {Category, RunStatus} from '../api/checks';
+import {Category, Fix, Link, LinkIcon, RunStatus} from '../api/checks';
 import {DiffInfo} from '../api/diff';
 import {SearchViewState} from '../models/views/search';
 import {ChangeChildView, ChangeViewState} from '../models/views/change';
@@ -1143,6 +1143,29 @@ export function createCheckResult(
     category: Category.ERROR,
     summary: 'error',
     internalResultId: 'test-internal-result-id',
+    ...partial,
+  };
+}
+
+export function createCheckFix(partial: Partial<Fix> = {}): Fix {
+  return {
+    description: 'this is a test fix',
+    replacements: [
+      {
+        path: 'testpath',
+        range: createRange(),
+        replacement: 'testreplacement',
+      },
+    ],
+    ...partial,
+  };
+}
+
+export function createCheckLink(partial: Partial<Link> = {}): Link {
+  return {
+    url: 'http://test/url',
+    primary: true,
+    icon: LinkIcon.EXTERNAL,
     ...partial,
   };
 }

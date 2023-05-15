@@ -517,3 +517,12 @@ export function otherPrimaryLinks(result?: CheckResultApi): Link[] {
 export function secondaryLinks(result?: CheckResultApi): Link[] {
   return (result?.links ?? []).filter(link => !link.primary);
 }
+
+export function computeIsExpandable(result?: CheckResultApi) {
+  if (!result?.summary) return false;
+  const hasMessage = !!result?.message;
+  const hasMultipleLinks = (result?.links ?? []).length > 1;
+  const hasPointers = (result?.codePointers ?? []).length > 0;
+  const hasFixes = (result?.fixes ?? []).length > 0;
+  return hasMessage || hasMultipleLinks || hasPointers || hasFixes;
+}

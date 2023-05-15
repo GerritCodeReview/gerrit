@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ceaaee6f_3d93ef3e",
+        "filename": "polygerrit-ui/app/api/diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-15T11:00:05Z",
+      "side": 1,
+      "message": "Please use these constants in the declaration of type `LineNumber`",
+      "revId": "f438cc05f6a33bb383172192bd3c552e2a82b3bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0a61472_88b9240e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-group.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-15T11:00:05Z",
+      "side": 1,
+      "message": "Should this be checking `typeof lineNumber !\u003d\u003d \u0027number\u0027` instead?",
+      "revId": "f438cc05f6a33bb383172192bd3c552e2a82b3bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

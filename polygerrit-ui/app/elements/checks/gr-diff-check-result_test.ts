@@ -45,6 +45,13 @@ suite('gr-diff-check-result tests', () => {
             There is a lot to be said. A lot. I say, a lot.
                 So please keep reading.
           </div>
+          <div aria-checked="false"
+               aria-label="Expand result row"
+               class="show-hide"
+               role="switch"
+               tabindex="0">
+            <gr-icon icon="expand_more"></gr-icon>
+          </div>
         </div>
         <div class="details"></div>
       </div>

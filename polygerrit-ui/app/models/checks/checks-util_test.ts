@@ -10,6 +10,7 @@ import {
   ALL_ATTEMPTS,
   AttemptChoice,
   LATEST_ATTEMPT,
+  computeIsExpandable,
   rectifyFix,
   sortAttemptChoices,
   stringToAttemptChoice,
@@ -17,6 +18,12 @@ import {
 import {Fix, Replacement} from '../../api/checks';
 import {PROVIDED_FIX_ID} from '../../utils/comment-util';
 import {CommentRange} from '../../api/rest-api';
+import {
+  createCheckFix,
+  createCheckLink,
+  createCheckResult,
+  createRange,
+} from '../../test/test-data-generators';
 
 suite('checks-util tests', () => {
   setup(() => {});
@@ -106,5 +113,40 @@ suite('checks-util tests', () => {
       undefined,
     ];
     assert.deepEqual(unsorted.sort(sortAttemptChoices), sortedExpected);
+  });
+
+  test('computeIsExpandable', () => {
+    assert.isFalse(computeIsExpandable(createCheckResult()));
+    assert.isTrue(
+      computeIsExpandable({...createCheckResult(), message: 'asdf'})
+    );
+    assert.isFalse(
+      computeIsExpandable({
+        ...createCheckResult(),
+        message: 'asdf',
+        summary: undefined as unknown as string,
+      })
+    );
+    assert.isTrue(
+      computeIsExpandable({...createCheckResult(), message: 'asdf'})
+    );
+    assert.isTrue(
+      computeIsExpandable({
+        ...createCheckResult(),
+        links: [createCheckLink(), createCheckLink()],
+      })
+    );
+    assert.isTrue(
+      computeIsExpandable({
+        ...createCheckResult(),
+        codePointers: [{path: 'asdf', range: createRange()}],
+      })
+    );
+    assert.isTrue(
+      computeIsExpandable({
+        ...createCheckResult(),
+        fixes: [createCheckFix()],
+      })
+    );
   });
 });

@@ -9,6 +9,7 @@ import {LitElement, css, html, PropertyValues, nothing} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {RunResult} from '../../models/checks/checks-model';
 import {
+  computeIsExpandable,
   createFixAction,
   createPleaseFixComment,
   iconFor,
@@ -244,9 +245,9 @@ export class GrDiffCheckResult extends LitElement {
     `;
   }
 
-  override updated(changedProperties: PropertyValues) {
+  override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('result')) {
-      this.isExpandable = !!this.result?.summary && !!this.result?.message;
+      this.isExpandable = computeIsExpandable(this.result);
     }
   }
 

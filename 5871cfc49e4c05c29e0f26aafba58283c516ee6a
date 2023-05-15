@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4510a839_365a03df",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-05-15T08:38:03Z",
+      "side": 1,
+      "message": "is there a way the tests can run both cases of the flag? Same in other places you toggle on the flag",
+      "range": {
+        "startLine": 662,
+        "startChar": 18,
+        "endLine": 662,
+        "endChar": 27
+      },
+      "revId": "5871cfc49e4c05c29e0f26aafba58283c516ee6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

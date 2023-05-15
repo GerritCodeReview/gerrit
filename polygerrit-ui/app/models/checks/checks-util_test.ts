@@ -10,6 +10,7 @@ import {
   ALL_ATTEMPTS,
   AttemptChoice,
   LATEST_ATTEMPT,
+  computeIsExpandable,
   rectifyFix,
   sortAttemptChoices,
   stringToAttemptChoice,
@@ -17,6 +18,12 @@ import {
 import {Fix, Replacement} from '../../api/checks';
 import {PROVIDED_FIX_ID} from '../../utils/comment-util';
 import {CommentRange} from '../../api/rest-api';
+import {
+  createCheckFix,
+  createCheckLink,
+  createCheckResult,
+  createRange,
+} from '../../test/test-data-generators';
 
 suite('checks-util tests', () => {
   setup(() => {});
@@ -106,5 +113,63 @@ suite('checks-util tests', () => {
       undefined,
     ];
     assert.deepEqual(unsorted.sort(sortAttemptChoices), sortedExpected);
+  });
+
+  suite('computeIsExpandable', () => {
+    test('no message', () => {
+      assert.isFalse(computeIsExpandable(createCheckResult()));
+    });
+
+    test('no summary', () => {
+      assert.isFalse(
+        computeIsExpandable({
+          ...createCheckResult(),
+          message: 'asdf',
+          summary: undefined as unknown as string,
+        })
+      );
+    });
+
+    test('has message', () => {
+      assert.isTrue(
+        computeIsExpandable({...createCheckResult(), message: 'asdf'})
+      );
+    });
+
+    test('has just one link', () => {
+      assert.isFalse(
+        computeIsExpandable({
+          ...createCheckResult(),
+          links: [createCheckLink()],
+        })
+      );
+    });
+
+    test('has more than one link', () => {
+      assert.isTrue(
+        computeIsExpandable({
+          ...createCheckResult(),
+          links: [createCheckLink(), createCheckLink()],
+        })
+      );
+    });
+
+    test('has code pointer', () => {
+      assert.isTrue(
+        computeIsExpandable({
+          ...createCheckResult(),
+          codePointers: [{path: 'asdf', range: createRange()}],
+        })
+      );
+    });
+
+    test('has fix', () => {
+      assert.isTrue(
+        computeIsExpandable({
+          ...createCheckResult(),
+          fixes: [createCheckFix()],
+        })
+      );
+    });
   });
 });

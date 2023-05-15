@@ -47,6 +47,7 @@ import {
   otherPrimaryLinks,
   secondaryLinks,
   tooltipForLink,
+  computeIsExpandable,
 } from '../../models/checks/checks-util';
 import {assertIsDefined, assert, unique} from '../../utils/common-util';
 import {modifierPressed, toggleClass, whenVisible} from '../../utils/dom-util';
@@ -322,18 +323,10 @@ export class GrResultRow extends LitElement {
     ];
   }
 
-  override updated(changedProperties: PropertyValues) {
+  override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('result')) {
-      this.isExpandable = this.computeIsExpandable();
+      this.isExpandable = computeIsExpandable(this.result);
     }
-  }
-
-  private computeIsExpandable() {
-    const hasSummary = !!this.result?.summary;
-    const hasMessage = !!this.result?.message;
-    const hasMultipleLinks = (this.result?.links ?? []).length > 1;
-    const hasPointers = (this.result?.codePointers ?? []).length > 0;
-    return hasSummary && (hasMessage || hasMultipleLinks || hasPointers);
   }
 
   override focus() {

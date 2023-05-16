@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "441a820c_9843755c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-05-16T06:35:22Z",
+      "side": 1,
+      "message": "This looks fine. This way the fix gets mentioned in the release notes.",
+      "parentUuid": "e078c7ea_b0b09258",
+      "revId": "8e41e0ca52831f78fd8af523b81536a3a5279582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "566940c4_c4c828f0",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4

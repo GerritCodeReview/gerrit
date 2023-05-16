@@ -924,13 +924,6 @@ export class GrComment extends LitElement {
     if (this.permanentEditingMode) {
       this.edit();
     }
-    if (
-      isDraft(this.comment) &&
-      isNew(this.comment) &&
-      !isSaving(this.comment)
-    ) {
-      this.edit();
-    }
     if (isDraft(this.comment)) {
       this.collapsed = false;
     } else {
@@ -941,6 +934,10 @@ export class GrComment extends LitElement {
   override updated(changed: PropertyValues) {
     if (changed.has('editing')) {
       if (this.editing && !this.permanentEditingMode) {
+        // Note that this is a bit fragile, because we are relying on the
+        // comment to become visible soonish. If that does not happen, then we
+        // will be waiting indefinitely and grab focus at some point in the
+        // distant future.
         whenVisible(this, () => this.textarea?.putCursorAtEnd());
       }
     }
@@ -981,7 +978,7 @@ export class GrComment extends LitElement {
   }
 
   /** Enter editing mode. */
-  private edit() {
+  edit() {
     assert(isDraft(this.comment), 'only drafts are editable');
     if (this.editing) return;
     this.editing = true;
@@ -1065,6 +1062,8 @@ export class GrComment extends LitElement {
   }
 
   override focus() {
+    // Note that this may not work as intended, because the textarea is not
+    // rendered yet.
     this.textarea?.focus();
   }
 

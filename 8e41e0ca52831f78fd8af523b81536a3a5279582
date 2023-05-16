@@ -33,6 +33,24 @@
       "message": "Hi, this is my first Gerrit CL so I\u0027m not sure who to add as a reviewer, sorry!\n\nFeel free to direct this to another reviewer if needed.",
       "revId": "8e41e0ca52831f78fd8af523b81536a3a5279582",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6f47de6_8c265494",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1130599
+      },
+      "writtenOn": "2023-05-16T00:04:32Z",
+      "side": 1,
+      "message": "Oops, forgot to add a reviewer.",
+      "parentUuid": "566940c4_c4c828f0",
+      "revId": "8e41e0ca52831f78fd8af523b81536a3a5279582",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

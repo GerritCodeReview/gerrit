@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de65e8c1_3b97b869",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-16T09:57:28Z",
+      "side": 1,
+      "message": "Yes, that was the issue. And is fixed, because gr-comment does not go into editing mode for all empty comments. Instead the thread call `edit()` on the comment.",
+      "parentUuid": "8ead34cb_d998b64f",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 6
+      },
+      "revId": "ba9329cfe1f5e8db7c7f2cdd90a4e532f6ba4b19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b71feee_1fa1c725",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-05-16T09:14:16Z",
       "side": 1,
       "message": "I don\u0027t really follow this 😞\n\nWe have `comment-thread-editing-changed` which is not involved in changing the `editing` state of the draft?\n\nReading this this seems like a tangential way of determining the draft needs to be edited, there is a new comment and there is no message, so it should be in editing mode.\n\n`this.editDraft` calls `this.draftElement!.edit` and then `comment-editing-changed` event updates the `editing` property of the GrCommentThread back.\n\nSeems a bit circular.\n\nWho is the owner for deciding if the comment is in editing state?\n\nReading the commit message it seems like it is now GrCommentThread in which case it should not wait for the event from GrComment to update it\u0027s `editing` property?",
+      "range": {
+        "startLine": 656,
+        "startChar": 14,
+        "endLine": 656,
+        "endChar": 42
+      },
+      "revId": "ba9329cfe1f5e8db7c7f2cdd90a4e532f6ba4b19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18c6a4b9_21ade2e4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-16T09:57:28Z",
+      "side": 1,
+      "message": "`GrComment` is in control of maintaining its `editing` state. The thread can call `edit()` on the comment and inspect the `editing` property, but it does not manage the state. There are other reasons for the comment to change editing state that don\u0027t involve the thread.\n\nThe only reason for `comment-thread-editing-changed`, `comment-editing-changed` and the `editing` property of the thread is that the thread list needs the `editing` information in `shouldShowThread()` to avoid vanishing threads. I think there are better designs for this, but that is out of scope of what I am changing/fixing here.",
+      "parentUuid": "0b71feee_1fa1c725",
       "range": {
         "startLine": 656,
         "startChar": 14,

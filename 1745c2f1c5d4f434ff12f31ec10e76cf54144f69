@@ -16,6 +16,24 @@
       "message": "Thanks for contributing this fix! LGTM.",
       "revId": "1745c2f1c5d4f434ff12f31ec10e76cf54144f69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96b470a9_4ee62982",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1130599
+      },
+      "writtenOn": "2023-05-16T06:40:26Z",
+      "side": 1,
+      "message": "Thank you! I hope I submitted this correctly (I clicked the \"Submit\" button on Gerrit).",
+      "parentUuid": "581bcc29_abc8703f",
+      "revId": "1745c2f1c5d4f434ff12f31ec10e76cf54144f69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

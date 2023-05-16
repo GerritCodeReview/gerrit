@@ -74,6 +74,7 @@ import {whenRendered} from '../../../utils/dom-util';
 import {createChangeUrl, createDiffUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';
+import {waitUntil} from '../../../utils/async-util';
 
 declare global {
   interface HTMLElementEventMap {
@@ -111,6 +112,9 @@ export class GrCommentThread extends LitElement {
 
   @query('.comment-box')
   commentBox?: HTMLElement;
+
+  @query('gr-comment.draft')
+  draftElement?: GrComment;
 
   @queryAll('gr-comment')
   commentElements?: NodeList;
@@ -495,6 +499,7 @@ export class GrCommentThread extends LitElement {
         : !this.unresolved);
     return html`
       <gr-comment
+        class=${classMap({draft: isDraft(comment)})}
         .comment=${comment}
         .comments=${this.thread!.comments}
         ?initially-collapsed=${initiallyCollapsed}
@@ -646,6 +651,15 @@ export class GrCommentThread extends LitElement {
         }, 500);
       });
     }
+    if (this.thread && isDraft(this.getFirstComment())) {
+      const msg = this.getFirstComment()?.message ?? '';
+      if (msg.length === 0) this.editDraft();
+    }
+  }
+
+  private async editDraft() {
+    await waitUntil(() => !!this.draftElement);
+    this.draftElement!.edit();
   }
 
   private isDraft() {
@@ -797,6 +811,7 @@ export class GrCommentThread extends LitElement {
     const newReply = createNewReply(replyingTo, content, unresolved);
     if (userWantsToEdit) {
       this.getCommentsModel().addNewDraft(newReply);
+      this.editDraft();
     } else {
       try {
         this.saving = true;

@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f18e1ec_e3eda14c",
+        "filename": "java/com/google/gerrit/server/change/SetCustomKeyedValuesOp.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-16T09:02:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2ab7099_cbe9218f",
+      "range": {
+        "startLine": 103,
+        "startChar": 39,
+        "endLine": 103,
+        "endChar": 50
+      },
+      "revId": "9079ec0a41beb3c6de14c2a99593146e85ee76e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "97402a5b_8286779c",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-05-16T07:33:45Z",
       "side": 1,
       "message": "Please fix this WARNING reported by Common Typos: Common typo found: \"implictly\" -- should it be \"implicitly\"?\n\nAnalyzer Description: Linter for catching common typos motivated by go/todo-fail and go/lol-codesearch. Shared with google3 common typos library go/common-typos.\nOwner: ayeaye-team@google.com\n\nCommon typo found: \"implictly\" -- should it be \"implicitly\"?\nNote: a line containing \"common_typos_disable\" or \"common_typos_enable\" will turn off or on (respectively) the linter for subsequent lines in the file. Alternatively include the token \"NOTYPO\" within a line to skip typo linting that line or include \u0027No-Typo-Check: \u003creason\u003e\u0027in the commit message.",
+      "range": {
+        "startLine": 713,
+        "startChar": 7,
+        "endLine": 713,
+        "endChar": 16
+      },
+      "revId": "9079ec0a41beb3c6de14c2a99593146e85ee76e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8062ff1_24d5b341",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-16T09:02:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97402a5b_8286779c",
       "range": {
         "startLine": 713,
         "startChar": 7,

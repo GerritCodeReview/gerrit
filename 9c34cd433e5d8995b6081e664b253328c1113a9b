@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "833e1ae7_b6f307ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-05-16T06:37:01Z",
+      "side": 1,
+      "message": "nit `REST-APIs`",
+      "range": {
+        "startLine": 9,
+        "startChar": 18,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f99216bc_e8185545",
+        "filename": "java/com/google/gerrit/extensions/restapi/Cacheability.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-05-16T06:37:01Z",
+      "side": 1,
+      "message": "nit: for the consistency with commit message it would be better to stick to the same spelling `cacheable`",
+      "range": {
+        "startLine": 17,
+        "startChar": 28,
+        "endLine": 17,
+        "endChar": 38
+      },
+      "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "80032e27_22c62fd3",
         "filename": "java/com/google/gerrit/extensions/restapi/Cacheability.java",
         "patchSetId": 13
@@ -19,6 +65,29 @@
         "startChar": 18,
         "endLine": 26,
         "endChar": 29
+      },
+      "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "859fa406_b7f4a515",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-05-16T06:37:01Z",
+      "side": 1,
+      "message": "can be simplified to\n```\ncurrentEtag.orElseGet(() -\u003e getETag(currentRsrc, currentView);\n```",
+      "range": {
+        "startLine": 555,
+        "startChar": 20,
+        "endLine": 555,
+        "endChar": 94
       },
       "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

@@ -68,6 +68,24 @@
       "message": "We should also update the rest-api documentation, documenting this behaviour.\n\nP.S. Do we want to move this to stable-3.8?",
       "revId": "addd17d06c77077b2d1b3722b8d2b25b532b8010",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bdbbbc7_b5f969c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-05-16T15:23:14Z",
+      "side": 1,
+      "message": "In the docs I can\u0027t really find documentation for what status code is returned in case of which error, so unsure we should document this specifically?\n\nHappy to move to 3.8 if I\u0027m still in time.",
+      "parentUuid": "ed1e9641_70cfbbf2",
+      "revId": "addd17d06c77077b2d1b3722b8d2b25b532b8010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

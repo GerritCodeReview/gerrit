@@ -29,7 +29,7 @@
     "test:browsers": "web-test-runner --playwright --browsers webkit firefox chromium",
     "test:coverage": "web-test-runner --coverage",
     "test:watch": "web-test-runner --watch",
-    "test:single": "web-test-runner --watch --files",
+    "test:single": "web-test-runner --watch --group default --files",
     "test:single:coverage": "web-test-runner --watch --coverage --files"
   },
   "license": "Apache-2.0",

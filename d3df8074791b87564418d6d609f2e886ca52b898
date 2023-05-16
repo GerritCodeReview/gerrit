@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af288e3d_3789ebfa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-05-16T12:24:01Z",
+      "side": 1,
+      "message": "You didn\u0027t remove this exception from throws clause. Should it be removed?",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 32
+      },
+      "revId": "d3df8074791b87564418d6d609f2e886ca52b898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26f5ca92_33c6889d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-05-16T12:24:01Z",
+      "side": 1,
+      "message": "nothing addressed this warning in code as well, or?",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 47
+      },
+      "revId": "d3df8074791b87564418d6d609f2e886ca52b898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

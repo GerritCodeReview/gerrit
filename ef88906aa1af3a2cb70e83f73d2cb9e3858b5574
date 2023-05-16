@@ -22,6 +22,30 @@
       },
       "revId": "ef88906aa1af3a2cb70e83f73d2cb9e3858b5574",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcc3d101_9302083f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-05-16T05:25:51Z",
+      "side": 1,
+      "message": "As far as we know these metrics didn\u0027t work for upstream (see issue 15531 [1]) which is why they have been disabled by default [2]. I believe Google was the only one who had this enabled, but it turned out that this is also not working for us due to the same issue.\n\n[1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d15531\n[2] https://gerrit-review.git.corp.google.com/c/gerrit/+/328428",
+      "parentUuid": "e6ae4e68_4b6f764d",
+      "range": {
+        "startLine": 9,
+        "startChar": 40,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "ef88906aa1af3a2cb70e83f73d2cb9e3858b5574",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

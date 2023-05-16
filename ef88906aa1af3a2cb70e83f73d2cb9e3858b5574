@@ -46,6 +46,30 @@
       },
       "revId": "ef88906aa1af3a2cb70e83f73d2cb9e3858b5574",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80c9dba7_58a9943d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-05-16T07:49:33Z",
+      "side": 1,
+      "message": "Thanks Edwin for the links. I updated the commit message to link the issue and mention we still have the perflog.",
+      "parentUuid": "dcc3d101_9302083f",
+      "range": {
+        "startLine": 9,
+        "startChar": 40,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "ef88906aa1af3a2cb70e83f73d2cb9e3858b5574",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

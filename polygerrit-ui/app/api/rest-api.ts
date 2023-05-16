@@ -367,6 +367,7 @@ export declare interface ChangeInfo {
   topic?: TopicName;
   attention_set?: IdToAttentionSetMap;
   hashtags?: Hashtag[];
+  custom_keyed_values?: CustomKeyedValues;
   change_id: ChangeId;
   subject: string;
   status: ChangeStatus;
@@ -731,6 +732,12 @@ export declare interface GroupOptionsInfo {
 }
 
 export type Hashtag = BrandType<string, '_hashtag'>;
+
+export type CustomKey = BrandType<string, '_custom_key'>;
+export type CustomValue = BrandType<string, '_custom_value'>;
+
+// A map from CustomKey to CustomValue
+export type CustomKeyedValues = {[key: CustomKey]: CustomValue};
 
 export type IdToAttentionSetMap = {[accountId: string]: AttentionSetInfo};
 

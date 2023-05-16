@@ -331,7 +331,7 @@ public class ChangeData {
   private SubmitTypeRecord submitTypeRecord;
   private Boolean mergeable;
   private Set<String> hashtags;
-  private Map<String, String> customKeyedValues;
+  private ImmutableMap<String, String> customKeyedValues;
   /**
    * Map from {@link com.google.gerrit.entities.Account.Id} to the tip of the edit ref for this
    * change and a given user.

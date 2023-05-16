@@ -166,6 +166,30 @@ EOF
   fi
 }
 
+function test_preserve_link {
+  cat << EOF > input
+bla bla
+
+Link: https://myhost/id/I1234567890123456789012345678901234567890
+EOF
+
+  git config gerrit.reviewUrl https://myhost/
+  ${hook} input || fail "failed hook execution"
+  git config --unset gerrit.reviewUrl
+  found=$(grep -c '^Change-Id' input) || :
+  if [[ "${found}" != "0" ]]; then
+    fail "got ${found} Change-Ids, want 0"
+  fi
+  found=$(grep -c '^Link: https://myhost/id/I' input) || :
+  if [[ "${found}" != "1" ]]; then
+    fail "got ${found} Link footers, want 1"
+  fi
+  found=$(grep -c '^Link: https://myhost/id/I1234567890123456789012345678901234567890$' input) || :
+  if [[ "${found}" != "1" ]]; then
+    fail "got ${found} Link: https://myhost/id/I123..., want 1"
+  fi
+}
+
 # Change-Id goes after existing trailers.
 function test_at_end {
   cat << EOF > input

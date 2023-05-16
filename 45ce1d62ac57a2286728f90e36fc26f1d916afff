@@ -22,6 +22,30 @@
       },
       "revId": "45ce1d62ac57a2286728f90e36fc26f1d916afff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ea861c7_69b6d897",
+        "filename": "project.config",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-16T12:27:28Z",
+      "side": 1,
+      "message": "The `h` is the \"magic\" path that internal Code Search provides for browsing all of Git on Borg. :-)",
+      "parentUuid": "0252ba24_79bbcef9",
+      "range": {
+        "startLine": 40,
+        "startChar": 22,
+        "endLine": 40,
+        "endChar": 23
+      },
+      "revId": "45ce1d62ac57a2286728f90e36fc26f1d916afff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

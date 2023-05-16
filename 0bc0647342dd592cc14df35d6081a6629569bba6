@@ -16,6 +16,23 @@
       "message": "That looks a cool idea. Why not pushing this to the docker-gerrit project?",
       "revId": "0bc0647342dd592cc14df35d6081a6629569bba6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ae34f5c_af0fdf1e",
+        "filename": "contrib/multi-primary-docker-tests/docker-compose.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-16T23:16:21Z",
+      "side": 1,
+      "message": "I would expect to have also a load-balancer definition: how is the traffic supposed to be balanced?",
+      "revId": "0bc0647342dd592cc14df35d6081a6629569bba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -237,7 +237,6 @@ public class PublicKeyChecker {
       List<PGPSignature> revocations,
       Map<Long, RevocationKey> revokers)
       throws PGPException {
-    @SuppressWarnings("unchecked")
     Iterator<PGPSignature> allSigs = key.getSignatures();
     while (allSigs.hasNext()) {
       PGPSignature sig = allSigs.next();

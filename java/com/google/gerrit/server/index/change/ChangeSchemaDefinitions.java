@@ -248,7 +248,6 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           .build();
 
   /** Upgrade Lucene to 8.x requires reindexing. */
-  @SuppressWarnings("deprecation")
   static final Schema<ChangeData> V83 = schema(V82);
 
   /**

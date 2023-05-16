@@ -279,7 +279,6 @@ public class PublicKeyCheckerTest {
 
   private PGPPublicKeyRing removeRevokers(PGPPublicKeyRing kr) {
     PGPPublicKey k = kr.getPublicKey();
-    @SuppressWarnings("unchecked")
     Iterator<PGPSignature> sigs = k.getSignaturesOfType(DIRECT_KEY);
     while (sigs.hasNext()) {
       PGPSignature sig = sigs.next();

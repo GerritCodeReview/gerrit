@@ -340,8 +340,7 @@ public class ChangeNotesStateTest {
         newBuilder()
             .customKeyedValues(
                 ImmutableList.of(
-                    new SimpleEntry<String, String>("key1", "value1"),
-                    new SimpleEntry<String, String>("key2", "value2")))
+                    new SimpleEntry<>("key1", "value1"), new SimpleEntry<>("key2", "value2")))
             .build(),
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)

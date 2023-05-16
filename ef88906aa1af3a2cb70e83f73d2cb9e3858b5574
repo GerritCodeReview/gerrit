@@ -70,6 +70,30 @@
       },
       "revId": "ef88906aa1af3a2cb70e83f73d2cb9e3858b5574",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf35ab92_960bcbe9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-16T14:28:21Z",
+      "side": 1,
+      "message": "Ack. Thanks for the context and the update to the commit message.",
+      "parentUuid": "80c9dba7_58a9943d",
+      "range": {
+        "startLine": 9,
+        "startChar": 40,
+        "endLine": 9,
+        "endChar": 62
+      },
+      "revId": "ef88906aa1af3a2cb70e83f73d2cb9e3858b5574",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

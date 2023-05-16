@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26593a44_8c91d7b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-16T22:33:51Z",
+      "side": 1,
+      "message": "We typically use the past tense to express what was the behaviour of the code before the change. The present imperative should then be used to describe how it works after the change and what are the reasons behind it.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 9
+      },
+      "revId": "f460a4c1cfe059521d3afc455f14c3f29ca8d89e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65e936cb_e4c0436f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-16T22:33:51Z",
+      "side": 1,
+      "message": "+1 to fix it on stable-3.8 (3.8.0 isn\u0027t out yet) and update the documentation.\n\nHave you also checked the implications on the UI? Would the user-experience still be unchanged or would the user see some pop-ups?",
+      "revId": "f460a4c1cfe059521d3afc455f14c3f29ca8d89e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

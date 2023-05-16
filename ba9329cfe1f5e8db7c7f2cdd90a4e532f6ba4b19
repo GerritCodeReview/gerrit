@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ead34cb_d998b64f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-05-16T09:14:16Z",
+      "side": 1,
+      "message": "Can you describe how the fix actually works?\n\nI thought the issue was that the model gets updated and that makes both threads go in editing mode.\n\nWas that not the issue?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 6
+      },
+      "revId": "ba9329cfe1f5e8db7c7f2cdd90a4e532f6ba4b19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b71feee_1fa1c725",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-05-16T09:14:16Z",
+      "side": 1,
+      "message": "I don\u0027t really follow this 😞\n\nWe have `comment-thread-editing-changed` which is not involved in changing the `editing` state of the draft?\n\nReading this this seems like a tangential way of determining the draft needs to be edited, there is a new comment and there is no message, so it should be in editing mode.\n\n`this.editDraft` calls `this.draftElement!.edit` and then `comment-editing-changed` event updates the `editing` property of the GrCommentThread back.\n\nSeems a bit circular.\n\nWho is the owner for deciding if the comment is in editing state?\n\nReading the commit message it seems like it is now GrCommentThread in which case it should not wait for the event from GrComment to update it\u0027s `editing` property?",
+      "range": {
+        "startLine": 656,
+        "startChar": 14,
+        "endLine": 656,
+        "endChar": 42
+      },
+      "revId": "ba9329cfe1f5e8db7c7f2cdd90a4e532f6ba4b19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

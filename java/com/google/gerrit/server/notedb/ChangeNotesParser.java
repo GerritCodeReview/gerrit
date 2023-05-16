@@ -730,7 +730,7 @@ class ChangeNotesParser {
     }
   }
 
-  private void parseCustomKeyedValues(ChangeNotesCommit commit) throws ConfigInvalidException {
+  private void parseCustomKeyedValues(ChangeNotesCommit commit) {
     for (String customKeyedValueLine : commit.getFooterLineValues(FOOTER_CUSTOM_KEYED_VALUE)) {
       String[] parts = customKeyedValueLine.split("=", 2);
       String key = parts[0];

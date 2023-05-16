@@ -295,6 +295,8 @@ export class GrTextarea extends LitElement {
   }
 
   override focus() {
+    // Note that this may not work as intended, because the textarea is not
+    // rendered yet.
     this.textarea?.textarea.focus();
   }
 
@@ -627,7 +629,7 @@ export class GrTextarea extends LitElement {
     this.currentSearchString = '';
     this.closeDropdown();
     this.specialCharIndex = -1;
-    this.textarea?.textarea.focus();
+    this.focus();
   }
 
   private fireChangedEvents() {

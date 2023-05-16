@@ -114,9 +114,8 @@ public class EmailModule extends FactoryModule {
         AttentionSetChange attentionSetChange, ChangeEmail changeEmail) {
       if (attentionSetChange.equals(AttentionSetChange.USER_ADDED)) {
         return outgoingEmailFactory.create("addToAttentionSet", changeEmail);
-      } else {
-        return outgoingEmailFactory.create("removeFromAttentionSet", changeEmail);
       }
+      return outgoingEmailFactory.create("removeFromAttentionSet", changeEmail);
     }
   }
 

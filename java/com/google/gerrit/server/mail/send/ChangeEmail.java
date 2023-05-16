@@ -107,7 +107,7 @@ public final class ChangeEmail implements OutgoingEmail.EmailDecorator {
     void populateEmailContent() throws EmailException;
 
     /** If returns false email is not sent to any recipients. */
-    default boolean shouldSendMessage() throws EmailException {
+    default boolean shouldSendMessage() {
       return true;
     }
   }
@@ -195,7 +195,7 @@ public final class ChangeEmail implements OutgoingEmail.EmailDecorator {
   }
 
   @Override
-  public boolean shouldSendMessage() throws EmailException {
+  public boolean shouldSendMessage() {
     return changeEmailDecorator.shouldSendMessage();
   }
 

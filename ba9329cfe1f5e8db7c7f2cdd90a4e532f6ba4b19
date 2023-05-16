@@ -141,6 +141,30 @@
       },
       "revId": "ba9329cfe1f5e8db7c7f2cdd90a4e532f6ba4b19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18e61b70_1cd0428c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-16T16:22:25Z",
+      "side": 1,
+      "message": "I don\u0027t see an easy to resolve this issue. The `editing` property of the thread is used in reply dialog and thread list. Removing the event on the thread could have undesired consequences, because I think the comments also fire when they are not drafts. Anyway, not this change.",
+      "parentUuid": "39f6095f_05c7207e",
+      "range": {
+        "startLine": 656,
+        "startChar": 14,
+        "endLine": 656,
+        "endChar": 42
+      },
+      "revId": "ba9329cfe1f5e8db7c7f2cdd90a4e532f6ba4b19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee78c0cf_d4261bcb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-16T23:14:26Z",
+      "side": 1,
+      "message": "That looks a cool idea. Why not pushing this to the docker-gerrit project?",
+      "revId": "0bc0647342dd592cc14df35d6081a6629569bba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

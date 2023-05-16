@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3c79fb8_e941adb6",
+        "filename": "java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-05-16T07:08:43Z",
+      "side": 1,
+      "message": "AccountState is an immutable data class that we cache in-mem. It therefore must not hold references to service objects as that will make it so that these can\u0027t be GC\u0027d.\n\nThe idea here is that we only cache small immutable and self-contained objects. ExternalIdSerializer is an interface whose implementation might hold onto more service objects.",
+      "range": {
+        "startLine": 187,
+        "startChar": 1,
+        "endLine": 187,
+        "endChar": 72
+      },
+      "revId": "2900310b00293b3655e36ee6d475ff73f848271f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49b28997_70f6322b",
+        "filename": "java/com/google/gerrit/server/account/AccountsStorageAccessorsBinder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-05-16T07:08:43Z",
+      "side": 1,
+      "message": "I think this should be a module, but let\u0027s discuss that on the predecessor change.",
+      "range": {
+        "startLine": 23,
+        "startChar": 13,
+        "endLine": 23,
+        "endChar": 43
+      },
+      "revId": "2900310b00293b3655e36ee6d475ff73f848271f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

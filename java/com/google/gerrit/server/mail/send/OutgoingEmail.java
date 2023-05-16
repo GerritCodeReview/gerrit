@@ -88,16 +88,28 @@ public final class OutgoingEmail {
     void populateEmailContent() throws EmailException;
 
     /** If returns false email is not sent to any recipients. */
-    default boolean shouldSendMessage() throws EmailException {
+    default boolean shouldSendMessage() {
       return true;
     }
 
-    /** Evaluates whether account can be added to the list of recipients. */
+    /**
+     * Evaluates whether account can be added to the list of recipients.
+     *
+     * @param rcpt the recipient for which it should be checker whether it can be added to the list
+     *     of recipients
+     * @throws PermissionBackendException thrown if checking permissions fails
+     */
     default boolean isRecipientAllowed(Account.Id rcpt) throws PermissionBackendException {
       return true;
     }
 
-    /** Evaluates whether email can be added to the list of recipients. */
+    /**
+     * Evaluates whether email can be added to the list of recipients.
+     *
+     * @param rcpt the recipient for which it should be checker whether it can be added to the list
+     *     of recipients
+     * @throws PermissionBackendException thrown if checking permissions fails
+     */
     default boolean isRecipientAllowed(Address rcpt) throws PermissionBackendException {
       return true;
     }
@@ -108,7 +120,7 @@ public final class OutgoingEmail {
 
   private String messageClass;
   private final Set<Account.Id> rcptTo = new HashSet<>();
-  private final Map<String, EmailHeader> headers = new LinkedHashMap<>();;
+  private final Map<String, EmailHeader> headers = new LinkedHashMap<>();
   private final Set<Address> smtpRcptTo = new HashSet<>();
   private final Set<Address> smtpBccRcptTo = new HashSet<>();
   private Address smtpFromAddress;
@@ -564,7 +576,7 @@ public final class OutgoingEmail {
     return accountState.get().userName().orElse(null);
   }
 
-  private boolean shouldSendMessage() throws EmailException {
+  private boolean shouldSendMessage() {
     if (textBody.length() == 0) {
       // If we have no message body, don't send.
       logger.atFine().log("Not sending '%s': No message body", messageClass);

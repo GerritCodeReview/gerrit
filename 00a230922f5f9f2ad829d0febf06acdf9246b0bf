@@ -43,6 +43,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8e2df021_59bf5698",
+        "filename": "java/com/google/gerrit/server/account/AccountsStorageAccessorsBinder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-05-16T07:03:21Z",
+      "side": 1,
+      "message": "Can this be a module?",
+      "range": {
+        "startLine": 21,
+        "startChar": 13,
+        "endLine": 21,
+        "endChar": 43
+      },
+      "revId": "00a230922f5f9f2ad829d0febf06acdf9246b0bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ab493747_f711348e",
         "filename": "java/com/google/gerrit/server/account/AccountsStorageAccessorsBinder.java",
         "patchSetId": 5

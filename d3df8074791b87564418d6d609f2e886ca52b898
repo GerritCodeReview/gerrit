@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b02c188e_aa4c2e30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-05-16T12:30:29Z",
+      "side": 1,
+      "message": "A subclass overrides the method and there it throws PermissionBackendException, hence the throws declaration cannot be removed. To make the warning go away, I\u0027ve added javadoc for the exception.",
+      "parentUuid": "af288e3d_3789ebfa",
+      "range": {
+        "startLine": 28,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 32
+      },
+      "revId": "d3df8074791b87564418d6d609f2e886ca52b898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "26f5ca92_33c6889d",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-05-16T12:24:01Z",
       "side": 1,
       "message": "nothing addressed this warning in code as well, or?",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 47
+      },
+      "revId": "d3df8074791b87564418d6d609f2e886ca52b898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73bec268_78b97419",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-05-16T12:30:29Z",
+      "side": 1,
+      "message": "A subclass overrides the method which uses the parameter, hence it cannot be removed. To make the warning go away, I\u0027ve added javadoc for the parameter.",
+      "parentUuid": "26f5ca92_33c6889d",
       "range": {
         "startLine": 34,
         "startChar": 4,

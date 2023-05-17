@@ -8,18 +8,26 @@ import {filter} from 'rxjs/operators';
 import {
   DiffInfo,
   DiffPreferencesInfo,
+  DisplayLine,
   RenderPreferences,
 } from '../../../api/diff';
 import {define} from '../../../models/dependency';
 import {Model} from '../../../models/model';
 import {isDefined} from '../../../types/types';
 import {select} from '../../../utils/observable-util';
+import {
+  GrDiffCommentThread,
+  KeyLocations,
+  computeKeyLocations,
+} from '../gr-diff/gr-diff-utils';
 
 export interface DiffState {
   diff: DiffInfo;
   path?: string;
   renderPrefs: RenderPreferences;
   diffPrefs: DiffPreferencesInfo;
+  lineOfInterest?: DisplayLine;
+  comments: GrDiffCommentThread[];
 }
 
 export const diffModelToken = define<DiffModel>('diff-model');
@@ -43,5 +51,11 @@ export class DiffModel extends Model<DiffState | undefined> {
   readonly diffPrefs$: Observable<DiffPreferencesInfo> = select(
     this.state$.pipe(filter(isDefined)),
     diffState => diffState.diffPrefs
+  );
+
+  readonly keyLocations$: Observable<KeyLocations> = select(
+    this.state$.pipe(filter(isDefined)),
+    diffState =>
+      computeKeyLocations(diffState.lineOfInterest, diffState.comments ?? [])
   );
 }

@@ -3964,48 +3964,6 @@ suite('gr-diff tests', () => {
     });
   });
 
-  suite('key locations', () => {
-    setup(async () => {
-      element.prefs = {...MINIMAL_PREFS};
-      element.diff = createDiff();
-      await element.updateComplete;
-    });
-
-    test('lineOfInterest is a key location', () => {
-      element.lineOfInterest = {lineNum: 789, side: Side.LEFT};
-      assert.deepEqual(element.computeKeyLocations(), {
-        left: {789: true},
-        right: {},
-      });
-    });
-
-    test('line comments are key locations', async () => {
-      const threadEl = document.createElement('div');
-      threadEl.className = 'comment-thread';
-      threadEl.setAttribute('diff-side', 'right');
-      threadEl.setAttribute('line-num', '3');
-      element.appendChild(threadEl);
-      await element.updateComplete;
-
-      assert.deepEqual(element.computeKeyLocations(), {
-        left: {},
-        right: {3: true},
-      });
-    });
-
-    test('file comments are key locations', async () => {
-      const threadEl = document.createElement('div');
-      threadEl.className = 'comment-thread';
-      threadEl.setAttribute('diff-side', 'left');
-      element.appendChild(threadEl);
-      await element.updateComplete;
-
-      assert.deepEqual(element.computeKeyLocations(), {
-        left: {FILE: true},
-        right: {},
-      });
-    });
-  });
   const setupSampleDiff = async function (params: {
     content: DiffContent[];
     ignore_whitespace?: IgnoreWhitespaceType;

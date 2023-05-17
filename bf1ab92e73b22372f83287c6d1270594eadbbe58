@@ -16,6 +16,24 @@
       "message": "I\u0027m still seeing this exception in the logs running Gerrit 3.7.3. (Client is jenkins running LTS 2.387.3).",
       "revId": "bf1ab92e73b22372f83287c6d1270594eadbbe58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02f9f4b9_cc897e63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149436
+      },
+      "writtenOn": "2023-05-17T20:46:08Z",
+      "side": 1,
+      "message": "Actually, I see\n```\n[2023-05-17T15:26:22.758Z] [SSH git-upload-pack /XXXX (jenkins)] ERROR com.google.gerrit.sshd.BaseCommand : Internal server error (user jenkins account 1000002) during git-upload-pack \u0027/XXXX\u0027\norg.apache.sshd.common.channel.exception.SshChannelClosedException: write(ChannelOutputStream[ChannelSession[id\u003d0, recipient\u003d0]-ServerSessionImpl[jenkins@/10.20.1.17:44474]] SSH_MSG_CHANNEL_DATA) len\u003d17 - channel already closed\n\tat org.apache.sshd.common.channel.ChannelOutputStream.write(ChannelOutputStream.java:146)\n\tat org.eclipse.jgit.transport.UploadPack$ResponseBufferedOutputStream.write(UploadPack.java:2552)\n\tat org.eclipse.jgit.transport.SideBandOutputStream.writeBuffer(SideBandOutputStream.java:141)\n\tat org.eclipse.jgit.transport.SideBandOutputStream.flushBuffer(SideBandOutputStream.java:94)\n\tat org.eclipse.jgit.transport.SideBandOutputStream.flush(SideBandOutputStream.java:100)\n\tat org.eclipse.jgit.internal.storage.io.CancellableDigestOutputStream.flush(CancellableDigestOutputStream.java:122)\n\tat org.eclipse.jgit.internal.storage.pack.PackWriter.writePack(PackWriter.java:1313)\n\tat org.eclipse.jgit.transport.UploadPack.sendPack(UploadPack.java:2475)\n\tat org.eclipse.jgit.transport.UploadPack.sendPack(UploadPack.java:2304)\n\tat org.eclipse.jgit.transport.UploadPack.fetchV2(UploadPack.java:1296)\n\tat org.eclipse.jgit.transport.UploadPack.serveOneCommandV2(UploadPack.java:1359)\n\tat org.eclipse.jgit.transport.UploadPack.serviceV2(UploadPack.java:1413)\n\tat org.eclipse.jgit.transport.UploadPack.uploadWithExceptionPropagation(UploadPack.java:871)\n\tat org.eclipse.jgit.transport.UploadPack.upload(UploadPack.java:781)\n\tat com.google.gerrit.sshd.commands.Upload.runImpl(Upload.java:101)\n\tat com.google.gerrit.sshd.AbstractGitCommand.service(AbstractGitCommand.java:109)\n\tat com.google.gerrit.sshd.AbstractGitCommand$1.run(AbstractGitCommand.java:74)\n\tat com.google.gerrit.sshd.BaseCommand$TaskThunk.run(BaseCommand.java:492)\n\tat com.google.gerrit.server.logging.LoggingContextAwareRunnable.run(LoggingContextAwareRunnable.java:113)\n\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304)\n\tat com.google.gerrit.server.git.WorkQueue$Task.run(WorkQueue.java:612)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n\tSuppressed: org.apache.sshd.common.channel.exception.SshChannelClosedException: write(ChannelOutputStream[ChannelSession[id\u003d0, recipient\u003d0]-ServerSessionImpl[jenkins@/10.20.1.17:44474]] SSH_MSG_CHANNEL_DATA) len\u003d26 - channel already closed\n\t\tat org.apache.sshd.common.channel.ChannelOutputStream.write(ChannelOutputStream.java:146)\n\t\tat org.eclipse.jgit.transport.UploadPack$ResponseBufferedOutputStream.write(UploadPack.java:2552)\n\t\tat org.eclipse.jgit.transport.SideBandOutputStream.writeBuffer(SideBandOutputStream.java:141)\n\t\tat org.eclipse.jgit.transport.SideBandOutputStream.flushBuffer(SideBandOutputStream.java:94)\n\t\tat org.eclipse.jgit.transport.SideBandOutputStream.flush(SideBandOutputStream.java:100)\n\t\tat org.eclipse.jgit.transport.UploadPack$SideBandErrorWriter.writeError(UploadPack.java:2585)\n\t\tat org.eclipse.jgit.transport.UploadPack.upload(UploadPack.java:799)\n\t\t... 12 more\n```\n\nJenkins fetches with git 2.39.",
+      "parentUuid": "141fba13_032fc87a",
+      "revId": "bf1ab92e73b22372f83287c6d1270594eadbbe58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

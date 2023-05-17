@@ -83,6 +83,7 @@ import java.util.stream.Collectors;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -479,6 +480,69 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     PatchSetApproval copied = patchSetApprovals.get(1);
     assertCopied(nonCopied, /* psId= */ 1, LabelId.CODE_REVIEW, (short) 1, false);
     assertCopied(copied, /* psId= */ 2, LabelId.CODE_REVIEW, (short) 1, true);
+  }
+
+  @Test
+  public void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedDueToSquash()
+      throws Exception {
+    // Copy Code-Review votes if the list of files did not change.
+    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
+
+    RevCommit oldHead = projectOperations.project(project).getHead("master");
+
+    // Create a chain of 2 changes.
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .project(project)
+            .branch("master")
+            .file("a.txt")
+            .content("aContent")
+            .create();
+    Change.Id changeId2 =
+        changeOperations
+            .newChange()
+            .project(project)
+            .branch("master")
+            .childOf()
+            .change(changeId)
+            .file("b.txt")
+            .content("bContent")
+            .create();
+
+    // Only approve the second change.
+    vote(admin, changeId2.toString(), /* codeReviewVote= */ 2, /* verifiedVote= */ 1);
+
+    // Squash the changes and upload the new commit as a second patch set to change 2:
+    // * Change 2 no longer depends on change 1.
+    // * The modifications of change 1 are part of change 2 now.
+    // * Patch set 1 of change 2 only touched file b.txt, patch set 2 of change 2 touches file
+    //   a.txt and b.txt (hence the list of files did change).
+    // * For change 2 the commits of both patch sets have the same Git tree that contains the files
+    //   a.txt and b.txt.
+    changeOperations
+        .change(changeId2)
+        .newPatchset()
+        .parent()
+        .commit(oldHead)
+        .file("a.txt")
+        .content("aContent")
+        .file("b.txt")
+        .content("bContent")
+        .create();
+
+    // Actual:
+    // The code review vote is copied because file a.txt is wrongly detected as modified due to
+    // rebase and thus filtered out so that the list of files did not change.
+    ChangeInfo c = detailedChange(changeId2.toString());
+    assertVotes(c, admin, /* codeReviewVote= */ 2, /* verifiedVote= */ 0);
+
+    // Expectation:
+    // The code review vote is not copied since by squashing the changes the list of files did
+    // change (change 2 now touches files a.txt and b.txt, the previous patch set only touched
+    // b.txt).
+    // This assertions fails with "label = Code-Review expected: 0 but was : 2".
+    assertVotes(c, admin, /* codeReviewVote= */ 0, /* verifiedVote= */ 0);
   }
 
   @Test

@@ -22,6 +22,30 @@
       },
       "revId": "f9253eb82d2a9dbd815822a7f30f1b79a50c6eec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6ef08c2_a7e0f1f2",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-processor/gr-diff-processor.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-17T13:03:58Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.git.corp.google.com/c/gerrit/+/374260: Create diff processing options object",
+      "parentUuid": "1398d7a7_16a57b1b",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 30
+      },
+      "revId": "f9253eb82d2a9dbd815822a7f30f1b79a50c6eec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

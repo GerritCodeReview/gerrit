@@ -25,6 +25,9 @@ import {
   isResponsive,
   isNewDiff,
   getSideByLineEl,
+  compareComments,
+  toCommentThreadModel,
+  KeyLocations,
 } from '../gr-diff/gr-diff-utils';
 import {BlameInfo, CommentRange, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
@@ -32,7 +35,7 @@ import {
   CreateRangeCommentEventDetail,
   GrDiffHighlight,
 } from '../gr-diff-highlight/gr-diff-highlight';
-import {CoverageRange, DiffLayer} from '../../../types/types';
+import {CoverageRange, DiffLayer, isDefined} from '../../../types/types';
 import {
   CommentRangeLayer,
   GrRangedCommentLayer,
@@ -44,7 +47,6 @@ import {
 } from '../../../constants/constants';
 import {
   GrDiffProcessor,
-  KeyLocations,
   ProcessingOptions,
 } from '../gr-diff-processor/gr-diff-processor';
 import {fire, fireAlert} from '../../../utils/event-util';
@@ -58,7 +60,7 @@ import {
   LineNumber,
   LOST,
 } from '../../../api/diff';
-import {isSafari, toggleClass} from '../../../utils/dom-util';
+import {isHtmlElement, isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {
   debounceP,
@@ -95,6 +97,7 @@ import {
   hideInContextControl,
 } from './gr-diff-group';
 import {GrDiffLine} from './gr-diff-line';
+import {subscribe} from '../../../elements/lit/subscription-controller';
 
 const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 
@@ -319,6 +322,8 @@ export class GrDiff extends LitElement implements GrDiffApi {
    */
   private groups: GrDiffGroup[] = [];
 
+  private keyLocations: KeyLocations = {left: {}, right: {}};
+
   static override get styles() {
     return [
       iconStyles,
@@ -332,6 +337,11 @@ export class GrDiff extends LitElement implements GrDiffApi {
   constructor() {
     super();
     provide(this, diffModelToken, () => this.diffModel);
+    subscribe(
+      this,
+      () => this.diffModel.keyLocations$,
+      keyLocations => (this.keyLocations = keyLocations)
+    );
     this.addEventListener(
       'create-range-comment',
       (e: CustomEvent<CreateRangeCommentEventDetail>) =>
@@ -367,6 +377,21 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   protected override willUpdate(changedProperties: PropertyValues<this>): void {
+    if (
+      changedProperties.has('diff') ||
+      changedProperties.has('path') ||
+      changedProperties.has('renderPrefs') ||
+      changedProperties.has('prefs') ||
+      changedProperties.has('lineOfInterest')
+    ) {
+      this.diffModel.updateState({
+        diff: this.diff,
+        path: this.path,
+        renderPrefs: this.renderPrefs,
+        diffPrefs: this.prefs,
+        lineOfInterest: this.lineOfInterest,
+      });
+    }
     if (
       changedProperties.has('path') ||
       changedProperties.has('lineWrapping') ||
@@ -575,35 +600,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
     this.updateCommentRanges(this.commentRanges);
   }
 
-  /**
-   * The key locations based on the comments and line of interests,
-   * where lines should not be collapsed.
-   *
-   */
-  // visible for testing
-  computeKeyLocations() {
-    const keyLocations: KeyLocations = {left: {}, right: {}};
-    if (this.lineOfInterest) {
-      const side = this.lineOfInterest.side;
-      keyLocations[side][this.lineOfInterest.lineNum] = true;
-    }
-    const threadEls = [...this.childNodes].filter(isThreadEl);
-
-    for (const threadEl of threadEls) {
-      const side = getSide(threadEl);
-      if (!side) continue;
-      const lineNum = getLine(threadEl);
-      const commentRange = getRange(threadEl);
-      keyLocations[side][lineNum] = true;
-      // Add start_line as well if exists,
-      // the being and end of the range should not be collapsed.
-      if (commentRange?.start_line) {
-        keyLocations[side][commentRange.start_line] = true;
-      }
-    }
-    return keyLocations;
-  }
-
   // Dispatch events that are handled by the gr-diff-highlight.
   private redispatchHoverEvents(
     hoverEl: HTMLElement,
@@ -774,7 +770,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   private prefsChanged() {
     if (!this.prefs) return;
-    this.diffModel.updateState({diffPrefs: this.prefs});
 
     this.blame = null;
     this.updatePreferenceStyles();
@@ -845,7 +840,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   private renderPrefsChanged() {
-    this.diffModel.updateState({renderPrefs: this.renderPrefs});
     if (this.renderPrefs.hide_left_side) {
       this.classList.add('no-left');
     }
@@ -929,13 +923,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
     this.showWarning = false;
 
-    this.diffModel.setState({
-      diff: this.diff,
-      path: this.path,
-      renderPrefs: this.renderPrefs,
-      diffPrefs: this.prefs,
-    });
-
     this.updateCommentRanges(this.commentRanges);
     this.updateCoverageRanges(this.coverageRanges);
     await this.legacyRender();
@@ -973,6 +960,13 @@ export class GrDiff extends LitElement implements GrDiffApi {
     addedThreadEls: GrDiffThreadElement[],
     removedThreadEls: GrDiffThreadElement[]
   ) {
+    this.diffModel.updateState({
+      comments: [...this.childNodes]
+        .filter(isHtmlElement)
+        .map(toCommentThreadModel)
+        .filter(isDefined)
+        .sort(compareComments),
+    });
     this.updateRanges(addedThreadEls, removedThreadEls);
     addedThreadEls.forEach(threadEl =>
       this.redispatchHoverEvents(threadEl, threadEl)
@@ -1159,7 +1153,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
     const options: ProcessingOptions = {
       context: this.getBypassPrefs().context,
-      keyLocations: this.computeKeyLocations(),
+      keyLocations: this.keyLocations,
       isBinary: !!(this.isImageDiff || this.diff.binary),
     };
     if (this.renderPrefs?.num_lines_rendered_at_once) {

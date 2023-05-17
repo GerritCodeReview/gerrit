@@ -470,7 +470,7 @@ export class GrDiffRow extends LitElement {
 }
 
 // TODO(newdiff-cleanup): Remove once newdiff migration is completed.
-if (!isNewDiff()) {
+if (isNewDiff()) {
   customElements.define('gr-diff-row', GrDiffRow);
 }
 

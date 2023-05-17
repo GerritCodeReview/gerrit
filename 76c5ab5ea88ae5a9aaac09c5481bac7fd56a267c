@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f41eef7_94006b60",
+        "filename": "polygerrit-ui/app/embed/diff-old/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-17T09:57:56Z",
+      "side": 1,
+      "message": "Nit: TODO is irrelephant.",
+      "revId": "76c5ab5ea88ae5a9aaac09c5481bac7fd56a267c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16b6252c_02835029",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-17T09:57:56Z",
+      "side": 1,
+      "message": "Given old and new diff never run together, why do the events have to be named differently?",
+      "revId": "76c5ab5ea88ae5a9aaac09c5481bac7fd56a267c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f82f0c0_27a2f7fe",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-17T09:57:56Z",
+      "side": 1,
+      "message": "Same comment about not changing event-name.",
+      "revId": "76c5ab5ea88ae5a9aaac09c5481bac7fd56a267c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c73a25c_c9faece0",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-17T09:57:56Z",
+      "side": 1,
+      "message": "Can this be the the same event for both new and old? They seem to share teh same actual message.",
+      "revId": "76c5ab5ea88ae5a9aaac09c5481bac7fd56a267c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de2e2cd7_aa03b31b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-highlight/gr-diff-highlight.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-17T09:57:56Z",
+      "side": 1,
+      "message": "This assert seems superfluous given the previous line",
+      "revId": "76c5ab5ea88ae5a9aaac09c5481bac7fd56a267c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a2eeca6_2bc99eba",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-highlight/gr-diff-highlight_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-17T09:57:56Z",
+      "side": 1,
+      "message": "Isn\u0027t `../diff` a no-op?",
+      "revId": "76c5ab5ea88ae5a9aaac09c5481bac7fd56a267c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e53ff961_b1dffae1",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-selection/gr-diff-selection.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-17T09:57:56Z",
+      "side": 1,
+      "message": "Isn\u0027t `../diff` a no-op?",
+      "revId": "76c5ab5ea88ae5a9aaac09c5481bac7fd56a267c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42d64918_96814314",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-17T09:57:56Z",
+      "side": 1,
+      "message": "Isn\u0027t `../diff` a no-op?",
+      "revId": "76c5ab5ea88ae5a9aaac09c5481bac7fd56a267c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7c82a72_d5368fb3",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-17T09:57:56Z",
+      "side": 1,
+      "message": "Isn\u0027t `../diff` a no-op?",
+      "revId": "76c5ab5ea88ae5a9aaac09c5481bac7fd56a267c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

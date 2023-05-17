@@ -8,7 +8,7 @@ import '../../../styles/shared-styles';
 import '../gr-comment/gr-comment';
 import '../gr-icon/gr-icon';
 import '../../../embed/diff/gr-diff/gr-diff';
-import '../../../embed/diff-new/gr-diff/gr-diff';
+import '../../../embed/diff-old/gr-diff/gr-diff';
 import '../gr-copy-clipboard/gr-copy-clipboard';
 import {css, html, nothing, LitElement, PropertyValues} from 'lit';
 import {

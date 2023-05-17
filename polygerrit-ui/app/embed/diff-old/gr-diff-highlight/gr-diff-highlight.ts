@@ -18,13 +18,8 @@ import {
   GrDiffThreadElement,
 } from '../../diff/gr-diff/gr-diff-utils';
 import {debounce, DelayedTask} from '../../../utils/async-util';
-import {
-  assert,
-  assertIsDefined,
-  queryAndAssert,
-} from '../../../utils/common-util';
+import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
-import {FILE, LOST} from '../../../api/diff';
 
 interface SidedRange {
   side: Side;
@@ -312,8 +307,7 @@ export class GrDiffHighlight {
     const side = getSideByLineEl(lineEl);
     if (!side) return null;
     const line = getLineNumberByChild(lineEl);
-    if (!line || line === FILE || line === LOST) return null;
-    assert(typeof line === 'number', 'line must be a number');
+    if (typeof line !== 'number') return null;
     const contentTd = this.diffBuilder.getContentTdByLineEl(lineEl);
     if (!contentTd) return null;
     const contentText = contentTd.querySelector('.contentText');

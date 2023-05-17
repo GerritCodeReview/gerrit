@@ -1110,7 +1110,7 @@ function extractRemovedNodes(mutations: MutationRecord[]) {
 }
 
 // TODO(newdiff-cleanup): Remove once newdiff migration is completed.
-if (isNewDiff()) {
+if (!isNewDiff()) {
   customElements.define('gr-diff', GrDiff);
 }
 

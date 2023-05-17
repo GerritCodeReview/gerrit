@@ -15,13 +15,13 @@ import {
 import {Side} from '../../../api/diff';
 import {SinonStubbedMember} from 'sinon';
 import {queryAndAssert} from '../../../utils/common-util';
-import {GrDiffThreadElement} from '../gr-diff/gr-diff-utils';
+import {GrDiffThreadElement} from '../../diff/gr-diff/gr-diff-utils';
 import {
   stubElement,
   waitQueryAndAssert,
   waitUntil,
 } from '../../../test/test-utils';
-import {GrSelectionActionBox} from '../gr-selection-action-box/gr-selection-action-box';
+import {GrSelectionActionBox} from '../../diff/gr-selection-action-box/gr-selection-action-box';
 
 // Splitting long lines in html into shorter rows breaks tests:
 // zero-length text nodes and new lines are not expected in some places

@@ -53,8 +53,8 @@ import {
   FilesWebLinks,
   PatchRangeChangeEvent,
 } from '../gr-patch-range-select/gr-patch-range-select';
-import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
-import {GrDiffCursor as GrDiffCursorNew} from '../../../embed/diff-new/gr-diff-cursor/gr-diff-cursor';
+import {GrDiffCursor as GrDiffCursorNew} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
+import {GrDiffCursor} from '../../../embed/diff-old/gr-diff-cursor/gr-diff-cursor';
 import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {OpenFixPreviewEvent, ValueChangedEvent} from '../../../types/events';

@@ -304,6 +304,7 @@ export class GrFormattedText extends LitElement {
       } else {
         userSuggestion.textContent = userSuggestionMark.textContent ?? '';
       }
+
       userSuggestionMark.parentNode?.replaceChild(
         userSuggestion,
         userSuggestionMark

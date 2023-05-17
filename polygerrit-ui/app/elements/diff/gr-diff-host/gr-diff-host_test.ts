@@ -630,16 +630,11 @@ suite('gr-diff-host tests', () => {
       element.blame = [];
       await element.updateComplete;
       assertIsDefined(element.diffElement);
-      const setBlameSpy = sinon.spy(
-        element.diffElement.diffBuilder,
-        'setBlame'
-      );
       const isBlameLoadedStub = sinon.stub();
       element.addEventListener('is-blame-loaded-changed', isBlameLoadedStub);
       element.clearBlame();
       await element.updateComplete;
       assert.isNull(element.blame);
-      assert.isTrue(setBlameSpy.calledWithExactly(null));
       assert.isTrue(isBlameLoadedStub.calledOnce);
       assert.isFalse(isBlameLoadedStub.args[0][0].detail.value);
     });

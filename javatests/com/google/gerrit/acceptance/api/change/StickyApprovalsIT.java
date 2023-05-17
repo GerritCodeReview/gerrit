@@ -48,7 +48,6 @@ import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
-import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelFunction;
@@ -448,41 +447,6 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void stickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedDueToRebase()
-      throws Exception {
-    updateCodeReviewLabel(b -> b.setCopyCondition("has:unchanged-files"));
-
-    // Create two changes both with the same parent
-    PushOneCommit.Result r = createChange();
-    testRepo.reset("HEAD~1");
-    PushOneCommit.Result r2 = createChange();
-
-    // Modify f.txt in change 1. Approve and submit the first change
-    gApi.changes().id(r.getChangeId()).edit().modifyFile("f.txt", RawInputUtil.create("content"));
-    gApi.changes().id(r.getChangeId()).edit().publish();
-    RevisionApi revision = gApi.changes().id(r.getChangeId()).current();
-    revision.review(ReviewInput.approve().label(LabelId.VERIFIED, 1));
-    revision.submit();
-
-    // Add an approval whose score should be copied on change 2.
-    gApi.changes().id(r2.getChangeId()).current().review(ReviewInput.recommend());
-
-    // Rebase the second change. The rebase adds f1.txt.
-    gApi.changes().id(r2.getChangeId()).rebase();
-
-    // The code-review approval is copied for the second change between PS1 and PS2 since the only
-    // modified file is due to rebase.
-    List<PatchSetApproval> patchSetApprovals =
-        r2.getChange().notes().getApprovals().all().values().stream()
-            .sorted(comparing(a -> a.patchSetId().get()))
-            .collect(toImmutableList());
-    PatchSetApproval nonCopied = patchSetApprovals.get(0);
-    PatchSetApproval copied = patchSetApprovals.get(1);
-    assertCopied(nonCopied, /* psId= */ 1, LabelId.CODE_REVIEW, (short) 1, false);
-    assertCopied(copied, /* psId= */ 2, LabelId.CODE_REVIEW, (short) 1, true);
-  }
-
-  @Test
   public void notStickyWithCopyAllScoresIfListOfFilesDidNotChangeWhenFileIsModifiedDueToSquash()
       throws Exception {
     // Copy Code-Review votes if the list of files did not change.
@@ -531,17 +495,11 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
         .content("bContent")
         .create();
 
-    // Actual:
-    // The code review vote is copied because file a.txt is wrongly detected as modified due to
-    // rebase and thus filtered out so that the list of files did not change.
-    ChangeInfo c = detailedChange(changeId2.toString());
-    assertVotes(c, admin, /* codeReviewVote= */ 2, /* verifiedVote= */ 0);
-
     // Expectation:
     // The code review vote is not copied since by squashing the changes the list of files did
     // change (change 2 now touches files a.txt and b.txt, the previous patch set only touched
     // b.txt).
-    // This assertions fails with "label = Code-Review expected: 0 but was : 2".
+    ChangeInfo c = detailedChange(changeId2.toString());
     assertVotes(c, admin, /* codeReviewVote= */ 0, /* verifiedVote= */ 0);
   }
 

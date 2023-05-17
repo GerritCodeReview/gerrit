@@ -580,7 +580,7 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public void setCustomKeyedValues(CustomKeyedValuesInput input) throws RestApiException {
     try {
-      postCustomKeyedValues.apply(change, input);
+      var unused = postCustomKeyedValues.apply(change, input);
     } catch (Exception e) {
       throw asRestApiException("Cannot post custom keyed values", e);
     }

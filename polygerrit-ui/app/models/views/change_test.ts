@@ -6,6 +6,7 @@
 import {assert} from '@open-wc/testing';
 import {
   BasePatchSetNum,
+  PatchSetNumber,
   RepoName,
   RevisionPatchSetNum,
 } from '../../api/rest-api';
@@ -77,59 +78,97 @@ suite('change view state tests', () => {
     assert.equal(createChangeUrl(state), '/c/x%252B/y%252B/z%252B/w/+/42');
   });
 
-  test('createDiffUrl', () => {
-    const params: ChangeViewState = {
-      ...createDiffViewState(),
-      patchNum: 12 as RevisionPatchSetNum,
-      diffView: {path: 'x+y/path.cpp'},
-    };
-    assert.equal(
-      createDiffUrl(params),
-      '/c/test-project/+/42/12/x%252By/path.cpp'
-    );
+  suite('createDiffUrl', () => {
+    let params: ChangeViewState;
+    setup(() => {
+      params = {
+        ...createDiffViewState(),
+        patchNum: 12 as RevisionPatchSetNum,
+        diffView: {path: 'x+y/path.cpp'},
+      };
+    });
 
-    window.CANONICAL_PATH = '/base';
-    assert.equal(createDiffUrl(params).substring(0, 5), '/base');
-    window.CANONICAL_PATH = undefined;
+    test('CANONICAL_PATH', () => {
+      window.CANONICAL_PATH = '/base';
+      assert.equal(createDiffUrl(params).substring(0, 5), '/base');
+      window.CANONICAL_PATH = undefined;
+    });
 
-    params.repo = 'test' as RepoName;
-    assert.equal(createDiffUrl(params), '/c/test/+/42/12/x%252By/path.cpp');
+    test('basic', () => {
+      assert.equal(
+        createDiffUrl(params),
+        '/c/test-project/+/42/12/x%252By/path.cpp'
+      );
+    });
 
-    params.basePatchNum = 6 as BasePatchSetNum;
-    assert.equal(createDiffUrl(params), '/c/test/+/42/6..12/x%252By/path.cpp');
+    test('repo', () => {
+      params.repo = 'test' as RepoName;
+      assert.equal(createDiffUrl(params), '/c/test/+/42/12/x%252By/path.cpp');
+    });
 
-    params.diffView = {
-      path: 'foo bar/my+file.txt%',
-    };
-    params.patchNum = 2 as RevisionPatchSetNum;
-    delete params.basePatchNum;
-    assert.equal(
-      createDiffUrl(params),
-      '/c/test/+/42/2/foo+bar/my%252Bfile.txt%2525'
-    );
+    test('checks patchset', () => {
+      params.checksPatchset = 4 as PatchSetNumber;
+      assert.equal(
+        createDiffUrl(params),
+        '/c/test-project/+/42/12/x%252By/path.cpp?checksPatchset=4'
+      );
+    });
 
-    params.diffView = {
-      path: 'file.cpp',
-      lineNum: 123,
-    };
-    assert.equal(createDiffUrl(params), '/c/test/+/42/2/file.cpp#123');
+    test('base patchset', () => {
+      params.basePatchNum = 6 as BasePatchSetNum;
+      assert.equal(
+        createDiffUrl(params),
+        '/c/test-project/+/42/6..12/x%252By/path.cpp'
+      );
+    });
 
-    params.diffView = {
-      path: 'file.cpp',
-      lineNum: 123,
-      leftSide: true,
-    };
-    assert.equal(createDiffUrl(params), '/c/test/+/42/2/file.cpp#b123');
-  });
+    test('percent', () => {
+      params.diffView = {
+        path: 'foo bar/my+file.txt%',
+      };
+      params.patchNum = 2 as RevisionPatchSetNum;
+      delete params.basePatchNum;
+      assert.equal(
+        createDiffUrl(params),
+        '/c/test-project/+/42/2/foo+bar/my%252Bfile.txt%2525'
+      );
+    });
 
-  test('diff with repo name encoding', () => {
-    const params: ChangeViewState = {
-      ...createDiffViewState(),
-      patchNum: 12 as RevisionPatchSetNum,
-      repo: 'x+/y' as RepoName,
-      diffView: {path: 'x+y/path.cpp'},
-    };
-    assert.equal(createDiffUrl(params), '/c/x%252B/y/+/42/12/x%252By/path.cpp');
+    test('line right', () => {
+      params.diffView = {
+        path: 'file.cpp',
+        lineNum: 123,
+      };
+      assert.equal(
+        createDiffUrl(params),
+        '/c/test-project/+/42/12/file.cpp#123'
+      );
+    });
+
+    test('line left', () => {
+      params.diffView = {
+        path: 'file.cpp',
+        lineNum: 123,
+        leftSide: true,
+      };
+      assert.equal(
+        createDiffUrl(params),
+        '/c/test-project/+/42/12/file.cpp#b123'
+      );
+    });
+
+    test('diff with repo name encoding', () => {
+      const params: ChangeViewState = {
+        ...createDiffViewState(),
+        patchNum: 12 as RevisionPatchSetNum,
+        repo: 'x+/y' as RepoName,
+        diffView: {path: 'x+y/path.cpp'},
+      };
+      assert.equal(
+        createDiffUrl(params),
+        '/c/x%252B/y/+/42/12/x%252By/path.cpp'
+      );
+    });
   });
 
   test('createEditUrl', () => {

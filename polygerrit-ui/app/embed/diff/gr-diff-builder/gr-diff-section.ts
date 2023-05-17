@@ -16,9 +16,9 @@ import {
 } from '../../../api/diff';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {
+  isNewDiff,
   diffClasses,
   getResponsiveMode,
-  isNewDiff,
 } from '../gr-diff/gr-diff-utils';
 import {GrDiffRow} from './gr-diff-row';
 import '../gr-context-controls/gr-context-controls-section';
@@ -244,7 +244,7 @@ export class GrDiffSection extends LitElement {
 }
 
 // TODO(newdiff-cleanup): Remove once newdiff migration is completed.
-if (!isNewDiff()) {
+if (isNewDiff()) {
   customElements.define('gr-diff-section', GrDiffSection);
 }
 

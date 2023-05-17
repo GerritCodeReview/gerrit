@@ -369,7 +369,7 @@ export class GrContextControls extends LitElement {
           buttonType: type,
           expandedLines: linesToExpand,
         });
-        fire(this, 'diff-context-expanded-internal-new', {
+        fire(this, 'diff-context-expanded-internal', {
           contextGroup: this.group,
           groups,
           numLines: this.numLines(),
@@ -515,15 +515,12 @@ export class GrContextControls extends LitElement {
     `;
   }
 }
-
-// TODO(newdiff-cleanup): Remove once newdiff migration is completed.
-if (isNewDiff()) {
+if (!isNewDiff()) {
   customElements.define('gr-context-controls', GrContextControls);
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    // TODO(newdiff-cleanup): Replace once newdiff migration is completed.
     'gr-context-controls': LitElement;
   }
 }

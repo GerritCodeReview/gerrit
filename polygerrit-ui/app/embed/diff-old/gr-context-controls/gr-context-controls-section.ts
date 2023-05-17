@@ -124,8 +124,7 @@ export class GrContextControlsSection extends LitElement {
   }
 }
 
-// TODO(newdiff-cleanup): Remove once newdiff migration is completed.
-if (isNewDiff()) {
+if (!isNewDiff()) {
   customElements.define(
     'gr-context-controls-section',
     GrContextControlsSection
@@ -134,7 +133,6 @@ if (isNewDiff()) {
 
 declare global {
   interface HTMLElementTagNameMap {
-    // TODO(newdiff-cleanup): Replace once newdiff migration is completed.
     'gr-context-controls-section': LitElement;
   }
 }

@@ -23,7 +23,6 @@ suite('gr-context-control tests', () => {
   let element: GrContextControls;
 
   setup(async () => {
-    // TODO(newdiff-cleanup): Remove cast when newdiff migration is complete.
     element = document.createElement(
       'gr-context-controls'
     ) as GrContextControls;

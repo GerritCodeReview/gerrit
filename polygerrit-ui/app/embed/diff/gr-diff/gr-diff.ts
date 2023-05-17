@@ -25,7 +25,7 @@ import {
   getResponsiveMode,
   isResponsive,
   isNewDiff,
-} from './gr-diff-utils';
+} from '../gr-diff/gr-diff-utils';
 import {BlameInfo, CommentRange, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {
@@ -1110,7 +1110,7 @@ function extractRemovedNodes(mutations: MutationRecord[]) {
 }
 
 // TODO(newdiff-cleanup): Remove once newdiff migration is completed.
-if (!isNewDiff()) {
+if (isNewDiff()) {
   customElements.define('gr-diff', GrDiff);
 }
 

@@ -1109,14 +1109,12 @@ function extractRemovedNodes(mutations: MutationRecord[]) {
   return mutations.flatMap(mutation => [...mutation.removedNodes]);
 }
 
-// TODO(newdiff-cleanup): Remove once newdiff migration is completed.
-if (isNewDiff()) {
+if (!isNewDiff()) {
   customElements.define('gr-diff', GrDiff);
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    // TODO(newdiff-cleanup): Replace once newdiff migration is completed.
     'gr-diff': LitElement;
   }
   interface HTMLElementEventMap {

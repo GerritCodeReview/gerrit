@@ -26,7 +26,14 @@ function testRunnerHtmlFactory(options) {
 const config = {
   files: [
     "app/**/*_test.{ts,js}",
-    "!app/embed/diff-new/**/*_test.{ts,js}",
+    "!app/embed/diff/gr-context-controls/**/*_test.{ts,js}",
+    "!app/embed/diff/gr-diff/**/*_test.{ts,js}",
+    "!app/embed/diff/gr-diff-builder/**/*_test.{ts,js}",
+    "!app/embed/diff/gr-diff-cursor/**/*_test.{ts,js}",
+    "!app/embed/diff/gr-diff-highlight/**/*_test.{ts,js}",
+    "!app/embed/diff/gr-diff-model/**/*_test.{ts,js}",
+    "!app/embed/diff/gr-diff-processor/**/*_test.{ts,js}",
+    "!app/embed/diff/gr-diff-selection/**/*_test.{ts,js}",
     "!**/node_modules/**/*",
     ...(process.argv.includes("--run-screenshots")
       ? []
@@ -37,7 +44,7 @@ const config = {
     {
       name: "new-diff",
       files: [
-        "app/embed/diff-new/**/*_test.{ts,js}",
+        "app/embed/diff/**/*_test.{ts,js}",
         "app/elements/change/gr-file-list/gr-file-list_test.{ts,js}",
         "app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog_test.{ts,js}",
         "app/elements/diff/gr-diff-host/gr-diff-host_test.{ts,js}",

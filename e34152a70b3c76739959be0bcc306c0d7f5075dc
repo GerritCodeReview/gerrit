@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "105ff0e0_03701d48",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-17T15:47:57Z",
+      "side": 1,
+      "message": "Should this implement `DiffBuilderInterface`?",
+      "revId": "e34152a70b3c76739959be0bcc306c0d7f5075dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6153d92e_7b584b7e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-17T15:47:57Z",
+      "side": 1,
+      "message": "What is the API for \u0027highlights.init\u0027?",
+      "revId": "e34152a70b3c76739959be0bcc306c0d7f5075dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b5e8629_b9e06ef2",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-17T15:47:57Z",
+      "side": 1,
+      "message": "Consider calling `this.cancel()` here and getting rid of the `this.renderDiffTableTask?.cancel();`",
+      "revId": "e34152a70b3c76739959be0bcc306c0d7f5075dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "813bb58a_c5cc98f5",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-17T15:47:57Z",
+      "side": 1,
+      "message": "Consider inlining this. Is there reason wh you\u0027d ever do one without the other? E.g. currently in the re-rendering you only call this and not renderDiffTableTask.cancel()",
+      "revId": "e34152a70b3c76739959be0bcc306c0d7f5075dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3580df9f_0e1688ad",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1129,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-17T15:47:57Z",
+      "side": 1,
+      "message": "private?",
+      "revId": "e34152a70b3c76739959be0bcc306c0d7f5075dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "928569c6_64ef4851",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1133,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-17T15:47:57Z",
+      "side": 1,
+      "message": "private?",
+      "revId": "e34152a70b3c76739959be0bcc306c0d7f5075dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35a7eac3_5104e640",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1327,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-17T15:47:57Z",
+      "side": 1,
+      "message": "private?",
+      "revId": "e34152a70b3c76739959be0bcc306c0d7f5075dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9f6d90d_ccfae85d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1343,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-17T15:47:57Z",
+      "side": 1,
+      "message": "private?",
+      "revId": "e34152a70b3c76739959be0bcc306c0d7f5075dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e51ae24d_89cde11c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1430,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-17T15:47:57Z",
+      "side": 1,
+      "message": "Where is this used",
+      "revId": "e34152a70b3c76739959be0bcc306c0d7f5075dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b268edf5_1dcf208d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1439,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-17T15:47:57Z",
+      "side": 1,
+      "message": "Where is this used?",
+      "revId": "e34152a70b3c76739959be0bcc306c0d7f5075dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ca556c2_44f2f0d7",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1446,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-17T15:47:57Z",
+      "side": 1,
+      "message": "Consider factiring this out to a proper difflayer in a separate file (not as part of this CL).",
+      "revId": "e34152a70b3c76739959be0bcc306c0d7f5075dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83175f2f_68e8c14a",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1479,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-17T15:47:57Z",
+      "side": 1,
+      "message": "Consider factiring this out to a proper difflayer in a separate file (not as part of this CL).",
+      "revId": "e34152a70b3c76739959be0bcc306c0d7f5075dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4ac0d8d_a5b50149",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1494,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-17T15:47:57Z",
+      "side": 1,
+      "message": "Consider factiring this out to a proper difflayer in a separate file (not as part of this CL).",
+      "revId": "e34152a70b3c76739959be0bcc306c0d7f5075dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "236b2c0d_1bc75555",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1511,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-17T15:47:57Z",
+      "side": 1,
+      "message": "Consider factoring this out into a proper difflayer class (not as part of this CL).",
+      "revId": "e34152a70b3c76739959be0bcc306c0d7f5075dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

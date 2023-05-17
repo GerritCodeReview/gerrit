@@ -204,25 +204,33 @@ export function createDiffUrl(
     childView: ChangeChildView.DIFF,
   });
 
-  const path = `/${encodeURL(state.diffView?.path ?? '')}`;
-
-  let suffix = '';
+  let path = `/${encodeURL(state.diffView?.path ?? '')}`;
   // TODO: Move creating of comment URLs to a separate function. We are
   // "abusing" the `commentId` property, which should only be used for pointing
   // to comment in the COMMENTS tab of the OVERVIEW page.
   if (state.commentId) {
-    suffix += `comment/${state.commentId}/`;
+    path += `comment/${state.commentId}/`;
   }
 
+  let queryParams = '';
+  const params = [];
+  if (state.checksPatchset && state.checksPatchset > 0) {
+    params.push(`checksPatchset=${state.checksPatchset}`);
+  }
+  if (params.length > 0) {
+    queryParams = '?' + params.join('&');
+  }
+
+  let hash = '';
   if (state.diffView?.lineNum) {
-    suffix += '#';
+    hash += '#';
     if (state.diffView?.leftSide) {
-      suffix += 'b';
+      hash += 'b';
     }
-    suffix += state.diffView.lineNum;
+    hash += state.diffView.lineNum;
   }
 
-  return `${createChangeUrlCommon(state)}${path}${suffix}`;
+  return `${createChangeUrlCommon(state)}${path}${queryParams}${hash}`;
 }
 
 export function createEditUrl(

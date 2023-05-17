@@ -7,7 +7,12 @@ import '../../../test/common-test-setup';
 import './gr-diff-processor';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
-import {GrDiffProcessor, State} from './gr-diff-processor';
+import {
+  GrDiffProcessor,
+  GroupConsumer,
+  ProcessingOptions,
+  State,
+} from './gr-diff-processor';
 import {DiffContent} from '../../../types/diff';
 import {assert} from '@open-wc/testing';
 import {FILE, GrDiffLineType} from '../../../api/diff';
@@ -21,24 +26,27 @@ suite('gr-diff-processor tests', () => {
     'Eos cu aliquam labores qualisque, usu postea inermis te, et solum ' +
     'fugit assum per.';
 
-  let element: GrDiffProcessor;
+  let processor: GrDiffProcessor;
+  let options: ProcessingOptions = {
+    context: 4,
+  };
   let groups: GrDiffGroup[];
+  const consumer: GroupConsumer = {
+    addGroup(group: GrDiffGroup) {
+      groups.push(group);
+    },
+    clearGroups() {
+      groups = [];
+    },
+  };
 
   setup(() => {});
 
   suite('not logged in', () => {
     setup(() => {
       groups = [];
-      element = new GrDiffProcessor();
-      element.consumer = {
-        addGroup(group: GrDiffGroup) {
-          groups.push(group);
-        },
-        clearGroups() {
-          groups = [];
-        },
-      };
-      element.context = 4;
+      options = {context: 4};
+      processor = new GrDiffProcessor(options);
     });
 
     test('process loaded content', () => {
@@ -59,7 +67,7 @@ suite('gr-diff-processor tests', () => {
         },
       ];
 
-      return element.process(content, false).then(() => {
+      return processor.process(content, consumer).then(() => {
         groups.shift(); // remove portedThreadsWithoutRangeGroup
         assert.equal(groups.length, 4);
 
@@ -120,7 +128,7 @@ suite('gr-diff-processor tests', () => {
     test('first group is for file', () => {
       const content = [{b: ['foo']}];
 
-      return element.process(content, false).then(() => {
+      return processor.process(content, consumer).then(() => {
         groups.shift(); // remove portedThreadsWithoutRangeGroup
 
         assert.equal(groups[0].type, GrDiffGroupType.BOTH);
@@ -133,7 +141,8 @@ suite('gr-diff-processor tests', () => {
 
     suite('context groups', () => {
       test('at the beginning, larger than context', () => {
-        element.context = 10;
+        options.context = 10;
+        processor = new GrDiffProcessor(options);
         const content = [
           {
             ab: Array.from<string>({length: 100}).fill(
@@ -143,28 +152,28 @@ suite('gr-diff-processor tests', () => {
           {a: ['all work and no play make andybons a dull boy']},
         ];
 
-        return element.process(content, false).then(() => {
-          groups.shift(); // remove portedThreadsWithoutRangeGroup
+        return processor.process(content, consumer).then(() => {
+          // group[0] is the LOST group
+          // group[1] is the FILE group
 
-          // group[0] is the file group
-
-          assert.equal(groups[1].type, GrDiffGroupType.CONTEXT_CONTROL);
-          assert.instanceOf(groups[1].contextGroups[0], GrDiffGroup);
-          assert.equal(groups[1].contextGroups[0].lines.length, 90);
-          for (const l of groups[1].contextGroups[0].lines) {
+          assert.equal(groups[2].type, GrDiffGroupType.CONTEXT_CONTROL);
+          assert.instanceOf(groups[2].contextGroups[0], GrDiffGroup);
+          assert.equal(groups[2].contextGroups[0].lines.length, 90);
+          for (const l of groups[2].contextGroups[0].lines) {
             assert.equal(l.text, 'all work and no play make jack a dull boy');
           }
 
-          assert.equal(groups[2].type, GrDiffGroupType.BOTH);
-          assert.equal(groups[2].lines.length, 10);
-          for (const l of groups[2].lines) {
+          assert.equal(groups[3].type, GrDiffGroupType.BOTH);
+          assert.equal(groups[3].lines.length, 10);
+          for (const l of groups[3].lines) {
             assert.equal(l.text, 'all work and no play make jack a dull boy');
           }
         });
       });
 
       test('at the beginning with skip chunks', async () => {
-        element.context = 10;
+        options.context = 10;
+        processor = new GrDiffProcessor(options);
         const content = [
           {
             ab: Array.from<string>({length: 20}).fill(
@@ -176,7 +185,7 @@ suite('gr-diff-processor tests', () => {
           {a: ['some other content']},
         ];
 
-        await element.process(content, false);
+        await processor.process(content, consumer);
 
         groups.shift(); // remove portedThreadsWithoutRangeGroup
 
@@ -216,7 +225,8 @@ suite('gr-diff-processor tests', () => {
       });
 
       test('at the beginning, smaller than context', () => {
-        element.context = 10;
+        options.context = 10;
+        processor = new GrDiffProcessor(options);
         const content = [
           {
             ab: Array.from<string>({length: 5}).fill(
@@ -226,7 +236,7 @@ suite('gr-diff-processor tests', () => {
           {a: ['all work and no play make andybons a dull boy']},
         ];
 
-        return element.process(content, false).then(() => {
+        return processor.process(content, consumer).then(() => {
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -240,7 +250,8 @@ suite('gr-diff-processor tests', () => {
       });
 
       test('at the end, larger than context', () => {
-        element.context = 10;
+        options.context = 10;
+        processor = new GrDiffProcessor(options);
         const content = [
           {a: ['all work and no play make andybons a dull boy']},
           {
@@ -250,7 +261,7 @@ suite('gr-diff-processor tests', () => {
           },
         ];
 
-        return element.process(content, false).then(() => {
+        return processor.process(content, consumer).then(() => {
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -272,7 +283,7 @@ suite('gr-diff-processor tests', () => {
       });
 
       test('at the end, smaller than context', () => {
-        element.context = 10;
+        options.context = 10;
         const content = [
           {a: ['all work and no play make andybons a dull boy']},
           {
@@ -282,7 +293,7 @@ suite('gr-diff-processor tests', () => {
           },
         ];
 
-        return element.process(content, false).then(() => {
+        return processor.process(content, consumer).then(() => {
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -297,7 +308,8 @@ suite('gr-diff-processor tests', () => {
       });
 
       test('for interleaved ab and common: true chunks', () => {
-        element.context = 10;
+        options.context = 10;
+        processor = new GrDiffProcessor(options);
         const content = [
           {a: ['all work and no play make andybons a dull boy']},
           {
@@ -335,7 +347,7 @@ suite('gr-diff-processor tests', () => {
           },
         ];
 
-        return element.process(content, false).then(() => {
+        return processor.process(content, consumer).then(() => {
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -412,7 +424,8 @@ suite('gr-diff-processor tests', () => {
       });
 
       test('in the middle, larger than context', () => {
-        element.context = 10;
+        options.context = 10;
+        processor = new GrDiffProcessor(options);
         const content = [
           {a: ['all work and no play make andybons a dull boy']},
           {
@@ -423,7 +436,7 @@ suite('gr-diff-processor tests', () => {
           {a: ['all work and no play make andybons a dull boy']},
         ];
 
-        return element.process(content, false).then(() => {
+        return processor.process(content, consumer).then(() => {
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -451,7 +464,8 @@ suite('gr-diff-processor tests', () => {
       });
 
       test('in the middle, smaller than context', () => {
-        element.context = 10;
+        options.context = 10;
+        processor = new GrDiffProcessor(options);
         const content = [
           {a: ['all work and no play make andybons a dull boy']},
           {
@@ -462,7 +476,7 @@ suite('gr-diff-processor tests', () => {
           {a: ['all work and no play make andybons a dull boy']},
         ];
 
-        return element.process(content, false).then(() => {
+        return processor.process(content, consumer).then(() => {
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -478,7 +492,8 @@ suite('gr-diff-processor tests', () => {
     });
 
     test('in the middle with skip chunks', async () => {
-      element.context = 10;
+      options.context = 10;
+      processor = new GrDiffProcessor(options);
       const content = [
         {a: ['all work and no play make andybons a dull boy']},
         {
@@ -495,7 +510,7 @@ suite('gr-diff-processor tests', () => {
         {a: ['all work and no play make andybons a dull boy']},
       ];
 
-      await element.process(content, false);
+      await processor.process(content, consumer);
 
       groups.shift(); // remove portedThreadsWithoutRangeGroup
 
@@ -531,7 +546,8 @@ suite('gr-diff-processor tests', () => {
     });
 
     test('works with skip === 0', async () => {
-      element.context = 3;
+      options.context = 3;
+      processor = new GrDiffProcessor(options);
       const content = [
         {
           skip: 0,
@@ -547,14 +563,15 @@ suite('gr-diff-processor tests', () => {
           ],
         },
       ];
-      await element.process(content, false);
+      await processor.process(content, consumer);
     });
 
     test('break up common diff chunks', () => {
-      element.keyLocations = {
+      options.keyLocations = {
         left: {1: true},
         right: {10: true},
       };
+      processor = new GrDiffProcessor(options);
 
       const content = [
         {
@@ -575,7 +592,7 @@ suite('gr-diff-processor tests', () => {
           ],
         },
       ];
-      const result = element.splitCommonChunksWithKeyLocations(content);
+      const result = processor.splitCommonChunksWithKeyLocations(content);
       assert.deepEqual(result, [
         {
           ab: ['copy'],
@@ -603,8 +620,8 @@ suite('gr-diff-processor tests', () => {
         .fill(0)
         .map(() => `${Math.random()}`);
       const content = [{ab}];
-      element.context = -1;
-      const result = element.splitLargeChunks(content);
+      processor.context = -1;
+      const result = processor.splitLargeChunks(content);
       assert.equal(result.length, 2);
       assert.deepEqual(result[0].ab, content[0].ab.slice(0, maxGroupSize));
       assert.deepEqual(result[1].ab, content[0].ab.slice(maxGroupSize));
@@ -616,8 +633,8 @@ suite('gr-diff-processor tests', () => {
       const content = Array(size)
         .fill(0)
         .map(() => `${Math.random()}`);
-      element.context = 5;
-      const splitContent = element
+      processor.context = 5;
+      const splitContent = processor
         .splitLargeChunks([{a: [], b: content}])
         .map(r => r.b);
       assert.equal(splitContent.length, 3);
@@ -632,8 +649,8 @@ suite('gr-diff-processor tests', () => {
       const content = Array(size)
         .fill(0)
         .map(() => `${Math.random()}`);
-      element.context = 5;
-      const splitContent = element
+      processor.context = 5;
+      const splitContent = processor
         .splitLargeChunks([{a: content, b: []}])
         .map(r => r.a);
       assert.equal(splitContent.length, 3);
@@ -647,8 +664,8 @@ suite('gr-diff-processor tests', () => {
       const content = Array(size)
         .fill(0)
         .map(() => `${Math.random()}`);
-      element.context = 5;
-      const splitContent = element
+      processor.context = 5;
+      const splitContent = processor
         .splitLargeChunks([
           {
             a: content,
@@ -666,8 +683,8 @@ suite('gr-diff-processor tests', () => {
         .fill(0)
         .map(() => `${Math.random()}`);
       const content = [{ab}];
-      element.context = 4;
-      const result = element.splitCommonChunksWithKeyLocations(content);
+      processor.context = 4;
+      const result = processor.splitCommonChunksWithKeyLocations(content);
       assert.equal(result.length, 1);
       assert.deepEqual(result[0].ab, content[0].ab);
       assert.isFalse(result[0].keyLocation);
@@ -687,7 +704,7 @@ suite('gr-diff-processor tests', () => {
         [42, 26],
       ];
 
-      let results = element.convertIntralineInfos(content, highlights);
+      let results = processor.convertIntralineInfos(content, highlights);
       assert.deepEqual(results, [
         {
           contentIndex: 0,
@@ -704,7 +721,7 @@ suite('gr-diff-processor tests', () => {
           startIndex: 75,
         },
       ]);
-      const lines = element.linesFromRows(
+      const lines = processor.linesFromRows(
         GrDiffLineType.BOTH,
         content,
         0,
@@ -736,7 +753,7 @@ suite('gr-diff-processor tests', () => {
         [12, 67],
         [14, 29],
       ];
-      results = element.convertIntralineInfos(content, highlights);
+      results = processor.convertIntralineInfos(content, highlights);
       assert.deepEqual(results, [
         {
           contentIndex: 0,
@@ -767,7 +784,7 @@ suite('gr-diff-processor tests', () => {
 
       content = ['🙈 a', '🙉 b', '🙊 c'];
       highlights = [[2, 7]];
-      results = element.convertIntralineInfos(content, highlights);
+      results = processor.convertIntralineInfos(content, highlights);
       assert.deepEqual(results, [
         {
           contentIndex: 0,
@@ -787,23 +804,25 @@ suite('gr-diff-processor tests', () => {
 
     test('isScrolling paused', () => {
       const content = Array(200).fill({ab: ['', '']});
-      element.isScrolling = true;
-      element.process(content, false);
+      processor.isScrolling = true;
+      processor.process(content, consumer);
       // Just the FILE and LOST groups.
       assert.equal(groups.length, 2);
     });
 
     test('isScrolling unpaused', () => {
       const content = Array(200).fill({ab: ['', '']});
-      element.isScrolling = false;
-      element.process(content, false);
+      processor.isScrolling = false;
+      processor.process(content, consumer);
       // More groups have been processed. How many does not matter here.
       assert.isAtLeast(groups.length, 3);
     });
 
     test('image diffs', () => {
       const content = Array(200).fill({ab: ['', '']});
-      element.process(content, true);
+      options.isBinary = true;
+      processor = new GrDiffProcessor(options);
+      processor.process(content, consumer);
       assert.equal(groups.length, 2);
 
       // Image diffs don't process content, just the 'FILE' line.
@@ -818,13 +837,13 @@ suite('gr-diff-processor tests', () => {
       });
 
       test('WHOLE_FILE', () => {
-        element.context = WHOLE_FILE;
+        processor.context = WHOLE_FILE;
         const state: State = {
           lineNums: {left: 10, right: 100},
           chunkIndex: 1,
         };
         const chunks = [{a: ['foo']}, {ab: rows}, {a: ['bar']}];
-        const result = element.processNext(state, chunks);
+        const result = processor.processNext(state, chunks);
 
         // Results in one, uncollapsed group with all rows.
         assert.equal(result.groups.length, 1);
@@ -852,7 +871,7 @@ suite('gr-diff-processor tests', () => {
       });
 
       test('WHOLE_FILE with skip chunks still get collapsed', () => {
-        element.context = WHOLE_FILE;
+        processor.context = WHOLE_FILE;
         const lineNums = {left: 10, right: 100};
         const state = {
           lineNums,
@@ -860,7 +879,7 @@ suite('gr-diff-processor tests', () => {
         };
         const skip = 10000;
         const chunks = [{a: ['foo']}, {skip}, {ab: rows}, {a: ['bar']}];
-        const result = element.processNext(state, chunks);
+        const result = processor.processNext(state, chunks);
         // Results in one, uncollapsed group with all rows.
         assert.equal(result.groups.length, 1);
         assert.equal(result.groups[0].type, GrDiffGroupType.CONTEXT_CONTROL);
@@ -894,21 +913,21 @@ suite('gr-diff-processor tests', () => {
       });
 
       test('with context', () => {
-        element.context = 10;
+        processor.context = 10;
         const state = {
           lineNums: {left: 10, right: 100},
           chunkIndex: 1,
         };
         const chunks = [{a: ['foo']}, {ab: rows}, {a: ['bar']}];
-        const result = element.processNext(state, chunks);
-        const expectedCollapseSize = rows.length - 2 * element.context;
+        const result = processor.processNext(state, chunks);
+        const expectedCollapseSize = rows.length - 2 * processor.context;
 
         assert.equal(result.groups.length, 3, 'Results in three groups');
 
         // The first and last are uncollapsed context, whereas the middle has
         // a single context-control line.
-        assert.equal(result.groups[0].lines.length, element.context);
-        assert.equal(result.groups[2].lines.length, element.context);
+        assert.equal(result.groups[0].lines.length, processor.context);
+        assert.equal(result.groups[2].lines.length, processor.context);
 
         // The collapsed group has the hidden lines as its context group.
         assert.equal(
@@ -918,19 +937,19 @@ suite('gr-diff-processor tests', () => {
       });
 
       test('first', () => {
-        element.context = 10;
+        processor.context = 10;
         const state = {
           lineNums: {left: 10, right: 100},
           chunkIndex: 0,
         };
         const chunks = [{ab: rows}, {a: ['foo']}, {a: ['bar']}];
-        const result = element.processNext(state, chunks);
-        const expectedCollapseSize = rows.length - element.context;
+        const result = processor.processNext(state, chunks);
+        const expectedCollapseSize = rows.length - processor.context;
 
         assert.equal(result.groups.length, 2, 'Results in two groups');
 
         // Only the first group is collapsed.
-        assert.equal(result.groups[1].lines.length, element.context);
+        assert.equal(result.groups[1].lines.length, processor.context);
 
         // The collapsed group has the hidden lines as its context group.
         assert.equal(
@@ -942,13 +961,13 @@ suite('gr-diff-processor tests', () => {
       test('few-rows', () => {
         // Only ten rows.
         rows = rows.slice(0, 10);
-        element.context = 10;
+        processor.context = 10;
         const state = {
           lineNums: {left: 10, right: 100},
           chunkIndex: 0,
         };
         const chunks = [{ab: rows}, {a: ['foo']}, {a: ['bar']}];
-        const result = element.processNext(state, chunks);
+        const result = processor.processNext(state, chunks);
 
         // Results in one uncollapsed group with all rows.
         assert.equal(result.groups.length, 1, 'Results in one group');
@@ -957,13 +976,13 @@ suite('gr-diff-processor tests', () => {
 
       test('no single line collapse', () => {
         rows = rows.slice(0, 7);
-        element.context = 3;
+        processor.context = 3;
         const state = {
           lineNums: {left: 10, right: 100},
           chunkIndex: 1,
         };
         const chunks = [{a: ['foo']}, {ab: rows}, {a: ['bar']}];
-        const result = element.processNext(state, chunks);
+        const result = processor.processNext(state, chunks);
 
         // Results in one uncollapsed group with all rows.
         assert.equal(result.groups.length, 1, 'Results in one group');
@@ -979,13 +998,13 @@ suite('gr-diff-processor tests', () => {
             lineNums: {left: 10, right: 100},
             chunkIndex: 0,
           };
-          element.context = 10;
+          processor.context = 10;
           chunks = [{ab: rows}, {ab: ['foo'], keyLocation: true}, {ab: rows}];
         });
 
         test('context before', () => {
           state.chunkIndex = 0;
-          const result = element.processNext(state, chunks);
+          const result = processor.processNext(state, chunks);
 
           // The first chunk is split into two groups:
           // 1) A context-control, hiding everything but the context before
@@ -996,14 +1015,14 @@ suite('gr-diff-processor tests', () => {
           // The collapsed group has the hidden lines as its context group.
           assert.equal(
             result.groups[0].contextGroups[0].lines.length,
-            rows.length - element.context
+            rows.length - processor.context
           );
-          assert.equal(result.groups[1].lines.length, element.context);
+          assert.equal(result.groups[1].lines.length, processor.context);
         });
 
         test('key location itself', () => {
           state.chunkIndex = 1;
-          const result = element.processNext(state, chunks);
+          const result = processor.processNext(state, chunks);
 
           // The second chunk results in a single group, that is just the
           // line with the key location
@@ -1015,18 +1034,18 @@ suite('gr-diff-processor tests', () => {
 
         test('context after', () => {
           state.chunkIndex = 2;
-          const result = element.processNext(state, chunks);
+          const result = processor.processNext(state, chunks);
 
           // The last chunk is split into two groups:
           // 1) The context after the key location.
           // 1) A context-control, hiding everything but the context after the
           //    key location.
           assert.equal(result.groups.length, 2);
-          assert.equal(result.groups[0].lines.length, element.context);
+          assert.equal(result.groups[0].lines.length, processor.context);
           // The collapsed group has the hidden lines as its context group.
           assert.equal(
             result.groups[1].contextGroups[0].lines.length,
-            rows.length - element.context
+            rows.length - processor.context
           );
         });
       });
@@ -1041,7 +1060,7 @@ suite('gr-diff-processor tests', () => {
 
       test('linesFromRows', () => {
         const startLineNum = 10;
-        let result = element.linesFromRows(
+        let result = processor.linesFromRows(
           GrDiffLineType.ADD,
           rows,
           startLineNum + 1
@@ -1058,7 +1077,7 @@ suite('gr-diff-processor tests', () => {
         );
         assert.notOk(result[result.length - 1].beforeNumber);
 
-        result = element.linesFromRows(
+        result = processor.linesFromRows(
           GrDiffLineType.REMOVE,
           rows,
           startLineNum + 1
@@ -1079,17 +1098,17 @@ suite('gr-diff-processor tests', () => {
 
     suite('breakdown*', () => {
       test('breakdownChunk breaks down additions', () => {
-        const breakdownSpy = sinon.spy(element, 'breakdown');
+        const breakdownSpy = sinon.spy(processor, 'breakdown');
         const chunk = {b: ['blah', 'blah', 'blah']};
-        const result = element.breakdownChunk(chunk);
+        const result = processor.breakdownChunk(chunk);
         assert.deepEqual(result, [chunk]);
         assert.isTrue(breakdownSpy.called);
       });
 
       test('breakdownChunk keeps due_to_rebase for broken down additions', () => {
-        sinon.spy(element, 'breakdown');
+        sinon.spy(processor, 'breakdown');
         const chunk = {b: ['blah', 'blah', 'blah'], due_to_rebase: true};
-        const result = element.breakdownChunk(chunk);
+        const result = processor.breakdownChunk(chunk);
         for (const subResult of result) {
           assert.isTrue(subResult.due_to_rebase);
         }
@@ -1101,7 +1120,7 @@ suite('gr-diff-processor tests', () => {
         );
         const size = 3;
 
-        const result = element.breakdown(array, size);
+        const result = processor.breakdown(array, size);
 
         for (const subResult of result) {
           assert.isAtMost(subResult.length, size);
@@ -1117,7 +1136,7 @@ suite('gr-diff-processor tests', () => {
         const size = 10;
         const expected = [array];
 
-        const result = element.breakdown(array, size);
+        const result = processor.breakdown(array, size);
 
         assert.deepEqual(result, expected);
       });
@@ -1127,7 +1146,7 @@ suite('gr-diff-processor tests', () => {
         const size = 10;
         const expected: string[][] = [];
 
-        const result = element.breakdown(array, size);
+        const result = processor.breakdown(array, size);
 
         assert.deepEqual(result, expected);
       });

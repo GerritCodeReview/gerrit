@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36bccdb5_2581cdf4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-17T12:46:42Z",
+      "side": 1,
+      "message": "Please continue the review here: https://gerrit-review.git.corp.google.com/c/gerrit/+/374259\n\nMost comments are pointing out more opportunities for refactoring, which I appreciate, but in this change I was actually trying to only unite two classes and try to not do anything else. :-)",
+      "revId": "6b2acbe638e90e7098cde7490278516242e6a1b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a61fbcd8_27df420d",
@@ -14,6 +31,30 @@
       "writtenOn": "2023-05-11T12:21:54Z",
       "side": 1,
       "message": "layersInternal contains layers from the outside as well?\nCan you move it close to the `layers` property and leave a comment there explaining what the difference between these two is.\n\n`layers` does not have a comment so hard to tell. 😞",
+      "range": {
+        "startLine": 299,
+        "startChar": 2,
+        "endLine": 299,
+        "endChar": 16
+      },
+      "revId": "6b2acbe638e90e7098cde7490278516242e6a1b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bed19a64_71425347",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-17T12:46:42Z",
+      "side": 1,
+      "message": "Will refactor this in a follow-up change. You are right that this is hard to understand. Just not this change. :-)",
+      "parentUuid": "a61fbcd8_27df420d",
       "range": {
         "startLine": 299,
         "startChar": 2,
@@ -47,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c42b519b_e862e3a7",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 886,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-17T12:46:42Z",
+      "side": 1,
+      "message": "I would also like to postpone that refactoring to a later change.",
+      "parentUuid": "cbb448a2_b77044e5",
+      "range": {
+        "startLine": 886,
+        "startChar": 27,
+        "endLine": 886,
+        "endChar": 41
+      },
+      "revId": "6b2acbe638e90e7098cde7490278516242e6a1b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e9a46cef_00c17e02",
@@ -60,6 +125,30 @@
       "writtenOn": "2023-05-11T12:21:54Z",
       "side": 1,
       "message": "getBypassPrefs seems like it\u0027s returning the prefs related to bypassing.\n\nIt\u0027s actually prefs + safety bypass context which I don\u0027t understand why it\u0027s not part of prefs already.\n\nCan we give this a better name?\n`getPrefsWithSafetyBypass` perhaps?",
+      "range": {
+        "startLine": 931,
+        "startChar": 11,
+        "endLine": 931,
+        "endChar": 25
+      },
+      "revId": "6b2acbe638e90e7098cde7490278516242e6a1b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df808d87_182a9f2e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-17T12:46:42Z",
+      "side": 1,
+      "message": "Yes, will refactor in a follow-up change.",
+      "parentUuid": "e9a46cef_00c17e02",
       "range": {
         "startLine": 931,
         "startChar": 11,
@@ -93,6 +182,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e9bb864_a4bbf5b8",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1163,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-17T12:46:42Z",
+      "side": 1,
+      "message": "Will remove in follow-up change.",
+      "parentUuid": "0b51d59f_388738b3",
+      "range": {
+        "startLine": 1163,
+        "startChar": 4,
+        "endLine": 1163,
+        "endChar": 17
+      },
+      "revId": "6b2acbe638e90e7098cde7490278516242e6a1b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1638a3c4_f4db3337",
@@ -116,6 +229,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8c21544_db04053b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1164,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-17T12:46:42Z",
+      "side": 1,
+      "message": "Will remove in follow-up change.",
+      "parentUuid": "1638a3c4_f4db3337",
+      "range": {
+        "startLine": 1164,
+        "startChar": 8,
+        "endLine": 1164,
+        "endChar": 31
+      },
+      "revId": "6b2acbe638e90e7098cde7490278516242e6a1b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1d819ac8_fd33443d",
@@ -129,6 +266,30 @@
       "writtenOn": "2023-05-11T12:21:54Z",
       "side": 1,
       "message": "show/expand? 😄",
+      "range": {
+        "startLine": 1277,
+        "startChar": 2,
+        "endLine": 1277,
+        "endChar": 8
+      },
+      "revId": "6b2acbe638e90e7098cde7490278516242e6a1b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5426e366_56cda2eb",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1277,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-17T12:46:42Z",
+      "side": 1,
+      "message": "Will rename in follow-up change.",
+      "parentUuid": "1d819ac8_fd33443d",
       "range": {
         "startLine": 1277,
         "startChar": 2,

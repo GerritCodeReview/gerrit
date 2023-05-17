@@ -1791,7 +1791,7 @@ commentlinks to be immediately available in the UI.
 ----
 [commentlink "changeid"]
   match = (I[0-9a-f]{8,40})
-  link = "#/q/$1"
+  link = "/q/$1"
 
 [commentlink "bugzilla"]
   match = "(^|\\s)(bug\\s+#?)(\\d+)($|\\s)"

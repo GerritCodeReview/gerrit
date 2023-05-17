@@ -6,7 +6,7 @@
 import {LitElement, html, TemplateResult} from 'lit';
 import {property} from 'lit/decorators.js';
 import {styleMap} from 'lit/directives/style-map.js';
-import {diffClasses, isNewDiff} from '../gr-diff/gr-diff-utils';
+import {isNewDiff, diffClasses} from '../gr-diff/gr-diff-utils';
 
 const SURROGATE_PAIR = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
@@ -145,7 +145,7 @@ export class GrDiffText extends LitElement {
 }
 
 // TODO(newdiff-cleanup): Remove once newdiff migration is completed.
-if (!isNewDiff()) {
+if (isNewDiff()) {
   customElements.define('gr-diff-text', GrDiffText);
 }
 

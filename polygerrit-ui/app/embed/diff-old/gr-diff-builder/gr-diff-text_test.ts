@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
-
 import './gr-diff-text';
 import {GrDiffText} from './gr-diff-text';
 import {fixture, html, assert} from '@open-wc/testing';

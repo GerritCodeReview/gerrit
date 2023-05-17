@@ -125,7 +125,7 @@ export class GrContextControlsSection extends LitElement {
 }
 
 // TODO(newdiff-cleanup): Remove once newdiff migration is completed.
-if (!isNewDiff()) {
+if (isNewDiff()) {
   customElements.define(
     'gr-context-controls-section',
     GrContextControlsSection

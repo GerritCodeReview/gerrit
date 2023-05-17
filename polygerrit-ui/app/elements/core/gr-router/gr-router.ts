@@ -1446,6 +1446,10 @@ export class GrRouter implements Finalizable, NavigationService {
       diffView: {path: ctx.params[8]},
     };
     const queryMap = new URLSearchParams(ctx.querystring);
+    const checksPatchset = Number(queryMap.get('checksPatchset'));
+    if (Number.isInteger(checksPatchset) && checksPatchset > 0) {
+      state.checksPatchset = checksPatchset as PatchSetNumber;
+    }
     if (queryMap.has('forceReload')) state.forceReload = true;
     const address = this.parseLineAddress(ctx.hash);
     if (address) {

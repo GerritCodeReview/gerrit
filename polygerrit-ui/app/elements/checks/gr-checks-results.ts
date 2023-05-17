@@ -710,6 +710,7 @@ class GrResultExpanded extends LitElement {
           changeNum: change._number,
           repo: change.project,
           patchNum: patchset,
+          checksPatchset: patchset,
           diffView: {path, lineNum: line},
         }),
         primary: true,

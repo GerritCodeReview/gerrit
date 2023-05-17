@@ -16,6 +16,24 @@
       "message": "Looks good.\n\nMy understanding is that this fixes links from checks to diffs. It sets checksPatchset to changeViewState (diffViewState) and this is picked by checks-model which loads checks and show them. If this was not set checks-model was looking only to latestPatchset.\n\nIt looks like we would need something as ported checks for this. If user reloads diff view, checks will disappear. Am I right?",
       "revId": "05234f561ec940cc26b8508ff0b1292400581fad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ac9c2c3_ede6cd52",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-17T08:11:12Z",
+      "side": 1,
+      "message": "Yeah, the entire user journey is far from perfect. I think we should generally consider whether we should drop `checksPatchset` as a separate parameter altogether and instead just always use what is chosen as the right patchset.\n\nBut that is beyond this change. We just want to improve one small thing here and make an incremental improvement.",
+      "parentUuid": "15f9ecbb_7d4c1a53",
+      "revId": "05234f561ec940cc26b8508ff0b1292400581fad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

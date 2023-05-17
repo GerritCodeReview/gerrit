@@ -22,6 +22,30 @@
       },
       "revId": "8e30b4a95112c80ce9fc78dacf795aca697244ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "359f9db9_f156412d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-17T13:31:33Z",
+      "side": 1,
+      "message": "I would actually prefer to test `compareComments` as a blackbox. We just have a list ~20 items and want to have that sorted as expected.",
+      "parentUuid": "5d82cc52_11bc9ea0",
+      "range": {
+        "startLine": 302,
+        "startChar": 10,
+        "endLine": 302,
+        "endChar": 32
+      },
+      "revId": "8e30b4a95112c80ce9fc78dacf795aca697244ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

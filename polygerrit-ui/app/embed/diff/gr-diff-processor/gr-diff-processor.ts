@@ -15,6 +15,7 @@ import {debounce, DelayedTask} from '../../../utils/async-util';
 import {assert} from '../../../utils/common-util';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
 import {FILE, GrDiffLineType, LineNumber} from '../../../api/diff';
+import {KeyLocations} from '../gr-diff/gr-diff-utils';
 
 const WHOLE_FILE = -1;
 
@@ -30,11 +31,6 @@ export interface State {
 interface ChunkEnd {
   offset: number;
   keyLocation: boolean;
-}
-
-export interface KeyLocations {
-  left: {[key: string]: boolean};
-  right: {[key: string]: boolean};
 }
 
 /**

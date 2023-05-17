@@ -4,10 +4,26 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {css, html, LitElement, nothing} from 'lit';
-import {customElement} from 'lit/decorators.js';
+import {customElement, state} from 'lit/decorators.js';
 import {getAppContext} from '../../../services/app-context';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {fire} from '../../../utils/event-util';
+import {anyLineTooLong} from '../../../utils/diff-util';
+import {
+  DiffLayer,
+  DiffPreferencesInfo,
+  DiffViewMode,
+  RenderPreferences,
+} from '../../../api/diff';
+import {when} from 'lit/directives/when.js';
+import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
+import {resolve} from '../../../models/dependency';
+import {highlightServiceToken} from '../../../services/highlight/highlight-service';
+import {NumericChangeId, PatchSetNum} from '../../../api/rest-api';
+import {changeModelToken} from '../../../models/change/change-model';
+import {subscribe} from '../../lit/subscription-controller';
+import {FilePreview} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
+import {userModelToken} from '../../../models/user/user-model';
 
 declare global {
   interface HTMLElementEventMap {
@@ -23,7 +39,62 @@ export interface OpenUserSuggestionPreviewEventDetail {
 
 @customElement('gr-user-suggestion-fix')
 export class GrUserSuggetionFix extends LitElement {
+  @state()
+  layers: DiffLayer[] = [];
+
+  @state()
+  previewLoaded = false;
+
+  @state()
+  changeNum?: NumericChangeId;
+
+  // TODO: get patchNum
+  @state()
+  patchNum: PatchSetNum = 3 as PatchSetNum;
+
+  @state()
+  preview?: FilePreview;
+
+  @state()
+  diffPrefs?: DiffPreferencesInfo;
+
+  @state()
+  renderPrefs: RenderPreferences = {
+    disable_context_control_buttons: true,
+    show_file_comment_button: false,
+    hide_line_length_indicator: true,
+  };
+
   private readonly flagsService = getAppContext().flagsService;
+
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly restApiService = getAppContext().restApiService;
+
+  private readonly getUserModel = resolve(this, userModelToken);
+
+  private readonly syntaxLayer = new GrSyntaxLayerWorker(
+    resolve(this, highlightServiceToken),
+    () => getAppContext().reportingService
+  );
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getChangeModel().changeNum$,
+      changeNum => (this.changeNum = changeNum)
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().diffPreferences$,
+      diffPreferences => {
+        if (!diffPreferences) return;
+        this.diffPrefs = diffPreferences;
+        this.syntaxLayer.setEnabled(!!this.diffPrefs.syntax_highlighting);
+      }
+    );
+  }
 
   static override styles = [
     css`
@@ -63,6 +134,11 @@ export class GrUserSuggetionFix extends LitElement {
   ];
 
   override render() {
+    // TODO: Clean this to updated
+    // TODO: add feature flag
+    if (!this.previewLoaded) {
+      this.fetchFixPreview();
+    }
     if (!this.flagsService.isEnabled(KnownExperimentId.SUGGEST_EDIT)) {
       return nothing;
     }
@@ -95,12 +171,76 @@ export class GrUserSuggetionFix extends LitElement {
           </gr-button>
         </div>
       </div>
-      <code>${code}</code>`;
+      ${when(
+        this.previewLoaded,
+        () => this.renderDiff(),
+        () => html`<code>${code}</code>`
+      )} `;
   }
 
   handleShowFix() {
     if (!this.textContent) return;
     fire(this, 'open-user-suggest-preview', {code: this.textContent});
+  }
+
+  private renderDiff() {
+    const diff = this.preview!.preview;
+    if (!anyLineTooLong(diff)) {
+      this.syntaxLayer.process(diff);
+    }
+    return html`<gr-diff
+      .prefs=${this.overridePartialDiffPrefs()}
+      .path=${this.preview!.filepath}
+      .diff=${diff}
+      .layers=${this.layers}
+      .renderPrefs=${this.renderPrefs}
+      .viewMode=${DiffViewMode.UNIFIED}
+    ></gr-diff>`;
+  }
+
+  private async fetchFixPreview() {
+    if (!this.changeNum || !this.patchNum) return;
+    const res = await this.restApiService.getFixPreview(
+      this.changeNum,
+      this.patchNum,
+      // TODO: get replacements
+      // fixSuggestion.replacements
+      [
+        {
+          path: 'polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts',
+          range: {
+            start_line: 508,
+            start_character: 0,
+            end_line: 508,
+            end_character: 53,
+          },
+          replacement:
+            '    return html`${publishedComments}${draftComment}${test}`;',
+        },
+      ]
+    );
+    if (res) {
+      const currentPreviews = Object.keys(res).map(key => {
+        return {filepath: key, preview: res[key]};
+      });
+      if (currentPreviews.length > 0) {
+        this.preview = currentPreviews[0];
+        this.previewLoaded = true;
+      }
+    }
+
+    return res;
+  }
+
+  private overridePartialDiffPrefs() {
+    if (!this.diffPrefs) return undefined;
+    // generate a smaller gr-diff than fullscreen for dialog
+    return {
+      ...this.diffPrefs,
+      context: 0,
+      line_length: Math.min(this.diffPrefs.line_length, 100),
+      line_wrapping: true,
+    };
   }
 }
 

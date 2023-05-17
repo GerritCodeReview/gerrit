@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0acbfc29_4931a853",
+        "filename": "polygerrit-ui/app/embed/diff-old/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-17T10:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f41eef7_94006b60",
+      "revId": "76c5ab5ea88ae5a9aaac09c5481bac7fd56a267c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "16b6252c_02835029",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-05-17T09:57:56Z",
       "side": 1,
       "message": "Given old and new diff never run together, why do the events have to be named differently?",
+      "revId": "76c5ab5ea88ae5a9aaac09c5481bac7fd56a267c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1d0266c_9db8094d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-17T10:31:22Z",
+      "side": 1,
+      "message": "Because this event specifically contains GrDiffGroup, so the event details have a different type. I guess we could try something like `contextGroup: GrDiffGroup|GrDiffGroupNew`, but then we would need to find a good place to define this event on the `HTMLElementEventMap`. Two separate event names seemed to be the easiest choice.",
+      "parentUuid": "16b6252c_02835029",
       "revId": "76c5ab5ea88ae5a9aaac09c5481bac7fd56a267c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b60cfcf9_265c7fe4",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-17T10:31:22Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "2f82f0c0_27a2f7fe",
+      "revId": "76c5ab5ea88ae5a9aaac09c5481bac7fd56a267c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c73a25c_c9faece0",
@@ -65,6 +119,24 @@
       "writtenOn": "2023-05-17T09:57:56Z",
       "side": 1,
       "message": "Can this be the the same event for both new and old? They seem to share teh same actual message.",
+      "revId": "76c5ab5ea88ae5a9aaac09c5481bac7fd56a267c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "453aec16_c5cca2b0",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-17T10:31:22Z",
+      "side": 1,
+      "message": "The message is not the same, because the GrDiffGroup type depends on old vs new.",
+      "parentUuid": "7c73a25c_c9faece0",
       "revId": "76c5ab5ea88ae5a9aaac09c5481bac7fd56a267c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c552a1e8_99d5fa3b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-highlight/gr-diff-highlight.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-17T10:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de2e2cd7_aa03b31b",
+      "revId": "76c5ab5ea88ae5a9aaac09c5481bac7fd56a267c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2a2eeca6_2bc99eba",
@@ -99,6 +189,24 @@
       "writtenOn": "2023-05-17T09:57:56Z",
       "side": 1,
       "message": "Isn\u0027t `../diff` a no-op?",
+      "revId": "76c5ab5ea88ae5a9aaac09c5481bac7fd56a267c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c345f486_53a15476",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-highlight/gr-diff-highlight_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-17T10:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a2eeca6_2bc99eba",
       "revId": "76c5ab5ea88ae5a9aaac09c5481bac7fd56a267c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -120,6 +228,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dbc9a72_7bceed6d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-selection/gr-diff-selection.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-17T10:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e53ff961_b1dffae1",
+      "revId": "76c5ab5ea88ae5a9aaac09c5481bac7fd56a267c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42d64918_96814314",
@@ -137,6 +263,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "919fb69b_7245af5f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-17T10:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42d64918_96814314",
+      "revId": "76c5ab5ea88ae5a9aaac09c5481bac7fd56a267c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7c82a72_d5368fb3",
@@ -150,6 +294,24 @@
       "writtenOn": "2023-05-17T09:57:56Z",
       "side": 1,
       "message": "Isn\u0027t `../diff` a no-op?",
+      "revId": "76c5ab5ea88ae5a9aaac09c5481bac7fd56a267c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e9be4ce_0c0c3590",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-17T10:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7c82a72_d5368fb3",
       "revId": "76c5ab5ea88ae5a9aaac09c5481bac7fd56a267c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

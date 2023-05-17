@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.InlineMe;
 import java.time.Instant;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;

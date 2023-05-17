@@ -17,7 +17,7 @@ import {
   getSide,
   getSideByLineEl,
   isThreadEl,
-} from '../../diff/gr-diff/gr-diff-utils';
+} from '../gr-diff/gr-diff-utils';
 
 /**
  * Possible CSS classes indicating the state of selection. Dynamically added/

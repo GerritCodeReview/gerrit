@@ -22,11 +22,7 @@ import {fire} from '../../../utils/event-util';
 import {getBaseUrl} from '../../../utils/url-util';
 import './gr-diff-text';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
-import {
-  diffClasses,
-  isNewDiff,
-  isResponsive,
-} from '../../diff/gr-diff/gr-diff-utils';
+import {diffClasses, isNewDiff, isResponsive} from '../gr-diff/gr-diff-utils';
 
 export class GrDiffRow extends LitElement {
   contentLeftRef: Ref<LitElement> = createRef();
@@ -443,7 +439,7 @@ export class GrDiffRow extends LitElement {
   private renderText(side: Side) {
     const line = this.line(side);
     const lineNumber = this.lineNumber(side);
-    if (lineNumber === FILE || lineNumber === LOST) return;
+    if (typeof lineNumber !== 'number') return;
 
     // Note that `this.layersApplied` will wipe away the <gr-diff-text>, and
     // another rendering cycle will be initiated in `updated()`.
@@ -474,7 +470,7 @@ export class GrDiffRow extends LitElement {
 }
 
 // TODO(newdiff-cleanup): Remove once newdiff migration is completed.
-if (isNewDiff()) {
+if (!isNewDiff()) {
   customElements.define('gr-diff-row', GrDiffRow);
 }
 

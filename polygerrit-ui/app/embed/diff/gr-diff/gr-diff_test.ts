@@ -30,7 +30,7 @@ import {AbortStop} from '../../../api/core';
 import {waitForEventOnce} from '../../../utils/event-util';
 import {GrDiff} from './gr-diff';
 import {ImageInfo} from '../../../types/common';
-import {GrRangedCommentHint} from '../gr-ranged-comment-hint/gr-ranged-comment-hint';
+import {GrRangedCommentHint} from '../../diff/gr-ranged-comment-hint/gr-ranged-comment-hint';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fixture, html, assert} from '@open-wc/testing';
 

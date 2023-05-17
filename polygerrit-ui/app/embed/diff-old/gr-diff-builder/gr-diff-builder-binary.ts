@@ -5,7 +5,7 @@
  */
 import {GrDiffBuilder} from './gr-diff-builder';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
-import {createElementDiff} from '../../diff/gr-diff/gr-diff-utils';
+import {createElementDiff} from '../gr-diff/gr-diff-utils';
 import {GrDiffGroup} from '../gr-diff/gr-diff-group';
 import {html, render} from 'lit';
 import {FILE} from '../../../api/diff';

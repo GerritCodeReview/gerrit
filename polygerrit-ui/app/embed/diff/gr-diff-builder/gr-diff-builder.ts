@@ -20,7 +20,7 @@ import {DiffLayer, isDefined} from '../../../types/types';
 import {GrDiffRow} from './gr-diff-row';
 import {GrDiffSection} from './gr-diff-section';
 import {html, render} from 'lit';
-import {diffClasses} from '../gr-diff/gr-diff-utils';
+import {diffClasses} from '../../diff/gr-diff/gr-diff-utils';
 import {when} from 'lit/directives/when.js';
 import {GrDiffBuilderImage} from './gr-diff-builder-image';
 import {GrDiffBuilderBinary} from './gr-diff-builder-binary';
@@ -34,7 +34,7 @@ export interface DiffContextExpandedEventDetail
 
 declare global {
   interface HTMLElementEventMap {
-    'diff-context-expanded-internal': CustomEvent<DiffContextExpandedEventDetail>;
+    'diff-context-expanded-internal-new': CustomEvent<DiffContextExpandedEventDetail>;
     'diff-context-expanded': CustomEvent<DiffContextExpandedExternalDetail>;
     'content-load-needed': CustomEvent<ContentLoadNeededEventDetail>;
   }

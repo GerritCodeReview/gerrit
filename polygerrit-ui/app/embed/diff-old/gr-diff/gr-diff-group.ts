@@ -4,14 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {BLANK_LINE, GrDiffLine} from './gr-diff-line';
-import {
-  FILE,
-  GrDiffLineType,
-  LOST,
-  LineNumber,
-  LineRange,
-  Side,
-} from '../../../api/diff';
+import {GrDiffLineType, LineNumber, LineRange, Side} from '../../../api/diff';
 import {assertIsDefined, assert} from '../../../utils/common-util';
 import {untilRendered} from '../../../utils/dom-util';
 import {isDefined} from '../../../types/types';
@@ -503,8 +496,7 @@ export class GrDiffGroup {
     // untilRendered() promise.
     if (
       this.skip !== undefined ||
-      lineNumber === LOST ||
-      lineNumber === FILE ||
+      typeof lineNumber !== 'number' ||
       this.type === GrDiffGroupType.CONTEXT_CONTROL
     ) {
       return Promise.resolve();

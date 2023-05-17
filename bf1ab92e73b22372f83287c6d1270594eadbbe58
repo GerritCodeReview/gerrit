@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "141fba13_032fc87a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149436
+      },
+      "writtenOn": "2023-05-17T18:33:50Z",
+      "side": 1,
+      "message": "I\u0027m still seeing this exception in the logs running Gerrit 3.7.3. (Client is jenkins running LTS 2.387.3).",
+      "revId": "bf1ab92e73b22372f83287c6d1270594eadbbe58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

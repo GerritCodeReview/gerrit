@@ -6,18 +6,28 @@
 import '../../../test/common-test-setup';
 import './gr-user-suggestion-fix';
 import {fixture, html, assert} from '@open-wc/testing';
-import {GrUserSuggetionFix} from './gr-user-suggestion-fix';
-import {getAppContext} from '../../../services/app-context';
+import {GrUserSuggestionFix} from './gr-user-suggestion-fix';
+import {
+  CommentModel,
+  commentModelToken,
+} from '../gr-comment-model/gr-comment-model';
+import {wrapInProvider} from '../../../models/di-provider-element';
+import {createComment} from '../../../test/test-data-generators';
 
 suite('gr-user-suggestion-fix tests', () => {
-  let element: GrUserSuggetionFix;
+  let element: GrUserSuggestionFix;
 
   setup(async () => {
-    const flagsService = getAppContext().flagsService;
-    sinon.stub(flagsService, 'isEnabled').returns(true);
-    element = await fixture<GrUserSuggetionFix>(html`
-      <gr-user-suggestion-fix>Hello World</gr-user-suggestion-fix>
-    `);
+    const commentModel = new CommentModel({comment: createComment()});
+    element = (
+      await fixture<GrUserSuggestionFix>(
+        wrapInProvider(
+          html` <gr-user-suggestion-fix>Hello World</gr-user-suggestion-fix> `,
+          commentModelToken,
+          commentModel
+        )
+      )
+    ).querySelector<GrUserSuggestionFix>('gr-user-suggestion-fix')!;
     await element.updateComplete;
   });
 

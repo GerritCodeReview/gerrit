@@ -34,7 +34,7 @@ export interface DiffContextExpandedEventDetail
 
 declare global {
   interface HTMLElementEventMap {
-    'diff-context-expanded-internal-new': CustomEvent<DiffContextExpandedEventDetail>;
+    'diff-context-expanded-internal': CustomEvent<DiffContextExpandedEventDetail>;
     'diff-context-expanded': CustomEvent<DiffContextExpandedExternalDetail>;
     'content-load-needed': CustomEvent<ContentLoadNeededEventDetail>;
   }

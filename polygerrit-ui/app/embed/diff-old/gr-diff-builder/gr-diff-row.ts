@@ -443,7 +443,7 @@ export class GrDiffRow extends LitElement {
   private renderText(side: Side) {
     const line = this.line(side);
     const lineNumber = this.lineNumber(side);
-    if (lineNumber === FILE || lineNumber === LOST) return;
+    if (typeof lineNumber !== 'number') return;
 
     // Note that `this.layersApplied` will wipe away the <gr-diff-text>, and
     // another rendering cycle will be initiated in `updated()`.
@@ -474,7 +474,7 @@ export class GrDiffRow extends LitElement {
 }
 
 // TODO(newdiff-cleanup): Remove once newdiff migration is completed.
-if (isNewDiff()) {
+if (!isNewDiff()) {
   customElements.define('gr-diff-row', GrDiffRow);
 }
 

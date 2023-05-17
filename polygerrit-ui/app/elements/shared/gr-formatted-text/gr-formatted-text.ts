@@ -16,6 +16,7 @@ import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
 import {CommentLinks, EmailAddress} from '../../../api/rest-api';
+import {Comment} from '../../../types/common';
 import {linkifyUrlsAndApplyRewrite} from '../../../utils/link-util';
 import '../gr-account-chip/gr-account-chip';
 import '../gr-user-suggestion-fix/gr-user-suggestion-fix';
@@ -36,6 +37,12 @@ export class GrFormattedText extends LitElement {
 
   @property({type: Boolean})
   markdown = false;
+
+  @property()
+  comment?: Comment;
+
+  @property()
+  commentedText?: string;
 
   @state()
   private repoCommentLinks: CommentLinks = {};
@@ -304,6 +311,9 @@ export class GrFormattedText extends LitElement {
       } else {
         userSuggestion.textContent = userSuggestionMark.textContent ?? '';
       }
+      userSuggestion.comment = this.comment;
+      userSuggestion.commentedText = this.commentedText;
+
       userSuggestionMark.parentNode?.replaceChild(
         userSuggestion,
         userSuggestionMark

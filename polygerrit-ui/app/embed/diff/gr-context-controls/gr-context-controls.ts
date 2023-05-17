@@ -32,7 +32,7 @@ import {
 } from '../../../api/diff';
 
 import {GrDiffGroup, hideInContextControl} from '../gr-diff/gr-diff-group';
-import {isNewDiff} from '../gr-diff/gr-diff-utils';
+import {isNewDiff} from '../../diff/gr-diff/gr-diff-utils';
 
 declare global {
   interface HTMLElementEventMap {
@@ -369,7 +369,7 @@ export class GrContextControls extends LitElement {
           buttonType: type,
           expandedLines: linesToExpand,
         });
-        fire(this, 'diff-context-expanded-internal', {
+        fire(this, 'diff-context-expanded-internal-new', {
           contextGroup: this.group,
           groups,
           numLines: this.numLines(),
@@ -515,8 +515,9 @@ export class GrContextControls extends LitElement {
     `;
   }
 }
+
 // TODO(newdiff-cleanup): Remove once newdiff migration is completed.
-if (!isNewDiff()) {
+if (isNewDiff()) {
   customElements.define('gr-context-controls', GrContextControls);
 }
 

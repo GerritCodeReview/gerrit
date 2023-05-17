@@ -9,9 +9,9 @@ import '../../../elements/shared/gr-icon/gr-icon';
 import '../gr-diff-builder/gr-diff-builder-element';
 import '../gr-diff-highlight/gr-diff-highlight';
 import '../gr-diff-selection/gr-diff-selection';
-import '../../diff/gr-syntax-themes/gr-syntax-theme';
-import '../../diff/gr-ranged-comment-themes/gr-ranged-comment-theme';
-import '../../diff/gr-ranged-comment-hint/gr-ranged-comment-hint';
+import '../gr-syntax-themes/gr-syntax-theme';
+import '../gr-ranged-comment-themes/gr-ranged-comment-theme';
+import '../gr-ranged-comment-hint/gr-ranged-comment-hint';
 import {
   getLine,
   getLineElByChild,
@@ -1110,7 +1110,7 @@ function extractRemovedNodes(mutations: MutationRecord[]) {
 }
 
 // TODO(newdiff-cleanup): Remove once newdiff migration is completed.
-if (isNewDiff()) {
+if (!isNewDiff()) {
   customElements.define('gr-diff', GrDiff);
 }
 

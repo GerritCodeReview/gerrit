@@ -6,7 +6,7 @@
 import '../../shared/gr-comment-thread/gr-comment-thread';
 import '../../checks/gr-diff-check-result';
 import '../../../embed/diff/gr-diff/gr-diff';
-import '../../../embed/diff-new/gr-diff/gr-diff';
+import '../../../embed/diff-old/gr-diff/gr-diff';
 import {
   anyLineTooLong,
   getDiffLength,
@@ -47,7 +47,7 @@ import {
   WebLinkInfo,
 } from '../../../types/diff';
 import {GrDiff} from '../../../embed/diff/gr-diff/gr-diff';
-import {GrDiff as GrDiffNew} from '../../../embed/diff-new/gr-diff/gr-diff';
+import {GrDiff as GrDiffNew} from '../../../embed/diff-old/gr-diff/gr-diff';
 import {DiffViewMode, Side, CommentSide} from '../../../constants/constants';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';

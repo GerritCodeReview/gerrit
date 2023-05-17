@@ -4,22 +4,27 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../styles/shared-styles';
-import '../gr-selection-action-box/gr-selection-action-box';
+import '../../diff/gr-selection-action-box/gr-selection-action-box';
 import {GrAnnotation} from './gr-annotation';
 import {normalize} from './gr-range-normalizer';
 import {strToClassName} from '../../../utils/dom-util';
 import {Side} from '../../../constants/constants';
 import {CommentRange} from '../../../types/common';
-import {GrSelectionActionBox} from '../gr-selection-action-box/gr-selection-action-box';
+import {GrSelectionActionBox} from '../../diff/gr-selection-action-box/gr-selection-action-box';
 import {
   getLineElByChild,
   getLineNumberByChild,
   getSideByLineEl,
   GrDiffThreadElement,
-} from '../gr-diff/gr-diff-utils';
+} from '../../diff/gr-diff/gr-diff-utils';
 import {debounce, DelayedTask} from '../../../utils/async-util';
-import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
+import {
+  assert,
+  assertIsDefined,
+  queryAndAssert,
+} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
+import {FILE, LOST} from '../../../api/diff';
 
 interface SidedRange {
   side: Side;
@@ -307,7 +312,8 @@ export class GrDiffHighlight {
     const side = getSideByLineEl(lineEl);
     if (!side) return null;
     const line = getLineNumberByChild(lineEl);
-    if (typeof line !== 'number') return null;
+    if (!line || line === FILE || line === LOST) return null;
+    assert(typeof line === 'number', 'line must be a number');
     const contentTd = this.diffBuilder.getContentTdByLineEl(lineEl);
     if (!contentTd) return null;
     const contentText = contentTd.querySelector('.contentText');

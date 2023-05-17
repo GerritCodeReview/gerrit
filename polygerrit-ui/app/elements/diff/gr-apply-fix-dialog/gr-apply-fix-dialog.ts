@@ -42,7 +42,7 @@ import {when} from 'lit/directives/when.js';
 import {Timing} from '../../../constants/reporting';
 import {changeModelToken} from '../../../models/change/change-model';
 
-interface FilePreview {
+export interface FilePreview {
   filepath: string;
   preview: DiffInfo;
 }

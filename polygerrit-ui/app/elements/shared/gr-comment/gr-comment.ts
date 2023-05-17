@@ -204,6 +204,9 @@ export class GrComment extends LitElement {
   @state()
   isOwner = false;
 
+  @state()
+  commentedText?: string;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
@@ -720,7 +723,6 @@ export class GrComment extends LitElement {
 
   private renderCommentMessage() {
     if (this.collapsed || this.editing) return;
-
     return html`
       <!--The "message" class is needed to ensure selectability from
           gr-diff-selection.-->
@@ -728,6 +730,8 @@ export class GrComment extends LitElement {
         class="message"
         .markdown=${true}
         .content=${this.comment?.message ?? ''}
+        .comment=${this.comment}
+        .commentedText=${this.commentedText}
       ></gr-formatted-text>
     `;
   }
@@ -972,6 +976,11 @@ export class GrComment extends LitElement {
         // distant future.
         whenVisible(this, () => this.textarea?.putCursorAtEnd());
       }
+    }
+    if (changed.has('changeNum') || changed.has('comment')) {
+      (async () => {
+        this.commentedText = await this.getCommentedCode();
+      })();
     }
   }
 

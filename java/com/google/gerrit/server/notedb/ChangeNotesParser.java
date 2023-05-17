@@ -140,6 +140,7 @@ class ChangeNotesParser {
 
   private static final Splitter RULE_SPLITTER = Splitter.on(": ");
   private static final Splitter HASHTAG_SPLITTER = Splitter.on(",");
+  private static final String LABEL_VOTE_UUID_SEPARATOR = ", ";
 
   // Private final members initialized in the constructor.
   private final ChangeNoteJson changeNoteJson;
@@ -926,8 +927,46 @@ class ChangeNotesParser {
     }
   }
 
-  /** Parses copied {@link PatchSetApproval}. */
-  private void parseCopiedApproval(PatchSet.Id psId, Instant ts, String line)
+  // Return the UUID start index or -1 if no UUID is present
+  private int parseCopiedApprovalUuidStart(String line, int tagStart) {
+    int separatorIndex = line.indexOf(LABEL_VOTE_UUID_SEPARATOR);
+
+    // The first part of the condition checks whether the footer has the following format:
+    //   Copied-Label: <LABEL>=VOTE <Gerrit Account>,<Gerrit Real Account> :"<TAG>"
+    //   Weird tag that contains uuid delimiter. The uuid is actually not present.
+    if ((tagStart != -1 && separatorIndex > tagStart)
+        ||
+
+        // The second part of the condition allows us to distinguish the following two lines:
+        //   Label2=+1, 577fb248e474018276351785930358ec0450e9f7 Gerrit User 1 <1@gerrit>
+        //   Label2=+1 User Name (company_name, department) <2@gerrit>
+        (line.indexOf(' ') < separatorIndex)) {
+      return -1;
+    }
+    return separatorIndex;
+  }
+
+  // Splitting on "," breaks for identities containing commas. The below re-implements splitting on
+  // "(?<=>),", but it's 3-5x faster, as performance matters here.
+  private String[] parseIdentities(String line) {
+    String[] idents = line.split(",");
+    List<String> identitiesList = new ArrayList<>();
+    for (int i = 0; i < idents.length; i++) {
+      if (i == 0 || idents[i - 1].endsWith(">")) {
+        identitiesList.add(idents[i]);
+      } else {
+        int lastIndex = identitiesList.size() - 1;
+        identitiesList.set(lastIndex, identitiesList.get(lastIndex) + "," + idents[i]);
+      }
+    }
+    return identitiesList.toArray(new String[0]);
+  }
+
+  // Footer example: Copied-Label: <LABEL>=VOTE <Gerrit Account>,<Gerrit Real Account> :"<TAG>"
+  // ":<"TAG>"" is optional. <Gerrit Real Account> is also optional, if it was not set.
+  // The label, vote, and the Gerrit account are mandatory (unlike FOOTER_LABEL where Gerrit
+  // Account is also optional since by default it's the committer).
+  private void parseCopiedApproval(PatchSet.Id psId, Timestamp ts, String line)
       throws ConfigInvalidException {
     ParsedPatchSetApproval parsedPatchSetApproval = ChangeNoteUtil.parseCopiedApproval(line);
     checkFooter(
@@ -937,8 +976,28 @@ class ChangeNotesParser {
     PersonIdent accountIdent =
         RawParseUtils.parsePersonIdent(parsedPatchSetApproval.accountIdent().get());
 
-    checkFooter(accountIdent != null, FOOTER_COPIED_LABEL, parsedPatchSetApproval.footerLine());
-    Account.Id accountId = parseIdent(accountIdent);
+    Account.Id accountId, realAccountId = null;
+    String labelVoteStr;
+    String tag = null;
+    int tagStart = line.indexOf(":\"");
+    // UUID introduced in https://gerrit-review.googlesource.com/c/gerrit/+/324937
+    // Only parsed for backward compatibility
+    int uuidStart = parseCopiedApprovalUuidStart(line, tagStart);
+    int identitiesStart =
+        line.indexOf(' ', uuidStart != -1 ? uuidStart + LABEL_VOTE_UUID_SEPARATOR.length() : 0);
+    // The first account is the accountId, and second (if applicable) is the realAccountId.
+    try {
+      labelVoteStr = line.substring(0, uuidStart != -1 ? uuidStart : identitiesStart);
+    } catch (StringIndexOutOfBoundsException ex) {
+      throw new ConfigInvalidException(ex.getMessage(), ex);
+    }
+    String[] identities =
+        parseIdentities(
+            line.substring(identitiesStart + 1, tagStart == -1 ? line.length() : tagStart));
+
+    PersonIdent ident = RawParseUtils.parsePersonIdent(identities[0]);
+    checkFooter(ident != null, FOOTER_COPIED_LABEL, line);
+    accountId = parseIdent(ident);
 
     Account.Id realAccountId = null;
     if (parsedPatchSetApproval.realAccountIdent().isPresent()) {
@@ -998,12 +1057,61 @@ class ChangeNotesParser {
       Instant ts,
       ParsedPatchSetApproval parsedPatchSetApproval)
       throws ConfigInvalidException {
-
-    Account.Id approverId = parseApprover(committerId, parsedPatchSetApproval);
+    // There are potentially 3 accounts involved here:
+    //  1. The account from the commit, which is the effective IdentifiedUser
+    //     that produced the update.
+    //  2. The account in the label footer itself, which is used during submit
+    //     to copy other users' labels to a new patch set.
+    //  3. The account in the Real-user footer, indicating that the whole
+    //     update operation was executed by this user on behalf of the effective
+    //     user.
+    Account.Id effectiveAccountId;
+    // UUID introduced in https://gerrit-review.googlesource.com/c/gerrit/+/324937
+    // Only parsed for backward compatibility
+    int voteUuidSeparatorIndex = line.indexOf(LABEL_VOTE_UUID_SEPARATOR);
+    // We need some additional logic to differentiate between labels that have a UUID and those that
+    // have a user with a comma. This allows us to separate the following cases (note that the
+    // leading `Label: ` has been elided at this point):
+    //   Label: <LABEL>=VOTE, <UUID> <Gerrit Account>
+    //   Label: <LABEL>=VOTE <Gerrit, Account>
+    int reviewerStartOffset = 0;
+    int scoreStart = line.indexOf('=') + 1;
+    StringBuilder labelNameScore = new StringBuilder(line.substring(0, scoreStart));
+    for (int i = scoreStart; i < line.length(); i++) {
+      char currentChar = line.charAt(i);
+      // If we hit ',' before ' ' we have a UUID
+      if (currentChar == ',') {
+        labelNameScore.append(line, scoreStart, i);
+        reviewerStartOffset = voteUuidSeparatorIndex + LABEL_VOTE_UUID_SEPARATOR.length();
+        break;
+      }
+      // Otherwise we don't
+      if (currentChar == ' ') {
+        labelNameScore.append(line, scoreStart, i);
+        break;
+      }
+      // If we hit neither we're defensive assign the whole line
+      if (i == line.length() - 1) {
+        labelNameScore = new StringBuilder(line);
+        break;
+      }
+    }
+    int reviewerStart = line.indexOf(' ', reviewerStartOffset);
+    if (reviewerStart > 0) {
+      // Account in the label line (2) becomes the effective ID of the
+      // approval. If there is a real user (3) different from the commit user
+      // (2), we actually don't store that anywhere in this case; it's more
+      // important to record that the real user (3) actually initiated submit.
+      PersonIdent ident = RawParseUtils.parsePersonIdent(line.substring(reviewerStart + 1));
+      checkFooter(ident != null, FOOTER_LABEL, line);
+      effectiveAccountId = parseIdent(ident);
+    } else {
+      effectiveAccountId = committerId;
+    }
 
     LabelVote l;
     try {
-      l = LabelVote.parseWithEquals(parsedPatchSetApproval.labelVote());
+      l = LabelVote.parseWithEquals(labelNameScore.toString());
     } catch (IllegalArgumentException e) {
       ConfigInvalidException pe =
           parseException("invalid %s: %s", FOOTER_LABEL, parsedPatchSetApproval.footerLine());

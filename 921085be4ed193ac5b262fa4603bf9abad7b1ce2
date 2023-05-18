@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "529073b8_32e7c792",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2023-05-18T19:36:26Z",
+      "side": 1,
+      "message": "Hi @nasser.grainawi@linaro.org,\n\nPer your request to not encode the change id, I believe it is redundant.\n\nI will appreciate a quick review.\n\nThanks,",
+      "revId": "921085be4ed193ac5b262fa4603bf9abad7b1ce2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

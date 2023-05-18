@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac33bca6_5989f4e4",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/GetRelatedIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-18T16:21:52Z",
+      "side": 1,
+      "message": "c1_1",
+      "range": {
+        "startLine": 121,
+        "startChar": 34,
+        "endLine": 121,
+        "endChar": 50
+      },
+      "revId": "75330cabbcf557c1bfbf1edc46305987eb65c13f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

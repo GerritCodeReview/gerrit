@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "dc2752dd_554bed16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-18T14:28:32Z",
+      "side": 1,
+      "message": "Done in change 374394.",
+      "parentUuid": "1dcbe947_9e4a7a77",
+      "range": {
+        "startLine": 11,
+        "startChar": 19,
+        "endLine": 11,
+        "endChar": 86
+      },
+      "revId": "6b7e56efaf3c975c581d0aa3ce916ba0fe01ec12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "91bacf1d_d901185e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27a9dadf_4ca47e77",
+        "filename": "java/com/google/gerrit/server/change/ChangeTriplet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2023-05-18T19:34:23Z",
+      "side": 1,
+      "message": "notice that this helper encodes the string as well",
+      "revId": "ab47d0cae9efa6e6abc753dfa4e4b511e9c5f456",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

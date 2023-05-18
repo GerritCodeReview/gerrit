@@ -50,7 +50,7 @@ public abstract class ChangeTriplet {
 
     String project = Url.decode(triplet.substring(0, y));
     String branch = Url.decode(triplet.substring(y + 1, z));
-    String changeId = Url.decode(triplet.substring(z + 1));
+    String changeId = triplet.substring(z + 1);
     return Optional.of(
         new AutoValue_ChangeTriplet(
             BranchNameKey.create(Project.nameKey(project), branch), Change.key(changeId)));

@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8b17f04_0982dd99",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-18T16:02:07Z",
+      "side": 1,
+      "message": "Hmm, the docs have conflicting messages I think. I see in `rest-api-changes.txt` in the `[[change-id]]` section that it says the project name will be URL encoded. Then where we describe the `ChangeInfo` entity it says `\u0027project\u0027, \u0027branch\u0027 and \u0027Change-Id\u0027 are URL encoded`. Was there any documentation reference you found specific to format()?\n\nIt doesn\u0027t make sense to ever URL encode a Change-Id, so that seems like a bug that we\u0027re trying to decode it. branch names are fairly permissive, so it makes sense to encode/decode those.\n\nSo I\u0027m good with the intent of fixing project/branch name encoding in format(), but I think we first need to fix decoding id (and updating the doc) since we don\u0027t want to encode it in format().",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 22
+      },
+      "revId": "71e09b27a07de9d38e51d70a44bc88cafaac4c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e7e6c60d_38232ccc",
@@ -82,6 +105,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "179258f2_28419a04",
+        "filename": "java/com/google/gerrit/server/change/ChangeTriplet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-18T16:02:07Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "3cdfb03a_ff64972d",
+      "range": {
+        "startLine": 26,
+        "startChar": 23,
+        "endLine": 26,
+        "endChar": 29
+      },
+      "revId": "71e09b27a07de9d38e51d70a44bc88cafaac4c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dfbc54ef_3cda37ba",
@@ -125,6 +172,64 @@
         "endLine": 73,
         "endChar": 17
       },
+      "revId": "71e09b27a07de9d38e51d70a44bc88cafaac4c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d69badd_1210318c",
+        "filename": "java/com/google/gerrit/server/change/ChangeTriplet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-18T16:02:07Z",
+      "side": 1,
+      "message": "I just meant that since toString() is typically used for humans to read, perhaps it should print the unencoded string. If I\u0027m thinking about reading server logs and debugging an issue, it\u0027ll be easier to figure out which project to look at if the name is decoded, so I think you should change this.",
+      "parentUuid": "72264575_758b753a",
+      "range": {
+        "startLine": 73,
+        "startChar": 11,
+        "endLine": 73,
+        "endChar": 17
+      },
+      "revId": "71e09b27a07de9d38e51d70a44bc88cafaac4c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bd7f651_e6c322db",
+        "filename": "javatests/com/google/gerrit/server/change/ChangeTripletTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-18T16:02:07Z",
+      "side": 1,
+      "message": "Should you also test that t.project() is equal to the string on line 42?",
+      "revId": "71e09b27a07de9d38e51d70a44bc88cafaac4c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0329df5c_3d221e08",
+        "filename": "javatests/com/google/gerrit/server/change/ChangeTripletTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-18T16:02:07Z",
+      "side": 1,
+      "message": "You create a Project.nameKey() already on line 60, so you should probably be saving that and reusing it. Having the Project.NameKey also probably helps with the extra assertion I mentioned above.",
       "revId": "71e09b27a07de9d38e51d70a44bc88cafaac4c25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

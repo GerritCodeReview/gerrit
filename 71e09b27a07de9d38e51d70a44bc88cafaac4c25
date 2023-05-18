@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6a92c46c_929b2b00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2023-05-18T19:33:46Z",
+      "side": 1,
+      "message": "I do not understand why it is important if we encode/decode the Change-Id if it is not permissive, it adds consistency and will have no affect.\n\nChanged as requested in base patch.",
+      "parentUuid": "e8b17f04_0982dd99",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 22
+      },
+      "revId": "71e09b27a07de9d38e51d70a44bc88cafaac4c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e7e6c60d_38232ccc",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -200,6 +224,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da738e53_09067110",
+        "filename": "java/com/google/gerrit/server/change/ChangeTriplet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2023-05-18T19:33:46Z",
+      "side": 1,
+      "message": "I think that when you debug you get the key as was sent by application, so it is easier to debug with the enoded value.\n\nChanged as requested.",
+      "parentUuid": "6d69badd_1210318c",
+      "range": {
+        "startLine": 73,
+        "startChar": 11,
+        "endLine": 73,
+        "endChar": 17
+      },
+      "revId": "71e09b27a07de9d38e51d70a44bc88cafaac4c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2bd7f651_e6c322db",
@@ -217,6 +265,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a343fbd_f1f5edba",
+        "filename": "javatests/com/google/gerrit/server/change/ChangeTripletTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2023-05-18T19:33:46Z",
+      "side": 1,
+      "message": "removed, see next comment.",
+      "parentUuid": "2bd7f651_e6c322db",
+      "revId": "71e09b27a07de9d38e51d70a44bc88cafaac4c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0329df5c_3d221e08",
@@ -230,6 +296,24 @@
       "writtenOn": "2023-05-18T16:02:07Z",
       "side": 1,
       "message": "You create a Project.nameKey() already on line 60, so you should probably be saving that and reusing it. Having the Project.NameKey also probably helps with the extra assertion I mentioned above.",
+      "revId": "71e09b27a07de9d38e51d70a44bc88cafaac4c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c06008a_0c993e96",
+        "filename": "javatests/com/google/gerrit/server/change/ChangeTripletTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2023-05-18T19:33:46Z",
+      "side": 1,
+      "message": "I copied these helpers from different test, I thought it will provide consistency and clarity.\n\nprobably not required in this case, removed.",
+      "parentUuid": "0329df5c_3d221e08",
       "revId": "71e09b27a07de9d38e51d70a44bc88cafaac4c25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

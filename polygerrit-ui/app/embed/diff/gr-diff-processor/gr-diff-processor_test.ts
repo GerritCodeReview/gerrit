@@ -7,12 +7,7 @@ import '../../../test/common-test-setup';
 import './gr-diff-processor';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
-import {
-  GrDiffProcessor,
-  GroupConsumer,
-  ProcessingOptions,
-  State,
-} from './gr-diff-processor';
+import {GrDiffProcessor, ProcessingOptions, State} from './gr-diff-processor';
 import {DiffContent} from '../../../types/diff';
 import {assert} from '@open-wc/testing';
 import {FILE, GrDiffLineType} from '../../../api/diff';
@@ -31,14 +26,6 @@ suite('gr-diff-processor tests', () => {
     context: 4,
   };
   let groups: GrDiffGroup[];
-  const consumer: GroupConsumer = {
-    addGroup(group: GrDiffGroup) {
-      groups.push(group);
-    },
-    clearGroups() {
-      groups = [];
-    },
-  };
 
   setup(() => {});
 
@@ -46,7 +33,7 @@ suite('gr-diff-processor tests', () => {
     setup(() => {
       groups = [];
       options = {context: 4};
-      processor = new GrDiffProcessor(consumer, options);
+      processor = new GrDiffProcessor(options);
     });
 
     test('process loaded content', () => {
@@ -142,7 +129,7 @@ suite('gr-diff-processor tests', () => {
     suite('context groups', () => {
       test('at the beginning, larger than context', () => {
         options.context = 10;
-        processor = new GrDiffProcessor(consumer, options);
+        processor = new GrDiffProcessor(options);
         const content = [
           {
             ab: Array.from<string>({length: 100}).fill(
@@ -173,7 +160,7 @@ suite('gr-diff-processor tests', () => {
 
       test('at the beginning with skip chunks', async () => {
         options.context = 10;
-        processor = new GrDiffProcessor(consumer, options);
+        processor = new GrDiffProcessor(options);
         const content = [
           {
             ab: Array.from<string>({length: 20}).fill(
@@ -226,7 +213,7 @@ suite('gr-diff-processor tests', () => {
 
       test('at the beginning, smaller than context', () => {
         options.context = 10;
-        processor = new GrDiffProcessor(consumer, options);
+        processor = new GrDiffProcessor(options);
         const content = [
           {
             ab: Array.from<string>({length: 5}).fill(
@@ -251,7 +238,7 @@ suite('gr-diff-processor tests', () => {
 
       test('at the end, larger than context', () => {
         options.context = 10;
-        processor = new GrDiffProcessor(consumer, options);
+        processor = new GrDiffProcessor(options);
         const content = [
           {a: ['all work and no play make andybons a dull boy']},
           {
@@ -309,7 +296,7 @@ suite('gr-diff-processor tests', () => {
 
       test('for interleaved ab and common: true chunks', () => {
         options.context = 10;
-        processor = new GrDiffProcessor(consumer, options);
+        processor = new GrDiffProcessor(options);
         const content = [
           {a: ['all work and no play make andybons a dull boy']},
           {
@@ -425,7 +412,7 @@ suite('gr-diff-processor tests', () => {
 
       test('in the middle, larger than context', () => {
         options.context = 10;
-        processor = new GrDiffProcessor(consumer, options);
+        processor = new GrDiffProcessor(options);
         const content = [
           {a: ['all work and no play make andybons a dull boy']},
           {
@@ -465,7 +452,7 @@ suite('gr-diff-processor tests', () => {
 
       test('in the middle, smaller than context', () => {
         options.context = 10;
-        processor = new GrDiffProcessor(consumer, options);
+        processor = new GrDiffProcessor(options);
         const content = [
           {a: ['all work and no play make andybons a dull boy']},
           {
@@ -493,7 +480,7 @@ suite('gr-diff-processor tests', () => {
 
     test('in the middle with skip chunks', async () => {
       options.context = 10;
-      processor = new GrDiffProcessor(consumer, options);
+      processor = new GrDiffProcessor(options);
       const content = [
         {a: ['all work and no play make andybons a dull boy']},
         {
@@ -547,7 +534,7 @@ suite('gr-diff-processor tests', () => {
 
     test('works with skip === 0', async () => {
       options.context = 3;
-      processor = new GrDiffProcessor(consumer, options);
+      processor = new GrDiffProcessor(options);
       const content = [
         {
           skip: 0,
@@ -571,7 +558,7 @@ suite('gr-diff-processor tests', () => {
         left: {1: true},
         right: {10: true},
       };
-      processor = new GrDiffProcessor(consumer, options);
+      processor = new GrDiffProcessor(options);
 
       const content = [
         {
@@ -821,7 +808,7 @@ suite('gr-diff-processor tests', () => {
     test('image diffs', () => {
       const content = Array(200).fill({ab: ['', '']});
       options.isBinary = true;
-      processor = new GrDiffProcessor(consumer, options);
+      processor = new GrDiffProcessor(options);
       processor.process(content);
       assert.equal(groups.length, 2);
 

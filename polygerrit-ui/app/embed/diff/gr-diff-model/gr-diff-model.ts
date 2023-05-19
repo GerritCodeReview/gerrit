@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {Observable, combineLatest, from} from 'rxjs';
-import {switchMap, withLatestFrom} from 'rxjs/operators';
+import {debounceTime, filter, switchMap, withLatestFrom} from 'rxjs/operators';
 import {
   DiffInfo,
   DiffPreferencesInfo,
+  DiffViewMode,
   DisplayLine,
   RenderPreferences,
 } from '../../../api/diff';
@@ -20,6 +21,7 @@ import {
   KeyLocations,
   computeContext,
   computeKeyLocations,
+  computeLineLength,
 } from '../gr-diff/gr-diff-utils';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {
@@ -29,7 +31,7 @@ import {
 import {GrDiffGroup} from '../gr-diff/gr-diff-group';
 
 export interface DiffState {
-  diff: DiffInfo;
+  diff?: DiffInfo;
   path?: string;
   renderPrefs: RenderPreferences;
   diffPrefs: DiffPreferencesInfo;
@@ -45,8 +47,8 @@ export const diffModelToken = define<DiffModel>('diff-model');
 
 export class DiffModel extends Model<DiffState> {
   readonly diff$: Observable<DiffInfo> = select(
-    this.state$,
-    diffState => diffState.diff
+    this.state$.pipe(filter(state => state.diff !== undefined)),
+    diffState => diffState.diff!
   );
 
   readonly path$: Observable<string | undefined> = select(
@@ -57,6 +59,11 @@ export class DiffModel extends Model<DiffState> {
   readonly renderPrefs$: Observable<RenderPreferences> = select(
     this.state$,
     diffState => diffState.renderPrefs
+  );
+
+  readonly viewMode$: Observable<DiffViewMode> = select(
+    this.renderPrefs$,
+    renderPrefs => renderPrefs.view_mode ?? DiffViewMode.SIDE_BY_SIDE
   );
 
   readonly diffPrefs$: Observable<DiffPreferencesInfo> = select(
@@ -77,6 +84,15 @@ export class DiffModel extends Model<DiffState> {
     diffState => diffState.isImageDiff
   );
 
+  readonly groups$: Observable<GrDiffGroup[]> = select(
+    this.state$,
+    diffState => diffState.groups ?? []
+  );
+
+  readonly lineLength$: Observable<number> = select(this.state$, state =>
+    computeLineLength(state.diffPrefs, state.path)
+  );
+
   readonly keyLocations$: Observable<KeyLocations> = select(
     this.state$,
     diffState =>
@@ -85,7 +101,6 @@ export class DiffModel extends Model<DiffState> {
 
   constructor() {
     super({
-      diff: {content: [], change_type: 'MODIFIED', intraline_status: 'OK'},
       diffPrefs: createDefaultDiffPrefs(),
       renderPrefs: {},
       comments: [],
@@ -105,6 +120,7 @@ export class DiffModel extends Model<DiffState> {
     ])
       .pipe(
         withLatestFrom(this.keyLocations$),
+        debounceTime(1),
         switchMap(
           ([[diff, context, renderPrefs, isImageDiff], keyLocations]) => {
             const options: ProcessingOptions = {
@@ -112,10 +128,10 @@ export class DiffModel extends Model<DiffState> {
               keyLocations,
               isBinary: !!(isImageDiff || diff.binary),
             };
-            const processor = new GrDiffProcessor(undefined, options);
             if (renderPrefs?.num_lines_rendered_at_once) {
               options.asyncThreshold = renderPrefs.num_lines_rendered_at_once;
             }
+            const processor = new GrDiffProcessor(options);
             return from(processor.process(diff.content));
           }
         )
@@ -123,5 +139,13 @@ export class DiffModel extends Model<DiffState> {
       .subscribe(groups => {
         this.updateState({groups});
       });
+  }
+
+  replaceGroup(contextControl: GrDiffGroup, newGroups: readonly GrDiffGroup[]) {
+    const groups = [...this.getState().groups];
+    const i = groups.indexOf(contextControl);
+    if (i === -1) throw new Error('cannot find context control group');
+    groups.splice(i, 1, ...newGroups);
+    this.updateState({groups});
   }
 }

@@ -123,6 +123,7 @@ suite('gr-diff-selection', () => {
   test('asks for text for left side Elements', () => {
     const getSelectedTextStub = sinon.stub(element, 'getSelectedText');
     emulateCopyOn(diffTable.querySelector('div.contentText'));
+    assert.isTrue(getSelectedTextStub.called);
     assert.deepEqual([Side.LEFT], getSelectedTextStub.lastCall.args);
   });
 

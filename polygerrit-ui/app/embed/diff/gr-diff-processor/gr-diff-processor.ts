@@ -12,9 +12,9 @@ import {
 import {DiffContent} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
 import {debounce, DelayedTask} from '../../../utils/async-util';
-import {assert, assertIsDefined} from '../../../utils/common-util';
+import {assert} from '../../../utils/common-util';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
-import {FILE, GrDiffLineType, LOST, LineNumber} from '../../../api/diff';
+import {FILE, GrDiffLineType, LineNumber} from '../../../api/diff';
 
 const WHOLE_FILE = -1;
 
@@ -56,6 +56,14 @@ export interface GroupConsumer {
   clearGroups(): void;
 }
 
+/** Interface for listening to the output of the processor. */
+export interface ProcessingOptions {
+  context: number;
+  keyLocations?: KeyLocations;
+  asyncThreshold?: number;
+  isBinary?: boolean;
+}
+
 /**
  * Converts the API's `DiffContent`s  to `GrDiffGroup`s for rendering.
  *
@@ -82,13 +90,15 @@ export interface GroupConsumer {
  *    the rest is not.
  */
 export class GrDiffProcessor {
-  context = 3;
+  // visible for testing
+  context: number;
 
-  consumer?: GroupConsumer;
+  // visible for testing
+  keyLocations: KeyLocations;
 
-  keyLocations: KeyLocations = {left: {}, right: {}};
+  private asyncThreshold: number;
 
-  asyncThreshold = 64;
+  private isBinary: boolean;
 
   // visible for testing
   isScrolling?: boolean;
@@ -100,6 +110,17 @@ export class GrDiffProcessor {
   private isCancelled = false;
 
   private resetIsScrollingTask?: DelayedTask;
+
+  constructor(
+    private consumer: GroupConsumer | undefined,
+    options: ProcessingOptions
+  ) {
+    this.consumer = consumer;
+    this.context = options.context;
+    this.asyncThreshold = options.asyncThreshold ?? 64;
+    this.keyLocations = options.keyLocations ?? {left: {}, right: {}};
+    this.isBinary = options.isBinary ?? false;
+  }
 
   private readonly handleWindowScroll = () => {
     this.isScrolling = true;
@@ -117,18 +138,16 @@ export class GrDiffProcessor {
    * @return A promise that resolves with an
    * array of GrDiffGroups when the diff is completely processed.
    */
-  process(chunks: DiffContent[], isBinary: boolean) {
+  process(chunks: DiffContent[]) {
     assert(this.isStarted === false, 'diff processor cannot be started twice');
-    this.isStarted = true;
 
     window.addEventListener('scroll', this.handleWindowScroll);
 
-    assertIsDefined(this.consumer, 'consumer');
-    this.consumer.clearGroups();
-    this.consumer.addGroup(this.makeGroup(LOST));
-    this.consumer.addGroup(this.makeGroup(FILE));
+    this.consumer?.clearGroups();
+    this.consumer?.addGroup(this.makeGroup('LOST'));
+    this.consumer?.addGroup(this.makeGroup(FILE));
 
-    if (isBinary) return Promise.resolve();
+    if (this.isBinary) return Promise.resolve();
 
     return new Promise<void>(resolve => {
       const state = {

@@ -45,6 +45,7 @@ import {
 import {
   GrDiffProcessor,
   KeyLocations,
+  ProcessingOptions,
 } from '../gr-diff-processor/gr-diff-processor';
 import {fire, fireAlert} from '../../../utils/event-util';
 import {MovedLinkClickedEvent, ValueChangedEvent} from '../../../types/events';
@@ -1153,26 +1154,23 @@ export class GrDiff extends LitElement implements GrDiffApi {
     this.builder = this.getDiffBuilder();
     this.diffBuilderInit();
 
-    // TODO: Just pass along the diff model here instead of setting many
-    // individual properties.
-    this.processor = new GrDiffProcessor();
-    this.processor.consumer = this;
-    this.processor.context = this.getBypassPrefs().context;
-    this.processor.keyLocations = this.computeKeyLocations();
-    if (this.renderPrefs?.num_lines_rendered_at_once) {
-      this.processor.asyncThreshold =
-        this.renderPrefs.num_lines_rendered_at_once;
-    }
-
     this.diffTable.innerHTML = '';
     this.builder.addColumns(this.diffTable, getLineNumberCellWidth(this.prefs));
 
-    const isBinary = !!(this.isImageDiff || this.diff.binary);
+    const options: ProcessingOptions = {
+      context: this.getBypassPrefs().context,
+      keyLocations: this.computeKeyLocations(),
+      isBinary: !!(this.isImageDiff || this.diff.binary),
+    };
+    if (this.renderPrefs?.num_lines_rendered_at_once) {
+      options.asyncThreshold = this.renderPrefs.num_lines_rendered_at_once;
+    }
+    this.processor = new GrDiffProcessor(this, options);
 
     fire(this.diffTable, 'render-start', {});
     return (
       this.processor
-        .process(this.diff.content, isBinary)
+        .process(this.diff.content)
         .then(async () => {
           if (isImageDiffBuilder(this.builder)) {
             this.builder.renderImageDiff();

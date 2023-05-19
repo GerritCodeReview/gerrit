@@ -229,7 +229,7 @@ suite('gr-diff-cursor tests', () => {
   suite('unified diff', () => {
     setup(async () => {
       diffElement.viewMode = DiffViewMode.UNIFIED;
-      await waitForEventOnce(diffElement, 'render');
+      await diffElement.updateComplete;
       cursor.reInitCursor();
     });
 
@@ -457,9 +457,15 @@ suite('gr-diff-cursor tests', () => {
       .callsFake(() => {
         scrollBehaviorDuringMove = cursor.cursorManager.scrollMode;
       });
-    diffElement.diff = createDiff();
-    await diffElement.updateComplete;
-    await waitForEventOnce(diffElement, 'render');
+    cursor.dispose();
+    const diff = createDiff();
+    diff.content.push({ab: ['one more line']});
+    diffElement.diff = diff;
+    diffElement.prefs = createDefaultDiffPrefs();
+    await Promise.all([
+      diffElement.updateComplete,
+      waitForEventOnce(diffElement, 'render'),
+    ]);
     cursor.reInitCursor();
     assert.isFalse(moveToNumStub.called);
     assert.isTrue(moveToChunkStub.called);
@@ -478,9 +484,10 @@ suite('gr-diff-cursor tests', () => {
     cursor.initialLineNumber = 10;
     cursor.side = Side.RIGHT;
 
-    diffElement.diff = createDiff();
-    await diffElement.updateComplete;
-    await waitForEventOnce(diffElement, 'render');
+    cursor.dispose();
+    const diff = createDiff();
+    diff.content.push({ab: ['one more line']});
+    diffElement.diff = diff;
     cursor.reInitCursor();
     assert.isFalse(moveToChunkStub.called);
     assert.isTrue(moveToNumStub.called);

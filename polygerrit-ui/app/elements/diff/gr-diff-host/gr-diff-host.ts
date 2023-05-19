@@ -99,6 +99,7 @@ import {
 import {subscribe} from '../../lit/subscription-controller';
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {keyed} from 'lit/directives/keyed.js';
 
 const EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -337,6 +338,12 @@ export class GrDiffHost extends LitElement {
 
   private checksSubscription?: Subscription;
 
+  /**
+   * This key is used for the `keyed()` directive when rendering `gr-diff` and
+   * can thus be used to trigger re-construction of `gr-diff`.
+   */
+  private grDiffKey = 0;
+
   constructor() {
     super();
     this.syntaxLayer = new GrSyntaxLayerWorker(
@@ -493,30 +500,33 @@ export class GrDiffHost extends LitElement {
       KnownExperimentId.NEW_IMAGE_DIFF_UI
     );
 
-    return html` <gr-diff
-      id="diff"
-      ?hidden=${this.hidden}
-      .noAutoRender=${this.noAutoRender}
-      .path=${this.path}
-      .prefs=${this.prefs}
-      .isImageDiff=${this.isImageDiff}
-      .noRenderOnPrefsChange=${this.noRenderOnPrefsChange}
-      .renderPrefs=${this.renderPrefs}
-      .lineWrapping=${this.lineWrapping}
-      .viewMode=${this.viewMode}
-      .lineOfInterest=${this.lineOfInterest}
-      .loggedIn=${this.loggedIn}
-      .errorMessage=${this.errorMessage}
-      .baseImage=${this.baseImage}
-      .revisionImage=${this.revisionImage}
-      .coverageRanges=${this.coverageRanges}
-      .blame=${this.blame}
-      .layers=${this.layers}
-      .diff=${this.diff}
-      .showNewlineWarningLeft=${showNewlineWarningLeft}
-      .showNewlineWarningRight=${showNewlineWarningRight}
-      .useNewImageDiffUi=${useNewImageDiffUi}
-    ></gr-diff>`;
+    return keyed(
+      this.grDiffKey,
+      html`<gr-diff
+        id="diff"
+        ?hidden=${this.hidden}
+        .noAutoRender=${this.noAutoRender}
+        .path=${this.path}
+        .prefs=${this.prefs}
+        .isImageDiff=${this.isImageDiff}
+        .noRenderOnPrefsChange=${this.noRenderOnPrefsChange}
+        .renderPrefs=${this.renderPrefs}
+        .lineWrapping=${this.lineWrapping}
+        .viewMode=${this.viewMode}
+        .lineOfInterest=${this.lineOfInterest}
+        .loggedIn=${this.loggedIn}
+        .errorMessage=${this.errorMessage}
+        .baseImage=${this.baseImage}
+        .revisionImage=${this.revisionImage}
+        .coverageRanges=${this.coverageRanges}
+        .blame=${this.blame}
+        .layers=${this.layers}
+        .diff=${this.diff}
+        .showNewlineWarningLeft=${showNewlineWarningLeft}
+        .showNewlineWarningRight=${showNewlineWarningRight}
+        .useNewImageDiffUi=${useNewImageDiffUi}
+      ></gr-diff>`
+    );
   }
 
   async initLayers() {
@@ -566,6 +576,7 @@ export class GrDiffHost extends LitElement {
   async reloadInternal(shouldReportMetric?: boolean) {
     this.reporting.time(Timing.DIFF_TOTAL);
     this.reporting.time(Timing.DIFF_LOAD);
+    this.grDiffKey++;
     // TODO: Find better names for these 3 clear/cancel methods. Ideally the
     // <gr-diff-host> should not re-used at all for another diff rendering pass.
     this.clear();

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {html, LitElement} from 'lit';
-import {property, state} from 'lit/decorators.js';
+import {property, queryAll, state} from 'lit/decorators.js';
 import {
   DiffInfo,
   DiffLayer,
@@ -28,8 +28,14 @@ import './gr-diff-row';
 import {when} from 'lit/directives/when.js';
 import {fire} from '../../../utils/event-util';
 import {countLines} from '../../../utils/diff-util';
+import {resolve} from '../../../models/dependency';
+import {diffModelToken} from '../gr-diff-model/gr-diff-model';
+import {subscribe} from '../../../elements/lit/subscription-controller';
 
 export class GrDiffSection extends LitElement {
+  @queryAll('gr-diff-row')
+  diffRows?: NodeListOf<GrDiffRow>;
+
   @property({type: Object})
   group?: GrDiffGroup;
 
@@ -45,6 +51,9 @@ export class GrDiffSection extends LitElement {
   @property({type: Object})
   layers: DiffLayer[] = [];
 
+  @state()
+  lineLength = 100;
+
   /**
    * Semantic DOM diff testing does not work with just table fragments, so when
    * running such tests the render() method has to wrap the DOM in a proper
@@ -52,6 +61,24 @@ export class GrDiffSection extends LitElement {
    */
   @state()
   addTableWrapperForTesting = false;
+
+  @state() viewMode: DiffViewMode = DiffViewMode.SIDE_BY_SIDE;
+
+  private readonly getDiffModel = resolve(this, diffModelToken);
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getDiffModel().lineLength$,
+      lineLength => (this.lineLength = lineLength)
+    );
+    subscribe(
+      this,
+      () => this.getDiffModel().viewMode$,
+      viewMode => (this.viewMode = viewMode)
+    );
+  }
 
   /**
    * The browser API for handling selection does not (yet) work for selection
@@ -62,6 +89,13 @@ export class GrDiffSection extends LitElement {
    */
   override createRenderRoot() {
     return this;
+  }
+
+  protected override async getUpdateComplete(): Promise<boolean> {
+    const result = await super.getUpdateComplete();
+    const rows = [...(this.diffRows ?? [])];
+    await Promise.all(rows.map(row => row.updateComplete));
+    return result;
   }
 
   override render() {
@@ -84,11 +118,11 @@ export class GrDiffSection extends LitElement {
       <tbody class=${diffClasses(...extras)}>
         ${this.renderContextControls()} ${this.renderMoveControls()}
         ${pairs.map(pair => {
-          const leftCl = `left-${pair.left.lineNumber(Side.LEFT)}`;
-          const rightCl = `right-${pair.right.lineNumber(Side.RIGHT)}`;
+          const leftClass = `left-${pair.left.lineNumber(Side.LEFT)}`;
+          const rightClass = `right-${pair.right.lineNumber(Side.RIGHT)}`;
           return html`
             <gr-diff-row
-              class="${leftCl} ${rightCl}"
+              class="${leftClass} ${rightClass}"
               .left=${pair.left}
               .right=${pair.right}
               .layers=${this.layers}
@@ -112,7 +146,7 @@ export class GrDiffSection extends LitElement {
   }
 
   private isUnifiedDiff() {
-    return this.renderPrefs?.view_mode === DiffViewMode.UNIFIED;
+    return this.viewMode === DiffViewMode.UNIFIED;
   }
 
   getLinePairs() {

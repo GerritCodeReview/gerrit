@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4279527_dbb36acf",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-model/gr-diff-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-19T10:30:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "495de6bf_469fd191",
+      "revId": "9e549648223ab2c3e504734f363b6d9655d1aeae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "661b4c6a_fed1c871",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-05-19T09:55:08Z",
       "side": 1,
       "message": "Consider moving this closer to the function that uses it. I find it inconvenient to have types defined after functions that use them.",
+      "revId": "9e549648223ab2c3e504734f363b6d9655d1aeae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5af4ff4b_a442f27f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-19T10:30:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "661b4c6a_fed1c871",
       "revId": "9e549648223ab2c3e504734f363b6d9655d1aeae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7b7c42f_83e2b9a8",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-19T10:30:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8ad7716_1f341d53",
+      "revId": "9e549648223ab2c3e504734f363b6d9655d1aeae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9da395d4_06ea2edf",
@@ -65,6 +119,24 @@
       "writtenOn": "2023-05-19T09:55:08Z",
       "side": 1,
       "message": "I\u0027m worried about re-entrancy here.\n\nthis.diffModel.updateState based on changes to diff properties. When you subscribe to the model in the future, then you suddenly risk that you have a potential infinite loop between subscribe and willUpdate",
+      "revId": "9e549648223ab2c3e504734f363b6d9655d1aeae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58cda48c_e5a40c7a",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-19T10:30:41Z",
+      "side": 1,
+      "message": "Diff model is an internal model that is not visible outside of gr-diff. So the pattern we are going to see is:\n\n* gr-diff properties: They are visible from the outside. They are the API of gr-diff. gr-diff will listen to updates to them (in willUpdate()) and just propagate them to the diff model. gr-diff should try to not use the properties directly, but instead just use states.\n\n* gr-diff states: They just reflect the diff model. They should not appear in willUpdate clauses.\n\nI am not sure how to best enforce this pattern. I guess ideally we would introduce another component, so gr-diff would *only* feed into the model and then its `render()` would just render this other component, which would *only* read from the model. How does that sound? Any other suggestions?",
+      "parentUuid": "9da395d4_06ea2edf",
       "revId": "9e549648223ab2c3e504734f363b6d9655d1aeae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

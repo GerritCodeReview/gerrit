@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {Observable, combineLatest, from} from 'rxjs';
-import {switchMap, withLatestFrom} from 'rxjs/operators';
+import {debounceTime, filter, switchMap, withLatestFrom} from 'rxjs/operators';
 import {
   DiffInfo,
   DiffPreferencesInfo,
+  DiffViewMode,
   DisplayLine,
   RenderPreferences,
 } from '../../../api/diff';
@@ -20,6 +21,7 @@ import {
   KeyLocations,
   computeContext,
   computeKeyLocations,
+  computeLineLength,
 } from '../gr-diff/gr-diff-utils';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {
@@ -45,7 +47,7 @@ export const diffModelToken = define<DiffModel>('diff-model');
 
 export class DiffModel extends Model<DiffState> {
   readonly diff$: Observable<DiffInfo> = select(
-    this.state$,
+    this.state$.pipe(filter(state => state.diff !== undefined)),
     diffState => diffState.diff
   );
 
@@ -57,6 +59,11 @@ export class DiffModel extends Model<DiffState> {
   readonly renderPrefs$: Observable<RenderPreferences> = select(
     this.state$,
     diffState => diffState.renderPrefs
+  );
+
+  readonly viewMode$: Observable<DiffViewMode> = select(
+    this.renderPrefs$,
+    renderPrefs => renderPrefs.view_mode ?? DiffViewMode.SIDE_BY_SIDE
   );
 
   readonly diffPrefs$: Observable<DiffPreferencesInfo> = select(
@@ -75,6 +82,15 @@ export class DiffModel extends Model<DiffState> {
   readonly isImageDiff$: Observable<boolean> = select(
     this.state$,
     diffState => diffState.isImageDiff
+  );
+
+  readonly groups$: Observable<GrDiffGroup[]> = select(
+    this.state$,
+    diffState => diffState.groups ?? []
+  );
+
+  readonly lineLength$: Observable<number> = select(this.state$, state =>
+    computeLineLength(state.diffPrefs, state.path)
   );
 
   readonly keyLocations$: Observable<KeyLocations> = select(
@@ -105,6 +121,7 @@ export class DiffModel extends Model<DiffState> {
     ])
       .pipe(
         withLatestFrom(this.keyLocations$),
+        debounceTime(1),
         switchMap(
           ([[diff, context, renderPrefs, isImageDiff], keyLocations]) => {
             const options: ProcessingOptions = {
@@ -123,5 +140,13 @@ export class DiffModel extends Model<DiffState> {
       .subscribe(groups => {
         this.updateState({groups});
       });
+  }
+
+  replaceGroup(contextControl: GrDiffGroup, newGroups: readonly GrDiffGroup[]) {
+    const groups = [...this.getState().groups];
+    const i = groups.indexOf(contextControl);
+    if (i === -1) throw new Error('cannot find context control group');
+    groups.splice(i, 1, ...newGroups);
+    this.updateState({groups});
   }
 }

@@ -21,6 +21,7 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
 import {getBaseUrl} from '../../../utils/url-util';
 import './gr-diff-text';
+import '../../../elements/shared/gr-hovercard/gr-hovercard';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {diffClasses, isNewDiff, isResponsive} from '../gr-diff/gr-diff-utils';
 

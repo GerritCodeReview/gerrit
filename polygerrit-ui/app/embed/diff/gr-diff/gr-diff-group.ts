@@ -6,9 +6,7 @@
 import {BLANK_LINE, GrDiffLine} from './gr-diff-line';
 import {GrDiffLineType, LineNumber, LineRange, Side} from '../../../api/diff';
 import {assertIsDefined, assert} from '../../../utils/common-util';
-import {untilRendered} from '../../../utils/dom-util';
 import {isDefined} from '../../../types/types';
-import {LitElement} from 'lit';
 
 export enum GrDiffGroupType {
   /** Unchanged context. */
@@ -318,11 +316,6 @@ export class GrDiffGroup {
    */
   readonly keyLocation: boolean = false;
 
-  /**
-   * Once rendered the diff builder sets this to the diff section element.
-   */
-  element?: HTMLElement;
-
   readonly lines: GrDiffLine[] = [];
 
   readonly adds: GrDiffLine[] = [];
@@ -490,22 +483,6 @@ export class GrDiffGroup {
     }
   }
 
-  async waitUntilRendered() {
-    const lineNumber = this.lines[0]?.beforeNumber;
-    // The LOST or FILE lines may be hidden and thus never resolve an
-    // untilRendered() promise.
-    if (
-      this.skip !== undefined ||
-      typeof lineNumber !== 'number' ||
-      this.type === GrDiffGroupType.CONTEXT_CONTROL
-    ) {
-      return Promise.resolve();
-    }
-    assertIsDefined(this.element);
-    await (this.element as LitElement).updateComplete;
-    await untilRendered(this.element.firstElementChild as HTMLElement);
-  }
-
   /**
    * Determines whether the group is either totally an addition or totally
    * a removal.
@@ -516,5 +493,11 @@ export class GrDiffGroup {
       (!this.adds.length || !this.removes.length) &&
       !(!this.adds.length && !this.removes.length)
     );
+  }
+
+  id() {
+    return `${this.type} ${this.startLine(Side.LEFT)}  ${this.startLine(
+      Side.RIGHT
+    )}`;
   }
 }

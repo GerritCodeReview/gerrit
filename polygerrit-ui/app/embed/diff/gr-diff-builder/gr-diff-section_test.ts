@@ -73,10 +73,7 @@ suite('gr-diff-section test', () => {
     });
 
     test('unified', async () => {
-      element.renderPrefs = {
-        ...element.renderPrefs,
-        view_mode: DiffViewMode.UNIFIED,
-      };
+      element.viewMode = DiffViewMode.UNIFIED;
       const row = await waitQueryAndAssert(element, 'tr.moveControls');
       // Semantic dom diff has a problem with just comparing table rows or
       // cells directly. So as a workaround put the row into an empty test

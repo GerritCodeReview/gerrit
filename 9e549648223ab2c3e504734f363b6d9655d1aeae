@@ -139,6 +139,24 @@
       "parentUuid": "9da395d4_06ea2edf",
       "revId": "9e549648223ab2c3e504734f363b6d9655d1aeae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20054304_bec7b9a5",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-19T10:34:18Z",
+      "side": 1,
+      "message": "I don\u0027t have a good suggestion.\n\nWhat you propose seems reasonable.\nI guess this would be a gr-diff-host that\u0027s not a gr-diff-host 😄",
+      "parentUuid": "58cda48c_e5a40c7a",
+      "revId": "9e549648223ab2c3e504734f363b6d9655d1aeae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

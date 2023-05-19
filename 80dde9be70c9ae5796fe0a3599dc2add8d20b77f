@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b45fd562_af191c18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-19T10:42:34Z",
+      "side": 1,
+      "message": "I\u0027m not sure what you mean by this.\n\nDoes this mean we are doing GrDiffProcessor twice?",
+      "revId": "80dde9be70c9ae5796fe0a3599dc2add8d20b77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3aa56c90_5471140b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-processor/gr-diff-processor.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-19T10:42:34Z",
+      "side": 1,
+      "message": "Consider moving the logic inside of this into a method.\n\nThen you could write this method as:\n\n```\n async process(chunks: DiffContent[]): Promise\u003cGrDiffGroup[]\u003e {\n    assert(this.isStarted \u003d\u003d\u003d false, \u0027diff processor cannot be started twice\u0027);\n\n    window.addEventListener(\u0027scroll\u0027, this.handleWindowScroll);\n\n    this.consumer?.clearGroups();\n    const groups \u003d [this.makeGroup(\u0027LOST\u0027), this.makeGroup(FILE)];\n    this.consumer?.addGroup(groups[0]);\n    this.consumer?.addGroup(groups[1]);\n\n    if (this.isBinary) return groups;\n    try {\n      await this.newMethodName();\n    } finally {\n      this.finish();\n    }\n    return groups;\n}\n```",
+      "revId": "80dde9be70c9ae5796fe0a3599dc2add8d20b77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47c83a7b_c3c6a79e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-processor/gr-diff-processor.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-19T10:42:34Z",
+      "side": 1,
+      "message": "indentation is off.",
+      "revId": "80dde9be70c9ae5796fe0a3599dc2add8d20b77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f75cd88_56b00168",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-19T10:42:34Z",
+      "side": 1,
+      "message": "This needs a comment.",
+      "revId": "80dde9be70c9ae5796fe0a3599dc2add8d20b77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98c52bff_dd94896e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-19T10:42:34Z",
+      "side": 1,
+      "message": "```suggestion\n  if (showFullContext \u003d\u003d\u003d FullContext.YES) {\n    return FULL_CONTEXT;\n  }\n  if (prefsContext \u0026\u0026\n     !(showFullContext \u003d\u003d\u003d FullContext.NO \u0026\u0026\n       prefsContext \u003d\u003d\u003d FULL_CONTEXT)\n  ) {\n    return prefsContext;\n  } \n  return defaultContext;\n```",
+      "range": {
+        "startLine": 210,
+        "startChar": 0,
+        "endLine": 221,
+        "endChar": 3
+      },
+      "revId": "80dde9be70c9ae5796fe0a3599dc2add8d20b77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

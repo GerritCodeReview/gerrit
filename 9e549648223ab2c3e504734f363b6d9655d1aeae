@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "495de6bf_469fd191",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-model/gr-diff-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-19T09:55:08Z",
+      "side": 1,
+      "message": "Do you plan to use these selectors beyond the computation of keyLocations?\n\nIf not, rather than doing `combineLatest` (and having to deal with weird intermediate state) have `keylocations$` `select` directly on `this.state$`\n\nIn general it\u0027s better to limit the API surface of something unless it\u0027s necessary.",
+      "revId": "9e549648223ab2c3e504734f363b6d9655d1aeae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "661b4c6a_fed1c871",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-19T09:55:08Z",
+      "side": 1,
+      "message": "Consider moving this closer to the function that uses it. I find it inconvenient to have types defined after functions that use them.",
+      "revId": "9e549648223ab2c3e504734f363b6d9655d1aeae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8ad7716_1f341d53",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-19T09:55:08Z",
+      "side": 1,
+      "message": "Test for rootId not being undefined?",
+      "revId": "9e549648223ab2c3e504734f363b6d9655d1aeae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9da395d4_06ea2edf",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-19T09:55:08Z",
+      "side": 1,
+      "message": "I\u0027m worried about re-entrancy here.\n\nthis.diffModel.updateState based on changes to diff properties. When you subscribe to the model in the future, then you suddenly risk that you have a potential infinite loop between subscribe and willUpdate",
+      "revId": "9e549648223ab2c3e504734f363b6d9655d1aeae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

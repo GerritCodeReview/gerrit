@@ -16,6 +16,24 @@
       "message": "`Build completed successfully`.",
       "revId": "a7b7ae1c79af1307a57d9da26cff969840ae7f06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54030bbb_07b6ec97",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-19T11:47:25Z",
+      "side": 1,
+      "message": "👍",
+      "parentUuid": "ab2f3f27_f9ff32dd",
+      "revId": "a7b7ae1c79af1307a57d9da26cff969840ae7f06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

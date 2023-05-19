@@ -16,6 +16,24 @@
       "message": "@sasa.zivkov@sap.com it looks like you added the merging behavior based on a comment thread with Shawn in the initial version of the reviewnotes functionality: https://gerrit-review.googlesource.com/c/gerrit/+/20045/5..10/gerrit-server/src/main/java/com/google/gerrit/server/git/CreateCodeReviewNotes.java#177\n\nDo you have concerns with the new proposed behavior?",
       "revId": "e36385c3e81e3568ba418511bc9e8cab2710b8ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b398265d_d496a718",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-19T07:37:54Z",
+      "side": 1,
+      "message": "That saw in 2010, so I don\u0027t remember all the details :-)",
+      "parentUuid": "17e64267_f2703e5d",
+      "revId": "e36385c3e81e3568ba418511bc9e8cab2710b8ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

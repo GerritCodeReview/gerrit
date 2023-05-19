@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6217523_9683916e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-19T07:37:54Z",
+      "side": 1,
+      "message": "Can you provide an example which shows the problem that this change is trying to fix?",
+      "revId": "fa9522c97355f7e6fe2d3943001c1e627a53a842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

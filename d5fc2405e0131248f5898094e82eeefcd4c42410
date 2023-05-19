@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "314191ab_7540268e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-processor/gr-diff-processor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-19T11:23:15Z",
+      "side": 1,
+      "message": "This suggests a new API (not for this CL):\n\nthis.consumer?.addGroups()",
+      "revId": "d5fc2405e0131248f5898094e82eeefcd4c42410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

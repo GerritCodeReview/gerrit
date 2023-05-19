@@ -170,6 +170,7 @@ import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.zip.GZIPOutputStream;
 import javax.servlet.ServletException;
@@ -470,7 +471,7 @@ public class RestApiServlet extends HttpServlet {
         }
 
         if (isCacheableWithETag(req, rsrc, viewData.view)) {
-          etag = getETag(rsrc, viewData.view);
+          etag = getETag(req, rsrc, viewData.view);
         }
         if (etag.isPresent() && notModified(req, rsrc, etag.get())) {
           logger.atFinest().log("REST call succeeded: %d", SC_NOT_MODIFIED);
@@ -546,13 +547,17 @@ public class RestApiServlet extends HttpServlet {
           status = r.statusCode();
           Optional<String> currentEtag = etag;
           RestResource currentRsrc = rsrc;
+          HttpServletRequest currentReq = req;
           RestView<RestResource> currentView = viewData.view;
           configureCaching(
               req,
               res,
               rsrc,
               r.caching(),
-              () -> currentEtag.isPresent() ? currentEtag : getETag(currentRsrc, currentView));
+              () ->
+                  currentEtag.isPresent()
+                      ? currentEtag
+                      : getETag(currentReq, currentRsrc, currentView));
         } else if (result instanceof Response.Redirect) {
           CacheHeaders.setNotCacheable(res);
           String location = ((Response.Redirect) result).location();
@@ -788,19 +793,40 @@ public class RestApiServlet extends HttpServlet {
   }
 
   @SuppressWarnings({"unchecked", "rawtypes"})
-  private Optional<String> getETag(RestResource rsrc, RestView<RestResource> view) {
+  private Optional<String> getETag(
+      HttpServletRequest req, RestResource rsrc, RestView<RestResource> view) {
     if (view instanceof ETagView) {
+      logger.atWarning().log(
+          "TYPE:VIEW|METHOD:%s|URI:%s|PATH:%s|QUERY:%s|HEADERS:%s",
+          req.getMethod(),
+          req.getRequestURI(),
+          req.getPathInfo(),
+          req.getQueryString(),
+          headersAsString(req));
       try (Timer0.Context ignore = globals.getEtagViewLatency.start()) {
         return Optional.ofNullable(((ETagView) view).getETag(rsrc));
       }
     }
 
     if (rsrc instanceof RestResource.HasETag) {
+      logger.atWarning().log(
+          "TYPE:RESOURCE|METHOD:%s|URI:%s|PATH:%s|QUERY:%s|HEADERS:%s",
+          req.getMethod(),
+          req.getRequestURI(),
+          req.getPathInfo(),
+          req.getQueryString(),
+          headersAsString(req));
       try (Timer0.Context ignore = globals.getEtagResourceLatency.start()) {
         return Optional.ofNullable(((RestResource.HasETag) rsrc).getETag());
       }
     }
     return Optional.empty();
+  }
+
+  private static String headersAsString(HttpServletRequest req) {
+    return Collections.list(req.getHeaderNames()).stream()
+        .map(h -> String.join("|", Collections.list(req.getHeaders(h))))
+        .collect(Collectors.joining(", "));
   }
 
   static boolean isCacheableWithETag(

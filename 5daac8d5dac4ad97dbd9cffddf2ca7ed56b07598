@@ -43,6 +43,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8ed396fa_f74700f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-05-19T09:27:41Z",
+      "side": 1,
+      "message": "Looking into it. Thanks for the heads up.",
+      "parentUuid": "359490dd_3d55f1f1",
+      "revId": "5daac8d5dac4ad97dbd9cffddf2ca7ed56b07598",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "1e296b9d_e9342026",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
         "patchSetId": 1
@@ -54,6 +72,29 @@
       "writtenOn": "2023-05-19T09:20:00Z",
       "side": 1,
       "message": "Good abstraction 😊",
+      "revId": "5daac8d5dac4ad97dbd9cffddf2ca7ed56b07598",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bcdfc92_00060541",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-05-19T09:27:41Z",
+      "side": 1,
+      "message": "is flagged by error prone with the following message\n```\n[StringSplitter] String.split(String) has surprising behavior\n    String[] idents \u003d line.split(\",\");\n                                ^\n    (see https://errorprone.info/bugpattern/StringSplitter)\n```",
+      "range": {
+        "startLine": 523,
+        "startChar": 22,
+        "endLine": 523,
+        "endChar": 38
+      },
       "revId": "5daac8d5dac4ad97dbd9cffddf2ca7ed56b07598",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "07f9c8bf_aff10d76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-05-19T11:34:51Z",
+      "side": 1,
+      "message": "The interface is called `Cacheability` (but `Cacheable` is also a good shout).",
+      "range": {
+        "startLine": 26,
+        "startChar": 19,
+        "endLine": 26,
+        "endChar": 28
+      },
+      "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e890a2ce_680dfea5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 13
@@ -82,6 +105,46 @@
         "startChar": 18,
         "endLine": 26,
         "endChar": 29
+      },
+      "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27786402_0dc6cec0",
+        "filename": "java/com/google/gerrit/extensions/restapi/Cacheability.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-05-19T11:34:51Z",
+      "side": 1,
+      "message": "Isn\u0027t a class that implements this interface cacheable by default? I don\u0027t see a use case where we\u0027d extend this class just to say it\u0027s never cacheable. If that assumption is correct, then maybe this method should be called `isCached`, not `isCacheable` (and maybe the class should be called `Cacheable`, as mentioned in the commit message).",
+      "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17db0e39_d214f471",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-05-19T11:34:51Z",
+      "side": 1,
+      "message": "We should have consistent casing for ETag - `isCacheableWithEtag` doesn\u0027t match `getETag` (also elsewhere).",
+      "range": {
+        "startLine": 472,
+        "startChar": 12,
+        "endLine": 472,
+        "endChar": 31
       },
       "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
@@ -151,6 +214,29 @@
         "startChar": 0,
         "endLine": 836,
         "endChar": 3
+      },
+      "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85185903_e815a166",
+        "filename": "java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-05-19T11:34:51Z",
+      "side": 1,
+      "message": "Does `HasETag` imply cacheability? Or to put it another way, would it ever make sense to implement `HasETag` without `Cacheability`? If not we may want to review the class hierarchy.",
+      "range": {
+        "startLine": 57,
+        "startChar": 53,
+        "endLine": 57,
+        "endChar": 60
       },
       "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

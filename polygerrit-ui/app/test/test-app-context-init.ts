@@ -18,6 +18,10 @@ import {navigationToken} from '../elements/core/gr-navigation/gr-navigation';
 import {DependencyToken} from '../models/dependency';
 import {storageServiceToken} from '../services/storage/gr-storage_impl';
 import {highlightServiceToken} from '../services/highlight/highlight-service';
+import {
+  diffModelToken,
+  DiffModel,
+} from '../embed/diff/gr-diff-model/gr-diff-model';
 
 export function createTestAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {
@@ -49,5 +53,6 @@ export function createTestDependencies(
     highlightServiceToken,
     () => new MockHighlightService(appContext.reportingService)
   );
+  dependencies.set(diffModelToken, () => new DiffModel());
   return dependencies;
 }

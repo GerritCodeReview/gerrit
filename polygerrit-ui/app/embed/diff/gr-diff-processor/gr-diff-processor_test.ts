@@ -7,12 +7,7 @@ import '../../../test/common-test-setup';
 import './gr-diff-processor';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
-import {
-  GrDiffProcessor,
-  GroupConsumer,
-  ProcessingOptions,
-  State,
-} from './gr-diff-processor';
+import {GrDiffProcessor, ProcessingOptions, State} from './gr-diff-processor';
 import {DiffContent} from '../../../types/diff';
 import {assert} from '@open-wc/testing';
 import {FILE, GrDiffLineType} from '../../../api/diff';
@@ -30,23 +25,13 @@ suite('gr-diff-processor tests', () => {
   let options: ProcessingOptions = {
     context: 4,
   };
-  let groups: GrDiffGroup[];
-  const consumer: GroupConsumer = {
-    addGroup(group: GrDiffGroup) {
-      groups.push(group);
-    },
-    clearGroups() {
-      groups = [];
-    },
-  };
 
   setup(() => {});
 
   suite('not logged in', () => {
     setup(() => {
-      groups = [];
       options = {context: 4};
-      processor = new GrDiffProcessor(consumer, options);
+      processor = new GrDiffProcessor(options);
     });
 
     test('process loaded content', () => {
@@ -67,7 +52,7 @@ suite('gr-diff-processor tests', () => {
         },
       ];
 
-      return processor.process(content).then(() => {
+      return processor.process(content).then(groups => {
         groups.shift(); // remove portedThreadsWithoutRangeGroup
         assert.equal(groups.length, 4);
 
@@ -128,7 +113,7 @@ suite('gr-diff-processor tests', () => {
     test('first group is for file', () => {
       const content = [{b: ['foo']}];
 
-      return processor.process(content).then(() => {
+      return processor.process(content).then(groups => {
         groups.shift(); // remove portedThreadsWithoutRangeGroup
 
         assert.equal(groups[0].type, GrDiffGroupType.BOTH);
@@ -142,7 +127,7 @@ suite('gr-diff-processor tests', () => {
     suite('context groups', () => {
       test('at the beginning, larger than context', () => {
         options.context = 10;
-        processor = new GrDiffProcessor(consumer, options);
+        processor = new GrDiffProcessor(options);
         const content = [
           {
             ab: Array.from<string>({length: 100}).fill(
@@ -152,7 +137,7 @@ suite('gr-diff-processor tests', () => {
           {a: ['all work and no play make andybons a dull boy']},
         ];
 
-        return processor.process(content).then(() => {
+        return processor.process(content).then(groups => {
           // group[0] is the LOST group
           // group[1] is the FILE group
 
@@ -173,7 +158,7 @@ suite('gr-diff-processor tests', () => {
 
       test('at the beginning with skip chunks', async () => {
         options.context = 10;
-        processor = new GrDiffProcessor(consumer, options);
+        processor = new GrDiffProcessor(options);
         const content = [
           {
             ab: Array.from<string>({length: 20}).fill(
@@ -185,8 +170,7 @@ suite('gr-diff-processor tests', () => {
           {a: ['some other content']},
         ];
 
-        await processor.process(content);
-
+        const groups = await processor.process(content);
         groups.shift(); // remove portedThreadsWithoutRangeGroup
 
         // group[0] is the file group
@@ -226,7 +210,7 @@ suite('gr-diff-processor tests', () => {
 
       test('at the beginning, smaller than context', () => {
         options.context = 10;
-        processor = new GrDiffProcessor(consumer, options);
+        processor = new GrDiffProcessor(options);
         const content = [
           {
             ab: Array.from<string>({length: 5}).fill(
@@ -236,7 +220,7 @@ suite('gr-diff-processor tests', () => {
           {a: ['all work and no play make andybons a dull boy']},
         ];
 
-        return processor.process(content).then(() => {
+        return processor.process(content).then(groups => {
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -251,7 +235,7 @@ suite('gr-diff-processor tests', () => {
 
       test('at the end, larger than context', () => {
         options.context = 10;
-        processor = new GrDiffProcessor(consumer, options);
+        processor = new GrDiffProcessor(options);
         const content = [
           {a: ['all work and no play make andybons a dull boy']},
           {
@@ -261,7 +245,7 @@ suite('gr-diff-processor tests', () => {
           },
         ];
 
-        return processor.process(content).then(() => {
+        return processor.process(content).then(groups => {
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -293,7 +277,7 @@ suite('gr-diff-processor tests', () => {
           },
         ];
 
-        return processor.process(content).then(() => {
+        return processor.process(content).then(groups => {
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -309,7 +293,7 @@ suite('gr-diff-processor tests', () => {
 
       test('for interleaved ab and common: true chunks', () => {
         options.context = 10;
-        processor = new GrDiffProcessor(consumer, options);
+        processor = new GrDiffProcessor(options);
         const content = [
           {a: ['all work and no play make andybons a dull boy']},
           {
@@ -347,7 +331,7 @@ suite('gr-diff-processor tests', () => {
           },
         ];
 
-        return processor.process(content).then(() => {
+        return processor.process(content).then(groups => {
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -425,7 +409,7 @@ suite('gr-diff-processor tests', () => {
 
       test('in the middle, larger than context', () => {
         options.context = 10;
-        processor = new GrDiffProcessor(consumer, options);
+        processor = new GrDiffProcessor(options);
         const content = [
           {a: ['all work and no play make andybons a dull boy']},
           {
@@ -436,7 +420,7 @@ suite('gr-diff-processor tests', () => {
           {a: ['all work and no play make andybons a dull boy']},
         ];
 
-        return processor.process(content).then(() => {
+        return processor.process(content).then(groups => {
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -465,7 +449,7 @@ suite('gr-diff-processor tests', () => {
 
       test('in the middle, smaller than context', () => {
         options.context = 10;
-        processor = new GrDiffProcessor(consumer, options);
+        processor = new GrDiffProcessor(options);
         const content = [
           {a: ['all work and no play make andybons a dull boy']},
           {
@@ -476,7 +460,7 @@ suite('gr-diff-processor tests', () => {
           {a: ['all work and no play make andybons a dull boy']},
         ];
 
-        return processor.process(content).then(() => {
+        return processor.process(content).then(groups => {
           groups.shift(); // remove portedThreadsWithoutRangeGroup
 
           // group[0] is the file group
@@ -493,7 +477,7 @@ suite('gr-diff-processor tests', () => {
 
     test('in the middle with skip chunks', async () => {
       options.context = 10;
-      processor = new GrDiffProcessor(consumer, options);
+      processor = new GrDiffProcessor(options);
       const content = [
         {a: ['all work and no play make andybons a dull boy']},
         {
@@ -510,8 +494,7 @@ suite('gr-diff-processor tests', () => {
         {a: ['all work and no play make andybons a dull boy']},
       ];
 
-      await processor.process(content);
-
+      const groups = await processor.process(content);
       groups.shift(); // remove portedThreadsWithoutRangeGroup
 
       // group[0] is the file group
@@ -547,7 +530,7 @@ suite('gr-diff-processor tests', () => {
 
     test('works with skip === 0', async () => {
       options.context = 3;
-      processor = new GrDiffProcessor(consumer, options);
+      processor = new GrDiffProcessor(options);
       const content = [
         {
           skip: 0,
@@ -571,7 +554,7 @@ suite('gr-diff-processor tests', () => {
         left: {1: true},
         right: {10: true},
       };
-      processor = new GrDiffProcessor(consumer, options);
+      processor = new GrDiffProcessor(options);
 
       const content = [
         {
@@ -802,27 +785,20 @@ suite('gr-diff-processor tests', () => {
       ]);
     });
 
-    test('isScrolling paused', () => {
+    test('isScrolling paused', async () => {
       const content = Array(200).fill({ab: ['', '']});
       processor.isScrolling = true;
-      processor.process(content);
-      // Just the FILE and LOST groups.
-      assert.equal(groups.length, 2);
-    });
-
-    test('isScrolling unpaused', () => {
-      const content = Array(200).fill({ab: ['', '']});
+      const promise = processor.process(content);
       processor.isScrolling = false;
-      processor.process(content);
-      // More groups have been processed. How many does not matter here.
+      const groups = await promise;
       assert.isAtLeast(groups.length, 3);
     });
 
-    test('image diffs', () => {
+    test('image diffs', async () => {
       const content = Array(200).fill({ab: ['', '']});
       options.isBinary = true;
-      processor = new GrDiffProcessor(consumer, options);
-      processor.process(content);
+      processor = new GrDiffProcessor(options);
+      const groups = await processor.process(content);
       assert.equal(groups.length, 2);
 
       // Image diffs don't process content, just the 'FILE' line.

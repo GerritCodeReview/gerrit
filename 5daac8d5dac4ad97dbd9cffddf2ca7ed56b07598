@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "359490dd_3d55f1f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-19T05:48:43Z",
+      "side": 1,
+      "message": "Thanks for backporting the fix forward. Should  I would then rather revert the original fix in merge commit from stable-3.5 to stable-3.6 branch. \n\nThere are still some error prone violations.",
+      "revId": "5daac8d5dac4ad97dbd9cffddf2ca7ed56b07598",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

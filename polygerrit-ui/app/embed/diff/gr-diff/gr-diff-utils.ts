@@ -188,6 +188,45 @@ export interface KeyLocations {
   right: {[key: string]: boolean};
 }
 
+/**
+ * "Context" is the number of lines that we are showing around diff chunks and
+ * commented lines. This typically comes from a user preference and is set to
+ * something like 3 or 10.
+ *
+ * `FULL_CONTEXT` means that the user wants to see the entire file. We could
+ * also call this "infinite context".
+ */
+export const FULL_CONTEXT = -1;
+
+export enum FullContext {
+  /** User has opted into showing the full context. */
+  YES = 'YES',
+  /** User has opted into showing only limited context. */
+  NO = 'NO',
+  /**
+   * User has not decided yet. Will see a warning message with two options then,
+   * if the file is too large.
+   */
+  UNDECIDED = 'UNDECIDED',
+}
+
+export function computeContext(
+  prefsContext: number | undefined,
+  showFullContext: FullContext,
+  defaultContext: number
+) {
+  if (showFullContext === FullContext.YES) {
+    return FULL_CONTEXT;
+  }
+  if (
+    prefsContext &&
+    !(showFullContext === FullContext.NO && prefsContext === FULL_CONTEXT)
+  ) {
+    return prefsContext;
+  }
+  return defaultContext;
+}
+
 export function computeKeyLocations(
   lineOfInterest: DisplayLine | undefined,
   comments: GrDiffCommentThread[]

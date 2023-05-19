@@ -157,6 +157,24 @@
       "parentUuid": "58cda48c_e5a40c7a",
       "revId": "9e549648223ab2c3e504734f363b6d9655d1aeae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "336d5783_4d3f0156",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-19T10:39:37Z",
+      "side": 1,
+      "message": "OK, will do. Writing this down in a Google Doc along with all the other TODOs that come up and the promises that I make about doing things later.",
+      "parentUuid": "20054304_bec7b9a5",
+      "revId": "9e549648223ab2c3e504734f363b6d9655d1aeae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "151c9433_736298ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-19T12:21:41Z",
+      "side": 1,
+      "message": "I confirm that this is creating and testing two changes related on two branches.",
+      "revId": "c4bfa8868df78b8f5106d81312e86ff8c82aeac4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

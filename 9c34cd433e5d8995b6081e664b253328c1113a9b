@@ -26,6 +26,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e890a2ce_680dfea5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-05-19T09:47:17Z",
+      "side": 1,
+      "message": "Running gatling with this latest version I can see only two requests for which etag is calculated:\n\n```\n 623 URI:/changes/\u003cREPO\u003e/detail\n 623 URI:/changes/\u003cREPO\u003e/revisions/1/actions\n```\n\nBearing in mind that while Gatling does not stress _all_ the rest API available, nevertheless, this is _exactly_ the same as the baseline 🔥",
+      "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f99216bc_e8185545",
         "filename": "java/com/google/gerrit/extensions/restapi/Cacheability.java",
         "patchSetId": 13

@@ -16,6 +16,24 @@
       "message": "Can you provide an example which shows the problem that this change is trying to fix?",
       "revId": "fa9522c97355f7e6fe2d3943001c1e627a53a842",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1af7427c_54283a17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2023-05-19T09:03:38Z",
+      "side": 1,
+      "message": "I wanted to add additional fields to the review notes (see next change) and then update existing review notes with the `reviewnotes export` SSH command.\nInstead of updating the review notes, the new review note content was added to the old existing one. Each time the export command is executed, another copy of the (same) content is added to the review notes.\nI don\u0027t see how this behavior is helpful, I\u0027d rather overwrite/update the review notes instead.\nNote that the code explicitly talks about overwriting (in `commitNotes()`, line 140), without actually doing so.",
+      "parentUuid": "c6217523_9683916e",
+      "revId": "fa9522c97355f7e6fe2d3943001c1e627a53a842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

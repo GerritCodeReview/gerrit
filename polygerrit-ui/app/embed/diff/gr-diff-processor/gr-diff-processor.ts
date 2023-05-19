@@ -15,9 +15,7 @@ import {debounce, DelayedTask} from '../../../utils/async-util';
 import {assert} from '../../../utils/common-util';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
 import {FILE, GrDiffLineType, LineNumber} from '../../../api/diff';
-import {KeyLocations} from '../gr-diff/gr-diff-utils';
-
-const WHOLE_FILE = -1;
+import {FULL_CONTEXT, KeyLocations} from '../gr-diff/gr-diff-utils';
 
 // visible for testing
 export interface State {
@@ -134,16 +132,17 @@ export class GrDiffProcessor {
    * @return A promise that resolves with an
    * array of GrDiffGroups when the diff is completely processed.
    */
-  process(chunks: DiffContent[]) {
+  process(chunks: DiffContent[]): Promise<GrDiffGroup[]> {
     assert(this.isStarted === false, 'diff processor cannot be started twice');
 
     window.addEventListener('scroll', this.handleWindowScroll);
 
     this.consumer?.clearGroups();
-    this.consumer?.addGroup(this.makeGroup('LOST'));
-    this.consumer?.addGroup(this.makeGroup(FILE));
+    const groups = [this.makeGroup('LOST'), this.makeGroup(FILE)];
+    this.consumer?.addGroup(groups[0]);
+    this.consumer?.addGroup(groups[1]);
 
-    if (this.isBinary) return Promise.resolve();
+    if (this.isBinary) return Promise.resolve(groups);
 
     return new Promise<void>(resolve => {
       const state = {
@@ -183,9 +182,11 @@ export class GrDiffProcessor {
       };
 
       nextStep.call(this);
-    }).finally(() => {
-      this.finish();
-    });
+    })
+      .finally(() => {
+        this.finish();
+      })
+      .then(() => groups);
   }
 
   finish() {
@@ -286,7 +287,7 @@ export class GrDiffProcessor {
     );
 
     const hasSkippedGroup = !!groups.find(g => g.skip);
-    if (this.context !== WHOLE_FILE || hasSkippedGroup) {
+    if (this.context !== FULL_CONTEXT || hasSkippedGroup) {
       const contextNumLines = this.context > 0 ? this.context : 0;
       const hiddenStart = state.chunkIndex === 0 ? 0 : contextNumLines;
       const hiddenEnd =
@@ -477,7 +478,10 @@ export class GrDiffProcessor {
       // enabled for any other context preference because manipulating the
       // chunks in this way violates assumptions by the context grouper logic.
       const MAX_GROUP_SIZE = calcMaxGroupSize(this.asyncThreshold);
-      if (this.context === -1 && chunk.ab.length > MAX_GROUP_SIZE * 2) {
+      if (
+        this.context === FULL_CONTEXT &&
+        chunk.ab.length > MAX_GROUP_SIZE * 2
+      ) {
         // Split large shared chunks in two, where the first is the maximum
         // group size.
         newChunks.push({ab: chunk.ab.slice(0, MAX_GROUP_SIZE)});

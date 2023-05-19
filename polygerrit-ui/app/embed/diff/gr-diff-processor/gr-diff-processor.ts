@@ -14,7 +14,7 @@ import {Side} from '../../../constants/constants';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {assert} from '../../../utils/common-util';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
-import {FILE, GrDiffLineType, LineNumber} from '../../../api/diff';
+import {GrDiffLineType, LineNumber} from '../../../api/diff';
 import {FULL_CONTEXT, KeyLocations} from '../gr-diff/gr-diff-utils';
 
 // visible for testing
@@ -105,11 +105,9 @@ export class GrDiffProcessor {
 
   private resetIsScrollingTask?: DelayedTask;
 
-  constructor(
-    private consumer: GroupConsumer | undefined,
-    options: ProcessingOptions
-  ) {
-    this.consumer = consumer;
+  private readonly groups: GrDiffGroup[] = [];
+
+  constructor(options: ProcessingOptions) {
     this.context = options.context;
     this.asyncThreshold = options.asyncThreshold ?? 64;
     this.keyLocations = options.keyLocations ?? {left: {}, right: {}};
@@ -137,22 +135,19 @@ export class GrDiffProcessor {
 
     window.addEventListener('scroll', this.handleWindowScroll);
 
-    this.consumer?.clearGroups();
-    const groups = [this.makeGroup('LOST'), this.makeGroup(FILE)];
-    this.consumer?.addGroup(groups[0]);
-    this.consumer?.addGroup(groups[1]);
+    this.groups.push(this.makeGroup('LOST'));
+    this.groups.push(this.makeGroup('FILE'));
 
-    if (this.isBinary) return groups;
+    if (this.isBinary) return this.groups;
     try {
       await this.processChunks(chunks);
     } finally {
       this.finish();
     }
-    return groups;
+    return this.groups;
   }
 
   finish() {
-    this.consumer = undefined;
     window.removeEventListener('scroll', this.handleWindowScroll);
   }
 
@@ -186,7 +181,7 @@ export class GrDiffProcessor {
 
       const stateUpdate = this.processNext(state, chunks);
       for (const group of stateUpdate.groups) {
-        this.consumer?.addGroup(group);
+        this.groups.push(group);
         currentBatch += group.lines.length;
       }
       state.lineNums.left += stateUpdate.lineDelta.left;

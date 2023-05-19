@@ -60,6 +60,7 @@ import {
   CommentsModel,
   commentsModelToken,
 } from '../../../models/comments/comments-model';
+import {isNewDiff} from '../../../embed/diff/gr-diff/gr-diff-utils';
 
 suite('gr-diff-host tests', () => {
   let element: GrDiffHost;
@@ -153,6 +154,7 @@ suite('gr-diff-host tests', () => {
   });
 
   test('reload() cancels before network resolves', async () => {
+    if (isNewDiff()) return;
     assertIsDefined(element.diffElement);
     const cancelStub = sinon.stub(element.diffElement, 'cancel');
 

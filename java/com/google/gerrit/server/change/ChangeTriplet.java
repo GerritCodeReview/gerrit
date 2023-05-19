@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.MoreObjects;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
@@ -28,7 +29,11 @@ public abstract class ChangeTriplet {
   }
 
   private static String format(BranchNameKey branch, Change.Key change) {
-    return branch.project().get() + "~" + branch.shortName() + "~" + change.get();
+    return Url.encode(branch.project().get())
+        + "~"
+        + Url.encode(branch.shortName())
+        + "~"
+        + change.get();
   }
 
   /**
@@ -50,7 +55,7 @@ public abstract class ChangeTriplet {
 
     String project = Url.decode(triplet.substring(0, y));
     String branch = Url.decode(triplet.substring(y + 1, z));
-    String changeId = Url.decode(triplet.substring(z + 1));
+    String changeId = triplet.substring(z + 1);
     return Optional.of(
         new AutoValue_ChangeTriplet(
             BranchNameKey.create(Project.nameKey(project), branch), Change.key(changeId)));
@@ -66,6 +71,10 @@ public abstract class ChangeTriplet {
 
   @Override
   public final String toString() {
-    return format(branch(), id());
+    return MoreObjects.toStringHelper(this)
+        .add("project", branch().project())
+        .add("branch", branch().shortName())
+        .add("id", id())
+        .toString();
   }
 }

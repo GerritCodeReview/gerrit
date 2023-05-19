@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5186fe9a_cb3ed40f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-05-19T09:20:00Z",
+      "side": 1,
+      "message": "Typo: `Merging`",
+      "range": {
+        "startLine": 13,
+        "startChar": 54,
+        "endLine": 13,
+        "endChar": 60
+      },
+      "revId": "5daac8d5dac4ad97dbd9cffddf2ca7ed56b07598",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "359490dd_3d55f1f1",
@@ -14,6 +37,23 @@
       "writtenOn": "2023-05-19T05:48:43Z",
       "side": 1,
       "message": "Thanks for backporting the fix forward. Should  I would then rather revert the original fix in merge commit from stable-3.5 to stable-3.6 branch. \n\nThere are still some error prone violations.",
+      "revId": "5daac8d5dac4ad97dbd9cffddf2ca7ed56b07598",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e296b9d_e9342026",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNoteUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-05-19T09:20:00Z",
+      "side": 1,
+      "message": "Good abstraction 😊",
       "revId": "5daac8d5dac4ad97dbd9cffddf2ca7ed56b07598",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

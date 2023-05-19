@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2c0b545_98f5b931",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1153900
+      },
+      "writtenOn": "2023-05-19T17:29:20Z",
+      "side": 1,
+      "message": "Hello @dmfilippov@google.com, thanks for your review! Can you help me submit it? I don\u0027t seem to have the permission.",
+      "revId": "ee811494393d8d937e010484697b028af412a7fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

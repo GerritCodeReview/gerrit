@@ -16,9 +16,9 @@ import {
 import {DiffContent} from '../../../types/diff';
 import {assert} from '@open-wc/testing';
 import {FILE, GrDiffLineType} from '../../../api/diff';
+import {FULL_CONTEXT} from '../gr-diff/gr-diff-utils';
 
 suite('gr-diff-processor tests', () => {
-  const WHOLE_FILE = -1;
   const loremIpsum =
     'Lorem ipsum dolor sit amet, ei nonumes vituperata ius. ' +
     'Duo  animal omnesque fabellas et. Id has phaedrum dignissim ' +
@@ -620,7 +620,7 @@ suite('gr-diff-processor tests', () => {
         .fill(0)
         .map(() => `${Math.random()}`);
       const content = [{ab}];
-      processor.context = -1;
+      processor.context = FULL_CONTEXT;
       const result = processor.splitLargeChunks(content);
       assert.equal(result.length, 2);
       assert.deepEqual(result[0].ab, content[0].ab.slice(0, maxGroupSize));
@@ -836,8 +836,8 @@ suite('gr-diff-processor tests', () => {
         rows = loremIpsum.split(' ');
       });
 
-      test('WHOLE_FILE', () => {
-        processor.context = WHOLE_FILE;
+      test('FULL_CONTEXT', () => {
+        processor.context = FULL_CONTEXT;
         const state: State = {
           lineNums: {left: 10, right: 100},
           chunkIndex: 1,
@@ -870,8 +870,8 @@ suite('gr-diff-processor tests', () => {
         );
       });
 
-      test('WHOLE_FILE with skip chunks still get collapsed', () => {
-        processor.context = WHOLE_FILE;
+      test('FULL_CONTEXT with skip chunks still get collapsed', () => {
+        processor.context = FULL_CONTEXT;
         const lineNums = {left: 10, right: 100};
         const state = {
           lineNums,

@@ -12,6 +12,9 @@ import {diffClasses, isNewDiff} from '../gr-diff/gr-diff-utils';
 import {getShowConfig} from './gr-context-controls';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {when} from 'lit/directives/when.js';
+import {subscribe} from '../../../elements/lit/subscription-controller';
+import {resolve} from '../../../models/dependency';
+import {diffModelToken} from '../gr-diff-model/gr-diff-model';
 
 export class GrContextControlsSection extends LitElement {
   /** Should context controls be rendered for expanding above the section? */
@@ -37,6 +40,19 @@ export class GrContextControlsSection extends LitElement {
    */
   @state()
   addTableWrapperForTesting = false;
+
+  @state() viewMode: DiffViewMode = DiffViewMode.SIDE_BY_SIDE;
+
+  private readonly getDiffModel = resolve(this, diffModelToken);
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getDiffModel().viewMode$,
+      viewMode => (this.viewMode = viewMode)
+    );
+  }
 
   /**
    * The browser API for handling selection does not (yet) work for selection
@@ -82,7 +98,7 @@ export class GrContextControlsSection extends LitElement {
   }
 
   private isSideBySide() {
-    return this.renderPrefs?.view_mode !== DiffViewMode.UNIFIED;
+    return this.viewMode !== DiffViewMode.UNIFIED;
   }
 
   private createContextControlRow() {

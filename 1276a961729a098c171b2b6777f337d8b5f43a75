@@ -104,6 +104,23 @@
       "message": "ping.",
       "revId": "1276a961729a098c171b2b6777f337d8b5f43a75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3647d9f_e2e8e5aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-05-19T11:07:05Z",
+      "side": 1,
+      "message": "```\nERROR: /private/var/tmp/_bazel_alvarovilaplana/d839d78f75d88ac70b2556e01ee5c5c7/external/remote_java_tools/java_tools/zlib/BUILD.bazel:3:11: Compiling java_tools/zlib/gzwrite.c failed: (Aborted): wrapped_clang failed: error executing command external/local_config_cc/wrapped_clang \u0027-D_FORTIFY_SOURCE\u003d1\u0027 -fstack-protector -fcolor-diagnostics -Wall -Wthread-safety -Wself-assign -fno-omit-frame-pointer -g0 -O2 -DNDEBUG \u0027-DNS_BLOCK_ASSERTIONS\u003d1\u0027 ... (remaining 33 arguments skipped)\n\nUse --sandbox_debug to see verbose messages from the sandbox and retain the sandbox build root for debugging\nexternal/remote_java_tools/java_tools/zlib/gzwrite.c:89:20: error: call to undeclared function \u0027write\u0027; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]\n            writ \u003d write(state-\u003efd, strm-\u003enext_in, put);\n                   ^\nexternal/remote_java_tools/java_tools/zlib/gzwrite.c:89:20: note: did you mean \u0027fwrite\u0027?\n/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk/usr/include/stdio.h:165:9: note: \u0027fwrite\u0027 declared here\nsize_t   fwrite(const void * __restrict __ptr, size_t __size, size_t __nitems, FILE * __restrict __stream) __DARWIN_ALIAS(fwrite);\n         ^\nexternal/remote_java_tools/java_tools/zlib/gzwrite.c:110:24: error: call to undeclared function \u0027write\u0027; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]\n                writ \u003d write(state-\u003efd, state-\u003ex.next, put);\n                       ^\nexternal/remote_java_tools/java_tools/zlib/gzwrite.c:661:9: error: call to undeclared function \u0027close\u0027; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]\n    if (close(state-\u003efd) \u003d\u003d -1)\n        ^\n3 errors generated.\n```",
+      "revId": "1276a961729a098c171b2b6777f337d8b5f43a75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

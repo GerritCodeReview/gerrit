@@ -4,8 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {BlameInfo, CommentRange} from '../../../types/common';
-import {Side} from '../../../constants/constants';
+import {Side, SpecialFilePath} from '../../../constants/constants';
 import {
+  DiffContextExpandedExternalDetail,
   DiffPreferencesInfo,
   DiffResponsiveMode,
   DisplayLine,
@@ -15,6 +16,7 @@ import {
   RenderPreferences,
 } from '../../../api/diff';
 import {getBaseUrl} from '../../../utils/url-util';
+import {GrDiffGroup} from './gr-diff-group';
 
 /**
  * In JS, unicode code points above 0xFFFF occupy two elements of a string.
@@ -225,6 +227,20 @@ export function computeContext(
     return prefsContext;
   }
   return defaultContext;
+}
+
+export function computeLineLength(
+  prefs: DiffPreferencesInfo,
+  path: string | undefined
+): number {
+  if (path === SpecialFilePath.COMMIT_MESSAGE) {
+    return 72;
+  }
+  const lineLength = prefs.line_length;
+  if (Number.isInteger(lineLength) && lineLength > 0) {
+    return lineLength;
+  }
+  return 100;
 }
 
 export function computeKeyLocations(
@@ -473,4 +489,12 @@ ${commit.commit_msg}`;
   blameNode.appendChild(hovercard);
 
   return blameNode;
+}
+
+export interface DiffContextExpandedEventDetail
+  extends DiffContextExpandedExternalDetail {
+  /** The context control group that should be replaced by `groups`. */
+  contextGroup: GrDiffGroup;
+  groups: GrDiffGroup[];
+  numLines: number;
 }

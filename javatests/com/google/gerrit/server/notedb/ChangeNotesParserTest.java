@@ -139,6 +139,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "Label: Label2=1\n"
             + "Label: Label3=0\n"
             + "Label: Label4=-1\n"
+            + "Label: Label1=+1 Gerrit User 1 (name,with, comma) <1@gerrit>\n"
             + "Subject: This is a test change\n");
     assertParseSucceeds(
         "Update change\n"
@@ -168,6 +169,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "Label: Label1=+1, 577fb248e474018276351785930358ec0450e9f7\n"
             + "Label: Label1=+1, 577fb248e474018276351785930358ec0450e9f7 Gerrit User 2 <2@gerrit>\n"
             + "Label: Label1=0, 577fb248e474018276351785930358ec0450e9f7 Gerrit User 2 <2@gerrit>\n"
+            + "Label: Label1=0, 577fb248e474018276351785930358ec0450e9f7 Gerrit User 3 (name,with, comma) <3@gerrit>\n"
             + "Subject: This is a test change\n");
 
     assertParseSucceeds(
@@ -205,6 +207,8 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "Copied-Label: Label2=+1 Account <1@gerrit>\n"
             + "Copied-Label: Label3=+1 Account <1@gerrit>,Other Account <2@Gerrit> :\"tag\"\n"
             + "Copied-Label: Label4=+1 Account <1@Gerrit> :\"tag with characters %^#@^( *::!\"\n"
+            + "Copied-Label: Label1=+1 Gerrit User 1 (name,with, comma) <1@gerrit>\n"
+            + "Copied-Label: Label2=+1 Gerrit User 1 (name,with, comma) <1@gerrit>,Gerrit User 2 (name,with, comma) <2@gerrit>\n"
             + "Subject: This is a test change\n");
 
     assertParseFails("Update change\n\nPatch-set: 1\nCopied-Label: Label1=X\n");
@@ -238,6 +242,7 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "Copied-Label: Label4=+1, 577fb248e474018276351785930358ec0450e9f7 Gerrit User 1 <1@gerrit> :\"tag with uuid delimiter , \"\n"
             + "Copied-Label: Label4=+1, 577fb248e474018276351785930358ec0450e9f7 Gerrit User 1 <1@gerrit>,Gerrit User 2 <2@gerrit> :\"tag with characters %^#@^( *::!\"\n"
             + "Copied-Label: Label4=+1, 577fb248e474018276351785930358ec0450e9f7 Gerrit User 1 <1@gerrit>,Gerrit User 2 <2@gerrit> :\"tag with uuid delimiter , \"\n"
+            + "Copied-Label: Label4=+1, 577fb248e474018276351785930358ec0450e9f7 Gerrit User 1 (name,with, comma) <2@gerrit>,Gerrit User 3 (name,with, comma) <3@gerrit>\n"
             + "Subject: This is a test change\n");
 
     assertParseSucceeds(

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cad36701_2300e6f0",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-processor/gr-diff-processor.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-19T09:39:43Z",
+      "side": 1,
+      "message": "Rather than setting default values and then in the constructor doing if (options.foo) this.foo \u003d foo;\n\nWhat about:\n```\nthis.asyncThreshold \u003d options.asyncThreshold ?? 64;\nthis.isBinary \u003d options.isBinary ?? false;\n```\n\nIt makes it easier to understand what the value will be rather than having to navigate through the file.",
+      "revId": "ccdd7578b937acd7273b4c1c46d21081cfbafb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42a8d7c6_cf9f628f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-processor/gr-diff-processor.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-19T09:39:43Z",
+      "side": 1,
+      "message": "What about making this a constructor argument instead?",
+      "revId": "ccdd7578b937acd7273b4c1c46d21081cfbafb35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -26,6 +26,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3195960b_0ac91608",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-05-19T13:34:56Z",
+      "side": 1,
+      "message": "Nit: as mentioned in other comments, this should be `getETagViewLatency`.",
+      "range": {
+        "startLine": 233,
+        "startChar": 25,
+        "endLine": 233,
+        "endChar": 43
+      },
+      "revId": "91454f1f50310d97f069cd471916ef2d7442b76d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23ac7e4f_559ba73c",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-05-19T13:34:56Z",
+      "side": 1,
+      "message": "Nit: as mentioned in other comments, this should be `getETagResourceLatency`.",
+      "range": {
+        "startLine": 234,
+        "startChar": 25,
+        "endLine": 234,
+        "endChar": 47
+      },
+      "revId": "91454f1f50310d97f069cd471916ef2d7442b76d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2f236799_e7683d82",
         "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
         "patchSetId": 3

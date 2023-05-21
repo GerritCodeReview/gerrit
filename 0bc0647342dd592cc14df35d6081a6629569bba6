@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d6b94fee_0fcf8052",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-21T08:02:31Z",
+      "side": 1,
+      "message": "\u003e Thanks @Luca for taking a look. \n\u003e \n\u003e \u003e Why not pushing this to the docker-gerrit project?\n\u003e \n\u003e As this change is adding functional tests for multi-primary gerrit setup, we thought gerrit project is the right place for these tests to live.\n\nI see, however this is also a good test for the elasticsearch component and would also be a nice example on how to use it. Would then the `modules/index-elasticsearch` another candidate?\n\nI believe this contribution is really useful and it would be nice to have the CI running it for incoming changes. However, I am concerned about its maintenance and dependencies.\n\nAlso, I am concerned about its discoverability:\n- If someone is using Docker with Gerrit, then he would definitely be interested in it\n- If someone is using Elasticsearch, then it could be for a multi-primary and then again it would be useful",
+      "parentUuid": "ee43e0d0_0e8966ae",
+      "revId": "0bc0647342dd592cc14df35d6081a6629569bba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ae34f5c_af0fdf1e",
         "filename": "contrib/multi-primary-docker-tests/docker-compose.yaml",
         "patchSetId": 4

@@ -15,18 +15,29 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.TestChanges;
+import java.util.UUID;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ChangeDataTest {
+  private static final String GERRIT_SERVER_ID = UUID.randomUUID().toString();
+
+  @Mock private ChangeNotes changeNotesMock;
+
   @Test
   public void setPatchSetsClearsCurrentPatchSet() throws Exception {
     Project.NameKey project = Project.nameKey("project");
@@ -39,6 +50,26 @@ public class ChangeDataTest {
     cd.setPatchSets(ImmutableList.of(ps1, ps2));
     PatchSet curr2 = cd.currentPatchSet();
     assertThat(curr2).isNotSameInstanceAs(curr1);
+  }
+
+  @Test
+  public void getChangeVirtualIdUsingAlgorithm() throws Exception {
+    Project.NameKey project = Project.nameKey("project");
+    final int encodedChangeNum = 12345678;
+
+    when(changeNotesMock.getServerId()).thenReturn(UUID.randomUUID().toString());
+
+    ChangeData cd =
+        ChangeData.createForTest(
+            project,
+            Change.id(1),
+            1,
+            ObjectId.zeroId(),
+            GERRIT_SERVER_ID,
+            (s, c) -> encodedChangeNum,
+            changeNotesMock);
+
+    assertThat(cd.getVirtualId().get()).isEqualTo(encodedChangeNum);
   }
 
   private static PatchSet newPatchSet(Change.Id changeId, int num) {

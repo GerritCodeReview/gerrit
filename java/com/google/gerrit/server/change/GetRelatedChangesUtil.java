@@ -99,8 +99,8 @@ public class GetRelatedChangesUtil {
     }
 
     List<ChangeData> cds =
-        InternalChangeQuery.byBranchGroups(
-            queryProvider, indexConfig, changeData.change().getDest(), groups);
+        InternalChangeQuery.byProjectGroups(
+            queryProvider, indexConfig, changeData.project(), groups);
     if (cds.isEmpty()) {
       return Collections.emptyList();
     }

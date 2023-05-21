@@ -113,7 +113,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String CHANGE_FIELD = ChangeField.CHANGE_SPEC.getName();
 
   static Term idTerm(ChangeData cd) {
-    return idTerm(cd.getId());
+    return idTerm(cd.getVirtualId());
   }
 
   static Term idTerm(Change.Id id) {

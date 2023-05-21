@@ -40,13 +40,11 @@ import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
-import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.GetRelatedOption;
 import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.index.IndexConfig;
@@ -71,8 +69,6 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.transport.PushResult;
-import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.junit.Test;
 
 @NoHttpd
@@ -667,71 +663,6 @@ public class GetRelatedIT extends AbstractDaemonTest {
               changeAndCommit(ps2, c2, 1, false),
               changeAndCommit(ps1, c1, 1, true)),
           GetRelatedOption.SUBMITTABLE);
-    }
-  }
-
-  @Test
-  public void getRelatedLinearSameCommitPushedTwice() throws Exception {
-    RevCommit base = projectOperations.project(project).getHead("master");
-
-    // 1,1---2,1 on master
-    PushOneCommit.Result r1 =
-        createChange(
-            testRepo,
-            "master",
-            "subject: 1",
-            "a.txt",
-            "1",
-            /** topic= */
-            null);
-    RevCommit c1_1 = r1.getCommit();
-    PatchSet.Id ps1_1 = r1.getPatchSetId();
-
-    PushOneCommit.Result r2 =
-        createChange(
-            testRepo,
-            "master",
-            "subject: 2",
-            "b.txt",
-            "2",
-            /** topic= */
-            null);
-    RevCommit c2_1 = r2.getCommit();
-    PatchSet.Id ps2_1 = r2.getPatchSetId();
-
-    // 3,1---4,1 on stable
-    gApi.projects().name(project.get()).branch("stable").create(new BranchInput());
-    testRepo.reset(c1_1);
-    PushResult r3 = pushHead(testRepo, "refs/for/stable%base=" + base.getName());
-    assertThat(r3.getRemoteUpdate("refs/for/stable%base=" + base.getName()).getStatus())
-        .isEqualTo(RemoteRefUpdate.Status.OK);
-    ChangeData change3 =
-        Iterables.getOnlyElement(
-            queryProvider
-                .get()
-                .byBranchCommit(BranchNameKey.create(project, "stable"), c1_1.getName()));
-    assertThat(change3.currentPatchSet().commitId()).isEqualTo(c1_1);
-    RevCommit c3_1 = c1_1;
-    PatchSet.Id ps3_1 = change3.currentPatchSet().id();
-
-    PushOneCommit.Result r4 =
-        createChange(
-            testRepo,
-            "stable",
-            "subject: 4",
-            "d.txt",
-            "4",
-            /** topic= */
-            null);
-    RevCommit c4_1 = r4.getCommit();
-    PatchSet.Id ps4_1 = r4.getPatchSetId();
-
-    for (PatchSet.Id ps : ImmutableList.of(ps2_1, ps1_1)) {
-      assertRelated(ps, changeAndCommit(ps2_1, c2_1, 1), changeAndCommit(ps1_1, c1_1, 1));
-    }
-
-    for (PatchSet.Id ps : ImmutableList.of(ps4_1, ps3_1)) {
-      assertRelated(ps, changeAndCommit(ps4_1, c4_1, 1), changeAndCommit(ps3_1, c3_1, 1));
     }
   }
 

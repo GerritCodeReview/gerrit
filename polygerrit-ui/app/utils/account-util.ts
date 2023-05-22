@@ -16,10 +16,17 @@ import {
   ReviewerInput,
   ServerInfo,
   UserId,
+  Suggestion,
+  isReviewerAccountSuggestion,
+  isReviewerGroupSuggestion,
 } from '../types/common';
 import {AccountTag, ReviewerState} from '../constants/constants';
 import {assertNever, hasOwnProperty} from './common-util';
-import {getDisplayName} from './display-name-util';
+import {
+  getAccountDisplayName,
+  getDisplayName,
+  getGroupDisplayName,
+} from './display-name-util';
 import {getApprovalInfo} from './label-util';
 import {ParsedChangeInfo} from '../types/types';
 
@@ -219,4 +226,30 @@ export function toReviewInput(
     return {reviewer, state};
   }
   throw new Error('Must be either an account or a group.');
+}
+
+export function isAccountSuggestion(s: Suggestion): s is AccountInfo {
+  return (s as AccountInfo)._account_id !== undefined;
+}
+
+export function getSuggestedReviewerInfoName(
+  suggestion: Suggestion,
+  config?: ServerInfo
+) {
+  if (isAccountSuggestion(suggestion)) {
+    // Reviewer is an account suggestion from getSuggestedAccounts.
+    return getAccountDisplayName(config, suggestion);
+  }
+
+  if (isReviewerAccountSuggestion(suggestion)) {
+    // Reviewer is an account suggestion from getChangeSuggestedReviewers.
+    return getAccountDisplayName(config, suggestion.account);
+  }
+
+  if (isReviewerGroupSuggestion(suggestion)) {
+    // Reviewer is a group suggestion from getChangeSuggestedReviewers.
+    return getGroupDisplayName(suggestion.group);
+  }
+
+  assertNever(suggestion, 'Received an incorrect suggestion');
 }

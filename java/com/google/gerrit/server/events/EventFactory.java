@@ -294,8 +294,8 @@ public class EventFactory {
     // Find changes in the same related group as this patch set, having a patch
     // set whose parent matches this patch set's revision.
     for (ChangeData cd :
-        InternalChangeQuery.byBranchGroups(
-            queryProvider, indexConfig, change.getDest(), currentPs.groups())) {
+        InternalChangeQuery.byProjectGroups(
+            queryProvider, indexConfig, change.getProject(), currentPs.groups())) {
       PATCH_SETS:
       for (PatchSet ps : cd.patchSets()) {
         RevCommit commit = rw.parseCommit(ps.commitId());

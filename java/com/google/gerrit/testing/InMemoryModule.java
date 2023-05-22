@@ -19,7 +19,7 @@ import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorS
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperationsImpl;
@@ -324,9 +324,9 @@ public class InMemoryModule extends FactoryModule {
   @Provides
   @Singleton
   @GerritImportedServerIds
-  public ImmutableSet<String> createImportedServerIds() {
-    ImmutableSet<String> serverIds =
-        ImmutableSet.copyOf(
+  public ImmutableList<String> createImportedServerIds() {
+    ImmutableList<String> serverIds =
+        ImmutableList.copyOf(
             cfg.getStringList(
                 GerritServerIdProvider.SECTION, null, GerritImportedServerIdsProvider.KEY));
     return serverIds;

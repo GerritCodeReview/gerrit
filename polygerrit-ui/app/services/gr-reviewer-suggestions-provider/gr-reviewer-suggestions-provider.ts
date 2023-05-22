@@ -3,25 +3,24 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {
-  getAccountDisplayName,
-  getGroupDisplayName,
-} from '../../utils/display-name-util';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
 import {
-  AccountInfo,
   isReviewerAccountSuggestion,
   isReviewerGroupSuggestion,
   NumericChangeId,
   ServerInfo,
+  SuggestedReviewerAccountInfo,
   SuggestedReviewerInfo,
   Suggestion,
 } from '../../types/common';
-import {assertNever} from '../../utils/common-util';
 import {AutocompleteSuggestion} from '../../elements/shared/gr-autocomplete/gr-autocomplete';
 import {allSettled, isFulfilled} from '../../utils/async-util';
 import {isDefined, ParsedChangeInfo} from '../../types/types';
-import {accountKey} from '../../utils/account-util';
+import {
+  accountKey,
+  getSuggestedReviewerName,
+  isAccountSuggestion,
+} from '../../utils/account-util';
 import {
   AccountId,
   ChangeInfo,
@@ -96,30 +95,11 @@ export class GrReviewerSuggestionsProvider
   makeSuggestionItem(
     suggestion: Suggestion
   ): AutocompleteSuggestion<SuggestedReviewerInfo> {
-    if (isReviewerAccountSuggestion(suggestion)) {
-      // Reviewer is an account suggestion from getChangeSuggestedReviewers.
-      return {
-        name: getAccountDisplayName(this.config, suggestion.account),
-        value: suggestion,
-      };
-    }
-
-    if (isReviewerGroupSuggestion(suggestion)) {
-      // Reviewer is a group suggestion from getChangeSuggestedReviewers.
-      return {
-        name: getGroupDisplayName(suggestion.group),
-        value: suggestion,
-      };
-    }
-
-    if (isAccountSuggestion(suggestion)) {
-      // Reviewer is an account suggestion from getSuggestedAccounts.
-      return {
-        name: getAccountDisplayName(this.config, suggestion),
-        value: {account: suggestion, count: 1},
-      };
-    }
-    assertNever(suggestion, 'Received an incorrect suggestion');
+    const name = getSuggestedReviewerName(suggestion, this.config);
+    const value = isAccountSuggestion(suggestion)
+      ? ({account: suggestion, count: 1} as SuggestedReviewerAccountInfo)
+      : suggestion;
+    return {name, value};
   }
 
   private getSuggestionsForChange(
@@ -159,8 +139,4 @@ function suggestionKey(suggestion: Suggestion) {
     return accountKey(suggestion);
   }
   return undefined;
-}
-
-function isAccountSuggestion(s: Suggestion): s is AccountInfo {
-  return (s as AccountInfo)._account_id !== undefined;
 }

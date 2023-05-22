@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7fb5b1dd_0c09bcd3",
+        "filename": "polygerrit-ui/app/services/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-22T14:08:14Z",
+      "side": 1,
+      "message": "```suggestion\n    const name \u003d getSuggestedReviewerInfoName(suggestion, this.config);\n    const value \u003d isAccountSuggestion(suggestion) ?\n                  {account: suggestion, count: 1} : suggestion;\n    return {name, value};\n```",
+      "range": {
+        "startLine": 98,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 5
+      },
+      "revId": "38731e32c887e06937560d25e25a77e65cd215f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "df2a853b_a06a730b",
         "filename": "polygerrit-ui/app/utils/account-util.ts",
         "patchSetId": 2

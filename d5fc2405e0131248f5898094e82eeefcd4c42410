@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ca7aca6_17780875",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-processor/gr-diff-processor_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-22T07:51:05Z",
+      "side": 0,
+      "message": "What about this test?",
+      "revId": "d5fc2405e0131248f5898094e82eeefcd4c42410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b8032d6_2dac22ce",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 3698,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-22T07:51:05Z",
+      "side": 0,
+      "message": "Why are these tests removed?",
+      "revId": "d5fc2405e0131248f5898094e82eeefcd4c42410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbcb4a4d_cc97c9f3",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 4087,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-22T07:51:05Z",
+      "side": 0,
+      "message": "Why are these tests removed?",
+      "revId": "d5fc2405e0131248f5898094e82eeefcd4c42410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

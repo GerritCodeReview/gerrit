@@ -1,0 +1,282 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f7f7ea8_8e714a96",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-22T07:51:05Z",
+      "side": 1,
+      "message": "Do you plan a similar change inside of Critique?",
+      "revId": "fb545fe0b0a2a389559715fb218dc84a6f4d2b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e52748d_48ff29e6",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls-section_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-22T07:51:05Z",
+      "side": 1,
+      "message": "Isn\u0027t this too late because we\u0027re effectively resolving in the constructor?",
+      "revId": "fb545fe0b0a2a389559715fb218dc84a6f4d2b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43f28440_24d0104a",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-22T07:51:05Z",
+      "side": 1,
+      "message": "Why is this still necessary?",
+      "revId": "fb545fe0b0a2a389559715fb218dc84a6f4d2b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c60e534_47db8326",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-model/gr-diff-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-22T07:51:05Z",
+      "side": 1,
+      "message": "Why is this necessray",
+      "revId": "fb545fe0b0a2a389559715fb218dc84a6f4d2b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50bf0edc_824327bb",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-model/gr-diff-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-22T07:51:05Z",
+      "side": 1,
+      "message": "why is this \u0027contextControl\u0027?",
+      "revId": "fb545fe0b0a2a389559715fb218dc84a6f4d2b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acb59664_04d5b340",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-processor/gr-diff-processor_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-22T07:51:05Z",
+      "side": 1,
+      "message": "Consider making these tests async and using await syntax.",
+      "revId": "fb545fe0b0a2a389559715fb218dc84a6f4d2b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5a44a88_4816a54a",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-selection/gr-diff-selection_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-22T07:51:05Z",
+      "side": 1,
+      "message": "Nit: Please keep unrelated changes out of large refactors.",
+      "revId": "fb545fe0b0a2a389559715fb218dc84a6f4d2b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "370a3721_2db8cf64",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-22T07:51:05Z",
+      "side": 1,
+      "message": "Why would it not be an integer?",
+      "revId": "fb545fe0b0a2a389559715fb218dc84a6f4d2b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1caff937_c00e50a3",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 484,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-22T07:51:05Z",
+      "side": 1,
+      "message": "```\n${when(this.isImageDiff, \n  () \u003d\u003e this.renderImageDiff(),\n  () \u003d\u003e this.diff?.binary ? this.renderBinaryDiff() : nothing\n)};\n```",
+      "revId": "fb545fe0b0a2a389559715fb218dc84a6f4d2b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae236611_cce4eedf",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-22T07:51:05Z",
+      "side": 1,
+      "message": "```\n${when(this.showWarning(), () \u003d\u003e this.renderSizeWarning())}\n```\n\nIn general I prefer not calling functions if they don\u0027t need to be. It also makes it clearer at the top-levle what the structure of the page is.",
+      "revId": "fb545fe0b0a2a389559715fb218dc84a6f4d2b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a38e7a6_07628252",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-22T07:51:05Z",
+      "side": 1,
+      "message": "Why would they not be integers?",
+      "revId": "fb545fe0b0a2a389559715fb218dc84a6f4d2b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07728bfd_3a14e45d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-22T07:51:05Z",
+      "side": 1,
+      "message": "Why would they not be integers?",
+      "revId": "fb545fe0b0a2a389559715fb218dc84a6f4d2b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbfaa1a2_c7c7454e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-22T07:51:05Z",
+      "side": 1,
+      "message": "Why are lineNumber or side optional? All call sites guarantee it\u0027s defined.",
+      "revId": "fb545fe0b0a2a389559715fb218dc84a6f4d2b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64e25fe1_5422307b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1300,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-22T07:51:05Z",
+      "side": 1,
+      "message": "Please be consistent with argument ordering for findRow.",
+      "revId": "fb545fe0b0a2a389559715fb218dc84a6f4d2b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6869f2b2_9aaa8f3e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1322,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-22T07:51:05Z",
+      "side": 1,
+      "message": "The \u0027renderContentByRange\u0027 is misleading, it makes it sound like it\u0027s a lit-render function, consider renaming.\n\nEspecially given that you don\u0027t specify return types.\n\nThis sounds more like a \n\n`requestUpdateContentByRange`",
+      "revId": "fb545fe0b0a2a389559715fb218dc84a6f4d2b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "265005bc_c2023363",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1345,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-22T07:51:05Z",
+      "side": 1,
+      "message": "```suggestion\n    const leftClass \u003d `left-${group.startLine(Side.LEFT)}`;\n    const rightClass \u003d `right-${group.startLine(Side.RIGHT)}`;\n```",
+      "range": {
+        "startLine": 1344,
+        "startChar": 0,
+        "endLine": 1345,
+        "endChar": 59
+      },
+      "revId": "fb545fe0b0a2a389559715fb218dc84a6f4d2b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

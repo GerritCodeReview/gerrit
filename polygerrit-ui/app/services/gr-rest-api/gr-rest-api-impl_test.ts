@@ -38,6 +38,7 @@ import {
 } from '../../constants/constants';
 import {
   BasePatchSetNum,
+  ChangeInfo,
   ChangeMessageId,
   CommentInfo,
   DashboardId,
@@ -1154,31 +1155,45 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('setInProjectLookup', async () => {
-    await element.setInProjectLookup(
-      555 as NumericChangeId,
-      'project' as RepoName
-    );
+    element.setInProjectLookup(555 as NumericChangeId, 'project' as RepoName);
     const project = await element.getFromProjectLookup(555 as NumericChangeId);
     assert.deepEqual(project, 'project' as RepoName);
   });
 
   suite('getFromProjectLookup', () => {
-    test('getChange succeeds, no project', async () => {
-      sinon.stub(element, 'getChange').resolves(null);
-      const val = await element.getFromProjectLookup(555 as NumericChangeId);
-      assert.strictEqual(val, undefined);
+    const changeNum = 555 as NumericChangeId;
+    const repo = 'test-repo' as RepoName;
+
+    test('getChange fails to yield a project', async () => {
+      const promise = mockPromise<null>();
+      sinon.stub(element, 'getChange').returns(promise);
+
+      const projectLookup = element.getFromProjectLookup(changeNum);
+      promise.resolve(null);
+
+      assert.isUndefined(await projectLookup);
     });
 
     test('getChange succeeds with project', async () => {
-      sinon
-        .stub(element, 'getChange')
-        .resolves({...createChange(), project: 'project' as RepoName});
-      const projectLookup = element.getFromProjectLookup(
-        555 as NumericChangeId
-      );
-      const val = await projectLookup;
-      assert.equal(val, 'project' as RepoName);
+      const promise = mockPromise<null | ChangeInfo>();
+      sinon.stub(element, 'getChange').returns(promise);
+
+      const projectLookup = element.getFromProjectLookup(changeNum);
+      promise.resolve({...createChange(), project: repo});
+
+      assert.equal(await projectLookup, repo);
       assert.deepEqual(element._projectLookup, {'555': projectLookup});
+    });
+
+    test('getChange fails, but a setInProjectLookup() call is used as fallback', async () => {
+      const promise = mockPromise<null>();
+      sinon.stub(element, 'getChange').returns(promise);
+
+      const projectLookup = element.getFromProjectLookup(changeNum);
+      element.setInProjectLookup(changeNum, repo);
+      promise.resolve(null);
+
+      assert.equal(await projectLookup, repo);
     });
   });
 

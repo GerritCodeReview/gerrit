@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99ac3fbb_b458f42c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-22T14:40:19Z",
+      "side": 1,
+      "message": "Tests are passing locally for me:\n//polygerrit-ui:web-test-runner: PASSED in 59.4s\n\nLet me now test this E2E on GerritHub.io with one JGit change",
+      "revId": "2ea3aa9fc314a373dc20265a7058a17182bea284",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

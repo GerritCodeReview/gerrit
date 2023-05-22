@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6ecf1f8_66b144cb",
+        "filename": "plugins/package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-22T05:44:45Z",
+      "side": 1,
+      "message": "Why do you need this?",
+      "revId": "da8bd596721160e23d792b96d207db4019f02d04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -369,6 +369,8 @@ export interface RestApiService extends Finalizable {
     endpoint: string
   ): Promise<string>;
 
+  getDocsBaseUrl(config?: ServerInfo): Promise<string | null>;
+
   createChange(
     project: RepoName,
     branch: BranchName,

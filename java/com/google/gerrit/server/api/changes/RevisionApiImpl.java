@@ -17,6 +17,7 @@ package com.google.gerrit.server.api.changes;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder.ListMultimapBuilder;
@@ -255,7 +256,9 @@ class RevisionApiImpl implements RevisionApi {
     try {
       submit.apply(revision, in);
     } catch (Exception e) {
-      throw asRestApiException("Cannot submit change", e);
+      Throwables.throwIfUnchecked(e);
+      Throwables.throwIfInstanceOf(e, RestApiException.class);
+      throw new Submit.SubmitException("Cannot submit change", e);
     }
   }
 

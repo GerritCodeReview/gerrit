@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eebb7d8a_d78ad8d2",
+        "filename": "polygerrit-ui/app/services/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-05-22T14:40:11Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "7fb5b1dd_0c09bcd3",
+      "range": {
+        "startLine": 98,
+        "startChar": 4,
+        "endLine": 121,
+        "endChar": 5
+      },
+      "revId": "38731e32c887e06937560d25e25a77e65cd215f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df2a853b_a06a730b",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-05-22T10:10:44Z",
       "side": 1,
       "message": "Suggestion is defined as:\n```\nexport type Suggestion \u003d SuggestedReviewerInfo | AccountInfo;\n```\n\nThe name seems to imply that the function only works for SuggestedReviewerInfo, but isAccountSuggestion is checking for AccountInfo.\n\nMaybe rename it to be getSuggestedReviewerName , with an added benefit of being shorter.",
+      "range": {
+        "startLine": 235,
+        "startChar": 16,
+        "endLine": 235,
+        "endChar": 44
+      },
+      "revId": "38731e32c887e06937560d25e25a77e65cd215f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19fd7e43_59f11ad9",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-05-22T14:40:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df2a853b_a06a730b",
       "range": {
         "startLine": 235,
         "startChar": 16,

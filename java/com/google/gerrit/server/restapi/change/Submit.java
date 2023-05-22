@@ -520,4 +520,11 @@ public class Submit
       return json.noOptions().format(out.change);
     }
   }
+
+  /** Exception thrown when a submit command cannot be processed. */
+  public static class SubmitException extends RestApiException {
+    public SubmitException(String msg, Throwable cause) {
+      super(msg, cause);
+    }
+  }
 }

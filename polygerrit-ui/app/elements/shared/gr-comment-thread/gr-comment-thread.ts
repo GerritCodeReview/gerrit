@@ -74,7 +74,7 @@ import {whenRendered} from '../../../utils/dom-util';
 import {createChangeUrl, createDiffUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';
-import {waitUntil} from '../../../utils/async-util';
+import {noAwait, waitUntil} from '../../../utils/async-util';
 
 declare global {
   interface HTMLElementEventMap {
@@ -811,7 +811,7 @@ export class GrCommentThread extends LitElement {
     const newReply = createNewReply(replyingTo, content, unresolved);
     if (userWantsToEdit) {
       this.getCommentsModel().addNewDraft(newReply);
-      this.editDraft();
+      noAwait(this.editDraft());
     } else {
       try {
         this.saving = true;

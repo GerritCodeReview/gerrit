@@ -3,13 +3,8 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {
-  getAccountDisplayName,
-  getGroupDisplayName,
-} from '../../utils/display-name-util';
 import {RestApiService} from '../gr-rest-api/gr-rest-api';
 import {
-  AccountInfo,
   isReviewerAccountSuggestion,
   isReviewerGroupSuggestion,
   NumericChangeId,
@@ -21,7 +16,11 @@ import {assertNever} from '../../utils/common-util';
 import {AutocompleteSuggestion} from '../../elements/shared/gr-autocomplete/gr-autocomplete';
 import {allSettled, isFulfilled} from '../../utils/async-util';
 import {isDefined, ParsedChangeInfo} from '../../types/types';
-import {accountKey} from '../../utils/account-util';
+import {
+  accountKey,
+  getSuggestedReviewerInfoName,
+  isAccountSuggestion,
+} from '../../utils/account-util';
 import {
   AccountId,
   ChangeInfo,
@@ -96,10 +95,11 @@ export class GrReviewerSuggestionsProvider
   makeSuggestionItem(
     suggestion: Suggestion
   ): AutocompleteSuggestion<SuggestedReviewerInfo> {
+    const name = getSuggestedReviewerInfoName(suggestion, this.config);
     if (isReviewerAccountSuggestion(suggestion)) {
       // Reviewer is an account suggestion from getChangeSuggestedReviewers.
       return {
-        name: getAccountDisplayName(this.config, suggestion.account),
+        name,
         value: suggestion,
       };
     }
@@ -107,7 +107,7 @@ export class GrReviewerSuggestionsProvider
     if (isReviewerGroupSuggestion(suggestion)) {
       // Reviewer is a group suggestion from getChangeSuggestedReviewers.
       return {
-        name: getGroupDisplayName(suggestion.group),
+        name,
         value: suggestion,
       };
     }
@@ -115,7 +115,7 @@ export class GrReviewerSuggestionsProvider
     if (isAccountSuggestion(suggestion)) {
       // Reviewer is an account suggestion from getSuggestedAccounts.
       return {
-        name: getAccountDisplayName(this.config, suggestion),
+        name,
         value: {account: suggestion, count: 1},
       };
     }
@@ -159,8 +159,4 @@ function suggestionKey(suggestion: Suggestion) {
     return accountKey(suggestion);
   }
   return undefined;
-}
-
-function isAccountSuggestion(s: Suggestion): s is AccountInfo {
-  return (s as AccountInfo)._account_id !== undefined;
 }

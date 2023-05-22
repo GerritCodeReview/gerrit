@@ -16,6 +16,29 @@
       "message": "ping @david @chris?",
       "revId": "c180eb597a4843ebdf14812394011f1d1256a2e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a19077b3_dd42041d",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl_test.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 1133,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-22T05:10:01Z",
+      "side": 1,
+      "message": "This test is now confusing, it\u0027s named \"no project\", but the project is assigned. May be rephrase it: \"no project form query\"?",
+      "range": {
+        "startLine": 1133,
+        "startChar": 30,
+        "endLine": 1133,
+        "endChar": 40
+      },
+      "revId": "c180eb597a4843ebdf14812394011f1d1256a2e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

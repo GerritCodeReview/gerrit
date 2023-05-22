@@ -16,6 +16,24 @@
       "message": "You definitely don\u0027t want to log all of these. `UnloggedFailure` says it right in the name 😊\n\nI suspect there are also a lot of RestApiExceptions that match the cases used (or previously used) for UnloggedFailure.",
       "revId": "5872db63667270dba0aed4859c7e1ba0d9af6c5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8121ade_3fd3d00d",
+        "filename": "java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-05-22T22:02:11Z",
+      "side": 1,
+      "message": "\u003e You definitely don\u0027t want to log all of these. UnloggedFailure says it right in the name 😊\n\nOps, my bad 😐",
+      "parentUuid": "e6001543_2c73a710",
+      "revId": "5872db63667270dba0aed4859c7e1ba0d9af6c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

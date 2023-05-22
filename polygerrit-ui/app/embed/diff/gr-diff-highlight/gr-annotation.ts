@@ -19,7 +19,7 @@ export const GrAnnotation = {
    */
   getLength(node: Node) {
     if (node instanceof Comment) return 0;
-    return this.getStringLength(node.textContent || '');
+    return GrAnnotation.getStringLength(node.textContent || '');
   },
 
   /**
@@ -65,7 +65,7 @@ export const GrAnnotation = {
 
     const nestedNodes: Node[] = [];
     for (let node of childNodes) {
-      const initialNodeLength = this.getLength(node);
+      const initialNodeLength = GrAnnotation.getLength(node);
       // If the current node is completely before the offset.
       if (offset > 0 && initialNodeLength <= offset) {
         offset -= initialNodeLength;
@@ -73,15 +73,15 @@ export const GrAnnotation = {
       }
 
       if (offset > 0) {
-        node = this.splitNode(node, offset);
+        node = GrAnnotation.splitNode(node, offset);
         offset = 0;
       }
-      if (this.getLength(node) > length) {
-        this.splitNode(node, length);
+      if (GrAnnotation.getLength(node) > length) {
+        GrAnnotation.splitNode(node, length);
       }
       nestedNodes.push(node);
 
-      length -= this.getLength(node);
+      length -= GrAnnotation.getLength(node);
       if (!length) break;
     }
 
@@ -116,7 +116,7 @@ export const GrAnnotation = {
     let subLength;
 
     for (const node of nodes) {
-      nodeLength = this.getLength(node);
+      nodeLength = GrAnnotation.getLength(node);
 
       // If the current node is completely before the offset.
       if (nodeLength <= offset) {
@@ -128,9 +128,9 @@ export const GrAnnotation = {
       subLength = Math.min(length, nodeLength - offset);
 
       if (node instanceof Text) {
-        this._annotateText(node, offset, subLength, cssClass);
+        GrAnnotation._annotateText(node, offset, subLength, cssClass);
       } else if (node instanceof Element) {
-        this.annotateElement(node, offset, subLength, cssClass);
+        GrAnnotation.annotateElement(node, offset, subLength, cssClass);
       }
 
       // If there is still more to annotate, then shift the indices, otherwise
@@ -172,19 +172,19 @@ export const GrAnnotation = {
     firstPart?: boolean
   ) {
     if (
-      (this.getLength(node) === offset && firstPart) ||
+      (GrAnnotation.getLength(node) === offset && firstPart) ||
       (offset === 0 && !firstPart)
     ) {
-      return this.wrapInHighlight(node, cssClass);
+      return GrAnnotation.wrapInHighlight(node, cssClass);
     }
     if (firstPart) {
-      this.splitNode(node, offset);
+      GrAnnotation.splitNode(node, offset);
       // Node points to first part of the Text, second one is sibling.
     } else {
       // if node is Text then splitNode will return a Text
-      node = this.splitNode(node, offset) as Text;
+      node = GrAnnotation.splitNode(node, offset) as Text;
     }
-    return this.wrapInHighlight(node, cssClass);
+    return GrAnnotation.wrapInHighlight(node, cssClass);
   },
 
   /**
@@ -193,7 +193,7 @@ export const GrAnnotation = {
    */
   splitNode(element: Node, offset: number) {
     if (element instanceof Text) {
-      return this.splitTextNode(element, offset);
+      return GrAnnotation.splitTextNode(element, offset);
     }
     const tail = element.cloneNode(false);
 
@@ -203,13 +203,14 @@ export const GrAnnotation = {
     let node = element.firstChild;
     while (
       node &&
-      (this.getLength(node) <= offset || this.getLength(node) === 0)
+      (GrAnnotation.getLength(node) <= offset ||
+        GrAnnotation.getLength(node) === 0)
     ) {
-      offset -= this.getLength(node);
+      offset -= GrAnnotation.getLength(node);
       node = node.nextSibling;
     }
-    if (node && this.getLength(node) > offset) {
-      tail.appendChild(this.splitNode(node, offset));
+    if (node && GrAnnotation.getLength(node) > offset) {
+      tail.appendChild(GrAnnotation.splitNode(node, offset));
     }
     while (node && node.nextSibling) {
       tail.appendChild(node.nextSibling);
@@ -245,7 +246,7 @@ export const GrAnnotation = {
   },
 
   _annotateText(node: Text, offset: number, length: number, cssClass: string) {
-    const nodeLength = this.getLength(node);
+    const nodeLength = GrAnnotation.getLength(node);
 
     // There are four cases:
     //  1) Entire node is highlighted.
@@ -255,17 +256,17 @@ export const GrAnnotation = {
 
     if (offset === 0 && nodeLength === length) {
       // Case 1.
-      this.wrapInHighlight(node, cssClass);
+      GrAnnotation.wrapInHighlight(node, cssClass);
     } else if (offset === 0) {
       // Case 2.
-      this.splitAndWrapInHighlight(node, length, cssClass, true);
+      GrAnnotation.splitAndWrapInHighlight(node, length, cssClass, true);
     } else if (offset + length === nodeLength) {
       // Case 3
-      this.splitAndWrapInHighlight(node, offset, cssClass, false);
+      GrAnnotation.splitAndWrapInHighlight(node, offset, cssClass, false);
     } else {
       // Case 4
-      this.splitAndWrapInHighlight(
-        this.splitTextNode(node, offset),
+      GrAnnotation.splitAndWrapInHighlight(
+        GrAnnotation.splitTextNode(node, offset),
         length,
         cssClass,
         true

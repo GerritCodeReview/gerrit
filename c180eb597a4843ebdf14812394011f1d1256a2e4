@@ -38,6 +38,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9734a466_485af5a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-22T13:49:30Z",
+      "side": 1,
+      "message": "Maybe drop this in favor of https://gerrit-review.git.corp.google.com/c/gerrit/+/374574: Revise getFromProjectLookup",
+      "revId": "c180eb597a4843ebdf14812394011f1d1256a2e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a19077b3_dd42041d",
         "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl_test.js",
         "patchSetId": 9

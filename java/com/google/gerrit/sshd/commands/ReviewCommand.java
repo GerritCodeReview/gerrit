@@ -215,7 +215,11 @@ public class ReviewCommand extends SshCommand {
         } else {
           reviewPatchSet(patchSet);
         }
-      } catch (RestApiException | UnloggedFailure e) {
+      } catch (RestApiException e) {
+        ok = false;
+        writeError("error", e.getMessage() + "\n");
+        logger.atSevere().withCause(e).log("api error while reviewing %s", patchSet.getId());
+      } catch (UnloggedFailure e) {
         ok = false;
         writeError("error", e.getMessage() + "\n");
       } catch (NoSuchChangeException e) {

@@ -369,6 +369,11 @@ export interface RestApiService extends Finalizable {
     endpoint: string
   ): Promise<string>;
 
+<<<<<<< HEAD   (7e8577 Merge changes I76e42627,Icfa9aa2c into stable-3.7)
+=======
+  getDocsBaseUrl(config?: ServerInfo): Promise<string | null>;
+
+>>>>>>> CHANGE (c39984 Revise getFromProjectLookup)
   createChange(
     project: RepoName,
     branch: BranchName,

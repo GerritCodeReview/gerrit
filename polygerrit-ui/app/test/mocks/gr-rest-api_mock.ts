@@ -305,6 +305,19 @@ export const grRestApiMock: RestApiService = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return Promise.resolve({}) as any;
   },
+<<<<<<< HEAD   (7e8577 Merge changes I76e42627,Icfa9aa2c into stable-3.7)
+=======
+  getDocsBaseUrl(config?: ServerInfo): Promise<string | null> {
+    if (config?.gerrit?.doc_url) {
+      return Promise.resolve(config.gerrit.doc_url);
+    } else {
+      return this.probePath(getBaseUrl() + PROBE_PATH).then(ok =>
+        Promise.resolve(ok ? getBaseUrl() + DOCS_BASE_PATH : null)
+      );
+    }
+    return Promise.resolve('');
+  },
+>>>>>>> CHANGE (c39984 Revise getFromProjectLookup)
   getDocumentationSearches(): Promise<DocResult[] | undefined> {
     return Promise.resolve([]);
   },

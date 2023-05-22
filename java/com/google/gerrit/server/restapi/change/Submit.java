@@ -520,4 +520,10 @@ public class Submit
       return json.noOptions().format(out.change);
     }
   }
+
+  public static class SubmitException extends RestApiException {
+    public SubmitException(String msg, Throwable cause) {
+      super(msg, cause);
+    }
+  }
 }

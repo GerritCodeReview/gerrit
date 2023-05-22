@@ -15,7 +15,7 @@ export const GrAnnotation = {
   /**
    * The DOM API textContent.length calculation is broken when the text
    * contains Unicode. See https://mathiasbynens.be/notes/javascript-unicode .
-   *
+   * @nocollapse
    */
   getLength(node: Node) {
     if (node instanceof Comment) return 0;
@@ -27,6 +27,7 @@ export const GrAnnotation = {
    *
    * This is not necessarily the same as the number of visible symbols.
    * See https://mathiasbynens.be/notes/javascript-unicode for more details.
+   * @nocollapse
    */
   getStringLength(str: string) {
     return [...str].length;
@@ -41,8 +42,8 @@ export const GrAnnotation = {
    * @param offset the 0-based offset from which the annotation will
    * start.
    * @param length of the annotated text.
-   * @param elementSpec the spec to create the
-   * annotating element.
+   * @param elementSpec the spec to create the annotating element.
+   * @nocollapse
    */
   annotateWithElement(
     parent: Node,
@@ -104,6 +105,7 @@ export const GrAnnotation = {
    * Surrounds the element's text at specified range in an ANNOTATION_TAG
    * element. If the element has child elements, the range is split and
    * applied as deeply as possible.
+   * @nocollapse
    */
   annotateElement(
     parent: HTMLElement,
@@ -146,6 +148,7 @@ export const GrAnnotation = {
 
   /**
    * Wraps node in annotation tag with cssClass, replacing the node in DOM.
+   * @nocollapse
    */
   wrapInHighlight(node: Element | Text, cssClass: string) {
     let hl;
@@ -164,6 +167,7 @@ export const GrAnnotation = {
   /**
    * Splits Text Node and wraps it in hl with cssClass.
    * Wraps trailing part after split, tailing one if firstPart is true.
+   * @nocollapse
    */
   splitAndWrapInHighlight(
     node: Text,
@@ -190,6 +194,7 @@ export const GrAnnotation = {
   /**
    * Splits Node at offset.
    * If Node is Element, it's cloned and the node at offset is split too.
+   * @nocollapse
    */
   splitNode(element: Node, offset: number) {
     if (element instanceof Text) {
@@ -224,6 +229,7 @@ export const GrAnnotation = {
    * https://mathiasbynens.be/notes/javascript-unicode
    *
    * @return Trailing Text Node.
+   * @nocollapse
    */
   splitTextNode(node: Text, offset: number) {
     if (node.textContent?.match(REGEX_ASTRAL_SYMBOL)) {
@@ -244,6 +250,7 @@ export const GrAnnotation = {
     }
   },
 
+  /** @nocollapse */
   _annotateText(node: Text, offset: number, length: number, cssClass: string) {
     const nodeLength = this.getLength(node);
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b5d5db6_85b6858b",
+        "filename": "java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-22T21:58:53Z",
+      "side": 1,
+      "message": "Just keep the previous message `as-is`, otherwise we are changing the external semantics of the response to the client.",
+      "range": {
+        "startLine": 220,
+        "startChar": 28,
+        "endLine": 220,
+        "endChar": 43
+      },
+      "revId": "a1cb5763934a7e7ef315f1b6b95daced46e851d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

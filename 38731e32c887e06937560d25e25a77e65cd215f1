@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df2a853b_a06a730b",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-05-22T10:10:44Z",
+      "side": 1,
+      "message": "Suggestion is defined as:\n```\nexport type Suggestion \u003d SuggestedReviewerInfo | AccountInfo;\n```\n\nThe name seems to imply that the function only works for SuggestedReviewerInfo, but isAccountSuggestion is checking for AccountInfo.\n\nMaybe rename it to be getSuggestedReviewerName , with an added benefit of being shorter.",
+      "range": {
+        "startLine": 235,
+        "startChar": 16,
+        "endLine": 235,
+        "endChar": 44
+      },
+      "revId": "38731e32c887e06937560d25e25a77e65cd215f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

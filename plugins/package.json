@@ -6,7 +6,7 @@
     "@gerritcodereview/typescript-api": "3.8.0",
     "@polymer/decorators": "^3.0.0",
     "@polymer/polymer": "^3.4.1",
-    "@open-wc/testing": "^3.1.6",
+    "@open-wc/testing": "^3.1.8",
     "@web/dev-server-esbuild": "^0.3.2",
     "@web/test-runner": "^0.14.0",
     "@codemirror/autocomplete": "^6.5.1",

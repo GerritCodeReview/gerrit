@@ -141,6 +141,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "083b2b0e_6282e998",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-model/gr-diff-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-23T11:24:48Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c35b9951_83ad2f4e",
+      "revId": "fb545fe0b0a2a389559715fb218dc84a6f4d2b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50bf0edc_824327bb",
@@ -263,6 +281,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09ad386f_616b6f64",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-23T11:24:48Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "69d6ae31_845b5de0",
+      "revId": "fb545fe0b0a2a389559715fb218dc84a6f4d2b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1caff937_c00e50a3",
@@ -333,6 +369,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fdf6a7a_56a7de0d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-23T11:24:48Z",
+      "side": 1,
+      "message": "I agree that the higher level defines the structure, but the structure is misleading because not all of them are shown at the same time.\n\nAt least for imageDif vs binaryDiff vs regular diff.",
+      "parentUuid": "abedfab9_484469df",
+      "revId": "fb545fe0b0a2a389559715fb218dc84a6f4d2b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a38e7a6_07628252",
@@ -368,6 +422,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e43f928_19c38a2b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-23T11:24:48Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "62cc4452_cd0d2046",
+      "revId": "fb545fe0b0a2a389559715fb218dc84a6f4d2b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07728bfd_3a14e45d",
@@ -399,6 +471,24 @@
       "side": 1,
       "message": "This is not code that I am changing, but I would be happy to remove the entire `handlePreferenceError` code. Would you like me to?",
       "parentUuid": "07728bfd_3a14e45d",
+      "revId": "fb545fe0b0a2a389559715fb218dc84a6f4d2b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32063f66_fc832c66",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-23T11:24:48Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "e9474e41_6157fcec",
       "revId": "fb545fe0b0a2a389559715fb218dc84a6f4d2b9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

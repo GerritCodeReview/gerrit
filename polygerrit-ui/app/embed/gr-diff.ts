@@ -15,8 +15,8 @@ import '../scripts/bundled-polymer';
 import './diff/gr-diff/gr-diff';
 import './diff/gr-diff-cursor/gr-diff-cursor';
 import {TokenHighlightLayer} from './diff/gr-diff-builder/token-highlight-layer';
-import {GrDiffCursor} from './diff/gr-diff-cursor/gr-diff-cursor';
-import {GrAnnotation} from './diff/gr-diff-highlight/gr-annotation';
+import {GrDiffCursor} from './diff-old/gr-diff-cursor/gr-diff-cursor';
+import {GrAnnotation} from './diff-old/gr-diff-highlight/gr-annotation';
 import {createDiffAppContext} from './gr-diff-app-context-init';
 import {injectAppContext} from '../services/app-context';
 

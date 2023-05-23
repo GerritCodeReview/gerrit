@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2b90ac9_9607bca3",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-processor/gr-diff-processor_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-23T11:05:15Z",
+      "side": 0,
+      "message": "I have tried for 30 minutes, but could not really find a good way to test this. The processor is not emitting any intermediate steps anymore. And it is hard in tests to say something like \"run all timeouts and then inspect the promise whether it is resolved\". I had written an `isResolved()` util and used fake timers. But eventually I gave up, because I felt spending too much time on a small thing.\n\nI am also not sure whether the \"isScrolling\" feature is actually worthwhile to keep. Maybe we should just drop it at a later point during the refactor.",
+      "parentUuid": "3ca7aca6_17780875",
+      "revId": "d5fc2405e0131248f5898094e82eeefcd4c42410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b8032d6_2dac22ce",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f40c8d2_ea0db11a",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 3698,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-23T11:05:15Z",
+      "side": 0,
+      "message": "Because the `renderDiffTable` method does not exist anymore. And I don\u0027t want to write a test that tests LitElement to call `render()` when a property changes.",
+      "parentUuid": "6b8032d6_2dac22ce",
+      "revId": "d5fc2405e0131248f5898094e82eeefcd4c42410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fbcb4a4d_cc97c9f3",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-05-22T07:51:05Z",
       "side": 0,
       "message": "Why are these tests removed?",
+      "revId": "d5fc2405e0131248f5898094e82eeefcd4c42410",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3656a2bb_9ea90064",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 4087,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-05-23T11:05:15Z",
+      "side": 0,
+      "message": "Because they were just testing that prefs were being passed on to the diff builder. I could not think of a useful replacement for that.",
+      "parentUuid": "fbcb4a4d_cc97c9f3",
       "revId": "d5fc2405e0131248f5898094e82eeefcd4c42410",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

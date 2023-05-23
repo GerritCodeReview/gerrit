@@ -57,6 +57,34 @@ public interface EmailSender {
   }
 
   /**
+   * Sends an email message. Messages always contain a text body, but messages can optionally
+   * include an additional HTML body and related resources. If both body types are present, {@code
+   * send} should construct a {@code multipart/alternative} message with an appropriately-selected
+   * boundary. If the HTML Resources are provided then html body and corresponding resources should
+   * be grouped as {@code multipart/related}.
+   *
+   * @param from who the message is from.
+   * @param rcpt one or more address where the message will be delivered to. This list overrides any
+   *     To or CC headers in {@code headers}.
+   * @param headers message headers.
+   * @param textBody text to appear in the {@code text/plain} body of the message.
+   * @param htmlBody optional HTML code to appear in the {@code text/html} body of the message.
+   * @param htmlResources optional resources that can be referenced in HTML code using their {@link
+   *     EmailResource#contentId}.
+   * @throws EmailException the message cannot be sent.
+   */
+  default void send(
+      Address from,
+      Collection<Address> rcpt,
+      Map<String, EmailHeader> headers,
+      String textBody,
+      @Nullable String htmlBody,
+      Collection<EmailResource> htmlResources)
+      throws EmailException {
+    send(from, rcpt, headers, textBody, htmlBody);
+  }
+
+  /**
    * Sends an email message with a text body only (i.e. not HTML or multipart).
    *
    * <p>Authors of new implementations of this interface should not use this method to send a

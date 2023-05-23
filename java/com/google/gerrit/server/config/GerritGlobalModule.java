@@ -224,6 +224,7 @@ import com.google.gerrit.server.validators.GroupCreationValidationListener;
 import com.google.gerrit.server.validators.HashtagValidationListener;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
+import com.google.gerrit.server.version.VersionInfoModule;
 import com.google.gitiles.blame.cache.BlameCache;
 import com.google.gitiles.blame.cache.BlameCacheImpl;
 import com.google.inject.Inject;
@@ -290,6 +291,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(ThreadLocalRequestContext.module());
     install(new ApprovalModule());
     install(new MailSoySauceModule());
+    install(new VersionInfoModule());
 
     factory(CapabilityCollection.Factory.class);
     factory(ChangeData.AssistedFactory.class);

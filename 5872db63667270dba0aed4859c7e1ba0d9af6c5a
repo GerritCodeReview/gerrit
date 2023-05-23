@@ -52,6 +52,24 @@
       "parentUuid": "d8121ade_3fd3d00d",
       "revId": "5872db63667270dba0aed4859c7e1ba0d9af6c5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cff5c9f_34300699",
+        "filename": "java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-05-23T12:53:58Z",
+      "side": 1,
+      "message": "\u003e I can imagine that certain exceptions are thrown for the lack of better way to express the error (IOW as a result of catch-and-rethrow) and in such cases it would make sense to see the cause\n\n`writeError` sends the exception message back to the client. This is the only information we have at the moment.\n\nIn some cases, the message is not set at all and it becomes impossible to understand what the cause of the failure is.",
+      "parentUuid": "f3b5785b_e8feb710",
+      "revId": "5872db63667270dba0aed4859c7e1ba0d9af6c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

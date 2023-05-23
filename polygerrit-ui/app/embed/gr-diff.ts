@@ -30,5 +30,3 @@ window.grdiff = {
   TokenHighlightLayer,
 };
 
-// TODO(oler): Remove when clients have adjusted to namespaced globals above
-window.GrAnnotation = GrAnnotation;

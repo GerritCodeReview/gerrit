@@ -11,7 +11,6 @@
  * expose these variables until plugins switch to direct import from polygerrit.
  */
 
-import {GrAnnotation} from '../embed/diff/gr-diff-highlight/gr-annotation';
 import {GrPluginActionContext} from './shared/gr-js-api-interface/gr-plugin-action-context';
 import {AppContext, injectAppContext} from '../services/app-context';
 import {PluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader';
@@ -39,7 +38,6 @@ export function initGlobalVariables(
     initClickReporter(reportingService);
     initInteractionReporter(reportingService);
   }
-  window.GrAnnotation = GrAnnotation;
   window.GrPluginActionContext = GrPluginActionContext;
 }
 

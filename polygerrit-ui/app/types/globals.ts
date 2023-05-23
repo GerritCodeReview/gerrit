@@ -36,10 +36,6 @@ declare global {
     };
 
     /** Enhancements on Gr elements or utils */
-    // TODO(TS): should clean up those and removing them may break certain plugin behaviors
-    // TODO(TS): as @brohlfs suggested, to avoid importing anything from elements/ to types/
-    // use any for them for now
-    GrAnnotation: unknown;
     // Heads up! There is a known plugin dependency on GrPluginActionContext.
     GrPluginActionContext: unknown;
   }

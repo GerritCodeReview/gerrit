@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6115e3e_1bb5fab4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-23T22:17:27Z",
+      "side": 1,
+      "message": "the implementation first shows the gerrit version\n\nI think this format would be more consistent:\n\n```\ngerrit version 3.8.0-335-g711a875804-dirty\nnotedb version           185\naccounts index version    13\nchanges index version     83\ngroups index version      10\nprojects index version     6\n```",
+      "revId": "739efe90f6b8264b0bac85e78575e05d3befaaef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3561a904_f7f2d20d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-23T22:17:27Z",
+      "side": 1,
+      "message": "I think this should be mentioned in the release notes:\n\nReleaseNotes: Add `--verbose` option to `version` command",
+      "revId": "739efe90f6b8264b0bac85e78575e05d3befaaef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7fe79167_c9ee57cf",
+        "filename": "Documentation/cmd-version.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-23T22:17:27Z",
+      "side": 1,
+      "message": "also mention the alias `-v` ?",
+      "revId": "739efe90f6b8264b0bac85e78575e05d3befaaef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d71649a2_c0ac77d0",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-23T22:17:27Z",
+      "side": 1,
+      "message": "in documentation we call it \"NoteDb\" without an underscore, hence maybe better notedb_version ?",
+      "range": {
+        "startLine": 49,
+        "startChar": 5,
+        "endLine": 49,
+        "endChar": 12
+      },
+      "revId": "739efe90f6b8264b0bac85e78575e05d3befaaef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

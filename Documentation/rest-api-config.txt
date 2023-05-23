@@ -30,6 +30,32 @@ Returns the version of the Gerrit server.
   "2.7"
 ----
 
+The `verbose` option can be used to provide a verbose version output as
+link:#version-info[VersionInfo].
+
+.Request
+----
+  GET /config/server/version?verbose HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "gerrit_version": "3.8.0",
+    "note_db_version": 185,
+    "change_index_version": 83,
+    "account_index_version": 13,
+    "project_index_version": 6,
+    "group_index_version": 10
+  }
+----
+
+
+
 [[get-info]]
 === Get Server Info
 --
@@ -1966,6 +1992,22 @@ of git-receive-pack behavior on the server.
 Whether signed push validation support is enabled on the server; see the
 link:config-gerrit.html#receive.certNonceSeed[global configuration] for
 details.
+|=======================================
+
+[[version-info]]
+=== VersionInfo
+The `VersionInfo` entity contains information about the version of the
+Gerrit server.
+
+[options="header",cols="1,^1,5"]
+|=======================================
+|Field Name                ||Description
+|`gerrit_version`          ||Gerrit server version
+|`note_db_version`         ||NoteDb version
+|`change_index_version`    ||Change index version
+|`account_index_version`   ||Account index version
+|`project_index_version`   ||Project index version
+|`group_index_version`     ||Group index version
 |=======================================
 
 [[server-info]]

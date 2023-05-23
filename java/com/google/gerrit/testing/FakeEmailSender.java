@@ -26,6 +26,7 @@ import com.google.gerrit.entities.EmailHeader;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.mail.MailHeader;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.mail.send.EmailResource;
 import com.google.gerrit.server.mail.send.EmailSender;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
@@ -63,9 +64,15 @@ public class FakeEmailSender implements EmailSender {
         Collection<Address> rcpt,
         Map<String, EmailHeader> headers,
         String body,
-        String htmlBody) {
+        String htmlBody,
+        Collection<EmailResource> htmlResources) {
       return new AutoValue_FakeEmailSender_Message(
-          from, ImmutableList.copyOf(rcpt), ImmutableMap.copyOf(headers), body, htmlBody);
+          from,
+          ImmutableList.copyOf(rcpt),
+          ImmutableMap.copyOf(headers),
+          body,
+          htmlBody,
+          ImmutableList.copyOf(htmlResources));
     }
 
     public abstract Address from();
@@ -78,6 +85,8 @@ public class FakeEmailSender implements EmailSender {
 
     @Nullable
     public abstract String htmlBody();
+
+    public abstract ImmutableList<EmailResource> htmlResources();
   }
 
   private final WorkQueue workQueue;
@@ -105,7 +114,7 @@ public class FakeEmailSender implements EmailSender {
   public void send(
       Address from, Collection<Address> rcpt, Map<String, EmailHeader> headers, String body)
       throws EmailException {
-    send(from, rcpt, headers, body, null);
+    send(from, rcpt, headers, body, null, ImmutableList.of());
   }
 
   @Override
@@ -116,7 +125,19 @@ public class FakeEmailSender implements EmailSender {
       String body,
       String htmlBody)
       throws EmailException {
-    messages.add(Message.create(from, rcpt, headers, body, htmlBody));
+    messages.add(Message.create(from, rcpt, headers, body, htmlBody, ImmutableList.of()));
+  }
+
+  @Override
+  public void send(
+      Address from,
+      Collection<Address> rcpt,
+      Map<String, EmailHeader> headers,
+      String body,
+      String htmlBody,
+      Collection<EmailResource> htmlResources)
+      throws EmailException {
+    messages.add(Message.create(from, rcpt, headers, body, htmlBody, htmlResources));
   }
 
   public void clear() {

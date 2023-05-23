@@ -4,82 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {ImageInfo} from '../../../types/common';
-import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
-import {FILE, RenderPreferences, Side} from '../../../api/diff';
+import {Side} from '../../../api/diff';
 import '../gr-diff-image-viewer/gr-image-viewer';
 import {html, LitElement, nothing} from 'lit';
 import {property, query, state} from 'lit/decorators.js';
-import {GrDiffBuilder} from './gr-diff-builder';
-import {GrDiffGroup} from '../gr-diff/gr-diff-group';
-import {isNewDiff, createElementDiff} from '../gr-diff/gr-diff-utils';
+import {isNewDiff} from '../gr-diff/gr-diff-utils';
 
 // MIME types for images we allow showing. Do not include SVG, it can contain
 // arbitrary JavaScript.
 const IMAGE_MIME_PATTERN = /^image\/(bmp|gif|x-icon|jpeg|jpg|png|tiff|webp)$/;
-
-export class GrDiffBuilderImage extends GrDiffBuilder {
-  constructor(
-    diff: DiffInfo,
-    prefs: DiffPreferencesInfo,
-    outputEl: HTMLElement,
-    private readonly baseImage: ImageInfo | null,
-    private readonly revisionImage: ImageInfo | null,
-    renderPrefs?: RenderPreferences,
-    private readonly useNewImageDiffUi: boolean = false
-  ) {
-    super(diff, prefs, outputEl, [], renderPrefs);
-  }
-
-  override buildSectionElement(group: GrDiffGroup): HTMLElement {
-    const section = createElementDiff('tbody');
-    // Do not create a diff row for LOST.
-    if (group.lines[0].beforeNumber !== FILE) return section;
-    return super.buildSectionElement(group);
-  }
-
-  public renderImageDiff() {
-    const imageDiff = this.useNewImageDiffUi
-      ? this.createImageDiffNew()
-      : this.createImageDiffOld();
-    this.outputEl.appendChild(imageDiff);
-  }
-
-  private createImageDiffNew() {
-    // TODO(newdiff-cleanup): Remove cast when newdiff migration is complete.
-    const imageDiff = document.createElement(
-      'gr-diff-image-new'
-    ) as GrDiffImageNew;
-    imageDiff.automaticBlink = this.autoBlink();
-    imageDiff.baseImage = this.baseImage ?? undefined;
-    imageDiff.revisionImage = this.revisionImage ?? undefined;
-    return imageDiff;
-  }
-
-  private createImageDiffOld() {
-    // TODO(newdiff-cleanup): Remove cast when newdiff migration is complete.
-    const imageDiff = document.createElement(
-      'gr-diff-image-old'
-    ) as GrDiffImageOld;
-    imageDiff.baseImage = this.baseImage ?? undefined;
-    imageDiff.revisionImage = this.revisionImage ?? undefined;
-    return imageDiff;
-  }
-
-  private autoBlink(): boolean {
-    return !!this.renderPrefs?.image_diff_prefs?.automatic_blink;
-  }
-
-  override updateRenderPrefs(renderPrefs: RenderPreferences) {
-    this.renderPrefs = renderPrefs;
-
-    // We have to update `imageDiff.automaticBlink` manually, because `this` is
-    // not a LitElement.
-    const imageDiff = this.outputEl.querySelector(
-      'gr-diff-image-new'
-    ) as GrDiffImageNew;
-    if (imageDiff) imageDiff.automaticBlink = this.autoBlink();
-  }
-}
 
 class GrDiffImageNew extends LitElement {
   @property() baseImage?: ImageInfo;

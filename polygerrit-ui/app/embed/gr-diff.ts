@@ -12,8 +12,8 @@
 // exposed by shared gr-diff component.
 import '../api/embed';
 import '../scripts/bundled-polymer';
-import './diff/gr-diff/gr-diff';
-import './diff/gr-diff-cursor/gr-diff-cursor';
+import './diff-old/gr-diff/gr-diff';
+import './diff-old/gr-diff-cursor/gr-diff-cursor';
 import {TokenHighlightLayer} from './diff/gr-diff-builder/token-highlight-layer';
 import {GrDiffCursor} from './diff-old/gr-diff-cursor/gr-diff-cursor';
 import {GrAnnotation} from './diff-old/gr-diff-highlight/gr-annotation';

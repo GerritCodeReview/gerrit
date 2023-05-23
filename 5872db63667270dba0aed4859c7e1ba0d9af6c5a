@@ -70,6 +70,24 @@
       "parentUuid": "f3b5785b_e8feb710",
       "revId": "5872db63667270dba0aed4859c7e1ba0d9af6c5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5f7fab9_e671e293",
+        "filename": "java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-23T13:15:15Z",
+      "side": 1,
+      "message": "\u003e \u003e I can imagine that certain exceptions are thrown for the lack of better way to express the error (IOW as a result of catch-and-rethrow) and in such cases it would make sense to see the cause\n\u003e \n\u003e `writeError` sends the exception message back to the client. This is the only information we have at the moment.\n\nI do understand why the full stack trace is not sent to the client 😊, however, Gerrit expect some clue on the error_log on the cause of the problem.\n\n\u003e In some cases, the message is not set at all and it becomes impossible to understand what the cause of the failure is.\n\nCan you mention at least one of them in the commit message?\nOnce that is done, it\u0027s good to go for me.",
+      "parentUuid": "8cff5c9f_34300699",
+      "revId": "5872db63667270dba0aed4859c7e1ba0d9af6c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

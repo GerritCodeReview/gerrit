@@ -39,7 +39,6 @@ export function initGlobalVariables(
     initClickReporter(reportingService);
     initInteractionReporter(reportingService);
   }
-  window.GrAnnotation = GrAnnotation;
   window.GrPluginActionContext = GrPluginActionContext;
 }
 

@@ -155,6 +155,7 @@ java_library(
         "//java/com/google/gerrit/server/logging",
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/rules/prolog",
+        "//java/com/google/gerrit/server/version",
         "//lib:blame-cache",
         "//lib:guava",
         "//lib:jgit",

@@ -16,21 +16,34 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
-import com.google.gerrit.common.Version;
+import com.google.gerrit.extensions.common.VersionInfo;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
+import com.google.inject.Inject;
+import org.kohsuke.args4j.Option;
 
 @CommandMetaData(name = "version", description = "Display gerrit version", runsAt = MASTER_OR_SLAVE)
 final class VersionCommand extends SshCommand {
 
+  @Option(
+      name = "--verbose",
+      aliases = {"-v"},
+      usage = "verbose version info")
+  private boolean verbose;
+
+  @Inject private VersionInfo versionInfo;
+
   @Override
   protected void run() throws Failure {
     enableGracefulStop();
-    String v = Version.getVersion();
-    if (v == null) {
+    if (versionInfo.gerritVersion == null) {
       throw new Failure(1, "fatal: version unavailable");
     }
 
-    stdout.println("gerrit version " + v);
+    if (verbose) {
+      stdout.print(versionInfo.verbose());
+    } else {
+      stdout.print(versionInfo.compact());
+    }
   }
 }

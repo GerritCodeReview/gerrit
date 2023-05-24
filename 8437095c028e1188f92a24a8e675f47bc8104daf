@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "1b3182ff_90ac21cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-24T17:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94483856_52a1da04",
+      "revId": "8437095c028e1188f92a24a8e675f47bc8104daf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e137003f_c12b3d51",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 16
@@ -65,6 +83,30 @@
       "writtenOn": "2023-05-24T16:54:35Z",
       "side": 1,
       "message": "nit: redundant outer `()` - the are not needed and they don\u0027t improve the readability",
+      "range": {
+        "startLine": 788,
+        "startChar": 12,
+        "endLine": 788,
+        "endChar": 66
+      },
+      "revId": "8437095c028e1188f92a24a8e675f47bc8104daf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f4117fa_7c5c8044",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-24T17:16:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86f36d37_084bacaf",
       "range": {
         "startLine": 788,
         "startChar": 12,

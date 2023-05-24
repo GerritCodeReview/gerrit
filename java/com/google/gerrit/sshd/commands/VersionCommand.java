@@ -17,6 +17,7 @@ package com.google.gerrit.sshd.commands;
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
 import com.google.gerrit.extensions.common.VersionInfo;
+import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
@@ -31,6 +32,9 @@ final class VersionCommand extends SshCommand {
       usage = "verbose version info")
   private boolean verbose;
 
+  @Option(name = "--json", usage = "json output format, assumes verbose output")
+  private boolean json;
+
   @Inject private VersionInfo versionInfo;
 
   @Override
@@ -40,7 +44,9 @@ final class VersionCommand extends SshCommand {
       throw new Failure(1, "fatal: version unavailable");
     }
 
-    if (verbose) {
+    if (json) {
+      stdout.println(OutputFormat.JSON.newGson().toJson(versionInfo));
+    } else if (verbose) {
       stdout.print(versionInfo.verbose());
     } else {
       stdout.print(versionInfo.compact());

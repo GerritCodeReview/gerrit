@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm;
 
 import com.google.gerrit.extensions.common.VersionInfo;
+import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.pgm.util.AbstractProgram;
 import com.google.gerrit.server.version.VersionInfoModule;
 import org.kohsuke.args4j.Option;
@@ -28,6 +29,9 @@ public class Version extends AbstractProgram {
       usage = "verbose version info")
   private boolean verbose;
 
+  @Option(name = "--json", usage = "json output format, assumes verbose output")
+  private boolean json;
+
   @Override
   public int run() throws Exception {
     VersionInfo versionInfo = new VersionInfoModule().createVersionInfo();
@@ -36,7 +40,9 @@ public class Version extends AbstractProgram {
       return 1;
     }
 
-    if (verbose) {
+    if (json) {
+      System.out.println(OutputFormat.JSON.newGson().toJson(versionInfo));
+    } else if (verbose) {
       System.out.print(versionInfo.verbose());
     } else {
       System.out.print(versionInfo.compact());

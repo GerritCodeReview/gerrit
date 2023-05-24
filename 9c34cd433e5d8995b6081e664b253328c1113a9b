@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d05d08a9_7a0fabf3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-24T13:59:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "833e1ae7_b6f307ce",
+      "range": {
+        "startLine": 9,
+        "startChar": 18,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07f9c8bf_aff10d76",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-05-19T11:34:51Z",
       "side": 1,
       "message": "The interface is called `Cacheability` (but `Cacheable` is also a good shout).",
+      "range": {
+        "startLine": 26,
+        "startChar": 19,
+        "endLine": 26,
+        "endChar": 28
+      },
+      "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33f55843_4c8c0b01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-24T13:59:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07f9c8bf_aff10d76",
       "range": {
         "startLine": 26,
         "startChar": 19,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "166dfcab_e75e56e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-24T13:59:03Z",
+      "side": 1,
+      "message": "Good stuff @Tony",
+      "parentUuid": "e890a2ce_680dfea5",
+      "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f99216bc_e8185545",
@@ -77,6 +143,30 @@
       "writtenOn": "2023-05-16T06:37:01Z",
       "side": 1,
       "message": "nit: for the consistency with commit message it would be better to stick to the same spelling `cacheable`",
+      "range": {
+        "startLine": 17,
+        "startChar": 28,
+        "endLine": 17,
+        "endChar": 38
+      },
+      "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c627635e_b90c812c",
+        "filename": "java/com/google/gerrit/extensions/restapi/Cacheability.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-24T13:59:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f99216bc_e8185545",
       "range": {
         "startLine": 17,
         "startChar": 28,
@@ -127,6 +217,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e71177e2_a12811e4",
+        "filename": "java/com/google/gerrit/extensions/restapi/Cacheability.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-24T13:59:03Z",
+      "side": 1,
+      "message": "\u003e Isn\u0027t a class that implements this interface cacheable by default?\n\nNope, that\u0027s the exact opposite. If you do not implement the logic of when to say that the API is cacheable or not, then it\u0027s not cacheable by default.\n\n\u003e I don\u0027t see a use case where we\u0027d extend this class just to say it\u0027s never cacheable.\n\nTrue, the default to false is done just for being on the safe side *IF* the API does not implement that method.\n\nThe `Cacheability` is mixed in RestReadView\u003c\u003e which is just an abstract interface.\nAnother option is to NOT mix the interface with RestReadView.\n\nAnyway, I believe you have a point of NOT mixing it if the class could never be cacheable.\n\n\u003e If that assumption is correct, then maybe this method should be called `isCached`, not `isCacheable` (and maybe the class should be called `Cacheable`, as mentioned in the commit message).\n\nCached \u003d we know that there is a cached value, Cacheable \u003d we tell that the resource can be cached safely by the client.\n\nI believe `isCacheable` is the right name.",
+      "parentUuid": "27786402_0dc6cec0",
+      "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e939b08d_12b55825",
+        "filename": "java/com/google/gerrit/extensions/restapi/Cacheability.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-24T13:59:03Z",
+      "side": 1,
+      "message": "If we change the RestView interface, we\u0027ll be breaking *ALL* existing APIs in Gerrit or plugins.",
+      "parentUuid": "80032e27_22c62fd3",
+      "range": {
+        "startLine": 26,
+        "startChar": 18,
+        "endLine": 26,
+        "endChar": 29
+      },
+      "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17db0e39_d214f471",
@@ -140,6 +272,30 @@
       "writtenOn": "2023-05-19T11:34:51Z",
       "side": 1,
       "message": "We should have consistent casing for ETag - `isCacheableWithEtag` doesn\u0027t match `getETag` (also elsewhere).",
+      "range": {
+        "startLine": 472,
+        "startChar": 12,
+        "endLine": 472,
+        "endChar": 31
+      },
+      "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a9c9c02_ca980112",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-24T13:59:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17db0e39_d214f471",
       "range": {
         "startLine": 472,
         "startChar": 12,
@@ -173,6 +329,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "583a71fa_7a2ee8be",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-24T13:59:03Z",
+      "side": 1,
+      "message": "\u003e can be simplified to\n\u003e ```\n\u003e currentEtag.orElseGet(() -\u003e getETag(currentRsrc, currentView);\n\u003e ```\n\nNo, it wouldn\u0027t work because `orElseGet` resolves into a `String` result, whilst we want to keep it as `Optional\u003cString\u003e`.\n\nI believe the current form isn\u0027t that complicated and is readable enough, feel free to disagree 😊",
+      "parentUuid": "859fa406_b7f4a515",
+      "range": {
+        "startLine": 555,
+        "startChar": 20,
+        "endLine": 555,
+        "endChar": 94
+      },
+      "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76d30918_d57dab3e",
@@ -186,6 +366,30 @@
       "writtenOn": "2023-05-15T12:53:12Z",
       "side": 1,
       "message": "I think one of the 2 following cases might read better:\n\n* `!(view instanceof ETagView || rsrc instanceof HasETag)` \n* `view instanceof ETagView \u003d\u003d false || rsrc instanceof HasETag \u003d\u003d false`",
+      "range": {
+        "startLine": 810,
+        "startChar": 11,
+        "endLine": 810,
+        "endChar": 70
+      },
+      "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ed5b830_31f0bfbf",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-24T13:59:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76d30918_d57dab3e",
       "range": {
         "startLine": 810,
         "startChar": 11,
@@ -219,6 +423,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00419199_f2163ce5",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-24T13:59:03Z",
+      "side": 1,
+      "message": "\u003e I wonder if written in a functional way would be more readable:\n\u003e \n\u003e ```java\n\u003e private static boolean requestHeadersHasAnyValue(HttpServletRequest req, String headerName, String... headerValues) {\n\u003e     Enumeration\u003cString\u003e headers \u003d req.getHeaders(headerName);\n\u003e     List\u003cString\u003e headerList \u003d Collections.list(headers);\n\u003e \n\u003e     return headerList.stream()\n\u003e                 .anyMatch(currentHeader -\u003e containsHeader(currentHeader, headerValues));\n\u003e }\n\u003e \n\u003e private static boolean containsHeader(String currentHeader, String... headerValues) {\n\u003e      return Arrays.stream(headerValues)\n\u003e                .anyMatch(hdr -\u003e currentHeader.equalsIgnoreCase(hdr));\n\u003e }\n\u003e \n\u003e ```\n\nI know it is nicer, however this method is called for *ANY* REST-API execution and I am concerned about the extra objects created:\n- Stream\n- List\n\nThe current form, more imperative, has zero overhead in terms of memory consumption has keeps optimal performance, albeit slightly less readable and absolutely zero functional.",
+      "parentUuid": "42dcfba2_3ec9799d",
+      "range": {
+        "startLine": 823,
+        "startChar": 0,
+        "endLine": 836,
+        "endChar": 3
+      },
+      "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85185903_e815a166",
@@ -232,6 +460,30 @@
       "writtenOn": "2023-05-19T11:34:51Z",
       "side": 1,
       "message": "Does `HasETag` imply cacheability? Or to put it another way, would it ever make sense to implement `HasETag` without `Cacheability`? If not we may want to review the class hierarchy.",
+      "range": {
+        "startLine": 57,
+        "startChar": 53,
+        "endLine": 57,
+        "endChar": 60
+      },
+      "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c991c06d_006f0ddb",
+        "filename": "java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-24T13:59:03Z",
+      "side": 1,
+      "message": "Neither of the two are true:\n- You could have the ability to return an ETag, but that doesn\u0027t mean that all calls are cacheable\n- You could expose the intent of telling the client that you are cacheable or not, but not at resource level but rather on a time-based condition.",
+      "parentUuid": "85185903_e815a166",
       "range": {
         "startLine": 57,
         "startChar": 53,

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "94483856_52a1da04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-05-24T16:55:40Z",
+      "side": 1,
+      "message": "Missing the `Release-Notes` header 😄",
+      "revId": "8437095c028e1188f92a24a8e675f47bc8104daf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e137003f_c12b3d51",
@@ -14,6 +31,23 @@
       "writtenOn": "2023-05-24T16:54:35Z",
       "side": 1,
       "message": "@luca LGTM - feel free to address (or not ;)) this tiny nit and merge it",
+      "revId": "8437095c028e1188f92a24a8e675f47bc8104daf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b33ad77_41cb9743",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-05-24T16:55:40Z",
+      "side": 1,
+      "message": "And add the release-notes 😄",
       "revId": "8437095c028e1188f92a24a8e675f47bc8104daf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

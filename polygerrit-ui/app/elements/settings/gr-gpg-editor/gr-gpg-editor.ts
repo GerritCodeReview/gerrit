@@ -49,7 +49,8 @@ export class GrGpgEditor extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  static override styles = [
+  static override get styles() {
+    return [
     formStyles,
     sharedStyles,
     modalStyles,
@@ -77,6 +78,7 @@ export class GrGpgEditor extends LitElement {
       }
     `,
   ];
+}
 
   override render() {
     return html`

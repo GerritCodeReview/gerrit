@@ -66,43 +66,45 @@ export class GrConfirmRevertDialog
 
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
-  static override styles = [
-    sharedStyles,
-    css`
-      :host {
-        display: block;
-      }
-      :host([disabled]) {
-        opacity: 0.5;
-        pointer-events: none;
-      }
-      label {
-        cursor: pointer;
-        display: block;
-        width: 100%;
-      }
-      .revertSubmissionLayout {
-        display: flex;
-        align-items: center;
-      }
-      .label {
-        margin-left: var(--spacing-m);
-      }
-      iron-autogrow-textarea {
-        font-family: var(--monospace-font-family);
-        font-size: var(--font-size-mono);
-        line-height: var(--line-height-mono);
-        width: 73ch; /* Add a char to account for the border. */
-      }
-      .error {
-        color: var(--error-text-color);
-        margin-bottom: var(--spacing-m);
-      }
-      label[for='messageInput'] {
-        margin-top: var(--spacing-m);
-      }
-    `,
-  ];
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          display: block;
+        }
+        :host([disabled]) {
+          opacity: 0.5;
+          pointer-events: none;
+        }
+        label {
+          cursor: pointer;
+          display: block;
+          width: 100%;
+        }
+        .revertSubmissionLayout {
+          display: flex;
+          align-items: center;
+        }
+        .label {
+          margin-left: var(--spacing-m);
+        }
+        iron-autogrow-textarea {
+          font-family: var(--monospace-font-family);
+          font-size: var(--font-size-mono);
+          line-height: var(--line-height-mono);
+          width: 73ch; /* Add a char to account for the border. */
+        }
+        .error {
+          color: var(--error-text-color);
+          margin-bottom: var(--spacing-m);
+        }
+        label[for='messageInput'] {
+          margin-top: var(--spacing-m);
+        }
+      `,
+    ];
+  }
 
   override render() {
     return html`

@@ -303,43 +303,45 @@ export class GrSettingsView extends LitElement {
     });
   }
 
-  static override styles = [
-    sharedStyles,
-    paperStyles,
-    fontStyles,
-    formStyles,
-    menuPageStyles,
-    pageNavStyles,
-    css`
-      :host {
-        color: var(--primary-text-color);
-      }
-      h2 {
-        font-family: var(--header-font-family);
-        font-size: var(--font-size-h2);
-        font-weight: var(--font-weight-h2);
-        line-height: var(--line-height-h2);
-      }
-      .newEmailInput {
-        width: 20em;
-      }
-      #email {
-        margin-bottom: var(--spacing-l);
-      }
-      .filters p {
-        margin-bottom: var(--spacing-l);
-      }
-      .queryExample em {
-        color: violet;
-      }
-      .toggle {
-        align-items: center;
-        display: flex;
-        margin-bottom: var(--spacing-l);
-        margin-right: var(--spacing-l);
-      }
-    `,
-  ];
+  static override get styles() {
+    return [
+      sharedStyles,
+      paperStyles,
+      fontStyles,
+      formStyles,
+      menuPageStyles,
+      pageNavStyles,
+      css`
+        :host {
+          color: var(--primary-text-color);
+        }
+        h2 {
+          font-family: var(--header-font-family);
+          font-size: var(--font-size-h2);
+          font-weight: var(--font-weight-h2);
+          line-height: var(--line-height-h2);
+        }
+        .newEmailInput {
+          width: 20em;
+        }
+        #email {
+          margin-bottom: var(--spacing-l);
+        }
+        .filters p {
+          margin-bottom: var(--spacing-l);
+        }
+        .queryExample em {
+          color: violet;
+        }
+        .toggle {
+          align-items: center;
+          display: flex;
+          margin-bottom: var(--spacing-l);
+          margin-right: var(--spacing-l);
+        }
+      `,
+    ];
+  }
 
   override render() {
     const isLoading = this.loading || this.loading === undefined;

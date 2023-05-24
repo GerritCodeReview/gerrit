@@ -154,75 +154,77 @@ export class GrConfirmCherrypickDialog
     }
   }
 
-  static override styles = [
-    sharedStyles,
-    css`
-      :host {
-        display: block;
-      }
-      :host([disabled]) {
-        opacity: 0.5;
-        pointer-events: none;
-      }
-      label {
-        cursor: pointer;
-      }
-      .main {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-      }
-      .main label,
-      .main input[type='text'] {
-        display: block;
-        width: 100%;
-      }
-      iron-autogrow-textarea {
-        font-family: var(--monospace-font-family);
-        font-size: var(--font-size-mono);
-        line-height: var(--line-height-mono);
-        width: 73ch; /* Add a char to account for the border. */
-      }
-      .cherryPickTopicLayout {
-        display: flex;
-        align-items: center;
-        margin-bottom: var(--spacing-m);
-      }
-      .cherryPickSingleChange,
-      .cherryPickTopic {
-        margin-left: var(--spacing-m);
-      }
-      .cherry-pick-topic-message {
-        margin-bottom: var(--spacing-m);
-      }
-      label[for='messageInput'],
-      label[for='baseInput'] {
-        margin-top: var(--spacing-m);
-      }
-      .title {
-        font-weight: var(--font-weight-bold);
-      }
-      tr > td {
-        padding: var(--spacing-m);
-      }
-      th {
-        color: var(--deemphasized-text-color);
-      }
-      table {
-        border-collapse: collapse;
-      }
-      tr {
-        border-bottom: 1px solid var(--border-color);
-      }
-      .error {
-        color: var(--error-text-color);
-      }
-      .error-message {
-        color: var(--error-text-color);
-        margin: var(--spacing-m) 0 var(--spacing-m) 0;
-      }
-    `,
-  ];
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          display: block;
+        }
+        :host([disabled]) {
+          opacity: 0.5;
+          pointer-events: none;
+        }
+        label {
+          cursor: pointer;
+        }
+        .main {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+        }
+        .main label,
+        .main input[type='text'] {
+          display: block;
+          width: 100%;
+        }
+        iron-autogrow-textarea {
+          font-family: var(--monospace-font-family);
+          font-size: var(--font-size-mono);
+          line-height: var(--line-height-mono);
+          width: 73ch; /* Add a char to account for the border. */
+        }
+        .cherryPickTopicLayout {
+          display: flex;
+          align-items: center;
+          margin-bottom: var(--spacing-m);
+        }
+        .cherryPickSingleChange,
+        .cherryPickTopic {
+          margin-left: var(--spacing-m);
+        }
+        .cherry-pick-topic-message {
+          margin-bottom: var(--spacing-m);
+        }
+        label[for='messageInput'],
+        label[for='baseInput'] {
+          margin-top: var(--spacing-m);
+        }
+        .title {
+          font-weight: var(--font-weight-bold);
+        }
+        tr > td {
+          padding: var(--spacing-m);
+        }
+        th {
+          color: var(--deemphasized-text-color);
+        }
+        table {
+          border-collapse: collapse;
+        }
+        tr {
+          border-bottom: 1px solid var(--border-color);
+        }
+        .error {
+          color: var(--error-text-color);
+        }
+        .error-message {
+          color: var(--error-text-color);
+          margin: var(--spacing-m) 0 var(--spacing-m) 0;
+        }
+      `,
+    ];
+  }
 
   override render() {
     return html`

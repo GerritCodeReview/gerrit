@@ -56,67 +56,70 @@ export class GrFormattedText extends LitElement {
    * Note: Do not use sharedStyles or other styles here that should not affect
    * the generated HTML of the markdown.
    */
-  static override styles = [
-    css`
-      a {
-        color: var(--link-color);
-      }
-      p,
-      ul,
-      code,
-      blockquote {
-        margin: 0 0 var(--spacing-m) 0;
-        max-width: var(--gr-formatted-text-prose-max-width, none);
-      }
-      p:last-child,
-      ul:last-child,
-      blockquote:last-child,
-      pre:last-child {
-        margin: 0;
-      }
-      blockquote {
-        border-left: var(--spacing-xxs) solid var(--comment-quote-marker-color);
-        padding: 0 var(--spacing-m);
-      }
-      code {
-        background-color: var(--background-color-secondary);
-        border: var(--spacing-xxs) solid var(--border-color);
-        display: block;
-        font-family: var(--monospace-font-family);
-        font-size: var(--font-size-code);
-        line-height: var(--line-height-mono);
-        margin: var(--spacing-m) 0;
-        padding: var(--spacing-xxs) var(--spacing-s);
-        overflow-x: auto;
-        /* Pre will preserve whitespace and line breaks but not wrap */
-        white-space: pre;
-      }
-      /* Non-multiline code elements need display:inline to shrink and not take
+  static override get styles() {
+    return [
+      css`
+        a {
+          color: var(--link-color);
+        }
+        p,
+        ul,
+        code,
+        blockquote {
+          margin: 0 0 var(--spacing-m) 0;
+          max-width: var(--gr-formatted-text-prose-max-width, none);
+        }
+        p:last-child,
+        ul:last-child,
+        blockquote:last-child,
+        pre:last-child {
+          margin: 0;
+        }
+        blockquote {
+          border-left: var(--spacing-xxs) solid
+            var(--comment-quote-marker-color);
+          padding: 0 var(--spacing-m);
+        }
+        code {
+          background-color: var(--background-color-secondary);
+          border: var(--spacing-xxs) solid var(--border-color);
+          display: block;
+          font-family: var(--monospace-font-family);
+          font-size: var(--font-size-code);
+          line-height: var(--line-height-mono);
+          margin: var(--spacing-m) 0;
+          padding: var(--spacing-xxs) var(--spacing-s);
+          overflow-x: auto;
+          /* Pre will preserve whitespace and line breaks but not wrap */
+          white-space: pre;
+        }
+        /* Non-multiline code elements need display:inline to shrink and not take
          a whole row */
-      :not(pre) > code {
-        display: inline;
-      }
-      li {
-        margin-left: var(--spacing-xl);
-      }
-      gr-account-chip {
-        display: inline;
-      }
-      .plaintext {
-        font: inherit;
-        white-space: var(--linked-text-white-space, pre-wrap);
-        word-wrap: var(--linked-text-word-wrap, break-word);
-      }
-      .markdown-html {
-        /* code overrides white-space to pre, everything else should wrap as
+        :not(pre) > code {
+          display: inline;
+        }
+        li {
+          margin-left: var(--spacing-xl);
+        }
+        gr-account-chip {
+          display: inline;
+        }
+        .plaintext {
+          font: inherit;
+          white-space: var(--linked-text-white-space, pre-wrap);
+          word-wrap: var(--linked-text-word-wrap, break-word);
+        }
+        .markdown-html {
+          /* code overrides white-space to pre, everything else should wrap as
            normal. */
-        white-space: normal;
-        /* prose will automatically wrap but inline <code> blocks won't and we
+          white-space: normal;
+          /* prose will automatically wrap but inline <code> blocks won't and we
            should overflow in that case rather than wrapping or leaking out */
-        overflow-x: auto;
-      }
-    `,
-  ];
+          overflow-x: auto;
+        }
+      `,
+    ];
+  }
 
   constructor() {
     super();

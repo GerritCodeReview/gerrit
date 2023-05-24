@@ -99,112 +99,123 @@ export class GrContextControls extends LitElement {
     linesToExpand: number;
   }>();
 
-  static override styles = css`
-    :host {
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
-      position: relative;
-    }
+  static override get styles() {
+    return [
+      css`
+        :host {
+          display: flex;
+          justify-content: center;
+          flex-direction: column;
+          position: relative;
+        }
 
-    :host([showConfig='above']) {
-      justify-content: flex-end;
-      margin-top: calc(-1px - var(--line-height-normal) - var(--spacing-s));
-      margin-bottom: var(--gr-context-controls-margin-bottom);
-      height: calc(var(--line-height-normal) + var(--spacing-s));
-      .horizontalFlex {
-        align-items: end;
-      }
-    }
+        :host([showConfig='above']) {
+          justify-content: flex-end;
+          margin-top: calc(-1px - var(--line-height-normal) - var(--spacing-s));
+          margin-bottom: var(--gr-context-controls-margin-bottom);
+          height: calc(var(--line-height-normal) + var(--spacing-s));
+          .horizontalFlex {
+            align-items: end;
+          }
+        }
 
-    :host([showConfig='below']) {
-      justify-content: flex-start;
-      margin-top: 1px;
-      margin-bottom: calc(0px - var(--line-height-normal) - var(--spacing-s));
-      .horizontalFlex {
-        align-items: start;
-      }
-    }
+        :host([showConfig='below']) {
+          justify-content: flex-start;
+          margin-top: 1px;
+          margin-bottom: calc(
+            0px - var(--line-height-normal) - var(--spacing-s)
+          );
+          .horizontalFlex {
+            align-items: start;
+          }
+        }
 
-    :host([showConfig='both']) {
-      margin-top: calc(0px - var(--line-height-normal) - var(--spacing-s));
-      margin-bottom: calc(0px - var(--line-height-normal) - var(--spacing-s));
-      height: calc(
-        2 * var(--line-height-normal) + 2 * var(--spacing-s) +
-          var(--divider-height)
-      );
-      .horizontalFlex {
-        align-items: center;
-      }
-    }
+        :host([showConfig='both']) {
+          margin-top: calc(0px - var(--line-height-normal) - var(--spacing-s));
+          margin-bottom: calc(
+            0px - var(--line-height-normal) - var(--spacing-s)
+          );
+          height: calc(
+            2 * var(--line-height-normal) + 2 * var(--spacing-s) +
+              var(--divider-height)
+          );
+          .horizontalFlex {
+            align-items: center;
+          }
+        }
 
-    .contextControlButton {
-      background-color: var(--default-button-background-color);
-      font: var(--context-control-button-font, inherit);
-    }
+        .contextControlButton {
+          background-color: var(--default-button-background-color);
+          font: var(--context-control-button-font, inherit);
+        }
 
-    paper-button {
-      text-transform: none;
-      align-items: center;
-      background-color: var(--background-color);
-      font-family: inherit;
-      margin: var(--margin, 0);
-      min-width: var(--border, 0);
-      color: var(--diff-context-control-color);
-      border: solid var(--border-color);
-      border-width: 1px;
-      border-radius: var(--border-radius);
-      padding: var(--spacing-s) var(--spacing-l);
-    }
+        paper-button {
+          text-transform: none;
+          align-items: center;
+          background-color: var(--background-color);
+          font-family: inherit;
+          margin: var(--margin, 0);
+          min-width: var(--border, 0);
+          color: var(--diff-context-control-color);
+          border: solid var(--border-color);
+          border-width: 1px;
+          border-radius: var(--border-radius);
+          padding: var(--spacing-s) var(--spacing-l);
+        }
 
-    paper-button:hover {
-      /* same as defined in gr-button */
-      background: rgba(0, 0, 0, 0.12);
-    }
-    paper-button:focus-visible {
-      /* paper-button sets this to 0, thus preventing focus-based styling. */
-      outline-width: 1px;
-    }
+        paper-button:hover {
+          /* same as defined in gr-button */
+          background: rgba(0, 0, 0, 0.12);
+        }
+        paper-button:focus-visible {
+          /* paper-button sets this to 0, thus preventing focus-based styling. */
+          outline-width: 1px;
+        }
 
-    .aboveBelowButtons {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      margin-left: var(--spacing-m);
-      position: relative;
-    }
-    .aboveBelowButtons:first-child {
-      margin-left: 0;
-      /* Places a default background layer behind the "all button" that can have opacity */
-      background-color: var(--default-button-background-color);
-    }
+        .aboveBelowButtons {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          margin-left: var(--spacing-m);
+          position: relative;
+        }
+        .aboveBelowButtons:first-child {
+          margin-left: 0;
+          /* Places a default background layer behind the "all button" that can have opacity */
+          background-color: var(--default-button-background-color);
+        }
 
-    .horizontalFlex {
-      display: flex;
-      justify-content: center;
-      align-items: var(--gr-context-controls-horizontal-align-items, center);
-    }
+        .horizontalFlex {
+          display: flex;
+          justify-content: center;
+          align-items: var(
+            --gr-context-controls-horizontal-align-items,
+            center
+          );
+        }
 
-    .aboveButton {
-      border-bottom-width: 0;
-      border-bottom-right-radius: 0;
-      border-bottom-left-radius: 0;
-      padding: var(--spacing-xxs) var(--spacing-l);
-    }
-    .belowButton {
-      border-top-width: 0;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-      padding: var(--spacing-xxs) var(--spacing-l);
-      margin-top: calc(var(--divider-height) + 2 * var(--spacing-xxs));
-    }
-    .belowButton:first-child {
-      margin-top: 0;
-    }
-    .breadcrumbTooltip {
-      white-space: nowrap;
-    }
-  `;
+        .aboveButton {
+          border-bottom-width: 0;
+          border-bottom-right-radius: 0;
+          border-bottom-left-radius: 0;
+          padding: var(--spacing-xxs) var(--spacing-l);
+        }
+        .belowButton {
+          border-top-width: 0;
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
+          padding: var(--spacing-xxs) var(--spacing-l);
+          margin-top: calc(var(--divider-height) + 2 * var(--spacing-xxs));
+        }
+        .belowButton:first-child {
+          margin-top: 0;
+        }
+        .breadcrumbTooltip {
+          white-space: nowrap;
+        }
+      `,
+    ];
+  }
 
   constructor() {
     super();

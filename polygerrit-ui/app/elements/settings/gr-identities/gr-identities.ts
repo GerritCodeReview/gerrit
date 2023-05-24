@@ -36,37 +36,39 @@ export class GrIdentities extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  static override styles = [
-    sharedStyles,
-    formStyles,
-    modalStyles,
-    css`
-      tr th.emailAddressHeader,
-      tr th.identityHeader {
-        width: 15em;
-        padding: 0 10px;
-      }
-      tr td.statusColumn,
-      tr td.emailAddressColumn,
-      tr td.identityColumn {
-        word-break: break-word;
-      }
-      tr td.emailAddressColumn,
-      tr td.identityColumn {
-        padding: 4px 10px;
-        width: 15em;
-      }
-      .deleteButton {
-        float: right;
-      }
-      .deleteButton:not(.show) {
-        display: none;
-      }
-      .space {
-        margin-bottom: var(--spacing-l);
-      }
-    `,
-  ];
+  static override get styles() {
+    return [
+      sharedStyles,
+      formStyles,
+      modalStyles,
+      css`
+        tr th.emailAddressHeader,
+        tr th.identityHeader {
+          width: 15em;
+          padding: 0 10px;
+        }
+        tr td.statusColumn,
+        tr td.emailAddressColumn,
+        tr td.identityColumn {
+          word-break: break-word;
+        }
+        tr td.emailAddressColumn,
+        tr td.identityColumn {
+          padding: 4px 10px;
+          width: 15em;
+        }
+        .deleteButton {
+          float: right;
+        }
+        .deleteButton:not(.show) {
+          display: none;
+        }
+        .space {
+          margin-bottom: var(--spacing-l);
+        }
+      `,
+    ];
+  }
 
   override render() {
     return html`<div class="gr-form-styles">

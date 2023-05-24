@@ -25,42 +25,44 @@ export interface OpenUserSuggestionPreviewEventDetail {
 export class GrUserSuggetionFix extends LitElement {
   private readonly flagsService = getAppContext().flagsService;
 
-  static override styles = [
-    css`
-      .header {
-        background-color: var(--background-color-primary);
-        border: 1px solid var(--border-color);
-        padding: var(--spacing-xs) var(--spacing-xl);
-        display: flex;
-        align-items: center;
-        border-top-left-radius: var(--border-radius);
-        border-top-right-radius: var(--border-radius);
-      }
-      .header .title {
-        flex: 1;
-      }
-      .copyButton {
-        margin-right: var(--spacing-l);
-      }
-      code {
-        max-width: var(--gr-formatted-text-prose-max-width, none);
-        background-color: var(--background-color-secondary);
-        border: 1px solid var(--border-color);
-        border-top: 0;
-        display: block;
-        font-family: var(--monospace-font-family);
-        font-size: var(--font-size-code);
-        line-height: var(--line-height-mono);
-        margin-bottom: var(--spacing-m);
-        padding: var(--spacing-xxs) var(--spacing-s);
-        overflow-x: auto;
-        /* Pre will preserve whitespace and line breaks but not wrap */
-        white-space: pre;
-        border-bottom-left-radius: var(--border-radius);
-        border-bottom-right-radius: var(--border-radius);
-      }
-    `,
-  ];
+  static override get styles() {
+    return [
+      css`
+        .header {
+          background-color: var(--background-color-primary);
+          border: 1px solid var(--border-color);
+          padding: var(--spacing-xs) var(--spacing-xl);
+          display: flex;
+          align-items: center;
+          border-top-left-radius: var(--border-radius);
+          border-top-right-radius: var(--border-radius);
+        }
+        .header .title {
+          flex: 1;
+        }
+        .copyButton {
+          margin-right: var(--spacing-l);
+        }
+        code {
+          max-width: var(--gr-formatted-text-prose-max-width, none);
+          background-color: var(--background-color-secondary);
+          border: 1px solid var(--border-color);
+          border-top: 0;
+          display: block;
+          font-family: var(--monospace-font-family);
+          font-size: var(--font-size-code);
+          line-height: var(--line-height-mono);
+          margin-bottom: var(--spacing-m);
+          padding: var(--spacing-xxs) var(--spacing-s);
+          overflow-x: auto;
+          /* Pre will preserve whitespace and line breaks but not wrap */
+          white-space: pre;
+          border-bottom-left-radius: var(--border-radius);
+          border-bottom-right-radius: var(--border-radius);
+        }
+      `,
+    ];
+  }
 
   override render() {
     if (!this.flagsService.isEnabled(KnownExperimentId.SUGGEST_EDIT)) {

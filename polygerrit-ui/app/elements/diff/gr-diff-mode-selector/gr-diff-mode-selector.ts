@@ -59,21 +59,23 @@ export class GrDiffModeSelector extends LitElement {
     super.disconnectedCallback();
   }
 
-  static override styles = [
-    sharedStyles,
-    css`
-      :host {
-        /* Used to remove horizontal whitespace between the icons. */
-        display: flex;
-      }
-      gr-button.selected gr-icon {
-        color: var(--link-color);
-      }
-      gr-icon {
-        font-size: 1.3rem;
-      }
-    `,
-  ];
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          /* Used to remove horizontal whitespace between the icons. */
+          display: flex;
+        }
+        gr-button.selected gr-icon {
+          color: var(--link-color);
+        }
+        gr-icon {
+          font-size: 1.3rem;
+        }
+      `,
+    ];
+  }
 
   override render() {
     return html`

@@ -150,211 +150,218 @@ export class GrImageViewer extends LitElement {
   // TODO(hermannloose): Make GrLibLoader a singleton.
   private static readonly libLoader = new GrLibLoader();
 
-  static override styles = css`
-    :host {
-      display: grid;
-      grid-template-rows: 1fr auto;
-      grid-template-columns: 1fr auto;
-      width: 100%;
-      height: 100%;
-      box-sizing: border-box;
-      text-align: initial !important;
-      font-size: var(--font-size-normal);
-      --image-border-width: 2px;
-    }
-    .imageArea {
-      grid-row-start: 1;
-      grid-column-start: 1;
-      box-sizing: border-box;
-      flex-grow: 1;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: var(--spacing-m);
-      padding: var(--image-border-width);
-      max-height: 100%;
-      position: relative;
-    }
-    #spacer {
-      visibility: hidden;
-    }
-    gr-zoomed-image {
-      border: var(--image-border-width) solid;
-      margin: calc(-1 * var(--image-border-width));
-      box-sizing: content-box;
-      position: absolute;
-      overflow: hidden;
-      cursor: pointer;
-    }
-    gr-zoomed-image.base {
-      border-color: var(--base-image-border-color, rgb(255, 205, 210));
-    }
-    gr-zoomed-image.revision {
-      border-color: var(--revision-image-border-color, rgb(170, 242, 170));
-    }
-    #automatic-blink-button {
-      position: absolute;
-      right: var(--spacing-xl);
-      bottom: var(--spacing-xl);
-      opacity: 0;
-      transition: opacity 200ms ease;
-      --paper-fab-background: var(--primary-button-background-color);
-      --paper-fab-keyboard-focus-background: var(
-        --primary-button-background-color
-      );
-    }
-    #automatic-blink-button.show,
-    #automatic-blink-button:focus-visible {
-      opacity: 1;
-    }
-    .checkerboard {
-      --square-size: var(--checkerboard-square-size, 10px);
-      --square-color: var(--checkerboard-square-color, #808080);
-      background-color: var(--checkerboard-background-color, #aaaaaa);
-      background-image: linear-gradient(
-          45deg,
-          var(--square-color) 25%,
-          transparent 25%
-        ),
-        linear-gradient(-45deg, var(--square-color) 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, var(--square-color) 75%),
-        linear-gradient(-45deg, transparent 75%, var(--square-color) 75%);
-      background-size: calc(var(--square-size) * 2) calc(var(--square-size) * 2);
-      background-position: 0 0, 0 var(--square-size),
-        var(--square-size) calc(-1 * var(--square-size)),
-        calc(-1 * var(--square-size)) 0;
-    }
-    .dimensions {
-      grid-row-start: 2;
-      justify-self: center;
-      align-self: center;
-      background: var(--primary-button-background-color);
-      color: var(--primary-button-text-color);
-      font-family: var(--font-family);
-      font-size: var(--font-size-small);
-      line-height: var(--line-height-small);
-      border-radius: var(--border-radius, 4px);
-      margin: var(--spacing-s);
-      padding: var(--spacing-xxs) var(--spacing-s);
-    }
-    .controls {
-      grid-column-start: 2;
-      flex-grow: 0;
-      display: flex;
-      flex-direction: column;
-      align-self: flex-start;
-      margin: var(--spacing-m);
-      padding-bottom: var(--spacing-xl);
-    }
-    paper-button {
-      padding: var(--spacing-m);
-      font: var(--image-diff-button-font);
-      text-transform: var(--image-diff-button-text-transform, uppercase);
-      outline: 1px solid transparent;
-      border: 1px solid var(--primary-button-background-color);
-    }
-    paper-button.unelevated {
-      color: var(--primary-button-text-color);
-      background-color: var(--primary-button-background-color);
-    }
-    paper-button.outlined {
-      color: var(--primary-button-background-color);
-    }
-    #version-switcher {
-      display: flex;
-      align-items: center;
-      margin: var(--spacing-xl) var(--spacing-xl) var(--spacing-m);
-      /* Start a stacking context to contain FAB below. */
-      z-index: 0;
-    }
-    #version-switcher paper-button {
-      flex-grow: 1;
-      margin: 0;
-      /*
+  static override get styles() {
+    return [
+      css`
+        :host {
+          display: grid;
+          grid-template-rows: 1fr auto;
+          grid-template-columns: 1fr auto;
+          width: 100%;
+          height: 100%;
+          box-sizing: border-box;
+          text-align: initial !important;
+          font-size: var(--font-size-normal);
+          --image-border-width: 2px;
+        }
+        .imageArea {
+          grid-row-start: 1;
+          grid-column-start: 1;
+          box-sizing: border-box;
+          flex-grow: 1;
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin: var(--spacing-m);
+          padding: var(--image-border-width);
+          max-height: 100%;
+          position: relative;
+        }
+        #spacer {
+          visibility: hidden;
+        }
+        gr-zoomed-image {
+          border: var(--image-border-width) solid;
+          margin: calc(-1 * var(--image-border-width));
+          box-sizing: content-box;
+          position: absolute;
+          overflow: hidden;
+          cursor: pointer;
+        }
+        gr-zoomed-image.base {
+          border-color: var(--base-image-border-color, rgb(255, 205, 210));
+        }
+        gr-zoomed-image.revision {
+          border-color: var(--revision-image-border-color, rgb(170, 242, 170));
+        }
+        #automatic-blink-button {
+          position: absolute;
+          right: var(--spacing-xl);
+          bottom: var(--spacing-xl);
+          opacity: 0;
+          transition: opacity 200ms ease;
+          --paper-fab-background: var(--primary-button-background-color);
+          --paper-fab-keyboard-focus-background: var(
+            --primary-button-background-color
+          );
+        }
+        #automatic-blink-button.show,
+        #automatic-blink-button:focus-visible {
+          opacity: 1;
+        }
+        .checkerboard {
+          --square-size: var(--checkerboard-square-size, 10px);
+          --square-color: var(--checkerboard-square-color, #808080);
+          background-color: var(--checkerboard-background-color, #aaaaaa);
+          background-image: linear-gradient(
+              45deg,
+              var(--square-color) 25%,
+              transparent 25%
+            ),
+            linear-gradient(-45deg, var(--square-color) 25%, transparent 25%),
+            linear-gradient(45deg, transparent 75%, var(--square-color) 75%),
+            linear-gradient(-45deg, transparent 75%, var(--square-color) 75%);
+          background-size: calc(var(--square-size) * 2)
+            calc(var(--square-size) * 2);
+          background-position: 0 0, 0 var(--square-size),
+            var(--square-size) calc(-1 * var(--square-size)),
+            calc(-1 * var(--square-size)) 0;
+        }
+        .dimensions {
+          grid-row-start: 2;
+          justify-self: center;
+          align-self: center;
+          background: var(--primary-button-background-color);
+          color: var(--primary-button-text-color);
+          font-family: var(--font-family);
+          font-size: var(--font-size-small);
+          line-height: var(--line-height-small);
+          border-radius: var(--border-radius, 4px);
+          margin: var(--spacing-s);
+          padding: var(--spacing-xxs) var(--spacing-s);
+        }
+        .controls {
+          grid-column-start: 2;
+          flex-grow: 0;
+          display: flex;
+          flex-direction: column;
+          align-self: flex-start;
+          margin: var(--spacing-m);
+          padding-bottom: var(--spacing-xl);
+        }
+        paper-button {
+          padding: var(--spacing-m);
+          font: var(--image-diff-button-font);
+          text-transform: var(--image-diff-button-text-transform, uppercase);
+          outline: 1px solid transparent;
+          border: 1px solid var(--primary-button-background-color);
+        }
+        paper-button.unelevated {
+          color: var(--primary-button-text-color);
+          background-color: var(--primary-button-background-color);
+        }
+        paper-button.outlined {
+          color: var(--primary-button-background-color);
+        }
+        #version-switcher {
+          display: flex;
+          align-items: center;
+          margin: var(--spacing-xl) var(--spacing-xl) var(--spacing-m);
+          /* Start a stacking context to contain FAB below. */
+          z-index: 0;
+        }
+        #version-switcher paper-button {
+          flex-grow: 1;
+          margin: 0;
+          /*
         The floating action button below overlaps part of the version buttons.
         This min-width ensures the button text still appears somewhat balanced.
         */
-      min-width: 7rem;
-    }
-    #version-switcher paper-fab {
-      /* Round button overlaps Base and Revision buttons. */
-      z-index: 1;
-      margin: 0 -12px;
-      /* Styled as an outlined button. */
-      color: var(--primary-button-background-color);
-      border: 1px solid var(--primary-button-background-color);
-      --paper-fab-background: var(--primary-background-color);
-      --paper-fab-keyboard-focus-background: var(--primary-background-color);
-    }
-    #version-explanation {
-      color: var(--deemphasized-text-color);
-      text-align: center;
-      margin: var(--spacing-xl) var(--spacing-xl) var(--spacing-m);
-    }
-    #highlight-changes {
-      margin: var(--spacing-m) var(--spacing-xl);
-    }
-    gr-overview-image {
-      min-width: 200px;
-      min-height: 150px;
-      margin-top: var(--spacing-m);
-    }
-    #zoom-control {
-      margin: 0 var(--spacing-xl);
-    }
-    paper-item {
-      cursor: pointer;
-    }
-    paper-item:hover {
-      background-color: var(--hover-background-color);
-    }
-    #follow-mouse {
-      margin: var(--spacing-m) var(--spacing-xl);
-    }
-    .color-picker {
-      margin: var(--spacing-m) var(--spacing-xl) 0;
-    }
-    .color-picker .label {
-      margin-bottom: var(--spacing-s);
-    }
-    .color-picker .options {
-      display: flex;
-      /* Ignore selection border for alignment, for visual balance. */
-      margin-left: -3px;
-    }
-    .color-picker-button {
-      border-width: 2px;
-      border-style: solid;
-      border-color: transparent;
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      padding: 1px;
-    }
-    .color-picker-button.selected {
-      border-color: var(--primary-button-background-color);
-    }
-    .color-picker-button:focus-within:not(.selected) {
-      /* Not an actual outline, as those do not follow border-radius. */
-      border-color: var(--outline-color-focus);
-    }
-    .color-picker-button .color {
-      border: 1px solid var(--border-color);
-      border-radius: 50%;
-      width: 100%;
-      height: 100%;
-      box-sizing: border-box;
-    }
-    #source-plus-highlight-container {
-      position: relative;
-    }
-    #source-plus-highlight-container img {
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-  `;
+          min-width: 7rem;
+        }
+        #version-switcher paper-fab {
+          /* Round button overlaps Base and Revision buttons. */
+          z-index: 1;
+          margin: 0 -12px;
+          /* Styled as an outlined button. */
+          color: var(--primary-button-background-color);
+          border: 1px solid var(--primary-button-background-color);
+          --paper-fab-background: var(--primary-background-color);
+          --paper-fab-keyboard-focus-background: var(
+            --primary-background-color
+          );
+        }
+        #version-explanation {
+          color: var(--deemphasized-text-color);
+          text-align: center;
+          margin: var(--spacing-xl) var(--spacing-xl) var(--spacing-m);
+        }
+        #highlight-changes {
+          margin: var(--spacing-m) var(--spacing-xl);
+        }
+        gr-overview-image {
+          min-width: 200px;
+          min-height: 150px;
+          margin-top: var(--spacing-m);
+        }
+        #zoom-control {
+          margin: 0 var(--spacing-xl);
+        }
+        paper-item {
+          cursor: pointer;
+        }
+        paper-item:hover {
+          background-color: var(--hover-background-color);
+        }
+        #follow-mouse {
+          margin: var(--spacing-m) var(--spacing-xl);
+        }
+        .color-picker {
+          margin: var(--spacing-m) var(--spacing-xl) 0;
+        }
+        .color-picker .label {
+          margin-bottom: var(--spacing-s);
+        }
+        .color-picker .options {
+          display: flex;
+          /* Ignore selection border for alignment, for visual balance. */
+          margin-left: -3px;
+        }
+        .color-picker-button {
+          border-width: 2px;
+          border-style: solid;
+          border-color: transparent;
+          border-radius: 50%;
+          width: 24px;
+          height: 24px;
+          padding: 1px;
+        }
+        .color-picker-button.selected {
+          border-color: var(--primary-button-background-color);
+        }
+        .color-picker-button:focus-within:not(.selected) {
+          /* Not an actual outline, as those do not follow border-radius. */
+          border-color: var(--outline-color-focus);
+        }
+        .color-picker-button .color {
+          border: 1px solid var(--border-color);
+          border-radius: 50%;
+          width: 100%;
+          height: 100%;
+          box-sizing: border-box;
+        }
+        #source-plus-highlight-container {
+          position: relative;
+        }
+        #source-plus-highlight-container img {
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+      `,
+    ];
+  }
 
   private renderColorPickerButton(color: string, colorPicked: () => void) {
     const selected =

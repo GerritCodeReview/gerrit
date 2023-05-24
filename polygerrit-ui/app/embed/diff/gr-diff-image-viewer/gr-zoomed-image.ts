@@ -25,25 +25,29 @@ export class GrZoomedImage extends LitElement {
 
   @state() protected imageStyles: StyleInfo = {};
 
-  static override styles = css`
-    :host {
-      display: block;
-    }
-    ::slotted(*) {
-      display: block;
-    }
-    #clip {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
-    #transform {
-      position: absolute;
-      transform-origin: top left;
-      will-change: transform;
-    }
-  `;
+  static override get styles() {
+    return [
+      css`
+        :host {
+          display: block;
+        }
+        ::slotted(*) {
+          display: block;
+        }
+        #clip {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+        }
+        #transform {
+          position: absolute;
+          transform-origin: top left;
+          will-change: transform;
+        }
+      `,
+    ];
+  }
 
   override render() {
     return html`

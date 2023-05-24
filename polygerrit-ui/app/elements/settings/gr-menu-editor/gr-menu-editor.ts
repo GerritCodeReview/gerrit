@@ -48,7 +48,8 @@ export class GrMenuEditor extends LitElement {
     );
   }
 
-  static override styles = [
+  static override get styles() {
+    return [
     formStyles,
     sharedStyles,
     fontStyles,
@@ -73,6 +74,7 @@ export class GrMenuEditor extends LitElement {
       }
     `,
   ];
+}
 
   override render() {
     const unchanged = deepEqual(this.menuItems, this.originalPrefs.my);

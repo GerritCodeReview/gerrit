@@ -353,6 +353,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5301a07d_f9ec5b2b",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-05-24T16:54:35Z",
+      "side": 1,
+      "message": "Right, in that case we have:\n```\ncurrentEtag.or(() -\u003e getETag(currentRsrc, currentView))\n```\nbut it is available since `java9` and AFAIU this still has to be compatible with `java8` - let\u0027s revisit it once merge-up to `stable-3.5+` is performed",
+      "parentUuid": "583a71fa_7a2ee8be",
+      "range": {
+        "startLine": 555,
+        "startChar": 20,
+        "endLine": 555,
+        "endChar": 94
+      },
+      "revId": "9c34cd433e5d8995b6081e664b253328c1113a9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76d30918_d57dab3e",

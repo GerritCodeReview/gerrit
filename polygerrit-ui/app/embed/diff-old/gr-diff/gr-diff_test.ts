@@ -61,7 +61,7 @@ suite('gr-diff tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <div class="diffContainer sideBySide">
+          <div class="diffContainer oldDiff sideBySide">
             <table id="diffTable"></table>
           </div>
         `
@@ -77,7 +77,7 @@ suite('gr-diff tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <div class="diffContainer unified">
+          <div class="diffContainer oldDiff unified">
             <table class="selected-right" id="diffTable">
               <colgroup>
                 <col class="blame gr-diff" />
@@ -1343,7 +1343,7 @@ suite('gr-diff tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `
-          <div class="diffContainer sideBySide">
+          <div class="diffContainer oldDiff sideBySide">
             <table class="selected-right" id="diffTable">
               <colgroup>
                 <col class="blame gr-diff" />
@@ -3141,7 +3141,7 @@ suite('gr-diff tests', () => {
         assert.shadowDom.equal(
           element,
           /* HTML */ `
-            <div class="diffContainer sideBySide">
+            <div class="diffContainer oldDiff sideBySide">
               <gr-diff-section class="left-FILE right-FILE"> </gr-diff-section>
               <gr-diff-row class="left-FILE right-FILE"> </gr-diff-row>
               <table class="selected-right" id="diffTable">

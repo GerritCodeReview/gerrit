@@ -374,6 +374,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   private renderContainer() {
     const cssClasses = {
+      oldDiff: true,
       diffContainer: true,
       unified: this.viewMode === DiffViewMode.UNIFIED,
       sideBySide: this.viewMode === DiffViewMode.SIDE_BY_SIDE,

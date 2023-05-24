@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1854e70c_fa1b7d7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-24T10:22:02Z",
+      "side": 1,
+      "message": "I don\u0027t insist on exactly the format I proposed but would prefer a more consistent format. \n\nWe could add a `--json` option to emit versions in json format to make it machine-readable.",
+      "parentUuid": "fe170f90_c0f02cc0",
+      "revId": "739efe90f6b8264b0bac85e78575e05d3befaaef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3561a904_f7f2d20d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "Also to the REST API and the version site program. Then may like this:\n\nAdd verbose version output",
       "parentUuid": "3561a904_f7f2d20d",
+      "revId": "739efe90f6b8264b0bac85e78575e05d3befaaef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92c8f79d_6ed8a168",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-24T10:22:02Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "6046c8dd_297d93fb",
       "revId": "739efe90f6b8264b0bac85e78575e05d3befaaef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -143,6 +179,30 @@
       "side": 1,
       "message": "The names here are generated from the names in the Java class VersionInfo: camelCase in java becomes camel_case here. In this case the field name is `noteDbVersion` and therefore `note_db_version` here. The whole REST framework works like that.",
       "parentUuid": "d71649a2_c0ac77d0",
+      "range": {
+        "startLine": 49,
+        "startChar": 5,
+        "endLine": 49,
+        "endChar": 12
+      },
+      "revId": "739efe90f6b8264b0bac85e78575e05d3befaaef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6132b08_78cb8638",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-05-24T10:22:02Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "2c8ee405_b1b73841",
       "range": {
         "startLine": 49,
         "startChar": 5,

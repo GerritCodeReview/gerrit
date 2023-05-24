@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "50f421e9_083cefed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-24T12:30:34Z",
+      "side": 1,
+      "message": "I will improve consistency of the format in this change and add the --json option in the next change.",
+      "parentUuid": "1854e70c_fa1b7d7f",
+      "revId": "739efe90f6b8264b0bac85e78575e05d3befaaef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3561a904_f7f2d20d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5

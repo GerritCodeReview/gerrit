@@ -40,20 +40,22 @@ export class GrSelectionActionBox extends LitElement {
     this.addEventListener('mousedown', e => this.handleMouseDown(e));
   }
 
-  static override styles = [
-    sharedStyles,
-    css`
-      :host {
-        cursor: pointer;
-        font-family: var(--font-family);
-        position: absolute;
-        white-space: nowrap;
-      }
-      gr-tooltip[invisible] {
-        visibility: hidden;
-      }
-    `,
-  ];
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          cursor: pointer;
+          font-family: var(--font-family);
+          position: absolute;
+          white-space: nowrap;
+        }
+        gr-tooltip[invisible] {
+          visibility: hidden;
+        }
+      `,
+    ];
+  }
 
   override render() {
     return html`

@@ -29,35 +29,37 @@ export class GrEmailEditor extends LitElement {
 
   readonly restApiService = getAppContext().restApiService;
 
-  static override styles = [
-    sharedStyles,
-    formStyles,
-    css`
-      th {
-        color: var(--deemphasized-text-color);
-        text-align: left;
-      }
-      #emailTable .emailColumn {
-        min-width: 32.5em;
-        width: auto;
-      }
-      #emailTable .preferredHeader {
-        text-align: center;
-        width: 6em;
-      }
-      #emailTable .preferredControl {
-        cursor: pointer;
-        height: auto;
-        text-align: center;
-      }
-      #emailTable .preferredControl .preferredRadio {
-        height: auto;
-      }
-      .preferredControl:hover {
-        outline: 1px solid var(--border-color);
-      }
-    `,
-  ];
+  static override get styles() {
+    return [
+      sharedStyles,
+      formStyles,
+      css`
+        th {
+          color: var(--deemphasized-text-color);
+          text-align: left;
+        }
+        #emailTable .emailColumn {
+          min-width: 32.5em;
+          width: auto;
+        }
+        #emailTable .preferredHeader {
+          text-align: center;
+          width: 6em;
+        }
+        #emailTable .preferredControl {
+          cursor: pointer;
+          height: auto;
+          text-align: center;
+        }
+        #emailTable .preferredControl .preferredRadio {
+          height: auto;
+        }
+        .preferredControl:hover {
+          outline: 1px solid var(--border-color);
+        }
+      `,
+    ];
+  }
 
   override render() {
     return html`<div class="gr-form-styles">

@@ -49,34 +49,36 @@ export class GrGpgEditor extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  static override styles = [
-    formStyles,
-    sharedStyles,
-    modalStyles,
-    css`
-      .keyHeader {
-        width: 9em;
-      }
-      .userIdHeader {
-        width: 15em;
-      }
-      #viewKeyModal {
-        padding: var(--spacing-xxl);
-        width: 50em;
-      }
-      .closeButton {
-        bottom: 2em;
-        position: absolute;
-        right: 2em;
-      }
-      #existing {
-        margin-bottom: var(--spacing-l);
-      }
-      iron-autogrow-textarea {
-        background-color: var(--view-background-color);
-      }
-    `,
-  ];
+  static override get styles() {
+    return [
+      formStyles,
+      sharedStyles,
+      modalStyles,
+      css`
+        .keyHeader {
+          width: 9em;
+        }
+        .userIdHeader {
+          width: 15em;
+        }
+        #viewKeyModal {
+          padding: var(--spacing-xxl);
+          width: 50em;
+        }
+        .closeButton {
+          bottom: 2em;
+          position: absolute;
+          right: 2em;
+        }
+        #existing {
+          margin-bottom: var(--spacing-l);
+        }
+        iron-autogrow-textarea {
+          background-color: var(--view-background-color);
+        }
+      `,
+    ];
+  }
 
   override render() {
     return html`

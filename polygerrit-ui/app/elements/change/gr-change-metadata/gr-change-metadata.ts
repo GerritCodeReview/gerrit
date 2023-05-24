@@ -212,104 +212,106 @@ export class GrChangeMetadata extends LitElement {
     this.queryHashtag = (input: string) => this.getHashtagSuggestions(input);
   }
 
-  static override styles = [
-    sharedStyles,
-    fontStyles,
-    changeMetadataStyles,
-    css`
-      :host {
-        display: table;
-      }
-      gr-submit-requirements {
-        --requirements-horizontal-padding: var(--metadata-horizontal-padding);
-      }
-      gr-editable-label {
-        max-width: 9em;
-      }
-      gr-weblink {
-        display: block;
-      }
-      gr-account-chip[disabled],
-      gr-linked-chip[disabled] {
-        opacity: 0;
-        pointer-events: none;
-      }
-      .hashtagChip {
-        padding-bottom: var(--spacing-s);
-      }
-      /* consistent with section .title, .value */
-      .hashtagChip:not(last-of-type) {
-        padding-bottom: var(--spacing-s);
-      }
-      .hashtagChip:last-of-type {
-        display: inline;
-        vertical-align: top;
-      }
-      .parentList.merge {
-        list-style-type: decimal;
-        padding-left: var(--spacing-l);
-      }
-      .parentList gr-commit-info {
-        display: inline-block;
-      }
-      .hideDisplay,
-      #parentNotCurrentMessage {
-        display: none;
-      }
-      .icon {
-        margin: -3px 0;
-      }
-      .icon.help,
-      .icon.notTrusted {
-        color: var(--warning-foreground);
-      }
-      .icon.invalid {
-        color: var(--negative-red-text-color);
-      }
-      .icon.trusted {
-        color: var(--positive-green-text-color);
-      }
-      .parentList.notCurrent.nonMerge #parentNotCurrentMessage {
-        --arrow-color: var(--warning-foreground);
-        display: inline-block;
-      }
-      .oldSeparatedSection {
-        margin-top: var(--spacing-l);
-        padding: var(--spacing-m) 0;
-      }
-      .separatedSection {
-        padding: var(--spacing-m) 0;
-      }
-      .hashtag gr-linked-chip,
-      .topic gr-linked-chip {
-        --linked-chip-text-color: var(--link-color);
-      }
-      gr-reviewer-list {
-        --account-max-length: 100px;
-        max-width: 285px;
-      }
-      .metadata-title {
-        color: var(--deemphasized-text-color);
-        padding-left: var(--metadata-horizontal-padding);
-      }
-      .metadata-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        /* The goal is to achieve alignment of the owner account chip and the
+  static override get styles() {
+    return [
+      sharedStyles,
+      fontStyles,
+      changeMetadataStyles,
+      css`
+        :host {
+          display: table;
+        }
+        gr-submit-requirements {
+          --requirements-horizontal-padding: var(--metadata-horizontal-padding);
+        }
+        gr-editable-label {
+          max-width: 9em;
+        }
+        gr-weblink {
+          display: block;
+        }
+        gr-account-chip[disabled],
+        gr-linked-chip[disabled] {
+          opacity: 0;
+          pointer-events: none;
+        }
+        .hashtagChip {
+          padding-bottom: var(--spacing-s);
+        }
+        /* consistent with section .title, .value */
+        .hashtagChip:not(last-of-type) {
+          padding-bottom: var(--spacing-s);
+        }
+        .hashtagChip:last-of-type {
+          display: inline;
+          vertical-align: top;
+        }
+        .parentList.merge {
+          list-style-type: decimal;
+          padding-left: var(--spacing-l);
+        }
+        .parentList gr-commit-info {
+          display: inline-block;
+        }
+        .hideDisplay,
+        #parentNotCurrentMessage {
+          display: none;
+        }
+        .icon {
+          margin: -3px 0;
+        }
+        .icon.help,
+        .icon.notTrusted {
+          color: var(--warning-foreground);
+        }
+        .icon.invalid {
+          color: var(--negative-red-text-color);
+        }
+        .icon.trusted {
+          color: var(--positive-green-text-color);
+        }
+        .parentList.notCurrent.nonMerge #parentNotCurrentMessage {
+          --arrow-color: var(--warning-foreground);
+          display: inline-block;
+        }
+        .oldSeparatedSection {
+          margin-top: var(--spacing-l);
+          padding: var(--spacing-m) 0;
+        }
+        .separatedSection {
+          padding: var(--spacing-m) 0;
+        }
+        .hashtag gr-linked-chip,
+        .topic gr-linked-chip {
+          --linked-chip-text-color: var(--link-color);
+        }
+        gr-reviewer-list {
+          --account-max-length: 100px;
+          max-width: 285px;
+        }
+        .metadata-title {
+          color: var(--deemphasized-text-color);
+          padding-left: var(--metadata-horizontal-padding);
+        }
+        .metadata-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-end;
+          /* The goal is to achieve alignment of the owner account chip and the
          commit message box. Their top border should be on the same line. */
-        margin-bottom: var(--spacing-s);
-      }
-      .show-all-button gr-icon {
-        color: inherit;
-        font-size: 18px;
-      }
-      gr-vote-chip {
-        --gr-vote-chip-width: 14px;
-        --gr-vote-chip-height: 14px;
-      }
-    `,
-  ];
+          margin-bottom: var(--spacing-s);
+        }
+        .show-all-button gr-icon {
+          color: inherit;
+          font-size: 18px;
+        }
+        gr-vote-chip {
+          --gr-vote-chip-width: 14px;
+          --gr-vote-chip-height: 14px;
+        }
+      `,
+    ];
+  }
 
   override render() {
     if (!this.change) return nothing;

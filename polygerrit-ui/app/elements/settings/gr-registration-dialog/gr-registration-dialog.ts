@@ -68,50 +68,52 @@ export class GrRegistrationDialog extends LitElement {
     }
   }
 
-  static override styles = [
-    sharedStyles,
-    formStyles,
-    css`
-      :host {
-        display: block;
-      }
-      main {
-        max-width: 46em;
-      }
-      :host(.loading) main {
-        display: none;
-      }
-      .loadingMessage {
-        display: none;
-        font-style: italic;
-      }
-      :host(.loading) .loadingMessage {
-        display: block;
-      }
-      hr {
-        margin-top: var(--spacing-l);
-        margin-bottom: var(--spacing-l);
-      }
-      header {
-        border-bottom: 1px solid var(--border-color);
-        font-weight: var(--font-weight-bold);
-        margin-bottom: var(--spacing-l);
-      }
-      .container {
-        padding: var(--spacing-m) var(--spacing-xl);
-      }
-      footer {
-        display: flex;
-        justify-content: flex-end;
-      }
-      footer gr-button {
-        margin-left: var(--spacing-l);
-      }
-      input {
-        width: 20em;
-      }
-    `,
-  ];
+  static override get styles() {
+    return [
+      sharedStyles,
+      formStyles,
+      css`
+        :host {
+          display: block;
+        }
+        main {
+          max-width: 46em;
+        }
+        :host(.loading) main {
+          display: none;
+        }
+        .loadingMessage {
+          display: none;
+          font-style: italic;
+        }
+        :host(.loading) .loadingMessage {
+          display: block;
+        }
+        hr {
+          margin-top: var(--spacing-l);
+          margin-bottom: var(--spacing-l);
+        }
+        header {
+          border-bottom: 1px solid var(--border-color);
+          font-weight: var(--font-weight-bold);
+          margin-bottom: var(--spacing-l);
+        }
+        .container {
+          padding: var(--spacing-m) var(--spacing-xl);
+        }
+        footer {
+          display: flex;
+          justify-content: flex-end;
+        }
+        footer gr-button {
+          margin-left: var(--spacing-l);
+        }
+        input {
+          width: 20em;
+        }
+      `,
+    ];
+  }
 
   override render() {
     return html`<div class="container gr-form-styles">

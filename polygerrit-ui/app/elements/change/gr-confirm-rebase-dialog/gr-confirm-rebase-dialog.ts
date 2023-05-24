@@ -160,39 +160,41 @@ export class GrConfirmRebaseDialog
     }
   }
 
-  static override styles = [
-    sharedStyles,
-    css`
-      :host {
-        display: block;
-        width: 30em;
-      }
-      :host([disabled]) {
-        opacity: 0.5;
-        pointer-events: none;
-      }
-      label {
-        cursor: pointer;
-      }
-      .message {
-        font-style: italic;
-      }
-      .parentRevisionContainer label,
-      .parentRevisionContainer input[type='text'] {
-        display: block;
-        width: 100%;
-      }
-      .rebaseCheckbox {
-        margin-top: var(--spacing-m);
-      }
-      .rebaseOption {
-        margin: var(--spacing-m) 0;
-      }
-      .rebaseOnBehalfMsg {
-        margin-top: var(--spacing-m);
-      }
-    `,
-  ];
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          display: block;
+          width: 30em;
+        }
+        :host([disabled]) {
+          opacity: 0.5;
+          pointer-events: none;
+        }
+        label {
+          cursor: pointer;
+        }
+        .message {
+          font-style: italic;
+        }
+        .parentRevisionContainer label,
+        .parentRevisionContainer input[type='text'] {
+          display: block;
+          width: 100%;
+        }
+        .rebaseCheckbox {
+          margin-top: var(--spacing-m);
+        }
+        .rebaseOption {
+          margin: var(--spacing-m) 0;
+        }
+        .rebaseOnBehalfMsg {
+          margin-top: var(--spacing-m);
+        }
+      `,
+    ];
+  }
 
   override render() {
     return html`

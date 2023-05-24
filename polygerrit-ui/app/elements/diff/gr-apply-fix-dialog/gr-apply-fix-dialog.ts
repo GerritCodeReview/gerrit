@@ -149,38 +149,40 @@ export class GrApplyFixDialog extends LitElement {
     );
   }
 
-  static override styles = [
-    sharedStyles,
-    modalStyles,
-    css`
-      .diffContainer {
-        padding: var(--spacing-l) 0;
-        border-bottom: 1px solid var(--border-color);
-      }
-      .file-name {
-        display: block;
-        padding: var(--spacing-s) var(--spacing-l);
-        background-color: var(--background-color-secondary);
-        border-bottom: 1px solid var(--border-color);
-      }
-      gr-button {
-        margin-left: var(--spacing-m);
-      }
-      .fix-picker {
-        display: flex;
-        align-items: center;
-        margin-right: var(--spacing-l);
-      }
-      .info {
-        background-color: var(--info-background);
-        padding: var(--spacing-l) var(--spacing-xl);
-      }
-      .info gr-icon {
-        color: var(--selected-foreground);
-        margin-right: var(--spacing-xl);
-      }
-    `,
-  ];
+  static override get styles() {
+    return [
+      sharedStyles,
+      modalStyles,
+      css`
+        .diffContainer {
+          padding: var(--spacing-l) 0;
+          border-bottom: 1px solid var(--border-color);
+        }
+        .file-name {
+          display: block;
+          padding: var(--spacing-s) var(--spacing-l);
+          background-color: var(--background-color-secondary);
+          border-bottom: 1px solid var(--border-color);
+        }
+        gr-button {
+          margin-left: var(--spacing-m);
+        }
+        .fix-picker {
+          display: flex;
+          align-items: center;
+          margin-right: var(--spacing-l);
+        }
+        .info {
+          background-color: var(--info-background);
+          padding: var(--spacing-l) var(--spacing-xl);
+        }
+        .info gr-icon {
+          color: var(--selected-foreground);
+          margin-right: var(--spacing-xl);
+        }
+      `,
+    ];
+  }
 
   override render() {
     return html`

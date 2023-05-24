@@ -75,39 +75,43 @@ export class GrOverviewImage extends LitElement {
     }
   );
 
-  static override styles = css`
-    :host {
-      --background-color: var(--overview-image-background-color, #000);
-      --frame-color: var(--overview-image-frame-color, #f00);
-      display: flex;
-    }
-    * {
-      box-sizing: border-box;
-    }
-    ::slotted(*) {
-      display: block;
-    }
-    .content-box {
-      border: 1px solid var(--background-color);
-      background-color: var(--background-color);
-      width: 100%;
-      position: relative;
-    }
-    .content {
-      position: absolute;
-      cursor: pointer;
-    }
-    .content-transform {
-      position: absolute;
-      transform-origin: top left;
-      will-change: transform;
-    }
-    .frame {
-      border: 1px solid var(--frame-color);
-      position: absolute;
-      will-change: transform;
-    }
-  `;
+  static override get styles() {
+    return [
+      css`
+        :host {
+          --background-color: var(--overview-image-background-color, #000);
+          --frame-color: var(--overview-image-frame-color, #f00);
+          display: flex;
+        }
+        * {
+          box-sizing: border-box;
+        }
+        ::slotted(*) {
+          display: block;
+        }
+        .content-box {
+          border: 1px solid var(--background-color);
+          background-color: var(--background-color);
+          width: 100%;
+          position: relative;
+        }
+        .content {
+          position: absolute;
+          cursor: pointer;
+        }
+        .content-transform {
+          position: absolute;
+          transform-origin: top left;
+          will-change: transform;
+        }
+        .frame {
+          border: 1px solid var(--frame-color);
+          position: absolute;
+          will-change: transform;
+        }
+      `,
+    ];
+  }
 
   override render() {
     return html`

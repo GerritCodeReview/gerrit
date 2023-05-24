@@ -48,31 +48,33 @@ export class GrMenuEditor extends LitElement {
     );
   }
 
-  static override styles = [
-    formStyles,
-    sharedStyles,
-    fontStyles,
-    menuPageStyles,
-    css`
-      .buttonColumn {
-        width: 2em;
-      }
-      .moveUpButton,
-      .moveDownButton {
-        width: 100%;
-      }
-      tbody tr:first-of-type td .moveUpButton,
-      tbody tr:last-of-type td .moveDownButton {
-        display: none;
-      }
-      td.urlCell {
-        word-break: break-word;
-      }
-      .newUrlInput {
-        min-width: 23em;
-      }
-    `,
-  ];
+  static override get styles() {
+    return [
+      formStyles,
+      sharedStyles,
+      fontStyles,
+      menuPageStyles,
+      css`
+        .buttonColumn {
+          width: 2em;
+        }
+        .moveUpButton,
+        .moveDownButton {
+          width: 100%;
+        }
+        tbody tr:first-of-type td .moveUpButton,
+        tbody tr:last-of-type td .moveDownButton {
+          display: none;
+        }
+        td.urlCell {
+          word-break: break-word;
+        }
+        .newUrlInput {
+          min-width: 23em;
+        }
+      `,
+    ];
+  }
 
   override render() {
     const unchanged = deepEqual(this.menuItems, this.originalPrefs.my);

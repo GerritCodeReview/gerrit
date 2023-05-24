@@ -158,32 +158,34 @@ export class GrAccountList extends LitElement {
     );
   }
 
-  static override styles = [
-    sharedStyles,
-    css`
-      gr-account-chip {
-        display: inline-block;
-        margin: var(--spacing-xs) var(--spacing-xs) var(--spacing-xs) 0;
-      }
-      gr-account-entry {
-        display: flex;
-        flex: 1;
-        min-width: 10em;
-        margin: var(--spacing-xs) var(--spacing-xs) var(--spacing-xs) 0;
-      }
-      .group {
-        --account-label-suffix: ' (group)';
-      }
-      .newlyAdded {
-        font-style: italic;
-      }
-      .list {
-        align-items: center;
-        display: flex;
-        flex-wrap: wrap;
-      }
-    `,
-  ];
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        gr-account-chip {
+          display: inline-block;
+          margin: var(--spacing-xs) var(--spacing-xs) var(--spacing-xs) 0;
+        }
+        gr-account-entry {
+          display: flex;
+          flex: 1;
+          min-width: 10em;
+          margin: var(--spacing-xs) var(--spacing-xs) var(--spacing-xs) 0;
+        }
+        .group {
+          --account-label-suffix: ' (group)';
+        }
+        .newlyAdded {
+          font-style: italic;
+        }
+        .list {
+          align-items: center;
+          display: flex;
+          flex-wrap: wrap;
+        }
+      `,
+    ];
+  }
 
   override render() {
     return html`<div class="list">

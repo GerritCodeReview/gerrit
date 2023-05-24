@@ -27,23 +27,25 @@ export class GrConfirmCherrypickConflictDialog
    * @event cancel
    */
 
-  static override styles = [
-    sharedStyles,
-    css`
-      :host {
-        display: block;
-      }
-      :host([disabled]) {
-        opacity: 0.5;
-        pointer-events: none;
-      }
-      .main {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-      }
-    `,
-  ];
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          display: block;
+        }
+        :host([disabled]) {
+          opacity: 0.5;
+          pointer-events: none;
+        }
+        .main {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+        }
+      `,
+    ];
+  }
 
   override render() {
     return html`

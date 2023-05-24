@@ -175,53 +175,55 @@ export class GrTextarea extends LitElement {
     }
   }
 
-  static override styles = [
-    sharedStyles,
-    css`
-      :host {
-        display: flex;
-        position: relative;
-      }
-      :host(.monospace) {
-        font-family: var(--monospace-font-family);
-        font-size: var(--font-size-mono);
-        line-height: var(--line-height-mono);
-        font-weight: var(--font-weight-normal);
-      }
-      :host(.code) {
-        font-family: var(--monospace-font-family);
-        font-size: var(--font-size-code);
-        /* usually 16px = 12px + 4px */
-        line-height: calc(var(--font-size-code) + var(--spacing-s));
-        font-weight: var(--font-weight-normal);
-      }
-      #emojiSuggestions {
-        font-family: var(--font-family);
-      }
-      #textarea {
-        background-color: var(--view-background-color);
-        width: 100%;
-      }
-      #hiddenText #emojiSuggestions {
-        visibility: visible;
-        white-space: normal;
-      }
-      iron-autogrow-textarea {
-        position: relative;
-      }
-      #textarea.noBorder {
-        border: none;
-      }
-      #hiddenText {
-        display: block;
-        float: left;
-        position: absolute;
-        visibility: hidden;
-        width: 100%;
-        white-space: pre-wrap;
-      }
-    `,
-  ];
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        :host {
+          display: flex;
+          position: relative;
+        }
+        :host(.monospace) {
+          font-family: var(--monospace-font-family);
+          font-size: var(--font-size-mono);
+          line-height: var(--line-height-mono);
+          font-weight: var(--font-weight-normal);
+        }
+        :host(.code) {
+          font-family: var(--monospace-font-family);
+          font-size: var(--font-size-code);
+          /* usually 16px = 12px + 4px */
+          line-height: calc(var(--font-size-code) + var(--spacing-s));
+          font-weight: var(--font-weight-normal);
+        }
+        #emojiSuggestions {
+          font-family: var(--font-family);
+        }
+        #textarea {
+          background-color: var(--view-background-color);
+          width: 100%;
+        }
+        #hiddenText #emojiSuggestions {
+          visibility: visible;
+          white-space: normal;
+        }
+        iron-autogrow-textarea {
+          position: relative;
+        }
+        #textarea.noBorder {
+          border: none;
+        }
+        #hiddenText {
+          display: block;
+          float: left;
+          position: absolute;
+          visibility: hidden;
+          width: 100%;
+          white-space: pre-wrap;
+        }
+      `,
+    ];
+  }
 
   override render() {
     return html`

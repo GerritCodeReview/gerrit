@@ -56,7 +56,8 @@ export class GrFormattedText extends LitElement {
    * Note: Do not use sharedStyles or other styles here that should not affect
    * the generated HTML of the markdown.
    */
-  static override styles = [
+  static override get styles() {
+    return [
     css`
       a {
         color: var(--link-color);
@@ -117,6 +118,7 @@ export class GrFormattedText extends LitElement {
       }
     `,
   ];
+}
 
   constructor() {
     super();

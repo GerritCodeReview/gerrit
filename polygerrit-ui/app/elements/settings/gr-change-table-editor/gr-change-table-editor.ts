@@ -36,28 +36,30 @@ export class GrChangeTableEditor extends LitElement {
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
-  static override styles = [
-    sharedStyles,
-    formStyles,
-    css`
-      #changeCols {
-        width: auto;
-      }
-      #changeCols .visibleHeader {
-        text-align: center;
-      }
-      .checkboxContainer {
-        cursor: pointer;
-        text-align: center;
-      }
-      .checkboxContainer input {
-        cursor: pointer;
-      }
-      .checkboxContainer:hover {
-        outline: 1px solid var(--border-color);
-      }
-    `,
-  ];
+  static override get styles() {
+    return [
+      sharedStyles,
+      formStyles,
+      css`
+        #changeCols {
+          width: auto;
+        }
+        #changeCols .visibleHeader {
+          text-align: center;
+        }
+        .checkboxContainer {
+          cursor: pointer;
+          text-align: center;
+        }
+        .checkboxContainer input {
+          cursor: pointer;
+        }
+        .checkboxContainer:hover {
+          outline: 1px solid var(--border-color);
+        }
+      `,
+    ];
+  }
 
   constructor() {
     super();

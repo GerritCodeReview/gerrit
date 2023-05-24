@@ -139,99 +139,101 @@ export class GrFileListHeader extends LitElement {
     );
   }
 
-  static override styles = [
-    sharedStyles,
-    css`
-      .prefsButton {
-        float: right;
-      }
-      .patchInfoOldPatchSet.patchInfo-header {
-        background-color: var(--emphasis-color);
-      }
-      .patchInfo-header {
-        align-items: center;
-        display: flex;
-        padding: var(--spacing-s) var(--spacing-l);
-      }
-      .patchInfo-left {
-        align-items: baseline;
-        display: flex;
-      }
-      .patchInfoContent {
-        align-items: center;
-        display: flex;
-        flex-wrap: wrap;
-      }
-      .latestPatchContainer a {
-        text-decoration: none;
-      }
-      .mobile {
-        display: none;
-      }
-      .patchInfo-header .container {
-        align-items: center;
-        display: flex;
-      }
-      .downloadContainer,
-      .uploadContainer {
-        margin-right: 16px;
-      }
-      .uploadContainer.hide {
-        display: none;
-      }
-      .rightControls {
-        align-self: flex-end;
-        margin: auto 0 auto auto;
-        align-items: center;
-        display: flex;
-        flex-wrap: wrap;
-        font-weight: var(--font-weight-normal);
-        justify-content: flex-end;
-      }
-      #collapseBtn,
-      .allExpanded #expandBtn,
-      .fileViewActions {
-        display: none;
-      }
-      .someExpanded #expandBtn {
-        margin-right: 8px;
-      }
-      .someExpanded #collapseBtn,
-      .allExpanded #collapseBtn,
-      .openFile .fileViewActions {
-        align-items: center;
-        display: flex;
-      }
-      .rightControls gr-button,
-      gr-patch-range-select {
-        margin: 0 -4px;
-      }
-      .fileViewActions gr-button {
-        margin: 0;
-        --gr-button-padding: 2px 4px;
-      }
-      .flexContainer {
-        align-items: center;
-        display: flex;
-      }
-      .label {
-        font-weight: var(--font-weight-bold);
-        margin-right: 24px;
-      }
-      gr-commit-info,
-      gr-edit-controls {
-        margin-right: -5px;
-      }
-      .fileViewActionsLabel {
-        margin-right: var(--spacing-xs);
-      }
-      @media screen and (max-width: 50em) {
-        .patchInfo-header .desktop {
+  static override get styles() {
+    return [
+      sharedStyles,
+      css`
+        .prefsButton {
+          float: right;
+        }
+        .patchInfoOldPatchSet.patchInfo-header {
+          background-color: var(--emphasis-color);
+        }
+        .patchInfo-header {
+          align-items: center;
+          display: flex;
+          padding: var(--spacing-s) var(--spacing-l);
+        }
+        .patchInfo-left {
+          align-items: baseline;
+          display: flex;
+        }
+        .patchInfoContent {
+          align-items: center;
+          display: flex;
+          flex-wrap: wrap;
+        }
+        .latestPatchContainer a {
+          text-decoration: none;
+        }
+        .mobile {
           display: none;
         }
-      }
-    `,
-  ];
+        .patchInfo-header .container {
+          align-items: center;
+          display: flex;
+        }
+        .downloadContainer,
+        .uploadContainer {
+          margin-right: 16px;
+        }
+        .uploadContainer.hide {
+          display: none;
+        }
+        .rightControls {
+          align-self: flex-end;
+          margin: auto 0 auto auto;
+          align-items: center;
+          display: flex;
+          flex-wrap: wrap;
+          font-weight: var(--font-weight-normal);
+          justify-content: flex-end;
+        }
+        #collapseBtn,
+        .allExpanded #expandBtn,
+        .fileViewActions {
+          display: none;
+        }
+        .someExpanded #expandBtn {
+          margin-right: 8px;
+        }
+        .someExpanded #collapseBtn,
+        .allExpanded #collapseBtn,
+        .openFile .fileViewActions {
+          align-items: center;
+          display: flex;
+        }
+        .rightControls gr-button,
+        gr-patch-range-select {
+          margin: 0 -4px;
+        }
+        .fileViewActions gr-button {
+          margin: 0;
+          --gr-button-padding: 2px 4px;
+        }
+        .flexContainer {
+          align-items: center;
+          display: flex;
+        }
+        .label {
+          font-weight: var(--font-weight-bold);
+          margin-right: 24px;
+        }
+        gr-commit-info,
+        gr-edit-controls {
+          margin-right: -5px;
+        }
+        .fileViewActionsLabel {
+          margin-right: var(--spacing-xs);
+        }
+        @media screen and (max-width: 50em) {
+          .patchInfo-header .desktop {
+            display: none;
+          }
+        }
+      `,
+    ];
+  }
 
   override render() {
     if (!this.change || !this.diffPrefs) {

@@ -25,7 +25,8 @@ export interface OpenUserSuggestionPreviewEventDetail {
 export class GrUserSuggetionFix extends LitElement {
   private readonly flagsService = getAppContext().flagsService;
 
-  static override styles = [
+  static override get styles() {
+    return [
     css`
       .header {
         background-color: var(--background-color-primary);
@@ -61,6 +62,7 @@ export class GrUserSuggetionFix extends LitElement {
       }
     `,
   ];
+}
 
   override render() {
     if (!this.flagsService.isEnabled(KnownExperimentId.SUGGEST_EDIT)) {

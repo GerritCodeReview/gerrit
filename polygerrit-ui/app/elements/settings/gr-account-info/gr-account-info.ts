@@ -60,41 +60,43 @@ export class GrAccountInfo extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
-  static override styles = [
-    sharedStyles,
-    formStyles,
-    css`
-      gr-avatar {
-        height: 120px;
-        width: 120px;
-        margin-right: var(--spacing-xs);
-        vertical-align: -0.25em;
-      }
-      div section.hide {
-        display: none;
-      }
-      gr-hovercard-account-contents {
-        display: block;
-        max-width: 600px;
-        margin-top: var(--spacing-m);
-        background: var(--dialog-background-color);
-        border: 1px solid var(--border-color);
-        border-radius: var(--border-radius);
-        box-shadow: var(--elevation-level-5);
-      }
-      iron-autogrow-textarea {
-        background-color: var(--view-background-color);
-        color: var(--primary-text-color);
-      }
-      .lengthCounter {
-        font-weight: var(--font-weight-normal);
-      }
-      p {
-        max-width: 65ch;
-        margin-bottom: var(--spacing-m);
-      }
-    `,
-  ];
+  static override get styles() {
+    return [
+      sharedStyles,
+      formStyles,
+      css`
+        gr-avatar {
+          height: 120px;
+          width: 120px;
+          margin-right: var(--spacing-xs);
+          vertical-align: -0.25em;
+        }
+        div section.hide {
+          display: none;
+        }
+        gr-hovercard-account-contents {
+          display: block;
+          max-width: 600px;
+          margin-top: var(--spacing-m);
+          background: var(--dialog-background-color);
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius);
+          box-shadow: var(--elevation-level-5);
+        }
+        iron-autogrow-textarea {
+          background-color: var(--view-background-color);
+          color: var(--primary-text-color);
+        }
+        .lengthCounter {
+          font-weight: var(--font-weight-normal);
+        }
+        p {
+          max-width: 65ch;
+          margin-bottom: var(--spacing-m);
+        }
+      `,
+    ];
+  }
 
   override render() {
     if (!this.account || this.loading) return nothing;

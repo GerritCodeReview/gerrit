@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fe170f90_c0f02cc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-24T06:16:27Z",
+      "side": 1,
+      "message": "From the CLI tools design it is often preferred to start with fixed width columns and keep the variable width at the end. For example take a look at the output of `ls -l`. This was the motivation behind the format for the index versions.\n\nI agree that the output format here is not consistent but I am undecided about repeating the `index version` in every line.\n\nIn any case we have to keep the `gerrit version ...` line unchanged for backward compatibility.",
+      "parentUuid": "e6115e3e_1bb5fab4",
+      "revId": "739efe90f6b8264b0bac85e78575e05d3befaaef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3561a904_f7f2d20d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -31,6 +49,24 @@
       "writtenOn": "2023-05-23T22:17:27Z",
       "side": 1,
       "message": "I think this should be mentioned in the release notes:\n\nReleaseNotes: Add `--verbose` option to `version` command",
+      "revId": "739efe90f6b8264b0bac85e78575e05d3befaaef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6046c8dd_297d93fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-24T06:16:27Z",
+      "side": 1,
+      "message": "Also to the REST API and the version site program. Then may like this:\n\nAdd verbose version output",
+      "parentUuid": "3561a904_f7f2d20d",
       "revId": "739efe90f6b8264b0bac85e78575e05d3befaaef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad4924bb_72087e1d",
+        "filename": "Documentation/cmd-version.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-24T06:16:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fe79167_c9ee57cf",
+      "revId": "739efe90f6b8264b0bac85e78575e05d3befaaef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d71649a2_c0ac77d0",
@@ -65,6 +119,30 @@
       "writtenOn": "2023-05-23T22:17:27Z",
       "side": 1,
       "message": "in documentation we call it \"NoteDb\" without an underscore, hence maybe better notedb_version ?",
+      "range": {
+        "startLine": 49,
+        "startChar": 5,
+        "endLine": 49,
+        "endChar": 12
+      },
+      "revId": "739efe90f6b8264b0bac85e78575e05d3befaaef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c8ee405_b1b73841",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-24T06:16:27Z",
+      "side": 1,
+      "message": "The names here are generated from the names in the Java class VersionInfo: camelCase in java becomes camel_case here. In this case the field name is `noteDbVersion` and therefore `note_db_version` here. The whole REST framework works like that.",
+      "parentUuid": "d71649a2_c0ac77d0",
       "range": {
         "startLine": 49,
         "startChar": 5,

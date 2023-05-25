@@ -16,6 +16,29 @@
       "message": "//javatests/com/google/gerrit/server/cache/mem:tests fails with:\n```\njava.lang.NullPointerException\n\tat com.google.gerrit.server.cache.mem.DefaultMemoryCacheFactory.lambda$1(DefaultMemoryCacheFactory.java:177)\n\tat com.github.benmanes.caffeine.cache.BoundedLocalCache.lambda$notifyRemoval$1(BoundedLocalCache.java:333)\n\tat java.util.concurrent.ForkJoinTask$RunnableExecuteAction.exec(ForkJoinTask.java:1402)\n\tat java.util.concurrent.ForkJoinTask.doExec(ForkJoinTask.java:289)\n\tat java.util.concurrent.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1056)\n\tat java.util.concurrent.ForkJoinPool.runWorker(ForkJoinPool.java:1692)\n\tat java.util.concurrent.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:175)\n```",
       "revId": "da1ce310767ecf3459545985ca3d1ece52acca4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f023e9b6_39f9acbb",
+        "filename": "javatests/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-25T23:35:08Z",
+      "side": 1,
+      "message": "This cannot be null but at least a mock.\n\nExample:\n```java\n    ForwardingRemovalListener.Factory removalListenerFactoryMock \u003d createNiceMock(ForwardingRemovalListener.Factory.class);\n    ForwardingRemovalListener\u003c?,?\u003e removalListenerMock \u003d createNiceMock(ForwardingRemovalListener.class);\n    EasyMock.expect(removalListenerFactoryMock.create(TEST_CACHE)).andReturn(removalListenerMock);\n    replay(removalListenerFactoryMock);\n    \n    memoryCacheFactory \u003d new DefaultMemoryCacheFactory(memoryCacheConfig, removalListenerFactoryMock);\n```",
+      "range": {
+        "startLine": 55,
+        "startChar": 74,
+        "endLine": 55,
+        "endChar": 78
+      },
+      "revId": "da1ce310767ecf3459545985ca3d1ece52acca4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

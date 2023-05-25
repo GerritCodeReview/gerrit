@@ -10,11 +10,11 @@ import {
   CommentRangeLayer,
   GrRangedCommentLayer,
 } from './gr-ranged-comment-layer';
-import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {GrDiffLineType, Side} from '../../../api/diff';
 import {SinonStub} from 'sinon';
 import {assert} from '@open-wc/testing';
+import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
 
 const rangeA: CommentRangeLayer = {
   side: Side.LEFT,

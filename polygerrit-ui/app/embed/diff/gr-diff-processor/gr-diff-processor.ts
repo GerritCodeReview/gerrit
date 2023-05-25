@@ -13,7 +13,7 @@ import {DiffContent} from '../../../types/diff';
 import {Side} from '../../../constants/constants';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {assert} from '../../../utils/common-util';
-import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
+import {getStringLength} from '../gr-diff-highlight/gr-annotation';
 import {GrDiffLineType, LineNumber} from '../../../api/diff';
 import {FULL_CONTEXT, KeyLocations} from '../gr-diff/gr-diff-utils';
 
@@ -633,7 +633,7 @@ export class GrDiffProcessor {
     intralineInfos: number[][]
   ): Highlights[] {
     // +1 to account for the \n that is not part of the rows passed here
-    const lineLengths = rows.map(r => GrAnnotation.getStringLength(r) + 1);
+    const lineLengths = rows.map(r => getStringLength(r) + 1);
 
     let rowIndex = 0;
     let idx = 0;

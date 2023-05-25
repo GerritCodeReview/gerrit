@@ -126,7 +126,7 @@ suite('token-highlight-layer', () => {
       const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
       const el = createLine('these are words');
       annotate(el);
-      assert.isTrue(annotateElementStub.calledThrice);
+      assert.equal(annotateElementStub.callCount, 3);
       assertAnnotation(annotateElementStub.args[0], {
         parent: el,
         offset: 0,

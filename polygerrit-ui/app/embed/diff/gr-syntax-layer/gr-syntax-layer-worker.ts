@@ -3,7 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
+import {annotateElement} from '../gr-diff-highlight/gr-annotation';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {DiffFileMetaInfo, DiffInfo} from '../../../types/diff';
 import {DiffLayer, DiffLayerListener} from '../../../types/types';
@@ -212,7 +212,7 @@ export class GrSyntaxLayerWorker implements DiffLayer {
     for (const range of ranges) {
       if (!CLASS_SAFELIST.has(range.className)) continue;
       if (range.length === 0) continue;
-      GrAnnotation.annotateElement(
+      annotateElement(
         el,
         range.start,
         range.length,

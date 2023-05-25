@@ -6,7 +6,10 @@
 import {DiffLayer} from '../../../types/types';
 import {GrDiffLine, Side, TokenHighlightListener} from '../../../api/diff';
 import {assertIsDefined} from '../../../utils/common-util';
-import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
+import {
+  GrAnnotation,
+  getStringLength,
+} from '../gr-diff-highlight/gr-annotation';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 
 import {getLineElByChild, getSideByLineEl} from '../gr-diff/gr-diff-utils';
@@ -147,8 +150,8 @@ export class TokenHighlightLayer implements DiffLayer {
       // This is to correctly count surrogate pairs in text and token.
       // If the index calculation becomes a hotspot, we could precompute a code
       // unit to code point index map for text before iterating over the results
-      const index = GrAnnotation.getStringLength(text.slice(0, match.index));
-      const length = GrAnnotation.getStringLength(token);
+      const index = getStringLength(text.slice(0, match.index));
+      const length = getStringLength(token);
 
       atLeastOneTokenMatched = true;
       const highlightTypeClass =
@@ -345,7 +348,7 @@ export class TokenHighlightLayer implements DiffLayer {
       start_line: line,
       start_column: index + 1, // 1-based inclusive
       end_line: line,
-      end_column: index + GrAnnotation.getStringLength(token), // 1-based inclusive
+      end_column: index + getStringLength(token), // 1-based inclusive
     };
     this.tokenHighlightListener({token, element, side, range});
   }

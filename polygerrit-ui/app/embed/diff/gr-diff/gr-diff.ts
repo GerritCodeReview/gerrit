@@ -79,7 +79,10 @@ import {provide} from '../../../models/dependency';
 import {grDiffStyles} from './gr-diff-styles';
 import {getDiffLength} from '../../../utils/diff-util';
 import {GrCoverageLayer} from '../gr-coverage-layer/gr-coverage-layer';
-import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
+import {
+  GrAnnotation,
+  getStringLength,
+} from '../gr-diff-highlight/gr-annotation';
 import {
   GrDiffGroup,
   GrDiffGroupType,
@@ -1204,7 +1207,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
           // If endIndex isn't present, continue to the end of the line.
           const endIndex =
             highlight.endIndex === undefined
-              ? GrAnnotation.getStringLength(line.text)
+              ? getStringLength(line.text)
               : highlight.endIndex;
 
           GrAnnotation.annotateElement(
@@ -1255,10 +1258,8 @@ export class GrDiff extends LitElement implements GrDiffApi {
         if (match) {
           // Normalize string positions in case there is unicode before or
           // within the match.
-          const index = GrAnnotation.getStringLength(
-            line.text.substr(0, match.index)
-          );
-          const length = GrAnnotation.getStringLength(match[0]);
+          const index = getStringLength(line.text.substr(0, match.index));
+          const length = getStringLength(match[0]);
           GrAnnotation.annotateElement(
             contentEl,
             index,

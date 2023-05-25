@@ -41,7 +41,10 @@ import {GrRangedCommentHint} from '../gr-ranged-comment-hint/gr-ranged-comment-h
 import {fixture, html, assert} from '@open-wc/testing';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {GrDiffRow} from '../gr-diff-builder/gr-diff-row';
-import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
+import {
+  GrAnnotation,
+  getStringLength,
+} from '../gr-diff-highlight/gr-annotation';
 import {GrDiffLine} from './gr-diff-line';
 
 const DEFAULT_PREFS = createDefaultDiffPrefs();
@@ -4125,7 +4128,7 @@ suite('former gr-diff-builder tests', () => {
 
       const str0 = slice(str, 0, 6);
       const str1 = slice(str, 6);
-      const numHighlightedChars = GrAnnotation.getStringLength(str1);
+      const numHighlightedChars = getStringLength(str1);
 
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
 

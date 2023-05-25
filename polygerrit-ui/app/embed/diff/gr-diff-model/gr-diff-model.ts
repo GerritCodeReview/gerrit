@@ -7,7 +7,9 @@ import {Observable, combineLatest, from} from 'rxjs';
 import {debounceTime, filter, switchMap, withLatestFrom} from 'rxjs/operators';
 import {
   DiffInfo,
+  DiffLayer,
   DiffPreferencesInfo,
+  DiffResponsiveMode,
   DiffViewMode,
   DisplayLine,
   RenderPreferences,
@@ -22,6 +24,7 @@ import {
   computeContext,
   computeKeyLocations,
   computeLineLength,
+  getResponsiveMode,
 } from '../gr-diff/gr-diff-utils';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {
@@ -30,9 +33,13 @@ import {
 } from '../gr-diff-processor/gr-diff-processor';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {assert} from '../../../utils/common-util';
+import {isImageDiff} from '../../../utils/diff-util';
+import {ImageInfo} from '../../../types/common';
 
 export interface DiffState {
   diff?: DiffInfo;
+  baseImage?: ImageInfo;
+  revisionImage?: ImageInfo;
   path?: string;
   renderPrefs: RenderPreferences;
   diffPrefs: DiffPreferencesInfo;
@@ -42,6 +49,8 @@ export interface DiffState {
   /** how much context to show for large files */
   showFullContext: FullContext;
   isImageDiff: boolean;
+  errorMessage?: string;
+  layers: DiffLayer[];
 }
 
 export const diffModelToken = define<DiffModel>('diff-model');
@@ -50,6 +59,16 @@ export class DiffModel extends Model<DiffState> {
   readonly diff$: Observable<DiffInfo> = select(
     this.state$.pipe(filter(state => state.diff !== undefined)),
     diffState => diffState.diff!
+  );
+
+  readonly baseImage$: Observable<ImageInfo | undefined> = select(
+    this.state$,
+    diffState => diffState.baseImage
+  );
+
+  readonly revisionImage$: Observable<ImageInfo | undefined> = select(
+    this.state$,
+    diffState => diffState.revisionImage
   );
 
   readonly path$: Observable<string | undefined> = select(
@@ -72,6 +91,16 @@ export class DiffModel extends Model<DiffState> {
     diffState => diffState.diffPrefs
   );
 
+  readonly layers$: Observable<DiffLayer[]> = select(
+    this.state$,
+    diffState => diffState.layers
+  );
+
+  readonly showFullContext$: Observable<FullContext> = select(
+    this.state$,
+    diffState => diffState.showFullContext
+  );
+
   readonly context$: Observable<number> = select(this.state$, state =>
     computeContext(
       state.diffPrefs.context,
@@ -80,14 +109,25 @@ export class DiffModel extends Model<DiffState> {
     )
   );
 
-  readonly isImageDiff$: Observable<boolean> = select(
+  readonly responsiveMode$: Observable<DiffResponsiveMode> = select(
     this.state$,
-    diffState => diffState.isImageDiff
+    diffState => getResponsiveMode(diffState.diffPrefs, diffState.renderPrefs)
+  );
+
+  readonly errorMessage$: Observable<string | undefined> = select(
+    this.state$,
+    diffState => diffState.errorMessage
   );
 
   readonly groups$: Observable<GrDiffGroup[]> = select(
     this.state$,
     diffState => diffState.groups ?? []
+  );
+
+  readonly loading$: Observable<boolean> = select(
+    this.state$,
+    diffState =>
+      (diffState.groups ?? []).length === 0 || diffState.diff === undefined
   );
 
   readonly lineLength$: Observable<number> = select(this.state$, state =>
@@ -108,34 +148,28 @@ export class DiffModel extends Model<DiffState> {
       groups: [],
       showFullContext: FullContext.UNDECIDED,
       isImageDiff: false,
+      layers: [],
     });
     this.subscriptions = [this.processDiff()];
   }
 
   processDiff() {
-    return combineLatest([
-      this.diff$,
-      this.context$,
-      this.renderPrefs$,
-      this.isImageDiff$,
-    ])
+    return combineLatest([this.diff$, this.context$, this.renderPrefs$])
       .pipe(
         withLatestFrom(this.keyLocations$),
         debounceTime(1),
-        switchMap(
-          ([[diff, context, renderPrefs, isImageDiff], keyLocations]) => {
-            const options: ProcessingOptions = {
-              context,
-              keyLocations,
-              isBinary: !!(isImageDiff || diff.binary),
-            };
-            if (renderPrefs?.num_lines_rendered_at_once) {
-              options.asyncThreshold = renderPrefs.num_lines_rendered_at_once;
-            }
-            const processor = new GrDiffProcessor(options);
-            return from(processor.process(diff.content));
+        switchMap(([[diff, context, renderPrefs], keyLocations]) => {
+          const options: ProcessingOptions = {
+            context,
+            keyLocations,
+            isBinary: !!(isImageDiff(diff) || diff.binary),
+          };
+          if (renderPrefs?.num_lines_rendered_at_once) {
+            options.asyncThreshold = renderPrefs.num_lines_rendered_at_once;
           }
-        )
+          const processor = new GrDiffProcessor(options);
+          return from(processor.process(diff.content));
+        })
       )
       .subscribe(groups => {
         this.updateState({groups});

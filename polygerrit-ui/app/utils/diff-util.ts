@@ -42,7 +42,7 @@ export function anyLineTooLong(diff?: DiffInfo) {
  * Get the approximate length of the diff as the sum of the maximum
  * length of the chunks.
  */
-export function getDiffLength(diff?: DiffInfo) {
+export function getDiffLength(diff?: DiffInfo): number {
   if (!diff) return 0;
   return diff.content.reduce((sum, sec) => {
     if (sec.ab) {
@@ -51,4 +51,13 @@ export function getDiffLength(diff?: DiffInfo) {
       return sum + Math.max(sec.a?.length ?? 0, sec.b?.length ?? 0);
     }
   }, 0);
+}
+
+export function isImageDiff(diff?: DiffInfo) {
+  if (!diff) return false;
+
+  const isA = diff.meta_a?.content_type.startsWith('image/');
+  const isB = diff.meta_b?.content_type.startsWith('image/');
+
+  return !!(diff.binary && (isA || isB));
 }

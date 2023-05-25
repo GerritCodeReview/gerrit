@@ -10,6 +10,7 @@ import '../../../embed/diff-old/gr-diff/gr-diff';
 import {
   anyLineTooLong,
   getDiffLength,
+  isImageDiff,
   SYNTAX_MAX_LINE_LENGTH,
 } from '../../../utils/diff-util';
 import {getAppContext} from '../../../services/app-context';
@@ -105,15 +106,6 @@ const EMPTY_BLAME = 'No blame information for this diff.';
 const EVENT_AGAINST_PARENT = 'diff-against-parent';
 const EVENT_ZERO_REBASE = 'rebase-percent-zero';
 const EVENT_NONZERO_REBASE = 'rebase-percent-nonzero';
-
-function isImageDiff(diff?: DiffInfo) {
-  if (!diff) return false;
-
-  const isA = diff.meta_a && diff.meta_a.content_type.startsWith('image/');
-  const isB = diff.meta_b && diff.meta_b.content_type.startsWith('image/');
-
-  return !!(diff.binary && (isA || isB));
-}
 
 // visible for testing
 export interface LineInfo {

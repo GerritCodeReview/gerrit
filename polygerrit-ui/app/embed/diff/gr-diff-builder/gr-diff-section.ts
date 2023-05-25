@@ -39,16 +39,16 @@ export class GrDiffSection extends LitElement {
   @property({type: Object})
   group?: GrDiffGroup;
 
-  @property({type: Object})
+  @state()
   diff?: DiffInfo;
 
-  @property({type: Object})
+  @state()
   renderPrefs?: RenderPreferences;
 
-  @property({type: Object})
+  @state()
   diffPrefs?: DiffPreferencesInfo;
 
-  @property({type: Object})
+  @state()
   layers: DiffLayer[] = [];
 
   @state()
@@ -77,6 +77,26 @@ export class GrDiffSection extends LitElement {
       this,
       () => this.getDiffModel().viewMode$,
       viewMode => (this.viewMode = viewMode)
+    );
+    subscribe(
+      this,
+      () => this.getDiffModel().diff$,
+      diff => (this.diff = diff)
+    );
+    subscribe(
+      this,
+      () => this.getDiffModel().renderPrefs$,
+      renderPrefs => (this.renderPrefs = renderPrefs)
+    );
+    subscribe(
+      this,
+      () => this.getDiffModel().diffPrefs$,
+      diffPrefs => (this.diffPrefs = diffPrefs)
+    );
+    subscribe(
+      this,
+      () => this.getDiffModel().layers$,
+      layers => (this.layers = layers)
     );
   }
 

@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
-import {GrAnnotation} from './gr-annotation';
+import {
+  TEST_ONLY,
+  annotateElement,
+  annotateWithElement,
+  getStringLength,
+} from './gr-annotation';
 import {
   getSanitizeDOMValue,
   setSanitizeDOMValue,
@@ -27,7 +32,7 @@ suite('annotation', () => {
   });
 
   test('_annotateText length:0 offset:0', () => {
-    GrAnnotation._annotateText(textNode, 0, 0, 'foobar');
+    TEST_ONLY._annotateText(textNode, 0, 0, 'foobar');
 
     assert.equal(parent.textContent, str);
     assert.equal(
@@ -37,7 +42,7 @@ suite('annotation', () => {
   });
 
   test('_annotateText length:0 offset:1', () => {
-    GrAnnotation._annotateText(textNode, 1, 0, 'foobar');
+    TEST_ONLY._annotateText(textNode, 1, 0, 'foobar');
 
     assert.equal(parent.textContent, str);
     assert.equal(
@@ -47,7 +52,7 @@ suite('annotation', () => {
   });
 
   test('_annotateText length:0 offset:str.length', () => {
-    GrAnnotation._annotateText(textNode, str.length, 0, 'foobar');
+    TEST_ONLY._annotateText(textNode, str.length, 0, 'foobar');
 
     assert.equal(parent.textContent, str);
     assert.equal(
@@ -57,7 +62,7 @@ suite('annotation', () => {
   });
 
   test('_annotateText Case 1', () => {
-    GrAnnotation._annotateText(textNode, 0, str.length, 'foobar');
+    TEST_ONLY._annotateText(textNode, 0, str.length, 'foobar');
 
     assert.equal(parent.textContent, str);
     assert.equal(
@@ -67,7 +72,7 @@ suite('annotation', () => {
   });
 
   test('_annotateText Case 2', () => {
-    GrAnnotation._annotateText(textNode, 0, 12, 'foobar');
+    TEST_ONLY._annotateText(textNode, 0, 12, 'foobar');
 
     assert.equal(parent.textContent, str);
     assert.equal(
@@ -77,7 +82,7 @@ suite('annotation', () => {
   });
 
   test('_annotateText Case 3', () => {
-    GrAnnotation._annotateText(textNode, 12, str.length - 12, 'foobar');
+    TEST_ONLY._annotateText(textNode, 12, str.length - 12, 'foobar');
 
     assert.equal(parent.textContent, str);
     assert.equal(
@@ -90,7 +95,7 @@ suite('annotation', () => {
     const index = str.indexOf('dolor');
     const length = 'dolor '.length;
 
-    GrAnnotation._annotateText(textNode, index, length, 'foobar');
+    TEST_ONLY._annotateText(textNode, index, length, 'foobar');
 
     assert.equal(parent.textContent, str);
     assert.equal(
@@ -104,7 +109,7 @@ suite('annotation', () => {
 
     // Apply the layers successively.
     layers.forEach((layer, i) => {
-      GrAnnotation.annotateElement(
+      annotateElement(
         parent,
         str.indexOf(layer),
         layer.length,
@@ -129,13 +134,13 @@ suite('annotation', () => {
 
     // Non-unicode path:
     node = document.createTextNode(helloString + asciiString);
-    tail = GrAnnotation.splitTextNode(node, helloString.length);
+    tail = TEST_ONLY.splitTextNode(node, helloString.length);
     assert(node.textContent, helloString);
     assert(tail.textContent, asciiString);
 
     // Unicdoe path:
     node = document.createTextNode(helloString + unicodeString);
-    tail = GrAnnotation.splitTextNode(node, helloString.length);
+    tail = TEST_ONLY.splitTextNode(node, helloString.length);
     assert(node.textContent, helloString);
     assert(tail.textContent, unicodeString);
   });
@@ -166,7 +171,7 @@ suite('annotation', () => {
       const length = 10;
       const container = document.createElement('div');
       container.textContent = fullText;
-      GrAnnotation.annotateWithElement(container, 1, length, {
+      annotateWithElement(container, 1, length, {
         tagName: 'test-wrapper',
       });
 
@@ -180,8 +185,8 @@ suite('annotation', () => {
       const length = 10;
       const container = document.createElement('div');
       container.textContent = fullText;
-      GrAnnotation.annotateElement(container, 5, length, 'testclass');
-      GrAnnotation.annotateWithElement(container, 1, length, {
+      annotateElement(container, 5, length, 'testclass');
+      annotateWithElement(container, 1, length, {
         tagName: 'test-wrapper',
       });
 
@@ -201,7 +206,7 @@ suite('annotation', () => {
       const length = 10;
       const container = document.createElement('div');
       container.textContent = fullText;
-      GrAnnotation.annotateWithElement(container.childNodes[0], 1, length, {
+      annotateWithElement(container.childNodes[0], 1, length, {
         tagName: 'test-wrapper',
       });
 
@@ -216,7 +221,7 @@ suite('annotation', () => {
       container.appendChild(document.createTextNode('0123456789'));
       container.appendChild(document.createElement('span'));
       container.appendChild(document.createTextNode('0123456789'));
-      GrAnnotation.annotateWithElement(container, 1, 10, {
+      annotateWithElement(container, 1, 10, {
         tagName: 'test-wrapper',
       });
 
@@ -233,7 +238,7 @@ suite('annotation', () => {
       container.appendChild(document.createComment('comment2'));
       container.appendChild(document.createElement('span'));
       container.appendChild(document.createTextNode('0123456789'));
-      GrAnnotation.annotateWithElement(container, 1, 10, {
+      annotateWithElement(container, 1, 10, {
         tagName: 'test-wrapper',
       });
 
@@ -254,7 +259,7 @@ suite('annotation', () => {
         'data-foo': 'bar',
         class: 'hello world',
       };
-      GrAnnotation.annotateWithElement(container, 1, length, {
+      annotateWithElement(container, 1, length, {
         tagName: 'test-wrapper',
         attributes,
       });
@@ -291,17 +296,17 @@ suite('annotation', () => {
 
   suite('getStringLength', () => {
     test('ASCII characters are counted correctly', () => {
-      assert.equal(GrAnnotation.getStringLength('ASCII'), 5);
+      assert.equal(getStringLength('ASCII'), 5);
     });
 
     test('Unicode surrogate pairs count as one symbol', () => {
-      assert.equal(GrAnnotation.getStringLength('Unic💢de'), 7);
-      assert.equal(GrAnnotation.getStringLength('💢💢'), 2);
+      assert.equal(getStringLength('Unic💢de'), 7);
+      assert.equal(getStringLength('💢💢'), 2);
     });
 
     test('Grapheme clusters count as multiple symbols', () => {
-      assert.equal(GrAnnotation.getStringLength('man\u0303ana'), 7); // mañana
-      assert.equal(GrAnnotation.getStringLength('q\u0307\u0323'), 3); // q̣̇
+      assert.equal(getStringLength('man\u0303ana'), 7); // mañana
+      assert.equal(getStringLength('q\u0307\u0323'), 3); // q̣̇
     });
   });
 });

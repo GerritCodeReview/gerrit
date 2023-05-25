@@ -3,7 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
+import {GrAnnotationImpl} from '../gr-diff-highlight/gr-annotation';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {strToClassName} from '../../../utils/dom-util';
 import {Side} from '../../../constants/constants';
@@ -94,7 +94,7 @@ export class GrRangedCommentLayer implements DiffLayer {
     }
 
     for (const range of ranges) {
-      GrAnnotation.annotateElement(
+      GrAnnotationImpl.annotateElement(
         el,
         range.start,
         range.end - range.start,

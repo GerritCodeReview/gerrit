@@ -5,7 +5,7 @@
  */
 import '../../../styles/shared-styles';
 import '../gr-selection-action-box/gr-selection-action-box';
-import {GrAnnotation} from './gr-annotation';
+import {getLength} from './gr-annotation';
 import {normalize} from './gr-range-normalizer';
 import {strToClassName} from '../../../utils/dom-util';
 import {Side} from '../../../constants/constants';
@@ -508,7 +508,7 @@ export class GrDiffHighlight {
     if (node instanceof Element && node.classList.contains('content')) {
       return this.getLength(queryAndAssert(node, '.contentText'));
     } else {
-      return GrAnnotation.getLength(node);
+      return getLength(node);
     }
   }
 }

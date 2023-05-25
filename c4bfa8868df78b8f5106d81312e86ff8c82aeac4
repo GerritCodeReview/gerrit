@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d81d69b3_47caf088",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-05-25T07:56:36Z",
+      "side": 1,
+      "message": "[optional] The purpose of this change is just covering the relation chain functionality for merge commits, it doesn\u0027t need to speculate how the reverted change could have been implemented without breaking this test, e.g. I\u0027m not sure I agree that this is the way that this should be addressed. So I would prefer to drop this paragraph, so that I can approve the test without approving this plan at the same time.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 47
+      },
+      "revId": "c4bfa8868df78b8f5106d81312e86ff8c82aeac4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "151c9433_736298ea",
@@ -14,6 +37,23 @@
       "writtenOn": "2023-05-19T12:21:41Z",
       "side": 1,
       "message": "I confirm that this is creating and testing two changes related on two branches.",
+      "revId": "c4bfa8868df78b8f5106d81312e86ff8c82aeac4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54117bfb_e059bad9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-05-25T07:56:36Z",
+      "side": 1,
+      "message": "Thanks much for adding this test!",
       "revId": "c4bfa8868df78b8f5106d81312e86ff8c82aeac4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

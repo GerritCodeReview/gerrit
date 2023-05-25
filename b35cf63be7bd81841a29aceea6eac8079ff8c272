@@ -106,6 +106,24 @@
       "parentUuid": "f4879179_9040a86b",
       "revId": "b35cf63be7bd81841a29aceea6eac8079ff8c272",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ec64d64_9c7f29c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-05-25T08:10:41Z",
+      "side": 1,
+      "message": "\u003e I think the confusion here is that Youssef is talking about the diff cache (potentially) filtering out files due to rebase (if all edits are due to rebase which is not the case here), but Patrick is talking about ListOfFilesUnchangedPredicate filtering out files due to rebase (which was the problem in this case and removing that rebase detection fixed this problem).\n\nYes, I agree. Sorry for the confusion. I think we were talking about different things. The internal revert we did fixed the problem (I was intrigued to think it wasn\u0027t fixed, but I was wrong) because ListOfFilesUnchangedPredicate looks at the {base vs. PS1} and {base vs. PS2}, so with the fix we can now see that they don\u0027t match (previously we were also using the {PS1 vs. PS2} but we reverted that).\n\nWhat I wanted to say is that the diff {PS1 vs. PS2} at the diff cache level was empty, and is still empty, and this is correct because both trees are identical.\n\n\u003e It\u0027s not clear to me yet whether there is another way to exploit this by making the diff cache filter out files due to rebase.\n\nThe diff cache already does that. Am I missing something?\n\n\u003e But even if this is possible this should be fixed too, since we remove the {PS1, PS2} diff that is affected by this here, right?\n\nThe {PS1 vs. PS2} is the only diff where the diff cache computes edits due to rebase, because patchsets might potentially have different bases. The vs. base diffs don\u0027t have that, so I believe the logic is not flawed. We now check that all files (file names + change types) in {base vs. current} are exactly same as {base vs. prior}.",
+      "parentUuid": "9213d203_c4d47530",
+      "revId": "b35cf63be7bd81841a29aceea6eac8079ff8c272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

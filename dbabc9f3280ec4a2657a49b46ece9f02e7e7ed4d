@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04ec8fd8_f006edd3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-05-25T09:25:46Z",
+      "side": 1,
+      "message": "Please add a test to ChangesRestApiBindingsIT",
+      "revId": "dbabc9f3280ec4a2657a49b46ece9f02e7e7ed4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

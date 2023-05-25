@@ -16,6 +16,40 @@
       "message": "The corresponding google internal change (implementation of the api change) is in cl/535225372",
       "revId": "15ce7339971a03a3dcbfea91a6f9ce71f2301952",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d2bc5d3_bb4c149d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-05-25T13:33:40Z",
+      "side": 1,
+      "message": "Please add a release-notes footer.",
+      "revId": "15ce7339971a03a3dcbfea91a6f9ce71f2301952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13ab20e2_61d3af34",
+        "filename": "java/com/google/gerrit/server/mail/send/EmailResource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-05-25T13:33:40Z",
+      "side": 1,
+      "message": "Please add license header.",
+      "revId": "15ce7339971a03a3dcbfea91a6f9ce71f2301952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -60,6 +60,7 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.delete("/changes/%s/topic"),
           RestCall.get("/changes/%s/in"),
           RestCall.get("/changes/%s/hashtags"),
+          RestCall.get("/changes/%s/custom_keyed_values"),
           RestCall.get("/changes/%s/comments"),
           RestCall.get("/changes/%s/robotcomments"),
           RestCall.get("/changes/%s/drafts"),

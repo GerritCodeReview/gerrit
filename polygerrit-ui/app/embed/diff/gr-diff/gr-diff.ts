@@ -79,7 +79,10 @@ import {provide} from '../../../models/dependency';
 import {grDiffStyles} from './gr-diff-styles';
 import {getDiffLength} from '../../../utils/diff-util';
 import {GrCoverageLayer} from '../gr-coverage-layer/gr-coverage-layer';
-import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
+import {
+  GrAnnotationImpl,
+  getStringLength,
+} from '../gr-diff-highlight/gr-annotation';
 import {
   GrDiffGroup,
   GrDiffGroupType,
@@ -1204,10 +1207,10 @@ export class GrDiff extends LitElement implements GrDiffApi {
           // If endIndex isn't present, continue to the end of the line.
           const endIndex =
             highlight.endIndex === undefined
-              ? GrAnnotation.getStringLength(line.text)
+              ? getStringLength(line.text)
               : highlight.endIndex;
 
-          GrAnnotation.annotateElement(
+          GrAnnotationImpl.annotateElement(
             contentEl,
             highlight.startIndex,
             endIndex - highlight.startIndex,
@@ -1255,11 +1258,9 @@ export class GrDiff extends LitElement implements GrDiffApi {
         if (match) {
           // Normalize string positions in case there is unicode before or
           // within the match.
-          const index = GrAnnotation.getStringLength(
-            line.text.substr(0, match.index)
-          );
-          const length = GrAnnotation.getStringLength(match[0]);
-          GrAnnotation.annotateElement(
+          const index = getStringLength(line.text.substr(0, match.index));
+          const length = getStringLength(match[0]);
+          GrAnnotationImpl.annotateElement(
             contentEl,
             index,
             length,
@@ -1460,7 +1461,7 @@ function annotateSymbols(
     // Skip forward by the length of the content
     pos += split[i].length;
 
-    GrAnnotation.annotateElement(contentEl, pos, 1, `gr-diff ${className}`);
+    GrAnnotationImpl.annotateElement(contentEl, pos, 1, `gr-diff ${className}`);
 
     pos++;
   }

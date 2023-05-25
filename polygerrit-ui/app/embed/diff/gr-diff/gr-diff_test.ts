@@ -41,7 +41,10 @@ import {GrRangedCommentHint} from '../gr-ranged-comment-hint/gr-ranged-comment-h
 import {fixture, html, assert} from '@open-wc/testing';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {GrDiffRow} from '../gr-diff-builder/gr-diff-row';
-import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
+import {
+  GrAnnotationImpl,
+  getStringLength,
+} from '../gr-diff-highlight/gr-annotation';
 import {GrDiffLine} from './gr-diff-line';
 
 const DEFAULT_PREFS = createDefaultDiffPrefs();
@@ -4013,7 +4016,7 @@ suite('former gr-diff-builder tests', () => {
         <div>Lorem ipsum dolor sit amet, suspendisse inceptos vehicula</div>
       `);
       str = el.textContent ?? '';
-      annotateElementSpy = sinon.spy(GrAnnotation, 'annotateElement');
+      annotateElementSpy = sinon.spy(GrAnnotationImpl, 'annotateElement');
       layer = element.createIntralineLayer();
     });
 
@@ -4125,7 +4128,7 @@ suite('former gr-diff-builder tests', () => {
 
       const str0 = slice(str, 0, 6);
       const str1 = slice(str, 6);
-      const numHighlightedChars = GrAnnotation.getStringLength(str1);
+      const numHighlightedChars = getStringLength(str1);
 
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
 
@@ -4152,7 +4155,10 @@ suite('former gr-diff-builder tests', () => {
     test('does nothing with empty line', () => {
       const l = line('');
       const el = document.createElement('div');
-      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
+      const annotateElementStub = sinon.stub(
+        GrAnnotationImpl,
+        'annotateElement'
+      );
 
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
 
@@ -4164,7 +4170,10 @@ suite('former gr-diff-builder tests', () => {
       const l = line(str);
       const el = document.createElement('div');
       el.textContent = str;
-      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
+      const annotateElementStub = sinon.stub(
+        GrAnnotationImpl,
+        'annotateElement'
+      );
 
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
 
@@ -4176,7 +4185,10 @@ suite('former gr-diff-builder tests', () => {
       const l = line(str);
       const el = document.createElement('div');
       el.textContent = str;
-      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
+      const annotateElementStub = sinon.stub(
+        GrAnnotationImpl,
+        'annotateElement'
+      );
 
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
 
@@ -4195,7 +4207,10 @@ suite('former gr-diff-builder tests', () => {
       const l = line(str);
       const el = document.createElement('div');
       el.textContent = str;
-      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
+      const annotateElementStub = sinon.stub(
+        GrAnnotationImpl,
+        'annotateElement'
+      );
 
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
 
@@ -4207,7 +4222,10 @@ suite('former gr-diff-builder tests', () => {
       const l = line(str);
       const el = document.createElement('div');
       el.textContent = str;
-      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
+      const annotateElementStub = sinon.stub(
+        GrAnnotationImpl,
+        'annotateElement'
+      );
 
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
 
@@ -4231,7 +4249,10 @@ suite('former gr-diff-builder tests', () => {
       const l = line(str);
       const el = document.createElement('div');
       el.textContent = str;
-      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
+      const annotateElementStub = sinon.stub(
+        GrAnnotationImpl,
+        'annotateElement'
+      );
 
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
 
@@ -4259,7 +4280,10 @@ suite('former gr-diff-builder tests', () => {
     test('does nothing with empty line', () => {
       const l = line('');
       const el = document.createElement('div');
-      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
+      const annotateElementStub = sinon.stub(
+        GrAnnotationImpl,
+        'annotateElement'
+      );
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
       assert.isFalse(annotateElementStub.called);
     });
@@ -4269,7 +4293,10 @@ suite('former gr-diff-builder tests', () => {
       const l = line(str);
       const el = document.createElement('div');
       el.textContent = str;
-      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
+      const annotateElementStub = sinon.stub(
+        GrAnnotationImpl,
+        'annotateElement'
+      );
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
       assert.isFalse(annotateElementStub.called);
     });
@@ -4279,7 +4306,10 @@ suite('former gr-diff-builder tests', () => {
       const l = line(str);
       const el = document.createElement('div');
       el.textContent = str;
-      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
+      const annotateElementStub = sinon.stub(
+        GrAnnotationImpl,
+        'annotateElement'
+      );
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
       assert.isTrue(annotateElementStub.called);
       assert.equal(annotateElementStub.lastCall.args[1], 11);
@@ -4291,7 +4321,10 @@ suite('former gr-diff-builder tests', () => {
       const l = line(str);
       const el = document.createElement('div');
       el.textContent = str;
-      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
+      const annotateElementStub = sinon.stub(
+        GrAnnotationImpl,
+        'annotateElement'
+      );
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
       assert.isTrue(annotateElementStub.called);
       assert.equal(annotateElementStub.lastCall.args[1], 11);
@@ -4303,7 +4336,10 @@ suite('former gr-diff-builder tests', () => {
       const l = line(str);
       const el = document.createElement('div');
       el.textContent = str;
-      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
+      const annotateElementStub = sinon.stub(
+        GrAnnotationImpl,
+        'annotateElement'
+      );
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
       assert.isTrue(annotateElementStub.called);
       assert.equal(annotateElementStub.lastCall.args[1], 11);
@@ -4315,7 +4351,10 @@ suite('former gr-diff-builder tests', () => {
       const l = line(str);
       const el = document.createElement('div');
       el.textContent = str;
-      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
+      const annotateElementStub = sinon.stub(
+        GrAnnotationImpl,
+        'annotateElement'
+      );
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
       assert.isTrue(annotateElementStub.called);
       assert.equal(annotateElementStub.lastCall.args[1], 1);
@@ -4331,7 +4370,10 @@ suite('former gr-diff-builder tests', () => {
       const l = line(str);
       const el = document.createElement('div');
       el.textContent = str;
-      const annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
+      const annotateElementStub = sinon.stub(
+        GrAnnotationImpl,
+        'annotateElement'
+      );
       layer.annotate(el, lineNumberEl, l, Side.LEFT);
       assert.isFalse(annotateElementStub.called);
     });

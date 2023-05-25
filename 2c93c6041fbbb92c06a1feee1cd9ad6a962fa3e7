@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "917ea374_4df1e7c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-25T18:02:06Z",
+      "side": 1,
+      "message": "Missing `Release-Notes` footer.",
+      "revId": "2c93c6041fbbb92c06a1feee1cd9ad6a962fa3e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cd45409_7825e1d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-25T18:02:06Z",
+      "side": 1,
+      "message": "Can you create a follow-up change where you are going to actually use it?\nIntroducing methods that are unused would cause some other maintainer to remove it later on.",
+      "revId": "2c93c6041fbbb92c06a1feee1cd9ad6a962fa3e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

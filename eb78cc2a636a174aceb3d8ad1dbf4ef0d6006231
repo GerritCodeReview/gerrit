@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2efe2adf_561eeea8",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-25T08:57:54Z",
+      "side": 1,
+      "message": "It\u0027s confusing to have two different things named the same.",
+      "revId": "eb78cc2a636a174aceb3d8ad1dbf4ef0d6006231",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b21cb2ba_a617d6f7",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-05-25T08:57:54Z",
+      "side": 1,
+      "message": "Should this be GrAnnotationImpl?",
+      "revId": "eb78cc2a636a174aceb3d8ad1dbf4ef0d6006231",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

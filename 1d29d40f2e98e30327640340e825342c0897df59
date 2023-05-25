@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf94f94b_cd298cb6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-05-25T07:23:52Z",
+      "side": 1,
+      "message": "I think so. I actually tried to make use of this, but I couldn\u0027t make this work quickly.",
+      "parentUuid": "6d8a65d2_be010bfa",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 1
+      },
+      "revId": "1d29d40f2e98e30327640340e825342c0897df59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1279f583_1d694d6b",
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "05a9dc07_b9008ab4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-05-25T07:23:52Z",
+      "side": 1,
+      "message": "\u003e What actually happened is that the PS1 vs. PS2 diff is really empty, i.e. the plain git diff is empty.\n\nRight, and then ListOfFilesUnchangedPredicate tries to filter out files that were only modified due to rebase and this code wrongly filters out file A.\n\nI modified this slightly to make it more clear, that file A is being mis-detected as modified due to rebase. I think what matters here is that there is a piece of code that tries to detect and filter out files that are modified due to rebase, but it wrongly filters out file A in this case. How exactly this code is trying to do this can be seen from the code.\n\n\u003e The diff logic gets the {PS1 vs. PS2} diff and potentially filters out files\n\u003e whose all edits are due to rebase, but that\u0027s not the case in this scenario.\n\nAre you saying there is another case that you would like to see covered by a test where the {PS1 vs. PS2} diff that is returned from the diff logic is empty because the diff logic wrongly filtered out edits due to rebase?",
+      "parentUuid": "1279f583_1d694d6b",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 7
+      },
+      "revId": "1d29d40f2e98e30327640340e825342c0897df59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "664a061e_5054fff1",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
         "patchSetId": 1
@@ -60,6 +108,30 @@
       "writtenOn": "2023-05-17T14:33:51Z",
       "side": 1,
       "message": "Is this assertion correct? it\u0027s confusing that this one is checking on a CR+2.\n\nPlease annotate passed params.",
+      "range": {
+        "startLine": 543,
+        "startChar": 4,
+        "endLine": 543,
+        "endChar": 32
+      },
+      "revId": "1d29d40f2e98e30327640340e825342c0897df59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b39ab20_1365f32b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-05-25T07:23:52Z",
+      "side": 1,
+      "message": "\u003e Is this assertion correct?\n\nI think so.\n\n\u003e it\u0027s confusing that this one is checking on a CR+2.\n\nNot sure what you mean. It is verifying that the change has CR-0 (i.e. that CR+2 was not copied to the new patch set), doesn\u0027t it?\n\nWhen running this test (without the fix in the follow-up change) it fails with:\n\nlabel \u003d Code-Review\nexpected: 0\nbut was : 2\n\n\u003e Please annotate passed params.\n\nSure done. I also added an assertion for the actual behaviour to make this more clear.",
+      "parentUuid": "664a061e_5054fff1",
       "range": {
         "startLine": 543,
         "startChar": 4,

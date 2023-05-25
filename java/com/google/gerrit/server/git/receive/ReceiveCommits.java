@@ -2313,7 +2313,7 @@ class ReceiveCommits {
       List<CreateRequest> newChanges = new ArrayList<>();
 
       GroupCollector groupCollector =
-          GroupCollector.create(receivePackRefCache, psUtil, notesFactory, project.getNameKey());
+          GroupCollector.create(receivePackRefCache, psUtil, notesFactory, magicBranch.dest);
 
       BranchCommitValidator validator =
           commitValidatorFactory.create(projectState, magicBranch.dest, user);
@@ -2354,7 +2354,7 @@ class ReceiveCommits {
           total++;
           receivePack.getRevWalk().parseBody(c);
           String name = c.name();
-          groupCollector.visit(c);
+          groupCollector.visit(magicBranch.dest.branch(), c);
           Collection<PatchSet.Id> existingPatchSets =
               receivePackRefCache.patchSetIdsFromObjectId(c);
 
@@ -2367,10 +2367,8 @@ class ReceiveCommits {
           if (commitAlreadyTracked) {
             alreadyTracked++;
             // Corner cases where an existing commit might need a new group:
-            // A) Existing commit has a null group; wasn't assigned during schema
-            //    upgrade, or schema upgrade is performed on a running server.
-            // B) Commit is a PatchSet of a pre-existing change uploaded with a
-            //    different target branch.
+            // A) Existing commit has an empty group, e.g. the schema upgrade that adds the group
+            //    field is performed on a running server and hasn't populated the groups yet
             existingPatchSets.stream()
                 .forEach(i -> updateGroups.add(new UpdateGroupsRequest(i, c)));
             if (!(newChangeForAllNotInTarget || magicBranch.base != null)) {
@@ -3272,21 +3270,18 @@ class ReceiveCommits {
             public boolean updateChange(ChangeContext ctx) {
               PatchSet ps = psUtil.get(ctx.getNotes(), psId);
               List<String> oldGroups = ps.groups();
-              if (oldGroups == null) {
-                if (groups == null) {
-                  return false;
-                }
-              } else if (sameGroups(oldGroups, groups)) {
-                return false;
+
+              // only update groups if no groups have been set before
+              if (oldGroups == null
+                  || oldGroups.isEmpty()
+                  || (oldGroups.size() == 1 && oldGroups.get(0).isEmpty())) {
+                ctx.getUpdate(psId).setGroups(groups);
+                return true;
               }
-              ctx.getUpdate(psId).setGroups(groups);
-              return true;
+
+              return false;
             }
           });
-    }
-
-    private boolean sameGroups(List<String> a, List<String> b) {
-      return Sets.newHashSet(a).equals(Sets.newHashSet(b));
     }
   }
 

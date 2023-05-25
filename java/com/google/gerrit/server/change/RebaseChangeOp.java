@@ -346,7 +346,8 @@ public class RebaseChangeOp implements BatchUpdateOp {
         patchSetInserter.setGroups(base.patchSet().groups());
       } else {
         // If the base is merged, start a new relation chain.
-        patchSetInserter.setGroups(GroupCollector.getDefaultGroups(rebasedCommit));
+        patchSetInserter.setGroups(
+            GroupCollector.getDefaultGroups(notes.getChange().getDest().branch(), rebasedCommit));
       }
     }
 

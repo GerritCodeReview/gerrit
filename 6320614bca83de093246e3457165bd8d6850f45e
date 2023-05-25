@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfcbb45b_ca5fe21f",
+        "filename": "javatests/com/google/gerrit/server/cache/mem/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-25T09:58:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03548352_ed850df3",
+      "range": {
+        "startLine": 9,
+        "startChar": 8,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "6320614bca83de093246e3457165bd8d6850f45e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4240925e_7233a1f2",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-05-25T09:55:51Z",
       "side": 1,
       "message": "This should be removed.",
+      "range": {
+        "startLine": 164,
+        "startChar": 6,
+        "endLine": 167,
+        "endChar": 7
+      },
+      "revId": "6320614bca83de093246e3457165bd8d6850f45e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0642fb84_40a03380",
+        "filename": "javatests/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-25T09:58:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4240925e_7233a1f2",
       "range": {
         "startLine": 164,
         "startChar": 6,

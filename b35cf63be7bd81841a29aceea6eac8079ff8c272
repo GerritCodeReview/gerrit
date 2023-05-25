@@ -88,6 +88,24 @@
       "parentUuid": "d53e9cb8_cacf237b",
       "revId": "b35cf63be7bd81841a29aceea6eac8079ff8c272",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9213d203_c4d47530",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-05-25T07:36:38Z",
+      "side": 1,
+      "message": "I removed this test now, so that it becomes easier to see that the test that was added in the predecessor change passes now.\n\n\u003e After I looked closely, the diff after squash is actually empty\n\nRight.\n\n\u003e and not empty because we\u0027ve filtering out some files that are edited due to rebase.\n\nI think the confusion here is that Youssef is talking about the diff cache (potentially) filtering out files due to rebase (if all edits are due to rebase which is not the case here), but Patrick is talking about ListOfFilesUnchangedPredicate filtering out files due to rebase (which was the problem in this case and removing that rebase detection fixed this problem).\n\nIt\u0027s not clear to me yet whether there is another way to exploit this by making the diff cache filter out files due to rebase. But even if this is possible this should be fixed too, since we remove the {PS1, PS2} diff that is affected by this here, right?",
+      "parentUuid": "f4879179_9040a86b",
+      "revId": "b35cf63be7bd81841a29aceea6eac8079ff8c272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

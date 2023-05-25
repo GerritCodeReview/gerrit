@@ -70,6 +70,24 @@
       "parentUuid": "df0f3589_7fbbe764",
       "revId": "b35cf63be7bd81841a29aceea6eac8079ff8c272",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4879179_9040a86b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-05-25T06:51:49Z",
+      "side": 1,
+      "message": "I am pretty sure it does solve the problem because it compares diff(oldBase,oldPs) \u003d\u003d diff(newBase,newPs). Is this not what you are seeing?",
+      "parentUuid": "d53e9cb8_cacf237b",
+      "revId": "b35cf63be7bd81841a29aceea6eac8079ff8c272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

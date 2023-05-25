@@ -106,6 +106,24 @@
       "parentUuid": "c5f7fab9_e671e293",
       "revId": "5872db63667270dba0aed4859c7e1ba0d9af6c5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4f0e24b_32b2e55b",
+        "filename": "java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-05-25T08:43:50Z",
+      "side": 1,
+      "message": "The SubmitException is specific and is narrowing down the case to *one specific* error condition that we want to trace properly. There is no risk of flooding the error_log unless you have tens of thousands of submission failing in production, which means you are better to look at those and really understand why they happened.",
+      "parentUuid": "57cf8d57_931796f1",
+      "revId": "5872db63667270dba0aed4859c7e1ba0d9af6c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

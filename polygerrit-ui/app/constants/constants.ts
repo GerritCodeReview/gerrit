@@ -36,17 +36,6 @@ export {
   DefaultDisplayNameConfig,
   EditableAccountField,
   FileInfoStatus,
-  GpgKeyInfoStatus,
-  HttpMethod,
-  InheritedBooleanInfoConfiguredValue,
-  MergeabilityComputationBehavior,
-  ProblemInfoStatus,
-  RepoState,
-  RequirementStatus,
-  ReviewerState,
-  RevisionKind,
-  SubmitType,
-};
 
 export enum AccountTag {
   SERVICE_USER = 'SERVICE_USER',

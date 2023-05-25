@@ -24,17 +24,12 @@ import {assertIsDefined} from '../../../utils/common-util';
 suite('gr-diff-cursor tests', () => {
   let cursor: GrDiffCursor;
   let diffElement: GrDiff;
-  let diff: DiffInfo;
 
   setup(async () => {
     diffElement = await fixture(html`<gr-diff></gr-diff>`);
     cursor = new GrDiffCursor();
-
-    // Register the diff with the cursor.
     cursor.replaceDiffs([diffElement]);
 
-    diffElement.loggedIn = false;
-    diffElement.path = 'some/path.ts';
     const promise = mockPromise();
     const setupDone = () => {
       cursor._updateStops();
@@ -44,9 +39,11 @@ suite('gr-diff-cursor tests', () => {
     };
     diffElement.addEventListener('render', setupDone);
 
-    diff = createDiff();
-    diffElement.prefs = createDefaultDiffPrefs();
-    diffElement.diff = diff;
+    diffElement.diffModel.updateState({
+      diff: createDiff(),
+      path: 'some/path.ts',
+      diffPrefs: createDefaultDiffPrefs(),
+    });
     await promise;
   });
 
@@ -98,10 +95,13 @@ suite('gr-diff-cursor tests', () => {
       ],
     };
 
-    diffElement.diff = diff;
-    // The file comment button, if present, is a cursor stop. Ensure
-    // moveToFirstChunk() works correctly even if the button is not shown.
-    diffElement.prefs!.show_file_comment_button = false;
+    diffElement.diffModel.updateState({
+      diff,
+      // The file comment button, if present, is a cursor stop. Ensure
+      // moveToFirstChunk() works correctly even if the button is not shown.
+      diffPrefs: {...createDefaultDiffPrefs(), show_file_comment_button: false},
+    });
+    await waitForEventOnce(diffElement, 'render');
     await waitForEventOnce(diffElement, 'render');
 
     cursor._updateStops();
@@ -161,8 +161,9 @@ suite('gr-diff-cursor tests', () => {
         {b: ['new line 3']},
       ],
     };
+    diffElement.diffModel.updateState({diff});
 
-    diffElement.diff = diff;
+    await waitForEventOnce(diffElement, 'render');
     await waitForEventOnce(diffElement, 'render');
     cursor._updateStops();
 
@@ -228,7 +229,9 @@ suite('gr-diff-cursor tests', () => {
 
   suite('unified diff', () => {
     setup(async () => {
-      diffElement.viewMode = DiffViewMode.UNIFIED;
+      diffElement.diffModel.updateState({
+        renderPrefs: {view_mode: DiffViewMode.UNIFIED},
+      });
       await diffElement.updateComplete;
       cursor.reInitCursor();
     });
@@ -254,9 +257,9 @@ suite('gr-diff-cursor tests', () => {
   });
 
   test('cursor side functionality', () => {
-    // The side only applies to side-by-side mode, which should be the default
-    // mode.
-    assert.equal(diffElement.viewMode, 'SIDE_BY_SIDE');
+    diffElement.diffModel.updateState({
+      renderPrefs: {view_mode: DiffViewMode.SIDE_BY_SIDE},
+    });
 
     const rows = [
       ...queryAll(diffElement, '.section tr.diff-row'),
@@ -312,143 +315,6 @@ suite('gr-diff-cursor tests', () => {
     assert.equal(cursor.side, Side.LEFT);
   });
 
-  suite('moved chunks without line range)', () => {
-    setup(async () => {
-      const promise = mockPromise();
-      const renderHandler = function () {
-        diffElement.removeEventListener('render', renderHandler);
-        cursor.reInitCursor();
-        promise.resolve();
-      };
-      diffElement.addEventListener('render', renderHandler);
-      diffElement.diff = {
-        ...diff,
-        content: [
-          {
-            ab: ['Lorem ipsum dolor sit amet, suspendisse inceptos vehicula, '],
-          },
-          {
-            b: [
-              'Nullam neque, ligula ac, id blandit.',
-              'Sagittis tincidunt torquent, tempor nunc amet.',
-              'At rhoncus id.',
-            ],
-            move_details: {changed: false},
-          },
-          {
-            ab: ['Sem nascetur, erat ut, non in.'],
-          },
-          {
-            a: [
-              'Nullam neque, ligula ac, id blandit.',
-              'Sagittis tincidunt torquent, tempor nunc amet.',
-              'At rhoncus id.',
-            ],
-            move_details: {changed: false},
-          },
-          {
-            ab: ['Arcu eget, rhoncus amet cursus, ipsum elementum.'],
-          },
-        ],
-      };
-      await promise;
-    });
-
-    test('renders moveControls with simple descriptions', () => {
-      const [movedIn, movedOut] = [
-        ...queryAll<HTMLElement>(diffElement, '.dueToMove tr.moveControls'),
-      ];
-      assert.include(movedIn.innerText, 'Moved in');
-      assert.include(movedOut.innerText, 'Moved out');
-    });
-  });
-
-  suite('moved chunks (moveDetails)', () => {
-    setup(async () => {
-      const promise = mockPromise();
-      const renderHandler = function () {
-        diffElement.removeEventListener('render', renderHandler);
-        cursor.reInitCursor();
-        promise.resolve();
-      };
-      diffElement.addEventListener('render', renderHandler);
-      diffElement.diff = {
-        ...diff,
-        content: [
-          {
-            ab: ['Lorem ipsum dolor sit amet, suspendisse inceptos vehicula, '],
-          },
-          {
-            b: [
-              'Nullam neque, ligula ac, id blandit.',
-              'Sagittis tincidunt torquent, tempor nunc amet.',
-              'At rhoncus id.',
-            ],
-            move_details: {changed: false, range: {start: 4, end: 6}},
-          },
-          {
-            ab: ['Sem nascetur, erat ut, non in.'],
-          },
-          {
-            a: [
-              'Nullam neque, ligula ac, id blandit.',
-              'Sagittis tincidunt torquent, tempor nunc amet.',
-              'At rhoncus id.',
-            ],
-            move_details: {changed: false, range: {start: 2, end: 4}},
-          },
-          {
-            ab: ['Arcu eget, rhoncus amet cursus, ipsum elementum.'],
-          },
-        ],
-      };
-      await promise;
-    });
-
-    test('renders moveControls with simple descriptions', () => {
-      const [movedIn, movedOut] = [
-        ...queryAll<HTMLElement>(diffElement, '.dueToMove tr.moveControls'),
-      ];
-      assert.include(movedIn.innerText, 'Moved from lines 4 - 6');
-      assert.include(movedOut.innerText, 'Moved to lines 2 - 4');
-    });
-
-    test('startLineAnchor of movedIn chunk fires events', async () => {
-      const [movedIn] = [...queryAll(diffElement, '.dueToMove .moveControls')];
-      const [startLineAnchor] = movedIn.querySelectorAll('a');
-
-      const promise = mockPromise();
-      const onMovedLinkClicked = (e: CustomEvent) => {
-        assert.deepEqual(e.detail, {lineNum: 4, side: Side.LEFT});
-        promise.resolve();
-      };
-      assert.equal(startLineAnchor.textContent, '4');
-      startLineAnchor.addEventListener(
-        'moved-link-clicked',
-        onMovedLinkClicked
-      );
-      startLineAnchor.click();
-      await promise;
-    });
-
-    test('endLineAnchor of movedOut fires events', async () => {
-      const [, movedOut] = [
-        ...queryAll(diffElement, '.dueToMove .moveControls'),
-      ];
-      const [, endLineAnchor] = movedOut.querySelectorAll('a');
-
-      const promise = mockPromise();
-      const onMovedLinkClicked = (e: CustomEvent) => {
-        assert.deepEqual(e.detail, {lineNum: 4, side: Side.RIGHT});
-        promise.resolve();
-      };
-      assert.equal(endLineAnchor.textContent, '4');
-      endLineAnchor.addEventListener('moved-link-clicked', onMovedLinkClicked);
-      endLineAnchor.click();
-      await promise;
-    });
-  });
-
   test('initialLineNumber not provided', async () => {
     let scrollBehaviorDuringMove;
     const moveToNumStub = sinon.stub(cursor, 'moveToLineNumber');
@@ -460,8 +326,8 @@ suite('gr-diff-cursor tests', () => {
     cursor.dispose();
     const diff = createDiff();
     diff.content.push({ab: ['one more line']});
-    diffElement.diff = diff;
-    diffElement.prefs = createDefaultDiffPrefs();
+    diffElement.diffModel.updateState({diff});
+
     await Promise.all([
       diffElement.updateComplete,
       waitForEventOnce(diffElement, 'render'),

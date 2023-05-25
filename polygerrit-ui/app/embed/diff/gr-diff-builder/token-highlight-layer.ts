@@ -11,14 +11,11 @@ import {
   getStringLength,
 } from '../gr-diff-highlight/gr-annotation';
 import {debounce, DelayedTask} from '../../../utils/async-util';
-
 import {getLineElByChild, getSideByLineEl} from '../gr-diff/gr-diff-utils';
-
 import {
   getLineNumberByChild,
   lineNumberToNumber,
 } from '../gr-diff/gr-diff-utils';
-import {GrDiff} from '../gr-diff/gr-diff';
 
 const tokenMatcher = new RegExp(/[\w]+/g);
 
@@ -118,18 +115,6 @@ export class TokenHighlightLayer implements DiffLayer {
       this.handleContainerClick(e);
     });
     this.getTokenQueryContainer = getTokenQueryContainer;
-  }
-
-  static createTokenHighlightContainer(
-    container: HTMLElement,
-    getGrDiff: () => GrDiff,
-    tokenHighlightListener?: TokenHighlightListener
-  ): TokenHighlightLayer {
-    return new TokenHighlightLayer(
-      container,
-      tokenHighlightListener,
-      () => getGrDiff().diffTable!
-    );
   }
 
   annotate(el: HTMLElement, _1: HTMLElement, _2: GrDiffLine, _3: Side): void {

@@ -13,6 +13,7 @@ import '../gr-ranged-comment-themes/gr-ranged-comment-theme';
 import '../gr-ranged-comment-hint/gr-ranged-comment-hint';
 import '../gr-diff-builder/gr-diff-builder-image';
 import '../gr-diff-builder/gr-diff-section';
+import './gr-diff-container';
 import '../gr-diff-builder/gr-diff-row';
 import {
   getLine,
@@ -31,7 +32,6 @@ import {
   compareComments,
   toCommentThreadModel,
   FullContext,
-  diffClasses,
   DiffContextExpandedEventDetail,
 } from '../gr-diff/gr-diff-utils';
 import {BlameInfo, CommentRange, ImageInfo} from '../../../types/common';
@@ -45,11 +45,7 @@ import {
   CommentRangeLayer,
   GrRangedCommentLayer,
 } from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
-import {
-  DiffViewMode,
-  Side,
-  createDefaultDiffPrefs,
-} from '../../../constants/constants';
+import {DiffViewMode, Side} from '../../../constants/constants';
 import {fire, fireAlert} from '../../../utils/event-util';
 import {MovedLinkClickedEvent, ValueChangedEvent} from '../../../types/events';
 import {getContentEditableRange} from '../../../utils/safari-selection-util';
@@ -65,19 +61,15 @@ import {
 import {isHtmlElement, isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrDiffSelection} from '../gr-diff-selection/gr-diff-selection';
-import {property, query, queryAll, state} from 'lit/decorators.js';
+import {property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {html, LitElement, nothing, PropertyValues} from 'lit';
-import {when} from 'lit/directives/when.js';
+import {html, LitElement, PropertyValues} from 'lit';
 import {grSyntaxTheme} from '../gr-syntax-themes/gr-syntax-theme';
 import {grRangedCommentTheme} from '../gr-ranged-comment-themes/gr-ranged-comment-theme';
-import {classMap} from 'lit/directives/class-map.js';
 import {iconStyles} from '../../../styles/gr-icon-styles';
-import {expandFileMode} from '../../../utils/file-util';
 import {DiffModel, diffModelToken} from '../gr-diff-model/gr-diff-model';
 import {provide} from '../../../models/dependency';
 import {grDiffStyles} from './gr-diff-styles';
-import {getDiffLength} from '../../../utils/diff-util';
 import {GrCoverageLayer} from '../gr-coverage-layer/gr-coverage-layer';
 import {
   GrAnnotationImpl,
@@ -92,15 +84,9 @@ import {GrDiffLine} from './gr-diff-line';
 import {subscribe} from '../../../elements/lit/subscription-controller';
 import {GrDiffSection} from '../gr-diff-builder/gr-diff-section';
 import {GrDiffRow} from '../gr-diff-builder/gr-diff-row';
-import {repeat} from 'lit/directives/repeat.js';
+import {GrDiffContainer} from './gr-diff-container';
 
 const TRAILING_WHITESPACE_PATTERN = /\s+$/;
-
-const NO_NEWLINE_LEFT = 'No newline at end of left file.';
-const NO_NEWLINE_RIGHT = 'No newline at end of right file.';
-
-const LARGE_DIFF_THRESHOLD_LINES = 10000;
-const FULL_CONTEXT = -1;
 
 const COMMIT_MSG_PATH = '/COMMIT_MSG';
 /**
@@ -146,11 +132,8 @@ export class GrDiff extends LitElement implements GrDiffApi {
    * @event diff-context-expanded
    */
 
-  @query('#diffTable')
-  diffTable?: HTMLTableElement;
-
-  @queryAll('gr-diff-section')
-  diffSections?: NodeListOf<GrDiffSection>;
+  @query('gr-diff-container')
+  diffContainer?: GrDiffContainer;
 
   @property({type: Boolean})
   noAutoRender = false;
@@ -217,9 +200,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
   @property({type: Object})
   diff?: DiffInfo;
 
-  @state()
-  private diffTableClass = '';
-
   @property({type: Object})
   baseImage?: ImageInfo;
 
@@ -262,11 +242,12 @@ export class GrDiff extends LitElement implements GrDiffApi {
   // Private but used in tests.
   highlights = new GrDiffHighlight();
 
-  private diffModel = new DiffModel();
+  // Private but used in tests.
+  diffModel = new DiffModel();
 
   /**
-   * Just the layers that are passed in from the outside. See `layersAll`
-   * for an array of all layers.
+   * Just the layers that are passed in from the outside. Will be joined with
+   * `layersInternal` and sent to the diff model.
    */
   @property({type: Array})
   layers: DiffLayer[] = [];
@@ -275,12 +256,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
    * Just the internal default layers. See `layers` for the property that can
    * be set from the outside.
    */
-  @state() layersInternal: DiffLayer[] = [];
-
-  /**
-   * All layers, just combines `layers` and `layersInternal`.
-   */
-  @state() layersAll: DiffLayer[] = [];
+  private layersInternal: DiffLayer[] = [];
 
   private coverageLayerLeft = new GrCoverageLayer(Side.LEFT);
 
@@ -346,11 +322,11 @@ export class GrDiff extends LitElement implements GrDiffApi {
     if (this.loggedIn) {
       this.addSelectionListeners();
     }
-    if (this.diff && this.diffTable) {
-      this.diffSelection.init(this.diff, this.diffTable);
+    if (this.diff && this.diffContainer) {
+      this.diffSelection.init(this.diff, this.diffContainer);
     }
-    if (this.diffTable) {
-      this.highlights.init(this.diffTable, this);
+    if (this.diffContainer) {
+      this.highlights.init(this.diffContainer, this);
     }
   }
 
@@ -385,6 +361,12 @@ export class GrDiff extends LitElement implements GrDiffApi {
         });
       }
     }
+    if (changedProperties.has('baseImage')) {
+      this.diffModel.updateState({baseImage: this.baseImage});
+    }
+    if (changedProperties.has('revisionImage')) {
+      this.diffModel.updateState({revisionImage: this.revisionImage});
+    }
     if (
       changedProperties.has('path') ||
       changedProperties.has('lineWrapping') ||
@@ -418,119 +400,30 @@ export class GrDiff extends LitElement implements GrDiffApi {
     }
   }
 
-  private async fireRenderContent() {
-    await this.updateComplete;
-    this.loading = false;
-    this.observeNodes();
-    // TODO: Retire one of these two events.
-    fire(this, 'render-content', {});
-    fire(this, 'render', {});
-  }
-
   protected override async getUpdateComplete(): Promise<boolean> {
     const result = await super.getUpdateComplete();
-    const sections = [...(this.diffSections ?? [])];
-    await Promise.all(sections.map(section => section.updateComplete));
+    await this.diffContainer?.updateComplete;
     return result;
   }
 
   protected override updated(changedProperties: PropertyValues<this>) {
     if (changedProperties.has('diff')) {
-      // diffChanged relies on diffTable having been rendered.
+      // diffChanged relies on diffContainer having been rendered.
       this.diffChanged();
     }
     if (changedProperties.has('groups')) {
-      if (this.groups?.length > 0) this.fireRenderContent();
+      if (this.groups?.length > 0) {
+        this.loading = false;
+        this.observeNodes();
+      }
     }
   }
 
   override render() {
-    fire(this.diffTable, 'render-start', {});
-    return html`
-      ${this.renderHeader()} ${this.renderContainer()}
-      ${this.renderNewlineWarning()} ${this.renderLoadingError()}
-    `;
-  }
-
-  private renderHeader() {
-    const diffheaderItems = this.computeDiffHeaderItems();
-    if (diffheaderItems.length === 0) return nothing;
-    return html`
-      <div id="diffHeader">
-        ${diffheaderItems.map(item => html`<div>${item}</div>`)}
-      </div>
-    `;
-  }
-
-  private renderContainer() {
-    const cssClasses = {
-      newDiff: true,
-      diffContainer: true,
-      unified: this.viewMode === DiffViewMode.UNIFIED,
-      sideBySide: this.viewMode === DiffViewMode.SIDE_BY_SIDE,
-      canComment: this.loggedIn,
-    };
-    return html`
-      <div class=${classMap(cssClasses)} @click=${this.handleTap}>
-        <table
-          id="diffTable"
-          class=${this.diffTableClass}
-          ?contenteditable=${this.isContentEditable}
-        >
-          ${this.renderColumns()}
-          ${when(!this.showWarning(), () =>
-            repeat(
-              this.groups,
-              group => group.id(),
-              group => this.renderSectionElement(group)
-            )
-          )}
-          ${when(this.diff?.binary, () =>
-            this.isImageDiff ? this.renderImageDiff() : this.renderBinaryDiff()
-          )}
-        </table>
-        ${when(
-          this.showNoChangeMessage(),
-          () => html`
-            <div class="whitespace-change-only-message">
-              This file only contains whitespace changes. Modify the whitespace
-              setting to see the changes.
-            </div>
-          `
-        )}
-        ${when(this.showWarning(), () => this.renderSizeWarning())}
-      </div>
-    `;
-  }
-
-  private renderNewlineWarning() {
-    const newlineWarning = this.computeNewlineWarning();
-    if (!newlineWarning) return nothing;
-    return html`<div class="newlineWarning">${newlineWarning}</div>`;
-  }
-
-  private renderLoadingError() {
-    if (!this.errorMessage) return nothing;
-    return html`<div id="loadingError">${this.errorMessage}</div>`;
-  }
-
-  private renderSizeWarning() {
-    if (!this.showWarning()) return nothing;
-    // TODO: Update comment about 'Whole file' as it's not in settings.
-    return html`
-      <div id="sizeWarning">
-        <p>
-          Prevented render because "Whole file" is enabled and this diff is very
-          large (about ${this.diffLength} lines).
-        </p>
-        <gr-button @click=${this.collapseContext}>
-          Render with limited context
-        </gr-button>
-        <gr-button @click=${this.handleFullBypass}>
-          Render anyway (may be slow)
-        </gr-button>
-      </div>
-    `;
+    fire(this, 'render-start', {});
+    return html`<gr-diff-container
+      @click=${this.handleTap}
+    ></gr-diff-container>`;
   }
 
   private addSelectionListeners() {
@@ -541,18 +434,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
   private removeSelectionListeners() {
     document.removeEventListener('selectionchange', this.handleSelectionChange);
     document.removeEventListener('mouseup', this.handleMouseUp);
-  }
-
-  // Private but used in tests.
-  showNoChangeMessage() {
-    return (
-      !this.loading &&
-      this.diff &&
-      !this.diff.binary &&
-      this.prefs &&
-      this.prefs.ignore_whitespace !== 'IGNORE_NONE' &&
-      this.diffLength === 0
-    );
   }
 
   private readonly handleSelectionChange = () => {
@@ -813,7 +694,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
     const responsiveMode = getResponsiveMode(this.prefs, this.renderPrefs);
     const responsive = isResponsive(responsiveMode);
-    this.diffTableClass = responsive ? 'responsive' : '';
     const lineLimit = `${lineLength}ch`;
     this.style.setProperty(
       '--line-limit-marker',
@@ -884,25 +764,10 @@ export class GrDiff extends LitElement implements GrDiffApi {
   private diffChanged() {
     this.loading = true;
     if (this.diff) {
-      this.diffLength = this.getDiffLength(this.diff);
-      assertIsDefined(this.diffTable, 'diffTable');
-      this.diffSelection.init(this.diff, this.diffTable);
-      this.highlights.init(this.diffTable, this);
+      assertIsDefined(this.diffContainer, 'diffContainer');
+      this.diffSelection.init(this.diff, this.diffContainer);
+      this.highlights.init(this.diffContainer, this);
     }
-  }
-
-  // Implemented so the test can stub it.
-  getDiffLength(diff?: DiffInfo) {
-    return getDiffLength(diff);
-  }
-
-  private showWarning() {
-    return (
-      this.prefs?.context === FULL_CONTEXT &&
-      this.diffModel.getState().showFullContext === FullContext.UNDECIDED &&
-      this.diffLength &&
-      this.diffLength >= LARGE_DIFF_THRESHOLD_LINES
-    );
   }
 
   /**
@@ -1009,30 +874,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
   /** TODO: Can be removed when diff-old is gone. */
   clearDiffContent() {}
 
-  // Private but used in tests.
-  computeDiffHeaderItems() {
-    return (this.diff?.diff_header ?? [])
-      .filter(
-        item =>
-          !(
-            item.startsWith('diff --git ') ||
-            item.startsWith('index ') ||
-            item.startsWith('+++ ') ||
-            item.startsWith('--- ') ||
-            item === 'Binary files differ'
-          )
-      )
-      .map(expandFileMode);
-  }
-
-  private handleFullBypass() {
-    this.diffModel.updateState({showFullContext: FullContext.YES});
-  }
-
-  private collapseContext() {
-    this.diffModel.updateState({showFullContext: FullContext.NO});
-  }
-
   // TODO: Migrate callers to just update prefs.context.
   toggleAllContext() {
     const current = this.diffModel.getState().showFullContext;
@@ -1042,63 +883,9 @@ export class GrDiff extends LitElement implements GrDiffApi {
     });
   }
 
-  private computeNewlineWarning(): string | undefined {
-    const messages = [];
-    if (this.showNewlineWarningLeft) {
-      messages.push(NO_NEWLINE_LEFT);
-    }
-    if (this.showNewlineWarningRight) {
-      messages.push(NO_NEWLINE_RIGHT);
-    }
-    if (!messages.length) {
-      return undefined;
-    }
-    return messages.join(' \u2014 '); // \u2014 - '—'
-  }
-
   private updateCoverageRanges(rs: CoverageRange[]) {
     this.coverageLayerLeft.setRanges(rs.filter(r => r?.side === Side.LEFT));
     this.coverageLayerRight.setRanges(rs.filter(r => r?.side === Side.RIGHT));
-  }
-
-  public renderImageDiff() {
-    return when(
-      this.useNewImageDiffUi,
-      () => this.renderImageDiffNew(),
-      () => this.renderImageDiffOld()
-    );
-  }
-
-  private renderImageDiffNew() {
-    const autoBlink = !!this.renderPrefs?.image_diff_prefs?.automatic_blink;
-    return html`
-      <gr-diff-image-new
-        .automaticBlink=${autoBlink}
-        .baseImage=${this.baseImage ?? undefined}
-        .revisionImage=${this.revisionImage ?? undefined}
-      ></gr-diff-image-new>
-    `;
-  }
-
-  private renderImageDiffOld() {
-    return html`
-      <gr-diff-image-old
-        .baseImage=${this.baseImage ?? undefined}
-        .revisionImage=${this.revisionImage ?? undefined}
-      ></gr-diff-image-old>
-    `;
-  }
-
-  public renderBinaryDiff() {
-    return html`
-      <tbody class="gr-diff binary-diff">
-        <tr class="gr-diff">
-          <td colspan="5" class="gr-diff">
-            <span>Difference in binary files</span>
-          </td>
-        </tr>
-      </tbody>
-    `;
   }
 
   private onDiffContextExpanded = (
@@ -1110,11 +897,12 @@ export class GrDiff extends LitElement implements GrDiffApi {
   };
 
   private layersChanged() {
-    this.layersAll = [...this.layersInternal, ...this.layers];
-    for (const layer of this.layersAll) {
+    const layers = [...this.layersInternal, ...this.layers];
+    for (const layer of layers) {
       layer.removeListener?.(this.layerUpdateListener);
       layer.addListener?.(this.layerUpdateListener);
     }
+    this.diffModel.updateState({layers});
   }
 
   private layersInternalInit() {
@@ -1298,10 +1086,8 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   private getDiffRows() {
-    assertIsDefined(this.diffTable, 'diffTable');
-    const sections = [
-      ...this.diffTable.querySelectorAll<GrDiffSection>('gr-diff-section'),
-    ];
+    assertIsDefined(this.diffContainer, 'diffContainer');
+    const sections = [...(this.diffContainer.diffSections ?? [])];
     return sections.map(s => s.getDiffRows()).flat();
   }
 
@@ -1327,68 +1113,14 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   private findSection(group: GrDiffGroup): GrDiffSection | undefined {
-    assertIsDefined(this.diffTable, 'diffTable');
+    assertIsDefined(this.diffContainer, 'diffContainer');
     const leftClass = `left-${group.startLine(Side.LEFT)}`;
     const rightClass = `right-${group.startLine(Side.RIGHT)}`;
     return (
-      this.diffTable.querySelector<GrDiffSection>(
+      this.diffContainer.querySelector<GrDiffSection>(
         `gr-diff-section.${leftClass}.${rightClass}`
       ) ?? undefined
     );
-  }
-
-  renderSectionElement(group: GrDiffGroup) {
-    const leftClass = `left-${group.startLine(Side.LEFT)}`;
-    const rightClass = `right-${group.startLine(Side.RIGHT)}`;
-    if (this.diff?.binary && group.startLine(Side.LEFT) === LOST) {
-      return nothing;
-    }
-    return html`
-      <gr-diff-section
-        class="${leftClass} ${rightClass}"
-        .group=${group}
-        .diff=${this.diff}
-        .layers=${this.layersAll}
-        .diffPrefs=${this.prefs}
-        .renderPrefs=${this.renderPrefs}
-      ></gr-diff-section>
-    `;
-  }
-
-  renderColumns() {
-    const lineNumberWidth = getLineNumberCellWidth(
-      this.prefs ?? createDefaultDiffPrefs()
-    );
-    return html`
-      <colgroup>
-        <col class=${diffClasses('blame')}></col>
-        ${when(
-          (this.renderPrefs?.view_mode ?? this.viewMode) ===
-            DiffViewMode.UNIFIED,
-          () => html` ${this.renderUnifiedColumns(lineNumberWidth)} `,
-          () => html`
-            ${this.renderSideBySideColumns(Side.LEFT, lineNumberWidth)}
-            ${this.renderSideBySideColumns(Side.RIGHT, lineNumberWidth)}
-          `
-        )}
-      </colgroup>
-    `;
-  }
-
-  private renderUnifiedColumns(lineNumberWidth: number) {
-    return html`
-      <col class=${diffClasses()} width=${lineNumberWidth}></col>
-      <col class=${diffClasses()} width=${lineNumberWidth}></col>
-      <col class=${diffClasses()}></col>
-    `;
-  }
-
-  private renderSideBySideColumns(side: Side, lineNumberWidth: number) {
-    return html`
-      <col class=${diffClasses(side)} width=${lineNumberWidth}></col>
-      <col class=${diffClasses(side, 'sign')}></col>
-      <col class=${diffClasses(side)}></col>
-    `;
   }
 
   findGroup(side: Side, line: LineNumber) {

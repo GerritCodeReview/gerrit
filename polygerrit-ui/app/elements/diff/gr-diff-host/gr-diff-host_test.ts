@@ -318,19 +318,16 @@ suite('gr-diff-host tests', () => {
 
       // Recognizes that it should be an image diff.
       assert.isTrue(element.isImageDiff);
-      assertIsDefined(element.diffElement);
 
       // Left image rendered with the parent commit's version of the file.
       assertIsDefined(element.diffElement);
-      assertIsDefined(element.diffElement.diffTable);
-      const diffTable = element.diffElement.diffTable;
-      const leftImage = queryAndAssert(diffTable, 'td.left img');
-      const leftLabel = queryAndAssert(diffTable, 'td.left label');
+      const leftImage = queryAndAssert(element.diffElement, 'td.left img');
+      const leftLabel = queryAndAssert(element.diffElement, 'td.left label');
       const leftLabelContent = leftLabel.querySelector('.label');
       const leftLabelName = leftLabel.querySelector('.name');
 
-      const rightImage = queryAndAssert(diffTable, 'td.right img');
-      const rightLabel = queryAndAssert(diffTable, 'td.right label');
+      const rightImage = queryAndAssert(element.diffElement, 'td.right img');
+      const rightLabel = queryAndAssert(element.diffElement, 'td.right label');
       const rightLabelContent = rightLabel.querySelector('.label');
       const rightLabelName = rightLabel.querySelector('.name');
 
@@ -392,15 +389,13 @@ suite('gr-diff-host tests', () => {
       assertIsDefined(element.diffElement);
 
       // Left image rendered with the parent commit's version of the file.
-      assertIsDefined(element.diffElement.diffTable);
-      const diffTable = element.diffElement.diffTable;
-      const leftImage = queryAndAssert(diffTable, 'td.left img');
-      const leftLabel = queryAndAssert(diffTable, 'td.left label');
+      const leftImage = queryAndAssert(element.diffElement, 'td.left img');
+      const leftLabel = queryAndAssert(element.diffElement, 'td.left label');
       const leftLabelContent = leftLabel.querySelector('.label');
       const leftLabelName = leftLabel.querySelector('.name');
 
-      const rightImage = queryAndAssert(diffTable, 'td.right img');
-      const rightLabel = queryAndAssert(diffTable, 'td.right label');
+      const rightImage = queryAndAssert(element.diffElement, 'td.right img');
+      const rightLabel = queryAndAssert(element.diffElement, 'td.right label');
       const rightLabelContent = rightLabel.querySelector('.label');
       const rightLabelName = rightLabel.querySelector('.name');
 
@@ -457,11 +452,8 @@ suite('gr-diff-host tests', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
         assertIsDefined(element.diffElement);
-        assertIsDefined(element.diffElement.diffTable);
-        const diffTable = element.diffElement.diffTable;
-
-        const leftImage = query(diffTable, 'td.left img');
-        const rightImage = queryAndAssert(diffTable, 'td.right img');
+        const leftImage = query(element.diffElement, 'td.left img');
+        const rightImage = queryAndAssert(element.diffElement, 'td.right img');
 
         assert.isNotOk(leftImage);
         assert.isOk(rightImage);
@@ -501,11 +493,9 @@ suite('gr-diff-host tests', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
         assertIsDefined(element.diffElement);
-        assertIsDefined(element.diffElement.diffTable);
-        const diffTable = element.diffElement.diffTable;
 
-        const leftImage = queryAndAssert(diffTable, 'td.left img');
-        const rightImage = query(diffTable, 'td.right img');
+        const leftImage = queryAndAssert(element.diffElement, 'td.left img');
+        const rightImage = query(element.diffElement, 'td.right img');
 
         assert.isOk(leftImage);
         assert.isNotOk(rightImage);
@@ -550,10 +540,7 @@ suite('gr-diff-host tests', () => {
         // Recognizes that it should be an image diff.
         assert.isTrue(element.isImageDiff);
         assertIsDefined(element.diffElement);
-        assertIsDefined(element.diffElement.diffTable);
-        const diffTable = element.diffElement.diffTable;
-
-        const leftImage = query(diffTable, 'td.left img');
+        const leftImage = query(element.diffElement, 'td.left img');
         assert.isNotOk(leftImage);
       });
     });

@@ -128,7 +128,7 @@ export class TokenHighlightLayer implements DiffLayer {
     return new TokenHighlightLayer(
       container,
       tokenHighlightListener,
-      () => getGrDiff().diffTable!
+      () => getGrDiff().diffContainer!
     );
   }
 

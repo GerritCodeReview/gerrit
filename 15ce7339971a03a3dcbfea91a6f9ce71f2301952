@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0282c76a_a1803969",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-05-25T13:36:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d2bc5d3_bb4c149d",
+      "revId": "15ce7339971a03a3dcbfea91a6f9ce71f2301952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "13ab20e2_61d3af34",
@@ -48,6 +66,24 @@
       "writtenOn": "2023-05-25T13:33:40Z",
       "side": 1,
       "message": "Please add license header.",
+      "revId": "15ce7339971a03a3dcbfea91a6f9ce71f2301952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97a3232e_1c5aab19",
+        "filename": "java/com/google/gerrit/server/mail/send/EmailResource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-05-25T13:36:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13ab20e2_61d3af34",
       "revId": "15ce7339971a03a3dcbfea91a6f9ce71f2301952",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

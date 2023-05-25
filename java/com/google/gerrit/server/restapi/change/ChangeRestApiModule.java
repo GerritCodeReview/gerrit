@@ -92,6 +92,7 @@ public class ChangeRestApiModule extends RestApiModule {
     post(ATTENTION_SET_ENTRY_KIND, "delete").to(RemoveFromAttentionSet.class);
     postOnCollection(ATTENTION_SET_ENTRY_KIND).to(AddToAttentionSet.class);
     get(CHANGE_KIND, "hashtags").to(GetHashtags.class);
+    get(CHANGE_KIND, "custom_keyed_values").to(GetCustomKeyedValues.class);
     get(CHANGE_KIND, "comments").to(ListChangeComments.class);
     get(CHANGE_KIND, "robotcomments").to(ListChangeRobotComments.class);
     get(CHANGE_KIND, "drafts").to(ListChangeDrafts.class);
@@ -103,6 +104,7 @@ public class ChangeRestApiModule extends RestApiModule {
     delete(CHANGE_KIND).to(DeleteChange.class);
     post(CHANGE_KIND, "abandon").to(Abandon.class);
     post(CHANGE_KIND, "hashtags").to(PostHashtags.class);
+    post(CHANGE_KIND, "custom_keyed_values").to(PostCustomKeyedValues.class);
     post(CHANGE_KIND, "restore").to(Restore.class);
     post(CHANGE_KIND, "revert").to(Revert.class);
     post(CHANGE_KIND, "revert_submission").to(RevertSubmission.class);

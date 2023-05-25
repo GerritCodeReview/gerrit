@@ -2369,15 +2369,7 @@ class ReceiveCommits {
             // Corner cases where an existing commit might need a new group:
             // A) Existing commit has a null group; wasn't assigned during schema
             //    upgrade, or schema upgrade is performed on a running server.
-            // B) Let A<-B<-C, then:
-            //      1. Push A to refs/heads/master
-            //      2. Push B to refs/for/master
-            //      3. Force push A~ to refs/heads/master
-            //      4. Push C to refs/for/master.
-            //      B will be in existing so we aren't replacing the patch set. It
-            //      used to have its own group, but now needs to to be changed to
-            //      A's group.
-            // C) Commit is a PatchSet of a pre-existing change uploaded with a
+            // B) Commit is a PatchSet of a pre-existing change uploaded with a
             //    different target branch.
             existingPatchSets.stream()
                 .forEach(i -> updateGroups.add(new UpdateGroupsRequest(i, c)));

@@ -251,6 +251,10 @@ export declare interface RenderPreferences {
    * property on <gr-diff>. TODO: Migrate usages to RenderPreferences.
    */
   view_mode?: DiffViewMode;
+  can_comment?: boolean;
+  show_newline_warning_left?: boolean;
+  show_newline_warning_right?: boolean;
+  use_new_image_diff_ui?: boolean;
 }
 
 /**

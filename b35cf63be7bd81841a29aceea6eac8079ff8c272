@@ -124,6 +124,24 @@
       "parentUuid": "9213d203_c4d47530",
       "revId": "b35cf63be7bd81841a29aceea6eac8079ff8c272",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ab1df04_573d2957",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-05-25T08:39:08Z",
+      "side": 1,
+      "message": "\u003e The diff cache already does that. Am I missing something?\n\nYes. The problem here was that in the squash case the rebase detection in ListOfFilesUnchangedPredicate wrongly filtered out a file. I understood your comment at [1] that you are concerned that the rebase detection in the diff cache could also wrongly filter out a file, which is something which is not covered by a test yet but I\u0027m not sure it\u0027s even possible to trigger this. All I\u0027m saying here is that if this was possible, removing the {PS1 vs. PS2} diff from ListOfFilesUnchangedPredicate would have fixed this too. So I think we are good. Maybe I just got you wrong then. \n\n[1] https://gerrit-review.git.corp.google.com/c/gerrit/+/374257/1..2//COMMIT_MSG#b30",
+      "parentUuid": "4ec64d64_9c7f29c6",
+      "revId": "b35cf63be7bd81841a29aceea6eac8079ff8c272",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cbaa0e3_8996441f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-05-25T08:50:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eec3bfe7_1f4a9ba9",
+      "range": {
+        "startLine": 21,
+        "startChar": 36,
+        "endLine": 21,
+        "endChar": 46
+      },
+      "revId": "493dc2fb9c80e7a9b58d4cb53583dedee8df3ac7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6773b21_fa199ee5",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-05-25T08:43:50Z",
       "side": 1,
       "message": "nit: add Javadoc to explain what it represents",
+      "revId": "493dc2fb9c80e7a9b58d4cb53583dedee8df3ac7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ef51f66_61de6b7a",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-05-25T08:50:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6773b21_fa199ee5",
       "revId": "493dc2fb9c80e7a9b58d4cb53583dedee8df3ac7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

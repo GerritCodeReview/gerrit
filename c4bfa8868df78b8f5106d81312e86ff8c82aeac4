@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "aa68af57_fe553644",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-25T08:04:07Z",
+      "side": 1,
+      "message": "Fair enough, done.",
+      "parentUuid": "d81d69b3_47caf088",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 47
+      },
+      "revId": "c4bfa8868df78b8f5106d81312e86ff8c82aeac4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "151c9433_736298ea",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4

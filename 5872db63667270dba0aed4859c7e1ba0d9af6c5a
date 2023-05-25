@@ -124,6 +124,24 @@
       "parentUuid": "57cf8d57_931796f1",
       "revId": "5872db63667270dba0aed4859c7e1ba0d9af6c5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f433103_c65189b3",
+        "filename": "java/com/google/gerrit/sshd/commands/ReviewCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-05-25T15:11:23Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "d4f0e24b_32b2e55b",
+      "revId": "5872db63667270dba0aed4859c7e1ba0d9af6c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

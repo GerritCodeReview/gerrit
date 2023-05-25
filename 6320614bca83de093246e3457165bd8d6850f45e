@@ -16,6 +16,52 @@
       "message": "davido@localhost:~/projects/gerrit (stable-2.16 %\u003e)$ bazelisk test javatests/com/google/gerrit/...\nINFO: Invocation ID: 95549cf6-540f-422f-ac6e-e1fa52f33928\nERROR: /home/davido/projects/gerrit/javatests/com/google/gerrit/server/cache/mem/BUILD:3:1: no such target \u0027//lib:jgit\u0027: target \u0027jgit\u0027 not declared in package \u0027lib\u0027; however, a source directory of this name exists.  (Perhaps add \u0027exports_files([\"jgit\"])\u0027 to lib/BUILD, or define a filegroup?) defined by /home/davido/projects/gerrit/lib/BUILD and referenced by \u0027//javatests/com/google/gerrit/server/cache/mem:tests\u0027",
       "revId": "6320614bca83de093246e3457165bd8d6850f45e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03548352_ed850df3",
+        "filename": "javatests/com/google/gerrit/server/cache/mem/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-25T09:55:51Z",
+      "side": 1,
+      "message": "This should be `//lib/jgit/org.eclipse.jgit:jgit`.",
+      "range": {
+        "startLine": 9,
+        "startChar": 8,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "6320614bca83de093246e3457165bd8d6850f45e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4240925e_7233a1f2",
+        "filename": "javatests/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-25T09:55:51Z",
+      "side": 1,
+      "message": "This should be removed.",
+      "range": {
+        "startLine": 164,
+        "startChar": 6,
+        "endLine": 167,
+        "endChar": 7
+      },
+      "revId": "6320614bca83de093246e3457165bd8d6850f45e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

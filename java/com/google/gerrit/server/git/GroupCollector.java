@@ -28,8 +28,9 @@ import com.google.common.collect.Sets;
 import com.google.common.collect.SortedSetMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.PatchSet;
-import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.receive.ReceivePackRefCache;
@@ -68,15 +69,22 @@ import org.eclipse.jgit.revwalk.RevCommit;
  *   <li>
  * </ul>
  *
- * <p>Callers must call {@link #visit(RevCommit)} on all commits between the current branch tip and
- * the tip of a push, in reverse topo order (parents before children). Once all commits have been
- * visited, call {@link #getGroups()} for the result.
+ * <p>Callers must call {@link #visit(String, RevCommit)} on all commits between the current branch
+ * tip and the tip of a push, in reverse topo order (parents before children). Once all commits have
+ * been visited, call {@link #getGroups()} for the result.
  */
 public class GroupCollector {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public static List<String> getDefaultGroups(ObjectId commit) {
-    return ImmutableList.of(commit.name());
+  private static final String SEPARATOR = "~";
+
+  public static List<String> getDefaultGroups(String targetBranch, ObjectId commit) {
+    return ImmutableList.of(createGroup(targetBranch, commit));
+  }
+
+  @VisibleForTesting
+  public static String createGroup(String targetBranch, ObjectId commit) {
+    return RefNames.shortName(targetBranch) + SEPARATOR + commit.name();
   }
 
   public static List<String> getGroups(RevisionResource rsrc) {
@@ -89,7 +97,7 @@ public class GroupCollector {
   }
 
   interface Lookup {
-    List<String> lookup(PatchSet.Id psId);
+    List<String> lookup(List<PatchSet.Id> psId);
   }
 
   private final ReceivePackRefCache receivePackRefCache;
@@ -108,14 +116,21 @@ public class GroupCollector {
       ReceivePackRefCache receivePackRefCache,
       PatchSetUtil psUtil,
       ChangeNotes.Factory notesFactory,
-      Project.NameKey project) {
+      BranchNameKey branchNameKey) {
     return new GroupCollector(
         receivePackRefCache,
-        psId -> {
+        psIds -> {
           // TODO(dborowitz): Reuse open repository from caller.
-          ChangeNotes notes = notesFactory.createChecked(project, psId.changeId());
-          PatchSet ps = psUtil.get(notes, psId);
-          return ps != null ? ps.groups() : null;
+          for (PatchSet.Id psId : psIds) {
+            ChangeNotes notes =
+                notesFactory.createChecked(branchNameKey.project(), psId.changeId());
+            if (!notes.getChange().getDest().equals(branchNameKey)) {
+              continue;
+            }
+            PatchSet ps = psUtil.get(notes, psId);
+            return ps != null ? ps.groups() : null;
+          }
+          return null;
         });
   }
 
@@ -138,20 +153,20 @@ public class GroupCollector {
   }
 
   /**
-   * Process the given {@link RevCommit}. Callers must call {@link #visit(RevCommit)} on all commits
-   * between the current branch tip and the tip of a push, in reverse topo order (parents before
-   * children). Once all commits have been visited, call {@link #getGroups()} for the result.
+   * Process the given {@link RevCommit}. Callers must call {@link #visit(String, RevCommit)} on all
+   * commits between the current branch tip and the tip of a push, in reverse topo order (parents
+   * before children). Once all commits have been visited, call {@link #getGroups()} for the result.
    *
    * @see GroupCollector for what this class does.
    */
-  public void visit(RevCommit c) throws IOException {
+  public void visit(String targetBranch, RevCommit c) throws IOException {
     checkState(!done, "visit() called after getGroups()");
     Set<RevCommit> interestingParents = getInterestingParents(c);
 
     if (interestingParents.isEmpty()) {
       // All parents are uninteresting: treat this commit as the root of a new
       // group of related changes.
-      groups.put(c, c.name());
+      groups.put(c, createGroup(targetBranch, c));
       return;
     } else if (interestingParents.size() == 1) {
       // Only one parent is new in this push. If it is the only parent, just use
@@ -205,7 +220,8 @@ public class GroupCollector {
   }
 
   /**
-   * Returns the groups that got collected from visiting commits using {@link #visit(RevCommit)}.
+   * Returns the groups that got collected from visiting commits using {@link #visit(String,
+   * RevCommit)}.
    */
   public SortedSetMultimap<ObjectId, String> getGroups() throws IOException {
     done = true;
@@ -261,8 +277,14 @@ public class GroupCollector {
 
   @Nullable
   private ObjectId parseGroup(ObjectId forCommit, String group) {
+    // new groups have the format "<short-branch>~<commit-id>", old groups have the format
+    // "<commit-id>"
+    String commitId = group;
+    if (group.contains(SEPARATOR)) {
+      commitId = group.substring(group.indexOf(SEPARATOR) + 1);
+    }
     try {
-      return ObjectId.fromString(group);
+      return ObjectId.fromString(commitId);
     } catch (IllegalArgumentException e) {
       // Shouldn't happen; some sort of corruption or manual tinkering?
       logger.atWarning().log("group for commit %s is not a SHA-1: %s", forCommit.name(), group);
@@ -273,9 +295,9 @@ public class GroupCollector {
   private Iterable<String> resolveGroup(ObjectId forCommit, String group) throws IOException {
     ObjectId id = parseGroup(forCommit, group);
     if (id != null) {
-      PatchSet.Id psId = Iterables.getFirst(receivePackRefCache.patchSetIdsFromObjectId(id), null);
-      if (psId != null) {
-        List<String> groups = groupLookup.lookup(psId);
+      ImmutableList<PatchSet.Id> psIds = receivePackRefCache.patchSetIdsFromObjectId(id);
+      if (!psIds.isEmpty()) {
+        List<String> groups = groupLookup.lookup(psIds);
         // Group for existing patch set may be missing, e.g. if group has not
         // been migrated yet.
         if (groups != null && !groups.isEmpty()) {

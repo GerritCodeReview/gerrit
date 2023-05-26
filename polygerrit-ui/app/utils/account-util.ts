@@ -253,3 +253,22 @@ export function getSuggestedReviewerName(
 
   assertNever(suggestion, 'Received an incorrect suggestion');
 }
+
+export function getSuggestedReviewerEmail(suggestion: Suggestion) {
+  if (isAccountSuggestion(suggestion)) {
+    // Reviewer is an account suggestion from getSuggestedAccounts.
+    return suggestion.email;
+  }
+
+  if (isReviewerAccountSuggestion(suggestion)) {
+    // Reviewer is an account suggestion from getChangeSuggestedReviewers.
+    return suggestion.account.email;
+  }
+
+  if (isReviewerGroupSuggestion(suggestion)) {
+    // Reviewer is a group suggestion from getChangeSuggestedReviewers.
+    return `${suggestion.group.id}@google.com`;
+  }
+
+  assertNever(suggestion, 'Received an incorrect suggestion');
+}

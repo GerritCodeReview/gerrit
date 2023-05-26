@@ -20,7 +20,6 @@ import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.extensions.common.testing.EditInfoSubject.assertThat;
-import static com.google.gerrit.testing.TestActionRefUpdateContext.openTestRefUpdateContext;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -53,11 +52,6 @@ import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.server.change.GetRelatedChangesUtil;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
-import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.BatchUpdateOp;
-import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.context.RefUpdateContext;
-import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import java.util.ArrayList;
@@ -515,38 +509,6 @@ public class GetRelatedIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void pushNewPatchSetWhenParentHasAnEmptyGroup() throws Exception {
-    // 1,1---2,1
-    //   \---2,2
-
-    RevCommit c1_1 = commitBuilder().add("a.txt", "1").message("subject: 1").create();
-    RevCommit c2_1 = commitBuilder().add("b.txt", "2").message("subject: 2").create();
-    pushHead(testRepo, "refs/for/master", false);
-    PatchSet.Id psId1_1 = getPatchSetId(c1_1);
-    PatchSet.Id psId2_1 = getPatchSetId(c2_1);
-
-    for (PatchSet.Id psId : ImmutableList.of(psId1_1, psId2_1)) {
-      assertRelated(psId, changeAndCommit(psId2_1, c2_1, 1), changeAndCommit(psId1_1, c1_1, 1));
-    }
-
-    // Pretend PS1,1 was pushed before the groups field was added.
-    clearGroups(psId1_1);
-    indexer.index(changeDataFactory.create(project, psId1_1.changeId()));
-
-    // PS1,1 has no groups, so disappeared from related changes.
-    assertRelated(psId2_1);
-
-    RevCommit c2_2 = testRepo.amend(c2_1).add("c.txt", "2").create();
-    testRepo.reset(c2_2);
-    pushHead(testRepo, "refs/for/master", false);
-    PatchSet.Id psId2_2 = getPatchSetId(c2_2);
-
-    // Push updated the group for PS1,1, so it shows up in related changes even
-    // though a new patch set was not pushed.
-    assertRelated(psId2_2, changeAndCommit(psId2_2, c2_2, 2), changeAndCommit(psId1_1, c1_1, 1));
-  }
-
-  @Test
   @GerritConfig(name = "index.autoReindexIfStale", value = "false")
   public void getRelatedForStaleChange() throws Exception {
     RevCommit c1_1 = commitBuilder().add("a.txt", "1").message("subject: 1").create();
@@ -771,23 +733,6 @@ public class GetRelatedIT extends AbstractDaemonTest {
     result.status = "NEW";
     result.submittable = submittable;
     return result;
-  }
-
-  private void clearGroups(PatchSet.Id psId) throws Exception {
-    try (RefUpdateContext ctx = openTestRefUpdateContext()) {
-      try (BatchUpdate bu = batchUpdateFactory.create(project, user(user), TimeUtil.now())) {
-        bu.addOp(
-            psId.changeId(),
-            new BatchUpdateOp() {
-              @Override
-              public boolean updateChange(ChangeContext ctx) {
-                ctx.getUpdate(psId).setGroups(ImmutableList.of());
-                return true;
-              }
-            });
-        bu.execute();
-      }
-    }
   }
 
   private void assertRelated(PatchSet.Id psId, RelatedChangeAndCommitInfo... expected)

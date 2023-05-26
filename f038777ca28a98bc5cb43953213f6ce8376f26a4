@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "640f1c1d_54fe5167",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1127,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-05-26T11:59:02Z",
+      "side": 1,
+      "message": "Why 1? Can it be 0?\n\nIf 0 doesn\u0027t work, should we make a higher number to avoid flakiness?",
+      "range": {
+        "startLine": 1127,
+        "startChar": 48,
+        "endLine": 1127,
+        "endChar": 49
+      },
+      "revId": "f038777ca28a98bc5cb43953213f6ce8376f26a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,23 @@
       "message": "@Edwin can you reopen the internal Google bug b/258852139?\nI have verified that your new test is now failing, which means the problem is back.\n\nI believe there we should find a different solution.\n\nThis change in the meantime brings back the relationship between merge commits across branches, but also brings back the bug b/258852139.",
       "revId": "990c0d0a1c36151f2274bda618a1b0b627d8cdd1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83099463_9b85c9d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-05-26T06:42:29Z",
+      "side": 1,
+      "message": "[1] makes another attempt to fix this.\n\n[1] https://gerrit-review.git.corp.google.com/c/gerrit/+/375155",
+      "revId": "990c0d0a1c36151f2274bda618a1b0b627d8cdd1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

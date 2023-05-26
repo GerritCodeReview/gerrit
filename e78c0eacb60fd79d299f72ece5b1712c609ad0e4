@@ -16,6 +16,24 @@
       "message": "I\u0027d mention this new option in release notes",
       "revId": "e78c0eacb60fd79d299f72ece5b1712c609ad0e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4e66c53_55aca9cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-05-26T08:25:19Z",
+      "side": 1,
+      "message": "This can be seen from the --help of each command.",
+      "parentUuid": "18b00da5_9db4be87",
+      "revId": "e78c0eacb60fd79d299f72ece5b1712c609ad0e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -62,6 +62,54 @@
       },
       "revId": "f038777ca28a98bc5cb43953213f6ce8376f26a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a431063b_aeb35177",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1127,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-05-26T13:04:16Z",
+      "side": 1,
+      "message": "I couldn\u0027t think of a good condition to use. The \u003ch2\u003e actually already exists **and** is attached to the DOM, but we need to wait for a layout render I guess. Since it\u0027s offscreen we can\u0027t use waitUntilVisible either.\n\nWe. could set a boolean and check it in `updated()` or something, but then the order of the event and the lifecycle is important :/",
+      "parentUuid": "052aaa1f_4790b17a",
+      "range": {
+        "startLine": 1127,
+        "startChar": 8,
+        "endLine": 1127,
+        "endChar": 18
+      },
+      "revId": "f038777ca28a98bc5cb43953213f6ce8376f26a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "649133a7_e5f5e4c6",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1127,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-05-26T13:04:16Z",
+      "side": 1,
+      "message": "We chose 1 in some places in case 0 is like \"optimized\" and runs immediately. From [MDN](https://developer.mozilla.org/en-US/docs/Web/API/setTimeout#parameters) it seems not a concern so 0 works fine. Switched to 0",
+      "parentUuid": "640f1c1d_54fe5167",
+      "range": {
+        "startLine": 1127,
+        "startChar": 48,
+        "endLine": 1127,
+        "endChar": 49
+      },
+      "revId": "f038777ca28a98bc5cb43953213f6ce8376f26a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -53,7 +53,11 @@ import org.apache.commons.net.smtp.SMTPReply;
 import org.apache.james.mime4j.codec.QuotedPrintableOutputStream;
 import org.eclipse.jgit.lib.Config;
 
-/** Sends email via a nearby SMTP server. */
+/**
+ * Sends email via a nearby SMTP server.
+ *
+ * <p>Doesn't support including EmailResource in the payload.
+ */
 @Singleton
 public class SmtpEmailSender implements EmailSender {
   /** The socket's connect timeout (0 = infinite timeout) */

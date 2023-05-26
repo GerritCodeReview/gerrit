@@ -424,7 +424,6 @@ class ReceiveCommits {
   private final Repository repo;
 
   // Collections populated during processing.
-  private final List<UpdateGroupsRequest> updateGroups;
   private final Queue<ValidationMessage> messages;
   /** Multimap of error text to refnames that produced that error. */
   private final ListMultimap<String, String> errors;
@@ -573,7 +572,6 @@ class ReceiveCommits {
     messages = new ConcurrentLinkedQueue<>();
     pushOptions = LinkedListMultimap.create();
     replaceByChange = new LinkedHashMap<>();
-    updateGroups = new ArrayList<>();
 
     used = false;
 
@@ -1131,9 +1129,6 @@ class ReceiveCommits {
       for (CreateRequest create : newChanges) {
         create.addOps(bu);
       }
-
-      logger.atFine().log("Adding %d group update requests", newChanges.size());
-      updateGroups.forEach(r -> r.addOps(bu));
 
       logger.atFine().log("Executing batch");
       try {
@@ -2366,11 +2361,6 @@ class ReceiveCommits {
           boolean commitAlreadyTracked = !existingPatchSets.isEmpty();
           if (commitAlreadyTracked) {
             alreadyTracked++;
-            // Corner cases where an existing commit might need a new group:
-            // A) Existing commit has an empty group, e.g. the schema upgrade that adds the group
-            //    field is performed on a running server and hasn't populated the groups yet
-            existingPatchSets.stream()
-                .forEach(i -> updateGroups.add(new UpdateGroupsRequest(i, c)));
             if (!(newChangeForAllNotInTarget || magicBranch.base != null)) {
               continue;
             }
@@ -2550,9 +2540,6 @@ class ReceiveCommits {
       }
       for (ReplaceRequest replace : replaceByChange.values()) {
         replace.groups = ImmutableList.copyOf(groups.get(replace.newCommitId));
-      }
-      for (UpdateGroupsRequest update : updateGroups) {
-        update.groups = ImmutableList.copyOf(groups.get(update.commit));
       }
       logger.atFine().log("Finished updating groups from GroupCollector");
       return ImmutableList.copyOf(newChanges);
@@ -3249,39 +3236,6 @@ class ReceiveCommits {
 
     Optional<String> getOutdatedApprovalsMessage() {
       return replaceOp != null ? replaceOp.getOutdatedApprovalsMessage() : Optional.empty();
-    }
-  }
-
-  private class UpdateGroupsRequest {
-    final PatchSet.Id psId;
-    final RevCommit commit;
-    List<String> groups = ImmutableList.of();
-
-    UpdateGroupsRequest(PatchSet.Id psId, RevCommit commit) {
-      this.psId = psId;
-      this.commit = commit;
-    }
-
-    private void addOps(BatchUpdate bu) {
-      bu.addOp(
-          psId.changeId(),
-          new BatchUpdateOp() {
-            @Override
-            public boolean updateChange(ChangeContext ctx) {
-              PatchSet ps = psUtil.get(ctx.getNotes(), psId);
-              List<String> oldGroups = ps.groups();
-
-              // only update groups if no groups have been set before
-              if (oldGroups == null
-                  || oldGroups.isEmpty()
-                  || (oldGroups.size() == 1 && oldGroups.get(0).isEmpty())) {
-                ctx.getUpdate(psId).setGroups(groups);
-                return true;
-              }
-
-              return false;
-            }
-          });
     }
   }
 

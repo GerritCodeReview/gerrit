@@ -39,6 +39,29 @@
       },
       "revId": "f038777ca28a98bc5cb43953213f6ce8376f26a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "052aaa1f_4790b17a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1127,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-05-26T12:36:47Z",
+      "side": 1,
+      "message": "this feels like it should ideally be a specific `waitUntil`.\nHow difficult would it be to replace with a more meaningful condition here?",
+      "range": {
+        "startLine": 1127,
+        "startChar": 8,
+        "endLine": 1127,
+        "endChar": 18
+      },
+      "revId": "f038777ca28a98bc5cb43953213f6ce8376f26a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -3,7 +3,6 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {
   AccountId,
   AccountInfo,
   ChangeInfo,
@@ -298,6 +297,25 @@ export function getSuggestedReviewerName(
   assertNever(suggestion, 'Received an incorrect suggestion');
 }
 
+<<<<<<< PATCH SET (ea5138 Add getSuggestedReviewerEmail)
+export function getSuggestedReviewerEmail(suggestion: Suggestion) {
+  if (isAccountSuggestion(suggestion)) {
+    // Reviewer is an account suggestion from getSuggestedAccounts.
+    return suggestion.email;
+  }
+
+  if (isReviewerAccountSuggestion(suggestion)) {
+    // Reviewer is an account suggestion from getChangeSuggestedReviewers.
+    return suggestion.account.email;
+  }
+
+  if (isReviewerGroupSuggestion(suggestion)) {
+    // Reviewer is a group suggestion from getChangeSuggestedReviewers.
+    return `${suggestion.group.id}@google.com`;
+  }
+
+  assertNever(suggestion, 'Received an incorrect suggestion');
+=======
 export function getSuggestedReviewerID(suggestion: Suggestion) {
   if (isAccountSuggestion(suggestion)) {
     // Reviewer is an account suggestion from getSuggestedAccounts.
@@ -317,4 +335,5 @@ export function getSuggestedReviewerID(suggestion: Suggestion) {
     return suggestion.group.id;
   }
   return '';
+>>>>>>> BASE      (b17a29 Merge "Provide errFn when fetching emails")
 }

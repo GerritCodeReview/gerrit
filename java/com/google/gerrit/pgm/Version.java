@@ -14,18 +14,40 @@
 
 package com.google.gerrit.pgm;
 
+import com.google.gerrit.extensions.common.VersionInfo;
+import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.pgm.util.AbstractProgram;
+import com.google.gerrit.server.version.VersionInfoModule;
+import org.kohsuke.args4j.Option;
 
 /** Display the version of Gerrit. */
 public class Version extends AbstractProgram {
+
+  @Option(
+      name = "--verbose",
+      aliases = {"-v"},
+      usage = "verbose version info")
+  private boolean verbose;
+
+  @Option(name = "--json", usage = "json output format, assumes verbose output")
+  private boolean json;
+
   @Override
   public int run() throws Exception {
-    final String v = com.google.gerrit.common.Version.getVersion();
-    if (v == null) {
+    VersionInfo versionInfo = new VersionInfoModule().createVersionInfo();
+    if (versionInfo.gerritVersion == null) {
       System.err.println("fatal: version unavailable");
       return 1;
     }
-    System.out.println("gerrit version " + v);
+
+    if (json) {
+      System.out.println(OutputFormat.JSON.newGson().toJson(versionInfo));
+    } else if (verbose) {
+      System.out.print(versionInfo.verbose());
+    } else {
+      System.out.print(versionInfo.compact());
+    }
+
     return 0;
   }
 }

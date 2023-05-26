@@ -14,23 +14,40 @@
 
 package com.google.gerrit.server.restapi.config;
 
-import com.google.gerrit.common.Version;
+import com.google.gerrit.extensions.common.VersionInfo;
 import com.google.gerrit.extensions.restapi.CacheControl;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.config.ConfigResource;
-import com.google.inject.Singleton;
+import com.google.inject.Inject;
 import java.util.concurrent.TimeUnit;
+import org.kohsuke.args4j.Option;
 
-@Singleton
 public class GetVersion implements RestReadView<ConfigResource> {
+
+  @Option(
+      name = "--verbose",
+      aliases = {"-v"},
+      usage = "verbose version info")
+  boolean verbose;
+
+  private final VersionInfo versionInfo;
+
+  @Inject
+  public GetVersion(VersionInfo versionInfo) {
+    this.versionInfo = versionInfo;
+  }
+
   @Override
-  public Response<String> apply(ConfigResource resource) throws ResourceNotFoundException {
-    String version = Version.getVersion();
-    if (version == null) {
+  public Response<?> apply(ConfigResource resource) throws ResourceNotFoundException {
+    if (versionInfo.gerritVersion == null) {
       throw new ResourceNotFoundException();
     }
-    return Response.ok(version).caching(CacheControl.PRIVATE(30, TimeUnit.SECONDS));
+    if (verbose) {
+      return Response.ok(versionInfo).caching(CacheControl.PRIVATE(30, TimeUnit.SECONDS));
+    }
+    return Response.ok(versionInfo.gerritVersion)
+        .caching(CacheControl.PRIVATE(30, TimeUnit.SECONDS));
   }
 }

@@ -20,6 +20,7 @@ java_library(
         "//java/com/google/gerrit/httpd/auth/restapi",
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/index/project",
+        "//java/com/google/gerrit/json",
         "//java/com/google/gerrit/launcher",
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/lucene",
@@ -39,6 +40,7 @@ java_library(
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/server/util/time",
+        "//java/com/google/gerrit/server/version",
         "//java/com/google/gerrit/sshd",
         "//lib:args4j",
         "//lib:guava",
@@ -56,5 +58,6 @@ java_library(
         "//lib/prolog:cafeteria",
         "//lib/prolog:compiler",
         "//lib/prolog:runtime",
+        "@gson//jar",
     ],
 )

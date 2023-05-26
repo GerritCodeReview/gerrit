@@ -7,6 +7,8 @@ gerrit version - Show the version of the currently executing Gerrit server.
 [verse]
 --
 _ssh_ -p <port> <host> _gerrit version_
+  [--verbose | -v]
+  [--json]
 --
 
 == DESCRIPTION
@@ -30,6 +32,14 @@ Any user who has SSH access to Gerrit.
 
 == SCRIPTING
 This command is intended to be used in scripts.
+
+== OPTIONS
+--verbose::
+-v::
+  Verbose output, include also the NoteDb version and the version of each index.
+
+--json::
+  Json output format. Assumes verbose output.
 
 == EXAMPLES
 

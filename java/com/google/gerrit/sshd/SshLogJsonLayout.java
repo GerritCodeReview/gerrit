@@ -85,17 +85,19 @@ public class SshLogJsonLayout extends JsonLayout {
       String metricString = getMdcString(event, P_MESSAGE);
       if (metricString != null && !metricString.isEmpty()) {
         List<String> ssh_metrics = SPLITTER.splitToList(metricString);
-        this.timeNegotiating = ssh_metrics.get(0);
-        this.timeSearchReuse = ssh_metrics.get(1);
-        this.timeSearchSizes = ssh_metrics.get(2);
-        this.timeCounting = ssh_metrics.get(3);
-        this.timeCompressing = ssh_metrics.get(4);
-        this.timeWriting = ssh_metrics.get(5);
-        this.timeTotal = ssh_metrics.get(6);
-        this.bitmapIndexMisses = ssh_metrics.get(7);
-        this.deltasTotal = ssh_metrics.get(8);
-        this.objectsTotal = ssh_metrics.get(9);
-        this.bytesTotal = ssh_metrics.get(10);
+	if (ssh_metrics.size() == 11) {
+          this.timeNegotiating = ssh_metrics.get(0);
+          this.timeSearchReuse = ssh_metrics.get(1);
+          this.timeSearchSizes = ssh_metrics.get(2);
+          this.timeCounting = ssh_metrics.get(3);
+          this.timeCompressing = ssh_metrics.get(4);
+          this.timeWriting = ssh_metrics.get(5);
+          this.timeTotal = ssh_metrics.get(6);
+          this.bitmapIndexMisses = ssh_metrics.get(7);
+          this.deltasTotal = ssh_metrics.get(8);
+          this.objectsTotal = ssh_metrics.get(9);
+          this.bytesTotal = ssh_metrics.get(10);
+	}
       }
     }
   }

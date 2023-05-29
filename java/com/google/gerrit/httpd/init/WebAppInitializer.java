@@ -338,7 +338,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
       modules.add(new OnlineUpgraderModule());
     }
     modules.add(new OAuthRestModule());
-    modules.add(new RestApiModule());
+    modules.add(new RestApiModule(config));
     modules.add(new SubscriptionGraphModule());
     modules.add(new SuperprojectUpdateSubmissionListenerModule());
     modules.add(new WorkQueueModule());

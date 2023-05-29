@@ -167,6 +167,37 @@ public class GroupNameNotes extends VersionedMetaData {
   }
 
   /**
+   * Creates an instance of {@code GroupNameNotes} for use when deleting a new group.
+   *
+   * <p><strong>Note: </strong>The returned instance of {@code GroupNameNotes} has to be committed
+   * via {@link #commit(com.google.gerrit.server.git.meta.MetaDataUpdate) commit(MetaDataUpdate)} in
+   * order to delete group.
+   *
+   * @param projectName the name of the project which holds the commits of the notes
+   * @param repository the repository which holds the commits of the notes
+   * @param groupUuid the UUID of the group to delete.
+   * @param groupName the name of the group to delete.
+   * @return an instance of {@code GroupNameNotes} configured for a specific group creation
+   * @throws IOException if the repository can't be accessed for some reason
+   * @throws ConfigInvalidException in no case so far
+   */
+  public static GroupNameNotes forDeletingGroup(
+      Project.NameKey projectName,
+      Repository repository,
+      AccountGroup.UUID groupUuid,
+      AccountGroup.NameKey groupName)
+      throws ConfigInvalidException, IOException {
+    requireNonNull(groupName);
+    Optional<GroupReference> groupToDeleteOp = loadGroup(repository, groupName);
+    if (groupToDeleteOp.isEmpty()) {
+      throw new IOException("Could not load groups for deletion");
+    }
+    GroupNameNotes groupNameNotes = new GroupNameNotes(groupUuid, groupName, null);
+    groupNameNotes.load(projectName, repository);
+    return groupNameNotes;
+  }
+
+  /**
    * Loads the {@code GroupReference} (name/UUID pair) for the group with the specified name.
    *
    * @param repository the repository which holds the commits of the notes

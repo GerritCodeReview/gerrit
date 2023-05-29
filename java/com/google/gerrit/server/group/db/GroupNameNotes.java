@@ -39,6 +39,7 @@ import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
@@ -163,6 +164,22 @@ public class GroupNameNotes extends VersionedMetaData {
     GroupNameNotes groupNameNotes = new GroupNameNotes(groupUuid, null, groupName);
     groupNameNotes.load(projectName, repository);
     groupNameNotes.ensureNewNameIsNotUsed();
+    return groupNameNotes;
+  }
+
+  public static GroupNameNotes forDeletingGroup(
+      Project.NameKey projectName,
+      Repository repository,
+      AccountGroup.UUID groupUuid,
+      AccountGroup.NameKey groupName)
+      throws IOException, ConfigInvalidException {
+    requireNonNull(groupName);
+    Optional<GroupReference> groupToDeleteOp = loadGroup(repository, groupName);
+    if (groupToDeleteOp.isEmpty()) {
+      throw new IOException("Could not load groups for deletion");
+    }
+    GroupNameNotes groupNameNotes = new GroupNameNotes(groupUuid, groupName, null);
+    groupNameNotes.load(projectName, repository);
     return groupNameNotes;
   }
 

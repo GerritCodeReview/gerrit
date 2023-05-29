@@ -26,8 +26,15 @@ import com.google.gerrit.server.restapi.group.AddSubgroups.CreateSubgroup;
 import com.google.gerrit.server.restapi.group.AddSubgroups.UpdateSubgroup;
 import com.google.gerrit.server.restapi.group.DeleteMembers.DeleteMember;
 import com.google.gerrit.server.restapi.group.DeleteSubgroups.DeleteSubgroup;
+import com.google.inject.Inject;
 
 public class GroupRestApiModule extends RestApiModule {
+  private final boolean deleteGroupEnabled;
+
+  @Inject
+  public GroupRestApiModule(Boolean deleteGroupEnabled) {
+    this.deleteGroupEnabled = deleteGroupEnabled;
+  }
 
   @Override
   protected void configure() {
@@ -38,6 +45,9 @@ public class GroupRestApiModule extends RestApiModule {
     DynamicMap.mapOf(binder(), SUBGROUP_KIND);
 
     create(GROUP_KIND).to(CreateGroup.class);
+    if (deleteGroupEnabled) {
+      delete(GROUP_KIND).to(DeleteGroup.class);
+    }
     get(GROUP_KIND).to(GetGroup.class);
     put(GROUP_KIND).to(PutGroup.class);
     get(GROUP_KIND, "description").to(GetDescription.class);

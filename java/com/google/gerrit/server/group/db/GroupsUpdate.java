@@ -15,6 +15,7 @@
 package com.google.gerrit.server.group.db;
 
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.GROUPS_UPDATE;
+import static org.eclipse.jgit.lib.Constants.R_REFS;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
@@ -27,8 +28,12 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.exceptions.NoSuchGroupException;
+import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -61,8 +66,11 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 /**
  * A database accessor for write calls related to groups.
@@ -304,6 +312,21 @@ public class GroupsUpdate {
       dispatchAuditEventsOnGroupUpdate(result, updatedOn.get());
     }
   }
+  /**
+   * Delete the specific group
+   *
+   * @param groupUuid the UUID of the group to delete
+   * @throws ConfigInvalidException if removing group note failed
+   * @throws IOException if indexing fails, or an error occurs while reading/writing from/to NoteDb
+   */
+  public void deleteGroup(AccountGroup.UUID groupUuid) throws ConfigInvalidException, IOException {
+    try (TraceTimer ignored =
+        TraceContext.newTimer(
+            "Deleting group", Metadata.builder().groupUuid(groupUuid.get()).build())) {
+      DeleteResult result = deleteGroupInNoteDbWithRetry(groupUuid);
+      evictCacheOnGroupDeletion(result);
+    }
+  }
 
   private InternalGroup createGroupInNoteDbWithRetry(
       InternalGroupCreation groupCreation, GroupDelta groupDelta)
@@ -395,6 +418,80 @@ public class GroupsUpdate {
     }
   }
 
+  private DeleteResult deleteGroupInNoteDbWithRetry(AccountGroup.UUID groupUuid)
+      throws IOException, ConfigInvalidException {
+    try {
+      return retryHelper.groupUpdate("deleteGroup", () -> deleteGroupInNoteDb(groupUuid)).call();
+    } catch (Exception e) {
+      Throwables.throwIfUnchecked(e);
+      Throwables.throwIfInstanceOf(e, IOException.class);
+      Throwables.throwIfInstanceOf(e, ConfigInvalidException.class);
+      Throwables.throwIfInstanceOf(e, DuplicateKeyException.class);
+      throw new IOException(e);
+    }
+  }
+
+  private DeleteResult deleteGroupInNoteDb(AccountGroup.UUID groupUuid)
+      throws NoSuchGroupException, ConfigInvalidException, IOException {
+    try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
+      GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersName, allUsersRepo, groupUuid);
+      if (groupConfig.getLoadedGroup().isEmpty()) {
+        throw new NoSuchGroupException(groupUuid);
+      }
+      InternalGroup deletedGroup = groupConfig.getLoadedGroup().get();
+      AccountGroup.NameKey deletedGroupName = deletedGroup.getNameKey();
+      GroupNameNotes groupNameNotes =
+          GroupNameNotes.forDeletingGroup(allUsersName, allUsersRepo, groupUuid, deletedGroupName);
+      commit(allUsersRepo, groupNameNotes);
+      deleteSingleRefNote(deletedGroup.getGroupUUID().get(), RefNames.REFS_GROUPS);
+      return getDeletedResult(deletedGroup);
+    }
+  }
+
+  private void deleteSingleRefNote(String ref, @Nullable String prefix) {
+    if (prefix != null && !ref.startsWith(R_REFS)) {
+      ref = prefix + ref.substring(0, 2) + "/" + ref;
+    }
+    try (Repository repository = repoManager.openRepository(allUsersName)) {
+      RefUpdate.Result result;
+      RefUpdate u = repository.updateRef(ref);
+      u.setExpectedOldObjectId(repository.exactRef(ref).getObjectId());
+      u.setNewObjectId(ObjectId.zeroId());
+      u.setForceUpdate(true);
+      result = u.delete();
+
+      switch (result) {
+        case NEW:
+        case NO_CHANGE:
+        case FAST_FORWARD:
+        case FORCED:
+          gitRefUpdated.fire(
+              allUsersName,
+              u,
+              ReceiveCommand.Type.DELETE,
+              currentUser.map(IdentifiedUser::state).orElse(null));
+          break;
+
+        case REJECTED_CURRENT_BRANCH:
+          logger.atFine().log("Cannot delete current group branch %s: %s", ref, result.name());
+          throw new ResourceConflictException("cannot delete current branch");
+
+        case LOCK_FAILURE:
+          throw new LockFailureException(String.format("Cannot delete %s", ref), u);
+        case IO_FAILURE:
+        case NOT_ATTEMPTED:
+        case REJECTED:
+        case RENAMED:
+        case REJECTED_MISSING_OBJECT:
+        case REJECTED_OTHER_REASON:
+        default:
+          throw new StorageException(String.format("Cannot delete %s: %s", ref, result.name()));
+      }
+    } catch (ResourceConflictException | IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   private static UpdateResult getUpdateResult(
       InternalGroup originalGroup, InternalGroup updatedGroup) {
     Set<Account.Id> addedMembers =
@@ -421,6 +518,20 @@ public class GroupsUpdate {
     return resultBuilder.build();
   }
 
+  private static DeleteResult getDeletedResult(InternalGroup deletedGroup) {
+    Set<Account.Id> deletedMembers = deletedGroup.getMembers();
+    Set<AccountGroup.UUID> deletedSubgroups = deletedGroup.getSubgroups();
+
+    DeleteResult.Builder resultBuilder =
+        DeleteResult.builder()
+            .setDeletedGroupUuid(deletedGroup.getGroupUUID())
+            .setDeletedGroupId(deletedGroup.getId())
+            .setDeletedGroupName(deletedGroup.getNameKey())
+            .setDeletedGroupMembers(deletedMembers)
+            .setDeletedGroupSubgroups(deletedSubgroups);
+    return resultBuilder.build();
+  }
+
   private void commit(
       Repository allUsersRepo, GroupConfig groupConfig, @Nullable GroupNameNotes groupNameNotes)
       throws IOException {
@@ -440,6 +551,20 @@ public class GroupsUpdate {
     RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);
     gitRefUpdated.fire(
         allUsersName, batchRefUpdate, currentUser.map(user -> user.state()).orElse(null));
+  }
+
+  private void commit(Repository allUsersRepo, @Nullable GroupNameNotes groupNameNotes)
+      throws IOException {
+    BatchRefUpdate batchRefUpdate = allUsersRepo.getRefDatabase().newBatchUpdate();
+    if (groupNameNotes != null) {
+      try (MetaDataUpdate metaDataUpdate =
+          metaDataUpdateFactory.create(allUsersName, allUsersRepo, batchRefUpdate)) {
+        groupNameNotes.commit(metaDataUpdate);
+      }
+      RefUpdateUtil.executeChecked(batchRefUpdate, allUsersRepo);
+      gitRefUpdated.fire(
+          allUsersName, batchRefUpdate, currentUser.map(user -> user.state()).orElse(null));
+    }
   }
 
   private void evictCachesOnGroupCreation(InternalGroup createdGroup) {
@@ -470,6 +595,15 @@ public class GroupsUpdate {
     result.getDeletedMembers().forEach(groupIncludeCache::evictGroupsWithMember);
     result.getAddedSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
     result.getDeletedSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
+  }
+
+  private void evictCacheOnGroupDeletion(DeleteResult result) {
+    logger.atFine().log("evict caches on deletion of group %s", result.getDeletedGroupUuid());
+    groupCache.evict(result.getDeletedGroupUuid());
+    groupCache.evict(result.getDeletedGroupId());
+    groupCache.evict(AccountGroup.nameKey(result.getDeletedGroupName().get()));
+    result.getDeletedGroupMembers().forEach(groupIncludeCache::evictGroupsWithMember);
+    result.getDeletedGroupSubgroups().forEach(groupIncludeCache::evictParentGroupsOf);
   }
 
   private void updateNameInProjectConfigsIfNecessary(UpdateResult result) {
@@ -592,6 +726,38 @@ public class GroupsUpdate {
       abstract Builder setDeletedSubgroups(Set<AccountGroup.UUID> deletedSubgroups);
 
       abstract UpdateResult build();
+    }
+  }
+
+  @AutoValue
+  abstract static class DeleteResult {
+    abstract AccountGroup.UUID getDeletedGroupUuid();
+
+    abstract AccountGroup.Id getDeletedGroupId();
+
+    abstract AccountGroup.NameKey getDeletedGroupName();
+
+    abstract ImmutableSet<Account.Id> getDeletedGroupMembers();
+
+    abstract ImmutableSet<AccountGroup.UUID> getDeletedGroupSubgroups();
+
+    static Builder builder() {
+      return new AutoValue_GroupsUpdate_DeleteResult.Builder();
+    }
+
+    @AutoValue.Builder
+    abstract static class Builder {
+      abstract Builder setDeletedGroupUuid(AccountGroup.UUID groupUuid);
+
+      abstract Builder setDeletedGroupId(AccountGroup.Id groupId);
+
+      abstract Builder setDeletedGroupName(AccountGroup.NameKey name);
+
+      abstract Builder setDeletedGroupMembers(Set<Account.Id> deletedMembers);
+
+      abstract Builder setDeletedGroupSubgroups(Set<AccountGroup.UUID> deletedSubgroups);
+
+      abstract DeleteResult build();
     }
   }
 }

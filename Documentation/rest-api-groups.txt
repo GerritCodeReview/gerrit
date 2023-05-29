@@ -1479,6 +1479,47 @@ link:#groups-input[GroupsInput] entity.
   HTTP/1.1 204 No Content
 ----
 
+[[delete-group]]
+=== Delete Group
+--
+'DELETE /groups/link:#group-id[\{group-id\}]'
+--
+
+Delete group.
+The group to delete must be internal group.
+
+This endpoint is only allowed for Gerrit's internal groups; attempting to call on a
+non-internal group will return 405 Method Not Allowed.
+
+.Request
+----
+  DELETE /groups/MyProject-Committers HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+[[delete-group]]
+=== Delete Group
+--
+'POST /groups/link:#group-id[\{group-id\}].delete'
+--
+
+Delete group.
+The deleted group must be internal group.
+
+.Request
+----
+  POST /groups/MyProject-Committers.delete HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 
 [[ids]]
 == IDs

@@ -492,7 +492,7 @@ public class Daemon extends SiteProgram {
       modules.add(new OnlineUpgraderModule());
     }
     modules.add(new OAuthRestModule());
-    modules.add(new RestApiModule());
+    modules.add(new RestApiModule(config));
     modules.add(new GpgModule(config));
     modules.add(new StartupChecksModule());
     modules.add(new GerritInstanceNameModule());

@@ -2912,6 +2912,15 @@ By default, `false`.
 +
 Setting it to `true` may lead to some unexpected results in audit log and must be set carefully.
 
+[[groups.enableDeleteGroup]]groups.enableDeleteGroup::
++
+Controls whether to activate the delete groups functionality.
+If `true`, then users with permission can delete groups.
+This setting provides administrators the ability to activate or to deactivate delete groups functionality.
++
+By default, `false`.
++
+
 [[groups.includeExternalUsersInRegisteredUsersGroup]]groups.includeExternalUsersInRegisteredUsersGroup::
 +
 Controls whether external users (these are users we have sufficient

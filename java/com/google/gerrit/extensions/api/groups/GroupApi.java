@@ -40,6 +40,9 @@ public interface GroupApi {
    */
   void name(String name) throws RestApiException;
 
+  /** Delete group. */
+  void delete() throws RestApiException;
+
   /** Returns owning group info. */
   GroupInfo owner() throws RestApiException;
 
@@ -196,6 +199,11 @@ public interface GroupApi {
 
     @Override
     public void name(String name) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void delete() throws RestApiException {
       throw new NotImplementedException();
     }
 

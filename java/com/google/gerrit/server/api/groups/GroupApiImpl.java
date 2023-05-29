@@ -14,11 +14,10 @@
 
 package com.google.gerrit.server.api.groups;
 
-import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
-
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.OwnerInput;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.DeleteGroupInput;
 import com.google.gerrit.extensions.common.DescriptionInput;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
@@ -29,6 +28,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.restapi.group.AddMembers;
 import com.google.gerrit.server.restapi.group.AddSubgroups;
+import com.google.gerrit.server.restapi.group.DeleteGroup;
 import com.google.gerrit.server.restapi.group.DeleteMembers;
 import com.google.gerrit.server.restapi.group.DeleteSubgroups;
 import com.google.gerrit.server.restapi.group.GetAuditLog;
@@ -47,17 +47,17 @@ import com.google.gerrit.server.restapi.group.PutOptions;
 import com.google.gerrit.server.restapi.group.PutOwner;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
 import java.util.List;
 
-class GroupApiImpl implements GroupApi {
-  interface Factory {
-    GroupApiImpl create(GroupResource rsrc);
-  }
+import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
+class GroupApiImpl implements GroupApi {
   private final GetGroup getGroup;
   private final GetDetail getDetail;
   private final GetName getName;
   private final PutName putName;
+  private final DeleteGroup deleteGroup;
   private final GetOwner getOwner;
   private final PutOwner putOwner;
   private final GetDescription getDescription;
@@ -73,13 +73,13 @@ class GroupApiImpl implements GroupApi {
   private final GetAuditLog getAuditLog;
   private final GroupResource rsrc;
   private final Index index;
-
   @Inject
   GroupApiImpl(
       GetGroup getGroup,
       GetDetail getDetail,
       GetName getName,
       PutName putName,
+      DeleteGroup deleteGroup,
       GetOwner getOwner,
       PutOwner putOwner,
       GetDescription getDescription,
@@ -99,6 +99,7 @@ class GroupApiImpl implements GroupApi {
     this.getDetail = getDetail;
     this.getName = getName;
     this.putName = putName;
+    this.deleteGroup = deleteGroup;
     this.getOwner = getOwner;
     this.putOwner = putOwner;
     this.getDescription = getDescription;
@@ -152,6 +153,17 @@ class GroupApiImpl implements GroupApi {
       var unused = putName.apply(rsrc, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot put group name", e);
+    }
+  }
+
+  @Override
+  public void delete() throws RestApiException {
+    DeleteGroupInput in = new DeleteGroupInput();
+    try {
+      @SuppressWarnings("unused")
+      var unused = deleteGroup.apply(rsrc, in);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot delete group", e);
     }
   }
 
@@ -297,5 +309,9 @@ class GroupApiImpl implements GroupApi {
     } catch (Exception e) {
       throw asRestApiException("Cannot index group", e);
     }
+  }
+
+  interface Factory {
+    GroupApiImpl create(GroupResource rsrc);
   }
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi;
 
 import com.google.gerrit.server.change.ChangeCleanupRunner.ChangeCleanupRunnerModule;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.plugins.PluginRestApiModule;
 import com.google.gerrit.server.restapi.access.AccessRestApiModule;
 import com.google.gerrit.server.restapi.account.AccountRestApiModule;
@@ -24,6 +25,8 @@ import com.google.gerrit.server.restapi.config.RestCacheAdminModule;
 import com.google.gerrit.server.restapi.group.GroupRestApiModule;
 import com.google.gerrit.server.restapi.project.ProjectRestApiModule;
 import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
+import org.eclipse.jgit.lib.Config;
 
 /**
  * Module to bind REST API endpoints.
@@ -32,6 +35,7 @@ import com.google.inject.AbstractModule;
  * bound in {@link RestModule}.
  */
 public class RestApiModule extends AbstractModule {
+
   @Override
   protected void configure() {
     install(new AccessRestApiModule());

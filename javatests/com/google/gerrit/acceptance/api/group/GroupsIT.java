@@ -66,6 +66,10 @@ import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.api.access.AccessSectionInfo;
+import com.google.gerrit.extensions.api.access.PermissionInfo;
+import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
+import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
@@ -82,6 +86,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.Sequences;
@@ -111,8 +116,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -588,7 +595,7 @@ public class GroupsIT extends AbstractDaemonTest {
     Collection<AccountGroup.UUID> groups = groupIncludeCache.getGroupsWithMember(accountId);
     assertThat(groups).containsExactly(AccountGroup.uuid(group.id));
   }
-
+  
   @Test
   public void getGroup() throws Exception {
     InternalGroup adminGroup = adminGroup();
@@ -722,6 +729,69 @@ public class GroupsIT extends AbstractDaemonTest {
 
     GroupInfo group2 = gApi.groups().create(name).get();
     assertThat(group2.id).isNotEqualTo(group1.id);
+  }
+
+  @Test
+  public void groupDeleted() throws Exception {
+    String name = name("groupToDelete");
+    GroupInfo group = gApi.groups().create(name).get();
+    gApi.groups().id(group.id).delete();
+    assertGroupDoesNotExist(name);
+  }
+
+  @Test
+  public void groupDeletedGroupIsOwner() throws Exception {
+    String groupOwnerName = name("groupIsOwner");
+    String memberGroupName = name("groupIsMember");
+
+    GroupInput groupInput = new GroupInput();
+    groupInput.name = memberGroupName;
+    groupInput.ownerId = groupOwnerName;
+    gApi.groups().create(groupOwnerName).get();
+    gApi.groups().create(groupInput).get();
+
+    Throwable exception = assertThrows(ResourceConflictException.class, () -> gApi.groups().id(groupOwnerName).delete());
+    assertThat(exception.getMessage()).isEqualTo("Cannot delete group that is owner of other groups: \n" + "["+memberGroupName+"]");
+  }
+
+  @Test
+  public void groupDeletedGroupIsReferenced() throws Exception {
+    String name = name("groupToDelete");
+    String REFS_HEADS = Constants.R_HEADS + "*";
+    gApi.groups().create(name);
+
+    ProjectAccessInput accessInput = new ProjectAccessInput();
+    accessInput.add = new HashMap<>();
+    accessInput.remove = new HashMap<>();
+    AccessSectionInfo accessSectionInfo = new AccessSectionInfo();
+    accessSectionInfo.permissions = new HashMap<>();
+    PermissionInfo push = new PermissionInfo(null, null);
+    push.rules = new HashMap<>();
+    PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
+    push.rules.put(name, pri);
+    accessSectionInfo.permissions.put(Permission.PUSH, push);
+    accessInput.add.put(REFS_HEADS, accessSectionInfo);
+
+    gApi.projects().name(allProjects.get()).access(accessInput);
+
+    Throwable exception = assertThrows(ResourceConflictException.class, () -> gApi.groups().id(name).delete());
+    assertThat(exception.getMessage()).isEqualTo("Cannot delete group that is referenced in access permissions for project: \n" + "["+allProjects.get()+"]");
+  }
+
+  @Test
+  public void groupDeletedGroupIsSubgroup() throws Exception {
+    String groupOwnerName = name("groupIsOwner");
+    String memberGroupName = name("groupIsMember");
+
+    GroupInput groupInput = new GroupInput();
+    groupInput.name = memberGroupName;
+    groupInput.ownerId = groupOwnerName;
+    gApi.groups().create(groupOwnerName).get();
+    gApi.groups().create(groupInput).get();
+    gApi.groups().id(groupOwnerName).addGroups(memberGroupName);
+
+    Throwable exception = assertThrows(ResourceConflictException.class, () -> gApi.groups().id(memberGroupName).delete());
+    assertThat(exception.getMessage()).isEqualTo("Cannot delete group that is subgroup of another group: \n" + "["+groupOwnerName+"]");
   }
 
   @Test

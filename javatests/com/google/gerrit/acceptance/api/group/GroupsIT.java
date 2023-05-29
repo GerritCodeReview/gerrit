@@ -588,7 +588,7 @@ public class GroupsIT extends AbstractDaemonTest {
     Collection<AccountGroup.UUID> groups = groupIncludeCache.getGroupsWithMember(accountId);
     assertThat(groups).containsExactly(AccountGroup.uuid(group.id));
   }
-
+  
   @Test
   public void getGroup() throws Exception {
     InternalGroup adminGroup = adminGroup();
@@ -722,6 +722,14 @@ public class GroupsIT extends AbstractDaemonTest {
 
     GroupInfo group2 = gApi.groups().create(name).get();
     assertThat(group2.id).isNotEqualTo(group1.id);
+  }
+
+  @Test
+  public void groupDeleted() throws Exception {
+    String name = name("groupToDelete");
+    GroupInfo group = gApi.groups().create(name).get();
+    gApi.groups().id(group.id).delete(name);
+    assertGroupDoesNotExist(name);
   }
 
   @Test

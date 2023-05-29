@@ -166,6 +166,22 @@ public class GroupNameNotes extends VersionedMetaData {
     return groupNameNotes;
   }
 
+  public static GroupNameNotes forDeletingGroup(
+      Project.NameKey projectName,
+      Repository repository,
+      AccountGroup.UUID groupUuid,
+      AccountGroup.NameKey groupName)
+      throws IOException, ConfigInvalidException {
+    requireNonNull(groupName);
+    Optional<GroupReference> groupToDeleteOp = loadGroup(repository, groupName);
+    if (groupToDeleteOp.isEmpty()) {
+      throw new IOException("Could not load groups for deletion");
+    }
+    GroupNameNotes groupNameNotes = new GroupNameNotes(groupUuid, groupName, null);
+    groupNameNotes.load(projectName, repository);
+    return groupNameNotes;
+  }
+
   /**
    * Loads the {@code GroupReference} (name/UUID pair) for the group with the specified name.
    *

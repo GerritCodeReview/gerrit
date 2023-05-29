@@ -230,4 +230,8 @@ public class GroupControl {
     }
     return canAdministrateServer();
   }
+
+  public boolean canDeleteGroup() {
+    return canAdministrateServer();
+  }
 }

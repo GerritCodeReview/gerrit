@@ -156,6 +156,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Inject private GroupsSnapshotReader groupsSnapshotReader;
 
   @Inject private ProjectResetter.Builder.Factory projectResetterFactory;
+  @Inject private GroupOperations groupsOperations;
 
   @Override
   public Module createModule() {
@@ -730,6 +731,77 @@ public class GroupsIT extends AbstractDaemonTest {
 
     GroupInfo group2 = gApi.groups().create(name).get();
     assertThat(group2.id).isNotEqualTo(group1.id);
+  }
+
+  @Test
+  public void deleteGroup() throws Exception {
+    String name = groupOperations.newGroup().create().get();
+    gApi.groups().id(name).delete();
+    assertGroupDoesNotExist(name);
+  }
+
+  @Test
+  @IgnoreGroupInconsistencies
+  public void deleteGroupOwnsOtherGroup() {
+    AccountGroup.UUID ownerUuid = groupOperations.newGroup().create();
+    AccountGroup.UUID memberUuid = groupOperations.newGroup().ownerGroupUuid(ownerUuid).create();
+    groupOperations.group(ownerUuid).forUpdate().addSubgroup(memberUuid).update();
+
+    Throwable exception =
+        assertThrows(
+            ResourceConflictException.class, () -> gApi.groups().id(ownerUuid.get()).delete());
+    assertThat(exception.getMessage())
+        .isEqualTo(
+            "Cannot delete group that is owner of other groups: \n"
+                + "["
+                + groupOperations.group(memberUuid).get().name()
+                + "]");
+  }
+
+  @Test
+  public void deleteGroupIsReferenced() {
+    AccountGroup.UUID uuid = groupsOperations.newGroup().create();
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/*").group(uuid))
+        .update();
+
+    Throwable exception =
+        assertThrows(ResourceConflictException.class, () -> gApi.groups().id(uuid.get()).delete());
+    assertThat(exception.getMessage())
+        .isEqualTo(
+            "Cannot delete group that is referenced in access permissions for project: \n"
+                + "["
+                + allProjects.get()
+                + "]");
+  }
+
+  @Test
+  public void deleteGroupIsSubgroup() throws Exception {
+    AccountGroup.UUID ownerUuid = groupOperations.newGroup().create();
+    AccountGroup.UUID memberUuid = groupOperations.newGroup().ownerGroupUuid(ownerUuid).create();
+    groupOperations.group(ownerUuid).forUpdate().addSubgroup(memberUuid).update();
+
+    Throwable exception =
+        assertThrows(
+            ResourceConflictException.class, () -> gApi.groups().id(memberUuid.get()).delete());
+    assertThat(exception.getMessage())
+        .isEqualTo(
+            "Cannot delete group that is subgroup of another group: \n"
+                + "["
+                + groupOperations.group(ownerUuid).get().name()
+                + "]");
+  }
+
+  @Test
+  public void nonAdminAreNotAllowedToDeleteGroup() throws Exception {
+    AccountGroup.UUID groupUuid = groupOperations.newGroup().visibleToAll(true).create();
+    requestScopeOperations.setApiUser(user.id());
+    Throwable exception =
+        assertThrows(AuthException.class, () -> gApi.groups().id(groupUuid.get()).delete());
+    assertThat(exception.getMessage())
+        .isEqualTo("Cannot delete group " + groupOperations.group(groupUuid).get().name());
   }
 
   @Test

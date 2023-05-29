@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be87c105_5f50c996",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-05-29T15:35:43Z",
+      "side": 1,
+      "message": "I can confirm the number of eTags calculated by this version are the name number calculated before the introduction of Ifce700d3e68b",
+      "revId": "e90603e364f619138a1603796c95205ce1787cca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

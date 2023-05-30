@@ -26,13 +26,11 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /** A utility class for computing the base commit / parent for a specific patchset commit. */
@@ -51,7 +49,8 @@ class BaseCommitUtil {
     this.repoManager = repoManager;
   }
 
-  RevObject getBaseCommit(Project.NameKey project, ObjectId newCommit, @Nullable Integer parentNum)
+  @Nullable
+  RevCommit getBaseCommit(Project.NameKey project, ObjectId newCommit, @Nullable Integer parentNum)
       throws IOException {
     try (Repository repo = repoManager.openRepository(project);
         ObjectInserter ins = newInserter(repo);
@@ -89,10 +88,12 @@ class BaseCommitUtil {
    *     commitId} has a single parent, it will be returned.
    * @param commitId 20 bytes commitId SHA-1 hash.
    * @return Returns the parent commit of the commit represented by the commitId parameter. Note
-   *     that auto-merge is not supported for commits having more than two parents.
+   *     that auto-merge is not supported for commits having more than two parents. If the commit
+   *     has no parents (initial commit) or more than 2 parents {@code null} is returned as the
+   *     parent commit.
    */
   @Nullable
-  RevObject getParentCommit(
+  RevCommit getParentCommit(
       Repository repo,
       ObjectInserter ins,
       RevWalk rw,
@@ -102,7 +103,7 @@ class BaseCommitUtil {
     RevCommit current = rw.parseCommit(commitId);
     switch (current.getParentCount()) {
       case 0:
-        return rw.parseAny(emptyTree(ins));
+        return null;
       case 1:
         return current.getParent(0);
       default:
@@ -145,11 +146,5 @@ class BaseCommitUtil {
 
   private ObjectInserter newInserter(Repository repo) {
     return saveAutomerge ? repo.newObjectInserter() : new InMemoryInserter(repo);
-  }
-
-  private static ObjectId emptyTree(ObjectInserter ins) throws IOException {
-    ObjectId id = ins.insert(Constants.OBJ_TREE, new byte[] {});
-    ins.flush();
-    return id;
   }
 }

@@ -60,7 +60,6 @@ import {CommentSide, SpecialFilePath} from '../../../constants/constants';
 import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 import {changeModelToken} from '../../../models/change/change-model';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {isBase64FileContent} from '../../../api/rest-api';
 import {createDiffUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
@@ -206,8 +205,6 @@ export class GrComment extends LitElement {
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
-
-  private readonly flagsService = getAppContext().flagsService;
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
@@ -777,9 +774,6 @@ export class GrComment extends LitElement {
   }
 
   private renderSuggestEditButton() {
-    if (!this.flagsService.isEnabled(KnownExperimentId.SUGGEST_EDIT)) {
-      return nothing;
-    }
     if (
       !this.editing ||
       this.permanentEditingMode ||

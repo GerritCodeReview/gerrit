@@ -5,8 +5,6 @@
  */
 import {css, html, LitElement, nothing} from 'lit';
 import {customElement} from 'lit/decorators.js';
-import {getAppContext} from '../../../services/app-context';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {fire} from '../../../utils/event-util';
 
 declare global {
@@ -23,8 +21,6 @@ export interface OpenUserSuggestionPreviewEventDetail {
 
 @customElement('gr-user-suggestion-fix')
 export class GrUserSuggetionFix extends LitElement {
-  private readonly flagsService = getAppContext().flagsService;
-
   static override styles = [
     css`
       .header {
@@ -63,9 +59,6 @@ export class GrUserSuggetionFix extends LitElement {
   ];
 
   override render() {
-    if (!this.flagsService.isEnabled(KnownExperimentId.SUGGEST_EDIT)) {
-      return nothing;
-    }
     if (!this.textContent) return nothing;
     const code = this.textContent;
     return html`<div class="header">

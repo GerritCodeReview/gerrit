@@ -19,8 +19,6 @@ import {CommentLinks, EmailAddress} from '../../../api/rest-api';
 import {linkifyUrlsAndApplyRewrite} from '../../../utils/link-util';
 import '../gr-account-chip/gr-account-chip';
 import '../gr-user-suggestion-fix/gr-user-suggestion-fix';
-import {KnownExperimentId} from '../../../services/flags/flags';
-import {getAppContext} from '../../../services/app-context';
 import {
   getUserSuggestionFromString,
   USER_SUGGESTION_INFO_STRING,
@@ -41,8 +39,6 @@ export class GrFormattedText extends LitElement {
 
   @state()
   private repoCommentLinks: CommentLinks = {};
-
-  private readonly flagsService = getAppContext().flagsService;
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
@@ -155,10 +151,6 @@ export class GrFormattedText extends LitElement {
   }
 
   private renderAsMarkdown() {
-    // Need to find out here, since customRender is not arrow function
-    const suggestEditsEnable = this.flagsService.isEnabled(
-      KnownExperimentId.SUGGEST_EDIT
-    );
     // Bind `this` via closure.
     const boundRewriteText = (text: string) => {
       const nonAsteriskRewrites = Object.fromEntries(
@@ -213,7 +205,7 @@ export class GrFormattedText extends LitElement {
       renderer['codespan'] = (text: string) =>
         `<code>${unescapeHTML(text)}</code>`;
       renderer['code'] = (text: string, infostring: string) => {
-        if (suggestEditsEnable && infostring === USER_SUGGESTION_INFO_STRING) {
+        if (infostring === USER_SUGGESTION_INFO_STRING) {
           // default santizer in markedjs is very restrictive, we need to use
           // existing html element to mark element. We cannot use css class for
           // it. Therefore we pick mark - as not frequently used html element to
@@ -272,9 +264,7 @@ export class GrFormattedText extends LitElement {
   override updated() {
     // Look for @mentions and replace them with an account-label chip.
     this.convertEmailsToAccountChips();
-    if (this.flagsService.isEnabled(KnownExperimentId.SUGGEST_EDIT)) {
-      this.convertCodeToSuggestions();
-    }
+    this.convertCodeToSuggestions();
   }
 
   private convertEmailsToAccountChips() {

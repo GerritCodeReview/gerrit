@@ -308,8 +308,8 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
   public readonly childView$ = select(this.state$, state => state?.childView);
 
   public readonly tab$ = select(this.state$, state => {
-    if (state?.commentId) return Tab.COMMENT_THREADS;
     if (state?.tab) return state.tab;
+    if (state?.commentId) return Tab.COMMENT_THREADS;
     return Tab.FILES;
   });
 

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fee9ee1b_f087cf41",
+        "filename": "java/com/google/gerrit/gpg/PublicKeyStoreUtil.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-05-30T11:43:27Z",
+      "side": 1,
+      "message": "\u003e Did this not work here? \n\nNo, optional injections cannot be marked as private.\n\n\u003e could we also solve it using a binding in the places where me miss it?\n\nStoreProvider[1] is currently only bounded in SignedPushModule, which I wouldn\u0027t like to bind everywhere.\n\nI have created an UnimplementedPublicKeyStoreProvider class instead, and used OptionalBinder in the relevant modules. It\u0027s way more code, but moving the complications to the Guice modules.",
+      "parentUuid": "9fbf1b8d_224e823d",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 47,
+        "endChar": 16
+      },
+      "revId": "d129b26e76ad09e2f7d42621ba5d958a0814b391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8565e604_fc51dabe",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-05-11T11:26:06Z",
       "side": 1,
       "message": "Could we instead just have a flag inside AccountDelta (deleteAllData \u003d true) and make the various places understand that?\n\nFor example: We remove refs/users/$id which by design removes all preferences, the active but, the full name, the display name and preferred email. In our internal database, I imagine this to look very similar (just delete a row). So using a dedicated flag for this would make it more robust I think.",
+      "range": {
+        "startLine": 464,
+        "startChar": 0,
+        "endLine": 473,
+        "endChar": 43
+      },
+      "revId": "d129b26e76ad09e2f7d42621ba5d958a0814b391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "420def7a_d25abf4f",
+        "filename": "java/com/google/gerrit/server/account/AccountDelta.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-05-30T11:43:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8565e604_fc51dabe",
       "range": {
         "startLine": 464,
         "startChar": 0,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c80ced14_8814e224",
+        "filename": "java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-05-30T11:43:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c405fa83_62d32133",
+      "revId": "d129b26e76ad09e2f7d42621ba5d958a0814b391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29e89348_911423a1",
@@ -77,6 +143,30 @@
       "writtenOn": "2023-05-11T11:26:06Z",
       "side": 1,
       "message": "unused?",
+      "range": {
+        "startLine": 47,
+        "startChar": 9,
+        "endLine": 47,
+        "endChar": 19
+      },
+      "revId": "d129b26e76ad09e2f7d42621ba5d958a0814b391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb18c4d9_0df6077b",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEdit.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-05-30T11:43:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29e89348_911423a1",
       "range": {
         "startLine": 47,
         "startChar": 9,
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "592a1272_3049cbe3",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-05-30T11:43:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d20bd6f3_6761633a",
+      "range": {
+        "startLine": 136,
+        "startChar": 25,
+        "endLine": 136,
+        "endChar": 59
+      },
+      "revId": "d129b26e76ad09e2f7d42621ba5d958a0814b391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53ab4fe8_00c84ffa",
@@ -133,6 +247,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b006547_013b4c18",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-05-30T11:43:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53ab4fe8_00c84ffa",
+      "range": {
+        "startLine": 140,
+        "startChar": 20,
+        "endLine": 140,
+        "endChar": 33
+      },
+      "revId": "d129b26e76ad09e2f7d42621ba5d958a0814b391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25f505f3_fcf4da31",
@@ -146,6 +284,30 @@
       "writtenOn": "2023-05-11T11:26:06Z",
       "side": 1,
       "message": "optional nit: editor sounds,like author and comitter, but it\u0027s just a user who has an open change edit.\n\nmaybe `byOpenEditByUser` or `byEditByUser`",
+      "range": {
+        "startLine": 172,
+        "startChar": 60,
+        "endLine": 172,
+        "endChar": 68
+      },
+      "revId": "d129b26e76ad09e2f7d42621ba5d958a0814b391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "445a9779_d212b66a",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-05-30T11:43:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25f505f3_fcf4da31",
       "range": {
         "startLine": 172,
         "startChar": 60,
@@ -196,6 +358,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0e888e7_c5fbe313",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteAccount.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-05-30T11:43:27Z",
+      "side": 1,
+      "message": "Removed the new constructor.",
+      "parentUuid": "54d51207_cbb4ccc5",
+      "range": {
+        "startLine": 186,
+        "startChar": 18,
+        "endLine": 186,
+        "endChar": 24
+      },
+      "revId": "d129b26e76ad09e2f7d42621ba5d958a0814b391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b251288_fb241c0d",
@@ -209,6 +395,30 @@
       "writtenOn": "2023-05-11T11:26:06Z",
       "side": 1,
       "message": "This actually shows an issue with the logic, this should throw a 404 not found. Do we leave the ref around while we should delete it?\n\n(here and below where accounts.self() is called",
+      "range": {
+        "startLine": 3243,
+        "startChar": 4,
+        "endLine": 3243,
+        "endChar": 68
+      },
+      "revId": "d129b26e76ad09e2f7d42621ba5d958a0814b391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94d76658_58d4c28b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 3243,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-05-30T11:43:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b251288_fb241c0d",
       "range": {
         "startLine": 3243,
         "startChar": 4,

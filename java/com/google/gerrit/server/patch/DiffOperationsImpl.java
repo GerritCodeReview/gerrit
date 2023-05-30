@@ -55,6 +55,7 @@ import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
 
@@ -488,7 +489,16 @@ public class DiffOperationsImpl implements DiffOperations {
     DiffParameters.Builder result =
         DiffParameters.builder().project(project).newCommit(newCommit).parent(parent);
     if (parent > 0) {
-      result.baseCommit(baseCommitUtil.getBaseCommit(project, newCommit, parent));
+      RevCommit baseCommit = baseCommitUtil.getBaseCommit(project, newCommit, parent);
+      if (baseCommit == null) {
+        // The specified parent doesn't exist or is not supported, fall back to comparing against
+        // the root.
+        result.baseCommit(ObjectId.zeroId());
+        result.comparisonType(ComparisonType.againstRoot());
+        return result.build();
+      }
+
+      result.baseCommit(baseCommit);
       result.comparisonType(ComparisonType.againstParent(parent));
       return result.build();
     }

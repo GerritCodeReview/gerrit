@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8d1e6720_10821a09",
+        "filename": "java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-05-31T12:39:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3c79fb8_e941adb6",
+      "range": {
+        "startLine": 187,
+        "startChar": 1,
+        "endLine": 187,
+        "endChar": 72
+      },
+      "revId": "2900310b00293b3655e36ee6d475ff73f848271f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "49b28997_70f6322b",
         "filename": "java/com/google/gerrit/server/account/AccountsStorageAccessorsBinder.java",
         "patchSetId": 2

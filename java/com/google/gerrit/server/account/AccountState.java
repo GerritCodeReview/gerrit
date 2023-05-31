@@ -18,7 +18,6 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
@@ -26,13 +25,11 @@ import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.CachedPreferences;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
-import org.eclipse.jgit.lib.ObjectId;
 
 /**
  * Superset of all information related to an Account. This includes external IDs, project watches,
@@ -43,72 +40,6 @@ import org.eclipse.jgit.lib.ObjectId;
  */
 @AutoValue
 public abstract class AccountState {
-  /**
-   * Creates an AccountState from the given account config.
-   *
-   * @param externalIds class to access external IDs
-   * @param accountConfig the account config, must already be loaded
-   * @param defaultPreferences the default preferences for this Gerrit installation
-   * @return the account state, {@link Optional#empty()} if the account doesn't exist
-   * @throws IOException if accessing the external IDs fails
-   */
-  public static Optional<AccountState> fromAccountConfig(
-      ExternalIds externalIds, AccountConfig accountConfig, CachedPreferences defaultPreferences)
-      throws IOException {
-    return fromAccountConfig(externalIds, accountConfig, null, defaultPreferences);
-  }
-
-  /**
-   * Creates an AccountState from the given account config.
-   *
-   * <p>If external ID notes are provided the revision of the external IDs branch from which the
-   * external IDs for the account should be loaded is taken from the external ID notes. If external
-   * ID notes are not given the revision of the external IDs branch is taken from the account
-   * config. Updating external IDs is done via {@link ExternalIdNotes} and if external IDs were
-   * updated the revision of the external IDs branch in account config is outdated. Hence after
-   * updating external IDs the external ID notes must be provided.
-   *
-   * @param externalIds class to access external IDs
-   * @param accountConfig the account config, must already be loaded
-   * @param extIdNotes external ID notes, must already be loaded, may be {@code null}
-   * @param defaultPreferences the default preferences for this Gerrit installation
-   * @return the account state, {@link Optional#empty()} if the account doesn't exist
-   * @throws IOException if accessing the external IDs fails
-   */
-  public static Optional<AccountState> fromAccountConfig(
-      ExternalIds externalIds,
-      AccountConfig accountConfig,
-      @Nullable ExternalIdNotes extIdNotes,
-      CachedPreferences defaultPreferences)
-      throws IOException {
-    if (!accountConfig.getLoadedAccount().isPresent()) {
-      return Optional.empty();
-    }
-    Account account = accountConfig.getLoadedAccount().get();
-
-    Optional<ObjectId> extIdsRev =
-        extIdNotes != null
-            ? Optional.ofNullable(extIdNotes.getRevision())
-            : accountConfig.getExternalIdsRev();
-    ImmutableSet<ExternalId> extIds =
-        extIdsRev.isPresent()
-            ? externalIds.byAccount(account.id(), extIdsRev.get())
-            : ImmutableSet.of();
-
-    // Don't leak references to AccountConfig into the AccountState, since it holds a reference to
-    // an open Repository instance.
-    ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches =
-        accountConfig.getProjectWatches();
-
-    return Optional.of(
-        new AutoValue_AccountState(
-            account,
-            extIds,
-            ExternalId.getUserName(extIds),
-            projectWatches,
-            Optional.of(defaultPreferences),
-            Optional.of(accountConfig.asCachedPreferences())));
-  }
 
   /**
    * Creates an AccountState for a given account with no external IDs, no project watches and

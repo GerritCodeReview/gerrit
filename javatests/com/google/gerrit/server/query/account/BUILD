@@ -16,6 +16,7 @@ java_library(
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/git",
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/server",

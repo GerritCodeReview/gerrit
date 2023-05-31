@@ -62,6 +62,7 @@ EXPORTS = [
     "//java/com/google/gerrit/server/data",
     "//java/com/google/gerrit/server/git/receive",
     "//java/com/google/gerrit/server/logging",
+    "//java/com/google/gerrit/server/rules/prolog",
     "//java/com/google/gerrit/server/schema",
     "//java/com/google/gerrit/server/util/time",
     "//java/com/google/gerrit/proto",

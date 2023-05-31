@@ -90,14 +90,16 @@ export const ListChangesOption = {
   // Skip mergeability data.
   SKIP_MERGEABLE: 22,
 
-  /**
-   * Skip diffstat computation that compute the insertions field (number of lines inserted) and
-   * deletions field (number of lines deleted)
-   */
+  // Skip diffstat computation that compute the insertions field (number of lines inserted) and
+  // deletions field (number of lines deleted)
   SKIP_DIFFSTAT: 23,
 
-  /** Include the evaluated submit requirements for the caller. */
+  // Include the evaluated submit requirements for the caller.
   SUBMIT_REQUIREMENTS: 24,
+
+  // Include the 'starred' field, that is if the change is starred by the
+  // current user.
+  STAR: 25,
 };
 
 export function listChangesOptionsToHex(...args: number[]) {

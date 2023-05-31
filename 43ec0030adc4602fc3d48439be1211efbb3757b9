@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e630eca_6b08904a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-05-31T05:32:15Z",
+      "side": 1,
+      "message": "Note to the reviewers: it could be fixed less intrusive, like it was done in JGit project: [1]. However, if we rename config for Java 11 from just `remote` to `remote11`, then we would also have to adjust the CI, for RBE checker and this is more involved (for all supported stable branches) and thus disruptive.\n\n[1]: https://git.eclipse.org/r/c/jgit/jgit/+/202105",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 15
+      },
+      "revId": "43ec0030adc4602fc3d48439be1211efbb3757b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

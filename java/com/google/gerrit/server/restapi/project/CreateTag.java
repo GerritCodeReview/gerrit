@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
+import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -48,6 +49,7 @@ import java.io.IOException;
 import java.time.ZoneId;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.TagCommand;
+import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -141,18 +143,23 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
                         .newCommitterIdent(TimeUtil.now(), ZoneId.systemDefault()));
           }
 
-          Ref result = tag.call();
-          tagCache.updateFastForward(
-              resource.getNameKey(), ref, ObjectId.zeroId(), result.getObjectId());
-          referenceUpdated.fire(
-              resource.getNameKey(),
-              ref,
-              ObjectId.zeroId(),
-              result.getObjectId(),
-              resource.getUser().asIdentifiedUser().state());
-          try (RevWalk w = new RevWalk(repo)) {
-            return Response.created(
-                ListTags.createTagInfo(perm, result, w, resource.getProjectState(), links));
+          try {
+            Ref result = tag.call();
+            tagCache.updateFastForward(
+                resource.getNameKey(), ref, ObjectId.zeroId(), result.getObjectId());
+            referenceUpdated.fire(
+                resource.getNameKey(),
+                ref,
+                ObjectId.zeroId(),
+                result.getObjectId(),
+                resource.getUser().asIdentifiedUser().state());
+            try (RevWalk w = new RevWalk(repo)) {
+              return Response.created(
+                  ListTags.createTagInfo(perm, result, w, resource.getProjectState(), links));
+            }
+          } catch (ConcurrentRefUpdateException e) {
+            LockFailureException.throwIfLockFailure(e);
+            throw e;
           }
         }
       } catch (GitAPIException e) {

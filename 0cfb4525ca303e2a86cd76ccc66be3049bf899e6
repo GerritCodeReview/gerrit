@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c60bf0c0_1810cdf8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-05-31T11:30:04Z",
+      "side": 1,
+      "message": "LGTM, thanks for taking care of preloading as well.",
+      "revId": "0cfb4525ca303e2a86cd76ccc66be3049bf899e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

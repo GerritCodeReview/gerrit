@@ -378,6 +378,17 @@ suite('gr-comment tests', () => {
                   </gr-tooltip-content>
                 </div>
                 <div class="headerMiddle"></div>
+                <gr-button
+                  aria-disabled="false"
+                  class="action suggestEdit"
+                  link=""
+                  role="button"
+                  tabindex="0"
+                  title="This button copies the text to make a suggestion"
+                >
+                  <gr-icon filled="" icon="edit" id="icon"> </gr-icon>
+                  Suggest edit
+                </gr-button>
                 <span class="patchset-text">Patchset 1</span>
                 <span class="separator"></span>
                 <span class="date" tabindex="0">

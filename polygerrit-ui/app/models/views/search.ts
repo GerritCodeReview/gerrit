@@ -17,6 +17,10 @@ import {NavigationService} from '../../elements/core/gr-navigation/gr-navigation
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {GerritView} from '../../services/router/router-model';
 import {accountKey} from '../../utils/account-util';
+import {
+  ListChangesOption,
+  listChangesOptionsToHex,
+} from '../../utils/change-util';
 import {select} from '../../utils/observable-util';
 import {escapeAndWrapSearchOperatorValue} from '../../utils/string-util';
 import {encodeURL, getBaseUrl} from '../../utils/url-util';
@@ -246,7 +250,8 @@ export class SearchViewModel extends Model<SearchViewState | undefined> {
     const changes = await this.restApiService.getChanges(
       changesPerPage,
       query,
-      offset
+      offset,
+      listChangesOptionsToHex(ListChangesOption.STAR)
     );
     return changes ?? [];
   }

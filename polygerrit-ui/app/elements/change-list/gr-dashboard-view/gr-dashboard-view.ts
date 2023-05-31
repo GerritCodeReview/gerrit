@@ -11,7 +11,11 @@ import '../gr-create-change-help/gr-create-change-help';
 import '../gr-create-destination-dialog/gr-create-destination-dialog';
 import '../gr-user-header/gr-user-header';
 import {getAppContext} from '../../../services/app-context';
-import {changeIsOpen} from '../../../utils/change-util';
+import {
+  changeIsOpen,
+  ListChangesOption,
+  listChangesOptionsToHex,
+} from '../../../utils/change-util';
 import {parseDate} from '../../../utils/date-util';
 import {
   AccountDetailInfo,
@@ -451,7 +455,12 @@ export class GrDashboardView extends LitElement {
     }
 
     return this.restApiService
-      .getChangesForMultipleQueries(undefined, queries)
+      .getChangesForMultipleQueries(
+        /* changesPerPage=*/ undefined,
+        queries,
+        /* offset=*/ undefined,
+        listChangesOptionsToHex(ListChangesOption.STAR)
+      )
       .then(changes => {
         if (!changes) {
           throw new Error('getChanges returns undefined');

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acbf5e78_77a23157",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2370,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-05-31T06:41:42Z",
+      "side": 1,
+      "message": "nit: just one, remove the (A)",
+      "range": {
+        "startLine": 2370,
+        "startChar": 13,
+        "endLine": 2370,
+        "endChar": 18
+      },
+      "revId": "7dca4e0e3a8d857962e0db6e8404633e10f02bfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

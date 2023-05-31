@@ -16,6 +16,24 @@
       "message": "I am wrong, I am overriding default options this way",
       "revId": "73a3c369a609e3cab30c0d84769ccf59c267a570",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "950c192d_43b07309",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-05-31T11:24:21Z",
+      "side": 1,
+      "message": "Issue fixed. Change is ready for review",
+      "parentUuid": "046c44d6_2d1b6f1a",
+      "revId": "73a3c369a609e3cab30c0d84769ccf59c267a570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

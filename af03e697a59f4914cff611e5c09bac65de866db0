@@ -34,6 +34,23 @@
       "parentUuid": "70bac8c7_fab9f146",
       "revId": "af03e697a59f4914cff611e5c09bac65de866db0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74e2f501_e79e08e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-05-31T16:11:44Z",
+      "side": 1,
+      "message": "Do we want to backport to 3.8?",
+      "revId": "af03e697a59f4914cff611e5c09bac65de866db0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

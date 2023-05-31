@@ -46,6 +46,11 @@ public class GitUpdateFailureException extends IOException {
             .collect(toImmutableList());
   }
 
+  protected GitUpdateFailureException(String message, Throwable cause) {
+    super(message, cause);
+    this.failures = ImmutableList.of();
+  }
+
   /** Returns the names of the refs for which the update failed. */
   public ImmutableList<String> getFailedRefs() {
     return failures.stream().map(GitUpdateFailure::ref).collect(toImmutableList());

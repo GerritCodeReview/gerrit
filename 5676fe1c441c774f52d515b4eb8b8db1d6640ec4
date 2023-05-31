@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f651dac_e93f8af5",
+        "filename": "java/com/google/gerrit/git/RefUpdateUtil.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-05-31T08:11:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1115b176_518d8308",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 9
+      },
+      "revId": "5676fe1c441c774f52d515b4eb8b8db1d6640ec4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91fb8277_da08da7e",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-05-31T06:48:45Z",
       "side": 1,
       "message": "Why is that required as runtime dep everywhere and could we not require it?",
+      "range": {
+        "startLine": 55,
+        "startChar": 15,
+        "endLine": 56,
+        "endChar": 27
+      },
+      "revId": "5676fe1c441c774f52d515b4eb8b8db1d6640ec4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64fc3f4d_d3e71e29",
+        "filename": "javatests/com/google/gerrit/server/query/project/BUILD",
+        "patchSetId": 14
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-05-31T08:11:37Z",
+      "side": 1,
+      "message": "It\u0027s needed for the `bouncycastle` deps of `PublicKeyStoreUtil`. Moved to a single place.",
+      "parentUuid": "91fb8277_da08da7e",
       "range": {
         "startLine": 55,
         "startChar": 15,

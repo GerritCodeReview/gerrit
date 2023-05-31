@@ -663,10 +663,16 @@ public final class OutgoingEmail {
    */
   public void addByAccountId(RecipientType rt, Account.Id to, boolean override) {
     try {
-      if (!rcptTo.contains(to) && isRecipientAllowed(to)) {
-        rcptTo.add(to);
-        add(rt, toAddress(to), override);
+      if (rcptTo.contains(to) || !isRecipientAllowed(to)) {
+        return;
       }
+      Address addr = toAddress(to);
+      if (addr == null) {
+        logger.atFine().log("Not emailing account %s because user has no preferred email", to);
+        return;
+      }
+      rcptTo.add(to);
+      add(rt, addr, override);
     } catch (PermissionBackendException e) {
       logger.atSevere().withCause(e).log("Error checking permissions for account: %s", to);
     }

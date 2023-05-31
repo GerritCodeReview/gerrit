@@ -37,6 +37,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes.ExternalIdNotesLoader;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.account.storage.notedb.AccountsNoteDbImpl;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CachedPreferences;
 import com.google.gerrit.server.config.VersionedDefaultPreferences;
@@ -386,7 +387,7 @@ public class AccountsUpdate {
       CachedPreferences defaultPreferences =
           CachedPreferences.fromConfig(VersionedDefaultPreferences.get(repo, allUsersName));
       Optional<AccountState> accountState =
-          AccountState.fromAccountConfig(externalIds, accountConfig, defaultPreferences);
+          AccountsNoteDbImpl.getFromAccountConfig(externalIds, accountConfig, defaultPreferences);
       if (!accountState.isPresent()) {
         return null;
       }
@@ -630,7 +631,7 @@ public class AccountsUpdate {
     }
 
     Optional<AccountState> getAccountState() throws IOException {
-      return AccountState.fromAccountConfig(
+      return AccountsNoteDbImpl.getFromAccountConfig(
           externalIds, accountConfig, externalIdNotes, defaultPreferences);
     }
   }

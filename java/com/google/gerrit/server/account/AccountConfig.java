@@ -205,7 +205,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    * Returns the content of the {@code preferences.config} file wrapped as {@link
    * CachedPreferences}.
    */
-  CachedPreferences asCachedPreferences() {
+  public CachedPreferences asCachedPreferences() {
     checkLoaded();
     return CachedPreferences.fromConfig(preferences.getRaw());
   }

@@ -14,13 +14,16 @@
 
 package com.google.gerrit.server.index.account;
 
+import static com.google.common.base.Preconditions.checkState;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.index.IndexedField;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.SchemaUtil;
@@ -237,11 +240,21 @@ public class AccountField {
               a ->
                   a.externalIds().stream()
                       .filter(e -> e.blobId() != null)
-                      .map(ExternalId::toByteArray)
+                      .map(AccountField::serializeExternalId)
                       .collect(toSet()));
 
   public static final IndexedField<AccountState, Iterable<byte[]>>.SearchSpec
       EXTERNAL_ID_STATE_SPEC = EXTERNAL_ID_STATE_FIELD.storedOnly("external_id_state");
+
+  @VisibleForTesting
+  public static byte[] serializeExternalId(ExternalId extId) {
+    checkState(extId.blobId() != null, "Missing blobId in external ID %s", extId.key().get());
+    byte[] b = new byte[2 * ObjectIds.STR_LEN + 1];
+    extId.key().sha1().copyTo(b, 0);
+    b[ObjectIds.STR_LEN] = ':';
+    extId.blobId().copyTo(b, ObjectIds.STR_LEN + 1);
+    return b;
+  }
 
   private static final Set<String> getNameParts(AccountState a, Iterable<String> emails) {
     String fullName = a.account().fullName();

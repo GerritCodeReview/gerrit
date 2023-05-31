@@ -705,7 +705,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     for (AccountExternalIdInfo info : externalIdInfos) {
       Optional<ExternalId> extId = externalIds.get(externalIdKeyFactory.parse(info.identity));
       assertThat(extId).isPresent();
-      blobs.add(new ByteArrayWrapper(extId.get().toByteArray()));
+      blobs.add(new ByteArrayWrapper(AccountField.serializeExternalId(extId.get())));
     }
 
     // Some installations do not store EXTERNAL_ID_STATE_SPEC

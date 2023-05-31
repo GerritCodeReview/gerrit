@@ -27,7 +27,6 @@ import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.client.AuthType;
-import com.google.gerrit.git.ObjectIds;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Locale;
@@ -292,15 +291,6 @@ public abstract class ExternalId implements Serializable {
 
   public boolean isScheme(String scheme) {
     return key().isScheme(scheme);
-  }
-
-  public byte[] toByteArray() {
-    checkState(blobId() != null, "Missing blobId in external ID %s", key().get());
-    byte[] b = new byte[2 * ObjectIds.STR_LEN + 1];
-    key().sha1().copyTo(b, 0);
-    b[ObjectIds.STR_LEN] = ':';
-    blobId().copyTo(b, ObjectIds.STR_LEN + 1);
-    return b;
   }
 
   /**

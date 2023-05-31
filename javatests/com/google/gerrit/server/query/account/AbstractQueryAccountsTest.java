@@ -49,6 +49,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
@@ -705,7 +706,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     for (AccountExternalIdInfo info : externalIdInfos) {
       Optional<ExternalId> extId = externalIds.get(externalIdKeyFactory.parse(info.identity));
       assertThat(extId).isPresent();
-      blobs.add(new ByteArrayWrapper(extId.get().toByteArray()));
+      blobs.add(new ByteArrayWrapper(serializeExternalId(extId.get())));
     }
 
     // Some installations do not store EXTERNAL_ID_STATE_SPEC
@@ -959,6 +960,14 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     } catch (BadRequestException e) {
       assertThat(e.getMessage()).isEqualTo(expectedMessage);
     }
+  }
+
+  private byte[] serializeExternalId(ExternalId extId) {
+    byte[] b = new byte[2 * ObjectIds.STR_LEN + 1];
+    extId.key().sha1().copyTo(b, 0);
+    b[ObjectIds.STR_LEN] = ':';
+    extId.blobId().copyTo(b, ObjectIds.STR_LEN + 1);
+    return b;
   }
 
   /** Boiler plate code to check two byte arrays for equality */

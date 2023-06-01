@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3e12d17_154040d2",
+        "filename": "java/com/google/gerrit/server/index/account/AccountField.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-06-01T07:09:51Z",
+      "side": 1,
+      "message": "nit: make public and annotate with @VisibleForTesting. The use it from within the test.",
+      "range": {
+        "startLine": 260,
+        "startChar": 2,
+        "endLine": 260,
+        "endChar": 9
+      },
+      "revId": "f940adab1313efe94dea5edd3dc6cd943b9380a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

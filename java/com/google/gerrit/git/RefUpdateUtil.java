@@ -15,6 +15,7 @@
 package com.google.gerrit.git;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -147,6 +148,7 @@ public class RefUpdateUtil {
    *     occurs.
    * @throws IOException if an error occurred.
    */
+  @CanIgnoreReturnValue
   public static RefUpdate deleteChecked(Repository repo, String refName) throws IOException {
     RefUpdate ru = repo.updateRef(refName);
     ru.setForceUpdate(true);

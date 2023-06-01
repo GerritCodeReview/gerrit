@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.account;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Table;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -106,6 +107,7 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Response<?> apply(AccountResource rsrc, Input unusedInput)
       throws AuthException, AccountException {
     IdentifiedUser user = rsrc.getUser();

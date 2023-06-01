@@ -253,3 +253,24 @@ export function getSuggestedReviewerName(
 
   assertNever(suggestion, 'Received an incorrect suggestion');
 }
+
+export function getSuggestedReviewerID(suggestion: Suggestion) {
+  if (isAccountSuggestion(suggestion)) {
+    // Reviewer is an account suggestion from getSuggestedAccounts.
+    return suggestion.email;
+  }
+
+  if (isReviewerAccountSuggestion(suggestion)) {
+    // Reviewer is an account suggestion from getChangeSuggestedReviewers.
+    return suggestion.account.email;
+  }
+
+  if (isReviewerGroupSuggestion(suggestion)) {
+    // Reviewer is a group suggestion from getChangeSuggestedReviewers.
+    // Groups are special users in Gerrit that do not have an email associated
+    // with them but instead have a groupID.
+    // Adding a group adds all members of that group as reviewer.
+    return suggestion.group.id;
+  }
+  return '';
+}

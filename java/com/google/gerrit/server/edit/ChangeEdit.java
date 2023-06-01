@@ -18,6 +18,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 /**
@@ -51,6 +52,10 @@ public class ChangeEdit {
 
   public RevCommit getEditCommit() {
     return editCommit;
+  }
+
+  public ObjectId getEditCommitId() {
+    return editCommit.getId();
   }
 
   public PatchSet getBasePatchSet() {

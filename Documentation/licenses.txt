@@ -1082,6 +1082,7 @@ POSSIBILITY OF SUCH DAMAGE.
 [[bouncycastle]]
 bouncycastle
 
+* bouncycastle:bcpg
 * bouncycastle:bcpg-neverlink
 * bouncycastle:bcpkix-neverlink
 * bouncycastle:bcprov-neverlink

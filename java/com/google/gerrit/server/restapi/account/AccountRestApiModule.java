@@ -23,18 +23,24 @@ import static com.google.gerrit.server.account.AccountResource.Star.STAR_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
+import com.google.gerrit.gpg.PublicKeyStore;
+import com.google.gerrit.gpg.UnimplementedPublicKeyStoreProvider;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.inject.Provides;
+import com.google.inject.multibindings.OptionalBinder;
 
 public class AccountRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
     bind(AccountsCollection.class);
     bind(Capabilities.class);
+    OptionalBinder.newOptionalBinder(binder(), PublicKeyStore.class)
+        .setDefault()
+        .toProvider(UnimplementedPublicKeyStoreProvider.class);
 
     DynamicMap.mapOf(binder(), ACCOUNT_KIND);
     DynamicMap.mapOf(binder(), CAPABILITY_KIND);
@@ -45,6 +51,7 @@ public class AccountRestApiModule extends RestApiModule {
 
     create(ACCOUNT_KIND).to(CreateAccount.class);
     put(ACCOUNT_KIND).to(PutAccount.class);
+    delete(ACCOUNT_KIND).to(DeleteAccount.class);
     get(ACCOUNT_KIND).to(GetAccount.class);
     get(ACCOUNT_KIND, "detail").to(GetDetail.class);
     post(ACCOUNT_KIND, "index").to(Index.class);

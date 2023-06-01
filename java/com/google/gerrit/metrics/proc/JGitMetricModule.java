@@ -14,7 +14,9 @@
 
 package com.google.gerrit.metrics.proc;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Supplier;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.metrics.CallbackMetric1;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
@@ -25,6 +27,19 @@ import org.eclipse.jgit.storage.file.WindowCacheStats;
 
 public class JGitMetricModule extends MetricModule {
   private static final long MAX_REPO_COUNT = 1000;
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private final WindowCacheStats windowCacheStats;
+  protected static final String CACHE_USED_PER_REPO_METRIC_NAME =
+      "jgit/block_cache/cache_used_per_repository";
+
+  public JGitMetricModule() {
+    this.windowCacheStats = WindowCacheStats.getStats();
+  }
+
+  @VisibleForTesting
+  protected JGitMetricModule(WindowCacheStats windowCacheStats) {
+    this.windowCacheStats = windowCacheStats;
+  }
 
   @Override
   protected void configure(MetricMaker metrics) {
@@ -37,7 +52,7 @@ public class JGitMetricModule extends MetricModule {
         new Supplier<Long>() {
           @Override
           public Long get() {
-            return WindowCacheStats.getStats().getOpenByteCount();
+            return windowCacheStats.getOpenByteCount();
           }
         });
 
@@ -48,7 +63,7 @@ public class JGitMetricModule extends MetricModule {
         new Supplier<Long>() {
           @Override
           public Long get() {
-            return WindowCacheStats.getStats().getOpenFileCount();
+            return windowCacheStats.getOpenFileCount();
           }
         });
 
@@ -61,7 +76,7 @@ public class JGitMetricModule extends MetricModule {
         new Supplier<Double>() {
           @Override
           public Double get() {
-            return WindowCacheStats.getStats().getAverageLoadTime();
+            return windowCacheStats.getAverageLoadTime();
           }
         });
 
@@ -72,7 +87,7 @@ public class JGitMetricModule extends MetricModule {
         new Supplier<Long>() {
           @Override
           public Long get() {
-            return WindowCacheStats.getStats().getTotalLoadTime();
+            return windowCacheStats.getTotalLoadTime();
           }
         });
 
@@ -83,7 +98,7 @@ public class JGitMetricModule extends MetricModule {
         new Supplier<Long>() {
           @Override
           public Long get() {
-            return WindowCacheStats.getStats().getEvictionCount();
+            return windowCacheStats.getEvictionCount();
           }
         });
 
@@ -94,7 +109,7 @@ public class JGitMetricModule extends MetricModule {
         new Supplier<Double>() {
           @Override
           public Double get() {
-            return WindowCacheStats.getStats().getEvictionRatio();
+            return windowCacheStats.getEvictionRatio();
           }
         });
 
@@ -105,7 +120,7 @@ public class JGitMetricModule extends MetricModule {
         new Supplier<Long>() {
           @Override
           public Long get() {
-            return WindowCacheStats.getStats().getHitCount();
+            return windowCacheStats.getHitCount();
           }
         });
 
@@ -116,7 +131,7 @@ public class JGitMetricModule extends MetricModule {
         new Supplier<Double>() {
           @Override
           public Double get() {
-            return WindowCacheStats.getStats().getHitRatio();
+            return windowCacheStats.getHitRatio();
           }
         });
 
@@ -127,7 +142,7 @@ public class JGitMetricModule extends MetricModule {
         new Supplier<Long>() {
           @Override
           public Long get() {
-            return WindowCacheStats.getStats().getLoadFailureCount();
+            return windowCacheStats.getLoadFailureCount();
           }
         });
 
@@ -138,7 +153,7 @@ public class JGitMetricModule extends MetricModule {
         new Supplier<Double>() {
           @Override
           public Double get() {
-            return WindowCacheStats.getStats().getLoadFailureRatio();
+            return windowCacheStats.getLoadFailureRatio();
           }
         });
 
@@ -149,7 +164,7 @@ public class JGitMetricModule extends MetricModule {
         new Supplier<Long>() {
           @Override
           public Long get() {
-            return WindowCacheStats.getStats().getLoadSuccessCount();
+            return windowCacheStats.getLoadSuccessCount();
           }
         });
     metrics.newCallbackMetric(
@@ -159,7 +174,7 @@ public class JGitMetricModule extends MetricModule {
         new Supplier<Long>() {
           @Override
           public Long get() {
-            return WindowCacheStats.getStats().getMissCount();
+            return windowCacheStats.getMissCount();
           }
         });
 
@@ -170,13 +185,13 @@ public class JGitMetricModule extends MetricModule {
         new Supplier<Double>() {
           @Override
           public Double get() {
-            return WindowCacheStats.getStats().getMissRatio();
+            return windowCacheStats.getMissRatio();
           }
         });
 
     CallbackMetric1<String, Long> repoEnt =
         metrics.newCallbackMetric(
-            "jgit/block_cache/cache_used_per_repository",
+            CACHE_USED_PER_REPO_METRIC_NAME,
             Long.class,
             new Description(
                     "Bytes of memory retained per repository for the top repositories "
@@ -187,14 +202,23 @@ public class JGitMetricModule extends MetricModule {
     metrics.newTrigger(
         repoEnt,
         () -> {
-          Map<String, Long> cacheMap = WindowCacheStats.getStats().getOpenByteCountPerRepository();
+          Map<String, Long> cacheMap = windowCacheStats.getOpenByteCountPerRepository();
           if (cacheMap.isEmpty()) {
             repoEnt.forceCreate("");
           } else {
             cacheMap.entrySet().stream()
                 .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
                 .limit(MAX_REPO_COUNT)
-                .forEach(e -> repoEnt.set(e.getKey(), e.getValue()));
+                .forEach(
+                    e -> {
+                      try {
+                        repoEnt.set(e.getKey(), e.getValue());
+                      } catch (IllegalArgumentException ex) {
+                        logger.atSevere().withCause(ex).log(
+                            "Could not trigger cache_used_per_repository metric for repo %s",
+                            e.getKey());
+                      }
+                    });
             repoEnt.prune();
           }
         });

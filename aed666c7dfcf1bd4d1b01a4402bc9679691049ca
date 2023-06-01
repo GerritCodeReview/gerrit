@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69382b5c_85312127",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-01T14:08:13Z",
+      "side": 1,
+      "message": "`JGit` (for consistency with L9)",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "aed666c7dfcf1bd4d1b01a4402bc9679691049ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07913500_d86492c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-01T14:08:13Z",
+      "side": 1,
+      "message": "Can we narrow this down to something more specific?",
+      "range": {
+        "startLine": 12,
+        "startChar": 33,
+        "endLine": 12,
+        "endChar": 49
+      },
+      "revId": "aed666c7dfcf1bd4d1b01a4402bc9679691049ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b9457e5_8e86cbf9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-01T14:08:13Z",
+      "side": 1,
+      "message": "That\u0027s too wide IMHO",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 26
+      },
+      "revId": "aed666c7dfcf1bd4d1b01a4402bc9679691049ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3fe37a3_956e7cc7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-01T14:08:13Z",
+      "side": 1,
+      "message": "Missing `Release-Notes` footer",
+      "revId": "aed666c7dfcf1bd4d1b01a4402bc9679691049ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

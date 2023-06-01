@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4638b80d_9dcef895",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2023-06-01T08:08:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6601edb5_078fb2fa",
+      "range": {
+        "startLine": 174,
+        "startChar": 20,
+        "endLine": 174,
+        "endChar": 33
+      },
+      "revId": "05fe81069e98bb2fae932c00ad99a034d58df428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "130c7f56_e1683434",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3bac5aa_3c69ce17",
+        "filename": "java/com/google/gerrit/server/group/db/GroupNameNotes.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2023-06-01T08:08:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "130c7f56_e1683434",
+      "range": {
+        "startLine": 178,
+        "startChar": 38,
+        "endLine": 178,
+        "endChar": 51
+      },
+      "revId": "05fe81069e98bb2fae932c00ad99a034d58df428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e9f5f2c_9fd5c1c4",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-06-01T07:49:46Z",
       "side": 1,
       "message": "listGroupProvider",
+      "range": {
+        "startLine": 52,
+        "startChar": 37,
+        "endLine": 52,
+        "endChar": 49
+      },
+      "revId": "05fe81069e98bb2fae932c00ad99a034d58df428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34128fb5_0b9aa970",
+        "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2023-06-01T08:08:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e9f5f2c_9fd5c1c4",
       "range": {
         "startLine": 52,
         "startChar": 37,

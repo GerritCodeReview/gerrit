@@ -15,6 +15,7 @@
 package com.google.gerrit.metrics.proc;
 
 import com.google.common.base.Supplier;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.metrics.CallbackMetric1;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
@@ -25,6 +26,7 @@ import org.eclipse.jgit.storage.file.WindowCacheStats;
 
 public class JGitMetricModule extends MetricModule {
   private static final long MAX_REPO_COUNT = 1000;
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Override
   protected void configure(MetricMaker metrics) {

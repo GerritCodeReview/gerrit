@@ -19,6 +19,7 @@ import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import java.util.Iterator;
@@ -27,6 +28,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /** Abstract callback metric broken down into buckets. */
 abstract class BucketedCallback<V> implements BucketedMetric {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final DropWizardMetricMaker metrics;
   private final MetricRegistry registry;
   private final String name;
@@ -139,7 +142,11 @@ abstract class BucketedCallback<V> implements BucketedMetric {
     public V getValue() {
       Runnable t = trigger;
       if (t != null) {
-        t.run();
+        try {
+          t.run();
+        } catch (RuntimeException ex) {
+          logger.atSevere().withCause(ex).log("Could not execute metrics trigger");
+        }
       }
       return value;
     }

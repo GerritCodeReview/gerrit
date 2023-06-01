@@ -23,6 +23,7 @@ import com.codahale.metrics.MetricRegistry;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.RestApiModule;
@@ -64,6 +65,8 @@ import java.util.regex.Pattern;
  */
 @Singleton
 public class DropWizardMetricMaker extends MetricMaker {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public static class ApiModule extends RestApiModule {
     @Override
     protected void configure() {
@@ -303,7 +306,11 @@ public class DropWizardMetricMaker extends MetricMaker {
     for (CallbackMetricGlue m : all) {
       m.register(trigger);
     }
-    trigger.run();
+    try {
+      trigger.run();
+    } catch (RuntimeException ex) {
+      logger.atSevere().withCause(ex).log("Could not execute metrics trigger");
+    }
 
     return new RegistrationHandle() {
       @Override

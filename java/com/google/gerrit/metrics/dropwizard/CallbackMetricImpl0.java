@@ -15,6 +15,7 @@
 package com.google.gerrit.metrics.dropwizard;
 
 import com.codahale.metrics.MetricRegistry;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.metrics.CallbackMetric0;
 
 class CallbackMetricImpl0<V> extends CallbackMetric0<V> implements CallbackMetricGlue {
@@ -41,6 +42,8 @@ class CallbackMetricImpl0<V> extends CallbackMetric0<V> implements CallbackMetri
   private final MetricRegistry registry;
   private final String name;
   private volatile V value;
+
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   CallbackMetricImpl0(
       DropWizardMetricMaker metrics, MetricRegistry registry, String name, Class<V> valueType) {
@@ -74,7 +77,11 @@ class CallbackMetricImpl0<V> extends CallbackMetric0<V> implements CallbackMetri
         new com.codahale.metrics.Gauge<V>() {
           @Override
           public V getValue() {
-            trigger.run();
+            try {
+              trigger.run();
+            } catch (RuntimeException ex) {
+              logger.atSevere().withCause(ex).log("Could not execute metrics trigger");
+            }
             return value;
           }
         });

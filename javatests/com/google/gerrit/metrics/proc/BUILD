@@ -11,6 +11,7 @@ junit_tests(
         "//java/com/google/gerrit/metrics/dropwizard",
         "//lib/dropwizard:dropwizard-core",
         "//lib/guice",
+        "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/truth",
     ],
 )

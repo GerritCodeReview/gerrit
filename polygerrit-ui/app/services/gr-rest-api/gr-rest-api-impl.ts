@@ -1016,12 +1016,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  /**
-   * Construct the uri to get list of changes.
-   *
-   * If options is undefined then default options (see _getChangesOptionsHex) is
-   * used.
-   */
   getRequestForGetChanges(
     changesPerPage?: number,
     query?: string[] | string,
@@ -1050,12 +1044,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     return request;
   }
 
-  /**
-   * For every query fetches the matching changes.
-   *
-   * If options is undefined then default options (see _getChangesOptionsHex) is
-   * used.
-   */
   getChangesForMultipleQueries(
     changesPerPage?: number,
     query?: string[],
@@ -1097,12 +1085,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  /**
-   * Fetches changes that match the query.
-   *
-   * If options is undefined then default options (see _getChangesOptionsHex) is
-   * used.
-   */
   getChanges(
     changesPerPage?: number,
     query?: string,
@@ -1208,7 +1190,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       ListChangesOption.LABELS,
       ListChangesOption.DETAILED_ACCOUNTS,
       ListChangesOption.SUBMIT_REQUIREMENTS,
-      ListChangesOption.STAR,
     ];
 
     return listChangesOptionsToHex(...options);

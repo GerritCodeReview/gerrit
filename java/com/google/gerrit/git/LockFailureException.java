@@ -14,6 +14,7 @@
 
 package com.google.gerrit.git;
 
+import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.RefUpdate;
 
@@ -21,11 +22,25 @@ import org.eclipse.jgit.lib.RefUpdate;
 public class LockFailureException extends GitUpdateFailureException {
   private static final long serialVersionUID = 1L;
 
+  private static final String REF_UPDATE_RETURN_CODE_WAS_LOCK_FAILURE =
+      "RefUpdate return code was: LOCK_FAILURE";
+
   public LockFailureException(String message, RefUpdate refUpdate) {
     super(message, refUpdate);
   }
 
   public LockFailureException(String message, BatchRefUpdate batchRefUpdate) {
     super(message, batchRefUpdate);
+  }
+
+  protected LockFailureException(String message, Throwable cause) {
+    super(message, cause);
+  }
+
+  public static void throwIfLockFailure(ConcurrentRefUpdateException e)
+      throws LockFailureException {
+    if (e.getMessage().contains(REF_UPDATE_RETURN_CODE_WAS_LOCK_FAILURE)) {
+      throw new LockFailureException(e.getMessage(), e);
+    }
   }
 }

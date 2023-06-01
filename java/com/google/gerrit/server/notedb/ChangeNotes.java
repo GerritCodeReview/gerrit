@@ -26,6 +26,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
@@ -69,6 +70,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -113,17 +115,18 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       this.projectCache = projectCache;
     }
 
-    public static ImmutableSet<Change.Id> scanChangeIds(Repository repo) throws IOException {
-      ImmutableSet.Builder<Change.Id> fromMeta = ImmutableSet.builder();
+    public static ImmutableMap<Change.Id, ObjectId> scanChangeIds(Repository repo)
+        throws IOException {
+      ImmutableMap.Builder<Change.Id, ObjectId> metaIdByChange = ImmutableMap.builder();
       for (Ref r : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_CHANGES)) {
         if (r.getName().endsWith(RefNames.META_SUFFIX)) {
           Change.Id id = Change.Id.fromRef(r.getName());
           if (id != null) {
-            fromMeta.add(id);
+            metaIdByChange.put(id, r.getObjectId());
           }
         }
       }
-      return fromMeta.build();
+      return metaIdByChange.build();
     }
 
     public ChangeNotes createChecked(Change c) {
@@ -289,23 +292,25 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
 
     public Stream<ChangeNotesResult> scan(
-        ImmutableSet<Change.Id> changeIds,
+        ImmutableMap<Change.Id, ObjectId> metaIdByChange,
         Project.NameKey project,
         Predicate<Change.Id> changeIdPredicate) {
-      Stream<Change.Id> idStream = changeIds.stream();
+      Stream<Map.Entry<Change.Id, ObjectId>> metaByIdStream = metaIdByChange.entrySet().stream();
       if (changeIdPredicate != null) {
-        idStream = idStream.filter(changeIdPredicate);
+        metaByIdStream = metaByIdStream.filter(e -> changeIdPredicate.test(e.getKey()));
       }
-      return idStream.map(id -> scanOneChange(project, id)).filter(Objects::nonNull);
+      return metaByIdStream.map(e -> scanOneChange(project, e)).filter(Objects::nonNull);
     }
 
     @Nullable
-    private ChangeNotesResult scanOneChange(Project.NameKey project, Change.Id id) {
+    private ChangeNotesResult scanOneChange(
+        Project.NameKey project, Map.Entry<Change.Id, ObjectId> metaIdByChangeId) {
+      Change.Id id = metaIdByChangeId.getKey();
       // TODO(dborowitz): See discussion in BatchUpdate#newChangeContext.
       try {
         Change change = ChangeNotes.Factory.newChange(project, id);
         logger.atFine().log("adding change %s found in project %s", id, project);
-        return toResult(change);
+        return toResult(change, metaIdByChangeId.getValue());
       } catch (InvalidServerIdException ise) {
         logger.atWarning().withCause(ise).log(
             "skipping change %d in project %s because of an invalid server id", id.get(), project);
@@ -314,8 +319,8 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
 
     @Nullable
-    private ChangeNotesResult toResult(Change rawChangeFromNoteDb) {
-      ChangeNotes n = new ChangeNotes(args, rawChangeFromNoteDb, true, null);
+    private ChangeNotesResult toResult(Change rawChangeFromNoteDb, ObjectId metaId) {
+      ChangeNotes n = new ChangeNotes(args, rawChangeFromNoteDb, true, null, metaId);
       try {
         n.load();
       } catch (Exception e) {

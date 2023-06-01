@@ -454,7 +454,9 @@ export class GrDiffHost extends LitElement {
     // this method calls getThreadEls which inspects the DOM. Also <gr-diff>
     // only starts observing nodes (for thread element changes) after rendering
     // is done.
-    if (changedProperties.has('threads')) {
+    // Change in layers will likely cause gr-diff to update. Since we add
+    // threads manually we need to call threadsChanged in this case as well.
+    if (changedProperties.has('threads') || changedProperties.has('layers')) {
       this.threadsChanged(this.threads);
     }
   }

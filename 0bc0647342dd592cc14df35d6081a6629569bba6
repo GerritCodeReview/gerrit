@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0babc55d_c86ab3ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-06-01T05:20:33Z",
+      "side": 1,
+      "message": "\u003e Would then the modules/index-elasticsearch another candidate?\n\u003e However, I am concerned about its maintenance and dependencies\n\u003e Also, I am concerned about its discoverability\n\nYes Luca, I do understand that this setup depends on elastic search module which is not part of core. I did tried to create a Lucene based multi primary setup and it did not work as expected.\n\nI believe it might be a good idea to move this code to docker-gerrit as it improves the discoverability (as we would document it) and probably solves the dependencies aspect as well.\n\n@martin.fick@linaro.org / @nasser.grainawi@linaro.org WDYT?",
+      "parentUuid": "d6b94fee_0fcf8052",
+      "revId": "0bc0647342dd592cc14df35d6081a6629569bba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ae34f5c_af0fdf1e",
         "filename": "contrib/multi-primary-docker-tests/docker-compose.yaml",
         "patchSetId": 4

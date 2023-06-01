@@ -19,6 +19,7 @@ import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdate
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.HumanComment;
@@ -88,6 +89,7 @@ public class DeleteDraftCommentsUtil {
     this.psUtil = psUtil;
   }
 
+  @CanIgnoreReturnValue
   public ImmutableList<DeletedDraftCommentInfo> deleteDraftComments(
       IdentifiedUser user, @Nullable String query) throws RestApiException, UpdateException {
     CommentJson.HumanCommentFormatter humanCommentFormatter =

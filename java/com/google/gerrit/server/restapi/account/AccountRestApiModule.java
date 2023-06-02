@@ -27,7 +27,6 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountsUpdate;
-import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.inject.Provides;
 
 public class AccountRestApiModule extends RestApiModule {
@@ -105,23 +104,22 @@ public class AccountRestApiModule extends RestApiModule {
     post(ACCOUNT_KIND, "drafts:delete").to(DeleteDraftComments.class);
 
     // The gpgkeys REST endpoints are bound via GpgApiModule.
-
-    factory(AccountsUpdate.Factory.class);
   }
 
   @Provides
   @ServerInitiated
   AccountsUpdate provideServerInitiatedAccountsUpdate(
-      AccountsUpdate.Factory accountsUpdateFactory, ExternalIdNotes.Factory extIdNotesFactory) {
-    return accountsUpdateFactory.createWithServerIdent(extIdNotesFactory);
+      @AccountsUpdate.AccountsUpdateLoader.WithReindex
+          AccountsUpdate.AccountsUpdateLoader accountsUpdateFactory) {
+    return accountsUpdateFactory.createWithServerIdent();
   }
 
   @Provides
   @UserInitiated
   AccountsUpdate provideUserInitiatedAccountsUpdate(
-      AccountsUpdate.Factory accountsUpdateFactory,
-      IdentifiedUser currentUser,
-      ExternalIdNotes.Factory extIdNotesFactory) {
-    return accountsUpdateFactory.create(currentUser, extIdNotesFactory);
+      @AccountsUpdate.AccountsUpdateLoader.WithReindex
+          AccountsUpdate.AccountsUpdateLoader accountsUpdateFactory,
+      IdentifiedUser currentUser) {
+    return accountsUpdateFactory.create(currentUser);
   }
 }

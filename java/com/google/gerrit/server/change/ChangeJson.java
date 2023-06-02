@@ -975,6 +975,10 @@ public class ChangeJson {
 
   /** Populate the 'starred' field. */
   private void populateStarField(List<ChangeInfo> changeInfos) {
+    CurrentUser user = userProvider.get();
+    if (!user.isIdentifiedUser()) {
+      return;
+    }
     // We populate the 'starred' field for all change infos together so that we open the All-Users
     // repository only once
     try (Repository allUsersRepo = repoManager.openRepository(allUsers)) {
@@ -982,7 +986,7 @@ public class ChangeJson {
           changeInfos.stream().map(c -> Change.id(c._number)).collect(Collectors.toList());
       Set<Change.Id> starredChanges =
           starredChangesUtil.areStarred(
-              allUsersRepo, changeIds, userProvider.get().asIdentifiedUser().getAccountId());
+              allUsersRepo, changeIds, user.asIdentifiedUser().getAccountId());
       if (starredChanges.isEmpty()) {
         return;
       }

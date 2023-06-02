@@ -46,6 +46,30 @@
       },
       "revId": "30c759e25bea4db8e9bfb9c0eb2c2b227ca57aac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4b9b2d8_cae1884a",
+        "filename": "java/com/google/gerrit/acceptance/TestMetricMaker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-02T11:40:47Z",
+      "side": 1,
+      "message": "\u003e Correct, however:\n\u003e 1. I believe applicability of this change is far wider than the pull-replication plugin, its basically applicable to any plugin, given that metrics are used everywhere. In fact I am surprised this change has not been done earlier. \n\nTrue, but we the annotation is for what *is currently used* and not *may be used in the future*.\n\n\u003e 2. The pull replication plugin is not available in the `@UsedAt` annotation, so it will require a separate change. I could [cherry-pick from master](https://gerrit-review.googlesource.com/c/gerrit/+/373736)?\n\nSounds good, cherry pick and then rebase this one.",
+      "parentUuid": "dddc2772_915ab06b",
+      "range": {
+        "startLine": 94,
+        "startChar": 25,
+        "endLine": 94,
+        "endChar": 36
+      },
+      "revId": "30c759e25bea4db8e9bfb9c0eb2c2b227ca57aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

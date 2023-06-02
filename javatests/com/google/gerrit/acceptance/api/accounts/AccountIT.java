@@ -145,7 +145,7 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
-import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdsNoteDbImpl;
 import com.google.gerrit.server.account.storage.notedb.AccountsUpdateNoteDbImpl;
 import com.google.gerrit.server.change.AccountPatchReviewStore;
 import com.google.gerrit.server.config.AuthConfig;
@@ -236,7 +236,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider;
   @Inject private AccountIndexer accountIndexer;
   @Inject private ExternalIdNotes.Factory extIdNotesFactory;
-  @Inject private ExternalIds externalIds;
+  @Inject private ExternalIdsNoteDbImpl externalIds;
   @Inject private GitReferenceUpdated gitReferenceUpdated;
   @Inject private ProjectOperations projectOperations;
   @Inject private Provider<InternalAccountQuery> accountQueryProvider;
@@ -3205,8 +3205,7 @@ public class AccountIT extends AbstractDaemonTest {
     gApi.accounts().self().delete();
 
     requestScopeOperations.setApiUser(admin.id());
-    assertThat(externalIds.allByEmail().keySet())
-        .containsNoneOf("deleted@internal.com", "deleted@external.com");
+    assertThat(externalIds.byEmails("deleted@internal.com", "deleted@external.com")).isEmpty();
 
     // Clean up the test framework
     accountCreator.evict(deleted.id());

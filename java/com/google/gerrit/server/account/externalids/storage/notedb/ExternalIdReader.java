@@ -1,4 +1,4 @@
-// Copyright (C) 2017 The Android Open Source Project
+// Copyright (C) 2023 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account.externalids;
+package com.google.gerrit.server.account.externalids.storage.notedb;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
@@ -22,6 +22,9 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer0;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
+import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -73,8 +76,9 @@ public class ExternalIdReader {
   private final ExternalIdFactory externalIdFactory;
   private final AuthConfig authConfig;
 
+  @VisibleForTesting
   @Inject
-  ExternalIdReader(
+  public ExternalIdReader(
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
       MetricMaker metricMaker,
@@ -109,7 +113,7 @@ public class ExternalIdReader {
     }
   }
 
-  ObjectId readRevision() throws IOException {
+  public ObjectId readRevision() throws IOException {
     try (Repository repo = repoManager.openRepository(allUsersName)) {
       return readRevision(repo);
     }
@@ -141,7 +145,8 @@ public class ExternalIdReader {
    *     empty
    * @return all external IDs that were read from the specified revision
    */
-  ImmutableSet<ExternalId> all(@Nullable ObjectId rev) throws IOException, ConfigInvalidException {
+  public ImmutableSet<ExternalId> all(@Nullable ObjectId rev)
+      throws IOException, ConfigInvalidException {
     checkReadEnabled();
 
     try (Timer0.Context ctx = readAllLatency.start();

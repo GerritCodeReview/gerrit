@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ebe51baf_60a84c22",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-02T17:43:39Z",
+      "side": 1,
+      "message": "\u003e \u003e Would then the modules/index-elasticsearch another candidate?\n\u003e \u003e However, I am concerned about its maintenance and dependencies\n\u003e \u003e Also, I am concerned about its discoverability\n\u003e \n\u003e Yes Luca, I do understand that this setup depends on elastic search module which is not part of core. I did tried to create a Lucene based multi primary setup and it did not work as expected.\n\nWe actually have a hacky change which enables Lucene for MP usage, it simply closes the index (and thus release the lock on it) after every update. While this obviously results in a performance degradation for writes, the bulk of a Gerrit worload is reads, so this might actually work for some people. But more importantly, it would be an option to get core to support MP, and I think that would be very valuable as it would encourage people to test MP setups more, and it could mean eventually running MP tests via CI on all changes.\n \n\u003e I believe it might be a good idea to move this code to docker-gerrit as it improves the discoverability (as we would document it) and probably solves the dependencies aspect as well.\n\nWhile these tests provide a docker framework to setup Gerrit MP to run them in, the tests themselves are intended to be independent of that docker Gerrit so that they can be run against any Gerrit MP setup, so I don\u0027t think it is a good idea to tie them to docker. As for dependency maintenance, I would view that on par with how we have to maintain docker tests in plugins. While I wouldn\u0027t necessarily advise it, would you be more comfortable if we separate the docker piece out to somewhere else (or maybe in a separate change perhaps)?\n\nI think the tests belong in gerrit core. I don\u0027t think we should consider MP to be tied to anyone particular external module/plugin, and in my opinion placing them in such a location would make them less discoverable (except for maybe in the outdated MultiMaster plugin). Perhaps there is a better directory location in core that would facilitate discoverability?",
+      "parentUuid": "0babc55d_c86ab3ed",
+      "revId": "0bc0647342dd592cc14df35d6081a6629569bba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ae34f5c_af0fdf1e",
         "filename": "contrib/multi-primary-docker-tests/docker-compose.yaml",
         "patchSetId": 4

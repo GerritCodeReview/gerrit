@@ -285,10 +285,6 @@ public abstract class ExternalId implements Serializable {
    */
   public abstract @Nullable ObjectId blobId();
 
-  public void checkThatBlobIdIsSet() {
-    checkState(blobId() != null, "No blob ID set for external ID %s", key().get());
-  }
-
   public boolean isScheme(String scheme) {
     return key().isScheme(scheme);
   }
@@ -338,6 +334,7 @@ public abstract class ExternalId implements Serializable {
     return c.toText();
   }
 
+  @VisibleForTesting
   public void writeToConfig(Config c) {
     String externalIdKey = key().get();
     // Do not use c.setInt(...) to write the account ID because c.setInt(...) persists integers
@@ -357,5 +354,9 @@ public abstract class ExternalId implements Serializable {
     } else {
       c.unset(EXTERNAL_ID_SECTION, externalIdKey, PASSWORD_KEY);
     }
+  }
+
+  void checkThatBlobIdIsSet() {
+    checkState(blobId() != null, "No blob ID set for external ID %s", key().get());
   }
 }

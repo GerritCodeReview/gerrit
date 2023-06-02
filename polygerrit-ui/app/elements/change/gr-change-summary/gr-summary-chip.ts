@@ -34,8 +34,9 @@ export class GrSummaryChip extends LitElement {
   @property()
   category?: CommentTabState;
 
-  @property({type: Boolean})
-  clickable?: Boolean;
+  //test
+  @property({type: Boolean, attribute: 'clickable'})
+  clickable = false;
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -125,9 +126,9 @@ export class GrSummaryChip extends LitElement {
       <slot></slot>`;
   }
 
-  private handleClick(e: MouseEvent) {
-    e.stopPropagation();
-    e.preventDefault();
+  private handleClick(evt: MouseEvent) {
+    evt.stopPropagation();
+    evt.preventDefault();
     this.reporting.reportInteraction('comment chip click', {
       category: this.category,
     });

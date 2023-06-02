@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56cd6328_5e255a8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-02T09:37:53Z",
+      "side": 1,
+      "message": "That looks like a broken algorithm for normalising the repository (or metric?) names. We should fix it IMHO.\n\nA simple alternative would be:\n- choose an escape char (e.g. `_`)\n- encode the `_` with a double escape\n- encode any special char with `_` + hex(special char)\n\nFor not breaking existing metrics, it should be enabled with config settings.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 68
+      },
+      "revId": "fc5716336d1356e5c5b6ce4d1dabb67cb9054470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

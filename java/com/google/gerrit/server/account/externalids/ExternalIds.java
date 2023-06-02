@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2023 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,102 +14,28 @@
 
 package com.google.gerrit.server.account.externalids;
 
-import static com.google.common.collect.ImmutableSet.toImmutableSet;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.server.config.AuthConfig;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.ObjectId;
 
-/**
- * Class to access external IDs.
- *
- * <p>The external IDs are either read from NoteDb or retrieved from the cache.
- */
-@Singleton
-public class ExternalIds {
-  private final ExternalIdReader externalIdReader;
-  private final ExternalIdCache externalIdCache;
-  private final AuthConfig authConfig;
-  private final ExternalIdKeyFactory externalIdKeyFactory;
-
-  @Inject
-  public ExternalIds(
-      ExternalIdReader externalIdReader,
-      ExternalIdCache externalIdCache,
-      ExternalIdKeyFactory externalIdKeyFactory,
-      AuthConfig authConfig) {
-    this.externalIdReader = externalIdReader;
-    this.externalIdCache = externalIdCache;
-    this.externalIdKeyFactory = externalIdKeyFactory;
-    this.authConfig = authConfig;
-  }
-
+public interface ExternalIds {
   /** Returns all external IDs. */
-  public ImmutableSet<ExternalId> all() throws IOException, ConfigInvalidException {
-    return externalIdReader.all();
-  }
-
-  /** Returns all external IDs from the specified revision of the refs/meta/external-ids branch. */
-  public ImmutableSet<ExternalId> all(ObjectId rev) throws IOException, ConfigInvalidException {
-    return externalIdReader.all(rev);
-  }
+  ImmutableSet<ExternalId> all() throws IOException, ConfigInvalidException;
 
   /** Returns the specified external ID. */
-  public Optional<ExternalId> get(ExternalId.Key key) throws IOException {
-    Optional<ExternalId> externalId = Optional.empty();
-    if (authConfig.isUserNameCaseInsensitiveMigrationMode()) {
-      externalId =
-          externalIdCache.byKey(externalIdKeyFactory.create(key.scheme(), key.id(), false));
-    }
-    if (!externalId.isPresent()) {
-      externalId = externalIdCache.byKey(key);
-    }
-    return externalId;
-  }
-
-  /** Returns the specified external ID from the given revision. */
-  public Optional<ExternalId> get(ExternalId.Key key, ObjectId rev)
-      throws IOException, ConfigInvalidException {
-    return externalIdReader.get(key, rev);
-  }
+  Optional<ExternalId> get(ExternalId.Key key) throws IOException;
 
   /** Returns the external IDs of the specified account. */
-  public ImmutableSet<ExternalId> byAccount(Account.Id accountId) throws IOException {
-    return externalIdCache.byAccount(accountId);
-  }
+  ImmutableSet<ExternalId> byAccount(Account.Id accountId) throws IOException;
 
   /** Returns the external IDs of the specified account that have the given scheme. */
-  public ImmutableSet<ExternalId> byAccount(Account.Id accountId, String scheme)
-      throws IOException {
-    return byAccount(accountId).stream()
-        .filter(e -> e.key().isScheme(scheme))
-        .collect(toImmutableSet());
-  }
-
-  /** Returns the external IDs of the specified account. */
-  public ImmutableSet<ExternalId> byAccount(Account.Id accountId, ObjectId rev) throws IOException {
-    return externalIdCache.byAccount(accountId, rev);
-  }
-
-  /** Returns the external IDs of the specified account that have the given scheme. */
-  public ImmutableSet<ExternalId> byAccount(Account.Id accountId, String scheme, ObjectId rev)
-      throws IOException {
-    return byAccount(accountId, rev).stream()
-        .filter(e -> e.key().isScheme(scheme))
-        .collect(toImmutableSet());
-  }
+  ImmutableSet<ExternalId> byAccount(Account.Id accountId, String scheme) throws IOException;
 
   /** Returns all external IDs by account. */
-  public ImmutableSetMultimap<Account.Id, ExternalId> allByAccount() throws IOException {
-    return externalIdCache.allByAccount();
-  }
+  ImmutableSetMultimap<Account.Id, ExternalId> allByAccount() throws IOException;
 
   /**
    * Returns the external ID with the given email.
@@ -124,9 +50,7 @@ public class ExternalIds {
    *
    * @see #byEmails(String...)
    */
-  public ImmutableSet<ExternalId> byEmail(String email) throws IOException {
-    return externalIdCache.byEmail(email);
-  }
+  ImmutableSet<ExternalId> byEmail(String email) throws IOException;
 
   /**
    * Returns the external IDs for the given emails.
@@ -142,12 +66,5 @@ public class ExternalIds {
    *
    * @see #byEmail(String)
    */
-  public ImmutableSetMultimap<String, ExternalId> byEmails(String... emails) throws IOException {
-    return externalIdCache.byEmails(emails);
-  }
-
-  /** Returns all external IDs by email. */
-  public ImmutableSetMultimap<String, ExternalId> allByEmail() throws IOException {
-    return externalIdCache.allByEmail();
-  }
+  ImmutableSetMultimap<String, ExternalId> byEmails(String... emails) throws IOException;
 }

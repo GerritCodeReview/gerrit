@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ccb8e79_ed1094e6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-summary-chip.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-06-02T09:51:54Z",
+      "side": 1,
+      "message": "We usually use just `e` for event variable name.",
+      "range": {
+        "startLine": 128,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 27
+      },
+      "revId": "74816692578f89adf433f38eb157c2f7d0ccbac2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

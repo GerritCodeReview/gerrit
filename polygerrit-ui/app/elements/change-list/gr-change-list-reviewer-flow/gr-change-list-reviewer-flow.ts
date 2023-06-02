@@ -33,13 +33,15 @@ import {getOverallStatus} from '../../../utils/bulk-flow-util';
 import {allSettled} from '../../../utils/async-util';
 import {listForSentence, pluralize} from '../../../utils/string-util';
 import {getDisplayName} from '../../../utils/display-name-util';
-import {
-  AccountInput,
-  GrAccountList,
-} from '../../shared/gr-account-list/gr-account-list';
+import {GrAccountList} from '../../shared/gr-account-list/gr-account-list';
 import {getReplyByReason} from '../../../utils/attention-set-util';
+<<<<<<< HEAD   (c21a6d Parse author identities when exposing comments)
 import {intersection, queryAndAssert} from '../../../utils/common-util';
 import {accountKey, getUserId} from '../../../utils/account-util';
+=======
+import {intersection} from '../../../utils/common-util';
+import {AccountInput, accountKey, getUserId} from '../../../utils/account-util';
+>>>>>>> CHANGE (0e4e0a Fix addition of groups as reviewer.)
 import {ValueChangedEvent} from '../../../types/events';
 import {fireAlert, fireReload} from '../../../utils/event-util';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';

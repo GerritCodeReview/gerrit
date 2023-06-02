@@ -23,14 +23,21 @@ import {
   ReviewerState,
   SpecialFilePath,
 } from '../../../constants/constants';
+
 import {
+  AccountInfoInput,
+  AccountInput,
+  AccountInputDetail,
   getUserId,
+  GroupInfoInput,
   isAccountNewlyAdded,
+  RawAccountInput,
   removeServiceUsers,
   toReviewInput,
 } from '../../../utils/account-util';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {TargetElement} from '../../../api/plugin';
+<<<<<<< HEAD   (c21a6d Parse author identities when exposing comments)
 import {
   FixIronA11yAnnouncer,
   notUndefined,
@@ -44,6 +51,10 @@ import {
   GroupInfoInput,
   RawAccountInput,
 } from '../../shared/gr-account-list/gr-account-list';
+=======
+import {isDefined, ParsedChangeInfo} from '../../../types/types';
+import {GrAccountList} from '../../shared/gr-account-list/gr-account-list';
+>>>>>>> CHANGE (0e4e0a Fix addition of groups as reviewer.)
 import {
   AccountId,
   AccountInfo,

@@ -16,6 +16,24 @@
       "message": "Couldn\u0027t a check be done here https://github.com/GerritCodeReview/gerrit/blob/master/java/com/google/gerrit/server/change/ChangeJson.java#L980 that checks for isIdentifiedUser is set then do things. We do that here https://github.com/GerritCodeReview/gerrit/blob/master/java/com/google/gerrit/server/change/ChangeJson.java#L695.",
       "revId": "df219a5defaa9692a80e640e1cfd49f898d543f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "377d82d8_7975d971",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-02T05:26:26Z",
+      "side": 1,
+      "message": "Sure, I believe this revert is only temporary until this is fixed. The revert is needed so that frontend releases are not blocked in the meantime.",
+      "parentUuid": "7978f792_4053e064",
+      "revId": "df219a5defaa9692a80e640e1cfd49f898d543f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

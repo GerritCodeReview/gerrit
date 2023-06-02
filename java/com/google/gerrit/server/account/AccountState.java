@@ -88,6 +88,17 @@ public abstract class AccountState {
         Optional.empty());
   }
 
+  public static AccountState withState(
+      Account account,
+      ImmutableSet<ExternalId> externalIds,
+      Optional<String> userName,
+      ImmutableMap<ProjectWatches.ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches,
+      Optional<CachedPreferences> defaultPreferences,
+      Optional<CachedPreferences> userPreferences) {
+    return new AutoValue_AccountState(
+        account, externalIds, userName, projectWatches, defaultPreferences, userPreferences);
+  }
+
   /** Get the cached account metadata. */
   public abstract Account account();
   /** The external identities that identify the account holder. */

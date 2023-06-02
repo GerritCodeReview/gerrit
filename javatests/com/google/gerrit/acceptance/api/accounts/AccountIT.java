@@ -55,7 +55,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
-import com.github.rholder.retry.StopStrategies;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -145,6 +144,7 @@ import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.account.storage.notedb.AccountsUpdateNoteDbImpl;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -2164,26 +2164,8 @@ public class AccountIT extends AbstractDaemonTest {
     String status = "happy";
     String fullName = "Foo";
     AtomicBoolean doneBgUpdate = new AtomicBoolean(false);
-    PersonIdent ident = serverIdent.get();
     AccountsUpdate update =
-        new AccountsUpdate(
-            repoManager,
-            gitReferenceUpdated,
-            Optional.empty(),
-            allUsers,
-            externalIds,
-            metaDataUpdateInternalFactory,
-            new RetryHelper(
-                cfg,
-                retryMetrics,
-                null,
-                null,
-                null,
-                exceptionHooks,
-                r -> r.withBlockStrategy(noSleepBlockStrategy)),
-            extIdNotesFactory,
-            ident,
-            ident,
+        getAccountsUpdate(
             () -> {
               if (!doneBgUpdate.getAndSet(true)) {
                 try {
@@ -2220,28 +2202,8 @@ public class AccountIT extends AbstractDaemonTest {
     List<String> status = ImmutableList.of("foo", "bar", "baz");
     String fullName = "Foo";
     AtomicInteger bgCounter = new AtomicInteger(0);
-    PersonIdent ident = serverIdent.get();
     AccountsUpdate update =
-        new AccountsUpdate(
-            repoManager,
-            gitReferenceUpdated,
-            Optional.empty(),
-            allUsers,
-            externalIds,
-            metaDataUpdateInternalFactory,
-            new RetryHelper(
-                cfg,
-                retryMetrics,
-                null,
-                null,
-                null,
-                exceptionHooks,
-                r ->
-                    r.withStopStrategy(StopStrategies.stopAfterAttempt(status.size()))
-                        .withBlockStrategy(noSleepBlockStrategy)),
-            extIdNotesFactory,
-            ident,
-            ident,
+        getAccountsUpdate(
             () -> {
               try {
                 accountsUpdateProvider
@@ -2280,26 +2242,8 @@ public class AccountIT extends AbstractDaemonTest {
 
     AtomicInteger bgCounterA1 = new AtomicInteger(0);
     AtomicInteger bgCounterA2 = new AtomicInteger(0);
-    PersonIdent ident = serverIdent.get();
     AccountsUpdate update =
-        new AccountsUpdate(
-            repoManager,
-            gitReferenceUpdated,
-            Optional.empty(),
-            allUsers,
-            externalIds,
-            metaDataUpdateInternalFactory,
-            new RetryHelper(
-                cfg,
-                retryMetrics,
-                null,
-                null,
-                null,
-                exceptionHooks,
-                r -> r.withBlockStrategy(noSleepBlockStrategy)),
-            extIdNotesFactory,
-            ident,
-            ident,
+        getAccountsUpdate(
             Runnables.doNothing(),
             () -> {
               try {
@@ -2354,27 +2298,9 @@ public class AccountIT extends AbstractDaemonTest {
 
     AtomicInteger bgCounterA1 = new AtomicInteger(0);
     AtomicInteger bgCounterA2 = new AtomicInteger(0);
-    PersonIdent ident = serverIdent.get();
     ExternalId extIdA2 = externalIdFactory.create("foo", "A-2", accountId);
     AccountsUpdate update =
-        new AccountsUpdate(
-            repoManager,
-            gitReferenceUpdated,
-            Optional.empty(),
-            allUsers,
-            externalIds,
-            metaDataUpdateInternalFactory,
-            new RetryHelper(
-                cfg,
-                retryMetrics,
-                null,
-                null,
-                null,
-                exceptionHooks,
-                r -> r.withBlockStrategy(noSleepBlockStrategy)),
-            extIdNotesFactory,
-            ident,
-            ident,
+        getAccountsUpdate(
             Runnables.doNothing(),
             () -> {
               try {
@@ -3455,6 +3381,29 @@ public class AccountIT extends AbstractDaemonTest {
   private void webLogin(Integer accountId) throws IOException, ClientProtocolException {
     httpGetAndAssertStatus(
         "login?account_id=" + accountId, HttpServletResponse.SC_MOVED_TEMPORARILY);
+  }
+
+  private AccountsUpdate getAccountsUpdate(Runnable afterReadRevision, Runnable beforeCommit) {
+    return new AccountsUpdateNoteDbImpl(
+        repoManager,
+        gitReferenceUpdated,
+        Optional.empty(),
+        allUsers,
+        externalIds,
+        extIdNotesFactory,
+        metaDataUpdateInternalFactory,
+        new RetryHelper(
+            cfg,
+            retryMetrics,
+            null,
+            null,
+            null,
+            exceptionHooks,
+            r -> r.withBlockStrategy(noSleepBlockStrategy)),
+        serverIdent.get(),
+        serverIdent.get(),
+        afterReadRevision,
+        beforeCommit);
   }
 
   private void httpGetAndAssertStatus(String urlPath, int expectedHttpStatus)

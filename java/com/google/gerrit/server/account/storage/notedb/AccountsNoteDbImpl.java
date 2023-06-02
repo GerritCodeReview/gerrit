@@ -30,7 +30,6 @@ import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.Accounts;
-import com.google.gerrit.server.account.AutoValue_AccountState;
 import com.google.gerrit.server.account.ProjectWatches;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
@@ -142,7 +141,7 @@ public class AccountsNoteDbImpl implements Accounts {
    * @return the account state, {@link Optional#empty()} if the account doesn't exist
    * @throws IOException if accessing the external IDs fails
    */
-  public static Optional<AccountState> getFromAccountConfig(
+  static Optional<AccountState> getFromAccountConfig(
       ExternalIds externalIds, AccountConfig accountConfig, CachedPreferences defaultPreferences)
       throws IOException {
     return getFromAccountConfig(externalIds, accountConfig, null, defaultPreferences);
@@ -165,7 +164,7 @@ public class AccountsNoteDbImpl implements Accounts {
    * @return the account state, {@link Optional#empty()} if the account doesn't exist
    * @throws IOException if accessing the external IDs fails
    */
-  public static Optional<AccountState> getFromAccountConfig(
+  static Optional<AccountState> getFromAccountConfig(
       ExternalIds externalIds,
       AccountConfig accountConfig,
       @Nullable ExternalIdNotes extIdNotes,
@@ -191,7 +190,7 @@ public class AccountsNoteDbImpl implements Accounts {
         projectWatches = accountConfig.getProjectWatches();
 
     return Optional.of(
-        new AutoValue_AccountState(
+        AccountState.withState(
             account,
             extIds,
             ExternalId.getUserName(extIds),

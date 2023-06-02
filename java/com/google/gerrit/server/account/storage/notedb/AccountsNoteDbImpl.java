@@ -33,7 +33,7 @@ import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.ProjectWatches;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
-import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdsNoteDbImpl;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CachedPreferences;
 import com.google.gerrit.server.config.VersionedDefaultPreferences;
@@ -59,14 +59,14 @@ public class AccountsNoteDbImpl implements Accounts {
 
   private final AllUsersName allUsersName;
 
-  private final ExternalIds externalIds;
+  private final ExternalIdsNoteDbImpl externalIds;
   private final Timer0 readSingleLatency;
 
   @Inject
   AccountsNoteDbImpl(
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
-      ExternalIds externalIds,
+      ExternalIdsNoteDbImpl externalIds,
       MetricMaker metricMaker) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
@@ -142,7 +142,9 @@ public class AccountsNoteDbImpl implements Accounts {
    * @throws IOException if accessing the external IDs fails
    */
   static Optional<AccountState> getFromAccountConfig(
-      ExternalIds externalIds, AccountConfig accountConfig, CachedPreferences defaultPreferences)
+      ExternalIdsNoteDbImpl externalIds,
+      AccountConfig accountConfig,
+      CachedPreferences defaultPreferences)
       throws IOException {
     return getFromAccountConfig(externalIds, accountConfig, null, defaultPreferences);
   }
@@ -165,7 +167,7 @@ public class AccountsNoteDbImpl implements Accounts {
    * @throws IOException if accessing the external IDs fails
    */
   static Optional<AccountState> getFromAccountConfig(
-      ExternalIds externalIds,
+      ExternalIdsNoteDbImpl externalIds,
       AccountConfig accountConfig,
       @Nullable ExternalIdNotes extIdNotes,
       CachedPreferences defaultPreferences)

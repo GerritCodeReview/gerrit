@@ -23,9 +23,15 @@ import {
   ReviewerState,
   SpecialFilePath,
 } from '../../../constants/constants';
+
 import {
+  AccountInfoInput,
+  AccountInput,
+  AccountInputDetail,
   getUserId,
+  GroupInfoInput,
   isAccountNewlyAdded,
+  RawAccountInput,
   removeServiceUsers,
   toReviewInput,
 } from '../../../utils/account-util';
@@ -36,14 +42,7 @@ import {
   notUndefined,
   ParsedChangeInfo,
 } from '../../../types/types';
-import {
-  AccountInfoInput,
-  AccountInput,
-  AccountInputDetail,
-  GrAccountList,
-  GroupInfoInput,
-  RawAccountInput,
-} from '../../shared/gr-account-list/gr-account-list';
+import {GrAccountList} from '../../shared/gr-account-list/gr-account-list';
 import {
   AccountId,
   AccountInfo,

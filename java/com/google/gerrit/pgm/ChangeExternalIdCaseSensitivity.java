@@ -16,15 +16,14 @@ package com.google.gerrit.pgm;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.account.externalids.DisabledExternalIdCache;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdCaseSensitivityMigrator;
-import com.google.gerrit.server.account.externalids.ExternalIdUpsertPreprocessor;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNoteDbStorageModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -84,7 +83,7 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
                     new FactoryModuleBuilder()
                         .build(ExternalIdCaseSensitivityMigrator.Factory.class));
                 factory(MetaDataUpdate.InternalFactory.class);
-                DynamicMap.mapOf(binder(), ExternalIdUpsertPreprocessor.class);
+                install(new ExternalIdNoteDbStorageModule());
 
                 // The ChangeExternalIdCaseSensitivity program needs to access all external IDs only
                 // once to update them. After the update they are not accessed again. Hence the

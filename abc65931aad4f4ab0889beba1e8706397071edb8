@@ -33,6 +33,23 @@
       "message": "I believe there was a design document proposed [1] and the solution was based on a plugin. I believe you should first propose a change to [1] and then implement a solution for review.\n\n[1] https://www.gerritcodereview.com/design-docs/delete-groups-solution-plugin.html",
       "revId": "abc65931aad4f4ab0889beba1e8706397071edb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f205446b_6f743f43",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-02T07:16:04Z",
+      "side": 1,
+      "message": "Have you also looked at the previous changes [2] proposed on Gerrit master?\n\n[2] https://gerrit-review.googlesource.com/q/topic:%22group-deletion%22",
+      "revId": "abc65931aad4f4ab0889beba1e8706397071edb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

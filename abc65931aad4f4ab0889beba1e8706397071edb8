@@ -50,6 +50,23 @@
       "message": "Have you also looked at the previous changes [2] proposed on Gerrit master?\n\n[2] https://gerrit-review.googlesource.com/q/topic:%22group-deletion%22",
       "revId": "abc65931aad4f4ab0889beba1e8706397071edb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecfaffeb_6efd4279",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-06-02T07:29:38Z",
+      "side": 1,
+      "message": "Great initiative.\nUnfortunately I won\u0027t have time to review this before monday.",
+      "revId": "abc65931aad4f4ab0889beba1e8706397071edb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

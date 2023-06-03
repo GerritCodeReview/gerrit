@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6e04fc6_adc75096",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesParserTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1155320
+      },
+      "writtenOn": "2023-06-03T09:27:48Z",
+      "side": 1,
+      "message": "StringIndexOutOfBoundsException",
+      "revId": "409342ae414d1623546029846308679e24c85f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

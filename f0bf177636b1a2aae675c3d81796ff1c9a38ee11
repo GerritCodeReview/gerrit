@@ -106,6 +106,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cf70db6_1d03031e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155320
+      },
+      "writtenOn": "2023-06-03T08:50:05Z",
+      "side": 1,
+      "message": "\u003e I looked a bit more and we discussed it internally.\n\u003e Since there is no data migration involved (your #2), I think we so not need to bump the version.",
+      "parentUuid": "0f358935_0101911d",
+      "revId": "f0bf177636b1a2aae675c3d81796ff1c9a38ee11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "36342184_0f912d06",
@@ -136,6 +154,30 @@
       "writtenOn": "2023-02-03T17:27:54Z",
       "side": 1,
       "message": "Actually this is the point that triggered, see [1].\n\n[1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d16529",
+      "range": {
+        "startLine": 906,
+        "startChar": 34,
+        "endLine": 906,
+        "endChar": 36
+      },
+      "revId": "f0bf177636b1a2aae675c3d81796ff1c9a38ee11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f7382f1_74c0e55f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1155320
+      },
+      "writtenOn": "2023-06-03T08:50:05Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d3c5efff_32a1fc60",
       "range": {
         "startLine": 906,
         "startChar": 34,

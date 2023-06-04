@@ -1,6 +1,52 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "86082239_d0e5b204",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-04T21:27:47Z",
+      "side": 1,
+      "message": "disabling the transition\n\nP.S. Looking at the code, the migration from LDAP to Google OAuth was already doing the matching by e-mail. With this new flag, you give the ability to disable it.",
+      "range": {
+        "startLine": 7,
+        "startChar": 29,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "e9b6fa7ab7d03054409938f484d3353fc24fd754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c24d59c_05e4497d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-04T21:27:47Z",
+      "side": 1,
+      "message": "nit: weird wrapping, I believe you have some space on the right side to use.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 21
+      },
+      "revId": "e9b6fa7ab7d03054409938f484d3353fc24fd754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f9c14cf7_a8a13009",
@@ -31,6 +77,52 @@
       "writtenOn": "2023-06-04T14:12:58Z",
       "side": 1,
       "message": "Please remove the trailing semicolons",
+      "revId": "e9b6fa7ab7d03054409938f484d3353fc24fd754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e492265_9b30f77c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-04T21:27:47Z",
+      "side": 1,
+      "message": "Wrap long line",
+      "range": {
+        "startLine": 695,
+        "startChar": 80,
+        "endLine": 695,
+        "endChar": 88
+      },
+      "revId": "e9b6fa7ab7d03054409938f484d3353fc24fd754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f90948ca_7b3768e8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-04T21:27:47Z",
+      "side": 1,
+      "message": "Wrap long line",
+      "range": {
+        "startLine": 696,
+        "startChar": 71,
+        "endLine": 696,
+        "endChar": 92
+      },
       "revId": "e9b6fa7ab7d03054409938f484d3353fc24fd754",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

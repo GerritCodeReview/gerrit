@@ -16,6 +16,23 @@
       "message": "hi, sorry was on leave of absense but am back now. Anything else you would like to see here Luca?",
       "revId": "e9b6fa7ab7d03054409938f484d3353fc24fd754",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "865c8454_1b7a2552",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1161067
+      },
+      "writtenOn": "2023-06-04T14:12:58Z",
+      "side": 1,
+      "message": "Please remove the trailing semicolons",
+      "revId": "e9b6fa7ab7d03054409938f484d3353fc24fd754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

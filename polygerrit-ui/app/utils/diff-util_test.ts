@@ -92,5 +92,27 @@ suite('diff-util tests', () => {
       assert.equal(getContentFromDiff(diff, 6, 1, 6, 3, Side.LEFT), 'bc');
       assert.equal(getContentFromDiff(diff, 6, 1, 6, 3, Side.RIGHT), 'bc');
     });
+
+    test('multiple skip chunks', () => {
+      const diff: DiffInfo = {
+        ...createDiff(),
+        content: [
+          {skip: 5},
+          {ab: ['abcd']},
+          {skip: 5},
+          {ab: ['qwer']},
+          {skip: 5},
+          {ab: ['zxcv']},
+        ],
+      };
+      assert.equal(getContentFromDiff(diff, 1, 1, 1, 3, Side.LEFT), '');
+      assert.equal(getContentFromDiff(diff, 1, 1, 1, 3, Side.RIGHT), '');
+      assert.equal(getContentFromDiff(diff, 6, 1, 6, 3, Side.LEFT), 'bc');
+      assert.equal(getContentFromDiff(diff, 6, 1, 6, 3, Side.RIGHT), 'bc');
+      assert.equal(getContentFromDiff(diff, 12, 1, 12, 3, Side.LEFT), 'we');
+      assert.equal(getContentFromDiff(diff, 12, 1, 12, 3, Side.RIGHT), 'we');
+      assert.equal(getContentFromDiff(diff, 18, 1, 18, 3, Side.LEFT), 'xc');
+      assert.equal(getContentFromDiff(diff, 18, 1, 18, 3, Side.RIGHT), 'xc');
+    });
   });
 });

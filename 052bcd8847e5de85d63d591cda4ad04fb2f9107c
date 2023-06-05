@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "413660f0_2282fb13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-05T22:44:00Z",
+      "side": 1,
+      "message": "Additionally, according to the docs, the \"changes\" cache is not appropriate for a cluster setup since it does not get updated by alterations from other server. The cache in this change records the sha1 of the metaref for each change and updates itself incrementally for each change which is out of date since it was last cached.",
+      "parentUuid": "b6d65169_598732d2",
+      "revId": "052bcd8847e5de85d63d591cda4ad04fb2f9107c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc32db09_9a99dd0f",

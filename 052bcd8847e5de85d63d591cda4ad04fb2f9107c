@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6d65169_598732d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-05T22:29:58Z",
+      "side": 1,
+      "message": "The SearchingChangeCacheImpl (which is the \"changes\" cache) only knows how to populate itself from the index, so it does not work for replicas. Also, the the SearchingChangeCacheImpl stores the following: a Change and a ReviewerSet, which takes a lot more memory than the cache from this change. The only field, aside from the number, in the change which is needed for a \"public\" change (the bulk of all changes) is the branch, and that is often duplicated across many changes in a project.\n\nWe are able to easily cache close to 4.5M changes (all the projects and changes on our server) with my change. I currently have some unconfirmed evidence (working on confirming it) that this change may be able to handle more load with running into back2back java gcs on a primary than the 3.5 tip.",
+      "parentUuid": "4a3b46be_3a31eae0",
+      "revId": "052bcd8847e5de85d63d591cda4ad04fb2f9107c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc32db09_9a99dd0f",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f9ff1ab_33179cca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-05T22:29:58Z",
+      "side": 1,
+      "message": "See below (380K) changes.",
+      "parentUuid": "bc32db09_9a99dd0f",
+      "range": {
+        "startLine": 12,
+        "startChar": 43,
+        "endLine": 12,
+        "endChar": 48
+      },
+      "revId": "052bcd8847e5de85d63d591cda4ad04fb2f9107c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89e48688_dead5172",
@@ -54,6 +96,30 @@
       "writtenOn": "2023-06-05T22:14:58Z",
       "side": 1,
       "message": "Typo? Before and after are exactly the same?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 39
+      },
+      "revId": "052bcd8847e5de85d63d591cda4ad04fb2f9107c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ef72567_462bafe9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-05T22:29:58Z",
+      "side": 1,
+      "message": "Nope, as long as the other caches are all big enough and the ES server is size right, this seems to be the same. That being said, I have seen plenty of instances where before this change, the 12-17s was not achievable, such as when other work is done on the server in between attempts... In other words, this number seems much more consistent with the new cache, but the \"best\" time hasn\u0027t improved.",
+      "parentUuid": "89e48688_dead5172",
       "range": {
         "startLine": 17,
         "startChar": 0,

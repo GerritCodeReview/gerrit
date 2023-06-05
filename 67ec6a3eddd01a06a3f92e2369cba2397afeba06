@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b014d058_cba593d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1040243
+      },
+      "writtenOn": "2023-06-05T10:39:51Z",
+      "side": 1,
+      "message": "Hi @nasser.grainawi@linaro.org ,\nShould I cherry-pick this to stable-3.8 and master or is there an automation for this?\nThanks,",
+      "revId": "67ec6a3eddd01a06a3f92e2369cba2397afeba06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

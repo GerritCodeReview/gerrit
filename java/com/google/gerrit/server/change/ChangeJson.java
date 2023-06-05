@@ -553,7 +553,7 @@ public class ChangeJson {
               "Omitting corrupt change %s from results", cd.getId());
         }
       }
-      if (has(STAR)) {
+      if (has(STAR) && userProvider.get().isIdentifiedUser()) {
         populateStarField(changeInfos);
       }
       return changeInfos;

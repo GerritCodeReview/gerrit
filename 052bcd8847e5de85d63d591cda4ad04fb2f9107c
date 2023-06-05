@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7c03a332_72d6557b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-05T22:55:42Z",
+      "side": 1,
+      "message": "Cool, can you add the above information to commit message?\nI have personally experienced performance issues when using the \"changes\" cache, so would this new cache be a more suitable choice? (also based on the fact that it has a wider adoption)",
+      "parentUuid": "413660f0_2282fb13",
+      "revId": "052bcd8847e5de85d63d591cda4ad04fb2f9107c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bc32db09_9a99dd0f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -91,6 +109,30 @@
       "side": 1,
       "message": "See below (380K) changes.",
       "parentUuid": "bc32db09_9a99dd0f",
+      "range": {
+        "startLine": 12,
+        "startChar": 43,
+        "endLine": 12,
+        "endChar": 48
+      },
+      "revId": "052bcd8847e5de85d63d591cda4ad04fb2f9107c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "098c4047_b4dd3e07",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-05T22:55:42Z",
+      "side": 1,
+      "message": "Ack, I am surprised that is already so effective with not so many changes. 380k is more a medium number of changes, I have seen setups with over 1M changes.",
+      "parentUuid": "4f9ff1ab_33179cca",
       "range": {
         "startLine": 12,
         "startChar": 43,
@@ -138,6 +180,30 @@
       "side": 1,
       "message": "Nope, as long as the other caches are all big enough and the ES server is size right, this seems to be the same. That being said, I have seen plenty of instances where before this change, the 12-17s was not achievable, such as when other work is done on the server in between attempts... In other words, this number seems much more consistent with the new cache, but the \"best\" time hasn\u0027t improved.",
       "parentUuid": "89e48688_dead5172",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 39
+      },
+      "revId": "052bcd8847e5de85d63d591cda4ad04fb2f9107c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5371570e_351a05d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-05T22:55:42Z",
+      "side": 1,
+      "message": "Can you also add that information to the numbers? (otherwise it looks like it does not benefit the Gerrit primary instance at all)",
+      "parentUuid": "6ef72567_462bafe9",
       "range": {
         "startLine": 17,
         "startChar": 0,

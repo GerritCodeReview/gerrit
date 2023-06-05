@@ -21,7 +21,9 @@ export function countLines(diff?: DiffInfo, side?: Side) {
 function getDiffLines(diff: DiffInfo, side: Side): string[] {
   let lines: string[] = [];
   for (const chunk of diff.content) {
-    if (chunk.ab) {
+    if (chunk.skip) {
+      lines = lines.concat(Array(chunk.skip).fill(''));
+    } else if (chunk.ab) {
       lines = lines.concat(chunk.ab);
     } else if (side === Side.LEFT && chunk.a) {
       lines = lines.concat(chunk.a);
@@ -40,11 +42,6 @@ export function getContentFromDiff(
   endOffset: number,
   side: Side
 ) {
-  const skipChunk = diff.content.find(chunk => chunk.skip);
-  if (skipChunk) {
-    startLineNum -= skipChunk.skip!;
-    if (endLineNum) endLineNum -= skipChunk.skip!;
-  }
   const lines = getDiffLines(diff, side).slice(startLineNum - 1, endLineNum);
   if (lines.length) {
     lines[lines.length - 1] = lines[lines.length - 1].substring(0, endOffset);

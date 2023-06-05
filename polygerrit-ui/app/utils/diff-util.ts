@@ -18,6 +18,41 @@ export function countLines(diff?: DiffInfo, side?: Side) {
   }, 0);
 }
 
+function getDiffLines(diff: DiffInfo, side: Side): string[] {
+  let lines: string[] = [];
+  for (const chunk of diff.content) {
+    if (chunk.ab) {
+      lines = lines.concat(chunk.ab);
+    } else if (side === Side.LEFT && chunk.a) {
+      lines = lines.concat(chunk.a);
+    } else if (side === Side.RIGHT && chunk.b) {
+      lines = lines.concat(chunk.b);
+    }
+  }
+  return lines;
+}
+
+export function getContentFromDiff(
+  diff: DiffInfo,
+  startLineNum: number,
+  startOffset: number,
+  endLineNum: number | undefined,
+  endOffset: number,
+  side: Side
+) {
+  const skipChunk = diff.content.find(chunk => chunk.skip);
+  if (skipChunk) {
+    startLineNum -= skipChunk.skip!;
+    if (endLineNum) endLineNum -= skipChunk.skip!;
+  }
+  const lines = getDiffLines(diff, side).slice(startLineNum - 1, endLineNum);
+  if (lines.length) {
+    lines[lines.length - 1] = lines[lines.length - 1].substring(0, endOffset);
+    lines[0] = lines[0].substring(startOffset);
+  }
+  return lines.join('\n');
+}
+
 export function isFileUnchanged(diff: DiffInfo) {
   return !diff.content.some(
     content => (content.a && !content.common) || (content.b && !content.common)

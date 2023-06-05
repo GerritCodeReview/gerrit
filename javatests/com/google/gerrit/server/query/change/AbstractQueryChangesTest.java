@@ -2786,6 +2786,24 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byStar_withStarOptionSet_notPopulatedForAnonymousUsers() throws Exception {
+    // Create a random change and star it as some user
+    repo = createAndOpenProject("repo");
+    Change change1 = insert("repo", newChangeWithStatus(repo, Change.Status.NEW));
+    Account.Id user2 =
+        accountManager.authenticate(authRequestFactory.createForUser("anotheruser")).getAccountId();
+    requestContext.setContext(newRequestContext(user2));
+    gApi.accounts().self().starChange(change1.getId().toString());
+
+    // Request a change query for all open changes. The star field is not set on the single change.
+    requestContext.setContext(anonymousUserProvider::get);
+    List<ChangeInfo> changeInfos =
+        gApi.changes().query("is:open").withOptions(ListChangesOption.STAR).get();
+    assertThat(changeInfos.get(0)._number).isEqualTo(change1.getId().get());
+    assertThat(changeInfos.get(0).starred).isNull();
+  }
+
+  @Test
   public void byStarWithManyStars() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     Change[] changesWithDrafts = new Change[30];

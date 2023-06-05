@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1589d799_3bed8659",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-06-05T05:02:50Z",
+      "side": 1,
+      "message": "this makes the feature opt in, it will not be enabled by defauly once this merges. So this commit gives user the chance to use this configuration option which will enable it.",
+      "parentUuid": "86082239_d0e5b204",
+      "range": {
+        "startLine": 7,
+        "startChar": 29,
+        "endLine": 7,
+        "endChar": 48
+      },
+      "revId": "e9b6fa7ab7d03054409938f484d3353fc24fd754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c24d59c_05e4497d",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-06-04T21:27:47Z",
       "side": 1,
       "message": "nit: weird wrapping, I believe you have some space on the right side to use.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 21
+      },
+      "revId": "e9b6fa7ab7d03054409938f484d3353fc24fd754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8291a106_1c0522fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-06-05T05:02:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c24d59c_05e4497d",
       "range": {
         "startLine": 10,
         "startChar": 0,
@@ -81,6 +129,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45155609_7a4bd9b0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 693,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-06-05T05:02:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "865c8454_1b7a2552",
+      "revId": "e9b6fa7ab7d03054409938f484d3353fc24fd754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e492265_9b30f77c",
@@ -104,6 +170,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ba4d0b1_9ff8a3dc",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-06-05T05:02:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e492265_9b30f77c",
+      "range": {
+        "startLine": 695,
+        "startChar": 80,
+        "endLine": 695,
+        "endChar": 88
+      },
+      "revId": "e9b6fa7ab7d03054409938f484d3353fc24fd754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f90948ca_7b3768e8",
@@ -117,6 +207,30 @@
       "writtenOn": "2023-06-04T21:27:47Z",
       "side": 1,
       "message": "Wrap long line",
+      "range": {
+        "startLine": 696,
+        "startChar": 71,
+        "endLine": 696,
+        "endChar": 92
+      },
+      "revId": "e9b6fa7ab7d03054409938f484d3353fc24fd754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "060fa765_1a683f75",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-06-05T05:02:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f90948ca_7b3768e8",
       "range": {
         "startLine": 696,
         "startChar": 71,

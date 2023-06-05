@@ -24,6 +24,29 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "00c62156_92f1a7d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-06-05T07:57:15Z",
+      "side": 1,
+      "message": "This is not the only case for which the endpoint erroneously return 200.\nEven if the user exists but cannot be added for some reason: if userA is the change owner and she tries to add userA as reviewer, it won\u0027t work.\n\nI think it should mentioned.",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 69
+      },
+      "revId": "f460a4c1cfe059521d3afc455f14c3f29ca8d89e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "65e936cb_e4c0436f",

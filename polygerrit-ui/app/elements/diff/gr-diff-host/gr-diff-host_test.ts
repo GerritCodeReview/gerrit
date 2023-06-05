@@ -33,6 +33,7 @@ import {
   BasePatchSetNum,
   BlameInfo,
   CommentRange,
+  CommentThread,
   DraftInfo,
   EDIT,
   ImageInfo,
@@ -698,14 +699,6 @@ suite('gr-diff-host tests', () => {
     });
   });
 
-  test('getThreadEls() returns .comment-threads', () => {
-    const threadEl = document.createElement('gr-comment-thread');
-    threadEl.className = 'comment-thread';
-    assertIsDefined(element.diffElement);
-    element.diffElement.appendChild(threadEl);
-    assert.deepEqual(element.getThreadEls(), [threadEl]);
-  });
-
   test('delegates clearDiffContent()', () => {
     assertIsDefined(element.diffElement);
     const stub = sinon.stub(element.diffElement, 'clearDiffContent');
@@ -896,36 +889,95 @@ suite('gr-diff-host tests', () => {
     });
   });
 
-  suite('createCheckEl method', () => {
-    test('start_line:12', () => {
+  suite('render thread elements', () => {
+    test('right start_line:1', async () => {
+      const thread: CommentThread = {
+        ...createCommentThread([createComment()]),
+      };
+      element.threads = [thread];
+      await element.updateComplete;
+      assert.lightDom.equal(
+        element.diffElement,
+        /* HTML */ `
+          <gr-comment-thread
+            class="comment-thread"
+            diff-side="right"
+            line-num="1"
+            slot="right-1"
+          >
+          </gr-comment-thread>
+        `
+      );
+    });
+    test('left start_line:2', async () => {
+      const thread: CommentThread = {
+        ...createCommentThread([
+          createComment({side: CommentSide.PARENT, line: 2}),
+        ]),
+      };
+      element.threads = [thread];
+      await element.updateComplete;
+      assert.lightDom.equal(
+        element.diffElement,
+        /* HTML */ `
+          <gr-comment-thread
+            class="comment-thread"
+            diff-side="left"
+            line-num="2"
+            slot="left-2"
+          >
+          </gr-comment-thread>
+        `
+      );
+    });
+  });
+
+  suite('render check elements', () => {
+    test('start_line:12', async () => {
       const result: RunResult = {
         ...createRunResult(),
         codePointers: [{path: 'a', range: {start_line: 12} as CommentRange}],
       };
-      const el = element.createCheckEl(result);
-      assert.equal(el.getAttribute('slot'), 'right-12');
-      assert.equal(el.getAttribute('diff-side'), 'right');
-      assert.equal(el.getAttribute('line-num'), '12');
-      assert.equal(el.getAttribute('range'), null);
-      assert.equal(el.result, result);
+      element.checks = [result];
+      await element.updateComplete;
+      assert.lightDom.equal(
+        element.diffElement,
+        /* HTML */ `
+          <gr-diff-check-result
+            class="comment-thread"
+            diff-side="right"
+            line-num="12"
+            slot="right-12"
+          >
+          </gr-diff-check-result>
+        `
+      );
     });
 
-    test('start_line:13 end_line:14 without char positions', () => {
+    test('start_line:13 end_line:14 without char positions', async () => {
       const result: RunResult = {
         ...createRunResult(),
         codePointers: [
           {path: 'a', range: {start_line: 13, end_line: 14} as CommentRange},
         ],
       };
-      const el = element.createCheckEl(result);
-      assert.equal(el.getAttribute('slot'), 'right-14');
-      assert.equal(el.getAttribute('diff-side'), 'right');
-      assert.equal(el.getAttribute('line-num'), '14');
-      assert.equal(el.getAttribute('range'), null);
-      assert.equal(el.result, result);
+      element.checks = [result];
+      await element.updateComplete;
+      assert.lightDom.equal(
+        element.diffElement,
+        /* HTML */ `
+          <gr-diff-check-result
+            class="comment-thread"
+            diff-side="right"
+            line-num="14"
+            slot="right-14"
+          >
+          </gr-diff-check-result>
+        `
+      );
     });
 
-    test('start_line:13 end_line:14 with char positions', () => {
+    test('start_line:13 end_line:14 with char positions', async () => {
       const result: RunResult = {
         ...createRunResult(),
         codePointers: [
@@ -940,31 +992,42 @@ suite('gr-diff-host tests', () => {
           },
         ],
       };
-      const el = element.createCheckEl(result);
-      assert.equal(el.getAttribute('slot'), 'right-14');
-      assert.equal(el.getAttribute('diff-side'), 'right');
-      assert.equal(el.getAttribute('line-num'), '14');
-      assert.equal(
-        el.getAttribute('range'),
-        '{"start_line":13,' +
-          '"end_line":14,' +
-          '"start_character":5,' +
-          '"end_character":7}'
+      element.checks = [result];
+      await element.updateComplete;
+      assert.lightDom.equal(
+        element.diffElement,
+        /* HTML */ `
+          <gr-diff-check-result
+            class="comment-thread"
+            diff-side="right"
+            line-num="14"
+            slot="right-14"
+            range='{"start_line":13,"end_line":14,"start_character":5,"end_character":7}'
+          >
+          </gr-diff-check-result>
+        `
       );
-      assert.equal(el.result, result);
     });
 
-    test('empty range', () => {
+    test('empty range', async () => {
       const result: RunResult = {
         ...createRunResult(),
         codePointers: [{path: 'a', range: {} as CommentRange}],
       };
-      const el = element.createCheckEl(result);
-      assert.equal(el.getAttribute('slot'), 'right-FILE');
-      assert.equal(el.getAttribute('diff-side'), 'right');
-      assert.equal(el.getAttribute('line-num'), 'FILE');
-      assert.equal(el.getAttribute('range'), null);
-      assert.equal(el.result, result);
+      element.checks = [result];
+      await element.updateComplete;
+      assert.lightDom.equal(
+        element.diffElement,
+        /* HTML */ `
+          <gr-diff-check-result
+            class="comment-thread"
+            diff-side="right"
+            line-num="FILE"
+            slot="right-FILE"
+          >
+          </gr-diff-check-result>
+        `
+      );
     });
   });
 
@@ -1144,55 +1207,6 @@ suite('gr-diff-host tests', () => {
         assert.equal(draft1.path, element.file.path);
       }
     );
-
-    test('multiple threads created on the same range', async () => {
-      element.patchRange = createPatchRange(2, 3);
-      element.file = {basePath: 'file_renamed.txt', path: element.path ?? ''};
-      await element.updateComplete;
-
-      const comment = {
-        ...createComment(),
-        range: {
-          start_line: 1,
-          start_character: 1,
-          end_line: 2,
-          end_character: 2,
-        },
-        patch_set: 3 as RevisionPatchSetNum,
-      };
-      const thread = createCommentThread([comment]);
-      element.threads = [thread];
-      await element.updateComplete;
-
-      assertIsDefined(element.diffElement);
-      let threads =
-        element.diffElement.querySelectorAll<GrCommentThread>(
-          'gr-comment-thread'
-        );
-
-      assert.equal(threads.length, 1);
-      element.threads = [...element.threads, thread];
-      await element.updateComplete;
-
-      assertIsDefined(element.diffElement);
-      threads =
-        element.diffElement.querySelectorAll<GrCommentThread>(
-          'gr-comment-thread'
-        );
-      // Threads have same rootId so element is reused
-      assert.equal(threads.length, 1);
-
-      const newThread = {...thread};
-      newThread.rootId = 'differentRootId' as UrlEncodedCommentId;
-      element.threads = [...element.threads, newThread];
-      await element.updateComplete;
-      threads =
-        element.diffElement.querySelectorAll<GrCommentThread>(
-          'gr-comment-thread'
-        );
-      // New thread has a different rootId
-      assert.equal(threads.length, 2);
-    });
 
     test(
       'thread should use new file path if first created ' +

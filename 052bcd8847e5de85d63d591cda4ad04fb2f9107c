@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "985e9f28_776358d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-06T04:22:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ffaeea8_ebda5e45",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 42
+      },
+      "revId": "052bcd8847e5de85d63d591cda4ad04fb2f9107c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a3b46be_3a31eae0",
@@ -91,6 +115,24 @@
       "side": 1,
       "message": "Cool, can you add the above information to commit message?\nI have personally experienced performance issues when using the \"changes\" cache, so would this new cache be a more suitable choice? (also based on the fact that it has a wider adoption)",
       "parentUuid": "413660f0_2282fb13",
+      "revId": "052bcd8847e5de85d63d591cda4ad04fb2f9107c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ccf9603_1452dff2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-06T04:22:31Z",
+      "side": 1,
+      "message": "Done.\n\nI do think this is a great replacement for the existing changes cache, so much so, that we may want to remove the existing \"changes\" cache as I can\u0027t really see any advantages to it now?",
+      "parentUuid": "7c03a332_72d6557b",
       "revId": "052bcd8847e5de85d63d591cda4ad04fb2f9107c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -227,6 +269,30 @@
       "side": 1,
       "message": "Can you also add that information to the numbers? (otherwise it looks like it does not benefit the Gerrit primary instance at all)",
       "parentUuid": "6ef72567_462bafe9",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 39
+      },
+      "revId": "052bcd8847e5de85d63d591cda4ad04fb2f9107c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd61d037_523c8aca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-06T04:22:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5371570e_351a05d2",
       "range": {
         "startLine": 17,
         "startChar": 0,

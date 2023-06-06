@@ -254,6 +254,11 @@ export class ChangeModel extends Model<ChangeState> {
     change => change?.revisions[change.current_revision]?.uploader
   );
 
+  public readonly latestCommitter$ = select(
+    this.change$,
+    change => change?.revisions[change.current_revision]?.commit?.committer
+  );
+
   /**
    * Emits the current patchset number. If the route does not define the current
    * patchset num, then this selector waits for the change to be defined and

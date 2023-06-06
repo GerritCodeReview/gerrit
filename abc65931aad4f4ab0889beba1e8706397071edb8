@@ -121,6 +121,24 @@
       "parentUuid": "d75bd83f_9aeae1e6",
       "revId": "abc65931aad4f4ab0889beba1e8706397071edb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e48dee26_8d78ea33",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-06T23:05:54Z",
+      "side": 1,
+      "message": "I could not find any other evidence that the decision of implementing the feature as a plugin was withdrawn or amended. The design was approved in 2020: _Deletion of Groups by Gal Paikin / Jacek Centkowski, approved as plugin 2020-09-01_",
+      "parentUuid": "7ef3f3d2_b475c0d6",
+      "revId": "abc65931aad4f4ab0889beba1e8706397071edb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

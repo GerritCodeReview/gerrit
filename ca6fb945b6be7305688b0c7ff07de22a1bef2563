@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ee85aae_b4fafeda",
+        "filename": "polygerrit-ui/app/api/diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-06-06T10:01:15Z",
+      "side": 1,
+      "message": "Where do these properties come from?",
+      "revId": "ca6fb945b6be7305688b0c7ff07de22a1bef2563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d06bf221_c31bd156",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-container.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-06-06T10:01:15Z",
+      "side": 1,
+      "message": "I admit the nomenclature is a bit reversed.\n\ngr-diff contains a gr-diff-container, one would assume the reverse given the naming.",
+      "revId": "ca6fb945b6be7305688b0c7ff07de22a1bef2563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5366fb7_fef4b7fc",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-06-06T10:01:15Z",
+      "side": 1,
+      "message": "What users exist beyond TokenHighlightLayer?",
+      "revId": "ca6fb945b6be7305688b0c7ff07de22a1bef2563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "748e1121_d740bd9d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-06-06T10:01:15Z",
+      "side": 1,
+      "message": "What if this.diffcontainer doesn\u0027t exist yet because rendering hasn\u0027t happened yet. when does the init happen then?",
+      "revId": "ca6fb945b6be7305688b0c7ff07de22a1bef2563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70d30349_adf7f807",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-06-06T10:01:15Z",
+      "side": 1,
+      "message": "Same question as above",
+      "revId": "ca6fb945b6be7305688b0c7ff07de22a1bef2563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b667ddc8_625a8e72",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 778,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-06-06T10:01:15Z",
+      "side": 1,
+      "message": "This requires `this.diff` but the connectedCallback doesn\u0027t.\n\nIn general the initialization logic is hard to follow.",
+      "revId": "ca6fb945b6be7305688b0c7ff07de22a1bef2563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

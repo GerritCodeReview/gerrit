@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -36,6 +37,7 @@ import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Change;
@@ -97,6 +99,103 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
     assertThat(exception)
         .hasMessageThat()
         .isEqualTo("allow_conflicts and on_behalf_of_uploader are mutually exclusive");
+  }
+
+  @Test
+  public void rebaseOnBehalfOfUploaderWithCommitterEmail() throws Exception {
+    allowPermissionToAllUsers(Permission.REBASE);
+
+    String uploaderPreferredEmail = "uploader.preferred@example.com";
+    String uploaderSecondaryEmail = "uploader.secondary@example.com";
+    Account.Id uploader =
+        accountOperations
+            .newAccount()
+            .preferredEmail(uploaderPreferredEmail)
+            .addSecondaryEmail(uploaderSecondaryEmail)
+            .create();
+    Account.Id approver = admin.id();
+    Account.Id rebaser = accountOperations.newAccount().create();
+
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.VIEW_SECONDARY_EMAILS).group(REGISTERED_USERS))
+        .update();
+
+    // Create two changes both with the same parent.
+    requestScopeOperations.setApiUser(uploader);
+    Change.Id changeToBeTheNewBase =
+        changeOperations.newChange().project(project).owner(uploader).create();
+    Change.Id changeToBeRebased =
+        changeOperations.newChange().project(project).owner(uploader).create();
+
+    // Approve and submit the change that will be the new base for the change that will be rebased.
+    requestScopeOperations.setApiUser(approver);
+    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+
+    // Rebase the second change on behalf of the uploader
+    requestScopeOperations.setApiUser(rebaser);
+    RebaseInput rebaseInput = new RebaseInput();
+    rebaseInput.onBehalfOfUploader = true;
+    rebaseInput.committerEmail = uploaderSecondaryEmail;
+    gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
+
+    assertThat(
+            gApi.changes()
+                .id(changeToBeRebased.get())
+                .get()
+                .getCurrentRevision()
+                .commit
+                .committer
+                .email)
+        .isEqualTo(uploaderSecondaryEmail);
+  }
+
+  @Test
+  public void cannotRebaseOnBehalfOfUploaderWithCommitterEmailWithoutViewSecondaryEmails()
+      throws Exception {
+    allowPermissionToAllUsers(Permission.REBASE);
+
+    String uploaderPreferredEmail = "uploader.preferred@example.com";
+    String uploaderSecondaryEmail = "uploader.secondary@example.com";
+    Account.Id uploader =
+        accountOperations
+            .newAccount()
+            .preferredEmail(uploaderPreferredEmail)
+            .addSecondaryEmail(uploaderSecondaryEmail)
+            .create();
+    Account.Id approver = admin.id();
+    Account.Id rebaser = accountOperations.newAccount().create();
+
+    // Create two changes both with the same parent.
+    requestScopeOperations.setApiUser(uploader);
+    Change.Id changeToBeTheNewBase =
+        changeOperations.newChange().project(project).owner(uploader).create();
+    Change.Id changeToBeRebased =
+        changeOperations.newChange().project(project).owner(uploader).create();
+
+    // Approve and submit the change that will be the new base for the change that will be rebased.
+    requestScopeOperations.setApiUser(approver);
+    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+
+    // Rebase the second change on behalf of the uploader
+    requestScopeOperations.setApiUser(rebaser);
+    RebaseInput rebaseInput = new RebaseInput();
+    rebaseInput.onBehalfOfUploader = true;
+    rebaseInput.committerEmail = uploaderSecondaryEmail;
+
+    ResourceConflictException exception =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput));
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format(
+                "Cannot rebase using committer email '%s' as current user account '%d' "
+                    + "does not have permissions to view secondary emails of account '%d'",
+                uploaderSecondaryEmail, rebaser.get(), uploader.get()));
   }
 
   @Test

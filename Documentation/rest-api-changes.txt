@@ -1463,6 +1463,9 @@ Requires a linear ancestry relation (single parenting throughout the chain).
 Optionally, the parent revision (of the oldest ancestor to be rebased) can be changed to another
 change, revision or branch through the link:#rebase-input[RebaseInput] entity.
 
+Providing a `committer_email` through the link:#rebase-input[RebaseInput] entity is not supported
+when rebasing a chain.
+
 If the chain is outdated, i.e., there's a change that depends on an old revision of its parent, the
 result is the same as individually rebasing all outdated changes on top of their parent's latest
 revision before running the rebase chain action.
@@ -8334,6 +8337,10 @@ This means this option cannot be combined with the `allow_conflicts` option. +
 In addition, rebasing on behalf of the uploader is only supported for the
 current patch set of a change. +
 If the caller is the uploader this flag is ignored and a normal rebase is done.
+|`committer_email`|optional|
+Rebase is committed using this email address. Only the registered emails
+of the calling user or uploader(when `on_behalf_of_uploader` is `true`) are
+considered valid. The option is not supported when rebasing a chain.
 |`validation_options`   |optional|
 Map with key-value pairs that are forwarded as options to the commit validation
 listeners (e.g. can be used to skip certain validations). Which validation

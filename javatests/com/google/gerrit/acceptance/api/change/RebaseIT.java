@@ -63,6 +63,7 @@ import com.google.gerrit.extensions.common.RebaseChainInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -141,6 +142,66 @@ public class RebaseIT {
 
       // Rebasing the second change again should fail
       verifyChangeIsUpToDate(r2);
+    }
+
+    @Test
+    public void rebaseWithCommitterEmail() throws Exception {
+      // Create two changes both with the same parent
+      PushOneCommit.Result r1 = createChange();
+      testRepo.reset("HEAD~1");
+      PushOneCommit.Result r2 = createChange();
+
+      // Approve and submit the first change
+      RevisionApi revision = gApi.changes().id(r1.getChangeId()).current();
+      revision.review(ReviewInput.approve());
+      revision.submit();
+
+      // Create new user with a secondary email and with permission to rebase
+      Account.Id userWithSecondaryEmail =
+          accountOperations
+              .newAccount()
+              .preferredEmail("preferred@domain.org")
+              .addSecondaryEmail("secondary@domain.org")
+              .create();
+      projectOperations
+          .project(project)
+          .forUpdate()
+          .add(allow(Permission.REBASE).ref("refs/heads/master").group(REGISTERED_USERS))
+          .update();
+
+      // Rebase the second change as the new user with its secondary email
+      RebaseInput ri = new RebaseInput();
+      ri.committerEmail = "secondary@domain.org";
+      requestScopeOperations.setApiUser(userWithSecondaryEmail);
+      rebaseCallWithInput.call(r2.getChangeId(), ri);
+      assertThat(r2.getChange().getCommitter().getEmailAddress()).isEqualTo(ri.committerEmail);
+    }
+
+    @Test
+    public void cannotRebaseWithInvalidCommitterEmail() throws Exception {
+      // Create two changes both with the same parent
+      PushOneCommit.Result c1 = createChange();
+      testRepo.reset("HEAD~1");
+      PushOneCommit.Result c2 = createChange();
+
+      // Approve and submit the first change
+      RevisionApi revision = gApi.changes().id(c1.getChangeId()).current();
+      revision.review(ReviewInput.approve());
+      revision.submit();
+
+      // Rebase the second change with invalid committer email
+      RebaseInput ri = new RebaseInput();
+      ri.committerEmail = "invalid@example.com";
+      ResourceConflictException thrown =
+          assertThrows(
+              ResourceConflictException.class,
+              () -> rebaseCallWithInput.call(c2.getChangeId(), ri));
+      assertThat(thrown)
+          .hasMessageThat()
+          .isEqualTo(
+              String.format(
+                  "Cannot rebase using committer email '%s' as it is not a registered email of account '%d'",
+                  ri.committerEmail, admin.id().get()));
     }
 
     @Test
@@ -1094,6 +1155,72 @@ public class RebaseIT {
       ResourceConflictException thrown =
           assertThrows(ResourceConflictException.class, () -> rebaseCall.call(r.getChangeId()));
       assertThat(thrown).hasMessageThat().contains("The whole chain is already up to date.");
+    }
+
+    @Override
+    @Test
+    public void rebaseWithCommitterEmail() throws Exception {
+      // Create changes with the following hierarchy:
+      // * HEAD
+      //   * r1
+      //   * r2
+
+      PushOneCommit.Result r1 = createChange();
+      testRepo.reset("HEAD~1");
+      PushOneCommit.Result r2 = createChange();
+
+      // Approve and submit the first change
+      RevisionApi revision = gApi.changes().id(r1.getChangeId()).current();
+      revision.review(ReviewInput.approve());
+      revision.submit();
+
+      // Create new user with a secondary email and with permission to rebase
+      Account.Id userWithSecondaryEmail =
+          accountOperations
+              .newAccount()
+              .preferredEmail("preferred@domain.org")
+              .addSecondaryEmail("secondary@domain.org")
+              .create();
+      projectOperations
+          .project(project)
+          .forUpdate()
+          .add(allow(Permission.REBASE).ref("refs/heads/master").group(REGISTERED_USERS))
+          .update();
+
+      // Rebase the chain through r2 with the new user and with its secondary email.
+      RebaseInput ri = new RebaseInput();
+      ri.committerEmail = "secondary@domain.org";
+      requestScopeOperations.setApiUser(userWithSecondaryEmail);
+      BadRequestException exception =
+          assertThrows(
+              BadRequestException.class, () -> gApi.changes().id(r2.getChangeId()).rebaseChain(ri));
+      assertThat(exception)
+          .hasMessageThat()
+          .isEqualTo("committer_email is not supported when rebasing a chain");
+    }
+
+    @Override
+    @Test
+    public void cannotRebaseWithInvalidCommitterEmail() throws Exception {
+      // Create two changes both with the same parent
+      PushOneCommit.Result c1 = createChange();
+      testRepo.reset("HEAD~1");
+      PushOneCommit.Result c2 = createChange();
+
+      // Approve and submit the first change
+      RevisionApi revision = gApi.changes().id(c1.getChangeId()).current();
+      revision.review(ReviewInput.approve());
+      revision.submit();
+
+      // Rebase the second change with invalid committer email
+      RebaseInput ri = new RebaseInput();
+      ri.committerEmail = "invalid@example.com";
+      BadRequestException exception =
+          assertThrows(
+              BadRequestException.class, () -> gApi.changes().id(c2.getChangeId()).rebaseChain(ri));
+      assertThat(exception)
+          .hasMessageThat()
+          .isEqualTo("committer_email is not supported when rebasing a chain");
     }
 
     @Test

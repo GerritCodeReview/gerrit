@@ -100,6 +100,51 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void rebaseOnBehalfOfUploaderWithCommitterEmail() throws Exception {
+    allowPermissionToAllUsers(Permission.REBASE);
+
+    String uploaderPreferredEmail = "uploader.preferred@example.com";
+    String uploaderSecondaryEmail = "uploader.secondary@example.com";
+    Account.Id uploader =
+        accountOperations
+            .newAccount()
+            .preferredEmail(uploaderPreferredEmail)
+            .addSecondaryEmail(uploaderSecondaryEmail)
+            .create();
+    Account.Id approver = admin.id();
+    Account.Id rebaser = accountOperations.newAccount().create();
+
+    // Create two changes both with the same parent.
+    requestScopeOperations.setApiUser(uploader);
+    Change.Id changeToBeTheNewBase =
+        changeOperations.newChange().project(project).owner(uploader).create();
+    Change.Id changeToBeRebased =
+        changeOperations.newChange().project(project).owner(uploader).create();
+
+    // Approve and submit the change that will be the new base for the change that will be rebased.
+    requestScopeOperations.setApiUser(approver);
+    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+
+    // Rebase the second change on behalf of the uploader
+    requestScopeOperations.setApiUser(rebaser);
+    RebaseInput rebaseInput = new RebaseInput();
+    rebaseInput.onBehalfOfUploader = true;
+    rebaseInput.committerEmail = uploaderSecondaryEmail;
+    gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
+
+    assertThat(
+            gApi.changes()
+                .id(changeToBeRebased.get())
+                .get()
+                .getCurrentRevision()
+                .commit
+                .committer
+                .email)
+        .isEqualTo(uploaderSecondaryEmail);
+  }
+
+  @Test
   public void cannotRebaseNonCurrentPatchSetOnBehalfOfUploader() throws Exception {
     Account.Id uploader = accountOperations.newAccount().create();
     Change.Id changeId = changeOperations.newChange().owner(uploader).create();

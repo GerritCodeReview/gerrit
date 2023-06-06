@@ -1292,6 +1292,7 @@ export interface AccountCapabilityInfo {
   viewConnections?: boolean;
   viewPlugins?: boolean;
   viewQueue?: boolean;
+  viewSecondaryEmails?: boolean;
 }
 
 /**

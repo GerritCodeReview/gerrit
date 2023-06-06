@@ -803,6 +803,26 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     } else return;
   }
 
+  getAccountEmailsFor(email: string) {
+    return this.getLoggedIn()
+      .then(isLoggedIn => {
+        if (isLoggedIn) {
+          return this.getAccountCapabilities();
+        } else {
+          return undefined;
+        }
+      })
+      .then((capabilities: AccountCapabilityInfo | undefined) => {
+        if (capabilities && capabilities.viewSecondaryEmails) {
+          return this._fetchSharedCacheURL({
+            url: '/accounts/' + email + '/emails',
+            reportUrlAsIs: true,
+          }) as Promise<EmailInfo[] | undefined>;
+        }
+        return undefined;
+      });
+  }
+
   addAccountEmail(email: string): Promise<Response> {
     return this._restApiHelper.send({
       method: HttpMethod.PUT,

@@ -8,18 +8,20 @@ import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {when} from 'lit/directives/when.js';
 import {
-  NumericChangeId,
-  BranchName,
-  ChangeActionDialog,
   AccountDetailInfo,
   AccountInfo,
+  BranchName,
+  ChangeActionDialog,
+  EmailInfo,
+  NumericChangeId,
+  GitPersonInfo,
 } from '../../../types/common';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-autocomplete/gr-autocomplete';
 import {
-  GrAutocomplete,
   AutocompleteQuery,
   AutocompleteSuggestion,
+  GrAutocomplete,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getAppContext} from '../../../services/app-context';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -43,6 +45,7 @@ export interface ConfirmRebaseEventDetail {
   allowConflicts: boolean;
   rebaseChain: boolean;
   onBehalfOfUploader: boolean;
+  committerEmail: string | null;
 }
 
 @customElement('gr-confirm-rebase-dialog')
@@ -92,6 +95,18 @@ export class GrConfirmRebaseDialog
   @state()
   allowConflicts = false;
 
+  @state()
+  selectedEmailForRebase: string | null | undefined;
+
+  @state()
+  currentUserEmails: EmailInfo[] = [];
+
+  @state()
+  uploaderEmails: EmailInfo[] = [];
+
+  @state()
+  committerEmailDropdownItems: EmailInfo[] = [];
+
   @query('#rebaseOnParentInput')
   private rebaseOnParentInput?: HTMLInputElement;
 
@@ -115,6 +130,9 @@ export class GrConfirmRebaseDialog
 
   @state()
   uploader?: AccountInfo;
+
+  @state()
+  latestCommitter?: GitPersonInfo;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -150,6 +168,16 @@ export class GrConfirmRebaseDialog
       () => this.getRelatedChangesModel().hasParent$,
       x => (this.hasParent = x)
     );
+    subscribe(
+      this,
+      () => this.getChangeModel().latestCommitter$,
+      x => (this.latestCommitter = x)
+    );
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.loadCommitterEmailDropdownItems();
   }
 
   override willUpdate(changedProperties: PropertyValues): void {
@@ -192,6 +220,9 @@ export class GrConfirmRebaseDialog
           margin: var(--spacing-m) 0;
         }
         .rebaseOnBehalfMsg {
+          margin-top: var(--spacing-m);
+        }
+        .rebaseWithCommitterEmail {
           margin-top: var(--spacing-m);
         }
       `,
@@ -288,6 +319,7 @@ export class GrConfirmRebaseDialog
               type="checkbox"
               @change=${() => {
                 this.allowConflicts = !!this.rebaseAllowConflicts?.checked;
+                this.loadCommitterEmailDropdownItems();
               }}
             />
             <label for="rebaseAllowConflicts"
@@ -311,6 +343,9 @@ export class GrConfirmRebaseDialog
                   type="checkbox"
                   @change=${() => {
                     this.shouldRebaseChain = !!this.rebaseChain?.checked;
+                    if (this.shouldRebaseChain) {
+                      this.selectedEmailForRebase = undefined;
+                    }
                   }}
                 />
                 <label for="rebaseChain">Rebase all ancestors</label>
@@ -324,6 +359,18 @@ export class GrConfirmRebaseDialog
                 .account=${this.allowConflicts ? this.account : this.uploader}
               ></gr-account-chip
               ><span></div>`
+          )}
+          ${when(
+            this.canShowCommitterEmailDropdown(),
+            () => html`<div class="rebaseWithCommitterEmail"
+            >Rebase with committer email
+                <gr-dropdown-list
+                    .items=${this.getCommitterEmailDropdownItems()}
+                    .value=${this.selectedEmailForRebase}
+                    @value-change=${this.handleCommitterEmailDropdownItems}
+                >
+                </gr-dropdown-list>
+                <span></div>`
           )}
         </div>
       </gr-dialog>
@@ -375,6 +422,69 @@ export class GrConfirmRebaseDialog
     return this.getRecentChanges().then(changes =>
       this.filterChanges(input, changes)
     );
+  }
+
+  private setPreferredAsSelectedEmailForRebase(emails: EmailInfo[]) {
+    emails.forEach(e => {
+      if (e.preferred) {
+        this.selectedEmailForRebase = e.email;
+      }
+    });
+  }
+
+  private canShowCommitterEmailDropdown() {
+    return (
+      this.committerEmailDropdownItems &&
+      this.committerEmailDropdownItems.length > 1 &&
+      !this.shouldRebaseChain
+    );
+  }
+
+  private getCommitterEmailDropdownItems() {
+    return this.committerEmailDropdownItems?.map(e => {
+      return {
+        text: e.email,
+        value: e.email,
+      };
+    });
+  }
+
+  private isLatestCommitterEmailInDropdownItems(): boolean {
+    return this.committerEmailDropdownItems?.some(
+      e => e.email === this.latestCommitter?.email.toString()
+    );
+  }
+
+  public setSelectedEmailForRebase() {
+    if (this.isLatestCommitterEmailInDropdownItems()) {
+      this.selectedEmailForRebase = this.latestCommitter?.email;
+    } else {
+      this.setPreferredAsSelectedEmailForRebase(
+        this.committerEmailDropdownItems
+      );
+    }
+  }
+
+  async loadCommitterEmailDropdownItems() {
+    if (this.isCurrentUserEqualToLatestUploader() || this.allowConflicts) {
+      const currentUserEmails = await this.restApiService.getAccountEmails();
+      this.committerEmailDropdownItems = currentUserEmails || [];
+    } else {
+      if (this.uploader && this.uploader.email) {
+        const currentUploaderEmails =
+          await this.restApiService.getAccountEmailsFor(
+            this.uploader.email.toString()
+          );
+        this.committerEmailDropdownItems = currentUploaderEmails || [];
+      }
+    }
+    if (this.committerEmailDropdownItems) {
+      this.setSelectedEmailForRebase();
+    }
+  }
+
+  private handleCommitterEmailDropdownItems(e: CustomEvent<{value: string}>) {
+    this.selectedEmailForRebase = e.detail.value;
   }
 
   filterChanges(
@@ -436,6 +546,7 @@ export class GrConfirmRebaseDialog
       allowConflicts: !!this.rebaseAllowConflicts?.checked,
       rebaseChain: !!this.rebaseChain?.checked,
       onBehalfOfUploader: this.rebaseOnBehalfOfUploader(),
+      committerEmail: this.selectedEmailForRebase || null,
     };
     fireNoBubbleNoCompose(this, 'confirm-rebase', detail);
     this.text = '';

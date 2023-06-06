@@ -65,6 +65,7 @@ import com.google.gerrit.extensions.api.changes.DraftApi;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
+import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
@@ -79,6 +80,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.common.DiffMetaInfo.RelationType;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
@@ -1591,6 +1593,186 @@ public class RevisionIT extends AbstractDaemonTest {
             ResourceNotFoundException.class,
             () -> gApi.changes().id(changeId).revision(revId3).files(invalidRev));
     assertThat(thrown).hasMessageThat().contains(invalidRev);
+  }
+
+  @Test
+  public void getRevisionsMeta_identical() throws Exception {
+    PushOneCommit.Result pushResult = createChange();
+    String changeId = pushResult.getChangeId();
+    assertThat(
+            gApi.changes()
+                .id(changeId)
+                .revision(pushResult.getCommit().name())
+                .diffMeta(/* base= */ pushResult.getCommit().name())
+                .relationType)
+        .isEqualTo(RelationType.IDENTICAL);
+  }
+
+  @Test
+  public void getRevisionsMeta_sameParent() throws Exception {
+    //  LHS   C        C    RHS
+    //          ↘    ↙
+    //            C
+    PushOneCommit.Result ps1 = createChange();
+    String changeId = ps1.getChangeId();
+    PushOneCommit.Result ps2 = amendChange(changeId, SUBJECT, "b.txt", "b");
+    assertThat(
+            gApi.changes()
+                .id(changeId)
+                .revision(ps2.getCommit().name())
+                .diffMeta(/* base= */ ps1.getCommit().name())
+                .relationType)
+        .isEqualTo(RelationType.SAME_PARENT);
+  }
+
+  @Test
+  public void getRevisionsMeta_lhsParentOfRhs() throws Exception {
+    //  RHS   C
+    //        ↓
+    //  LHS   C
+    createChange("Parent change", FILE_NAME, "parent content");
+    PushOneCommit.Result child = createChange("Child change", FILE_NAME, "child content");
+    assertThat(
+            gApi.changes()
+                .id(child.getChangeId())
+                .revision(child.getCommit().name())
+                .diffMeta(/* parentNum= */ 1)
+                .relationType)
+        .isEqualTo(RelationType.LHS_PARENT_OF_RHS);
+  }
+
+  @Test
+  public void getRevisionsMeta_lhsParentAncestorOfRhsParent() throws Exception {
+    //  LHS   C        C  RHS
+    //        ↓      ↙
+    //        ↓    C
+    //        ↓  ↙
+    //        C
+    RevCommit initialCommit = getHead(repo(), "HEAD");
+    PushOneCommit.Result change = createChange();
+    String ps1 = change.getCommit().name();
+    testRepo.reset(initialCommit);
+    PushOneCommit.Result change2 = createChange();
+
+    RebaseInput rebaseInput = new RebaseInput();
+    rebaseInput.base = change2.getCommit().name();
+    gApi.changes().id(change.getChangeId()).rebase(rebaseInput);
+
+    assertThat(
+            gApi.changes()
+                .id(change.getChangeId())
+                .current()
+                .diffMeta(/* base= */ ps1)
+                .relationType)
+        .isEqualTo(RelationType.LHS_PARENT_ANCESTOR_OF_RHS_PARENT);
+  }
+
+  @Test
+  public void getRevisionsMeta_rhsParentAncestorOfLhsParent() throws Exception {
+    //  LHS   C        C  RHS
+    //        ↓      ↙
+    //        C    ↙
+    //        ↓  ↙
+    //        C
+    PushOneCommit.Result baseChange = createChange();
+    createChange();
+    PushOneCommit.Result change = createChange();
+    String ps1 = change.getCommit().name();
+
+    RebaseInput rebaseInput = new RebaseInput();
+    rebaseInput.base = baseChange.getCommit().name();
+    gApi.changes().id(change.getChangeId()).rebase(rebaseInput);
+
+    assertThat(
+            gApi.changes()
+                .id(change.getChangeId())
+                .current()
+                .diffMeta(/* base= */ ps1)
+                .relationType)
+        .isEqualTo(RelationType.RHS_PARENT_ANCESTOR_OF_LHS_PARENT);
+  }
+
+  @Test
+  public void getRevisionsMeta_commonBase() throws Exception {
+    //  LHS   C        C  RHS
+    //        ↓      ↙
+    //        C    C
+    //        ↓  ↙
+    //        C
+    RevCommit initialCommit = getHead(repo(), "HEAD");
+    createChange();
+    PushOneCommit.Result change = createChange();
+    String ps1 = change.getCommit().name();
+    testRepo.reset(initialCommit);
+
+    PushOneCommit.Result change2 = createChange();
+    RebaseInput rebaseInput = new RebaseInput();
+    rebaseInput.base = change2.getCommit().name();
+    gApi.changes().id(change.getChangeId()).rebase(rebaseInput);
+
+    assertThat(
+            gApi.changes()
+                .id(change.getChangeId())
+                .current()
+                .diffMeta(/* base= */ ps1)
+                .relationType)
+        .isEqualTo(RelationType.COMMON_BASE);
+  }
+
+  @Test
+  public void getDiffMeta_mergeCommit() throws Exception {
+    PushOneCommit.Result ps1 = createMergeCommitChange("refs/for/master");
+
+    assertThat(
+            gApi.changes()
+                .id(ps1.getChangeId())
+                .current()
+                .diffMeta(/* parentNum= */ 1)
+                .relationType)
+        .isEqualTo(RelationType.MERGE_COMMIT);
+
+    assertThat(
+            gApi.changes()
+                .id(ps1.getChangeId())
+                .current()
+                .diffMeta(/* parentNum= */ 2)
+                .relationType)
+        .isEqualTo(RelationType.MERGE_COMMIT);
+  }
+
+  @Test
+  public void getRevisionMeta_parentSet_greaterThanPatchSetParents_badRequest() throws Exception {
+    createChange();
+    PushOneCommit.Result change = createChange();
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(change.getChangeId()).current().diffMeta(/* parentNum= */ 48));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(
+            "parentNum is greater than the number of parents of commit "
+                + change.getCommit().name());
+  }
+
+  @Test
+  public void getRevisionMeta_parentSet_baseNotInPatchSets_badRequest() throws Exception {
+    PushOneCommit.Result change1 = createChange();
+    PushOneCommit.Result change2 = createChange();
+
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                gApi.changes()
+                    .id(change2.getChangeId())
+                    .current()
+                    .diffMeta(/* base= */ change1.getCommit().name()));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format(
+                "base revision %s is not a patchset of the change", change1.getCommit().name()));
   }
 
   @Test

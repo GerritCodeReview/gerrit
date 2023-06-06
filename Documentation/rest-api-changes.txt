@@ -5820,6 +5820,39 @@ That is, only one of them may be used at a time.
   ]
 ----
 
+[[diff-meta]]
+=== Get Diff Meta
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/diff_meta/'
+--
+
+Similar to the link:#list-files[List Files] endpoint, but computes some meta
+data of the two revisions used in the diff.
+
+This endpoint accepts the two request parameters `parent` and `base` similar
+to link:#list-files[List Files].
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/diff_meta/ HTTP/1.0
+----
+
+As result a link:#diff-meta-info[DiffMetaInfo] entity is returned. The right
+hand side is the link:#revision-id[\{revision-id\}] passed in the URL, and the
+left hand side is the parent or the base parameter.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "relation_type": "SAME_PARENT"
+  }
+----
+
 [[get-content]]
 === Get Content
 --
@@ -7877,6 +7910,26 @@ the file permission bits. For added files, this field will not be present.
 |`new_mode`        |optional|File mode in octal (e.g. 100644) at the new commit.
 The first three digits indicate the file type and the last three digits contain
 the file permission bits. For deleted files, this field will not be present.
+|=============================
+
+[[diff-meta-info]]
+=== DiffMetaInfo
+The `DiffMetaInfo` entity contains some meta data of the two revisions used in
+the diff.
+[options="header",cols="1,6"]
+|=============================
+|Field Name      |Description
+|`relation_type`        |
+The relation between the LHS and RHS commits used in the diff. The value can
+be one of the following: +
+  * `IDENTICAL` - Both revisions are the same +
+  * `SAME_PARENT` - Both revisions have the same parent +
+  * `LHS_PARENT_OF_RHS` - LHS revision is the direct parent of the RHS revision +
+  * `LHS_PARENT_ANCESTOR_OF_RHS_PARENT` - The parent of LHS is an ancestor of the parent of the RHS +
+  * `RHS_PARENT_ANCESTOR_OF_LHS_PARENT`- The parent of RHS is an ancestor of the parent of the LHS +
+  * `COMMON_BASE` - Both LHS and RHS revisions have a common base that's reachable from both revisions +
+  * `MERGE_COMMIT` - Any of the LHS or RHS is a merge commit +
+  * `OTHER` - Comparison is not in any of the above types
 |=============================
 
 [[fix-input]]

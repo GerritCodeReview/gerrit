@@ -48,6 +48,7 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.DescriptionInput;
 import com.google.gerrit.extensions.common.DiffInfo;
+import com.google.gerrit.extensions.common.DiffMetaInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.Input;
@@ -77,6 +78,7 @@ import com.google.gerrit.server.restapi.change.Fixes;
 import com.google.gerrit.server.restapi.change.GetArchive;
 import com.google.gerrit.server.restapi.change.GetCommit;
 import com.google.gerrit.server.restapi.change.GetDescription;
+import com.google.gerrit.server.restapi.change.GetDiffMeta;
 import com.google.gerrit.server.restapi.change.GetMergeList;
 import com.google.gerrit.server.restapi.change.GetPatch;
 import com.google.gerrit.server.restapi.change.GetRelated;
@@ -126,6 +128,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
   private final RevisionResource revision;
   private final Files files;
   private final Files.ListFiles listFiles;
+  private final GetDiffMeta getDiffMeta;
   private final GetCommit getCommit;
   private final GetPatch getPatch;
   private final PostReview review;
@@ -174,6 +177,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
       Reviewed.DeleteReviewed deleteReviewed,
       Files files,
       Files.ListFiles listFiles,
+      GetDiffMeta getDiffMeta,
       GetCommit getCommit,
       GetPatch getPatch,
       PostReview review,
@@ -221,6 +225,7 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
     this.putReviewed = putReviewed;
     this.deleteReviewed = deleteReviewed;
     this.listFiles = listFiles;
+    this.getDiffMeta = getDiffMeta;
     this.getCommit = getCommit;
     this.getPatch = getPatch;
     this.mergeable = mergeable;
@@ -382,6 +387,24 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
       return (Map<String, FileInfo>) listFiles.setBase(base).apply(revision).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve files", e);
+    }
+  }
+
+  @Override
+  public DiffMetaInfo diffMeta(String base) throws RestApiException {
+    try {
+      return (DiffMetaInfo) getDiffMeta.setBase(base).apply(revision).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot compute revisions info", e);
+    }
+  }
+
+  @Override
+  public DiffMetaInfo diffMeta(int parentNum) throws RestApiException {
+    try {
+      return (DiffMetaInfo) getDiffMeta.setParentNum(parentNum).apply(revision).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot compute revisions info", e);
     }
   }
 

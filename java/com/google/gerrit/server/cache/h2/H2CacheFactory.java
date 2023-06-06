@@ -29,6 +29,7 @@ import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.options.IsFirstInsertForEntry;
 import com.google.gerrit.server.logging.LoggingContextAwareExecutorService;
 import com.google.gerrit.server.logging.LoggingContextAwareScheduledExecutorService;
 import com.google.inject.Inject;
@@ -64,7 +65,8 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
       MemoryCacheFactory memCacheFactory,
       @GerritServerConfig Config cfg,
       SitePaths site,
-      DynamicMap<Cache<?, ?>> cacheMap) {
+      DynamicMap<Cache<?, ?>> cacheMap,
+      IsFirstInsertForEntry isFirstInsertForEntry) {
     super(memCacheFactory, cfg, site);
     h2CacheSize = cfg.getLong("cache", null, "h2CacheSize", -1);
     h2AutoServer = cfg.getBoolean("cache", null, "h2AutoServer", false);
@@ -76,14 +78,18 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
           new LoggingContextAwareExecutorService(
               Executors.newFixedThreadPool(
                   1, new ThreadFactoryBuilder().setNameFormat("DiskCache-Store-%d").build()));
+
+      // Disable cleanup during offline reindex
       cleanup =
-          new LoggingContextAwareScheduledExecutorService(
-              Executors.newScheduledThreadPool(
-                  1,
-                  new ThreadFactoryBuilder()
-                      .setNameFormat("DiskCache-Prune-%d")
-                      .setDaemon(true)
-                      .build()));
+          isFirstInsertForEntry != null && isFirstInsertForEntry.equals(IsFirstInsertForEntry.YES)
+              ? null
+              : new LoggingContextAwareScheduledExecutorService(
+                  Executors.newScheduledThreadPool(
+                      1,
+                      new ThreadFactoryBuilder()
+                          .setNameFormat("DiskCache-Prune-%d")
+                          .setDaemon(true)
+                          .build()));
     } else {
       executor = null;
       cleanup = null;
@@ -95,9 +101,11 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
     if (executor != null) {
       for (H2CacheImpl<?, ?> cache : caches) {
         executor.execute(cache::start);
-        @SuppressWarnings("unused")
-        Future<?> possiblyIgnoredError =
-            cleanup.schedule(() -> cache.prune(cleanup), 30, TimeUnit.SECONDS);
+        if (cleanup != null) {
+          @SuppressWarnings("unused")
+          Future<?> possiblyIgnoredError =
+              cleanup.schedule(() -> cache.prune(cleanup), 30, TimeUnit.SECONDS);
+        }
       }
     }
   }
@@ -106,7 +114,9 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
   public void stop() {
     if (executor != null) {
       try {
-        cleanup.shutdownNow();
+        if (cleanup != null) {
+          cleanup.shutdownNow();
+        }
 
         List<Runnable> pending = executor.shutdownNow();
         if (executor.awaitTermination(15, TimeUnit.MINUTES)) {

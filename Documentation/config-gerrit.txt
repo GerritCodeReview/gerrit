@@ -3659,6 +3659,21 @@ depend on this feature to trigger change verification.
 +
 By default, true.
 
+[[event.stream-events.enableRefUpdatedEvents]]event.stream-events.enableRefUpdatedEvents::
++
+Enable streaming of `ref-updated` event which represents a single ref update operation.
+This allows event listeners to react on a ref update.
++
+By default, true.
+
+[[event.stream-events.enableBatchRefUpdatedEvents]]event.stream-events.enableBatchRefUpdatedEvents::
++
+Enable streaming of `batch-ref-updated` event which represents group of
+refs updated during a single batch ref update operation.
+This allows event listeners to react on a group of refs updated together.
++
+By default, true.
+
 [[experiments]]
 === Section experiments
 

@@ -629,6 +629,7 @@ suite('gr-change-actions tests', () => {
             allowConflicts: false,
             rebaseChain: false,
             onBehalfOfUploader: true,
+            committerEmail: 'test@default.org',
           },
         })
       );
@@ -636,7 +637,12 @@ suite('gr-change-actions tests', () => {
         '/rebase',
         assertUIActionInfo(rebaseAction),
         true,
-        {base: '1234', allow_conflicts: false, on_behalf_of_uploader: true},
+        {
+          base: '1234',
+          allow_conflicts: false,
+          on_behalf_of_uploader: true,
+          committer_email: 'test@default.org',
+        },
         {allow_conflicts: false, on_behalf_of_uploader: true},
       ]);
     });

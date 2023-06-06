@@ -1443,6 +1443,8 @@ If the chain is outdated, i.e., there's a change that depends on an old revision
 result is the same as individually rebasing all outdated changes on top of their parent's latest
 revision before running the rebase chain action.
 
+Providing a `committer_email` is not supported with a rebase chain.
+
 .Request
 ----
   POST /changes/myProject~master~I08a021fb07b83fe845140a2c11508b3bdd93b48f/rebase:chain HTTP/1.0
@@ -8280,6 +8282,10 @@ This means this option cannot be combined with the `allow_conflicts` option. +
 In addition, rebasing on behalf of the uploader is only supported for the
 current patch set of a change. +
 If the caller is the uploader this flag is ignored and a normal rebase is done.
+|`committer_email`|optional|
+Rebase is committed using this email address. Only the registered emails
+of the calling user or uploader(when `on_behalf_of_uploader` is `true`) are
+considered valid. The option is not supported when rebasing a chain.
 |`validation_options`   |optional|
 Map with key-value pairs that are forwarded as options to the commit validation
 listeners (e.g. can be used to skip certain validations). Which validation

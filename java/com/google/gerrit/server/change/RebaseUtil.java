@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
@@ -538,23 +539,42 @@ public class RebaseUtil {
     return baseId;
   }
 
-  public RebaseChangeOp getRebaseOp(RevisionResource revRsrc, RebaseInput input, ObjectId baseRev) {
+  public RebaseChangeOp getRebaseOp(RevisionResource revRsrc, RebaseInput input, ObjectId baseRev)
+      throws ResourceConflictException {
     return applyRebaseInputToOp(
-        rebaseFactory.create(revRsrc.getNotes(), revRsrc.getPatchSet(), baseRev), input);
+        rebaseFactory.create(revRsrc.getNotes(), revRsrc.getPatchSet(), baseRev),
+        input,
+        revRsrc.getUser().asIdentifiedUser());
   }
 
   public RebaseChangeOp getRebaseOp(
-      RevisionResource revRsrc, RebaseInput input, Change.Id baseChange) {
+      RevisionResource revRsrc, RebaseInput input, Change.Id baseChange)
+      throws ResourceConflictException {
     return applyRebaseInputToOp(
-        rebaseFactory.create(revRsrc.getNotes(), revRsrc.getPatchSet(), baseChange), input);
+        rebaseFactory.create(revRsrc.getNotes(), revRsrc.getPatchSet(), baseChange),
+        input,
+        revRsrc.getUser().asIdentifiedUser());
   }
 
-  private RebaseChangeOp applyRebaseInputToOp(RebaseChangeOp op, RebaseInput input) {
-    return op.setForceContentMerge(true)
-        .setAllowConflicts(input.allowConflicts)
-        .setMergeStrategy(input.strategy)
-        .setValidationOptions(
-            ValidationOptionsUtil.getValidateOptionsAsMultimap(input.validationOptions))
-        .setFireRevisionCreated(true);
+  private RebaseChangeOp applyRebaseInputToOp(
+      RebaseChangeOp op, RebaseInput input, IdentifiedUser user) throws ResourceConflictException {
+    RebaseChangeOp rebaseChangeOp =
+        op.setForceContentMerge(true)
+            .setAllowConflicts(input.allowConflicts)
+            .setValidationOptions(
+                ValidationOptionsUtil.getValidateOptionsAsMultimap(input.validationOptions))
+            .setFireRevisionCreated(true);
+
+    if (input.committerEmail != null) {
+      ImmutableSet<String> emails = user.getEmailAddresses();
+      if (!emails.contains(input.committerEmail)) {
+        throw new ResourceConflictException(
+            String.format(
+                "Committer email %s is not among registered emails of %s: %s",
+                input.committerEmail, user.getLoggableName(), emails));
+      }
+      op.setCommitterIdent(new PersonIdent(user.getName(), input.committerEmail));
+    }
+    return rebaseChangeOp;
   }
 }

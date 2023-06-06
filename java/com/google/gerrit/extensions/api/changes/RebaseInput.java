@@ -51,4 +51,12 @@ public class RebaseInput {
   public boolean onBehalfOfUploader;
 
   public Map<String, String> validationOptions;
+
+  /**
+   * Rebase will be committed using this email address. Only the registered emails of the calling
+   * user are considered valid.
+   *
+   * <p>This option is not supported when rebasing a chain.
+   */
+  public String committerEmail;
 }

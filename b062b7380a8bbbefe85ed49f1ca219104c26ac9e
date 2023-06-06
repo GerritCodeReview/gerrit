@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a3f77e6_0b904a26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-06T23:15:33Z",
+      "side": 1,
+      "message": "Add",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "b062b7380a8bbbefe85ed49f1ca219104c26ac9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0af9f5e9_0ccf6a84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-06T23:15:33Z",
+      "side": 1,
+      "message": "Line too long",
+      "range": {
+        "startLine": 7,
+        "startChar": 62,
+        "endLine": 7,
+        "endChar": 74
+      },
+      "revId": "b062b7380a8bbbefe85ed49f1ca219104c26ac9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e3ce27d_502457e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-06T23:15:33Z",
+      "side": 1,
+      "message": "to opt-in explicitly. Because the implicit opt-in was the default because this change, can this be considered a breaking change? Do we need to put some warning on the `Release-Notes` footer?",
+      "range": {
+        "startLine": 9,
+        "startChar": 18,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "b062b7380a8bbbefe85ed49f1ca219104c26ac9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea16f459_a75130a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-06T23:15:33Z",
+      "side": 1,
+      "message": "Missing `Release-Notes` footer.",
+      "revId": "b062b7380a8bbbefe85ed49f1ca219104c26ac9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c16d7d6_eddc1bac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-06T23:15:33Z",
+      "side": 1,
+      "message": "SGTM, some nits.",
+      "revId": "b062b7380a8bbbefe85ed49f1ca219104c26ac9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

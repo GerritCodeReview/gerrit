@@ -38,6 +38,7 @@ import com.google.gerrit.extensions.events.ChangeMergedListener;
 import com.google.gerrit.extensions.events.ChangeRestoredListener;
 import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.extensions.events.CustomKeyedValuesEditedListener;
+import com.google.gerrit.extensions.events.GitBatchRefUpdateListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.HashtagsEditedListener;
 import com.google.gerrit.extensions.events.HeadUpdatedListener;
@@ -55,6 +56,7 @@ import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ApprovalAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
+import com.google.gerrit.server.data.RefUpdateAttribute;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.plugincontext.PluginItemContext;
@@ -66,7 +68,9 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -81,6 +85,7 @@ public class StreamEventsApiListener
         PrivateStateChangedListener,
         CommentAddedListener,
         GitReferenceUpdatedListener,
+        GitBatchRefUpdateListener,
         HashtagsEditedListener,
         CustomKeyedValuesEditedListener,
         NewProjectCreatedListener,
@@ -102,6 +107,7 @@ public class StreamEventsApiListener
       DynamicSet.bind(binder(), CommentAddedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
           .to(StreamEventsApiListener.class);
+      DynamicSet.bind(binder(), GitBatchRefUpdateListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), HashtagsEditedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), CustomKeyedValuesEditedListener.class)
           .to(StreamEventsApiListener.class);
@@ -390,6 +396,25 @@ public class StreamEventsApiListener
                     ObjectId.fromString(ev.getNewObjectId()),
                     refName));
     dispatcher.run(d -> d.postEvent(refName, event));
+  }
+
+  @Override
+  public void onGitBatchRefUpdate(GitBatchRefUpdateListener.Event ev) {
+    Project.NameKey projectName = Project.nameKey(ev.getProjectName());
+    Supplier<List<RefUpdateAttribute>> refUpdates =
+        Suppliers.memoize(
+            () ->
+                ev.getUpdatedRefs().stream()
+                    .map(
+                        ru ->
+                            eventFactory.asRefUpdateAttribute(
+                                ObjectId.fromString(ru.getOldObjectId()),
+                                ObjectId.fromString(ru.getNewObjectId()),
+                                BranchNameKey.create(ev.getProjectName(), ru.getRefName())))
+                    .collect(Collectors.toList()));
+
+    BatchRefUpdateEvent event = new BatchRefUpdateEvent(projectName, refUpdates, ev.getUpdater());
+    dispatcher.run(d -> d.postEvent(projectName, event));
   }
 
   @Override

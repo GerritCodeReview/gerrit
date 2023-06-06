@@ -305,7 +305,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new EventBrokerModule());
     modules.add(new JdbcAccountPatchReviewStoreModule(config));
     modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));
-    modules.add(new StreamEventsApiListenerModule());
+    modules.add(new StreamEventsApiListenerModule(config));
     modules.add(new SysExecutorModule());
     modules.add(new DiffExecutorModule());
     modules.add(new MimeUtil2Module());

@@ -207,6 +207,23 @@ refUpdate:: link:json.html#refUpdate[refUpdate attribute]
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 
+=== Batch Ref Updated
+
+Sent when a reference is updated in a git repository. `batch-ref-updated` event contains all refs
+updated together during the single batch ref update operation. Single ref updates are also sent as a
+`batch-ref-updated` events.
+You may want to listen to individual or batch ref-updates, but not both of them. Listening to both
+`batch-ref-updates` and `ref-updates` events will cause processing the same ref updates twice.
+
+type:: "batch-ref-updated"
+
+submitter:: link:json.html#account[account attribute]
+
+refUpdates:: list of link:json.html#refUpdates[refUpdate attributes]
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
 === Reviewer Added
 
 Sent when a reviewer is added to a change.

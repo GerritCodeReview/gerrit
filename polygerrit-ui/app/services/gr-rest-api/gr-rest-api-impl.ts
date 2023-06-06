@@ -794,10 +794,34 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getAccountEmails() {
-    return this._fetchSharedCacheURL({
-      url: '/accounts/self/emails',
-      reportUrlAsIs: true,
-    }) as Promise<EmailInfo[] | undefined>;
+    return this.getLoggedIn().then(isloggedIn => {
+      if (isloggedIn) {
+        return this._fetchSharedCacheURL({
+          url: '/accounts/self/emails',
+          reportUrlAsIs: true,
+        }) as Promise<EmailInfo[] | undefined>;
+      } else return undefined;
+    });
+  }
+
+  getAccountEmailsFor(email: string) {
+    return this.getLoggedIn()
+      .then(isLoggedIn => {
+        if (isLoggedIn) {
+          return this.getAccountCapabilities();
+        } else {
+          return undefined;
+        }
+      })
+      .then((capabilities: AccountCapabilityInfo | undefined) => {
+        if (capabilities && capabilities.viewSecondaryEmails) {
+          return this._fetchSharedCacheURL({
+            url: '/accounts/' + email + '/emails',
+            reportUrlAsIs: true,
+          }) as Promise<EmailInfo[] | undefined>;
+        }
+        return undefined;
+      });
   }
 
   addAccountEmail(email: string): Promise<Response> {

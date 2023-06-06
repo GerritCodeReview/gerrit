@@ -100,6 +100,22 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cannotRebaseOnBehalfOfUploaderWithCommitterEmail() throws Exception {
+    Account.Id uploader = accountOperations.newAccount().create();
+    Change.Id changeId = changeOperations.newChange().owner(uploader).create();
+    RebaseInput rebaseInput = new RebaseInput();
+    rebaseInput.onBehalfOfUploader = true;
+    rebaseInput.committerEmail = "admin@example.com";
+    BadRequestException exception =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(changeId.get()).rebaseChain(rebaseInput));
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo("committer_email is not supported when rebasing a chain");
+  }
+
+  @Test
   public void rebaseChangeOnBehalfOfUploader_withRebasePermission() throws Exception {
     testRebaseChainOnBehalfOfUploader(Permission.REBASE);
   }

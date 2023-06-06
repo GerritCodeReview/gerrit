@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
+import com.google.gerrit.extensions.common.DiffMetaInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.MergeableInfo;
@@ -81,6 +82,10 @@ public interface RevisionApi {
   Map<String, FileInfo> files(@Nullable String base) throws RestApiException;
 
   Map<String, FileInfo> files(int parentNum) throws RestApiException;
+
+  DiffMetaInfo diffMeta(String base) throws RestApiException;
+
+  DiffMetaInfo diffMeta(int parentNum) throws RestApiException;
 
   List<String> queryFiles(String query) throws RestApiException;
 
@@ -265,6 +270,16 @@ public interface RevisionApi {
 
     @Override
     public Map<String, FileInfo> files(String base) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public DiffMetaInfo diffMeta(String base) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public DiffMetaInfo diffMeta(int parentNum) throws RestApiException {
       throw new NotImplementedException();
     }
 

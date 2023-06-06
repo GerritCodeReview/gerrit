@@ -23,6 +23,7 @@ public class EventTypes {
   private static final Map<String, Class<?>> typesByString = new HashMap<>();
 
   static {
+    register(BatchRefUpdateEvent.TYPE, BatchRefUpdateEvent.class);
     register(ChangeAbandonedEvent.TYPE, ChangeAbandonedEvent.class);
     register(ChangeDeletedEvent.TYPE, ChangeDeletedEvent.class);
     register(ChangeMergedEvent.TYPE, ChangeMergedEvent.class);

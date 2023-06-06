@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
@@ -68,6 +69,7 @@ public class Rebase
   private final ProjectCache projectCache;
   private final PatchSetUtil patchSetUtil;
   private final RebaseMetrics rebaseMetrics;
+  private final IdentifiedUser.GenericFactory userFactory;
 
   @Inject
   public Rebase(
@@ -78,7 +80,8 @@ public class Rebase
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       PatchSetUtil patchSetUtil,
-      RebaseMetrics rebaseMetrics) {
+      RebaseMetrics rebaseMetrics,
+      IdentifiedUser.GenericFactory userFactory) {
     this.updateFactory = updateFactory;
     this.repoManager = repoManager;
     this.rebaseUtil = rebaseUtil;
@@ -87,16 +90,19 @@ public class Rebase
     this.projectCache = projectCache;
     this.patchSetUtil = patchSetUtil;
     this.rebaseMetrics = rebaseMetrics;
+    this.userFactory = userFactory;
   }
 
   @Override
   public Response<ChangeInfo> apply(RevisionResource rsrc, RebaseInput input)
       throws UpdateException, RestApiException, IOException, PermissionBackendException {
-
+    IdentifiedUser rebaseAsUser;
     if (input.onBehalfOfUploader && !rsrc.getPatchSet().uploader().equals(rsrc.getAccountId())) {
+      rebaseAsUser = userFactory.create(rsrc.getPatchSet().uploader());
       rsrc.permissions().check(ChangePermission.REBASE_ON_BEHALF_OF_UPLOADER);
       rsrc = rebaseUtil.onBehalfOf(rsrc, input);
     } else {
+      rebaseAsUser = rsrc.getUser().asIdentifiedUser();
       input.onBehalfOfUploader = false;
       rsrc.permissions().check(ChangePermission.REBASE);
     }
@@ -118,9 +124,11 @@ public class Rebase
 
         RebaseChangeOp rebaseOp =
             rebaseUtil.getRebaseOp(
+                rw,
                 rsrc,
                 input,
-                rebaseUtil.parseOrFindBaseRevision(repo, rw, permissionBackend, rsrc, input, true));
+                rebaseUtil.parseOrFindBaseRevision(repo, rw, permissionBackend, rsrc, input, true),
+                rebaseAsUser);
 
         // TODO(dborowitz): Why no notification? This seems wrong; dig up blame.
         bu.setNotify(NotifyResolver.Result.none());

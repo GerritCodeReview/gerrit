@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
@@ -38,6 +39,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
@@ -45,6 +47,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -62,39 +65,38 @@ public class RebaseUtil {
   private final Provider<PersonIdent> serverIdent;
   private final IdentifiedUser.GenericFactory userFactory;
   private final PermissionBackend permissionBackend;
-  private final ChangeResource.Factory changeResourceFactory;
   private final GitRepositoryManager repoManager;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeNotes.Factory notesFactory;
   private final PatchSetUtil psUtil;
   private final RebaseChangeOp.Factory rebaseFactory;
+  private final Provider<CurrentUser> self;
 
   @Inject
   RebaseUtil(
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
       IdentifiedUser.GenericFactory userFactory,
       PermissionBackend permissionBackend,
-      ChangeResource.Factory changeResourceFactory,
       GitRepositoryManager repoManager,
       Provider<InternalChangeQuery> queryProvider,
       ChangeNotes.Factory notesFactory,
       PatchSetUtil psUtil,
-      RebaseChangeOp.Factory rebaseFactory) {
+      RebaseChangeOp.Factory rebaseFactory,
+      Provider<CurrentUser> self) {
     this.serverIdent = serverIdent;
     this.userFactory = userFactory;
     this.permissionBackend = permissionBackend;
-    this.changeResourceFactory = changeResourceFactory;
     this.repoManager = repoManager;
     this.queryProvider = queryProvider;
     this.notesFactory = notesFactory;
     this.psUtil = psUtil;
     this.rebaseFactory = rebaseFactory;
+    this.self = self;
   }
 
   /**
-   * Checks that the uploader has permissions to create a new patch set and creates a new {@link
-   * RevisionResource} that contains the uploader (aka the impersonated user) as the current user
-   * which can be used for {@link BatchUpdate} to do the rebase on behalf of the uploader.
+   * Checks that the uploader has permissions to create a new patch set as the current user which
+   * can be used for {@link BatchUpdate} to do the rebase on behalf of the uploader.
    *
    * <p>The following permissions are required for the uploader:
    *
@@ -137,10 +139,8 @@ public class RebaseUtil {
    *
    * @param rsrc the revision resource that should be rebased
    * @param rebaseInput the request input containing options for the rebase
-   * @return revision resource that contains the uploader (aka the impersonated user) as the current
-   *     user which can be used for {@link BatchUpdate} to do the rebase on behalf of the uploader
    */
-  public RevisionResource onBehalfOf(RevisionResource rsrc, RebaseInput rebaseInput)
+  public void checkCanRebaseOnBehalfOf(RevisionResource rsrc, RebaseInput rebaseInput)
       throws IOException, PermissionBackendException, BadRequestException,
           ResourceConflictException {
     if (rebaseInput.allowConflicts) {
@@ -208,9 +208,6 @@ public class RebaseUtil {
         }
       }
     }
-
-    return new RevisionResource(
-        changeResourceFactory.create(rsrc.getNotes(), uploader), rsrc.getPatchSet());
   }
 
   private void checkPermissionForUploader(
@@ -538,23 +535,77 @@ public class RebaseUtil {
     return baseId;
   }
 
-  public RebaseChangeOp getRebaseOp(RevisionResource revRsrc, RebaseInput input, ObjectId baseRev) {
+  public RebaseChangeOp getRebaseOp(
+      RevWalk rw,
+      RevisionResource revRsrc,
+      RebaseInput input,
+      ObjectId baseRev,
+      IdentifiedUser rebaseAsUser)
+      throws ResourceConflictException, PermissionBackendException, IOException {
     return applyRebaseInputToOp(
-        rebaseFactory.create(revRsrc.getNotes(), revRsrc.getPatchSet(), baseRev), input);
+        rw,
+        rebaseFactory.create(revRsrc.getNotes(), revRsrc.getPatchSet(), baseRev),
+        input,
+        rebaseAsUser);
   }
 
   public RebaseChangeOp getRebaseOp(
-      RevisionResource revRsrc, RebaseInput input, Change.Id baseChange) {
+      RevWalk rw,
+      RevisionResource revRsrc,
+      RebaseInput input,
+      Change.Id baseChange,
+      IdentifiedUser rebaseAsUser)
+      throws ResourceConflictException, PermissionBackendException, IOException {
     return applyRebaseInputToOp(
-        rebaseFactory.create(revRsrc.getNotes(), revRsrc.getPatchSet(), baseChange), input);
+        rw,
+        rebaseFactory.create(revRsrc.getNotes(), revRsrc.getPatchSet(), baseChange),
+        input,
+        rebaseAsUser);
   }
 
-  private RebaseChangeOp applyRebaseInputToOp(RebaseChangeOp op, RebaseInput input) {
-    return op.setForceContentMerge(true)
-        .setAllowConflicts(input.allowConflicts)
-        .setMergeStrategy(input.strategy)
-        .setValidationOptions(
-            ValidationOptionsUtil.getValidateOptionsAsMultimap(input.validationOptions))
-        .setFireRevisionCreated(true);
+  private RebaseChangeOp applyRebaseInputToOp(
+      RevWalk rw, RebaseChangeOp op, RebaseInput input, IdentifiedUser rebaseAsUser)
+      throws ResourceConflictException, PermissionBackendException, IOException {
+    RebaseChangeOp rebaseChangeOp =
+        op.setForceContentMerge(true)
+            .setAllowConflicts(input.allowConflicts)
+            .setMergeStrategy(input.strategy)
+            .setValidationOptions(
+                ValidationOptionsUtil.getValidateOptionsAsMultimap(input.validationOptions))
+            .setFireRevisionCreated(true);
+
+    String originalPatchSetCommitterEmail =
+        rw.parseCommit(rebaseChangeOp.getOriginalPatchSet().commitId())
+            .getCommitterIdent()
+            .getEmailAddress();
+
+    if (input.committerEmail != null) {
+      if (!self.get().hasSameAccountId(rebaseAsUser)
+          && !input.committerEmail.equals(rebaseAsUser.getAccount().preferredEmail())
+          && !input.committerEmail.equals(originalPatchSetCommitterEmail)
+          && !permissionBackend.currentUser().test(GlobalPermission.VIEW_SECONDARY_EMAILS)) {
+        throw new ResourceConflictException(
+            String.format(
+                "Cannot rebase using committer email '%s'. It can only be done using the "
+                    + "preferred email or the committer email of the uploader",
+                input.committerEmail));
+      }
+
+      ImmutableSet<String> emails = rebaseAsUser.getEmailAddresses();
+      if (!emails.contains(input.committerEmail)) {
+        throw new ResourceConflictException(
+            String.format(
+                "Cannot rebase using committer email '%s' as it is not a registered "
+                    + "email of the user on whose behalf the rebase operation is performed",
+                input.committerEmail));
+      }
+      rebaseChangeOp.setCommitterIdent(
+          new PersonIdent(
+              rebaseAsUser.getName(),
+              input.committerEmail,
+              TimeUtil.now(),
+              serverIdent.get().getZoneId()));
+    }
+    return rebaseChangeOp;
   }
 }

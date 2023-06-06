@@ -36,6 +36,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
@@ -89,6 +90,7 @@ public class RebaseChain
   private final PatchSetUtil patchSetUtil;
   private final ChangeJson.Factory json;
   private final RebaseMetrics rebaseMetrics;
+  private final IdentifiedUser.GenericFactory userFactory;
 
   @Inject
   RebaseChain(
@@ -103,7 +105,8 @@ public class RebaseChain
       ProjectCache projectCache,
       PatchSetUtil patchSetUtil,
       ChangeJson.Factory json,
-      RebaseMetrics rebaseMetrics) {
+      RebaseMetrics rebaseMetrics,
+      IdentifiedUser.GenericFactory userFactory) {
     this.repoManager = repoManager;
     this.getRelatedChangesUtil = getRelatedChangesUtil;
     this.changeDataFactory = changeDataFactory;
@@ -116,11 +119,18 @@ public class RebaseChain
     this.patchSetUtil = patchSetUtil;
     this.json = json;
     this.rebaseMetrics = rebaseMetrics;
+    this.userFactory = userFactory;
   }
 
   @Override
   public Response<RebaseChainInfo> apply(ChangeResource tipRsrc, RebaseInput input)
       throws IOException, PermissionBackendException, RestApiException, UpdateException {
+    IdentifiedUser rebaseAsUser;
+    if (input.committerEmail != null) {
+      // TODO: committer_email can be supported if all changes in the chain
+      //  belong to the same uploader. It can be attempted in future as needed.
+      throw new BadRequestException("committer_email is not supported when rebasing a chain");
+    }
     if (input.onBehalfOfUploader) {
       tipRsrc.permissions().check(ChangePermission.REBASE_ON_BEHALF_OF_UPLOADER);
       if (input.allowConflicts) {
@@ -160,10 +170,14 @@ public class RebaseChain
               new RevisionResource(changeResourceFactory.create(changeData, user), ps);
           if (input.onBehalfOfUploader
               && !revRsrc.getPatchSet().uploader().equals(revRsrc.getAccountId())) {
-            revRsrc = rebaseUtil.onBehalfOf(revRsrc, input);
+            rebaseAsUser =
+                userFactory.runAs(
+                    /*remotePeer= */ null, revRsrc.getPatchSet().uploader(), revRsrc.getUser());
+            rebaseUtil.checkCanRebaseOnBehalfOf(revRsrc, input);
             revRsrc.permissions().check(ChangePermission.REBASE_ON_BEHALF_OF_UPLOADER);
             anyRebaseOnBehalfOfUploader = true;
           } else {
+            rebaseAsUser = revRsrc.getUser().asIdentifiedUser();
             revRsrc.permissions().check(ChangePermission.REBASE);
           }
           rebaseUtil.verifyRebasePreconditions(rw, changeData.notes(), ps);
@@ -177,7 +191,7 @@ public class RebaseChain
             if (currentBase(rw, ps).equals(desiredBase)) {
               isUpToDate = true;
             } else {
-              rebaseOp = rebaseUtil.getRebaseOp(revRsrc, input, desiredBase);
+              rebaseOp = rebaseUtil.getRebaseOp(rw, revRsrc, input, desiredBase, rebaseAsUser);
             }
           } else {
             if (ancestorsAreUpToDate) {
@@ -187,7 +201,8 @@ public class RebaseChain
               isUpToDate = currentBase(rw, ps).equals(latestCommittedBase);
             }
             if (!isUpToDate) {
-              rebaseOp = rebaseUtil.getRebaseOp(revRsrc, input, chain.get(i - 1).id());
+              rebaseOp =
+                  rebaseUtil.getRebaseOp(rw, revRsrc, input, chain.get(i - 1).id(), rebaseAsUser);
             }
           }
 
@@ -196,7 +211,7 @@ public class RebaseChain
             continue;
           }
           ancestorsAreUpToDate = false;
-          bu.addOp(revRsrc.getChange().getId(), revRsrc.getUser(), rebaseOp);
+          bu.addOp(revRsrc.getChange().getId(), rebaseAsUser, rebaseOp);
           rebaseOps.put(revRsrc.getChange().getId(), rebaseOp);
         }
 

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64578951_1ab18159",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-06-06T20:16:18Z",
+      "side": 1,
+      "message": "Why is that not a good design choice?\n\nI think I would prefer an optional field on `FileInfo` instead of calling two REST APIs and joining the responses.",
+      "range": {
+        "startLine": 20,
+        "startChar": 28,
+        "endLine": 20,
+        "endChar": 36
+      },
+      "revId": "7a13670bbbac158c353be1b67f00c67930086013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4816eb5_0f3caae5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-06-06T20:16:18Z",
+      "side": 1,
+      "message": "Sorry, I think I would probably be able to figure out what these mean eventually, but at the moment (after 5 minutes of thinking) I am lost. And I assume that the users will also be lost. So I think it is vital that we design the UX and the messaging for the end user first. Showing a warning is great, but the users should be able to understand what is going on in ~seconds.\n\nNaively, I would map each parent to either a change number (parent is a pending change) or to the name of the branch (parent is a commit in the target branch). If the parents of two patchsets map to something different, then show a warning like \"UNUSUAL REBASE WARNING: Patchset 1 was based on change 123, but patchset 2 is based directly on the target branch foo\".\n\nBonus points for also showing a warning when the change was rebased to something older: \"UNUSUAL REBASE WARNING: Patchset 1 was based on ps 3 of change 123, but the newer patchset 2 is based on the *older* ps 2 of change 123.\"\n\nWDYT?",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 0
+      },
+      "revId": "7a13670bbbac158c353be1b67f00c67930086013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f40dbfd9_071f7bc9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-06-06T20:16:18Z",
+      "side": 1,
+      "message": "If `base` is not set in the request, then is \"relation type\" meaningful? Will it always be `LHS_PARENT_OF_RHS` then?",
+      "revId": "7a13670bbbac158c353be1b67f00c67930086013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

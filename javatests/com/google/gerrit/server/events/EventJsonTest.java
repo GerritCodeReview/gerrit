@@ -116,6 +116,40 @@ public class EventJsonTest {
   }
 
   @Test
+  public void batchRefUpdatedEvent() {
+    BatchRefUpdateEvent event = new BatchRefUpdateEvent();
+    String patchsetRefName = "refs/changes/01/1";
+    String metaRefName = "refs/changes/01/meta";
+
+    RefUpdateAttribute refUpdatedAttribute = new RefUpdateAttribute();
+    refUpdatedAttribute.refName = patchsetRefName;
+    RefUpdateAttribute metaRefUpdatedAttribute = new RefUpdateAttribute();
+    metaRefUpdatedAttribute.refName = metaRefName;
+    event.refUpdates =
+        createSupplier(ImmutableList.of(refUpdatedAttribute, metaRefUpdatedAttribute));
+    event.submitter = newAccount("submitter");
+
+    assertThatJsonMap(event)
+        .isEqualTo(
+            ImmutableMap.builder()
+                .put(
+                    "submitter",
+                    ImmutableMap.builder()
+                        .put("name", event.submitter.get().name)
+                        .put("email", event.submitter.get().email)
+                        .put("username", event.submitter.get().username)
+                        .build())
+                .put(
+                    "refUpdates",
+                    ImmutableList.of(
+                        ImmutableMap.of("refName", patchsetRefName),
+                        ImmutableMap.of("refName", metaRefName)))
+                .put("type", "batch-ref-updated")
+                .put("eventCreatedOn", TS1)
+                .build());
+  }
+
+  @Test
   public void patchSetCreatedEvent() {
     Change change = newChange();
     PatchSetCreatedEvent event = new PatchSetCreatedEvent(change);

@@ -118,6 +118,7 @@ public class Rebase
 
         RebaseChangeOp rebaseOp =
             rebaseUtil.getRebaseOp(
+                rw,
                 rsrc,
                 input,
                 rebaseUtil.parseOrFindBaseRevision(repo, rw, permissionBackend, rsrc, input, true));

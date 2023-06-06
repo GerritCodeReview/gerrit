@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "145fa966_b4b692a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-06T14:29:19Z",
+      "side": 1,
+      "message": "would be good to mention what are the limitations of the existing approach and what are the advantages of the new event being emitted to the `EventListener`.",
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe6a615c_9dad9197",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-06T14:29:19Z",
+      "side": 1,
+      "message": "```suggestion\nevents\n```",
+      "range": {
+        "startLine": 14,
+        "startChar": 45,
+        "endLine": 14,
+        "endChar": 50
+      },
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78bbf88e_835b6172",
+        "filename": "java/com/google/gerrit/server/events/BatchRefUpdateEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-06T14:29:19Z",
+      "side": 1,
+      "message": "I think we should document the purpose this event serves via javadoc",
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be90e068_ce6dd293",
+        "filename": "java/com/google/gerrit/server/events/BatchRefUpdateEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-06T14:29:19Z",
+      "side": 1,
+      "message": "Looking into `RefUpdatedEvent` the `submitter` is of type `Supplier\u003cAccountAttribute\u003e`. It looks like the `AccountInfo` that we use here is a richer class compared to `AccountInfo`, but do we really need it? And also, if we switch to a `Supplier` type, does this make the implementation more flexible (given its an interface)?",
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "949c0d5d_9a4f1a25",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-06T14:29:19Z",
+      "side": 1,
+      "message": "I thought we wanted to move away from the `GitBatchRefUpdateListener`, but i dont understand the code well enough to be able to suggest what other batch listener to use (or even piggyback on one of the existing listeners).\n\nAlso, i know you mention it in the commit msg, but i dont understand why we make this change in the `StreamEventsApiListener` (sorry 😊)",
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

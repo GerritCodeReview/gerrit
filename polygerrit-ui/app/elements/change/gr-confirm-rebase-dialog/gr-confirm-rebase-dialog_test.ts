@@ -8,11 +8,18 @@ import './gr-confirm-rebase-dialog';
 import {GrConfirmRebaseDialog, RebaseChange} from './gr-confirm-rebase-dialog';
 import {
   pressKey,
+  query,
   queryAndAssert,
   stubRestApi,
   waitUntil,
 } from '../../../test/test-utils';
-import {NumericChangeId, BranchName, Timestamp} from '../../../types/common';
+import {
+  NumericChangeId,
+  BranchName,
+  Timestamp,
+  AccountId,
+  EmailAddress,
+} from '../../../types/common';
 import {
   createAccountWithEmail,
   createChangeViewChange,
@@ -25,6 +32,7 @@ import {userModelToken} from '../../../models/user/user-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 import {LoadingStatus} from '../../../types/types';
+import {GrDropdownList} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 
 suite('gr-confirm-rebase-dialog tests', () => {
   let element: GrConfirmRebaseDialog;
@@ -154,6 +162,132 @@ suite('gr-confirm-rebase-dialog tests', () => {
         'gr-account-chip'
       );
       assert.equal(accountChip.account, element.account);
+    });
+  });
+
+  suite('rebase with committer email', () => {
+    setup(async () => {
+      element.branch = 'test' as BranchName;
+      await element.updateComplete;
+    });
+
+    test('hide rebaseWithCommitterEmail dialog when committer has single email', async () => {
+      element.committerEmailDropdownItems = [
+        {
+          email: 'test1@example.com',
+          preferred: true,
+          pending_confirmation: true,
+        },
+      ];
+      await element.updateComplete;
+      assert.isNotOk(query(element, '.rebaseWithCommitterEmail'));
+    });
+
+    test('show rebaseWithCommitterEmail dialog when committer has more than one email', async () => {
+      element.committerEmailDropdownItems = [
+        {
+          email: 'test1@example.com',
+          preferred: true,
+          pending_confirmation: true,
+        },
+        {
+          email: 'test2@example.com',
+          pending_confirmation: true,
+        },
+      ];
+      await element.updateComplete;
+      const committerEmail = queryAndAssert(
+        element,
+        '.rebaseWithCommitterEmail'
+      );
+      assert.dom.equal(
+        committerEmail,
+        /* HTML */ `<div class="rebaseWithCommitterEmail"
+              >Rebase with committer email
+              <gr-dropdown-list>
+              </gr-dropdown-list>
+              <span></div>`
+      );
+      const dropdownList: GrDropdownList = queryAndAssert(
+        committerEmail,
+        'gr-dropdown-list'
+      );
+      assert.strictEqual(dropdownList.items!.length, 2);
+    });
+
+    test('hide rebaseWithCommitterEmail dialog when RebaseChain is set', async () => {
+      element.shouldRebaseChain = true;
+      await element.updateComplete;
+      assert.isNotOk(query(element, '.rebaseWithCommitterEmail'));
+    });
+
+    test('show current user emails in the dropdown list when rebase with conflicts is allowed', async () => {
+      element.allowConflicts = true;
+      element.latestCommitter = {
+        email: 'commit@example.com' as EmailAddress,
+        name: 'committer',
+        date: '2023-06-12 18:32:08.000000000' as Timestamp,
+      };
+      element.committerEmailDropdownItems = [
+        {
+          email: 'currentuser1@example.com',
+          preferred: true,
+          pending_confirmation: true,
+        },
+        {
+          email: 'currentuser2@example.com',
+          preferred: true,
+          pending_confirmation: true,
+        },
+      ];
+      await element.updateComplete;
+      const committerEmail = queryAndAssert(
+        element,
+        '.rebaseWithCommitterEmail'
+      );
+      const dropdownList: GrDropdownList = queryAndAssert(
+        committerEmail,
+        'gr-dropdown-list'
+      );
+      assert.deepStrictEqual(
+        dropdownList.items!.map(e => e.value),
+        element.committerEmailDropdownItems.map(e => e.email)
+      );
+    });
+
+    test('show uploader emails in the dropdown list when rebase with conflicts is not allowed', async () => {
+      element.allowConflicts = false;
+      element.uploader = {_account_id: 2 as AccountId, name: '2'};
+      element.latestCommitter = {
+        email: 'commit@example.com' as EmailAddress,
+        name: 'committer',
+        date: '2023-06-12 18:32:08.000000000' as Timestamp,
+      };
+      element.committerEmailDropdownItems = [
+        {
+          email: 'uploader1@example.com',
+          preferred: true,
+          pending_confirmation: true,
+        },
+        {
+          email: 'uploader2@example.com',
+          preferred: false,
+          pending_confirmation: true,
+        },
+      ];
+      await element.updateComplete;
+      const committerEmail = queryAndAssert(
+        element,
+        '.rebaseWithCommitterEmail'
+      );
+      const dropdownList: GrDropdownList = queryAndAssert(
+        committerEmail,
+        'gr-dropdown-list'
+      );
+      assert.deepStrictEqual(
+        dropdownList.items!.map(e => e.value),
+        element.committerEmailDropdownItems.map(e => e.email)
+      );
     });
   });
 

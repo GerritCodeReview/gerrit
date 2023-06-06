@@ -67,6 +67,24 @@
       "message": "Great initiative.\nUnfortunately I won\u0027t have time to review this before monday.",
       "revId": "abc65931aad4f4ab0889beba1e8706397071edb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77ce8b51_dd492af4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083195
+      },
+      "writtenOn": "2023-06-06T05:13:10Z",
+      "side": 1,
+      "message": "I believe it was mentioned in the esc meeting [3] that it would be implemented as the core. I posted a question regarding that in the discussions and received from @sven.selberg@axis.com that it was planned to be a core feature instead of a plugin.\n\n[3] https://www.gerritcodereview.com/2019-10-01-esc-minutes.html#support-for-deletion-of-groups",
+      "parentUuid": "f205446b_6f743f43",
+      "revId": "abc65931aad4f4ab0889beba1e8706397071edb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

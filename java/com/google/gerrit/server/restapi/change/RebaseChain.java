@@ -121,6 +121,11 @@ public class RebaseChain
   @Override
   public Response<RebaseChainInfo> apply(ChangeResource tipRsrc, RebaseInput input)
       throws IOException, PermissionBackendException, RestApiException, UpdateException {
+    if (input.committerEmail != null) {
+      // TODO: committer_email can be supported if all changes in the chain
+      //  belong to the same uploader. It can be attempted in future as needed.
+      throw new BadRequestException("committer_email is not supported when rebasing a chain");
+    }
     if (input.onBehalfOfUploader) {
       tipRsrc.permissions().check(ChangePermission.REBASE_ON_BEHALF_OF_UPLOADER);
       if (input.allowConflicts) {
@@ -177,7 +182,7 @@ public class RebaseChain
             if (currentBase(rw, ps).equals(desiredBase)) {
               isUpToDate = true;
             } else {
-              rebaseOp = rebaseUtil.getRebaseOp(revRsrc, input, desiredBase);
+              rebaseOp = rebaseUtil.getRebaseOp(rw, revRsrc, input, desiredBase);
             }
           } else {
             if (ancestorsAreUpToDate) {
@@ -187,7 +192,7 @@ public class RebaseChain
               isUpToDate = currentBase(rw, ps).equals(latestCommittedBase);
             }
             if (!isUpToDate) {
-              rebaseOp = rebaseUtil.getRebaseOp(revRsrc, input, chain.get(i - 1).id());
+              rebaseOp = rebaseUtil.getRebaseOp(rw, revRsrc, input, chain.get(i - 1).id());
             }
           }
 

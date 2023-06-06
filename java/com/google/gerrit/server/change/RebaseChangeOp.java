@@ -400,6 +400,10 @@ public class RebaseChangeOp implements BatchUpdateOp {
     return rebasedCommit;
   }
 
+  public PatchSet getOriginalPatchSet() {
+    return originalPatchSet;
+  }
+
   public PatchSet.Id getPatchSetId() {
     checkState(rebasedPatchSetId != null, "getPatchSetId() only valid after updateRepo");
     return rebasedPatchSetId;

@@ -1569,6 +1569,7 @@ export class GrChangeActions
       base: e.detail.base,
       allow_conflicts: e.detail.allowConflicts,
       on_behalf_of_uploader: e.detail.onBehalfOfUploader,
+      committer_email: e.detail.committerEmail,
     };
     const rebaseChain = !!e.detail.rebaseChain;
     this.fireAction(

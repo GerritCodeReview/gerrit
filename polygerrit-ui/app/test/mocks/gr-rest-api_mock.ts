@@ -188,6 +188,9 @@ export const grRestApiMock: RestApiService = {
   getAccountEmails(): Promise<EmailInfo[] | undefined> {
     return Promise.resolve([]);
   },
+  getAccountEmailsFor(): Promise<EmailInfo[] | undefined> {
+    return Promise.resolve([]);
+  },
   getAccountGPGKeys(): Promise<Record<string, GpgKeyInfo>> {
     return Promise.resolve({});
   },

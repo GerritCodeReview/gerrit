@@ -446,6 +446,24 @@
       "parentUuid": "a3ac6300_530e30cf",
       "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "203a2b71_374b562b",
+        "filename": "javatests/com/google/gerrit/server/account/externalids/ExternalIDCacheLoaderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-07T22:33:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9f63768_1a9285cf",
+      "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48ff5e3d_6f166738",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-07T22:33:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82a0bdbd_b4c21dd4",
+      "range": {
+        "startLine": 207,
+        "startChar": 2,
+        "endLine": 207,
+        "endChar": 51
+      },
+      "revId": "e8574252434531337d4fb9f4e2f6f3248ae90c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f8906c1f_b8648dbd",
@@ -60,6 +84,30 @@
       "writtenOn": "2023-06-07T22:18:09Z",
       "side": 1,
       "message": "We should add a comment here describing why we want this map to be mutable: basically we want to be sure that the addition of the delta of external-ids is idempotent, allowing retry cycles.",
+      "range": {
+        "startLine": 229,
+        "startChar": 4,
+        "endLine": 229,
+        "endChar": 55
+      },
+      "revId": "e8574252434531337d4fb9f4e2f6f3248ae90c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7d5a955_79bd7e46",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-07T22:33:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90788c5a_63edd975",
       "range": {
         "startLine": 229,
         "startChar": 4,

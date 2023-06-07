@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e226691d_2442d29d",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-06-07T11:19:29Z",
+      "side": 1,
+      "message": "actually that is protected right?",
+      "parentUuid": "7bf9d13e_ff5bbde1",
+      "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ddc63474_43da538d",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
         "patchSetId": 2

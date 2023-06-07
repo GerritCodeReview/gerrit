@@ -3,6 +3,98 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c79daedf_a9bcf430",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-07T12:27:22Z",
+      "side": 1,
+      "message": "Wrap long line",
+      "range": {
+        "startLine": 9,
+        "startChar": 69,
+        "endLine": 9,
+        "endChar": 80
+      },
+      "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44ecedcf_f7b1cd28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-07T12:27:22Z",
+      "side": 1,
+      "message": "I believe the issue is the retry, not the concurrency per-se. If the client would have not retried, the external-id system would have not blown up.",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdcfdcd6_c31b4633",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-07T12:27:22Z",
+      "side": 1,
+      "message": "+ Due to the retry performed by the client.",
+      "range": {
+        "startLine": 13,
+        "startChar": 16,
+        "endLine": 13,
+        "endChar": 31
+      },
+      "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26bf331f_1338cbb2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-07T12:27:22Z",
+      "side": 1,
+      "message": "This is a JGit issue actually, can you add the pointer to it? If that hasn\u0027t been reported, can you please create one?",
+      "range": {
+        "startLine": 18,
+        "startChar": 37,
+        "endLine": 18,
+        "endChar": 67
+      },
+      "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7bf9d13e_ff5bbde1",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
         "patchSetId": 2
@@ -50,6 +142,47 @@
       "side": 1,
       "message": "```\nA variable or method declared without any access control modifier is available to any other class in the same package\n```\n\nApologies for my pedantic comment.",
       "parentUuid": "e226691d_2442d29d",
+      "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "881ca789_b7167f8e",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-07T12:27:22Z",
+      "side": 1,
+      "message": "We should comment on why this is visible for testing and why it cannot be tested automatically from the external APIs.",
+      "parentUuid": "6bcd5159_4573d219",
+      "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "031f1a4b_ddfb3712",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-07T12:27:22Z",
+      "side": 1,
+      "message": "This can be inlined at L272",
+      "range": {
+        "startLine": 229,
+        "startChar": 0,
+        "endLine": 229,
+        "endChar": 80
+      },
       "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -323,6 +323,7 @@ const appThemeCss = safeStyleSheet`
     --status-wip: #795548;
     --status-private: var(--purple-500);
     --status-conflict: var(--red-600);
+    --status-revert: var(--gray-900);
     --status-revert-created: #e64a19;
     --status-active: var(--blue-700);
     --status-ready: var(--pink-800);

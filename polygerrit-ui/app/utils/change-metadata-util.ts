@@ -22,6 +22,7 @@ export enum Metadata {
   AUTHOR = 'Author',
   COMMITTER = 'Committer',
   CHERRY_PICK_OF = 'Cherry pick of',
+  REVERT_OF = 'Revert of',
 }
 
 export const DisplayRules = {
@@ -39,6 +40,7 @@ export const DisplayRules = {
     Metadata.AUTHOR,
     Metadata.COMMITTER,
     Metadata.CHERRY_PICK_OF,
+    Metadata.REVERT_OF,
   ],
   ALWAYS_HIDE: [
     Metadata.PARENT,

@@ -157,6 +157,9 @@ export function changeStatuses(
   options?: ChangeStatusesOptions
 ): ChangeStates[] {
   const states = [];
+  if (change.revert_of) {
+    states.push(ChangeStates.REVERT);
+  }
   if (change.status === ChangeStatus.MERGED) {
     if (options?.revertingChangeStatus === ChangeStatus.MERGED) {
       return [ChangeStates.MERGED, ChangeStates.REVERT_SUBMITTED];

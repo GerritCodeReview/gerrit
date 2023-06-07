@@ -327,7 +327,7 @@ export class GrChangeMetadata extends LitElement {
       ${this.renderCCs()} ${this.renderProjectBranch()} ${this.renderParent()}
       ${this.renderMergedAs()} ${this.renderShowRevertCreatedAs()}
       ${this.renderTopic()} ${this.renderCherryPickOf()}
-      ${this.renderStrategy()} ${this.renderHashTags()}
+      ${this.renderRevertOf()} ${this.renderStrategy()} ${this.renderHashTags()}
       ${this.renderSubmitRequirements()} ${this.renderWeblinks()}
       <gr-endpoint-decorator name="change-metadata-item">
         <gr-endpoint-param
@@ -683,6 +683,23 @@ export class GrChangeMetadata extends LitElement {
           >
           </gr-limited-text>
         </a>
+      </span>
+    </section>`;
+  }
+
+  private renderRevertOf() {
+    if (!this.change?.revert_of) return nothing;
+    return html` <section class=${this.computeDisplayState(Metadata.REVERT_OF)}>
+      <span class="title">Revert of</span>
+      <span class="value">
+        <a
+          href=${createChangeUrl({
+            changeNum: this.change.revert_of,
+            repo: this.change.project,
+            usp: 'metadata',
+          })}
+          >${this.change.revert_of}</a
+        >
       </span>
     </section>`;
   }

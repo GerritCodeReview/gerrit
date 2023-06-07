@@ -163,6 +163,19 @@ suite('change-util tests', () => {
     assert.deepEqual(changeStatuses(change), [ChangeStates.ABANDONED]);
   });
 
+  test('Revert status', () => {
+    const change = {
+      ...createChange(),
+      revert_of: 123 as NumericChangeId,
+    };
+    assert.deepEqual(changeStatuses(change), [ChangeStates.REVERT]);
+    change.is_private = true;
+    assert.deepEqual(changeStatuses(change), [
+      ChangeStates.REVERT,
+      ChangeStates.PRIVATE,
+    ]);
+  });
+
   test('Open status with private and wip', () => {
     const change = {
       ...createChange(),

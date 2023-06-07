@@ -181,6 +181,7 @@ const darkThemeCss = safeStyleSheet`
     --status-wip: #bcaaa4;
     --status-private: var(--purple-200);
     --status-conflict: var(--red-300);
+    --status-revert: var(--gray-200);
     --status-revert-created: #ff8a65;
     --status-active: var(--blue-400);
     --status-ready: var(--pink-500);

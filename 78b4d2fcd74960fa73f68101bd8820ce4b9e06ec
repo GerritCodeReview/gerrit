@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bf9d13e_ff5bbde1",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-06-07T11:07:00Z",
+      "side": 1,
+      "message": "Personally I am not keen to make something public just to be able to test it, maybe in java there is no way to do that. Dont we have something like private[externalids] in java?",
+      "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddc63474_43da538d",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-06-07T11:07:00Z",
+      "side": 1,
+      "message": "With this data structure is solve the problem?. Question from an ignorant: can we have problems of concurrency?",
+      "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71647633_54147b63",
+        "filename": "javatests/com/google/gerrit/server/account/externalids/ExternalIDCacheLoaderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-06-07T11:07:00Z",
+      "side": 1,
+      "message": "do you need a method that is used once?, why not:\n```\nObjectId fileNameToObjectId \u003d ObjectId.fromString(CharMatcher.is(\u0027/\u0027).removeFrom(path));\n```\ninstead?",
+      "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

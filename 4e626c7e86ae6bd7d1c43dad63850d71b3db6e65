@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1350c39_9107faab",
+        "filename": "java/com/google/gerrit/server/account/storage/notedb/AccountsUpdateNoteDbImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-06-07T09:24:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9fcee7b_aec737de",
+      "range": {
+        "startLine": 84,
+        "startChar": 3,
+        "endLine": 84,
+        "endChar": 26
+      },
+      "revId": "4e626c7e86ae6bd7d1c43dad63850d71b3db6e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6953b00a_e25e5f19",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-06-07T08:33:55Z",
       "side": 1,
       "message": "same here and below in l. 87, please use com.google.gerrit.server.account.AccountDelta.Builder to reference AccountDelta.Builder",
+      "range": {
+        "startLine": 85,
+        "startChar": 68,
+        "endLine": 85,
+        "endChar": 88
+      },
+      "revId": "4e626c7e86ae6bd7d1c43dad63850d71b3db6e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45f59e7c_645def5e",
+        "filename": "java/com/google/gerrit/server/account/storage/notedb/AccountsUpdateNoteDbImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-06-07T09:24:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6953b00a_e25e5f19",
       "range": {
         "startLine": 85,
         "startChar": 68,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5b3ad68_e6ae5915",
+        "filename": "java/com/google/gerrit/server/account/storage/notedb/AccountsUpdateNoteDbImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-06-07T09:24:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28eea718_d914ee97",
+      "range": {
+        "startLine": 168,
+        "startChar": 10,
+        "endLine": 168,
+        "endChar": 21
+      },
+      "revId": "4e626c7e86ae6bd7d1c43dad63850d71b3db6e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4abafbc2_32723bc1",
@@ -87,6 +159,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2b2a0c5_1446a729",
+        "filename": "java/com/google/gerrit/server/account/storage/notedb/AccountsUpdateNoteDbImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-06-07T09:24:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4abafbc2_32723bc1",
+      "revId": "4e626c7e86ae6bd7d1c43dad63850d71b3db6e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef4c214d_f8f546cc",
@@ -100,6 +190,30 @@
       "writtenOn": "2023-06-07T08:33:55Z",
       "side": 1,
       "message": "Why is this protected now, can\u0027t it stay private?",
+      "range": {
+        "startLine": 583,
+        "startChar": 2,
+        "endLine": 583,
+        "endChar": 11
+      },
+      "revId": "4e626c7e86ae6bd7d1c43dad63850d71b3db6e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2d80977_df7d6562",
+        "filename": "java/com/google/gerrit/server/account/storage/notedb/AccountsUpdateNoteDbImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-06-07T09:24:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef4c214d_f8f546cc",
       "range": {
         "startLine": 583,
         "startChar": 2,

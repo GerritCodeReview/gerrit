@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82a0bdbd_b4c21dd4",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-07T22:18:09Z",
+      "side": 1,
+      "message": "I don\u0027t believe there are enough motivations for making this visible. The code is merely an ObjectId.fromString with the removal of \u0027/\u0027s.\n\nWe can just have that code in the test and avoid this lack of encapsulation.",
+      "range": {
+        "startLine": 207,
+        "startChar": 2,
+        "endLine": 207,
+        "endChar": 51
+      },
+      "revId": "e8574252434531337d4fb9f4e2f6f3248ae90c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8906c1f_b8648dbd",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-07T22:18:09Z",
+      "side": 1,
+      "message": "Can you add a comment here on why this has to be visible for testing?",
+      "range": {
+        "startLine": 222,
+        "startChar": 2,
+        "endLine": 222,
+        "endChar": 20
+      },
+      "revId": "e8574252434531337d4fb9f4e2f6f3248ae90c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90788c5a_63edd975",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-07T22:18:09Z",
+      "side": 1,
+      "message": "We should add a comment here describing why we want this map to be mutable: basically we want to be sure that the addition of the delta of external-ids is idempotent, allowing retry cycles.",
+      "range": {
+        "startLine": 229,
+        "startChar": 4,
+        "endLine": 229,
+        "endChar": 55
+      },
+      "revId": "e8574252434531337d4fb9f4e2f6f3248ae90c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -428,6 +428,24 @@
       "parentUuid": "b70e4c55_d10f7cf9",
       "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9f63768_1a9285cf",
+        "filename": "javatests/com/google/gerrit/server/account/externalids/ExternalIDCacheLoaderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-07T22:18:09Z",
+      "side": 1,
+      "message": "I believe it was a __lesser evil__ to have it here duplicated rather than making a private method more visible because of a test.",
+      "parentUuid": "a3ac6300_530e30cf",
+      "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

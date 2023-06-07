@@ -39,6 +39,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.options.AutoFlush;
+import com.google.gerrit.server.index.options.BuildBloomFilter;
 import com.google.gerrit.server.index.options.IsFirstInsertForEntry;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.util.ReplicaUtil;
@@ -88,6 +89,9 @@ public class Reindex extends SiteProgram {
 
   @Option(name = "--show-cache-stats", usage = "Show cache statistics at the end.")
   private boolean showCacheStats;
+
+  @Option(name = "--build-bloom-filter", usage = "Build bloom filter for H2 disk caches.")
+  private boolean buildBloomFilter;
 
   private Injector dbInjector;
   private Injector sysInjector;
@@ -204,6 +208,9 @@ public class Reindex extends SiteProgram {
             OptionalBinder.newOptionalBinder(binder(), IsFirstInsertForEntry.class)
                 .setBinding()
                 .toInstance(IsFirstInsertForEntry.YES);
+            OptionalBinder.newOptionalBinder(binder(), BuildBloomFilter.class)
+                .setBinding()
+                .toInstance(buildBloomFilter ? BuildBloomFilter.TRUE : BuildBloomFilter.FALSE);
           }
         });
     modules.add(new BatchProgramModule(dbInjector));

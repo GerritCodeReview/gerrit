@@ -30,6 +30,7 @@ import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.options.BuildBloomFilter;
 import com.google.gerrit.server.index.options.IsFirstInsertForEntry;
 import com.google.gerrit.server.logging.LoggingContextAwareExecutorService;
 import com.google.gerrit.server.logging.LoggingContextAwareScheduledExecutorService;
@@ -61,6 +62,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
   private final long h2CacheSize;
   private final boolean h2AutoServer;
   private final boolean isOfflineReindex;
+  private final boolean buildBloomFilter;
 
   @Inject
   H2CacheFactory(
@@ -68,7 +70,8 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
       @GerritServerConfig Config cfg,
       SitePaths site,
       DynamicMap<Cache<?, ?>> cacheMap,
-      @Nullable IsFirstInsertForEntry isFirstInsertForEntry) {
+      @Nullable IsFirstInsertForEntry isFirstInsertForEntry,
+      @Nullable BuildBloomFilter buildBloomFilter) {
     super(memCacheFactory, cfg, site);
     h2CacheSize = cfg.getLong("cache", null, "h2CacheSize", -1);
     h2AutoServer = cfg.getBoolean("cache", null, "h2AutoServer", false);
@@ -76,6 +79,8 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
     this.cacheMap = cacheMap;
     this.isOfflineReindex =
         isFirstInsertForEntry != null && isFirstInsertForEntry.equals(IsFirstInsertForEntry.YES);
+    this.buildBloomFilter =
+        !(buildBloomFilter != null && buildBloomFilter.equals(BuildBloomFilter.FALSE));
 
     if (diskEnabled) {
       executor =
@@ -211,6 +216,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
         def.version(),
         maxSize,
         def.expireAfterWrite(),
-        def.expireFromMemoryAfterAccess());
+        def.expireFromMemoryAfterAccess(),
+        buildBloomFilter);
   }
 }

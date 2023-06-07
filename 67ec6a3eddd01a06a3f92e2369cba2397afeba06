@@ -16,6 +16,24 @@
       "message": "Hi @nasser.grainawi@linaro.org ,\nShould I cherry-pick this to stable-3.8 and master or is there an automation for this?\nThanks,",
       "revId": "67ec6a3eddd01a06a3f92e2369cba2397afeba06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d61e3b68_29a5b5d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-07T18:38:55Z",
+      "side": 1,
+      "message": "No cherry-picks, it\u0027ll be merged up to the other branches. You can upload that merge if you want or one of the maintainers will typically do it occasionally.",
+      "parentUuid": "b014d058_cba593d9",
+      "revId": "67ec6a3eddd01a06a3f92e2369cba2397afeba06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

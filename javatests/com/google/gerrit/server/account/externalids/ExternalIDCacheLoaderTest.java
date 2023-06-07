@@ -19,6 +19,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableList;
@@ -34,7 +35,10 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -89,6 +93,36 @@ public class ExternalIDCacheLoaderTest {
     assertThat(loader.load(head)).isEqualTo(allFromGit(head));
     verify(externalIdReaderSpy, times(1)).checkReadEnabled();
     verifyNoMoreInteractions(externalIdReaderSpy);
+  }
+
+  @Test
+  public void loadCacheSuccessfullyWhenInInconsistentState() throws Exception {
+    int key = 1;
+    int account = 1;
+    ExternalId externalId = externalId(key, account);
+    ExternalId.Key externalIdKey = externalId.key();
+
+    Repository repo = repoManager.openRepository(ALL_USERS);
+    ObjectId newState = insertExternalId(key, account);
+    TreeWalk tw = new TreeWalk(repo);
+    tw.reset(new RevWalk(repo).parseCommit(newState).getTree());
+    tw.next();
+
+    HashMap<ObjectId, ObjectId> additions = new HashMap<>();
+    additions.put(fileNameToObjectId(tw.getPathString()), tw.getObjectId(0));
+    AllExternalIds oldExternalIds =
+        AllExternalIds.create(Stream.<ExternalId>builder().add(externalId).build());
+
+    AllExternalIds allExternalIds =
+        loader.buildAllExternalIds(repo, oldExternalIds, additions, new HashSet<>());
+
+    assertThat(allExternalIds).isNotNull();
+    assertThat(allExternalIds.byKey().containsKey(externalIdKey)).isTrue();
+    assertThat(allExternalIds.byKey().get(externalIdKey)).isEqualTo(externalId);
+  }
+
+  private static ObjectId fileNameToObjectId(String path) {
+    return ObjectId.fromString(CharMatcher.is('/').removeFrom(path));
   }
 
   @Test

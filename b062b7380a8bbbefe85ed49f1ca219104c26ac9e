@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "975a8333_78b82160",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-06-07T01:42:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0af9f5e9_0ccf6a84",
+      "range": {
+        "startLine": 7,
+        "startChar": 62,
+        "endLine": 7,
+        "endChar": 74
+      },
+      "revId": "b062b7380a8bbbefe85ed49f1ca219104c26ac9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "461f273f_c403cff8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-06-07T01:42:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a3f77e6_0b904a26",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "b062b7380a8bbbefe85ed49f1ca219104c26ac9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e3ce27d_502457e2",
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "26221163_935fec4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-06-07T01:42:41Z",
+      "side": 1,
+      "message": "ah I see 3.8 was realised while I was away which probably contains this, I have added a warning as it is techincally breaking, do you want me to cherry-pick it back to 3.8 on merge?",
+      "parentUuid": "2e3ce27d_502457e2",
+      "range": {
+        "startLine": 9,
+        "startChar": 18,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "b062b7380a8bbbefe85ed49f1ca219104c26ac9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ea16f459_a75130a7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -83,6 +155,24 @@
       "writtenOn": "2023-06-06T23:15:33Z",
       "side": 1,
       "message": "Missing `Release-Notes` footer.",
+      "revId": "b062b7380a8bbbefe85ed49f1ca219104c26ac9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cad8c18b_4e88d8c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1153585
+      },
+      "writtenOn": "2023-06-07T01:42:41Z",
+      "side": 1,
+      "message": "added with warning, this needs to be on one line",
+      "parentUuid": "ea16f459_a75130a7",
       "revId": "b062b7380a8bbbefe85ed49f1ca219104c26ac9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

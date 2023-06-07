@@ -87,6 +87,10 @@ export class GrChangeStatus extends LitElement {
           background-color: var(--status-ready);
           color: var(--status-ready);
         }
+        :host(.revert) .chip {
+          background-color: var(--status-revert);
+          color: var(--status-revert);
+        }
         :host(.revert-created) .chip {
           background-color: var(--status-revert-created);
           color: var(--status-revert-created);

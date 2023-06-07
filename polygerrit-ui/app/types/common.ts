@@ -692,7 +692,11 @@ export enum ChangeStates {
   MERGED = 'Merged',
   PRIVATE = 'Private',
   READY_TO_SUBMIT = 'Ready to submit',
+  /** This change is a revert of another change. */
+  REVERT = 'Revert',
+  /** A revert of this change was created. */
   REVERT_CREATED = 'Revert Created',
+  /** A revert of this change was submitted. */
   REVERT_SUBMITTED = 'Revert Submitted',
   WIP = 'WIP',
 }

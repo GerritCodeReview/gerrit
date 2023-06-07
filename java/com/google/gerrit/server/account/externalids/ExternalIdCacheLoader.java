@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account.externalids;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableMap;
@@ -218,13 +219,15 @@ public class ExternalIdCacheLoader {
    * @param additions map of name to blob ID for each external ID that should be added
    * @param removals set of name {@link ObjectId}s that should be removed
    */
-  private AllExternalIds buildAllExternalIds(
+  @VisibleForTesting
+  AllExternalIds buildAllExternalIds(
       Repository repo,
       AllExternalIds oldExternalIds,
       Map<ObjectId, ObjectId> additions,
       Set<ObjectId> removals)
       throws IOException {
     ImmutableMap.Builder<ExternalId.Key, ExternalId> byKey = ImmutableMap.builder();
+    HashMap<ExternalId.Key, ExternalId> byKeyMutableMap = new HashMap<>();
     ImmutableSetMultimap.Builder<Account.Id, ExternalId> byAccount = ImmutableSetMultimap.builder();
     ImmutableSetMultimap.Builder<String, ExternalId> byEmail = ImmutableSetMultimap.builder();
 
@@ -234,7 +237,7 @@ public class ExternalIdCacheLoader {
         continue;
       }
 
-      byKey.put(externalId.key(), externalId);
+      byKeyMutableMap.put(externalId.key(), externalId);
       byAccount.put(externalId.accountId(), externalId);
       if (externalId.email() != null) {
         byEmail.put(externalId.email(), externalId);
@@ -257,13 +260,15 @@ public class ExternalIdCacheLoader {
           continue;
         }
 
-        byKey.put(parsedExternalId.key(), parsedExternalId);
+        byKeyMutableMap.put(parsedExternalId.key(), parsedExternalId);
         byAccount.put(parsedExternalId.accountId(), parsedExternalId);
         if (parsedExternalId.email() != null) {
           byEmail.put(parsedExternalId.email(), parsedExternalId);
         }
       }
     }
+
+    byKey.putAll(byKeyMutableMap);
     return new AutoValue_AllExternalIds(byKey.build(), byAccount.build(), byEmail.build());
   }
 

@@ -93,6 +93,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc3894b9_ee94be6e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-07T14:24:32Z",
+      "side": 1,
+      "message": "Missing Release-Notes footer",
+      "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7bf9d13e_ff5bbde1",

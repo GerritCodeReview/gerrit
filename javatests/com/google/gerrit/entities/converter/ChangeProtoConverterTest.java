@@ -285,9 +285,6 @@ public class ChangeProtoConverterTest {
                 .put("currentPatchSetId", int.class)
                 .put("subject", String.class)
                 .put("topic", String.class)
-                .put(
-                    "customKeyedValues",
-                    new TypeLiteral<ImmutableMap<String, String>>() {}.getType())
                 .put("originalSubject", String.class)
                 .put("submissionId", String.class)
                 .put("isPrivate", boolean.class)

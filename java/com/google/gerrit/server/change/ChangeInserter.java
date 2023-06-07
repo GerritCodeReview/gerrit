@@ -223,7 +223,6 @@ public class ChangeInserter implements InsertChangeOp {
     change.setWorkInProgress(workInProgress);
     change.setReviewStarted(!workInProgress);
     change.setRevertOf(revertOf);
-    change.setCustomKeyedValues(customKeyedValues);
     return change;
   }
 
@@ -475,12 +474,12 @@ public class ChangeInserter implements InsertChangeOp {
     } catch (ValidationException ex) {
       throw new BadRequestException(ex.getMessage());
     }
-    if (change.getCustomKeyedValues() != null) {
+    if (customKeyedValues != null) {
       try {
-        if (change.getCustomKeyedValues().entrySet().size() > MAX_CUSTOM_KEYED_VALUES) {
+        if (customKeyedValues.entrySet().size() > MAX_CUSTOM_KEYED_VALUES) {
           throw new ValidationException("Too many custom keyed values");
         }
-        for (Map.Entry<String, String> entry : change.getCustomKeyedValues().entrySet()) {
+        for (Map.Entry<String, String> entry : customKeyedValues.entrySet()) {
           update.addCustomKeyedValue(entry.getKey(), entry.getValue());
         }
       } catch (ValidationException ex) {

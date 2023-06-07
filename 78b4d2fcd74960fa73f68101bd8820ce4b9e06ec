@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e4bf049_87eea1cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-07T15:06:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c79daedf_a9bcf430",
+      "range": {
+        "startLine": 9,
+        "startChar": 69,
+        "endLine": 9,
+        "endChar": 80
+      },
+      "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "44ecedcf_f7b1cd28",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "451d3beb_f1f047c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-07T15:06:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44ecedcf_f7b1cd28",
+      "range": {
+        "startLine": 10,
+        "startChar": 8,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdcfdcd6_c31b4633",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-06-07T12:27:22Z",
       "side": 1,
       "message": "+ Due to the retry performed by the client.",
+      "range": {
+        "startLine": 13,
+        "startChar": 16,
+        "endLine": 13,
+        "endChar": 31
+      },
+      "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f57100b5_922ed21a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-07T15:06:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdcfdcd6_c31b4633",
       "range": {
         "startLine": 13,
         "startChar": 16,
@@ -204,6 +276,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "71af8531_11fb13ad",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-07T15:06:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "031f1a4b_ddfb3712",
+      "range": {
+        "startLine": 229,
+        "startChar": 0,
+        "endLine": 229,
+        "endChar": 80
+      },
+      "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ddc63474_43da538d",
@@ -234,6 +330,24 @@
       "writtenOn": "2023-06-07T11:07:00Z",
       "side": 1,
       "message": "do you need a method that is used once?, why not:\n```\nObjectId fileNameToObjectId \u003d ObjectId.fromString(CharMatcher.is(\u0027/\u0027).removeFrom(path));\n```\ninstead?",
+      "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bdd1d1b_b8e9c844",
+        "filename": "javatests/com/google/gerrit/server/account/externalids/ExternalIDCacheLoaderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-07T15:06:18Z",
+      "side": 1,
+      "message": "I used it for readability. If you are strong about that I can move it inline.",
+      "parentUuid": "71647633_54147b63",
       "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

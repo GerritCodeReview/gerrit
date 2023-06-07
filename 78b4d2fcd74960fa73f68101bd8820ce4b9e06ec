@@ -386,6 +386,24 @@
       "parentUuid": "4bdd1d1b_b8e9c844",
       "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3ac6300_530e30cf",
+        "filename": "javatests/com/google/gerrit/server/account/externalids/ExternalIDCacheLoaderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-07T15:19:11Z",
+      "side": 1,
+      "message": "I made a static method in the code package-private and reused in the test.",
+      "parentUuid": "b70e4c55_d10f7cf9",
+      "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

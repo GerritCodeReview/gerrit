@@ -52,6 +52,7 @@ import com.google.gerrit.server.index.group.GroupIndexRewriter;
 import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.index.group.GroupIndexerImpl;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
+import com.google.gerrit.server.index.options.BuildBloomFilter;
 import com.google.gerrit.server.index.options.IsFirstInsertForEntry;
 import com.google.gerrit.server.index.project.ProjectIndexDefinition;
 import com.google.gerrit.server.index.project.ProjectIndexerImpl;
@@ -150,6 +151,9 @@ public class IndexModule extends LifecycleModule {
     OptionalBinder.newOptionalBinder(binder(), IsFirstInsertForEntry.class)
         .setDefault()
         .toInstance(IsFirstInsertForEntry.NO);
+    OptionalBinder.newOptionalBinder(binder(), BuildBloomFilter.class)
+        .setDefault()
+        .toInstance(BuildBloomFilter.TRUE);
   }
 
   @Provides

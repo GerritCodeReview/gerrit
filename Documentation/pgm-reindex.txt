@@ -39,6 +39,12 @@ Rebuilds the secondary index.
 --show-cache-stats::
 	Show cache statistics at the end of program.
 
+--build-bloom-filter::
+	Whether to build bloom filters for H2 disk caches. When using fully
+	populated disk caches on large Gerrit sites, it is recommended that
+	bloom filters are disabled to improve performance.
+
+
 == CONTEXT
 The secondary index must be enabled. See
 link:config-gerrit.html#index.type[index.type].

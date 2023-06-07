@@ -317,6 +317,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca3d3d6d_cd9fc08f",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-07T15:09:19Z",
+      "side": 1,
+      "message": "We don\u0027t have concurrency issues here. I might have mentioned concurrency in the commit message by mistake. Sorry I have created confusion.",
+      "parentUuid": "ddc63474_43da538d",
+      "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71647633_54147b63",

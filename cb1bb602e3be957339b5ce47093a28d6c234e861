@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01df9102_dde518c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-06-07T15:33:05Z",
+      "side": 1,
+      "message": "Apologies for so much confusion in some comments. We had fruitless conversations because of my confusion.",
+      "revId": "cb1bb602e3be957339b5ce47093a28d6c234e861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

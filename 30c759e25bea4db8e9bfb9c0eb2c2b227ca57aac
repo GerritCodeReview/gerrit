@@ -70,6 +70,30 @@
       },
       "revId": "30c759e25bea4db8e9bfb9c0eb2c2b227ca57aac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fc73cbd_db034bc4",
+        "filename": "java/com/google/gerrit/acceptance/TestMetricMaker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-07T15:30:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4b9b2d8_cae1884a",
+      "range": {
+        "startLine": 94,
+        "startChar": 25,
+        "endLine": 94,
+        "endChar": 36
+      },
+      "revId": "30c759e25bea4db8e9bfb9c0eb2c2b227ca57aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

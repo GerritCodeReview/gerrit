@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9fcee7b_aec737de",
+        "filename": "java/com/google/gerrit/server/account/storage/notedb/AccountsUpdateNoteDbImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-07T08:33:55Z",
+      "side": 1,
+      "message": "nit: inner classes in javadoc must be referenced by the fully qualified name (com.google.gerrit.server.account.AccountsUpdate.ConfigureDeltaFromState) to avoid \"Javadoc: Invalid member type qualification\" warnings [1] in Eclipse.\n\nNot sure, why this hasn\u0027t been a problem before, maybe the qualified name is only required if the classes are in another package.\n\n[1]\nDescription\tResource\tPath\tLocation\tType\nJavadoc: Invalid member type qualification\tAccountsUpdateNoteDbImpl.java\t/gerrit/java/com/google/gerrit/server/account/storage/notedb\tline 84\tJava Problem",
+      "range": {
+        "startLine": 84,
+        "startChar": 3,
+        "endLine": 84,
+        "endChar": 26
+      },
+      "revId": "4e626c7e86ae6bd7d1c43dad63850d71b3db6e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6953b00a_e25e5f19",
+        "filename": "java/com/google/gerrit/server/account/storage/notedb/AccountsUpdateNoteDbImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-07T08:33:55Z",
+      "side": 1,
+      "message": "same here and below in l. 87, please use com.google.gerrit.server.account.AccountDelta.Builder to reference AccountDelta.Builder",
+      "range": {
+        "startLine": 85,
+        "startChar": 68,
+        "endLine": 85,
+        "endChar": 88
+      },
+      "revId": "4e626c7e86ae6bd7d1c43dad63850d71b3db6e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28eea718_d914ee97",
+        "filename": "java/com/google/gerrit/server/account/storage/notedb/AccountsUpdateNoteDbImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-07T08:33:55Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be the user identity?",
+      "range": {
+        "startLine": 168,
+        "startChar": 10,
+        "endLine": 168,
+        "endChar": 21
+      },
+      "revId": "4e626c7e86ae6bd7d1c43dad63850d71b3db6e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4abafbc2_32723bc1",
+        "filename": "java/com/google/gerrit/server/account/storage/notedb/AccountsUpdateNoteDbImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-07T08:33:55Z",
+      "side": 1,
+      "message": "This seems to be unused now?",
+      "revId": "4e626c7e86ae6bd7d1c43dad63850d71b3db6e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef4c214d_f8f546cc",
+        "filename": "java/com/google/gerrit/server/account/storage/notedb/AccountsUpdateNoteDbImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-07T08:33:55Z",
+      "side": 1,
+      "message": "Why is this protected now, can\u0027t it stay private?",
+      "range": {
+        "startLine": 583,
+        "startChar": 2,
+        "endLine": 583,
+        "endChar": 11
+      },
+      "revId": "4e626c7e86ae6bd7d1c43dad63850d71b3db6e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

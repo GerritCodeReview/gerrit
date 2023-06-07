@@ -16,6 +16,23 @@
       "message": "Thanks for the fix. Could you please cover this by a test?",
       "revId": "8ddca10c418b80721d4fb34f9f872290cbd7f8eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2165fad_99e82535",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-07T15:55:36Z",
+      "side": 1,
+      "message": "Sorry I overlooked this change. Thanks for uploading!\n\n@thomasmulhall410@yahoo.com We\u0027ve already fixed this issue in https://gerrit-review.git.corp.google.com/c/gerrit/+/376037. This was actually failing the response for anonymous users.",
+      "revId": "8ddca10c418b80721d4fb34f9f872290cbd7f8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

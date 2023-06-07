@@ -18,6 +18,7 @@ import {
   getSideByLineEl,
   isThreadEl,
 } from '../../diff/gr-diff/gr-diff-utils';
+import {getContentFromDiff} from '../../../utils/diff-util';
 
 /**
  * Possible CSS classes indicating the state of selection. Dynamically added/
@@ -34,24 +35,12 @@ function selectionClassForSide(side?: Side) {
   return side === Side.LEFT ? SelectionClass.LEFT : SelectionClass.RIGHT;
 }
 
-interface LinesCache {
-  left: string[] | null;
-  right: string[] | null;
-}
-
-function getNewCache(): LinesCache {
-  return {left: null, right: null};
-}
-
 export class GrDiffSelection {
   // visible for testing
   diff?: DiffInfo;
 
   // visible for testing
   diffTable?: HTMLElement;
-
-  // visible for testing
-  linesCache: LinesCache = getNewCache();
 
   init(diff: DiffInfo, diffTable: HTMLElement) {
     this.cleanup();
@@ -60,7 +49,6 @@ export class GrDiffSelection {
     this.diffTable.classList.add(SelectionClass.RIGHT);
     this.diffTable.addEventListener('copy', this.handleCopy);
     this.diffTable.addEventListener('mousedown', this.handleDown);
-    this.linesCache = getNewCache();
   }
 
   cleanup() {
@@ -161,6 +149,7 @@ export class GrDiffSelection {
    * @return The selected text.
    */
   getSelectedText(side: Side) {
+    if (!this.diff) return '';
     const sel = this.getSelection();
     if (!sel || sel.rangeCount !== 1) {
       return ''; // No multi-select support yet.
@@ -188,60 +177,13 @@ export class GrDiffSelection {
       if (endLineDataValue) endLineNum = Number(endLineDataValue);
     }
 
-    return this.getRangeFromDiff(
+    return getContentFromDiff(
+      this.diff,
       startLineNum,
       range.startOffset,
       endLineNum,
       range.endOffset,
       side
     );
-  }
-
-  /**
-   * Query the diff object for the selected lines.
-   */
-  getRangeFromDiff(
-    startLineNum: number,
-    startOffset: number,
-    endLineNum: number | undefined,
-    endOffset: number,
-    side: Side
-  ) {
-    const skipChunk = this.diff?.content.find(chunk => chunk.skip);
-    if (skipChunk) {
-      startLineNum -= skipChunk.skip!;
-      if (endLineNum) endLineNum -= skipChunk.skip!;
-    }
-    const lines = this.getDiffLines(side).slice(startLineNum - 1, endLineNum);
-    if (lines.length) {
-      lines[lines.length - 1] = lines[lines.length - 1].substring(0, endOffset);
-      lines[0] = lines[0].substring(startOffset);
-    }
-    return lines.join('\n');
-  }
-
-  /**
-   * Query the diff object for the lines from a particular side.
-   *
-   * @param side The side that is currently selected.
-   * @return An array of strings indexed by line number.
-   */
-  getDiffLines(side: Side): string[] {
-    if (this.linesCache[side]) {
-      return this.linesCache[side]!;
-    }
-    if (!this.diff) return [];
-    let lines: string[] = [];
-    for (const chunk of this.diff.content) {
-      if (chunk.ab) {
-        lines = lines.concat(chunk.ab);
-      } else if (side === Side.LEFT && chunk.a) {
-        lines = lines.concat(chunk.a);
-      } else if (side === Side.RIGHT && chunk.b) {
-        lines = lines.concat(chunk.b);
-      }
-    }
-    this.linesCache[side] = lines;
-    return lines;
   }
 }

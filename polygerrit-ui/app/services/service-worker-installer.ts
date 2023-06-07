@@ -110,7 +110,7 @@ export class ServiceWorkerInstaller extends Model<ServiceWorkerInstallerState> {
       console.error('Service worker API not available');
       return;
     }
-    await registerServiceWorker('/service-worker.js');
+    await registerServiceWorker(`${this.getBaseUrl()}/service-worker.js`);
     const permission = Notification.permission;
     this.reportingService.reportLifeCycle(LifeCycle.NOTIFICATION_PERMISSION, {
       permission,
@@ -126,6 +126,10 @@ export class ServiceWorkerInstaller extends Model<ServiceWorkerInstallerState> {
         });
       }
     };
+  }
+
+  private getBaseUrl() {
+    return window.CANONICAL_PATH || '';
   }
 
   // private, used in test

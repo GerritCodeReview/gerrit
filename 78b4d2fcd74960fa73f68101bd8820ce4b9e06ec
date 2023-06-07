@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bcd5159_4573d219",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-06-07T11:21:02Z",
+      "side": 1,
+      "message": "```\nA variable or method declared without any access control modifier is available to any other class in the same package\n```\n\nApologies for my pedantic comment.",
+      "parentUuid": "e226691d_2442d29d",
+      "revId": "78b4d2fcd74960fa73f68101bd8820ce4b9e06ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ddc63474_43da538d",

@@ -77,6 +77,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fc82dc48_e3d6e627",
+        "filename": "java/com/google/gerrit/server/events/BatchRefUpdateEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-07T11:08:36Z",
+      "side": 1,
+      "message": "Can you add a default constructor which will make this class easier for testing? Something similar to the `RefUpdatedEvent` - which will allow us to extend the class for test events.",
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "949c0d5d_9a4f1a25",
         "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
         "patchSetId": 1

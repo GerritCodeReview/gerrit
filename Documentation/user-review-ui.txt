@@ -281,8 +281,11 @@ assigned. Rebasing merge commits is not supported.
 ** [[cherry-pick]]`Cherry-Pick`:
 +
 Allows to cherry-pick the change to another branch. The destination
-branch can be selected from a dialog. Cherry-picking a change creates a
-new open change on the selected destination branch.
+branch can be selected from a dialog. If user has more than one email
+registered to the account, it is possible to select an email other than
+the preferred email from the 'Cherry-pick committer email' drop-down to
+be used as committer email. Cherry-picking a change creates a new open
+change on the selected destination branch.
 +
 It is also possible to cherry-pick a change to the same branch. This is
 effectively the same as rebasing it to the current tip of the

@@ -18,6 +18,7 @@ import {
   ChangeInfoId,
   TopicName,
   ChangeActionDialog,
+  EmailInfo,
 } from '../../../types/common';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {
@@ -124,8 +125,14 @@ export class GrConfirmCherrypickDialog
   @state()
   private invalidBranch = false;
 
+  @state()
+  private emails: EmailInfo[] = [];
+
   @query('#branchInput')
   branchInput!: GrTypedAutocomplete<BranchName>;
+
+  @state()
+  committerEmail!: string;
 
   private selectedChangeIds = new Set<ChangeInfoId>();
 
@@ -139,6 +146,7 @@ export class GrConfirmCherrypickDialog
     super();
     this.statuses = {};
     this.query = (text: string) => this.getProjectBranchesSuggestions(text);
+    this.loadEmails();
   }
 
   override willUpdate(changedProperties: PropertyValues) {
@@ -276,6 +284,17 @@ export class GrConfirmCherrypickDialog
               ],
               [CherryPickType.TOPIC, () => this.renderCherrypickTopicTable()],
             ])}
+            ${when(
+              this.showEmailDropdown(),
+              () => html`<div id="cherryPickEmailDropdown">Cherry-pick committer email
+                  <gr-dropdown-list
+                      .items=${this.computeEmailDropdownItems()}
+                      .value=${this.committerEmail}
+                      @value-change=${this.setCommitterEmail}
+                  >
+                  </gr-dropdown-list>
+                  <span></div>`
+            )}
             <gr-endpoint-slot name="bottom"></gr-endpoint-slot>
           </gr-endpoint-decorator>
         </div>
@@ -567,6 +586,7 @@ export class GrConfirmCherrypickDialog
         topic,
         allow_conflicts: true,
         allow_empty: true,
+        committer_email: this.committerEmail ? this.committerEmail : null,
       };
       const handleError = (response?: Response | null) => {
         this.handleCherryPickFailed(change, response);
@@ -647,5 +667,32 @@ export class GrConfirmCherrypickDialog
         }
         return branches;
       });
+  }
+
+  async loadEmails() {
+    const emails = await this.restApiService.getAccountEmails();
+    emails?.forEach(e => {
+      if (e.preferred) {
+        this.committerEmail = e.email;
+      }
+    });
+    this.emails = emails ? emails : [];
+  }
+
+  private showEmailDropdown() {
+    return this.emails.length > 1;
+  }
+
+  private computeEmailDropdownItems() {
+    return this.emails.map(e => {
+      return {
+        text: e.email,
+        value: e.email,
+      };
+    });
+  }
+
+  private setCommitterEmail(e: CustomEvent<{value: string}>) {
+    this.committerEmail = e.detail.value;
   }
 }

@@ -1000,6 +1000,7 @@ suite('gr-change-actions tests', () => {
             base: null,
             message: 'foo message',
             allow_conflicts: false,
+            committer_email: null,
           },
         ]);
       });
@@ -1048,6 +1049,7 @@ suite('gr-change-actions tests', () => {
             base: null,
             message: 'foo message',
             allow_conflicts: true,
+            committer_email: null,
           },
         ]);
       });

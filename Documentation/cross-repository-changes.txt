@@ -225,10 +225,13 @@ topic.”
 image::images/cross-repository-changes-cp-modal.png[width=600]
 
 Enter the branch name that you want to target for these repositories. The
-branch must already exist on all of the repositories. After clicking
-“CHERRY PICK,” Gerrit will create new changes all targeting the entered
-branch in their respective repositories, and these new changes will all be
-associated with a new, uniquely-generated topic name.
+branch must already exist on all of the repositories. If user has more
+than one email registered to the account, it is possible to select an
+email other than the preferred email from the 'Cherry-pick committer email'
+drop-down to be used as committer email. After clicking “CHERRY PICK,” Gerrit
+will create new changes all targeting the entered branch in their respective
+repositories, and these new changes will all be associated with a new,
+uniquely-generated topic name.
 
 To submit the cherry-picked changes, go through the normal submission
 process.

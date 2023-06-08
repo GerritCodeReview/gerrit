@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccba8764_52743257",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-08T10:02:31Z",
+      "side": 1,
+      "message": "does this mean the TODO in L581 and the SuppressWarnings annotation can also go - or are they unrelated?",
+      "revId": "fe40ff9d49739ff660fa222807120ae91dfd1595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

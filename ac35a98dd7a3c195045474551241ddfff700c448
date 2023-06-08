@@ -41,6 +41,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f246b43_2c6c62a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-08T20:34:21Z",
+      "side": 1,
+      "message": "I believe we are missing a few points:\n- Documentation update: we do need to have this documented as additional stream event\n- Tests, including expected JSON payload: the JSON payload sent to the stream events listeners need to be documented and tested as part of the contract\n- Configuration: sending the single ref-update or the batch-ref-update or both needs to be configurable. A user may have existing CI/CD systems that could blow-up with the new event.",
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78bbf88e_835b6172",
@@ -54,6 +71,24 @@
       "writtenOn": "2023-06-06T14:29:19Z",
       "side": 1,
       "message": "I think we should document the purpose this event serves via javadoc",
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4266c463_fa79dcec",
+        "filename": "java/com/google/gerrit/server/events/BatchRefUpdateEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-08T20:34:21Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "78bbf88e_835b6172",
       "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

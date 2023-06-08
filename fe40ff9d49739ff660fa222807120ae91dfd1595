@@ -16,6 +16,24 @@
       "message": "does this mean the TODO in L581 and the SuppressWarnings annotation can also go - or are they unrelated?",
       "revId": "fe40ff9d49739ff660fa222807120ae91dfd1595",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e02b13b5_677f6951",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-08T15:38:33Z",
+      "side": 1,
+      "message": "I think it is kind of related, but the warning can be still addressed. The suppression for `JavaUtilDate` is `@SuppressWarnings(\"JavaUtilDate\")`. See [1].\n\nI think it is referring to the fact that at the moment the JGit class is still using Date [2]. However, with my change the `JavaUtilDate` will go away.\n\n[1]: https://errorprone.info/bugpattern/JavaUtilDate\n[2]: https://gerrit.googlesource.com/jgit/+/74fa245b3c3ccf13afcbec7911c7c8459e48527d/org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java#340",
+      "parentUuid": "ccba8764_52743257",
+      "revId": "fe40ff9d49739ff660fa222807120ae91dfd1595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

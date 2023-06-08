@@ -16,6 +16,24 @@
       "message": "Please check whether the calling user can see the specified email.\n\nSecondary emails of other users are only visible to users that have the View Secondary Emails or Modify Account global capability [1]. \n\n[1] https://gerrit-review.googlesource.com/Documentation/access-control.html#capability_viewSecondaryEmails",
       "revId": "8fd9d9eeb9be5399a168c8784a31d34f1f3f889a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc2ca4ed_81d784f0",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-06-08T01:14:26Z",
+      "side": 1,
+      "message": "Good catch. Thanks Edwin for the review. Let me fix that.",
+      "parentUuid": "3bd2714f_f815ff6f",
+      "revId": "8fd9d9eeb9be5399a168c8784a31d34f1f3f889a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

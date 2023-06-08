@@ -583,7 +583,7 @@ public class CommitRewriter {
   @SuppressWarnings("JdkObsolete")
   private boolean verifyPersonIdent(PersonIdent newIdent, PersonIdent originalIdent) {
     return newIdent.getTimeZoneOffset() == originalIdent.getTimeZoneOffset()
-        && newIdent.getWhen().getTime() == originalIdent.getWhen().getTime()
+        && newIdent.getWhen().toInstant().equals(originalIdent.getWhen().toInstant())
         && newIdent.getEmailAddress().equals(originalIdent.getEmailAddress());
   }
 

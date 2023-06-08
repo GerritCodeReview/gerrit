@@ -144,6 +144,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f5a535d3_6f477432",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-08T20:41:27Z",
+      "side": 1,
+      "message": "Because v3.8.0 is out already and this is a change in behaviour, I would like to keep it on master.",
+      "parentUuid": "26221163_935fec4a",
+      "range": {
+        "startLine": 9,
+        "startChar": 18,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "b062b7380a8bbbefe85ed49f1ca219104c26ac9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ea16f459_a75130a7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9

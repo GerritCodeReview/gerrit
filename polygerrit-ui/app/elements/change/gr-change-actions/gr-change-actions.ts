@@ -1610,6 +1610,7 @@ export class GrChangeActions
         base: el.baseCommit ? el.baseCommit : null,
         message: el.message,
         allow_conflicts: conflicts,
+        committer_email: el.committerEmail ? el.committerEmail : null,
       }
     );
   }

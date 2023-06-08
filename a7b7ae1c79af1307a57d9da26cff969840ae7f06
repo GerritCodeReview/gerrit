@@ -34,6 +34,23 @@
       "parentUuid": "ab2f3f27_f9ff32dd",
       "revId": "a7b7ae1c79af1307a57d9da26cff969840ae7f06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da412971_755a467a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-06-08T12:48:14Z",
+      "side": 1,
+      "message": "Bump: Can we approve these two last changes from this series, to unblock folks, who depend in Apple Silicon (M1/M2).",
+      "revId": "a7b7ae1c79af1307a57d9da26cff969840ae7f06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

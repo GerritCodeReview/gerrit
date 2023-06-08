@@ -157,6 +157,24 @@
       "parentUuid": "e48dee26_8d78ea33",
       "revId": "abc65931aad4f4ab0889beba1e8706397071edb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed71a749_13aeb7c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-08T20:39:29Z",
+      "side": 1,
+      "message": "Thanks, can you move this as WIP, waiting for the design document to be finalised and approved before proceeding?",
+      "parentUuid": "794c0e8d_6788e4ea",
+      "revId": "abc65931aad4f4ab0889beba1e8706397071edb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

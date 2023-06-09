@@ -51,10 +51,12 @@ public class AuditLogReader {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final AllUsersName allUsersName;
+  private final NoteDbUtil noteDbUtil;
 
   @Inject
-  public AuditLogReader(AllUsersName allUsersName) {
+  public AuditLogReader(AllUsersName allUsersName, NoteDbUtil noteDbUtil) {
     this.allUsersName = allUsersName;
+    this.noteDbUtil = noteDbUtil;
   }
 
   // Having separate methods for reading the two types of audit records mirrors the split in
@@ -139,8 +141,9 @@ public class AuditLogReader {
     return result.stream().map(AccountGroupByIdAudit.Builder::build).collect(toImmutableList());
   }
 
-  private Optional<ParsedCommit> parse(AccountGroup.UUID uuid, RevCommit c) {
-    Optional<Account.Id> authorId = NoteDbUtil.parseIdent(c.getAuthorIdent());
+  private Optional<ParsedCommit> parse(AccountGroup.UUID uuid, RevCommit c)
+      throws ConfigInvalidException {
+    Optional<Account.Id> authorId = noteDbUtil.parseIdent(c.getAuthorIdent());
     if (!authorId.isPresent()) {
       // Only report audit events from identified users, since this was a non-nullable field in
       // ReviewDb. May be revisited.
@@ -176,7 +179,15 @@ public class AuditLogReader {
   private Optional<Account.Id> parseAccount(AccountGroup.UUID uuid, RevCommit c, FooterLine line) {
     Optional<Account.Id> result =
         Optional.ofNullable(RawParseUtils.parsePersonIdent(line.getValue()))
-            .flatMap(ident -> NoteDbUtil.parseIdent(ident));
+            .flatMap(
+                ident -> {
+                  try {
+                    return noteDbUtil.parseIdent(ident);
+                  } catch (ConfigInvalidException e) {
+                    logger.atSevere().withCause(e).log("Cannot parse identity: %s", ident);
+                    return Optional.empty();
+                  }
+                });
     if (!result.isPresent()) {
       logInvalid(uuid, c, line);
     }
@@ -200,7 +211,7 @@ public class AuditLogReader {
   }
 
   private ImmutableList<ParsedCommit> parseCommits(Repository repo, AccountGroup.UUID uuid)
-      throws IOException {
+      throws IOException, ConfigInvalidException {
     try (RevWalk rw = new RevWalk(repo)) {
       Ref ref = repo.exactRef(RefNames.refsGroups(uuid));
       if (ref == null) {

@@ -1,0 +1,319 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3b162ba_b0ac0031",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-09T23:18:21Z",
+      "side": 1,
+      "message": "`on replicas when fetching from and on primaries when pushing to projects with`",
+      "range": {
+        "startLine": 12,
+        "startChar": 12,
+        "endLine": 12,
+        "endChar": 29
+      },
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8cd0484_9d9e33a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-09T23:18:21Z",
+      "side": 1,
+      "message": "nit: `git ls-remote`",
+      "range": {
+        "startLine": 14,
+        "startChar": 43,
+        "endLine": 14,
+        "endChar": 52
+      },
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ea94376_68b3db0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-09T23:18:21Z",
+      "side": 1,
+      "message": "You don\u0027t ever mention that this existing cache is leveraged as the mechanism for populating the new cache on primaries. It\u0027s probably too low-level of a detail for your statement on line 10, but it seems like you\u0027d want to mention it here where you compare the caches.",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 37
+      },
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edfe502d_82f610dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-09T23:18:21Z",
+      "side": 1,
+      "message": "nit: This is an english idiom that doesn\u0027t do anything to clarify your message, so I would remove it.\n\nAlso, your paragraph structure might be clearer if you start the new paragraph here where you begin discussing the new cache benefits and combine that with the paragraph you currently start on line 41.\n\n```\n...\nserver. The existing cache is also not useable on replicas where there\nis no index.\n\nThe new cache stores the meta-ref id for\neach change and out-of-date changes are detected on each cache fetch\nresulting in the cache being incrementally kept up-to-date. This makes\nthe new cache safer and multi-primary and replica friendly. Lastly, the\nnew cache ...\n```",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 32
+      },
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69cca3c5_824a151f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-09T23:18:21Z",
+      "side": 1,
+      "message": "Note here that you needed to adjust some visibility checkers to ensure they used the space efficient fields? Or even split that into a separate change?",
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8c12389_5f0da203",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-09T23:18:21Z",
+      "side": 1,
+      "message": "`replica and receive-pack `",
+      "range": {
+        "startLine": 50,
+        "startChar": 48,
+        "endLine": 50,
+        "endChar": 56
+      },
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f93fe0f0_bb45744c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-09T23:18:21Z",
+      "side": 1,
+      "message": "Mention this cache is especially important for replicas?",
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76477912_f470fd27",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-09T23:18:21Z",
+      "side": 1,
+      "message": "Should this throw a StorageException instead of just logging?",
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e98f19fc_8af2768c",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-09T23:18:21Z",
+      "side": 1,
+      "message": "nit: You could make this `cdById` or `changeDataById`",
+      "range": {
+        "startLine": 91,
+        "startChar": 31,
+        "endLine": 91,
+        "endChar": 41
+      },
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00895d1f_e9247da9",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-09T23:18:21Z",
+      "side": 1,
+      "message": "You can remove this check and let update() do it (and it already does).",
+      "range": {
+        "startLine": 99,
+        "startChar": 8,
+        "endLine": 99,
+        "endChar": 35
+      },
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29fa5286_580477de",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-09T23:18:21Z",
+      "side": 1,
+      "message": "I think the metaRef objectId is already there (bundled into ref-state [1]), but it\u0027s not in the `searchingChangeCacheImpl`. Update this ToDo to reflect that since I don\u0027t think we\u0027ll modify the cache on a stable branch?\n\n[1] `com.google.gerrit.server.index.change.ChangeField#REF_STATE`",
+      "range": {
+        "startLine": 113,
+        "startChar": 8,
+        "endLine": 114,
+        "endChar": 36
+      },
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a3ee27e_b06e2989",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-09T23:18:21Z",
+      "side": 1,
+      "message": "nit: Better to only do `fromRef()` when its the meta ref we want:\n\n```suggestion\n      if (r.getName().endsWith(RefNames.META_SUFFIX)) {\n        Change.Id id \u003d Change.Id.fromRef(r.getName());\n        if (id !\u003d null) {\n          refByChange.put(id, r);\n        }\n      }\n```",
+      "range": {
+        "startLine": 129,
+        "startChar": 6,
+        "endLine": 132,
+        "endChar": 7
+      },
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2dad3d8_e5ec3f86",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-09T23:18:21Z",
+      "side": 1,
+      "message": "I think you need to split this into a separate `if` block otherwise line 557 will NPE when change is null and lazyload is false. You probably want to copy lines 846-850 from `reviewers()` since that also has a comment about permissions checks. However, you\u0027re not using change when `branch!\u003dnull`, so I think that\u0027s the condition you want first.\n\n```suggestion\n    if (change \u003d\u003d null) {\n      if (branch !\u003d null) {\n        return BranchNameKey.create(project, branch);\n      }\n      if (!lazyload()) {\n        // We are not allowed to load values from NoteDb. Branch was not populated;\n        // however, we need this value for permission checks.\n        throw new IllegalStateException(\"branch not populated\");\n      }\n```",
+      "range": {
+        "startLine": 551,
+        "startChar": 0,
+        "endLine": 554,
+        "endChar": 7
+      },
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "752c2d9c_b539e5ba",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-09T23:18:21Z",
+      "side": 1,
+      "message": "Same comment as above",
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58d80cb6_1f73ee0f",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-09T23:18:21Z",
+      "side": 1,
+      "message": "Same comment as above",
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -52,8 +52,8 @@ public class NoteDbUtil {
       ImmutableSet.of("com.google.gerrit.httpd.restapi.RestApiServlet");
 
   /**
-   * Returns an AccountId for the given email address and the current serverId. Reverse lookup the
-   * AccountId using the ExternalIdCache if the account has a foreign serverId.
+   * Returns an AccountId for the given person's identity and the current serverId. Reverse lookup
+   * the AccountId using the ExternalIdCache if the account has a foreign serverId.
    *
    * @param ident the accountId@serverId identity
    * @return a defined accountId if the account was found, {@link Account#UNKNOWN_ACCOUNT_ID} if the
@@ -61,7 +61,19 @@ public class NoteDbUtil {
    *     malformed.
    */
   public Optional<Account.Id> parseIdent(PersonIdent ident) {
-    String email = ident.getEmailAddress();
+    return parseIdent(ident.getEmailAddress());
+  }
+
+  /**
+   * Returns an AccountId for the given email address and the current serverId. Reverse lookup the
+   * AccountId using the ExternalIdCache if the account has a foreign serverId.
+   *
+   * @param email the accountId@serverId email identity
+   * @return a defined accountId if the account was found, {@link Account#UNKNOWN_ACCOUNT_ID} if the
+   *     lookup via external-id did not return any account, or an empty value if the identity was
+   *     malformed.
+   */
+  public Optional<Account.Id> parseIdent(String email) {
     int at = email.indexOf('@');
     if (at >= 0) {
       Integer id = Ints.tryParse(email.substring(0, at));

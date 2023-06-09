@@ -65,6 +65,7 @@ import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
+import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
@@ -889,6 +890,11 @@ class ChangeNotesParser {
 
     for (Map.Entry<ObjectId, ChangeRevisionNote> e : rns.entrySet()) {
       for (HumanComment c : e.getValue().getEntities()) {
+
+        noteDbUtil
+            .parseIdent(String.format("%s@%s", c.author.getId(), c.serverId))
+            .ifPresent(id -> c.author = new Comment.Identity(id));
+
         humanComments.put(e.getKey(), c);
       }
     }

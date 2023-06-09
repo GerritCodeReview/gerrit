@@ -22,6 +22,30 @@
       },
       "revId": "a866252c6b199385a4c7f10d4be9a77d6d780a74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c150199_46af2289",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2379,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-09T13:57:53Z",
+      "side": 0,
+      "message": "\"Let A\u003c-B\u003c-C\": Does this means we start with having commits A, B, C, or with having changes A, B, C?\n\nIf these are commits, A and A~ are pushed to refs/heads/master, hence there is no change for A, hence change B cannot depend on it.\n\nIf these are changes. Pushing A to refs/heads/master auto-closes the change and force-pushing A~ doesn\u0027t update it. Since the force push doesn\u0027t update change A,  it\u0027s not changing anything for change B when pushing C.",
+      "parentUuid": "d3ec231f_1cb165ae",
+      "range": {
+        "startLine": 2372,
+        "startChar": 0,
+        "endLine": 2379,
+        "endChar": 30
+      },
+      "revId": "a866252c6b199385a4c7f10d4be9a77d6d780a74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

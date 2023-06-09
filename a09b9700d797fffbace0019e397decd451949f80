@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87392156_dc3a6500",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-09T13:57:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8457810d_ef445978",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "a09b9700d797fffbace0019e397decd451949f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "030bbce9_3ddb5300",
@@ -37,6 +61,54 @@
       "writtenOn": "2023-05-31T07:13:09Z",
       "side": 1,
       "message": "Add a reference to the bug?",
+      "range": {
+        "startLine": 14,
+        "startChar": 16,
+        "endLine": 14,
+        "endChar": 21
+      },
+      "revId": "a09b9700d797fffbace0019e397decd451949f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05921b00_59f07d6d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-09T13:57:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "030bbce9_3ddb5300",
+      "range": {
+        "startLine": 14,
+        "startChar": 16,
+        "endLine": 14,
+        "endChar": 21
+      },
+      "revId": "a09b9700d797fffbace0019e397decd451949f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7612a17d_b4bfaace",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-09T13:57:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "030bbce9_3ddb5300",
       "range": {
         "startLine": 14,
         "startChar": 16,

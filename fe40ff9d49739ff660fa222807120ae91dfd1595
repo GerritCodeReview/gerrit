@@ -97,6 +97,30 @@
       },
       "revId": "fe40ff9d49739ff660fa222807120ae91dfd1595",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4839f30_0f653301",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-09T06:30:01Z",
+      "side": 1,
+      "message": "\u003e But what\u0027s the point to do it only here and not in all other similar places?\n\nIt was the only place complaining at compile time. I wonder why it didn\u0027t complain about other parts of the code.\n\n\u003e  Why not just to integrate the cherry-picked change 349635? \n\nSounds good to me. I wasn\u0027t aware of the change. Let\u0027s see what @Luca says.",
+      "parentUuid": "45c12e52_5df950e9",
+      "range": {
+        "startLine": 586,
+        "startChar": 11,
+        "endLine": 586,
+        "endChar": 72
+      },
+      "revId": "fe40ff9d49739ff660fa222807120ae91dfd1595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

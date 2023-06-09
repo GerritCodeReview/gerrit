@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c35fafab_7808e0d1",
+        "filename": "javatests/com/google/gerrit/server/notedb/AbstractChangeNotesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-09T21:46:41Z",
+      "side": 1,
+      "message": "Why not using the `DisabledExternalIdCache` instead?",
+      "range": {
+        "startLine": 178,
+        "startChar": 59,
+        "endLine": 178,
+        "endChar": 78
+      },
+      "revId": "a3982f8c1cd4796b0fa2a4276364a7246886e0f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

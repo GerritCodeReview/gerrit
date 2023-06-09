@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd5b9790_d9a03aeb",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-09T21:46:41Z",
+      "side": 0,
+      "message": "Can we throw an unchecked exception instead?\nAlternatively, we could log the IOException and return `Optional.of(Account.UNKNOWN_ACCOUNT_ID)`\n\nIMHO if the external-id cache doesn\u0027t work at all, Gerrit is pretty much dead anyway, so throwing an unchecked exception (`IllegalStateException`?) would be more appropriate.",
+      "range": {
+        "startLine": 87,
+        "startChar": 10,
+        "endLine": 87,
+        "endChar": 89
+      },
+      "revId": "9970f17601ed4efe6a2f5f844a3a93684822fb78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

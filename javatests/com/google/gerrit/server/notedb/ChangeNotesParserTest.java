@@ -783,6 +783,11 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
     walk.reset();
     ChangeNoteJson changeNoteJson = injector.getInstance(ChangeNoteJson.class);
     return new ChangeNotesParser(
-        newChange().getId(), tip, walk, changeNoteJson, args.metrics, serverId, externalIdCache);
+        newChange().getId(),
+        tip,
+        walk,
+        changeNoteJson,
+        args.metrics,
+        new NoteDbUtil(serverId, externalIdCache));
   }
 }

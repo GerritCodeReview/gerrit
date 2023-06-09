@@ -92,6 +92,8 @@ import org.junit.runner.RunWith;
 @RunWith(ConfigSuite.class)
 public abstract class AbstractChangeNotesTest {
   protected static final String LOCAL_SERVER_ID = "gerrit";
+  protected static final String FQ_USER_IDENT =
+      "Gerrit User 1000000 \\u003c1000000@" + LOCAL_SERVER_ID;
 
   private static final ZoneId ZONE_ID = ZoneId.of("America/Los_Angeles");
 

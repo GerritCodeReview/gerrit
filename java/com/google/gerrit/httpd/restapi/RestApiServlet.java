@@ -733,7 +733,8 @@ public class RestApiServlet extends HttpServlet {
             if (status.isPresent()) {
               responseBytes = reply(req, res, e, status.get(), getUserMessages(e));
             } else {
-              responseBytes = replyInternalServerError(req, res, e, getUserMessages(e));
+              responseBytes =
+                  replyInternalServerError(req, res, e, getViewName(viewData), getUserMessages(e));
             }
           }
         }
@@ -1787,11 +1788,12 @@ public class RestApiServlet extends HttpServlet {
       HttpServletRequest req,
       HttpServletResponse res,
       Throwable err,
+      String viewName,
       ImmutableList<String> userMessages)
       throws IOException {
     logger.atSevere().withCause(err).log(
-        "Error in %s %s: %s",
-        req.getMethod(), uriForLogging(req), globals.retryHelper.formatCause(err));
+        "Error in %s %s (view: %s): %s",
+        req.getMethod(), uriForLogging(req), viewName, globals.retryHelper.formatCause(err));
 
     StringBuilder msg = new StringBuilder("Internal server error");
     if (!userMessages.isEmpty()) {

@@ -27,6 +27,7 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.DuplicateKeyException;
@@ -333,6 +334,7 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Optional<AccountState> update(
       String message, Account.Id accountId, Consumer<AccountDelta.Builder> update)
       throws IOException, ConfigInvalidException {
@@ -340,6 +342,7 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public Optional<AccountState> update(
       String message, Account.Id accountId, ConfigureDeltaFromState configureDeltaFromState)
       throws LockFailureException, IOException, ConfigInvalidException {
@@ -404,6 +407,7 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public ImmutableList<Optional<AccountState>> updateBatch(List<UpdateArguments> updates)
       throws IOException, ConfigInvalidException {
     checkArgument(

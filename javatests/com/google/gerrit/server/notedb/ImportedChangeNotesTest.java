@@ -18,15 +18,12 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdCache;
 import com.google.gerrit.server.git.RepositoryCaseMismatchException;
-import com.google.inject.AbstractModule;
 import java.util.Optional;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.junit.Before;
@@ -37,8 +34,6 @@ public class ImportedChangeNotesTest extends AbstractChangeNotesTest {
   private static final String FOREIGN_SERVER_ID = "foreign-server-id";
   private static final String IMPORTED_SERVER_ID = "gerrit-imported-1";
 
-  private ExternalIdCache externalIdCacheMock;
-
   @Before
   @Override
   public void setUpTestEnvironment() throws Exception {
@@ -47,17 +42,7 @@ public class ImportedChangeNotesTest extends AbstractChangeNotesTest {
 
   private void initServerIds(String serverId, String... importedServerIds)
       throws Exception, RepositoryCaseMismatchException, RepositoryNotFoundException {
-    externalIdCacheMock = mock(ExternalIdCache.class);
-    injector =
-        createTestInjector(
-            new AbstractModule() {
-              @Override
-              protected void configure() {
-                bind(ExternalIdCache.class).toInstance(externalIdCacheMock);
-              }
-            },
-            serverId,
-            importedServerIds);
+    injector = createTestInjector(serverId, importedServerIds);
     injector.injectMembers(this);
     createAllUsers(injector);
   }

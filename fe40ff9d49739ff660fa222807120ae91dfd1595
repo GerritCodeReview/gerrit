@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "68311e1d_a0f64e5b",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 583,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-06-09T04:44:16Z",
+      "side": 1,
+      "message": "This warning is obsolete now and must be removed.",
+      "range": {
+        "startLine": 581,
+        "startChar": 2,
+        "endLine": 583,
+        "endChar": 34
+      },
+      "revId": "fe40ff9d49739ff660fa222807120ae91dfd1595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ccba8764_52743257",
         "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
         "patchSetId": 1
@@ -32,6 +55,29 @@
       "side": 1,
       "message": "I think it is kind of related, but the warning can be still addressed. The suppression for `JavaUtilDate` is `@SuppressWarnings(\"JavaUtilDate\")`. See [1].\n\nI think it is referring to the fact that at the moment the JGit class is still using Date [2]. However, with my change the `JavaUtilDate` will go away.\n\n[1]: https://errorprone.info/bugpattern/JavaUtilDate\n[2]: https://gerrit.googlesource.com/jgit/+/74fa245b3c3ccf13afcbec7911c7c8459e48527d/org.eclipse.jgit/src/org/eclipse/jgit/lib/PersonIdent.java#340",
       "parentUuid": "ccba8764_52743257",
+      "revId": "fe40ff9d49739ff660fa222807120ae91dfd1595",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45c12e52_5df950e9",
+        "filename": "java/com/google/gerrit/server/notedb/CommitRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-06-09T04:44:16Z",
+      "side": 1,
+      "message": "This was already fixed in change 337469, based on my change in JGit repository: [1] that is included starting from stable-3.7.\n\nPaladox has cherry-picked the fix to stable-3.6 branch: that is still pending for review: change 349635.\n\nWe should also avoid instantiation of additional Instant instance and just say:\n\n```\n  newIdent.getWhenAsInstant().equals(originalIdent.getWhenAsInstant()\n```\n\nBut what\u0027s the point to do it only here and not in all other similar places?\n\nWhy not just to integrate the cherry-picked change 349635? The only consideration against it, is to avoid non trivial changes on very stable branches. However, given that Edwin\u0027s fix is included starting from stable-3.7 branch I would consider the fix as very good tested.\n\nStill I would defer the decision to @Luca, in his role as Gerrit Release Manager for Gerrit 3.6.x release line.\n\n[1]: https://git.eclipse.org/r/c/jgit/jgit/+/189192",
+      "range": {
+        "startLine": 586,
+        "startChar": 11,
+        "endLine": 586,
+        "endChar": 72
+      },
       "revId": "fe40ff9d49739ff660fa222807120ae91dfd1595",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

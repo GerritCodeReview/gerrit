@@ -6,7 +6,7 @@
 import '@polymer/iron-input/iron-input';
 import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
-import {GroupId, GroupName} from '../../../types/common';
+import {GroupName} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -91,8 +91,7 @@ export class GrCreateGroupDialog extends LitElement {
       if (groupRegistered.status !== 201) return;
       return this.restApiService.getGroupConfig(name).then(group => {
         if (!group) return;
-        const groupId = String(group.group_id!) as GroupId;
-        this.getNavigation().setUrl(createGroupUrl({groupId}));
+        this.getNavigation().setUrl(createGroupUrl({groupId: group.id}));
       });
     });
   }

@@ -231,6 +231,16 @@ export class GrFileListHeader extends LitElement {
             display: none;
           }
         }
+        .diffmeta {
+          display: flex;
+          justify-content: center;
+          background-color: var(--warning-background);
+          padding: var(--spacing-s) var(--spacing-l);
+        }
+        .diffmeta gr-icon {
+          margin-right: var(--spacing-m);
+          color: var(--warning-foreground);
+        }
       `,
     ];
   }
@@ -335,7 +345,16 @@ export class GrFileListHeader extends LitElement {
           )}
         </div>
       </div>
+      ${this.renderDiffMeta()}
     `;
+  }
+
+  private renderDiffMeta() {
+    return html`<div class="diffmeta">
+      <gr-icon icon="warning"></gr-icon>
+      Warning: PS 3 is based on ce74f3 in the target branch, while PS2 was based
+      on PS 7 of change 314159.
+    </div>`;
   }
 
   private renderLatestPatchContainer() {

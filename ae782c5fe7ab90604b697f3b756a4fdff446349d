@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5229f5eb_b09e82a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-06-12T06:13:26Z",
+      "side": 1,
+      "message": "and `Forward-Compatible` too",
+      "parentUuid": "96f1a196_e220ca08",
+      "revId": "ae782c5fe7ab90604b697f3b756a4fdff446349d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c5e475d2_7d5ac9cd",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 5

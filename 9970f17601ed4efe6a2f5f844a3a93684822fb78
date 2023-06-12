@@ -22,6 +22,30 @@
       },
       "revId": "9970f17601ed4efe6a2f5f844a3a93684822fb78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3248b925_5a13f194",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-06-12T15:15:47Z",
+      "side": 0,
+      "message": "Yep good point, this will make its usage less noisy.\nDone.",
+      "parentUuid": "bd5b9790_d9a03aeb",
+      "range": {
+        "startLine": 87,
+        "startChar": 10,
+        "endLine": 87,
+        "endChar": 89
+      },
+      "revId": "9970f17601ed4efe6a2f5f844a3a93684822fb78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

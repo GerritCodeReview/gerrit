@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3655a23a_08a8addd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-06-12T15:21:06Z",
+      "side": 1,
+      "message": "Let me give it a go",
+      "parentUuid": "49c602fd_1ed3fdd5",
+      "revId": "ae782c5fe7ab90604b697f3b756a4fdff446349d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c5e475d2_7d5ac9cd",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 5
@@ -66,6 +84,30 @@
       "writtenOn": "2023-06-09T21:49:59Z",
       "side": 1,
       "message": "It looks like we need a `parseIdent` that takes just the accountId and serverId. Why not creating that method instead of an artificial dummy identity?",
+      "range": {
+        "startLine": 895,
+        "startChar": 14,
+        "endLine": 896,
+        "endChar": 95
+      },
+      "revId": "ae782c5fe7ab90604b697f3b756a4fdff446349d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6908f616_0d02e9d3",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-06-12T15:21:06Z",
+      "side": 1,
+      "message": "Do you mean a `parseIdent` that constructs a `PersonIdent` itself?\nThat method would still need to artificially use some dummy value to create a `PersonIdent`, which is defined in jgit and it requires a mandatory name.\n\nIs that what you mean?",
+      "parentUuid": "c5e475d2_7d5ac9cd",
       "range": {
         "startLine": 895,
         "startChar": 14,

@@ -70,6 +70,30 @@
       },
       "revId": "a866252c6b199385a4c7f10d4be9a77d6d780a74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c883aed_2214f9d9",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2379,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-12T06:36:06Z",
+      "side": 0,
+      "message": "\u003e A and A~ are noted as pushed to \u0027refs/heads/master\u0027,\n\u003e so I assumed those were only commits and not changes.\n\n+1, but since I couldn\u0027t make sense of it, I considered it being changes as well.\n\n\u003e B still has A as a parent commit. Does A need to be a change for this logic to be relevant?\n\nDon\u0027t know with assuming A was a change I didn\u0027t understand this either, so probably not.\n\n\u003e Hmm. Will we notice that B\u0027s parent is no longer on master when we push C\n\u003e for review? If yes, that\u0027s when I thought we would either fail the push or\n\u003e try to possibly create a new change for A.\n\nI didn\u0027t try this out, but I expect the same as you.\n\n\u003e I don\u0027t care if you want to remove this case, I just thought I might try to \n\u003e understand it too 😊\n\u003e so you could also just add a bunch of tests for the updateGroups logic you\n\u003e do think is important?\n\nYeah, it would be better to understand this, but I don\u0027t feel like it\u0027s worth to put more effort into this. So I would just drop this. Since that\u0027s OK with you, resolving this comment.",
+      "parentUuid": "9455d247_8cfbcb44",
+      "range": {
+        "startLine": 2372,
+        "startChar": 0,
+        "endLine": 2379,
+        "endChar": 30
+      },
+      "revId": "a866252c6b199385a4c7f10d4be9a77d6d780a74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

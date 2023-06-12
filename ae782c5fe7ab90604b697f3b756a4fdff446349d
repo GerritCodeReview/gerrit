@@ -38,6 +38,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "49c602fd_1ed3fdd5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-12T06:36:35Z",
+      "side": 1,
+      "message": "@Tony It shouldn\u0027t be tricky adding a test for this, right?\n\nThere are several tests in `com.google.gerrit.server.notedb.ChangeNotesParserTest`.\n\nThe only bit I am not sure is how to add a user from another server.",
+      "revId": "ae782c5fe7ab90604b697f3b756a4fdff446349d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c5e475d2_7d5ac9cd",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 5

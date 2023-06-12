@@ -17,6 +17,10 @@ export enum GroupDetailView {
 
 export interface GroupViewState extends ViewState {
   view: GerritView.GROUP;
+  /**
+   * This refers to the (string) `id` of `GroupInfo`, not the `groupId`, which
+   * is a number.
+   */
   groupId: GroupId;
   detail?: GroupDetailView;
 }

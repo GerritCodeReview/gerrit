@@ -71,7 +71,7 @@ suite('gr-create-group-dialog tests', () => {
 
     const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
     await element.handleCreateGroup();
-    assert.isTrue(setUrlStub.calledWith('/admin/groups/551'));
+    assert.isTrue(setUrlStub.calledWith('/admin/groups/testId551'));
   });
 
   test('test for unsuccessful group creation', async () => {

@@ -34,6 +34,24 @@
       "parentUuid": "3bd2714f_f815ff6f",
       "revId": "8fd9d9eeb9be5399a168c8784a31d34f1f3f889a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ae41b8d_cef09b61",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-06-13T23:11:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc2ca4ed_81d784f0",
+      "revId": "8fd9d9eeb9be5399a168c8784a31d34f1f3f889a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

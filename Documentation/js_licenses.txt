@@ -285,6 +285,7 @@ DefinitelyTyped
 [[Lit]]
 Lit
 
+* @lit-labs/ssr-dom-shim
 * @lit/reactive-element
 * lit
 * lit-element

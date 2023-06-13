@@ -16,6 +16,24 @@
       "message": "This also improves offline indexing in some cases.",
       "revId": "7ee48fd6c89d216522b581394762e81fc6b34aa4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b2ee8b5_ce26c534",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-13T23:48:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b91be23f_ebea0628",
+      "revId": "7ee48fd6c89d216522b581394762e81fc6b34aa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

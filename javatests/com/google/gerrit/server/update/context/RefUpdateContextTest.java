@@ -15,12 +15,17 @@
 package com.google.gerrit.server.update.context;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.DIRECT_PUSH;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.GROUPS_UPDATE;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.INIT_REPO;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.OTHER;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.server.update.context.RefUpdateContext.DirectPushRefUpdateContext;
+import java.util.Optional;
 import org.junit.After;
 import org.junit.Test;
 
@@ -89,5 +94,46 @@ public class RefUpdateContextTest {
         assertThat(RefUpdateContext.hasOpen(INIT_REPO)).isTrue();
       }
     }
+  }
+
+  @Test
+  public void openDirectPushContextByType_exceptionThrown() {
+    assertThrows(Exception.class, () -> RefUpdateContext.open(DIRECT_PUSH));
+  }
+
+  @Test
+  public void openDirectPushContextWithJustification_openedAndClosedCorrectly() {
+    try (RefUpdateContext ctx = RefUpdateContext.openDirectPush(Optional.of("Open in test"))) {
+      ImmutableList<RefUpdateContext> openedContexts = RefUpdateContext.getOpenedContexts();
+      assertThat(openedContexts).hasSize(1);
+      assertThat(openedContexts.get(0).getUpdateType()).isEqualTo(DIRECT_PUSH);
+      assertThat(((DirectPushRefUpdateContext) openedContexts.get(0)).getJustification())
+          .hasValue("Open in test");
+      assertThat(RefUpdateContext.hasOpen(DIRECT_PUSH)).isTrue();
+      assertThat(RefUpdateContext.hasOpen(INIT_REPO)).isFalse();
+    }
+
+    assertThat(RefUpdateContext.getOpenedContexts()).isEmpty();
+    assertThat(RefUpdateContext.hasOpen(DIRECT_PUSH)).isFalse();
+  }
+
+  @Test
+  public void openDirectPushContextWithoutJustification_openedAndClosedCorrectly() {
+    try (RefUpdateContext ctx = RefUpdateContext.openDirectPush(Optional.empty())) {
+      ImmutableList<RefUpdateContext> openedContexts = RefUpdateContext.getOpenedContexts();
+      assertThat(openedContexts).hasSize(1);
+      assertThat(openedContexts.get(0).getUpdateType()).isEqualTo(DIRECT_PUSH);
+      assertThat(((DirectPushRefUpdateContext) openedContexts.get(0)).getJustification()).isEmpty();
+      assertThat(RefUpdateContext.hasOpen(DIRECT_PUSH)).isTrue();
+      assertThat(RefUpdateContext.hasOpen(INIT_REPO)).isFalse();
+    }
+
+    assertThat(RefUpdateContext.getOpenedContexts()).isEmpty();
+    assertThat(RefUpdateContext.hasOpen(DIRECT_PUSH)).isFalse();
+  }
+
+  @Test
+  public void openOtherContextByType_exceptionThrown() {
+    assertThrows(Exception.class, () -> RefUpdateContext.open(OTHER));
   }
 }

@@ -477,6 +477,21 @@ link:config-gerrit.html#deadline.id[server-side deadline] that has been
 configured on the host, but not the link:config.html#receive.timeout[receive
 timeout].
 
+[[push_justification]]
+==== Provide a push justification
+
+When making a direct push (which directly modifies target branch, without creating a change), you
+can provide a justification for the push. To do this set `push-justification=justification` push
+option on the git push; the justification is an arbitrary text.
+
+----
+  git push -o push-justification=id/2345 ssh://john.doe@git.example.com:29418/kernel/common refs/heads/master
+----
+
+**NOTE** This options is used internally in google. The value is ignored in the upstream version
+of Gerrit.
+
+
 [[push_replace]]
 === Replace Changes
 

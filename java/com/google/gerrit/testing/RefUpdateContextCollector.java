@@ -86,6 +86,17 @@ public class RefUpdateContextCollector implements TestRule {
         .collect(toImmutableList());
   }
 
+  public ImmutableList<Entry<String, ImmutableList<RefUpdateContext>>> getContextsByUpdateType(
+      RefUpdateType refUpdateType) {
+    return touchedRefsWithContexts.stream()
+        .filter(
+            entry ->
+                entry.getValue().stream()
+                    .map(RefUpdateContext::getUpdateType)
+                    .anyMatch(refUpdateType::equals))
+        .collect(toImmutableList());
+  }
+
   public void clear() {
     touchedRefsWithContexts.clear();
   }

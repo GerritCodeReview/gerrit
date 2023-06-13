@@ -16,6 +16,24 @@
       "message": "Note quite accurate anymore?",
       "revId": "21632ead86a894368c3139fdcff42d9e75ff1fa4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbe81608_ef3945df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-13T23:20:07Z",
+      "side": 1,
+      "message": "I felt like highlighting what was unused was the more important information for the title and I couldn\u0027t think of a short way to otherwise explain the motivation. Any suggestions?\n\nI do note in the body that I\u0027m completely removing ScanResult.",
+      "parentUuid": "48005aaf_9e1388fc",
+      "revId": "21632ead86a894368c3139fdcff42d9e75ff1fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

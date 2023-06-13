@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a41df57d_c88d19d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-13T13:31:25Z",
+      "side": 1,
+      "message": "@Kamil I am unsure how to resolve the conflicts though",
+      "revId": "1351c1f1e669fed2d515331875e73cb48326b24c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

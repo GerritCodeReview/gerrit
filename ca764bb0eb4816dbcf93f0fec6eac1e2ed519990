@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7110fab1_804ec405",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-13T17:47:46Z",
+      "side": 1,
+      "message": "Instead of keeping this in the same cache, maybe it makes sense to have a parallel Set for misses? Negative caches are tricky because you may want to cache misses less aggressively so that if a project is later created, you\u0027re not stuck with an incorrect cached value.",
+      "revId": "ca764bb0eb4816dbcf93f0fec6eac1e2ed519990",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2663555c_fd220e2f",
         "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
         "patchSetId": 1
@@ -54,6 +71,24 @@
       "writtenOn": "2023-06-13T10:12:20Z",
       "side": 1,
       "message": "Looking at our internal stacktrace what\u0027s triggering the loading of repo meta is opening the repository. IIUC we invoke reload() each time the missing repository is looked up from the project cache, so we would still load repo meta each time here. So not sure this is solving our problem.",
+      "revId": "ca764bb0eb4816dbcf93f0fec6eac1e2ed519990",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01854e56_1af8d81f",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-13T17:47:46Z",
+      "side": 1,
+      "message": "Depending on what exactly was expensive for you, you could call `repoManager.getRepositoryStatus(key)` before you try to open the repo (both in `load()` and `reload()`). But as I note in my comment above, I think that would be a better check to have in the loader for a \"non_existent_projects\" cache. You could probably still put entries into that cache whenever you get a RepositoryNotFoundException loading an entry for the inMemoryProjectsCache.",
+      "parentUuid": "ad3eeff1_e3988ee1",
       "revId": "ca764bb0eb4816dbcf93f0fec6eac1e2ed519990",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

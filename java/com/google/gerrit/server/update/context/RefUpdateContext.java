@@ -18,8 +18,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.UsedAt;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Optional;
 
 /**
  * Passes additional information about an operation to the {@code BatchRefUpdate#execute} method.
@@ -126,7 +128,14 @@ public class RefUpdateContext implements AutoCloseable {
   /** Opens a context of a give type. */
   public static RefUpdateContext open(RefUpdateType updateType) {
     checkArgument(updateType != RefUpdateType.OTHER, "The OTHER type is for internal use only.");
+    checkArgument(
+        updateType != RefUpdateType.DIRECT_PUSH,
+        "openDirectPush method with justification must be used to open DIRECT_PUSH context.");
     return open(new RefUpdateContext(updateType));
+  }
+
+  public static DirectPushRefUpdateContext openDirectPush(Optional<String> justification) {
+    return open(new DirectPushRefUpdateContext(justification));
   }
 
   /** Returns the list of opened contexts; the first element is the outermost context. */
@@ -161,7 +170,8 @@ public class RefUpdateContext implements AutoCloseable {
   /**
    * Returns the type of {@link RefUpdateContext}.
    *
-   * <p>For descendants, always return {@link RefUpdateType#OTHER}
+   * <p>For descendants, always return {@link RefUpdateType#OTHER} (except known descendants defined
+   * as nested classes).
    */
   public final RefUpdateType getUpdateType() {
     return updateType;
@@ -174,5 +184,19 @@ public class RefUpdateContext implements AutoCloseable {
     checkState(
         openedContexts.peekLast() == this, "The current context is different from this context.");
     openedContexts.removeLast();
+  }
+
+  public static class DirectPushRefUpdateContext extends RefUpdateContext {
+    private final Optional<String> justification;
+
+    private DirectPushRefUpdateContext(Optional<String> justification) {
+      super(RefUpdateType.DIRECT_PUSH);
+      this.justification = justification;
+    }
+
+    @UsedAt(UsedAt.Project.GOOGLE)
+    public Optional<String> getJustification() {
+      return justification;
+    }
   }
 }

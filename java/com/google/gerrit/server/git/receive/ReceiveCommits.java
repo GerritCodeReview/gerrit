@@ -34,7 +34,6 @@ import static com.google.gerrit.server.git.validators.CommitValidators.NEW_PATCH
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
-import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.DIRECT_PUSH;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
@@ -271,6 +270,8 @@ class ReceiveCommits {
   private static final String CANNOT_DELETE_CONFIG =
       "Cannot delete project configuration from '" + RefNames.REFS_CONFIG + "'";
   private static final String INTERNAL_SERVER_ERROR = "internal server error";
+
+  public static final String DIRECT_PUSH_JUSTIFICATION_OPTION = "push-justification";
 
   interface Factory {
     ReceiveCommits create(
@@ -763,7 +764,9 @@ class ReceiveCommits {
         String pushKind = magicBranch != null && magicBranch.submit ? "direct_submit" : "magic";
         metrics.pushCount.increment(pushKind, project.getName(), getUpdateType(magicCommands));
       }
-      try (RefUpdateContext ctx = RefUpdateContext.open(DIRECT_PUSH)) {
+      Optional<String> justification =
+          pushOptions.get(DIRECT_PUSH_JUSTIFICATION_OPTION).stream().findFirst();
+      try (RefUpdateContext ctx = RefUpdateContext.openDirectPush(justification)) {
         if (!regularCommands.isEmpty()) {
           metrics.pushCount.increment("direct", project.getName(), getUpdateType(regularCommands));
         }

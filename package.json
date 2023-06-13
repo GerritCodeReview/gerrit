@@ -6,7 +6,8 @@
     "@bazel/concatjs": "^5.8.0",
     "@bazel/rollup": "^5.8.0",
     "@bazel/terser": "^5.8.0",
-    "@bazel/typescript": "^5.8.0"
+    "@bazel/typescript": "^5.8.0",
+    "@typescript-eslint/parser": "^5.59.7"
   },
   "devDependencies": {
     "@koa/cors": "^3.3.0",

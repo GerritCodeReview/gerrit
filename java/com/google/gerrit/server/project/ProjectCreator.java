@@ -116,6 +116,8 @@ public class ProjectCreator {
           throw new RepositoryExistsException(nameKey, "Repository status: " + status);
         }
         try (Repository repo = repoManager.createRepository(nameKey)) {
+          projectCache.evict(nameKey);
+
           RefUpdate u = repo.updateRef(Constants.HEAD);
           u.disableRefLog();
           u.link(head);

@@ -879,7 +879,7 @@ export class GrChangeView extends LitElement {
           margin-left: var(--spacing-xs);
         }
         gr-reply-dialog {
-          width: 60em;
+          width: calc(min(60em, 90vw));
         }
         .changeStatus {
           text-transform: capitalize;
@@ -1094,9 +1094,8 @@ export class GrChangeView extends LitElement {
             margin: 0;
           }
           gr-reply-dialog {
-            height: 100vh;
-            min-width: initial;
-            width: 100vw;
+            height: 90vh;
+            width: initial;
           }
         }
         .patch-set-dropdown {

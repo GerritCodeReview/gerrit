@@ -549,7 +549,7 @@ export class GrReplyDialog extends LitElement {
           margin-right: var(--spacing-s);
         }
         .patchsetLevelContainer {
-          width: 80ch;
+          width: calc(min(80ch, 100%));
           border-radius: var(--border-radius);
           box-shadow: var(--elevation-level-2);
         }

@@ -176,6 +176,30 @@
       },
       "revId": "ae782c5fe7ab90604b697f3b756a4fdff446349d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74ac11ec_3a3b0da3",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-06-13T07:44:39Z",
+      "side": 1,
+      "message": "oh gotcha!\nYep it makes sense.\n\nLet me do that.",
+      "parentUuid": "655ed030_18837fc3",
+      "range": {
+        "startLine": 895,
+        "startChar": 14,
+        "endLine": 896,
+        "endChar": 95
+      },
+      "revId": "ae782c5fe7ab90604b697f3b756a4fdff446349d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

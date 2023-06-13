@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b91be23f_ebea0628",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-13T22:55:24Z",
+      "side": 1,
+      "message": "This also improves offline indexing in some cases.",
+      "revId": "7ee48fd6c89d216522b581394762e81fc6b34aa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

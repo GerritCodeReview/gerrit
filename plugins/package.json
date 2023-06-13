@@ -6,7 +6,7 @@
     "@gerritcodereview/typescript-api": "3.8.0",
     "@polymer/decorators": "^3.0.0",
     "@polymer/polymer": "^3.4.1",
-    "@open-wc/testing": "^3.1.8",
+    "@open-wc/testing": "^3.2.0",
     "@web/dev-server-esbuild": "^0.3.6",
     "@web/test-runner": "^0.15.3",
     "@codemirror/autocomplete": "^6.5.1",
@@ -32,9 +32,9 @@
     "@codemirror/search": "^6.4.0",
     "@codemirror/state": "^6.2.0",
     "@codemirror/view": "^6.10.0",
-    "lit": "^2.2.3",
+    "lit": "^2.7.5",
     "rxjs": "^6.6.7",
-    "sinon": "^13.0.0"
+    "sinon": "^13.0.2"
   },
   "license": "Apache-2.0",
   "private": true

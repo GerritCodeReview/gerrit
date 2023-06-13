@@ -108,6 +108,7 @@ import com.google.gerrit.server.account.ServiceUserClassifierImpl;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalIdCacheModule;
 import com.google.gerrit.server.account.externalids.ExternalIdModule;
+import com.google.gerrit.server.account.externalids.ExternalIdUpsertPreprocessor;
 import com.google.gerrit.server.account.storage.notedb.AccountNoteDbStorageModule;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.auth.AuthBackend;
@@ -510,6 +511,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(ReloadPluginListener.class)
         .annotatedWith(UniqueAnnotations.create())
         .to(PluginConfigFactory.class);
+    DynamicMap.mapOf(binder(), ExternalIdUpsertPreprocessor.class);
 
     bind(AttentionSetObserver.class);
   }

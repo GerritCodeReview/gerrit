@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "349c24ec_5fc97f71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-13T09:44:54Z",
+      "side": 1,
+      "message": "nit: long line, please wrap",
+      "revId": "aa6a9477b6372f13b9cdbee7952d8e30717b8c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a54b70d_3c9f16d1",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-13T09:44:54Z",
+      "side": 1,
+      "message": "Maybe document this push option at https://gerrit-review.googlesource.com/Documentation/user-upload.html#push_options ?",
+      "revId": "aa6a9477b6372f13b9cdbee7952d8e30717b8c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "995ff412_d05d7bd9",
+        "filename": "java/com/google/gerrit/server/update/context/DirectPushRefUpdateContext.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-13T09:44:54Z",
+      "side": 1,
+      "message": "Drop this file?",
+      "revId": "aa6a9477b6372f13b9cdbee7952d8e30717b8c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -193,6 +193,29 @@
       "parentUuid": "ed71a749_13aeb7c7",
       "revId": "abc65931aad4f4ab0889beba1e8706397071edb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d3d51ec_e7702a68",
+        "filename": "java/com/google/gerrit/server/group/db/GroupsUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 568,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-06-13T10:41:43Z",
+      "side": 1,
+      "message": "To prevent duplicated code, would it make sense to instead only have one #commit method and make groupConfig @Nullable at l535 and do a conditional update as is done for groupNameNotes?\n\n```\n  if (groupConfig !\u003d null) {\n    try (MetaDataUpdate metaDataUpdate \u003d\n        metaDataUpdateFactory.create(allUsersName, allUsersRepo, batchRefUpdate)) {\n      groupConfig.commit(metaDataUpdate);\n    }\n  }\n```",
+      "range": {
+        "startLine": 535,
+        "startChar": 0,
+        "endLine": 568,
+        "endChar": 3
+      },
+      "revId": "abc65931aad4f4ab0889beba1e8706397071edb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

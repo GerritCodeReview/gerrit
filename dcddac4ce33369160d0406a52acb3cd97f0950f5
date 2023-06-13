@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "955e5b18_95278f3c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-06-13T13:41:02Z",
+      "side": 1,
+      "message": "Can you update the main bug/the commit message with the steps required to get to this change?",
+      "revId": "dcddac4ce33369160d0406a52acb3cd97f0950f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

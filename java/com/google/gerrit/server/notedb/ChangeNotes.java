@@ -34,8 +34,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
-import com.google.common.collect.Sets;
-import com.google.common.collect.Sets.SetView;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.FormatMethod;
 import com.google.gerrit.common.Nullable;
@@ -115,27 +113,17 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       this.projectCache = projectCache;
     }
 
-    @AutoValue
-    public abstract static class ScanResult {
-      abstract ImmutableSet<Change.Id> fromPatchSetRefs();
-
-      abstract ImmutableSet<Change.Id> fromMetaRefs();
-
-      public SetView<Change.Id> all() {
-        return Sets.union(fromPatchSetRefs(), fromMetaRefs());
-      }
-    }
-
-    public static ScanResult scanChangeIds(Repository repo) throws IOException {
-      ImmutableSet.Builder<Change.Id> fromPs = ImmutableSet.builder();
+    public static ImmutableSet<Change.Id> scanChangeIds(Repository repo) throws IOException {
       ImmutableSet.Builder<Change.Id> fromMeta = ImmutableSet.builder();
       for (Ref r : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_CHANGES)) {
-        Change.Id id = Change.Id.fromRef(r.getName());
-        if (id != null) {
-          (r.getName().endsWith(RefNames.META_SUFFIX) ? fromMeta : fromPs).add(id);
+        if (r.getName().endsWith(RefNames.META_SUFFIX)) {
+          Change.Id id = Change.Id.fromRef(r.getName());
+          if (id != null) {
+            fromMeta.add(id);
+          }
         }
       }
-      return new AutoValue_ChangeNotes_Factory_ScanResult(fromPs.build(), fromMeta.build());
+      return fromMeta.build();
     }
 
     public ChangeNotes createChecked(Change c) {
@@ -301,17 +289,20 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
 
     public Stream<ChangeNotesResult> scan(
-        ScanResult sr, Project.NameKey project, Predicate<Change.Id> changeIdPredicate) {
-      Stream<Change.Id> idStream = sr.all().stream();
+        ImmutableSet<Change.Id> changeIds,
+        Project.NameKey project,
+        Predicate<Change.Id> changeIdPredicate) {
+      Stream<Change.Id> idStream = changeIds.stream();
       if (changeIdPredicate != null) {
         idStream = idStream.filter(changeIdPredicate);
       }
-      return idStream.map(id -> scanOneChange(project, sr, id)).filter(Objects::nonNull);
+      return idStream.map(id -> scanOneChange(project, changeIds, id)).filter(Objects::nonNull);
     }
 
     @Nullable
-    private ChangeNotesResult scanOneChange(Project.NameKey project, ScanResult sr, Change.Id id) {
-      if (!sr.fromMetaRefs().contains(id)) {
+    private ChangeNotesResult scanOneChange(
+        Project.NameKey project, ImmutableSet<Change.Id> changeIds, Change.Id id) {
+      if (!changeIds.contains(id)) {
         // Stray patch set refs can happen due to normal error conditions, e.g. failed
         // push processing, so aren't worth even a warning.
         return null;

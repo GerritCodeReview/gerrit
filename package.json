@@ -8,6 +8,7 @@
     "@bazel/terser": "^5.8.0",
     "@bazel/typescript": "^5.8.0"
   },
+  // Test
   "devDependencies": {
     "@koa/cors": "^3.3.0",
     "@types/page": "^1.11.5",

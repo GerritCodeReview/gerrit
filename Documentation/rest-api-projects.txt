@@ -2758,6 +2758,10 @@ value 0 is used for `parent`, the default base commit will be used, which is
 the only parent for commits having one parent or the auto-merge commit
 otherwise.
 
+The request parameter `q` changes the response to return a list of all files
+(modified or unmodified) that contain that substring in the path name. Clients
+that also need the FileInfo should make two requests.
+
 [[dashboard-endpoints]]
 == Dashboard Endpoints
 

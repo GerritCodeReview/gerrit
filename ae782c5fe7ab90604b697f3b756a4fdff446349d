@@ -152,6 +152,30 @@
       },
       "revId": "ae782c5fe7ab90604b697f3b756a4fdff446349d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "655ed030_18837fc3",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-06-13T05:37:12Z",
+      "side": 1,
+      "message": "AFAIU `NoteDbUtil.parseIdent` uses `ident` only to take an email from it (that contains already the `serverId`) IOW one could have a method that just takes the `email` and the existing one could delegate to it from ident\u0027s email. WDYT?",
+      "parentUuid": "6908f616_0d02e9d3",
+      "range": {
+        "startLine": 895,
+        "startChar": 14,
+        "endLine": 896,
+        "endChar": 95
+      },
+      "revId": "ae782c5fe7ab90604b697f3b756a4fdff446349d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

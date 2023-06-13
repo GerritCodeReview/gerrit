@@ -216,6 +216,23 @@
       },
       "revId": "abc65931aad4f4ab0889beba1e8706397071edb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1536f32d_7dd9c669",
+        "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-06-13T10:58:41Z",
+      "side": 1,
+      "message": "Add a configurable global capability so that Gerrit admins can decide who, if anyone, should be able to delete a group.\n```\n@RequiresCapability(GlobalCapability.DELETE_GROUP)\n```\nCompare [CreateGroup.java](https://gerrit.googlesource.com/gerrit/+/refs/changes/74/375374/10/java/com/google/gerrit/server/restapi/group/CreateGroup.java#76).\nA `git grep CREATE_GROUP` should give you an idea of how to add such a capability.",
+      "revId": "abc65931aad4f4ab0889beba1e8706397071edb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

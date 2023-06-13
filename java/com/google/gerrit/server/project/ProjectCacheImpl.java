@@ -70,7 +70,6 @@ import com.google.protobuf.ByteString;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Arrays;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -124,7 +123,10 @@ public class ProjectCacheImpl implements ProjectCache {
         // the existing performance guarantees of not requiring reads for the repo for values
         // cached in-memory but also to persist the cache which leads to a much improved
         // cold-start behavior and in-memory miss latency.
-        cache(CACHE_NAME, Project.NameKey.class, CachedProjectConfig.class)
+        cache(
+                CACHE_NAME,
+                Project.NameKey.class,
+                new TypeLiteral<Optional<CachedProjectConfig>>() {})
             .loader(InMemoryLoader.class)
             .refreshAfterWrite(Duration.ofMinutes(15))
             .expireAfterWrite(Duration.ofHours(1));
@@ -165,7 +167,7 @@ public class ProjectCacheImpl implements ProjectCache {
   private final Config config;
   private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;
-  private final LoadingCache<Project.NameKey, CachedProjectConfig> inMemoryProjectCache;
+  private final LoadingCache<Project.NameKey, Optional<CachedProjectConfig>> inMemoryProjectCache;
   private final LoadingCache<ListKey, ImmutableSortedSet<Project.NameKey>> list;
   private final Lock listLock;
   private final Provider<ProjectIndexer> indexer;
@@ -177,7 +179,8 @@ public class ProjectCacheImpl implements ProjectCache {
       @GerritServerConfig Config config,
       AllProjectsName allProjectsName,
       AllUsersName allUsersName,
-      @Named(CACHE_NAME) LoadingCache<Project.NameKey, CachedProjectConfig> inMemoryProjectCache,
+      @Named(CACHE_NAME)
+          LoadingCache<Project.NameKey, Optional<CachedProjectConfig>> inMemoryProjectCache,
       @Named(CACHE_LIST) LoadingCache<ListKey, ImmutableSortedSet<Project.NameKey>> list,
       Provider<ProjectIndexer> indexer,
       MetricMaker metricMaker,
@@ -216,7 +219,7 @@ public class ProjectCacheImpl implements ProjectCache {
     }
 
     try {
-      return Optional.of(inMemoryProjectCache.get(projectName)).map(projectStateFactory::create);
+      return inMemoryProjectCache.get(projectName).map(projectStateFactory::create);
     } catch (ExecutionException e) {
       if ((e.getCause() instanceof RepositoryNotFoundException)) {
         logger.atFine().log("Cannot find project %s", projectName.get());
@@ -307,8 +310,8 @@ public class ProjectCacheImpl implements ProjectCache {
                       .map(AccountGroup::uuid),
                   all().stream()
                       .map(n -> inMemoryProjectCache.getIfPresent(n))
-                      .filter(Objects::nonNull)
-                      .flatMap(p -> p.getAllGroupUUIDs().stream())
+                      .filter(Optional::isPresent)
+                      .flatMap(p -> p.get().getAllGroupUUIDs().stream())
                       // getAllGroupUUIDs shouldn't really return null UUIDs, but harden
                       // against them just in case there is a bug or corner case.
                       .filter(id -> id != null && id.get() != null))
@@ -353,7 +356,7 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   @Singleton
-  static class InMemoryLoader extends CacheLoader<Project.NameKey, CachedProjectConfig> {
+  static class InMemoryLoader extends CacheLoader<Project.NameKey, Optional<CachedProjectConfig>> {
     private final LoadingCache<Cache.ProjectCacheKeyProto, CachedProjectConfig> persistedCache;
     private final GitRepositoryManager repoManager;
     private final ListeningExecutorService cacheRefreshExecutor;
@@ -391,36 +394,43 @@ public class ProjectCacheImpl implements ProjectCache {
     }
 
     @Override
-    public CachedProjectConfig load(Project.NameKey key) throws IOException, ExecutionException {
-      try (TraceTimer ignored =
-              TraceContext.newTimer(
-                  "Loading project from serialized cache",
-                  Metadata.builder().projectName(key.get()).build());
-          Repository git = repoManager.openRepository(key)) {
-        Cache.ProjectCacheKeyProto.Builder keyProto =
-            Cache.ProjectCacheKeyProto.newBuilder().setProject(key.get());
-        Ref configRef = git.exactRef(RefNames.REFS_CONFIG);
-        if (key.get().equals(allProjectsName.get())) {
-          Optional<StoredConfig> allProjectsConfig = allProjectsConfigProvider.get(allProjectsName);
-          byte[] fileHash = allProjectsFileProjectConfigHash(allProjectsConfig);
-          keyProto.setGlobalConfigRevision(ByteString.copyFrom(fileHash));
+    public Optional<CachedProjectConfig> load(Project.NameKey key)
+        throws IOException, ExecutionException {
+      try {
+        try (TraceTimer ignored =
+                TraceContext.newTimer(
+                    "Loading project from serialized cache",
+                    Metadata.builder().projectName(key.get()).build());
+            Repository git = repoManager.openRepository(key)) {
+          Cache.ProjectCacheKeyProto.Builder keyProto =
+              Cache.ProjectCacheKeyProto.newBuilder().setProject(key.get());
+          Ref configRef = git.exactRef(RefNames.REFS_CONFIG);
+          if (key.get().equals(allProjectsName.get())) {
+            Optional<StoredConfig> allProjectsConfig =
+                allProjectsConfigProvider.get(allProjectsName);
+            byte[] fileHash = allProjectsFileProjectConfigHash(allProjectsConfig);
+            keyProto.setGlobalConfigRevision(ByteString.copyFrom(fileHash));
+          }
+          if (configRef != null) {
+            keyProto.setRevision(ObjectIdConverter.create().toByteString(configRef.getObjectId()));
+          }
+          return Optional.of(persistedCache.get(keyProto.build()));
         }
-        if (configRef != null) {
-          keyProto.setRevision(ObjectIdConverter.create().toByteString(configRef.getObjectId()));
-        }
-        return persistedCache.get(keyProto.build());
+      } catch (RepositoryNotFoundException e) {
+        return Optional.empty();
       }
     }
 
     @Override
-    public ListenableFuture<CachedProjectConfig> reload(
-        Project.NameKey key, CachedProjectConfig oldState) throws Exception {
+    public ListenableFuture<Optional<CachedProjectConfig>> reload(
+        Project.NameKey key, Optional<CachedProjectConfig> oldState) throws Exception {
       try (TraceTimer ignored =
           TraceContext.newTimer(
               "Reload project", Metadata.builder().projectName(key.get()).build())) {
         try (Repository git = repoManager.openRepository(key)) {
           Ref configRef = git.exactRef(RefNames.REFS_CONFIG);
-          if (configRef != null && configRef.getObjectId().equals(oldState.getRevision().get())) {
+          if (configRef != null
+              && configRef.getObjectId().equals(oldState.get().getRevision().get())) {
             refreshCounter.increment(CACHE_NAME, false);
             return Futures.immediateFuture(oldState);
           }

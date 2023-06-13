@@ -29,6 +29,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.name.Named;
+import java.util.Optional;
 import javax.inject.Inject;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
@@ -39,7 +40,7 @@ public class ProjectCacheIT extends AbstractDaemonTest {
 
   @Inject
   @Named(ProjectCacheImpl.CACHE_NAME)
-  private LoadingCache<Project.NameKey, CachedProjectConfig> inMemoryProjectCache;
+  private LoadingCache<Project.NameKey, Optional<CachedProjectConfig>> inMemoryProjectCache;
 
   @Inject private SitePaths sitePaths;
 
@@ -132,5 +133,14 @@ public class ProjectCacheIT extends AbstractDaemonTest {
     // Invalidate only the in-memory cache
     inMemoryProjectCache.invalidate(allProjects);
     assertThat(projectCache.getAllProjects().getConfig().getCheckReceivedObjects()).isFalse();
+  }
+
+  @Test
+  public void cachesNegativeLookup() throws Exception {
+    long initialNumMisses = inMemoryProjectCache.stats().missCount();
+    assertThat(inMemoryProjectCache.get(Project.nameKey("foo"))).isEmpty();
+    assertThat(inMemoryProjectCache.stats().missCount()).isEqualTo(initialNumMisses + 1);
+    inMemoryProjectCache.get(Project.nameKey("foo")); // Another invocation
+    assertThat(inMemoryProjectCache.stats().missCount()).isEqualTo(initialNumMisses + 1);
   }
 }

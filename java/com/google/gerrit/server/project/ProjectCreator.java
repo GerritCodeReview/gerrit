@@ -126,6 +126,8 @@ public class ProjectCreator {
             createEmptyCommits(repo, nameKey, args.branch);
           }
 
+          projectCache.evictAndReindex(nameKey);
+
           fire(nameKey, head);
 
           return projectCache.get(nameKey).orElseThrow(illegalState(nameKey));

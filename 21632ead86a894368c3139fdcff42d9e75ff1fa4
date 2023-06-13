@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23cac097_c866511c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-13T23:48:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbe81608_ef3945df",
+      "revId": "21632ead86a894368c3139fdcff42d9e75ff1fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "add07fd1_678f2c68",
@@ -49,6 +67,30 @@
       "writtenOn": "2023-06-13T23:31:02Z",
       "side": 1,
       "message": "This condition can\u0027t ever be met now that we\u0027re iterating over this same set.",
+      "range": {
+        "startLine": 305,
+        "startChar": 6,
+        "endLine": 305,
+        "endChar": 36
+      },
+      "revId": "21632ead86a894368c3139fdcff42d9e75ff1fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65ae3013_73d5af1e",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-13T23:48:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "add07fd1_678f2c68",
       "range": {
         "startLine": 305,
         "startChar": 6,

@@ -1,3 +1,5 @@
+<<<<<<< PATCH SET (42c150 Revert "Refactor AccountUpdate to be an interface")
+=======
 // Copyright (C) 2017 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -644,3 +646,4 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
     }
   }
 }
+>>>>>>> BASE      (69db50 Merge "Allow to specify a justification for direct push.")

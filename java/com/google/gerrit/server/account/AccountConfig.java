@@ -95,7 +95,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   }
 
   @Override
-  public String getRefName() {
+  protected String getRefName() {
     return ref;
   }
 
@@ -186,7 +186,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    * @return the new account
    * @throws DuplicateKeyException if the user branch already exists
    */
-  public Account getNewAccount(Instant registeredOn) throws DuplicateKeyException {
+  Account getNewAccount(Instant registeredOn) throws DuplicateKeyException {
     checkLoaded();
     if (revision != null) {
       throw new DuplicateKeyException(String.format("account %s already exists", accountId));

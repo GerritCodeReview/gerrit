@@ -141,7 +141,7 @@ public class AccountsNoteDbImpl implements Accounts {
    * @return the account state, {@link Optional#empty()} if the account doesn't exist
    * @throws IOException if accessing the external IDs fails
    */
-  static Optional<AccountState> getFromAccountConfig(
+  public static Optional<AccountState> getFromAccountConfig(
       ExternalIds externalIds, AccountConfig accountConfig, CachedPreferences defaultPreferences)
       throws IOException {
     return getFromAccountConfig(externalIds, accountConfig, null, defaultPreferences);
@@ -164,7 +164,7 @@ public class AccountsNoteDbImpl implements Accounts {
    * @return the account state, {@link Optional#empty()} if the account doesn't exist
    * @throws IOException if accessing the external IDs fails
    */
-  static Optional<AccountState> getFromAccountConfig(
+  public static Optional<AccountState> getFromAccountConfig(
       ExternalIds externalIds,
       AccountConfig accountConfig,
       @Nullable ExternalIdNotes extIdNotes,

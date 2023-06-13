@@ -149,11 +149,11 @@ suite('annotation', () => {
     const fullText = '01234567890123456789';
     let mockSanitize: sinon.SinonSpy;
     let originalSanitizeDOMValue: (
-      p0: any,
-      p1: string,
-      p2: string,
-      p3: Node | null
-    ) => any;
+      value: unknown,
+      name: string,
+      type: 'property' | 'attribute',
+      node: Node | null | undefined
+    ) => unknown;
 
     setup(() => {
       setSanitizeDOMValue(p0 => p0);

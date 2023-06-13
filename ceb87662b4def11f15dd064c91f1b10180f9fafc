@@ -16,6 +16,24 @@
       "message": "IIUC this REST endpoint is implemented by FilesInCommitCollection.ListFiles [1], but this class doesn\u0027t support the \u0027q\u0027 parameter. Am I missing anything?\n\nThe \u0027q\u0027 parameter is only supported when listing files in a change, and there it\u0027s already documented [2].\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/restapi/project/FilesInCommitCollection.java#79\n\n[2] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#list-files",
       "revId": "ceb87662b4def11f15dd064c91f1b10180f9fafc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e433fda4_f0ee6706",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-06-13T11:30:30Z",
+      "side": 1,
+      "message": "This was a change that got lost in context switches about a week ago, I\u0027ll revisit and double-check.",
+      "parentUuid": "7ea1681a_fffd8c2a",
+      "revId": "ceb87662b4def11f15dd064c91f1b10180f9fafc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

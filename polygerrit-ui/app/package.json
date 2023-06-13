@@ -34,17 +34,24 @@
     "@types/resize-observer-browser": "^0.1.5",
     "@webcomponents/shadycss": "^1.10.2",
     "@webcomponents/webcomponentsjs": "^1.3.3",
-    "highlight.js": "^11.5.0",
+    "highlight.js": "^11.8.0",
     "highlightjs-closure-templates": "https://github.com/highlightjs/highlightjs-closure-templates",
     "highlightjs-structured-text": "https://github.com/highlightjs/highlightjs-structured-text",
-    "immer": "^9.0.5",
-    "lit": "^2.2.3",
+    "immer": "^9.0.21",
+    "lit": "^2.7.5",
     "polymer-bridges": "file:../../polymer-bridges/",
     "polymer-resin": "^2.0.1",
-    "resemblejs": "^4.0.0",
+    "resemblejs": "^4.1.0",
     "rxjs": "^6.6.7",
-    "safevalues": "^0.3.1",
-    "web-vitals": "^3.0.0"
+    "safevalues": "0.3.1",
+    "web-vitals": "^3.3.2"
+  },
+  "dependencies // comments": {
+    "safevalues": [
+      "There is a an issue with release 0.3.2, which exposes both an ESM and a CommonJS module:",
+      "https://github.com/google/safevalues/commit/16aa2567dc303759841b097b1901d1d6ff4e083e",
+      "That causes tests to fail claiming that 'sanitizeHtml' is not exported from safevalues."
+    ]
   },
   "license": "Apache-2.0",
   "private": true

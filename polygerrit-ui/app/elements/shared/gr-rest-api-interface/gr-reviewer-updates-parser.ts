@@ -169,7 +169,8 @@ export class GrReviewerUpdatesParser {
       newUpdates.push(batch);
     }
     (this.result
-      .reviewer_updates as unknown as ParserBatchWithNonEmptyUpdates[]) = newUpdates;
+      .reviewer_updates as unknown as ParserBatchWithNonEmptyUpdates[]) =
+      newUpdates;
     return newUpdates;
   }
 

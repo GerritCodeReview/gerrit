@@ -14,13 +14,25 @@
 
 package com.google.gerrit.server.account.storage.notedb;
 
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.server.account.Accounts;
+import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.externalids.ExternalIdUpsertPreprocessor;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
 public class AccountNoteDbStorageModule extends AbstractModule {
   @Override
   protected void configure() {
-    binder().bind(Accounts.class).to(AccountsNoteDbImpl.class).in(Singleton.class);
+    bind(Accounts.class).to(AccountsNoteDbImpl.class).in(Singleton.class);
+
+    DynamicMap.mapOf(binder(), ExternalIdUpsertPreprocessor.class);
+
+    bind(AccountsUpdate.AccountsUpdateLoader.class)
+        .annotatedWith(AccountsUpdate.AccountsUpdateLoader.WithReindex.class)
+        .to(AccountsUpdateNoteDbImpl.Factory.class);
+    bind(AccountsUpdate.AccountsUpdateLoader.class)
+        .annotatedWith(AccountsUpdate.AccountsUpdateLoader.NoReindex.class)
+        .to(AccountsUpdateNoteDbImpl.FactoryNoReindex.class);
   }
 }

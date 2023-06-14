@@ -95,6 +95,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "404f1094_b2244190",
+        "filename": "java/com/google/gerrit/server/events/BatchRefUpdateEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-14T10:25:42Z",
+      "side": 1,
+      "message": "I can add javadoc but it will be the first Gerrit event with javadoc 😊",
+      "parentUuid": "4266c463_fa79dcec",
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "be90e068_ce6dd293",
         "filename": "java/com/google/gerrit/server/events/BatchRefUpdateEvent.java",
         "patchSetId": 1

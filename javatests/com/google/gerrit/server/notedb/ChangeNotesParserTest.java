@@ -648,8 +648,9 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             "Update patch set 1\n"
                 + "\n"
                 + "Patch-set: 1\n"
-                + "Attention: {\"person_ident\":\"Gerrit User 1000000"
-                + " \\u003c1000000@adce0b11-8f2e-4ab6-ac69-e675f183d871\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added"
+                + "Attention: {\"person_ident\":\""
+                + FQ_USER_IDENT
+                + "\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added"
                 + " by Administrator using the hovercard menu\"}",
             false);
     ChangeNotesParser changeNotesParser = newParser(commit);
@@ -669,8 +670,9 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
                 + "\n"
                 + "Patch-set: 1\n"
                 + "Subject: Change subject\n"
-                + "Attention: {\"person_ident\":\"Gerrit User 1000000"
-                + " \\u003c1000000@adce0b11-8f2e-4ab6-ac69-e675f183d871\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added"
+                + "Attention: {\"person_ident\":\""
+                + FQ_USER_IDENT
+                + "\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added"
                 + " by Administrator using the hovercard menu\"}",
             false);
     ChangeNotesParser changeNotesParser = newParser(commit);
@@ -701,8 +703,9 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             "Update patch set 1\n"
                 + "\n"
                 + "Patch-set: 1\n"
-                + "Attention: {\"person_ident\":\"Gerrit User 1000000"
-                + " \\u003c1000000@adce0b11-8f2e-4ab6-ac69-e675f183d871\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added"
+                + "Attention: {\"person_ident\":\""
+                + FQ_USER_IDENT
+                + "\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added"
                 + " by Administrator using the hovercard menu\"}",
             false);
     ChangeNotesParser changeNotesParser = newParser(commit);
@@ -792,6 +795,11 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
     walk.reset();
     ChangeNoteJson changeNoteJson = injector.getInstance(ChangeNoteJson.class);
     return new ChangeNotesParser(
-        newChange().getId(), tip, walk, changeNoteJson, args.metrics, serverId, externalIdCache);
+        newChange().getId(),
+        tip,
+        walk,
+        changeNoteJson,
+        args.metrics,
+        new NoteDbUtil(serverId, externalIdCache));
   }
 }

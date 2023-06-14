@@ -64,6 +64,7 @@ import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
+import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
@@ -77,7 +78,6 @@ import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
-import com.google.gerrit.server.account.externalids.ExternalIdCache;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.notedb.ChangeNotesParseApprovalUtil.ParsedPatchSetApproval;
 import com.google.gerrit.server.util.LabelVote;
@@ -198,8 +198,7 @@ class ChangeNotesParser {
   // the latest record unsets the field).
   private Optional<PatchSet.Id> cherryPickOf;
   private Instant mergedOn;
-  private final ExternalIdCache externalIdCache;
-  private final String gerritServerId;
+  private final NoteDbUtil noteDbUtil;
 
   ChangeNotesParser(
       Change.Id changeId,
@@ -207,15 +206,13 @@ class ChangeNotesParser {
       ChangeNotesRevWalk walk,
       ChangeNoteJson changeNoteJson,
       NoteDbMetrics metrics,
-      String gerritServerId,
-      ExternalIdCache externalIdCache) {
+      NoteDbUtil noteDbUtil) {
     this.id = changeId;
     this.tip = tip;
     this.walk = walk;
     this.changeNoteJson = changeNoteJson;
     this.metrics = metrics;
-    this.externalIdCache = externalIdCache;
-    this.gerritServerId = gerritServerId;
+    this.noteDbUtil = noteDbUtil;
     approvals = new LinkedHashMap<>();
     bufferedApprovals = new ArrayList<>();
     reviewers = HashBasedTable.create();
@@ -728,7 +725,7 @@ class ChangeNotesParser {
 
       Optional<AttentionSetUpdate> attentionStatus =
           ChangeNoteUtil.attentionStatusFromJson(
-              Instant.ofEpochSecond(commit.getCommitTime()), attentionString);
+              Instant.ofEpochSecond(commit.getCommitTime()), attentionString, noteDbUtil);
       if (!attentionStatus.isPresent()) {
         throw invalidFooter(FOOTER_ATTENTION, attentionString);
       }
@@ -880,6 +877,11 @@ class ChangeNotesParser {
 
     for (Map.Entry<ObjectId, ChangeRevisionNote> e : rns.entrySet()) {
       for (HumanComment c : e.getValue().getEntities()) {
+
+        noteDbUtil
+            .parseIdent(String.format("%s@%s", c.author.getId(), c.serverId))
+            .ifPresent(id -> c.author = new Comment.Identity(id));
+
         humanComments.put(e.getKey(), c);
       }
     }
@@ -1404,7 +1406,8 @@ class ChangeNotesParser {
   }
 
   private Account.Id parseIdent(PersonIdent ident) throws ConfigInvalidException {
-    return NoteDbUtil.parseIdent(ident, gerritServerId, externalIdCache)
+    return noteDbUtil
+        .parseIdent(ident)
         .orElseThrow(
             () -> parseException("cannot retrieve account id: %s", ident.getEmailAddress()));
   }

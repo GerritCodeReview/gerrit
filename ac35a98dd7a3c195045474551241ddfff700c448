@@ -84,6 +84,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "af6de935_1e96cfda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-14T13:22:18Z",
+      "side": 1,
+      "message": "@maczech@gmail.com have you considered making it configurable? How does it work if you have both enabled? (individual refs and batch refs)\n\nWho\u0027s coming first? The batch first and all the individual afterwards?",
+      "parentUuid": "2f246b43_2c6c62a3",
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "78bbf88e_835b6172",
         "filename": "java/com/google/gerrit/server/events/BatchRefUpdateEvent.java",
         "patchSetId": 1
@@ -131,6 +149,24 @@
       "side": 1,
       "message": "I can add javadoc but it will be the first Gerrit event with javadoc 😊",
       "parentUuid": "4266c463_fa79dcec",
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0a79ada_e1da888c",
+        "filename": "java/com/google/gerrit/server/events/BatchRefUpdateEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-14T13:22:18Z",
+      "side": 1,
+      "message": "True, may address all the others in a follow-up change?",
+      "parentUuid": "404f1094_b2244190",
       "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

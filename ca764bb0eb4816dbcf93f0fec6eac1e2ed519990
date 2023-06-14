@@ -70,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87f8bd23_749cef29",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-14T22:55:18Z",
+      "side": 1,
+      "message": "\u003e we have eviction in place when a project is created\n\nI don\u0027t see the code for this? I only mention it in case you intended to add it and forgot or so that I can learn something new :-)\n\nAlso, that eviction only helps if you\u0027re in a single primary environment or a multi-primary environment that would forward a project creation event like that (vs rely on the timed expiration).\n\n\u003e and it\u0027s evicted time-bound, too. So seems manageable to me.\n\nAck.",
+      "parentUuid": "0784abd8_742102e8",
+      "revId": "ca764bb0eb4816dbcf93f0fec6eac1e2ed519990",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2663555c_fd220e2f",
@@ -202,6 +220,24 @@
       "side": 1,
       "message": "\u003e We configure a refreshAfterWrite of 15 minutes,\n\u003e so I\u0027d expect the value to be refreshed only once per 15 minutes according to:\n\nAh, nice. That\u0027s what I missing!",
       "parentUuid": "b07cb1c5_d007e4a5",
+      "revId": "ca764bb0eb4816dbcf93f0fec6eac1e2ed519990",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f14d978_ea8cc13e",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-14T22:55:18Z",
+      "side": 1,
+      "message": "\u003e though as it requires reading metadata from the DB.\n\nBut I thought the project is missing, so what metadata is there to read?",
+      "parentUuid": "fe5fbc86_dbef7680",
       "revId": "ca764bb0eb4816dbcf93f0fec6eac1e2ed519990",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

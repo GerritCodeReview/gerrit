@@ -94,7 +94,14 @@ public enum ListChangesOption implements ListOption {
   CUSTOM_KEYED_VALUES(25),
 
   /** Include the 'starred' field, that is if the change is starred by the current user . */
-  STAR(26);
+  STAR(26),
+
+  /**
+   * Include the `parents_data` field in each revision, which provides information of whether the
+   * parent commit of this revision is a merged commit in the target branch or a patch-set of
+   * another change
+   */
+  PARENTS(27);
 
   private final int value;
 

@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -307,6 +308,18 @@ public class CherryPickChange {
       ProjectState projectState =
           projectCache.get(dest.project()).orElseThrow(noSuchProject(dest.project()));
       PersonIdent committerIdent = identifiedUser.newCommitterIdent(timestamp, serverZoneId);
+      if (input.committerEmail != null) {
+        if (!identifiedUser.hasEmailAddress(input.committerEmail)) {
+          throw new ResourceConflictException(
+              String.format(
+                  "Cannot cherry-pick using committer email %s, "
+                      + "as it is not among the registered emails of account %s",
+                  input.committerEmail, identifiedUser.getAccountId().get()));
+        }
+        committerIdent =
+            new PersonIdent(
+                identifiedUser.getName(), input.committerEmail, timestamp, serverZoneId);
+      }
 
       try {
         MergeUtil mergeUtil;

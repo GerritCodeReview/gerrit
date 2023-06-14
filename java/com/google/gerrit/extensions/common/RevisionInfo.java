@@ -17,6 +17,7 @@ package com.google.gerrit.extensions.common;
 import com.google.gerrit.extensions.client.ChangeKind;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -36,6 +37,7 @@ public class RevisionInfo {
   public String ref;
   public Map<String, FetchInfo> fetch;
   public CommitInfo commit;
+  public List<ParentInfo> parentsData;
   public String branch;
   public Map<String, FileInfo> files;
   public Map<String, ActionInfo> actions;
@@ -78,6 +80,7 @@ public class RevisionInfo {
           && Objects.equals(ref, revisionInfo.ref)
           && Objects.equals(fetch, revisionInfo.fetch)
           && Objects.equals(commit, revisionInfo.commit)
+          && Objects.equals(parentsData, revisionInfo.parentsData)
           && Objects.equals(branch, revisionInfo.branch)
           && Objects.equals(files, revisionInfo.files)
           && Objects.equals(actions, revisionInfo.actions)
@@ -100,11 +103,68 @@ public class RevisionInfo {
         ref,
         fetch,
         commit,
+        parentsData,
         branch,
         files,
         actions,
         commitWithFooters,
         pushCertificate,
         description);
+  }
+
+  public static class ParentInfo {
+    /**
+     * If the parent commit is merged into the target branch, this field will hold the target branch
+     * name. Otherwise, (e.g. if the parent commit is a patch-set commit of another gerrit change),
+     * this field will be null.
+     */
+    public String branchName;
+
+    /** The commit SHA-1 of the parent commit. */
+    public String commitId;
+
+    /**
+     * If the parent commit is a patch-set of another gerrit change, this field will hold the change
+     * ID of the parent change. Otherwise, will be null.
+     */
+    public String changeId;
+
+    /**
+     * If the parent commit is a patch-set of another gerrit change, this field will hold the change
+     * number of the parent change. Otherwise, will be null.
+     */
+    public Integer changeNumber;
+
+    /**
+     * If the parent commit is a patch-set of another gerrit change, this field will hold the
+     * patch-set number of the parent change. Otherwise, will be null.
+     */
+    public Integer patchSetNumber;
+
+    /**
+     * If the parent commit is a patch-set of another gerrit change, this field will hold the change
+     * status of the parent change. Otherwise, will be null.
+     */
+    public String changeStatus;
+
+    @Override
+    public boolean equals(Object o) {
+      if (o instanceof ParentInfo) {
+        ParentInfo parentInfo = (ParentInfo) o;
+        return Objects.equals(branchName, parentInfo.branchName)
+            && Objects.equals(commitId, parentInfo.commitId)
+            && Objects.equals(changeId, parentInfo.changeId)
+            && Objects.equals(changeNumber, parentInfo.changeNumber)
+            && Objects.equals(patchSetNumber, parentInfo.patchSetNumber)
+            && Objects.equals(changeStatus, parentInfo.changeStatus);
+      }
+      return false;
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(
+          branchName, commitId, changeId, changeNumber, patchSetNumber, changeStatus);
+    }
   }
 }

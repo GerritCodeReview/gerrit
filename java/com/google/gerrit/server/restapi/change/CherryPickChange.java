@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -233,7 +234,8 @@ public class CherryPickChange {
    *     key exist in the branch. Also thrown when idForNewChange is not null but cherry-pick only
    *     creates a new patchset rather than a new change.
    * @throws UpdateException Problem updating the database using batchUpdateFactory.
-   * @throws RestApiException Error such as invalid SHA1
+   * @throws RestApiException Error such as invalid SHA1, or committer_email not among the
+   *     registered emails of the current user.
    * @throws ConfigInvalidException Can't find account to notify.
    * @throws NoSuchProjectException Can't find project state.
    */
@@ -307,6 +309,18 @@ public class CherryPickChange {
       ProjectState projectState =
           projectCache.get(dest.project()).orElseThrow(noSuchProject(dest.project()));
       PersonIdent committerIdent = identifiedUser.newCommitterIdent(timestamp, serverZoneId);
+      if (input.committerEmail != null) {
+        if (!identifiedUser.hasEmailAddress(input.committerEmail)) {
+          throw new BadRequestException(
+              String.format(
+                  "Cannot cherry-pick using committer email %s, "
+                      + "as it is not among the registered emails of account %s",
+                  input.committerEmail, identifiedUser.getAccountId().get()));
+        }
+        committerIdent =
+            new PersonIdent(
+                identifiedUser.getName(), input.committerEmail, timestamp, serverZoneId);
+      }
 
       try {
         MergeUtil mergeUtil;

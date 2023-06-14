@@ -49,6 +49,7 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Account;
@@ -128,6 +129,7 @@ public class RevisionIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private AccountOperations accountOperations;
 
   @Test
   public void reviewTriplet() throws Exception {
@@ -396,6 +398,49 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(changeInfo.changeId).isEqualTo(id);
     assertThat(revInfo).isNotNull();
     assertThat(revInfo.commit.message.trim()).endsWith(id);
+  }
+
+  @Test
+  public void cherryPickWithUnRegisteredCommitterEmail() throws Exception {
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "foo";
+    in.message = "it goes to foo branch";
+    in.committerEmail = "secondary@example.org";
+    gApi.projects().name(project.get()).branch(in.destination).create(new BranchInput());
+    ChangeApi orig = gApi.changes().id(project.get() + "~master~" + r.getChangeId());
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> orig.revision(r.getCommit().name()).cherryPick(in));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "Cannot cherry-pick using committer email "
+                + in.committerEmail
+                + ", as it is not among the registered emails of account "
+                + admin.id().get());
+  }
+
+  @Test
+  public void cherryPickWithCommitterEmail() throws Exception {
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "foo";
+    in.message = "it goes to foo branch";
+    in.committerEmail = "secondary@example.org";
+    gApi.projects().name(project.get()).branch(in.destination).create(new BranchInput());
+    ChangeApi orig = gApi.changes().id(project.get() + "~master~" + r.getChangeId());
+    Account.Id userWithSecondaryEmail =
+        accountOperations
+            .newAccount()
+            .preferredEmail("preferred@example.org")
+            .addSecondaryEmail("secondary@example.org")
+            .create();
+    requestScopeOperations.setApiUser(userWithSecondaryEmail);
+    ChangeApi cherry = orig.revision(r.getCommit().name()).cherryPick(in);
+    assertThat(cherry.get().getCurrentRevision().commit.committer.email)
+        .isEqualTo(in.committerEmail);
   }
 
   @Test

@@ -43,6 +43,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "dd450aac_593a5cdf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-14T12:02:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe6a615c_9dad9197",
+      "range": {
+        "startLine": 14,
+        "startChar": 45,
+        "endLine": 14,
+        "endChar": 50
+      },
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "2f246b43_2c6c62a3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -146,6 +170,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "08a67e5c_4fd6572c",
+        "filename": "java/com/google/gerrit/server/events/BatchRefUpdateEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-14T12:02:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "192a9f92_716def1f",
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc82dc48_e3d6e627",
@@ -159,6 +201,24 @@
       "writtenOn": "2023-06-07T11:08:36Z",
       "side": 1,
       "message": "Can you add a default constructor which will make this class easier for testing? Something similar to the `RefUpdatedEvent` - which will allow us to extend the class for test events.",
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1ebe82f_0426c53c",
+        "filename": "java/com/google/gerrit/server/events/BatchRefUpdateEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-14T12:02:32Z",
+      "side": 1,
+      "message": "I believe we need default constructor for different reason. I\u0027m not sure if all serialize/deserialize libraries supports classes without constructor without params",
+      "parentUuid": "fc82dc48_e3d6e627",
       "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

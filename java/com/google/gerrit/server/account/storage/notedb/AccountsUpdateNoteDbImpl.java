@@ -136,7 +136,7 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
     private final ExternalIdNotes.ExternalIdNotesLoader extIdNotesFactory;
     private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
     private final RetryHelper retryHelper;
-    private final PersonIdent serverIdent;
+    private final Provider<PersonIdent> serverIdentProvider;
 
     private AbstractFactory(
         GitRepositoryManager repoManager,
@@ -145,7 +145,7 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
         ExternalIds externalIds,
         Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
         RetryHelper retryHelper,
-        @GerritPersonIdent PersonIdent serverIdent,
+        @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
         ExternalIdNotes.ExternalIdNotesLoader extIdNotesFactory) {
       this.repoManager = repoManager;
       this.gitRefUpdated = gitRefUpdated;
@@ -153,12 +153,13 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
       this.externalIds = externalIds;
       this.metaDataUpdateInternalFactory = metaDataUpdateInternalFactory;
       this.retryHelper = retryHelper;
-      this.serverIdent = serverIdent;
+      this.serverIdentProvider = serverIdentProvider;
       this.extIdNotesFactory = extIdNotesFactory;
     }
 
     @Override
     public AccountsUpdate create(IdentifiedUser currentUser) {
+      PersonIdent serverIdent = serverIdentProvider.get();
       return new AccountsUpdateNoteDbImpl(
           repoManager,
           gitRefUpdated,
@@ -176,6 +177,7 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
 
     @Override
     public AccountsUpdate createWithServerIdent() {
+      PersonIdent serverIdent = serverIdentProvider.get();
       return new AccountsUpdateNoteDbImpl(
           repoManager,
           gitRefUpdated,
@@ -202,7 +204,7 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
         ExternalIds externalIds,
         Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
         RetryHelper retryHelper,
-        @GerritPersonIdent PersonIdent serverIdent,
+        @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
         ExternalIdNotes.Factory extIdNotesFactory) {
       super(
           repoManager,
@@ -211,7 +213,7 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
           externalIds,
           metaDataUpdateInternalFactory,
           retryHelper,
-          serverIdent,
+          serverIdentProvider,
           extIdNotesFactory);
     }
   }
@@ -226,7 +228,7 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
         ExternalIds externalIds,
         Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
         RetryHelper retryHelper,
-        @GerritPersonIdent PersonIdent serverIdent,
+        @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
         ExternalIdNotes.FactoryNoReindex extIdNotesFactory) {
       super(
           repoManager,
@@ -235,7 +237,7 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
           externalIds,
           metaDataUpdateInternalFactory,
           retryHelper,
-          serverIdent,
+          serverIdentProvider,
           extIdNotesFactory);
     }
   }

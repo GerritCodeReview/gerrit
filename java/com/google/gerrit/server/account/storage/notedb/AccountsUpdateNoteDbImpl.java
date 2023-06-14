@@ -129,14 +129,14 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  */
 public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
   private static class AbstractFactory extends AccountsUpdateLoader {
-    GitRepositoryManager repoManager;
-    GitReferenceUpdated gitRefUpdated;
-    AllUsersName allUsersName;
-    ExternalIds externalIds;
-    ExternalIdNotes.ExternalIdNotesLoader extIdNotesFactory;
-    Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
-    RetryHelper retryHelper;
-    PersonIdent serverIdent;
+    private final GitRepositoryManager repoManager;
+    private final GitReferenceUpdated gitRefUpdated;
+    private final AllUsersName allUsersName;
+    private final ExternalIds externalIds;
+    private final ExternalIdNotes.ExternalIdNotesLoader extIdNotesFactory;
+    private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
+    private final RetryHelper retryHelper;
+    private final PersonIdent serverIdent;
 
     private AbstractFactory(
         GitRepositoryManager repoManager,

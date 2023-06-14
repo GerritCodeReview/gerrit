@@ -75,6 +75,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4db1507f_94643cf3",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-06-14T10:07:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2663555c_fd220e2f",
+      "range": {
+        "startLine": 224,
+        "startChar": 6,
+        "endLine": 227,
+        "endChar": 7
+      },
+      "revId": "ca764bb0eb4816dbcf93f0fec6eac1e2ed519990",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad3eeff1_e3988ee1",
@@ -112,6 +136,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a949506c_5c6e0e8a",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-06-14T10:07:34Z",
+      "side": 1,
+      "message": "I think we should only refresh depending on the configured time interval?\n\nWe configure a refreshAfterWrite of 15 minutes, so I\u0027d expect the value to be refreshed only once per 15 minutes according to:\n\nhttps://github.com/google/guava/wiki/CachesExplained#refresh\n\nAm I holding this wrong?",
+      "parentUuid": "ad3eeff1_e3988ee1",
+      "revId": "ca764bb0eb4816dbcf93f0fec6eac1e2ed519990",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "82740cee_a6635f35",
         "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
         "patchSetId": 1
@@ -123,6 +165,30 @@
       "writtenOn": "2023-06-13T10:12:20Z",
       "side": 1,
       "message": "If the repository was missing before, oldState may be empty and hence calling get() may fail here.",
+      "range": {
+        "startLine": 433,
+        "startChar": 48,
+        "endLine": 433,
+        "endChar": 56
+      },
+      "revId": "ca764bb0eb4816dbcf93f0fec6eac1e2ed519990",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa04a2ae_9ba4f468",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-06-14T10:07:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82740cee_a6635f35",
       "range": {
         "startLine": 433,
         "startChar": 48,
@@ -146,6 +212,24 @@
       "writtenOn": "2023-06-13T10:12:20Z",
       "side": 1,
       "message": "Should there be a case to prevent calling load if a project is still missing:\n\n```\nif (configRef \u003d\u003d null \u0026\u0026 oldState.isEmpty) {\n  refreshCounter.increment(CACHE_NAME, false);\n  return Futures.immediateFuture(oldState);\n}\n```\n\nOtherwise we would still load RepoMeta on each attempt to load a missing project.",
+      "revId": "ca764bb0eb4816dbcf93f0fec6eac1e2ed519990",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22d05adc_8e76b9c9",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-06-14T10:07:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f73c3605_47720f3c",
       "revId": "ca764bb0eb4816dbcf93f0fec6eac1e2ed519990",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

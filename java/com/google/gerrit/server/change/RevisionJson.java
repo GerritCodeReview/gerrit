@@ -34,12 +34,14 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.ParentCommitData;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.common.CommitInfo.ParentInfo;
 import com.google.gerrit.extensions.common.FetchInfo;
 import com.google.gerrit.extensions.common.PushCertificateInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
@@ -71,6 +73,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
@@ -172,6 +175,21 @@ public class RevisionJson {
       String changeKey,
       int numericChangeId)
       throws IOException {
+    return getCommitInfo(
+        project, rw, commit, addLinks, fillCommit, branchName, changeKey, numericChangeId, null);
+  }
+
+  public CommitInfo getCommitInfo(
+      Project.NameKey project,
+      RevWalk rw,
+      RevCommit commit,
+      boolean addLinks,
+      boolean fillCommit,
+      String branchName,
+      String changeKey,
+      int numericChangeId,
+      @Nullable List<ParentCommitData> parentData)
+      throws IOException {
     CommitInfo info = new CommitInfo();
     if (fillCommit) {
       info.commit = commit.name();
@@ -211,7 +229,38 @@ public class RevisionJson {
       }
       info.parents.add(i);
     }
+
+    if (parentData != null) {
+      info.parentsData = getParentInfo(parentData);
+    }
     return info;
+  }
+
+  private static List<ParentInfo> getParentInfo(List<ParentCommitData> parentsData) {
+    List<ParentInfo> result = new ArrayList<>();
+    for (ParentCommitData parentData : parentsData) {
+      ParentInfo parentInfo = new ParentInfo();
+      if (parentData.branchName().isPresent()) {
+        parentInfo.branchName = parentData.branchName().get();
+      }
+      if (parentData.commitId().isPresent()) {
+        parentInfo.commitId = parentData.commitId().get().name();
+      }
+      if (parentData.changeKey().isPresent()) {
+        parentInfo.changeId = parentData.changeKey().get().get();
+      }
+      if (parentData.changeNumber().isPresent()) {
+        parentInfo.changeNumber = parentData.changeNumber().get();
+      }
+      if (parentData.patchSetNumber().isPresent()) {
+        parentInfo.patchSetNumber = parentData.patchSetNumber().get();
+      }
+      if (parentData.changeStatus().isPresent()) {
+        parentInfo.changeStatus = parentData.changeStatus().get().name();
+      }
+      result.add(parentInfo);
+    }
+    return result;
   }
 
   /**

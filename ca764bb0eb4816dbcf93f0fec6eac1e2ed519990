@@ -52,6 +52,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0784abd8_742102e8",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-06-14T10:10:10Z",
+      "side": 1,
+      "message": "I agree that it\u0027s tricky, but we have eviction in place when a project is created and it\u0027s evicted time-bound, too. So seems manageable to me.",
+      "parentUuid": "7110fab1_804ec405",
+      "revId": "ca764bb0eb4816dbcf93f0fec6eac1e2ed519990",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2663555c_fd220e2f",
@@ -148,6 +166,24 @@
       "side": 1,
       "message": "I think we should only refresh depending on the configured time interval?\n\nWe configure a refreshAfterWrite of 15 minutes, so I\u0027d expect the value to be refreshed only once per 15 minutes according to:\n\nhttps://github.com/google/guava/wiki/CachesExplained#refresh\n\nAm I holding this wrong?",
       "parentUuid": "ad3eeff1_e3988ee1",
+      "revId": "ca764bb0eb4816dbcf93f0fec6eac1e2ed519990",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b07cb1c5_d007e4a5",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-06-14T10:10:10Z",
+      "side": 1,
+      "message": "Thanks Nasser, that would be similarly expensive, though as it requires reading metadata from the DB.",
+      "parentUuid": "a949506c_5c6e0e8a",
       "revId": "ca764bb0eb4816dbcf93f0fec6eac1e2ed519990",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -146,6 +146,7 @@ import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.account.storage.notedb.AccountsUpdateNoteDbImpl;
 import com.google.gerrit.server.change.AccountPatchReviewStore;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -2170,26 +2171,8 @@ public class AccountIT extends AbstractDaemonTest {
     String status = "happy";
     String fullName = "Foo";
     AtomicBoolean doneBgUpdate = new AtomicBoolean(false);
-    PersonIdent ident = serverIdent.get();
     AccountsUpdate update =
-        new AccountsUpdate(
-            repoManager,
-            gitReferenceUpdated,
-            Optional.empty(),
-            allUsers,
-            externalIds,
-            metaDataUpdateInternalFactory,
-            new RetryHelper(
-                cfg,
-                retryMetrics,
-                null,
-                null,
-                null,
-                exceptionHooks,
-                r -> r.withBlockStrategy(noSleepBlockStrategy)),
-            extIdNotesFactory,
-            ident,
-            ident,
+        getAccountsUpdate(
             () -> {
               if (!doneBgUpdate.getAndSet(true)) {
                 try {
@@ -2226,28 +2209,8 @@ public class AccountIT extends AbstractDaemonTest {
     List<String> status = ImmutableList.of("foo", "bar", "baz");
     String fullName = "Foo";
     AtomicInteger bgCounter = new AtomicInteger(0);
-    PersonIdent ident = serverIdent.get();
     AccountsUpdate update =
-        new AccountsUpdate(
-            repoManager,
-            gitReferenceUpdated,
-            Optional.empty(),
-            allUsers,
-            externalIds,
-            metaDataUpdateInternalFactory,
-            new RetryHelper(
-                cfg,
-                retryMetrics,
-                null,
-                null,
-                null,
-                exceptionHooks,
-                r ->
-                    r.withStopStrategy(StopStrategies.stopAfterAttempt(status.size()))
-                        .withBlockStrategy(noSleepBlockStrategy)),
-            extIdNotesFactory,
-            ident,
-            ident,
+        getAccountsUpdate(
             () -> {
               try {
                 accountsUpdateProvider
@@ -2260,7 +2223,17 @@ public class AccountIT extends AbstractDaemonTest {
                 // Ignore, the expected exception is asserted later
               }
             },
-            Runnables.doNothing());
+            Runnables.doNothing(),
+            new RetryHelper(
+                cfg,
+                retryMetrics,
+                null,
+                null,
+                null,
+                exceptionHooks,
+                r ->
+                    r.withStopStrategy(StopStrategies.stopAfterAttempt(status.size()))
+                        .withBlockStrategy(noSleepBlockStrategy)));
     assertThat(bgCounter.get()).isEqualTo(0);
     AccountInfo accountInfo = gApi.accounts().id(admin.id().get()).get();
     assertThat(accountInfo.status).isNull();
@@ -2286,26 +2259,8 @@ public class AccountIT extends AbstractDaemonTest {
 
     AtomicInteger bgCounterA1 = new AtomicInteger(0);
     AtomicInteger bgCounterA2 = new AtomicInteger(0);
-    PersonIdent ident = serverIdent.get();
     AccountsUpdate update =
-        new AccountsUpdate(
-            repoManager,
-            gitReferenceUpdated,
-            Optional.empty(),
-            allUsers,
-            externalIds,
-            metaDataUpdateInternalFactory,
-            new RetryHelper(
-                cfg,
-                retryMetrics,
-                null,
-                null,
-                null,
-                exceptionHooks,
-                r -> r.withBlockStrategy(noSleepBlockStrategy)),
-            extIdNotesFactory,
-            ident,
-            ident,
+        getAccountsUpdate(
             Runnables.doNothing(),
             () -> {
               try {
@@ -2360,27 +2315,9 @@ public class AccountIT extends AbstractDaemonTest {
 
     AtomicInteger bgCounterA1 = new AtomicInteger(0);
     AtomicInteger bgCounterA2 = new AtomicInteger(0);
-    PersonIdent ident = serverIdent.get();
     ExternalId extIdA2 = externalIdFactory.create("foo", "A-2", accountId);
     AccountsUpdate update =
-        new AccountsUpdate(
-            repoManager,
-            gitReferenceUpdated,
-            Optional.empty(),
-            allUsers,
-            externalIds,
-            metaDataUpdateInternalFactory,
-            new RetryHelper(
-                cfg,
-                retryMetrics,
-                null,
-                null,
-                null,
-                exceptionHooks,
-                r -> r.withBlockStrategy(noSleepBlockStrategy)),
-            extIdNotesFactory,
-            ident,
-            ident,
+        getAccountsUpdate(
             Runnables.doNothing(),
             () -> {
               try {
@@ -3679,6 +3616,37 @@ public class AccountIT extends AbstractDaemonTest {
   private void webLogin(Integer accountId) throws IOException, ClientProtocolException {
     httpGetAndAssertStatus(
         "login?account_id=" + accountId, HttpServletResponse.SC_MOVED_TEMPORARILY);
+  }
+
+  private AccountsUpdate getAccountsUpdate(Runnable afterReadRevision, Runnable beforeCommit) {
+    return getAccountsUpdate(
+        afterReadRevision,
+        beforeCommit,
+        new RetryHelper(
+            cfg,
+            retryMetrics,
+            null,
+            null,
+            null,
+            exceptionHooks,
+            r -> r.withBlockStrategy(noSleepBlockStrategy)));
+  }
+
+  private AccountsUpdate getAccountsUpdate(
+      Runnable afterReadRevision, Runnable beforeCommit, RetryHelper retryHelper) {
+    return new AccountsUpdateNoteDbImpl(
+        repoManager,
+        gitReferenceUpdated,
+        Optional.empty(),
+        allUsers,
+        externalIds,
+        extIdNotesFactory,
+        metaDataUpdateInternalFactory,
+        retryHelper,
+        serverIdent.get(),
+        serverIdent.get(),
+        afterReadRevision,
+        beforeCommit);
   }
 
   private void httpGetAndAssertStatus(String urlPath, int expectedHttpStatus)

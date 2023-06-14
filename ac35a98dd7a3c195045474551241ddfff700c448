@@ -112,6 +112,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "192a9f92_716def1f",
+        "filename": "java/com/google/gerrit/server/events/BatchRefUpdateEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-14T10:20:58Z",
+      "side": 1,
+      "message": "I was looking how we can use `AccountAttribute` but the problem is that when we generate the event we have access only to `AccountInfo`",
+      "parentUuid": "be90e068_ce6dd293",
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fc82dc48_e3d6e627",
         "filename": "java/com/google/gerrit/server/events/BatchRefUpdateEvent.java",
         "patchSetId": 1
@@ -140,6 +158,24 @@
       "writtenOn": "2023-06-06T14:29:19Z",
       "side": 1,
       "message": "I thought we wanted to move away from the `GitBatchRefUpdateListener`, but i dont understand the code well enough to be able to suggest what other batch listener to use (or even piggyback on one of the existing listeners).\n\nAlso, i know you mention it in the commit msg, but i dont understand why we make this change in the `StreamEventsApiListener` (sorry 😊)",
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "717caa96_d769fcbf",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-14T10:20:58Z",
+      "side": 1,
+      "message": "`StreamEventsApiListener` implements all *Listener interfaces and generates stream events via `EventsDispatcher`. Those events can be consumed by `EventListener` implemementations. By moving away from `GitBatchRefUpdateListener` we were thinking of generation stream event in `StreamEventsApiListener` so we do not need custom listeners which implements `GitBatchRefUpdateListener`",
+      "parentUuid": "949c0d5d_9a4f1a25",
       "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -24,6 +24,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMM
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_FILES;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_ACCOUNTS;
 import static com.google.gerrit.extensions.client.ListChangesOption.DOWNLOAD_COMMANDS;
+import static com.google.gerrit.extensions.client.ListChangesOption.PARENTS;
 import static com.google.gerrit.extensions.client.ListChangesOption.PUSH_CERTIFICATES;
 import static com.google.gerrit.extensions.client.ListChangesOption.WEB_LINKS;
 import static com.google.gerrit.server.CommonConverters.toGitPerson;
@@ -34,6 +35,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.ParentCommitData;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -43,6 +45,7 @@ import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.FetchInfo;
 import com.google.gerrit.extensions.common.PushCertificateInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.common.RevisionInfo.ParentInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.config.DownloadCommand;
 import com.google.gerrit.extensions.config.DownloadScheme;
@@ -71,6 +74,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
@@ -104,6 +108,7 @@ public class RevisionJson {
   private final AnonymousUser anonymous;
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
+  private final ParentDataProvider parentDataProvider;
 
   @Inject
   RevisionJson(
@@ -123,6 +128,7 @@ public class RevisionJson {
       ChangeKindCache changeKindCache,
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
+      ParentDataProvider parentDataProvider,
       @Assisted Iterable<ListChangesOption> options) {
     this.userProvider = userProvider;
     this.anonymous = anonymous;
@@ -140,6 +146,7 @@ public class RevisionJson {
     this.changeKindCache = changeKindCache;
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
+    this.parentDataProvider = parentDataProvider;
     this.options = ImmutableSet.copyOf(options);
   }
 
@@ -331,6 +338,16 @@ public class RevisionJson {
                 c.getKey().get(),
                 c.getId().get());
       }
+      if (has(PARENTS)) {
+        String targetBranch =
+            in.branch().isPresent() ? in.branch().get() : cd.change().getDest().branch();
+        List<ParentCommitData> parentData = new ArrayList<>();
+        for (RevCommit parent : commit.getParents()) {
+          ParentCommitData p = parentDataProvider.get(project, repo, parent.getId(), targetBranch);
+          parentData.add(p);
+        }
+        out.parentsData = getParentInfo(parentData);
+      }
       if (addFooters) {
         Ref ref = repo.exactRef(branchName);
         RevCommit mergeTip = null;
@@ -399,5 +416,33 @@ public class RevisionJson {
   @Nullable
   private RevWalk newRevWalk(@Nullable Repository repo) {
     return repo != null ? new RevWalk(repo) : null;
+  }
+
+  private static List<ParentInfo> getParentInfo(List<ParentCommitData> parentsData) {
+    List<ParentInfo> result = new ArrayList<>();
+    for (ParentCommitData parentData : parentsData) {
+      ParentInfo parentInfo = new ParentInfo();
+      if (parentData.branchName().isPresent()) {
+        parentInfo.branchName = parentData.branchName().get();
+      }
+      if (parentData.commitId().isPresent()) {
+        parentInfo.commitId = parentData.commitId().get().name();
+      }
+      if (parentData.changeKey().isPresent()) {
+        parentInfo.changeId = parentData.changeKey().get().get();
+      }
+      if (parentData.changeNumber().isPresent()) {
+        parentInfo.changeNumber = parentData.changeNumber().get();
+      }
+      if (parentData.patchSetNumber().isPresent()) {
+        parentInfo.patchSetNumber = parentData.patchSetNumber().get();
+      }
+      if (parentData.changeStatus().isPresent()) {
+        parentInfo.changeStatus = parentData.changeStatus().get().name();
+      }
+      parentInfo.isMergedInTargetBranch = parentData.isMergedInTargetBranch();
+      result.add(parentInfo);
+    }
+    return result;
   }
 }

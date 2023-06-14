@@ -79,6 +79,8 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.common.CommitInfo.ParentInfo;
+import com.google.gerrit.extensions.common.CommitInfo.TargetBranchInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
@@ -92,6 +94,7 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.extensions.webui.ResolveConflictsWebLink;
@@ -1639,7 +1642,7 @@ public class RevisionIT extends AbstractDaemonTest {
         .isEqualTo("Description \"bar\" removed from patch set 1");
   }
 
-  @Test
+@Test
   public void targetBranch_isSetForEachPatchSet() throws Exception {
     createBranch(BranchNameKey.create(project, "foo"));
     createBranch(BranchNameKey.create(project, "bar"));
@@ -2144,6 +2147,131 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(m.body()).contains(admin.fullName() + " has uploaded a new patch set (#2).");
   }
 
+  @Test
+  public void parentData_parentIsATargetBranch_ghareeb() throws Exception {
+    RevCommit initialCommit = getHead(repo(), "HEAD");
+    PushOneCommit.Result r = createChange();
+    String targetBranch = r.getChange().change().getDest().branch();
+    CommitInfo current = current(r).commit(/* addLinks= */ false);
+    assertThat(current.parentData).hasSize(1);
+
+    ParentInfo parentInfo = current.parentData.get(0);
+    assertThat(parentInfo.targetBranchInfo)
+        .isEqualTo(new TargetBranchInfo(targetBranch, initialCommit.getId().name()));
+    assertThat(parentInfo.changeRevisionInfo).isNull();
+  }
+
+  @Test
+  public void parentData_parentIsAPendingChange() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    PushOneCommit.Result r2 = createChange();
+
+    CommitInfo current = current(r2).commit(/* addLinks= */ false);
+    assertThat(current.parentData).hasSize(1);
+
+    ParentInfo parentInfo = current.parentData.get(0);
+    assertThat(parentInfo.targetBranchInfo).isNull();
+    assertThat(parentInfo.changeRevisionInfo.status).isEqualTo("NEW");
+    assertThat(parentInfo.changeRevisionInfo.changeNumber)
+        .isEqualTo(r1.getChange().change().getChangeId());
+    assertThat(parentInfo.changeRevisionInfo.changeId).isEqualTo(r1.getChangeId());
+    assertThat(parentInfo.changeRevisionInfo.patchSetNumber).isEqualTo(1);
+  }
+
+  @Test
+  public void parentData_parentIsANonLastPatchSet_pendingChange() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    PushOneCommit.Result r2 = createChange();
+
+    testRepo.reset(r1.getCommit());
+    amendChange(r1.getChangeId(), SUBJECT, "b.txt", "b");
+
+    // First change has two patchsets
+    assertThat(gApi.changes().id(r1.getChangeId()).get().revisions).hasSize(2);
+
+    CommitInfo current = current(r2).commit(/* addLinks= */ false);
+    assertThat(current.parentData).hasSize(1);
+
+    ParentInfo parentInfo = current.parentData.get(0);
+    assertThat(parentInfo.targetBranchInfo).isNull();
+    assertThat(parentInfo.changeRevisionInfo.status).isEqualTo("NEW");
+    assertThat(parentInfo.changeRevisionInfo.changeNumber)
+        .isEqualTo(r1.getChange().change().getChangeId());
+    assertThat(parentInfo.changeRevisionInfo.changeId).isEqualTo(r1.getChangeId());
+    assertThat(parentInfo.changeRevisionInfo.patchSetNumber).isEqualTo(1);
+  }
+
+  @Test
+  public void parentData_parentIsALastPatchSet_pendingChange() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    amendChange(r1.getChangeId(), SUBJECT, "b.txt", "b");
+    PushOneCommit.Result r2 = createChange();
+
+    // First change has two patchsets
+    assertThat(gApi.changes().id(r1.getChangeId()).get().revisions).hasSize(2);
+
+    CommitInfo current = current(r2).commit(/* addLinks= */ false);
+    assertThat(current.parentData).hasSize(1);
+
+    ParentInfo parentInfo = current.parentData.get(0);
+    assertThat(parentInfo.targetBranchInfo).isNull();
+    assertThat(parentInfo.changeRevisionInfo.status).isEqualTo("NEW");
+    assertThat(parentInfo.changeRevisionInfo.changeNumber)
+        .isEqualTo(r1.getChange().change().getChangeId());
+    assertThat(parentInfo.changeRevisionInfo.changeId).isEqualTo(r1.getChangeId());
+    assertThat(parentInfo.changeRevisionInfo.patchSetNumber).isEqualTo(2);
+  }
+
+  @Test
+  public void parentData_parentIsANonLastPatchSet_mergedChange() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    PushOneCommit.Result r2 = createChange();
+
+    testRepo.reset(r1.getCommit());
+    amendChange(r1.getChangeId(), SUBJECT, "b.txt", "b");
+
+    // Merge the first change
+    gApi.changes().id(r1.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(r1.getChangeId()).current().submit();
+
+    CommitInfo current = current(r2).commit(/* addLinks= */ false);
+    assertThat(current.parentData).hasSize(1);
+
+    ParentInfo parentInfo = current.parentData.get(0);
+    assertThat(parentInfo.targetBranchInfo).isNull();
+    assertThat(parentInfo.changeRevisionInfo.status).isEqualTo("MERGED");
+    assertThat(parentInfo.changeRevisionInfo.changeNumber)
+        .isEqualTo(r1.getChange().change().getChangeId());
+    assertThat(parentInfo.changeRevisionInfo.changeId).isEqualTo(r1.getChangeId());
+    assertThat(parentInfo.changeRevisionInfo.patchSetNumber).isEqualTo(1);
+  }
+
+  @Test
+  public void parentData_parentIsLastPatchSet_mergedChange_fastForwardSubmitStrategy()
+      throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    amendChange(r1.getChangeId(), SUBJECT, "b.txt", "b");
+    PushOneCommit.Result r2 = createChange();
+
+    // Merge the first change
+    gApi.changes().id(r1.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(r1.getChangeId()).current().submit();
+
+    CommitInfo current = current(r2).commit(/* addLinks= */ false);
+    assertThat(current.parentData).hasSize(1);
+
+    ParentInfo parentInfo = current.parentData.get(0);
+    assertThat(parentInfo.targetBranchInfo).isNull();
+    assertThat(parentInfo.changeRevisionInfo.status).isEqualTo("MERGED");
+    assertThat(parentInfo.changeRevisionInfo.changeNumber)
+        .isEqualTo(r1.getChange().change().getChangeId());
+    assertThat(parentInfo.changeRevisionInfo.changeId).isEqualTo(r1.getChangeId());
+    assertThat(parentInfo.changeRevisionInfo.patchSetNumber).isEqualTo(2);
+  }
+
+  @Test
+  public void parentData_parentIsLastPatchSet_mergedChange_mergeSubmitStrategy() throws Exception {}
+
   private static void assertCherryPickResult(
       ChangeInfo changeInfo, CherryPickInput input, String srcChangeId) throws Exception {
     assertThat(changeInfo.changeId).isEqualTo(srcChangeId);
@@ -2154,7 +2282,33 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(revisionInfo.commit.parents.get(0).commit).isEqualTo(input.base);
   }
 
-  private void move(String changeId, String destination) throws Exception {
+  @Test
+  public void parentData_parentIsATargetBranch_changeMoved() throws Exception {
+    createBranch(BranchNameKey.create(project, "foo"));
+
+    RevCommit initialCommit = getHead(repo(), "HEAD");
+    PushOneCommit.Result r = createChange();
+    String targetBranch1 = r.getChange().change().getDest().branch();
+
+    amendChange(r.getChangeId());
+
+    move(r.getChangeId(), "foo");
+
+    CommitInfo current = current(r).commit(/* addLinks= */ false);
+    ParentInfo parentInfo = current.parentData.get(0);
+    assertThat(parentInfo.targetBranchInfo)
+        .isEqualTo(new TargetBranchInfo("refs/heads/foo", initialCommit.getId().name()));
+    assertThat(parentInfo.changeRevisionInfo).isNull();
+
+    List<ParentInfo> ps1Parents =
+        gApi.changes().id(r.getChangeId()).revision(1).commit(/* addLinks= */ false).parentData;
+    assertThat(ps1Parents).hasSize(1);
+    assertThat(ps1Parents.get(0).targetBranchInfo)
+        .isEqualTo(new TargetBranchInfo(targetBranch1, initialCommit.getId().name()));
+    assertThat(parentInfo.changeRevisionInfo).isNull();
+  }
+
+  private void move(String changeId, String destination) throws RestApiException {
     gApi.changes().id(changeId).move(destination);
   }
 

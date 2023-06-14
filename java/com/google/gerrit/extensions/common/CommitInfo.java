@@ -24,6 +24,7 @@ import java.util.Objects;
 public class CommitInfo {
   public String commit;
   public List<CommitInfo> parents;
+  public List<ParentInfo> parentsData;
   public GitPerson author;
   public GitPerson committer;
   public String subject;
@@ -71,5 +72,54 @@ public class CommitInfo {
       helper.add("resolveConflictsWebLinks", resolveConflictsWebLinks);
     }
     return helper.toString();
+  }
+
+  public static class TargetBranchInfo {
+    public String branchName;
+    public String commitId;
+
+    public TargetBranchInfo(String branchName, String commitId) {
+      this.branchName = branchName;
+      this.commitId = commitId;
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(branchName, commitId);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (!(o instanceof TargetBranchInfo)) {
+        return false;
+      }
+      TargetBranchInfo c = (TargetBranchInfo) o;
+      return Objects.equals(branchName, c.branchName) && Objects.equals(commitId, c.commitId);
+    }
+  }
+
+  public static class ChangeRevisionInfo {
+    public int changeNumber;
+    public String changeId;
+    public int patchSetNumber;
+    public String status;
+
+    public ChangeRevisionInfo(
+        int changeNumber, String changeId, int patchSetNumber, String status) {
+      this.changeNumber = changeNumber;
+      this.changeId = changeId;
+      this.patchSetNumber = patchSetNumber;
+      this.status = status;
+    }
+  }
+
+  public static class ParentInfo {
+    public TargetBranchInfo targetBranchInfo;
+    public ChangeRevisionInfo changeRevisionInfo;
+
+    public ParentInfo(TargetBranchInfo targetBranchInfo, ChangeRevisionInfo changeRevisionInfo) {
+      this.targetBranchInfo = targetBranchInfo;
+      this.changeRevisionInfo = changeRevisionInfo;
+    }
   }
 }

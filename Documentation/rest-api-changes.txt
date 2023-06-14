@@ -7377,6 +7377,12 @@ topic will be overridden.
 If `true`, the cherry-pick succeeds also if the created commit will be empty.
 If `false`, a cherry-pick that would create an empty commit fails without creating
 the commit.
+|`committer_email`|optional|
+Cherry-pick is committed using this email address. Only the registered emails
+of the calling user are considered valid. Defaults to source commit's committer
+email if it a registered email of the calling user, else defaults to calling
+user's preferred email.
+
 |`validation_options`|optional|
 Map with key-value pairs that are forwarded as options to the commit validation
 listeners (e.g. can be used to skip certain validations). Which validation

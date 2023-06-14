@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9b9f680_9f30135b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-14T20:13:15Z",
+      "side": 1,
+      "message": "While this does impact pushes, I don\u0027t think that belongs here under \"most useful\". I have added more about that further down.",
+      "parentUuid": "e3b162ba_b0ac0031",
+      "range": {
+        "startLine": 12,
+        "startChar": 12,
+        "endLine": 12,
+        "endChar": 29
+      },
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d8cd0484_9d9e33a5",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-06-09T23:18:21Z",
       "side": 1,
       "message": "nit: `git ls-remote`",
+      "range": {
+        "startLine": 14,
+        "startChar": 43,
+        "endLine": 14,
+        "endChar": 52
+      },
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdceda0b_74140766",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-14T20:13:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8cd0484_9d9e33a5",
       "range": {
         "startLine": 14,
         "startChar": 43,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4628d45b_d0a279c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-14T20:13:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ea94376_68b3db0c",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 37
+      },
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edfe502d_82f610dd",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-06-09T23:18:21Z",
       "side": 1,
       "message": "nit: This is an english idiom that doesn\u0027t do anything to clarify your message, so I would remove it.\n\nAlso, your paragraph structure might be clearer if you start the new paragraph here where you begin discussing the new cache benefits and combine that with the paragraph you currently start on line 41.\n\n```\n...\nserver. The existing cache is also not useable on replicas where there\nis no index.\n\nThe new cache stores the meta-ref id for\neach change and out-of-date changes are detected on each cache fetch\nresulting in the cache being incrementally kept up-to-date. This makes\nthe new cache safer and multi-primary and replica friendly. Lastly, the\nnew cache ...\n```",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 32
+      },
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27d66d08_a9af9004",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-14T20:13:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edfe502d_82f610dd",
       "range": {
         "startLine": 36,
         "startChar": 13,
@@ -110,6 +206,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7e9b522_8d9485a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-14T20:13:15Z",
+      "side": 1,
+      "message": "I don\u0027t think they can be a separate change as that likely would cause regressions. I\u0027m also not quite sure it makes sense to give that much here as it feels like repeating the code a bit.",
+      "parentUuid": "69cca3c5_824a151f",
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f8c12389_5f0da203",
@@ -123,6 +237,30 @@
       "writtenOn": "2023-06-09T23:18:21Z",
       "side": 1,
       "message": "`replica and receive-pack `",
+      "range": {
+        "startLine": 50,
+        "startChar": 48,
+        "endLine": 50,
+        "endChar": 56
+      },
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a934c180_7043ba44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-14T20:13:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8c12389_5f0da203",
       "range": {
         "startLine": 50,
         "startChar": 48,
@@ -150,6 +288,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62e8c17e_78c36f9c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-14T20:13:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f93fe0f0_bb45744c",
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "76477912_f470fd27",
@@ -163,6 +319,24 @@
       "writtenOn": "2023-06-09T23:18:21Z",
       "side": 1,
       "message": "Should this throw a StorageException instead of just logging?",
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c11df4d4_a60d0154",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-14T20:13:15Z",
+      "side": 1,
+      "message": "No because continuing here is still functional, just slower.",
+      "parentUuid": "76477912_f470fd27",
       "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -190,6 +364,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae13788b_8e2d9190",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-14T20:13:15Z",
+      "side": 1,
+      "message": "I don\u0027t like the ...byId parts since that is not inline with the method names in here.",
+      "parentUuid": "e98f19fc_8af2768c",
+      "range": {
+        "startLine": 91,
+        "startChar": 31,
+        "endLine": 91,
+        "endChar": 41
+      },
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00895d1f_e9247da9",
@@ -203,6 +401,30 @@
       "writtenOn": "2023-06-09T23:18:21Z",
       "side": 1,
       "message": "You can remove this check and let update() do it (and it already does).",
+      "range": {
+        "startLine": 99,
+        "startChar": 8,
+        "endLine": 99,
+        "endChar": 35
+      },
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2658de0c_641e9151",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-14T20:13:15Z",
+      "side": 1,
+      "message": "No, that\u0027s a different object potentially, one that if it exists would already be full populated and wasteful to try and repopulate entirely if the one here is null.",
+      "parentUuid": "00895d1f_e9247da9",
       "range": {
         "startLine": 99,
         "startChar": 8,
@@ -259,6 +481,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1cc9744_dcfd6cd5",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-14T20:13:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a3ee27e_b06e2989",
+      "range": {
+        "startLine": 129,
+        "startChar": 6,
+        "endLine": 132,
+        "endChar": 7
+      },
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2dad3d8_e5ec3f86",
@@ -272,6 +518,30 @@
       "writtenOn": "2023-06-09T23:18:21Z",
       "side": 1,
       "message": "I think you need to split this into a separate `if` block otherwise line 557 will NPE when change is null and lazyload is false. You probably want to copy lines 846-850 from `reviewers()` since that also has a comment about permissions checks. However, you\u0027re not using change when `branch!\u003dnull`, so I think that\u0027s the condition you want first.\n\n```suggestion\n    if (change \u003d\u003d null) {\n      if (branch !\u003d null) {\n        return BranchNameKey.create(project, branch);\n      }\n      if (!lazyload()) {\n        // We are not allowed to load values from NoteDb. Branch was not populated;\n        // however, we need this value for permission checks.\n        throw new IllegalStateException(\"branch not populated\");\n      }\n```",
+      "range": {
+        "startLine": 551,
+        "startChar": 0,
+        "endLine": 554,
+        "endChar": 7
+      },
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49a8660a_f0fe64b9",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-14T20:13:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2dad3d8_e5ec3f86",
       "range": {
         "startLine": 551,
         "startChar": 0,
@@ -299,6 +569,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99cd4c47_c20f2166",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-14T20:13:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "752c2d9c_b539e5ba",
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58d80cb6_1f73ee0f",
@@ -312,6 +600,24 @@
       "writtenOn": "2023-06-09T23:18:21Z",
       "side": 1,
       "message": "Same comment as above",
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbc2b150_c3d4a421",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-14T20:13:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58d80cb6_1f73ee0f",
       "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

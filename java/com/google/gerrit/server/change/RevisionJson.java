@@ -34,12 +34,18 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.ParentCommitData;
+import com.google.gerrit.entities.ParentCommitData.ChangeRevision;
+import com.google.gerrit.entities.ParentCommitData.TargetBranch;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.common.CommitInfo.ChangeRevisionInfo;
+import com.google.gerrit.extensions.common.CommitInfo.ParentInfo;
+import com.google.gerrit.extensions.common.CommitInfo.TargetBranchInfo;
 import com.google.gerrit.extensions.common.FetchInfo;
 import com.google.gerrit.extensions.common.PushCertificateInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
@@ -71,6 +77,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
@@ -172,6 +179,21 @@ public class RevisionJson {
       String changeKey,
       int numericChangeId)
       throws IOException {
+    return getCommitInfo(
+        project, rw, commit, addLinks, fillCommit, branchName, changeKey, numericChangeId, null);
+  }
+
+  public CommitInfo getCommitInfo(
+      Project.NameKey project,
+      RevWalk rw,
+      RevCommit commit,
+      boolean addLinks,
+      boolean fillCommit,
+      String branchName,
+      String changeKey,
+      int numericChangeId,
+      @Nullable List<ParentCommitData> parentData)
+      throws IOException {
     CommitInfo info = new CommitInfo();
     if (fillCommit) {
       info.commit = commit.name();
@@ -211,7 +233,34 @@ public class RevisionJson {
       }
       info.parents.add(i);
     }
+
+    if (parentData != null) {
+      info.parentData = getParentDataInfo(parentData);
+    }
     return info;
+  }
+
+  private static List<ParentInfo> getParentDataInfo(List<ParentCommitData> parentsData) {
+    List<ParentInfo> result = new ArrayList<>();
+    for (ParentCommitData parentData : parentsData) {
+      TargetBranchInfo targetBranchInfo = null;
+      ChangeRevisionInfo changeRevisionInfo = null;
+      if (parentData.targetBranch().isPresent()) {
+        TargetBranch targetBranch = parentData.targetBranch().get();
+        targetBranchInfo = new TargetBranchInfo(targetBranch.branchName(), targetBranch.objectId());
+      }
+      if (parentData.changeRevision().isPresent()) {
+        ChangeRevision changeRevision = parentData.changeRevision().get();
+        changeRevisionInfo =
+            new ChangeRevisionInfo(
+                changeRevision.changeNumber(),
+                changeRevision.changeId(),
+                changeRevision.patchSetNumber(),
+                changeRevision.status());
+      }
+      result.add(new ParentInfo(targetBranchInfo, changeRevisionInfo));
+    }
+    return result;
   }
 
   /**

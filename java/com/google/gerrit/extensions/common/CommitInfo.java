@@ -24,6 +24,7 @@ import java.util.Objects;
 public class CommitInfo {
   public String commit;
   public List<CommitInfo> parents;
+  public List<ParentInfo> parentData;
   public GitPerson author;
   public GitPerson committer;
   public String subject;
@@ -71,5 +72,40 @@ public class CommitInfo {
       helper.add("resolveConflictsWebLinks", resolveConflictsWebLinks);
     }
     return helper.toString();
+  }
+
+  public static class TargetBranchInfo {
+    public String branchName;
+    public String commitId;
+
+    public TargetBranchInfo(String branchName, String commitId) {
+      this.branchName = branchName;
+      this.commitId = commitId;
+    }
+  }
+
+  public static class ChangeRevisionInfo {
+    public int changeNumber;
+    public String changeId;
+    public int patchSetNumber;
+    public String status;
+
+    public ChangeRevisionInfo(
+        int changeNumber, String changeId, int patchSetNumber, String status) {
+      this.changeNumber = changeNumber;
+      this.changeId = changeId;
+      this.patchSetNumber = patchSetNumber;
+      this.status = status;
+    }
+  }
+
+  public static class ParentInfo {
+    TargetBranchInfo targetBranchInfo;
+    ChangeRevisionInfo changeRevisionInfo;
+
+    public ParentInfo(TargetBranchInfo targetBranchInfo, ChangeRevisionInfo changeRevisionInfo) {
+      this.targetBranchInfo = targetBranchInfo;
+      this.changeRevisionInfo = changeRevisionInfo;
+    }
   }
 }

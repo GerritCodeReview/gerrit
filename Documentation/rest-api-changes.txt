@@ -7534,6 +7534,11 @@ as key.
 The parent commits of this commit as a list of
 link:#commit-info[CommitInfo] entities. In each parent
 only the `commit` and `subject` fields are populated.
+|`parents_data`     ||
+The parent commits of this commit as a list of
+link:#parent-info[ParentInfo] entities. In each parent, we include the target
+branch name if the parent is a merged commit in the target branch. Otherwise,
+we include the change and patch-set numbers of the parent change.
 |`author`      ||The author of the commit as a
 link:#git-person-info[GitPersonInfo] entity.
 |`committer`   ||The committer of the commit as a
@@ -8158,6 +8163,33 @@ link:user-notify.html#recipient-types[recipient type].
 |`accounts`|optional|
 A list of link:rest-api-accounts.html#account-id[account IDs] that
 identify the accounts that should be should be notified.
+|=======================
+
+[[parent-info]]
+=== ParentInfo
+The `ParentInfo` entity contains information about the parent commit of a
+patch-set.
+
+[options="header",cols="1,^1,5"]
+|=======================
+|Field Name||Description
+|`branch_name` |optional|Name of the target branch into which the parent commit
+is merged. +
+If the parent commit is a patch-set commit of another Gerrit change, this field
+will be null.
+|`commit_id` |optional|The commit SHA-1 of the parent commit.
+|`change_id` |optional| If the parent commit is a patch-set of another gerrit
+change, this field will hold the change ID of the parent change. Otherwise,
+will be null.
+|`change_number` |optional|If the parent commit is a patch-set of another gerrit
+change, this field will hold the change number of the parent change. Otherwise,
+will be null.
+|`patch_set_number` |optional|If the parent commit is a patch-set of another gerrit
+change, this field will hold the patch-set number of the parent change. Otherwise,
+will be null.
+|`change_status` |optional|If the parent commit is a patch-set of another gerrit
+change, this field will hold the change status of the parent change. Otherwise,
+will be null.
 |=======================
 
 [[private-input]]

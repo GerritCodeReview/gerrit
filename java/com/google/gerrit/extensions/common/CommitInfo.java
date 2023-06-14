@@ -24,6 +24,7 @@ import java.util.Objects;
 public class CommitInfo {
   public String commit;
   public List<CommitInfo> parents;
+  public List<ParentInfo> parentsData;
   public GitPerson author;
   public GitPerson committer;
   public String subject;
@@ -71,5 +72,41 @@ public class CommitInfo {
       helper.add("resolveConflictsWebLinks", resolveConflictsWebLinks);
     }
     return helper.toString();
+  }
+
+  public static class ParentInfo {
+    /**
+     * If the parent commit is merged into the target branch, this field will hold the target branch
+     * name. Otherwise, (e.g. if the parent commit is a patch-set commit of another gerrit change),
+     * this field will be null.
+     */
+    public String branchName;
+
+    /** The commit SHA-1 of the parent commit. */
+    public String commitId;
+
+    /**
+     * If the parent commit is a patch-set of another gerrit change, this field will hold the change
+     * ID of the parent change. Otherwise, will be null.
+     */
+    public String changeId;
+
+    /**
+     * If the parent commit is a patch-set of another gerrit change, this field will hold the change
+     * number of the parent change. Otherwise, will be null.
+     */
+    public Integer changeNumber;
+
+    /**
+     * If the parent commit is a patch-set of another gerrit change, this field will hold the
+     * patch-set number of the parent change. Otherwise, will be null.
+     */
+    public Integer patchSetNumber;
+
+    /**
+     * If the parent commit is a patch-set of another gerrit change, this field will hold the change
+     * status of the parent change. Otherwise, will be null.
+     */
+    public String changeStatus;
   }
 }

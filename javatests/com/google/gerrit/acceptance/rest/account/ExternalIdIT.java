@@ -39,6 +39,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -63,6 +64,7 @@ import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIdReader;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gson.reflect.TypeToken;
@@ -77,10 +79,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
@@ -102,6 +106,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExternalIdKeyFactory externalIdKeyFactory;
   @Inject private ExternalIdFactory externalIdFactory;
+  @Inject private AllUsersName allUsersName;
 
   @Test
   public void getExternalIds() throws Exception {
@@ -778,6 +783,42 @@ public class ExternalIdIT extends AbstractDaemonTest {
   }
 
   @Test
+  @UseClockStep
+  public void getLastUpdated() throws Exception {
+    Account.Id accountId = Account.id(1);
+
+    // insert one external ID
+    ExternalId extId1 = externalIdFactory.create("foo", "bar", accountId);
+    accountsUpdateProvider
+        .get()
+        .insert("Create Test Account", accountId, u -> u.addExternalId(extId1));
+    ObjectId rev = readRevision();
+    long extId1ExpectedLastUpdated = getCommitTimeUs(rev);
+    assertThat(externalIds.allByAccount().asMap().get(accountId)).containsExactly(extId1);
+
+    // insert another external ID
+    ExternalId extId2 = externalIdFactory.create("foo", "baz", accountId);
+    accountsUpdateProvider.get().update("Add External ID", accountId, u -> u.addExternalId(extId2));
+    rev = readRevision();
+    long extId2ExpectedLastUpdated = getCommitTimeUs(rev);
+    assertThat(extId1ExpectedLastUpdated).isLessThan(extId2ExpectedLastUpdated);
+    assertThat(externalIds.allByAccount().asMap().get(accountId)).containsExactly(extId1, extId2);
+
+    // update the first external ID
+    ExternalId updatedExtId1 =
+        externalIdFactory.create(
+            extId1.key(), accountId, "foo.bar@example.com", /* hashedPassword= */ null);
+    accountsUpdateProvider
+        .get()
+        .update("Update External ID", accountId, u -> u.updateExternalId(updatedExtId1));
+    rev = readRevision();
+    extId1ExpectedLastUpdated = getCommitTimeUs(rev);
+    assertThat(extId1ExpectedLastUpdated).isGreaterThan(extId2ExpectedLastUpdated);
+    assertThat(externalIds.allByAccount().asMap().get(accountId))
+        .containsExactly(updatedExtId1, extId2);
+  }
+
+  @Test
   @GerritConfig(name = "auth.userNameCaseInsensitive", value = "true")
   public void createCaseInsensitiveExternalId_DuplicateKey() throws Exception {
     try (Repository allUsersRepo = repoManager.openRepository(allUsers);
@@ -1067,5 +1108,18 @@ public class ExternalIdIT extends AbstractDaemonTest {
   private AutoCloseable createFailOnLoadContext() {
     externalIdReader.setFailOnLoad(true);
     return () -> externalIdReader.setFailOnLoad(false);
+  }
+
+  private ObjectId readRevision() throws IOException {
+    try (Repository repo = repoManager.openRepository(allUsersName)) {
+      return ExternalIdReader.readRevision(repo);
+    }
+  }
+
+  private long getCommitTimeUs(ObjectId rev) throws IOException {
+    try (Repository repo = repoManager.openRepository(allUsersName);
+        RevWalk rw = new RevWalk(repo)) {
+      return TimeUnit.SECONDS.toMicros(rw.parseCommit(rev).getCommitTime());
+    }
   }
 }

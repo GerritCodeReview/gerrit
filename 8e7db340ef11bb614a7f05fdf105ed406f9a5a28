@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfb8ece9_36b7fbec",
+        "filename": "yarn.lock",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-06-14T14:16:52Z",
+      "side": 0,
+      "message": "Seems that you used npm rather than the yarn command?",
+      "revId": "8e7db340ef11bb614a7f05fdf105ed406f9a5a28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

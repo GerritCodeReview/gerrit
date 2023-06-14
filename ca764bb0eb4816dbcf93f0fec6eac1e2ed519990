@@ -188,6 +188,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe5fbc86_dbef7680",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-14T10:21:38Z",
+      "side": 1,
+      "message": "\u003e We configure a refreshAfterWrite of 15 minutes,\n\u003e so I\u0027d expect the value to be refreshed only once per 15 minutes according to:\n\nAh, nice. That\u0027s what I missing!",
+      "parentUuid": "b07cb1c5_d007e4a5",
+      "revId": "ca764bb0eb4816dbcf93f0fec6eac1e2ed519990",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82740cee_a6635f35",

@@ -255,9 +255,8 @@ export class GrHovercardAccountContents extends LitElement {
         @enter=${() => {
           fire(this, 'link-clicked', {});
         }}
+        >Changes</a
       >
-        Changes
-      </a>
       ·
       <a
         href=${ifDefined(this.computeOwnerDashboardLink())}
@@ -267,9 +266,8 @@ export class GrHovercardAccountContents extends LitElement {
         @enter=${() => {
           fire(this, 'link-clicked', {});
         }}
+        >Dashboard</a
       >
-        Dashboard
-      </a>
     </div>`;
   }
 

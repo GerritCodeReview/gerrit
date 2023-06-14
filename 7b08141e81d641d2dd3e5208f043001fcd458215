@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4f6bd72_91854496",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-14T23:17:12Z",
+      "side": 1,
+      "message": "rebase on stable-3.5 tip and use (the now identical) ChangeNotes.scanChangeIds() instead.",
+      "range": {
+        "startLine": 126,
+        "startChar": 37,
+        "endLine": 126,
+        "endChar": 55
+      },
+      "revId": "7b08141e81d641d2dd3e5208f043001fcd458215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfa906c6_af6a3ac5",
+        "filename": "java/com/google/gerrit/server/permissions/VisibleChangesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-14T23:17:12Z",
+      "side": 1,
+      "message": "I think it\u0027s no longer limited by index results, correct?",
+      "range": {
+        "startLine": 33,
+        "startChar": 69,
+        "endLine": 34,
+        "endChar": 16
+      },
+      "revId": "7b08141e81d641d2dd3e5208f043001fcd458215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff774659_acd1e077",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-14T23:17:12Z",
+      "side": 1,
+      "message": "Why not the BranchNameKey here?",
+      "range": {
+        "startLine": 347,
+        "startChar": 10,
+        "endLine": 347,
+        "endChar": 16
+      },
+      "revId": "7b08141e81d641d2dd3e5208f043001fcd458215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0fe0065_f0f42dbd",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-14T23:17:12Z",
+      "side": 1,
+      "message": "I wonder if this shouldn\u0027t be `metaRevision`. I know the ChangeNotes method is just `getRevision` but here we don\u0027t have the context of notedb. I think we\u0027ll want the eventual indexed field to have the same name and using the meta prefix helps keep it clear to me.",
+      "range": {
+        "startLine": 350,
+        "startChar": 19,
+        "endLine": 350,
+        "endChar": 27
+      },
+      "revId": "7b08141e81d641d2dd3e5208f043001fcd458215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c382a426_22973bac",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-14T23:17:12Z",
+      "side": 1,
+      "message": "nit: move below any public methods (or at least below the last public method that uses it?)?",
+      "revId": "7b08141e81d641d2dd3e5208f043001fcd458215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

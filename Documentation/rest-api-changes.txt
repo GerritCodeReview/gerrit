@@ -6920,7 +6920,7 @@ The `ChangeInfo` entity contains information about a change.
 |Field Name           ||Description
 |`id`                 ||
 The ID of the change in the format "'<project>\~<branch>~<Change-Id>'",
-where 'project', 'branch' and 'Change-Id' are URL encoded. For 'branch' the
+where 'project' and 'branch' are URL encoded. For 'branch' the
 `refs/heads/` prefix is omitted.
 |`project`            ||The name of the project.
 |`branch`             ||

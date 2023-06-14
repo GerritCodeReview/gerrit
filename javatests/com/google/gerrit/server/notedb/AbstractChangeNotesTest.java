@@ -95,6 +95,8 @@ import org.junit.runner.RunWith;
 @RunWith(ConfigSuite.class)
 public abstract class AbstractChangeNotesTest {
   protected static final String LOCAL_SERVER_ID = "gerrit";
+  protected static final String FQ_USER_IDENT =
+      "Gerrit User 1000000 \\u003c1000000@" + LOCAL_SERVER_ID;
 
   private static final ZoneId ZONE_ID = ZoneId.of("America/Los_Angeles");
 
@@ -328,7 +330,8 @@ public abstract class AbstractChangeNotesTest {
       String message,
       short side,
       ObjectId commitId,
-      boolean unresolved) {
+      boolean unresolved,
+      String serverId) {
     HumanComment c =
         new HumanComment(
             new Comment.Key(UUID, filename, psId.get()),
@@ -343,6 +346,35 @@ public abstract class AbstractChangeNotesTest {
     c.setCommitId(commitId);
     c.setRange(range);
     return c;
+  }
+
+  protected HumanComment newComment(
+      PatchSet.Id psId,
+      String filename,
+      String UUID,
+      CommentRange range,
+      int line,
+      IdentifiedUser commenter,
+      String parentUUID,
+      Instant t,
+      String message,
+      short side,
+      ObjectId commitId,
+      boolean unresolved) {
+    return newComment(
+        psId,
+        filename,
+        UUID,
+        range,
+        line,
+        commenter,
+        parentUUID,
+        t,
+        message,
+        side,
+        commitId,
+        unresolved,
+        serverId);
   }
 
   protected static Instant truncate(Instant ts) {

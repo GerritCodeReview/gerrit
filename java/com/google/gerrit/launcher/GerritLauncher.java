@@ -60,6 +60,33 @@ public final class GerritLauncher {
   private static final String PKG = "com.google.gerrit.pgm";
   public static final String NOT_ARCHIVED = "NOT_ARCHIVED";
 
+  // Classloader that allows to add additional jars to the classpath.
+  public static class GerritClassLoader extends URLClassLoader {
+    static {
+      ClassLoader.registerAsParallelCapable();
+    }
+
+    /**
+     * Constructs a new URLClassLoader for the given URLs.
+     *
+     * @param urls the URLs from which to load classes and resources
+     * @param parent the parent class loader for delegation
+     */
+    GerritClassLoader(URL[] urls, ClassLoader parent) {
+      super(urls, parent);
+    }
+
+    /**
+     * Appends the additional URL to the list of URLs to search for classes and resources.
+     *
+     * @param url the URL to be added to the search path of URLs
+     */
+    @Override
+    public void addURL(URL url) {
+      super.addURL(url);
+    }
+  }
+
   private static ClassLoader daemonClassLoader;
 
   public static void main(String[] argv) throws Exception {
@@ -308,7 +335,7 @@ public final class GerritLauncher {
     if (!extapi.isEmpty()) {
       parent = URLClassLoader.newInstance(extapi.toArray(new URL[extapi.size()]), parent);
     }
-    return URLClassLoader.newInstance(jars.values().toArray(new URL[jars.size()]), parent);
+    return new GerritClassLoader(jars.values().toArray(new URL[jars.size()]), parent);
   }
 
   private static void extractJar(ZipFile zf, ZipEntry ze, NavigableMap<String, URL> jars)

@@ -240,13 +240,16 @@ public class CommitRewriter {
 
   private final ChangeNotes.Factory changeNotesFactory;
   private final AccountCache accountCache;
+  private final NoteDbUtil noteDbUtil;
   private final DiffAlgorithm diffAlgorithm = new HistogramDiff();
   private static final Gson gson = OutputFormat.JSON_COMPACT.newGson();
 
   @Inject
-  CommitRewriter(ChangeNotes.Factory changeNotesFactory, AccountCache accountCache) {
+  CommitRewriter(
+      ChangeNotes.Factory changeNotesFactory, AccountCache accountCache, NoteDbUtil noteDbUtil) {
     this.changeNotesFactory = changeNotesFactory;
     this.accountCache = accountCache;
+    this.noteDbUtil = noteDbUtil;
   }
 
   /**
@@ -1082,7 +1085,7 @@ public class CommitRewriter {
   }
 
   private Optional<Account.Id> parseIdent(ChangeFixProgress changeFixProgress, PersonIdent ident) {
-    Optional<Account.Id> account = NoteDbUtil.parseIdent(ident);
+    Optional<Account.Id> account = noteDbUtil.parseIdent(ident);
     if (account.isPresent()) {
       changeFixProgress.parsedAccounts.putIfAbsent(account.get(), Optional.empty());
     } else {

@@ -120,6 +120,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "42b09b83_3a4bf31f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-15T22:15:32Z",
+      "side": 1,
+      "message": "Yes, exactly. We should allow a \"transition version\" (v3.9) where:\n- You can start using the batch-ref-updated event\n- You can still serve the ref-updated event and switch that off once you\u0027re sure that nobody should use it anymore\n\nIn theory, you should be able to receive both of them, and I believe that should be the default.\n\nWDYT?",
+      "parentUuid": "9e9481ab_f4b8983d",
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "78bbf88e_835b6172",
         "filename": "java/com/google/gerrit/server/events/BatchRefUpdateEvent.java",
         "patchSetId": 1

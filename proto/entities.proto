@@ -89,7 +89,7 @@ message PatchSet_Id {
 }
 
 // Serialized form of com.google.gerrit.entities.PatchSet.
-// Next ID: 10
+// Next ID: 12
 message PatchSet {
   required PatchSet_Id id = 1;
   optional ObjectId commitId = 2;
@@ -99,6 +99,7 @@ message PatchSet {
   optional string push_certificate = 8;
   optional string description = 9;
   optional Account_Id real_uploader_account_id = 10;
+  optional string branch = 11;
 
   // Deleted fields, should not be reused:
   reserved 5;  // draft

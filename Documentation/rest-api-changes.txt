@@ -8683,6 +8683,13 @@ link:intro-project-owner.html#download-commands[download commands]
 interface is installed.
 |`commit`      |optional|The commit of the patch set as
 link:#commit-info[CommitInfo] entity.
+|`branch`      ||The name of the target branch that this revision is set
+to be merged into. +
+Note that if the change is moved with the link:#move-change[Move Change]
+endpoint, this field can be different for different patchsets. For example,
+if the change is moved and a new patchset is uploaded afterwards, the revision
+of the previous patchset will contain the old `branch`, but the one of
+the newer patchset will contain the new `branch`.
 |`files`       |optional|
 The files of the patch set as a map that maps the file names to
 link:#file-info[FileInfo] entities. Only set if

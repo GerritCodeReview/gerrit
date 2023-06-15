@@ -342,11 +342,13 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
       }
 
       if (fileContentInput.fileMode != null) {
-        if ((fileContentInput.fileMode != 100644) && (fileContentInput.fileMode != 100755)) {
+        if ((fileContentInput.fileMode != 100644)
+            && (fileContentInput.fileMode != 100755)
+            && (fileContentInput.fileMode != 120000)) {
           throw new BadRequestException(
               "file_mode ("
                   + fileContentInput.fileMode
-                  + ") was invalid: supported values are 0, 644, or 755.");
+                  + ") was invalid: supported values are 0, 120000, 100644, or 100755.");
         }
       }
       try (Repository repository = repositoryManager.openRepository(rsrc.getProject())) {

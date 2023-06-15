@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.entities.Patch.FileMode.EXECUTABLE_FILE;
 import static com.google.gerrit.entities.Patch.FileMode.REGULAR_FILE;
+import static com.google.gerrit.entities.Patch.FileMode.SYMLINK;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -323,10 +324,14 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
           return EXECUTABLE_FILE.getMode();
         case 100644:
           return REGULAR_FILE.getMode();
+        case 120000:
+          return SYMLINK.getMode();
       }
 
       throw new BadRequestException(
-          "file_mode (" + inputMode + ") was invalid: supported values are 0, 100644, or 100755.");
+          "file_mode ("
+              + inputMode
+              + ") was invalid: supported values are 0, 120000, 100644, or 100755.");
     }
 
     public Response<Object> apply(

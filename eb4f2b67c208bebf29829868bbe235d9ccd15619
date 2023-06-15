@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f597e6ef_24ec9ae0",
+        "filename": "java/com/google/gerrit/server/project/ProjectCreator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-15T16:42:45Z",
+      "side": 1,
+      "message": "Did you remove the `AndReindex` from here because you expect `projectCache.onCreateProject()` to handle that?",
+      "range": {
+        "startLine": 119,
+        "startChar": 23,
+        "endLine": 119,
+        "endChar": 28
+      },
+      "revId": "eb4f2b67c208bebf29829868bbe235d9ccd15619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

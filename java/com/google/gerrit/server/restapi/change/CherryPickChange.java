@@ -484,7 +484,7 @@ public class CherryPickChange {
     }
     // If there is a base, and the base is not merged, the groups will be overridden by the base's
     // groups.
-    ins.setGroups(GroupCollector.getDefaultGroups(cherryPickCommit.getId()));
+    ins.setGroups(GroupCollector.getDefaultGroups(refName, cherryPickCommit.getId()));
     if (input.base != null) {
       List<ChangeData> changes =
           queryProvider.get().setLimit(2).byBranchCommitOpen(project.get(), refName, input.base);

@@ -425,7 +425,6 @@ class ReceiveCommits {
   private final Repository repo;
 
   // Collections populated during processing.
-  private final List<UpdateGroupsRequest> updateGroups;
   private final Queue<ValidationMessage> messages;
   /** Multimap of error text to refnames that produced that error. */
   private final ListMultimap<String, String> errors;
@@ -574,7 +573,6 @@ class ReceiveCommits {
     messages = new ConcurrentLinkedQueue<>();
     pushOptions = LinkedListMultimap.create();
     replaceByChange = new LinkedHashMap<>();
-    updateGroups = new ArrayList<>();
 
     used = false;
 
@@ -1134,9 +1132,6 @@ class ReceiveCommits {
       for (CreateRequest create : newChanges) {
         create.addOps(bu);
       }
-
-      logger.atFine().log("Adding %d group update requests", newChanges.size());
-      updateGroups.forEach(r -> r.addOps(bu));
 
       logger.atFine().log("Executing batch");
       try {
@@ -2316,7 +2311,7 @@ class ReceiveCommits {
       List<CreateRequest> newChanges = new ArrayList<>();
 
       GroupCollector groupCollector =
-          GroupCollector.create(receivePackRefCache, psUtil, notesFactory, project.getNameKey());
+          GroupCollector.create(receivePackRefCache, psUtil, notesFactory, magicBranch.dest);
 
       BranchCommitValidator validator =
           commitValidatorFactory.create(projectState, magicBranch.dest, user);
@@ -2357,7 +2352,7 @@ class ReceiveCommits {
           total++;
           receivePack.getRevWalk().parseBody(c);
           String name = c.name();
-          groupCollector.visit(c);
+          groupCollector.visit(magicBranch.dest.branch(), c);
           Collection<PatchSet.Id> existingPatchSets =
               receivePackRefCache.patchSetIdsFromObjectId(c);
 
@@ -2369,21 +2364,6 @@ class ReceiveCommits {
           boolean commitAlreadyTracked = !existingPatchSets.isEmpty();
           if (commitAlreadyTracked) {
             alreadyTracked++;
-            // Corner cases where an existing commit might need a new group:
-            // A) Existing commit has a null group; wasn't assigned during schema
-            //    upgrade, or schema upgrade is performed on a running server.
-            // B) Let A<-B<-C, then:
-            //      1. Push A to refs/heads/master
-            //      2. Push B to refs/for/master
-            //      3. Force push A~ to refs/heads/master
-            //      4. Push C to refs/for/master.
-            //      B will be in existing so we aren't replacing the patch set. It
-            //      used to have its own group, but now needs to to be changed to
-            //      A's group.
-            // C) Commit is a PatchSet of a pre-existing change uploaded with a
-            //    different target branch.
-            existingPatchSets.stream()
-                .forEach(i -> updateGroups.add(new UpdateGroupsRequest(i, c)));
             if (!(newChangeForAllNotInTarget || magicBranch.base != null)) {
               continue;
             }
@@ -2563,9 +2543,6 @@ class ReceiveCommits {
       }
       for (ReplaceRequest replace : replaceByChange.values()) {
         replace.groups = ImmutableList.copyOf(groups.get(replace.newCommitId));
-      }
-      for (UpdateGroupsRequest update : updateGroups) {
-        update.groups = ImmutableList.copyOf(groups.get(update.commit));
       }
       logger.atFine().log("Finished updating groups from GroupCollector");
       return ImmutableList.copyOf(newChanges);
@@ -3262,42 +3239,6 @@ class ReceiveCommits {
 
     Optional<String> getOutdatedApprovalsMessage() {
       return replaceOp != null ? replaceOp.getOutdatedApprovalsMessage() : Optional.empty();
-    }
-  }
-
-  private class UpdateGroupsRequest {
-    final PatchSet.Id psId;
-    final RevCommit commit;
-    List<String> groups = ImmutableList.of();
-
-    UpdateGroupsRequest(PatchSet.Id psId, RevCommit commit) {
-      this.psId = psId;
-      this.commit = commit;
-    }
-
-    private void addOps(BatchUpdate bu) {
-      bu.addOp(
-          psId.changeId(),
-          new BatchUpdateOp() {
-            @Override
-            public boolean updateChange(ChangeContext ctx) {
-              PatchSet ps = psUtil.get(ctx.getNotes(), psId);
-              List<String> oldGroups = ps.groups();
-              if (oldGroups == null) {
-                if (groups == null) {
-                  return false;
-                }
-              } else if (sameGroups(oldGroups, groups)) {
-                return false;
-              }
-              ctx.getUpdate(psId).setGroups(groups);
-              return true;
-            }
-          });
-    }
-
-    private boolean sameGroups(List<String> a, List<String> b) {
-      return Sets.newHashSet(a).equals(Sets.newHashSet(b));
     }
   }
 

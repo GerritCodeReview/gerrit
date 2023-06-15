@@ -48,6 +48,7 @@ import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.inject.Inject;
 import java.util.Map;
@@ -155,7 +156,9 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
         changeOperations.newChange().project(project).branch("test-branch").create();
 
     ChangeInfo change = getChangeFromServer(changeId);
-    assertThat(getGroups(project, changeId)).containsExactly(change.currentRevision);
+    assertThat(getGroups(project, changeId))
+        .containsExactly(
+            GroupCollector.createGroup("test-branch", ObjectId.fromString(change.currentRevision)));
   }
 
   @Test
@@ -166,26 +169,39 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
         changeOperations
             .newChange()
             .project(project)
+            .branch("master")
             .childOf()
             .tipOfBranch("refs/heads/test-branch")
             .create();
 
     ChangeInfo change = getChangeFromServer(changeId);
-    assertThat(getGroups(project, changeId)).containsExactly(change.currentRevision);
+    assertThat(getGroups(project, changeId))
+        .containsExactly(
+            GroupCollector.createGroup("master", ObjectId.fromString(change.currentRevision)));
   }
 
   @Test
   public void createdChangeHasSameGroupsAsOpenParentChange() throws Exception {
     Project.NameKey project = projectOperations.newProject().create();
 
-    Change.Id parentChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parentChangeId =
+        changeOperations.newChange().project(project).branch("master").create();
 
     ChangeInfo parentChange = getChangeFromServer(parentChangeId);
     ImmutableList<String> parentGroups = getGroups(project, parentChangeId);
-    assertThat(parentGroups).containsExactly(parentChange.currentRevision);
+    assertThat(parentGroups)
+        .containsExactly(
+            GroupCollector.createGroup(
+                "master", ObjectId.fromString(parentChange.currentRevision)));
 
     Change.Id changeId =
-        changeOperations.newChange().project(project).childOf().change(parentChangeId).create();
+        changeOperations
+            .newChange()
+            .project(project)
+            .branch("master")
+            .childOf()
+            .change(parentChangeId)
+            .create();
 
     assertThat(getGroups(project, changeId)).isEqualTo(parentGroups);
   }
@@ -194,32 +210,44 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   public void createdChangeHasDefaultGroupsIfClosedChangeIsSpecifiedAsParent() throws Exception {
     Project.NameKey project = projectOperations.newProject().create();
 
-    Change.Id parentChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parentChangeId =
+        changeOperations.newChange().project(project).branch("master").create();
     gApi.changes().id(parentChangeId.get()).current().review(ReviewInput.approve());
     gApi.changes().id(parentChangeId.get()).current().submit();
 
     Change.Id changeId =
-        changeOperations.newChange().project(project).childOf().change(parentChangeId).create();
+        changeOperations
+            .newChange()
+            .project(project)
+            .branch("master")
+            .childOf()
+            .change(parentChangeId)
+            .create();
 
     ChangeInfo change = getChangeFromServer(changeId);
-    assertThat(getGroups(project, changeId)).containsExactly(change.currentRevision);
+    assertThat(getGroups(project, changeId))
+        .containsExactly(
+            GroupCollector.createGroup("master", ObjectId.fromString(change.currentRevision)));
   }
 
   @Test
   public void createdChangeHasSameGroupsAsPatchSetOfOpenParentChange() throws Exception {
     Project.NameKey project = projectOperations.newProject().create();
 
-    Change.Id parentChangeId = changeOperations.newChange().project(project).create();
+    Change.Id parentChangeId =
+        changeOperations.newChange().project(project).branch("master").create();
     TestPatchset parentPatchset = changeOperations.change(parentChangeId).currentPatchset().get();
     changeOperations.change(parentChangeId).newPatchset().create();
 
     ImmutableList<String> parentGroups = getGroups(project, parentPatchset.patchsetId());
-    assertThat(parentGroups).containsExactly(parentPatchset.commitId().name());
+    assertThat(parentGroups)
+        .containsExactly(GroupCollector.createGroup("master", parentPatchset.commitId()));
 
     Change.Id changeId =
         changeOperations
             .newChange()
             .project(project)
+            .branch("master")
             .childOf()
             .patchset(parentPatchset.patchsetId())
             .create();
@@ -242,12 +270,15 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
         changeOperations
             .newChange()
             .project(project)
+            .branch("master")
             .childOf()
             .patchset(parentPatchset.patchsetId())
             .create();
 
     ChangeInfo change = getChangeFromServer(changeId);
-    assertThat(getGroups(project, changeId)).containsExactly(change.currentRevision);
+    assertThat(getGroups(project, changeId))
+        .containsExactly(
+            GroupCollector.createGroup("master", ObjectId.fromString(change.currentRevision)));
   }
 
   @Test
@@ -255,15 +286,24 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     Project.NameKey project = projectOperations.newProject().create();
 
     // Currently, the easiest way to create a commit is by creating another change.
-    Change.Id anotherChangeId = changeOperations.newChange().project(project).create();
+    Change.Id anotherChangeId =
+        changeOperations.newChange().project(project).branch("master").create();
     ObjectId parentCommitId =
         changeOperations.change(anotherChangeId).currentPatchset().get().commitId();
 
     Change.Id changeId =
-        changeOperations.newChange().project(project).childOf().commit(parentCommitId).create();
+        changeOperations
+            .newChange()
+            .project(project)
+            .branch("master")
+            .childOf()
+            .commit(parentCommitId)
+            .create();
 
     ChangeInfo change = getChangeFromServer(changeId);
-    assertThat(getGroups(project, changeId)).containsExactly(change.currentRevision);
+    assertThat(getGroups(project, changeId))
+        .containsExactly(
+            GroupCollector.createGroup("master", ObjectId.fromString(change.currentRevision)));
   }
 
   @Test

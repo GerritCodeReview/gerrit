@@ -498,7 +498,7 @@ public class ChangeInserter implements InsertChangeOp {
 
     List<String> newGroups = groups;
     if (newGroups.isEmpty()) {
-      newGroups = GroupCollector.getDefaultGroups(commitId);
+      newGroups = GroupCollector.getDefaultGroups(change.getDest().branch(), commitId);
     }
     patchSet =
         psUtil.insert(

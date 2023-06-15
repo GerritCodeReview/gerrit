@@ -1640,6 +1640,37 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void targetBranch_isSetForEachPatchSet() throws Exception {
+    createBranch(BranchNameKey.create(project, "foo"));
+    createBranch(BranchNameKey.create(project, "bar"));
+
+    // Upload five patch-sets: patch-set 1 is destined for branch master, patch-set 2 destined for
+    // branch foo, patch-set 3 with no change, and patch-set 4 for branch bar and patch-set 5 with
+    // no change in branch. Make sure the targetBranch field is set correctly on each revision.
+
+    // PS1 - branch = master
+    PushOneCommit.Result r1 = createChange();
+    // PS2 - branch = foo
+    PushOneCommit.Result r2 = amendChange(r1.getChangeId());
+    move(r1.getChangeId(), "foo");
+    // PS3 - branch = foo
+    PushOneCommit.Result r3 = amendChange(r1.getChangeId());
+    // PS4 - branch = bar
+    PushOneCommit.Result r4 = amendChange(r1.getChangeId());
+    move(r1.getChangeId(), "bar");
+    // PS5 - branch = bar
+    PushOneCommit.Result r5 = amendChange(r1.getChangeId());
+
+    Map<String, RevisionInfo> revisions = gApi.changes().id(r1.getChangeId()).get().revisions;
+    assertThat(revisions).hasSize(5);
+    assertThat(revisions.get(r1.getCommit().name()).branch).isEqualTo("refs/heads/master");
+    assertThat(revisions.get(r2.getCommit().name()).branch).isEqualTo("refs/heads/foo");
+    assertThat(revisions.get(r3.getCommit().name()).branch).isEqualTo("refs/heads/foo");
+    assertThat(revisions.get(r4.getCommit().name()).branch).isEqualTo("refs/heads/bar");
+    assertThat(revisions.get(r5.getCommit().name()).branch).isEqualTo("refs/heads/bar");
+  }
+
+  @Test
   public void setDescriptionNotAllowedWithoutPermission() throws Exception {
     PushOneCommit.Result r = createChange();
     assertDescription(r, "");
@@ -2121,6 +2152,10 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(revisionInfo.commit.message).isEqualTo(input.message);
     assertThat(revisionInfo.commit.parents).hasSize(1);
     assertThat(revisionInfo.commit.parents.get(0).commit).isEqualTo(input.base);
+  }
+
+  private void move(String changeId, String destination) throws Exception {
+    gApi.changes().id(changeId).move(destination);
   }
 
   private PushOneCommit.Result updateChange(PushOneCommit.Result r, String content)

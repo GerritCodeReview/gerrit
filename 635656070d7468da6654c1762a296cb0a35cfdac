@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "970719b3_b2c6beff",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/BucketedCallback.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-15T21:51:59Z",
+      "side": 1,
+      "message": "I believe this is the issue: we index the cells on the `key` whilst we should do it on `submetric(key)`.",
+      "range": {
+        "startLine": 106,
+        "startChar": 16,
+        "endLine": 106,
+        "endChar": 24
+      },
+      "revId": "635656070d7468da6654c1762a296cb0a35cfdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb394697_8e8b6d90",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/BucketedCallback.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-15T21:51:59Z",
+      "side": 1,
+      "message": "I believe this is the fix in the wrong place, but please comment if you disagree.\n\nThe method is called `getOrCreate(Object key)` which means that:\n- If the metric doesn\u0027t exist \u003d\u003e create a new one\n- If the metric exists \u003d\u003e return the existing one\n\nWhy do we even throw an IllegalArgumentException then? It should not happen isn\u0027t it?\n\nWe need to understand *why* the exception is thrown when calling getOrCreate() with the same key, because that\u0027s not supposed to happen.\n\nIf the exception is thrown for a legitimate cause, then it should be propagated rather than logged.",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 9
+      },
+      "revId": "635656070d7468da6654c1762a296cb0a35cfdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f760f824_ea656309",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/BucketedCallback.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-15T21:51:59Z",
+      "side": 1,
+      "message": "I believe this is the issue: the `DropWizardMetricMaker.name()` should use a unambiguous encoding of the `key`.\n\nEven when keeping the existing ambiguous algorithm, it should throw an exception when a clash happened.",
+      "range": {
+        "startLine": 126,
+        "startChar": 11,
+        "endLine": 126,
+        "endChar": 65
+      },
+      "revId": "635656070d7468da6654c1762a296cb0a35cfdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f81afae7_bb53bba2",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/BucketedCallbackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-15T21:51:59Z",
+      "side": 1,
+      "message": "Missing license header.",
+      "revId": "635656070d7468da6654c1762a296cb0a35cfdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16eee662_8c7d93dc",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/BucketedCallbackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-15T21:51:59Z",
+      "side": 1,
+      "message": "We are missing a test that shows when two getOrCreate() are called with two different values it creates two metrics.",
+      "revId": "635656070d7468da6654c1762a296cb0a35cfdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cdd76d6_268c274e",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/BucketedCallbackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-15T21:51:59Z",
+      "side": 1,
+      "message": "This is wrong, because you have two metrics that are clashing between each other and we silently make the call succeed and mix their values together. This isn\u0027t an improvement IMHO.\n\nWe should throw an IAE saying that the normalised name of \"foo-bar\" is clashing with \"foo/bar\" but the call should fail.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 68
+      },
+      "revId": "635656070d7468da6654c1762a296cb0a35cfdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

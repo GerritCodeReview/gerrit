@@ -19,11 +19,13 @@ import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 /** Abstract callback metric broken down into buckets. */
 abstract class BucketedCallback<V> implements BucketedMetric {
@@ -36,6 +38,7 @@ abstract class BucketedCallback<V> implements BucketedMetric {
   private final Map<Object, ValueGauge> cells;
   protected volatile Runnable trigger;
   private final Object lock = new Object();
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   BucketedCallback(
       DropWizardMetricMaker metrics,
@@ -103,8 +106,17 @@ abstract class BucketedCallback<V> implements BucketedMetric {
       c = cells.get(key);
       if (c == null) {
         c = new ValueGauge();
-        registry.register(submetric(key), c);
-        cells.put(key, c);
+        try {
+          registry.register(submetric(key), c);
+          cells.put(key, c);
+        } catch (IllegalArgumentException e) {
+          if (cells.containsKey(key)) {
+            throw e;
+          }
+          logger.atWarning().withCause(e).atMostEvery(1, TimeUnit.HOURS).log(
+              "A key named %s normalises to a metric [%s] that already exists for another metric",
+              key, submetric(key));
+        }
       }
       return c;
     }

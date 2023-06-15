@@ -97,7 +97,8 @@ public class ChangeFileContentModification implements TreeModification {
 
     private boolean isValidGitFileMode(int gitFileMode) {
       return (gitFileMode == Patch.FileMode.EXECUTABLE_FILE.getMode())
-          || (gitFileMode == Patch.FileMode.REGULAR_FILE.getMode());
+          || (gitFileMode == Patch.FileMode.REGULAR_FILE.getMode())
+          || (gitFileMode == Patch.FileMode.SYMLINK.getMode());
     }
 
     @Override

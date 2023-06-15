@@ -168,6 +168,8 @@ public abstract class PatchSet {
 
     public abstract Optional<ObjectId> commitId();
 
+    public abstract Builder targetBranch(Optional<String> targetBranch);
+
     public abstract Builder uploader(Account.Id uploader);
 
     public abstract Builder realUploader(Account.Id realUploader);
@@ -202,6 +204,9 @@ public abstract class PatchSet {
    * return {@link ObjectId#zeroId()}.
    */
   public abstract ObjectId commitId();
+
+  /** Name of the target branch where this patch-set should be merged into. */
+  public abstract Optional<String> targetBranch();
 
   /**
    * Account that uploaded the patch set.

@@ -88,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3d03aad_7d808550",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-06-15T06:27:48Z",
+      "side": 1,
+      "message": "ProjectCreator l.119 was added by this change. Do you think that is not sufficient?\n\nTime-boundedness will help with any secondaries in any case :-)",
+      "parentUuid": "87f8bd23_749cef29",
+      "revId": "ca764bb0eb4816dbcf93f0fec6eac1e2ed519990",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2663555c_fd220e2f",

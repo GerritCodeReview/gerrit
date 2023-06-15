@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e40cd7ec_758392ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-06-15T21:39:17Z",
+      "side": 1,
+      "message": "You shouldn\u0027t need to provide internals of how UI is updated in the commit message.",
+      "range": {
+        "startLine": 9,
+        "startChar": 41,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "9f3cb653074bf922ee51330dcb5ea931c2504753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6ac3673_7138269c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-06-15T21:39:17Z",
+      "side": 1,
+      "message": "I don\u0027t think you need to list down the cases here as it is difficult to list all cases. For example you don\u0027t mention cases where user does not have permission to view secondary emails. Also, there is no need to talk about allow_conflicts as existing REST API documentation already mentions that it is not compatible with on_behalf_of. It is probably best to just provide a summary of the change. For example:\n\n```\nAllow rebase with a secondary email via UI\n\nChange I4007b18b updated the backend to allow providing a committer\nemail when performing a rebase. This change updates the UI to show\na list of relevant emails to choose from when rebasing a change. If\nthe rebase is performed on behalf of another user, the drop shows\nthe emails of that user, given that, current user has permissions to\nview their secondary emails.\n```",
+      "revId": "9f3cb653074bf922ee51330dcb5ea931c2504753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6743a536_b8c47982",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-06-15T21:39:17Z",
+      "side": 1,
+      "message": "Can we simplify to\n\n```return this.committerEmailDropdownItems \u0026\u0026 this.committerEmailDropdownItems.length \u003e 1 \u0026\u0026 !this.shouldRebaseChain;```",
+      "range": {
+        "startLine": 435,
+        "startChar": 0,
+        "endLine": 440,
+        "endChar": 17
+      },
+      "revId": "9f3cb653074bf922ee51330dcb5ea931c2504753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c9e7746_d0b1aec4",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-06-15T21:39:17Z",
+      "side": 1,
+      "message": "Rename to ```isLatestCommitterEmailInDropdownItems``` ?",
+      "range": {
+        "startLine": 452,
+        "startChar": 9,
+        "endLine": 452,
+        "endChar": 48
+      },
+      "revId": "9f3cb653074bf922ee51330dcb5ea931c2504753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b6649f9_bce41b0f",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-06-15T21:39:17Z",
+      "side": 1,
+      "message": "Can we simplify to\n\n```return this.committerEmailDropdownItems.some(e \u003d\u003e e.email \u003d\u003d\u003d this.latestCommitter!.email.toString());```",
+      "range": {
+        "startLine": 453,
+        "startChar": 0,
+        "endLine": 458,
+        "endChar": 17
+      },
+      "revId": "9f3cb653074bf922ee51330dcb5ea931c2504753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7b3cbd1_1b6f8cf2",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-06-15T21:39:17Z",
+      "side": 1,
+      "message": "If current-user is the latest-uploader, then are we calling a rest-api to get the emails for the same user again?",
+      "range": {
+        "startLine": 482,
+        "startChar": 14,
+        "endLine": 482,
+        "endChar": 68
+      },
+      "revId": "9f3cb653074bf922ee51330dcb5ea931c2504753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

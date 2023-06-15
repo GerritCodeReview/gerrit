@@ -102,6 +102,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9e9481ab_f4b8983d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-15T07:51:46Z",
+      "side": 1,
+      "message": "\u003e Who\u0027s coming first? The batch first and all the individual afterwards?\nFirst we are notifying all batch listeners and then individual ones\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/extensions/events/GitReferenceUpdated.java#143\n\n\u003e have you considered making it configurable? How does it work if you have both enabled? (individual refs and batch refs)\n\nI can add a feature flat that should be a simple code change but I was wondering if we want to disable `ref-updated` events? If we enable both events first we send the `batch-ref-updated` one and then individual `ref-updated` events for every ref in the batch.\n\nI\u0027ve checked in the code and we always notify `GitBatchRefUpdateListener` even for single ref update[1][2]. This means that we don\u0027t need to listen to both event types we can focus only on `batch-ref-updated` events. But we are not ready to disable `ref-updated` events because some parts of Gerrit still rely on them, for example hooks and webhooks. \n\nOn the other hand I understand need to be able to disable `batch-ref-updates` we can have some external systems which can fail processing stream events if the see new event type. I will add a feature flag for that\n\n1. https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/extensions/events/GitReferenceUpdated.java#143\n\n2. https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/extensions/events/GitReferenceUpdated.java#138",
+      "parentUuid": "af6de935_1e96cfda",
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "78bbf88e_835b6172",
         "filename": "java/com/google/gerrit/server/events/BatchRefUpdateEvent.java",
         "patchSetId": 1

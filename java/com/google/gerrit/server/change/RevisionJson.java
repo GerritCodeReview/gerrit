@@ -294,6 +294,8 @@ public class RevisionJson {
     out._number = in.id().get();
     out.ref = in.refName();
     out.setCreated(in.createdOn());
+    out.branch =
+        in.targetBranch().isPresent() ? in.targetBranch().get() : cd.change().getDest().branch();
     out.uploader = accountLoader.get(in.uploader());
     if (!in.uploader().equals(in.realUploader())) {
       out.realUploader = accountLoader.get(in.realUploader());
@@ -311,7 +313,7 @@ public class RevisionJson {
       String rev = in.commitId().name();
       RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));
       rw.parseBody(commit);
-      String branchName = cd.change().getDest().branch();
+      String branchName = out.branch;
       if (setCommit) {
         out.commit =
             getCommitInfo(

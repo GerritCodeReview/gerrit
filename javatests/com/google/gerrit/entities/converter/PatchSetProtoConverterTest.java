@@ -47,6 +47,7 @@ public class PatchSetProtoConverterTest {
             .groups(ImmutableList.of("group1", " group2"))
             .pushCertificate("my push certificate")
             .description("This is a patch set description.")
+            .branch(Optional.of("refs/heads/master"))
             .build();
 
     Entities.PatchSet proto = patchSetProtoConverter.toProto(patchSet);
@@ -65,6 +66,7 @@ public class PatchSetProtoConverterTest {
             .setGroups("group1, group2")
             .setPushCertificate("my push certificate")
             .setDescription("This is a patch set description.")
+            .setBranch("refs/heads/master")
             .build();
     assertThat(proto).isEqualTo(expectedProto);
   }
@@ -109,6 +111,7 @@ public class PatchSetProtoConverterTest {
             .groups(ImmutableList.of("group1", " group2"))
             .pushCertificate("my push certificate")
             .description("This is a patch set description.")
+            .branch(Optional.of("refs/heads/master"))
             .build();
 
     PatchSet convertedPatchSet =
@@ -191,6 +194,7 @@ public class PatchSetProtoConverterTest {
                 .put("groups", new TypeLiteral<ImmutableList<String>>() {}.getType())
                 .put("pushCertificate", new TypeLiteral<Optional<String>>() {}.getType())
                 .put("description", new TypeLiteral<Optional<String>>() {}.getType())
+                .put("branch", new TypeLiteral<Optional<String>>() {}.getType())
                 .build());
   }
 }

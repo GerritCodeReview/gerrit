@@ -458,6 +458,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9871efe6_1726f1b3",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-15T17:37:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29fa5286_580477de",
+      "range": {
+        "startLine": 113,
+        "startChar": 8,
+        "endLine": 114,
+        "endChar": 36
+      },
+      "revId": "cb926c5bd86b07c1c7267aa2ba2439ac5650bb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a3ee27e_b06e2989",

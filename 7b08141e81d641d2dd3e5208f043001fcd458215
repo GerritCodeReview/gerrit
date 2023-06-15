@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea90b7bd_492abb33",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-15T17:37:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4f6bd72_91854496",
+      "range": {
+        "startLine": 126,
+        "startChar": 37,
+        "endLine": 126,
+        "endChar": 55
+      },
+      "revId": "7b08141e81d641d2dd3e5208f043001fcd458215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bfa906c6_af6a3ac5",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-06-14T23:17:12Z",
       "side": 1,
       "message": "I think it\u0027s no longer limited by index results, correct?",
+      "range": {
+        "startLine": 33,
+        "startChar": 69,
+        "endLine": 34,
+        "endChar": 16
+      },
+      "revId": "7b08141e81d641d2dd3e5208f043001fcd458215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9bc65ae_fca3bbbe",
+        "filename": "java/com/google/gerrit/server/permissions/VisibleChangesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-15T17:37:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfa906c6_af6a3ac5",
       "range": {
         "startLine": 33,
         "startChar": 69,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2806e5be_537aea0a",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-15T17:37:54Z",
+      "side": 1,
+      "message": "I am trying to avoid duplicating the Project data stored on line 320.",
+      "parentUuid": "ff774659_acd1e077",
+      "range": {
+        "startLine": 347,
+        "startChar": 10,
+        "endLine": 347,
+        "endChar": 16
+      },
+      "revId": "7b08141e81d641d2dd3e5208f043001fcd458215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a0fe0065_f0f42dbd",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 3
@@ -83,6 +155,30 @@
       "writtenOn": "2023-06-14T23:17:12Z",
       "side": 1,
       "message": "I wonder if this shouldn\u0027t be `metaRevision`. I know the ChangeNotes method is just `getRevision` but here we don\u0027t have the context of notedb. I think we\u0027ll want the eventual indexed field to have the same name and using the meta prefix helps keep it clear to me.",
+      "range": {
+        "startLine": 350,
+        "startChar": 19,
+        "endLine": 350,
+        "endChar": 27
+      },
+      "revId": "7b08141e81d641d2dd3e5208f043001fcd458215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de2e579e_e75b9db4",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-15T17:37:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0fe0065_f0f42dbd",
       "range": {
         "startLine": 350,
         "startChar": 19,
@@ -106,6 +202,24 @@
       "writtenOn": "2023-06-14T23:17:12Z",
       "side": 1,
       "message": "nit: move below any public methods (or at least below the last public method that uses it?)?",
+      "revId": "7b08141e81d641d2dd3e5208f043001fcd458215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9df838ed_5be1bacf",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-15T17:37:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c382a426_22973bac",
       "revId": "7b08141e81d641d2dd3e5208f043001fcd458215",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91bb560b_345c95bf",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3665,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-15T12:00:55Z",
+      "side": 1,
+      "message": "```suggestion\nrefs updated during a single batch ref update operation.\n```",
+      "range": {
+        "startLine": 3665,
+        "startChar": 5,
+        "endLine": 3665,
+        "endChar": 20
+      },
+      "revId": "86f0864e67b9574162cb01fbc8b100c092ccb99f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

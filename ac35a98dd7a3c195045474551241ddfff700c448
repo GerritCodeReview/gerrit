@@ -310,6 +310,24 @@
       "parentUuid": "949c0d5d_9a4f1a25",
       "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5665846_a21209a5",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-15T12:00:55Z",
+      "side": 1,
+      "message": "I guess the point i am missing is this\n\u003e Those events can be consumed by EventListener implemementations\n\nI dont know how/where this happens, if you could point to the code (or explain it a bit) then that would be much appreciated!",
+      "parentUuid": "717caa96_d769fcbf",
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

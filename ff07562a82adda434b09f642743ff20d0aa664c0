@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fdfc821_021ae81b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-06-15T23:22:42Z",
+      "side": 1,
+      "message": "[nit] You don\u0027t have to specify internal file names.",
+      "range": {
+        "startLine": 9,
+        "startChar": 23,
+        "endLine": 9,
+        "endChar": 51
+      },
+      "revId": "ff07562a82adda434b09f642743ff20d0aa664c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4242419_9bdeb792",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-06-15T23:22:42Z",
+      "side": 1,
+      "message": "select one of their secondary emails as the committer email",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 38
+      },
+      "revId": "ff07562a82adda434b09f642743ff20d0aa664c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d98f94c_a65c9c3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-06-15T23:22:42Z",
+      "side": 1,
+      "message": "their?",
+      "range": {
+        "startLine": 12,
+        "startChar": 14,
+        "endLine": 12,
+        "endChar": 17
+      },
+      "revId": "ff07562a82adda434b09f642743ff20d0aa664c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4de0f81e_5586b0aa",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-06-15T23:22:42Z",
+      "side": 1,
+      "message": "Cherry Pick",
+      "range": {
+        "startLine": 289,
+        "startChar": 59,
+        "endLine": 289,
+        "endChar": 70
+      },
+      "revId": "ff07562a82adda434b09f642743ff20d0aa664c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7756cd5c_2f831227",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-06-15T23:22:42Z",
+      "side": 1,
+      "message": "rename to canShowEmailDropdown?",
+      "range": {
+        "startLine": 682,
+        "startChar": 10,
+        "endLine": 682,
+        "endChar": 27
+      },
+      "revId": "ff07562a82adda434b09f642743ff20d0aa664c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f579c52e_669c3d7b",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-06-15T23:22:42Z",
+      "side": 1,
+      "message": "rename to getEmailDropdownItems?",
+      "range": {
+        "startLine": 686,
+        "startChar": 10,
+        "endLine": 686,
+        "endChar": 35
+      },
+      "revId": "ff07562a82adda434b09f642743ff20d0aa664c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

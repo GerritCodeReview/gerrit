@@ -36,6 +36,7 @@ public class RevisionInfo {
   public String ref;
   public Map<String, FetchInfo> fetch;
   public CommitInfo commit;
+  public String branch;
   public Map<String, FileInfo> files;
   public Map<String, ActionInfo> actions;
   public String commitWithFooters;
@@ -77,6 +78,7 @@ public class RevisionInfo {
           && Objects.equals(ref, revisionInfo.ref)
           && Objects.equals(fetch, revisionInfo.fetch)
           && Objects.equals(commit, revisionInfo.commit)
+          && Objects.equals(branch, revisionInfo.branch)
           && Objects.equals(files, revisionInfo.files)
           && Objects.equals(actions, revisionInfo.actions)
           && Objects.equals(commitWithFooters, revisionInfo.commitWithFooters)
@@ -98,6 +100,7 @@ public class RevisionInfo {
         ref,
         fetch,
         commit,
+        branch,
         files,
         actions,
         commitWithFooters,

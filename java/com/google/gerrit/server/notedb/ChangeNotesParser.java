@@ -175,6 +175,7 @@ class ChangeNotesParser {
   private final List<ChangeMessage> allChangeMessages;
 
   // Non-final private members filled in during the parsing process.
+  private Map<PatchSet.Id, String> branchByPatchSet;
   private String branch;
   private Change.Status status;
   private String topic;
@@ -229,6 +230,7 @@ class ChangeNotesParser {
     allPastReviewers = new ArrayList<>();
     reviewerUpdates = new ArrayList<>();
     latestAttentionStatus = new HashMap<>();
+    branchByPatchSet = new HashMap<>();
     allAttentionSetUpdates = new ArrayList<>();
     submitRecords = Lists.newArrayListWithExpectedSize(1);
     allChangeMessages = new ArrayList<>();
@@ -322,7 +324,11 @@ class ChangeNotesParser {
     Map<PatchSet.Id, PatchSet> result = Maps.newHashMapWithExpectedSize(patchSets.size());
     for (Map.Entry<PatchSet.Id, PatchSet.Builder> e : patchSets.entrySet()) {
       try {
-        PatchSet ps = e.getValue().build();
+        PatchSet.Builder psBuilder = e.getValue();
+        if (branchByPatchSet.containsKey(e.getKey())) {
+          psBuilder.targetBranch(Optional.of(branchByPatchSet.get(e.getKey())));
+        }
+        PatchSet ps = psBuilder.build();
         result.put(ps.id(), ps);
       } catch (Exception ex) {
         ConfigInvalidException cie = parseException("Error building patch set %s", e.getKey());
@@ -454,10 +460,6 @@ class ChangeNotesParser {
     createdOn = commitTimestamp;
     parseTag(commit);
 
-    if (branch == null) {
-      branch = parseBranch(commit);
-    }
-
     PatchSet.Id psId = parsePatchSetId(commit);
     PatchSetState psState = parsePatchSetState(commit);
     if (psState != null) {
@@ -466,6 +468,30 @@ class ChangeNotesParser {
       }
       if (psState == PatchSetState.DELETED) {
         deletedPatchSets.add(psId);
+      }
+    }
+
+    branch = parseBranch(commit);
+
+    if (branch != null) {
+      if (patchSets != null) {
+        for (PatchSet.Id ps : patchSets.keySet()) {
+          // Change notes commits are parsed from the tip of the meta ref (which points at the
+          // last state of the change) backwards to the first commit.
+          // The branch footer is stored in the first change note commit, then stored again if the
+          // change is moved. For example if a change has five patch-sets and the change was moved
+          // in PS2, then change notes commits will have the 'branch' footer at two of the commits
+          // representing PS1 and PS2.
+          // Due to our backwards traversal, once we have a value for 'branch', we propagate its
+          // value to the current and later patch-sets.
+          if (!branchByPatchSet.containsKey(ps)) {
+            branchByPatchSet.put(ps, branch);
+          }
+        }
+      }
+      // Current patch-set is not yet available in patchSets. Check it as well.
+      if (!branchByPatchSet.containsKey(psId)) {
+        branchByPatchSet.put(psId, branch);
       }
     }
 

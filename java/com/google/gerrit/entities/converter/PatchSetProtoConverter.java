@@ -22,6 +22,7 @@ import com.google.gerrit.proto.Entities;
 import com.google.protobuf.Parser;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
 @Immutable
@@ -43,7 +44,9 @@ public enum PatchSetProtoConverter implements ProtoConverter<Entities.PatchSet, 
             .setCommitId(objectIdConverter.toProto(patchSet.commitId()))
             .setUploaderAccountId(accountIdConverter.toProto(patchSet.uploader()))
             .setRealUploaderAccountId(accountIdConverter.toProto(patchSet.realUploader()))
-            .setCreatedOn(patchSet.createdOn().toEpochMilli());
+            .setCreatedOn(patchSet.createdOn().toEpochMilli())
+            .setTargetBranch(
+                patchSet.targetBranch().isEmpty() ? "" : patchSet.targetBranch().get());
     List<String> groups = patchSet.groups();
     if (!groups.isEmpty()) {
       builder.setGroups(PatchSet.joinGroups(groups));
@@ -65,6 +68,9 @@ public enum PatchSetProtoConverter implements ProtoConverter<Entities.PatchSet, 
     }
     if (proto.hasDescription()) {
       builder.description(proto.getDescription());
+    }
+    if (proto.hasTargetBranch()) {
+      builder.targetBranch(Optional.of(proto.getTargetBranch()));
     }
 
     // The following fields used to theoretically be nullable in PatchSet, but in practice no

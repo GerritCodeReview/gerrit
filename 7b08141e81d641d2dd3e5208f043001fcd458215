@@ -142,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8dccf44_69f78061",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-15T18:08:25Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "2806e5be_537aea0a",
+      "range": {
+        "startLine": 347,
+        "startChar": 10,
+        "endLine": 347,
+        "endChar": 16
+      },
+      "revId": "7b08141e81d641d2dd3e5208f043001fcd458215",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0fe0065_f0f42dbd",

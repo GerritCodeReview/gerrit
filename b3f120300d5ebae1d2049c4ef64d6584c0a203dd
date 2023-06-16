@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31efbf52_49108767",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-16T21:52:34Z",
+      "side": 1,
+      "message": "This is merging the wrong base commit from stable-3.7:\nis merging 7bf0b10c73bf07a45d806da6c98d28006379aa4c (PS1 of Change 377294) whilst it should be 51700b69812125cfac33dbb30c80ec3984ac2e90 (head of stable-3.7)",
+      "revId": "b3f120300d5ebae1d2049c4ef64d6584c0a203dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

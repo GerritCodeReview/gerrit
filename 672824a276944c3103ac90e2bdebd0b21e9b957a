@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb353d21_d42d76cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-16T18:18:16Z",
+      "side": 1,
+      "message": "Missing `Release-Notes: skip`",
+      "revId": "672824a276944c3103ac90e2bdebd0b21e9b957a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ce7e023_e229cf91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-16T18:18:16Z",
+      "side": 1,
+      "message": "Needs re-merge",
+      "revId": "672824a276944c3103ac90e2bdebd0b21e9b957a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -64,6 +64,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2215948_7022b251",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2579,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-16T16:00:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "471469b7_c3efd52e",
+      "range": {
+        "startLine": 2578,
+        "startChar": 74,
+        "endLine": 2579,
+        "endChar": 17
+      },
+      "revId": "edf9f48948a6ef3bbb2419095d27184f10dcd1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95d550fb_dd3c90a6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2579,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-16T16:00:37Z",
+      "side": 1,
+      "message": "true",
+      "parentUuid": "f688ef6a_9abfb080",
+      "range": {
+        "startLine": 2579,
+        "startChar": 51,
+        "endLine": 2579,
+        "endChar": 73
+      },
+      "revId": "edf9f48948a6ef3bbb2419095d27184f10dcd1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60b6fbeb_bfa18a4f",
@@ -77,6 +125,30 @@
       "writtenOn": "2023-06-16T09:31:00Z",
       "side": 1,
       "message": "Just put an example of search condition instead? `project:someproject branch:main changeId:I78a7add1fe2597cad788c833d8f771f09b54cf33`",
+      "range": {
+        "startLine": 2580,
+        "startChar": 1,
+        "endLine": 2580,
+        "endChar": 85
+      },
+      "revId": "edf9f48948a6ef3bbb2419095d27184f10dcd1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eae9f975_6e5aea3b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2580,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-16T16:00:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60b6fbeb_bfa18a4f",
       "range": {
         "startLine": 2580,
         "startChar": 1,

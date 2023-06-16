@@ -14,12 +14,15 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.entities.Patch.FileMode.EXECUTABLE_FILE;
+import static com.google.gerrit.entities.Patch.FileMode.REGULAR_FILE;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.ByteStreams;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
@@ -309,6 +312,23 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
       return apply(rsrc.getChangeResource(), rsrc.getPath(), fileContentInput);
     }
 
+    @Nullable
+    private Integer decimalAsOctal(Integer inputMode) throws BadRequestException {
+      if (inputMode == null) {
+        return null;
+      }
+
+      switch (inputMode) {
+        case 100755:
+          return EXECUTABLE_FILE.getMode();
+        case 100644:
+          return REGULAR_FILE.getMode();
+      }
+
+      throw new BadRequestException(
+          "file_mode (" + inputMode + ") was invalid: supported values are 100644 or 100755.");
+    }
+
     public Response<Object> apply(
         ChangeResource rsrc, String path, FileContentInput fileContentInput)
         throws AuthException, BadRequestException, ResourceConflictException, IOException,
@@ -341,17 +361,13 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
         throw new ResourceConflictException("Invalid path: " + path);
       }
 
-      if (fileContentInput.fileMode != null) {
-        if ((fileContentInput.fileMode != 100644) && (fileContentInput.fileMode != 100755)) {
-          throw new BadRequestException(
-              "file_mode ("
-                  + fileContentInput.fileMode
-                  + ") was invalid: supported values are 0, 644, or 755.");
-        }
-      }
       try (Repository repository = repositoryManager.openRepository(rsrc.getProject())) {
         editModifier.modifyFile(
-            repository, rsrc.getNotes(), path, newContent, fileContentInput.fileMode);
+            repository,
+            rsrc.getNotes(),
+            path,
+            newContent,
+            decimalAsOctal(fileContentInput.fileMode));
       } catch (InvalidChangeOperationException e) {
         throw new ResourceConflictException(e.getMessage());
       }

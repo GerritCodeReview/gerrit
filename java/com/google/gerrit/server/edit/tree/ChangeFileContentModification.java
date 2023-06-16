@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.restapi.RawInput;
 import java.io.IOException;
 import java.io.InputStream;
@@ -95,7 +96,8 @@ public class ChangeFileContentModification implements TreeModification {
     }
 
     private boolean isValidGitFileMode(int gitFileMode) {
-      return (gitFileMode == 100755) || (gitFileMode == 100644);
+      return (gitFileMode == Patch.FileMode.EXECUTABLE_FILE.getMode())
+          || (gitFileMode == Patch.FileMode.REGULAR_FILE.getMode());
     }
 
     @Override

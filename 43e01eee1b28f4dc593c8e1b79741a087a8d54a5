@@ -16,6 +16,24 @@
       "message": "Why not also use `FileMode.TYPE_SYMLINK` here?",
       "revId": "43e01eee1b28f4dc593c8e1b79741a087a8d54a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48ccd896_c03b50fb",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1064086
+      },
+      "writtenOn": "2023-06-16T19:27:46Z",
+      "side": 1,
+      "message": "Nevermind. Did not notice that this was not the octal modes.",
+      "parentUuid": "e4ff878c_ab36f02e",
+      "revId": "43e01eee1b28f4dc593c8e1b79741a087a8d54a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

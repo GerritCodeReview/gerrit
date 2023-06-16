@@ -58,10 +58,11 @@ suite('gr-diff-mode-selector tests', () => {
             class="selected"
             aria-disabled="false"
             aria-pressed="true"
+            aria-label="Side-by-side diff"
             role="button"
             tabindex="0"
           >
-            <gr-icon icon="view_column_2" filled></gr-icon>
+            <gr-icon icon="view_column_2" filled aria-hidden="true"></gr-icon>
           </gr-button>
         </gr-tooltip-content>
         <gr-tooltip-content has-tooltip title="Unified diff">
@@ -71,9 +72,14 @@ suite('gr-diff-mode-selector tests', () => {
             role="button"
             aria-disabled="false"
             aria-pressed="false"
+            aria-label="Unified diff"
             tabindex="0"
           >
-            <gr-icon filled icon="calendar_view_day"></gr-icon>
+            <gr-icon
+              filled
+              icon="calendar_view_day"
+              aria-hidden="true"
+            ></gr-icon>
           </gr-button>
         </gr-tooltip-content>
       `
@@ -100,10 +106,11 @@ suite('gr-diff-mode-selector tests', () => {
             class=""
             aria-disabled="false"
             aria-pressed="false"
+            aria-label="Side-by-side diff"
             role="button"
             tabindex="0"
           >
-            <gr-icon icon="view_column_2" filled></gr-icon>
+            <gr-icon icon="view_column_2" filled aria-hidden="true"></gr-icon>
           </gr-button>
         </gr-tooltip-content>
         <gr-tooltip-content has-tooltip title="Unified diff">
@@ -114,9 +121,14 @@ suite('gr-diff-mode-selector tests', () => {
             role="button"
             aria-disabled="false"
             aria-pressed="true"
+            aria-label="Unified diff"
             tabindex="0"
           >
-            <gr-icon icon="calendar_view_day" filled></gr-icon>
+            <gr-icon
+              icon="calendar_view_day"
+              filled
+              aria-hidden="true"
+            ></gr-icon>
           </gr-button>
         </gr-tooltip-content>
       `

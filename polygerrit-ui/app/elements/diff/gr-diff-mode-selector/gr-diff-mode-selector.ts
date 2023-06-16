@@ -89,9 +89,10 @@ export class GrDiffModeSelector extends LitElement {
           link
           class=${this.computeSideBySideSelected()}
           aria-pressed=${this.isSideBySideSelected()}
+          aria-label="Side-by-side diff"
           @click=${this.handleSideBySideTap}
         >
-          <gr-icon icon="view_column_2" filled></gr-icon>
+          <gr-icon icon="view_column_2" filled aria-hidden="true"></gr-icon>
         </gr-button>
       </gr-tooltip-content>
       <gr-tooltip-content
@@ -104,9 +105,10 @@ export class GrDiffModeSelector extends LitElement {
           link
           class=${this.computeUnifiedSelected()}
           aria-pressed=${this.isUnifiedSelected()}
+          aria-label="Unified diff"
           @click=${this.handleUnifiedTap}
         >
-          <gr-icon icon="calendar_view_day" filled></gr-icon>
+          <gr-icon icon="calendar_view_day" filled aria-hidden="true"></gr-icon>
         </gr-button>
       </gr-tooltip-content>
     `;

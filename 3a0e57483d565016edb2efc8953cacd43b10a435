@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2eca0a14_11c3466a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-16T12:09:46Z",
+      "side": 1,
+      "message": "invalidate ChangeNotesCache?",
+      "range": {
+        "startLine": 30,
+        "startChar": 19,
+        "endLine": 30,
+        "endChar": 30
+      },
+      "revId": "3a0e57483d565016edb2efc8953cacd43b10a435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40984867_9b625812",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 8686,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-16T12:09:46Z",
+      "side": 1,
+      "message": "This field is named same as the one in ChangeInfo for consistency. Good!",
+      "range": {
+        "startLine": 8686,
+        "startChar": 2,
+        "endLine": 8686,
+        "endChar": 8
+      },
+      "revId": "3a0e57483d565016edb2efc8953cacd43b10a435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d98121f_de1c9aab",
+        "filename": "java/com/google/gerrit/entities/PatchSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-16T12:09:46Z",
+      "side": 1,
+      "message": "Name this to `branch` for consistency with the API.",
+      "range": {
+        "startLine": 171,
+        "startChar": 28,
+        "endLine": 171,
+        "endChar": 40
+      },
+      "revId": "3a0e57483d565016edb2efc8953cacd43b10a435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85ceeab3_6ddb7d97",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-16T12:09:46Z",
+      "side": 1,
+      "message": "Add a comment that we\u0027re falling back to per-changes branch if the per-patchset branch is not available.",
+      "revId": "3a0e57483d565016edb2efc8953cacd43b10a435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9ae9e86_3dda8b93",
+        "filename": "javatests/com/google/gerrit/entities/converter/PatchSetProtoConverterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-16T12:09:46Z",
+      "side": 1,
+      "message": "also test de/serialization of the new field.",
+      "revId": "3a0e57483d565016edb2efc8953cacd43b10a435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c250873_e958522e",
+        "filename": "proto/entities.proto",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-16T12:09:46Z",
+      "side": 1,
+      "message": "nit: please increase",
+      "range": {
+        "startLine": 92,
+        "startChar": 12,
+        "endLine": 92,
+        "endChar": 14
+      },
+      "revId": "3a0e57483d565016edb2efc8953cacd43b10a435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

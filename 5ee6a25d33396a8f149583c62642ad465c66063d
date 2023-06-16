@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4b6f0778_e39ae8d6",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-06-16T11:11:24Z",
+      "side": 1,
+      "message": "Ack, you might have to update the docs for RestApiException and say \"or ...\"",
+      "parentUuid": "cf4a07f2_3587b9b3",
+      "revId": "5ee6a25d33396a8f149583c62642ad465c66063d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0350f45d_4532d4d1",
         "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
         "patchSetId": 1

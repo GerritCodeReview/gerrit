@@ -22,6 +22,30 @@
       },
       "revId": "9ee1055ab899e21c668ace3e91b7d2c06b364c28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d69f46d3_77fe770d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-selector/gr-diff-mode-selector.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-06-16T10:10:47Z",
+      "side": 1,
+      "message": "Then let\u0027s keep it. It was reported that `view_column_2` was actually exposed by the screen reader. That is not helpful, so hiding this element completely makes some sense.",
+      "parentUuid": "cbed49c6_b4062332",
+      "range": {
+        "startLine": 95,
+        "startChar": 47,
+        "endLine": 95,
+        "endChar": 65
+      },
+      "revId": "9ee1055ab899e21c668ace3e91b7d2c06b364c28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cc7e81d_5d8dd0f8",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-06-16T17:55:31Z",
+      "side": 1,
+      "message": "When rebase is being performed on behalf of uploader, `currentUserEmails` is unused which implies that we perform an api call unnecessarily? Can we instead load the emails of current user on demand?",
+      "range": {
+        "startLine": 473,
+        "startChar": 4,
+        "endLine": 473,
+        "endChar": 75
+      },
+      "revId": "88a2fb5811c22f2f3e62c8e8219a282e33bed008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

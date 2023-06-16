@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e718a67_d4142780",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-16T08:41:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb278c85_b3dc31dc",
+      "range": {
+        "startLine": 9,
+        "startChar": 17,
+        "endLine": 9,
+        "endChar": 21
+      },
+      "revId": "3fa756fdbde8263e3c6f631eb106f7ff46a46897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9ac33c8_d0adc495",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-16T08:41:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cd96c02_bb1afc85",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 9
+      },
+      "revId": "3fa756fdbde8263e3c6f631eb106f7ff46a46897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd9bc879_cbf92f0e",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-06-15T22:20:04Z",
       "side": 1,
       "message": "had been",
+      "range": {
+        "startLine": 10,
+        "startChar": 12,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "3fa756fdbde8263e3c6f631eb106f7ff46a46897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "396dfd7d_cbf8b13f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-16T08:41:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd9bc879_cbf92f0e",
       "range": {
         "startLine": 10,
         "startChar": 12,
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fecf58f5_67fd36bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-16T08:41:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe72351e_0b2e11e6",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 19
+      },
+      "revId": "3fa756fdbde8263e3c6f631eb106f7ff46a46897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e50488d_d6104537",
@@ -106,6 +202,30 @@
       "writtenOn": "2023-06-15T22:20:04Z",
       "side": 1,
       "message": "Maybe add a link to the documentation that warns about it?",
+      "range": {
+        "startLine": 15,
+        "startChar": 26,
+        "endLine": 15,
+        "endChar": 35
+      },
+      "revId": "3fa756fdbde8263e3c6f631eb106f7ff46a46897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07dcead3_50ba4d5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-16T08:41:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e50488d_d6104537",
       "range": {
         "startLine": 15,
         "startChar": 26,
@@ -139,6 +259,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fac57234_94548f78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-16T08:41:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f34baa26_8e182cf3",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 29
+      },
+      "revId": "3fa756fdbde8263e3c6f631eb106f7ff46a46897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1cb1dc1_4d22692d",
@@ -162,6 +306,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2479ad3e_76745dea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-16T08:41:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1cb1dc1_4d22692d",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 7
+      },
+      "revId": "3fa756fdbde8263e3c6f631eb106f7ff46a46897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be9abe06_1fc2751b",
@@ -175,6 +343,24 @@
       "writtenOn": "2023-06-16T06:04:40Z",
       "side": 1,
       "message": "Missing `Release-Notes` footer.",
+      "revId": "3fa756fdbde8263e3c6f631eb106f7ff46a46897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5dc83ec_424eb803",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-16T08:41:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be9abe06_1fc2751b",
       "revId": "3fa756fdbde8263e3c6f631eb106f7ff46a46897",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

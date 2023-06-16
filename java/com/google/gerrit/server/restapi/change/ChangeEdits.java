@@ -69,6 +69,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -309,6 +310,23 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
       return apply(rsrc.getChangeResource(), rsrc.getPath(), fileContentInput);
     }
 
+    private Integer inputToGitFileMode(Integer inputMode) throws BadRequestException {
+      if (inputMode == null) {
+        return null;
+      }
+
+      switch (inputMode) {
+        case 100755:
+          return 0100755;
+        case 100644:
+          return 0100644;
+        case 120000:
+          return FileMode.TYPE_SYMLINK;
+      }
+
+      throw new BadRequestException("unknown git file mode: " + inputMode);
+    }
+
     public Response<Object> apply(
         ChangeResource rsrc, String path, FileContentInput fileContentInput)
         throws AuthException, BadRequestException, ResourceConflictException, IOException,
@@ -351,7 +369,11 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
       }
       try (Repository repository = repositoryManager.openRepository(rsrc.getProject())) {
         editModifier.modifyFile(
-            repository, rsrc.getNotes(), path, newContent, fileContentInput.fileMode);
+            repository,
+            rsrc.getNotes(),
+            path,
+            newContent,
+            inputToGitFileMode(fileContentInput.fileMode));
       } catch (InvalidChangeOperationException e) {
         throw new ResourceConflictException(e.getMessage());
       }

@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65b34596_520db757",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-16T09:31:00Z",
+      "side": 1,
+      "message": "Missing `Release-Notes` footer",
+      "revId": "edf9f48948a6ef3bbb2419095d27184f10dcd1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f688ef6a_9abfb080",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2579,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-16T09:31:00Z",
+      "side": 1,
+      "message": "That\u0027s not true, just amend with `but still discoverable in any other way`.",
+      "range": {
+        "startLine": 2579,
+        "startChar": 51,
+        "endLine": 2579,
+        "endChar": 73
+      },
+      "revId": "edf9f48948a6ef3bbb2419095d27184f10dcd1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "471469b7_c3efd52e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2579,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-16T09:31:00Z",
+      "side": 1,
+      "message": "Just join the statements with `but`",
+      "range": {
+        "startLine": 2578,
+        "startChar": 74,
+        "endLine": 2579,
+        "endChar": 17
+      },
+      "revId": "edf9f48948a6ef3bbb2419095d27184f10dcd1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60b6fbeb_bfa18a4f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2580,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-16T09:31:00Z",
+      "side": 1,
+      "message": "Just put an example of search condition instead? `project:someproject branch:main changeId:I78a7add1fe2597cad788c833d8f771f09b54cf33`",
+      "range": {
+        "startLine": 2580,
+        "startChar": 1,
+        "endLine": 2580,
+        "endChar": 85
+      },
+      "revId": "edf9f48948a6ef3bbb2419095d27184f10dcd1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

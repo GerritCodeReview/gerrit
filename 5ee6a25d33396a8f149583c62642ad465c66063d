@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "32863cc1_933589b0",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-06-16T11:32:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b6f0778_e39ae8d6",
+      "revId": "5ee6a25d33396a8f149583c62642ad465c66063d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0350f45d_4532d4d1",

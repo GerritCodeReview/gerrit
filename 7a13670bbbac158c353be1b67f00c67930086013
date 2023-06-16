@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b617dfef_9ddc1b50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-16T14:32:02Z",
+      "side": 1,
+      "message": "We figured this out offline: it\u0027s because the newly added data are per-change and not per-file.",
+      "parentUuid": "64578951_1ab18159",
+      "range": {
+        "startLine": 20,
+        "startChar": 28,
+        "endLine": 20,
+        "endChar": 36
+      },
+      "revId": "7a13670bbbac158c353be1b67f00c67930086013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f4816eb5_0f3caae5",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc0b1163_f2318801",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-16T14:32:02Z",
+      "side": 1,
+      "message": "\u003e So I think it is vital that we design the UX and the messaging for the end user first.\n\n+1. Makes perfect sense.\n\n\u003e Naively, I would map each parent to either a change number (parent is a pending change) or to the name of the branch (parent is a commit in the target branch).\n\nI haven\u0027t thought of it this way. Thanks for bringing another perspective. We can work on a UX first.\n\nUpdate: we worked more on this suggestion and I added another change https://gerrit-review.git.corp.google.com/c/gerrit/+/377174.",
+      "parentUuid": "f4816eb5_0f3caae5",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 0
+      },
+      "revId": "7a13670bbbac158c353be1b67f00c67930086013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f40dbfd9_071f7bc9",
@@ -60,6 +108,24 @@
       "writtenOn": "2023-06-06T20:16:18Z",
       "side": 1,
       "message": "If `base` is not set in the request, then is \"relation type\" meaningful? Will it always be `LHS_PARENT_OF_RHS` then?",
+      "revId": "7a13670bbbac158c353be1b67f00c67930086013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffb4d4d7_2adc5502",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-16T14:32:02Z",
+      "side": 1,
+      "message": "Yes, but not exactly. You\u0027ll either get LHS_PARENT_OF_RHS or MERGE_COMMIT (the latter if any of the LHS or RHS is a merge commit).\n\nWhile this is a little redundant, I wanted the API to accept the same input parameters as \u0027List Files\u0027.",
+      "parentUuid": "f40dbfd9_071f7bc9",
       "revId": "7a13670bbbac158c353be1b67f00c67930086013",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

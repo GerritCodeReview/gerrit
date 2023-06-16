@@ -22,6 +22,30 @@
       },
       "revId": "eb4f2b67c208bebf29829868bbe235d9ccd15619",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfaf8986_d26b03ec",
+        "filename": "java/com/google/gerrit/server/project/ProjectCreator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-06-16T05:27:58Z",
+      "side": 1,
+      "message": "Correct. Otherwise I would have had to modify the tests that check how often we index documents to count 2 reindex calls iso 1 when a project is created. Looked better to me this way.",
+      "parentUuid": "f597e6ef_24ec9ae0",
+      "range": {
+        "startLine": 119,
+        "startChar": 23,
+        "endLine": 119,
+        "endChar": 28
+      },
+      "revId": "eb4f2b67c208bebf29829868bbe235d9ccd15619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

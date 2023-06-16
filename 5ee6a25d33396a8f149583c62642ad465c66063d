@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e5c970d_0988c885",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-06-16T05:38:52Z",
+      "side": 1,
+      "message": "Missing docs for new Exception. and also in throws on 252?",
+      "revId": "5ee6a25d33396a8f149583c62642ad465c66063d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0350f45d_4532d4d1",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-06-16T05:38:52Z",
+      "side": 1,
+      "message": "I don\u0027t think ResourceConflictException is appropriate here? In\u0027t it an illegal argument exception?",
+      "range": {
+        "startLine": 313,
+        "startChar": 20,
+        "endLine": 313,
+        "endChar": 45
+      },
+      "revId": "5ee6a25d33396a8f149583c62642ad465c66063d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

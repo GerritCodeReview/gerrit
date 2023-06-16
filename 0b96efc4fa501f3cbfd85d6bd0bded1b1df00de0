@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d6882bc_f6ca2306",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-06-16T11:43:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6390e2eb_3172ebcd",
+      "range": {
+        "startLine": 34,
+        "startChar": 7,
+        "endLine": 34,
+        "endChar": 69
+      },
+      "revId": "0b96efc4fa501f3cbfd85d6bd0bded1b1df00de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6503bb93_9564ed8d",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-06-16T11:35:20Z",
       "side": 1,
       "message": "this test will fail now?",
+      "range": {
+        "startLine": 414,
+        "startChar": 12,
+        "endLine": 414,
+        "endChar": 37
+      },
+      "revId": "0b96efc4fa501f3cbfd85d6bd0bded1b1df00de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "290b1074_c701e88a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-06-16T11:43:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6503bb93_9564ed8d",
       "range": {
         "startLine": 414,
         "startChar": 12,

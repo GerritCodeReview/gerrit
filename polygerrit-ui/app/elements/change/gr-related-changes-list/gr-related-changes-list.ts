@@ -627,7 +627,7 @@ export class GrRelatedChangesList extends LitElement {
           this.submittedTogether = response;
         }),
       this.restApiService
-        .getChangeCherryPicks(change.project, change.change_id, change.branch)
+        .getChangeCherryPicks(change.project, change.change_id, change._number)
         .then(response => {
           this.cherryPickChanges = response || [];
         }),

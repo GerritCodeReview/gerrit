@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fcc7f828_27a0f52d",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/BucketedCallback.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-06-16T09:27:34Z",
+      "side": 1,
+      "message": "I initially thought to do exactly this, but then I realised that because two keys can normalise to the same value, this meant that we\u0027d not be able to distinguish metrics coming from different repositories. We could address the normalisation method, but I don\u0027t think that\u0027s part of this change, and we can\u0027t _guarantee_ uniqueness of the normalisation function, only assume... so theoretically normalised values could still clash, and we still need to handle it somehow here. Maybe we do still want to blow up? Then it would be more obvious that\u0027s something\u0027s gone wrong (and I wouldn\u0027t be averse to that!) but that would mean that we couldn\u0027t collect any metrics, AIUI.",
+      "parentUuid": "970719b3_b2c6beff",
+      "range": {
+        "startLine": 106,
+        "startChar": 16,
+        "endLine": 106,
+        "endChar": 24
+      },
+      "revId": "635656070d7468da6654c1762a296cb0a35cfdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bb394697_8e8b6d90",
         "filename": "java/com/google/gerrit/metrics/dropwizard/BucketedCallback.java",
         "patchSetId": 1
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cba09d19_11a8054e",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/BucketedCallback.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-06-16T09:27:34Z",
+      "side": 1,
+      "message": "Yes spot on - it shouldn\u0027t. And yes, as discussed in another comment, if we `put` the normalised form we wouldn\u0027t have this problem. I don\u0027t think we can guarantee that the normalised form doesn\u0027t cause key clashes though, and if we have a key clash we\u0027d have no way of knowing unless we kept the original `key` somewhere.\n\nHow would we otherwise detect whether two different keys normalised forms clashed?",
+      "parentUuid": "bb394697_8e8b6d90",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 9
+      },
+      "revId": "635656070d7468da6654c1762a296cb0a35cfdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f760f824_ea656309",
         "filename": "java/com/google/gerrit/metrics/dropwizard/BucketedCallback.java",
         "patchSetId": 1
@@ -60,6 +108,30 @@
       "writtenOn": "2023-06-15T21:51:59Z",
       "side": 1,
       "message": "I believe this is the issue: the `DropWizardMetricMaker.name()` should use a unambiguous encoding of the `key`.\n\nEven when keeping the existing ambiguous algorithm, it should throw an exception when a clash happened.",
+      "range": {
+        "startLine": 126,
+        "startChar": 11,
+        "endLine": 126,
+        "endChar": 65
+      },
+      "revId": "635656070d7468da6654c1762a296cb0a35cfdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbc91df3_407cb926",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/BucketedCallback.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-06-16T09:27:34Z",
+      "side": 1,
+      "message": "I completely agree - it would be better if we can change it 😊 Although AIUI we could only detect a key clash (here, at least) if we stored the raw key and not its normalised form.",
+      "parentUuid": "f760f824_ea656309",
       "range": {
         "startLine": 126,
         "startChar": 11,
@@ -117,6 +189,30 @@
       "writtenOn": "2023-06-15T21:51:59Z",
       "side": 1,
       "message": "This is wrong, because you have two metrics that are clashing between each other and we silently make the call succeed and mix their values together. This isn\u0027t an improvement IMHO.\n\nWe should throw an IAE saying that the normalised name of \"foo-bar\" is clashing with \"foo/bar\" but the call should fail.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 68
+      },
+      "revId": "635656070d7468da6654c1762a296cb0a35cfdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "416d2854_e53c029f",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/BucketedCallbackTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-06-16T09:27:34Z",
+      "side": 1,
+      "message": "I agree this is awkward, I\u0027m happy to change the behaviour of this change once I have a better understanding of what changes we can make 😊",
+      "parentUuid": "5cdd76d6_268c274e",
       "range": {
         "startLine": 43,
         "startChar": 0,

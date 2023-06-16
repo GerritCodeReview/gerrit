@@ -22,6 +22,29 @@
       },
       "revId": "0b96efc4fa501f3cbfd85d6bd0bded1b1df00de0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6503bb93_9564ed8d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-06-16T11:35:20Z",
+      "side": 1,
+      "message": "this test will fail now?",
+      "range": {
+        "startLine": 414,
+        "startChar": 12,
+        "endLine": 414,
+        "endChar": 37
+      },
+      "revId": "0b96efc4fa501f3cbfd85d6bd0bded1b1df00de0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

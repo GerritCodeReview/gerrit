@@ -13,7 +13,6 @@ import {
   GroupInfo,
   EmailAddress,
   SuggestedReviewerGroupInfo,
-  SuggestedReviewerAccountInfo,
   SuggestedReviewerInfo,
   isGroup,
 } from '../../../types/common';
@@ -21,7 +20,14 @@ import {ReviewerSuggestionsProvider} from '../../../services/gr-reviewer-suggest
 import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
 import {GrAccountChip} from '../gr-account-chip/gr-account-chip';
 import {fire, fireAlert} from '../../../utils/event-util';
-import {getUserId, isAccountNewlyAdded} from '../../../utils/account-util';
+import {
+  AccountInput,
+  getUserId,
+  isAccountNewlyAdded,
+  isAccountObject,
+  isSuggestedReviewerGroupInfo,
+  RawAccountInput,
+} from '../../../utils/account-util';
 import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -51,42 +57,6 @@ declare global {
     'gr-account-list': GrAccountList;
   }
 }
-export interface AccountInputDetail {
-  account: AccountInput;
-}
-
-/** Supported input to be added */
-export type RawAccountInput =
-  | string
-  | SuggestedReviewerAccountInfo
-  | SuggestedReviewerGroupInfo;
-
-// type guards for SuggestedReviewerAccountInfo and SuggestedReviewerGroupInfo
-function isAccountObject(
-  x: RawAccountInput
-): x is SuggestedReviewerAccountInfo {
-  return !!(x as SuggestedReviewerAccountInfo).account;
-}
-
-function isSuggestedReviewerGroupInfo(
-  x: RawAccountInput
-): x is SuggestedReviewerGroupInfo {
-  return !!(x as SuggestedReviewerGroupInfo).group;
-}
-
-// Internal input type with account info
-export interface AccountInfoInput extends AccountInfo {
-  _account?: boolean;
-  confirmed?: boolean;
-}
-
-// Internal input type with group info
-export interface GroupInfoInput extends GroupInfo {
-  _account?: boolean;
-  confirmed?: boolean;
-}
-
-export type AccountInput = AccountInfoInput | GroupInfoInput;
 
 @customElement('gr-account-list')
 export class GrAccountList extends LitElement {
@@ -448,7 +418,7 @@ export class GrAccountList extends LitElement {
     return wasSubmitted;
   }
 
-  additions(): (AccountInfoInput | GroupInfoInput)[] {
+  additions(): AccountInput[] {
     if (!this.change) return [];
     return this.accounts.filter(account =>
       isAccountNewlyAdded(account, this.reviewerState, this.change)

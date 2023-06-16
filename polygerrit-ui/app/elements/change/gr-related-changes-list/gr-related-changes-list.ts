@@ -603,6 +603,72 @@ export class GrRelatedChangesList extends LitElement {
     return html`<span class="marker space"></span>`;
   }
 
+  reload(getRelatedChanges?: Promise<RelatedChangesInfo | undefined>) {
+    const change = this.change;
+    if (!change) return Promise.reject(new Error('change missing'));
+    if (!this.latestPatchNum)
+      return Promise.reject(new Error('latestPatchNum missing'));
+    if (!getRelatedChanges) {
+      getRelatedChanges = this.restApiService.getRelatedChanges(
+        change._number,
+        this.latestPatchNum
+      );
+    }
+    const promises: Array<Promise<void>> = [
+      getRelatedChanges.then(response => {
+        if (!response) {
+          throw new Error('getRelatedChanges returned undefined response');
+        }
+        this.relatedChanges = response?.changes ?? [];
+      }),
+      this.restApiService
+        .getChangesSubmittedTogether(change._number)
+        .then(response => {
+          this.submittedTogether = response;
+        }),
+      this.restApiService
+        .getChangeCherryPicks(change.project, change.change_id, change.branch)
+        .then(response => {
+          this.cherryPickChanges = response || [];
+        }),
+    ];
+
+    // Get conflicts if change is open and is mergeable.
+    // Mergeable is output of restApiServict.getMergeable from gr-change-view
+    if (changeIsOpen(change) && this.mergeable) {
+      promises.push(
+        this.restApiService
+          .getChangeConflicts(change._number)
+          .then(response => {
+            this.conflictingChanges = response ?? [];
+          })
+      );
+    }
+    if (change.topic) {
+      const changeTopic = change.topic;
+      promises.push(
+        this.restApiService.getConfig().then(config => {
+          if (config && !config.change.submit_whole_topic) {
+            return this.restApiService
+              .getChangesWithSameTopic(changeTopic, {
+                openChangesOnly: true,
+                changeToExclude: change._number,
+              })
+              .then(response => {
+                if (changeTopic === this.change?.topic) {
+                  this.sameTopicChanges = response ?? [];
+                }
+              });
+          }
+          this.sameTopicChanges = [];
+          return Promise.resolve();
+        })
+      );
+    }
+
+    return Promise.all(promises);
+  }
+
   /**
    * Do the given objects describe the same change? Compares the changes by
    * their numbers.

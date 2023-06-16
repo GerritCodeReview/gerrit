@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2538c55_ef24cdd8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-16T22:23:03Z",
+      "side": 1,
+      "message": "When does it become safe to make it required? Can we document that in the code as a todo/follow-up?",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 17
+      },
+      "revId": "094038335a2ea5098efb112f5aaae60293aa679d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56800248_c22868c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-16T22:23:03Z",
+      "side": 1,
+      "message": "I think the first sentence is already covered in lines 20-21 above. Maybe add the second sentence to your paragraph on lines 23-26?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 19
+      },
+      "revId": "094038335a2ea5098efb112f5aaae60293aa679d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24336cda_ee8b8348",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 8690,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-16T22:23:03Z",
+      "side": 1,
+      "message": "nit: saying both \u0027revision\u0027 and \u0027patchset\u0027 makes this confusing. Since I think you mean the RevisionInfo object here, you could maybe say that?",
+      "range": {
+        "startLine": 8690,
+        "startChar": 70,
+        "endLine": 8690,
+        "endChar": 78
+      },
+      "revId": "094038335a2ea5098efb112f5aaae60293aa679d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

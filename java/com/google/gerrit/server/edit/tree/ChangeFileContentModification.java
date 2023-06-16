@@ -95,7 +95,7 @@ public class ChangeFileContentModification implements TreeModification {
     }
 
     private boolean isValidGitFileMode(int gitFileMode) {
-      return (gitFileMode == 100755) || (gitFileMode == 100644);
+      return (gitFileMode == 0100755) || (gitFileMode == 0100644);
     }
 
     @Override

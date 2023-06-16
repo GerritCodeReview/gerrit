@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e9b5e78_b51f7445",
+        "filename": "java/com/google/gerrit/acceptance/TestMetricMaker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-16T19:24:57Z",
+      "side": 1,
+      "message": "The `{@link` annotation was removed in stable-3.8.",
+      "range": {
+        "startLine": 37,
+        "startChar": 24,
+        "endLine": 37,
+        "endChar": 59
+      },
+      "revId": "dfa4210fe860c3ad3aa5be5b93dcdbd552877e34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b52248ea_12c8d225",
+        "filename": "java/com/google/gerrit/acceptance/TestMetricMaker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-16T19:24:57Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 40,
+        "startChar": 38,
+        "endLine": 40,
+        "endChar": 73
+      },
+      "revId": "dfa4210fe860c3ad3aa5be5b93dcdbd552877e34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "5032a309_b8500adc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-16T13:47:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2eca0a14_11c3466a",
+      "range": {
+        "startLine": 30,
+        "startChar": 19,
+        "endLine": 30,
+        "endChar": 30
+      },
+      "revId": "3a0e57483d565016edb2efc8953cacd43b10a435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "40984867_9b625812",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 5
@@ -70,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ed2df83_49105fe8",
+        "filename": "java/com/google/gerrit/entities/PatchSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-16T13:47:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d98121f_de1c9aab",
+      "range": {
+        "startLine": 171,
+        "startChar": 28,
+        "endLine": 171,
+        "endChar": 40
+      },
+      "revId": "3a0e57483d565016edb2efc8953cacd43b10a435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85ceeab3_6ddb7d97",
@@ -87,6 +135,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9606de41_8b6d6fae",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-16T13:47:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85ceeab3_6ddb7d97",
+      "revId": "3a0e57483d565016edb2efc8953cacd43b10a435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9ae9e86_3dda8b93",
@@ -100,6 +166,24 @@
       "writtenOn": "2023-06-16T12:09:46Z",
       "side": 1,
       "message": "also test de/serialization of the new field.",
+      "revId": "3a0e57483d565016edb2efc8953cacd43b10a435",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa9914b5_edfa4bb4",
+        "filename": "javatests/com/google/gerrit/entities/converter/PatchSetProtoConverterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-16T13:47:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9ae9e86_3dda8b93",
       "revId": "3a0e57483d565016edb2efc8953cacd43b10a435",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

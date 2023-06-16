@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "921d2af8_785dbc9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1156394
+      },
+      "writtenOn": "2023-06-16T08:06:51Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "e40cd7ec_758392ed",
+      "range": {
+        "startLine": 9,
+        "startChar": 41,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "9f3cb653074bf922ee51330dcb5ea931c2504753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b6ac3673_7138269c",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c47692c_188c5307",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1156394
+      },
+      "writtenOn": "2023-06-16T08:06:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6ac3673_7138269c",
+      "revId": "9f3cb653074bf922ee51330dcb5ea931c2504753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6743a536_b8c47982",
@@ -54,6 +96,30 @@
       "writtenOn": "2023-06-15T21:39:17Z",
       "side": 1,
       "message": "Can we simplify to\n\n```return this.committerEmailDropdownItems \u0026\u0026 this.committerEmailDropdownItems.length \u003e 1 \u0026\u0026 !this.shouldRebaseChain;```",
+      "range": {
+        "startLine": 435,
+        "startChar": 0,
+        "endLine": 440,
+        "endChar": 17
+      },
+      "revId": "9f3cb653074bf922ee51330dcb5ea931c2504753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6ba9e34_f363d71b",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1156394
+      },
+      "writtenOn": "2023-06-16T08:06:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6743a536_b8c47982",
       "range": {
         "startLine": 435,
         "startChar": 0,
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e1ef1be_eec8fde9",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1156394
+      },
+      "writtenOn": "2023-06-16T08:06:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c9e7746_d0b1aec4",
+      "range": {
+        "startLine": 452,
+        "startChar": 9,
+        "endLine": 452,
+        "endChar": 48
+      },
+      "revId": "9f3cb653074bf922ee51330dcb5ea931c2504753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b6649f9_bce41b0f",
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c61cf2f_5e3e12d5",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1156394
+      },
+      "writtenOn": "2023-06-16T08:06:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b6649f9_bce41b0f",
+      "range": {
+        "startLine": 453,
+        "startChar": 0,
+        "endLine": 458,
+        "endChar": 17
+      },
+      "revId": "9f3cb653074bf922ee51330dcb5ea931c2504753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7b3cbd1_1b6f8cf2",
@@ -123,6 +237,30 @@
       "writtenOn": "2023-06-15T21:39:17Z",
       "side": 1,
       "message": "If current-user is the latest-uploader, then are we calling a rest-api to get the emails for the same user again?",
+      "range": {
+        "startLine": 482,
+        "startChar": 14,
+        "endLine": 482,
+        "endChar": 68
+      },
+      "revId": "9f3cb653074bf922ee51330dcb5ea931c2504753",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d948540_28cb6ba5",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1156394
+      },
+      "writtenOn": "2023-06-16T08:06:51Z",
+      "side": 1,
+      "message": "Good catch, the rest-api call for the same user is unnecessary. Updated the method.",
+      "parentUuid": "d7b3cbd1_1b6f8cf2",
       "range": {
         "startLine": 482,
         "startChar": 14,

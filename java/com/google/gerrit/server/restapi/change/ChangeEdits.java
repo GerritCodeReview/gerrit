@@ -20,6 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.ByteStreams;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
@@ -309,6 +310,24 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
       return apply(rsrc.getChangeResource(), rsrc.getPath(), fileContentInput);
     }
 
+    @Nullable
+    private Integer decimalAsOctal(Integer inputMode) throws BadRequestException {
+      if (inputMode == null) {
+        return null;
+      }
+
+      switch (inputMode) {
+        case 100755:
+          return Patch.FileMode.EXECUTABLE_FILE.getMode();
+        case 100644:
+          return Patch.FileMode.REGULAR_FILE.getMode();
+        case 120000:
+          return Patch.FileMode.SYMLINK.getMode();
+      }
+
+      throw new BadRequestException("unknown git file mode: " + inputMode);
+    }
+
     public Response<Object> apply(
         ChangeResource rsrc, String path, FileContentInput fileContentInput)
         throws AuthException, BadRequestException, ResourceConflictException, IOException,
@@ -351,7 +370,11 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
       }
       try (Repository repository = repositoryManager.openRepository(rsrc.getProject())) {
         editModifier.modifyFile(
-            repository, rsrc.getNotes(), path, newContent, fileContentInput.fileMode);
+            repository,
+            rsrc.getNotes(),
+            path,
+            newContent,
+            decimalAsOctal(fileContentInput.fileMode));
       } catch (InvalidChangeOperationException e) {
         throw new ResourceConflictException(e.getMessage());
       }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbed49c6_b4062332",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-mode-selector/gr-diff-mode-selector.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-06-16T09:56:41Z",
+      "side": 1,
+      "message": "I would guess this is not needed. But it\u0027s ok to have it there.",
+      "range": {
+        "startLine": 95,
+        "startChar": 47,
+        "endLine": 95,
+        "endChar": 65
+      },
+      "revId": "9ee1055ab899e21c668ace3e91b7d2c06b364c28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

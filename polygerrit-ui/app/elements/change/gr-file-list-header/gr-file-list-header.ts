@@ -190,16 +190,14 @@ export class GrFileListHeader extends LitElement {
           justify-content: flex-end;
         }
         #collapseBtn,
-        .allExpanded #expandBtn,
-        .fileViewActions {
+        .allExpanded #expandBtn {
           display: none;
         }
         .someExpanded #expandBtn {
           margin-right: 8px;
         }
         .someExpanded #collapseBtn,
-        .allExpanded #collapseBtn,
-        .openFile .fileViewActions {
+        .allExpanded #collapseBtn {
           align-items: center;
           display: flex;
         }
@@ -211,6 +209,7 @@ export class GrFileListHeader extends LitElement {
           margin: 0;
           --gr-button-padding: 2px 4px;
         }
+        .fileViewActions,
         .flexContainer {
           align-items: center;
           display: flex;
@@ -375,10 +374,8 @@ export class GrFileListHeader extends LitElement {
   private computeExpandedClass(filesExpanded?: FilesExpandedState) {
     const classes = [];
     if (filesExpanded === FilesExpandedState.ALL) {
-      classes.push('openFile');
       classes.push('allExpanded');
     } else if (filesExpanded === FilesExpandedState.SOME) {
-      classes.push('openFile');
       classes.push('someExpanded');
     }
     return classes.join(' ');

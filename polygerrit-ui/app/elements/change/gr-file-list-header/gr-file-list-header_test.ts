@@ -185,20 +185,6 @@ suite('gr-file-list-header tests', () => {
     queryAndAssert(element, '.warning');
   });
 
-  test('fileViewActions are properly hidden', async () => {
-    const actions = queryAndAssert(element, '.fileViewActions');
-    assert.equal(getComputedStyle(actions).display, 'none');
-    element.filesExpanded = FilesExpandedState.SOME;
-    await element.updateComplete;
-    assert.notEqual(getComputedStyle(actions).display, 'none');
-    element.filesExpanded = FilesExpandedState.ALL;
-    await element.updateComplete;
-    assert.notEqual(getComputedStyle(actions).display, 'none');
-    element.filesExpanded = FilesExpandedState.NONE;
-    await element.updateComplete;
-    assert.equal(getComputedStyle(actions).display, 'none');
-  });
-
   test('expand/collapse buttons are toggled correctly', async () => {
     // Only the expand button should be visible in the initial state when
     // NO files are expanded.

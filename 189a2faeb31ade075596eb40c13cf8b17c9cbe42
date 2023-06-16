@@ -16,6 +16,24 @@
       "message": "You need to update https://github.com/GerritCodeReview/gerrit/blob/d378a35394922236c745ebfe070ca4c41f34307b/polygerrit-ui/app/models/change/related-changes-model.ts#L174 to use the branch field per https://gerrit-review.googlesource.com/c/gerrit/+/377054.\n\n```\n  private loadCherryPicks() {\n    return combineLatest([\n      this.changeModel.branch$,\n      this.changeModel.changeId$,\n      this.changeModel.repo$,\n    ])\n      .pipe(\n        switchMap(([branch, changeId, repo]) \u003d\u003e {\n          if (!branch || !changeId || !repo) return of(undefined);\n          return from(\n            this.restApiService.getChangeCherryPicks(repo, changeId, branch)\n          );\n        })\n      )\n      .subscribe(cherryPicks \u003d\u003e {\n        this.updateState({cherryPicks});\n      });\n  }\n```\n\nYou need to add the branch field to https://github.com/GerritCodeReview/gerrit/blob/master/polygerrit-ui/app/models/change/change-model.ts#L187.\n\n```\n  public readonly branch$ \u003d select(this.change$, change \u003d\u003e change?.branch);\n```",
       "revId": "189a2faeb31ade075596eb40c13cf8b17c9cbe42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dcb5d4b_5c447497",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-16T20:51:34Z",
+      "side": -1,
+      "message": "Done",
+      "parentUuid": "cdb1438b_d6d5c043",
+      "revId": "189a2faeb31ade075596eb40c13cf8b17c9cbe42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

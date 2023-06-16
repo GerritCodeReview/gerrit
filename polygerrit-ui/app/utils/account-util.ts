@@ -16,6 +16,8 @@ import {
   ReviewerInput,
   ServerInfo,
   UserId,
+  SuggestedReviewerAccountInfo,
+  SuggestedReviewerGroupInfo,
 } from '../types/common';
 import {AccountTag, ReviewerState} from '../constants/constants';
 import {assertNever, hasOwnProperty} from './common-util';
@@ -27,6 +29,43 @@ export const ACCOUNT_TEMPLATE_REGEX = '<GERRIT_ACCOUNT_(\\d+)>';
 // https://html.spec.whatwg.org/multipage/input.html#valid-e-mail-address
 export const MENTIONS_REGEX =
   /(?:^|\s)@([a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*)(?=\s+|$)/g;
+
+export interface AccountInputDetail {
+  account: AccountInput;
+}
+
+/** Supported input to be added */
+export type RawAccountInput =
+  | string
+  | SuggestedReviewerAccountInfo
+  | SuggestedReviewerGroupInfo;
+
+// type guards for SuggestedReviewerAccountInfo and SuggestedReviewerGroupInfo
+export function isAccountObject(
+  x: RawAccountInput
+): x is SuggestedReviewerAccountInfo {
+  return !!(x as SuggestedReviewerAccountInfo).account;
+}
+
+export function isSuggestedReviewerGroupInfo(
+  x: RawAccountInput
+): x is SuggestedReviewerGroupInfo {
+  return !!(x as SuggestedReviewerGroupInfo).group;
+}
+
+// AccountInfo with confirmation to be added as reviewer/cc.
+export interface AccountInfoInput extends AccountInfo {
+  _account?: boolean;
+  confirmed?: boolean;
+}
+
+// GroupInfo with confirmation to be added as reviewer/cc.
+export interface GroupInfoInput extends GroupInfo {
+  _account?: boolean;
+  confirmed?: boolean;
+}
+
+export type AccountInput = AccountInfoInput | GroupInfoInput;
 
 export function accountKey(account: AccountInfo): AccountId | EmailAddress {
   if (account._account_id !== undefined) return account._account_id;
@@ -206,17 +245,22 @@ export function extractMentionedUsers(text?: string): AccountInfo[] {
 }
 
 export function toReviewInput(
-  account: AccountInfo | GroupInfo,
+  account: AccountInput,
   state: ReviewerState
 ): ReviewerInput {
   if (isAccount(account)) {
     return {
       reviewer: accountKey(account),
       state,
+      ...(account.confirmed && {confirmed: account.confirmed}),
     };
   } else if (isGroup(account)) {
     const reviewer = decodeURIComponent(account.id) as GroupId;
-    return {reviewer, state};
+    return {
+      reviewer,
+      state,
+      ...(account.confirmed && {confirmed: account.confirmed}),
+    };
   }
   throw new Error('Must be either an account or a group.');
 }

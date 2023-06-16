@@ -5,6 +5,7 @@
  */
 import '../test/common-test-setup';
 import {
+  AccountInput,
   computeVoteableText,
   extractMentionedUsers,
   getAccountTemplate,
@@ -13,6 +14,7 @@ import {
   isServiceUser,
   removeServiceUsers,
   replaceTemplates,
+  toReviewInput,
 } from './account-util';
 import {
   AccountsVisibility,
@@ -23,6 +25,8 @@ import {
   AccountId,
   AccountInfo,
   EmailAddress,
+  GroupId,
+  ReviewerState,
   ServerInfo,
 } from '../api/rest-api';
 import {
@@ -280,5 +284,61 @@ suite('account-util tests', () => {
       computeVoteableText(change, {...createAccountDetailWithId(1)}),
       ''
     );
+  });
+
+  test('toReviewInput account no confirm', () => {
+    const account: AccountInput = {
+      ...createAccountWithId(5),
+      _account: true,
+    };
+
+    const reviewInput = toReviewInput(account, ReviewerState.REVIEWER);
+    assert.deepEqual(reviewInput, {
+      reviewer: 5 as AccountId,
+      state: ReviewerState.REVIEWER,
+    });
+  });
+
+  test('toReviewInput account confirm', () => {
+    const account: AccountInput = {
+      ...createAccountWithId(5),
+      _account: true,
+      confirmed: true,
+    };
+
+    const reviewInput = toReviewInput(account, ReviewerState.REVIEWER);
+    assert.deepEqual(reviewInput, {
+      reviewer: 5 as AccountId,
+      state: ReviewerState.REVIEWER,
+      confirmed: true,
+    });
+  });
+
+  test('toReviewInput group no confirm', () => {
+    const account: AccountInput = {
+      ...createGroupInfo('group_id'),
+      _account: false,
+    };
+
+    const reviewInput = toReviewInput(account, ReviewerState.REVIEWER);
+    assert.deepEqual(reviewInput, {
+      reviewer: 'group_id' as GroupId,
+      state: ReviewerState.REVIEWER,
+    });
+  });
+
+  test('toReviewInput group confirm', () => {
+    const account: AccountInput = {
+      ...createGroupInfo('group_id'),
+      _account: false,
+      confirmed: true,
+    };
+
+    const reviewInput = toReviewInput(account, ReviewerState.REVIEWER);
+    assert.deepEqual(reviewInput, {
+      reviewer: 'group_id' as GroupId,
+      state: ReviewerState.REVIEWER,
+      confirmed: true,
+    });
   });
 });

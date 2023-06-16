@@ -22,22 +22,24 @@ import {
   ReviewerState,
   SpecialFilePath,
 } from '../../../constants/constants';
-import {
-  getUserId,
-  isAccountNewlyAdded,
-  removeServiceUsers,
-  toReviewInput,
-} from '../../../utils/account-util';
-import {TargetElement} from '../../../api/plugin';
-import {isDefined, ParsedChangeInfo} from '../../../types/types';
+
 import {
   AccountInfoInput,
   AccountInput,
   AccountInputDetail,
-  GrAccountList,
+  getUserId,
   GroupInfoInput,
+  isAccountNewlyAdded,
   RawAccountInput,
-} from '../../shared/gr-account-list/gr-account-list';
+  removeServiceUsers,
+  toReviewInput,
+} from '../../../utils/account-util';
+import {TargetElement} from '../../../api/plugin';
+import {
+  isDefined,
+  ParsedChangeInfo,
+} from '../../../types/types';
+import {GrAccountList} from '../../shared/gr-account-list/gr-account-list';
 import {
   AccountId,
   AccountInfo,

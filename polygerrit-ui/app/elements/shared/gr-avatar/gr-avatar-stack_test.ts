@@ -60,10 +60,14 @@ suite('gr-avatar tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `<gr-avatar
+            aria-label="0"
             style='background-image: url("https://a.b.c/photo0.jpg");'
           >
           </gr-avatar>
-          <gr-avatar style='background-image: url("https://a.b.c/photo1.jpg");'>
+          <gr-avatar
+            aria-label="1"
+            style='background-image: url("https://a.b.c/photo1.jpg");'
+          >
           </gr-avatar> `
       );
       // Verify that margins are set correctly.

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import './gr-avatar';
-import {AccountInfo} from '../../../types/common';
+import {AccountInfo, ServerInfo} from '../../../types/common';
 import {LitElement, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {
@@ -14,6 +14,7 @@ import {
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {subscribe} from '../../lit/subscription-controller';
+import {getDisplayName} from '../../../utils/display-name-util';
 
 /**
  * This elements draws stack of avatars overlapped with each other.
@@ -50,10 +51,7 @@ export class GrAvatarStack extends LitElement {
   @property({type: Boolean})
   forceFetch = false;
 
-  /**
-   * Reflects plugins.has_avatars value of server configuration.
-   */
-  @state() private hasAvatars = false;
+  @state() config?: ServerInfo;
 
   static override get styles() {
     return [
@@ -79,9 +77,7 @@ export class GrAvatarStack extends LitElement {
     subscribe(
       this,
       () => this.getConfigModel().serverConfig$,
-      config => {
-        this.hasAvatars = Boolean(config?.plugin?.has_avatars);
-      }
+      config => (this.config = config)
     );
   }
 
@@ -91,8 +87,9 @@ export class GrAvatarStack extends LitElement {
       : this.accounts
           .filter(account => !!account?.avatars?.[0]?.url)
           .filter(uniqueDefinedAvatar);
+    const hasAvatars = this.config?.plugin?.has_avatars ?? false;
     if (
-      !this.hasAvatars ||
+      !hasAvatars ||
       uniqueAvatarAccounts.length === 0 ||
       uniqueAvatarAccounts.length > GrAvatarStack.MAX_STACK
     ) {
@@ -104,6 +101,7 @@ export class GrAvatarStack extends LitElement {
           .forceFetch=${this.forceFetch}
           .account=${account}
           .imageSize=${this.imageSize}
+          aria-label=${getDisplayName(this.config, account)}
         >
         </gr-avatar>`
     );

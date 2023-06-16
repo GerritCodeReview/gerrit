@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b8a8a18_e942e6df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-06-16T10:50:20Z",
+      "side": 1,
+      "message": "Thanks, that\u0027s nice A11y improvement.",
+      "revId": "d378a35394922236c745ebfe070ca4c41f34307b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

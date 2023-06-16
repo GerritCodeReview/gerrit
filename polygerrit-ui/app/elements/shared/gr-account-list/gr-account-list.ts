@@ -13,7 +13,6 @@ import {
   GroupInfo,
   EmailAddress,
   SuggestedReviewerGroupInfo,
-  SuggestedReviewerAccountInfo,
   SuggestedReviewerInfo,
   isGroup,
 } from '../../../types/common';
@@ -21,7 +20,14 @@ import {ReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggesti
 import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
 import {GrAccountChip} from '../gr-account-chip/gr-account-chip';
 import {fire, fireAlert} from '../../../utils/event-util';
-import {getUserId, isAccountNewlyAdded} from '../../../utils/account-util';
+import {
+  AccountInput,
+  getUserId,
+  isAccountNewlyAdded,
+  isAccountObject,
+  isSuggestedReviewerGroupInfo,
+  RawAccountInput,
+} from '../../../utils/account-util';
 import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -38,55 +44,18 @@ import {IronInputElement} from '@polymer/iron-input';
 import {ReviewerState} from '../../../api/rest-api';
 
 const VALID_EMAIL_ALERT = 'Please input a valid email.';
+const VALID_USER_GROUP_ALERT = 'Please input a valid user or group.';
 
 declare global {
   interface HTMLElementEventMap {
     'accounts-changed': ValueChangedEvent<(AccountInfo | GroupInfo)[]>;
     'pending-confirmation-changed': ValueChangedEvent<SuggestedReviewerGroupInfo | null>;
+    'account-added': CustomEvent<{account: AccountInfo | GroupInfo}>;
   }
   interface HTMLElementTagNameMap {
     'gr-account-list': GrAccountList;
   }
-  interface HTMLElementEventMap {
-    'account-added': CustomEvent<AccountInputDetail>;
-  }
 }
-export interface AccountInputDetail {
-  account: AccountInput;
-}
-
-/** Supported input to be added */
-export type RawAccountInput =
-  | string
-  | SuggestedReviewerAccountInfo
-  | SuggestedReviewerGroupInfo;
-
-// type guards for SuggestedReviewerAccountInfo and SuggestedReviewerGroupInfo
-function isAccountObject(
-  x: RawAccountInput
-): x is SuggestedReviewerAccountInfo {
-  return !!(x as SuggestedReviewerAccountInfo).account;
-}
-
-function isSuggestedReviewerGroupInfo(
-  x: RawAccountInput
-): x is SuggestedReviewerGroupInfo {
-  return !!(x as SuggestedReviewerGroupInfo).group;
-}
-
-// Internal input type with account info
-export interface AccountInfoInput extends AccountInfo {
-  _account?: boolean;
-  confirmed?: boolean;
-}
-
-// Internal input type with group info
-export interface GroupInfoInput extends GroupInfo {
-  _account?: boolean;
-  confirmed?: boolean;
-}
-
-export type AccountInput = AccountInfoInput | GroupInfoInput;
 
 @customElement('gr-account-list')
 export class GrAccountList extends LitElement {
@@ -264,24 +233,28 @@ export class GrAccountList extends LitElement {
     this.addAccountItem(item);
   }
 
-  addAccountItem(item: RawAccountInput) {
+  /**
+   * Check if account or group is valid and add it.
+   *
+   * @return true if account or group is added.
+   */
+  addAccountItem(item: RawAccountInput): boolean {
     // Append new account or group to the accounts property. We add our own
     // internal properties to the account/group here, so we clone the object
     // to avoid cluttering up the shared change object.
-    let account;
-    let group;
+    let accountOrGroup: AccountInfo | GroupInfo | undefined;
     let itemTypeAdded = 'unknown';
     if (isAccountObject(item)) {
-      account = {...item.account};
-      this.accounts.push(account);
+      accountOrGroup = {...item.account};
+      this.accounts.push(accountOrGroup);
       itemTypeAdded = 'account';
     } else if (isSuggestedReviewerGroupInfo(item)) {
       if (item.confirm) {
         this.pendingConfirmation = item;
-        return;
+        return false;
       }
-      group = {...item.group};
-      this.accounts.push(group);
+      accountOrGroup = {...item.group};
+      this.accounts.push(accountOrGroup);
       itemTypeAdded = 'group';
     } else if (this.allowAnyInput) {
       if (!item.includes('@')) {
@@ -291,13 +264,17 @@ export class GrAccountList extends LitElement {
         fireAlert(this, VALID_EMAIL_ALERT);
         return false;
       } else {
-        account = {email: item as EmailAddress};
-        this.accounts.push(account);
+        accountOrGroup = {email: item as EmailAddress};
+        this.accounts.push(accountOrGroup);
         itemTypeAdded = 'email';
       }
     }
+    if (!accountOrGroup) {
+      fireAlert(this, VALID_USER_GROUP_ALERT);
+      return false;
+    }
     fire(this, 'accounts-changed', {value: this.accounts.slice()});
-    fire(this, 'account-added', {account: (account ?? group)! as AccountInput});
+    fire(this, 'account-added', {account: accountOrGroup});
     this.reporting.reportInteraction(`Add to ${this.id}`, {itemTypeAdded});
     this.pendingConfirmation = null;
     this.requestUpdate();
@@ -438,7 +415,7 @@ export class GrAccountList extends LitElement {
     return wasSubmitted;
   }
 
-  additions(): (AccountInfoInput | GroupInfoInput)[] {
+  additions(): AccountInput[] {
     if (!this.change) return [];
     return this.accounts.filter(account =>
       isAccountNewlyAdded(account, this.reviewerState, this.change)

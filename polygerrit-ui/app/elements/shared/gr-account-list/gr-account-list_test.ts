@@ -5,11 +5,7 @@
  */
 import '../../../test/common-test-setup';
 import './gr-account-list';
-import {
-  AccountInfoInput,
-  GrAccountList,
-  RawAccountInput,
-} from './gr-account-list';
+import {GrAccountList} from './gr-account-list';
 import {
   AccountId,
   AccountInfo,
@@ -35,6 +31,7 @@ import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
 import {createChange} from '../../../test/test-data-generators';
 import {ReviewerState} from '../../../api/rest-api';
 import {fixture, html, assert} from '@open-wc/testing';
+import {AccountInfoInput, RawAccountInput} from '../../../utils/account-util';
 
 class MockSuggestionsProvider implements ReviewerSuggestionsProvider {
   init() {}

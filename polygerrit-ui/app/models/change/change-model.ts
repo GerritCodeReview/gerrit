@@ -219,6 +219,8 @@ export class ChangeModel extends Model<ChangeState> {
     changeState => changeState.mergeable
   );
 
+  public readonly branch$ = select(this.change$, change => change?.branch);
+
   public readonly changeNum$ = select(this.change$, change => change?._number);
 
   public readonly changeId$ = select(this.change$, change => change?.change_id);

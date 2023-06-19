@@ -275,6 +275,19 @@ To generate HTML files skipping the zip archiving:
 
 And open `bazel-bin/Documentation/index.html`.
 
+To use local fonts with the searchfree target:
+
+----
+  bazel build Documentation:searchfree_safe
+----
+
+The html files will be bundled into `searchfree.zip` or `searchfree_safe.zip` in this location:
+
+----
+  bazel-bin/Documentation/searchfree.zip
+  bazel-bin/Documentation/searchfree_safe.zip
+----
+
 To build the Gerrit executable WAR with the documentation included:
 
 ----

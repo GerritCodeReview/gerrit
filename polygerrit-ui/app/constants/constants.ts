@@ -263,11 +263,6 @@ export function createDefaultPreferences(): PreferencesInfo {
 // NOTE: There are some settings that don't apply to PolyGerrit
 // (Render mode being at least one of them).
 export function createDefaultDiffPrefs(): DiffPreferencesInfo {
-  return {
-    context: 10,
-    line_wrapping: false,
-    show_line_endings: true,
-    show_tabs: true,
     show_whitespace_errors: true,
     syntax_highlighting: true,
     cursor_blink_rate: 0,

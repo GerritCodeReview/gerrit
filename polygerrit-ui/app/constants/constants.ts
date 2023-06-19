@@ -276,10 +276,6 @@ export function createDefaultDiffPrefs(): DiffPreferencesInfo {
     syntax_highlighting: true,
     tab_size: 8,
   };
-}
-
-// These defaults should match the defaults in
-// java/com/google/gerrit/extensions/client/EditPreferencesInfo.java
 export function createDefaultEditPrefs(): EditPreferencesInfo {
   return {
     auto_close_brackets: false,

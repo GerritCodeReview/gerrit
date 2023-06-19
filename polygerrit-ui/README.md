@@ -422,7 +422,9 @@ handle automatically.
 
 ## Contributing
 
-Our users report bugs / feature requests related to the UI through [Monorail Issues - PolyGerrit](https://bugs.chromium.org/p/gerrit/issues/list?q=component%3APolyGerrit).
+Our users report bugs / feature requests related to the UI through the Gerrit
+Tracker on the [WebFrontend](https://issues.gerritcodereview.com/issues?q=componentid:1369968)
+component.
 
 If you want to help, feel free to grab one from those `New` issues without
 assignees and send us a change.

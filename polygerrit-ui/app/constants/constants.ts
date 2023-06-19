@@ -274,11 +274,6 @@ export function createDefaultDiffPrefs(): DiffPreferencesInfo {
     show_tabs: true,
     show_whitespace_errors: true,
     syntax_highlighting: true,
-    tab_size: 8,
-  };
-export function createDefaultEditPrefs(): EditPreferencesInfo {
-  return {
-    auto_close_brackets: false,
     cursor_blink_rate: 0,
     hide_line_numbers: false,
     hide_top_menu: false,

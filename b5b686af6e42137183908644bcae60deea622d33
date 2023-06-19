@@ -16,6 +16,29 @@
       "message": "No formatting changes detected and passes `bazel build release \u0026\u0026 bazel test //...`",
       "revId": "b5b686af6e42137183908644bcae60deea622d33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9c44b14_fb96a5e8",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-06-19T10:16:36Z",
+      "side": 1,
+      "message": "Instead of having this cache delegate to the searching changecacheimpl, can we implement both against an interface and use bindings to determine what is used instead?\n\nThe existing SearchingChangeCache module would make that easy already since it binds the implementation to `null` in secondaries.\n\nThe benchmark you posted means for primaries, this change is a no-op (besides making the logic more complex). For secondaries, it\u0027s a performance improvement, so I think it would be a win overall to just bind a different SearchingChangeCache in the replica.",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 76
+      },
+      "revId": "b5b686af6e42137183908644bcae60deea622d33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

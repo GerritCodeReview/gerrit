@@ -15,7 +15,7 @@
 package com.google.gerrit.httpd.restapi;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.httpd.restapi.RestApiServlet.isCacheableWithEtag;
+import static com.google.gerrit.httpd.restapi.RestApiServlet.isCacheableWithETag;
 
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -39,7 +39,7 @@ public class RestApiServletTest {
   public void anyHttpRequestIsNotCacheableWithETagByDefault() {
     for (String method : httpMethods) {
       assertThat(
-              isCacheableWithEtag(
+              isCacheableWithETag(
                   new TestHttpRequest(method), new TestRestResource(), new TestRestView()))
           .isFalse();
     }
@@ -48,13 +48,13 @@ public class RestApiServletTest {
   @Test
   public void getHeadHttpRequestIsNotCacheableWithETagView() {
     assertThat(
-            isCacheableWithEtag(
+            isCacheableWithETag(
                 new TestHttpRequest("GET"),
                 new TestETagCacheableRestResource(),
                 new TestETagView()))
         .isFalse();
     assertThat(
-            isCacheableWithEtag(
+            isCacheableWithETag(
                 new TestHttpRequest("HEAD"),
                 new TestETagCacheableRestResource(),
                 new TestETagView()))
@@ -64,13 +64,13 @@ public class RestApiServletTest {
   @Test
   public void getHeadHttpRequestIsCacheableWithCacheableETagView() {
     assertThat(
-            isCacheableWithEtag(
+            isCacheableWithETag(
                 new TestHttpRequest("GET"),
                 new TestETagCacheableRestResource(),
                 new TestCacheableETagView()))
         .isTrue();
     assertThat(
-            isCacheableWithEtag(
+            isCacheableWithETag(
                 new TestHttpRequest("HEAD"),
                 new TestETagCacheableRestResource(),
                 new TestCacheableETagView()))
@@ -80,13 +80,13 @@ public class RestApiServletTest {
   @Test
   public void getHeadHttpRequestIsNotCacheableWithETagResource() {
     assertThat(
-            isCacheableWithEtag(
+            isCacheableWithETag(
                 new TestHttpRequest("GET"),
                 new TestETagRestResource(),
                 new TestCacheableETagView()))
         .isFalse();
     assertThat(
-            isCacheableWithEtag(
+            isCacheableWithETag(
                 new TestHttpRequest("HEAD"),
                 new TestETagRestResource(),
                 new TestCacheableETagView()))
@@ -96,13 +96,13 @@ public class RestApiServletTest {
   @Test
   public void getHeadHttpRequestIsCacheableWithCacheableETagResource() {
     assertThat(
-            isCacheableWithEtag(
+            isCacheableWithETag(
                 new TestHttpRequest("GET"),
                 new TestETagCacheableRestResource(),
                 new TestCacheableETagView()))
         .isTrue();
     assertThat(
-            isCacheableWithEtag(
+            isCacheableWithETag(
                 new TestHttpRequest("HEAD"),
                 new TestETagCacheableRestResource(),
                 new TestCacheableETagView()))
@@ -112,15 +112,15 @@ public class RestApiServletTest {
   @Test
   public void postPutDeleteHttpRequestIsNotCacheableWithETagView() {
     assertThat(
-            isCacheableWithEtag(
+            isCacheableWithETag(
                 new TestHttpRequest("POST"), new TestRestResource(), new TestETagView()))
         .isFalse();
     assertThat(
-            isCacheableWithEtag(
+            isCacheableWithETag(
                 new TestHttpRequest("PUT"), new TestRestResource(), new TestETagView()))
         .isFalse();
     assertThat(
-            isCacheableWithEtag(
+            isCacheableWithETag(
                 new TestHttpRequest("DELETE"), new TestRestResource(), new TestETagView()))
         .isFalse();
   }
@@ -136,13 +136,13 @@ public class RestApiServletTest {
     for (String[] hdr : noCacheHeadrs) {
 
       assertThat(
-              isCacheableWithEtag(
+              isCacheableWithETag(
                   new TestHttpRequest("GET").addHeader(hdr[0], hdr[1]),
                   new TestRestResource(),
                   new TestETagView()))
           .isFalse();
       assertThat(
-              isCacheableWithEtag(
+              isCacheableWithETag(
                   new TestHttpRequest("HEAD").addHeader(hdr[0], hdr[1]),
                   new TestRestResource(),
                   new TestETagView()))
@@ -154,11 +154,11 @@ public class RestApiServletTest {
   public void getHeadHttpIsNotCacheableWithNonCacheableResource() {
 
     assertThat(
-            isCacheableWithEtag(
+            isCacheableWithETag(
                 new TestHttpRequest("GET"), new TestCacheableResource(false), new TestETagView()))
         .isFalse();
     assertThat(
-            isCacheableWithEtag(
+            isCacheableWithETag(
                 new TestHttpRequest("HEAD"), new TestCacheableResource(false), new TestETagView()))
         .isFalse();
   }
@@ -167,11 +167,11 @@ public class RestApiServletTest {
   public void getHeadHttpIsNotCacheableWithLastModifiedResource() {
 
     assertThat(
-            isCacheableWithEtag(
+            isCacheableWithETag(
                 new TestHttpRequest("GET"), new TestLastModifiedResource(), new TestETagView()))
         .isFalse();
     assertThat(
-            isCacheableWithEtag(
+            isCacheableWithETag(
                 new TestHttpRequest("HEAD"), new TestLastModifiedResource(), new TestETagView()))
         .isFalse();
   }
@@ -244,7 +244,7 @@ public class RestApiServletTest {
     }
   }
 
-  static class TestCacheableETagView extends TestETagView {
+  static class TestCacheableETagView extends TestETagView implements Cacheability {
 
     @Override
     public boolean isCacheable() {

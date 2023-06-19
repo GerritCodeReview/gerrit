@@ -243,12 +243,6 @@ export enum AccountsVisibility {
 // These defaults should match the defaults in
 // java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java
 export function createDefaultPreferences(): PreferencesInfo {
-  return {
-    changes_per_page: 25,
-    diff_view: DiffViewMode.SIDE_BY_SIDE,
-    size_bar_in_change_table: true,
-    my: [],
-    theme: AppTheme.AUTO,
     date_format: DateFormat.STD,
     time_format: TimeFormat.HHMM_12,
     change_table: [],

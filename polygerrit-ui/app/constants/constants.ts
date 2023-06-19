@@ -265,10 +265,6 @@ export function createDefaultPreferences(): PreferencesInfo {
 export function createDefaultDiffPrefs(): DiffPreferencesInfo {
   return {
     context: 10,
-    cursor_blink_rate: 0,
-    font_size: 12,
-    ignore_whitespace: 'IGNORE_NONE',
-    line_length: 100,
     line_wrapping: false,
     show_line_endings: true,
     show_tabs: true,

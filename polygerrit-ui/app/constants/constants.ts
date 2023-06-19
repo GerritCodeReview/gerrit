@@ -253,18 +253,6 @@ export function createDefaultPreferences(): PreferencesInfo {
     time_format: TimeFormat.HHMM_12,
     change_table: [],
     email_strategy: EmailStrategy.ATTENTION_SET_ONLY,
-    default_base_for_merges: DefaultBase.AUTO_MERGE,
-    allow_browser_notifications: false,
-  };
-}
-
-// These defaults should match the defaults in
-// java/com/google/gerrit/extensions/client/DiffPreferencesInfo.java
-// NOTE: There are some settings that don't apply to PolyGerrit
-// (Render mode being at least one of them).
-export function createDefaultDiffPrefs(): DiffPreferencesInfo {
-    show_whitespace_errors: true,
-    syntax_highlighting: true,
     cursor_blink_rate: 0,
     hide_line_numbers: false,
     hide_top_menu: false,

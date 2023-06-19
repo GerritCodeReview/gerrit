@@ -200,7 +200,7 @@ public class CommentContextLoader {
       Text src, Range commentRange, int contextPadding, String contentType) {
     if (commentRange.start() < 1 || commentRange.end() - 1 > src.size()) {
       // TODO(ghareeb): We should throw an exception in this case. See
-      // https://bugs.chromium.org/p/gerrit/issues/detail?id=14102 which is an example where the
+      // https://issues.gerritcodereview.com/issues/40013461 which is an example where the
       // diff contains an extra line not in the original file.
       return CommentContext.empty();
     }

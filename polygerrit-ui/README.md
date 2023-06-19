@@ -153,7 +153,7 @@ $(bazel info output_base)/external/local_jdk/bin/java \
 ```
 
 The Web Dev Server is currently not serving fonts or other static assets. Follow
-[Issue 16341](https://bugs.chromium.org/p/gerrit/issues/detail?id=16341) for
+[Issue 40015119](https://issues.gerritcodereview.com/issues/40015119) for
 fixing this issue.
 
 *NOTE* You can use any other cdn here, for example: https://cdn.googlesource.com/polygerrit_ui/678.0

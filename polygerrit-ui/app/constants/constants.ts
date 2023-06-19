@@ -231,14 +231,6 @@ export enum NotifyType {
 
 /**
  * Controls visibility of other users' dashboard pages and completion suggestions to web users
- * https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#accounts.visibility
- */
-export enum AccountsVisibility {
-  ALL = 'ALL',
-  SAME_GROUP = 'SAME_GROUP',
-  VISIBLE_GROUP = 'VISIBLE_GROUP',
-  NONE = 'NONE',
-}
 
     key_map_type: 'DEFAULT',
     line_length: 100,

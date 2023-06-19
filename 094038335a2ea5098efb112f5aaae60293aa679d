@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1f44f0c2_a6f66600",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-06-19T11:38:50Z",
+      "side": 1,
+      "message": "What about setting this fallback branch only on the last revision?\nI think the correct behavior is for the UI to deal with the possibly absent branch, rather than assuming a possibly incorrect branch value.",
+      "range": {
+        "startLine": 31,
+        "startChar": 29,
+        "endLine": 33,
+        "endChar": 35
+      },
+      "revId": "094038335a2ea5098efb112f5aaae60293aa679d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "56800248_c22868c8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -65,6 +88,98 @@
         "startChar": 70,
         "endLine": 8690,
         "endChar": 78
+      },
+      "revId": "094038335a2ea5098efb112f5aaae60293aa679d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "604b7086_980bcf30",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 8692,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-06-19T11:38:50Z",
+      "side": 1,
+      "message": "nit: the newer patchset.",
+      "range": {
+        "startLine": 8691,
+        "startChar": 60,
+        "endLine": 8692,
+        "endChar": 10
+      },
+      "revId": "094038335a2ea5098efb112f5aaae60293aa679d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36703e2a_c0db3618",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-06-19T11:38:50Z",
+      "side": 1,
+      "message": "nit: can we add a test in ChangeNotesTest for the new logic?",
+      "range": {
+        "startLine": 473,
+        "startChar": 0,
+        "endLine": 476,
+        "endChar": 25
+      },
+      "revId": "094038335a2ea5098efb112f5aaae60293aa679d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "386c7967_6ce09a78",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-06-19T11:38:50Z",
+      "side": 1,
+      "message": "nit: this could be a filter condition on patchSets.keySet().",
+      "range": {
+        "startLine": 494,
+        "startChar": 14,
+        "endLine": 494,
+        "endChar": 47
+      },
+      "revId": "094038335a2ea5098efb112f5aaae60293aa679d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80185483_311bb102",
+        "filename": "javatests/com/google/gerrit/entities/converter/PatchSetProtoConverterTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-06-19T11:38:50Z",
+      "side": 1,
+      "message": "nit: can you, please, add a test that we can serialize/deserializa a value without branch?",
+      "range": {
+        "startLine": 50,
+        "startChar": 12,
+        "endLine": 50,
+        "endChar": 53
       },
       "revId": "094038335a2ea5098efb112f5aaae60293aa679d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

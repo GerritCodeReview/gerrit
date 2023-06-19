@@ -180,7 +180,7 @@ export const htmlTemplate = html`
   <footer r="contentinfo" aria-hidden="[[_footerHeaderAriaHidden]]">
     <div>
       Powered by
-      <a href="https://www.gerritcodereview.com/" rel="noopener" target="_blank"
+      <a href="https://www.gerritcodereview.com/" rel="noopener noreferrer" target="_blank"
         >Gerrit Code Review</a
       >
       ([[_version]])

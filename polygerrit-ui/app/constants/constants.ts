@@ -240,18 +240,6 @@ export enum AccountsVisibility {
   NONE = 'NONE',
 }
 
-// These defaults should match the defaults in
-// java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java
-export function createDefaultPreferences(): PreferencesInfo {
-    date_format: DateFormat.STD,
-    time_format: TimeFormat.HHMM_12,
-    change_table: [],
-    email_strategy: EmailStrategy.ATTENTION_SET_ONLY,
-    cursor_blink_rate: 0,
-    hide_line_numbers: false,
-    hide_top_menu: false,
-    indent_unit: 2,
-    indent_with_tabs: false,
     key_map_type: 'DEFAULT',
     line_length: 100,
     line_wrapping: false,

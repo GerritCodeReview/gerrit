@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e6e77bd_411d5936",
+        "filename": "java/com/google/gerrit/server/edit/tree/ChangeFileContentModification.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1091855
+      },
+      "writtenOn": "2023-06-19T20:26:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d3f2ea3_48b38c70",
+      "range": {
+        "startLine": 98,
+        "startChar": 5,
+        "endLine": 98,
+        "endChar": 66
+      },
+      "revId": "6a6b2f3dc894793951ce67562b73a8264a8688a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b8951c8_dd15392d",
@@ -71,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67f9b767_3110857b",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1091855
+      },
+      "writtenOn": "2023-06-19T20:26:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b8951c8_dd15392d",
+      "range": {
+        "startLine": 315,
+        "startChar": 20,
+        "endLine": 315,
+        "endChar": 38
+      },
+      "revId": "6a6b2f3dc894793951ce67562b73a8264a8688a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9e6f2a7_22ccd556",
@@ -84,6 +132,30 @@
       "writtenOn": "2023-06-19T05:56:54Z",
       "side": 1,
       "message": "We have an enum for git file modes in Octal, [Patch.FileMode](https://gerrit-review.googlesource.com/c/gerrit/+/377195/7/java/com/google/gerrit/entities/Patch.java#171), should we reuse that instead of the \"magic numbers\" (0100644, 0100755)?",
+      "range": {
+        "startLine": 320,
+        "startChar": 0,
+        "endLine": 327,
+        "endChar": 7
+      },
+      "revId": "6a6b2f3dc894793951ce67562b73a8264a8688a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08ed464b_5d04f03d",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1091855
+      },
+      "writtenOn": "2023-06-19T20:26:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9e6f2a7_22ccd556",
       "range": {
         "startLine": 320,
         "startChar": 0,

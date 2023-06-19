@@ -70,6 +70,7 @@ import com.google.protobuf.ByteString;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -306,7 +307,7 @@ public class ProjectCacheImpl implements ProjectCache {
                       .map(AccountGroup::uuid),
                   all().stream()
                       .map(n -> inMemoryProjectCache.getIfPresent(n))
-                      .filter(Optional::isPresent)
+                      .filter(Objects::nonNull)
                       .flatMap(p -> p.get().getAllGroupUUIDs().stream())
                       // getAllGroupUUIDs shouldn't really return null UUIDs, but harden
                       // against them just in case there is a bug or corner case.

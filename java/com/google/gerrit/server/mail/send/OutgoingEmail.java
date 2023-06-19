@@ -134,6 +134,7 @@ public final class OutgoingEmail {
   private Account.Id fromId;
   private NotifyResolver.Result notify = NotifyResolver.Result.all();
   private final EmailDecorator templateProvider;
+  private ArrayList<EmailResource> htmlResources;
 
   public OutgoingEmail(
       @Provided EmailArguments args, String messageClass, EmailDecorator templateProvider) {
@@ -340,7 +341,8 @@ public final class OutgoingEmail {
         logger.atFine().log(
             "Sending multipart '%s' from %s to %s",
             messageClass, va.smtpFromAddress, va.smtpRcptTo);
-        args.emailSender.send(va.smtpFromAddress, va.smtpRcptTo, va.headers, va.body, va.htmlBody);
+        args.emailSender.send(
+            va.smtpFromAddress, va.smtpRcptTo, va.headers, va.body, va.htmlBody, htmlResources);
       }
       if (!smtpRcptToPlaintextOnly.isEmpty()) {
         addMessageId(va, "-PLAIN");
@@ -397,6 +399,7 @@ public final class OutgoingEmail {
     soyContext = new HashMap<>();
     footers = new ArrayList<>();
     soyContextEmailData = new HashMap<>();
+    htmlResources = new ArrayList<>();
 
     smtpFromAddress = args.fromAddressGenerator.get().from(fromId);
     setHeader(FieldName.DATE, Instant.now());
@@ -764,6 +767,13 @@ public final class OutgoingEmail {
    */
   public void addFooter(String footer) {
     footers.add(footer);
+  }
+
+  /**
+   * Add a resource that can be referenced in HTML code using their {@link EmailResource#contentId}.
+   */
+  public void addHtmlResource(EmailResource resource) {
+    htmlResources.add(resource);
   }
 
   private String getInstanceName() {

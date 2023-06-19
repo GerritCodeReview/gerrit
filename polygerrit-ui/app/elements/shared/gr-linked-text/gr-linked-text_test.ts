@@ -40,11 +40,11 @@ suite('gr-linked-text tests', () => {
     element.config = {
       ph: {
         match: '([Bb]ug|[Ii]ssue)\\s*#?(\\d+)',
-        link: 'https://bugs.chromium.org/p/gerrit/issues/detail?id=$2',
+        link: 'https://issues.gerritcodereview.com/issues/$2',
       },
       prefixsameinlinkandpattern: {
         match: '([Hh][Tt][Tt][Pp]example)\\s*#?(\\d+)',
-        link: 'https://bugs.chromium.org/p/gerrit/issues/detail?id=$2',
+        link: 'https://issues.gerritcodereview.com/issues/$2',
       },
       changeid: {
         match: '(I[0-9a-f]{8,40})',
@@ -85,7 +85,7 @@ suite('gr-linked-text tests', () => {
 
   test('URL pattern was parsed and linked.', async () => {
     // Regular inline link.
-    const url = 'https://bugs.chromium.org/p/gerrit/issues/detail?id=3650';
+    const url = 'https://issues.gerritcodereview.com/issues/40003757';
     element.content = url;
     await element.updateComplete;
 
@@ -99,17 +99,17 @@ suite('gr-linked-text tests', () => {
 
   test('Bug pattern was parsed and linked', async () => {
     // "Issue/Bug" pattern.
-    element.content = 'Issue 3650';
+    element.content = 'Issue 40003757';
     await element.updateComplete;
 
     let linkEl = queryAndAssert(element, 'span#output')
       .childNodes[0] as HTMLAnchorElement;
-    const url = 'https://bugs.chromium.org/p/gerrit/issues/detail?id=3650';
+    const url = 'https://issues.gerritcodereview.com/issues/40003757';
     assert.equal(linkEl.target, '_blank');
     assert.equal(linkEl.href, url);
-    assert.equal(linkEl.textContent, 'Issue 3650');
+    assert.equal(linkEl.textContent, 'Issue 40003757');
 
-    element.content = 'Bug 3650';
+    element.content = 'Bug 40003757';
     await element.updateComplete;
 
     linkEl = queryAndAssert(element, 'span#output')
@@ -117,21 +117,21 @@ suite('gr-linked-text tests', () => {
     assert.equal(linkEl.target, '_blank');
     assert.equal(linkEl.rel, 'noopener');
     assert.equal(linkEl.href, url);
-    assert.equal(linkEl.textContent, 'Bug 3650');
+    assert.equal(linkEl.textContent, 'Bug 40003757');
   });
 
   test('Pattern with same prefix as link was correctly parsed', async () => {
     // Pattern starts with the same prefix (`http`) as the url.
-    element.content = 'httpexample 3650';
+    element.content = 'httpexample 40003757';
     await element.updateComplete;
 
     assert.equal(queryAndAssert(element, 'span#output').childNodes.length, 1);
     const linkEl = queryAndAssert(element, 'span#output')
       .childNodes[0] as HTMLAnchorElement;
-    const url = 'https://bugs.chromium.org/p/gerrit/issues/detail?id=3650';
+    const url = 'https://issues.gerritcodereview.com/issues/40003757';
     assert.equal(linkEl.target, '_blank');
     assert.equal(linkEl.href, url);
-    assert.equal(linkEl.textContent, 'httpexample 3650');
+    assert.equal(linkEl.textContent, 'httpexample 40003757');
   });
 
   test('Change-Id pattern was parsed and linked', async () => {
@@ -173,7 +173,7 @@ suite('gr-linked-text tests', () => {
   });
 
   test('Multiple matches', async () => {
-    element.content = 'Issue 3650\nIssue 3450';
+    element.content = 'Issue 40003757\nIssue 40003562';
     await element.updateComplete;
 
     const linkEl1 = queryAndAssert(element, 'span#output')
@@ -184,16 +184,16 @@ suite('gr-linked-text tests', () => {
     assert.equal(linkEl1.target, '_blank');
     assert.equal(
       linkEl1.href,
-      'https://bugs.chromium.org/p/gerrit/issues/detail?id=3650'
+      'https://issues.gerritcodereview.com/issues/40003757'
     );
-    assert.equal(linkEl1.textContent, 'Issue 3650');
+    assert.equal(linkEl1.textContent, 'Issue 40003757');
 
     assert.equal(linkEl2.target, '_blank');
     assert.equal(
       linkEl2.href,
-      'https://bugs.chromium.org/p/gerrit/issues/detail?id=3450'
+      'https://issues.gerritcodereview.com/issues/40003562'
     );
-    assert.equal(linkEl2.textContent, 'Issue 3450');
+    assert.equal(linkEl2.textContent, 'Issue 40003562');
   });
 
   test('Change-Id pattern parsed before bug pattern', async () => {
@@ -202,10 +202,10 @@ suite('gr-linked-text tests', () => {
     const prefix = 'Change-Id: ';
 
     // "Issue/Bug" pattern.
-    const bug = 'Issue 3650';
+    const bug = 'Issue 40003757';
 
     const changeUrl = '/q/' + changeID;
-    const bugUrl = 'https://bugs.chromium.org/p/gerrit/issues/detail?id=3650';
+    const bugUrl = 'https://issues.gerritcodereview.com/issues/40003757';
 
     element.content = prefix + changeID + bug;
     await element.updateComplete;
@@ -224,7 +224,7 @@ suite('gr-linked-text tests', () => {
 
     assert.equal(bugLinkEl.target, '_blank');
     assert.equal(bugLinkEl.href, bugUrl);
-    assert.equal(bugLinkEl.textContent, 'Issue 3650');
+    assert.equal(bugLinkEl.textContent, 'Issue 40003757');
   });
 
   test('html field in link config', async () => {

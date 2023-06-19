@@ -113,7 +113,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
       throws RestApiException, UpdateException, PermissionBackendException, IOException {
     if (!moveEnabled) {
       // This will be removed with the above config once we reach consensus for the move change
-      // behavior. See: https://bugs.chromium.org/p/gerrit/issues/detail?id=9877
+      // behavior. See: https://issues.gerritcodereview.com/issues/40009784
       throw new MethodNotAllowedException("move changes endpoint is disabled");
     }
 

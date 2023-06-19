@@ -55,7 +55,7 @@ public class PatchList implements Serializable {
    * We use the ChangeType comparator for a rare case when PatchList contains two entries for the
    * same file, e.g. {ADDED, DELETED}. We return a single entry according to the following order.
    * Check the following bug for an example case:
-   * https://bugs.chromium.org/p/gerrit/issues/detail?id=13914.
+   * https://issues.gerritcodereview.com/issues/40013315.
    */
   @VisibleForTesting
   static class ChangeTypeCmp implements Comparator<ChangeType> {

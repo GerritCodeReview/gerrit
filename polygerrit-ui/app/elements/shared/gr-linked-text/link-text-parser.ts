@@ -319,7 +319,7 @@ export class GrLinkTextParser {
         const prefixText = result[1];
         if (prefixText.length > 0) {
           // Fix for simple cases from
-          // https://bugs.chromium.org/p/gerrit/issues/detail?id=11697
+          // https://issues.gerritcodereview.com/issues/40011392
           // When leading whitespace is missed before link,
           // linkify add this text before link as a schema name to href.
           // We suppose, that prefixText just a single word

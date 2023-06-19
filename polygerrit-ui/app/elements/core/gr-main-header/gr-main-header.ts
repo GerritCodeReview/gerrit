@@ -624,7 +624,7 @@ export class GrMainHeader extends LitElement {
   // private but used in test
   createHeaderLink(linkObj: TopMenuItemInfo): MainHeaderLink {
     // Delete target property due to complications of
-    // https://bugs.chromium.org/p/gerrit/issues/detail?id=5888
+    // https://issues.gerritcodereview.com/issues/40006107
     //
     // The server tries to guess whether URL is a view within the UI.
     // If not, it sets target='_blank' on the menu item. The server

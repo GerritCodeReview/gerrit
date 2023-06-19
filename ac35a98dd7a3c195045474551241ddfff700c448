@@ -418,6 +418,24 @@
       "parentUuid": "681305f0_382a9761",
       "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7ff3ca2_3a016c29",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-19T13:38:32Z",
+      "side": 1,
+      "message": "Thanks for the background. My question is this:\nHow will the pull-replication plugin running in the same Gerrit instance as the one which fired the event, receive the event? The `ReplicationQueue` implements the `EventListener` interface, but the `StreamEventsApiListener` is not. So the `StreamApiEventListener` is posting the event through the dispatcher, and somehow this event ends up in the pull-replication plugin\u0027s `ReplicationQueue.onEvent`. It is that last bit i am unclear on.",
+      "parentUuid": "72fa6bfe_2d22c284",
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

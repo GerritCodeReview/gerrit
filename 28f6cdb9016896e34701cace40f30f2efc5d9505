@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a4404a4_cbd325b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-19T07:21:28Z",
+      "side": 1,
+      "message": "nit: handled",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 6
+      },
+      "revId": "28f6cdb9016896e34701cace40f30f2efc5d9505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c95a3e1a_7f542bf4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-19T07:21:28Z",
+      "side": 1,
+      "message": "This doesn\u0027t work with the new issue tracker anymore.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 16
+      },
+      "revId": "28f6cdb9016896e34701cace40f30f2efc5d9505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fbe6036_0eb48ce2",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-19T07:21:28Z",
+      "side": 1,
+      "message": "I think at this point you should clearly document the difference to ref-updated events and that if you subscribe to both, that there will be duplication.",
+      "revId": "28f6cdb9016896e34701cace40f30f2efc5d9505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77350031_0e10a167",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-19T07:21:28Z",
+      "side": 1,
+      "message": "nit: references",
+      "range": {
+        "startLine": 212,
+        "startChar": 21,
+        "endLine": 212,
+        "endChar": 30
+      },
+      "revId": "28f6cdb9016896e34701cace40f30f2efc5d9505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3212c835_58624b89",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3673,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-19T07:21:28Z",
+      "side": 1,
+      "message": "This doesn\u0027t make it clear, that also ref-ubdates of only a single ref will be send via this event. You usually only need ref-updated or batch-ref-updated, but not to subscribe to both. Enabling both should just be done to keep backwards compatibility until all subscribers have been updated to the intended event type.",
+      "range": {
+        "startLine": 3671,
+        "startChar": 0,
+        "endLine": 3673,
+        "endChar": 73
+      },
+      "revId": "28f6cdb9016896e34701cace40f30f2efc5d9505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14450eca_c4003031",
+        "filename": "java/com/google/gerrit/server/events/BatchRefUpdateEvent.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-19T07:21:28Z",
+      "side": 1,
+      "message": "Could we consolidate `GitBatchRefUpdateListener.Event` and `BatchRefUpdateEvent`?",
+      "revId": "28f6cdb9016896e34701cace40f30f2efc5d9505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

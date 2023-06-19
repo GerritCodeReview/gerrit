@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b5e79105_8941178d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-19T07:21:28Z",
+      "side": 1,
+      "message": "I also think it could be made clearer that this does not replace the previous functionality but extends it to allow remote listeners to subscribe to batch-ref-updated events.",
+      "parentUuid": "145fa966_b4b692a2",
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fe6a615c_9dad9197",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -380,6 +398,24 @@
       "side": 1,
       "message": "Sure let me point you to a few `EventLister` implementations:\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/events/EventsMetrics.java\n\nhttps://gerrit.googlesource.com/plugins/pull-replication/+/refs/heads/master/src/main/java/com/googlesource/gerrit/plugins/replication/pull/ReplicationQueue.java\n\nhttps://gerrit.googlesource.com/plugins/events-kafka/+/refs/heads/master/src/main/java/com/googlesource/gerrit/plugins/kafka/publish/KafkaPublisher.java\n\nhttps://gerrit.googlesource.com/plugins/multi-site/+/refs/heads/master/src/main/java/com/googlesource/gerrit/plugins/multisite/validation/ProjectVersionRefUpdateImpl.java\n\nAll those listeners are added to the dynamic set similar to:\nhttps://gerrit.googlesource.com/plugins/multi-site/+/refs/heads/master/src/main/java/com/googlesource/gerrit/plugins/multisite/event/EventModule.java#53",
       "parentUuid": "e5665846_a21209a5",
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72fa6bfe_2d22c284",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-19T07:21:28Z",
+      "side": 1,
+      "message": "Maybe this clarifies it:\nThe previous implementation enabled to listen to batch-ref-update events only internally via the `GitBatchRefUpdateListener`, i.e. it was meant to allow plugins running in Gerrit to listen to those events. The event was however not published via stream events, i.e. users who subscribed to stream events via SSH or using the event-broker plugins would not get this event.\nThis change now publishes the batch-ref-updated event as a stream event, so that clients outside of the Gerrit instance firing it will be able to react on it. For example, the pull-replication plugin running in a different Gerrit instance and configured to use an events-broker to trigger replication will now be able to use the batch-ref-updated event. The advantage is that this way pull-replication will be able to get all refs of a batch, which will ensure a consistent state, e.g. between a change meta-ref and patchset-ref.",
+      "parentUuid": "681305f0_382a9761",
       "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

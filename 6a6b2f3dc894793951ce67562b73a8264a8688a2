@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3696ed11_0fa1737f",
+        "filename": "java/com/google/gerrit/server/edit/tree/ChangeFileContentModification.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-06-19T05:56:54Z",
+      "side": 1,
+      "message": "We have an enum for git file modes in Octal, [Patch.FileMode](https://gerrit-review.googlesource.com/c/gerrit/+/377195/7/java/com/google/gerrit/entities/Patch.java#171), should we reuse that instead of the \"magic numbers\" (0100644, 0100755)?",
+      "range": {
+        "startLine": 98,
+        "startChar": 5,
+        "endLine": 98,
+        "endChar": 66
+      },
+      "revId": "6a6b2f3dc894793951ce67562b73a8264a8688a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b8951c8_dd15392d",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-06-19T05:56:54Z",
+      "side": 1,
+      "message": "```suggestion\n    private Integer decimalAsOctal(Integer inputMode) throws BadRequestException {\n```",
+      "range": {
+        "startLine": 315,
+        "startChar": 20,
+        "endLine": 315,
+        "endChar": 38
+      },
+      "revId": "6a6b2f3dc894793951ce67562b73a8264a8688a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9e6f2a7_22ccd556",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-06-19T05:56:54Z",
+      "side": 1,
+      "message": "We have an enum for git file modes in Octal, [Patch.FileMode](https://gerrit-review.googlesource.com/c/gerrit/+/377195/7/java/com/google/gerrit/entities/Patch.java#171), should we reuse that instead of the \"magic numbers\" (0100644, 0100755)?",
+      "range": {
+        "startLine": 320,
+        "startChar": 0,
+        "endLine": 327,
+        "endChar": 7
+      },
+      "revId": "6a6b2f3dc894793951ce67562b73a8264a8688a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

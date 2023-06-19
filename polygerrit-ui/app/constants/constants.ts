@@ -5,18 +5,7 @@
  */
 
   AuthType,
-  ChangeStatus,
-  ConfigParameterInfoType,
-  DefaultDisplayNameConfig,
-  EditableAccountField,
-  FileInfoStatus,
   GpgKeyInfoStatus,
-  HttpMethod,
-  InheritedBooleanInfoConfiguredValue,
-  MergeabilityComputationBehavior,
-  ProblemInfoStatus,
-  RepoState,
-  RequirementStatus,
   ReviewerState,
   RevisionKind,
   SubmitType,

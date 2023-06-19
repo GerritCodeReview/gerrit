@@ -58,6 +58,7 @@ license_map(
         "//polygerrit-ui/app/node_modules_licenses:polygerrit-licenses.json",
     ],
     targets = [
+        "//gerrit-gwtui:ui_module",
         "//polygerrit-ui/app:polygerrit_ui",
     ],
 )

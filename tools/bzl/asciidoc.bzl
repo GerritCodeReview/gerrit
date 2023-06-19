@@ -300,13 +300,14 @@ def genasciidoc_zip(
         backend = None,
         searchbox = True,
         resources = True,
+        webfonts = True,
         **kwargs):
     SUFFIX = "_htmlonly"
 
     _genasciidoc_htmlonly_zip(
         name = name + SUFFIX if resources else name,
         srcs = srcs,
-        attributes = attributes,
+        attributes = attributes + [] if webfonts else ["webfonts!"],
         backend = backend,
         searchbox = searchbox,
         **kwargs

@@ -156,9 +156,6 @@ export enum CommentSide {
  */
 export enum AppTheme {
   AUTO = 'AUTO',
-  DARK = 'DARK',
-  LIGHT = 'LIGHT',
-}
 
 /**
  * Date formats in preferences

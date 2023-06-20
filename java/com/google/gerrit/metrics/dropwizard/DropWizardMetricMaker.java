@@ -60,6 +60,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -357,6 +358,7 @@ public class DropWizardMetricMaker extends MetricMaker {
 
   private static final Pattern METRIC_NAME_PATTERN =
       Pattern.compile("[a-zA-Z0-9_-]+(/[a-zA-Z0-9_-]+)*");
+  private static final Pattern INVALID_CHAR_PATTERN = Pattern.compile("[^\\w-/]");
 
   private static void checkMetricName(String name) {
     checkArgument(
@@ -366,24 +368,54 @@ public class DropWizardMetricMaker extends MetricMaker {
         METRIC_NAME_PATTERN.pattern());
   }
 
+  /**
+   * Ensures that the sanitized metric name doesn't contain invalid characters and
+   * removes the risk of collision (between the sanitized metric names).
+   * Modifications to the input metric name:
+   * <ul>
+   *   <li/> leading <code>/</code> is replaced with <code>_</code>
+   *   <li/> doubled (or repeated more times) <code>/</code> are limited to a single <code>/<code>
+   *   <li/> ending <code>/</code> is removed
+   *   <li/> all <code>_</code> are replaced with <code>__</code>
+   *   <li/> all characters that are not <code>/a-zA-Z0-9_-</code> are replaced with <code>_[hex code]_</code>
+   * </ul>
+   *
+   * @param name name of the metric to sanitize
+   * @return sanitized metric name
+   */
   @Override
   public String sanitizeMetricName(String name) {
-    if (METRIC_NAME_PATTERN.matcher(name).matches()) {
+    if (METRIC_NAME_PATTERN.matcher(name).matches() && !name.contains("_")) {
       return name;
     }
 
-    String first = name.substring(0, 1).replaceFirst("[^\\w-]", "_");
+    StringBuilder sanitizedName =
+        new StringBuilder(name.substring(0, 1).replaceFirst("[^\\w-]", "_"));
     if (name.length() == 1) {
-      return first;
+      return sanitizedName.toString();
     }
 
-    String result = first + name.substring(1).replaceAll("/[/]+", "/").replaceAll("[^\\w-/]", "_");
-
-    if (result.endsWith("/")) {
-      result = result.substring(0, result.length() - 1);
+    String slashSanitizedName = name.substring(1).replaceAll("/[/]+", "/");
+    if (slashSanitizedName.endsWith("/")) {
+      slashSanitizedName = slashSanitizedName.substring(0, slashSanitizedName.length() - 1);
     }
 
-    return result;
+    for (int i = 0; i < slashSanitizedName.length(); i++) {
+      Character c = slashSanitizedName.charAt(i);
+      Matcher matcher = INVALID_CHAR_PATTERN.matcher(c.toString());
+      if (matcher.matches()) {
+        sanitizedName.append('_');
+        sanitizedName.append(Integer.toHexString(c));
+        sanitizedName.append('_');
+      } else {
+        if ('_' == c) {
+          sanitizedName.append('_');
+        }
+        sanitizedName.append(c);
+      }
+    }
+
+    return sanitizedName.toString();
   }
 
   static String name(Description.FieldOrdering ordering, String codeName, String fieldValues) {

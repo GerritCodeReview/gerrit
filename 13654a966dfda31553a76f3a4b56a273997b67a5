@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04392698_f12ccd80",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1091855
+      },
+      "writtenOn": "2023-06-20T19:07:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a5ee7a0_4d6d8fd2",
+      "range": {
+        "startLine": 321,
+        "startChar": 32,
+        "endLine": 321,
+        "endChar": 47
+      },
+      "revId": "13654a966dfda31553a76f3a4b56a273997b67a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d0f5a26_b3a92b25",
@@ -54,6 +78,24 @@
       "writtenOn": "2023-06-20T06:21:07Z",
       "side": 1,
       "message": "`int octalFileMode \u003d decimalAsOctal(fileContentInput.fileMode));`",
+      "revId": "13654a966dfda31553a76f3a4b56a273997b67a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a2f0cd3_8978bbe8",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1091855
+      },
+      "writtenOn": "2023-06-20T19:07:23Z",
+      "side": 1,
+      "message": "I think perhaps we don\u0027t even need to bother about this...",
+      "parentUuid": "7d0f5a26_b3a92b25",
       "revId": "13654a966dfda31553a76f3a4b56a273997b67a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -83,6 +125,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d66ac3d0_98e16154",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1091855
+      },
+      "writtenOn": "2023-06-20T19:07:23Z",
+      "side": 1,
+      "message": "Looking more closely, I think we can do away with this check entirely as it appears to be entirely subsumed by the decimalAsOctal() conversion (which also generates BadRequestException..)",
+      "parentUuid": "c6464b81_f8da49a7",
+      "range": {
+        "startLine": 364,
+        "startChar": 8,
+        "endLine": 364,
+        "endChar": 93
+      },
+      "revId": "13654a966dfda31553a76f3a4b56a273997b67a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ac1569ac_10f5844f",
         "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
         "patchSetId": 10
@@ -94,6 +160,30 @@
       "writtenOn": "2023-06-20T06:21:07Z",
       "side": 1,
       "message": "```suggestion\n            octalFileMode);\n```",
+      "range": {
+        "startLine": 377,
+        "startChar": 12,
+        "endLine": 377,
+        "endChar": 54
+      },
+      "revId": "13654a966dfda31553a76f3a4b56a273997b67a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "342983a6_327f6ec2",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1091855
+      },
+      "writtenOn": "2023-06-20T19:07:23Z",
+      "side": 1,
+      "message": "See previous comment.",
+      "parentUuid": "ac1569ac_10f5844f",
       "range": {
         "startLine": 377,
         "startChar": 12,

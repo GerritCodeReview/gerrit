@@ -187,10 +187,6 @@ export {DiffViewMode};
  * The type of email strategy to use.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-input
  */
-export enum EmailStrategy {
-  ENABLED = 'ENABLED',
-  CC_ON_OWN_COMMENTS = 'CC_ON_OWN_COMMENTS',
-  ATTENTION_SET_ONLY = 'ATTENTION_SET_ONLY',
   DISABLED = 'DISABLED',
 }
 

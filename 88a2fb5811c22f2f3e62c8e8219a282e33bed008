@@ -93,6 +93,30 @@
       },
       "revId": "88a2fb5811c22f2f3e62c8e8219a282e33bed008",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d552f21_0c2e555d",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-06-20T15:18:55Z",
+      "side": 1,
+      "message": "Acknowledged. We should probably have someone from Google\u0027s UI team review this change as well.",
+      "parentUuid": "451331d4_7540a0b1",
+      "range": {
+        "startLine": 804,
+        "startChar": 28,
+        "endLine": 804,
+        "endChar": 60
+      },
+      "revId": "88a2fb5811c22f2f3e62c8e8219a282e33bed008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

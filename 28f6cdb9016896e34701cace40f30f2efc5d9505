@@ -47,6 +47,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e73db24_f16e2ba9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-20T09:29:49Z",
+      "side": 1,
+      "message": "Thanks Thomas.\n\nI think there was a problem with the order the events were getting processed with the previous impl, and I think we can control the order of listeners registration (and thus event processing order) when using the `EventListener`.",
+      "revId": "28f6cdb9016896e34701cace40f30f2efc5d9505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0fbe6036_0eb48ce2",

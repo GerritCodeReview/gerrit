@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f6aae7c_cf74f726",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-20T21:15:25Z",
+      "side": 1,
+      "message": "I think you must have a different version of google-java-format as I don\u0027t see any diff when I run the formatter. If you run `tools/setup_gjf.sh` it\u0027ll get the 1.7 version that Gerrit uses.",
+      "revId": "7591f8f22099f9e1f01589f53c608e520bb9b564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -213,17 +213,6 @@ export enum DefaultBase {
   FIRST_PARENT = 'FIRST_PARENT',
 }
 
-/**
- * how draft comments are handled
-}
-  ALL = 'ALL',
-}
-
-/**
- * Controls visibility of other users' dashboard pages and completion suggestions to web users
-
-    key_map_type: 'DEFAULT',
-    line_length: 100,
     line_wrapping: false,
     match_brackets: true,
     show_base: false,

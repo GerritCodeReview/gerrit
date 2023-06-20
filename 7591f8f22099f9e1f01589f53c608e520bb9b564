@@ -70,6 +70,24 @@
       "parentUuid": "9c9a0cdb_4a44b635",
       "revId": "7591f8f22099f9e1f01589f53c608e520bb9b564",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6622fd7b_ee32f1d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-20T21:48:41Z",
+      "side": 1,
+      "message": "1.7 is actually a pretty old version, so you likely got a newer version somehow. If you\u0027re using an IDE somewhere in your workflow, check that it doesn\u0027t have a newer version of the formatter installed as a plugin. That one has gotten me before.",
+      "parentUuid": "322c33a1_767bbaaf",
+      "revId": "7591f8f22099f9e1f01589f53c608e520bb9b564",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

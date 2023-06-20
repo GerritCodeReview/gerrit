@@ -63,6 +63,30 @@
       },
       "revId": "b5b686af6e42137183908644bcae60deea622d33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4929fa58_f1f90b9b",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-20T19:07:26Z",
+      "side": 1,
+      "message": "\u003e \u003e Instead of having this cache delegate to the searching changecacheimpl, can we implement both against an interface and use bindings to determine what is used instead?\n\u003e \n\u003e I think that would make sense if we were not calling one from the other on primaries, and as I will explain below, I think we still want to do that.\n\u003e \n\u003e \u003e The benchmark you posted means for primaries, this change is a no-op (besides making the logic more complex). \n\u003e \n\u003e This is not accurate. We are seeing good improvements on primaries. The \"ideal\" primary numbers measured are not easy to achieve in practice, some of the reasons are described in the CM: \n\u003e \n\u003e \"Although the numbers above do not show an improvement on \"best\" times\n\u003e for primaries using ES, that\u0027s because those numbers represent the times\n\u003e achieved with the existing \"changes\" cache enabled. However, since the\n\u003e existing \"changes\" cache is disabled by default, most sites will see an\n\u003e improvement after this change with \u0027git upload-pack\u0027 on primaries also,\n\u003e and additionally with \u0027git receive-pack\u0027. Thus the warm times after this\n\u003e change are more achievable and more likely to stay fast, even when other\n\u003e projects are accessed in between. Before this change it is harder to\n\u003e achieve and maintain the warm times.\"\n\nThat is useful information, can you share some updated stats on the primary\nimprovements when the \"changes\" cache is disabled?\n\nWe may also consider to discontinue the \"changes\" change IMHO, I also have concerns about it, because of the fact of being expensive to compute and very likely to become stale and needing expensive reloading, especially for large mono-repos with tons of changes.\n\nWhat is the point of having a _bad_ and a _good_ cache for the same purpose? @Patrick do you guys have the \"changes\" cache enabled?",
+      "parentUuid": "56ad1a25_864e6132",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 76
+      },
+      "revId": "b5b686af6e42137183908644bcae60deea622d33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

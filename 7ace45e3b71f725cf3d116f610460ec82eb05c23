@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9ea4a85_a894bd0c",
+        "filename": "java/com/google/gerrit/server/edit/tree/ChangeFileContentModification.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-06-20T19:39:22Z",
+      "side": 1,
+      "message": "Use static import here as well.",
+      "range": {
+        "startLine": 99,
+        "startChar": 29,
+        "endLine": 99,
+        "endChar": 44
+      },
+      "revId": "7ace45e3b71f725cf3d116f610460ec82eb05c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

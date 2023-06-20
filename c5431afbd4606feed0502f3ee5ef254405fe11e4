@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31a0dd05_37c33ed3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-20T17:12:00Z",
+      "side": 1,
+      "message": "Just FYI, https://gerrit-review.googlesource.com/c/gerrit/+/376094 is going to change this implementation significantly once it merges up. Please do review that change if you can.",
+      "revId": "c5431afbd4606feed0502f3ee5ef254405fe11e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

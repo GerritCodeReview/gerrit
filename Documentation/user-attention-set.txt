@@ -1,8 +1,5 @@
 = Gerrit Code Review - Attention Set
 
-Report a bug or send feedback using
-link:https://bugs.chromium.org/p/gerrit/issues/entry?template=Attention+Set[this Monorail template].
-
 [[whose-turn]]
 == Whose turn is it?
 

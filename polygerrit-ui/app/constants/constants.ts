@@ -181,14 +181,6 @@ export enum TimeFormat {
   HHMM_24 = 'HHMM_24',
 }
 
-export {DiffViewMode};
-
-/**
- * The type of email strategy to use.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-input
- */
-  DISABLED = 'DISABLED',
-}
 
 /**
  * The type of email format to use.

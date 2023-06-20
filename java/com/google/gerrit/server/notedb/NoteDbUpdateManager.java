@@ -57,6 +57,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.file.RefDirectory;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -264,6 +265,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private boolean checkExpectedState = true;
   private boolean saveObjects = true;
   private boolean atomicRefUpdates = true;
+  private boolean lockLooseRefs = true;
   private String refLogMessage;
   private PersonIdent refLogIdent;
   private PushCertificate pushCert;
@@ -353,6 +355,18 @@ public class NoteDbUpdateManager implements AutoCloseable {
    */
   public NoteDbUpdateManager setAtomicRefUpdates(boolean atomicRefUpdates) {
     this.atomicRefUpdates = atomicRefUpdates;
+    return this;
+  }
+
+  /**
+   * Set whether to lock loose refs when doing batch ref updates. Loose ref locks can be disabled if
+   * no other process or thread is accessing refs of the given project concurrently.
+   *
+   * @param lockLooseRefs whether to lock loose refs when doing batch ref updates
+   * @return this
+   */
+  public NoteDbUpdateManager setLockLooseRefs(boolean lockLooseRefs) {
+    this.lockLooseRefs = lockLooseRefs;
     return this;
   }
 
@@ -652,7 +666,10 @@ public class NoteDbUpdateManager implements AutoCloseable {
       or.flushToFinalInserter();
     }
 
-    BatchRefUpdate bru = or.repo.getRefDatabase().newBatchUpdate();
+    BatchRefUpdate bru =
+        or.repo.getRefDatabase() instanceof RefDirectory && !lockLooseRefs
+            ? ((RefDirectory) or.repo.getRefDatabase()).newBatchUpdate(false)
+            : or.repo.getRefDatabase().newBatchUpdate();
     bru.setPushCertificate(pushCert);
     if (refLogMessage != null) {
       bru.setRefLogMessage(refLogMessage, false);

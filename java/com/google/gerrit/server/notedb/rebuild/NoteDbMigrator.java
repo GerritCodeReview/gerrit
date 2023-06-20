@@ -102,12 +102,14 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.internal.storage.file.PackInserter;
+import org.eclipse.jgit.internal.storage.file.RefDirectory;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -204,6 +206,7 @@ public class NoteDbMigrator implements AutoCloseable {
     private boolean shuffleProjectSlices;
     private int sequenceGap = -1;
     private boolean autoMigrate;
+    private boolean lockLooseRefs;
     private boolean verbose;
 
     @Inject
@@ -465,6 +468,18 @@ public class NoteDbMigrator implements AutoCloseable {
       return this;
     }
 
+    /**
+     * Set whether to lock loose refs when doing batch ref updates. Loose ref locks can be disabled
+     * if no other process or thread is accessing refs of the given project concurrently.
+     *
+     * @param lockLooseRefs whether to lock loose refs when doing batch ref updates
+     * @return this
+     */
+    public Builder setLockLooseRefs(boolean lockLooseRefs) {
+      this.lockLooseRefs = lockLooseRefs;
+      return this;
+    }
+
     public NoteDbMigrator build() throws MigrationException {
       return new NoteDbMigrator(
           sitePaths,
@@ -498,6 +513,7 @@ public class NoteDbMigrator implements AutoCloseable {
           shuffleProjectSlices,
           sequenceGap >= 0 ? sequenceGap : Sequences.getChangeSequenceGap(cfg),
           autoMigrate,
+          lockLooseRefs,
           verbose);
     }
   }
@@ -563,6 +579,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private final boolean shuffleProjectSlices;
   private final int sequenceGap;
   private final boolean autoMigrate;
+  private final boolean lockLooseRefs;
   private final boolean verbose;
 
   private final AtomicLong globalChangeCounter = new AtomicLong();
@@ -597,6 +614,7 @@ public class NoteDbMigrator implements AutoCloseable {
       boolean shuffleProjectSlices,
       int sequenceGap,
       boolean autoMigrate,
+      boolean lockLooseRefs,
       boolean verbose)
       throws MigrationException {
     if (ImmutableList.of(!changes.isEmpty(), !projects.isEmpty(), !skipProjects.isEmpty()).stream()
@@ -635,6 +653,7 @@ public class NoteDbMigrator implements AutoCloseable {
     this.shuffleProjectSlices = shuffleProjectSlices;
     this.sequenceGap = sequenceGap;
     this.autoMigrate = autoMigrate;
+    this.lockLooseRefs = lockLooseRefs;
     this.verbose = verbose;
 
     // Stack notedb.config over gerrit.config, in the same way as GerritServerConfigProvider.
@@ -1072,7 +1091,10 @@ public class NoteDbMigrator implements AutoCloseable {
           try (NoteDbUpdateManager manager =
               updateManagerFactory
                   .create(project)
-                  .setAtomicRefUpdates(false)
+                  .setAtomicRefUpdates(
+                      changeRepo.getRefDatabase() instanceof RefDirectory ? !lockLooseRefs : false)
+                  .setLockLooseRefs(
+                      changeRepo.getRefDatabase() instanceof RefDirectory ? lockLooseRefs : true)
                   .setSaveObjects(false)
                   .setChangeRepo(changeRepo, changeRw, changeIns, tmpChangeCmds)
                   .setAllUsersRepo(allUsersRepo, allUsersRw, allUsersIns, tmpAllUsersCmds)) {
@@ -1202,10 +1224,15 @@ public class NoteDbMigrator implements AutoCloseable {
       return;
     }
     ins.flush();
-    BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
+    RefDatabase refDb = repo.getRefDatabase();
+    boolean isAtomicWithNoLooseRefLocking = refDb instanceof RefDirectory && !lockLooseRefs;
+    BatchRefUpdate bru =
+        isAtomicWithNoLooseRefLocking
+            ? ((RefDirectory) refDb).newBatchUpdate(false)
+            : refDb.newBatchUpdate();
     bru.setRefLogMessage("Migrate changes to NoteDb", false);
     bru.setRefLogIdent(serverIdent.get());
-    bru.setAtomic(false);
+    bru.setAtomic(isAtomicWithNoLooseRefLocking);
     bru.setAllowNonFastForwards(true);
     cmds.addTo(bru);
     RefUpdateUtil.executeChecked(bru, rw);

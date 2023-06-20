@@ -22,6 +22,29 @@
       },
       "revId": "88a2fb5811c22f2f3e62c8e8219a282e33bed008",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "448cafbc_f4cfbd6a",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-06-20T02:58:24Z",
+      "side": 1,
+      "message": "Since the API already checks the capability, can we avoid this redundant check?",
+      "range": {
+        "startLine": 804,
+        "startChar": 28,
+        "endLine": 804,
+        "endChar": 60
+      },
+      "revId": "88a2fb5811c22f2f3e62c8e8219a282e33bed008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

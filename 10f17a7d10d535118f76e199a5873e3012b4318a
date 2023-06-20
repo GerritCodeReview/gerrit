@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c526cb37_71af8722",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-06-20T06:52:11Z",
+      "side": 1,
+      "message": "It would be better to keep the behaviour same as rebase UI here. Use the current PS committer email as default when the committer and current user are same?",
+      "range": {
+        "startLine": 676,
+        "startChar": 13,
+        "endLine": 676,
+        "endChar": 27
+      },
+      "revId": "10f17a7d10d535118f76e199a5873e3012b4318a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c0d2b0b_548e26fe",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-20T17:49:47Z",
+      "side": 1,
+      "message": "Remove this line now?",
+      "revId": "841a605c5c41c35cf393ce6318d119eb9a286385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

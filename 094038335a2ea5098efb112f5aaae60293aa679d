@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1ee1e05_74acc2c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-20T17:49:47Z",
+      "side": 1,
+      "message": "\u003e All fields in PatchSet are optional. IIUC any new fields in proto should be made optional.\n\nBut I think at some point we remove support for upgrades from old versions and then I think we should be able to make it required. Is that accurate?",
+      "parentUuid": "c7de6783_07659dca",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 17
+      },
+      "revId": "094038335a2ea5098efb112f5aaae60293aa679d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f44f0c2_a6f66600",

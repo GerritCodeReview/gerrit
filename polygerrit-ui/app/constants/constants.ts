@@ -221,11 +221,6 @@ export enum DraftsAction {
   PUBLISH_ALL_REVISIONS = 'PUBLISH_ALL_REVISIONS',
   KEEP = 'KEEP',
 }
-
-export enum NotifyType {
-  NONE = 'NONE',
-  OWNER = 'OWNER',
-  OWNER_REVIEWERS = 'OWNER_REVIEWERS',
   ALL = 'ALL',
 }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86570da5_fa80c4ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-06-20T06:08:32Z",
+      "side": 1,
+      "message": "Nice catch!\nIn hindsight the [REST API](https://gerrit-review.googlesource.com/c/gerrit/+/377195/10/java/com/google/gerrit/extensions/api/changes/FileContentInput.java#24) should take a String and not an Integer for file-mode so that we could handle octals correctly from the start, alas public APIs are not easily changed.",
+      "revId": "13654a966dfda31553a76f3a4b56a273997b67a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

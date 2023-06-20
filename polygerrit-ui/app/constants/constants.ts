@@ -215,11 +215,6 @@ export enum DefaultBase {
 
 /**
  * how draft comments are handled
- */
-export enum DraftsAction {
-  PUBLISH = 'PUBLISH',
-  PUBLISH_ALL_REVISIONS = 'PUBLISH_ALL_REVISIONS',
-  KEEP = 'KEEP',
 }
   ALL = 'ALL',
 }

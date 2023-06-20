@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ab33526f_8b984b69",
+        "filename": "java/com/google/gerrit/entities/converter/PatchSetProtoConverter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-20T21:10:10Z",
+      "side": 1,
+      "message": "nit, follow the same pattern as pushCertificate/description?\n\n\n```suggestion\n    patchSet.branch().ifPresent(builder::setBranch);\n```",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 5
+      },
+      "revId": "841a605c5c41c35cf393ce6318d119eb9a286385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fed06a6d_7194bb41",
+        "filename": "java/com/google/gerrit/entities/converter/PatchSetProtoConverter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-20T21:10:10Z",
+      "side": 1,
+      "message": "Why does this need `Optional.of()` when pushCertificate and description don\u0027t?",
+      "range": {
+        "startLine": 74,
+        "startChar": 21,
+        "endLine": 74,
+        "endChar": 33
+      },
+      "revId": "841a605c5c41c35cf393ce6318d119eb9a286385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6c0d2b0b_548e26fe",
         "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
         "patchSetId": 8
@@ -14,6 +60,70 @@
       "writtenOn": "2023-06-20T17:49:47Z",
       "side": 1,
       "message": "Remove this line now?",
+      "revId": "841a605c5c41c35cf393ce6318d119eb9a286385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05d0c5e3_a50d8920",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-20T21:10:10Z",
+      "side": 1,
+      "message": "\u003e Remove this line now?\n\nThough when you do, I guess you need to fix 322 somehow? Maybe if `out.branch` is null it falls back to using `cd.change().getDest().branch()`?",
+      "parentUuid": "6c0d2b0b_548e26fe",
+      "revId": "841a605c5c41c35cf393ce6318d119eb9a286385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96192bc4_8fa91dc9",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-20T21:10:10Z",
+      "side": 1,
+      "message": "Based on your comment on lines 491-492, shouldn\u0027t this check be something like `if p.id() \u003e\u003d psId.id()`? And since line 499 is always going to put when `p.id()\u003d\u003dpsId.id()`, you can do `if p.id() \u003e psId.id()` (and adjust your comments accordingly).",
+      "range": {
+        "startLine": 494,
+        "startChar": 20,
+        "endLine": 494,
+        "endChar": 57
+      },
+      "revId": "841a605c5c41c35cf393ce6318d119eb9a286385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f9387b3_8eafddc2",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-20T21:10:10Z",
+      "side": 1,
+      "message": "Why check it? Is it ever incorrect to set it? If it\u0027s not, I would move the `.put()` above the `if (patchSets !\u003d null) {` on line 484.",
+      "range": {
+        "startLine": 498,
+        "startChar": 6,
+        "endLine": 498,
+        "endChar": 48
+      },
       "revId": "841a605c5c41c35cf393ce6318d119eb9a286385",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

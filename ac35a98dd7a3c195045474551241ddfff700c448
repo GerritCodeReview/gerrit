@@ -436,6 +436,24 @@
       "parentUuid": "72fa6bfe_2d22c284",
       "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7bff29d_f28e1934",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-20T06:36:08Z",
+      "side": 1,
+      "message": "This would happen in line 441:\n\n```\nonEvent(Event) : void - com.google.gerrit.server.events.EventListener\n\trun(EventListener) : void - com.google.gerrit.server.events.EventBroker.fireEventForUnrestrictedListeners(...).() -\u003e {...} ExtensionImplConsumer\n\t\t[declaration] fireEventForUnrestrictedListeners(Event) : void - com.google.gerrit.server.events.EventBroker\n\t\t\tfireEvent(BranchNameKey, RefEvent) : void - com.google.gerrit.server.events.EventBroker\n\t\t\t\tpostEvent(BranchNameKey, RefEvent) : void - com.google.gerrit.server.events.EventBroker\n\t\t\t\t\trun(EventDispatcher) : void - com.google.gerrit.server.events.StreamEventsApiListener.onGitBatchRefUpdated(...).() -\u003e {...} ExtensionImplConsumer\n```\n\nThe pull-rpelication plugin would have to be adapted however to not use `ref-updated` but `batch-ref-updated`.\n\nSo pull-replication would use the implementation provided in this change in both cases. Thus, my example was not well chosen. The replication-plugin implements the `GitBatchRefUpdatedListener` in `ReplicationQueue` [1]. I believe that to be the better way, since there are less calls caused by events, i.e. filtering happens when the event is fired not when an event is received, but I don\u0027t know the pull-replication plugin well enough. There might be a reason to use the more general `EventBroker.onEvent()`. I would guess, that it was done that way to support instance internal and external events at the same time.\n\n[1] https://gerrit.googlesource.com/plugins/replication/+/refs/heads/master/src/main/java/com/googlesource/gerrit/plugins/replication/ReplicationQueue.java#57",
+      "parentUuid": "c7ff3ca2_3a016c29",
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

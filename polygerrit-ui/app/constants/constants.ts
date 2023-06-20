@@ -200,8 +200,6 @@ export enum EmailStrategy {
  */
 
 export enum EmailFormat {
-  PLAINTEXT = 'PLAINTEXT',
-  HTML_PLAINTEXT = 'HTML_PLAINTEXT',
 }
 
 /**

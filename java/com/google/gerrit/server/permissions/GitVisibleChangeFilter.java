@@ -27,6 +27,7 @@ import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
@@ -80,7 +81,9 @@ public class GitVisibleChangeFilter {
           scanRepoForChangeDatas(changeNotesFactory, changeDataFactory, repository, projectName);
     }
 
+    Set<Change.Id> seen = new HashSet <>();
     return changeDatas
+        .filter(n -> seen.add(n.getId()))
         .filter(cd -> changes.contains(cd.getId()))
         .filter(
             cd -> {

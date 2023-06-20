@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01f46f5f_fb590835",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1156394
+      },
+      "writtenOn": "2023-06-20T10:01:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cc7e81d_5d8dd0f8",
+      "range": {
+        "startLine": 473,
+        "startChar": 4,
+        "endLine": 473,
+        "endChar": 75
+      },
+      "revId": "88a2fb5811c22f2f3e62c8e8219a282e33bed008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "448cafbc_f4cfbd6a",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-06-20T02:58:24Z",
       "side": 1,
       "message": "Since the API already checks the capability, can we avoid this redundant check?",
+      "range": {
+        "startLine": 804,
+        "startChar": 28,
+        "endLine": 804,
+        "endChar": 60
+      },
+      "revId": "88a2fb5811c22f2f3e62c8e8219a282e33bed008",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "451331d4_7540a0b1",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 1156394
+      },
+      "writtenOn": "2023-06-20T10:01:32Z",
+      "side": 1,
+      "message": "This check is needed because if the user doesn\u0027t have access to view the secondary email, this exception is handled at lower level api (fetchJSON()), where a pop up window is shown. So it\u0027s better to check the capability at this level itself otherwise we have to make call to fetchJSON() and handle the exception explicitly which makes it unnecessarily complex.",
+      "parentUuid": "448cafbc_f4cfbd6a",
       "range": {
         "startLine": 804,
         "startChar": 28,

@@ -76,7 +76,7 @@ mailing list):
   link:https://groups.google.com/d/forum/repo-discuss[repo-discuss,role=external,window=_blank]
   mailing list
 * administrate issues in the
-  link:https://bugs.chromium.org/p/gerrit/issues/list[issue tracker,role=external,window=_blank]
+  link:https://issues.gerritcodereview.com/issues?q=status:open[issue tracker,role=external,window=_blank]
 
 Supporters can become link:#contributor[contributors] by signing a
 contributor license agreement and contributing code to the Gerrit
@@ -107,7 +107,8 @@ Contributors have all the permissions that link:#supporter[supporters]
 have. In addition they have signed a link:dev-cla.html[contributor
 license agreement] which enables them to push changes.
 
-Regular contributors can ask to be added to the `gerrit-trusted-contributors`
+Regular contributors can ask to be added to the
+link:https://groups.google.com/g/gerritcodereview-trusted-contributors[gerrit-trusted-contributors]
 group, which allows to:
 
 * add patch sets to changes of other users

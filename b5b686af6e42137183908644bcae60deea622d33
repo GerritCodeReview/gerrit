@@ -39,6 +39,30 @@
       },
       "revId": "b5b686af6e42137183908644bcae60deea622d33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56ad1a25_864e6132",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-20T18:11:16Z",
+      "side": 1,
+      "message": "\u003e Instead of having this cache delegate to the searching changecacheimpl, can we implement both against an interface and use bindings to determine what is used instead?\n\nI think that would make sense if we were not calling one from the other on primaries, and as I will explain below, I think we still want to do that.\n\n\u003e The benchmark you posted means for primaries, this change is a no-op (besides making the logic more complex). \n\nThis is not accurate. We are seeing good improvements on primaries. The \"ideal\" primary numbers measured are not easy to achieve in practice, some of the reasons are described in the CM: \n\n\"Although the numbers above do not show an improvement on \"best\" times\nfor primaries using ES, that\u0027s because those numbers represent the times\nachieved with the existing \"changes\" cache enabled. However, since the\nexisting \"changes\" cache is disabled by default, most sites will see an\nimprovement after this change with \u0027git upload-pack\u0027 on primaries also,\nand additionally with \u0027git receive-pack\u0027. Thus the warm times after this\nchange are more achievable and more likely to stay fast, even when other\nprojects are accessed in between. Before this change it is harder to\nachieve and maintain the warm times.\"\n\nAnother reason is also explained in the next paragraph about memory consumption, the \"changes\" cache likely consumes too much memory for larger sites to be useful (i.e. either the limit will be set too low to be useful, or if raised, it will consume too much). So I probably \"undersold\" this new cache a bit on primaries since it is very useful on primaries, and we definitely want it enabled there also.",
+      "parentUuid": "d9c44b14_fb96a5e8",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 76
+      },
+      "revId": "b5b686af6e42137183908644bcae60deea622d33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

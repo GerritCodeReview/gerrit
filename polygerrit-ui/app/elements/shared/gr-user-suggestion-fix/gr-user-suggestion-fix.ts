@@ -76,6 +76,7 @@ export class GrUserSuggetionFix extends LitElement {
           <gr-copy-clipboard
             hideInput=""
             text=${code}
+            multiline
             copyTargetName="Suggested edit"
           ></gr-copy-clipboard>
         </div>

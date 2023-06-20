@@ -87,6 +87,30 @@
       },
       "revId": "b5b686af6e42137183908644bcae60deea622d33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e313962b_530307a4",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-20T19:28:37Z",
+      "side": 1,
+      "message": "\u003e That is useful information, can you share some updated stats on the primary\n\u003e improvements when the \"changes\" cache is disabled?\n\nFrom my testing, if the cache is disabled it returns to the cold times ~1m3s, instead of the warm times. It is mostly inconsistent when enabled, then with back to back tests on the same project, warm times can be achieved, but if other projects are exercised in between, then the warm times become inconsistent without necessarily returning all the way to the cold times.\n\n\u003e We may also consider to discontinue the \"changes\" change IMHO, I also have concerns about it, because of the fact of being expensive to compute and very likely to become stale and needing expensive reloading, especially for large mono-repos with tons of changes.\n\nAgreed. I am open to either direction here, and since it is a change for a stable branch I left the old cache in place to start, but I would gladly kill it if that is the what people want. We could also leave it and decide what to do with it once it gets upmerged more.\n\n\u003eWhat is the point of having a bad and a good cache for the same purpose? @Patrick do you guys have the \"changes\" cache enabled?\n\nMaybe it doesn\u0027t matter on \u0027stable-3.5\u0027 since google is running \u0027master\u0027 anyway, but since google is running multi-primary, it could be problematic if they are using it.",
+      "parentUuid": "4929fa58_f1f90b9b",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 76
+      },
+      "revId": "b5b686af6e42137183908644bcae60deea622d33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

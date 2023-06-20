@@ -100,6 +100,14 @@ public class MigrateToNoteDb extends SiteProgram {
               + " repositories.")
   private boolean shuffleProjectSlices;
 
+  @Option(
+      name = "--lock-loose-refs",
+      usage =
+          "Save change meta refs non-atomically while locking loose refs."
+              + " If this option is not provided, then change meta refs are saved"
+              + " atomically (i.e directly into packed-refs) without locking loose refs.")
+  private boolean lockLooseRefs;
+
   @Option(name = "--trial", usage = TRIAL_USAGE)
   private boolean trial;
 
@@ -166,6 +174,7 @@ public class MigrateToNoteDb extends SiteProgram {
               .setShuffleProjectSlices(shuffleProjectSlices)
               .setSequenceGap(sequenceGap)
               .setVerbose(verbose)
+              .setLockLooseRefs(lockLooseRefs)
               .build()) {
         if (!projects.isEmpty()
             || !changes.isEmpty()

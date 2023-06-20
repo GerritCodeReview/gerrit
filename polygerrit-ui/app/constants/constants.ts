@@ -176,12 +176,6 @@ export enum DateFormat {
  * Time formats in preferences
  * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-input
  */
-export enum TimeFormat {
-  HHMM_12 = 'HHMM_12',
-  HHMM_24 = 'HHMM_24',
-}
-
-
 /**
  * The type of email format to use.
  * Doesn't mentioned in doc, but exists in Java class GeneralPreferencesInfo.

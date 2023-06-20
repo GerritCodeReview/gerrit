@@ -44,15 +44,35 @@ public class DropWizardMetricMakerTest {
   }
 
   @Test
+  public void shouldNotSanitizeSafeName() throws Exception {
+    assertThat(metrics.sanitizeMetricName("metric/submetric1/submetric2/submetric3"))
+        .isEqualTo("metric/submetric1/submetric2/submetric3");
+  }
+
+  @Test
+  public void shouldNotCreateSimpleCollisions() throws Exception {
+    String sanitizedCase1 = metrics.sanitizeMetricName("foo_bar");
+    String sanitizedCase2 = metrics.sanitizeMetricName("foo+bar");
+    assertThat(sanitizedCase1).isNotEqualTo(sanitizedCase2);
+  }
+
+  @Test
   public void shouldSanitizeUnwantedChars() throws Exception {
     assertThat(metrics.sanitizeMetricName("very+confusing$long#metric@net/name^1"))
-        .isEqualTo("very_confusing_long_metric_net/name_1");
+        .isEqualTo("very_2b_confusing_24_long_23_metric_40_net/name_5e_1");
     assertThat(metrics.sanitizeMetricName("/metric/submetric")).isEqualTo("_metric/submetric");
   }
 
   @Test
+  public void shouldAddExtraUnderscoreForEachInputUnderscore() throws Exception {
+    assertThat(metrics.sanitizeMetricName("foo_bar")).isEqualTo("foo__bar");
+    assertThat(metrics.sanitizeMetricName("/metric/submetric_1/submetric_2"))
+        .isEqualTo("_metric/submetric__1/submetric__2");
+  }
+
+  @Test
   public void shouldReduceConsecutiveSlashesToOne() throws Exception {
-    assertThat(metrics.sanitizeMetricName("/metric//submetric1///submetric2/submetric3"))
+    assertThat(metrics.sanitizeMetricName("/metric///submetric1///submetric2/submetric3"))
         .isEqualTo("_metric/submetric1/submetric2/submetric3");
   }
 

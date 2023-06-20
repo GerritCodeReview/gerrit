@@ -170,17 +170,6 @@ export enum DateFormat {
   ISO = 'ISO',
   EURO = 'EURO',
   UK = 'UK',
-}
-
-/**
- * Time formats in preferences
- * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-input
- */
-/**
- * The type of email format to use.
- * Doesn't mentioned in doc, but exists in Java class GeneralPreferencesInfo.
- */
--review.googlesource.com/Documentation/rest-api-accounts.html#preferences-input
  */
 export enum DefaultBase {
   AUTO_MERGE = 'AUTO_MERGE',

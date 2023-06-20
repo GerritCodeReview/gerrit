@@ -19,6 +19,7 @@ import {GrButton} from '../gr-button/gr-button';
 import {GrIcon} from '../gr-icon/gr-icon';
 import {getAppContext} from '../../../services/app-context';
 import {Timing} from '../../../constants/reporting';
+import {when} from 'lit/directives/when.js';
 
 const COPY_TIMEOUT_MS = 1000;
 
@@ -44,6 +45,9 @@ export class GrCopyClipboard extends LitElement {
   // Optional property for toast to announce correct name of target that was copied
   @property({type: String, reflect: true})
   copyTargetName?: string;
+
+  @property({type: Boolean})
+  multiline = false;
 
   @query('#icon')
   iconEl!: GrIcon;
@@ -96,16 +100,30 @@ export class GrCopyClipboard extends LitElement {
           @click=${this._handleInputClick}
           .bindValue=${this.text ?? ''}
         >
-          <input
-            id="input"
-            is="iron-input"
-            class=${classMap({hideInput: this.hideInput})}
-            type="text"
-            @click=${this._handleInputClick}
-            readonly=""
-            .value=${this.text ?? ''}
-            part="text-container-style"
-          />
+          ${when(
+            this.multiline,
+            () => html`<textarea
+              id="input"
+              is="iron-input"
+              class=${classMap({hideInput: this.hideInput})}
+              type="text"
+              @click=${this._handleInputClick}
+              readonly=""
+              .value=${this.text ?? ''}
+              part="text-container-style"
+            >
+            </textarea>`,
+            () => html`<input
+              id="input"
+              is="iron-input"
+              class=${classMap({hideInput: this.hideInput})}
+              type="text"
+              @click=${this._handleInputClick}
+              readonly=""
+              .value=${this.text ?? ''}
+              part="text-container-style"
+            />`
+          )}
         </iron-input>
         <gr-tooltip-content
           ?has-tooltip=${this.hasTooltip}

@@ -16,6 +16,92 @@
       "message": "Nice catch!\nIn hindsight the [REST API](https://gerrit-review.googlesource.com/c/gerrit/+/377195/10/java/com/google/gerrit/extensions/api/changes/FileContentInput.java#24) should take a String and not an Integer for file-mode so that we could handle octals correctly from the start, alas public APIs are not easily changed.",
       "revId": "13654a966dfda31553a76f3a4b56a273997b67a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a5ee7a0_4d6d8fd2",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-06-20T06:21:07Z",
+      "side": 1,
+      "message": "You might want to consider doing a static import the enums for brevity.",
+      "range": {
+        "startLine": 321,
+        "startChar": 32,
+        "endLine": 321,
+        "endChar": 47
+      },
+      "revId": "13654a966dfda31553a76f3a4b56a273997b67a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d0f5a26_b3a92b25",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-06-20T06:21:07Z",
+      "side": 1,
+      "message": "`int octalFileMode \u003d decimalAsOctal(fileContentInput.fileMode));`",
+      "revId": "13654a966dfda31553a76f3a4b56a273997b67a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6464b81_f8da49a7",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-06-20T06:21:07Z",
+      "side": 1,
+      "message": "```suggestion\n        if ((octalFileMode !\u003d Patch.FileMode.EXECUTABLE_FILE.getMode()) \u0026\u0026 (octalFileMode !\u003d Patch.FileMode.REGULAR_FILE.getMode())) {\n```",
+      "range": {
+        "startLine": 364,
+        "startChar": 8,
+        "endLine": 364,
+        "endChar": 93
+      },
+      "revId": "13654a966dfda31553a76f3a4b56a273997b67a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac1569ac_10f5844f",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-06-20T06:21:07Z",
+      "side": 1,
+      "message": "```suggestion\n            octalFileMode);\n```",
+      "range": {
+        "startLine": 377,
+        "startChar": 12,
+        "endLine": 377,
+        "endChar": 54
+      },
+      "revId": "13654a966dfda31553a76f3a4b56a273997b67a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

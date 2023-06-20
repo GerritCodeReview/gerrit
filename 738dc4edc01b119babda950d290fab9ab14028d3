@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c69ece68_30fa6da5",
+        "filename": "tools/maven/gerrit-acceptance-framework_pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-20T10:10:06Z",
+      "side": 0,
+      "message": "not sure if \u0027list\u0027 showed both \"open\" and \"closed\" issues. In that case, we can omit ?q\u003di:open from RHS?",
+      "range": {
+        "startLine": 107,
+        "startChar": 51,
+        "endLine": 107,
+        "endChar": 55
+      },
+      "revId": "738dc4edc01b119babda950d290fab9ab14028d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

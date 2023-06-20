@@ -75,7 +75,7 @@ triggered the auto-retry, however this is not guaranteed:
 
 [[auto-retry-succeeded]]
 If an auto-retry succeeds you may consider filing this as
-link:https://bugs.chromium.org/p/gerrit/issues/entry?template=GoogleSource+Issue[
+link:https://issues.gerritcodereview.com/issues/new?component=1371020[
 Gerrit issue,role=external,window=_blank] so that the Gerrit developers can fix this and treat this
 exception as recoverable.
 

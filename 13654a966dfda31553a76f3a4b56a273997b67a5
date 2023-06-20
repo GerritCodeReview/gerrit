@@ -100,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c472220f_0cfa4d67",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-06-20T19:37:06Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "4a2f0cd3_8978bbe8",
+      "revId": "13654a966dfda31553a76f3a4b56a273997b67a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6464b81_f8da49a7",
@@ -147,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9ccc237_622d6eea",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-06-20T19:37:06Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d66ac3d0_98e16154",
+      "range": {
+        "startLine": 364,
+        "startChar": 8,
+        "endLine": 364,
+        "endChar": 93
+      },
+      "revId": "13654a966dfda31553a76f3a4b56a273997b67a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac1569ac_10f5844f",
@@ -184,6 +226,30 @@
       "side": 1,
       "message": "See previous comment.",
       "parentUuid": "ac1569ac_10f5844f",
+      "range": {
+        "startLine": 377,
+        "startChar": 12,
+        "endLine": 377,
+        "endChar": 54
+      },
+      "revId": "13654a966dfda31553a76f3a4b56a273997b67a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "880cda1d_61113e17",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-06-20T19:37:06Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "342983a6_327f6ec2",
       "range": {
         "startLine": 377,
         "startChar": 12,

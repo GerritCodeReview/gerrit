@@ -73,7 +73,10 @@ public abstract class QueryOptions {
     int backendLimit = config().maxLimit();
     int limit = Ints.saturatedCast((long) limit() + start());
     limit = Math.min(limit, backendLimit);
-    int pageSize = Math.min(Ints.saturatedCast((long) pageSize() + start()), backendLimit);
+    int pageSize =
+        Math.min(
+            Math.min(Ints.saturatedCast((long) pageSize() + start()), config().maxPageSize()),
+            backendLimit);
     return create(config(), 0, null, pageSize, pageSizeMultiplier(), limit, fields());
   }
 

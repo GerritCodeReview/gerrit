@@ -37,7 +37,7 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.mail.EmailModule.HttpPasswordUpdateEmailFactory;
+import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -78,7 +78,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
   private final PermissionBackend permissionBackend;
   private final ExternalIds externalIds;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
-  private final HttpPasswordUpdateEmailFactory httpPasswordUpdateEmailFactory;
+  private final EmailFactories emailFactories;
   private final ExternalIdFactory externalIdFactory;
   private final ExternalIdKeyFactory externalIdKeyFactory;
 
@@ -88,14 +88,14 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
       PermissionBackend permissionBackend,
       ExternalIds externalIds,
       @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
-      HttpPasswordUpdateEmailFactory httpPasswordUpdateEmailFactory,
+      EmailFactories emailFactories,
       ExternalIdFactory externalIdFactory,
       ExternalIdKeyFactory externalIdKeyFactory) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.externalIds = externalIds;
     this.accountsUpdateProvider = accountsUpdateProvider;
-    this.httpPasswordUpdateEmailFactory = httpPasswordUpdateEmailFactory;
+    this.emailFactories = emailFactories;
     this.externalIdFactory = externalIdFactory;
     this.externalIdKeyFactory = externalIdKeyFactory;
   }
@@ -146,8 +146,11 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
                         extId.key(), extId.accountId(), extId.email(), newPassword)));
 
     try {
-      httpPasswordUpdateEmailFactory
-          .createEmail(user, newPassword == null ? "deleted" : "added or updated")
+      emailFactories
+          .createOutgoingEmail(
+              "HttpPasswordUpdate",
+              emailFactories.createHttpPasswordUpdateEmail(
+                  user, newPassword == null ? "deleted" : "added or updated"))
           .send();
     } catch (EmailException e) {
       logger.atSevere().withCause(e).log(

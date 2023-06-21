@@ -14,130 +14,32 @@
 
 package com.google.gerrit.server.mail.send;
 
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
-import com.google.gerrit.entities.NotifyConfig.NotifyType;
-import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.server.mail.send.ChangeEmail.ChangeEmailDecorator;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /** Sends an email alerting a user to a new change for them to review. */
-public class StartReviewChangeEmailDecorator implements ChangeEmailDecorator {
-  private OutgoingEmail email;
-  private ChangeEmail changeEmail;
+public interface StartReviewChangeEmailDecorator extends ChangeEmailDecorator {
 
-  private final Set<Account.Id> reviewers = new HashSet<>();
-  private final Set<Address> reviewersByEmail = new HashSet<>();
-  private final Set<Account.Id> extraCC = new HashSet<>();
-  private final Set<Address> extraCCByEmail = new HashSet<>();
-  private final Set<Account.Id> removedReviewers = new HashSet<>();
-  private final Set<Address> removedByEmailReviewers = new HashSet<>();
-  private boolean isCreateChange = false;
+  /** Add initial set of reviewers. */
+  void addReviewers(Collection<Account.Id> cc);
 
-  public void addReviewers(Collection<Account.Id> cc) {
-    reviewers.addAll(cc);
-  }
+  /** Add initial set of reviewers by email (non-account). */
+  void addReviewersByEmail(Collection<Address> cc);
 
-  public void addReviewersByEmail(Collection<Address> cc) {
-    reviewersByEmail.addAll(cc);
-  }
+  /** Add initial set of cc-ed accounts. */
+  void addExtraCC(Collection<Account.Id> cc);
 
-  public void addExtraCC(Collection<Account.Id> cc) {
-    extraCC.addAll(cc);
-  }
+  /** Add initial set of cc-ed emails. */
+  void addExtraCCByEmail(Collection<Address> cc);
 
-  public void addExtraCCByEmail(Collection<Address> cc) {
-    extraCCByEmail.addAll(cc);
-  }
+  /** Set of reviewers that are removed when sending for review. */
+  void addRemovedReviewers(Collection<Account.Id> removed);
 
-  public void addRemovedReviewers(Collection<Account.Id> removed) {
-    removedReviewers.addAll(removed);
-  }
+  /** Set of reviewers by email (non-account) that are removed when sending for review. */
+  void addRemovedByEmailReviewers(Collection<Address> removed);
 
-  public void addRemovedByEmailReviewers(Collection<Address> removed) {
-    removedByEmailReviewers.addAll(removed);
-  }
-
-  public void markAsCreateChange() {
-    isCreateChange = true;
-  }
-
-  @Override
-  public void init(OutgoingEmail email, ChangeEmail changeEmail) {
-    this.email = email;
-    this.changeEmail = changeEmail;
-  }
-
-  @Nullable
-  private List<String> getReviewerNames() {
-    if (reviewers.isEmpty()) {
-      return null;
-    }
-    List<String> names = new ArrayList<>();
-    for (Account.Id id : reviewers) {
-      names.add(email.getNameFor(id));
-    }
-    return names;
-  }
-
-  @Nullable
-  private List<String> getRemovedReviewerNames() {
-    if (removedReviewers.isEmpty() && removedByEmailReviewers.isEmpty()) {
-      return null;
-    }
-    List<String> names = new ArrayList<>();
-    for (Account.Id id : removedReviewers) {
-      names.add(email.getNameFor(id));
-    }
-    for (Address address : removedByEmailReviewers) {
-      names.add(address.toString());
-    }
-    return names;
-  }
-
-  @Override
-  public void populateEmailContent() {
-    email.addSoyParam("ownerName", email.getNameFor(changeEmail.getChange().getOwner()));
-    email.addSoyEmailDataParam("reviewerNames", getReviewerNames());
-    email.addSoyEmailDataParam("removedReviewerNames", getRemovedReviewerNames());
-
-    switch (email.getNotify().handling()) {
-      case NONE:
-      case OWNER:
-        break;
-      case ALL:
-      default:
-        extraCC.stream().forEach(cc -> email.addByAccountId(RecipientType.CC, cc));
-        extraCCByEmail.stream().forEach(cc -> email.addByEmail(RecipientType.CC, cc));
-        // $FALL-THROUGH$
-      case OWNER_REVIEWERS:
-        reviewers.stream().forEach(r -> email.addByAccountId(RecipientType.TO, r, true));
-        reviewersByEmail.stream().forEach(r -> email.addByEmail(RecipientType.TO, r, true));
-        removedReviewers.stream().forEach(r -> email.addByAccountId(RecipientType.TO, r, true));
-        removedByEmailReviewers.stream().forEach(r -> email.addByEmail(RecipientType.TO, r, true));
-        break;
-    }
-    changeEmail.addAuthors(RecipientType.CC);
-
-    if (isCreateChange) {
-      changeEmail.includeWatchers(
-          NotifyType.NEW_CHANGES,
-          !changeEmail.getChange().isWorkInProgress() && !changeEmail.getChange().isPrivate());
-      changeEmail.includeWatchers(
-          NotifyType.NEW_PATCHSETS,
-          !changeEmail.getChange().isWorkInProgress() && !changeEmail.getChange().isPrivate());
-    } else {
-      changeEmail.ccExistingReviewers();
-    }
-
-    email.appendText(email.textTemplate("NewChange"));
-    if (email.useHtml()) {
-      email.appendHtml(email.soyHtmlTemplate("NewChangeHtml"));
-    }
-  }
+  /** Mark the email as the first in the thread of emails about this change. */
+  void markAsCreateChange();
 }

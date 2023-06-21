@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.gerrit.server.mail.EmailFactories.CHANGE_REVERTED;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
 import com.google.common.base.Strings;
@@ -43,7 +44,7 @@ import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ValidationOptionsUtil;
 import com.google.gerrit.server.extensions.events.ChangeReverted;
-import com.google.gerrit.server.mail.EmailModule.RevertedChangeEmailFactories;
+import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.OutgoingEmail;
@@ -95,7 +96,7 @@ public class CommitUtil {
   private final ApprovalsUtil approvalsUtil;
   private final ChangeInserter.Factory changeInserterFactory;
   private final NotifyResolver notifyResolver;
-  private final RevertedChangeEmailFactories revertedChangeEmailFactories;
+  private final EmailFactories emailFactories;
   private final ChangeMessagesUtil cmUtil;
   private final ChangeNotes.Factory changeNotesFactory;
   private final ChangeReverted changeReverted;
@@ -110,7 +111,7 @@ public class CommitUtil {
       ApprovalsUtil approvalsUtil,
       ChangeInserter.Factory changeInserterFactory,
       NotifyResolver notifyResolver,
-      RevertedChangeEmailFactories revertedChangeEmailFactories,
+      EmailFactories emailFactories,
       ChangeMessagesUtil cmUtil,
       ChangeNotes.Factory changeNotesFactory,
       ChangeReverted changeReverted,
@@ -122,7 +123,7 @@ public class CommitUtil {
     this.approvalsUtil = approvalsUtil;
     this.changeInserterFactory = changeInserterFactory;
     this.notifyResolver = notifyResolver;
-    this.revertedChangeEmailFactories = revertedChangeEmailFactories;
+    this.emailFactories = emailFactories;
     this.cmUtil = cmUtil;
     this.changeNotesFactory = changeNotesFactory;
     this.changeReverted = changeReverted;
@@ -384,9 +385,12 @@ public class CommitUtil {
       changeReverted.fire(revertedChange, revertingChange, ctx.getWhen());
       try {
         ChangeEmail changeEmail =
-            revertedChangeEmailFactories.createChangeEmail(
-                ctx.getProject(), revertedChange.getId());
-        OutgoingEmail outgoingEmail = revertedChangeEmailFactories.createEmail(changeEmail);
+            emailFactories.createChangeEmail(
+                ctx.getProject(),
+                revertedChange.getId(),
+                emailFactories.createRevertedChangeEmail());
+        OutgoingEmail outgoingEmail =
+            emailFactories.createOutgoingEmail(CHANGE_REVERTED, changeEmail);
         outgoingEmail.setFrom(ctx.getAccountId());
         outgoingEmail.setNotify(ctx.getNotify(revertedChangeId));
         outgoingEmail.setMessageId(

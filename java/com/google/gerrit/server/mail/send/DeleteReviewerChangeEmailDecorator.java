@@ -14,71 +14,16 @@
 
 package com.google.gerrit.server.mail.send;
 
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
-import com.google.gerrit.entities.NotifyConfig.NotifyType;
-import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.server.mail.send.ChangeEmail.ChangeEmailDecorator;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /** Let users know that a reviewer and possibly her review have been removed. */
-public class DeleteReviewerChangeEmailDecorator implements ChangeEmailDecorator {
-  private OutgoingEmail email;
-  private ChangeEmail changeEmail;
+public interface DeleteReviewerChangeEmailDecorator extends ChangeEmailDecorator {
+  /** Reviewers being deleted. */
+  void addReviewers(Collection<Account.Id> cc);
 
-  private final Set<Account.Id> reviewers = new HashSet<>();
-  private final Set<Address> reviewersByEmail = new HashSet<>();
-
-  public void addReviewers(Collection<Account.Id> cc) {
-    reviewers.addAll(cc);
-  }
-
-  public void addReviewersByEmail(Collection<Address> cc) {
-    reviewersByEmail.addAll(cc);
-  }
-
-  @Nullable
-  private List<String> getReviewerNames() {
-    if (reviewers.isEmpty() && reviewersByEmail.isEmpty()) {
-      return null;
-    }
-    List<String> names = new ArrayList<>();
-    for (Account.Id id : reviewers) {
-      names.add(email.getNameFor(id));
-    }
-    for (Address a : reviewersByEmail) {
-      names.add(a.toString());
-    }
-    return names;
-  }
-
-  @Override
-  public void init(OutgoingEmail email, ChangeEmail changeEmail) {
-    this.email = email;
-    this.changeEmail = changeEmail;
-    changeEmail.markAsReply();
-  }
-
-  @Override
-  public void populateEmailContent() {
-    email.addSoyEmailDataParam("reviewerNames", getReviewerNames());
-
-    changeEmail.addAuthors(RecipientType.TO);
-    changeEmail.ccAllApprovals();
-    changeEmail.bccStarredBy();
-    changeEmail.ccExistingReviewers();
-    changeEmail.includeWatchers(NotifyType.ALL_COMMENTS);
-    reviewers.stream().forEach(r -> email.addByAccountId(RecipientType.TO, r));
-    reviewersByEmail.stream().forEach(address -> email.addByEmail(RecipientType.TO, address));
-
-    email.appendText(email.textTemplate("DeleteReviewer"));
-    if (email.useHtml()) {
-      email.appendHtml(email.soyHtmlTemplate("DeleteReviewerHtml"));
-    }
-  }
+  /** Reviewers by email (non-account) that are being deleted. */
+  void addReviewersByEmail(Collection<Address> cc);
 }

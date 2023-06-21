@@ -31,6 +31,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -58,6 +59,7 @@ import com.google.gerrit.server.project.LabelConfigValidator;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.ssh.HostKey;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.util.MagicBranch;
@@ -108,6 +110,7 @@ public class CommitValidators {
     private final ProjectCache projectCache;
     private final ProjectConfig.Factory projectConfigFactory;
     private final DiffOperations diffOperations;
+    private final ChangeData.Factory changeDataFactory;
     private final Config config;
 
     @Inject
@@ -123,7 +126,8 @@ public class CommitValidators {
         AccountValidator accountValidator,
         ProjectCache projectCache,
         ProjectConfig.Factory projectConfigFactory,
-        DiffOperations diffOperations) {
+        DiffOperations diffOperations,
+        ChangeData.Factory changeDataFactory) {
       this.gerritIdent = gerritIdent;
       this.urlFormatter = urlFormatter;
       this.config = config;
@@ -136,6 +140,7 @@ public class CommitValidators {
       this.projectCache = projectCache;
       this.projectConfigFactory = projectConfigFactory;
       this.diffOperations = diffOperations;
+      this.changeDataFactory = changeDataFactory;
     }
 
     public CommitValidators forReceiveCommits(
@@ -178,7 +183,8 @@ public class CommitValidators {
         IdentifiedUser user,
         SshInfo sshInfo,
         RevWalk rw,
-        @Nullable Change change) {
+        @Nullable Change change,
+        boolean isNewChange) {
       PermissionBackend.ForRef perm = forProject.ref(branch.branch());
       ProjectState projectState =
           projectCache.get(branch.project()).orElseThrow(illegalState(branch.project()));
@@ -198,7 +204,8 @@ public class CommitValidators {
           .add(new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker))
           .add(new AccountCommitValidator(repoManager, allUsers, accountValidator))
           .add(new GroupCommitValidator(allUsers))
-          .add(new LabelConfigValidator(diffOperations));
+          .add(new LabelConfigValidator(diffOperations))
+          .add(new ChangeSelfDependencyValidator(change, changeDataFactory, isNewChange, rw));
       return new CommitValidators(validators.build());
     }
 
@@ -261,6 +268,50 @@ public class CommitValidators {
       throw new CommitValidationException(e.getMessage(), messages);
     }
     return messages;
+  }
+
+  /** Users cannot upload new patch-sets that depend on previous patch-sets as their ancestors. */
+  public static class ChangeSelfDependencyValidator implements CommitValidationListener {
+    @Nullable private final Change change;
+    private final ChangeData.Factory changeDataFactory;
+    private final boolean isNewChange;
+    private final RevWalk rw;
+
+    public ChangeSelfDependencyValidator(
+        @Nullable Change change,
+        ChangeData.Factory changeDataFactory,
+        boolean isNewChange,
+        RevWalk rw) {
+      this.change = change;
+      this.changeDataFactory = changeDataFactory;
+      this.isNewChange = isNewChange;
+      this.rw = rw;
+    }
+
+    @Override
+    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+        throws CommitValidationException {
+      if (isNewChange) {
+        return ImmutableList.of();
+      }
+      ChangeData changeData = changeDataFactory.create(change.getProject(), change.getId());
+      try {
+        // Make sure all prior patch-sets are not reachable from the new patch-set commit by
+        // following the parent pointers. The same check is applied in
+        // ReceiveCommits#validateNewPatchSetNoteDb.
+        RevCommit newCommit = rw.parseCommit(receiveEvent.commit.getId());
+        for (PatchSet p : changeData.patchSets()) {
+          RevCommit patchSetCommit = rw.parseCommit(p.commitId());
+          if (rw.isMergedInto(patchSetCommit, newCommit)) {
+            throw new CommitValidationException(
+                "New patch-sets cannot point to earlier patch-sets as their parent");
+          }
+        }
+      } catch (IOException e) {
+        logger.atWarning().withCause(e).log("Failed to validate change self dependency");
+      }
+      return ImmutableList.of();
+    }
   }
 
   public static class ChangeIdValidator implements CommitValidationListener {

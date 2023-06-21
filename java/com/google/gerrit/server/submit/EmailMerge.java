@@ -23,7 +23,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.config.SendEmailExecutor;
-import com.google.gerrit.server.mail.EmailModule.MergedChangeEmailFactories;
+import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.OutgoingEmail;
@@ -51,7 +51,7 @@ class EmailMerge implements Runnable, RequestContext {
   }
 
   private final ExecutorService sendEmailsExecutor;
-  private final MergedChangeEmailFactories mergedChangeEmailFactories;
+  private final EmailFactories emailFactories;
   private final ThreadLocalRequestContext requestContext;
   private final MessageIdGenerator messageIdGenerator;
 
@@ -65,7 +65,7 @@ class EmailMerge implements Runnable, RequestContext {
   @Inject
   EmailMerge(
       @SendEmailExecutor ExecutorService executor,
-      MergedChangeEmailFactories mergedChangeEmailFactories,
+      EmailFactories emailFactories,
       ThreadLocalRequestContext requestContext,
       MessageIdGenerator messageIdGenerator,
       @Assisted Project.NameKey project,
@@ -75,7 +75,7 @@ class EmailMerge implements Runnable, RequestContext {
       @Assisted RepoView repoView,
       @Assisted String stickyApprovalDiff) {
     this.sendEmailsExecutor = executor;
-    this.mergedChangeEmailFactories = mergedChangeEmailFactories;
+    this.emailFactories = emailFactories;
     this.requestContext = requestContext;
     this.messageIdGenerator = messageIdGenerator;
     this.project = project;
@@ -96,11 +96,12 @@ class EmailMerge implements Runnable, RequestContext {
     RequestContext old = requestContext.setContext(this);
     try {
       ChangeEmail changeEmail =
-          mergedChangeEmailFactories.createChangeEmail(
+          emailFactories.createChangeEmail(
               project,
               change.getId(),
-              Optional.ofNullable(Strings.emptyToNull(stickyApprovalDiff)));
-      OutgoingEmail outgoingEmail = mergedChangeEmailFactories.createEmail(changeEmail);
+              emailFactories.createMergedChangeEmail(
+                  Optional.ofNullable(Strings.emptyToNull(stickyApprovalDiff))));
+      OutgoingEmail outgoingEmail = emailFactories.createOutgoingEmail("merged", changeEmail);
       if (submitter != null) {
         outgoingEmail.setFrom(submitter.getAccountId());
       }

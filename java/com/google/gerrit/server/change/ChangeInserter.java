@@ -65,7 +65,7 @@ import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
-import com.google.gerrit.server.mail.EmailModule.StartReviewChangeEmailFactories;
+import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.OutgoingEmail;
@@ -115,7 +115,7 @@ public class ChangeInserter implements InsertChangeOp {
   private final PatchSetUtil psUtil;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
-  private final StartReviewChangeEmailFactories startReviewChangeEmailFactories;
+  private final EmailFactories emailFactories;
   private final ExecutorService sendEmailExecutor;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final RevisionCreated revisionCreated;
@@ -168,7 +168,7 @@ public class ChangeInserter implements InsertChangeOp {
       PatchSetUtil psUtil,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
-      StartReviewChangeEmailFactories startReviewChangeEmailFactories,
+      EmailFactories emailFactories,
       @SendEmailExecutor ExecutorService sendEmailExecutor,
       CommitValidators.Factory commitValidatorsFactory,
       CommentAdded commentAdded,
@@ -186,7 +186,7 @@ public class ChangeInserter implements InsertChangeOp {
     this.psUtil = psUtil;
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
-    this.startReviewChangeEmailFactories = startReviewChangeEmailFactories;
+    this.emailFactories = emailFactories;
     this.sendEmailExecutor = sendEmailExecutor;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.revisionCreated = revisionCreated;
@@ -557,7 +557,7 @@ public class ChangeInserter implements InsertChangeOp {
             public void run() {
               try {
                 StartReviewChangeEmailDecorator startReviewEmail =
-                    startReviewChangeEmailFactories.createStartReviewChangeEmail();
+                    emailFactories.createStartReviewChangeEmail();
                 startReviewEmail.markAsCreateChange();
                 startReviewEmail.addReviewers(
                     reviewerAdditions.flattenResults(ReviewerOp.Result::addedReviewers).stream()
@@ -570,11 +570,11 @@ public class ChangeInserter implements InsertChangeOp {
                 startReviewEmail.addExtraCCByEmail(
                     reviewerAdditions.flattenResults(ReviewerOp.Result::addedCCsByEmail));
                 ChangeEmail changeEmail =
-                    startReviewChangeEmailFactories.createChangeEmail(
+                    emailFactories.createChangeEmail(
                         change.getProject(), change.getId(), startReviewEmail);
                 changeEmail.setPatchSet(patchSet, patchSetInfo);
                 OutgoingEmail outgoingEmail =
-                    startReviewChangeEmailFactories.createEmail(changeEmail);
+                    emailFactories.createOutgoingEmail("newchange", changeEmail);
                 outgoingEmail.setFrom(change.getOwner());
                 outgoingEmail.setNotify(notify);
                 outgoingEmail.setMessageId(

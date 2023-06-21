@@ -21,7 +21,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.config.SendEmailExecutor;
-import com.google.gerrit.server.mail.EmailModule.AttentionSetChangeEmailFactories;
+import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.send.AttentionSetChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.AttentionSetChangeEmailDecorator.AttentionSetChange;
 import com.google.gerrit.server.mail.send.ChangeEmail;
@@ -68,7 +68,7 @@ public class AttentionSetEmail {
       ThreadLocalRequestContext requestContext,
       MessageIdGenerator messageIdGenerator,
       AccountTemplateUtil accountTemplateUtil,
-      AttentionSetChangeEmailFactories attentionSetChangeEmailFactories,
+      EmailFactories emailFactories,
       @Assisted AttentionSetChange attentionSetChange,
       @Assisted Context ctx,
       @Assisted Change change,
@@ -88,7 +88,7 @@ public class AttentionSetEmail {
     this.asyncSender =
         new AsyncSender(
             requestContext,
-            attentionSetChangeEmailFactories,
+            emailFactories,
             ctx.getUser(),
             ctx.getProject(),
             attentionSetChange,
@@ -112,7 +112,7 @@ public class AttentionSetEmail {
    */
   private static class AsyncSender implements Runnable, RequestContext {
     private final ThreadLocalRequestContext requestContext;
-    private final AttentionSetChangeEmailFactories attentionSetChangeEmailFactories;
+    private final EmailFactories emailFactories;
     private final CurrentUser user;
     private final AttentionSetChange attentionSetChange;
     private final Project.NameKey projectId;
@@ -124,7 +124,7 @@ public class AttentionSetEmail {
 
     AsyncSender(
         ThreadLocalRequestContext requestContext,
-        AttentionSetChangeEmailFactories attentionSetChangeEmailFactories,
+        EmailFactories emailFactories,
         CurrentUser user,
         Project.NameKey projectId,
         AttentionSetChange attentionSetChange,
@@ -134,7 +134,7 @@ public class AttentionSetEmail {
         String reason,
         Change.Id changeId) {
       this.requestContext = requestContext;
-      this.attentionSetChangeEmailFactories = attentionSetChangeEmailFactories;
+      this.emailFactories = emailFactories;
       this.user = user;
       this.projectId = projectId;
       this.attentionSetChange = attentionSetChange;
@@ -149,16 +149,19 @@ public class AttentionSetEmail {
     public void run() {
       RequestContext old = requestContext.setContext(this);
       try {
-        AttentionSetChangeEmailDecorator changeEmailParams =
-            attentionSetChangeEmailFactories.createAttentionSetChangeEmail();
-        changeEmailParams.setAttentionSetChange(attentionSetChange);
-        changeEmailParams.setAttentionSetUser(attentionUserId);
-        changeEmailParams.setReason(reason);
+        AttentionSetChangeEmailDecorator attentionSetChangeEmail =
+            emailFactories.createAttentionSetChangeEmail();
+        attentionSetChangeEmail.setAttentionSetChange(attentionSetChange);
+        attentionSetChangeEmail.setAttentionSetUser(attentionUserId);
+        attentionSetChangeEmail.setReason(reason);
         ChangeEmail changeEmail =
-            attentionSetChangeEmailFactories.createChangeEmail(
-                projectId, changeId, changeEmailParams);
+            emailFactories.createChangeEmail(projectId, changeId, attentionSetChangeEmail);
         OutgoingEmail outgoingEmail =
-            attentionSetChangeEmailFactories.createEmail(attentionSetChange, changeEmail);
+            emailFactories.createOutgoingEmail(
+                attentionSetChange.equals(AttentionSetChange.USER_ADDED)
+                    ? "addToAttentionSet"
+                    : "removeFromAttentionSet",
+                changeEmail);
 
         Optional<Account.Id> accountId =
             user.isIdentifiedUser()

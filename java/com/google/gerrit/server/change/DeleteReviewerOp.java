@@ -36,7 +36,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.extensions.events.ReviewerDeleted;
-import com.google.gerrit.server.mail.EmailModule.DeleteReviewerChangeEmailFactories;
+import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.DeleteReviewerChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
@@ -71,7 +71,7 @@ public class DeleteReviewerOp extends ReviewerOp {
   private final ChangeMessagesUtil cmUtil;
   private final ReviewerDeleted reviewerDeleted;
   private final Provider<IdentifiedUser> user;
-  private final DeleteReviewerChangeEmailFactories deleteReviewerChangeEmailFactories;
+  private final EmailFactories emailFactories;
   private final RemoveReviewerControl removeReviewerControl;
   private final ProjectCache projectCache;
   private final MessageIdGenerator messageIdGenerator;
@@ -92,7 +92,7 @@ public class DeleteReviewerOp extends ReviewerOp {
       ChangeMessagesUtil cmUtil,
       ReviewerDeleted reviewerDeleted,
       Provider<IdentifiedUser> user,
-      DeleteReviewerChangeEmailFactories deleteReviewerChangeEmailFactories,
+      EmailFactories emailFactories,
       RemoveReviewerControl removeReviewerControl,
       ProjectCache projectCache,
       MessageIdGenerator messageIdGenerator,
@@ -104,7 +104,7 @@ public class DeleteReviewerOp extends ReviewerOp {
     this.cmUtil = cmUtil;
     this.reviewerDeleted = reviewerDeleted;
     this.user = user;
-    this.deleteReviewerChangeEmailFactories = deleteReviewerChangeEmailFactories;
+    this.emailFactories = emailFactories;
     this.removeReviewerControl = removeReviewerControl;
     this.projectCache = projectCache;
     this.messageIdGenerator = messageIdGenerator;
@@ -254,13 +254,12 @@ public class DeleteReviewerOp extends ReviewerOp {
       return;
     }
     DeleteReviewerChangeEmailDecorator deleteReviewerEmail =
-        deleteReviewerChangeEmailFactories.createDeleteReviewerChangeEmail();
+        emailFactories.createDeleteReviewerChangeEmail();
     deleteReviewerEmail.addReviewers(Collections.singleton(reviewer.id()));
     ChangeEmail changeEmail =
-        deleteReviewerChangeEmailFactories.createChangeEmail(
-            projectName, change.getId(), deleteReviewerEmail);
+        emailFactories.createChangeEmail(projectName, change.getId(), deleteReviewerEmail);
     changeEmail.setChangeMessage(mailMessage, timestamp.toInstant());
-    OutgoingEmail outgoingEmail = deleteReviewerChangeEmailFactories.createEmail(changeEmail);
+    OutgoingEmail outgoingEmail = emailFactories.createOutgoingEmail("deleteReviewer", changeEmail);
     outgoingEmail.setFrom(userId);
     outgoingEmail.setNotify(notify);
     outgoingEmail.setMessageId(

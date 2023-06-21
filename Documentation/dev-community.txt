@@ -13,7 +13,7 @@ link:dev-cla.html[contributor's agreement] on file with the project.
 * link:https://www.gerritcodereview.com/codeofconduct.html[Code of Conduct,role=external,window=_blank]
 * link:https://www.gerritcodereview.com/releases-readme.html[Release Versions,role=external,window=_blank]
 * link:https://gerrit.googlesource.com/gerrit[Source,role=external,window=_blank]
-* link:https://bugs.chromium.org/p/gerrit/issues/list[Issue Tracking,role=external,window=_blank]
+* link:https://issues.gerritcodereview.com/issues?q=is:open[Issue Tracking,role=external,window=_blank]
 * link:https://gerrit-review.googlesource.com/q/status:open+project:gerrit[Change Review,role=external,window=_blank]
 * link:dev-design.html[System Design]
 * Processes

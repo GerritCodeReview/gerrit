@@ -44,7 +44,7 @@ public class PublicKeyStoreUtil {
   private final Provider<PublicKeyStore> storeProvider;
 
   @Inject
-  public PublicKeyStoreUtil(ExternalIds externalIds, Provider<PublicKeyStore> storeProvider) {
+  PublicKeyStoreUtil(ExternalIds externalIds, Provider<PublicKeyStore> storeProvider) {
     this.externalIds = externalIds;
     this.storeProvider = storeProvider;
   }
@@ -55,6 +55,10 @@ public class PublicKeyStoreUtil {
 
   public static long keyIdFromFingerprint(byte[] fp) {
     return NB.decodeInt64(fp, fp.length - 8);
+  }
+
+  public boolean hasInitializedPublicKeyStore() {
+    return storeProvider.get() != null;
   }
 
   public List<PGPPublicKey> listGpgKeysForUser(Account.Id id) throws PGPException, IOException {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad078bd8_5ac00a9f",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetCommit.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-06-21T15:09:42Z",
+      "side": 1,
+      "message": "instead of computing this on the read path, would it make sense to persist this info at the time of the PS upload?",
+      "range": {
+        "startLine": 134,
+        "startChar": 37,
+        "endLine": 135,
+        "endChar": 100
+      },
+      "revId": "c1e425f5b8c38056394729387ea2526cc6871dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

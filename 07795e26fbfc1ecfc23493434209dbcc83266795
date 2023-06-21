@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1337616d_2e382c11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-06-21T15:09:42Z",
+      "side": 1,
+      "message": "what if the parent is a merged commit in other branch?",
+      "range": {
+        "startLine": 16,
+        "startChar": 2,
+        "endLine": 16,
+        "endChar": 39
+      },
+      "revId": "07795e26fbfc1ecfc23493434209dbcc83266795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1b0abbe_bf6a23b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-06-21T15:09:42Z",
+      "side": 1,
+      "message": "why do we need 2 requests per side? Or do you mean one request for each?",
+      "range": {
+        "startLine": 24,
+        "startChar": 25,
+        "endLine": 24,
+        "endChar": 65
+      },
+      "revId": "07795e26fbfc1ecfc23493434209dbcc83266795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

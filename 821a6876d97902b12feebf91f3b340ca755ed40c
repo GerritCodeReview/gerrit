@@ -22,6 +22,30 @@
       },
       "revId": "821a6876d97902b12feebf91f3b340ca755ed40c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3215cea7_6bcacda4",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1091855
+      },
+      "writtenOn": "2023-06-21T06:11:49Z",
+      "side": 1,
+      "message": "Looking at the documentation https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#put-edit-file I think perhaps the error message is incorrect here.  Valid values are null, 100644, or 100755. null implies either (1) no change or (2) 100644 for new files.\n\nI had just copied it over and didn\u0027t look at it specifically.  Will update.",
+      "parentUuid": "389976c2_6fb2048d",
+      "range": {
+        "startLine": 321,
+        "startChar": 6,
+        "endLine": 326,
+        "endChar": 7
+      },
+      "revId": "821a6876d97902b12feebf91f3b340ca755ed40c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

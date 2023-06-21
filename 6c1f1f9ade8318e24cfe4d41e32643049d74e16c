@@ -52,6 +52,24 @@
       "parentUuid": "bea48755_e164c0e7",
       "revId": "6c1f1f9ade8318e24cfe4d41e32643049d74e16c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2364791_1c2e469d",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-21T08:13:48Z",
+      "side": 1,
+      "message": "One test I did right now:\n1. file an issue via this link with my private account\n2. remove my private account from the maintainers group\n   -\u003e issue is still visible to me since I\u0027m a CC\n3. remove my private account as CC using my google account\n   -\u003e issue is no longer visible to my private account",
+      "parentUuid": "2cc190ca_06e95b08",
+      "revId": "6c1f1f9ade8318e24cfe4d41e32643049d74e16c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

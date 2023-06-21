@@ -68,7 +68,7 @@ public class MergedChangeEmailDecorator implements ChangeEmailDecorator {
     }
   }
 
-  public String getApprovals() {
+  private String getApprovals() {
     try {
       Table<Account.Id, String, PatchSetApproval> pos = HashBasedTable.create();
       Table<Account.Id, String, PatchSetApproval> neg = HashBasedTable.create();

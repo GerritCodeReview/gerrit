@@ -56,7 +56,7 @@ import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.extensions.events.CommentAdded;
-import com.google.gerrit.server.mail.EmailModule.InboundEmailRejectionEmailFactory;
+import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.MailFilter;
 import com.google.gerrit.server.mail.send.InboundEmailRejectionEmailDecorator.InboundEmailError;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
@@ -109,7 +109,7 @@ public class MailProcessor {
                   CommentForValidation.CommentType.INLINE_COMMENT);
 
   private final Emails emails;
-  private final InboundEmailRejectionEmailFactory inboundEmailRejectionEmailFactory;
+  private final EmailFactories emailFactories;
   private final RetryHelper retryHelper;
   private final ChangeMessagesUtil changeMessagesUtil;
   private final CommentsUtil commentsUtil;
@@ -128,7 +128,7 @@ public class MailProcessor {
   @Inject
   public MailProcessor(
       Emails emails,
-      InboundEmailRejectionEmailFactory inboundEmailRejectionEmailFactory,
+      EmailFactories emailFactories,
       RetryHelper retryHelper,
       ChangeMessagesUtil changeMessagesUtil,
       CommentsUtil commentsUtil,
@@ -144,7 +144,7 @@ public class MailProcessor {
       PluginSetContext<CommentValidator> commentValidators,
       MessageIdGenerator messageIdGenerator) {
     this.emails = emails;
-    this.inboundEmailRejectionEmailFactory = inboundEmailRejectionEmailFactory;
+    this.emailFactories = emailFactories;
     this.retryHelper = retryHelper;
     this.changeMessagesUtil = changeMessagesUtil;
     this.commentsUtil = commentsUtil;
@@ -230,7 +230,10 @@ public class MailProcessor {
   private void sendRejectionEmail(MailMessage message, InboundEmailError reason) {
     try {
       OutgoingEmail email =
-          inboundEmailRejectionEmailFactory.createEmail(message.from(), message.id(), reason);
+          emailFactories.createOutgoingEmail(
+              "error",
+              emailFactories.createInboundEmailRejectionEmail(
+                  message.from(), message.id(), reason));
       email.setMessageId(messageIdGenerator.fromMailMessage(message));
       email.send();
     } catch (Exception e) {

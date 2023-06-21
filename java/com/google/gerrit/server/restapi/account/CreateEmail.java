@@ -37,7 +37,7 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.mail.EmailModule.RegisterNewEmailFactories;
+import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
@@ -80,7 +80,7 @@ public class CreateEmail
   private final Realm realm;
   private final PermissionBackend permissionBackend;
   private final AccountManager accountManager;
-  private final RegisterNewEmailFactories registerNewEmailFactories;
+  private final EmailFactories emailFactories;
   private final PutPreferred putPreferred;
   private final OutgoingEmailValidator validator;
   private final MessageIdGenerator messageIdGenerator;
@@ -94,7 +94,7 @@ public class CreateEmail
       PermissionBackend permissionBackend,
       AuthConfig authConfig,
       AccountManager accountManager,
-      RegisterNewEmailFactories registerNewEmailFactories,
+      EmailFactories emailFactories,
       PutPreferred putPreferred,
       OutgoingEmailValidator validator,
       MessageIdGenerator messageIdGenerator,
@@ -103,7 +103,7 @@ public class CreateEmail
     this.realm = realm;
     this.permissionBackend = permissionBackend;
     this.accountManager = accountManager;
-    this.registerNewEmailFactories = registerNewEmailFactories;
+    this.emailFactories = emailFactories;
     this.putPreferred = putPreferred;
     this.validator = validator;
     this.isDevMode = authConfig.getAuthType() == DEVELOPMENT_BECOME_ANY_ACCOUNT;
@@ -166,12 +166,12 @@ public class CreateEmail
       }
     } else {
       try {
-        RegisterNewEmailDecorator emailDecorator =
-            registerNewEmailFactories.createRegisterNewEmail(email);
+        RegisterNewEmailDecorator emailDecorator = emailFactories.createRegisterNewEmail(email);
         if (!emailDecorator.isAllowed()) {
           throw new MethodNotAllowedException("Not allowed to add email address " + email);
         }
-        OutgoingEmail outgoingEmail = registerNewEmailFactories.createEmail(emailDecorator);
+        OutgoingEmail outgoingEmail =
+            emailFactories.createOutgoingEmail("registernewemail", emailDecorator);
         outgoingEmail.setMessageId(messageIdGenerator.fromAccountUpdate(user.getAccountId()));
         outgoingEmail.send();
         info.pendingConfirmation = true;

@@ -35,7 +35,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.extensions.events.VoteDeleted;
-import com.google.gerrit.server.mail.EmailModule.DeleteVoteChangeEmailFactories;
+import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.OutgoingEmail;
@@ -77,7 +77,7 @@ public class DeleteVoteOp implements BatchUpdateOp {
   private final PatchSetUtil psUtil;
   private final ChangeMessagesUtil cmUtil;
   private final VoteDeleted voteDeleted;
-  private final DeleteVoteChangeEmailFactories deleteVoteChangeEmailFactories;
+  private final EmailFactories emailFactories;
 
   private final DeleteVoteControl deleteVoteControl;
   private final RemoveReviewerControl removeReviewerControl;
@@ -100,7 +100,7 @@ public class DeleteVoteOp implements BatchUpdateOp {
       PatchSetUtil psUtil,
       ChangeMessagesUtil cmUtil,
       VoteDeleted voteDeleted,
-      DeleteVoteChangeEmailFactories deleteVoteChangeEmailFactories,
+      EmailFactories emailFactories,
       DeleteVoteControl deleteVoteControl,
       MessageIdGenerator messageIdGenerator,
       RemoveReviewerControl removeReviewerControl,
@@ -114,7 +114,7 @@ public class DeleteVoteOp implements BatchUpdateOp {
     this.psUtil = psUtil;
     this.cmUtil = cmUtil;
     this.voteDeleted = voteDeleted;
-    this.deleteVoteChangeEmailFactories = deleteVoteChangeEmailFactories;
+    this.emailFactories = emailFactories;
     this.deleteVoteControl = deleteVoteControl;
     this.removeReviewerControl = removeReviewerControl;
     this.messageIdGenerator = messageIdGenerator;
@@ -189,9 +189,10 @@ public class DeleteVoteOp implements BatchUpdateOp {
     CurrentUser user = ctx.getUser();
     try {
       ChangeEmail changeEmail =
-          deleteVoteChangeEmailFactories.createChangeEmail(ctx.getProject(), change.getId());
+          emailFactories.createChangeEmail(
+              ctx.getProject(), change.getId(), emailFactories.createDeleteVoteChangeEmail());
       changeEmail.setChangeMessage(mailMessage, ctx.getWhen());
-      OutgoingEmail outgoingEmail = deleteVoteChangeEmailFactories.createEmail(changeEmail);
+      OutgoingEmail outgoingEmail = emailFactories.createOutgoingEmail("deleteVote", changeEmail);
       NotifyResolver.Result notify = ctx.getNotify(change.getId());
       if (user.isIdentifiedUser()) {
         outgoingEmail.setFrom(user.getAccountId());

@@ -32,7 +32,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
-import com.google.gerrit.server.mail.EmailModule.AddKeyEmailFactories;
+import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -58,7 +58,7 @@ public class AddSshKey
   private final PermissionBackend permissionBackend;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
   private final SshKeyCache sshKeyCache;
-  private final AddKeyEmailFactories addKeyEmailFactories;
+  private final EmailFactories emailFactories;
 
   @Inject
   AddSshKey(
@@ -66,12 +66,12 @@ public class AddSshKey
       PermissionBackend permissionBackend,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
       SshKeyCache sshKeyCache,
-      AddKeyEmailFactories addKeyEmailFactories) {
+      EmailFactories emailFactories) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.authorizedKeys = authorizedKeys;
     this.sshKeyCache = sshKeyCache;
-    this.addKeyEmailFactories = addKeyEmailFactories;
+    this.emailFactories = emailFactories;
   }
 
   @Override
@@ -106,7 +106,9 @@ public class AddSshKey
       AccountSshKey sshKey = authorizedKeys.addKey(user.getAccountId(), sshPublicKey);
 
       try {
-        addKeyEmailFactories.createEmail(user, sshKey).send();
+        emailFactories
+            .createOutgoingEmail("addkey", emailFactories.createAddKeyEmail(user, sshKey))
+            .send();
       } catch (EmailException e) {
         logger.atSevere().withCause(e).log(
             "Cannot send SSH key added message to %s", user.getAccount().preferredEmail());

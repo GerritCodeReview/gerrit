@@ -94,6 +94,30 @@
       },
       "revId": "821a6876d97902b12feebf91f3b340ca755ed40c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58ff921c_97a6f134",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1091855
+      },
+      "writtenOn": "2023-06-21T17:49:28Z",
+      "side": 1,
+      "message": "This is somewhat of a deliberate choice.  We\u0027re not processing the `null` case as part of the switch, so this is intended to convey that we\u0027re dealing with all known cases.  If you have a strong preference in this regard, happy to change it though.",
+      "parentUuid": "62fe15fb_dbbfa743",
+      "range": {
+        "startLine": 321,
+        "startChar": 6,
+        "endLine": 326,
+        "endChar": 7
+      },
+      "revId": "821a6876d97902b12feebf91f3b340ca755ed40c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

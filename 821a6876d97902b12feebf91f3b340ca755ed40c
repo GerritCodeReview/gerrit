@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "389976c2_6fb2048d",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-06-21T05:41:22Z",
+      "side": 1,
+      "message": "Not part of this change but it is confusing to me that this method throws a BadRequestExpeption for `0` when that is a valid input according to the exception message...\n\nAlso I think the BadRequestException \"should\" be thrown in the `default`.\n\n```suggestion\n      switch (inputMode) {\n        case 100755:\n          return EXECUTABLE_FILE.getMode();\n        case 100644:\n          return REGULAR_FILE.getMode();\n        case 0:\n          return 0;\n        default:\n          throw new BadRequestException(\n            \"file_mode (\" + inputMode + \") was invalid: supported values are 0, 100644, or 100755.\");\n      }\n```",
+      "range": {
+        "startLine": 321,
+        "startChar": 6,
+        "endLine": 326,
+        "endChar": 7
+      },
+      "revId": "821a6876d97902b12feebf91f3b340ca755ed40c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -347,6 +347,28 @@ public class ApplyPatchIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void applyPatch_withBaseCommitPointingToPreviousPatchSet_fails() throws Exception {
+    PushOneCommit.Result baseCommit =
+        createChange("base commit", MODIFIED_FILE_NAME, MODIFIED_FILE_ORIGINAL_CONTENT);
+    baseCommit.assertOkStatus();
+    PushOneCommit.Result ignoredCommit =
+        createChange("Ignored file modification", MODIFIED_FILE_NAME, "Ignored file modification");
+    ignoredCommit.assertOkStatus();
+    initDestBranch();
+    ApplyPatchPatchSetInput in = buildInput(MODIFIED_FILE_DIFF);
+    in.base = baseCommit.getCommit().getName();
+
+    Exception thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(baseCommit.getChangeId()).applyPatch(in));
+
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("New patch-sets cannot point to earlier patch-sets as their parent");
+  }
+
+  @Test
   public void applyPatchWithDefaultAuthor_success() throws Exception {
     initDestBranch();
     ApplyPatchPatchSetInput in = buildInput(ADDED_FILE_DIFF);

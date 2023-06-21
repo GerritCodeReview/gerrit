@@ -657,7 +657,8 @@ public class ChangeInserter implements InsertChangeOp {
                 ctx.getIdentifiedUser(),
                 new NoSshInfo(),
                 ctx.getRevWalk(),
-                change)
+                change,
+                /* isNewChange= */ true)
             .validate(event);
       }
     } catch (CommitValidationException e) {

@@ -21,6 +21,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.b
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
+import static org.eclipse.jgit.lib.Constants.HEAD;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.common.truth.Correspondence;
@@ -28,6 +29,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
+import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.BranchNameKey;
@@ -56,6 +58,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 @NoHttpd
+@Sandboxed
 public class CommitIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
 
@@ -344,9 +347,11 @@ public class CommitIT extends AbstractDaemonTest {
     String destBranch = "foo";
     createBranch(BranchNameKey.create(project, destBranch));
 
+    ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
     PushOneCommit.Result r = createChange("refs/for/" + destBranch);
     ChangeInfo existingDestChange = info(r.getChangeId());
 
+    testRepo.reset(initial);
     r = createChange();
     ChangeInfo changeToCherryPick = info(r.getChangeId());
     RevCommit commitToCherryPick = r.getCommit();

@@ -38,6 +38,7 @@ suite('gr-user-suggestion-fix tests', () => {
           <div class="copyButton">
             <gr-copy-clipboard
               hideinput=""
+              multiline=""
               text="Hello World"
               copytargetname="Suggested edit"
             ></gr-copy-clipboard>

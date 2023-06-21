@@ -34,6 +34,24 @@
       "parentUuid": "e8889878_84550157",
       "revId": "6d99fb60e585fc7a672a8d01430f3d5a01015514",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8dfea16f_ad334801",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1535,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-06-21T14:43:54Z",
+      "side": 1,
+      "message": "that\u0027s great, thanks",
+      "parentUuid": "e728d9b8_2a61a2ab",
+      "revId": "6d99fb60e585fc7a672a8d01430f3d5a01015514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

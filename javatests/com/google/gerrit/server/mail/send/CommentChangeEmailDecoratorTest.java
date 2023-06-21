@@ -29,30 +29,35 @@ public class CommentChangeEmailDecoratorTest {
   @Test
   public void shortMessageNotShortened() {
     String message = "foo bar baz";
-    assertThat(CommentChangeEmailDecorator.getShortenedCommentMessage(message)).isEqualTo(message);
+    assertThat(CommentChangeEmailDecoratorImpl.getShortenedCommentMessage(message))
+        .isEqualTo(message);
 
     message = "foo bar baz.";
-    assertThat(CommentChangeEmailDecorator.getShortenedCommentMessage(message)).isEqualTo(message);
+    assertThat(CommentChangeEmailDecoratorImpl.getShortenedCommentMessage(message))
+        .isEqualTo(message);
   }
 
   @Test
   public void longMessageIsShortened() {
     String message = chars100 + "x";
     String expected = chars100 + " […]";
-    assertThat(CommentChangeEmailDecorator.getShortenedCommentMessage(message)).isEqualTo(expected);
+    assertThat(CommentChangeEmailDecoratorImpl.getShortenedCommentMessage(message))
+        .isEqualTo(expected);
   }
 
   @Test
   public void shortenedToFirstLine() {
     String message = "abc\n" + chars100;
     String expected = "abc […]";
-    assertThat(CommentChangeEmailDecorator.getShortenedCommentMessage(message)).isEqualTo(expected);
+    assertThat(CommentChangeEmailDecoratorImpl.getShortenedCommentMessage(message))
+        .isEqualTo(expected);
   }
 
   @Test
   public void shortenedToFirstSentence() {
     String message = "foo bar baz. " + chars100;
     String expected = "foo bar baz. […]";
-    assertThat(CommentChangeEmailDecorator.getShortenedCommentMessage(message)).isEqualTo(expected);
+    assertThat(CommentChangeEmailDecoratorImpl.getShortenedCommentMessage(message))
+        .isEqualTo(expected);
   }
 }

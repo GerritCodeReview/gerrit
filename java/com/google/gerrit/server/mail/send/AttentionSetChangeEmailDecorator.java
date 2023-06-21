@@ -15,65 +15,19 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.server.mail.send.ChangeEmail.ChangeEmailDecorator;
 
 /** Base class for Attention Set email senders */
-public final class AttentionSetChangeEmailDecorator implements ChangeEmailDecorator {
-  public enum AttentionSetChange {
+public interface AttentionSetChangeEmailDecorator extends ChangeEmailDecorator {
+  enum AttentionSetChange {
     USER_ADDED,
     USER_REMOVED
   }
 
-  private OutgoingEmail email;
-  private ChangeEmail changeEmail;
-
-  private Account.Id attentionSetUser;
-  private String reason;
-  private AttentionSetChange attentionSetChange;
-
-  public void setAttentionSetUser(Account.Id attentionSetUser) {
-    this.attentionSetUser = attentionSetUser;
-  }
-
-  public void setReason(String reason) {
-    this.reason = reason;
-  }
-
-  public void setAttentionSetChange(AttentionSetChange attentionSetChange) {
-    this.attentionSetChange = attentionSetChange;
-  }
-
-  @Override
-  public void init(OutgoingEmail email, ChangeEmail changeEmail) {
-    this.email = email;
-    this.changeEmail = changeEmail;
-    changeEmail.markAsReply();
-  }
-
-  @Override
-  public void populateEmailContent() {
-    email.addSoyParam("attentionSetUser", email.getNameFor(attentionSetUser));
-    email.addSoyParam("reason", reason);
-
-    changeEmail.addAuthors(RecipientType.TO);
-    changeEmail.ccAllApprovals();
-    changeEmail.bccStarredBy();
-    changeEmail.ccExistingReviewers();
-
-    switch (attentionSetChange) {
-      case USER_ADDED:
-        email.appendText(email.textTemplate("AddToAttentionSet"));
-        if (email.useHtml()) {
-          email.appendHtml(email.soyHtmlTemplate("AddToAttentionSetHtml"));
-        }
-        break;
-      case USER_REMOVED:
-        email.appendText(email.textTemplate("RemoveFromAttentionSet"));
-        if (email.useHtml()) {
-          email.appendHtml(email.soyHtmlTemplate("RemoveFromAttentionSetHtml"));
-        }
-        break;
-    }
-  }
+  /** User who is being added/removed from attention set. */
+  public void setAttentionSetUser(Account.Id attentionSetUser);
+  /** Cause of the change in attention set. */
+  public void setReason(String reason);
+  /** Whether the user is being added or removed. */
+  public void setAttentionSetChange(AttentionSetChange attentionSetChange);
 }

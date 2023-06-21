@@ -61,7 +61,7 @@ export class GrUserSuggetionFix extends LitElement {
   }
 
   override render() {
-    if (!this.textContent) return nothing;
+    if (this.textContent === undefined) return nothing;
     const code = this.textContent;
     return html`<div class="header">
         <div class="title">
@@ -95,7 +95,7 @@ export class GrUserSuggetionFix extends LitElement {
   }
 
   handleShowFix() {
-    if (!this.textContent) return;
+    if (this.textContent === undefined) return;
     fire(this, 'open-user-suggest-preview', {code: this.textContent});
   }
 }

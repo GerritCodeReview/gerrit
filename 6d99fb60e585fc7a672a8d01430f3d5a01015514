@@ -16,6 +16,24 @@
       "message": "If the migration didn\u0027t preserve ids it seems this implies that all bug links in existing commit messages are now broken ?\n\nHow do you know how to map from old to new id ?",
       "revId": "6d99fb60e585fc7a672a8d01430f3d5a01015514",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e728d9b8_2a61a2ab",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1535,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-21T13:27:54Z",
+      "side": 1,
+      "message": "The old URLs automatically redirect to the new URLs. So they are still working.\n\nJust updating the links to avoid the redirection and for the case the redirection will be switched off one day.",
+      "parentUuid": "e8889878_84550157",
+      "revId": "6d99fb60e585fc7a672a8d01430f3d5a01015514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

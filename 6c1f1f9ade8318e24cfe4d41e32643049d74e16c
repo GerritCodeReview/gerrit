@@ -16,6 +16,24 @@
       "message": "this creates a ticket with default visibility, I guess we should better preset one of the limited visibilities to avoid the reported problem is leaked to the public",
       "revId": "6c1f1f9ade8318e24cfe4d41e32643049d74e16c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bea48755_e164c0e7",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-21T08:07:13Z",
+      "side": 1,
+      "message": "Thanks for asking. I think default visibility is fine here.\n\nDefault visibility means:\n\"Assignee, verifier and collaborators may edit. CCs can comment. Regular component-level permission settings apply.\"\n\nWe want newly filed security issues to be visible to the reporter (who is automatically added as a collaborator), as well as everyone how is directly added on the issue.\n\nBesides this only maintainers should be able to see security issues, which is what is configured by the regular component-level permissions.\n\nDoes this sound good to you?\n\nIf yes, we can make a quick test that this is working as intended. If you file an issue via this link, I can check that it\u0027s not visible to me when I remove my account from the maintainers group.",
+      "parentUuid": "45664f2a_4aec8750",
+      "revId": "6c1f1f9ade8318e24cfe4d41e32643049d74e16c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

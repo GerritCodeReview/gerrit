@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5208b91a_3628fbbf",
+        "filename": "Documentation/dev-roles.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-21T23:51:20Z",
+      "side": 1,
+      "message": "Can I also propose to limit the automatic CI validation to trusted contributors and maintainers?\n\nThat would allow to reduce the security issues of remote code execution by uploaders of new changes.",
+      "revId": "80ff9a6949c1b6fd19e2a25b42b2e9c90eb6b37f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

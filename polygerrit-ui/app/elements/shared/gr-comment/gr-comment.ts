@@ -1068,7 +1068,7 @@ export class GrComment extends LitElement {
 
     if (hasUserSuggestion(this.comment) || replacement) {
       replacement = replacement ?? getUserSuggestion(this.comment);
-      assert(!!replacement, 'malformed user suggestion');
+      assert(replacement !== undefined, 'malformed user suggestion');
       const line = await this.getCommentedCode();
 
       return {

@@ -70,6 +70,30 @@
       },
       "revId": "821a6876d97902b12feebf91f3b340ca755ed40c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62fe15fb_dbbfa743",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-06-21T06:47:43Z",
+      "side": 1,
+      "message": "You might still want to consider throwing the exception in the `default` clause.\n\n```suggestion\n      switch (inputMode) {\n        case 100755:\n          return EXECUTABLE_FILE.getMode();\n        case 100644:\n          return REGULAR_FILE.getMode();\n        default:\n          throw new BadRequestException(\n            \"file_mode (\" + inputMode + \") was invalid: supported values are 0, 100644, or 100755.\");\n      }\n```",
+      "parentUuid": "50038435_1cab0257",
+      "range": {
+        "startLine": 321,
+        "startChar": 6,
+        "endLine": 326,
+        "endChar": 7
+      },
+      "revId": "821a6876d97902b12feebf91f3b340ca755ed40c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

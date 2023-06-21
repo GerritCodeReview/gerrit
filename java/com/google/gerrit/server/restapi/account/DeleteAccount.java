@@ -76,7 +76,7 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeEditUtil changeEditUtil;
   private final PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore;
-  private final Provider<PublicKeyStoreUtil> publicKeyStoreUtilProvider;
+  private final PublicKeyStoreUtil publicKeyStoreUtil;
 
   @Inject
   public DeleteAccount(
@@ -91,7 +91,7 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
       Provider<InternalChangeQuery> queryProvider,
       ChangeEditUtil changeEditUtil,
       PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore,
-      Provider<PublicKeyStoreUtil> publicKeyStoreUtilProvider) {
+      PublicKeyStoreUtil publicKeyStoreUtil) {
     this.self = self;
     this.serverIdent = serverIdent;
     this.accountsUpdateProvider = accountsUpdateProvider;
@@ -103,7 +103,7 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
     this.queryProvider = queryProvider;
     this.changeEditUtil = changeEditUtil;
     this.accountPatchReviewStore = accountPatchReviewStore;
-    this.publicKeyStoreUtilProvider = publicKeyStoreUtilProvider;
+    this.publicKeyStoreUtil = publicKeyStoreUtil;
   }
 
   @Override
@@ -133,13 +133,12 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
   }
 
   private void deletePgpKeys(IdentifiedUser user) {
-    if (publicKeyStoreUtilProvider == null || publicKeyStoreUtilProvider.get() == null) {
+    if (!publicKeyStoreUtil.hasInitializedPublicKeyStore()) {
       return;
     }
     try {
-      PublicKeyStoreUtil storeUtil = publicKeyStoreUtilProvider.get();
       List<RefUpdate.Result> deletedKeyResults =
-          storeUtil.deleteAllPgpKeysForUser(
+          publicKeyStoreUtil.deleteAllPgpKeysForUser(
               user.getAccountId(), serverIdent.get(), serverIdent.get());
       for (RefUpdate.Result saveResult : deletedKeyResults) {
         if (saveResult != RefUpdate.Result.NO_CHANGE

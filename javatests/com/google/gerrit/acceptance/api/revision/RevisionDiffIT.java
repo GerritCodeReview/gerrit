@@ -1035,7 +1035,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   public void intralineEditsAreIdentified() throws Exception {
     // In some corner cases, intra-line diffs produce wrong results. In this case, the algorithm
     // falls back to a single edit covering the whole range.
-    // See: bugs.chromium.org/p/gerrit/issues/detail?id=13563
+    // See: https://issues.gerritcodereview.com/issues/40013030
 
     assume().that(intraline).isTrue();
 

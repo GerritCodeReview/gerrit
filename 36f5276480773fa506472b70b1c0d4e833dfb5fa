@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe396d76_51c7cabd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-06-21T08:39:01Z",
+      "side": 1,
+      "message": "not sure about the conflict resolution on UI implementation which I am not familiar with",
+      "revId": "36f5276480773fa506472b70b1c0d4e833dfb5fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

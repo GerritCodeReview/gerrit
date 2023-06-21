@@ -16,6 +16,24 @@
       "message": "Shouldn\u0027t this say into \u0027stable-3.7\u0027?",
       "revId": "ace833cfb72681a57e5adca67d673e0a41d87b5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c65750ba_c8e3d14f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-21T12:36:17Z",
+      "side": 1,
+      "message": "Added this.\n\nLooks like we are not consistent with this:\nhttps://gerrit-review.git.corp.google.com/q/message:%22Merge+branch%22",
+      "parentUuid": "63af851b_802f17d8",
+      "revId": "ace833cfb72681a57e5adca67d673e0a41d87b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

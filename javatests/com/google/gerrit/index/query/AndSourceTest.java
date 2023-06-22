@@ -20,6 +20,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Lists;
+import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.PaginationType;
 import com.google.gerrit.server.query.change.ChangeData;
 import org.junit.Test;
 
@@ -44,5 +46,37 @@ public class AndSourceTest extends PredicateTest {
             IllegalArgumentException.class,
             () -> new AndSource<>(Lists.newArrayList(p1, p2), null));
     assertThat(thrown).hasMessageThat().contains("No DataSource Found");
+  }
+
+  @Test
+  public void ensureDataSourceWithoutPaginationIsReturned() {
+    TestDataSourcePredicate p = new TestDataSourcePredicate("predicate", "foo", 10, 10);
+    AndSource<String> andSource =
+        new AndSource<>(
+            Lists.newArrayList(p),
+            IndexConfig.builder().paginationType(PaginationType.NONE).build());
+    assertThat(andSource.source).isEqualTo(p);
+  }
+
+  // FIXME: following test need to be fixed
+  @Test
+  public void ensureDataSourceWithPaginationIsReturned() {
+    TestDataSourcePredicate p = new TestDataSourcePredicate("predicate", "foo", 10, 10);
+    IndexConfig indexConfig =
+        IndexConfig.builder().paginationType(PaginationType.SEARCH_AFTER).build();
+    AndSource<String> andSource = new AndSource<>(Lists.newArrayList(p), indexConfig);
+    assertThat(andSource.source)
+        .isEqualTo(
+            new PaginatingSource<String>(p, 0, indexConfig) {
+              @Override
+              protected boolean match(String object) {
+                return true;
+              }
+
+              @Override
+              protected boolean isMatchable() {
+                return true;
+              }
+            });
   }
 }

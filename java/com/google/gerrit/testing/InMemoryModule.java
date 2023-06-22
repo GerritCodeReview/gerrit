@@ -95,6 +95,7 @@ import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.group.AllGroupsIndexer;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
+import com.google.gerrit.server.mail.EmailModule;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier.SignedTokenEmailTokenVerifierModule;
 import com.google.gerrit.server.patch.DiffExecutor;
 import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
@@ -249,6 +250,7 @@ public class InMemoryModule extends FactoryModule {
         });
     install(new DefaultMemoryCacheModule());
     install(new H2CacheModule());
+    install(new EmailModule());
     install(new FakeEmailSenderModule());
     install(new SignedTokenEmailTokenVerifierModule());
     install(new GpgModule(cfg));

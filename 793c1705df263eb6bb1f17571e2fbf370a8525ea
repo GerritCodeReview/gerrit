@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16134fe8_bb441217",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-06-22T09:04:19Z",
+      "side": 1,
+      "message": "Should we mention the new rule: `bazelisk build Documentation:searchfree_safe` in the documentation to make it easier to discover?\n\nMay be add mention it in:\n\n* Documentation/dev-bazel.txt\n* Documentation/dev-release.txt\n\nwhere the old rule is also mentioned?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 61
+      },
+      "revId": "793c1705df263eb6bb1f17571e2fbf370a8525ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2c9b8eb_5e880dfb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-06-22T09:04:19Z",
+      "side": 1,
+      "message": "I verified it and confirm that the old rule produces html file with this link:\n\n```\nuser-upload.html:\u003clink rel\u003d\"stylesheet\" href\u003d\"https://fonts.googleapis.com/css?family\u003dOpen+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700\"\u003e\n```\n\nwith the new rule it produces:\n\n```\n\u003cstyle\u003e\n/* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */\n/* Uncomment @import statement below to use as custom stylesheet */\n/*@import \"https://fonts.googleapis.com/css?family\u003dOpen+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700\";*/\n```",
+      "revId": "793c1705df263eb6bb1f17571e2fbf370a8525ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9319ac4_5bdff386",
+        "filename": "Documentation/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-06-22T09:04:19Z",
+      "side": 1,
+      "message": "The buildifier produces this diff here:\n\n```\ndiff --git a/Documentation/BUILD b/Documentation/BUILD\nindex 5cf79e0133..85ddbe7413 100644\n--- a/Documentation/BUILD\n+++ b/Documentation/BUILD\n@@ -135,4 +135,4 @@ genasciidoc_zip(\n     directory \u003d DOC_DIR,\n     searchbox \u003d False,\n     webfonts \u003d False,\n-)\n\\ No newline at end of file\n+)\n```",
+      "revId": "793c1705df263eb6bb1f17571e2fbf370a8525ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

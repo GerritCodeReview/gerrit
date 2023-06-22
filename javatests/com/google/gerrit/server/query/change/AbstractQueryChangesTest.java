@@ -99,6 +99,7 @@ import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
@@ -4164,6 +4165,64 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertThat(thrown)
         .hasMessageThat()
         .isEqualTo("Operator 'submit-requirement:value' cannot be used in queries");
+  }
+
+  @Test
+  @GerritConfig(name = "index.maxLimit", value = "1")
+  @GerritConfig(name = "index.paginationType", value = "OFFSET")
+  public void paginationTypeOffsetDoesPagination() throws Exception {
+    createProjectWithChanges();
+
+    QueryResult<ChangeData> qr =
+        queryProcessorProvider.get().query(Predicate.not(new BooleanPredicate(ChangeField.WIP)));
+
+    assertThat(qr.more()).isTrue();
+    assertThat((long) qr.entities().size()).isEqualTo(1);
+  }
+
+  @Test
+  @GerritConfig(name = "index.maxLimit", value = "1")
+  @GerritConfig(name = "index.paginationType", value = "SEARCH_AFTER")
+  public void paginationTypeSearchAfterDoesPagination() throws Exception {
+    createProjectWithChanges();
+
+    QueryResult<ChangeData> qr =
+        queryProcessorProvider.get().query(Predicate.not(new BooleanPredicate(ChangeField.WIP)));
+
+    assertThat(qr.more()).isTrue();
+    assertThat((long) qr.entities().size()).isEqualTo(1);
+  }
+
+  @Test
+  @GerritConfig(name = "index.maxLimit", value = "1")
+  @GerritConfig(name = "index.paginationType", value = "NONE")
+  public void paginationTypeNoneDoesNotPagination() throws Exception {
+    createProjectWithChanges();
+
+    QueryResult<ChangeData> qr =
+        queryProcessorProvider.get().query(Predicate.not(new BooleanPredicate(ChangeField.WIP)));
+
+    assertThat(qr.more()).isFalse();
+    assertThat((long) qr.entities().size()).isEqualTo(1);
+  }
+
+  private void createProjectWithChanges() throws Exception {
+    TestRepository<Repo> repo = createProject("foo");
+    insert(repo, newChange(repo));
+    insert(repo, newChange(repo));
+  }
+
+  @Test
+  @GerritConfig(name = "index.maxPageSize", value = "1")
+  @GerritConfig(name = "index.paginationType", value = "NONE")
+  public void paginationTypeNoneDoesNotHonourMaxPageSize() throws Exception {
+    createProjectWithChanges();
+
+    QueryResult<ChangeData> qr =
+        queryProcessorProvider.get().query(Predicate.not(new BooleanPredicate(ChangeField.WIP)));
+
+    assertThat(qr.more()).isFalse();
+    assertThat((long) qr.entities().size()).isEqualTo(2);
   }
 
   @Test

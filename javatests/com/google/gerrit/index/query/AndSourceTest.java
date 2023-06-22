@@ -20,6 +20,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Lists;
+import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.PaginationType;
 import com.google.gerrit.server.query.change.ChangeData;
 import org.junit.Test;
 
@@ -28,7 +30,8 @@ public class AndSourceTest extends PredicateTest {
   public void ensureLowerCostPredicateRunsFirst() {
     TestDataSourcePredicate p1 = new TestDataSourcePredicate("predicate1", "foo", 10, 10);
     TestDataSourcePredicate p2 = new TestDataSourcePredicate("predicate2", "foo", 1, 10);
-    AndSource<String> andSource = new AndSource<>(Lists.newArrayList(p1, p2), null);
+    AndSource<String> andSource =
+        new AndSource<>(Lists.newArrayList(p1, p2), IndexConfig.createDefault());
     andSource.match("bar");
     assertFalse(p1.ranMatch);
     assertTrue(p2.ranMatch);
@@ -44,5 +47,24 @@ public class AndSourceTest extends PredicateTest {
             IllegalArgumentException.class,
             () -> new AndSource<>(Lists.newArrayList(p1, p2), null));
     assertThat(thrown).hasMessageThat().contains("No DataSource Found");
+  }
+
+  @Test
+  public void ensureDataSourceWithoutPaginationIsReturned() {
+    TestDataSourcePredicate p = new TestDataSourcePredicate("predicate", "foo", 10, 10);
+    AndSource<String> andSource =
+        new AndSource<>(
+            Lists.newArrayList(p),
+            IndexConfig.builder().paginationType(PaginationType.NONE).build());
+    assertThat(andSource.source instanceof PaginatingSource).isFalse();
+  }
+
+  @Test
+  public void ensureDataSourceWithPaginationIsReturned() {
+    TestDataSourcePredicate p = new TestDataSourcePredicate("predicate", "foo", 10, 10);
+    IndexConfig indexConfig =
+        IndexConfig.builder().paginationType(PaginationType.SEARCH_AFTER).build();
+    AndSource<String> andSource = new AndSource<>(Lists.newArrayList(p), indexConfig);
+    assertThat(andSource.source instanceof PaginatingSource).isTrue();
   }
 }

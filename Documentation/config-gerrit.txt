@@ -3253,6 +3253,7 @@ obtain the next set of results. Supported values are:
 +
 Index queries are repeated with a non-zero offset to obtain the
 next set of results.
+_Note: Results may be inaccurate if the data-set is changing during the query execution._
 +
 * `SEARCH_AFTER`
 +
@@ -3260,6 +3261,14 @@ Index queries are repeated using a search-after object. Index
 backends can provide their custom implementations for search-after.
 Note that, `SEARCH_AFTER` does not impact using offsets in Gerrit
 query APIs.
+_Note: Depending on the index backend and its settings, results may be inaccurate if the data-set is
+changing during the query execution._
++
+* `NONE`
++
+Index queries are executed returning all results, without internal pagination.
+_Note: Since the entire set of indexing results is kept in memory during the API execution,
+this option may lead to higher memory utilisation and overall reduced performance._
 +
 Defaults to `OFFSET`.
 

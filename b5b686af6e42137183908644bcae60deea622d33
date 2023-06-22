@@ -111,6 +111,145 @@
       },
       "revId": "b5b686af6e42137183908644bcae60deea622d33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4194d74e_033fc815",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-06-22T12:59:42Z",
+      "side": 1,
+      "message": "We are using \u0027changes\u0027 in multi primary and propagate evictions on ref update events. It reduces the number of requests we put onto our index by double-digit percent. I\u0027ve added more details and comments on the respective code parts.",
+      "parentUuid": "e313962b_530307a4",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 76
+      },
+      "revId": "b5b686af6e42137183908644bcae60deea622d33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47a6c8d1_3ed25378",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-06-22T12:59:42Z",
+      "side": 1,
+      "message": "nit: naming is confusing. We have a ProjectCache that caches project details and configs.",
+      "range": {
+        "startLine": 68,
+        "startChar": 48,
+        "endLine": 68,
+        "endChar": 60
+      },
+      "revId": "b5b686af6e42137183908644bcae60deea622d33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "489c8404_bae7681e",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-06-22T12:59:42Z",
+      "side": 1,
+      "message": "We have repos with 1+ M changes.\n\nThis logic will logic will scan all of their refs and parse change IDs. In the case where the changes cache exists, this is unnecessary because we\u0027ll only further populate the most recent 10k items.\n\nI suggest to deprecate the changes cache. Use the loading logic of the changes cache here in case the index is available (but don\u0027t load all change IDs first in that case because it\u0027s superflous).\n\nIn our deployment, we\u0027d rather not do incremental updates to the cache state because a full reload is just 30ms, but you can. If the class exposes an \u0027evict(Project.NameKey)\u0027 that\u0027d work for us, though.",
+      "range": {
+        "startLine": 78,
+        "startChar": 70,
+        "endLine": 78,
+        "endChar": 87
+      },
+      "revId": "b5b686af6e42137183908644bcae60deea622d33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49d89781_e9632e2e",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-06-22T12:59:42Z",
+      "side": 1,
+      "message": "d",
+      "range": {
+        "startLine": 133,
+        "startChar": 63,
+        "endLine": 133,
+        "endChar": 69
+      },
+      "revId": "b5b686af6e42137183908644bcae60deea622d33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8406542d_ff44e216",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-06-22T12:59:42Z",
+      "side": 1,
+      "message": "ChangeData is not thread-safe and mutable. Storing it this way might create races and leak information between requests. That\u0027s why SearchingChangeCache keeps a CachedChange autovalue instead.",
+      "range": {
+        "startLine": 135,
+        "startChar": 19,
+        "endLine": 135,
+        "endChar": 29
+      },
+      "revId": "b5b686af6e42137183908644bcae60deea622d33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a49f34e8_414a7299",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-06-22T12:59:42Z",
+      "side": 1,
+      "message": "Public is misleading because the change is not necessarily public. It might be protected by branch permissions (here and in other classes).\n\nI think this is should be changed because otherwise future implementations might see this and assume the change is really \"public\" and don\u0027t check any permissions on it.",
+      "range": {
+        "startLine": 561,
+        "startChar": 19,
+        "endLine": 561,
+        "endChar": 25
+      },
+      "revId": "b5b686af6e42137183908644bcae60deea622d33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

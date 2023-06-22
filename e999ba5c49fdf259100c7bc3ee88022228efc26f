@@ -39,6 +39,30 @@
       },
       "revId": "e999ba5c49fdf259100c7bc3ee88022228efc26f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c939e18_57be697b",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1156394
+      },
+      "writtenOn": "2023-06-22T09:56:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a50bd68d_00c5a727",
+      "range": {
+        "startLine": 443,
+        "startChar": 43,
+        "endLine": 443,
+        "endChar": 44
+      },
+      "revId": "e999ba5c49fdf259100c7bc3ee88022228efc26f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "351b2a33_676c8631",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-06-22T12:24:43Z",
+      "side": 1,
+      "message": "There is some dance required to upload this change.\n\nThe created upload would need to be combined with cl/542253535 and they would need to be submitted together to avoid breakages. I would do the upload myself as soon as both changes (this and google-internal one) are approved",
+      "revId": "31532c1488c27353d3f2819eb0f6fb427f914931",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

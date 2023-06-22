@@ -17,6 +17,7 @@ package com.google.gerrit.index.query;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.PaginationType;
 import java.util.Collection;
 import java.util.List;
 
@@ -58,7 +59,10 @@ public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
     if (selectedSource == null) {
       throw new IllegalArgumentException("No DataSource Found");
     }
-    this.source = toPaginatingSource(selectedSource);
+    this.source =
+        indexConfig.paginationType().equals(PaginationType.NONE)
+            ? toDataSource(selectedSource)
+            : toPaginatingSource(selectedSource);
     this.cardinality = c;
   }
 
@@ -103,5 +107,10 @@ public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
         return AndSource.this.isMatchable();
       }
     };
+  }
+
+  @SuppressWarnings("unchecked")
+  private DataSource<T> toDataSource(Predicate<T> pred) {
+    return (DataSource<T>) pred;
   }
 }

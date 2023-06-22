@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "022cb8e5_15608c81",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091855
+      },
+      "writtenOn": "2023-06-22T18:45:13Z",
+      "side": 1,
+      "message": "@Patrick looks like I lost my +2 when I added the Release-Note trailer, are you able to re-+2?",
+      "revId": "49ad1149ec33475d6803c0415eacfd806702712e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

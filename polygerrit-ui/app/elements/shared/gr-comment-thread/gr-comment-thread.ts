@@ -47,7 +47,7 @@ import {
 import {CommentEditingChangedDetail, GrComment} from '../gr-comment/gr-comment';
 import {GrButton} from '../gr-button/gr-button';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
-import {DiffLayer, FILE, RenderPreferences} from '../../../api/diff';
+import {DiffLayer, FILE, RenderPreferences, Side} from '../../../api/diff';
 import {
   assert,
   assertIsDefined,
@@ -185,6 +185,13 @@ export class GrCommentThread extends LitElement {
    */
   @property({type: String, attribute: 'message-id'})
   messageId?: ChangeMessageId;
+
+  /** diff on which comment is created on */
+  @property({type: Object})
+  diffInfo?: DiffInfo;
+
+  @property({type: String})
+  diffSide?: Side;
 
   /**
    * We are reflecting the editing state of the draft comment here. This is not
@@ -502,6 +509,8 @@ export class GrCommentThread extends LitElement {
         class=${classMap({draft: isDraft(comment)})}
         .comment=${comment}
         .comments=${this.thread!.comments}
+        .diffInfo=${this.diffInfo}
+        .diffSide=${this.diffSide}
         ?initially-collapsed=${initiallyCollapsed}
         ?robot-button-disabled=${robotButtonDisabled}
         ?show-patchset=${this.showPatchset}

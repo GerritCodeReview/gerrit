@@ -1096,6 +1096,8 @@ export class GrDiffHost extends LitElement {
         .thread=${thread}
         .showPatchset=${false}
         .showPortedComment=${!!thread.ported}
+        .diffInfo=${this.diff}
+        .diffSide=${diffSide}
         slot=${`${diffSide}-${thread.line || LOST}`}
         diff-side=${diffSide}
         line-num=${thread.line || LOST}

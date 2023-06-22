@@ -391,7 +391,7 @@ export class GrAppElement extends LitElement {
           Powered by
           <a
             href="https://www.gerritcodereview.com/"
-            rel="noopener"
+            rel="noopener noreferrer"
             target="_blank"
             >Gerrit Code Review</a
           >

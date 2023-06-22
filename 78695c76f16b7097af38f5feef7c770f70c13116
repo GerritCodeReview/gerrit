@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07628426_58d0e829",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3205,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-06-22T05:39:37Z",
+      "side": 1,
+      "message": "```suggestion\nindicates whether the file is executable (0100755), not executable (0100644) or a symlink (0120000). If it\u0027s unset, this indicates no change\n```",
+      "range": {
+        "startLine": 3204,
+        "startChar": 27,
+        "endLine": 3205,
+        "endChar": 45
+      },
+      "revId": "78695c76f16b7097af38f5feef7c770f70c13116",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

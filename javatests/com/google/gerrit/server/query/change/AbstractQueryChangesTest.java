@@ -18,8 +18,10 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.common.data.GlobalCapability.QUERY_LIMIT;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -33,6 +35,8 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeFalse;
+import static org.junit.Assume.assumeTrue;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.FluentIterable;
@@ -118,6 +122,7 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -179,6 +184,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected AccountManager accountManager;
   @Inject protected AllUsersName allUsersName;
   @Inject protected BatchUpdate.Factory updateFactory;
+  @Inject protected AllProjectsName allProjectsName;
   @Inject protected ChangeInserter.Factory changeFactory;
   @Inject protected Provider<ChangeQueryBuilder> queryBuilderProvider;
   @Inject protected GerritApi gApi;
@@ -4264,6 +4270,33 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         .contains("'is:mergeable' operator is not supported by server");
   }
 
+  @Test
+  public void correctInitialPageSizeWithoutPagination() throws Exception {
+    runIfPaginationTypeNone();
+
+    int userLimit = 2;
+    int queryLimit = 100;
+    assertThat(getInitialPageLimit(userLimit, queryLimit)).isEqualTo(queryLimit);
+  }
+
+  @Test
+  public void correctInitialPageSizeWithPagination() {
+    skipIfPaginationTypeNone();
+
+    int userLimit = 2;
+    int queryLimit = 100;
+    assertThat(getInitialPageLimit(userLimit, queryLimit)).isEqualTo(userLimit);
+  }
+
+  private int getInitialPageLimit(int userLimit, int queryLimit) {
+    projectOperations
+        .project(allProjectsName)
+        .forUpdate()
+        .add(allowCapability(QUERY_LIMIT).group(REGISTERED_USERS).range(0, userLimit))
+        .update();
+    return queryProcessorProvider.get().getInitialPageSize(queryLimit);
+  }
+
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {
     return newChange(repo, null, null, null, null, null, false, false);
   }
@@ -4634,5 +4667,15 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   protected Schema<ChangeData> getSchema() {
     return indexes.getSearchIndex().getSchema();
+  }
+
+  void runIfPaginationTypeNone() {
+    String paginationType = config.getString("index", null, "paginationType");
+    assumeTrue(paginationType != null && paginationType.equals("NONE"));
+  }
+
+  void skipIfPaginationTypeNone() {
+    String paginationType = config.getString("index", null, "paginationType");
+    assumeFalse(paginationType != null && paginationType.equals("NONE"));
   }
 }

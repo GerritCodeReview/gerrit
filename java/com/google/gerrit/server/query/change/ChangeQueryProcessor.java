@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.PaginationType;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
@@ -166,6 +167,8 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
 
   @Override
   protected int getInitialPageSize(int limit) {
-    return Math.min(getUserQueryLimit().getAsInt(), limit);
+    return indexConfig.paginationType().equals(PaginationType.NONE)
+        ? super.getInitialPageSize(limit)
+        : Math.min(getUserQueryLimit().getAsInt(), limit);
   }
 }

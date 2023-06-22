@@ -55,7 +55,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {subscribe} from '../../lit/subscription-controller';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {classMap} from 'lit/directives/class-map.js';
-import {FILE, LineNumber} from '../../../api/diff';
+import {FILE, LineNumber, Side} from '../../../api/diff';
 import {CommentSide, SpecialFilePath} from '../../../constants/constants';
 import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
@@ -64,6 +64,8 @@ import {isBase64FileContent} from '../../../api/rest-api';
 import {createDiffUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+import {DiffInfo} from '../../../types/diff';
+import {getWholeLinesContentFromDiff} from '../../../utils/diff-util';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
@@ -166,6 +168,13 @@ export class GrComment extends LitElement {
   // editable.
   @property({type: Boolean, attribute: 'permanent-editing-mode'})
   permanentEditingMode = false;
+
+  /** diff on which comment is created on */
+  @property({type: Object})
+  diffInfo?: DiffInfo;
+
+  @property({type: String})
+  diffSide?: Side;
 
   @state()
   autoSaving?: Promise<DraftInfo>;
@@ -997,7 +1006,7 @@ export class GrComment extends LitElement {
     if (hasUserSuggestion(this.comment) || replacement) {
       replacement = replacement ?? getUserSuggestion(this.comment);
       assert(!!replacement, 'malformed user suggestion');
-      const line = await this.getCommentedCode();
+      const line = await this.getCommentedCode2();
 
       return {
         fixSuggestions: createUserFixSuggestion(
@@ -1114,8 +1123,31 @@ export class GrComment extends LitElement {
 
   async createSuggestEdit(e: MouseEvent) {
     e.stopPropagation();
-    const line = await this.getCommentedCode();
+    const line = await this.getCommentedCode2();
     this.messageText += `${USER_SUGGESTION_START_PATTERN}${line}${'\n```'}`;
+  }
+
+  // TODO: applying suggestion is also using this, so we need to have diffInfo in every context.
+  getCommentedCode2() {
+    assertIsDefined(this.diffInfo, 'diffInfo');
+    assertIsDefined(this.diffSide, 'diffSide');
+    assertIsDefined(this.comment, 'comment');
+    if (this.comment.range) {
+      return getWholeLinesContentFromDiff(
+        this.diffInfo,
+        this.comment.range.start_line,
+        this.comment.range.end_line,
+        this.diffSide
+      );
+    } else {
+      assert(this.comment.line !== undefined, 'comment line undefined');
+      return getWholeLinesContentFromDiff(
+        this.diffInfo,
+        this.comment.line,
+        this.comment.line,
+        this.diffSide
+      );
+    }
   }
 
   async getCommentedCode() {

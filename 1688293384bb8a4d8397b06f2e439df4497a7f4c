@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f720c3af_18b5c1f0",
+        "filename": "java/com/google/gerrit/gpg/server/PostGpgKeys.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-22T13:10:41Z",
+      "side": 1,
+      "message": "Are you sure this is correct? maybe \u0027postKey\u0027?",
+      "range": {
+        "startLine": 275,
+        "startChar": 23,
+        "endLine": 275,
+        "endChar": 32
+      },
+      "revId": "1688293384bb8a4d8397b06f2e439df4497a7f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b15472c_9295b9d5",
+        "filename": "java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-22T13:10:41Z",
+      "side": 1,
+      "message": "can we have the names of all outgoing emails set somewhere as `static final` fields for better visibility?",
+      "range": {
+        "startLine": 577,
+        "startChar": 55,
+        "endLine": 577,
+        "endChar": 66
+      },
+      "revId": "1688293384bb8a4d8397b06f2e439df4497a7f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaa9edca_eddbf277",
+        "filename": "java/com/google/gerrit/server/change/ModifyReviewersEmail.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-22T13:10:41Z",
+      "side": 1,
+      "message": "Is this correct? maybe modifyReviewers?",
+      "range": {
+        "startLine": 107,
+        "startChar": 56,
+        "endLine": 107,
+        "endChar": 65
+      },
+      "revId": "1688293384bb8a4d8397b06f2e439df4497a7f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdb7f33d_085cbdfc",
+        "filename": "java/com/google/gerrit/server/mail/EmailFactories.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-22T13:10:41Z",
+      "side": 1,
+      "message": "Can we just do\n\n`bind(ChangeEmailDecorator.class).annotatedWith(\"AbandonEmailDecorator\").to(AbandonedChangeEmailDecorator.class)`,\n\nhave this binding installed in some module, and override the binding internally? With that, we\u0027d spare all those methods in this interface. The only method that will remain here is `ChangeEmail createChangeEmail(...)` and `createOutgoingEmail(...)`.\n\nSome decorators are parametrised, but maybe we can still provide a binding and set the other fields with setters.",
+      "range": {
+        "startLine": 52,
+        "startChar": 23,
+        "endLine": 52,
+        "endChar": 49
+      },
+      "revId": "1688293384bb8a4d8397b06f2e439df4497a7f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08f912a4_ac993606",
+        "filename": "java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-22T13:10:41Z",
+      "side": 1,
+      "message": "why is this called \"error\"?",
+      "range": {
+        "startLine": 234,
+        "startChar": 15,
+        "endLine": 234,
+        "endChar": 20
+      },
+      "revId": "1688293384bb8a4d8397b06f2e439df4497a7f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

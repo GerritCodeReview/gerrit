@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1a6f274_6d0ffffa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-22T16:52:20Z",
+      "side": 1,
+      "message": "Failing tests:\n\n* RevisionIT#cherryPickNewPatchsetWithNoTopic\n*",
+      "revId": "fe7525951cf67573a3af23ee613b5924f03035b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

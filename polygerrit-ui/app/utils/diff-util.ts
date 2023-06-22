@@ -54,6 +54,19 @@ export function getContentFromDiff(
   return lines.join('\n');
 }
 
+export function getWholeLinesContentFromDiff(
+  diff: DiffInfo,
+  startLineNum: number,
+  endLineNum: number | undefined,
+  side: Side
+) {
+  const lines = getDiffLines(diff, side).slice(startLineNum - 1, endLineNum);
+  if (lines.length) {
+    lines[lines.length - 1] = lines[lines.length - 1];
+  }
+  return lines.join('\n');
+}
+
 export function isFileUnchanged(diff: DiffInfo) {
   return !diff.content.some(
     content => (content.a && !content.common) || (content.b && !content.common)

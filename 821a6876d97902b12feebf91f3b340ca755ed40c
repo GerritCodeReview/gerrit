@@ -118,6 +118,30 @@
       },
       "revId": "821a6876d97902b12feebf91f3b340ca755ed40c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24fea3b9_d38a3710",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-06-22T05:34:55Z",
+      "side": 1,
+      "message": "Not really, hence the CR+1.",
+      "parentUuid": "58ff921c_97a6f134",
+      "range": {
+        "startLine": 321,
+        "startChar": 6,
+        "endLine": 326,
+        "endChar": 7
+      },
+      "revId": "821a6876d97902b12feebf91f3b340ca755ed40c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

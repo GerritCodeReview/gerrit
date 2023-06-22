@@ -15,15 +15,23 @@
 package com.google.gerrit.index;
 
 public enum PaginationType {
-  /** Index queries are restarted at a non-zero offset to obtain the next set of results */
+  /**
+   * Unlimited change index queries are restarted at a non-zero offset to obtain the next set of
+   * results
+   */
   OFFSET,
 
   /**
-   * Index queries are restarted using a search-after object. Supported index backends can provide
-   * their custom implementations for search-after.
+   * Unlimited change index queries are restarted using a search-after object. Supported index
+   * backends can provide their custom implementations for search-after.
    *
    * <p>For example, Lucene implementation uses the last doc from the previous search as
    * search-after object and uses the IndexSearcher.searchAfter API to get the next set of results.
    */
-  SEARCH_AFTER
+  SEARCH_AFTER,
+
+  /**
+   * Unlimited change index queries are executed returning all results, without internal pagination.
+   */
+  NONE
 }

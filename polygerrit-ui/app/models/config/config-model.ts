@@ -64,7 +64,7 @@ export class ConfigModel extends Model<ConfigState> {
       }),
       this.changeModel.repo$
         .pipe(
-          switchMap((repo?: RepoName) => {
+          switchMap((repo: RepoName | undefined) => {
             if (repo === undefined) return of(undefined);
             return from(this.restApiService.getProjectConfig(repo));
           })

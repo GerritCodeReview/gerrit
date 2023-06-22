@@ -22,6 +22,30 @@
       },
       "revId": "fc5716336d1356e5c5b6ce4d1dabb67cb9054470",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa15de29_ded95234",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-22T08:01:01Z",
+      "side": 1,
+      "message": "The difficulty is that at least Prometheus is very limited in what characters are allowed in metric names [1]. While `_` would be allowed, any special character might not be allowed. We could of course use something like `_2f_` but that would be bad for readability of metric names. For prometheus, the proper way would be to not put the path in the metric name but to set it as a label. However, I am not sure whether this would work with other metric reporters.\n\n[1] https://prometheus.io/docs/concepts/data_model/#metric-names-and-labels",
+      "parentUuid": "56cd6328_5e255a8e",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 68
+      },
+      "revId": "fc5716336d1356e5c5b6ce4d1dabb67cb9054470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

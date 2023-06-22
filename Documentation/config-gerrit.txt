@@ -3261,6 +3261,10 @@ backends can provide their custom implementations for search-after.
 Note that, `SEARCH_AFTER` does not impact using offsets in Gerrit
 query APIs.
 +
+* `NONE`
++
+Disable pagination.
++
 Defaults to `OFFSET`.
 
 [[index.maxLimit]]index.maxLimit::

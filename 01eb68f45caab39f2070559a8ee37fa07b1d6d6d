@@ -16,6 +16,24 @@
       "message": "Is this related to the recent branches as well?",
       "revId": "01eb68f45caab39f2070559a8ee37fa07b1d6d6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c71b0a7_21e1a912",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-22T00:04:45Z",
+      "side": 1,
+      "message": "Done with Change 377699",
+      "parentUuid": "caa0f389_1e27d030",
+      "revId": "01eb68f45caab39f2070559a8ee37fa07b1d6d6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

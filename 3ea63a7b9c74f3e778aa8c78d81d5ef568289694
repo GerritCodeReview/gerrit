@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7504727_73300f6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-22T23:50:49Z",
+      "side": 1,
+      "message": "Hi Ben, this came form a review from an external security consultant, not from my personal daily experience of using Gerrit.\n\n`noopener` [1] has a smaller support than `noreferrer` [2] hence specifying both assures the widest coverage of information leak prevention to other sites.\n\nEven if www.gerritcodereview.com isn\u0027t an unsafe site, companies may have very strict confidentiality policies on their internal services, including even just their Gerrit canonical web URL.\n\n[1] https://caniuse.com/rel-noopener\n[2] https://caniuse.com/rel-noreferrer",
+      "parentUuid": "a45a9198_a61b3cf9",
+      "revId": "3ea63a7b9c74f3e778aa8c78d81d5ef568289694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1bb75d6_9d6dd7fd",

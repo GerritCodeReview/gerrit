@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c9e58ac_d243a076",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-22T00:13:19Z",
+      "side": 1,
+      "message": "What about bucketed metric names? I recall they also had a naive implementation.",
+      "revId": "b233c8738824a989b71a7da9e1f37ff6bdb0f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac6acbcb_748933d0",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/DropWizardMetricMaker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-22T00:13:19Z",
+      "side": 1,
+      "message": "This should be properly mentioned in the Gerrit documentation IMHO.",
+      "range": {
+        "startLine": 375,
+        "startChar": 0,
+        "endLine": 381,
+        "endChar": 10
+      },
+      "revId": "b233c8738824a989b71a7da9e1f37ff6bdb0f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

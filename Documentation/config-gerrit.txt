@@ -2576,8 +2576,9 @@ the rolling upgrade is possible or not and the associated constraints.
 +
 ServerId of the repositories imported from other Gerrit servers. Changes coming
 associated with the imported serverIds are indexed and displayed in the UI
-but they are not searchable by `changeNumber`. They are still discoverable in any
-other ways, for example:
+but they are not searchable by `changeNumber` therefore the
+`index.cacheQueryResultsByChangeNum` must also be set to false.
+Imported changes are still discoverable in any other ways, for example:
 
   project:someproject branch:main changeId:I78a7add1fe2597cad788c833d8f771f09b54cf33
 +

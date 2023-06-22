@@ -770,7 +770,7 @@ public class ChangeEditModifier {
           ObjectId.zeroId(),
           newEditCommitId,
           timestamp);
-      reindex(change);
+      reindex(notes);
 
       RevCommit newEditCommit = lookupCommit(repository, newEditCommitId);
       return new ChangeEdit(change, editRefName, newEditCommit, basePatchset);
@@ -796,7 +796,7 @@ public class ChangeEditModifier {
       RevCommit currentEditCommit = changeEdit.getEditCommit();
       updateReference(
           projectName, repository, editRefName, currentEditCommit, newEditCommitId, timestamp);
-      reindex(changeEdit.getChange());
+      reindex(projectName, changeEdit.getChange().getId());
 
       RevCommit newEditCommit = lookupCommit(repository, newEditCommitId);
       return new ChangeEdit(
@@ -850,7 +850,8 @@ public class ChangeEditModifier {
           newEditRefName,
           newEditCommitId,
           nowTimestamp);
-      reindex(changeEdit.getChange());
+      Change change = changeEdit.getChange();
+      reindex(change.getProject(), change.getId());
     }
 
     private void updateReferenceWithNameChange(
@@ -893,8 +894,12 @@ public class ChangeEditModifier {
       return user.newRefLogIdent(timestamp, zoneId);
     }
 
-    private void reindex(Change change) {
-      indexer.index(change);
+    private void reindex(Project.NameKey projectName, Change.Id changeId) {
+      indexer.index(projectName, changeId);
+    }
+
+    private void reindex(ChangeNotes notes) {
+      indexer.index(notes);
     }
   }
 }

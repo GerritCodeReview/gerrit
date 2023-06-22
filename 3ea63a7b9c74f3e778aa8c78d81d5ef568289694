@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a45a9198_a61b3cf9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-06-22T08:26:49Z",
+      "side": 1,
+      "message": "I think for all browsers other than IE it is sufficient to specify `noopener`. Did you actually see a `referer` being set or is this just a hypothesis? I have checked for Chrome, and the `referer` is not set when I click the link in question.",
+      "revId": "3ea63a7b9c74f3e778aa8c78d81d5ef568289694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1bb75d6_9d6dd7fd",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-06-22T08:26:49Z",
+      "side": 1,
+      "message": "Typo: Remove `i`\n\n```suggestion\n            rel\u003d\"noopener noreferrer\"\n```",
+      "range": {
+        "startLine": 394,
+        "startChar": 17,
+        "endLine": 394,
+        "endChar": 26
+      },
+      "revId": "3ea63a7b9c74f3e778aa8c78d81d5ef568289694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

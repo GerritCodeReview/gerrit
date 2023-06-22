@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e3507a30_3d68e0c6",
+        "filename": "java/com/google/gerrit/extensions/common/CommitInfo.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-06-22T10:44:00Z",
+      "side": 1,
+      "message": "Seems like these two lists are holding information about parents. Can you consolidate this by extending CommitInfo in ParentInfo, and you could get away with the new field?\n\nAlso what is stopping us from adding all these fields in CommitInfo itself?",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 38
+      },
+      "revId": "c1e425f5b8c38056394729387ea2526cc6871dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ad078bd8_5ac00a9f",
         "filename": "java/com/google/gerrit/server/restapi/change/GetCommit.java",
         "patchSetId": 11
@@ -19,6 +42,52 @@
         "startChar": 37,
         "endLine": 135,
         "endChar": 100
+      },
+      "revId": "c1e425f5b8c38056394729387ea2526cc6871dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5e23205_41192f37",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetCommit.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-06-22T10:44:00Z",
+      "side": 1,
+      "message": "patch-set",
+      "range": {
+        "startLine": 167,
+        "startChar": 25,
+        "endLine": 167,
+        "endChar": 33
+      },
+      "revId": "c1e425f5b8c38056394729387ea2526cc6871dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad0ef04a_39f7fda5",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetCommit.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-06-22T10:44:00Z",
+      "side": 1,
+      "message": "can we use index to search for change information instead, which could be faster?",
+      "range": {
+        "startLine": 170,
+        "startChar": 19,
+        "endLine": 170,
+        "endChar": 64
       },
       "revId": "c1e425f5b8c38056394729387ea2526cc6871dd5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

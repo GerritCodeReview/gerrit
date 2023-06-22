@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "811911a0_68b219f5",
+        "filename": "java/com/google/gerrit/gpg/server/PostGpgKeys.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-06-22T14:46:42Z",
+      "side": 1,
+      "message": "This is correct. This section of the code sends delete Key email. And it always has \"deletekey\" message attached to it.\n\nThese names are only used for logging and the custom email headers (can help filter emails)",
+      "parentUuid": "f720c3af_18b5c1f0",
+      "range": {
+        "startLine": 275,
+        "startChar": 23,
+        "endLine": 275,
+        "endChar": 32
+      },
+      "revId": "1688293384bb8a4d8397b06f2e439df4497a7f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b15472c_9295b9d5",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-06-22T13:10:41Z",
       "side": 1,
       "message": "can we have the names of all outgoing emails set somewhere as `static final` fields for better visibility?",
+      "range": {
+        "startLine": 577,
+        "startChar": 55,
+        "endLine": 577,
+        "endChar": 66
+      },
+      "revId": "1688293384bb8a4d8397b06f2e439df4497a7f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfbdd26b_c9815737",
+        "filename": "java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-06-22T14:46:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b15472c_9295b9d5",
       "range": {
         "startLine": 577,
         "startChar": 55,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3114acf8_5da34b20",
+        "filename": "java/com/google/gerrit/server/change/ModifyReviewersEmail.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-06-22T14:46:42Z",
+      "side": 1,
+      "message": "This is the name that has been used here before. So I kept it\n\nI can change it, if you prefer",
+      "parentUuid": "aaa9edca_eddbf277",
+      "range": {
+        "startLine": 107,
+        "startChar": 56,
+        "endLine": 107,
+        "endChar": 65
+      },
+      "revId": "1688293384bb8a4d8397b06f2e439df4497a7f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdb7f33d_085cbdfc",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d3867f9_d27f34dc",
+        "filename": "java/com/google/gerrit/server/mail/EmailFactories.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-06-22T14:46:42Z",
+      "side": 1,
+      "message": "Offline discussion summary.\n\nThe factory helps be more consistent and concise in the code that uses emails.\nWe could change all constructor arguments into setters, but we would still have `@Annotation ChangeEmailDecorator` in some cases and `MoreSpecificChangeEmailDecorator` in others.\n\nThe drawback is that factory is a bit harder to read than rows of `bind(..)`. \n\nAdditional note on code duplication. Decorators should define abstract base classes so that external overrides don\u0027t have to reimplement everything (setters and init). Hovewer the separation between init and populate is not consistent in all the classes at the moment. So we would do it later (after google-internal rollout of new templates), when we know exactly what needs to change.",
+      "parentUuid": "cdb7f33d_085cbdfc",
+      "range": {
+        "startLine": 52,
+        "startChar": 23,
+        "endLine": 52,
+        "endChar": 49
+      },
+      "revId": "1688293384bb8a4d8397b06f2e439df4497a7f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08f912a4_ac993606",
@@ -106,6 +202,30 @@
       "writtenOn": "2023-06-22T13:10:41Z",
       "side": 1,
       "message": "why is this called \"error\"?",
+      "range": {
+        "startLine": 234,
+        "startChar": 15,
+        "endLine": 234,
+        "endChar": 20
+      },
+      "revId": "1688293384bb8a4d8397b06f2e439df4497a7f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bc60adc_4c9c84f7",
+        "filename": "java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-06-22T14:46:42Z",
+      "side": 1,
+      "message": "Same as with others that\u0027s the name that was used before.",
+      "parentUuid": "08f912a4_ac993606",
       "range": {
         "startLine": 234,
         "startChar": 15,

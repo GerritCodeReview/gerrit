@@ -91,6 +91,30 @@
       },
       "revId": "c1e425f5b8c38056394729387ea2526cc6871dd5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d79650d_a9cd268f",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetCommit.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-06-22T11:39:25Z",
+      "side": 1,
+      "message": "queryProvider.get().byCommit(parent.name())",
+      "parentUuid": "ad0ef04a_39f7fda5",
+      "range": {
+        "startLine": 170,
+        "startChar": 19,
+        "endLine": 170,
+        "endChar": 64
+      },
+      "revId": "c1e425f5b8c38056394729387ea2526cc6871dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

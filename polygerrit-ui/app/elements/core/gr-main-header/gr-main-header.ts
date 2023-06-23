@@ -421,6 +421,7 @@ export class GrMainHeader extends LitElement {
         title="File a bug"
         aria-label="File a bug"
         target="_blank"
+        rel="noopener noreferrer"
         role="button"
       >
         <gr-icon icon="bug_report" filled></gr-icon>

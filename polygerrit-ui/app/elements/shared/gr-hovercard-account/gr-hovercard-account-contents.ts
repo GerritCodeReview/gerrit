@@ -297,6 +297,7 @@ export class GrHovercardAccountContents extends LitElement {
           <a
             href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
             target="_blank"
+            rel="noopener noreferrer"
           >
             <gr-icon icon="help" title="read documentation"></gr-icon>
           </a>

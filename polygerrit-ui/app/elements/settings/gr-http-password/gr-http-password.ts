@@ -114,7 +114,11 @@ export class GrHttpPassword extends LitElement {
           >
         </div>
         <span ?hidden=${!this._passwordUrl}>
-          <a href=${this._passwordUrl!} target="_blank" rel="noopener">
+          <a
+            href=${this._passwordUrl!}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Obtain password</a
           >
           (opens in a new tab)

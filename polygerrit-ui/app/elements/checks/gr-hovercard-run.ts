@@ -171,7 +171,10 @@ export class GrHovercardRun extends base {
             ? html` <div class="row">
                 <div class="title">Status</div>
                 <div>
-                  <a href=${this.run.statusLink} target="_blank"
+                  <a
+                    href=${this.run.statusLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     ><gr-icon
                       icon="open_in_new"
                       aria-label="external link to check status"
@@ -317,7 +320,10 @@ export class GrHovercardRun extends base {
             ? html` <div class="row">
                 <div class="title">Documentation</div>
                 <div>
-                  <a href=${this.run.checkLink} target="_blank"
+                  <a
+                    href=${this.run.checkLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     ><gr-icon
                       icon="open_in_new"
                       aria-label="external link to check documentation"

@@ -135,7 +135,7 @@ function createLinkTemplate(
 ) {
   return `${
     prefix ?? ''
-  }<a href="${href}" rel="noopener" target="_blank">${displayText}</a>${
+  }<a href="${href}" rel="noopener noreferrer" target="_blank">${displayText}</a>${
     suffix ?? ''
   }`;
 }

@@ -422,7 +422,12 @@ public class CreateChange
           c =
               rw.parseCommit(
                   CommitUtil.createCommitWithTree(
-                      oi, author, committer, mergeTip, appliedPatchCommitMessage, treeId));
+                      oi,
+                      author,
+                      committer,
+                      ImmutableList.of(mergeTip),
+                      appliedPatchCommitMessage,
+                      treeId));
         } else {
           // create an empty commit.
           c = createEmptyCommit(oi, rw, author, committer, mergeTip, commitMessage);
@@ -602,7 +607,7 @@ public class CreateChange
     ObjectId treeID = mergeTip == null ? emptyTreeId(oi) : mergeTip.getTree().getId();
     return rw.parseCommit(
         CommitUtil.createCommitWithTree(
-            oi, authorIdent, committerIdent, mergeTip, commitMessage, treeID));
+            oi, authorIdent, committerIdent, ImmutableList.of(mergeTip), commitMessage, treeID));
   }
 
   private static ObjectId emptyTreeId(ObjectInserter inserter) throws IOException {

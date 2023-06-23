@@ -180,10 +180,13 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
               input.patch.patch,
               ApplyPatchUtil.getResultPatch(repo, reader, baseCommit, revWalk.lookupTree(treeId)),
               applyResult.getErrors());
-
+      List<RevCommit> parents =
+          Boolean.TRUE.equals(input.amend)
+              ? ImmutableList.copyOf(baseCommit.getParents())
+              : ImmutableList.of(baseCommit);
       ObjectId appliedCommit =
           CommitUtil.createCommitWithTree(
-              oi, authorIdent, committerIdent, baseCommit, commitMessage, treeId);
+              oi, authorIdent, committerIdent, parents, commitMessage, treeId);
       CodeReviewCommit commit = revWalk.parseCommit(appliedCommit);
       oi.flush();
 

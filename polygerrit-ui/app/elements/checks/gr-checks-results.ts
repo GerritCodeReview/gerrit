@@ -522,7 +522,11 @@ export class GrResultRow extends LitElement {
     if (!link) return;
     const tooltipText = link.tooltip ?? tooltipForLink(link.icon);
     const icon = iconForLink(link.icon);
-    return html`<a href=${link.url} class="link" target="_blank"
+    return html`<a
+      href=${link.url}
+      class="link"
+      target="_blank"
+      rel="noopener noreferrer"
       ><gr-icon
         icon=${icon.name}
         ?filled=${icon.filled}
@@ -726,7 +730,11 @@ class GrResultExpanded extends LitElement {
     const text = link.tooltip ?? tooltipForLink(link.icon);
     const target = targetBlank ? '_blank' : undefined;
     const icon = iconForLink(link.icon);
-    return html`<a href=${link.url} target=${ifDefined(target)}>
+    return html`<a
+      href=${link.url}
+      target=${ifDefined(target)}
+      rel="noopener noreferrer"
+    >
       <gr-icon icon=${icon.name} class="link" ?filled=${icon.filled}></gr-icon>
       <span>${text}</span>
     </a>`;
@@ -1192,7 +1200,7 @@ export class GrChecksResults extends LitElement {
     if (!link) return;
     const tooltipText = link.tooltip ?? tooltipForLink(link.icon);
     const icon = iconForLink(link.icon);
-    return html`<a href=${link.url} target="_blank"
+    return html`<a href=${link.url} target="_blank" rel="noopener noreferrer"
       ><gr-icon
         icon=${icon.name}
         aria-label=${tooltipText}

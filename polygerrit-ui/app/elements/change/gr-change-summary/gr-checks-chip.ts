@@ -203,6 +203,7 @@ export class GrChecksChip extends LitElement {
         <a
           href=${link}
           target="_blank"
+          rel="noopener noreferrer"
           @click=${this.onLinkClick}
           @keydown=${this.onLinkKeyDown}
           aria-label="Link to check details"

@@ -80,6 +80,7 @@ suite('gr-search-bar tests', () => {
               slot="suffix"
               tabindex="-1"
               target="_blank"
+              rel="noopener noreferrer"
             >
               <gr-icon icon="help" title="read documentation"></gr-icon>
             </a>

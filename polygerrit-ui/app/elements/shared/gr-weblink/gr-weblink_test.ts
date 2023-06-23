@@ -24,7 +24,11 @@ suite('gr-weblink tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <a href="https://www.google.com" rel="noopener" target="_blank">
+        <a
+          href="https://www.google.com"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
           <gr-tooltip-content title="Open in Gitiles" has-tooltip>
             <img src="https://www.google.com/favicon.ico" />
           </gr-tooltip-content>
@@ -45,7 +49,11 @@ suite('gr-weblink tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <a href="https://www.google.com" rel="noopener" target="_blank">
+        <a
+          href="https://www.google.com"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
           <gr-tooltip-content title="Open in Gitiles" has-tooltip>
             <span>gitiles</span>
           </gr-tooltip-content>

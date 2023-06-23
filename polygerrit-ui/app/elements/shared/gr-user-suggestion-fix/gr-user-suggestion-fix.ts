@@ -69,6 +69,7 @@ export class GrUserSuggetionFix extends LitElement {
           <a
             href="https://gerrit-review.googlesource.com/Documentation/user-suggest-edits.html"
             target="_blank"
+            rel="noopener noreferrer"
             ><gr-icon icon="help" title="read documentation"></gr-icon
           ></a>
         </div>

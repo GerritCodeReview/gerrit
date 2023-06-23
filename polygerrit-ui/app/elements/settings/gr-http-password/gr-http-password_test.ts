@@ -53,7 +53,9 @@ suite('gr-http-password tests', () => {
             </gr-button>
           </div>
           <span hidden="">
-            <a href="" rel="noopener" target="_blank"> Obtain password </a>
+            <a href="" target="_blank" rel="noopener noreferrer">
+              Obtain password
+            </a>
             (opens in a new tab)
           </span>
         </div>

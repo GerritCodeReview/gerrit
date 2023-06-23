@@ -153,6 +153,23 @@
       "parentUuid": "733fc14c_28bdaa29",
       "revId": "52b3151436aa7552b3adb6b31b55903ba785b680",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5f55522_5e0e0422",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1162066
+      },
+      "writtenOn": "2023-06-23T21:57:15Z",
+      "side": 1,
+      "message": "apply plugin:\u0027application\u0027\nmainClassName \u003d \u0027HelloWorld\u0027\n\nrun { standardInput \u003d System.in }\nsourceSets { main { java { srcDir \u0027./\u0027 } } }\n\nrepositories {\n    jcenter()\n}\n\ndependencies {\n    // add dependencies here as below\n    implementation group: \u0027org.apache.commons\u0027, name: \u0027commons-lang3\u0027, version: \u00273.9\u0027\n}",
+      "revId": "52b3151436aa7552b3adb6b31b55903ba785b680",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

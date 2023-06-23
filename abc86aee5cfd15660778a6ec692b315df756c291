@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8c79758_20dcb54b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-23T14:00:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5764fa83_dd59fc1a",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "abc86aee5cfd15660778a6ec692b315df756c291",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9396b7e2_fe616ea3",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-06-23T13:30:10Z",
       "side": 1,
       "message": "Well, that\u0027s a consequence and not really the intent of this change.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 53
+      },
+      "revId": "abc86aee5cfd15660778a6ec692b315df756c291",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b58f1c01_92816449",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-23T14:00:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9396b7e2_fe616ea3",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00040043_403fd969",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-23T14:00:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b70168ee_e64abb54",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 46
+      },
+      "revId": "abc86aee5cfd15660778a6ec692b315df756c291",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dad5e719_b25944c4",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-06-23T13:30:10Z",
       "side": 1,
       "message": "Well, the user would say _\"why don\u0027t you fix the corrupted cache instead?\"_.\n\nI believe we should expose the intent of this change rather than describing a specific issue with duplicates in the search results.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 25
+      },
+      "revId": "abc86aee5cfd15660778a6ec692b315df756c291",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d418d895_1e59b14f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-23T14:00:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dad5e719_b25944c4",
       "range": {
         "startLine": 18,
         "startChar": 0,
@@ -110,6 +206,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3725a725_c3c0b37f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-23T14:00:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a867af86_a99d7bf2",
+      "revId": "abc86aee5cfd15660778a6ec692b315df756c291",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e09e3f5_4f54659e",
@@ -127,6 +241,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "098a0c4f_1ec4e0ff",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3255,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-23T14:00:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e09e3f5_4f54659e",
+      "revId": "abc86aee5cfd15660778a6ec692b315df756c291",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9412862f_8e003b1c",
@@ -140,6 +272,24 @@
       "writtenOn": "2023-06-23T13:30:10Z",
       "side": 1,
       "message": "Plus add the note: _Results may be inaccurate if the data-set is changing during the query execution_",
+      "revId": "abc86aee5cfd15660778a6ec692b315df756c291",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f9209a5_3ed86c5a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3262,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-23T14:00:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9412862f_8e003b1c",
       "revId": "abc86aee5cfd15660778a6ec692b315df756c291",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -167,6 +317,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec21f627_597daa7a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3266,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-23T14:00:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec178dc4_71c887bd",
+      "range": {
+        "startLine": 3266,
+        "startChar": 0,
+        "endLine": 3266,
+        "endChar": 19
+      },
+      "revId": "abc86aee5cfd15660778a6ec692b315df756c291",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "018b0e3e_da99abb7",
@@ -180,6 +354,30 @@
       "writtenOn": "2023-06-23T13:30:10Z",
       "side": 1,
       "message": "Index queries are executed returning all results, without internal pagination.",
+      "range": {
+        "startLine": 30,
+        "startChar": 6,
+        "endLine": 30,
+        "endChar": 24
+      },
+      "revId": "abc86aee5cfd15660778a6ec692b315df756c291",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2887874_7d899995",
+        "filename": "java/com/google/gerrit/index/PaginationType.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-23T14:00:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "018b0e3e_da99abb7",
       "range": {
         "startLine": 30,
         "startChar": 6,

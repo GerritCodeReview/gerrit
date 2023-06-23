@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba124c11_1b6d42c7",
+        "filename": "javatests/com/google/gerrit/index/query/AndSourceTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-23T12:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a0ebb53_262333d5",
+      "revId": "abc86aee5cfd15660778a6ec692b315df756c291",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "002179f5_2afc055e",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-06-23T11:00:41Z",
       "side": 1,
       "message": "How about `assertThat(andSource.source instanceof PaginatingSource).isTrue();`",
+      "revId": "abc86aee5cfd15660778a6ec692b315df756c291",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eca4a01d_e29752e3",
+        "filename": "javatests/com/google/gerrit/index/query/AndSourceTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-23T12:50:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "002179f5_2afc055e",
       "revId": "abc86aee5cfd15660778a6ec692b315df756c291",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

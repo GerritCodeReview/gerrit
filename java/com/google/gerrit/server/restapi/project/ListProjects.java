@@ -338,7 +338,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
             && state != HIDDEN
             && isNullOrEmpty(matchPrefix)
             && isNullOrEmpty(matchRegex)
-            && isNullOrEmpty(matchSubstring) // TODO: see Issue 10446
+            && isNullOrEmpty(
+                matchSubstring) // TODO: see https://issues.gerritcodereview.com/issues/40010295
             && type == FilterType.ALL
             && showBranch.isEmpty()
             && !showTree

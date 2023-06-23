@@ -46,6 +46,30 @@
       },
       "revId": "fc5716336d1356e5c5b6ce4d1dabb67cb9054470",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0be6f4d_1779dae8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-23T00:00:25Z",
+      "side": 1,
+      "message": "\u003e The difficulty is that at least Prometheus is very limited in what characters are allowed in metric names [1]. While `_` would be allowed, any special character might not be allowed.\n\nI know 😞\n\n\u003e We could of course use something like `_2f_` but that would be bad for readability of metric names.\n\nYes, agreed isn\u0027t nice. However, I would prefer to have some unpleasant names instead of a broken or even worse duplicate metrics silently mixing their values.\n\n\u003e For prometheus, the proper way would be to not put the path in the metric name but to set it as a label. However, I am not sure whether this would work with other metric reporters.\n\u003e \n\u003e [1] https://prometheus.io/docs/concepts/data_model/#metric-names-and-labels\n\nYes, but it isn\u0027t supported AFAIK by DropWizard + Prometheus reporter. Possibly food for thought of a new metrics system for Gerrit at the next Hackathon?",
+      "parentUuid": "fa15de29_ded95234",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 68
+      },
+      "revId": "fc5716336d1356e5c5b6ce4d1dabb67cb9054470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

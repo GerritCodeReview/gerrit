@@ -44,4 +44,11 @@ public class ApplyPatchPatchSetInput {
   @Nullable public AccountInput author;
 
   @Nullable public List<ListChangesOption> responseFormatOptions;
+
+  /**
+   * If {@code true}, the {@link #base} will be amended by the patch. This will use the tree of the
+   * base, apply the patch and create a new commit whose tree is the resulting tree of the operation
+   * and whose parent(s) are the parent(s) of base.
+   */
+  @Nullable public Boolean amend;
 }

@@ -422,7 +422,12 @@ public class CreateChange
           c =
               rw.parseCommit(
                   CommitUtil.createCommitWithTree(
-                      oi, author, committer, mergeTip, appliedPatchCommitMessage, treeId));
+                      oi,
+                      author,
+                      committer,
+                      ImmutableList.of(mergeTip),
+                      appliedPatchCommitMessage,
+                      treeId));
         } else {
           // create an empty commit.
           c = createEmptyCommit(oi, rw, author, committer, mergeTip, commitMessage);
@@ -595,14 +600,15 @@ public class CreateChange
       CodeReviewRevWalk rw,
       PersonIdent authorIdent,
       PersonIdent committerIdent,
-      RevCommit mergeTip,
+      @Nullable RevCommit mergeTip,
       String commitMessage)
       throws IOException {
     logger.atFine().log("Creating empty commit");
     ObjectId treeID = mergeTip == null ? emptyTreeId(oi) : mergeTip.getTree().getId();
+    List<RevCommit> parents = mergeTip == null ? ImmutableList.of() : ImmutableList.of(mergeTip);
     return rw.parseCommit(
         CommitUtil.createCommitWithTree(
-            oi, authorIdent, committerIdent, mergeTip, commitMessage, treeID));
+            oi, authorIdent, committerIdent, parents, commitMessage, treeID));
   }
 
   private static ObjectId emptyTreeId(ObjectInserter inserter) throws IOException {

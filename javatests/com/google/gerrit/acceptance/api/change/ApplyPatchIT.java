@@ -46,6 +46,7 @@ import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.testing.GitPersonSubject;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -514,6 +515,71 @@ public class ApplyPatchIT extends AbstractDaemonTest {
     ChangeInfo info = get(result.changeId, CURRENT_REVISION, CURRENT_COMMIT);
     assertThat(info.revisions.get(info.currentRevision).commit.message)
         .isEqualTo("Default commit message\n\nChange-Id: " + result.changeId + "\n");
+  }
+
+  @Test
+  public void amendCommitWithValidTraditionalPatch_success() throws Exception {
+    final String fileName = "file_name.txt";
+    final String originalContent = "original line";
+    final String newContent = "new line\n";
+    final String diff =
+        "diff file_name.txt file_name.txt\n"
+            + "--- file_name.txt\n"
+            + "+++ file_name.txt\n"
+            + "@@ -1 +1 @@\n"
+            + "-original line\n"
+            + "+new line\n";
+
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo, "Test", fileName, "foo");
+    PushOneCommit.Result base = push.to("refs/heads/foo");
+    base.assertOkStatus();
+
+    PushOneCommit.Result firstPatchSet =
+        createChange(
+            testRepo, "foo", "Add original file: " + fileName, fileName, originalContent, null);
+    firstPatchSet.assertOkStatus();
+
+    ApplyPatchPatchSetInput in = new ApplyPatchPatchSetInput();
+    in.patch = new ApplyPatchInput();
+    in.patch.patch = diff;
+    in.amend = true;
+    in.responseFormatOptions =
+        ImmutableList.of(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT);
+
+    ChangeInfo result = gApi.changes().id(firstPatchSet.getChangeId()).applyPatch(in);
+
+    // Parent of patch set 2 = parent of patch set 1, so we actually amended
+    assertThat(result.revisions.get(result.currentRevision).commit.parents.get(0).commit)
+        .isEqualTo(base.getCommit().getId().getName());
+    DiffInfo fileDiff = gApi.changes().id(result.id).current().file(fileName).diff();
+    assertDiffForFullyModifiedFile(fileDiff, result.currentRevision, fileName, "foo", newContent);
+    assertThat(gApi.changes().id(firstPatchSet.getChangeId()).current().commit(false).message)
+        .isEqualTo(firstPatchSet.getCommit().getFullMessage());
+  }
+
+  @Test
+  public void amendCantBeUsedWithBase_success() throws Exception {
+    final String diff =
+        "diff file_name.txt file_name.txt\n"
+            + "--- file_name.txt\n"
+            + "+++ file_name.txt\n"
+            + "@@ -1 +1 @@\n"
+            + "-original line\n"
+            + "+new line\n";
+    PushOneCommit.Result change = createChange();
+    ApplyPatchPatchSetInput in = new ApplyPatchPatchSetInput();
+    in.patch = new ApplyPatchInput();
+    in.patch.patch = diff;
+    in.amend = true;
+    in.base = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
+
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(change.getChangeId()).applyPatch(in));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo("amend only works with existing revisions. omit base.");
   }
 
   private void initDestBranch() throws Exception {

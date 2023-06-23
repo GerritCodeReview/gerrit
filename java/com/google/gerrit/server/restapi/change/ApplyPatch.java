@@ -142,8 +142,11 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
                 destChange.change().getStatus().name()));
       }
 
-      RevCommit latestPatchset = revWalk.parseCommit(destChange.currentPatchSet().commitId());
+      if (!Strings.isNullOrEmpty(input.base) && Boolean.TRUE.equals(input.amend)) {
+        throw new BadRequestException("amend only works with existing revisions. omit base.");
+      }
 
+      RevCommit latestPatchset = revWalk.parseCommit(destChange.currentPatchSet().commitId());
       RevCommit baseCommit;
       if (!Strings.isNullOrEmpty(input.base)) {
         baseCommit =
@@ -156,7 +159,10 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
                   "Cannot parse base commit for a change with none or multiple parents. Change ID: %s.",
                   destChange.getId()));
         }
-        baseCommit = revWalk.parseCommit(latestPatchset.getParent(0));
+        baseCommit =
+            Boolean.TRUE.equals(input.amend)
+                ? latestPatchset
+                : revWalk.parseCommit(latestPatchset.getParent(0));
       }
       PatchApplier.Result applyResult =
           ApplyPatchUtil.applyPatch(repo, oi, input.patch, baseCommit);
@@ -180,10 +186,13 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
               input.patch.patch,
               ApplyPatchUtil.getResultPatch(repo, reader, baseCommit, revWalk.lookupTree(treeId)),
               applyResult.getErrors());
-
+      List<RevCommit> parents =
+          Boolean.TRUE.equals(input.amend)
+              ? ImmutableList.copyOf(baseCommit.getParents())
+              : ImmutableList.of(baseCommit);
       ObjectId appliedCommit =
           CommitUtil.createCommitWithTree(
-              oi, authorIdent, committerIdent, baseCommit, commitMessage, treeId);
+              oi, authorIdent, committerIdent, parents, commitMessage, treeId);
       CodeReviewCommit commit = revWalk.parseCommit(appliedCommit);
       oi.flush();
 

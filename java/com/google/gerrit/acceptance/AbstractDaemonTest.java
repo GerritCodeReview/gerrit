@@ -923,10 +923,11 @@ public abstract class AbstractDaemonTest {
       String subject,
       String fileName,
       String content,
-      String topic)
+      @Nullable String topic)
       throws Exception {
     PushOneCommit push = pushFactory.create(admin.newIdent(), repo, subject, fileName, content);
-    return push.to("refs/for/" + branch + "%topic=" + name(topic));
+    return push.to(
+        "refs/for/" + branch + (Strings.isNullOrEmpty(topic) ? "" : "%topic=" + name(topic)));
   }
 
   protected BranchApi createBranch(BranchNameKey branch) throws Exception {

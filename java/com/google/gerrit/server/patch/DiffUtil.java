@@ -174,8 +174,8 @@ public class DiffUtil {
         // Remove any lines which are not diff lines or file header lines - such index,
         // hunk-headers, and context lines.
         .replaceAll("(?m)^[^+-].*", "")
-        .replaceAll("(?m)^[+]{3} [ab]/", "+++")
-        .replaceAll("(?m)^-{3} [ab]/", "+++")
+        .replaceAll("(?m)^[+]{3} [ab]/", "+++ ")
+        .replaceAll("(?m)^-{3} [ab]/", "--- ")
         // Remove empty lines
         .replaceAll("\n+", "\n")
         // Trim

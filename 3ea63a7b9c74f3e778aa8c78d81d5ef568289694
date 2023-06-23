@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3eeef8d4_a9f643f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-06-23T05:33:36Z",
+      "side": 1,
+      "message": "There are 20 occurrences for `_blank` in our code base. I would like to understand, if we have a problem or not. And if yes, then fix all.\n\nBut I cannot reproduce the issue, so I would like to verify that we have a problem first, and only then start fixing all the 20 links.",
+      "parentUuid": "e7504727_73300f6b",
+      "revId": "3ea63a7b9c74f3e778aa8c78d81d5ef568289694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c1bb75d6_9d6dd7fd",
         "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
         "patchSetId": 2

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0689f181_c41ba46b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-06-23T18:56:47Z",
+      "side": 1,
+      "message": "nit: either `duplicates` or `duplicated entries`",
+      "range": {
+        "startLine": 21,
+        "startChar": 14,
+        "endLine": 21,
+        "endChar": 32
+      },
+      "revId": "ebcf86a7d8f276627d501b7a98dcb2006e93670a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5d9e224_ed61b0e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-06-23T18:56:47Z",
+      "side": 1,
+      "message": "nit: AFAIU `amend` is equivalent of `edit` hence either of them should be used",
+      "range": {
+        "startLine": 31,
+        "startChar": 20,
+        "endLine": 31,
+        "endChar": 52
+      },
+      "revId": "ebcf86a7d8f276627d501b7a98dcb2006e93670a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b70e7ac_217cdce6",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-06-23T18:56:47Z",
+      "side": 1,
+      "message": "nit: it seems that this change is not needed as `Change` is used in callers to obtain both `projectName` and `changeId` IOW the method declaration could stay as it was before but body would be modified:\n```\n    private void reindex(Change change) {\n      indexer.index(change.getProject(), change.getId());\n    }\n```\nthis way the scope is reduced, WDYT?",
+      "range": {
+        "startLine": 848,
+        "startChar": 4,
+        "endLine": 850,
+        "endChar": 5
+      },
+      "revId": "ebcf86a7d8f276627d501b7a98dcb2006e93670a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

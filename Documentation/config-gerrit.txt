@@ -1545,8 +1545,7 @@ moved to a new branch, and the moved change gets submitted to the new
 branch, the changes on which the change depends are silently merged
 into the new branch, although these changes have not been moved to that
 branch (see details in
-link:https://bugs.chromium.org/p/gerrit/issues/detail?id=9877[issue
-9877]).
+link:https://issues.gerritcodereview.com/issues/40009784[issue 40009784]).
 +
 By default true.
 
@@ -3693,7 +3692,7 @@ an encrypted connection.
 If you want to configure multiple ldap servers you can try to put
 multiple ldap urls separated by a space:
 `server = ldaps://ldap1 ldaps://ldap2`
-See https://bugs.chromium.org/p/gerrit/issues/detail?id=10841[issue 10841].
+See https://issues.gerritcodereview.com/issues/40010644[issue 40010644].
 
 [[ldap.startTls]]ldap.startTls::
 +

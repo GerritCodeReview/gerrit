@@ -62,7 +62,11 @@ suite('gr-hovercard-run tests', () => {
               <div class="row">
                 <div class="title">Status</div>
                 <div>
-                  <a href="https://www.google.com" target="_blank">
+                  <a
+                    href="https://www.google.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <gr-icon
                       aria-label="external link to check status"
                       class="link small"
@@ -171,7 +175,11 @@ suite('gr-hovercard-run tests', () => {
               <div class="row">
                 <div class="title">Documentation</div>
                 <div>
-                  <a href="https://www.google.com" target="_blank">
+                  <a
+                    href="https://www.google.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <gr-icon
                       aria-label="external link to check documentation"
                       class="link small"

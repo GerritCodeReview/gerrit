@@ -331,7 +331,11 @@ export class GrChecksRun extends LitElement {
     const link = this.run.statusLink;
     if (!link) return;
     return html`
-      <a href=${link} target="_blank" @click=${this.onLinkClick}
+      <a
+        href=${link}
+        target="_blank"
+        rel="noopener noreferrer"
+        @click=${this.onLinkClick}
         ><gr-icon
           icon="open_in_new"
           class="statusLinkIcon"

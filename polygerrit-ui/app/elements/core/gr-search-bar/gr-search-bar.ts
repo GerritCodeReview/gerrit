@@ -245,6 +245,7 @@ export class GrSearchBar extends LitElement {
             slot="suffix"
             href=${this.computeHelpDocLink()}
             target="_blank"
+            rel="noopener noreferrer"
             tabindex="-1"
           >
             <gr-icon icon="help" title="read documentation"></gr-icon>

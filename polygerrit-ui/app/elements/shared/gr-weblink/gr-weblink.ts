@@ -52,7 +52,7 @@ export class GrWeblink extends LitElement {
     if (!this.info?.name) return nothing;
 
     return html`
-      <a href=${this.info.url} rel="noopener" target="_blank">
+      <a href=${this.info.url} rel="noopener noreferrer" target="_blank">
         <gr-tooltip-content
           title=${ifDefined(this.info.tooltip)}
           ?has-tooltip=${this.info.tooltip !== undefined}

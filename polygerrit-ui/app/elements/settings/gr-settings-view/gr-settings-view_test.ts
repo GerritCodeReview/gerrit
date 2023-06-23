@@ -434,7 +434,7 @@ suite('gr-settings-view tests', () => {
               or for searching through archived messages. View the
               <a
                 href="https://test.com/user-notify.html"
-                rel="nofollow"
+                rel="noopener noreferrer"
                 target="_blank"
               >
                 Gerrit documentation
@@ -531,6 +531,7 @@ suite('gr-settings-view tests', () => {
           <a
             href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html#_browser_notifications"
             target="_blank"
+            rel="noopener noreferrer"
           >
             <gr-icon icon="help" title="read documentation"> </gr-icon>
           </a>

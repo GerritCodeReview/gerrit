@@ -78,7 +78,7 @@ suite('gr-formatted-text tests', () => {
           <pre class="plaintext">
             <a
               href="http://google.com/LinkRewriteMe"
-              rel="noopener"
+              rel="noopener noreferrer"
               target="_blank"
             >
             http://google.com/LinkRewriteMe
@@ -108,7 +108,7 @@ suite('gr-formatted-text tests', () => {
         element,
         /* HTML */ `
           <pre class="plaintext">
-          FOO<a href="a.b.c" rel="noopener" target="_blank">foo</a>
+          FOO<a href="a.b.c" rel="noopener noreferrer" target="_blank">foo</a>
         </pre>
         `
       );
@@ -137,10 +137,10 @@ suite('gr-formatted-text tests', () => {
         /* HTML */ `
           <pre class="plaintext">
             Start:
-            <a href="bug/123" rel="noopener" target="_blank">
+            <a href="bug/123" rel="noopener noreferrer" target="_blank">
               bug/123
             </a>
-            <a href="bug/456" rel="noopener" target="_blank">
+            <a href="bug/456" rel="noopener noreferrer" target="_blank">
               bug/456
             </a>
           </pre>
@@ -162,7 +162,7 @@ suite('gr-formatted-text tests', () => {
           text with plain link:
           <a
             href="http://google.com"
-            rel="noopener"
+            rel="noopener noreferrer"
             target="_blank"
           >
             http://google.com
@@ -170,7 +170,7 @@ suite('gr-formatted-text tests', () => {
           text with config link:
             <a
               href="http://google.com/LinkRewriteMe"
-              rel="noopener"
+              rel="noopener noreferrer"
               target="_blank"
             >
               LinkRewriteMe
@@ -178,7 +178,7 @@ suite('gr-formatted-text tests', () => {
             text with complex link: A
             <a
               href="http://localhost/page?id=12"
-              rel="noopener"
+              rel="noopener noreferrer"
               target="_blank"
             >
               Link 12
@@ -218,7 +218,7 @@ suite('gr-formatted-text tests', () => {
         <pre class="plaintext">
           <a
             href="http://www.google.com"
-            rel="noopener"
+            rel="noopener noreferrer"
             target="_blank"
           >http://www.google.com</a>
         </pre>
@@ -233,7 +233,7 @@ suite('gr-formatted-text tests', () => {
         <pre class="plaintext">
           <a
             href="https://www.google.com"
-            rel="noopener"
+            rel="noopener noreferrer"
             target="_blank"
           >https://www.google.com</a>
         </pre>
@@ -263,7 +263,11 @@ suite('gr-formatted-text tests', () => {
               <p>text</p>
               <p>
                 text with plain link:
-                <a href="http://google.com" rel="noopener" target="_blank">
+                <a
+                  href="http://google.com"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
                   http://google.com
                 </a>
               </p>
@@ -271,7 +275,7 @@ suite('gr-formatted-text tests', () => {
                 text with config link:
                 <a
                   href="http://google.com/LinkRewriteMe"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   target="_blank"
                 >
                   LinkRewriteMe
@@ -282,7 +286,7 @@ suite('gr-formatted-text tests', () => {
                 text with complex link: A
                 <a
                   href="http://localhost/page?id=12"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   target="_blank"
                 >
                   Link 12
@@ -311,7 +315,7 @@ suite('gr-formatted-text tests', () => {
         text with plain link:
         <a
           href="http://google.com"
-          rel="noopener"
+          rel="noopener noreferrer"
           target="_blank"
         >
           http://google.com
@@ -319,7 +323,7 @@ suite('gr-formatted-text tests', () => {
         text with config link:
           <a
             href="http://google.com/LinkRewriteMe"
-            rel="noopener"
+            rel="noopener noreferrer"
             target="_blank"
           >
             LinkRewriteMe
@@ -328,7 +332,7 @@ suite('gr-formatted-text tests', () => {
         text with complex link: A
           <a
             href="http://localhost/page?id=12"
-            rel="noopener"
+            rel="noopener noreferrer"
             target="_blank"
           >
             Link 12
@@ -362,7 +366,11 @@ suite('gr-formatted-text tests', () => {
               <h6>h6-heading</h6>
               <h1>
                 heading with plain link:
-                <a href="http://google.com" rel="noopener" target="_blank">
+                <a
+                  href="http://google.com"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
                   http://google.com
                 </a>
               </h1>
@@ -370,7 +378,7 @@ suite('gr-formatted-text tests', () => {
                 heading with config link:
                 <a
                   href="http://google.com/LinkRewriteMe"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   target="_blank"
                 >
                   LinkRewriteMe
@@ -489,7 +497,7 @@ suite('gr-formatted-text tests', () => {
                 <code>@</code>
                 <a
                   href="mailto:someone@google.com"
-                  rel="noopener"
+                  rel="noopener noreferrer"
                   target="_blank"
                 >
                   someone@google.com
@@ -515,7 +523,10 @@ suite('gr-formatted-text tests', () => {
           <marked-element>
             <div slot="markdown-html" class="markdown-html">
               <p>
-                <a href="https://www.google.com" rel="noopener" target="_blank"
+                <a
+                  href="https://www.google.com"
+                  rel="noopener noreferrer"
+                  target="_blank"
                   >myLink1</a
                 >
                 <br />
@@ -546,7 +557,11 @@ suite('gr-formatted-text tests', () => {
               <blockquote>
                 <p>
                   block quote with plain link:
-                  <a href="http://google.com" rel="noopener" target="_blank">
+                  <a
+                    href="http://google.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
                     http://google.com
                   </a>
                 </p>
@@ -556,7 +571,7 @@ suite('gr-formatted-text tests', () => {
                   block quote with config link:
                   <a
                     href="http://google.com/LinkRewriteMe"
-                    rel="noopener"
+                    rel="noopener noreferrer"
                     target="_blank"
                   >
                     LinkRewriteMe
@@ -596,7 +611,10 @@ suite('gr-formatted-text tests', () => {
                 <p>block quote ${escapedDiv}</p>
               </blockquote>
               <p>
-                <a href="http://google.com" rel="noopener" target="_blank"
+                <a
+                  href="http://google.com"
+                  rel="noopener noreferrer"
+                  target="_blank"
                   >inline link ${escapedDiv}</a
                 >
               </p>
@@ -646,7 +664,10 @@ suite('gr-formatted-text tests', () => {
             <div slot="markdown-html" class="markdown-html">
               <p>
                 I think
-                <a href="http://google.com" rel="noopener" target="_blank"
+                <a
+                  href="http://google.com"
+                  rel="noopener noreferrer"
+                  target="_blank"
                   >asterisks * rule</a
                 >
               </p>
@@ -667,7 +688,7 @@ suite('gr-formatted-text tests', () => {
             <p>
               <a
                 href="http://www.google.com"
-                rel="noopener"
+                rel="noopener noreferrer"
                 target="_blank"
               >http://www.google.com</a>
             </p>
@@ -686,7 +707,7 @@ suite('gr-formatted-text tests', () => {
             <p>
               <a
                 href="https://www.google.com"
-                rel="noopener"
+                rel="noopener noreferrer"
                 target="_blank"
               >https://www.google.com</a>
             </p>

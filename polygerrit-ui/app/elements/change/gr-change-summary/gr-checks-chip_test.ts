@@ -76,6 +76,7 @@ suite('gr-checks-chip test', () => {
             aria-label="Link to check details"
             href="http://www.google.com"
             target="_blank"
+            rel="noopener noreferrer"
           >
             <gr-icon class="launch" icon="open_in_new"> </gr-icon>
           </a>

@@ -8,7 +8,7 @@ import {assert} from '@open-wc/testing';
 
 suite('link-util tests', () => {
   function link(text: string, href: string) {
-    return `<a href="${href}" rel="noopener" target="_blank">${text}</a>`;
+    return `<a href="${href}" rel="noopener noreferrer" target="_blank">${text}</a>`;
   }
 
   suite('link rewrites', () => {

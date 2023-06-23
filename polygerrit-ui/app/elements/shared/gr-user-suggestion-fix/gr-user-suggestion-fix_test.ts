@@ -31,6 +31,7 @@ suite('gr-user-suggestion-fix tests', () => {
             <span>Suggested edit</span>
             <a
               href="https://gerrit-review.googlesource.com/Documentation/user-suggest-edits.html"
+              rel="noopener noreferrer"
               target="_blank"
               ><gr-icon icon="help" title="read documentation"></gr-icon
             ></a>

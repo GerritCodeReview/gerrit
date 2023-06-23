@@ -199,7 +199,7 @@ export class GrFormattedText extends LitElement {
         /* HTML */
         `<a
           href="${href}"
-          ${sameOrigin(href) ? '' : 'target="_blank" rel="noopener"'}
+          ${sameOrigin(href) ? '' : 'target="_blank" rel="noopener noreferrer"'}
           ${title ? `title="${title}"` : ''}
           >${text}</a
         >`;

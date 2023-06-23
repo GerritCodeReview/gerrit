@@ -647,7 +647,7 @@ export class GrSettingsView extends LitElement {
               <a
                 href=${this.getFilterDocsLink(this.docsBaseUrl)}
                 target="_blank"
-                rel="nofollow"
+                rel="noopener noreferrer"
                 >Gerrit documentation</a
               >
               for the complete set of footers.
@@ -892,6 +892,7 @@ export class GrSettingsView extends LitElement {
           <a
             href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html#_browser_notifications"
             target="_blank"
+            rel="noopener noreferrer"
           >
             <gr-icon icon="help" title="read documentation"></gr-icon>
           </a>

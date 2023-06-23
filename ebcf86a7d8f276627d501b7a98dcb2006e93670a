@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7308b68e_33b2a2c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-23T19:41:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0689f181_c41ba46b",
+      "range": {
+        "startLine": 21,
+        "startChar": 14,
+        "endLine": 21,
+        "endChar": 32
+      },
+      "revId": "ebcf86a7d8f276627d501b7a98dcb2006e93670a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5d9e224_ed61b0e5",
@@ -60,6 +84,30 @@
       "writtenOn": "2023-06-23T18:56:47Z",
       "side": 1,
       "message": "nit: it seems that this change is not needed as `Change` is used in callers to obtain both `projectName` and `changeId` IOW the method declaration could stay as it was before but body would be modified:\n```\n    private void reindex(Change change) {\n      indexer.index(change.getProject(), change.getId());\n    }\n```\nthis way the scope is reduced, WDYT?",
+      "range": {
+        "startLine": 848,
+        "startChar": 4,
+        "endLine": 850,
+        "endChar": 5
+      },
+      "revId": "ebcf86a7d8f276627d501b7a98dcb2006e93670a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8150407f_9a5e26a2",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 850,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-23T19:41:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b70e7ac_217cdce6",
       "range": {
         "startLine": 848,
         "startChar": 4,

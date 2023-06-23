@@ -94,19 +94,30 @@ homepage project,role=external,window=_blank] to change the version numbers
 to the new version.
 
 [[update-issues]]
-=== Update the Issues
+[[link-fixed-issues]]
+=== Link fixed issues in the Release Notes
 
-Update the issues by hand. There is no script for this.
+Link the fixed issues by hand. There is no script for this.
 
-Our current process is an issue should be updated to say `Status =
-Submitted, FixedIn-$version` once the change is submitted, but before the
-release.
+All issues that are listed in commit messages since the previous version tag
+have been fixed in the new release and should be linked in the release notes.
 
-The updated issues are the ones listed in commit messages since the
-previous version tag. Mention each updated issue in the uploaded change,
-following the examples from the previous version notes. Add updated issue
-owners as reviewers of the uploaded change. More reviewers can be added
-or cc'ed, to further coordinate the final release contents.
+In addition the fixed issues should be added to the corresponding
+`FixedIn-$version` hotlist. Ideally issues are already added to this hotlist at
+the moment when a fix is submitted and the status of the issue is set to
+`Fixed`, but people may forget about this. Hence check whether there are issues
+that need to be added to this hotlist.
+
+[NOTE]
+If you link:https://issues.gerritcodereview.com/hotlists/new[create a new
+hotlist] for a release add it to this
+link:https://issues.gerritcodereview.com/bookmark-groups/763138/edit[bookmark
+group] so that people can find it easily.
+
+Mention each issue that has been fixed in the release in the uploaded change,
+following the examples from the previous version notes. Optionally, add the
+issue owners as reviewers to the uploaded change. More reviewers can be added or
+cc'ed, to further coordinate the final release contents.
 
 Similarly to issues, also mention every noteworthy change done after the
 previous release. Again, previous notes should be used as template examples.
@@ -356,14 +367,6 @@ gerrit-documentation,role=external,window=_blank] storage bucket.
 === Finalize the Release Notes
 
 Submit any previously uploaded notes change on the homepage project.
-
-[[finalize-issues]]
-==== Update the Issues
-
-After the release is actually made, you can search (in Monorail) for
-`Status=Submitted FixedIn=$version` and then batch update these changes
-to say `Status=Released`. Make sure the pulldown says `All Issues`
-because `Status=Submitted` is considered a closed issue.
 
 [[announce]]
 ==== Announce on Mailing List

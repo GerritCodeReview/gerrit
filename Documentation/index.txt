@@ -96,7 +96,7 @@
 * link:licenses.html[Licenses and Notices]
 * link:https://www.gerritcodereview.com/[Homepage,role=external,window=_blank]
 * link:https://gerrit-releases.storage.googleapis.com/index.html[Downloads,role=external,window=_blank]
-* link:https://bugs.chromium.org/p/gerrit/issues/list[Issue Tracking,role=external,window=_blank]
+* link:https://issues.gerritcodereview.com/issues?q=is:open[Issue Tracking,role=external,window=_blank]
 * link:https://gerrit.googlesource.com/gerrit[Source Code,role=external,window=_blank]
 * link:https://www.gerritcodereview.com/about.md[A History of Gerrit Code Review,role=external,window=_blank]
 

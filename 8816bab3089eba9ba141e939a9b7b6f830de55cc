@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae2d80cf_2249a1ec",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6878,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-06-23T12:14:31Z",
+      "side": 1,
+      "message": "This API is part of the revision API. I think we should amend on the last revision, and not on base.\nThat will also align with-\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/377696",
+      "range": {
+        "startLine": 6878,
+        "startChar": 2,
+        "endLine": 6878,
+        "endChar": 7
+      },
+      "revId": "8816bab3089eba9ba141e939a9b7b6f830de55cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

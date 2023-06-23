@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "579531f7_53f7e158",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-23T23:24:19Z",
+      "side": 1,
+      "message": "This enables git protocol v2 by default in JGit, so we probably want to disable it by default in Gerrit since this is a stable branch.",
+      "revId": "765097a286c669a19c293033d21822d0a31ffbd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f213287b_01fedb14",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-23T23:24:19Z",
+      "side": 1,
+      "message": "Remove this TODO",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "765097a286c669a19c293033d21822d0a31ffbd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13130c58_4f80de5e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-23T13:30:10Z",
+      "side": 1,
+      "message": "I believe the description of the problem is incorrect: we are making the indexing pagination backward compatible with older releases, avoiding inconsistent results.\n\nWhat you are describing as a problem is actually *ONE* of the side-effect of the pagination. There are potentially many other consequences we don\u0027t know. We should just state what we do, the benefits and document the limitations of the pagination during indexing.",
+      "revId": "a12b8911d4a8fe816b86f672043b4722dc503227",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

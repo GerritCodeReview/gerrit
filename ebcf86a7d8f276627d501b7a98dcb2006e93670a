@@ -71,6 +71,47 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "becec1d5_679e06fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-23T19:41:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5d9e224_ed61b0e5",
+      "range": {
+        "startLine": 31,
+        "startChar": 20,
+        "endLine": 31,
+        "endChar": 52
+      },
+      "revId": "ebcf86a7d8f276627d501b7a98dcb2006e93670a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fffbc4d_383f2d73",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-23T19:41:44Z",
+      "side": 1,
+      "message": "Thanks @Jacek for your review.",
+      "revId": "ebcf86a7d8f276627d501b7a98dcb2006e93670a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b70e7ac_217cdce6",

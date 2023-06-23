@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a0acf40_709d99e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-06-23T15:39:13Z",
+      "side": 1,
+      "message": "Should there be a release-notes tag here? (I suspect not)",
+      "revId": "9d9adb61aaeabe9e6b11b58fda5551a4a722d4a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

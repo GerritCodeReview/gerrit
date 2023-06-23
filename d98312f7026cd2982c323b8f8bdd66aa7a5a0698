@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de7b5841_f5a9c9ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-23T00:09:34Z",
+      "side": 1,
+      "message": "The PolyGerrit failure is unrelated and already exists on stable-3.6",
+      "revId": "d98312f7026cd2982c323b8f8bdd66aa7a5a0698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

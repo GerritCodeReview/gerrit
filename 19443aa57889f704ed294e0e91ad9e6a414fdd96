@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6ef0c16_d88fb806",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-23T14:49:30Z",
+      "side": 1,
+      "message": "I would just say `and data consistency`.\n\nYou can mention the two cases you may have:\n- duplicated entries (when new changes are created when moving from one page to the other)\n- missing entries (when changes are removed, or set to private, when moving from one page to the other)",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "19443aa57889f704ed294e0e91ad9e6a414fdd96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef349a48_44eda1a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-23T14:49:30Z",
+      "side": 1,
+      "message": "+ `or missing resutls`",
+      "range": {
+        "startLine": 13,
+        "startChar": 7,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "19443aa57889f704ed294e0e91ad9e6a414fdd96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a77efb4_41a1cf22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-23T14:49:30Z",
+      "side": 1,
+      "message": "+ `depending on the use-case of the consumer of the data`.\n\nBearing in mind that the results can be consumed by 3rd party relying on the results consistency (e.g. CI systems, external search engines, other plugins) and could have unpredictable consequences.",
+      "range": {
+        "startLine": 13,
+        "startChar": 34,
+        "endLine": 13,
+        "endChar": 42
+      },
+      "revId": "19443aa57889f704ed294e0e91ad9e6a414fdd96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e994bb04_5883a371",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-23T14:49:30Z",
+      "side": 1,
+      "message": "You should also mention then the mitigation implemented on stable-3.8 and master.\n\nIMHO the mitigation isn\u0027t enough, because doesn\u0027t work anyway for the missing entries.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "19443aa57889f704ed294e0e91ad9e6a414fdd96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1de8bff_06dc1585",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 3268,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-23T14:49:30Z",
+      "side": 1,
+      "message": "You should also add a note that this option may lead to higher memory utilisation, because of the entire set of indexing results kept in memory during the API execution.",
+      "revId": "19443aa57889f704ed294e0e91ad9e6a414fdd96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a8feebf_2504bbd1",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 4180,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-23T14:49:30Z",
+      "side": 1,
+      "message": "Can you just DRY out the test body?",
+      "range": {
+        "startLine": 4174,
+        "startChar": 0,
+        "endLine": 4180,
+        "endChar": 35
+      },
+      "revId": "19443aa57889f704ed294e0e91ad9e6a414fdd96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

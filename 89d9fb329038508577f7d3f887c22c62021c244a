@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71fc373f_bccfd330",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-23T23:47:09Z",
+      "side": 1,
+      "message": "Is there a better description of the overall goal of this change? Notably, this line doesn\u0027t give me any indication that we\u0027re going to get the benefit described in the release notes. I\u0027m not sure this is what you\u0027re doing, but I think I\u0027m looking for something like \"Prevent indexing changes with incorrect serverId\" or \"Fix imported changes appearing as duplicates in index\".",
+      "revId": "89d9fb329038508577f7d3f887c22c62021c244a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1be88c16_c3a110d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-23T23:47:09Z",
+      "side": 1,
+      "message": "What performance impact(s) will it cause to always need a ChangeNotes object instead of a Change object for indexing? How are those being addressed in this change?",
+      "revId": "89d9fb329038508577f7d3f887c22c62021c244a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc1e818c_bb6b7fbc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-23T23:47:09Z",
+      "side": 1,
+      "message": "Does this mean that the serverId is not (currently) a required field in the index?\n\nIf yes, should that be changed on master (with a new index version) to avoid this problem being perpetuated?",
+      "revId": "89d9fb329038508577f7d3f887c22c62021c244a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22da8a5a_09ff74c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-23T23:47:09Z",
+      "side": 1,
+      "message": "I have a few high-level questions on the change (posted on the commit message) before I get into reviewing the code too closely.",
+      "revId": "89d9fb329038508577f7d3f887c22c62021c244a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

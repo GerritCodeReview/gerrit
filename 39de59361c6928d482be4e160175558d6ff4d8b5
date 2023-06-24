@@ -33,6 +33,24 @@
       "message": "This change is causing conflicts when merging into stable-3.8. Can you please have a look?",
       "revId": "39de59361c6928d482be4e160175558d6ff4d8b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67df8911_fa453af2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-06-24T07:10:00Z",
+      "side": 1,
+      "message": "Do you mean https://gerrit-review.googlesource.com/c/gerrit/+/374444 ? Let me sync with @davido on that as I can see that merge to `stable-3.7` is a bit obsolete...\nThanks for a heads up 👍",
+      "parentUuid": "6da50fca_f17ac768",
+      "revId": "39de59361c6928d482be4e160175558d6ff4d8b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

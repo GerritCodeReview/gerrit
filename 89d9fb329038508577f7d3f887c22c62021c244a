@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ea1cba8_0f2ae6a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-24T11:42:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71fc373f_bccfd330",
+      "revId": "89d9fb329038508577f7d3f887c22c62021c244a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1be88c16_c3a110d4",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-06-23T23:47:09Z",
       "side": 1,
       "message": "What performance impact(s) will it cause to always need a ChangeNotes object instead of a Change object for indexing? How are those being addressed in this change?",
+      "revId": "89d9fb329038508577f7d3f887c22c62021c244a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b8a37df_6fa2982c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-24T11:42:06Z",
+      "side": 1,
+      "message": "True, I\u0027ve posted a comment on the REST-API side of the change and will address that in the next PS.",
+      "parentUuid": "1be88c16_c3a110d4",
       "revId": "89d9fb329038508577f7d3f887c22c62021c244a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -54,6 +90,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "38fe8bbc_068d3367",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-24T11:42:06Z",
+      "side": 1,
+      "message": "ServerId isn\u0027t a required field in the index, but it is a required field in change notes, which are needed to generate Document for the index.\n\nAll identities in change notes have the form \u003caccountId@serverId\u003e",
+      "parentUuid": "bc1e818c_bb6b7fbc",
+      "revId": "89d9fb329038508577f7d3f887c22c62021c244a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "22da8a5a_09ff74c3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -65,6 +119,29 @@
       "writtenOn": "2023-06-23T23:47:09Z",
       "side": 1,
       "message": "I have a few high-level questions on the change (posted on the commit message) before I get into reviewing the code too closely.",
+      "revId": "89d9fb329038508577f7d3f887c22c62021c244a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97d793f8_938f1986",
+        "filename": "java/com/google/gerrit/server/restapi/change/Index.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-24T11:42:06Z",
+      "side": 1,
+      "message": "This may have a performance implication because the change notes are read again from NoteDb, whilst they are already present in ChangeResource.",
+      "range": {
+        "startLine": 45,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 51
+      },
       "revId": "89d9fb329038508577f7d3f887c22c62021c244a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "488e23bb_f66192b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-06-24T10:39:04Z",
+      "side": 1,
+      "message": "This change makes all existing queue related metrics non backward compatible hence I\u0027m going to drop it. To support decision:\n1. it was never reported against the metric name (sub-metric names created out of values are the problem)\n2. it is a step forward without causing bigger friction\n3. `foo_bar` vs `foo+bar` would still work as it would result in:\n`foo_bar` vs `foo_2b_bar`",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 41
+      },
+      "revId": "b233c8738824a989b71a7da9e1f37ff6bdb0f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "015cbf6f_20239b96",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -14,6 +37,24 @@
       "writtenOn": "2023-06-22T00:13:57Z",
       "side": 1,
       "message": "Missing `Release-Notes`, which should mention this as a breaking change on the metric names.",
+      "revId": "b233c8738824a989b71a7da9e1f37ff6bdb0f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f62f7f7_fe39e96b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-06-24T10:39:04Z",
+      "side": 1,
+      "message": "Done\nNote that the latest PS ensures that Gerrit\u0027s core metrics remains unchanged as it is only used for WorkQueue names and core queues have no characters that are a subject of sanitization.\n\n```\n$ git --no-pager grep -n \u0027sanitizeMetricName\u0027\n...\njava/com/google/gerrit/server/git/WorkQueue.java:392:      return metrics.sanitizeMetricName(String.format(\"queue/%s/%s\", name, metricName));\n...\n```",
+      "parentUuid": "015cbf6f_20239b96",
       "revId": "b233c8738824a989b71a7da9e1f37ff6bdb0f8b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -35,6 +76,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f035cccb_723a3a99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-06-24T10:39:04Z",
+      "side": 1,
+      "message": "They are subject of different rules (no `/` are allowed) hence they are subject of a follow-up change.",
+      "parentUuid": "4c9e58ac_d243a076",
+      "revId": "b233c8738824a989b71a7da9e1f37ff6bdb0f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac6acbcb_748933d0",
@@ -48,6 +107,30 @@
       "writtenOn": "2023-06-22T00:13:19Z",
       "side": 1,
       "message": "This should be properly mentioned in the Gerrit documentation IMHO.",
+      "range": {
+        "startLine": 375,
+        "startChar": 0,
+        "endLine": 381,
+        "endChar": 10
+      },
+      "revId": "b233c8738824a989b71a7da9e1f37ff6bdb0f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "827f8f90_fa7be3f0",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/DropWizardMetricMaker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-06-24T10:39:04Z",
+      "side": 1,
+      "message": "Current PS doesn\u0027t affect Gerrit\u0027s core metrics but may affect plugins therefore I have added paragraph to the existing `dev-plugins.txt` metrics section. It contains both:\n* suggestion that `DropWizardMetricMaker.sanitizeMetricName` should be used to sanitize the name\n* description how it works",
+      "parentUuid": "ac6acbcb_748933d0",
       "range": {
         "startLine": 375,
         "startChar": 0,

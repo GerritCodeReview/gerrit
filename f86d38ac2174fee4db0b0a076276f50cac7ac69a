@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0b9ab05_d8b17fbe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-26T08:34:14Z",
+      "side": 1,
+      "message": "Please give heads-up to on-duty since they might need to install EmailModule in our internal injectors during import.",
+      "revId": "f86d38ac2174fee4db0b0a076276f50cac7ac69a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

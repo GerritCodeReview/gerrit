@@ -7,7 +7,7 @@ import '../../test/common-test-setup';
 import './plugins-model';
 import {ChecksApiConfig, ChecksProvider, ResponseCode} from '../../api/checks';
 import {ChecksPlugin, ChecksUpdate, PluginsModel} from './plugins-model';
-import {createRunResult} from '../../test/test-data-generators';
+import {createRun, createRunResult} from '../../test/test-data-generators';
 import {assert} from '@open-wc/testing';
 
 const PLUGIN_NAME = 'test-plugin';
@@ -75,7 +75,7 @@ suite('plugins-model tests', () => {
     register();
     model.checksUpdate({
       pluginName: PLUGIN_NAME,
-      run: createRunResult(),
+      run: createRun(),
       result: createRunResult(),
     });
 

@@ -28,7 +28,7 @@ import {
   Tag,
 } from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
-import {CheckRun, RunResult} from '../../models/checks/checks-model';
+import {CheckRun, RunResult, runResult} from '../../models/checks/checks-model';
 import {
   ALL_ATTEMPTS,
   AttemptChoice,
@@ -1529,26 +1529,23 @@ export class GrChecksResults extends LitElement {
     this.requestUpdate();
   }
 
-  computeRunResults(category: Category, run: CheckRun) {
+  computeRunResults(category: Category, run: CheckRun): RunResult[] {
     if (category === Category.SUCCESS && hasCompletedWithoutResults(run)) {
       return [this.computeSuccessfulRunResult(run)];
     }
     return (
       run.results
         ?.filter(result => result.category === category)
-        .map(result => {
-          return {...run, ...result};
-        }) ?? []
+        .map(result => runResult(run, result)) ?? []
     );
   }
 
   computeSuccessfulRunResult(run: CheckRun): RunResult {
-    const adaptedRun: RunResult = {
+    const adaptedRun: RunResult = runResult(run, {
       internalResultId: run.internalRunId + '-0',
       category: Category.SUCCESS,
       summary: run.statusDescription ?? '',
-      ...run,
-    };
+    });
     if (!run.statusDescription) {
       const start = run.scheduledTimestamp ?? run.startedTimestamp;
       const end = run.finishedTimestamp;

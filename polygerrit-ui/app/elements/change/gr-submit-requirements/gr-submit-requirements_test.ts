@@ -16,8 +16,8 @@ import {
   createSubmitRequirementExpressionInfo,
   createSubmitRequirementResultInfo,
   createNonApplicableSubmitRequirementResultInfo,
-  createRunResult,
   createCheckResult,
+  createRun,
 } from '../../../test/test-data-generators';
 import {
   SubmitRequirementResultInfo,
@@ -163,7 +163,7 @@ suite('gr-submit-requirements tests', () => {
     test('checks', async () => {
       element.runs = [
         {
-          ...createRunResult(),
+          ...createRun(),
           labelName: 'Verified',
           results: [createCheckResult()],
         },
@@ -184,7 +184,7 @@ suite('gr-submit-requirements tests', () => {
     test('running checks', async () => {
       element.runs = [
         {
-          ...createRunResult(),
+          ...createRun(),
           status: RunStatus.RUNNING,
           labelName: 'Verified',
           results: [createCheckResult()],

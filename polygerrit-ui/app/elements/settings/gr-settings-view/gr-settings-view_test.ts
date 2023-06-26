@@ -166,6 +166,37 @@ suite('gr-settings-view tests', () => {
             >
               Save changes
             </gr-button>
+            <gr-button
+              aria-disabled="false"
+              class="delete-account-button"
+              role="button"
+              tabindex="0"
+            >
+              Delete Account
+            </gr-button>
+            <dialog id="confirm-account-deletion">
+            <gr-dialog role="dialog">
+              <div
+                class="confirm-account-deletion-header"
+                slot="header"
+              >
+              Are you sure you wish to delete your account?
+              </div>
+              <div
+                class="confirm-account-deletion-main"
+                slot="main"
+              >
+                <ul>
+                  <li>
+                    Deleting your account is not reversible.
+                  </li>
+                  <li>
+                    Deleting your account will not delete your changes.
+                  </li>
+                </ul>
+              </div>
+            </gr-dialog>
+          </dialog>
           </fieldset>
           <h2 id="Preferences">Preferences</h2>
           <fieldset id="preferences">
@@ -416,7 +447,7 @@ suite('gr-settings-view tests', () => {
             >
               Send verification
             </gr-button>
-          </fieldset> 
+          </fieldset>
           <h2 id="Groups">Groups</h2>
           <fieldset><gr-group-list id="groupList"> </gr-group-list></fieldset>
           <h2 id="Identities">Identities</h2>

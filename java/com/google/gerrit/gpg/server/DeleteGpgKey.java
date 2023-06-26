@@ -15,6 +15,7 @@
 package com.google.gerrit.gpg.server;
 
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GPGKEY;
+import static com.google.gerrit.server.mail.EmailFactories.KEY_DELETED;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
@@ -34,7 +35,7 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.mail.EmailModule.DeleteKeyEmailFactories;
+import com.google.gerrit.server.mail.EmailFactories;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -52,7 +53,7 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
   private final PublicKeyStoreUtil publicKeyStoreUtil;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final ExternalIds externalIds;
-  private final DeleteKeyEmailFactories deleteKeyEmailFactories;
+  private final EmailFactories emailFactories;
   private final ExternalIdKeyFactory externalIdKeyFactory;
 
   @Inject
@@ -61,13 +62,13 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
       PublicKeyStoreUtil publicKeyStoreUtil,
       @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       ExternalIds externalIds,
-      DeleteKeyEmailFactories deleteKeyEmailFactories,
+      EmailFactories emailFactories,
       ExternalIdKeyFactory externalIdKeyFactory) {
     this.serverIdent = serverIdent;
     this.publicKeyStoreUtil = publicKeyStoreUtil;
     this.accountsUpdateProvider = accountsUpdateProvider;
     this.externalIds = externalIds;
-    this.deleteKeyEmailFactories = deleteKeyEmailFactories;
+    this.emailFactories = emailFactories;
     this.externalIdKeyFactory = externalIdKeyFactory;
   }
 
@@ -97,8 +98,11 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
       case NO_CHANGE:
       case FAST_FORWARD:
         try {
-          deleteKeyEmailFactories
-              .createEmail(rsrc.getUser(), ImmutableList.of(PublicKeyStore.keyToString(key)))
+          emailFactories
+              .createOutgoingEmail(
+                  KEY_DELETED,
+                  emailFactories.createDeleteKeyEmail(
+                      rsrc.getUser(), ImmutableList.of(PublicKeyStore.keyToString(key))))
               .send();
         } catch (EmailException e) {
           logger.atSevere().withCause(e).log(

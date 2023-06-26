@@ -15,6 +15,7 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.gerrit.server.mail.EmailFactories.REVIEW_REQUESTED;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
@@ -24,7 +25,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SendEmailExecutor;
-import com.google.gerrit.server.mail.EmailModule.StartReviewChangeEmailFactories;
+import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.OutgoingEmail;
@@ -39,16 +40,16 @@ import java.util.concurrent.Future;
 public class ModifyReviewersEmail {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final StartReviewChangeEmailFactories startReviewChangeEmailFactories;
+  private final EmailFactories emailFactories;
   private final ExecutorService sendEmailsExecutor;
   private final MessageIdGenerator messageIdGenerator;
 
   @Inject
   ModifyReviewersEmail(
-      StartReviewChangeEmailFactories startReviewChangeEmailFactories,
+      EmailFactories emailFactories,
       @SendEmailExecutor ExecutorService sendEmailsExecutor,
       MessageIdGenerator messageIdGenerator) {
-    this.startReviewChangeEmailFactories = startReviewChangeEmailFactories;
+    this.emailFactories = emailFactories;
     this.sendEmailsExecutor = sendEmailsExecutor;
     this.messageIdGenerator = messageIdGenerator;
   }
@@ -94,7 +95,7 @@ public class ModifyReviewersEmail {
             () -> {
               try {
                 StartReviewChangeEmailDecorator startReviewEmail =
-                    startReviewChangeEmailFactories.createStartReviewChangeEmail();
+                    emailFactories.createStartReviewChangeEmail();
                 startReviewEmail.addReviewers(immutableToMail);
                 startReviewEmail.addReviewersByEmail(immutableAddedByEmail);
                 startReviewEmail.addExtraCC(immutableToCopy);
@@ -102,10 +103,9 @@ public class ModifyReviewersEmail {
                 startReviewEmail.addRemovedReviewers(immutableToRemove);
                 startReviewEmail.addRemovedByEmailReviewers(immutableRemovedByEmail);
                 ChangeEmail changeEmail =
-                    startReviewChangeEmailFactories.createChangeEmail(
-                        projectNameKey, cId, startReviewEmail);
+                    emailFactories.createChangeEmail(projectNameKey, cId, startReviewEmail);
                 OutgoingEmail outgoingEmail =
-                    startReviewChangeEmailFactories.createEmail(changeEmail);
+                    emailFactories.createOutgoingEmail(REVIEW_REQUESTED, changeEmail);
                 outgoingEmail.setNotify(notify);
                 outgoingEmail.setFrom(userId);
                 outgoingEmail.setMessageId(

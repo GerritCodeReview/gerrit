@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.server.mail.EmailFactories.NEW_PATCHSET_ADDED;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -28,7 +30,7 @@ import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SendEmailExecutor;
-import com.google.gerrit.server.mail.EmailModule.ReplacePatchSetChangeEmailFactories;
+import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.MessageIdGenerator.MessageId;
@@ -74,7 +76,7 @@ public class EmailNewPatchSet {
   EmailNewPatchSet(
       @SendEmailExecutor ExecutorService sendEmailExecutor,
       ThreadLocalRequestContext threadLocalRequestContext,
-      ReplacePatchSetChangeEmailFactories replacePatchSetChangeEmailFactories,
+      EmailFactories emailFactories,
       PatchSetInfoFactory patchSetInfoFactory,
       MessageIdGenerator messageIdGenerator,
       @Assisted PostUpdateContext postUpdateContext,
@@ -110,7 +112,7 @@ public class EmailNewPatchSet {
     this.asyncSender =
         new AsyncSender(
             postUpdateContext.getIdentifiedUser(),
-            replacePatchSetChangeEmailFactories,
+            emailFactories,
             patchSetInfoFactory,
             messageId,
             postUpdateContext.getNotify(changeId),
@@ -156,7 +158,7 @@ public class EmailNewPatchSet {
    */
   private static class AsyncSender implements Runnable, RequestContext {
     private final IdentifiedUser user;
-    private final ReplacePatchSetChangeEmailFactories replacePatchSetChangeEmailFactories;
+    private final EmailFactories emailFactories;
     private final PatchSetInfoFactory patchSetInfoFactory;
     private final MessageId messageId;
     private final NotifyResolver.Result notify;
@@ -175,7 +177,7 @@ public class EmailNewPatchSet {
 
     AsyncSender(
         IdentifiedUser user,
-        ReplacePatchSetChangeEmailFactories replacePatchSetChangeEmailFactories,
+        EmailFactories emailFactories,
         PatchSetInfoFactory patchSetInfoFactory,
         MessageId messageId,
         NotifyResolver.Result notify,
@@ -191,7 +193,7 @@ public class EmailNewPatchSet {
         ObjectId preUpdateMetaId,
         Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults) {
       this.user = user;
-      this.replacePatchSetChangeEmailFactories = replacePatchSetChangeEmailFactories;
+      this.emailFactories = emailFactories;
       this.patchSetInfoFactory = patchSetInfoFactory;
       this.messageId = messageId;
       this.notify = notify;
@@ -212,7 +214,7 @@ public class EmailNewPatchSet {
     public void run() {
       try {
         ReplacePatchSetChangeEmailDecorator replacePatchSetEmail =
-            replacePatchSetChangeEmailFactories.createReplacePatchSetChangeEmail(
+            emailFactories.createReplacePatchSetChangeEmail(
                 projectName,
                 changeId,
                 changeKind,
@@ -222,11 +224,11 @@ public class EmailNewPatchSet {
         replacePatchSetEmail.addExtraCC(extraCcs);
         replacePatchSetEmail.addOutdatedApproval(outdatedApprovals);
         ChangeEmail changeEmail =
-            replacePatchSetChangeEmailFactories.createChangeEmail(
-                projectName, changeId, replacePatchSetEmail);
+            emailFactories.createChangeEmail(projectName, changeId, replacePatchSetEmail);
         changeEmail.setPatchSet(patchSet, patchSetInfoFactory.get(projectName, patchSet));
         changeEmail.setChangeMessage(message, timestamp);
-        OutgoingEmail outgoingEmail = replacePatchSetChangeEmailFactories.createEmail(changeEmail);
+        OutgoingEmail outgoingEmail =
+            emailFactories.createOutgoingEmail(NEW_PATCHSET_ADDED, changeEmail);
         outgoingEmail.setFrom(user.getAccountId());
         outgoingEmail.setNotify(notify);
         outgoingEmail.setMessageId(messageId);

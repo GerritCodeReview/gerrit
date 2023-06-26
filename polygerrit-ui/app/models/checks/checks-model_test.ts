@@ -5,7 +5,14 @@
  */
 import '../../test/common-test-setup';
 import './checks-model';
-import {ChecksModel, ChecksPatchset, ChecksProviderState} from './checks-model';
+import {
+  CheckResult,
+  ChecksModel,
+  ChecksPatchset,
+  ChecksProviderState,
+  RunResult,
+  collectRunResults,
+} from './checks-model';
 import {
   Action,
   Category,
@@ -16,7 +23,11 @@ import {
   RunStatus,
 } from '../../api/checks';
 import {getAppContext} from '../../services/app-context';
-import {createParsedChange} from '../../test/test-data-generators';
+import {
+  createCheckResult,
+  createParsedChange,
+  createRun,
+} from '../../test/test-data-generators';
 import {waitUntil, waitUntilCalled} from '../../test/test-utils';
 import {ParsedChangeInfo} from '../../types/types';
 import {changeModelToken} from '../change/change-model';
@@ -333,5 +344,25 @@ suite('checks-model tests', () => {
     clock.tick(60 * 1000);
 
     assert.equal(fetchSpy.callCount, pollCount);
+  });
+
+  test('collectRunResults does not incur quadratic size increase', async () => {
+    const results: CheckResult[] = [];
+    for (let i = 0; i < 100; i++) {
+      results.push({
+        ...createCheckResult({
+          message: 'some message',
+        }),
+      });
+    }
+    const run = createRun({results});
+    let collected: RunResult[] = [];
+    collected = collectRunResults(collected, {
+      runs: [run],
+    } as ChecksProviderState);
+    const collectedString = JSON.stringify(collected);
+    // If the `results` property would not be removed from every check run, then
+    // this combined string would be >1MB in size.
+    assert.isAtMost(collectedString.length, 50000);
   });
 });

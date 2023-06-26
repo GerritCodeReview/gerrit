@@ -1133,6 +1133,7 @@ export function createRunResult(): RunResult {
     status: RunStatus.COMPLETED,
     summary: 'This is the test summary.',
     message: 'This is the test message.',
+    results: undefined,
   };
 }
 

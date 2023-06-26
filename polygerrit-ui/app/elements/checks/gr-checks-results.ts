@@ -1531,7 +1531,7 @@ export class GrChecksResults extends LitElement {
     this.requestUpdate();
   }
 
-  computeRunResults(category: Category, run: CheckRun) {
+  computeRunResults(category: Category, run: CheckRun): RunResult[] {
     if (category === Category.SUCCESS && hasCompletedWithoutResults(run)) {
       return [this.computeSuccessfulRunResult(run)];
     }
@@ -1539,7 +1539,7 @@ export class GrChecksResults extends LitElement {
       run.results
         ?.filter(result => result.category === category)
         .map(result => {
-          return {...run, ...result};
+          return {...run, ...result, results: undefined};
         }) ?? []
     );
   }
@@ -1550,6 +1550,7 @@ export class GrChecksResults extends LitElement {
       category: Category.SUCCESS,
       summary: run.statusDescription ?? '',
       ...run,
+      results: undefined,
     };
     if (!run.statusDescription) {
       const start = run.scheduledTimestamp ?? run.startedTimestamp;

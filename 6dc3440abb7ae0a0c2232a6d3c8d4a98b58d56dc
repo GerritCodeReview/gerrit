@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d0f728f_53368c06",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-26T22:22:16Z",
+      "side": 1,
+      "message": "@milutin@google.com related to the other change with the V-1, do you know why this is failing the UI tests or how they should be fixed?",
+      "revId": "6dc3440abb7ae0a0c2232a6d3c8d4a98b58d56dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

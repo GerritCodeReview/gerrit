@@ -123,6 +123,7 @@ export interface RestApiService extends Finalizable {
   ): Promise<AccountCapabilityInfo | undefined>;
   getExternalIds(): Promise<AccountExternalIdInfo[] | undefined>;
   deleteAccountIdentity(id: string[]): Promise<unknown>;
+  deleteAccount(): Promise<unknown>;
   getRepos(
     filter: string | undefined,
     reposPerPage: number,

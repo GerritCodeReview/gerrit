@@ -759,6 +759,14 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<AccountExternalIdInfo[] | undefined>;
   }
 
+  deleteAccount() {
+    return this._restApiHelper.send({
+      method: HttpMethod.DELETE,
+      url: '/accounts/self',
+      reportUrlAsIs: true,
+    });
+  }
+
   deleteAccountIdentity(id: string[]) {
     return this._restApiHelper.send({
       method: HttpMethod.POST,

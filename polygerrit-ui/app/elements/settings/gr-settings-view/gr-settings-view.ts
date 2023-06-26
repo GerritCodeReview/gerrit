@@ -88,6 +88,9 @@ export class GrSettingsView extends LitElement {
 
   @query('#accountInfo', true) accountInfo!: GrAccountInfo;
 
+  @query('#confirm-account-deletion')
+  private deleteAccountConfirmationDialog?: HTMLDialogElement;
+
   @query('#watchedProjectsEditor', true)
   watchedProjectsEditor!: GrWatchedProjectsEditor;
 
@@ -404,6 +407,22 @@ export class GrSettingsView extends LitElement {
               ?disabled=${!this.accountInfoChanged}
               >Save changes</gr-button
             >
+            <gr-button
+              @click=${() => {
+                this.confirmDeleteAccount();
+              }}
+              >Delete Account</gr-button
+            >
+            <dialog id="confirm-account-deletion">
+              <div>Are you sure you want to delete your account?</div>
+              <gr-button
+                @click=${() => this.deleteAccountConfirmationDialog?.close()}
+                >Cancel</gr-button
+              >
+              <gr-button @click=${() => this.deleteAccount()}
+                >YES, delete my account</gr-button
+              >
+            </dialog>
           </fieldset>
           <h2
             id="Preferences"
@@ -1197,6 +1216,15 @@ export class GrSettingsView extends LitElement {
       this.lastSentVerificationEmail = this.newEmail;
       this.newEmail = '';
     });
+  }
+
+  private confirmDeleteAccount() {
+    this.deleteAccountConfirmationDialog?.showModal();
+  }
+
+  private async deleteAccount() {
+    this.accountInfo.delete();
+    this.deleteAccountConfirmationDialog?.close();
   }
 
   // private but used in test

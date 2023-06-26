@@ -123,6 +123,9 @@ export const grRestApiMock: RestApiService = {
   createRepoTag(): Promise<Response> {
     return Promise.resolve(new Response());
   },
+  deleteAccount(): Promise<Response> {
+    return Promise.resolve(new Response());
+  },
   deleteAccountEmail(): Promise<Response> {
     return Promise.resolve(new Response());
   },

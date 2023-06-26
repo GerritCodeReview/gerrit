@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07008066_f3b62f9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-06-26T08:33:16Z",
+      "side": 1,
+      "message": "Yes, it\u0027s making copies of the files.\n\nI don\u0027t know how the diffing logic works. I always assumed, that it will only detect the copy, if the file that is being copied is also editted in the same commit",
+      "parentUuid": "6e5b14ff_93198034",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 26
+      },
+      "revId": "1380c0085eadb120b052ab65f8828da612fc32ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e83144b_c60fa25d",

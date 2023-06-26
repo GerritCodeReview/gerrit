@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "880947f0_ae572473",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-26T10:39:34Z",
+      "side": 0,
+      "message": "Here it seems to be needed to prevent bold formatting of the text between the 2 \u0027*\u0027 characters?",
+      "revId": "17d02ccb22475755ed6b2c0e8f9a5a926868d5c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

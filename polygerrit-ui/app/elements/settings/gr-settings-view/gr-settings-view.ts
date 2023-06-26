@@ -23,6 +23,7 @@ import '../gr-identities/gr-identities';
 import '../gr-menu-editor/gr-menu-editor';
 import '../gr-ssh-editor/gr-ssh-editor';
 import '../gr-watched-projects-editor/gr-watched-projects-editor';
+import '../../shared/gr-dialog/gr-dialog';
 import {GrAccountInfo} from '../gr-account-info/gr-account-info';
 import {GrWatchedProjectsEditor} from '../gr-watched-projects-editor/gr-watched-projects-editor';
 import {GrGroupList} from '../gr-group-list/gr-group-list';
@@ -64,6 +65,9 @@ import {resolve} from '../../../models/dependency';
 import {settingsViewModelToken} from '../../../models/views/settings';
 import {areNotificationsEnabled} from '../../../utils/worker-util';
 import {userModelToken} from '../../../models/user/user-model';
+import {modalStyles} from '../../../styles/gr-modal-styles';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
+import {rootUrl} from '../../../utils/url-util';
 
 const GERRIT_DOCS_BASE_URL =
   'https://gerrit-review.googlesource.com/' + 'Documentation';
@@ -87,6 +91,9 @@ export class GrSettingsView extends LitElement {
    */
 
   @query('#accountInfo', true) accountInfo!: GrAccountInfo;
+
+  @query('#confirm-account-deletion')
+  private deleteAccountConfirmationDialog?: HTMLDialogElement;
 
   @query('#watchedProjectsEditor', true)
   watchedProjectsEditor!: GrWatchedProjectsEditor;
@@ -191,6 +198,8 @@ export class GrSettingsView extends LitElement {
 
   @state() account?: AccountDetailInfo;
 
+  @state() isDeletingAccount = false;
+
   // private but used in test
   public _testOnly_loadingPromise?: Promise<void>;
 
@@ -202,6 +211,8 @@ export class GrSettingsView extends LitElement {
   readonly flagsService = getAppContext().flagsService;
 
   private readonly getViewModel = resolve(this, settingsViewModelToken);
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   constructor() {
     super();
@@ -309,6 +320,7 @@ export class GrSettingsView extends LitElement {
       paperStyles,
       fontStyles,
       formStyles,
+      modalStyles,
       menuPageStyles,
       pageNavStyles,
       css`
@@ -338,6 +350,12 @@ export class GrSettingsView extends LitElement {
           display: flex;
           margin-bottom: var(--spacing-l);
           margin-right: var(--spacing-l);
+        }
+        .delete-account-button {
+          margin-left: var(--spacing-l);
+        }
+        .confirm-account-deletion-main ul {
+          list-style: disc inside;
         }
       `,
     ];
@@ -404,6 +422,32 @@ export class GrSettingsView extends LitElement {
               ?disabled=${!this.accountInfoChanged}
               >Save changes</gr-button
             >
+            <gr-button
+              class="delete-account-button"
+              @click=${() => {
+                this.confirmDeleteAccount();
+              }}
+              >Delete Account</gr-button
+            >
+            <dialog id="confirm-account-deletion">
+              <gr-dialog
+                @cancel=${() => this.deleteAccountConfirmationDialog?.close()}
+                @confirm=${() => this.deleteAccount()}
+                .loading=${this.isDeletingAccount}
+                .loadingLabel=${'Deleting account'}
+                .confirmLabel=${'Delete account'}
+              >
+                <div class="confirm-account-deletion-header" slot="header">
+                  Are you sure you wish to delete your account?
+                </div>
+                <div class="confirm-account-deletion-main" slot="main">
+                  <ul>
+                    <li>Deleting your account is not reversible.</li>
+                    <li>Deleting your account will not delete your changes.</li>
+                  </ul>
+                </div>
+              </gr-dialog>
+            </dialog>
           </fieldset>
           <h2
             id="Preferences"
@@ -1198,6 +1242,18 @@ export class GrSettingsView extends LitElement {
       this.lastSentVerificationEmail = this.newEmail;
       this.newEmail = '';
     });
+  }
+
+  private confirmDeleteAccount() {
+    this.deleteAccountConfirmationDialog?.showModal();
+  }
+
+  private async deleteAccount() {
+    this.isDeletingAccount = true;
+    await this.accountInfo.delete();
+    this.isDeletingAccount = false;
+    this.deleteAccountConfirmationDialog?.close();
+    this.getNavigation().setUrl(rootUrl());
   }
 
   // private but used in test

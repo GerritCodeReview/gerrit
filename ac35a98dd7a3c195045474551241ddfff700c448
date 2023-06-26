@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "56517f00_3aff6cbc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-26T21:11:35Z",
+      "side": 1,
+      "message": "It\u0027s is mentioned here:\n\u003e To keep backward compatibility RefUpdated events for individual\n\u003e refs are still emitted.\n\n\u003e would be good to mention what are the limitations of the existing approach and what are the advantages of the new event being emitted to the EventListener\n\nNot sure what else I should add, limitation is already mentioned we can hangle batch ref updates only by implementing GitBatchRefUpdateListener:\n\n\u003e However this new event could be handle only by implementing GitBatchRefUpdateListener.\n\nAdvantages are also mentioned:\n\n\u003e This allows event listeners to react on a group of refs updated together.",
+      "parentUuid": "b5e79105_8941178d",
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fe6a615c_9dad9197",
@@ -239,6 +257,24 @@
       "side": 1,
       "message": "True, may address all the others in a follow-up change?",
       "parentUuid": "404f1094_b2244190",
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f435088e_5ddc0dc9",
+        "filename": "java/com/google/gerrit/server/events/BatchRefUpdateEvent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-26T21:11:35Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "f0a79ada_e1da888c",
       "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b0b9fb2_34cc33f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-26T21:11:35Z",
+      "side": 1,
+      "message": "Not sure how to fix that. Should I move the ticket to the new issue tracker?",
+      "parentUuid": "c95a3e1a_7f542bf4",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 16
+      },
+      "revId": "28f6cdb9016896e34701cace40f30f2efc5d9505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "1e73db24_f16e2ba9",
@@ -106,6 +130,48 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9afb5870_4f46445f",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-26T21:11:35Z",
+      "side": 1,
+      "message": "done, please review",
+      "parentUuid": "0fbe6036_0eb48ce2",
+      "revId": "28f6cdb9016896e34701cace40f30f2efc5d9505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "701fbc55_fc29bbf7",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-26T21:11:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77350031_0e10a167",
+      "range": {
+        "startLine": 212,
+        "startChar": 21,
+        "endLine": 212,
+        "endChar": 30
+      },
+      "revId": "28f6cdb9016896e34701cace40f30f2efc5d9505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3212c835_58624b89",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4
@@ -129,6 +195,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6589e9b7_89014634",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3673,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-26T21:11:35Z",
+      "side": 1,
+      "message": "done, please review",
+      "parentUuid": "3212c835_58624b89",
+      "range": {
+        "startLine": 3671,
+        "startChar": 0,
+        "endLine": 3673,
+        "endChar": 73
+      },
+      "revId": "28f6cdb9016896e34701cace40f30f2efc5d9505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "14450eca_c4003031",
         "filename": "java/com/google/gerrit/server/events/BatchRefUpdateEvent.java",
         "patchSetId": 4
@@ -140,6 +230,24 @@
       "writtenOn": "2023-06-19T07:21:28Z",
       "side": 1,
       "message": "Could we consolidate `GitBatchRefUpdateListener.Event` and `BatchRefUpdateEvent`?",
+      "revId": "28f6cdb9016896e34701cace40f30f2efc5d9505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5be313a_33985606",
+        "filename": "java/com/google/gerrit/server/events/BatchRefUpdateEvent.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-26T21:11:35Z",
+      "side": 1,
+      "message": "I was thinking to do it that way but I would have to modify GitBatchRefUpdateListener.Event which will cause the incompatible change. I took the same approach as we have for `RefUpdatedEvent`[1] which is emitted based on\n`GitReferenceUpdatedListener.Event`[2]\n\n1.https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/events/RefUpdatedEvent.java\n2.https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/events/StreamEventsApiListener.java#379",
+      "parentUuid": "14450eca_c4003031",
       "revId": "28f6cdb9016896e34701cace40f30f2efc5d9505",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

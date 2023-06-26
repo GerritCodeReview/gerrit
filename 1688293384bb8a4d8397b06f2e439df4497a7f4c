@@ -142,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d268ef6_326b7afc",
+        "filename": "java/com/google/gerrit/server/change/ModifyReviewersEmail.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-26T08:28:45Z",
+      "side": 1,
+      "message": "OK, thanks for checking!\n\nIf this has been used before then we can keep it.",
+      "parentUuid": "3114acf8_5da34b20",
+      "range": {
+        "startLine": 107,
+        "startChar": 56,
+        "endLine": 107,
+        "endChar": 65
+      },
+      "revId": "1688293384bb8a4d8397b06f2e439df4497a7f4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdb7f33d_085cbdfc",

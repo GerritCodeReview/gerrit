@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e5b14ff_93198034",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-26T08:28:45Z",
+      "side": 1,
+      "message": "Thanks for the hint! \n\nIs PS2 making a copy of the files? (Because \u003cbase vs. PS2\u003e shows all files as added, not copied - that should be a issue in the diff logic)",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 26
+      },
+      "revId": "1380c0085eadb120b052ab65f8828da612fc32ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

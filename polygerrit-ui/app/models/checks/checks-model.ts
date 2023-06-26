@@ -109,8 +109,12 @@ export interface CheckRun extends CheckRunApi {
 
 // This is a convenience type for working with results, because when working
 // with a bunch of results you will typically also want to know about the run
-// properties. So you can just combine them with {...run, ...result}.
-export type RunResult = CheckRun & CheckResult;
+// properties. So you can just combine them with
+// `{...run, ...result, results: undefined}`.
+// Note that you don't want to spread the `results` property of the run,
+// because otherwise an array of run results has quadratic size compared to the
+// array of normal results.
+export type RunResult = CheckRun & CheckResult & {results: undefined};
 
 export const checksModelToken = define<ChecksModel>('checks-model');
 
@@ -159,7 +163,7 @@ const FETCH_RESULT_TIMEOUT_MS = 16000;
  * Can be used in `reduce()` to collect all results from all runs from all
  * providers into one array.
  */
-function collectRunResults(
+export function collectRunResults(
   allResults: RunResult[],
   providerState: ChecksProviderState
 ) {
@@ -168,7 +172,7 @@ function collectRunResults(
     ...providerState.runs.reduce((results: RunResult[], run: CheckRun) => {
       const runResults: RunResult[] =
         run.results?.map(r => {
-          return {...run, ...r};
+          return {...run, ...r, results: undefined};
         }) ?? [];
       return results.concat(runResults ?? []);
     }, []),

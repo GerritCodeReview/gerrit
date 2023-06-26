@@ -22,6 +22,29 @@
       },
       "revId": "1380c0085eadb120b052ab65f8828da612fc32ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e83144b_c60fa25d",
+        "filename": "java/com/google/gerrit/server/mail/EmailFactories.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-26T08:33:11Z",
+      "side": 1,
+      "message": "Fields in interfaces and annotations are automatically public, static and final, so these modifiers are redundant as well.\n\nPlease remove.",
+      "range": {
+        "startLine": 52,
+        "startChar": 2,
+        "endLine": 52,
+        "endChar": 14
+      },
+      "revId": "1380c0085eadb120b052ab65f8828da612fc32ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

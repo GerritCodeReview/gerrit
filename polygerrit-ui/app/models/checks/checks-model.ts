@@ -108,9 +108,30 @@ export interface CheckRun extends CheckRunApi {
 }
 
 // This is a convenience type for working with results, because when working
-// with a bunch of results you will typically also want to know about the run
-// properties. So you can just combine them with {...run, ...result}.
-export type RunResult = CheckRun & CheckResult;
+// with a bunch of results you will typically also want to know about some run
+// properties.
+// Note that you don't want to just spread the entire run object, because you
+// definitely don't want the `results` property in the RunResult object.
+// Use the `runResult()` function below for creating `RunResult` objects.
+export type RunResult = CheckResult &
+  Pick<CheckRun, 'pluginName'> &
+  Pick<CheckRun, 'attempt'> &
+  Pick<CheckRun, 'patchset'> &
+  Pick<CheckRun, 'isLatestAttempt'> &
+  Pick<CheckRun, 'checkName'> &
+  Pick<CheckRun, 'labelName'> & {results?: never};
+
+export function runResult(run: CheckRun, result: CheckResult): RunResult {
+  return {
+    pluginName: run.pluginName,
+    attempt: run.attempt,
+    patchset: run.patchset,
+    isLatestAttempt: run.isLatestAttempt,
+    checkName: run.checkName,
+    labelName: run.labelName,
+    ...result,
+  };
+}
 
 export const checksModelToken = define<ChecksModel>('checks-model');
 
@@ -159,17 +180,15 @@ const FETCH_RESULT_TIMEOUT_MS = 16000;
  * Can be used in `reduce()` to collect all results from all runs from all
  * providers into one array.
  */
-function collectRunResults(
+export function collectRunResults(
   allResults: RunResult[],
   providerState: ChecksProviderState
-) {
+): RunResult[] {
   return [
     ...allResults,
     ...providerState.runs.reduce((results: RunResult[], run: CheckRun) => {
       const runResults: RunResult[] =
-        run.results?.map(r => {
-          return {...run, ...r};
-        }) ?? [];
+        run.results?.map(r => runResult(run, r)) ?? [];
       return results.concat(runResults ?? []);
     }, []),
   ];
@@ -681,7 +700,11 @@ export class ChecksModel extends Model<ChecksState> {
     );
   }
 
-  triggerAction(action: Action, run: CheckRun | undefined, context: string) {
+  triggerAction(
+    action: Action,
+    run: CheckRun | RunResult | undefined,
+    context: string
+  ) {
     if (!action?.callback) return;
     if (!this.changeNum) return;
     const patchSet = run?.patchset ?? this.latestPatchNum;

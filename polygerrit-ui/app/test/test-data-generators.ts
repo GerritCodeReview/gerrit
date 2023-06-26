@@ -1122,15 +1122,11 @@ export function createRun(partial: Partial<CheckRun> = {}): CheckRun {
 
 export function createRunResult(): RunResult {
   return {
-    attemptDetails: [],
     category: Category.INFO,
     checkName: 'test-name',
     internalResultId: 'test-internal-result-id',
-    internalRunId: 'test-internal-run-id',
     isLatestAttempt: true,
-    isSingleAttempt: true,
     pluginName: 'test-plugin-name',
-    status: RunStatus.COMPLETED,
     summary: 'This is the test summary.',
     message: 'This is the test message.',
   };

@@ -906,7 +906,7 @@ Change owner, server administrators and project owners can always flip
 the Work In Progress bit of the change (even without having the
 `Toggle Work In Progress state` access right assigned).
 
-Must be assigned on the target branch ref (i.e. on 'refs/heads/*', not on
+Must be assigned on the target branch ref (i.e. on 'refs/heads/\*', not on
 'refs/for/*').
 
 [[category_delete_own_changes]]
@@ -984,7 +984,7 @@ any changes.
 
 Suggested access rights to grant:
 
-* xref:category_read[`Read`] on 'refs/heads/\*'
+* xref:category_read[`Read`] on 'refs/heads/*'
 * xref:category_push[`Push`] to 'refs/for/refs/heads/*'
 * link:config-labels.html#label_Code-Review[`Code-Review`] with range '-1' to '+1' for 'refs/heads/*'
 
@@ -1012,7 +1012,7 @@ exclusively.
 
 Suggested access rights to grant:
 
-* xref:category_read[`Read`] on 'refs/heads/\*'
+* xref:category_read[`Read`] on 'refs/heads/*'
 * xref:category_push[`Push`] to 'refs/for/refs/heads/*'
 * xref:category_push_merge[`Push merge commit`] to 'refs/for/refs/heads/*'
 * xref:category_forge_author[`Forge Author Identity`] to 'refs/heads/*'
@@ -1067,7 +1067,7 @@ and so the push right can be found under the optional section.
 
 Suggested access rights to grant, that won't block changes:
 
-* xref:category_read[`Read`] on 'refs/heads/\*'
+* xref:category_read[`Read`] on 'refs/heads/*'
 * link:config-labels.html#label_Code-Review[`Label: Code-Review`] with range '-1' to '0' for 'refs/heads/*'
 * link:config-labels.html#label_Verified[`Label: Verified`] with range '0' to '+1' for 'refs/heads/*'
 

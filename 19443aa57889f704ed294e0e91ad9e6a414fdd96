@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "64e793c0_32c45676",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-26T09:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6ef0c16_d88fb806",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 11,
+        "endChar": 15
+      },
+      "revId": "19443aa57889f704ed294e0e91ad9e6a414fdd96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef349a48_44eda1a3",
@@ -70,6 +94,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8526fa31_b7066ec7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-26T09:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a77efb4_41a1cf22",
+      "range": {
+        "startLine": 13,
+        "startChar": 34,
+        "endLine": 13,
+        "endChar": 42
+      },
+      "revId": "19443aa57889f704ed294e0e91ad9e6a414fdd96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71a292c7_0cee3297",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-26T09:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef349a48_44eda1a3",
+      "range": {
+        "startLine": 13,
+        "startChar": 7,
+        "endLine": 13,
+        "endChar": 17
+      },
+      "revId": "19443aa57889f704ed294e0e91ad9e6a414fdd96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e994bb04_5883a371",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-06-23T14:49:30Z",
       "side": 1,
       "message": "You should also mention then the mitigation implemented on stable-3.8 and master.\n\nIMHO the mitigation isn\u0027t enough, because doesn\u0027t work anyway for the missing entries.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "19443aa57889f704ed294e0e91ad9e6a414fdd96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d38a54d_2c7a7e0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-26T09:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e994bb04_5883a371",
       "range": {
         "startLine": 15,
         "startChar": 0,
@@ -110,6 +206,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f11488a2_3fdb3bf5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 3268,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-26T09:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1de8bff_06dc1585",
+      "revId": "19443aa57889f704ed294e0e91ad9e6a414fdd96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a8feebf_2504bbd1",
@@ -123,6 +237,30 @@
       "writtenOn": "2023-06-23T14:49:30Z",
       "side": 1,
       "message": "Can you just DRY out the test body?",
+      "range": {
+        "startLine": 4174,
+        "startChar": 0,
+        "endLine": 4180,
+        "endChar": 35
+      },
+      "revId": "19443aa57889f704ed294e0e91ad9e6a414fdd96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b43afac_d3f4a5c7",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 4180,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-26T09:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a8feebf_2504bbd1",
       "range": {
         "startLine": 4174,
         "startChar": 0,

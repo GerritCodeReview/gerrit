@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9a090ebe_20dcb362",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-06-26T14:26:00Z",
+      "side": 1,
+      "message": "Because `deepEqual()` has to traverse it all, link or not. :-)",
+      "parentUuid": "006cf985_e77bbfa2",
+      "revId": "b57b79a14a498c4dd646fe3e012b29fc760b2c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "5470a0a6_7117dac5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -48,6 +66,24 @@
       "writtenOn": "2023-06-26T11:44:09Z",
       "side": 1,
       "message": "Why are we storing the run inside of the result of hte run, and why are we splaying it?\n\nI think that\u0027s the reall issue here.",
+      "revId": "b57b79a14a498c4dd646fe3e012b29fc760b2c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57977e67_e98a7c64",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-06-26T14:26:00Z",
+      "side": 1,
+      "message": "The usual data structure is that results are nested within runs. So for example 1 run contains 100 results.\n\nAll run properties also apply to all the 100 nested results, e.g. `checkName` and `attempt`.\n\nWe have some place like the diff view that are not interested in runs. They are only interested in results, and only in some of the results from each run. For example just those results that have a code pointer to the file of the diff view. It is not useful for the diff view to work with a nested data structure, because each check results stands on its own. So in such a case we only have check result objects, but they don\u0027t contain information such as the `checkName`. And the `checkName` is a property that the diff view needs to know about. So what can we do?\n\n- We could look up the checkName per check result whenever we need it. But that would require us to maintain some kind of map and we would still need to add a \"run key\" to each result for making such a lookup possible.\n\n- We could create a standalone check result type, e.g. `StandAloneCheckResult \u003d CheckResult \u0026 {checkName: string}`. And whenever we \"flatten\" to a list of standalone results we would join the checkName into each result. Then if we are missing another property like `attempt` we would amend the type and would add property to the join.\n\n- We could create one type that holds all properties of a run and all properties of a result: `RunResult \u003d CheckRun \u0026 CheckResult`. That is what we had decided to do. Compared with the former solution this is more convenient, but it has the downside of carrying and duplicating a lot of unnecessary information, as we could see in the bug.\n\nMaybe you have an alternative idea?\n\nWould you prefer to just add a few dedicated props as in the second proposal from the list?",
+      "parentUuid": "499aa133_67816f1d",
       "revId": "b57b79a14a498c4dd646fe3e012b29fc760b2c63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

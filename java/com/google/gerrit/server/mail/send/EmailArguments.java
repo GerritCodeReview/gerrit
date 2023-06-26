@@ -73,37 +73,37 @@ import org.eclipse.jgit.lib.PersonIdent;
 @Singleton
 @UsedAt(UsedAt.Project.PLUGINS_ALL)
 public class EmailArguments {
-  final GitRepositoryManager server;
-  final ProjectCache projectCache;
-  final PermissionBackend permissionBackend;
-  final GroupBackend groupBackend;
-  final AccountCache accountCache;
-  final DiffOperations diffOperations;
-  final PatchSetUtil patchSetUtil;
-  final ApprovalsUtil approvalsUtil;
-  final Provider<FromAddressGenerator> fromAddressGenerator;
-  final EmailSender emailSender;
-  final PatchSetInfoFactory patchSetInfoFactory;
-  final IdentifiedUser.GenericFactory identifiedUserFactory;
-  final ChangeNotes.Factory changeNotesFactory;
-  final Provider<AnonymousUser> anonymousUser;
-  final String anonymousCowardName;
-  final Provider<PersonIdent> gerritPersonIdent;
-  final DynamicItem<UrlFormatter> urlFormatter;
-  final AllProjectsName allProjectsName;
-  final List<String> sshAddresses;
-  final SitePaths site;
-  final Provider<ChangeQueryBuilder> queryBuilder;
-  final ChangeData.Factory changeDataFactory;
-  final Provider<SoySauce> soySauce;
-  final EmailSettings settings;
-  final DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners;
-  final Provider<InternalAccountQuery> accountQueryProvider;
-  final OutgoingEmailValidator validator;
-  final boolean addInstanceNameInSubject;
-  final Provider<String> instanceNameProvider;
-  final Provider<CurrentUser> currentUserProvider;
-  final RetryHelper retryHelper;
+  public final GitRepositoryManager server;
+  public final ProjectCache projectCache;
+  public final PermissionBackend permissionBackend;
+  public final GroupBackend groupBackend;
+  public final AccountCache accountCache;
+  public final DiffOperations diffOperations;
+  public final PatchSetUtil patchSetUtil;
+  public final ApprovalsUtil approvalsUtil;
+  public final Provider<FromAddressGenerator> fromAddressGenerator;
+  public final EmailSender emailSender;
+  public final PatchSetInfoFactory patchSetInfoFactory;
+  public final IdentifiedUser.GenericFactory identifiedUserFactory;
+  public final ChangeNotes.Factory changeNotesFactory;
+  public final Provider<AnonymousUser> anonymousUser;
+  public final String anonymousCowardName;
+  public final Provider<PersonIdent> gerritPersonIdent;
+  public final DynamicItem<UrlFormatter> urlFormatter;
+  public final AllProjectsName allProjectsName;
+  public final List<String> sshAddresses;
+  public final SitePaths site;
+  public final Provider<ChangeQueryBuilder> queryBuilder;
+  public final ChangeData.Factory changeDataFactory;
+  public final Provider<SoySauce> soySauce;
+  public final EmailSettings settings;
+  public final DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners;
+  public final Provider<InternalAccountQuery> accountQueryProvider;
+  public final OutgoingEmailValidator validator;
+  public final boolean addInstanceNameInSubject;
+  public final Provider<String> instanceNameProvider;
+  public final Provider<CurrentUser> currentUserProvider;
+  public final RetryHelper retryHelper;
 
   @Inject
   EmailArguments(

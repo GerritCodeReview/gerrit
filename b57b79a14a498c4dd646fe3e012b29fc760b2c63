@@ -139,6 +139,24 @@
       "parentUuid": "57977e67_e98a7c64",
       "revId": "b57b79a14a498c4dd646fe3e012b29fc760b2c63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01e3abeb_c11c6899",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-06-26T15:08:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7e289ea_7a8865be",
+      "revId": "b57b79a14a498c4dd646fe3e012b29fc760b2c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -23,6 +23,7 @@ import '../gr-identities/gr-identities';
 import '../gr-menu-editor/gr-menu-editor';
 import '../gr-ssh-editor/gr-ssh-editor';
 import '../gr-watched-projects-editor/gr-watched-projects-editor';
+import '../../shared/gr-dialog/gr-dialog';
 import {GrAccountInfo} from '../gr-account-info/gr-account-info';
 import {GrWatchedProjectsEditor} from '../gr-watched-projects-editor/gr-watched-projects-editor';
 import {GrGroupList} from '../gr-group-list/gr-group-list';
@@ -36,7 +37,11 @@ import {
 import {GrSshEditor} from '../gr-ssh-editor/gr-ssh-editor';
 import {GrGpgEditor} from '../gr-gpg-editor/gr-gpg-editor';
 import {GrEmailEditor} from '../gr-email-editor/gr-email-editor';
-import {fireAlert, fireTitleChange} from '../../../utils/event-util';
+import {
+  fireAlert,
+  fireReload,
+  fireTitleChange,
+} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {
   ColumnNames,
@@ -87,6 +92,9 @@ export class GrSettingsView extends LitElement {
    */
 
   @query('#accountInfo', true) accountInfo!: GrAccountInfo;
+
+  @query('#confirm-account-deletion')
+  private deleteAccountConfirmationDialog?: HTMLDialogElement;
 
   @query('#watchedProjectsEditor', true)
   watchedProjectsEditor!: GrWatchedProjectsEditor;
@@ -339,6 +347,9 @@ export class GrSettingsView extends LitElement {
           margin-bottom: var(--spacing-l);
           margin-right: var(--spacing-l);
         }
+        .confirm-account-deletion-title {
+          margin: var(--spacing-l);
+        }
       `,
     ];
   }
@@ -404,6 +415,28 @@ export class GrSettingsView extends LitElement {
               ?disabled=${!this.accountInfoChanged}
               >Save changes</gr-button
             >
+            <gr-button
+              @click=${() => {
+                this.confirmDeleteAccount();
+              }}
+              >Delete Account</gr-button
+            >
+            <dialog id="confirm-account-deletion">
+              <gr-dialog
+                @cancel=${() => this.deleteAccountConfirmationDialog?.close()}
+                @confirm=${() => this.deleteAccount()}
+                .confirmLabel=${'Yes, Delete my Account'}
+              >
+                <div class="header" slot="header">
+                  Are you sure you wish to delete your account?
+                </div>
+                <div class="main" slot="main">
+                  Deleting your account will mean you will not be able to relink
+                  to your old changes, even if you create a new account with the
+                  same email.
+                </div>
+              </gr-dialog>
+            </dialog>
           </fieldset>
           <h2
             id="Preferences"
@@ -1197,6 +1230,16 @@ export class GrSettingsView extends LitElement {
       this.lastSentVerificationEmail = this.newEmail;
       this.newEmail = '';
     });
+  }
+
+  private confirmDeleteAccount() {
+    this.deleteAccountConfirmationDialog?.showModal();
+  }
+
+  private async deleteAccount() {
+    await this.accountInfo.delete();
+    this.deleteAccountConfirmationDialog?.close();
+    fireReload(this);
   }
 
   // private but used in test

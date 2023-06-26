@@ -454,6 +454,24 @@
       "parentUuid": "c7ff3ca2_3a016c29",
       "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37efda46_06be1fed",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-26T08:36:11Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "f7bff29d_f28e1934",
+      "revId": "ac35a98dd7a3c195045474551241ddfff700c448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

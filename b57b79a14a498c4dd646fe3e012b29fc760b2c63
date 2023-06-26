@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5470a0a6_7117dac5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-06-26T12:12:28Z",
+      "side": 1,
+      "message": "Thanks for test and deep investigation. It was not easy to find culprit.",
+      "revId": "b57b79a14a498c4dd646fe3e012b29fc760b2c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "499aa133_67816f1d",

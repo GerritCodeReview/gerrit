@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9287720b_f304c7b5",
+        "filename": "java/com/google/gerrit/extensions/common/CommitInfo.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-26T14:12:32Z",
+      "side": 1,
+      "message": "You\u0027re right. I actually realized I don\u0027t want to pollute the CommitInfo entity since it holds data about a commit (ID, parents, author, subject, etc...) that are independent of target branches or Gerrit changes.\n\nFor this I reworked the change and made the new data part of the RevisionInfo entity. PTAL.",
+      "parentUuid": "e3507a30_3d68e0c6",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 38
+      },
+      "revId": "c1e425f5b8c38056394729387ea2526cc6871dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad078bd8_5ac00a9f",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55535900_cd09435e",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetCommit.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-26T14:12:32Z",
+      "side": 1,
+      "message": "We can, but it\u0027s also possible that a SHA-1 that corresponds to a last PS of a pending change becomes a merge commit on the target branch once the change is merged, which is a case we need to compute it on the fly.\n\nI\u0027d also prefer not to persist on PS upload and prefer this simpler approach, unless this one turns out to be less performant. In the new PS, I also added a new ListChangeOption to gate returning the new parents PTAL.",
+      "parentUuid": "ad078bd8_5ac00a9f",
+      "range": {
+        "startLine": 134,
+        "startChar": 37,
+        "endLine": 135,
+        "endChar": 100
+      },
+      "revId": "c1e425f5b8c38056394729387ea2526cc6871dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5e23205_41192f37",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-06-22T10:44:00Z",
       "side": 1,
       "message": "patch-set",
+      "range": {
+        "startLine": 167,
+        "startChar": 25,
+        "endLine": 167,
+        "endChar": 33
+      },
+      "revId": "c1e425f5b8c38056394729387ea2526cc6871dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2488a02d_030f194e",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetCommit.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-26T14:12:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5e23205_41192f37",
       "range": {
         "startLine": 167,
         "startChar": 25,
@@ -107,6 +179,30 @@
       "side": 1,
       "message": "queryProvider.get().byCommit(parent.name())",
       "parentUuid": "ad0ef04a_39f7fda5",
+      "range": {
+        "startLine": 170,
+        "startChar": 19,
+        "endLine": 170,
+        "endChar": 64
+      },
+      "revId": "c1e425f5b8c38056394729387ea2526cc6871dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be0863cd_09209127",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetCommit.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-26T14:12:32Z",
+      "side": 1,
+      "message": "Thanks for suggesting. Yes Makes much more sense. Done!",
+      "parentUuid": "1d79650d_a9cd268f",
       "range": {
         "startLine": 170,
         "startChar": 19,

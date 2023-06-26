@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2797a1b9_7da5ca8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-26T14:12:32Z",
+      "side": 1,
+      "message": "This might happen. However, this is gated with the `receive.rejectImplicitMerges` project config that, if set, will reject such uploads. If this config is not set, and the other `receive.createNewChangeForAllNotInTarget` config is set, we will create a new pending change for each commit not in target master. Both cases will work just fine with current change.\n\nOtherwise, it means we are doing an \"implicit merge\" (i.e. merging `branch_x` into `branch_y` implicitly). Current code (in this change) won\u0027t be able to locate parent data in target branch nor as a pending change and will return empty (unpopulated data) in this case. I\u0027d rather leave as is for now since this is a rare case. Please suggest if you have a better handling suggestion otherwise.",
+      "parentUuid": "1337616d_2e382c11",
+      "range": {
+        "startLine": 16,
+        "startChar": 2,
+        "endLine": 16,
+        "endChar": 39
+      },
+      "revId": "07795e26fbfc1ecfc23493434209dbcc83266795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1b0abbe_bf6a23b2",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-06-21T15:09:42Z",
       "side": 1,
       "message": "why do we need 2 requests per side? Or do you mean one request for each?",
+      "range": {
+        "startLine": 24,
+        "startChar": 25,
+        "endLine": 24,
+        "endChar": 65
+      },
+      "revId": "07795e26fbfc1ecfc23493434209dbcc83266795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61bacd93_42dabdf7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-26T14:12:32Z",
+      "side": 1,
+      "message": "You\u0027re right. I meant one request for each. I rephrased.",
+      "parentUuid": "a1b0abbe_bf6a23b2",
       "range": {
         "startLine": 24,
         "startChar": 25,

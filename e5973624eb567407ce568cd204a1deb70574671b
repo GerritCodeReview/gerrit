@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4ae6d52_a5c54154",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-06-26T09:24:16Z",
+      "side": 1,
+      "message": "I had to adapt this because otherwise the patch was classified as mismatching. It replaced the --- in the generated patch with +++ which made it failed and removed a necessary blank.\n\nI wonder why other tests or use cases never fell over this?",
+      "range": {
+        "startLine": 177,
+        "startChar": 30,
+        "endLine": 178,
+        "endChar": 40
+      },
+      "revId": "e5973624eb567407ce568cd204a1deb70574671b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

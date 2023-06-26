@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bd71912_aa2baa05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-26T21:34:44Z",
+      "side": 1,
+      "message": "Missing `Release-Notes` footer.",
+      "revId": "f22c9f7ab91eec21d7a3c24b8a41ccb9fee3a03c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2912afd8_a164ff69",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-26T21:34:44Z",
+      "side": 1,
+      "message": "a batch of references",
+      "range": {
+        "startLine": 212,
+        "startChar": 10,
+        "endLine": 212,
+        "endChar": 21
+      },
+      "revId": "f22c9f7ab91eec21d7a3c24b8a41ccb9fee3a03c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a5cb42c_8e32c662",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-26T21:34:44Z",
+      "side": 1,
+      "message": "Can you explain further? Does that mean that batch ref updates can also have the size of a single ref update?",
+      "range": {
+        "startLine": 213,
+        "startChar": 63,
+        "endLine": 214,
+        "endChar": 27
+      },
+      "revId": "f22c9f7ab91eec21d7a3c24b8a41ccb9fee3a03c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5376dd4_4b116780",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-26T21:34:44Z",
+      "side": 1,
+      "message": "This is confusing: can you rephrase saying that _you may want to listen to individual or batch ref-updates, but not both of them_?",
+      "range": {
+        "startLine": 215,
+        "startChar": 0,
+        "endLine": 216,
+        "endChar": 26
+      },
+      "revId": "f22c9f7ab91eec21d7a3c24b8a41ccb9fee3a03c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdaea86d_69019376",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3680,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-26T21:34:44Z",
+      "side": 1,
+      "message": "This should be set to `false` by default, for avoiding unexpected events in v3.9.",
+      "range": {
+        "startLine": 3680,
+        "startChar": 12,
+        "endLine": 3680,
+        "endChar": 16
+      },
+      "revId": "f22c9f7ab91eec21d7a3c24b8a41ccb9fee3a03c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

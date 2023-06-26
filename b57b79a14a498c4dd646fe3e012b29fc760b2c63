@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "499aa133_67816f1d",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-06-26T11:44:09Z",
+      "side": 1,
+      "message": "Why are we storing the run inside of the result of hte run, and why are we splaying it?\n\nI think that\u0027s the reall issue here.",
+      "revId": "b57b79a14a498c4dd646fe3e012b29fc760b2c63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

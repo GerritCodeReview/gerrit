@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "577c0776_6550f489",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ApplyPatchPatchSetInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-06-26T10:48:08Z",
+      "side": 1,
+      "message": "Please update base\u003d\u003elast revision.",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 52,
+        "endChar": 5
+      },
+      "revId": "e5973624eb567407ce568cd204a1deb70574671b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87ddea34_f30cbee0",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-06-26T10:48:08Z",
+      "side": 1,
+      "message": "Is there a test for the no-parents case? I\u0027m a bit puzzled by the implicit null conversion.",
+      "revId": "e5973624eb567407ce568cd204a1deb70574671b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d4ae6d52_a5c54154",
         "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
         "patchSetId": 2
@@ -19,6 +59,116 @@
         "startChar": 30,
         "endLine": 178,
         "endChar": 40
+      },
+      "revId": "e5973624eb567407ce568cd204a1deb70574671b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56cc712a_efc653cd",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-06-26T10:48:08Z",
+      "side": 1,
+      "message": "That makes sense, thanks!\nIn the existing tests, both sides have gone through this normalization, so I assume this is why they have passed.",
+      "parentUuid": "d4ae6d52_a5c54154",
+      "range": {
+        "startLine": 177,
+        "startChar": 30,
+        "endLine": 178,
+        "endChar": 40
+      },
+      "revId": "e5973624eb567407ce568cd204a1deb70574671b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39f28e51_14aacea5",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-06-26T10:48:08Z",
+      "side": 1,
+      "message": "All of this is irrelevant for amend. The base commit for applying the patch is just the latest PS commit.",
+      "range": {
+        "startLine": 150,
+        "startChar": 6,
+        "endLine": 161,
+        "endChar": 9
+      },
+      "revId": "e5973624eb567407ce568cd204a1deb70574671b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c53364cc_c15833e5",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-06-26T10:48:08Z",
+      "side": 1,
+      "message": "Consider moving this to L166 for readability.\n(Maybe even combine both base+parents definitions to a regular if-else statement.)",
+      "range": {
+        "startLine": 191,
+        "startChar": 37,
+        "endLine": 191,
+        "endChar": 47
+      },
+      "revId": "e5973624eb567407ce568cd204a1deb70574671b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45922e08_3c6fb981",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ApplyPatchIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-06-26T10:48:08Z",
+      "side": 1,
+      "message": "If it\u0027s not complicated - please add a test for failed amend due to conflicts.\n\nAlso, I think it would be useful to edit the error message in `ApplyPatchUtil::applyPatch` to indicate what was the base commit.",
+      "revId": "e5973624eb567407ce568cd204a1deb70574671b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a93a789f_323d182f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ApplyPatchIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-06-26T10:48:08Z",
+      "side": 1,
+      "message": "Consider renaming to `prevPs` or alike. Here and everywhere.",
+      "range": {
+        "startLine": 534,
+        "startChar": 25,
+        "endLine": 534,
+        "endChar": 29
       },
       "revId": "e5973624eb567407ce568cd204a1deb70574671b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

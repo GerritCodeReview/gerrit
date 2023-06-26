@@ -341,6 +341,10 @@ export class GrAccountInfo extends LitElement {
       });
   }
 
+  delete() {
+    return this.restApiService.deleteAccount();
+  }
+
   private maybeSetName() {
     // Note that we are intentionally not acting on this._account.name being the
     // empty string (which is falsy).

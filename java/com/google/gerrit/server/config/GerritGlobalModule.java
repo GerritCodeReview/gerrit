@@ -164,7 +164,6 @@ import com.google.gerrit.server.group.db.GroupDbModule;
 import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
 import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.mail.AutoReplyMailFilter;
-import com.google.gerrit.server.mail.EmailModule;
 import com.google.gerrit.server.mail.ListMailFilter;
 import com.google.gerrit.server.mail.MailFilter;
 import com.google.gerrit.server.mail.send.FromAddressGenerator;
@@ -276,7 +275,6 @@ public class GerritGlobalModule extends FactoryModule {
     install(new AccountModule());
     install(new AccountNoteDbStorageModule());
     install(new CmdLineParserModule());
-    install(new EmailModule());
     install(new ExternalIdCacheModule());
     install(new ExternalIdModule());
     install(new GitModule());

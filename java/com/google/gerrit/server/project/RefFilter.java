@@ -18,23 +18,25 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.extensions.api.projects.RefInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
-public class RefFilter<T extends RefInfo> {
+public class RefFilter<T> {
   private final String prefix;
+  private final Function<T, String> refNameExtractor;
   private String matchSubstring;
   private String matchRegex;
   private int start;
   private int limit;
 
-  public RefFilter(String prefix) {
+  public RefFilter(String prefix, Function<T, String> refNameExtractor) {
     this.prefix = prefix;
+    this.refNameExtractor = refNameExtractor;
   }
 
   public RefFilter<T> subString(String subString) {
@@ -78,9 +80,8 @@ public class RefFilter<T extends RefInfo> {
     return results.collect(toImmutableList());
   }
 
-  private static <T extends RefInfo> boolean matchesSubstring(
-      String prefix, String lowercaseSubstring, T refInfo) {
-    String ref = refInfo.ref;
+  private boolean matchesSubstring(String prefix, String lowercaseSubstring, T refInfo) {
+    String ref = refNameExtractor.apply(refInfo);
     if (ref.startsWith(prefix)) {
       ref = ref.substring(prefix.length());
     }
@@ -102,9 +103,8 @@ public class RefFilter<T extends RefInfo> {
     }
   }
 
-  private static <T extends RefInfo> boolean matchesRegex(
-      String prefix, RunAutomaton a, T refInfo) {
-    String ref = refInfo.ref;
+  private boolean matchesRegex(String prefix, RunAutomaton a, T refInfo) {
+    String ref = refNameExtractor.apply(refInfo);
     if (ref.startsWith(prefix)) {
       ref = ref.substring(prefix.length());
     }

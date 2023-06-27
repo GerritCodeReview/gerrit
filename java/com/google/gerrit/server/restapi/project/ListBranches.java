@@ -132,7 +132,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
       throws RestApiException, IOException, PermissionBackendException {
     rsrc.getProjectState().checkStatePermitsRead();
     return Response.ok(
-        new RefFilter<BranchInfo>(Constants.R_HEADS)
+        new RefFilter<>(Constants.R_HEADS, (BranchInfo r) -> r.ref)
             .subString(matchSubstring)
             .regex(matchRegex)
             .start(start)

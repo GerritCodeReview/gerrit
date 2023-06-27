@@ -139,7 +139,7 @@ public class ListTags implements RestReadView<ProjectResource> {
     tags.sort(comparing(t -> t.ref));
 
     return Response.ok(
-        new RefFilter<TagInfo>(Constants.R_TAGS)
+        new RefFilter<>(Constants.R_TAGS, (TagInfo tag) -> tag.ref)
             .start(start)
             .limit(limit)
             .subString(matchSubstring)

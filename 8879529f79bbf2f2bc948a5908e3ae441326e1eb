@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36053ceb_164ebfea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-27T09:45:00Z",
+      "side": 1,
+      "message": "Replaced the Monorail issue number in the Bug footer with the Gerrit Tracker issue number.",
+      "revId": "8879529f79bbf2f2bc948a5908e3ae441326e1eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

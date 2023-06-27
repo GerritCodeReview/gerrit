@@ -614,12 +614,12 @@ suite('gr-diff-cursor tests', () => {
   });
 
   test('expand context updates stops', async () => {
-    sinon.spy(cursor, '_updateStops');
+    const spy = sinon.spy(cursor, '_updateStops');
     MockInteractions.tap(diffElement.shadowRoot
         .querySelector('gr-context-controls').shadowRoot
         .querySelector('.showContext'));
     await flush();
-    assert.isTrue(cursor._updateStops.called);
+    assert.isTrue(spy.called);
   });
 
   test('updates stops when loading changes', () => {

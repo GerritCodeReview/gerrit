@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a82f9144_032b6329",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-06-27T15:52:24Z",
+      "side": 1,
+      "message": "LGTM, mostly code structuring comments",
+      "revId": "3b694140655ac60c9dbbd77ecb374c937158c892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aed64b36_3d0ef834",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-06-27T15:52:24Z",
+      "side": 1,
+      "message": "What is the reason for this being a singleton?",
+      "range": {
+        "startLine": 38,
+        "startChar": 1,
+        "endLine": 38,
+        "endChar": 10
+      },
+      "revId": "3b694140655ac60c9dbbd77ecb374c937158c892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1228567a_50a5de99",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-06-27T15:52:24Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this method be just \"boolean isMergedInTargetBranch(...)\" ? With this you could remove the combine method and also multiple builder statements?",
+      "range": {
+        "startLine": 88,
+        "startChar": 37,
+        "endLine": 88,
+        "endChar": 56
+      },
+      "revId": "3b694140655ac60c9dbbd77ecb374c937158c892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

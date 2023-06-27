@@ -160,7 +160,6 @@ export class GrAppElement extends LitElement {
 
   // TODO(milutin) - remove once new gr-dialog will do it out of the box
   // This removes footer, header from a11y tree, when a dialog on view
-  // (e.g. reply dialog) is open
   @state() private footerHeaderAriaHidden = false;
 
   // TODO(milutin) - remove once new gr-dialog will do it out of the box

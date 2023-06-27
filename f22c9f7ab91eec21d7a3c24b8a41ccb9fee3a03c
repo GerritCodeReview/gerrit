@@ -66,6 +66,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4ba212a1_f2306d4a",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-27T11:27:24Z",
+      "side": 1,
+      "message": "Yes, since it is implementing `GitBatchRefUpdateListener` this is the case.\n\nIn case only a single ref was updated in the RefUpdate, a `GitBatchRefUpdateListener.Event` will still be fire with its `updatedRefs`-field being a List of length 1. I did this in my original change to make it easy for consumers, since they will only have to listen to one type of event and not both.",
+      "parentUuid": "8a5cb42c_8e32c662",
+      "range": {
+        "startLine": 213,
+        "startChar": 63,
+        "endLine": 214,
+        "endChar": 27
+      },
+      "revId": "f22c9f7ab91eec21d7a3c24b8a41ccb9fee3a03c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b5376dd4_4b116780",
         "filename": "Documentation/cmd-stream-events.txt",
         "patchSetId": 5

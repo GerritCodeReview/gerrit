@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "65809000_ee1e7c89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-27T19:17:15Z",
+      "side": 1,
+      "message": "\u003e We couldn\u0027t see them in production. However, we can consistently reproduce the first one with the Gatling tests mentioned in the ticket description.\n\u003e \n\u003e The second one is theoretical.\n\nOk. For both of these, what exactly does `moving from one page to the other` mean? Is that interacting with the Gerrit UI pages in some way or are you referring to pages of index results?",
+      "parentUuid": "85fa4942_4e55d860",
+      "revId": "748318c1f50a3ec4935f58558ec7f09ecedc0f59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "81fd929e_485a8b56",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 12
@@ -137,6 +155,24 @@
       "side": 1,
       "message": "\u003e And may lead to overall reduced performance and index queries may truncate results due to index.maxPageSize.\n\nLooks like `index.maxPageSize` is not truncating the results in this case.\n\n\u003e I think you also need test coverage for how NONE will interact with maxPageSize.\n\nAdded",
       "parentUuid": "43c4936f_fb02c97f",
+      "revId": "748318c1f50a3ec4935f58558ec7f09ecedc0f59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41cfdb64_1593ec57",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3270,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-27T19:17:15Z",
+      "side": 1,
+      "message": "\u003e \u003e And may lead to overall reduced performance and index queries may truncate results due to index.maxPageSize.\n\u003e \n\u003e Looks like `index.maxPageSize` is not truncating the results in this case.\n\nOk. If none of the index.\\*page\\* settings apply to NONE, can you document that?\n\n\u003e \n\u003e \u003e I think you also need test coverage for how NONE will interact with maxPageSize.\n\u003e \n\u003e Added\n\nThanks.",
+      "parentUuid": "250c3fb0_55add4cc",
       "revId": "748318c1f50a3ec4935f58558ec7f09ecedc0f59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

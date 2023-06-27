@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91b1e515_e4bd3a2c",
+        "filename": "java/com/google/gerrit/extensions/client/ListChangesOption.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-27T13:48:33Z",
+      "side": 1,
+      "message": "Nice suggestion! I also think it\u0027s better than current implementation. Done!\n\nFYI, there was a test for this case already: RevisionIT#parentData_parentIsLastPatchSet_parentIsMerged_fastForwardSubmitStrategy, where parent is the last patch-set of another Gerrit change, and it\u0027s already merged in target branch.",
+      "parentUuid": "28e43e86_0a909676",
+      "range": {
+        "startLine": 101,
+        "startChar": 41,
+        "endLine": 102,
+        "endChar": 19
+      },
+      "revId": "906ec8562ca53dca5d4360c7d13f20300e7b1445",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3af70080_c61177a3",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "678e6a2c_037fb5f1",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-27T13:48:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3af70080_c61177a3",
+      "range": {
+        "startLine": 74,
+        "startChar": 6,
+        "endLine": 74,
+        "endChar": 37
+      },
+      "revId": "906ec8562ca53dca5d4360c7d13f20300e7b1445",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c37dc82e_40f791c3",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-06-27T11:29:53Z",
       "side": 1,
       "message": "Needs to be in a try-with-resource?",
+      "range": {
+        "startLine": 77,
+        "startChar": 36,
+        "endLine": 77,
+        "endChar": 58
+      },
+      "revId": "906ec8562ca53dca5d4360c7d13f20300e7b1445",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8364fb11_a8b77e42",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-27T13:48:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c37dc82e_40f791c3",
       "range": {
         "startLine": 77,
         "startChar": 36,

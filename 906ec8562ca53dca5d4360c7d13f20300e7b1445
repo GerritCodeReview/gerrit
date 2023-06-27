@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28e43e86_0a909676",
+        "filename": "java/com/google/gerrit/extensions/client/ListChangesOption.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-06-27T11:29:53Z",
+      "side": 1,
+      "message": "This feels like a strange policy to apply, since a commit can be both merged and a change at the same time. Rather maintain a boolean to determine if the commit is \"on the branch\" or not i.e., isMerged\u003dtrue/false ?",
+      "range": {
+        "startLine": 101,
+        "startChar": 41,
+        "endLine": 102,
+        "endChar": 19
+      },
+      "revId": "906ec8562ca53dca5d4360c7d13f20300e7b1445",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3af70080_c61177a3",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-06-27T11:29:53Z",
+      "side": 1,
+      "message": "Possible resource leak. Needs to be in a try-with-resource.",
+      "range": {
+        "startLine": 74,
+        "startChar": 6,
+        "endLine": 74,
+        "endChar": 37
+      },
+      "revId": "906ec8562ca53dca5d4360c7d13f20300e7b1445",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c37dc82e_40f791c3",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-06-27T11:29:53Z",
+      "side": 1,
+      "message": "Needs to be in a try-with-resource?",
+      "range": {
+        "startLine": 77,
+        "startChar": 36,
+        "endLine": 77,
+        "endChar": 58
+      },
+      "revId": "906ec8562ca53dca5d4360c7d13f20300e7b1445",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

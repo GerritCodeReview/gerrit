@@ -107,6 +107,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2016208d_a54ade55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-27T21:13:14Z",
+      "side": 1,
+      "message": "\u003e \u003e Is that interacting with the Gerrit UI pages in some way or are you referring to pages of index results?\n\u003e \n\u003e Yes, that\u0027s what I am talking about. Let me try to clarify it in the commit message.\n\nOk, I think your updated message is saying this is \"pages of index results\". I also missed that you were saying there\u0027s better details in the issue tracker bug, sorry.",
+      "parentUuid": "b23925b9_aae9a687",
+      "revId": "748318c1f50a3ec4935f58558ec7f09ecedc0f59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "81fd929e_485a8b56",

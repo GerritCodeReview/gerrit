@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b58f37a7_990dc74e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-27T21:13:14Z",
+      "side": 1,
+      "message": "Since the missing entries are only a problem in theory, why not merge your cherry-pick of this workaround on stable-3.6 [3] as a starting place? I think that would fix the problems you see in the tests in the linked bug without adding the performance penalty you get from not doing pagination (nor the complexity of another kind of index searching).\n\n[3] https://gerrit-review.googlesource.com/c/gerrit/+/377734",
+      "revId": "a4cc6f64c7af7611917f8d4a02b0587b480abdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

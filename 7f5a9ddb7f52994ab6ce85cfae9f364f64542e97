@@ -81,6 +81,24 @@
       "parentUuid": "569559c1_37d60ea2",
       "revId": "7f5a9ddb7f52994ab6ce85cfae9f364f64542e97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "405bc506_5a8d1bfc",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-27T18:55:45Z",
+      "side": 1,
+      "message": "\u003e Perhaps to explain more, why not modify line 272 the way you modified the callers and do: index(changeDataFactory.create(change.getProject(), change.getId()));\n\nThat would be one option, but potentially dangerous because I don\u0027t know what was the intention of the caller. For Gerrit, I made a case-by-case analysis and took the most viable alternative, however, plugins may take a different path.\n\nI would prefer to keep the existing behaviour and warn the user to make an educated decision on how to change the method.",
+      "parentUuid": "32717509_07d2f1f3",
+      "revId": "7f5a9ddb7f52994ab6ce85cfae9f364f64542e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b23925b9_aae9a687",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-27T20:31:09Z",
+      "side": 1,
+      "message": "\u003e Is that interacting with the Gerrit UI pages in some way or are you referring to pages of index results?\n\nYes, that\u0027s what I am talking about. Let me try to clarify it in the commit message.",
+      "parentUuid": "65809000_ee1e7c89",
+      "revId": "748318c1f50a3ec4935f58558ec7f09ecedc0f59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "81fd929e_485a8b56",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 12
@@ -173,6 +191,24 @@
       "side": 1,
       "message": "\u003e \u003e And may lead to overall reduced performance and index queries may truncate results due to index.maxPageSize.\n\u003e \n\u003e Looks like `index.maxPageSize` is not truncating the results in this case.\n\nOk. If none of the index.\\*page\\* settings apply to NONE, can you document that?\n\n\u003e \n\u003e \u003e I think you also need test coverage for how NONE will interact with maxPageSize.\n\u003e \n\u003e Added\n\nThanks.",
       "parentUuid": "250c3fb0_55add4cc",
+      "revId": "748318c1f50a3ec4935f58558ec7f09ecedc0f59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1aa896aa_927a09da",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3270,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-27T20:31:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41cfdb64_1593ec57",
       "revId": "748318c1f50a3ec4935f58558ec7f09ecedc0f59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

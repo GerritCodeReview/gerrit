@@ -1814,7 +1814,7 @@ export class GrChangeActions
   }
 
   // TODO(rmistry): Redo this after
-  // https://bugs.chromium.org/p/gerrit/issues/detail?id=4671 is resolved.
+  // https://issues.gerritcodereview.com/issues/40004936 is resolved.
   // private but used in test
   setReviewOnRevert(newChangeId: NumericChangeId) {
     const review = this.getPluginLoader().jsApiService.getReviewPostRevert(

@@ -34,6 +34,24 @@
       "parentUuid": "826e3a9f_ecdc8ea8",
       "revId": "738dc4edc01b119babda950d290fab9ab14028d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76afc6a3_06231f84",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-27T15:01:57Z",
+      "side": 1,
+      "message": "Actually I just ran the UI tests locally on both stable-3.6 tip and change 373175 and they both fail with this same error.\n\n\u003e I think it’s a flaky test.\n\nIt fails every time for me though and seems to be failing consistently in CI now.",
+      "parentUuid": "826e3a9f_ecdc8ea8",
+      "revId": "738dc4edc01b119babda950d290fab9ab14028d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -316,9 +316,17 @@ export class GrConfirmRebaseDialog
           )}
           ${when(
             !this.isCurrentUserEqualToLatestUploader(),
-            () => html`<div class="rebaseOnBehalfMsg">Rebase will be done on behalf of${
-              !this.allowConflicts ? ' the uploader:' : ''
-            } <gr-account-chip
+            () => html`<div class="rebaseOnBehalfMsg">Rebase will be done on behalf of ${
+              !this.allowConflicts ? 'the uploader' : ''
+            }
+            <span> ${
+              this.shouldRebaseChain && !this.allowConflicts
+                ? ' of each respective change'
+                : ':'
+            } </span>
+            <gr-account-chip ?hidden=${
+              this.shouldRebaseChain && !this.allowConflicts
+            }
                 .account=${this.allowConflicts ? this.account : this.uploader}
                 .hideHovercard=${true}
               ></gr-account-chip

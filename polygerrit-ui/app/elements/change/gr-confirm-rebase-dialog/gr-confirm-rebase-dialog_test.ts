@@ -127,7 +127,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
       assert.dom.equal(
         rebaseOnBehalfMsg,
         /* HTML */ `<div class="rebaseOnBehalfMsg">
-          Rebase will be done on behalf of the uploader:
+          Rebase will be done on behalf of the uploader <span> : </span>
           <gr-account-chip> </gr-account-chip> <span> </span>
         </div>`
       );
@@ -140,6 +140,21 @@ suite('gr-confirm-rebase-dialog tests', () => {
         change?.revisions[change.current_revision]?.uploader
       );
     });
+
+    test('for reviewer it shows message about on behalf while rebasing chain of changes', async () => {
+      element.shouldRebaseChain = true;
+      await element.updateComplete;
+      const rebaseOnBehalfMsg = queryAndAssert(element, '.rebaseOnBehalfMsg');
+      assert.dom.equal(
+        rebaseOnBehalfMsg,
+        /* HTML */ `<div class="rebaseOnBehalfMsg">
+          Rebase will be done on behalf of the uploader
+          <span> of each respective change </span>
+          <gr-account-chip hidden=""> </gr-account-chip> <span> </span>
+        </div>`
+      );
+    });
+
     test('allowConflicts', async () => {
       element.allowConflicts = true;
       await element.updateComplete;
@@ -147,7 +162,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
       assert.dom.equal(
         rebaseOnBehalfMsg,
         /* HTML */ `<div class="rebaseOnBehalfMsg">
-          Rebase will be done on behalf of
+          Rebase will be done on behalf of <span> : </span>
           <gr-account-chip> </gr-account-chip> <span> </span>
         </div>`
       );

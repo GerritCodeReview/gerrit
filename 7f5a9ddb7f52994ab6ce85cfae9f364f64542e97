@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4591814f_1b7c4ba3",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-27T15:18:38Z",
+      "side": 1,
+      "message": "nit: should this be \u0027a local change\u0027?\n\n```suggestion\n   * Synchronously index a local change.\n```",
+      "range": {
+        "startLine": 263,
+        "startChar": 25,
+        "endLine": 263,
+        "endChar": 33
+      },
+      "revId": "7f5a9ddb7f52994ab6ce85cfae9f364f64542e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "569559c1_37d60ea2",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-27T15:18:38Z",
+      "side": 1,
+      "message": "Why is this safe for local and imported changes but the newly deprecated method above not safe? Perhaps to explain more, why not modify line 272 the way you modified the callers and do:\n\n```\nindex(changeDataFactory.create(change.getProject(), change.getId()));\n```",
+      "revId": "7f5a9ddb7f52994ab6ce85cfae9f364f64542e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

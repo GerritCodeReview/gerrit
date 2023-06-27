@@ -106,6 +106,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "21057737_e6b547d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-27T15:18:38Z",
+      "side": 1,
+      "message": "Can you answer this question too please?\n\n\u003e If yes, should that be changed on master (with a new index version) to avoid this problem being perpetuated?",
+      "parentUuid": "38fe8bbc_068d3367",
+      "revId": "89d9fb329038508577f7d3f887c22c62021c244a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "22da8a5a_09ff74c3",

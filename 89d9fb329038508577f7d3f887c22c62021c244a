@@ -126,6 +126,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "3510facb_610bc1e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-27T18:52:39Z",
+      "side": 1,
+      "message": "\u003e Can you answer this question too please?\n\u003e \n\u003e \u003e If yes, should that be changed on master (with a new index version) to avoid this problem being perpetuated?\n\nThe answer is `no`, it isn\u0027t needed in the index and it is already stored in change notes.",
+      "parentUuid": "21057737_e6b547d0",
+      "revId": "89d9fb329038508577f7d3f887c22c62021c244a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "22da8a5a_09ff74c3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6

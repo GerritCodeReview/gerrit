@@ -3,6 +3,29 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8960a659_0cc16988",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-06-27T06:21:39Z",
+      "side": 1,
+      "message": "nit: line is too long",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 73
+      },
+      "revId": "e50090dfe6649ee9515052a03ce9c0e2f957bf9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f8769049_1ddfae59",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -14,6 +37,24 @@
       "writtenOn": "2023-06-26T10:40:21Z",
       "side": 1,
       "message": "I think that should be documented in Documentation/metrics.txt.",
+      "revId": "e50090dfe6649ee9515052a03ce9c0e2f957bf9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a60de59_a053e29a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-06-27T06:21:39Z",
+      "side": 1,
+      "message": "Done. Thanks for the review!",
+      "parentUuid": "f8769049_1ddfae59",
       "revId": "e50090dfe6649ee9515052a03ce9c0e2f957bf9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

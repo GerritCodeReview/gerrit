@@ -104,7 +104,7 @@
   </mailingLists>
 
   <issueManagement>
-    <url>https://bugs.chromium.org/p/gerrit/issues/list</url>
+    <url>https://issues.gerritcodereview.com/issues?q=is:open</url>
     <system>Gerrit Issue Tracker</system>
   </issueManagement>
 </project>

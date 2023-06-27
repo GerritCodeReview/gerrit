@@ -208,7 +208,7 @@ available.
 === How to report a security vulnerability?
 
 To report a security vulnerability file a
-link:https://bugs.chromium.org/p/gerrit/issues/entry?template=Security+Issue[
+link:https://issues.gerritcodereview.com/issues/new?component=1371046[
 security issue,role=external,window=_blank] in the Gerrit issue tracker. The visibility of issues that are
 created with the `Security Issue` template is automatically restricted to
 Gerrit maintainers and a few long-term contributors. This means as a reporter

@@ -316,7 +316,7 @@ public class DiffOperationsImpl implements DiffOperations {
                 DiffAlgorithm.HISTOGRAM_NO_FALLBACK,
                 // We don't enforce timeouts with the fallback algorithm. Timeouts were introduced
                 // because of a bug in JGit that happens only when the histogram algorithm uses
-                // Myers as fallback. See https://bugs.chromium.org/p/gerrit/issues/detail?id=487
+                // Myers as fallback. See https://issues.gerritcodereview.com/issues/40000618
                 /* useTimeout= */ false,
                 key.whitespace());
         fallbackKeys.add(fallbackKey);

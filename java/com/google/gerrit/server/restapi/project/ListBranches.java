@@ -19,6 +19,7 @@ import static com.google.gerrit.entities.RefNames.isConfigRef;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
@@ -49,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -131,13 +133,17 @@ public class ListBranches implements RestReadView<ProjectResource> {
   public Response<ImmutableList<BranchInfo>> apply(ProjectResource rsrc)
       throws RestApiException, IOException, PermissionBackendException {
     rsrc.getProjectState().checkStatePermitsRead();
-    return Response.ok(
-        new RefFilter<>(Constants.R_HEADS, (BranchInfo r) -> r.ref)
+
+    // Filter on refs/heads/*, substring and regex without checking ref visibility
+    ImmutableList<Ref> filtered =
+        new RefFilter<>(Constants.R_HEADS, (Ref r) -> r.getName())
             .subString(matchSubstring)
             .regex(matchRegex)
-            .start(start)
-            .limit(limit)
-            .filter(allBranches(rsrc)));
+            .filter(readAllBranches(rsrc));
+
+    // Filter for visibility, taking 'start' and 'limit' parameters into account
+    return Response.ok(
+        filterForVisibility(rsrc, filtered).stream().collect(ImmutableList.toImmutableList()));
   }
 
   BranchInfo toBranchInfo(BranchResource rsrc)
@@ -151,14 +157,20 @@ public class ListBranches implements RestReadView<ProjectResource> {
       if (r == null) {
         throw new ResourceNotFoundException();
       }
-      return toBranchInfo(rsrc, ImmutableList.of(r)).get(0);
+      return toBranchInfo(
+          r,
+          getTargets(ImmutableList.of(r)),
+          rsrc.getNameKey(),
+          rsrc.getProjectState(),
+          rsrc.getUser())
+          .get();
     } catch (RepositoryNotFoundException noRepo) {
       throw new ResourceNotFoundException(rsrc.getNameKey().get(), noRepo);
     }
   }
 
-  private List<BranchInfo> allBranches(ProjectResource rsrc)
-      throws IOException, ResourceNotFoundException, PermissionBackendException {
+  private List<Ref> readAllBranches(ProjectResource rsrc)
+      throws IOException, ResourceNotFoundException {
     List<Ref> refs;
     try (Repository db = repoManager.openRepository(rsrc.getNameKey())) {
       Collection<Ref> heads = db.getRefDatabase().getRefsByPrefix(Constants.R_HEADS);
@@ -168,71 +180,104 @@ public class ListBranches implements RestReadView<ProjectResource> {
           db.getRefDatabase()
               .exactRef(Constants.HEAD, RefNames.REFS_CONFIG, RefNames.REFS_USERS_DEFAULT)
               .values());
+      return refs;
     } catch (RepositoryNotFoundException noGitRepository) {
       throw new ResourceNotFoundException(rsrc.getNameKey().get(), noGitRepository);
     }
-    return toBranchInfo(rsrc, refs);
   }
 
-  private List<BranchInfo> toBranchInfo(ProjectResource rsrc, List<Ref> refs)
+  /**
+   * Filter the input {@code refs} list w.r.t. current user's visibility of the ref. This also takes
+   * into account the {@link #start} and {@link #limit} parameters. We check refs iteratively while
+   * keeping track of matching (visible) refs. We only populate the output list if the matching ref
+   * ordinal is greater or equal {@link #start} and keep filling the output list until a {@link
+   * #limit} number of refs is gotten.
+   */
+  private List<BranchInfo> filterForVisibility(ProjectResource rsrc, List<Ref> refs)
       throws PermissionBackendException {
-    Set<String> targets = Sets.newHashSetWithExpectedSize(1);
+    Set<String> targets = getTargets(refs);
+    List<BranchInfo> branches = new ArrayList<>();
+    int matchingRefs = 0;
     for (Ref ref : refs) {
-      if (ref.isSymbolic()) {
-        targets.add(ref.getTarget().getName());
-      }
-    }
-
-    PermissionBackend.ForProject perm = permissionBackend.currentUser().project(rsrc.getNameKey());
-    List<BranchInfo> branches = new ArrayList<>(refs.size());
-    for (Ref ref : refs) {
-      if (ref.isSymbolic()) {
-        // A symbolic reference to another branch, instead of
-        // showing the resolved value, show the name it references.
-        //
-        String target = ref.getTarget().getName();
-
-        try {
-          perm.ref(target).check(RefPermission.READ);
-        } catch (AuthException e) {
-          continue;
+      Optional<BranchInfo> info =
+          toBranchInfo(ref, targets, rsrc.getNameKey(), rsrc.getProjectState(), rsrc.getUser());
+      if (info.isPresent()) {
+        matchingRefs += 1;
+        if (matchingRefs >= start) {
+          branches.add(info.get());
         }
-
-        if (target.startsWith(Constants.R_HEADS)) {
-          target = target.substring(Constants.R_HEADS.length());
+        if (limit > 0 && branches.size() == limit) {
+          // Break and return earlier if we've already found 'limit' refs. The processing of the
+          // remaining refs for visibility is not needed anymore.
+          break;
         }
-
-        BranchInfo b = new BranchInfo();
-        b.ref = ref.getName();
-        b.revision = target;
-        branches.add(b);
-
-        if (!Constants.HEAD.equals(ref.getName())) {
-          if (isConfigRef(ref.getName())) {
-            // Never allow to delete the meta config branch.
-            b.canDelete = null;
-          } else {
-            b.canDelete =
-                perm.ref(ref.getName()).testOrFalse(RefPermission.DELETE)
-                        && rsrc.getProjectState().statePermitsWrite()
-                    ? true
-                    : null;
-          }
-        }
-        continue;
-      }
-
-      try {
-        perm.ref(ref.getName()).check(RefPermission.READ);
-        branches.add(
-            createBranchInfo(
-                perm.ref(ref.getName()), ref, rsrc.getProjectState(), rsrc.getUser(), targets));
-      } catch (AuthException e) {
-        // Do nothing.
       }
     }
     branches.sort(new BranchComparator());
     return branches;
+  }
+
+  /**
+   * Returns a {@link BranchInfo} if the branch is visible to the caller or {@link
+   * Optional#empty()} otherwise.
+   */
+  private Optional<BranchInfo> toBranchInfo(
+      Ref ref,
+      Set<String> targets,
+      Project.NameKey project,
+      ProjectState projectState,
+      CurrentUser currentUser)
+      throws PermissionBackendException {
+    PermissionBackend.ForProject perm = permissionBackend.currentUser().project(project);
+    if (ref.isSymbolic()) {
+      // A symbolic reference to another branch, instead of
+      // showing the resolved value, show the name it references.
+      //
+      String target = ref.getTarget().getName();
+
+      try {
+        perm.ref(target).check(RefPermission.READ);
+      } catch (AuthException e) {
+        return Optional.empty();
+      }
+
+      if (target.startsWith(Constants.R_HEADS)) {
+        target = target.substring(Constants.R_HEADS.length());
+      }
+
+      BranchInfo info = new BranchInfo();
+      info.ref = ref.getName();
+      info.revision = target;
+      if (!Constants.HEAD.equals(ref.getName())) {
+        if (isConfigRef(ref.getName())) {
+          // Never allow to delete the meta config branch.
+          info.canDelete = null;
+        } else {
+          info.canDelete =
+              perm.ref(ref.getName()).testOrFalse(RefPermission.DELETE)
+                      && projectState.statePermitsWrite()
+                  ? true
+                  : null;
+        }
+      }
+      return Optional.of(info);
+    } else {
+      try {
+        perm.ref(ref.getName()).check(RefPermission.READ);
+        BranchInfo branchInfo =
+            createBranchInfo(perm.ref(ref.getName()), ref, projectState, currentUser, targets);
+        return Optional.of(branchInfo);
+      } catch (AuthException e) {
+        // Do nothing.
+        return Optional.empty();
+      }
+    }
+  }
+
+  private static Set<String> getTargets(List<Ref> refs) {
+    Set<String> targets = Sets.newHashSetWithExpectedSize(1);
+    refs.stream().filter(Ref::isSymbolic).forEach(r -> targets.add(r.getTarget().getName()));
+    return targets;
   }
 
   private static class BranchComparator implements Comparator<BranchInfo> {

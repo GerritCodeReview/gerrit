@@ -41,8 +41,14 @@ more than one root level element, Gerrit will not start.
 
 Static image files can also be served from `'$site_path'/static`,
 and may be referenced in `GerritSite{Header,Footer}.html`
-or `GerritSite.css` by the relative URL `static/$name`
-(e.g. `static/logo.png`).
+or `GerritSite.css`.  For example, `GerritSiteHeader.html` may
+display a company logo like so:
+
+```
+<div>
+  <img src="/static/logo.png" alt="Our Cool Logo" />
+</div>
+```
 
 To simplify security management, files are only served from
 `'$site_path'/static`.  Subdirectories are explicitly forbidden from

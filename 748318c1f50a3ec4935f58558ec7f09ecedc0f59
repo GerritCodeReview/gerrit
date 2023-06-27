@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5ddd779_5e50c049",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-27T18:35:05Z",
+      "side": 1,
+      "message": "Fair enough. Reverting to the previous one.",
+      "parentUuid": "ff9d078b_0740d724",
+      "revId": "748318c1f50a3ec4935f58558ec7f09ecedc0f59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8897e60c_9c0a22d2",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-06-27T15:31:48Z",
       "side": 1,
       "message": "Are you seeing either of these problems in production? If yes, can you share your index configuration values?",
+      "revId": "748318c1f50a3ec4935f58558ec7f09ecedc0f59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85fa4942_4e55d860",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-27T18:35:05Z",
+      "side": 1,
+      "message": "We couldn\u0027t see them in production. However, we can consistently reproduce the first one with the Gatling tests mentioned in the ticket description.\n\nThe second one is theoretical.",
+      "parentUuid": "8897e60c_9c0a22d2",
       "revId": "748318c1f50a3ec4935f58558ec7f09ecedc0f59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "876eb78d_d582a96c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3264,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-27T18:35:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81fd929e_485a8b56",
+      "revId": "748318c1f50a3ec4935f58558ec7f09ecedc0f59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43c4936f_fb02c97f",
@@ -65,6 +119,24 @@
       "writtenOn": "2023-06-27T15:31:48Z",
       "side": 1,
       "message": "And may lead to overall reduced performance and index queries may truncate results due to `index.maxPageSize`.\n\nI think you also need test coverage for how NONE will interact with maxPageSize.",
+      "revId": "748318c1f50a3ec4935f58558ec7f09ecedc0f59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "250c3fb0_55add4cc",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3270,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-27T18:35:05Z",
+      "side": 1,
+      "message": "\u003e And may lead to overall reduced performance and index queries may truncate results due to index.maxPageSize.\n\nLooks like `index.maxPageSize` is not truncating the results in this case.\n\n\u003e I think you also need test coverage for how NONE will interact with maxPageSize.\n\nAdded",
+      "parentUuid": "43c4936f_fb02c97f",
       "revId": "748318c1f50a3ec4935f58558ec7f09ecedc0f59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

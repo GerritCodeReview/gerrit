@@ -23,9 +23,9 @@ import java.util.List;
 import java.util.Map;
 
 /** Contains utils for email notification related to the events on project+branch. */
-class BranchEmailUtils {
+public class BranchEmailUtils {
   /** Set a reasonable list id so that filters can be used to sort messages. */
-  static void setListIdHeader(OutgoingEmail email, BranchNameKey branch) {
+  public static void setListIdHeader(OutgoingEmail email, BranchNameKey branch) {
     email.setHeader(
         "List-Id",
         "<gerrit-" + branch.project().get().replace('/', '-') + "." + email.getGerritHost() + ">");
@@ -35,7 +35,7 @@ class BranchEmailUtils {
   }
 
   /** Add branch information to soy template params. */
-  static void addBranchData(OutgoingEmail email, EmailArguments args, BranchNameKey branch) {
+  public static void addBranchData(OutgoingEmail email, EmailArguments args, BranchNameKey branch) {
     String projectName = branch.project().get();
     email.addSoyParam("projectName", projectName);
     // shortProjectName is the project name with the path abbreviated.
@@ -70,7 +70,7 @@ class BranchEmailUtils {
   }
 
   /** Shortens project/repo name to only show part after the last '/'. */
-  static String getShortProjectName(String projectName) {
+  public static String getShortProjectName(String projectName) {
     int lastIndexSlash = projectName.lastIndexOf('/');
     if (lastIndexSlash == 0) {
       return projectName.substring(1); // Remove the first slash
@@ -83,7 +83,7 @@ class BranchEmailUtils {
   }
 
   /** Returns a project/repo name that includes instance as prefix. */
-  static String getInstanceAndProjectName(String instanceName, String projectName) {
+  public static String getInstanceAndProjectName(String instanceName, String projectName) {
     if (instanceName == null || instanceName.isEmpty()) {
       return getShortProjectName(projectName);
     }

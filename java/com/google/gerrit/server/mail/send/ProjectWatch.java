@@ -116,9 +116,9 @@ public class ProjectWatch {
   }
 
   public static class Watchers {
-    static class WatcherList {
-      protected final Set<Account.Id> accounts = new HashSet<>();
-      protected final Set<Address> emails = new HashSet<>();
+    public static class WatcherList {
+      public final Set<Account.Id> accounts = new HashSet<>();
+      public final Set<Address> emails = new HashSet<>();
 
       private static WatcherList union(WatcherList... others) {
         WatcherList union = new WatcherList();
@@ -130,15 +130,15 @@ public class ProjectWatch {
       }
     }
 
-    protected final WatcherList to = new WatcherList();
-    protected final WatcherList cc = new WatcherList();
-    protected final WatcherList bcc = new WatcherList();
+    public final WatcherList to = new WatcherList();
+    public final WatcherList cc = new WatcherList();
+    public final WatcherList bcc = new WatcherList();
 
-    WatcherList all() {
+    public WatcherList all() {
       return WatcherList.union(to, cc, bcc);
     }
 
-    WatcherList list(NotifyConfig.Header header) {
+    public WatcherList list(NotifyConfig.Header header) {
       switch (header) {
         case TO:
           return to;

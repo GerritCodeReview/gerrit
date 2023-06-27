@@ -22,6 +22,29 @@
       },
       "revId": "9ff7e764a45867f951a76f56e14e7480730e38f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7ba05ac_6e7a83fa",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/CallbackMetricImpl1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-27T07:26:18Z",
+      "side": 1,
+      "message": "Have you checked how many times this method is invoked at runtime? The regex evaluation is quite expensive and we should limit the metrics overhead as much as possible.",
+      "range": {
+        "startLine": 105,
+        "startChar": 8,
+        "endLine": 105,
+        "endChar": 45
+      },
+      "revId": "9ff7e764a45867f951a76f56e14e7480730e38f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

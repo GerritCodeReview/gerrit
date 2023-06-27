@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -137,7 +138,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
             .regex(matchRegex)
             .start(start)
             .limit(limit)
-            .filter(allBranches(rsrc)));
+            .filter(allBranches(rsrc, limit)));
   }
 
   BranchInfo toBranchInfo(BranchResource rsrc)
@@ -151,13 +152,13 @@ public class ListBranches implements RestReadView<ProjectResource> {
       if (r == null) {
         throw new ResourceNotFoundException();
       }
-      return toBranchInfo(rsrc, ImmutableList.of(r)).get(0);
+      return toBranchInfo(rsrc, r, getTargets(ImmutableList.of(r))).get();
     } catch (RepositoryNotFoundException noRepo) {
       throw new ResourceNotFoundException(rsrc.getNameKey().get(), noRepo);
     }
   }
 
-  private List<BranchInfo> allBranches(ProjectResource rsrc)
+  private List<BranchInfo> allBranches(ProjectResource rsrc, int limit)
       throws IOException, ResourceNotFoundException, PermissionBackendException {
     List<Ref> refs;
     try (Repository db = repoManager.openRepository(rsrc.getNameKey())) {
@@ -171,68 +172,75 @@ public class ListBranches implements RestReadView<ProjectResource> {
     } catch (RepositoryNotFoundException noGitRepository) {
       throw new ResourceNotFoundException(rsrc.getNameKey().get(), noGitRepository);
     }
-    return toBranchInfo(rsrc, refs);
-  }
-
-  private List<BranchInfo> toBranchInfo(ProjectResource rsrc, List<Ref> refs)
-      throws PermissionBackendException {
-    Set<String> targets = Sets.newHashSetWithExpectedSize(1);
+    Set<String> targets = getTargets(refs);
+    List<BranchInfo> branches = new ArrayList<>();
     for (Ref ref : refs) {
-      if (ref.isSymbolic()) {
-        targets.add(ref.getTarget().getName());
-      }
-    }
-
-    PermissionBackend.ForProject perm = permissionBackend.currentUser().project(rsrc.getNameKey());
-    List<BranchInfo> branches = new ArrayList<>(refs.size());
-    for (Ref ref : refs) {
-      if (ref.isSymbolic()) {
-        // A symbolic reference to another branch, instead of
-        // showing the resolved value, show the name it references.
-        //
-        String target = ref.getTarget().getName();
-
-        try {
-          perm.ref(target).check(RefPermission.READ);
-        } catch (AuthException e) {
-          continue;
+      Optional<BranchInfo> info = toBranchInfo(rsrc, ref, targets);
+      if (info.isPresent()) {
+        branches.add(info.get());
+        if (limit > 0 && branches.size() == limit) {
+          // Break and return earlier if we've already found 'limit' refs
+          break;
         }
-
-        if (target.startsWith(Constants.R_HEADS)) {
-          target = target.substring(Constants.R_HEADS.length());
-        }
-
-        BranchInfo b = new BranchInfo();
-        b.ref = ref.getName();
-        b.revision = target;
-        branches.add(b);
-
-        if (!Constants.HEAD.equals(ref.getName())) {
-          if (isConfigRef(ref.getName())) {
-            // Never allow to delete the meta config branch.
-            b.canDelete = null;
-          } else {
-            b.canDelete =
-                perm.ref(ref.getName()).testOrFalse(RefPermission.DELETE)
-                        && rsrc.getProjectState().statePermitsWrite()
-                    ? true
-                    : null;
-          }
-        }
-        continue;
-      }
-
-      try {
-        perm.ref(ref.getName()).check(RefPermission.READ);
-        branches.add(
-            createBranchInfo(
-                perm.ref(ref.getName()), ref, rsrc.getProjectState(), rsrc.getUser(), targets));
-      } catch (AuthException e) {
-        // Do nothing.
       }
     }
     branches.sort(new BranchComparator());
     return branches;
+  }
+
+  private Optional<BranchInfo> toBranchInfo(ProjectResource rsrc, Ref ref, Set<String> targets)
+      throws PermissionBackendException {
+    PermissionBackend.ForProject perm = permissionBackend.currentUser().project(rsrc.getNameKey());
+    if (ref.isSymbolic()) {
+      // A symbolic reference to another branch, instead of
+      // showing the resolved value, show the name it references.
+      //
+      String target = ref.getTarget().getName();
+
+      try {
+        perm.ref(target).check(RefPermission.READ);
+      } catch (AuthException e) {
+        return Optional.empty();
+      }
+
+      if (target.startsWith(Constants.R_HEADS)) {
+        target = target.substring(Constants.R_HEADS.length());
+      }
+
+      BranchInfo info = new BranchInfo();
+      info.ref = ref.getName();
+      info.revision = target;
+      if (!Constants.HEAD.equals(ref.getName())) {
+        if (isConfigRef(ref.getName())) {
+          // Never allow to delete the meta config branch.
+          info.canDelete = null;
+        } else {
+          info.canDelete =
+              perm.ref(ref.getName()).testOrFalse(RefPermission.DELETE)
+                      && rsrc.getProjectState().statePermitsWrite()
+                  ? true
+                  : null;
+        }
+      }
+      return Optional.of(info);
+    } else {
+      try {
+        perm.ref(ref.getName()).check(RefPermission.READ);
+        BranchInfo branchInfo =
+            createBranchInfo(
+                perm.ref(ref.getName()), ref, rsrc.getProjectState(), rsrc.getUser(), targets);
+        return Optional.of(branchInfo);
+      } catch (AuthException e) {
+        // Do nothing.
+        return Optional.empty();
+      }
+    }
+  }
+
+  private static Set<String> getTargets(List<Ref> refs) {
+    Set<String> targets = Sets.newHashSetWithExpectedSize(1);
+    refs.stream().filter(Ref::isSymbolic).forEach(r -> targets.add(r.getTarget().getName()));
+    return targets;
   }
 
   private static class BranchComparator implements Comparator<BranchInfo> {

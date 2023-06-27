@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d28baf06_523f6c98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-27T07:23:21Z",
+      "side": 1,
+      "message": "\u003e This change makes all existing queue related metrics non backward compatible hence I\u0027m going to drop it. To support decision:\n\u003e 1. it was never reported against the metric name (sub-metric names created out of values are the problem)\n\u003e 2. it is a step forward without causing bigger friction\n\u003e 3. `foo_bar` vs `foo+bar` would still work as it would result in:\n\u003e `foo_bar` vs `foo_2b_bar`\n\nThis would cause still collisions though:\n- `foo_2b_bar` (actual name)\n- `foo+bar` (actual name)\n\nThey will be both translated to the same encoded metric `foo_2b_bar`",
+      "parentUuid": "488e23bb_f66192b4",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 41
+      },
+      "revId": "b233c8738824a989b71a7da9e1f37ff6bdb0f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "015cbf6f_20239b96",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

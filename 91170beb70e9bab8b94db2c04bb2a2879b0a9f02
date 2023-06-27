@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8d14978_309e2c40",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2346,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-06-27T06:21:39Z",
+      "side": 1,
+      "message": "nit: `\"` is copy-pasted by mistake",
+      "range": {
+        "startLine": 2346,
+        "startChar": 33,
+        "endLine": 2346,
+        "endChar": 34
+      },
+      "revId": "91170beb70e9bab8b94db2c04bb2a2879b0a9f02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "862f291d_470f4d36",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2358,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-06-27T06:21:39Z",
+      "side": 1,
+      "message": "missing leading and ending `_`",
+      "range": {
+        "startLine": 2358,
+        "startChar": 64,
+        "endLine": 2358,
+        "endChar": 76
+      },
+      "revId": "91170beb70e9bab8b94db2c04bb2a2879b0a9f02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9b1881e_b2e9b241",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2358,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-06-27T06:21:39Z",
+      "side": 1,
+      "message": "broken format in the resulting documentation",
+      "range": {
+        "startLine": 2355,
+        "startChar": 0,
+        "endLine": 2358,
+        "endChar": 77
+      },
+      "revId": "91170beb70e9bab8b94db2c04bb2a2879b0a9f02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

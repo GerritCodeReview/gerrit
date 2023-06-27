@@ -5,10 +5,6 @@
  */
 
   HttpMethod,
-  InheritedBooleanInfoConfiguredValue,
-  MergeabilityComputationBehavior,
-  ProblemInfoStatus,
-  RepoState,
   RequirementStatus,
   ReviewerState,
   RevisionKind,

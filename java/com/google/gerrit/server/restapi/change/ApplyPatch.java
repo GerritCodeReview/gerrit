@@ -142,13 +142,18 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
                 destChange.change().getStatus().name()));
       }
 
-      RevCommit latestPatchset = revWalk.parseCommit(destChange.currentPatchSet().commitId());
+      if (!Strings.isNullOrEmpty(input.base) && Boolean.TRUE.equals(input.amend)) {
+        throw new BadRequestException("amend only works with existing revisions. omit base.");
+      }
 
+      RevCommit latestPatchset = revWalk.parseCommit(destChange.currentPatchSet().commitId());
       RevCommit baseCommit;
+      List<RevCommit> parents;
       if (!Strings.isNullOrEmpty(input.base)) {
         baseCommit =
             CommitUtil.getBaseCommit(
                 project.get(), queryProvider.get(), revWalk, destRef, input.base);
+        parents = ImmutableList.of(baseCommit);
       } else {
         if (latestPatchset.getParentCount() != 1) {
           throw new BadRequestException(
@@ -156,7 +161,13 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
                   "Cannot parse base commit for a change with none or multiple parents. Change ID: %s.",
                   destChange.getId()));
         }
-        baseCommit = revWalk.parseCommit(latestPatchset.getParent(0));
+        if (Boolean.TRUE.equals(input.amend)) {
+          baseCommit = latestPatchset;
+          parents = ImmutableList.copyOf(baseCommit.getParents());
+        } else {
+          baseCommit = revWalk.parseCommit(latestPatchset.getParent(0));
+          parents = ImmutableList.of(baseCommit);
+        }
       }
       PatchApplier.Result applyResult =
           ApplyPatchUtil.applyPatch(repo, oi, input.patch, baseCommit);
@@ -180,10 +191,9 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
               input.patch.patch,
               ApplyPatchUtil.getResultPatch(repo, reader, baseCommit, revWalk.lookupTree(treeId)),
               applyResult.getErrors());
-
       ObjectId appliedCommit =
           CommitUtil.createCommitWithTree(
-              oi, authorIdent, committerIdent, baseCommit, commitMessage, treeId);
+              oi, authorIdent, committerIdent, parents, commitMessage, treeId);
       CodeReviewCommit commit = revWalk.parseCommit(appliedCommit);
       oi.flush();
 

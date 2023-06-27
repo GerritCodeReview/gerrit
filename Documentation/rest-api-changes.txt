@@ -6875,6 +6875,10 @@ This field does not affect the owner of the change, which will continue to use t
 caller.
 |`response_format_options`     |optional|
 List of link:#query-options[query options] to format the response.
+|`amend`              |optional|
+If true, the revision from the URL will be amended by the patch. This will use the tree of the
+revision, apply the patch and create a new commit whose tree is the resulting tree of the operation
+and whose parent(s) are the parent(s) of the revision. Cannot be used together with `base`.
 |=================================
 
 

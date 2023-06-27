@@ -19,6 +19,7 @@ import static com.google.gerrit.server.mail.EmailFactories.CHANGE_REVERTED;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -70,6 +71,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.MissingObjectException;
@@ -212,7 +214,7 @@ public class CommitUtil {
    * @param oi ObjectInserter for inserting the newly created commit.
    * @param authorIdent of the new commit
    * @param committerIdent of the new commit
-   * @param parentCommit of the new commit. Can be null.
+   * @param parents of the new commit. Can be empty.
    * @param commitMessage for the new commit.
    * @param treeId of the content for the new commit.
    * @return the newly created commit.
@@ -222,16 +224,14 @@ public class CommitUtil {
       ObjectInserter oi,
       PersonIdent authorIdent,
       PersonIdent committerIdent,
-      @Nullable RevCommit parentCommit,
+      List<RevCommit> parents,
       String commitMessage,
       ObjectId treeId)
       throws IOException {
     logger.atFine().log("Creating commit with tree: %s", treeId.getName());
     CommitBuilder commit = new CommitBuilder();
     commit.setTreeId(treeId);
-    if (parentCommit != null) {
-      commit.setParentId(parentCommit);
-    }
+    commit.setParentIds(parents.stream().map(RevCommit::getId).collect(Collectors.toList()));
     commit.setAuthor(authorIdent);
     commit.setCommitter(committerIdent);
     commit.setMessage(commitMessage);
@@ -294,7 +294,12 @@ public class CommitUtil {
     }
 
     return createCommitWithTree(
-        oi, authorIdent, committerIdent, commitToRevert, message, parentToCommitToRevert.getTree());
+        oi,
+        authorIdent,
+        committerIdent,
+        ImmutableList.of(commitToRevert),
+        message,
+        parentToCommitToRevert.getTree());
   }
 
   private Change.Id createRevertChangeFromCommit(

@@ -2342,6 +2342,25 @@ file. For example:
 
 will cause the metrics to be recorded under `my-metrics/${metric-name}`.
 
+Note that metric name can be expressed through a limited set of characters
+`[a-zA-Z0-9_-]+(/[a-zA-Z0-9_-]+)*` therefore one should either ensure it
+or call
+link:https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/metrics/dropwizard/DropWizardMetricMaker.java[
+sanitizeMetricName,role=external,window=_blank] to have it enforced.
+
+The
+link:https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/metrics/dropwizard/DropWizardMetricMaker.java[
+sanitizeMetricName,role=external,window=_blank] performs the following
+modifications:
+
+* leading `/` is replaced with `_`
+* doubled (or repeated more times) `/` are reduced to a single `/`
+* ending `/` is removed
+* all characters that are not `/a-zA-Z0-9_-` are replaced with
+  `\_0x[HEX CODE]_` (code is capitalized)
+* if the replacement prefix (`_0x`) is found then it is prepended with another
+  replacement prefix
+
 See the replication metrics in the
 link:https://gerrit.googlesource.com/plugins/replication/+/master/src/main/java/com/googlesource/gerrit/plugins/replication/ReplicationMetrics.java[
 replication plugin,role=external,window=_blank] for an example of usage.

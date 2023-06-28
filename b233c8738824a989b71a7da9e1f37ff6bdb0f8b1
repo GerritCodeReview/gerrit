@@ -109,6 +109,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ea05f4b2_69f5bee3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-28T07:39:08Z",
+      "side": 1,
+      "message": "Cool.",
+      "parentUuid": "1f62f7f7_fe39e96b",
+      "revId": "b233c8738824a989b71a7da9e1f37ff6bdb0f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "4c9e58ac_d243a076",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -179,6 +197,30 @@
       "side": 1,
       "message": "Current PS doesn\u0027t affect Gerrit\u0027s core metrics but may affect plugins therefore I have added paragraph to the existing `dev-plugins.txt` metrics section. It contains both:\n* suggestion that `DropWizardMetricMaker.sanitizeMetricName` should be used to sanitize the name\n* description how it works",
       "parentUuid": "ac6acbcb_748933d0",
+      "range": {
+        "startLine": 375,
+        "startChar": 0,
+        "endLine": 381,
+        "endChar": 10
+      },
+      "revId": "b233c8738824a989b71a7da9e1f37ff6bdb0f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41add7c1_33ea3c8f",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/DropWizardMetricMaker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-28T07:39:08Z",
+      "side": 1,
+      "message": "Sounds good.",
+      "parentUuid": "827f8f90_fa7be3f0",
       "range": {
         "startLine": 375,
         "startChar": 0,

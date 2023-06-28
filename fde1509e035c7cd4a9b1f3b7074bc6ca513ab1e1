@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0937516e_e3b90c27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-28T22:01:04Z",
+      "side": 1,
+      "message": "Just a documentation nit. \n\nP.S. The test failures are unrelated, though need to be investigated and fixes, not part of this change.",
+      "revId": "fde1509e035c7cd4a9b1f3b7074bc6ca513ab1e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56116625_506b7780",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-28T22:01:04Z",
+      "side": 1,
+      "message": "`updates`",
+      "range": {
+        "startLine": 216,
+        "startChar": 80,
+        "endLine": 216,
+        "endChar": 86
+      },
+      "revId": "fde1509e035c7cd4a9b1f3b7074bc6ca513ab1e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

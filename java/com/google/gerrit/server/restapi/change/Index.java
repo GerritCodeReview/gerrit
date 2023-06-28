@@ -42,7 +42,7 @@ public class Index implements RestModifyView<ChangeResource, Input> {
   public Response<Object> apply(ChangeResource rsrc, Input input)
       throws IOException, AuthException, PermissionBackendException {
     permissionBackend.currentUser().check(GlobalPermission.MAINTAIN_SERVER);
-    indexer.index(rsrc.getChange());
+    indexer.index(rsrc.getNotes());
     return Response.none();
   }
 }

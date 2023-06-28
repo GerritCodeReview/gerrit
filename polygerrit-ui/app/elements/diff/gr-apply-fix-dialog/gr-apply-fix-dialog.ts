@@ -10,6 +10,7 @@ import '../../../embed/diff/gr-diff/gr-diff';
 import '../../../embed/diff-old/gr-diff/gr-diff';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
+
   NumericChangeId,
   EDIT,
   FixSuggestionInfo,

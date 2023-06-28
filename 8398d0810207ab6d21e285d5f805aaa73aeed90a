@@ -142,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d06a472_a3f43ec0",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-06-28T11:42:00Z",
+      "side": 1,
+      "message": "I can return an empty builder. I think it is suspicious to set sMergedInTargetBranch to a wrong value in the method (e.g. than in is possible that we forget to override it).",
+      "parentUuid": "2564f05a_0e555837",
+      "range": {
+        "startLine": 58,
+        "startChar": 8,
+        "endLine": 58,
+        "endChar": 27
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "235c1f17_63a2f75f",
@@ -473,6 +497,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7e9fb58c_b25fa2fc",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-06-28T11:42:00Z",
+      "side": 1,
+      "message": "Why do we need to provide information about the current commit in ParrentInfo?\nThis can be always inferred from RevisionInfo? I think it would be cleaner to keep the field empty if the commit does not belong to the branch.",
+      "parentUuid": "d6616ceb_7425993b",
+      "range": {
+        "startLine": 120,
+        "startChar": 36,
+        "endLine": 120,
+        "endChar": 49
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1bbf0bd1_99aa5e4c",
         "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
         "patchSetId": 16
@@ -508,6 +556,30 @@
       "side": 1,
       "message": "We will (please see tests). the \u0027Get Change Detail\u0027 has a \u0027revisions\u0027 field of type RevisionInfo, which contains the new data.",
       "parentUuid": "1bbf0bd1_99aa5e4c",
+      "range": {
+        "startLine": 343,
+        "startChar": 18,
+        "endLine": 345,
+        "endChar": 46
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5301737f_38dd7c64",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-06-28T11:42:00Z",
+      "side": 1,
+      "message": "Thank you, that makes sense.\n\nSince this is potentially an expensive computation (also involving the index, that can be stale), can we roll out this option with experiment? (I expect it will be an UI experiment, so there is no action needed on this change - just something to keep in mind).",
+      "parentUuid": "b2bd113d_d5ed275d",
       "range": {
         "startLine": 343,
         "startChar": 18,

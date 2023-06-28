@@ -23,6 +23,7 @@ java_library(
         ":annotations",
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/launcher",
         "//java/com/google/gerrit/prettify:server",
         "//lib:guava",
         "//lib:jgit",

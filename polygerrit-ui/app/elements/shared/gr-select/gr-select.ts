@@ -79,7 +79,7 @@ export class GrSelect extends LitElement {
       this.nativeSelect.value = this.convert(this.bindValue) ?? '';
       // Async needed for firefox to populate value. It was trying to do it
       // before options from a dom-repeat were rendered previously.
-      // See https://g-issues.gerritcodereview.com/issues/40007948
+      // See https://issues.gerritcodereview.com/issues/40007948
       setTimeout(() => {
         this.nativeSelect.value = this.convert(this.bindValue) ?? '';
       }, 1);

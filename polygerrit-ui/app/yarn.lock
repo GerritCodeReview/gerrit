@@ -430,10 +430,10 @@
   dependencies:
     "@webcomponents/shadycss" "^1.9.1"
 
-"@types/resemblejs@^3.2.0":
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/@types/resemblejs/-/resemblejs-3.2.1.tgz#f4d6dc1549184f6a8ac71f831547f055421ba926"
-  integrity sha512-PEAcjrHtLYqxhjkRrHVCyyQBk1A58aVlDkpmFpcSIejE+PNz9ovEJKSH8iyNOOBoDPNA1JBvaaBUYtFgEbFjiw==
+"@types/resemblejs@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@types/resemblejs/-/resemblejs-4.1.0.tgz#1c150e0de4117b29f9d5d5231489edc7cef8263e"
+  integrity sha512-+MIkKy/UngDfhTnvn2yK/KSzlbtLeB5BU73qqZrzIF24+e2r8enJ4cW3UbtkstByYSDV8pbheGAqg7zT8ZZ2pA==
 
 "@types/resize-observer-browser@^0.1.5":
   version "0.1.7"
@@ -503,13 +503,13 @@ brace-expansion@^1.1.7:
     balanced-match "^1.0.0"
     concat-map "0.0.1"
 
-canvas@2.9.0:
-  version "2.9.0"
-  resolved "https://registry.yarnpkg.com/canvas/-/canvas-2.9.0.tgz#7df0400b141a7e42e597824f377935ba96880f2a"
-  integrity sha512-0l93g7uxp7rMyr7H+XRQ28A3ud0dKIUTIEkUe1Dxh4rjUYN7B93+SjC3r1PDKA18xcQN87OFGgUnyw7LSgNLSQ==
+canvas@2.11.2:
+  version "2.11.2"
+  resolved "https://registry.yarnpkg.com/canvas/-/canvas-2.11.2.tgz#553d87b1e0228c7ac0fc72887c3adbac4abbd860"
+  integrity sha512-ItanGBMrmRV7Py2Z+Xhs7cT+FNt5K0vPL4p9EZ/UX/Mu7hFbkxSjKF2KVtPwX7UYWp7dRKnrTvReflgrItJbdw==
   dependencies:
     "@mapbox/node-pre-gyp" "^1.0.0"
-    nan "^2.15.0"
+    nan "^2.17.0"
     simple-get "^3.0.3"
 
 chownr@^2.0.0:
@@ -744,7 +744,7 @@ ms@2.1.2:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==
 
-nan@^2.15.0:
+nan@^2.17.0:
   version "2.17.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.17.0.tgz#c0150a2368a182f033e9aa5195ec76ea41a199cb"
   integrity sha512-2ZTgtl0nJsO0KQCjEpxcIr5D+Yv90plTitZt9JBfQvVJDS5seMl3FOvsh3+9CoYWXf/1l5OaZzzF6nDm4cagaQ==
@@ -810,12 +810,12 @@ readable-stream@^3.6.0:
     string_decoder "^1.1.1"
     util-deprecate "^1.0.1"
 
-resemblejs@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/resemblejs/-/resemblejs-4.1.0.tgz#66c29028febdb31997e9a164e5b2320c26816621"
-  integrity sha512-s9/+nQ7bnT+C7XBdnMCcC/QppvJcTmJ7fXZMtuTZMFJycN2kj/tacleyx9O1mURPDYNZsgKMfcamImM9+X+keQ==
+resemblejs@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/resemblejs/-/resemblejs-5.0.0.tgz#f5a0c6aaa59dcfb9f5192e7ab8740616cbbbf220"
+  integrity sha512-+B0eP9k9VDP/YhBbH+ZdYmHiotdtuc6blVI+h8wwkY2cOow+uiIpSmgkBBBtrEAL0D31/gR/AJPwDeX5TcwmIA==
   optionalDependencies:
-    canvas "2.9.0"
+    canvas "2.11.2"
 
 rimraf@^3.0.2:
   version "3.0.2"

@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "970a6770_9db5ebec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-06-28T07:10:07Z",
+      "side": 1,
+      "message": "Addressed by:\n* changing the replacement string to `_0x_[HEX CODE]_`\n* prepending the replacement prefix (`_0x`) with another replacement prefix\n\nIOW:\n`foo+bar` becomes `foo_0x2B_bar`\n`foo_0x2B_bar` becomes `foo_0x_0x2B_bar`\nhence collision is no longer possible.\n\nIt was also achievable with doubling `_` but the idea was to not modify the core metrics (`sanitizeMetricName` is used to sanitize the Gerrit\u0027s core queue names) so that existing dashboards are not affected.",
+      "parentUuid": "d28baf06_523f6c98",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 41
+      },
+      "revId": "b233c8738824a989b71a7da9e1f37ff6bdb0f8b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "015cbf6f_20239b96",

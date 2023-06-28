@@ -651,7 +651,7 @@ export interface RestApiService extends Finalizable {
   getChangeCherryPicks(
     repo: RepoName,
     changeID: ChangeId,
-    changeNum: NumericChangeId
+    branch: BranchName
   ): Promise<ChangeInfo[] | undefined>;
 
   getChangesWithSameTopic(

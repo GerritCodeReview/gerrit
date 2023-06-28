@@ -2080,8 +2080,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
               rw,
               changeNoteJson,
               args.metrics,
-              serverId,
-              externalIdCache);
+              new NoteDbUtil(serverId, externalIdCache));
       ChangeNotesState state = notesWithComments.parseAll();
       assertThat(state.approvals()).isEmpty();
       assertThat(state.publishedComments()).hasSize(1);
@@ -2095,8 +2094,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
               rw,
               changeNoteJson,
               args.metrics,
-              serverId,
-              externalIdCache);
+              new NoteDbUtil(serverId, externalIdCache));
 
       ChangeNotesState state = notesWithApprovals.parseAll();
       assertThat(state.approvals()).hasSize(1);

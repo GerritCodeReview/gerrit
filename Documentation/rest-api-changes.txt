@@ -7011,7 +7011,7 @@ or `triplet_id`. The experiment is needed to allow callers to migrate.
 'project' and '_number' are URL encoded. The callers must not rely on the format.
 |`triplet_id`         ||
 The ID of the change in the format "'<project>\~<branch>~<Change-Id>'",
-where 'project', 'branch' and 'Change-Id' are URL encoded. For 'branch' the
+where 'project' and 'branch' are URL encoded. For 'branch' the
 `refs/heads/` prefix is omitted.
 |`project`            ||The name of the project.
 |`branch`             ||

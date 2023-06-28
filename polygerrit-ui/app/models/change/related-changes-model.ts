@@ -163,15 +163,15 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
 
   private loadCherryPicks() {
     return combineLatest([
-      this.changeModel.changeNum$,
+      this.changeModel.branch$,
       this.changeModel.changeId$,
       this.changeModel.repo$,
     ])
       .pipe(
-        switchMap(([changeNum, changeId, repo]) => {
-          if (!changeNum || !changeId || !repo) return of(undefined);
+        switchMap(([branch, changeId, repo]) => {
+          if (!branch || !changeId || !repo) return of(undefined);
           return from(
-            this.restApiService.getChangeCherryPicks(repo, changeId, changeNum)
+            this.restApiService.getChangeCherryPicks(repo, changeId, branch)
           );
         })
       )

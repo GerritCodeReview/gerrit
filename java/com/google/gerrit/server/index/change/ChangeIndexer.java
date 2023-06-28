@@ -183,7 +183,8 @@ public class ChangeIndexer {
   }
 
   /**
-   * Synchronously index a change, then check if the index is stale due to a race condition.
+   * Synchronously index a local or imported change, then check if the index is stale due to a race
+   * condition.
    *
    * @param cd change to index.
    */
@@ -260,16 +261,31 @@ public class ChangeIndexer {
   }
 
   /**
-   * Synchronously index a change.
+   * Synchronously index local a change.
    *
    * @param change change to index.
+   * @deprecated callers should use {@link #index(com.google.gerrit.entities.Project.NameKey,
+   *     com.google.gerrit.entities.Change.Id)} which reloads the full change details, including the
+   *     associated serverId.
    */
+  @Deprecated
   public void index(Change change) {
     index(changeDataFactory.create(change));
   }
 
   /**
-   * Synchronously index a change.
+   * Synchronously index a local or imported change with associated notes.
+   *
+   * @param notes change notes associated with the change to index.
+   */
+  public void index(ChangeNotes notes) {
+    index(changeDataFactory.create(notes));
+  }
+
+  /**
+   * Synchronously index a local or imported change.
+   *
+   * <p>Load the change full details from NoteDb and update the corresponding entry in the index.
    *
    * @param project the project to which the change belongs.
    * @param changeId ID of the change to index.

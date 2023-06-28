@@ -46,7 +46,6 @@ import org.junit.Ignore;
 public class AbstractGroupTest {
   protected static final ZoneId ZONE_ID = ZoneId.of("America/Los_Angeles");
   protected static final String SERVER_ID = "server-id";
-  protected static final String SERVER_NAME = "Gerrit Server";
   protected static final String SERVER_EMAIL = "noreply@gerritcodereview.com";
   protected static final int SERVER_ACCOUNT_NUMBER = 100000;
   protected static final int USER_ACCOUNT_NUMBER = 100001;
@@ -65,7 +64,7 @@ public class AbstractGroupTest {
     repoManager = new InMemoryRepositoryManager();
     allUsersRepo = repoManager.createRepository(allUsersName);
     serverAccountId = Account.id(SERVER_ACCOUNT_NUMBER);
-    serverIdent = new PersonIdent(SERVER_NAME, SERVER_EMAIL, TimeUtil.now(), ZONE_ID);
+    serverIdent = new PersonIdent(SERVER_ID, SERVER_EMAIL, TimeUtil.now(), ZONE_ID);
     userId = Account.id(USER_ACCOUNT_NUMBER);
     userIdent = newPersonIdent(userId, serverIdent);
   }
@@ -86,7 +85,7 @@ public class AbstractGroupTest {
   }
 
   protected static void assertServerCommit(CommitInfo commitInfo, String expectedMessage) {
-    assertCommit(commitInfo, expectedMessage, SERVER_NAME, SERVER_EMAIL);
+    assertCommit(commitInfo, expectedMessage, SERVER_ID, SERVER_EMAIL);
   }
 
   protected static void assertCommit(
@@ -96,7 +95,7 @@ public class AbstractGroupTest {
     assertThat(commitInfo).author().email().isEqualTo(expectedEmail);
 
     // Committer should always be the server, regardless of author.
-    assertThat(commitInfo).committer().name().isEqualTo(SERVER_NAME);
+    assertThat(commitInfo).committer().name().isEqualTo(SERVER_ID);
     assertThat(commitInfo).committer().email().isEqualTo(SERVER_EMAIL);
     assertThat(commitInfo).committer().date().isEqualTo(commitInfo.author.date);
     assertThat(commitInfo).committer().tz().isEqualTo(commitInfo.author.tz);
@@ -111,7 +110,7 @@ public class AbstractGroupTest {
   }
 
   protected static PersonIdent newPersonIdent() {
-    return new PersonIdent(SERVER_NAME, SERVER_EMAIL, TimeUtil.now(), ZONE_ID);
+    return new PersonIdent(SERVER_ID, SERVER_EMAIL, TimeUtil.now(), ZONE_ID);
   }
 
   protected static PersonIdent newPersonIdent(Account.Id id, PersonIdent ident) {

@@ -23,15 +23,27 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdCache;
+import com.google.gerrit.server.config.GerritServerId;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Optional;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.util.GitDateFormatter;
 import org.eclipse.jgit.util.GitDateFormatter.Format;
 
+@Singleton
 public class NoteDbUtil {
+
+  private final String serverId;
+  private final ExternalIdCache externalIdCache;
+
+  @Inject
+  public NoteDbUtil(@GerritServerId String serverId, ExternalIdCache externalIdCache) {
+    this.serverId = serverId;
+    this.externalIdCache = externalIdCache;
+  }
 
   private static final CharMatcher INVALID_FOOTER_CHARS = CharMatcher.anyOf("\r\n\0");
 
@@ -40,35 +52,29 @@ public class NoteDbUtil {
   private static final ImmutableSet<String> SERVLET_NAMES =
       ImmutableSet.of("com.google.gerrit.httpd.restapi.RestApiServlet");
 
-  /** Returns an AccountId for the given email address. */
-  public static Optional<Account.Id> parseIdent(PersonIdent ident) {
-    String email = ident.getEmailAddress();
-    int at = email.indexOf('@');
-    if (at >= 0) {
-      Integer id = Ints.tryParse(email.substring(0, at));
-      if (id != null) {
-        return Optional.of(Account.id(id));
-      }
-    }
-    return Optional.empty();
+  /**
+   * Returns an AccountId for the given person's identity and the current serverId. Reverse lookup
+   * the AccountId using the ExternalIdCache if the account has a foreign serverId.
+   *
+   * @param ident the accountId@serverId identity
+   * @return a defined accountId if the account was found, {@link Account#UNKNOWN_ACCOUNT_ID} if the
+   *     lookup via external-id did not return any account, or an empty value if the identity was
+   *     malformed.
+   */
+  public Optional<Account.Id> parseIdent(PersonIdent ident) {
+    return parseIdent(ident.getEmailAddress());
   }
 
   /**
    * Returns an AccountId for the given email address and the current serverId. Reverse lookup the
    * AccountId using the ExternalIdCache if the account has a foreign serverId.
    *
-   * @param ident the accountId@serverId identity
-   * @param serverId the Gerrit's serverId
-   * @param externalIdCache reference to the cache for looking up the external ids
+   * @param email the accountId@serverId email identity
    * @return a defined accountId if the account was found, {@link Account#UNKNOWN_ACCOUNT_ID} if the
    *     lookup via external-id did not return any account, or an empty value if the identity was
    *     malformed.
-   * @throws ConfigInvalidException when the lookup of the external-id failed
    */
-  public static Optional<Account.Id> parseIdent(
-      PersonIdent ident, String serverId, ExternalIdCache externalIdCache)
-      throws ConfigInvalidException {
-    String email = ident.getEmailAddress();
+  public Optional<Account.Id> parseIdent(String email) {
     int at = email.indexOf('@');
     if (at >= 0) {
       Integer id = Ints.tryParse(email.substring(0, at));
@@ -85,7 +91,7 @@ public class NoteDbUtil {
               .map(ExternalId::accountId)
               .or(() -> Optional.of(Account.UNKNOWN_ACCOUNT_ID));
         } catch (IOException e) {
-          throw new ConfigInvalidException("Unable to lookup external id from cache", e);
+          throw new IllegalArgumentException("Unable to lookup external id from cache", e);
         }
       }
     }
@@ -175,6 +181,4 @@ public class NoteDbUtil {
     }
     return impl;
   }
-
-  private NoteDbUtil() {}
 }

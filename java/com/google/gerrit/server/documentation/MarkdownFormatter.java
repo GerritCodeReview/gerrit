@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.documentation;
 
-import static com.vladsch.flexmark.profiles.pegdown.Extensions.ALL;
-import static com.vladsch.flexmark.profiles.pegdown.Extensions.HARDWRAPS;
-import static com.vladsch.flexmark.profiles.pegdown.Extensions.SUPPRESS_ALL_HTML;
+import static com.vladsch.flexmark.parser.PegdownExtensions.ALL;
+import static com.vladsch.flexmark.parser.PegdownExtensions.HARDWRAPS;
+import static com.vladsch.flexmark.parser.PegdownExtensions.SUPPRESS_ALL_HTML;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
@@ -26,7 +26,7 @@ import com.vladsch.flexmark.ast.Heading;
 import com.vladsch.flexmark.ast.util.TextCollectingVisitor;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
-import com.vladsch.flexmark.profiles.pegdown.PegdownOptionsAdapter;
+import com.vladsch.flexmark.profile.pegdown.PegdownOptionsAdapter;
 import com.vladsch.flexmark.util.ast.Block;
 import com.vladsch.flexmark.util.ast.Node;
 import com.vladsch.flexmark.util.data.MutableDataHolder;

@@ -139,7 +139,7 @@ def _maven_jar_impl(ctx):
 
     binjar = jar + ".jar"
     binjar_path = ctx.path("/".join(["jar", binjar]))
-    binurl = url + ".jar"
+    binurl = url + ctx.attr.bin_url_suffix + ".jar"
 
     python = ctx.which("python3")
     script = ctx.path(ctx.attr._download_script)
@@ -176,6 +176,7 @@ maven_jar = repository_rule(
     attrs = {
         "artifact": attr.string(mandatory = True),
         "attach_source": attr.bool(default = True),
+        "bin_url_suffix": attr.string(default = ""),
         "exclude": attr.string_list(),
         "repository": attr.string(default = MAVEN_CENTRAL),
         "sha1": attr.string(),

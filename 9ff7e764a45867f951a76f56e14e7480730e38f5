@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af2f8d82_53431154",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-06-28T07:10:07Z",
+      "side": 1,
+      "message": "Addressed by:\n* changing the replacement string to `_0x_[HEX CODE]_`\n* prepending the replacement prefix (`_0x`) with another replacement prefix\n\nIOW:\n`foo+bar` becomes `foo_0x2B_bar`\n`foo_0x2B_bar` becomes `foo_0x_0x2B_bar`\nhence collision is no longer possible.",
+      "parentUuid": "84683219_1b4fe367",
+      "range": {
+        "startLine": 368,
+        "startChar": 50,
+        "endLine": 369,
+        "endChar": 17
+      },
+      "revId": "9ff7e764a45867f951a76f56e14e7480730e38f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7ba05ac_6e7a83fa",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-06-27T07:26:18Z",
       "side": 1,
       "message": "Have you checked how many times this method is invoked at runtime? The regex evaluation is quite expensive and we should limit the metrics overhead as much as possible.",
+      "range": {
+        "startLine": 105,
+        "startChar": 8,
+        "endLine": 105,
+        "endChar": 45
+      },
+      "revId": "9ff7e764a45867f951a76f56e14e7480730e38f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c749ed15_20c3edda",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/CallbackMetricImpl1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-06-28T07:10:07Z",
+      "side": 1,
+      "message": "Will check and come back with numbers. For the time being turned the change into WIP.",
+      "parentUuid": "c7ba05ac_6e7a83fa",
       "range": {
         "startLine": 105,
         "startChar": 8,

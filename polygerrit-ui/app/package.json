@@ -35,7 +35,6 @@
     "@types/resize-observer-browser": "^0.1.5",
     "@webcomponents/shadycss": "^1.10.2",
     "@webcomponents/webcomponentsjs": "^1.3.3",
-    "ba-linkify": "^1.0.1",
     "codemirror-minified": "^5.65.0",
     "highlight.js": "^11.5.0",
     "highlightjs-closure-templates": "https://github.com/highlightjs/highlightjs-closure-templates",

@@ -3,7 +3,6 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import 'ba-linkify/ba-linkify';
 import {CommentLinkInfo, CommentLinks} from '../types/common';
 import {getBaseUrl} from './url-util';
 
@@ -16,21 +15,8 @@ export function linkifyUrlsAndApplyRewrite(
   base: string,
   repoCommentLinks: CommentLinks
 ): string {
-  const parts: string[] = [];
-  window.linkify(insertZeroWidthSpace(base), {
-    callback: (text, href) => {
-      if (href) {
-        parts.push(removeZeroWidthSpace(createLinkTemplate(href, text)));
-      } else {
-        const rewriteResults = getRewriteResultsFromConfig(
-          text,
-          repoCommentLinks
-        );
-        parts.push(removeZeroWidthSpace(applyRewrites(text, rewriteResults)));
-      }
-    },
-  });
-  return parts.join('');
+  const rewriteResults = getRewriteResultsFromConfig(base, repoCommentLinks);
+  return applyRewrites(base, rewriteResults);
 }
 
 /**
@@ -48,6 +34,11 @@ function getRewriteResultsFromConfig(
       commentLinkInfo.enabled !== false &&
       (commentLinkInfo.link !== undefined || commentLinkInfo.html !== undefined)
   );
+  // Always linkify URLs starting with https?://
+  enabledRewrites.push({
+    match: '(https?://\\S+[\\w/])',
+    link: '$1',
+  });
   return enabledRewrites.flatMap(rewrite => {
     const regexp = new RegExp(rewrite.match, 'g');
     const partialResults: RewriteResult[] = [];
@@ -146,22 +137,6 @@ function getReplacementText(
   } else {
     throw new Error('commentLinkInfo is not a link or html rewrite');
   }
-}
-
-/**
- * Some tools are known to look for reviewers/CCs by finding lines such as
- * "R=foo@gmail.com, bar@gmail.com". However, "=" is technically a valid email
- * character, so ba-linkify interprets the entire string "R=foo@gmail.com" as an
- * email address. To fix this, we insert a zero width space character \u200B
- * before linking that prevents ba-linkify from associating the prefix with the
- * email. After linking we remove the zero width space.
- */
-function insertZeroWidthSpace(base: string) {
-  return base.replace(/^(R=|CC=)/g, '$&\u200B');
-}
-
-function removeZeroWidthSpace(base: string) {
-  return base.replace(/\u200B/g, '');
 }
 
 function createLinkTemplate(

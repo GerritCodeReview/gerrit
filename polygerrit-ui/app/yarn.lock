@@ -488,11 +488,6 @@ are-we-there-yet@~1.1.2:
     delegates "^1.0.0"
     readable-stream "^2.0.6"
 
-ba-linkify@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/ba-linkify/-/ba-linkify-1.0.1.tgz#664cf5744947c6e8611f1fbbaf7d9f315f982f4c"
-  integrity sha1-Zkz1dElHxuhhHx+7r32fMV+YL0w=
-
 balanced-match@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"

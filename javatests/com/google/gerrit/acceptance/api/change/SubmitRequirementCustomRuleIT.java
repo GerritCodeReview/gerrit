@@ -147,7 +147,7 @@ public class SubmitRequirementCustomRuleIT extends AbstractDaemonTest {
     approveChange(change);
 
     rule.status(Optional.of(SubmitRecord.Status.OK));
-    change.index();
+    newChangeApi(change.id()).index();
 
     List<ChangeInfo> result = queryIsSubmittable();
     assertThat(result).hasSize(1);
@@ -163,7 +163,7 @@ public class SubmitRequirementCustomRuleIT extends AbstractDaemonTest {
 
     // Our custom rule isn't providing any submit records.
     rule.status(Optional.empty());
-    change.index();
+    newChangeApi(change.id()).index();
 
     // is:submittable should return the change, since it was approved and the custom rule is not
     // blocking it.
@@ -207,6 +207,10 @@ public class SubmitRequirementCustomRuleIT extends AbstractDaemonTest {
 
   private ChangeApi newChangeApi() throws Exception {
     return gApi.changes().id(createChange().getChangeId());
+  }
+
+  private ChangeApi newChangeApi(String changeId) throws Exception {
+    return gApi.changes().id(changeId);
   }
 
   private void approveChange(ChangeApi changeApi) throws Exception {

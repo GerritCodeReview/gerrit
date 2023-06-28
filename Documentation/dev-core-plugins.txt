@@ -95,7 +95,7 @@ plugin the plugin must fulfill certain link:#criteria[criteria].
 
 1. Propose a plugin as core plugin:
 +
-File a link:https://bugs.chromium.org/p/gerrit/issues/entry?template=Core+Plugin+Request[
+File a link:https://issues.gerritcodereview.com/issues/new?component=1371029&template=1834214[
 Core Plugin Request] in the issue tracker and provide the information that is
 being asked for in the request template.
 

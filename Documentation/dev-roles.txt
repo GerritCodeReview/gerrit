@@ -21,7 +21,7 @@ There are many possibilities to support the project, e.g.:
 * attend community events like user summits (see
   link:https://calendar.google.com/calendar?cid=Z29vZ2xlLmNvbV91YmIxcGxhNmlqNzg1b3FianI2MWg0dmRpc0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t[
   community calendar,role=external,window=_blank])
-* report link:https://bugs.chromium.org/p/gerrit/issues/list[issues,role=external,window=_blank]
+* report link:https://issues.gerritcodereview.com/issues?q=is:open[issues,role=external,window=_blank]
   and help to clarify existing issues
 * provide feedback on
   link:https://www.gerritcodereview.com/releases-readme.html[new
@@ -53,7 +53,7 @@ Supporters can:
   comments and by voting (preferably on the `Verified` label,
   permissions to vote on the `Verified` label are granted by request,
   see below)
-* file issues in the link:https://bugs.chromium.org/p/gerrit/issues/list[
+* file issues in the link:https://issues.gerritcodereview.com/issues?q=is:open[
   issue tracker,role=external,window=_blank] and comment on existing issues
 * support the
   link:dev-processes.html#design-driven-contribution-process[
@@ -66,7 +66,9 @@ on request (ask for it on the
 link:https://groups.google.com/d/forum/repo-discuss[repo-discuss,role=external,window=_blank]
 mailing list):
 
-* become member of the `gerrit-trusted-contributors` group, which allows to:
+* become member of the
+  link:https://groups.google.com/g/gerritcodereview-trusted-contributors[gerrit-trusted-contributors]
+  group, which allows to:
 ** vote on the `Verified` and `Code-Style` labels
 ** edit hashtags on all changes
 ** edit topics on all open changes
@@ -76,7 +78,7 @@ mailing list):
   link:https://groups.google.com/d/forum/repo-discuss[repo-discuss,role=external,window=_blank]
   mailing list
 * administrate issues in the
-  link:https://bugs.chromium.org/p/gerrit/issues/list[issue tracker,role=external,window=_blank]
+  link:https://issues.gerritcodereview.com/issues?q=status:open[issue tracker,role=external,window=_blank]
 
 Supporters can become link:#contributor[contributors] by signing a
 contributor license agreement and contributing code to the Gerrit
@@ -107,7 +109,8 @@ Contributors have all the permissions that link:#supporter[supporters]
 have. In addition they have signed a link:dev-cla.html[contributor
 license agreement] which enables them to push changes.
 
-Regular contributors can ask to be added to the `gerrit-trusted-contributors`
+Regular contributors can ask to be added to the
+link:https://groups.google.com/g/gerritcodereview-trusted-contributors[gerrit-trusted-contributors]
 group, which allows to:
 
 * add patch sets to changes of other users
@@ -188,7 +191,7 @@ Maintainers can:
 * nominate new maintainers and vote on nominations (see below)
 * administrate the link:https://groups.google.com/d/forum/repo-discuss[
   mailing list,role=external,window=_blank], the
-  link:https://bugs.chromium.org/p/gerrit/issues/list[issue tracker,role=external,window=_blank]
+  link:https://issues.gerritcodereview.com/issues?q=is:open[issue tracker,role=external,window=_blank]
   and the link:https://www.gerritcodereview.com/[homepage,role=external,window=_blank]
 * gain permissions to do Gerrit releases and publish release artifacts
 * create new projects and groups on
@@ -256,9 +259,9 @@ responsibilities and live up to the promise of answering incoming
 requests in a timely manner.
 
 Community members may submit new items under the
-link:https://bugs.chromium.org/p/gerrit/issues/list?q=component:ESC[ESC component,role=external,window=_blank]
-in the issue tracker, or add that component to existing items, to raise them to
-the attention of ESC members.
+link:https://issues.gerritcodereview.com/issues?q=componentid:1371029[SteeringCommittee component,role=external,window=_blank]
+in the issue tracker, or move existing issues to that component, to raise them
+to the attention of ESC members.
 
 Community members may contact the ESC members directly using
 mailto:gerritcodereview-esc@googlegroups.com[this mailing list].
@@ -317,7 +320,7 @@ Tasks:
 * serve as contact person for community issues
 
 Community members may submit new items under the
-link:https://bugs.chromium.org/p/gerrit/issues/list?q=component:Community[Community component,role=external,window=_blank]
+link:https://issues.gerritcodereview.com/issues?q=componentid:1371048[Community component,role=external,window=_blank]
 backlog, for community managers to refine. Only public topics should be
 issued through that backlog.
 

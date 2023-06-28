@@ -326,10 +326,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     // a patch set ref. Fix up the database. Note that this uses the current
     // user as the uploader, which is as good a guess as any.
     List<String> groups =
-        prevPs != null
-            ? prevPs.groups()
-            : GroupCollector.getDefaultGroups(
-                ctx.getChange().getDest().branch(), alreadyMergedCommit);
+        prevPs != null ? prevPs.groups() : GroupCollector.getDefaultGroups(alreadyMergedCommit);
     return args.psUtil.insert(
         ctx.getRevWalk(), ctx.getUpdate(psId), psId, alreadyMergedCommit, groups, null, null);
   }

@@ -2311,7 +2311,7 @@ class ReceiveCommits {
       List<CreateRequest> newChanges = new ArrayList<>();
 
       GroupCollector groupCollector =
-          GroupCollector.create(receivePackRefCache, psUtil, notesFactory, magicBranch.dest);
+          GroupCollector.create(receivePackRefCache, psUtil, notesFactory, project.getNameKey());
 
       BranchCommitValidator validator =
           commitValidatorFactory.create(projectState, magicBranch.dest, user);
@@ -2352,7 +2352,7 @@ class ReceiveCommits {
           total++;
           receivePack.getRevWalk().parseBody(c);
           String name = c.name();
-          groupCollector.visit(magicBranch.dest.branch(), c);
+          groupCollector.visit(c);
           Collection<PatchSet.Id> existingPatchSets =
               receivePackRefCache.patchSetIdsFromObjectId(c);
 

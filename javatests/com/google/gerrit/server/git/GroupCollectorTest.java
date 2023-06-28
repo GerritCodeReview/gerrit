@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.SortedSetMultimap;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -36,8 +35,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class GroupCollectorTest {
-  private static final String TEST_BRANCH = "refs/heads/master";
-
   private TestRepository<?> tr;
 
   @Before
@@ -52,7 +49,7 @@ public class GroupCollectorTest {
 
     SortedSetMultimap<ObjectId, String> groups = collectGroups(newWalk(a, branchTip), groups());
 
-    assertThat(groups).containsEntry(a, GroupCollector.createGroup(TEST_BRANCH, a));
+    assertThat(groups).containsEntry(a, a.name());
   }
 
   @Test
@@ -63,9 +60,8 @@ public class GroupCollectorTest {
 
     SortedSetMultimap<ObjectId, String> groups = collectGroups(newWalk(b, branchTip), groups());
 
-    String expectedGroup = GroupCollector.createGroup(TEST_BRANCH, a);
-    assertThat(groups).containsEntry(a, expectedGroup);
-    assertThat(groups).containsEntry(b, expectedGroup);
+    assertThat(groups).containsEntry(a, a.name());
+    assertThat(groups).containsEntry(b, a.name());
   }
 
   @Test
@@ -91,9 +87,8 @@ public class GroupCollectorTest {
 
     SortedSetMultimap<ObjectId, String> groups = collectGroups(newWalk(b, branchTip), groups());
 
-    String expectedGroup = GroupCollector.createGroup(TEST_BRANCH, a);
-    assertThat(groups).containsEntry(a, expectedGroup);
-    assertThat(groups).containsEntry(b, expectedGroup);
+    assertThat(groups).containsEntry(a, a.name());
+    assertThat(groups).containsEntry(b, a.name());
   }
 
   @Test
@@ -105,10 +100,9 @@ public class GroupCollectorTest {
 
     SortedSetMultimap<ObjectId, String> groups = collectGroups(newWalk(m, branchTip), groups());
 
-    String expectedGroup = GroupCollector.createGroup(TEST_BRANCH, a);
-    assertThat(groups).containsEntry(a, expectedGroup);
-    assertThat(groups).containsEntry(b, expectedGroup);
-    assertThat(groups).containsEntry(m, expectedGroup);
+    assertThat(groups).containsEntry(a, a.name());
+    assertThat(groups).containsEntry(b, a.name());
+    assertThat(groups).containsEntry(m, a.name());
   }
 
   @Test
@@ -196,9 +190,8 @@ public class GroupCollectorTest {
 
     SortedSetMultimap<ObjectId, String> groups = collectGroups(newWalk(m, branchTip), groups());
 
-    String expectedGroup = GroupCollector.createGroup(TEST_BRANCH, a);
-    assertThat(groups).containsEntry(a, expectedGroup);
-    assertThat(groups).containsEntry(m, expectedGroup);
+    assertThat(groups).containsEntry(a, a.name());
+    assertThat(groups).containsEntry(m, a.name());
   }
 
   @Test
@@ -212,12 +205,11 @@ public class GroupCollectorTest {
 
     SortedSetMultimap<ObjectId, String> groups = collectGroups(newWalk(m2, branchTip), groups());
 
-    String expectedGroup = GroupCollector.createGroup(TEST_BRANCH, a);
-    assertThat(groups).containsEntry(a, expectedGroup);
-    assertThat(groups).containsEntry(b, expectedGroup);
-    assertThat(groups).containsEntry(c, expectedGroup);
-    assertThat(groups).containsEntry(m1, expectedGroup);
-    assertThat(groups).containsEntry(m2, expectedGroup);
+    assertThat(groups).containsEntry(a, a.name());
+    assertThat(groups).containsEntry(b, a.name());
+    assertThat(groups).containsEntry(c, a.name());
+    assertThat(groups).containsEntry(m1, a.name());
+    assertThat(groups).containsEntry(m2, a.name());
   }
 
   @Test
@@ -231,9 +223,8 @@ public class GroupCollectorTest {
 
     SortedSetMultimap<ObjectId, String> groups = collectGroups(newWalk(m, branchTip), groups());
 
-    String expectedGroup = GroupCollector.createGroup(TEST_BRANCH, a);
-    assertThat(groups).containsEntry(a, expectedGroup);
-    assertThat(groups).containsEntry(m, expectedGroup);
+    assertThat(groups).containsEntry(a, a.name());
+    assertThat(groups).containsEntry(m, a.name());
   }
 
   @Test
@@ -272,12 +263,10 @@ public class GroupCollectorTest {
     // groups assigned yet.
     SortedSetMultimap<ObjectId, String> groups = collectGroups(rw, groups());
 
-    String expectedGroup1 = GroupCollector.createGroup(TEST_BRANCH, a);
-    String expectedGroup2 = GroupCollector.createGroup(TEST_BRANCH, c);
-    assertThat(groups).containsEntry(a, expectedGroup1);
-    assertThat(groups).containsEntry(b, expectedGroup1);
-    assertThat(groups).containsEntry(c, expectedGroup2);
-    assertThat(groups).containsEntry(d, expectedGroup2);
+    assertThat(groups).containsEntry(a, a.name());
+    assertThat(groups).containsEntry(b, a.name());
+    assertThat(groups).containsEntry(c, c.name());
+    assertThat(groups).containsEntry(d, c.name());
   }
 
   // TODO(dborowitz): Tests for octopus merges.
@@ -308,11 +297,10 @@ public class GroupCollectorTest {
     ImmutableListMultimap<PatchSet.Id, String> groups = groupLookup.build();
     GroupCollector gc =
         new GroupCollector(
-            ReceivePackRefCache.noCache(tr.getRepository().getRefDatabase()),
-            (s) -> groups.get(Iterables.getFirst(s, null)));
+            ReceivePackRefCache.noCache(tr.getRepository().getRefDatabase()), (s) -> groups.get(s));
     RevCommit c;
     while ((c = rw.next()) != null) {
-      gc.visit(TEST_BRANCH, c);
+      gc.visit(c);
     }
     return gc.getGroups();
   }

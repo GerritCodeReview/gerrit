@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d67418a0_d96f7f09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-28T13:23:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bd71912_aa2baa05",
+      "revId": "f22c9f7ab91eec21d7a3c24b8a41ccb9fee3a03c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2912afd8_a164ff69",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-06-26T21:34:44Z",
       "side": 1,
       "message": "a batch of references",
+      "range": {
+        "startLine": 212,
+        "startChar": 10,
+        "endLine": 212,
+        "endChar": 21
+      },
+      "revId": "f22c9f7ab91eec21d7a3c24b8a41ccb9fee3a03c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb1b8ae2_f4d8a60b",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-28T13:23:15Z",
+      "side": 1,
+      "message": "Not only batch of references. Single refs updates are also send as batch-ref-updated with a single ref. See https://gerrit-review.googlesource.com/c/gerrit/+/376174/comment/8a5cb42c_8e32c662/",
+      "parentUuid": "2912afd8_a164ff69",
       "range": {
         "startLine": 212,
         "startChar": 10,
@@ -111,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5f979a5_8948b963",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-28T13:23:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5376dd4_4b116780",
+      "range": {
+        "startLine": 215,
+        "startChar": 0,
+        "endLine": 216,
+        "endChar": 26
+      },
+      "revId": "f22c9f7ab91eec21d7a3c24b8a41ccb9fee3a03c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fdaea86d_69019376",
@@ -124,6 +190,30 @@
       "writtenOn": "2023-06-26T21:34:44Z",
       "side": 1,
       "message": "This should be set to `false` by default, for avoiding unexpected events in v3.9.",
+      "range": {
+        "startLine": 3680,
+        "startChar": 12,
+        "endLine": 3680,
+        "endChar": 16
+      },
+      "revId": "f22c9f7ab91eec21d7a3c24b8a41ccb9fee3a03c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "685aab22_c4f7a1da",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3680,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-28T13:23:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdaea86d_69019376",
       "range": {
         "startLine": 3680,
         "startChar": 12,

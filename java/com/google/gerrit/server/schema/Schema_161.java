@@ -57,7 +57,7 @@ public class Schema_161 extends SchemaVersion {
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
     try (Repository git = repoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(git)) {
-      BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
+      BatchRefUpdate bru = newBatchUpdate(git, ui);
       bru.setAllowNonFastForwards(true);
 
       for (Ref ref : git.getRefDatabase().getRefsByPrefix(RefNames.REFS_STARRED_CHANGES)) {

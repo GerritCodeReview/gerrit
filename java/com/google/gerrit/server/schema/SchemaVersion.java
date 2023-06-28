@@ -52,12 +52,15 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.GC;
+import org.eclipse.jgit.internal.storage.file.RefDirectory;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.storage.pack.PackConfig;
@@ -343,6 +346,24 @@ public abstract class SchemaVersion {
       }
     }
     backgroundGcThread.execute(new GcTask(project, repoManager, ui));
+  }
+
+  /**
+   * Create a new BatchRefUpdate based on whether loose refs should be locked during the batch ref
+   * update.
+   *
+   * @param repo Git repository.
+   * @param ui Interface for interacting with the user.
+   */
+  protected BatchRefUpdate newBatchUpdate(Repository repo, UpdateUI ui) {
+    RefDatabase refDb = repo.getRefDatabase();
+    boolean isAtomicWithNoLooseRefLocking = refDb instanceof RefDirectory && !ui.lockLooseRefs();
+    BatchRefUpdate bru =
+        isAtomicWithNoLooseRefLocking
+            ? ((RefDirectory) refDb).newBatchUpdate(false)
+            : refDb.newBatchUpdate();
+    bru.setAtomic(isAtomicWithNoLooseRefLocking);
+    return bru;
   }
 
   protected static ObjectId emptyTree(ObjectInserter oi) throws IOException {

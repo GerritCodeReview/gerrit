@@ -54,11 +54,11 @@ public class Schema_120 extends SchemaVersion {
     this.serverUser = serverUser;
   }
 
-  private void allowSubmoduleSubscription(Branch.NameKey subbranch, Branch.NameKey superBranch)
-      throws OrmException {
+  private void allowSubmoduleSubscription(
+      Branch.NameKey subbranch, Branch.NameKey superBranch, UpdateUI ui) throws OrmException {
     try (Repository git = mgr.openRepository(subbranch.getParentKey());
         RevWalk rw = new RevWalk(git)) {
-      BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
+      BatchRefUpdate bru = newBatchUpdate(git, ui);
       try (MetaDataUpdate md =
           new MetaDataUpdate(GitReferenceUpdated.DISABLED, subbranch.getParentKey(), git, bru)) {
         md.getCommitBuilder().setAuthor(serverUser);
@@ -112,7 +112,7 @@ public class Schema_120 extends SchemaVersion {
         Project.NameKey submodule = new Project.NameKey(rs.getString(3));
         Branch.NameKey subbranch = new Branch.NameKey(submodule, rs.getString(4));
 
-        allowSubmoduleSubscription(subbranch, superbranch);
+        allowSubmoduleSubscription(subbranch, superbranch, ui);
       }
     }
   }

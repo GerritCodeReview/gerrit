@@ -142,6 +142,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "fabf09a2_0b83ad1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-28T15:02:56Z",
+      "side": 1,
+      "message": "\u003e \u003e Can you answer this question too please?\n\u003e \u003e \n\u003e \u003e \u003e If yes, should that be changed on master (with a new index version) to avoid this problem being perpetuated?\n\u003e \n\u003e The answer is `no`, it isn\u0027t needed in the index and it is already stored in change notes.\n\nBut if we required it in the index, does that help solve the challenge you have with deprecating the API? I think it also solves the challenge of searching by a change # and getting duplicate results (it looks like the virtual id isn\u0027t used consistently)? Related, I just noticed the `TODO: To be reverted on master and stable-3.8` lines for the virtual id algo were included in `18b18957476f56c019e1f39ab6df445292d58f2c` (the cherry-pick to stable-3.8) and are still on master. It seems like the work for master isn\u0027t complete yet, so I\u0027m trying to understand what\u0027s left there (if it\u0027s not adding a new required serverId field to the index).",
+      "parentUuid": "3510facb_610bc1e2",
+      "revId": "89d9fb329038508577f7d3f887c22c62021c244a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "22da8a5a_09ff74c3",

@@ -33,6 +33,24 @@
       "message": "AFAIU it is only performed when the `All-Users` repo is created - how about the existing sites?",
       "revId": "ad1dd431bcc63dd7a2f204b760dc45c121b07aaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d661e78c_3b9363f3",
+        "filename": "java/com/google/gerrit/server/schema/AllUsersCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-06-28T21:32:28Z",
+      "side": 1,
+      "message": "yes, this could make sense. Though first the implementation in JGit [1] needs to be completed. I am struggling to find time for fixing the remaining test failures.\n\n[1] see this change series https://git.eclipse.org/r/c/jgit/jgit/+/197557",
+      "parentUuid": "13b75090_796e4991",
+      "revId": "ad1dd431bcc63dd7a2f204b760dc45c121b07aaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

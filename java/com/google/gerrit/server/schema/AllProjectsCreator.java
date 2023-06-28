@@ -57,11 +57,13 @@ import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.internal.storage.file.RefDirectory;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -160,7 +162,13 @@ public class AllProjectsCreator {
   }
 
   private void initAllProjects(Repository git) throws IOException, ConfigInvalidException {
-    BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
+    RefDatabase refDb = git.getRefDatabase();
+    BatchRefUpdate bru =
+        refDb instanceof RefDirectory
+            ? ((RefDirectory) refDb).newBatchUpdate(false)
+            : refDb.newBatchUpdate();
+    bru.setAtomic(refDb instanceof RefDirectory);
+
     try (MetaDataUpdate md =
         new MetaDataUpdate(GitReferenceUpdated.DISABLED, allProjectsName, git, bru)) {
       md.getCommitBuilder().setAuthor(serverUser);

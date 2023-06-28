@@ -162,6 +162,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c8a228bc_d9d3dfc3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-28T18:10:19Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e Can you answer this question too please?\n\u003e \u003e \u003e \n\u003e \u003e \u003e \u003e If yes, should that be changed on master (with a new index version) to avoid this problem being perpetuated?\n\u003e \u003e \n\u003e \u003e The answer is `no`, it isn\u0027t needed in the index and it is already stored in change notes.\n\u003e \n\u003e But if we required it in the index, does that help solve the challenge you have with deprecating the API?\n\nThere are multiple reasons why it wouldn\u0027t help:\n\n1. This API creates an index record from in-memory data that doesn\u0027t contain any server-id: having it in the index won\u0027t resolve the fact that the Change object in memory doesn\u0027t have a server-id.\n\n2. Adding the server-id to the Change entity would help, but again this is a stable branch and we won\u0027t like to change entities with additional mandatory fields.\n\n3. Gerrit did not really need to reindex based on Change, because in all the points there is already a ChangeNote or ChangeData available, which already contains the server-id.\n\nBottom line: the only ones that could have used that API are plugins.\n\n\u003e I think it also solves the challenge of searching by a change # and getting duplicate results (it looks like the virtual id isn\u0027t used consistently)?\n\nThis problem isn\u0027t about finding multiple results with a change number, but the actual duplication of documents in the index.\n\n\u003e Related, I just noticed the `TODO: To be reverted on master and stable-3.8` lines for the virtual id algo were included in `18b18957476f56c019e1f39ab6df445292d58f2c` (the cherry-pick to stable-3.8) and are still on master. It seems like the work for master isn\u0027t complete yet, so I\u0027m trying to understand what\u0027s left there (if it\u0027s not adding a new required serverId field to the index).\n\nGood point, worth discussing in the relevant Change 354234, which is (my bad) still WIP.",
+      "parentUuid": "fabf09a2_0b83ad1a",
+      "revId": "89d9fb329038508577f7d3f887c22c62021c244a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "22da8a5a_09ff74c3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6

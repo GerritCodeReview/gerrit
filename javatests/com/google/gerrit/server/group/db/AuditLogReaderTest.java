@@ -25,6 +25,8 @@ import com.google.gerrit.entities.AccountGroupByIdAudit;
 import com.google.gerrit.entities.AccountGroupMemberAudit;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.server.account.GroupUuid;
+import com.google.gerrit.server.account.externalids.DisabledExternalIdCache;
+import com.google.gerrit.server.notedb.NoteDbUtil;
 import java.time.Instant;
 import java.util.Set;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -38,7 +40,8 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
 
   @Before
   public void setUp() throws Exception {
-    auditLogReader = new AuditLogReader(allUsersName);
+    auditLogReader =
+        new AuditLogReader(allUsersName, new NoteDbUtil(SERVER_ID, new DisabledExternalIdCache()));
   }
 
   @Test

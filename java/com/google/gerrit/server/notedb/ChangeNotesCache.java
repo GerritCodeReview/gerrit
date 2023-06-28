@@ -370,8 +370,7 @@ public class ChangeNotesCache {
               walkSupplier.get(),
               args.changeNoteJson,
               args.metrics,
-              args.serverId,
-              externalIdCache);
+              new NoteDbUtil(args.serverId, externalIdCache));
       ChangeNotesState result = parser.parseAll();
       // This assignment only happens if call() was actually called, which only
       // happens when Cache#get(K, Callable<V>) incurs a cache miss.

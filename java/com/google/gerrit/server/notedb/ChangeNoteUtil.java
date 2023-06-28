@@ -200,14 +200,14 @@ public class ChangeNoteUtil {
 
   /** The returned {@link Optional} holds the parsed entity or is empty if parsing failed. */
   static Optional<AttentionSetUpdate> attentionStatusFromJson(
-      Instant timestamp, String attentionString) {
+      Instant timestamp, String attentionString, NoteDbUtil noteDbUtil) {
     AttentionStatusInNoteDb inNoteDb =
         gson.fromJson(attentionString, AttentionStatusInNoteDb.class);
     PersonIdent personIdent = RawParseUtils.parsePersonIdent(inNoteDb.personIdent);
     if (personIdent == null) {
       return Optional.empty();
     }
-    Optional<Account.Id> account = NoteDbUtil.parseIdent(personIdent);
+    Optional<Account.Id> account = noteDbUtil.parseIdent(personIdent);
     return account.map(
         id ->
             AttentionSetUpdate.createFromRead(timestamp, id, inNoteDb.operation, inNoteDb.reason));

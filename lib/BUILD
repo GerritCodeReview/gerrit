@@ -273,19 +273,6 @@ java_library(
     data = ["//lib:LICENSE-flexmark"],
     visibility = ["//visibility:public"],
     exports = ["@flexmark-ext-gfm-strikethrough//jar"],
-    runtime_deps = [
-        ":flexmark-ext-gfm-tables",
-    ],
-)
-
-java_library(
-    name = "flexmark-ext-gfm-tables",
-    data = ["//lib:LICENSE-flexmark"],
-    visibility = ["//visibility:public"],
-    exports = ["@flexmark-ext-gfm-tables//jar"],
-    runtime_deps = [
-        ":flexmark-ext-gfm-tasklist",
-    ],
 )
 
 java_library(
@@ -383,29 +370,6 @@ java_library(
     data = ["//lib:LICENSE-flexmark"],
     visibility = ["//visibility:public"],
     exports = ["@flexmark-ext-yaml-front-matter//jar"],
-    runtime_deps = [
-        ":flexmark-formatter",
-    ],
-)
-
-java_library(
-    name = "flexmark-formatter",
-    data = ["//lib:LICENSE-flexmark"],
-    visibility = ["//visibility:public"],
-    exports = ["@flexmark-formatter//jar"],
-    runtime_deps = [
-        ":flexmark-html-parser",
-    ],
-)
-
-java_library(
-    name = "flexmark-html-parser",
-    data = ["//lib:LICENSE-flexmark"],
-    visibility = ["//visibility:public"],
-    exports = ["@flexmark-html-parser//jar"],
-    runtime_deps = [
-        ":flexmark-profile-pegdown",
-    ],
 )
 
 java_library(
@@ -422,7 +386,15 @@ java_library(
     name = "flexmark-util",
     data = ["//lib:LICENSE-flexmark"],
     visibility = ["//visibility:public"],
-    exports = ["@flexmark-util//jar"],
+    exports = [
+        "@flexmark-util-ast//jar",
+        "@flexmark-util-builder//jar",
+        "@flexmark-util-data//jar",
+        "@flexmark-util-html//jar",
+        "@flexmark-util-misc//jar",
+        "@flexmark-util-sequence//jar",
+        "@flexmark-util-visitor//jar",
+    ],
 )
 
 java_library(

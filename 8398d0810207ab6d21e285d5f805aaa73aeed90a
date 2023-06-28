@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c74e974_ca9097f7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 8727,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-28T11:31:54Z",
+      "side": 1,
+      "message": "No, this applies to both change/detail and change queries a-like (similar to how all other change query options work). If the option is supplied, the revisions map will have the parents_data field set.",
+      "parentUuid": "a6f57e6f_4c0d3332",
+      "range": {
+        "startLine": 8727,
+        "startChar": 1,
+        "endLine": 8727,
+        "endChar": 40
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "42a4879c_9cd977f9",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-06-28T10:40:06Z",
       "side": 1,
       "message": "since branchName is optional, why do we need this boolean?\n\nIsn\u0027t it equivalent to branchName.isPresent()?",
+      "range": {
+        "startLine": 82,
+        "startChar": 27,
+        "endLine": 82,
+        "endChar": 51
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48c96c90_c1ae9222",
+        "filename": "java/com/google/gerrit/entities/ParentCommitData.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-28T11:31:54Z",
+      "side": 1,
+      "message": "No. branch name is the name of the target branch that the current change is intended to be merged into. e.g. if you do a push for review to refs/for/master, then master is the destination branch.\n\nAdditionally, since branch can be moved between patchsets (see the Move Change REST endpoint), target branches can be different for different patch-sets.\n\nThe boolean \u0027isMergedInTargetBranch\u0027 has a different meaning: it\u0027s true if the parent commit is reachable from the tip of the target branch. So if you checkout master and uploaded a change on top of it, this boolean will be true (because the parent is a merged commit in the target branch), but if you uploaded a stack of two changes, the top-most change will have this boolean as false, since its parent is pending (i.e. not yet merged).",
+      "parentUuid": "42a4879c_9cd977f9",
       "range": {
         "startLine": 82,
         "startChar": 27,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2564f05a_0e555837",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-28T11:31:54Z",
+      "side": 1,
+      "message": "This is because \u0027getFromGerritChange\u0027 can also return empty (if the parent commit does not correspond to a PS of any other change).\n\nI\u0027ll prefer keeping as is.",
+      "parentUuid": "36a66352_20ed6704",
+      "range": {
+        "startLine": 58,
+        "startChar": 8,
+        "endLine": 58,
+        "endChar": 27
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "235c1f17_63a2f75f",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-06-28T10:40:06Z",
       "side": 1,
       "message": "Is the case when !inTargetBrach \u0026\u0026 fromGerritChange.isEmpty() valid?\n\nWhat should we return then?",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 30
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc1260fd_8ef7c87d",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-28T11:31:54Z",
+      "side": 1,
+      "message": "Yes, this case is valid. In this case we return an empty Optional, and it\u0027s handled in RevisionJson:348\n\n`p.ifPresent(parentData::add);`\n\nSo in this case we don\u0027t return a parents_data entity on the API.\n\nEdit: after your other comment in L62, we will return a ParentCommitData with the parent ID and the `isMergedInTargetBranch` boolean will be false. So we never return empty. I reworked the code.",
+      "parentUuid": "235c1f17_63a2f75f",
       "range": {
         "startLine": 60,
         "startChar": 6,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d03fdcf_a59e3166",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-28T11:31:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d10f74e_54129750",
+      "range": {
+        "startLine": 59,
+        "startChar": 3,
+        "endLine": 62,
+        "endChar": 37
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8364af5c_49215a71",
@@ -129,6 +249,30 @@
       "writtenOn": "2023-06-28T10:40:06Z",
       "side": 1,
       "message": "nit:parentCommitId",
+      "range": {
+        "startLine": 77,
+        "startChar": 57,
+        "endLine": 77,
+        "endChar": 65
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f4bfd97_0acc89e3",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-28T11:31:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8364af5c_49215a71",
       "range": {
         "startLine": 77,
         "startChar": 57,
@@ -162,6 +306,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8bb052c_b4e37781",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-28T11:31:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d39de62a_4aa4fe97",
+      "range": {
+        "startLine": 100,
+        "startChar": 45,
+        "endLine": 100,
+        "endChar": 58
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d3c4828_47e3e2f1",
@@ -175,6 +343,30 @@
       "writtenOn": "2023-06-28T10:40:06Z",
       "side": 1,
       "message": "nit: could we give this variable a more descriptive name? parentCommitId?",
+      "range": {
+        "startLine": 104,
+        "startChar": 40,
+        "endLine": 104,
+        "endChar": 49
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15ff1567_38855b2e",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-28T11:31:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d3c4828_47e3e2f1",
       "range": {
         "startLine": 104,
         "startChar": 40,
@@ -208,6 +400,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c14862d_cc3cc126",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-28T11:31:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82173e95_084b5181",
+      "range": {
+        "startLine": 108,
+        "startChar": 11,
+        "endLine": 108,
+        "endChar": 88
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7eaaa963_c945c158",
@@ -231,6 +447,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6616ceb_7425993b",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-28T11:31:54Z",
+      "side": 1,
+      "message": "targetBranch is now part of patch-set data (see predecessor change), since changes can be moved between patch-sets.\n\nThis field contains the target patch-set that **current** commit is intended to be merged into, then we provide information whether the parent is reachable from this branch.",
+      "parentUuid": "7eaaa963_c945c158",
+      "range": {
+        "startLine": 120,
+        "startChar": 36,
+        "endLine": 120,
+        "endChar": 49
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1bbf0bd1_99aa5e4c",
@@ -244,6 +484,30 @@
       "writtenOn": "2023-06-28T10:40:06Z",
       "side": 1,
       "message": "Looking at GetDetail implementation, I think we will not return the new info from change/detail endpoint.\n\nIs that expected? Which endpoints should return the new info?\n\nhttp://go/grev/Documentation/rest-api-changes.html#get-change-detail",
+      "range": {
+        "startLine": 343,
+        "startChar": 18,
+        "endLine": 345,
+        "endChar": 46
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2bd113d_d5ed275d",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-28T11:31:54Z",
+      "side": 1,
+      "message": "We will (please see tests). the \u0027Get Change Detail\u0027 has a \u0027revisions\u0027 field of type RevisionInfo, which contains the new data.",
+      "parentUuid": "1bbf0bd1_99aa5e4c",
       "range": {
         "startLine": 343,
         "startChar": 18,

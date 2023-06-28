@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "724b5bdb_e6902ae9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-28T11:31:54Z",
+      "side": 1,
+      "message": "In this case:\n  1) parent commit is not merged in target branch\n  2) and, parent commit is not a patch-set of another gerrit-change\n  \nThe field revision_info.parents_data will be missing. Yes, this is something we can highlight in the UI.\n\nUpdate: after your other comment, we now never return null, but rather return a ParentInfo entity on the API that doesn\u0027t have change ID/number/etc.. fields and has the \u0027is_merged_in_target_branch\u0027 set to false. We can detect and highlight in UI accordingly.",
+      "parentUuid": "6c4627cc_42cc47f5",
+      "range": {
+        "startLine": 16,
+        "startChar": 2,
+        "endLine": 16,
+        "endChar": 39
+      },
+      "revId": "07795e26fbfc1ecfc23493434209dbcc83266795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1b0abbe_bf6a23b2",

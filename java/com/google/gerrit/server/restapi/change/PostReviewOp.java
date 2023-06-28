@@ -435,17 +435,7 @@ public class PostReviewOp implements BatchUpdateOp {
     String changeMessage = Strings.nullToEmpty(in.message).trim();
     ImmutableList<CommentForValidation> draftsForValidation =
         Stream.concat(
-                comments.map(
-                    comment ->
-                        CommentForValidation.create(
-                            comment instanceof RobotComment
-                                ? CommentForValidation.CommentSource.ROBOT
-                                : CommentForValidation.CommentSource.HUMAN,
-                            comment.lineNbr > 0
-                                ? CommentForValidation.CommentType.INLINE_COMMENT
-                                : CommentForValidation.CommentType.FILE_COMMENT,
-                            comment.message,
-                            comment.getApproximateSize())),
+                comments.map(CommentForValidation::create),
                 Stream.of(
                     CommentForValidation.create(
                         CommentForValidation.CommentSource.HUMAN,

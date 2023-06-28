@@ -97,8 +97,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.validators.CommentForValidation;
-import com.google.gerrit.extensions.validators.CommentForValidation.CommentSource;
-import com.google.gerrit.extensions.validators.CommentForValidation.CommentType;
 import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
@@ -2258,17 +2256,7 @@ class ReceiveCommits {
             commentsUtil.draftByChangeAuthor(
                 notesFactory.createChecked(change), user.getAccountId());
         ImmutableList<CommentForValidation> draftsForValidation =
-            drafts.stream()
-                .map(
-                    comment ->
-                        CommentForValidation.create(
-                            CommentSource.HUMAN,
-                            comment.lineNbr > 0
-                                ? CommentType.INLINE_COMMENT
-                                : CommentType.FILE_COMMENT,
-                            comment.message,
-                            comment.message.length()))
-                .collect(toImmutableList());
+            drafts.stream().map(CommentForValidation::create).collect(toImmutableList());
         CommentValidationContext ctx =
             CommentValidationContext.create(
                 change.getChangeId(), change.getProject().get(), change.getDest().branch());

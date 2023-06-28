@@ -15,6 +15,8 @@
 package com.google.gerrit.extensions.validators;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.RobotComment;
 
 /**
  * Holds a comment's text and some metadata in order to pass it to a validation plugin.
@@ -45,6 +47,18 @@ public abstract class CommentForValidation {
   public static CommentForValidation create(
       CommentSource source, CommentType type, String text, int size) {
     return new AutoValue_CommentForValidation(source, type, text, size);
+  }
+
+  public static CommentForValidation create(Comment comment) {
+    return create(
+        comment instanceof RobotComment
+            ? CommentForValidation.CommentSource.ROBOT
+            : CommentForValidation.CommentSource.HUMAN,
+        comment.lineNbr > 0
+            ? CommentForValidation.CommentType.INLINE_COMMENT
+            : CommentForValidation.CommentType.FILE_COMMENT,
+        comment.message,
+        comment.getApproximateSize());
   }
 
   public abstract CommentSource getSource();

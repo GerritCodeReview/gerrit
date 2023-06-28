@@ -23,10 +23,9 @@ import com.vladsch.flexmark.html.HtmlWriter;
 import com.vladsch.flexmark.html.renderer.DelegatingNodeRendererFactory;
 import com.vladsch.flexmark.html.renderer.NodeRenderer;
 import com.vladsch.flexmark.html.renderer.NodeRendererContext;
-import com.vladsch.flexmark.html.renderer.NodeRendererFactory;
 import com.vladsch.flexmark.html.renderer.NodeRenderingHandler;
-import com.vladsch.flexmark.profiles.pegdown.Extensions;
-import com.vladsch.flexmark.profiles.pegdown.PegdownOptionsAdapter;
+import com.vladsch.flexmark.profile.pegdown.Extensions;
+import com.vladsch.flexmark.profile.pegdown.PegdownOptionsAdapter;
 import com.vladsch.flexmark.util.ast.Node;
 import com.vladsch.flexmark.util.data.DataHolder;
 import com.vladsch.flexmark.util.data.MutableDataHolder;
@@ -124,8 +123,8 @@ public class MarkdownFormatterHeader {
       }
 
       @Override
-      public Set<Class<? extends NodeRendererFactory>> getDelegates() {
-        Set<Class<? extends NodeRendererFactory>> delegates = new HashSet<>();
+      public Set<Class<?>> getDelegates() {
+        Set<Class<?>> delegates = new HashSet<>();
         delegates.add(AnchorLinkNodeRenderer.Factory.class);
         return delegates;
       }

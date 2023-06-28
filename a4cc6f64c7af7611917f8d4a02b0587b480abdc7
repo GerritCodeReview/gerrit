@@ -16,6 +16,42 @@
       "message": "Since the missing entries are only a problem in theory, why not merge your cherry-pick of this workaround on stable-3.6 [3] as a starting place? I think that would fix the problems you see in the tests in the linked bug without adding the performance penalty you get from not doing pagination (nor the complexity of another kind of index searching).\n\n[3] https://gerrit-review.googlesource.com/c/gerrit/+/377734",
       "revId": "a4cc6f64c7af7611917f8d4a02b0587b480abdc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74431d3d_a79fa6a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-28T22:06:33Z",
+      "side": 1,
+      "message": "I think adding this new setting is still worthwhile because:\n1) the proposed change is just a workaround to prevent the cache to blow up, and what is doing is deduplicating results which should already be unique. If we were to use somewhere else in the code the `QueryProcessor#query` API, we would have to make sure to add the deduplication logic\n2) The search API in general is public, plugins or integration could use it and they might rely on consistent results.\n3) Considering the complexity of the code in question, the complexity added by this patch is negligiable",
+      "parentUuid": "b58f37a7_990dc74e",
+      "revId": "a4cc6f64c7af7611917f8d4a02b0587b480abdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c723670_431beb89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-06-28T22:06:33Z",
+      "side": 1,
+      "message": "I think adding this new setting is still worthwhile because:\n1) the cherrypicked change is a workaround to prevent just a cache from blowing up. It is covering the duplication case only (and possibly not all of them).\n2) the search API is public, plugins or integration could use it, and they might rely on consistent results.\n3) this patch’s complexity is minimal in the context of the code in question, and it offers back-compatibility with the Gerrit behavior before the introduction of the pagination mechanism (i.e.: no duplicates entries, no missing entries)\n4) I managed to reproduce the case of missing changes as follow:\n\na) Add a sleep in `PaginatingSource` L#80 to simulate a slow data retrieval:\n\n```\ndiff --git a/java/com/google/gerrit/index/query/PaginatingSource.java b/java/com/google/gerrit/index/query/PaginatingSource.java\nindex b05c8f4846..3440f15e4a 100644\n--- a/java/com/google/gerrit/index/query/PaginatingSource.java\n+++ b/java/com/google/gerrit/index/query/PaginatingSource.java\n@@ -77,6 +77,12 @@ public class PaginatingSource\u003cT\u003e implements DataSource\u003cT\u003e {\n             int nextStart \u003d pageResultSize;\n             while (pageResultSize \u003d\u003d pageSize \u0026\u0026 r.size() \u003c\u003d limit) { // get 1 more than the limit\n               pageSize \u003d getNextPageSize(pageSize, pageSizeMultiplier);\n+              System.out.println(\"Fetched \" + r.size() + \" documents. Sleeping 5s, nextStart \u003d \" + nextStart);\n+              try {\n+                Thread.sleep(5000L);\n+              } catch (InterruptedException e) {\n+//                e.printStackTrace();\n+              }\n               ResultSet\u003cT\u003e next \u003d\n```\n\nb) Run the following test:\n\n```\n  @Test\n  @GerritConfig(name \u003d \"index.maxLimit\", value \u003d \"0\")\n  @GerritConfig(name \u003d \"index.paginationType\", value \u003d \"OFFSET\")\n  @GerritConfig(name \u003d \"index.maxPageSize\", value \u003d \"1\")\n  public void paginationTypeOffsetInconsistentResultsSet() throws Exception {\n    TestRepository\u003cRepo\u003e repo \u003d createProject(\"foo\");\n    insert(repo, newChange(repo));\n    insert(repo, newChange(repo));\n    insert(repo, newChange(repo));\n    Change c4 \u003d insert(repo, newChange(repo));\n\n    System.out.println(\"Start test\");\n\n    projectOperations\n        .allProjectsForUpdate()\n        .add(\n            allowCapability(GlobalCapability.QUERY_LIMIT)\n                .group(SystemGroupBackend.REGISTERED_USERS)\n                .range(0, 1))\n        .update();\n\n    ChangeQueryProcessor changeQueryProcessor \u003d queryProcessorProvider.get();\n    changeQueryProcessor.setNoLimit(true); // This is important. The issue is reproducible with noLimit set to true, which is normally the value used by internal queries\n\n    int firstChangeNum \u003d c4.getChangeId();\n    new Thread(() -\u003e {\n      try {\n        Thread.sleep(4000L); // Sleep enough to make sure we change the data after we read the first batch of changes\n      } catch (InterruptedException e) {\n//        e.printStackTrace();\n      }\n\n      try(ManualRequestContext ctx \u003d new ManualRequestContext(user, requestContext)) {\n        System.out.println(\"Set change \" + firstChangeNum + \" as WIP\");\n        gApi.changes().id(firstChangeNum).setWorkInProgress();\n\n      } catch (RestApiException e) {\n//        e.printStackTrace();\n      }\n    }).start();\n\n    QueryResult\u003cChangeData\u003e qr \u003d\n        changeQueryProcessor.query(Predicate.not(new BooleanPredicate(ChangeField.WIP)));\n\n    ImmutableList\u003cChangeData\u003e resultsChanges \u003d qr.entities();\n    for (ChangeData changeData : resultsChanges) {\n      int changeNum \u003d changeData.getId().get();\n      System.out.println(\"Change result: \" + changeNum);\n      Boolean wipState \u003d gApi.changes().id(changeNum).get().workInProgress;\n      assertThat(wipState).isNull(); // All the changes in the result set should NOT be WIP since our query was “-is:wip” \n    }\n    assertThat((long) qr.entities().size()).isEqualTo(4); // We are expecting 4 changes since when we issued the query we had 4 NON-WIP changes\n  }\n```\n\nb) this is what you will get in the output:\n\n```\nStart test\nFetched 2 documents. Sleeping 5s, nextStart \u003d 2\nSet change 4 as WIP\nFetched 3 documents. Sleeping 5s, nextStart \u003d 3 \u003c\u003c\u003d\u003d We only fetched 3 changes while we were expecting 4\nChange result: 4\nE\nTime: 28.916\nThere were 2 failures:\n1) paginationTypeOffsetInconsistentResultsSet(com.google.gerrit.server.query.change.FakeQueryChangesLatestIndexVersionTest)\nexpected: null\nbut was : true\n\tat com.google.gerrit.server.query.change.AbstractQueryChangesTest.paginationTypeOffsetInconsistentResultsSet(AbstractQueryChangesTest.java:4222)\n2) paginationTypeOffsetInconsistentResultsSet[searchAfterPaginationType](com.google.gerrit.server.query.change.FakeQueryChangesLatestIndexVersionTest)\nexpected: null\nbut was : true\n\tat com.google.gerrit.server.query.change.AbstractQueryChangesTest.paginationTypeOffsetInconsistentResultsSet(AbstractQueryChangesTest.java:4222)\n```\n\nAs you can see, not only are we returning fewer results than expected (3 results instead of 4), but also, one element shouldn’t belong to our ResultSet since it is a WIP change.",
+      "parentUuid": "b58f37a7_990dc74e",
+      "revId": "a4cc6f64c7af7611917f8d4a02b0587b480abdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

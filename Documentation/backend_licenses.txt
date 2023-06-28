@@ -1123,7 +1123,6 @@ flexmark
 * flexmark-ext-footnotes
 * flexmark-ext-gfm-issues
 * flexmark-ext-gfm-strikethrough
-* flexmark-ext-gfm-tables
 * flexmark-ext-gfm-tasklist
 * flexmark-ext-gfm-users
 * flexmark-ext-ins
@@ -1134,8 +1133,6 @@ flexmark
 * flexmark-ext-typographic
 * flexmark-ext-wikilink
 * flexmark-ext-yaml-front-matter
-* flexmark-formatter
-* flexmark-html-parser
 * flexmark-profile-pegdown
 * flexmark-util
 

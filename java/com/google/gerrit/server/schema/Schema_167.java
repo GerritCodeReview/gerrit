@@ -53,11 +53,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.file.RefDirectory;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -103,7 +105,12 @@ public class Schema_167 extends SchemaVersion {
         RevWalk rw = new RevWalk(reader)) {
       List<GroupReference> allGroupReferences = readGroupReferencesFromReviewDb(db);
 
-      BatchRefUpdate batchRefUpdate = allUsersRepo.getRefDatabase().newBatchUpdate();
+      RefDatabase refDb = allUsersRepo.getRefDatabase();
+      BatchRefUpdate batchRefUpdate =
+          refDb instanceof RefDirectory
+              ? ((RefDirectory) refDb).newBatchUpdate(false)
+              : refDb.newBatchUpdate();
+      batchRefUpdate.setAtomic(refDb instanceof RefDirectory);
       writeAllGroupNamesToNoteDb(allUsersRepo, allGroupReferences, inserter, batchRefUpdate);
 
       GroupRebuilder groupRebuilder = createGroupRebuilder(db, allUsersRepo);

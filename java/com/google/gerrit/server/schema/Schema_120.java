@@ -32,9 +32,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.file.RefDirectory;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
@@ -58,7 +60,12 @@ public class Schema_120 extends SchemaVersion {
       throws OrmException {
     try (Repository git = mgr.openRepository(subbranch.getParentKey());
         RevWalk rw = new RevWalk(git)) {
-      BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
+      RefDatabase refDb = git.getRefDatabase();
+      BatchRefUpdate bru =
+          refDb instanceof RefDirectory
+              ? ((RefDirectory) refDb).newBatchUpdate(false)
+              : refDb.newBatchUpdate();
+      bru.setAtomic(refDb instanceof RefDirectory);
       try (MetaDataUpdate md =
           new MetaDataUpdate(GitReferenceUpdated.DISABLED, subbranch.getParentKey(), git, bru)) {
         md.getCommitBuilder().setAuthor(serverUser);

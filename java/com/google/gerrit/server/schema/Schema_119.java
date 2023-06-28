@@ -54,12 +54,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.file.RefDirectory;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -153,7 +155,12 @@ public class Schema_119 extends SchemaVersion {
         ObjectInserter inserter = getPackInserterFirst(git);
         ObjectReader reader = inserter.newReader();
         RevWalk rw = new RevWalk(reader)) {
-      BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
+      RefDatabase refDb = git.getRefDatabase();
+      BatchRefUpdate bru =
+          refDb instanceof RefDirectory
+              ? ((RefDirectory) refDb).newBatchUpdate(false)
+              : refDb.newBatchUpdate();
+      bru.setAtomic(refDb instanceof RefDirectory);
       ObjectId emptyTree = emptyTree(inserter);
       for (Map.Entry<Account.Id, GeneralPreferencesInfo> e : imports.entrySet()) {
         try (MetaDataUpdate md =

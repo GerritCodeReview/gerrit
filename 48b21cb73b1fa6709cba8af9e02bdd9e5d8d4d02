@@ -22,6 +22,30 @@
       },
       "revId": "48b21cb73b1fa6709cba8af9e02bdd9e5d8d4d02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c7ae12d_aca14ac3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-06-28T11:49:14Z",
+      "side": 1,
+      "message": "Good point.\n\nThe model is more acting as a \"service\" here. The model is supposed to know the full context (e.g. the path) and knows how to communicate with the gr-diff host via events.\n\nBut you are right that it is a bit awkward to pass the event target with each `createComment()` call. Let\u0027s initialize the diff model with a reference to gr-diff, so that the model knows where to send events for communication with the diff host.",
+      "parentUuid": "f4681061_450b974d",
+      "range": {
+        "startLine": 11,
+        "startChar": 43,
+        "endLine": 12,
+        "endChar": 23
+      },
+      "revId": "48b21cb73b1fa6709cba8af9e02bdd9e5d8d4d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -131,7 +131,7 @@ public class Schema_146 extends SchemaVersion {
         ObjectInserter inserter = getPackInserterFirst(repo);
         ObjectReader reader = inserter.newReader();
         RevWalk rw = new RevWalk(reader)) {
-      BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
+      BatchRefUpdate bru = newBatchUpdate(repo, ui);
       bru.setAllowNonFastForwards(true);
       bru.setRefLogIdent(serverIdent);
       bru.setRefLogMessage(getClass().getSimpleName(), true);

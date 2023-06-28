@@ -103,7 +103,7 @@ public class Schema_167 extends SchemaVersion {
         RevWalk rw = new RevWalk(reader)) {
       List<GroupReference> allGroupReferences = readGroupReferencesFromReviewDb(db);
 
-      BatchRefUpdate batchRefUpdate = allUsersRepo.getRefDatabase().newBatchUpdate();
+      BatchRefUpdate batchRefUpdate = newBatchUpdate(allUsersRepo, ui);
       writeAllGroupNamesToNoteDb(allUsersRepo, allGroupReferences, inserter, batchRefUpdate);
 
       GroupRebuilder groupRebuilder = createGroupRebuilder(db, allUsersRepo);

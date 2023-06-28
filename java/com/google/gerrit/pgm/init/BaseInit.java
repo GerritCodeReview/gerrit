@@ -132,6 +132,7 @@ public class BaseInit extends SiteProgram {
     init.flags.deleteCaches = getDeleteCaches();
     init.flags.isNew = init.site.isNew;
     init.flags.draftMigrationStrategy = getDraftMigrationStrategy();
+    init.flags.lockLooseRefs = lockLooseRefs();
 
     final SiteRun run;
     try {
@@ -430,6 +431,11 @@ public class BaseInit extends SiteProgram {
             public DraftWorkflowMigrationStrategy getDraftMigrationStrategy() {
               return flags.draftMigrationStrategy;
             }
+
+            @Override
+            public boolean lockLooseRefs() {
+              return flags.lockLooseRefs;
+            }
           });
 
       if (!pruneList.isEmpty()) {
@@ -539,5 +545,9 @@ public class BaseInit extends SiteProgram {
 
   protected DraftWorkflowMigrationStrategy getDraftMigrationStrategy() {
     return DraftWorkflowMigrationStrategy.WORK_IN_PROGRESS;
+  }
+
+  protected boolean lockLooseRefs() {
+    return false;
   }
 }

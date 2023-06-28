@@ -104,6 +104,11 @@ PRIVATE | WORK_IN_PROGRESS::
 	Strategy to migrate draft changes during Schema 159 migration. Applicable
 	only when migrating from a version lower than 2.15.
 
+--lock-loose-refs::
+	Perform batch ref updates while locking loose refs. If this option is not provided,
+	then refs are saved atomically (i.e. directly into packed-refs) without locking loose
+	refs.
+
 == CONTEXT
 This command can only be run on a server which has direct
 connectivity to the metadata database, and local access to the

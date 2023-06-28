@@ -88,7 +88,7 @@ public class Schema_154 extends SchemaVersion {
           ObjectInserter inserter = getPackInserterFirst(repo);
           ObjectReader reader = inserter.newReader();
           RevWalk rw = new RevWalk(reader)) {
-        BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
+        BatchRefUpdate bru = newBatchUpdate(repo, ui);
         ProgressMonitor pm = new TextProgressMonitor();
         pm.beginTask("Collecting accounts", ProgressMonitor.UNKNOWN);
         Set<Account> accounts = scanAccounts(db, pm);

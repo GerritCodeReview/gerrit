@@ -50,6 +50,8 @@ public class InitFlags {
   /** Used for Schema 159 Migration */
   public DraftWorkflowMigrationStrategy draftMigrationStrategy;
 
+  public boolean lockLooseRefs;
+
   public final FileBasedConfig cfg;
   public final SecureStore sec;
   public final List<String> installPlugins;

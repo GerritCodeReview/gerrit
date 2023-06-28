@@ -43,4 +43,6 @@ public interface UpdateUI {
 
   /** Used for Schema_159 migration. */
   DraftWorkflowMigrationStrategy getDraftMigrationStrategy();
+
+  boolean lockLooseRefs();
 }

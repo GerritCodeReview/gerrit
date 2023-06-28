@@ -116,7 +116,7 @@ public class Schema_139 extends SchemaVersion {
         ObjectInserter inserter = getPackInserterFirst(git);
         ObjectReader reader = inserter.newReader();
         RevWalk rw = new RevWalk(reader)) {
-      BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
+      BatchRefUpdate bru = newBatchUpdate(git, ui);
       bru.setRefLogIdent(serverUser);
       bru.setRefLogMessage(MSG, false);
 

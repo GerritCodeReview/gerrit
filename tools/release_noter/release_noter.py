@@ -96,7 +96,8 @@ RELEASE_DOC_PATTERN = r"^([0-9]+\.[0-9]+\.[0-9]+).*"
 CHANGE_URL = "/c/gerrit/+/"
 COMMIT_URL = "/changes/?q=commit%3A"
 GERRIT_URL = "https://gerrit-review.googlesource.com"
-ISSUE_URL = "https://bugs.chromium.org/p/gerrit/issues/detail?id="
+ISSUE_URL_MONORAIL = "https://bugs.chromium.org/p/gerrit/issues/detail?id="
+ISSUE_URL_TRACKER = "https://issues.gerritcodereview.com/issues/"
 
 MARKDOWN = "release_noter"
 GIT_COMMAND = "git"
@@ -301,7 +302,10 @@ def print_commits(commits, md):
 def print_from(this_change, md):
     md.write("\n*")
     for issue in sorted(this_change.issues):
-        md.write(f" [Issue {issue}]({ISSUE_URL}{issue});\n ")
+      if len(issue) > 5:
+        md.write(f" [Issue {issue}]({ISSUE_URL_TRACKER}{issue});\n ")
+      else:
+        md.write(f" [Issue {issue}]({ISSUE_URL_MONORAIL}{issue});\n ")
     md.write(f" {this_change.subject}\n")
 
 

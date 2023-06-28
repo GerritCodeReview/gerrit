@@ -98,6 +98,35 @@ public class GetRelatedIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void getRelatedAcrossBranchesWithMergeChange() throws Exception {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    createBranch(BranchNameKey.create(project, "foo"));
+
+    // Create and merge change on 'foo' branch.
+    merge(createChange("refs/for/foo"));
+
+    // Create change on 'foo' branch
+    PushOneCommit.Result base = createChange("refs/for/foo");
+    base.assertOkStatus();
+    RevCommit c1_1 = base.getCommit();
+    PatchSet.Id ps1_1 = getPatchSetId(c1_1);
+
+    testRepo.reset(initialHead);
+
+    // Create and push merge commit
+    PushOneCommit m = pushFactory.create(admin.newIdent(), testRepo);
+    m.setParents(ImmutableList.of(c1_1, initialHead));
+    PushOneCommit.Result result = m.to("refs/for/master");
+    result.assertOkStatus();
+    RevCommit c2_1 = result.getCommit();
+    PatchSet.Id ps2_1 = getPatchSetId(c2_1);
+
+    for (PatchSet.Id ps : ImmutableList.of(ps2_1, ps1_1)) {
+      assertRelated(ps, changeAndCommit(ps2_1, c2_1, 1), changeAndCommit(ps1_1, c1_1, 1));
+    }
+  }
+
+  @Test
   public void getRelatedLinear() throws Exception {
     // 1,1---2,1
     RevCommit c1_1 = commitBuilder().add("a.txt", "1").message("subject: 1").create();

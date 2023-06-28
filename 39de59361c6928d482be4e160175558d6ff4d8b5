@@ -69,6 +69,24 @@
       "parentUuid": "67df8911_fa453af2",
       "revId": "39de59361c6928d482be4e160175558d6ff4d8b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8341584_04f58996",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-28T10:33:51Z",
+      "side": 1,
+      "message": "I\u0027ve done the merge here now: https://gerrit-review.googlesource.com/c/gerrit/+/378350",
+      "parentUuid": "bdeef3b8_e98f8c5c",
+      "revId": "39de59361c6928d482be4e160175558d6ff4d8b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

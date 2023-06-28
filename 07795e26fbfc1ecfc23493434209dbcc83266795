@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6c4627cc_42cc47f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-06-28T10:40:06Z",
+      "side": 1,
+      "message": "I don\u0027t mind as long the behavior is consistent (e.g., we return the empty value in such cases).\n\nI am still not sure if we want to highlight it somehow on the UI? I think this is something that potentially requires reviewers attention?",
+      "parentUuid": "2797a1b9_7da5ca8a",
+      "range": {
+        "startLine": 16,
+        "startChar": 2,
+        "endLine": 16,
+        "endChar": 39
+      },
+      "revId": "07795e26fbfc1ecfc23493434209dbcc83266795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a1b0abbe_bf6a23b2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10

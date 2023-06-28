@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6f57e6f_4c0d3332",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 8727,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-06-28T10:40:06Z",
+      "side": 1,
+      "message": "nit: this only applies to queries, right? If RevisionInfo is returned from e.g. change/detail in change info, this will be always set?",
+      "range": {
+        "startLine": 8727,
+        "startChar": 1,
+        "endLine": 8727,
+        "endChar": 40
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42a4879c_9cd977f9",
+        "filename": "java/com/google/gerrit/entities/ParentCommitData.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-06-28T10:40:06Z",
+      "side": 1,
+      "message": "since branchName is optional, why do we need this boolean?\n\nIsn\u0027t it equivalent to branchName.isPresent()?",
+      "range": {
+        "startLine": 82,
+        "startChar": 27,
+        "endLine": 82,
+        "endChar": 51
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36a66352_20ed6704",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-06-28T10:40:06Z",
+      "side": 1,
+      "message": "nit: why not returning a builder from getFromGerritChange (since we do not set isMergedInTargetBranch correctly there?",
+      "range": {
+        "startLine": 58,
+        "startChar": 8,
+        "endLine": 58,
+        "endChar": 27
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "235c1f17_63a2f75f",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-06-28T10:40:06Z",
+      "side": 1,
+      "message": "Is the case when !inTargetBrach \u0026\u0026 fromGerritChange.isEmpty() valid?\n\nWhat should we return then?",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 30
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d10f74e_54129750",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-06-28T10:40:06Z",
+      "side": 1,
+      "message": "why not:\n\nif(fromGerritChange.isEmpty()){\n  return ParentCommitData.builder()\n                .branchName(Optional.of(targetBranch))\n                .commitId(Optional.of(commitId))\n                .isMergedInTargetBranch(inTargetBranch)\n                .autoBuild());\n}\nreturn fromGerritChange.map( f -\u003e f.isMergedInTargetBranch(inTargetBranch).autoBuild());\n\nI think this is easier to distinguish the two cases (change/no change) in this case.",
+      "range": {
+        "startLine": 59,
+        "startChar": 3,
+        "endLine": 62,
+        "endChar": 37
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8364af5c_49215a71",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-06-28T10:40:06Z",
+      "side": 1,
+      "message": "nit:parentCommitId",
+      "range": {
+        "startLine": 77,
+        "startChar": 57,
+        "endLine": 77,
+        "endChar": 65
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d39de62a_4aa4fe97",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-06-28T10:40:06Z",
+      "side": 1,
+      "message": "nit: from the comment, it may seem that the method verifies if it is a parent commit or now.\n\nMaybe: Returns {@link ParentCommitData} if there is a change associated with {@code parentCommitId)",
+      "range": {
+        "startLine": 100,
+        "startChar": 45,
+        "endLine": 100,
+        "endChar": 58
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d3c4828_47e3e2f1",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-06-28T10:40:06Z",
+      "side": 1,
+      "message": "nit: could we give this variable a more descriptive name? parentCommitId?",
+      "range": {
+        "startLine": 104,
+        "startChar": 40,
+        "endLine": 104,
+        "endChar": 49
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82173e95_084b5181",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-06-28T10:40:06Z",
+      "side": 1,
+      "message": "nit: could we add list of change ids in the log?",
+      "range": {
+        "startLine": 108,
+        "startChar": 11,
+        "endLine": 108,
+        "endChar": 88
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7eaaa963_c945c158",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-06-28T10:40:06Z",
+      "side": 1,
+      "message": "this looks suspicious: don\u0027t we have targetBranch in changeData?\n\nIs it possible that there is a mismatch?",
+      "range": {
+        "startLine": 120,
+        "startChar": 36,
+        "endLine": 120,
+        "endChar": 49
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bbf0bd1_99aa5e4c",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-06-28T10:40:06Z",
+      "side": 1,
+      "message": "Looking at GetDetail implementation, I think we will not return the new info from change/detail endpoint.\n\nIs that expected? Which endpoints should return the new info?\n\nhttp://go/grev/Documentation/rest-api-changes.html#get-change-detail",
+      "range": {
+        "startLine": 343,
+        "startChar": 18,
+        "endLine": 345,
+        "endChar": 46
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

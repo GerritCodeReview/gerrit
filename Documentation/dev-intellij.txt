@@ -197,7 +197,7 @@ At the moment running this (local) configuration results in a
 use the instructions of <<dev-readme#run_daemon,Running the Daemon>> in
 combination with <<remote-debug,Debugging a remote Gerrit server>>.
 
-(link:https://bugs.chromium.org/p/gerrit/issues/detail?id=11360[Issue 11360,role=external,window=_blank])
+(link:https://issues.gerritcodereview.com/issues/40011100[Issue 40011100,role=external,window=_blank])
 ====
 
 Copy `$(gerrit_source_code)/tools/intellij/gerrit_daemon.xml` to

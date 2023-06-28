@@ -360,7 +360,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
               });
       try {
         // We employ the timeout because of a bug in Myers diff in JGit. See
-        // bugs.chromium.org/p/gerrit/issues/detail?id=487 for more details. The bug may happen
+        // https://issues.gerritcodereview.com/issues/40000618 for more details. The bug may happen
         // if the algorithm used in diffs is HISTOGRAM_WITH_FALLBACK_MYERS.
         return fileDiffFuture.get(timeoutMillis, TimeUnit.MILLISECONDS);
       } catch (InterruptedException | TimeoutException e) {

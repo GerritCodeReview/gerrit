@@ -1,7 +1,5 @@
 #  Porting Comments User Documentation
 
-Report a bug or send feedback using this [Monorail template](https://bugs.chromium.org/p/gerrit/issues/entry?template=Porting+Comments). You can also report a bug through the bug icon in the comment.
-
 Comments in Gerrit are associated with a patchset. When a new patchset is uploaded, the comments are lost since they are not associated with the newer patchset.
 
 image::images/user-porting-comments-original-comment.png["Comment left on Patchset 15", align="center"]

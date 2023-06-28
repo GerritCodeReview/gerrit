@@ -16,6 +16,23 @@
       "message": "You\u0027ll need to add the reverse of this patch to the import, or else this won\u0027t build against the current (0.50) version of flexmark in google3.",
       "revId": "28a82b93b219401284520e1d131f50b7cf42b4cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c40f77c6_789ed8ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-06-28T12:18:18Z",
+      "side": 1,
+      "message": "not sure if maven_jar changes should propagate somewhere else. David?",
+      "revId": "28a82b93b219401284520e1d131f50b7cf42b4cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

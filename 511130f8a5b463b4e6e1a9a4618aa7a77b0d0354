@@ -16,6 +16,24 @@
       "message": "Should the targets only be computed after filtering?\n\n   Set\u003cString\u003e targets \u003d getTargets(filtered);",
       "revId": "511130f8a5b463b4e6e1a9a4618aa7a77b0d0354",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d63d454_6b18661a",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListBranches.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-28T10:36:39Z",
+      "side": 1,
+      "message": "It failed one of the tests and was fixed after I moved it to the beginning. \u0027targets\u0027 was needed to compute permissions on other branches (see L320 in PS8). We needed the full set of targets for this condition to be evaluated correctly.\n\nThis is also how it was done before: see lines 179-184 in LHS where targets were computed from the full set of refs.",
+      "parentUuid": "69378354_7f407ede",
+      "revId": "511130f8a5b463b4e6e1a9a4618aa7a77b0d0354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1841,7 +1841,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   getChangeCherryPicks(
     repo: RepoName,
     changeID: ChangeId,
-    changeNum: NumericChangeId
+    branch: BranchName
   ): Promise<ChangeInfo[] | undefined> {
     const options = listChangesOptionsToHex(
       ListChangesOption.CURRENT_REVISION,
@@ -1850,7 +1850,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     const query = [
       `project:${repo}`,
       `change:${changeID}`,
-      `-change:${changeNum}`,
+      `-branch:${branch}`,
       '-is:abandoned',
     ].join(' ');
     const params = {

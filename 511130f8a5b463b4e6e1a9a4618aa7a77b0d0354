@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69378354_7f407ede",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListBranches.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-28T10:31:37Z",
+      "side": 1,
+      "message": "Should the targets only be computed after filtering?\n\n   Set\u003cString\u003e targets \u003d getTargets(filtered);",
+      "revId": "511130f8a5b463b4e6e1a9a4618aa7a77b0d0354",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

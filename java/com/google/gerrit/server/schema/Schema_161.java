@@ -31,9 +31,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import org.eclipse.jgit.internal.storage.file.RefDirectory;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -57,7 +59,12 @@ public class Schema_161 extends SchemaVersion {
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException {
     try (Repository git = repoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(git)) {
-      BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
+      RefDatabase refDb = git.getRefDatabase();
+      BatchRefUpdate bru =
+          refDb instanceof RefDirectory
+              ? ((RefDirectory) refDb).newBatchUpdate(false)
+              : refDb.newBatchUpdate();
+      bru.setAtomic(refDb instanceof RefDirectory);
       bru.setAllowNonFastForwards(true);
 
       for (Ref ref : git.getRefDatabase().getRefsByPrefix(RefNames.REFS_STARRED_CHANGES)) {

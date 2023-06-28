@@ -43,6 +43,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 import org.eclipse.jgit.internal.storage.file.PackInserter;
+import org.eclipse.jgit.internal.storage.file.RefDirectory;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.NullProgressMonitor;
@@ -51,6 +52,7 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
@@ -131,7 +133,12 @@ public class Schema_146 extends SchemaVersion {
         ObjectInserter inserter = getPackInserterFirst(repo);
         ObjectReader reader = inserter.newReader();
         RevWalk rw = new RevWalk(reader)) {
-      BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
+      RefDatabase refDb = repo.getRefDatabase();
+      BatchRefUpdate bru =
+          refDb instanceof RefDirectory
+              ? ((RefDirectory) refDb).newBatchUpdate(false)
+              : refDb.newBatchUpdate();
+      bru.setAtomic(refDb instanceof RefDirectory);
       bru.setAllowNonFastForwards(true);
       bru.setRefLogIdent(serverIdent);
       bru.setRefLogMessage(getClass().getSimpleName(), true);

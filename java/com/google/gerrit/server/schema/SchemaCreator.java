@@ -52,9 +52,11 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Collections;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.file.RefDirectory;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 
 /** Creates the current database schema and populates initial code rows. */
@@ -231,7 +233,13 @@ public class SchemaCreator {
   private void commit(
       Repository allUsersRepo, GroupConfig groupConfig, GroupNameNotes groupNameNotes)
       throws IOException {
-    BatchRefUpdate batchRefUpdate = allUsersRepo.getRefDatabase().newBatchUpdate();
+    RefDatabase refDb = allUsersRepo.getRefDatabase();
+    BatchRefUpdate batchRefUpdate =
+        refDb instanceof RefDirectory
+            ? ((RefDirectory) refDb).newBatchUpdate(false)
+            : refDb.newBatchUpdate();
+    batchRefUpdate.setAtomic(refDb instanceof RefDirectory);
+
     try (MetaDataUpdate metaDataUpdate = createMetaDataUpdate(allUsersRepo, batchRefUpdate)) {
       groupConfig.commit(metaDataUpdate);
     }

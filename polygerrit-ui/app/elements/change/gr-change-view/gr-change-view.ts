@@ -1264,7 +1264,7 @@ export class GrChangeView extends LitElement {
       {
         label: 'Change-Id',
         shortcut: 'd',
-        value: `${this.change?.id.split('~').pop()}`,
+        value: `${this.change?.change_id}`,
       },
     ];
     if (

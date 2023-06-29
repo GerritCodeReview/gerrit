@@ -20,7 +20,7 @@ import com.google.gerrit.server.git.HookUtil;
 import java.util.Map;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
-import org.eclipse.jgit.transport.BaseReceivePack;
+import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
 
@@ -34,7 +34,7 @@ class AllRefsWatcher implements AdvertiseRefsHook {
   private Map<String, Ref> allRefs;
 
   @Override
-  public void advertiseRefs(BaseReceivePack rp) throws ServiceMayNotContinueException {
+  public void advertiseRefs(ReceivePack rp) throws ServiceMayNotContinueException {
     allRefs = HookUtil.ensureAllRefsAdvertised(rp);
   }
 

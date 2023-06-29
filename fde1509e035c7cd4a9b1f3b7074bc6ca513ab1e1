@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "31dc617e_76ad16af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-29T09:50:31Z",
+      "side": 1,
+      "message": "Actually test failure was related, it was caused my changing the default for enabling batch events to false. Now all tests should pass",
+      "parentUuid": "0937516e_e3b90c27",
+      "revId": "fde1509e035c7cd4a9b1f3b7074bc6ca513ab1e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56116625_506b7780",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-06-28T22:01:04Z",
       "side": 1,
       "message": "`updates`",
+      "range": {
+        "startLine": 216,
+        "startChar": 80,
+        "endLine": 216,
+        "endChar": 86
+      },
+      "revId": "fde1509e035c7cd4a9b1f3b7074bc6ca513ab1e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3cbb32d_4795af54",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-29T09:50:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56116625_506b7780",
       "range": {
         "startLine": 216,
         "startChar": 80,

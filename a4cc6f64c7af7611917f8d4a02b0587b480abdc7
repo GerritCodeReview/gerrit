@@ -56,6 +56,236 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6bfec1cc_70e507d7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3249,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-29T18:24:59Z",
+      "side": 1,
+      "message": "```suggestion\nThe pagination type to use when unlimited index queries are repeated to\n```",
+      "range": {
+        "startLine": 3249,
+        "startChar": 32,
+        "endLine": 3249,
+        "endChar": 45
+      },
+      "revId": "a4cc6f64c7af7611917f8d4a02b0587b480abdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "191cfe5f_fa7ec0f3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3254,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-29T18:24:59Z",
+      "side": 1,
+      "message": "```suggestion\nUnlimited index queries are repeated with a non-zero offset to obtain the\n```",
+      "range": {
+        "startLine": 3254,
+        "startChar": 0,
+        "endLine": 3254,
+        "endChar": 5
+      },
+      "revId": "a4cc6f64c7af7611917f8d4a02b0587b480abdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b707c9a_79e86d4a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3260,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-29T18:24:59Z",
+      "side": 1,
+      "message": "```suggestion\nUnlimited index queries are repeated using a search-after object. Index\n```",
+      "range": {
+        "startLine": 3260,
+        "startChar": 0,
+        "endLine": 3260,
+        "endChar": 5
+      },
+      "revId": "a4cc6f64c7af7611917f8d4a02b0587b480abdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1bb44df_331b0729",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3269,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-29T18:24:59Z",
+      "side": 1,
+      "message": "```suggestion\nUnlimited index queries are executed returning all results, without internal pagination.\n```",
+      "range": {
+        "startLine": 3269,
+        "startChar": 0,
+        "endLine": 3269,
+        "endChar": 5
+      },
+      "revId": "a4cc6f64c7af7611917f8d4a02b0587b480abdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8e4499f_8c728acf",
+        "filename": "java/com/google/gerrit/index/PaginationType.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-29T18:24:59Z",
+      "side": 1,
+      "message": "```suggestion\n  /** Unlimited index queries are restarted at a non-zero offset to obtain the next set of results */\n```",
+      "range": {
+        "startLine": 18,
+        "startChar": 6,
+        "endLine": 18,
+        "endChar": 11
+      },
+      "revId": "a4cc6f64c7af7611917f8d4a02b0587b480abdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e290e3f4_00c54765",
+        "filename": "java/com/google/gerrit/index/PaginationType.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-29T18:24:59Z",
+      "side": 1,
+      "message": "```suggestion\n   * Unlimited index queries are restarted using a search-after object. Supported index backends can provide\n```",
+      "range": {
+        "startLine": 22,
+        "startChar": 5,
+        "endLine": 22,
+        "endChar": 10
+      },
+      "revId": "a4cc6f64c7af7611917f8d4a02b0587b480abdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec3e6ee8_ee15392b",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-29T18:24:59Z",
+      "side": 1,
+      "message": "The filtering logic has been moved from AndSource to PaginatingSource in I2f5a6aad37, which means that we need to keep wrapping it, even if we are not actually paginating anything, otherwise we\u0027ll end up avoid processing the filtering of source data.\n\nBottom line: this part needs to be left as-is.",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 49
+      },
+      "revId": "a4cc6f64c7af7611917f8d4a02b0587b480abdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27bebf26_6dc1c36e",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-29T18:24:59Z",
+      "side": 1,
+      "message": "After keeping L62-L66, this will be unused.",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 3
+      },
+      "revId": "a4cc6f64c7af7611917f8d4a02b0587b480abdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e9f0669_19585b73",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-29T18:24:59Z",
+      "side": 1,
+      "message": "The filtering logic has been moved from AndSource to PaginatingSource in I2f5a6aad37, which means that we need to keep wrapping it, even if we are not actually paginating anything, otherwise we\u0027ll end up avoid processing the filtering of source data.\n\nBottom line: this part needs to be left as-is.",
+      "range": {
+        "startLine": 285,
+        "startChar": 12,
+        "endLine": 285,
+        "endChar": 69
+      },
+      "revId": "a4cc6f64c7af7611917f8d4a02b0587b480abdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94094c74_50a9362f",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-29T18:24:59Z",
+      "side": 1,
+      "message": "This is the culprit of the pagination: for unlimited queries, limit would be Integer.MAX_VALUE; however, this is transforming the unlimited query to a paginated query, with the initial page equal to the user query limit.\n\nIf PaginationType is NONE, this should be as it was before I2f5a6aad",
+      "range": {
+        "startLine": 169,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 59
+      },
+      "revId": "a4cc6f64c7af7611917f8d4a02b0587b480abdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d812720c_8fdfc977",
         "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 14

@@ -198,6 +198,30 @@
       },
       "revId": "28a82b93b219401284520e1d131f50b7cf42b4cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "705d0dcf_8daf24d1",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-06-29T08:27:47Z",
+      "side": 1,
+      "message": "Why this comment was resolved?\n\nI suggested to specify the transitive dependencies as own dependencies:\n\n```\ndiff --git a/lib/BUILD b/lib/BUILD\nindex 19dfeb2bb6..81178af8b0 100644\n--- a/lib/BUILD\n+++ b/lib/BUILD\n@@ -388,7 +388,16 @@ java_library(\n     name \u003d \"flexmark-util\",\n     data \u003d [\"//lib:LICENSE-flexmark\"],\n     visibility \u003d [\"//visibility:public\"],\n-    exports \u003d [\"@flexmark-util//jar\"],\n+    exports \u003d [\n+        \"@flexmark-util-ast//jar\",\n+        \"@flexmark-util-builder//jar\",\n+        \"@flexmark-util-data//jar\",\n+        \"@flexmark-util-html//jar\",\n+        \"@flexmark-util-misc//jar\",\n+        \"@flexmark-util-sequence//jar\",\n+        \"@flexmark-util-visitor//jar\",\n+        \"@flexmark-util//jar\",\n+    ],\n )\n \n java_library(\ndiff --git a/tools/deps.bzl b/tools/deps.bzl\nindex f58594ff5f..49b9252950 100644\n--- a/tools/deps.bzl\n+++ b/tools/deps.bzl\n@@ -324,9 +324,57 @@ def java_dependencies():\n     maven_jar(\n         name \u003d \"flexmark-util\",\n         artifact \u003d \"com.vladsch.flexmark:flexmark-util:\" + FLEXMARK_VERS,\n-        bin_url_suffix \u003d \"-lib\",\n-        sha1 \u003d \"108bb4a0be43b289bc9075509e276506ccd53e82\",\n         attach_source \u003d False,\n+        sha1 \u003d \"54fc812a9fdeee63d15853dde2720c113e96de81\",\n+    )\n+\n+    maven_jar(\n+        name \u003d \"flexmark-util-data\",\n+        artifact \u003d \"com.vladsch.flexmark:flexmark-util-data:\" + FLEXMARK_VERS,\n+        attach_source \u003d False,\n+        sha1 \u003d \"63162607faa7c98f6e50a9d1e826004c5475841d\",\n+    )\n+\n+    maven_jar(\n+        name \u003d \"flexmark-util-ast\",\n+        artifact \u003d \"com.vladsch.flexmark:flexmark-util-ast:\" + FLEXMARK_VERS,\n+        attach_source \u003d False,\n+        sha1 \u003d \"10fff87e61b7c3bb12afddf7b418977cd02acdc8\",\n+    )\n+\n+    maven_jar(\n+        name \u003d \"flexmark-util-misc\",\n+        artifact \u003d \"com.vladsch.flexmark:flexmark-util-misc:\" + FLEXMARK_VERS,\n+        attach_source \u003d False,\n+        sha1 \u003d \"d2129f4f2b55fbf645e3499c7b0cdddcfef81112\",\n+    )\n+\n+    maven_jar(\n+        name \u003d \"flexmark-util-visitor\",\n+        artifact \u003d \"com.vladsch.flexmark:flexmark-util-visitor:\" + FLEXMARK_VERS,\n+        attach_source \u003d False,\n+        sha1 \u003d \"7eb0030ae2a2eec80d74790caeb4cdb6b4bf8e17\",\n+    )\n+\n+    maven_jar(\n+        name \u003d \"flexmark-util-builder\",\n+        artifact \u003d \"com.vladsch.flexmark:flexmark-util-builder:\" + FLEXMARK_VERS,\n+        attach_source \u003d False,\n+        sha1 \u003d \"2d6adaf6053f72de86a050fe6967049f7c2d3500\",\n+    )\n+\n+    maven_jar(\n+        name \u003d \"flexmark-util-sequence\",\n+        artifact \u003d \"com.vladsch.flexmark:flexmark-util-sequence:\" + FLEXMARK_VERS,\n+        attach_source \u003d False,\n+        sha1 \u003d \"299e3b4a4272ba9dcd6b9081b8d24d1a672a0921\",\n+    )\n+\n+    maven_jar(\n+        name \u003d \"flexmark-util-html\",\n+        artifact \u003d \"com.vladsch.flexmark:flexmark-util-html:\" + FLEXMARK_VERS,\n+        attach_source \u003d False,\n+        sha1 \u003d \"fc52f860cf45f57468d8f14ee63c1e6469ee3f47\",\n     )\n \n     # Transitive dependency of flexmark and gitiles\n```",
+      "parentUuid": "8a854240_dc9b1367",
+      "range": {
+        "startLine": 324,
+        "startChar": 0,
+        "endLine": 330,
+        "endChar": 5
+      },
+      "revId": "28a82b93b219401284520e1d131f50b7cf42b4cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

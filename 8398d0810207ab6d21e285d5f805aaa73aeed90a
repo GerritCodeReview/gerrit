@@ -166,6 +166,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49daf6a8_3023b97c",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-29T08:42:56Z",
+      "side": 1,
+      "message": "I removed isMergedInTargetBranch from the method to avoid setting to the wrong value.",
+      "parentUuid": "3d06a472_a3f43ec0",
+      "range": {
+        "startLine": 58,
+        "startChar": 8,
+        "endLine": 58,
+        "endChar": 27
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "235c1f17_63a2f75f",
@@ -519,6 +543,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf4ad5bd_29665e69",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-29T08:42:56Z",
+      "side": 1,
+      "message": "\u003e  I think it would be cleaner to keep the field empty if the commit does not belong to the branch.\n\nBut the targetBranch field is still saying \"which\" branch the parent commit is/isn\u0027t reachable from.\n\n\u003e Why do we need to provide information about the current commit in ParrentInfo?\n\nYou\u0027re right. I just realised this is the same branch field in RevisionInfo (patch-set), so your main point here I guess is to remove this field altogether. I have no strong argument, but I can keep as is for now as to provide clearer means for user to understand the target branch name on which we computed if parent is included.",
+      "parentUuid": "7e9fb58c_b25fa2fc",
+      "range": {
+        "startLine": 120,
+        "startChar": 36,
+        "endLine": 120,
+        "endChar": 49
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1bbf0bd1_99aa5e4c",
@@ -580,6 +628,30 @@
       "side": 1,
       "message": "Thank you, that makes sense.\n\nSince this is potentially an expensive computation (also involving the index, that can be stale), can we roll out this option with experiment? (I expect it will be an UI experiment, so there is no action needed on this change - just something to keep in mind).",
       "parentUuid": "b2bd113d_d5ed275d",
+      "range": {
+        "startLine": 343,
+        "startChar": 18,
+        "endLine": 345,
+        "endChar": 46
+      },
+      "revId": "8398d0810207ab6d21e285d5f805aaa73aeed90a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c773708_853f19ad",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-29T08:42:56Z",
+      "side": 1,
+      "message": "Yes. We can gate with a UI experiment flag since the new data is gated with a list change option. Thanks for the heads up!\n\nYou\u0027re right. Ideally I\u0027d have wanted us to have a \u0027Get Revision\u0027 endpoint but unfortunately we don\u0027t have it. So yes, requesting it for all patch-sets of the change might be expensive. If this became expensive, we can add a Get Revision EP and FE would need to request it two times (once per patchset for both patchsets getting diffed).",
+      "parentUuid": "5301737f_38dd7c64",
       "range": {
         "startLine": 343,
         "startChar": 18,

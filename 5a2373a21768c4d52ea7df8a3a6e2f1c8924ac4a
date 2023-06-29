@@ -22,6 +22,30 @@
       },
       "revId": "5a2373a21768c4d52ea7df8a3a6e2f1c8924ac4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12a8ea1b_8b952043",
+        "filename": "java/com/google/gerrit/server/change/ParentDataProvider.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-29T08:42:56Z",
+      "side": 1,
+      "message": "Done (this is not really needed since this list is only used in this logging statement).",
+      "parentUuid": "269c4353_529ea1a3",
+      "range": {
+        "startLine": 107,
+        "startChar": 61,
+        "endLine": 107,
+        "endChar": 71
+      },
+      "revId": "5a2373a21768c4d52ea7df8a3a6e2f1c8924ac4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

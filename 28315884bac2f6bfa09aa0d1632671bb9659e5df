@@ -16,6 +16,24 @@
       "message": "Why do you default to document rather than ensuring all call-sites pass in the argument?",
       "revId": "28315884bac2f6bfa09aa0d1632671bb9659e5df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dbae81e_1ac46003",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-model/gr-diff-model.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-06-29T07:28:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "266a6def_b8345113",
+      "revId": "28315884bac2f6bfa09aa0d1632671bb9659e5df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

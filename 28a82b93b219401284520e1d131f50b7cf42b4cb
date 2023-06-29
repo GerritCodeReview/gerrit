@@ -270,6 +270,30 @@
       },
       "revId": "28a82b93b219401284520e1d131f50b7cf42b4cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8c707b0_e9b63e44",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-06-29T08:53:08Z",
+      "side": 1,
+      "message": "License aspect is only one argument in the case that the license for one of the dependent projects would change or dependent project would need to be patched and would need to be updated.\n\nWe have to consume `flexmark-util` library that depends on 8 other libraries. I suggest to not artificially consume composite library even though it is provided (for what reasons exactly?) on maven Central. But to go the usual way, and list/specify each and every dependency explicitly, as it was the case before this commit.\n\nIn case you insist on this hack, could you explain, why should we do it in the commit message and also leave a comment in `flexmark-util` maven_jar definition.\n\nIs it easier for you to upload one single JAR to your Gerrit\u0027s fork, in `third_party` directory (or is this JAR already there?), instead of explicitly upload 8 JARs:\n\n```\n      \"flexmark-util-ast.jar\"\n      \"flexmark-util-builder.jar\"\n      \"flexmark-util-data.jar\"\n      \"flexmark-util-html.jar\"\n      \"flexmark-util-misc.jar\"\n      \"flexmark-util-sequence.jar\"\n      \"flexmark-util-visitor.jar\"\n      \"flexmark-util.jar\"\n```\n\n?",
+      "parentUuid": "9fc0e892_f9aaee9b",
+      "range": {
+        "startLine": 324,
+        "startChar": 0,
+        "endLine": 330,
+        "endChar": 5
+      },
+      "revId": "28a82b93b219401284520e1d131f50b7cf42b4cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

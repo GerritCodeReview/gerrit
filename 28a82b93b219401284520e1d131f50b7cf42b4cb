@@ -294,6 +294,30 @@
       },
       "revId": "28a82b93b219401284520e1d131f50b7cf42b4cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "625aa0d3_2c2148f1",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-06-29T10:24:17Z",
+      "side": 1,
+      "message": "I think the flexmark folks are going overboard with their split up of the library, and we don\u0027t have other libraries like that under lib/. I would actually suggest to put all the flexmark jars into a single target under lib. It\u0027s used in only one place in the source code (see https://gerrit-review.git.corp.google.com/c/gerrit/+/378494), so we don\u0027t get anything out of depending on each jar separately.",
+      "parentUuid": "c8c707b0_e9b63e44",
+      "range": {
+        "startLine": 324,
+        "startChar": 0,
+        "endLine": 330,
+        "endChar": 5
+      },
+      "revId": "28a82b93b219401284520e1d131f50b7cf42b4cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

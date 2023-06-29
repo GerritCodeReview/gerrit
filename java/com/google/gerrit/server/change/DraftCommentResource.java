@@ -35,6 +35,10 @@ public class DraftCommentResource implements RestResource {
     this.comment = c;
   }
 
+  public RevisionResource getRevisionResource() {
+    return rev;
+  }
+
   public CurrentUser getUser() {
     return rev.getUser();
   }

@@ -22,6 +22,30 @@
       },
       "revId": "1dc228ad57fcbfc3d73e6d59ecaec266825a62fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3efa513a_124b7f57",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 6
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-06-29T08:15:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e74c0f3b_a79a9e50",
+      "range": {
+        "startLine": 324,
+        "startChar": 3,
+        "endLine": 329,
+        "endChar": 5
+      },
+      "revId": "1dc228ad57fcbfc3d73e6d59ecaec266825a62fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

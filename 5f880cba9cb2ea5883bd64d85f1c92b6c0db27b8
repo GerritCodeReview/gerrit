@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d946ce53_0d66ae71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-06-29T16:32:13Z",
+      "side": 1,
+      "message": "Seems the docs may be incorrect. Looking at a rest response, i see id brings gerrit~\u003cchange-num\u003e compared to the docs showing you can access the change id via that param. Neitherless we can use change_id to save work splitting it and using pop and guarantee it\u0027s the change id.\n\nSeems this behaviour was changed at some point?",
+      "revId": "5f880cba9cb2ea5883bd64d85f1c92b6c0db27b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

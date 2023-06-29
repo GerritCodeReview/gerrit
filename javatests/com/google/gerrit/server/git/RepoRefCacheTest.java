@@ -227,12 +227,6 @@ public class RepoRefCacheTest {
         }
 
         @Override
-        public Ref getRef(String name) throws IOException {
-          checkIsOpen();
-          return refDatabase.getRef(name);
-        }
-
-        @Override
         public Ref exactRef(String name) throws IOException {
           checkIsOpen();
           return refDatabase.exactRef(name);
@@ -330,6 +324,11 @@ public class RepoRefCacheTest {
       if (refCounter <= 0) {
         throw new IllegalStateException("Repository is not open (refCounter=" + refCounter + ")");
       }
+    }
+
+    @Override
+    public String getIdentifier() {
+      return "foo";
     }
   }
 }

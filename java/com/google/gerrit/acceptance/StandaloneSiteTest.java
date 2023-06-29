@@ -185,6 +185,11 @@ public abstract class StandaloneSiteTest {
           }
 
           @Override
+          public FileBasedConfig openJGitConfig(Config parent, FS fs) {
+            return new FileBasedConfig(parent, new File(tempDir, "jgit.config"), FS.detect());
+          }
+
+          @Override
           public long getCurrentTime() {
             return oldSystemReader.getCurrentTime();
           }

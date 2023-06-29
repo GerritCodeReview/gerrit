@@ -22,7 +22,6 @@ import com.google.gerrit.server.AuditEvent;
 import java.util.Collections;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
@@ -63,7 +62,14 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
 
   @Test
   public void anonymousUploadPackAuditEventLog() throws Exception {
-    uploadPackAuditEventLog(Constants.DEFAULT_REMOTE_NAME, Optional.empty());
+    String remote = "anonymous";
+    Config cfg = testRepo.git().getRepository().getConfig();
+
+    String uri = server.getUrl() + "/" + project.get();
+    cfg.setString("remote", remote, "url", uri);
+    cfg.setString("remote", remote, "fetch", "+refs/heads/*:refs/remotes/origin/*");
+
+    uploadPackAuditEventLog(remote, Optional.empty());
   }
 
   @Test

@@ -506,7 +506,7 @@ public class GerritServer implements AutoCloseable {
     httpAddress = new InetSocketAddress(uri.getHost(), uri.getPort());
   }
 
-  String getUrl() {
+  public String getUrl() {
     return url;
   }
 

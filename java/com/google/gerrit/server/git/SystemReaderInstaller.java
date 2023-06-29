@@ -76,6 +76,11 @@ public class SystemReaderInstaller implements LifecycleListener {
       }
 
       @Override
+      public FileBasedConfig openJGitConfig(Config parent, FS fs) {
+        return current.openJGitConfig(parent, fs);
+      }
+
+      @Override
       public long getCurrentTime() {
         return current.getCurrentTime();
       }

@@ -44,6 +44,7 @@ public class InitModule extends FactoryModule {
     // Steps are executed in the order listed here.
     //
     step().to(InitGitManager.class);
+    step().to(InitJGitConfig.class);
     if (initDb) {
       step().to(InitDatabase.class);
     }

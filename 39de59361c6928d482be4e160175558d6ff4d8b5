@@ -87,6 +87,24 @@
       "parentUuid": "bdeef3b8_e98f8c5c",
       "revId": "39de59361c6928d482be4e160175558d6ff4d8b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73a6a340_6c514dfc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-06-29T06:36:56Z",
+      "side": 1,
+      "message": "Ouch, sorry for the slowness. I was under impression that we will continue changes from DavidO... and kudos for taking care of it.",
+      "parentUuid": "f8341584_04f58996",
+      "revId": "39de59361c6928d482be4e160175558d6ff4d8b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

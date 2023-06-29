@@ -14,14 +14,15 @@
 
 package com.google.gerrit.common;
 
-import static com.google.gerrit.launcher.GerritLauncher.GerritClassLoader;
-
 import com.google.common.collect.Sets;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collection;
@@ -69,22 +70,32 @@ public final class IoUtil {
     }
 
     ClassLoader cl = IoUtil.class.getClassLoader();
-    if (!(cl instanceof GerritClassLoader)) {
-      throw noAddURL("Not loaded by GerritClassLoader", null);
+    if (!(cl instanceof URLClassLoader)) {
+      throw noAddURL("Not loaded by URLClassLoader", null);
     }
 
     @SuppressWarnings("resource") // Leave open so classes can be loaded.
-    GerritClassLoader gerritClassLoader = (GerritClassLoader) cl;
+    URLClassLoader urlClassLoader = (URLClassLoader) cl;
 
-    Set<URL> have = Sets.newHashSet(Arrays.asList(gerritClassLoader.getURLs()));
+    Method addURL;
+    try {
+      addURL = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
+      addURL.setAccessible(true);
+    } catch (SecurityException | NoSuchMethodException e) {
+      throw noAddURL("Method addURL not available", e);
+    }
+
+    Set<URL> have = Sets.newHashSet(Arrays.asList(urlClassLoader.getURLs()));
     for (Path path : jars) {
       try {
         URL url = path.toUri().toURL();
         if (have.add(url)) {
-          gerritClassLoader.addURL(url);
+          addURL.invoke(cl, url);
         }
-      } catch (MalformedURLException | IllegalArgumentException e) {
+      } catch (MalformedURLException | IllegalArgumentException | IllegalAccessException e) {
         throw noAddURL("addURL " + path + " failed", e);
+      } catch (InvocationTargetException e) {
+        throw noAddURL("addURL " + path + " failed", e.getCause());
       }
     }
   }

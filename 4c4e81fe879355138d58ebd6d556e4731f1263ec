@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83499cc7_48a5f285",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-06-29T15:11:20Z",
+      "side": 1,
+      "message": "I am not sure whether that would work, because the gr-diff-row has display:contents and is probably not focusable. It would also be a larger change, looking at the many `target-row` CSS rules that we have. So I would not mind doing as proposed, but I don\u0027t think it would fit into the 1-week-timebox that I have. :-/",
+      "parentUuid": "672ab2bc_c729451d",
+      "revId": "4c4e81fe879355138d58ebd6d556e4731f1263ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eeee99cb_254fa24f",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-06-29T11:17:30Z",
       "side": 1,
       "message": "Unrelated change?",
+      "revId": "4c4e81fe879355138d58ebd6d556e4731f1263ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac31751c_e5f5b235",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-06-29T15:11:20Z",
+      "side": 1,
+      "message": "No, that is not unrelated. The diff cursor does not pass an element anymore, but line number and side.",
+      "parentUuid": "eeee99cb_254fa24f",
       "revId": "4c4e81fe879355138d58ebd6d556e4731f1263ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

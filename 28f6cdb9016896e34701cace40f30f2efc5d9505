@@ -322,6 +322,24 @@
       "parentUuid": "14450eca_c4003031",
       "revId": "28f6cdb9016896e34701cace40f30f2efc5d9505",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e81eea96_e31dc945",
+        "filename": "java/com/google/gerrit/server/events/BatchRefUpdateEvent.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-29T13:13:58Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "e5be313a_33985606",
+      "revId": "28f6cdb9016896e34701cace40f30f2efc5d9505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

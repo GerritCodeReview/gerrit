@@ -16,6 +16,23 @@
       "message": "java/com/google/gerrit/server/events/BatchRefUpdateEvent.java",
       "revId": "d5ac91bef763c66d474bc8d85df05e1f6adc43bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1f57949_ee560a23",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-29T13:13:58Z",
+      "side": 1,
+      "message": "Just a few documentation leftover and then I believe we are good to merge.\n@Thomas anything else?",
+      "revId": "d5ac91bef763c66d474bc8d85df05e1f6adc43bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

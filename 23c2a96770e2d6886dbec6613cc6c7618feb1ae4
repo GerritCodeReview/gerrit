@@ -52,6 +52,24 @@
       "parentUuid": "d40a306f_7c6f1682",
       "revId": "23c2a96770e2d6886dbec6613cc6c7618feb1ae4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68c33fa8_3483d347",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-06-29T16:05:19Z",
+      "side": 1,
+      "message": "Well each time i run yarn install in app/ it fails with an error due to incompatibility with the node version i\u0027m using. A dep was updated in resemblejs to add support for newer node versions (and works under the one i\u0027m using). So bumping resemblejs to pull in the update.",
+      "parentUuid": "a44c2c10_b51750d2",
+      "revId": "23c2a96770e2d6886dbec6613cc6c7618feb1ae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

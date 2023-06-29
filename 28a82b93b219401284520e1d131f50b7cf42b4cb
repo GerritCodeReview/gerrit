@@ -318,6 +318,30 @@
       },
       "revId": "28a82b93b219401284520e1d131f50b7cf42b4cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e71c74ac_e9ea7967",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-06-29T12:25:41Z",
+      "side": 1,
+      "message": "I think the current change is fine as-is, though. IMO It\u0027s not strictly necessary to move all the targets together in this change.",
+      "parentUuid": "625aa0d3_2c2148f1",
+      "range": {
+        "startLine": 324,
+        "startChar": 0,
+        "endLine": 330,
+        "endChar": 5
+      },
+      "revId": "28a82b93b219401284520e1d131f50b7cf42b4cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

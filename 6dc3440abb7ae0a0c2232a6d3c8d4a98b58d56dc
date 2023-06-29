@@ -16,6 +16,23 @@
       "message": "@milutin@google.com related to the other change with the V-1, do you know why this is failing the UI tests or how they should be fixed?",
       "revId": "6dc3440abb7ae0a0c2232a6d3c8d4a98b58d56dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f672d8f_fd0b09eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-29T15:55:59Z",
+      "side": 1,
+      "message": "The PolyGerrit UI test failure is real, but not related to this change (the tip of stable-3.6 fails as well). I\u0027m trying to see if moving 3.6 to the newer web-test-runner will solve that problem, but that will be a separate set of changes for stable-3.6.",
+      "revId": "6dc3440abb7ae0a0c2232a6d3c8d4a98b58d56dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

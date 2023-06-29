@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e036684_ba68ea18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-29T14:00:55Z",
+      "side": 1,
+      "message": "Note: for testing, I\u0027d have ideally wanted to mock the \"draft\" comments validator to do nothing, leave current tests as is (to make sure comments are still validated on publish), and add new tests for ensuring drafts validation is correct.\n\nThat didn\u0027t seem trivial to do, since both \"drafts\" and \"publishing\" workflow use the same validators.",
+      "revId": "03cfe23f32db8e9b65d9c36ac4e0c883dd61a44c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

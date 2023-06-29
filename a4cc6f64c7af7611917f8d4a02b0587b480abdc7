@@ -145,6 +145,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a3af2026_168d774f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3249,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-29T22:54:01Z",
+      "side": 1,
+      "message": "Unlimited \u003d searches with `--no-limit` option are internally paginated with the configured pageSize and pageMultiplier.",
+      "parentUuid": "a45a7412_3173cdc0",
+      "range": {
+        "startLine": 3249,
+        "startChar": 32,
+        "endLine": 3249,
+        "endChar": 45
+      },
+      "revId": "a4cc6f64c7af7611917f8d4a02b0587b480abdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "191cfe5f_fa7ec0f3",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 14
@@ -533,6 +557,30 @@
       "side": 1,
       "message": "I don\u0027t think you should be extending/wrapping PaginatingSource if you\u0027re not paginating.",
       "parentUuid": "8e9f0669_19585b73",
+      "range": {
+        "startLine": 285,
+        "startChar": 12,
+        "endLine": 285,
+        "endChar": 69
+      },
+      "revId": "a4cc6f64c7af7611917f8d4a02b0587b480abdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e6f569c_03eb39a0",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-29T22:54:01Z",
+      "side": 1,
+      "message": "I thought the same, but then I\u0027ve realised that Kauhshik has move all the filtering logic from AndSource to PaginatingSource. Bottom line: if you do not use the PaginatingSource, the search misbehave, which is unfortunate.\n\nBecause this is a stable branch, we must limit the moving parts. On master, I agree that it would be best to rectify the situation and do only the pagination part in PaginatingSource and keep the filtering in AndSource.",
+      "parentUuid": "48031caa_74eca1e8",
       "range": {
         "startLine": 285,
         "startChar": 12,

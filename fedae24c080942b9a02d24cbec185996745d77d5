@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "abf8f872_c2a79141",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-29T22:54:01Z",
+      "side": 1,
+      "message": "\u003e Two thoughts:\n\u003e \n\u003e 1) Since you\u0027re trying to fix behavior introduced in a specific change (change I2f5a6aad3), it would be good to mention that change early in this message.\n\n+1\n\n\u003e 2) Looking more at change I2f5a6aad3, I guess this subject should be something like `Optionally do not paginate internal change index queries` to be clear that the scope of the change is only intended to be internal change index queries.\n\nI thought the same, but then looking at I2f5a6aad3 it does something different than what is mention in its commit message. Rather than focusing on internal change index queries _only_ it refactors the way the initial page size is calculated for *any type* of queries, internal or not.\n\nBottom line: this change is addressing any change query, internal or not.",
+      "parentUuid": "a4833393_3e55517b",
+      "revId": "fedae24c080942b9a02d24cbec185996745d77d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6089e5d0_67709384",
         "filename": "/COMMIT_MSG",
         "patchSetId": 16
@@ -60,6 +78,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0c7b4b78_56bd2b74",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 3249,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-29T22:54:01Z",
+      "side": 1,
+      "message": "I believe all the code implemented is for the change queries: I do not see any other place where the pagination is enabled.\nAlso, the tests are only checking pagination on changes. Do you have any pointer where the pagination is applied to the other queries?\n\nLastly, the `--no-limit` is an option valid only for change queries, hence that\u0027s the only place where pagination code will be used.\n\nI agree with you that the pagination code is in the common code, but is skipped for all other queries.",
+      "parentUuid": "062fa204_2d6fa235",
+      "range": {
+        "startLine": 3249,
+        "startChar": 42,
+        "endLine": 3249,
+        "endChar": 48
+      },
+      "revId": "fedae24c080942b9a02d24cbec185996745d77d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b9080091_aec9765e",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
         "patchSetId": 16
@@ -71,6 +113,30 @@
       "writtenOn": "2023-06-29T22:12:14Z",
       "side": 1,
       "message": "This is not the same as what the behavior was prior to change I2f5a6aad. Specifically, the `isNoLimit` code wasn\u0027t there before: https://gerrit-review.googlesource.com/c/gerrit/+/345634/9/java/com/google/gerrit/index/query/QueryProcessor.java#388",
+      "range": {
+        "startLine": 171,
+        "startChar": 10,
+        "endLine": 171,
+        "endChar": 41
+      },
+      "revId": "fedae24c080942b9a02d24cbec185996745d77d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e492d98_34a15f90",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-29T22:54:01Z",
+      "side": 1,
+      "message": "This change is for disabling pagination for both internal and external queries, hence the initial page size *is* the effective limit for both of them.\n\nAlso the validation tests are passing, demonstrating that this is working as expected.",
+      "parentUuid": "b9080091_aec9765e",
       "range": {
         "startLine": 171,
         "startChar": 10,

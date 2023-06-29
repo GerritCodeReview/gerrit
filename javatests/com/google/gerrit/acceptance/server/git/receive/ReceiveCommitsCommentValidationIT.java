@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.git.receive;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.mock;
@@ -36,9 +37,13 @@ import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.validators.CommentForValidation;
+import com.google.gerrit.extensions.validators.CommentForValidation.CommentSource;
+import com.google.gerrit.extensions.validators.CommentForValidation.CommentType;
 import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidator;
+import com.google.gerrit.server.update.CommentsRejectedException;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
@@ -105,7 +110,9 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     amendResult.assertNotMessage("Comment validation failure:");
     assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(1);
 
-    assertThat(captureCtx.getAllValues()).hasSize(1);
+    // Comment were validated twice: first when the draft was created, and second when it was
+    // published.
+    assertThat(captureCtx.getAllValues()).hasSize(2);
     assertThat(captureCtx.getValue().getProject()).isEqualTo(result.getChange().project().get());
     assertThat(captureCtx.getValue().getChangeId()).isEqualTo(result.getChange().getId().get());
     assertThat(captureCtx.getValue().getRefName()).isEqualTo("refs/heads/master");
@@ -191,12 +198,10 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
             ImmutableList.of(COMMENT_FOR_VALIDATION)))
         .thenReturn(ImmutableList.of(COMMENT_FOR_VALIDATION.failValidation("Oh no!")));
     DraftInput comment = testCommentHelper.newDraft(COMMENT_TEXT);
-    testCommentHelper.addDraft(changeId, revId, comment);
-    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).isEmpty();
-    Result amendResult = amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
-    amendResult.assertOkStatus();
-    amendResult.assertMessage("Comment validation failure:");
-    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).isEmpty();
+    Exception thrown =
+        assertThrows(
+            BadRequestException.class, () -> testCommentHelper.addDraft(changeId, revId, comment));
+    assertThat(thrown).hasCauseThat().isInstanceOf(CommentsRejectedException.class);
   }
 
   @Test
@@ -216,24 +221,34 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
     assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(2);
 
-    assertThat(capture.getAllValues()).hasSize(1);
+    // Validation was called 3 times: once for each draft, and once when both drafts were published
+    assertThat(capture.getAllValues()).hasSize(3);
 
     assertThat(captureCtx.getValue().getProject()).isEqualTo(result.getChange().project().get());
     assertThat(captureCtx.getValue().getChangeId()).isEqualTo(result.getChange().getId().get());
     assertThat(captureCtx.getValue().getRefName()).isEqualTo("refs/heads/master");
 
-    assertThat(capture.getAllValues().get(0))
-        .containsExactly(
-            CommentForValidation.create(
-                CommentForValidation.CommentSource.HUMAN,
-                CommentForValidation.CommentType.INLINE_COMMENT,
-                draftInline.message,
-                draftInline.message.length()),
-            CommentForValidation.create(
-                CommentForValidation.CommentSource.HUMAN,
-                CommentForValidation.CommentType.FILE_COMMENT,
-                draftFile.message,
-                draftFile.message.length()));
+    CommentForValidation firstValidatedDraft =
+        CommentForValidation.create(
+            CommentSource.HUMAN,
+            CommentType.FILE_COMMENT,
+            draftFile.message,
+            draftFile.message.length());
+
+    CommentForValidation secondValidatedDraft =
+        CommentForValidation.create(
+            CommentSource.HUMAN,
+            CommentType.INLINE_COMMENT,
+            draftInline.message,
+            draftInline.message.length());
+
+    // First invocation validated first draft on creation
+    assertThat(capture.getAllValues().get(0)).containsExactly(firstValidatedDraft);
+    // Second invocation validated second draft on creation
+    assertThat(capture.getAllValues().get(1)).containsExactly(secondValidatedDraft);
+    // THird invocation validated both drafts when they got published
+    assertThat(capture.getAllValues().get(2))
+        .containsExactly(firstValidatedDraft, secondValidatedDraft);
   }
 
   @Test
@@ -245,14 +260,17 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     int commentLength = COMMENT_SIZE_LIMIT + 1;
     DraftInput comment =
         testCommentHelper.newDraft(new String(new char[commentLength]).replace("\0", "x"));
-    testCommentHelper.addDraft(changeId, result.getCommit().getName(), comment);
-
-    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).isEmpty();
-    Result amendResult = amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
-    amendResult.assertOkStatus();
-    amendResult.assertMessage(
-        String.format("Comment size exceeds limit (%d > %d)", commentLength, COMMENT_SIZE_LIMIT));
-    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).isEmpty();
+    Exception thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> testCommentHelper.addDraft(changeId, result.getCommit().getName(), comment));
+    assertThat(thrown).hasCauseThat().isInstanceOf(CommentsRejectedException.class);
+    assertThat(thrown)
+        .hasCauseThat()
+        .hasMessageThat()
+        .contains(
+            String.format(
+                "Comment size exceeds limit (%d > %d)", commentLength, COMMENT_SIZE_LIMIT));
   }
 
   @Test
@@ -278,13 +296,15 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     }
     // We now have 1 comment, 2 robot comments, 5 change messages.
 
-    draftInline = testCommentHelper.newDraft(filePath, Side.REVISION, 1, COMMENT_TEXT);
-    testCommentHelper.addDraft(changeId, revId, draftInline);
-    // Publishes the 1 draft and adds 2 change messages. The latter 2 are autogenerated and are not
-    // subject to validation.
-    Result amendResult = amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
-    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(1);
-    amendResult.assertMessage("exceeding maximum number of comments");
+    DraftInput newDraft = testCommentHelper.newDraft(filePath, Side.REVISION, 1, COMMENT_TEXT);
+    Exception thrown =
+        assertThrows(
+            BadRequestException.class, () -> testCommentHelper.addDraft(changeId, revId, newDraft));
+    assertThat(thrown).hasCauseThat().isInstanceOf(CommentsRejectedException.class);
+    assertThat(thrown)
+        .hasCauseThat()
+        .hasMessageThat()
+        .contains("Exceeding maximum number of comments");
   }
 
   @Test
@@ -302,10 +322,16 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
     assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(1);
 
-    draftInline = testCommentHelper.newDraft(filePath, Side.REVISION, 1, commentText400Bytes);
-    testCommentHelper.addDraft(changeId, revId, draftInline);
-    Result amendResult = amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
-    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(1);
-    amendResult.assertMessage("exceeding maximum cumulative size of comments");
+    DraftInput invalidDraft =
+        testCommentHelper.newDraft(filePath, Side.REVISION, 1, commentText400Bytes);
+    Exception thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> testCommentHelper.addDraft(changeId, revId, invalidDraft));
+    assertThat(thrown).hasCauseThat().isInstanceOf(CommentsRejectedException.class);
+    assertThat(thrown)
+        .hasCauseThat()
+        .hasMessageThat()
+        .contains("Exceeding maximum cumulative size of comments");
   }
 }

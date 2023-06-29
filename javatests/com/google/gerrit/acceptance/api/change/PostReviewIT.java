@@ -246,7 +246,10 @@ public class PostReviewIT extends AbstractDaemonTest {
     input.drafts = DraftHandling.PUBLISH;
 
     gApi.changes().id(r.getChangeId()).current().review(input);
-    assertValidatorCalledWith(CHANGE_MESSAGE_FOR_VALIDATION, INLINE_COMMENT_FOR_VALIDATION);
+    // Comment validators called twice: first when the draft was created, and second when it was
+    // published.
+    assertValidatorCalledWith(
+        /* numInvocations= */ 2, CHANGE_MESSAGE_FOR_VALIDATION, INLINE_COMMENT_FOR_VALIDATION);
     assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).hasSize(1);
   }
 
@@ -259,16 +262,11 @@ public class PostReviewIT extends AbstractDaemonTest {
     DraftInput draft =
         testCommentHelper.newDraft(
             r.getChange().currentFilePaths().get(0), Side.REVISION, 1, COMMENT_TEXT);
-    testCommentHelper.addDraft(r.getChangeId(), r.getCommit().getName(), draft);
-    assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).isEmpty();
-
-    ReviewInput input = new ReviewInput().message(COMMENT_TEXT);
-    input.drafts = DraftHandling.PUBLISH;
     BadRequestException badRequestException =
         assertThrows(
             BadRequestException.class,
-            () -> gApi.changes().id(r.getChangeId()).current().review(input));
-    assertValidatorCalledWith(CHANGE_MESSAGE_FOR_VALIDATION, INLINE_COMMENT_FOR_VALIDATION);
+            () -> testCommentHelper.addDraft(r.getChangeId(), r.getCommit().getName(), draft));
+    assertValidatorCalledWith(INLINE_COMMENT_FOR_VALIDATION);
     assertThat(badRequestException.getCause()).isInstanceOf(CommentsRejectedException.class);
     assertThat(
             Iterables.getOnlyElement(
@@ -1044,7 +1042,12 @@ public class PostReviewIT extends AbstractDaemonTest {
   }
 
   private void assertValidatorCalledWith(CommentForValidation... commentsForValidation) {
-    assertThat(captor.getAllValues()).hasSize(1);
+    assertValidatorCalledWith(/* numInvocations= */ 1, commentsForValidation);
+  }
+
+  private void assertValidatorCalledWith(
+      int numInvocations, CommentForValidation... commentsForValidation) {
+    assertThat(captor.getAllValues()).hasSize(numInvocations);
     assertThat(captor.getValue())
         .comparingElementsUsing(COMMENT_CORRESPONDENCE)
         .containsExactly(commentsForValidation);

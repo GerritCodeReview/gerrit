@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03275453_0ae6ea7b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1162326
+      },
+      "writtenOn": "2023-06-29T10:35:21Z",
+      "side": 1,
+      "message": "java/com/google/gerrit/server/events/BatchRefUpdateEvent.java",
+      "revId": "d5ac91bef763c66d474bc8d85df05e1f6adc43bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

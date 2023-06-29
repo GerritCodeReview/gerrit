@@ -44,6 +44,7 @@ public enum PatchSetProtoConverter implements ProtoConverter<Entities.PatchSet, 
             .setUploaderAccountId(accountIdConverter.toProto(patchSet.uploader()))
             .setRealUploaderAccountId(accountIdConverter.toProto(patchSet.realUploader()))
             .setCreatedOn(patchSet.createdOn().toEpochMilli());
+    patchSet.branch().ifPresent(builder::setBranch);
     List<String> groups = patchSet.groups();
     if (!groups.isEmpty()) {
       builder.setGroups(PatchSet.joinGroups(groups));
@@ -65,6 +66,9 @@ public enum PatchSetProtoConverter implements ProtoConverter<Entities.PatchSet, 
     }
     if (proto.hasDescription()) {
       builder.description(proto.getDescription());
+    }
+    if (proto.hasBranch()) {
+      builder.branch(proto.getBranch());
     }
 
     // The following fields used to theoretically be nullable in PatchSet, but in practice no

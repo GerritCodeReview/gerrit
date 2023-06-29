@@ -1010,6 +1010,7 @@ public class ChangeNotesStateTest {
                 .put("groups", new TypeLiteral<ImmutableList<String>>() {}.getType())
                 .put("pushCertificate", new TypeLiteral<Optional<String>>() {}.getType())
                 .put("description", new TypeLiteral<Optional<String>>() {}.getType())
+                .put("branch", new TypeLiteral<Optional<String>>() {}.getType())
                 .build());
   }
 

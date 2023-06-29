@@ -168,6 +168,7 @@ public class ActionJson {
     copy.isCurrent = revisionInfo.isCurrent;
     copy._number = revisionInfo._number;
     copy.ref = revisionInfo.ref;
+    copy.branch = revisionInfo.branch;
     copy.created = revisionInfo.created;
     copy.uploader = revisionInfo.uploader;
     copy.realUploader = revisionInfo.realUploader;

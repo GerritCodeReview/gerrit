@@ -391,6 +391,14 @@ link:#approval-info[ApprovalInfo] of the `all` attribute.
    by the current user or not.
 --
 
+[[parents-data]]
+--
+* `PARENTS`: include the `parents_data` field in
+   link:#revision-info[RevisionInfo], which provides information of whether the
+   parent commit of this revision, e.g. if it's merged in the target branch
+   and whether it points to a patch-set of another change.
+--
+
 .Request
 ----
   GET /changes/?q=97&o=CURRENT_REVISION&o=CURRENT_COMMIT&o=CURRENT_FILES&o=DOWNLOAD_COMMANDS HTTP/1.0
@@ -8164,6 +8172,34 @@ A list of link:rest-api-accounts.html#account-id[account IDs] that
 identify the accounts that should be should be notified.
 |=======================
 
+[[parent-info]]
+=== ParentInfo
+The `ParentInfo` entity contains information about the parent commit of a
+patch-set.
+
+[options="header",cols="1,^1,5"]
+|=======================
+|Field Name||Description
+|`branch_name` |optional|Name of the target branch into which the parent commit
+is merged.
+|`commit_id` |optional|The commit SHA-1 of the parent commit, or null if the
+current commit is root.
+|`is_merged_in_target_branch` |optional, default to false| Set to true if the
+parent commit is merged into the target branch.
+|`change_id` |optional| If the parent commit is a patch-set of another gerrit
+change, this field will hold the change ID of the parent change. Otherwise,
+will be null.
+|`change_number` |optional|If the parent commit is a patch-set of another gerrit
+change, this field will hold the change number of the parent change. Otherwise,
+will be null.
+|`patch_set_number` |optional|If the parent commit is a patch-set of another gerrit
+change, this field will hold the patch-set number of the parent change. Otherwise,
+will be null.
+|`change_status` |optional|If the parent commit is a patch-set of another gerrit
+change, this field will hold the change status of the parent change. Otherwise,
+will be null.
+|=======================
+
 [[private-input]]
 === PrivateInput
 The `PrivateInput` entity contains information for changing the private
@@ -8687,6 +8723,19 @@ link:intro-project-owner.html#download-commands[download commands]
 interface is installed.
 |`commit`      |optional|The commit of the patch set as
 link:#commit-info[CommitInfo] entity.
+|`parents_data`     |optional|
+The parent commits of this patch-set commit as a list of
+link:#parent-info[ParentInfo] entities. In each parent, we include the target
+branch name if the parent is a merged commit in the target branch. Otherwise,
+we include the change and patch-set numbers of the parent change. +
+Only set if the `PARENTS` option is set.
+|`branch`      | optional|The name of the target branch that this revision is
+set to be merged into. +
+Note that if the change is moved with the link:#move-change[Move Change]
+endpoint, this field can be different for different patchsets. For example,
+if the change is moved and a new patchset is uploaded afterwards, the
+link:#revision-info[RevisionInfo] of the previous patchset will contain the old
+`branch`, but the newer patchset will contain the new `branch`.
 |`files`       |optional|
 The files of the patch set as a map that maps the file names to
 link:#file-info[FileInfo] entities. Only set if

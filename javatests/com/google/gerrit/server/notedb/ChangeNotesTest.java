@@ -68,6 +68,7 @@ import java.time.Instant;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -227,6 +228,47 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(messages.get(0).getTag()).isEqualTo(integrationTag);
     assertThat(messages.get(1).getTag()).isEqualTo(coverageTag);
     assertThat(messages.get(2).getTag()).isEqualTo(ipTag);
+  }
+
+  @Test
+  public void multipleTargetBranches() throws Exception {
+    Change c = newChange();
+
+    // PS1 with target branch = refs/heads/master
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.putApproval(LabelId.VERIFIED, (short) 1);
+    update.commit();
+
+    // PS2 with target branch = refs/heads/foo
+    incrementPatchSet(c);
+    update = newUpdate(c, changeOwner);
+    update.setBranch("refs/heads/foo");
+    update.commit();
+
+    // PS3 with no change
+    incrementPatchSet(c);
+
+    // PS4 with target branch = refs/heads/bar
+    incrementPatchSet(c);
+    update = newUpdate(c, changeOwner);
+    update.setBranch("refs/heads/bar");
+    update.commit();
+
+    // PS5 with no change
+    incrementPatchSet(c);
+
+    ChangeNotes notes = newNotes(c);
+    ImmutableSortedMap<PatchSet.Id, PatchSet> patchSets = notes.getPatchSets();
+    assertThat(patchSets.get(PatchSet.id(c.getId(), 1)).branch())
+        .isEqualTo(Optional.of("refs/heads/master"));
+    assertThat(patchSets.get(PatchSet.id(c.getId(), 2)).branch())
+        .isEqualTo(Optional.of("refs/heads/foo"));
+    assertThat(patchSets.get(PatchSet.id(c.getId(), 3)).branch())
+        .isEqualTo(Optional.of("refs/heads/foo"));
+    assertThat(patchSets.get(PatchSet.id(c.getId(), 4)).branch())
+        .isEqualTo(Optional.of("refs/heads/bar"));
+    assertThat(patchSets.get(PatchSet.id(c.getId(), 5)).branch())
+        .isEqualTo(Optional.of("refs/heads/bar"));
   }
 
   @Test

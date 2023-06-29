@@ -169,6 +169,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d1363851_df08b78b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3249,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-29T23:37:08Z",
+      "side": 1,
+      "message": "I verified that pagination takes place also for _limited_ queries, where the user\u0027s permissions are reducing the granularity of the results.\n\n`unlimited` then needs to be removed from the `config-gerrit.txt` index documentation.",
+      "parentUuid": "a3af2026_168d774f",
+      "range": {
+        "startLine": 3249,
+        "startChar": 32,
+        "endLine": 3249,
+        "endChar": 45
+      },
+      "revId": "a4cc6f64c7af7611917f8d4a02b0587b480abdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "191cfe5f_fa7ec0f3",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 14

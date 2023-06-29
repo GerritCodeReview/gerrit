@@ -21,6 +21,7 @@ import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Stopwatch;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -38,7 +39,6 @@ import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.OnlineReindexMode;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
-import com.google.gerrit.server.notedb.ChangeNotes.Factory.ScanResult;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
@@ -49,6 +49,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 
@@ -107,10 +108,14 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
     public abstract int slices();
 
-    public abstract ScanResult scanResult();
+    public abstract ImmutableMap<Change.Id, ObjectId> metaIdByChange();
 
-    private static ProjectSlice create(Project.NameKey name, int slice, int slices, ScanResult sr) {
-      return new AutoValue_AllChangesIndexer_ProjectSlice(name, slice, slices, sr);
+    private static ProjectSlice create(
+        Project.NameKey name,
+        int slice,
+        int slices,
+        ImmutableMap<Change.Id, ObjectId> metaIdByChange) {
+      return new AutoValue_AllChangesIndexer_ProjectSlice(name, slice, slices, metaIdByChange);
     }
   }
 
@@ -191,10 +196,10 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       Project.NameKey project,
       int slice,
       int slices,
-      ScanResult scanResult,
+      ImmutableMap<Change.Id, ObjectId> metaIdByChange,
       Task done,
       Task failed) {
-    return new ProjectIndexer(indexer, project, slice, slices, scanResult, done, failed);
+    return new ProjectIndexer(indexer, project, slice, slices, metaIdByChange, done, failed);
   }
 
   private class ProjectIndexer implements Callable<Void> {
@@ -202,7 +207,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     private final Project.NameKey project;
     private final int slice;
     private final int slices;
-    private final ScanResult scanResult;
+    private final ImmutableMap<Change.Id, ObjectId> metaIdByChange;
     private final ProgressMonitor done;
     private final ProgressMonitor failed;
 
@@ -211,14 +216,14 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         Project.NameKey project,
         int slice,
         int slices,
-        ScanResult scanResult,
+        ImmutableMap<Change.Id, ObjectId> metaIdByChange,
         ProgressMonitor done,
         ProgressMonitor failed) {
       this.indexer = indexer;
       this.project = project;
       this.slice = slice;
       this.slices = slices;
-      this.scanResult = scanResult;
+      this.metaIdByChange = metaIdByChange;
       this.done = done;
       this.failed = failed;
     }
@@ -232,7 +237,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       // but the goal is to invalidate that cache as infrequently as we possibly can. And besides,
       // we don't have concrete proof that improving packfile locality would help.
       notesFactory
-          .scan(scanResult, project, id -> (id.get() % slices) == slice)
+          .scan(metaIdByChange, project, id -> (id.get() % slices) == slice)
           .forEach(r -> index(r));
       OnlineReindexMode.end();
       return null;
@@ -337,8 +342,9 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       @Override
       public Void call() throws IOException {
         try (Repository repo = repoManager.openRepository(name)) {
-          ScanResult sr = ChangeNotes.Factory.scanChangeIds(repo);
-          int size = sr.all().size();
+          ImmutableMap<Change.Id, ObjectId> metaIdByChange =
+              ChangeNotes.Factory.scanChangeIds(repo);
+          int size = metaIdByChange.size();
           if (size > 0) {
             changeCount.addAndGet(size);
             int slices = 1 + size / PROJECT_SLICE_MAX_REFS;
@@ -351,7 +357,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
             projTask.updateTotal(slices);
 
             for (int slice = 0; slice < slices; slice++) {
-              ProjectSlice projectSlice = ProjectSlice.create(name, slice, slices, sr);
+              ProjectSlice projectSlice = ProjectSlice.create(name, slice, slices, metaIdByChange);
               ListenableFuture<?> future =
                   executor.submit(
                       reindexProject(
@@ -359,7 +365,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
                           name,
                           slice,
                           slices,
-                          projectSlice.scanResult(),
+                          projectSlice.metaIdByChange(),
                           doneTask,
                           failedTask));
               String description = "project " + name + " (" + slice + "/" + slices + ")";

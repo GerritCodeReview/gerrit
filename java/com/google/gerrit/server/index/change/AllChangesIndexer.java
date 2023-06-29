@@ -21,6 +21,7 @@ import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Stopwatch;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -39,7 +40,6 @@ import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.OnlineReindexMode;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
-import com.google.gerrit.server.notedb.ChangeNotes.Factory.ScanResult;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
@@ -50,6 +50,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 
@@ -108,14 +109,19 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
 
     public abstract int slices();
 
-    public abstract ScanResult scanResult();
+    public abstract ImmutableMap<Change.Id, ObjectId> metaIdByChange();
 
-    private static ProjectSlice create(Project.NameKey name, int slice, int slices, ScanResult sr) {
-      return new AutoValue_AllChangesIndexer_ProjectSlice(name, slice, slices, sr);
+    private static ProjectSlice create(
+        Project.NameKey name,
+        int slice,
+        int slices,
+        ImmutableMap<Change.Id, ObjectId> metaIdByChange) {
+      return new AutoValue_AllChangesIndexer_ProjectSlice(name, slice, slices, metaIdByChange);
     }
 
-    private static ProjectSlice oneSlice(Project.NameKey name, ScanResult sr) {
-      return new AutoValue_AllChangesIndexer_ProjectSlice(name, 0, 1, sr);
+    private static ProjectSlice oneSlice(
+        Project.NameKey name, ImmutableMap<Change.Id, ObjectId> metaIdByChange) {
+      return new AutoValue_AllChangesIndexer_ProjectSlice(name, 0, 1, metaIdByChange);
     }
   }
 
@@ -227,7 +233,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       // we don't have concrete proof that improving packfile locality would help.
       notesFactory
           .scan(
-              projectSlice.scanResult(),
+              projectSlice.metaIdByChange(),
               projectSlice.name(),
               id -> (id.get() % projectSlice.slices()) == projectSlice.slice())
           .forEach(r -> index(r));
@@ -339,8 +345,9 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       @Override
       public Void call() throws IOException {
         try (Repository repo = repoManager.openRepository(name)) {
-          ScanResult sr = ChangeNotes.Factory.scanChangeIds(repo);
-          int size = sr.all().size();
+          ImmutableMap<Change.Id, ObjectId> metaIdByChange =
+              ChangeNotes.Factory.scanChangeIds(repo);
+          int size = metaIdByChange.size();
           if (size > 0) {
             changeCount.addAndGet(size);
             int slices = 1 + (size - 1) / PROJECT_SLICE_MAX_REFS;
@@ -353,7 +360,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
             projTask.updateTotal(slices);
 
             for (int slice = 0; slice < slices; slice++) {
-              ProjectSlice projectSlice = ProjectSlice.create(name, slice, slices, sr);
+              ProjectSlice projectSlice = ProjectSlice.create(name, slice, slices, metaIdByChange);
               ListenableFuture<?> future =
                   executor.submit(
                       reindexProjectSlice(

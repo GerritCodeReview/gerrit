@@ -5,6 +5,8 @@
  */
 import '@polymer/iron-dropdown/iron-dropdown';
 import '@polymer/iron-input/iron-input';
+import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
+import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../../styles/gr-a11y-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-button/gr-button';
@@ -181,6 +183,8 @@ export class GrDiffView extends LitElement {
   files: Files = {sortedPaths: [], changeFilesByPath: {}};
 
   @state() path?: string;
+
+  @state() private shownSidebar?: string;
 
   /** Allows us to react when the user switches to the DIFF view. */
   // Private but used in tests.
@@ -650,6 +654,22 @@ export class GrDiffView extends LitElement {
         :host(.hideComments) {
           --gr-comment-thread-display: none;
         }
+        .sidebarTriggerContainer {
+          display: inline-block;
+        }
+        .sidebarAnchor {
+          position: relative;
+        }
+        .sidebarContainer {
+          width: 300px;
+          height: 500px;
+          position: fixed;
+          left: 0;
+          top: 120px;
+          z-index: 10;
+          background: black;
+          overflow-y: auto;
+        }
       `,
     ];
   }
@@ -731,25 +751,28 @@ export class GrDiffView extends LitElement {
     return html`
       ${this.renderStickyHeader()}
       <h2 class="assistive-tech-only">Diff view</h2>
-      <gr-diff-host
-        id="diffHost"
-        .changeNum=${this.changeNum}
-        .change=${this.change}
-        .patchRange=${this.patchRange}
-        .file=${file}
-        .lineOfInterest=${this.getLineOfInterest()}
-        .path=${this.path}
-        .projectName=${this.change?.project}
-        @is-blame-loaded-changed=${this.onIsBlameLoadedChanged}
-        @comment-anchor-tap=${this.onCommentAnchorTap}
-        @line-selected=${this.onLineSelected}
-        @diff-changed=${this.onDiffChanged}
-        @edit-weblinks-changed=${this.onEditWeblinksChanged}
-        @files-weblinks-changed=${this.onFilesWeblinksChanged}
-        @is-image-diff-changed=${this.onIsImageDiffChanged}
-        @render=${this.reInitCursor}
-      >
-      </gr-diff-host>
+      <div class="sidebarAnchor">
+        ${this.renderSidebarContent()}
+        <gr-diff-host
+          id="diffHost"
+          .changeNum=${this.changeNum}
+          .change=${this.change}
+          .patchRange=${this.patchRange}
+          .file=${file}
+          .lineOfInterest=${this.getLineOfInterest()}
+          .path=${this.path}
+          .projectName=${this.change?.project}
+          @is-blame-loaded-changed=${this.onIsBlameLoadedChanged}
+          @comment-anchor-tap=${this.onCommentAnchorTap}
+          @line-selected=${this.onLineSelected}
+          @diff-changed=${this.onDiffChanged}
+          @edit-weblinks-changed=${this.onEditWeblinksChanged}
+          @files-weblinks-changed=${this.onFilesWeblinksChanged}
+          @is-image-diff-changed=${this.onIsImageDiffChanged}
+          @render=${this.reInitCursor}
+        >
+        </gr-diff-host>
+      </div>
       ${this.renderDialogs()}
     `;
   }
@@ -805,6 +828,7 @@ export class GrDiffView extends LitElement {
             @value-change=${this.handleFileChange}
           ></gr-dropdown-list>
         </div>
+        ${this.renderSidebarTriggers()}
       </div>
       <div class="navLinks desktop">
         <span class="fileNum ${ifDefined(fileNumClass)}">
@@ -841,6 +865,45 @@ export class GrDiffView extends LitElement {
           >Next</a
         >
       </div>`;
+  }
+
+  private renderSidebarTriggers() {
+    return html`
+      <div class="sidebarTriggerContainer">
+        <gr-endpoint-decorator name="sidebarTrigger">
+          <gr-endpoint-param
+            name="onTrigger"
+            .value=${(pluginName: string) =>
+              (this.shownSidebar =
+                this.shownSidebar === pluginName ? undefined : pluginName)}
+          ></gr-endpoint-param>
+        </gr-endpoint-decorator>
+      </div>
+    `;
+  }
+
+  private renderSidebarContent() {
+    if (this.shownSidebar === undefined) {
+      return nothing;
+    }
+    return html`
+      <div class="sidebarContainer">
+        <gr-endpoint-decorator name=${`sidebarContent-${this.shownSidebar}`}>
+          <gr-endpoint-param
+            name="change"
+            .value=${this.change}
+          ></gr-endpoint-param>
+          <gr-endpoint-param
+            name="path"
+            .value=${this.path}
+          ></gr-endpoint-param>
+          <gr-endpoint-param
+            name="patchNum"
+            .value=${this.patchNum}
+          ></gr-endpoint-param>
+        </gr-endpoint-decorator>
+      </div>
+    `;
   }
 
   private renderPatchRangeLeft() {

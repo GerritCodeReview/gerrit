@@ -34,6 +34,24 @@
       "parentUuid": "643ca75e_98226a3c",
       "revId": "23c2a96770e2d6886dbec6613cc6c7618feb1ae4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a44c2c10_b51750d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-06-29T14:56:37Z",
+      "side": 1,
+      "message": "I did not try any major version upgrades.\n\nI am not much concerned about version skew for resemblejs.\n\nBut I also don\u0027t really understand why we need to bump the version here.",
+      "parentUuid": "d40a306f_7c6f1682",
+      "revId": "23c2a96770e2d6886dbec6613cc6c7618feb1ae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

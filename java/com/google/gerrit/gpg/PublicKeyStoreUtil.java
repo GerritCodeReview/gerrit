@@ -58,7 +58,11 @@ public class PublicKeyStoreUtil {
   }
 
   public boolean hasInitializedPublicKeyStore() {
-    return storeProvider.get() != null;
+    try {
+      return storeProvider.get() != null;
+    } catch (Exception e) {
+      return false;
+    }
   }
 
   public List<PGPPublicKey> listGpgKeysForUser(Account.Id id) throws PGPException, IOException {

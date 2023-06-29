@@ -156,6 +156,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7225790c_46fce2f9",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-29T14:35:57Z",
+      "side": 1,
+      "message": "Maybe it becomes clearer like this:\n\nA batch-ref-updated event contains all refs updated in a single operation. Thus, the refUpdated-field contains a list of 1 (in case of a RefUpdate) to n (in case of a BatchRefUpdate) ref-updates, i.e. listeners of batch-ref-updated events will be notified about every ref update and not just about batch ref updates.",
+      "parentUuid": "37b5c4c0_7ce6790a",
+      "range": {
+        "startLine": 213,
+        "startChar": 63,
+        "endLine": 214,
+        "endChar": 27
+      },
+      "revId": "f22c9f7ab91eec21d7a3c24b8a41ccb9fee3a03c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b5376dd4_4b116780",
         "filename": "Documentation/cmd-stream-events.txt",
         "patchSetId": 5

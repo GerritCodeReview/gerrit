@@ -242,6 +242,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae5b3abc_0a9cbe9c",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-29T14:35:57Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9afb5870_4f46445f",
+      "revId": "28f6cdb9016896e34701cace40f30f2efc5d9505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3212c835_58624b89",
@@ -279,6 +297,30 @@
       "side": 1,
       "message": "done, please review",
       "parentUuid": "3212c835_58624b89",
+      "range": {
+        "startLine": 3671,
+        "startChar": 0,
+        "endLine": 3673,
+        "endChar": 73
+      },
+      "revId": "28f6cdb9016896e34701cace40f30f2efc5d9505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "468f1ef5_e5f06d5d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3673,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-06-29T14:35:57Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "6589e9b7_89014634",
       "range": {
         "startLine": 3671,
         "startChar": 0,

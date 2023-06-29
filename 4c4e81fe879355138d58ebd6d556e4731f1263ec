@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "672ab2bc_c729451d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-06-29T11:17:30Z",
+      "side": 1,
+      "message": "Rather than storing an HTMLTableRowElement, which ties you to table, what about storing the diff-row?",
+      "revId": "4c4e81fe879355138d58ebd6d556e4731f1263ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eeee99cb_254fa24f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-06-29T11:17:30Z",
+      "side": 1,
+      "message": "Unrelated change?",
+      "revId": "4c4e81fe879355138d58ebd6d556e4731f1263ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

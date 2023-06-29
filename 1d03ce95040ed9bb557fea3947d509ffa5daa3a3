@@ -16,6 +16,24 @@
       "message": "Please explain in a bit more detail.\n\nAlso, in the future could you separate pure refactors/renames from logic-changes?  It makes it easier to review.",
       "revId": "1d03ce95040ed9bb557fea3947d509ffa5daa3a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd8212d8_74ac04ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-06-29T15:17:26Z",
+      "side": 1,
+      "message": "Done.\n\nI have only included the _ removals, because I was asked to do it in another review comment.",
+      "parentUuid": "09ccbf76_48997641",
+      "revId": "1d03ce95040ed9bb557fea3947d509ffa5daa3a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

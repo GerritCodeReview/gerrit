@@ -74,6 +74,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e67c6274_ab30d383",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-29T23:41:26Z",
+      "side": 1,
+      "message": "That is inaccurate, because also limited change queries with permission-restricted granularity would be affected by pagination.\n\nBest to remove this statement altogether.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 35
+      },
+      "revId": "fedae24c080942b9a02d24cbec185996745d77d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6089e5d0_67709384",
         "filename": "/COMMIT_MSG",
         "patchSetId": 16
@@ -85,6 +108,24 @@
       "writtenOn": "2023-06-29T22:12:14Z",
       "side": 1,
       "message": "Do the tests in this issue still fail if you set `PaginationType\u003d\u003dSEARCH_AFTER`? We had planned to change that to be the default on master before 3.8 was released, but it looks like we haven\u0027t done that yet.",
+      "revId": "fedae24c080942b9a02d24cbec185996745d77d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a2d13ee_c2bba449",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-06-29T23:41:26Z",
+      "side": 1,
+      "message": "@Ponch can you check?",
+      "parentUuid": "6089e5d0_67709384",
       "revId": "fedae24c080942b9a02d24cbec185996745d77d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

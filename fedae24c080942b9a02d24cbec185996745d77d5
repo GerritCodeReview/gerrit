@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4833393_3e55517b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-29T22:12:14Z",
+      "side": 1,
+      "message": "Two thoughts:\n\n1) Since you\u0027re trying to fix behavior introduced in a specific change (change I2f5a6aad3), it would be good to mention that change early in this message.\n\n2) Looking more at change I2f5a6aad3, I guess this subject should be something like `Optionally do not paginate internal change index queries` to be clear that the scope of the change is only intended to be internal change index queries.",
+      "revId": "fedae24c080942b9a02d24cbec185996745d77d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6089e5d0_67709384",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-29T22:12:14Z",
+      "side": 1,
+      "message": "Do the tests in this issue still fail if you set `PaginationType\u003d\u003dSEARCH_AFTER`? We had planned to change that to be the default on master before 3.8 was released, but it looks like we haven\u0027t done that yet.",
+      "revId": "fedae24c080942b9a02d24cbec185996745d77d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "062fa204_2d6fa235",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 3249,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-29T22:12:14Z",
+      "side": 1,
+      "message": "Is there anything specific to `change` index queries in the pagination itself?",
+      "range": {
+        "startLine": 3249,
+        "startChar": 42,
+        "endLine": 3249,
+        "endChar": 48
+      },
+      "revId": "fedae24c080942b9a02d24cbec185996745d77d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9080091_aec9765e",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-29T22:12:14Z",
+      "side": 1,
+      "message": "This is not the same as what the behavior was prior to change I2f5a6aad. Specifically, the `isNoLimit` code wasn\u0027t there before: https://gerrit-review.googlesource.com/c/gerrit/+/345634/9/java/com/google/gerrit/index/query/QueryProcessor.java#388",
+      "range": {
+        "startLine": 171,
+        "startChar": 10,
+        "endLine": 171,
+        "endChar": 41
+      },
+      "revId": "fedae24c080942b9a02d24cbec185996745d77d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

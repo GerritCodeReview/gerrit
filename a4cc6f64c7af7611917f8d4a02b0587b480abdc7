@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "522ec755_3d65da7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-29T22:12:14Z",
+      "side": 1,
+      "message": "\u003e I think adding this new setting is still worthwhile because:\n\u003e 1) the cherrypicked change is a workaround to prevent just a cache from blowing up. It is covering the duplication case only (and possibly not all of them).\n\u003e 2) the search API is public, plugins or integration could use it, and they might rely on consistent results.\n\nThey might, but if you check existing Gerrit code like `ChangeFinder.asChangeNotes()`, you can see it\u0027s already expected that depending on the index backend, index searches can return duplicate or missing changes. So for all use cases other than internal queries, this was already broken before change I2f5a6aad3. I have some thoughts at the bottom for another way to solve that.\n\n\u003e 3) this patch’s complexity is minimal in the context of the code in question, and it offers back-compatibility with the Gerrit behavior before the introduction of the pagination mechanism (i.e.: no duplicates entries, no missing entries)\n\nI think a final, well-factored version of this change will be more complicated than it is currently (see my inline comment about PaginatingSource).\n\n\u003e 4) I managed to reproduce the case of missing changes as follow:\n\nThanks for writing and sharing the test case! You might want to re-check it with the fix in https://gerrit-review.googlesource.com/c/gerrit/+/374214/-1..6/java/com/google/gerrit/index/QueryOptions.java applied if you haven\u0027t already.\n\n\u003e \n\u003e a) Add a sleep in `PaginatingSource` L#80 to simulate a slow data retrieval:\n\nNot sure it matters, but wouldn\u0027t slow data retrieval be a sleep after that line (after getting `next`) or even better, a sleep in `LuceneChangeIndex.doRead()`?\n\n[snip]\n\n\u003e  @GerritConfig(name \u003d \"index.maxPageSize\", value \u003d \"1\")\n\nI\u0027m not sure this is a valid setting for any test. You\u0027re forcing 1 result per index backend query, correct? And using `OFFSET` as the pagination mode, I think you\u0027re just asking for trouble. This might pass if you use `SEARCH_AFTER`, but maybe not.\n\n[snip]\n\n\u003e     changeQueryProcessor.setNoLimit(true); // This is important. The issue is reproducible with noLimit set to true, which is normally the value used by internal queries\n\nBut combined with that maxPageSize (and the fix in https://gerrit-review.googlesource.com/c/gerrit/+/374214/-1..6/java/com/google/gerrit/index/QueryOptions.java) this should have no effect, except that you\u0027re setting the `QUERY_LIMIT` to 1 above. If you leave `QUERY_LIMIT` at the default 500 (or anything greater than 4), I think noLimit won\u0027t matter.\n\n[snip]\n\n\u003e       assertThat(wipState).isNull(); // All the changes in the result set should NOT be WIP since our query was “-is:wip” \n\u003e     }\n\u003e     assertThat((long) qr.entities().size()).isEqualTo(4); // We are expecting 4 changes since when we issued the query we had 4 NON-WIP changes\n\nDo these asserts pass if you copy them above where you create and start the new thread?\n\nDoes this entire test pass if you run it before change I2f5a6aad3?\n\nOverall, I\u0027m not arguing that we should improve the consistency and reliability of Gerrit\u0027s query results. I\u0027m actually strongly in favor of that as we *heavily* rely upon queries at $DAYJOB. If having an option to disable paginating internal change queries is what you need, we\u0027ll try to help. For us, the query performance regression of non-paginated internal queries was much too bad compared to Gerrit 2.7 for us to use that as a production solution.\n\nI think another option we could explore would be to support (not require) a single change index with Lucene. Doing that eliminates a bunch of the raciness potential with change state transitions. As an optional thing, it would be safe to do on a stable branch and overall it\u0027s likely not much code. I know there was historical reasoning for splitting into open and closed changes, but given that the Elasticsearch index implementation uses a single change index (and performs well when configured with a single shard), I think it\u0027s likely Lucene would perform well too.",
+      "parentUuid": "8c723670_431beb89",
+      "revId": "a4cc6f64c7af7611917f8d4a02b0587b480abdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6bfec1cc_70e507d7",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 14
@@ -90,6 +108,30 @@
       "writtenOn": "2023-06-29T20:23:55Z",
       "side": 1,
       "message": "Done",
+      "parentUuid": "6bfec1cc_70e507d7",
+      "range": {
+        "startLine": 3249,
+        "startChar": 32,
+        "endLine": 3249,
+        "endChar": 45
+      },
+      "revId": "a4cc6f64c7af7611917f8d4a02b0587b480abdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a45a7412_3173cdc0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3249,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-29T22:12:14Z",
+      "side": 1,
+      "message": "\u003e ```suggestion\n\u003e The pagination type to use when unlimited index queries are repeated to\n\u003e ```\n\nWhat do you mean by \"unlimited\"? There\u0027s several limits that affect pagination, so it\u0027s not clear to me how you\u0027re using this word.",
       "parentUuid": "6bfec1cc_70e507d7",
       "range": {
         "startLine": 3249,
@@ -466,6 +508,30 @@
       "writtenOn": "2023-06-29T20:23:55Z",
       "side": 1,
       "message": "Acknowledged",
+      "parentUuid": "8e9f0669_19585b73",
+      "range": {
+        "startLine": 285,
+        "startChar": 12,
+        "endLine": 285,
+        "endChar": 69
+      },
+      "revId": "a4cc6f64c7af7611917f8d4a02b0587b480abdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48031caa_74eca1e8",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-29T22:12:14Z",
+      "side": 1,
+      "message": "I don\u0027t think you should be extending/wrapping PaginatingSource if you\u0027re not paginating.",
       "parentUuid": "8e9f0669_19585b73",
       "range": {
         "startLine": 285,

@@ -5,6 +5,8 @@
  */
 import '@polymer/iron-dropdown/iron-dropdown';
 import '@polymer/iron-input/iron-input';
+import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
+import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../../styles/gr-a11y-styles';
 import '../../../styles/shared-styles';
 import '../../shared/gr-button/gr-button';
@@ -139,6 +141,11 @@ export class GrDiffView extends LitElement {
   @query('#diffPreferencesDialog')
   diffPreferencesDialog?: GrDiffPreferencesDialog;
 
+  @query('.sidebarAnchor')
+  sidebarAnchor?: HTMLDivElement;
+
+  @state() private sidebarHeight = 0;
+
   // Private but used in tests.
   @state()
   get patchRange(): PatchRange | undefined {
@@ -181,6 +188,8 @@ export class GrDiffView extends LitElement {
   files: Files = {sortedPaths: [], changeFilesByPath: {}};
 
   @state() path?: string;
+
+  @state() private shownSidebar?: string;
 
   /** Allows us to react when the user switches to the DIFF view. */
   // Private but used in tests.
@@ -650,6 +659,19 @@ export class GrDiffView extends LitElement {
         :host(.hideComments) {
           --gr-comment-thread-display: none;
         }
+        .sidebarTriggerContainer {
+          display: inline-block;
+        }
+        .sidebarAnchor {
+          height: 0;
+          width: 0;
+          overflow: visible;
+        }
+        .sidebarContents {
+          background: black;
+          width: 300px;
+          overflow-y: auto;
+        }
       `,
     ];
   }
@@ -663,6 +685,14 @@ export class GrDiffView extends LitElement {
     // TODO(newdiff-cleanup): Remove once newdiff migration is completed.
     this.cursor = isNewDiff() ? new GrDiffCursorNew() : new GrDiffCursor();
     if (this.diffHost) this.reInitCursor();
+    window.addEventListener('scroll', () => {
+      if (this.sidebarAnchor) {
+        this.sidebarHeight =
+          window.innerHeight -
+          this.sidebarAnchor.getBoundingClientRect().bottom;
+      }
+      console.log(this.sidebarHeight);
+    });
   }
 
   override disconnectedCallback() {
@@ -731,6 +761,7 @@ export class GrDiffView extends LitElement {
     return html`
       ${this.renderStickyHeader()}
       <h2 class="assistive-tech-only">Diff view</h2>
+      <!-- ${this.renderSidebarContent()} -->
       <gr-diff-host
         id="diffHost"
         .changeNum=${this.changeNum}
@@ -774,6 +805,7 @@ export class GrDiffView extends LitElement {
           >&gt;</a
         >
       </div>
+      ${this.renderSidebarContent()}
     </div>`;
   }
 
@@ -805,6 +837,7 @@ export class GrDiffView extends LitElement {
             @value-change=${this.handleFileChange}
           ></gr-dropdown-list>
         </div>
+        ${this.renderSidebarTriggers()}
       </div>
       <div class="navLinks desktop">
         <span class="fileNum ${ifDefined(fileNumClass)}">
@@ -841,6 +874,67 @@ export class GrDiffView extends LitElement {
           >Next</a
         >
       </div>`;
+  }
+
+  private renderSidebarTriggers() {
+    return html`
+      <div class="sidebarTriggerContainer">
+        <gr-endpoint-decorator name="sidebarTrigger">
+          <gr-endpoint-param
+            name="onTrigger"
+            .value=${(pluginName: string) =>
+              (this.shownSidebar =
+                this.shownSidebar === pluginName ? undefined : pluginName)}
+          ></gr-endpoint-param>
+        </gr-endpoint-decorator>
+      </div>
+    `;
+  }
+
+  private renderSidebarContent() {
+    // Always renders the 0x0px .sidebarAnchor div for scroll measurements.
+    return html`
+      <div class="sidebarAnchor">
+        ${when(
+          this.shownSidebar !== undefined,
+          () => html`
+            <div
+              class="sidebarContents"
+              style=${`height: ${this.sidebarHeight}px`}
+            >
+              <gr-endpoint-decorator
+                name=${`sidebarContent-${this.shownSidebar}`}
+              >
+                <gr-endpoint-param
+                  name="change"
+                  .value=${this.change}
+                ></gr-endpoint-param>
+                <gr-endpoint-param
+                  name="path"
+                  .value=${this.path}
+                ></gr-endpoint-param>
+                <gr-endpoint-param
+                  name="patchNum"
+                  .value=${this.patchNum}
+                ></gr-endpoint-param>
+                <gr-endpoint-param
+                  name="goToLine"
+                  .value=${(lineNum: number) => {
+                    this.focusLineNum = lineNum;
+                    this.leftSide = false;
+                    // Wait for collapsed lines to be expanded if needed
+                    setTimeout(
+                      () => this.cursor?.moveToLineNumber(lineNum, Side.RIGHT),
+                      0
+                    );
+                  }}
+                ></gr-endpoint-param>
+              </gr-endpoint-decorator>
+            </div>
+          `
+        )}
+      </div>
+    `;
   }
 
   private renderPatchRangeLeft() {

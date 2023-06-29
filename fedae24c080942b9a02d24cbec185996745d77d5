@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e78e7794_b7dede4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-29T23:17:26Z",
+      "side": 1,
+      "message": "\u003e \u003e 2) Looking more at change I2f5a6aad3, I guess this subject should be something like `Optionally do not paginate internal change index queries` to be clear that the scope of the change is only intended to be internal change index queries.\n\u003e \n\u003e I thought the same, but then looking at I2f5a6aad3 it does something different than what is mention in its commit message. Rather than focusing on internal change index queries _only_ it refactors the way the initial page size is calculated for *any type* of queries, internal or not.\n\nRefactors, yes. Changes functional behavior, no (or at least that was the intent). There were already paginated index queries long before I2f5a6aad3 (just check the history of the `Paginated` interface).\n\n\u003e \n\u003e Bottom line: this change is addressing any change query, internal or not.\n\nIf it is, I think you could be affecting a lot more behavior than what I2f5a6aad3 did.",
+      "parentUuid": "abf8f872_c2a79141",
+      "revId": "fedae24c080942b9a02d24cbec185996745d77d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6089e5d0_67709384",
         "filename": "/COMMIT_MSG",
         "patchSetId": 16

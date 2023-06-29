@@ -1,12 +1,8 @@
 load("//tools/bzl:maven_jar.bzl", "MAVEN_CENTRAL", "maven_jar")
 
-_JGIT_VERS = "5.1.16.202106041830-r"
+_JGIT_VERS = "5.13.2.202306221912-r"
 
-_DOC_VERS = "5.1.15.202012011955-r"  # Set to _JGIT_VERS unless using a snapshot
-# TODO: workaround to be removed when merging upstream:
-# 5.1.16.202106041830-r has been removed while
-# 5.1.15.202012011955-r is available and has the same
-# interface and docs
+_DOC_VERS = _JGIT_VERS  # Set to _JGIT_VERS unless using a snapshot
 
 JGIT_DOC_URL = "https://archive.eclipse.org/jgit/site/" + _DOC_VERS + "/apidocs"
 
@@ -44,22 +40,22 @@ def jgit_maven_repos():
         name = "jgit-lib",
         artifact = "org.eclipse.jgit:org.eclipse.jgit:" + _JGIT_VERS,
         repository = _JGIT_REPO,
-        sha1 = "1b32273b9b8326a14355374702799b6cd4a94050",
-        src_sha1 = "62a010fe8e0de9c4684348f3853da3c817257165",
+        sha1 = "9821f341f01485ff1d542d7f45c289626059af1f",
+        src_sha1 = "d27f7e6811bc8a89a3105623f60d48ef7db67e7f",
         unsign = True,
     )
     maven_jar(
         name = "jgit-servlet",
         artifact = "org.eclipse.jgit:org.eclipse.jgit.http.server:" + _JGIT_VERS,
         repository = _JGIT_REPO,
-        sha1 = "f375f3c6cfe37096ee984d3a2f380817446ac5f0",
+        sha1 = "e3fd6db40aaaf42e61e717862fd190e8192939e3",
         unsign = True,
     )
     maven_jar(
         name = "jgit-archive",
         artifact = "org.eclipse.jgit:org.eclipse.jgit.archive:" + _JGIT_VERS,
         repository = _JGIT_REPO,
-        sha1 = "20378bb3138a9ab8d2e13036a2f3e4719caad7a2",
+        sha1 = "e25fb46d01fa79a6e54c9fe6c78af3255b14dbc8",
     )
     maven_jar(
         name = "jgit-junit",

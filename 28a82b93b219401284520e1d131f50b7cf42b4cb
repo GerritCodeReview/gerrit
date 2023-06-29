@@ -246,6 +246,30 @@
       },
       "revId": "28a82b93b219401284520e1d131f50b7cf42b4cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fc0e892_f9aaee9b",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-06-29T08:38:10Z",
+      "side": 1,
+      "message": "\u003e I suggested to specify the transitive dependencies as own dependencies:\n\nI don\u0027t quite follow what you mean.\n\nFlexmark is a single project, https://github.com/vsch/flexmark-java, with one license file, there are no separate licenses.",
+      "parentUuid": "c0fd3a89_bcddd64a",
+      "range": {
+        "startLine": 324,
+        "startChar": 0,
+        "endLine": 330,
+        "endChar": 5
+      },
+      "revId": "28a82b93b219401284520e1d131f50b7cf42b4cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

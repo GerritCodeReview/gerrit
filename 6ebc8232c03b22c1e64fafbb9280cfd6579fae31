@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb13c0f8_e77f22c0",
+        "filename": "tools/bzl/maven_jar.bzl",
+        "patchSetId": 8
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-06-29T08:38:10Z",
+      "side": 1,
+      "message": "this can go now?",
+      "range": {
+        "startLine": 142,
+        "startChar": 28,
+        "endLine": 142,
+        "endChar": 42
+      },
+      "revId": "6ebc8232c03b22c1e64fafbb9280cfd6579fae31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

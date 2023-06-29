@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09ccbf76_48997641",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-06-29T11:01:01Z",
+      "side": 1,
+      "message": "Please explain in a bit more detail.\n\nAlso, in the future could you separate pure refactors/renames from logic-changes?  It makes it easier to review.",
+      "revId": "1d03ce95040ed9bb557fea3947d509ffa5daa3a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

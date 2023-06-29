@@ -88,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9e569fc_eb63cfef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-06-29T07:43:31Z",
+      "side": 1,
+      "message": "Ack.\nThough I think the change mentioned in the bug gives an easier solution.",
+      "parentUuid": "91f8cad0_4ff40dd0",
+      "revId": "28a82b93b219401284520e1d131f50b7cf42b4cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a924442_f37229ce",
@@ -111,6 +129,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b07a0e8d_5c1c5c36",
+        "filename": "lib/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-06-29T07:43:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a924442_f37229ce",
+      "range": {
+        "startLine": 373,
+        "startChar": 4,
+        "endLine": 374,
+        "endChar": 6
+      },
+      "revId": "28a82b93b219401284520e1d131f50b7cf42b4cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71a9768c_77e1fd11",
@@ -124,6 +166,30 @@
       "writtenOn": "2023-06-28T13:39:09Z",
       "side": 1,
       "message": "I wouldn\u0027t do it for two reasons:\n\n1. `maven_jar` is our custom Bazel macro migrated from `buck`, one day we could migrate standard dependency bazel library, like `rules_jvm_external`:[1].\n2. Patch single artifacts: who is saying that the library-compsite artifact would be released?\n\nI went ahead and specified the single transitive dependencies, that are specified in `pom.xml` anyway: [2]. That should be the way to go: [3].\n\n\n[1]: https://github.com/bazelbuild/rules_jvm_external\n[2]: https://repo1.maven.org/maven2/com/vladsch/flexmark/flexmark-util/0.64.0/flexmark-util-0.64.0.pom\n[3]: https://paste.opendev.org/show/bSuNw7dXdhRU9JzDvsiL",
+      "range": {
+        "startLine": 324,
+        "startChar": 0,
+        "endLine": 330,
+        "endChar": 5
+      },
+      "revId": "28a82b93b219401284520e1d131f50b7cf42b4cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a854240_dc9b1367",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-06-29T07:43:31Z",
+      "side": 1,
+      "message": "Many thanks, David!",
+      "parentUuid": "71a9768c_77e1fd11",
       "range": {
         "startLine": 324,
         "startChar": 0,

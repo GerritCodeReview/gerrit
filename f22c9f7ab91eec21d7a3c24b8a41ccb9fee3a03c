@@ -178,6 +178,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7f74a89_950265a1",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-06-30T11:00:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7225790c_46fce2f9",
+      "range": {
+        "startLine": 213,
+        "startChar": 63,
+        "endLine": 214,
+        "endChar": 27
+      },
+      "revId": "f22c9f7ab91eec21d7a3c24b8a41ccb9fee3a03c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5376dd4_4b116780",

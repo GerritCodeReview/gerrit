@@ -1681,6 +1681,18 @@ public abstract class AbstractDaemonTest {
     }
   }
 
+  protected void disableCreateNewChangeForAllNotInTarget() throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateProject(
+              p ->
+                  p.setBooleanConfig(
+                      BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,
+                      InheritableBoolean.FALSE));
+      u.save();
+    }
+  }
+
   protected void enableCreateNewChangeForAllNotInTarget() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig()

@@ -15,7 +15,7 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.server.account.externalids.OnlineExternalIdCaseSensivityMigratiorExecutor;
-import com.google.gerrit.server.account.externalids.OnlineExternalIdCaseSensivityMigrator;
+import com.google.gerrit.server.account.externalids.storage.notedb.OnlineExternalIdCaseSensivityMigrator;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.sshd.CommandModule;
 import com.google.gerrit.sshd.Commands;

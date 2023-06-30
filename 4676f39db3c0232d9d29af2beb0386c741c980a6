@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4009a03_d0f11022",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-06-30T20:27:31Z",
+      "side": 1,
+      "message": "I\u0027ve tried to make the change as less invasive as possible and make sure that we are backward compatible. It is still possible to generate event with HashSet instead of LinkedHashSet so we are not enforcing the order. To do that we should store internally list of refs instead of set and introduce constructor which accepts list of refs but I\u0027m afraid that this could create incompatibility on the binary level",
+      "revId": "4676f39db3c0232d9d29af2beb0386c741c980a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

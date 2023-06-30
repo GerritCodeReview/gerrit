@@ -70,7 +70,11 @@ public class BucketedCallbackTest {
     BucketedCallback<Long> bc = new CallbackMetricTestImpl();
     bc.getOrCreate("foo");
 
-    assertThrows(IllegalArgumentException.class, () -> bc.getOrCreate("setToFoo"));
+    IllegalArgumentException exception =
+        assertThrows(IllegalArgumentException.class, () -> bc.getOrCreate("setToFoo"));
+    assertThat(exception.getMessage())
+        .isEqualTo("Key [setToFoo] maps to an already existing submetric [name/foo]");
+
     assertThat(bc.getCells().keySet()).containsExactly("foo");
     assertThat(registry.getNames()).containsExactly("name/foo");
   }

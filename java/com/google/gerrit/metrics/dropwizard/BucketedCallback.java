@@ -103,7 +103,14 @@ abstract class BucketedCallback<V> implements BucketedMetric {
       c = cells.get(key);
       if (c == null) {
         c = new ValueGauge();
-        registry.register(submetric(key), c);
+        try {
+          registry.register(submetric(key), c);
+        } catch (IllegalArgumentException e) {
+          throw new IllegalArgumentException(
+              String.format(
+                  "Key [%s] maps to an already existing submetric [%s]", key, submetric(key)),
+              e);
+        }
         cells.put(key, c);
       }
       return c;

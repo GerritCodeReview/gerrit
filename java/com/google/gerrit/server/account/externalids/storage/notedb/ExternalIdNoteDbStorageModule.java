@@ -17,6 +17,7 @@ package com.google.gerrit.server.account.externalids.storage.notedb;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.server.account.externalids.ExternalIdUpsertPreprocessor;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.account.externalids.ExternalIdsConsistencyChecker;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 
@@ -26,5 +27,8 @@ public class ExternalIdNoteDbStorageModule extends AbstractModule {
     DynamicMap.mapOf(binder(), ExternalIdUpsertPreprocessor.class);
 
     bind(ExternalIds.class).to(ExternalIdsNoteDbImpl.class).in(Singleton.class);
+    bind(ExternalIdsConsistencyChecker.class)
+        .to(ExternalIdsConsistencyCheckerNoteDbImpl.class)
+        .in(Singleton.class);
   }
 }

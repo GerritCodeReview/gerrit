@@ -4603,6 +4603,35 @@ link:https://www.gnupg.org/documentation/manuals/gnupg/OpenPGP-Key-Management.ht
 If no keys are specified, web-of-trust checks are disabled. This is the
 default behavior.
 
+[[receive.enableChangeIdLinkFooters]]receive.enableChangeIdLinkFooters::
++
+Enables a `Link` footer to be used as an alternative change ID footer.
++
+In some projects it may be desirable for the footer to contain a link to
+the Gerrit review page so that it is convenient to access the review
+page starting from the commit message. The `Link` footer is a standard
+footer used for inserting links in the commit message (e.g. used by the
+Linux kernel).
++
+This option makes Gerrit interoperate well with `Link` footers. If
+change ID `Link` footers are enabled Gerrit recognizes footers of the
+form:
++
+----
+  Link: https://<host>/id/<change-ID>
+----
++
+Example:
+----
+  Link: https://gerrit-review.googlesource.com/id/I78e884a944cedb5144f661a057e4829c8f84e933
+----
++
+For Gerrit to recognize the change ID, the part of the URL before the
+'/id/' part must match with the link:#gerrit.canonicalWebUrl[canonical
+web URL].
++
+Default is `true`.
+
 [[repository]]
 === Section repository
 

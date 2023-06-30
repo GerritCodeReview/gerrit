@@ -25,6 +25,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.inject.Inject;
@@ -40,6 +41,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -57,10 +59,13 @@ public class ChangeUtil {
       Ordering.from(comparingInt(PatchSet::number));
 
   private final DynamicItem<UrlFormatter> urlFormatter;
+  private final boolean enableLinkChangeIdFooters;
 
   @Inject
-  ChangeUtil(DynamicItem<UrlFormatter> urlFormatter) {
+  ChangeUtil(DynamicItem<UrlFormatter> urlFormatter, @GerritServerConfig Config config) {
     this.urlFormatter = urlFormatter;
+    this.enableLinkChangeIdFooters =
+        config.getBoolean("receive", "enableChangeIdLinkFooters", true);
   }
 
   /** Returns a new unique identifier for change message entities. */
@@ -163,6 +168,10 @@ public class ChangeUtil {
 
   public List<String> getChangeIdsFromFooter(RevCommit c) {
     List<String> changeIds = c.getFooterLines(FooterConstants.CHANGE_ID);
+    if (!enableLinkChangeIdFooters) {
+      return changeIds;
+    }
+
     Optional<String> webUrl = urlFormatter.get().getWebUrl();
     if (!webUrl.isPresent()) {
       return changeIds;

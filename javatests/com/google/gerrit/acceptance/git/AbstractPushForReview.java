@@ -1793,6 +1793,29 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "receive.enableChangeIdLinkFooters", value = "false")
+  public void pushWithLinkFooter_linkFootersDisabled() throws Exception {
+    String changeId = "I0123456789abcdef0123456789abcdef01234567";
+    String url = cfg.getString("gerrit", null, "canonicalWebUrl");
+    if (!url.endsWith("/")) {
+      url += "/";
+    }
+    createCommit(testRepo, "test commit\n\nLink: " + url + "id/" + changeId);
+    pushForReviewRejected(testRepo, "missing Change-Id in message footer");
+  }
+
+  @Test
+  @GerritConfig(name = "receive.enableChangeIdLinkFooters", value = "false")
+  public void pushWithChangeIdFooter_linkFootersDisabled() throws Exception {
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    r.assertOkStatus();
+    r.assertChange(Change.Status.NEW, null);
+
+    List<ChangeMessageInfo> messages = getMessages(r.getChangeId());
+    assertThat(messages.get(0).message).isEqualTo("Uploaded patch set 1.");
+  }
+
+  @Test
   public void pushWithWrongHostLinkFooter() throws Exception {
     String changeId = "I0123456789abcdef0123456789abcdef01234567";
     createCommit(testRepo, "test commit\n\nLink: https://wronghost/id/" + changeId);

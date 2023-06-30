@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0b3bfd5_f092756d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-06-30T12:24:42Z",
+      "side": 1,
+      "message": "Screenshot for this scenario?",
+      "revId": "0e47df7b234f74568dfddc6e219b1b73d590e61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e26a955_23242245",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-06-30T12:24:42Z",
+      "side": 1,
+      "message": "Superfluous constructor?",
+      "revId": "0e47df7b234f74568dfddc6e219b1b73d590e61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2a523fe_98681188",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-06-30T12:24:42Z",
+      "side": 1,
+      "message": "I don\u0027t understand this logic has to be so complicated.\n\nWhy can\u0027t the model always update leftComments? Subbing and unsubbing seems unnecessary.",
+      "revId": "0e47df7b234f74568dfddc6e219b1b73d590e61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "448d94d1_157a2b42",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-06-30T12:24:42Z",
+      "side": 1,
+      "message": "Is this really just a getter or does this trigger repeatedly?",
+      "revId": "0e47df7b234f74568dfddc6e219b1b73d590e61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91665b62_7875ea53",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-06-30T12:24:42Z",
+      "side": 1,
+      "message": "Minor nit:\n\n`this.getComments(side).length \u003d\u003d\u003d 0 \u0026\u0026 (!this.unifiedDiff || this.getComments(otherSide(side)).lenght \u003d\u003d\u003d 0` seems more accurate?",
+      "revId": "0e47df7b234f74568dfddc6e219b1b73d590e61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1425296d_5ab1e2ca",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-model/gr-diff-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-06-30T12:24:42Z",
+      "side": 1,
+      "message": "I\u0027m concerned about the number of observables this creates for large files.\n\nWhat about doing the filtering on the receiver end instead?",
+      "revId": "0e47df7b234f74568dfddc6e219b1b73d590e61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

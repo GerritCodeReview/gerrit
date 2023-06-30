@@ -40,7 +40,6 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.ReviewerState;
-import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
@@ -61,7 +60,6 @@ import com.google.gerrit.server.change.ReviewerModifier.ReviewerModification;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModificationList;
 import com.google.gerrit.server.change.ReviewerOp;
 import com.google.gerrit.server.config.AnonymousCowardName;
-import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.MergedByPushOp;
@@ -134,7 +132,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private final PatchSetUtil psUtil;
   private final ProjectCache projectCache;
   private final ReviewerModifier reviewerModifier;
-  private final DynamicItem<UrlFormatter> urlFormatter;
+  private final ChangeUtil changeUtil;
 
   private final ProjectState projectState;
   private final Change change;
@@ -179,7 +177,7 @@ public class ReplaceOp implements BatchUpdateOp {
       ProjectCache projectCache,
       EmailNewPatchSet.Factory emailNewPatchSetFactory,
       ReviewerModifier reviewerModifier,
-      DynamicItem<UrlFormatter> urlFormatter,
+      ChangeUtil changeUtil,
       @Assisted ProjectState projectState,
       @Assisted Change change,
       @Assisted boolean checkMergedInto,
@@ -207,7 +205,7 @@ public class ReplaceOp implements BatchUpdateOp {
     this.projectCache = projectCache;
     this.emailNewPatchSetFactory = emailNewPatchSetFactory;
     this.reviewerModifier = reviewerModifier;
-    this.urlFormatter = urlFormatter;
+    this.changeUtil = changeUtil;
 
     this.projectState = projectState;
     this.change = change;
@@ -496,7 +494,7 @@ public class ReplaceOp implements BatchUpdateOp {
     change.setStatus(Change.Status.NEW);
     change.setCurrentPatchSet(info);
 
-    List<String> idList = ChangeUtil.getChangeIdsFromFooter(commit, urlFormatter.get());
+    List<String> idList = changeUtil.getChangeIdsFromFooter(commit);
     change.setKey(Change.key(idList.get(idList.size() - 1).trim()));
   }
 

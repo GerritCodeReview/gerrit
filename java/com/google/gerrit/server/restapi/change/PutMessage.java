@@ -21,7 +21,6 @@ import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.CommitMessageInput;
-import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -35,7 +34,6 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
-import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -74,7 +72,7 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
   private final PatchSetUtil psUtil;
   private final NotifyResolver notifyResolver;
   private final ProjectCache projectCache;
-  private final DynamicItem<UrlFormatter> urlFormatter;
+  private final ChangeUtil changeUtil;
 
   @Inject
   PutMessage(
@@ -87,7 +85,7 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
       PatchSetUtil psUtil,
       NotifyResolver notifyResolver,
       ProjectCache projectCache,
-      DynamicItem<UrlFormatter> urlFormatter) {
+      ChangeUtil changeUtil) {
     this.updateFactory = updateFactory;
     this.repositoryManager = repositoryManager;
     this.userProvider = userProvider;
@@ -97,7 +95,7 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
     this.psUtil = psUtil;
     this.notifyResolver = notifyResolver;
     this.projectCache = projectCache;
-    this.urlFormatter = urlFormatter;
+    this.changeUtil = changeUtil;
   }
 
   @Override
@@ -115,14 +113,13 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
     String sanitizedCommitMessage = CommitMessageUtil.checkAndSanitizeCommitMessage(input.message);
 
     ensureCanEditCommitMessage(resource.getNotes());
-    ChangeUtil.ensureChangeIdIsCorrect(
+    changeUtil.ensureChangeIdIsCorrect(
         projectCache
             .get(resource.getProject())
             .orElseThrow(illegalState(resource.getProject()))
             .is(BooleanProjectConfig.REQUIRE_CHANGE_ID),
         resource.getChange().getKey().get(),
-        sanitizedCommitMessage,
-        urlFormatter.get());
+        sanitizedCommitMessage);
 
     try (Repository repository = repositoryManager.openRepository(resource.getProject());
         RevWalk revWalk = new RevWalk(repository);

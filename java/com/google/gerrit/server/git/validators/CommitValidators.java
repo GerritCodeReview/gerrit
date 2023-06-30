@@ -109,6 +109,7 @@ public class CommitValidators {
     private final ProjectConfig.Factory projectConfigFactory;
     private final DiffOperations diffOperations;
     private final Config config;
+    private final ChangeUtil changeUtil;
 
     @Inject
     Factory(
@@ -123,7 +124,8 @@ public class CommitValidators {
         AccountValidator accountValidator,
         ProjectCache projectCache,
         ProjectConfig.Factory projectConfigFactory,
-        DiffOperations diffOperations) {
+        DiffOperations diffOperations,
+        ChangeUtil changeUtil) {
       this.gerritIdent = gerritIdent;
       this.urlFormatter = urlFormatter;
       this.config = config;
@@ -136,6 +138,7 @@ public class CommitValidators {
       this.projectCache = projectCache;
       this.projectConfigFactory = projectConfigFactory;
       this.diffOperations = diffOperations;
+      this.changeUtil = changeUtil;
     }
 
     public CommitValidators forReceiveCommits(
@@ -161,7 +164,7 @@ public class CommitValidators {
           .add(new SignedOffByValidator(user, perm, projectState))
           .add(
               new ChangeIdValidator(
-                  projectState, user, urlFormatter.get(), config, sshInfo, change))
+                  changeUtil, projectState, user, urlFormatter.get(), config, sshInfo, change))
           .add(new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects))
           .add(new BannedCommitsValidator(rejectCommits))
           .add(new PluginCommitValidationListener(pluginValidators, skipValidation))
@@ -192,7 +195,7 @@ public class CommitValidators {
           .add(new SignedOffByValidator(user, perm, projectState))
           .add(
               new ChangeIdValidator(
-                  projectState, user, urlFormatter.get(), config, sshInfo, change))
+                  changeUtil, projectState, user, urlFormatter.get(), config, sshInfo, change))
           .add(new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects))
           .add(new PluginCommitValidationListener(pluginValidators))
           .add(new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker))
@@ -280,6 +283,7 @@ public class CommitValidators {
 
     private static final Pattern CHANGE_ID = Pattern.compile(CHANGE_ID_PATTERN);
 
+    private final ChangeUtil changeUtil;
     private final ProjectState projectState;
     private final UrlFormatter urlFormatter;
     private final String installCommitMsgHookCommand;
@@ -288,12 +292,14 @@ public class CommitValidators {
     private final Change change;
 
     public ChangeIdValidator(
+        ChangeUtil changeUtil,
         ProjectState projectState,
         IdentifiedUser user,
         UrlFormatter urlFormatter,
         Config config,
         SshInfo sshInfo,
         Change change) {
+      this.changeUtil = changeUtil;
       this.projectState = projectState;
       this.user = user;
       this.urlFormatter = urlFormatter;
@@ -310,7 +316,7 @@ public class CommitValidators {
       }
       RevCommit commit = receiveEvent.commit;
       List<CommitValidationMessage> messages = new ArrayList<>();
-      List<String> idList = ChangeUtil.getChangeIdsFromFooter(commit, urlFormatter);
+      List<String> idList = changeUtil.getChangeIdsFromFooter(commit);
 
       if (idList.isEmpty()) {
         String shortMsg = commit.getShortMessage();

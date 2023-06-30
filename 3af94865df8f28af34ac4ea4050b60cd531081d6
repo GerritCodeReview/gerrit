@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "82ee1b27_904f19b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-06-30T05:23:19Z",
+      "side": 1,
+      "message": "Why don\u0027t we update to the latest released version: v0.64.8 [1]?\n\n[1]: https://github.com/vsch/flexmark-java/blob/master/VERSION.md#0648",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "3af94865df8f28af34ac4ea4050b60cd531081d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "37ea2ec1_cc42681d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9

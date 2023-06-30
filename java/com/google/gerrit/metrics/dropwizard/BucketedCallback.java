@@ -117,7 +117,7 @@ abstract class BucketedCallback<V> implements BucketedMetric {
     }
   }
 
-  String submetric(Object key) {
+  private String submetric(Object key) {
     return DropWizardMetricMaker.name(ordering, name, name(key));
   }
 

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3943d65c_174e960c",
+        "filename": "java/com/google/gerrit/server/account/externalids/storage/notedb/ExternalIdCaseSensitivityMigrator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-30T10:15:59Z",
+      "side": 1,
+      "message": "nit: when we move files we usually keep the original year of when the file was first added",
+      "range": {
+        "startLine": 1,
+        "startChar": 20,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "d14192d037fa85c1065346d0fb7d00ff16451a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61e6a19b_2c0ec232",
+        "filename": "java/com/google/gerrit/server/account/externalids/storage/notedb/OnlineExternalIdCaseSensivityMigrator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-06-30T10:15:59Z",
+      "side": 1,
+      "message": "nit: here too, should stay 2021",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "d14192d037fa85c1065346d0fb7d00ff16451a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

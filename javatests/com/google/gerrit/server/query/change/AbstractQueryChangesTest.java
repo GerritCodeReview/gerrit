@@ -58,6 +58,7 @@ import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BranchNameKey;
@@ -103,6 +104,7 @@ import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
@@ -126,6 +128,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
@@ -2608,7 +2611,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       return;
     }
     try (Registration registration =
-        extensionRegistry.newRegistration().add(new FakeSubmitRule())) {
+             extensionRegistry.newRegistration().add(new FakeSubmitRule())) {
       TestRepository<Repo> repo = createProject("repo");
       Change change = insert(repo, newChange(repo));
       // The fake submit rule exports its ruleName as "FakeSubmitRule"
@@ -2635,7 +2638,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       return;
     }
     try (Registration registration =
-        extensionRegistry.newRegistration().add(new FakeSubmitRule())) {
+             extensionRegistry.newRegistration().add(new FakeSubmitRule())) {
       TestRepository<Repo> repo = createProject("repo");
       insert(repo, newChange(repo));
       assertQuery("rule:non-existent-rule");
@@ -2706,7 +2709,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("commentby:" + userId);
 
     try (TestRepository<Repo> allUsers =
-        new TestRepository<>(repoManager.openRepository(allUsersName))) {
+             new TestRepository<>(repoManager.openRepository(allUsersName))) {
       Ref draftsRef = allUsers.getRepository().exactRef(RefNames.refsDraftComments(id, userId));
       assertThat(draftsRef).isNotNull();
 
@@ -3995,7 +3998,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     String destination5 = "refs/heads/other\trepo1";
 
     try (TestRepository<Repo> allUsers =
-        new TestRepository<>(repoManager.openRepository(allUsersName))) {
+             new TestRepository<>(repoManager.openRepository(allUsersName))) {
       String refsUsers = RefNames.refsUsers(userId);
       allUsers.branch(refsUsers).commit().add("destinations/destination1", destination1).create();
       allUsers.branch(refsUsers).commit().add("destinations/destination2", destination2).create();
@@ -4077,9 +4080,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
             + "query8\tproject:repo branch:other";
 
     try (TestRepository<Repo> allUsers =
-            new TestRepository<>(repoManager.openRepository(allUsersName));
-        MetaDataUpdate md = metaDataUpdateFactory.create(allUsersName);
-        MetaDataUpdate anotherMd = metaDataUpdateFactory.create(allUsersName)) {
+             new TestRepository<>(repoManager.openRepository(allUsersName));
+         MetaDataUpdate md = metaDataUpdateFactory.create(allUsersName);
+         MetaDataUpdate anotherMd = metaDataUpdateFactory.create(allUsersName)) {
       VersionedAccountQueries queries = VersionedAccountQueries.forUser(userId);
       queries.load(md);
       queries.setQueryList(queryListText);
@@ -4144,6 +4147,60 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     TestRepository<Repo> repo = createProject("repo+foo");
     Change change = insert(repo, newChange(repo));
     assertQuery("project:repo+foo", change);
+  }
+
+  @Test
+  @GerritConfig(name = "index.maxLimit", value = "0")
+  @GerritConfig(name = "index.paginationType", value = "NONE")
+  @GerritConfig(name = "index.maxPageSize", value = "1")
+  public void paginationTypeOffsetInconsistentResultsSet() throws Exception {
+    TestRepository<Repo> repo = createProject("foo");
+    insert(repo, newChange(repo));
+    insert(repo, newChange(repo));
+    insert(repo, newChange(repo));
+    Change c4 = insert(repo, newChange(repo));
+
+    System.out.println("Start test");
+
+    projectOperations
+        .allProjectsForUpdate()
+        .add(
+            allowCapability(GlobalCapability.QUERY_LIMIT)
+                .group(SystemGroupBackend.REGISTERED_USERS)
+                .range(0, 2))
+        .update();
+
+    ChangeQueryProcessor changeQueryProcessor = queryProcessorProvider.get();
+    changeQueryProcessor.setNoLimit(true); // This is important. The issue is reproducible with noLimit set to true, which is normally the value used by internal queries
+
+    int firstChangeNum = c4.getChangeId();
+    new Thread(() -> {
+      try {
+        Thread.sleep(4000L); // Sleep enough to make sure we change the data after we read the first batch of changes
+      } catch (InterruptedException e) {
+//        e.printStackTrace();
+      }
+
+      try(ManualRequestContext ctx = new ManualRequestContext(user, requestContext)) {
+        System.out.println("Set change " + firstChangeNum + " as WIP");
+        gApi.changes().id(firstChangeNum).setWorkInProgress();
+
+      } catch (Exception e) {
+//        e.printStackTrace();
+      }
+    }).start();
+
+    QueryResult<ChangeData> qr =
+        changeQueryProcessor.query(Predicate.not(new BooleanPredicate(ChangeField.WIP)));
+
+    ImmutableList<ChangeData> resultsChanges = qr.entities();
+    for (ChangeData changeData : resultsChanges) {
+      int changeNum = changeData.getId().get();
+      System.out.println("Change result: " + changeNum);
+//      Boolean wipState = gApi.changes().id(changeNum).get().workInProgress;
+//      assertThat(wipState).isNull(); // All the changes in the result set should NOT be WIP since our query was “-is:wip”
+    }
+    assertThat((long) qr.entities().size()).isEqualTo(4); // We are expecting 4 changes since when we issued the query we had 4 NON-WIP changes
   }
 
   @Test
@@ -4412,9 +4469,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
             .setFireRevisionCreated(false)
             .setValidate(false);
     try (BatchUpdate bu = updateFactory.create(c.getProject(), user, TimeUtil.now());
-        ObjectInserter oi = repo.getRepository().newObjectInserter();
-        ObjectReader reader = oi.newReader();
-        RevWalk rw = new RevWalk(reader)) {
+         ObjectInserter oi = repo.getRepository().newObjectInserter();
+         ObjectReader reader = oi.newReader();
+         RevWalk rw = new RevWalk(reader)) {
       bu.setRepository(repo.getRepository(), rw, oi);
       bu.setNotify(NotifyResolver.Result.none());
       bu.addOp(c.getId(), inserter);

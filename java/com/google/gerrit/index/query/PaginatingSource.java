@@ -77,6 +77,11 @@ public class PaginatingSource<T> implements DataSource<T> {
             int nextStart = pageResultSize;
             while (pageResultSize == pageSize && r.size() <= limit) { // get 1 more than the limit
               pageSize = getNextPageSize(pageSize, pageSizeMultiplier);
+              try {
+                           Thread.sleep(5000L);
+                          } catch (InterruptedException e) {
+                   // e.printStackTrace();
+              }
               ResultSet<T> next =
                   indexConfig.paginationType().equals(PaginationType.SEARCH_AFTER)
                       ? p.restart(searchAfter, pageSize)

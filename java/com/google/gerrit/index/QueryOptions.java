@@ -61,7 +61,7 @@ public abstract class QueryOptions {
         config,
         start,
         searchAfter,
-        pageSize,
+        config.paginationType().equals(PaginationType.NONE) ? limit : pageSize ,
         pageSizeMultiplier,
         limit,
         ImmutableSet.copyOf(fields));

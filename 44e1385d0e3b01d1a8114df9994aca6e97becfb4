@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be81ec52_63124497",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-30T09:33:57Z",
+      "side": 1,
+      "message": "If this is to be used internally, please add the `@UsedAt(UsedAt.Project.GOOGLE)` annotation above this method.",
+      "range": {
+        "startLine": 794,
+        "startChar": 26,
+        "endLine": 794,
+        "endChar": 40
+      },
+      "revId": "44e1385d0e3b01d1a8114df9994aca6e97becfb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

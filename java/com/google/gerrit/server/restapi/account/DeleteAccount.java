@@ -159,12 +159,10 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
     user.getUserName().ifPresent(sshKeyCache::evict);
   }
 
-  private void deleteStarredChanges(Account.Id accountId)
-      throws StarredChangesUtil.IllegalLabelException {
+  private void deleteStarredChanges(Account.Id accountId) {
     ImmutableSet<Change.Id> staredChanges = starredChangesUtil.byAccountId(accountId, false);
     for (Change.Id change : staredChanges) {
-      starredChangesUtil.star(
-          self.get().getAccountId(), change, StarredChangesUtil.Operation.REMOVE);
+      starredChangesUtil.unstar(self.get().getAccountId(), change);
     }
   }
 

@@ -36,6 +36,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMIT_REQUIREMENTS;
 import static com.google.gerrit.extensions.client.ListChangesOption.TRACKING_IDS;
 import static com.google.gerrit.server.ChangeMessagesUtil.createChangeMessageInfo;
+import static com.google.gerrit.server.StarredChangesUtil.DEFAULT_STAR_LABEL;
 import static com.google.gerrit.server.util.AttentionSetUtil.additionsOnly;
 import static com.google.gerrit.server.util.AttentionSetUtil.removalsOnly;
 import static java.util.stream.Collectors.toList;
@@ -693,10 +694,9 @@ public class ChangeJson {
     }
 
     if (user.isIdentifiedUser()) {
-      Collection<String> stars = cd.stars(user.getAccountId());
-      out.starred = stars.contains(StarredChangesUtil.DEFAULT_LABEL) ? true : null;
-      if (!stars.isEmpty()) {
-        out.stars = stars;
+      if (cd.isStarred(user.getAccountId())) {
+        out.starred = true;
+        out.stars = ImmutableSet.of(DEFAULT_STAR_LABEL);
       }
     }
 

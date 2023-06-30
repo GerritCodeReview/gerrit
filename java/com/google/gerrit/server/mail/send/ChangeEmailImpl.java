@@ -19,7 +19,6 @@ import static com.google.gerrit.server.util.AttentionSetUtil.additionsOnly;
 
 import com.google.auto.factory.AutoFactory;
 import com.google.auto.factory.Provided;
-import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -40,7 +39,6 @@ import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.mail.MailHeader;
-import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers.WatcherList;
@@ -58,9 +56,9 @@ import com.google.gerrit.server.query.change.ChangeData;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.time.Instant;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -90,7 +88,7 @@ public final class ChangeEmailImpl implements ChangeEmail {
 
   // Available after init or after being explicitly set.
   private OutgoingEmail email;
-  private ListMultimap<Account.Id, String> stars;
+  private List<Account.Id> stars;
   private PatchSet patchSet;
   private PatchSetInfo patchSetInfo;
   private String changeMessage;
@@ -414,11 +412,7 @@ public final class ChangeEmailImpl implements ChangeEmail {
       return;
     }
 
-    for (Map.Entry<Account.Id, Collection<String>> e : stars.asMap().entrySet()) {
-      if (e.getValue().contains(StarredChangesUtil.DEFAULT_LABEL)) {
-        email.addByAccountId(RecipientType.BCC, e.getKey());
-      }
-    }
+    stars.forEach(accountId -> email.addByAccountId(RecipientType.BCC, accountId));
   }
 
   /** Include users and groups that want notification of events. */

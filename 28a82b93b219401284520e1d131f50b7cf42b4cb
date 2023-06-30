@@ -342,6 +342,30 @@
       },
       "revId": "28a82b93b219401284520e1d131f50b7cf42b4cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c1b8c92_ab915ac0",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-06-30T05:19:16Z",
+      "side": 1,
+      "message": "\u003e I think the current change is fine as-is, though.\n\nIt should be mentioned in the commit message, why we deviate from the standard of consuming transitive dependencies as a separate JARs for `flexmark-util` artifact.\n\nAlso can you add any reference in flexmark project wheee it mentioning that this particular artifact also distributed with \"-lib\" Classifier? T make it easier discoverable?\n\n\u003e IMO It\u0027s not strictly necessary to move all the targets together in this change.\n\nAgreed.",
+      "parentUuid": "e71c74ac_e9ea7967",
+      "range": {
+        "startLine": 324,
+        "startChar": 0,
+        "endLine": 330,
+        "endChar": 5
+      },
+      "revId": "28a82b93b219401284520e1d131f50b7cf42b4cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

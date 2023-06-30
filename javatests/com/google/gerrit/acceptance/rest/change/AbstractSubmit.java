@@ -1298,7 +1298,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
     submit.run();
     ChangeInfo change = gApi.changes().id(changeId).info();
-    assertMerged(change.changeId);
+    assertMerged(change._number.toString());
   }
 
   protected void assertSubmittable(String changeId) throws Throwable {

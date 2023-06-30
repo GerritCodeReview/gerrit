@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountsConsistencyChecker;
 import com.google.gerrit.server.account.externalids.ExternalIdsConsistencyChecker;
 import com.google.gerrit.server.config.ConfigResource;
@@ -41,17 +42,20 @@ public class CheckConsistency implements RestModifyView<ConfigResource, Consiste
   private final AccountsConsistencyChecker accountsConsistencyChecker;
   private final ExternalIdsConsistencyChecker externalIdsConsistencyChecker;
   private final GroupsConsistencyChecker groupsConsistencyChecker;
+  private final AccountCache accountCache;
 
   @Inject
   CheckConsistency(
       PermissionBackend permissionBackend,
       AccountsConsistencyChecker accountsConsistencyChecker,
       ExternalIdsConsistencyChecker externalIdsConsistencyChecker,
-      GroupsConsistencyChecker groupsChecker) {
+      GroupsConsistencyChecker groupsChecker,
+      AccountCache accountCache) {
     this.permissionBackend = permissionBackend;
     this.accountsConsistencyChecker = accountsConsistencyChecker;
     this.externalIdsConsistencyChecker = externalIdsConsistencyChecker;
     this.groupsConsistencyChecker = groupsChecker;
+    this.accountCache = accountCache;
   }
 
   @Override
@@ -73,7 +77,7 @@ public class CheckConsistency implements RestModifyView<ConfigResource, Consiste
     }
     if (input.checkAccountExternalIds != null) {
       consistencyCheckInfo.checkAccountExternalIdsResult =
-          new CheckAccountExternalIdsResultInfo(externalIdsConsistencyChecker.check());
+          new CheckAccountExternalIdsResultInfo(externalIdsConsistencyChecker.check(accountCache));
     }
 
     if (input.checkGroups != null) {

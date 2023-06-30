@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45d1b62f_5ba128e0",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/CallbackMetricImpl1.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-06-30T10:18:34Z",
+      "side": 1,
+      "message": "Post-merge: Typo `REPLACEMENT_PREFIX`.",
+      "range": {
+        "startLine": 33,
+        "startChar": 30,
+        "endLine": 33,
+        "endChar": 47
+      },
+      "revId": "3ae738e3194f5f4d476bbd29ffe38cc1adb82cb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

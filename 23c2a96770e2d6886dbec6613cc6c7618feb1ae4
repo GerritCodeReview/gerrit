@@ -70,6 +70,24 @@
       "parentUuid": "a44c2c10_b51750d2",
       "revId": "23c2a96770e2d6886dbec6613cc6c7618feb1ae4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa4a0fb7_a78f437b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-06-30T07:02:45Z",
+      "side": 1,
+      "message": "OK. SGTM then.",
+      "parentUuid": "68c33fa8_3483d347",
+      "revId": "23c2a96770e2d6886dbec6613cc6c7618feb1ae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

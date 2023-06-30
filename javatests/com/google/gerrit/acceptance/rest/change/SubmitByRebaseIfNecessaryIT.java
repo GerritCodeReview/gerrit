@@ -19,6 +19,8 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.inject.Inject;
@@ -49,6 +51,29 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmitByRebase {
     assertPersonEquals(admin.newIdent(), head.getCommitterIdent());
     assertRefUpdatedEvents(oldHead, head);
     assertChangeMergedEvents(change.getChangeId(), head.name());
+  }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitWithFastForwardPreviouslySubmittedToDifferentBranch_success() throws Throwable {
+    RevCommit oldHead = projectOperations.project(project).getHead("master");
+    createBranchWithRevision(BranchNameKey.create(project, "test"), oldHead.getName());
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    PushOneCommit.Result result = push.to("refs/for/master");
+    result.assertOkStatus();
+    submit(result.getChangeId());
+
+    PushOneCommit push2 = pushFactory.create(admin.newIdent(), testRepo);
+    PushOneCommit.Result result2 = push2.to("refs/for/master");
+    result2.assertOkStatus();
+    submit(result2.getChangeId());
+
+
+    enableCreateNewChangeForAllNotInTarget();
+    PushOneCommit.Result result3 = push.to("refs/for/test");
+    result3.assertOkStatus();
+    disableCreateNewChangeForAllNotInTarget();
+    submit("3");
   }
 
   @Test

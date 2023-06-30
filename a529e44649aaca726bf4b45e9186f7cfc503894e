@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4cbacd0_6c4f50dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-06-30T23:42:44Z",
+      "side": 1,
+      "message": "Why?\n\nAdditionally, the test coverage shouldn\u0027t be getting reduced in this change (I\u0027m not sure if it is or not).",
+      "revId": "a529e44649aaca726bf4b45e9186f7cfc503894e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

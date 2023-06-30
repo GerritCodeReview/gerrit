@@ -20,10 +20,8 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -36,8 +34,6 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
-import com.google.gerrit.server.StarredChangesUtil.IllegalLabelException;
-import com.google.gerrit.server.StarredChangesUtil.MutuallyExclusiveLabelsException;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -72,9 +68,7 @@ public class StarredChanges
       throws RestApiException, PermissionBackendException, IOException {
     IdentifiedUser user = parent.getUser();
     ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
-    if (starredChangesUtil
-        .getLabels(user.getAccountId(), change.getId())
-        .contains(StarredChangesUtil.DEFAULT_LABEL)) {
+    if (starredChangesUtil.isStarred(user.getAccountId(), change.getId())) {
       return new AccountResource.StarredChange(user, change);
     }
     throw new ResourceNotFoundException(id);
@@ -130,12 +124,7 @@ public class StarredChanges
       }
 
       try {
-        starredChangesUtil.star(
-            self.get().getAccountId(), change.getId(), StarredChangesUtil.Operation.ADD);
-      } catch (MutuallyExclusiveLabelsException e) {
-        throw new ResourceConflictException(e.getMessage());
-      } catch (IllegalLabelException e) {
-        throw new BadRequestException(e.getMessage());
+        starredChangesUtil.star(self.get().getAccountId(), change.getId());
       } catch (DuplicateKeyException e) {
         return Response.none();
       }
@@ -174,12 +163,11 @@ public class StarredChanges
 
     @Override
     public Response<?> apply(AccountResource.StarredChange rsrc, Input in)
-        throws AuthException, IOException, IllegalLabelException {
+        throws AuthException, IOException {
       if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed remove starred change");
       }
-      starredChangesUtil.star(
-          self.get().getAccountId(), rsrc.getChange().getId(), StarredChangesUtil.Operation.REMOVE);
+      starredChangesUtil.unstar(self.get().getAccountId(), rsrc.getChange().getId());
       return Response.none();
     }
   }

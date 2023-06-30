@@ -790,6 +790,11 @@ public final class OutgoingEmail {
     return configureRenderer(name).renderHtml().get();
   }
 
+  /** Renders a soy template of kind="css". */
+  public SanitizedContent soyCssTemplate(String name) {
+    return configureRenderer(name).renderCss().get();
+  }
+
   /** Configures a soy renderer for the given template name and rendering data map. */
   private SoySauce.Renderer configureRenderer(String templateName) {
     int baseNameIndex = templateName.indexOf("_");

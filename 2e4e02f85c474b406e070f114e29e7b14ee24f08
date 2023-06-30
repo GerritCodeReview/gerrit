@@ -22,6 +22,30 @@
       },
       "revId": "2e4e02f85c474b406e070f114e29e7b14ee24f08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2637ee5b_37e1d3f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-06-30T09:44:33Z",
+      "side": 1,
+      "message": "I think you may not have thought about \u003cgr-diff\u003e being a fully independent component that can be used in various review tools?\n\n`diff-model` is a model inside \u003cgr-diff\u003e, and the comments model is in \u003cgr-diff-host\u003e, which lives outside \u003cgr-diff\u003e.\n\nSo the code review app out side of \u003cgr-diff\u003e is responsible for actually creating new comment. So we have to send an event from \u003cgr-diff\u003e to its parent (for Gerrit that is \u003cgr-diff-host\u003e).\n\nBut we only want one place to know about how fire such an event. That is the diff-model. Any component within the scope of gr-diff should be able to have the diff-model injected, and then call `createComment()` on it when they want.",
+      "parentUuid": "4d18bff5_b0682c90",
+      "range": {
+        "startLine": 15,
+        "startChar": 36,
+        "endLine": 15,
+        "endChar": 57
+      },
+      "revId": "2e4e02f85c474b406e070f114e29e7b14ee24f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

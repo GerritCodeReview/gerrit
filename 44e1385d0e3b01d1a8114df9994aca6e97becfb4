@@ -46,6 +46,30 @@
       },
       "revId": "44e1385d0e3b01d1a8114df9994aca6e97becfb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed2e0b82_ca240f78",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-06-30T09:57:23Z",
+      "side": 1,
+      "message": "\u003e Is this annotation for the purpose of removing unused methods?\n\nI\u0027m not exactly sure. But I think so. This is to prevent someone from accidentally cleaning them up thinking they\u0027re unused.\n\n\u003e Otherwise, it doesn\u0027t necessarily has to be used only internally\n\nIf it\u0027s used internally and externally then we don\u0027t need to add the annotation.",
+      "parentUuid": "0a97743d_0a0efa82",
+      "range": {
+        "startLine": 794,
+        "startChar": 26,
+        "endLine": 794,
+        "endChar": 40
+      },
+      "revId": "44e1385d0e3b01d1a8114df9994aca6e97becfb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

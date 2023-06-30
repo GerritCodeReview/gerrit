@@ -15,16 +15,13 @@
 package com.google.gerrit.metrics.dropwizard;
 
 import com.codahale.metrics.MetricRegistry;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.metrics.CallbackMetric1;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 /** Optimized version of {@link BucketedCallback} for single dimension. */
 class CallbackMetricImpl1<F1, V> extends BucketedCallback<V> {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   CallbackMetricImpl1(
       DropWizardMetricMaker metrics,
@@ -48,14 +45,9 @@ class CallbackMetricImpl1<F1, V> extends BucketedCallback<V> {
 
     @Override
     public void set(F1 field1, V value) {
-      try {
-        BucketedCallback<V>.ValueGauge cell = getOrCreate(field1);
-        cell.value = value;
-        cell.set = true;
-      } catch (IllegalArgumentException e) {
-        logger.atWarning().withCause(e).atMostEvery(1, TimeUnit.HOURS).log(
-            "Unable to register duplicate metric: %s", submetric(field1));
-      }
+      BucketedCallback<V>.ValueGauge cell = getOrCreate(field1);
+      cell.value = value;
+      cell.set = true;
     }
 
     @Override

@@ -16,17 +16,23 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.Iterables;
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 public class SubmitByRebaseIfNecessaryIT extends AbstractSubmitByRebase {
   @Inject private ProjectOperations projectOperations;
+  @Inject private Provider<InternalChangeQuery> changeQuery;
 
   @Override
   protected SubmitType getSubmitType() {
@@ -49,6 +55,37 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmitByRebase {
     assertPersonEquals(admin.newIdent(), head.getCommitterIdent());
     assertRefUpdatedEvents(oldHead, head);
     assertChangeMergedEvents(change.getChangeId(), head.name());
+  }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitOneWithFastForwardAlreadyAvailableInDifferentBranch_success() throws Throwable {
+    RevCommit tip = projectOperations.project(project).getHead("master");
+    RevCommit c1 = testRepo.commit().parent(tip).message("c1").insertChangeId().create();
+    testRepo.reset(c1);
+    GitUtil.pushHead(testRepo, "refs/heads/master");
+
+    createBranchWithRevision(BranchNameKey.create(project, "test"), tip.name());
+    GitUtil.pushHead(testRepo, "refs/for/test%base=" + tip.name());
+    int changeId = Iterables.getOnlyElement(changeQuery.get().byCommit(c1)).getId().get();
+    submit(Integer.toString(changeId));
+  }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitOneWithFastForwardOutOfTwoAlreadyAvailableInDifferentBranch_success()
+      throws Throwable {
+    RevCommit tip = projectOperations.project(project).getHead("master");
+    RevCommit c1 = testRepo.commit().parent(tip).message("c1").insertChangeId().create();
+    RevCommit c2 = testRepo.commit().parent(c1).message("c2").insertChangeId().create();
+    testRepo.reset(c2);
+    GitUtil.pushHead(testRepo, "refs/heads/master");
+
+    createBranchWithRevision(BranchNameKey.create(project, "test"), tip.name());
+    testRepo.reset(c1);
+    GitUtil.pushHead(testRepo, "refs/for/test%base=" + tip.name());
+    int changeId = Iterables.getOnlyElement(changeQuery.get().byCommit(c1)).getId().get();
+    submit(Integer.toString(changeId));
   }
 
   @Test

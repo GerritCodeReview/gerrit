@@ -21,10 +21,12 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.account.ServiceUserClassifier;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.inject.Inject;
 import org.junit.Test;
 
@@ -38,7 +40,7 @@ public class GetAccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void getAccount() throws Exception {
+  public void getAccount_resolveExactDisabled() throws Exception {
     // by formatted string
     testGetAccount(admin.fullName() + " <" + admin.email() + ">", admin);
 
@@ -53,6 +55,32 @@ public class GetAccountIT extends AbstractDaemonTest {
 
     // by user name
     testGetAccount(admin.username(), admin);
+
+    // by 'self'
+    testGetAccount("self", admin);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_RESTRICT_ACCOUNT_API_EXACT)
+  public void getAccount_resolveExactEnabled() throws Exception {
+    // full name and email formats are not supported
+    assertThrows(
+        ResourceNotFoundException.class,
+        () -> testGetAccount(admin.fullName() + " <" + admin.email() + ">", admin));
+
+    // by email
+    testGetAccount(admin.email(), admin);
+
+    // by full name is not supported
+    assertThrows(ResourceNotFoundException.class, () -> testGetAccount(admin.fullName(), admin));
+
+    // by account ID
+    testGetAccount(Integer.toString(admin.id().get()), admin);
+
+    // by user name is not supported
+    assertThrows(ResourceNotFoundException.class, () -> testGetAccount(admin.username(), admin));
 
     // by 'self'
     testGetAccount("self", admin);

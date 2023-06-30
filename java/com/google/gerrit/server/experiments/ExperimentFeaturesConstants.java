@@ -36,4 +36,11 @@ public class ExperimentFeaturesConstants {
    */
   public static String GERRIT_BACKEND_FEATURE_RETURN_NEW_CHANGE_INFO_ID =
       "GerritBackendFeature__return_new_change_info_id";
+
+  /**
+   * Restrict all account API to accept exact identifiers for accounts, namely self, exact ID or
+   * email.
+   */
+  public static final String GERRIT_BACKEND_FEATURE_RESTRICT_ACCOUNT_API_EXACT =
+      "GerritBackendFeature__restrict_account_api_exact";
 }

@@ -24,6 +24,8 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -35,22 +37,32 @@ public class AccountsCollection implements RestCollection<TopLevelResource, Acco
   private final AccountResolver accountResolver;
   private final Provider<QueryAccounts> list;
   private final DynamicMap<RestView<AccountResource>> views;
+  private final ExperimentFeatures experimentFeatures;
 
   @Inject
   public AccountsCollection(
       AccountResolver accountResolver,
       Provider<QueryAccounts> list,
-      DynamicMap<RestView<AccountResource>> views) {
+      DynamicMap<RestView<AccountResource>> views,
+      ExperimentFeatures experimentFeatures) {
     this.accountResolver = accountResolver;
     this.list = list;
     this.views = views;
+    this.experimentFeatures = experimentFeatures;
   }
 
   @Override
   public AccountResource parse(TopLevelResource root, IdString id)
       throws ResourceNotFoundException, AuthException, IOException, ConfigInvalidException {
     try {
-      return new AccountResource(accountResolver.resolve(id.get()).asUniqueUser());
+      boolean resolveExact =
+          experimentFeatures.isFeatureEnabled(
+              ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_RESTRICT_ACCOUNT_API_EXACT);
+      return new AccountResource(
+          (resolveExact
+                  ? accountResolver.resolveExact(id.get())
+                  : accountResolver.resolve(id.get()))
+              .asUniqueUser());
     } catch (UnresolvableAccountException e) {
       if (e.isSelf()) {
         // Must be authenticated to use 'me' or 'self'.

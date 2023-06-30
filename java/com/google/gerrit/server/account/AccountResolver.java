@@ -585,6 +585,13 @@ public class AccountResolver {
           .addAll(nameOrEmailSearchers)
           .build();
 
+  private final ImmutableList<Searcher<?>> exactSearchers =
+      ImmutableList.<Searcher<?>>builder()
+          .add(new BySelf())
+          .add(new ByExactAccountId())
+          .add(new ByEmail())
+          .build();
+
   private final AccountCache accountCache;
   private final AccountControl.Factory accountControlFactory;
   private final Emails emails;
@@ -648,6 +655,15 @@ public class AccountResolver {
   public Result resolve(String input) throws ConfigInvalidException, IOException {
     return searchImpl(
         input, searchers, self.get(), this::currentUserCanSeePredicate, AccountResolver::isActive);
+  }
+
+  public Result resolveExact(String input) throws ConfigInvalidException, IOException {
+    return searchImpl(
+        input,
+        exactSearchers,
+        self.get(),
+        this::currentUserCanSeePredicate,
+        AccountResolver::isActive);
   }
 
   public Result resolve(String input, Predicate<AccountState> accountActivityPredicate)

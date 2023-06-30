@@ -12,9 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account.externalids;
+package com.google.gerrit.server.account.externalids.storage.notedb;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.account.externalids.OnlineExternalIdCaseSensivityMigratiorExecutor;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.index.ReindexerAlreadyRunningException;

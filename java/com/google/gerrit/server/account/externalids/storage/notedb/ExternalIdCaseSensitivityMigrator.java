@@ -1,4 +1,4 @@
-// Copyright (C) 2021 The Android Open Source Project
+// Copyright (C) 202!3 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,13 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account.externalids;
+package com.google.gerrit.server.account.externalids.storage.notedb;
 
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.exceptions.DuplicateKeyException;
+import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
+import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -51,14 +56,14 @@ public class ExternalIdCaseSensitivityMigrator {
         @Assisted("dryRun") Boolean dryRun);
   }
 
-  private GitRepositoryManager repoManager;
-  private AllUsersName allUsersName;
-  private Provider<MetaDataUpdate.Server> metaDataUpdateServerFactory;
-  private ExternalIdNotes.FactoryNoReindex externalIdNotesFactory;
+  private final GitRepositoryManager repoManager;
+  private final AllUsersName allUsersName;
+  private final Provider<MetaDataUpdate.Server> metaDataUpdateServerFactory;
+  private final ExternalIdNotes.FactoryNoReindex externalIdNotesFactory;
 
-  private ExternalIdFactory externalIdFactory;
-  private Boolean isUserNameCaseInsensitive;
-  private Boolean dryRun;
+  private final ExternalIdFactory externalIdFactory;
+  private final Boolean isUserNameCaseInsensitive;
+  private final Boolean dryRun;
 
   @Inject
   public ExternalIdCaseSensitivityMigrator(

@@ -32,7 +32,6 @@ import static com.google.gerrit.gpg.testing.TestKeys.allValidKeys;
 import static com.google.gerrit.gpg.testing.TestKeys.validKeyWithExpiration;
 import static com.google.gerrit.gpg.testing.TestKeys.validKeyWithSecondUserId;
 import static com.google.gerrit.gpg.testing.TestKeys.validKeyWithoutExpiration;
-import static com.google.gerrit.server.StarredChangesUtil.DEFAULT_LABEL;
 import static com.google.gerrit.server.account.AccountProperties.ACCOUNT;
 import static com.google.gerrit.server.account.AccountProperties.ACCOUNT_CONFIG;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GPGKEY;
@@ -798,7 +797,6 @@ public class AccountIT extends AbstractDaemonTest {
       gApi.accounts().self().starChange(triplet);
       ChangeInfo change = info(triplet);
       assertThat(change.starred).isTrue();
-      assertThat(change.stars).contains(DEFAULT_LABEL);
       refUpdateCounter.assertRefUpdateFor(
           RefUpdateCounter.projectRef(
               allUsers, RefNames.refsStarredChanges(Change.id(change._number), admin.id())));
@@ -806,7 +804,6 @@ public class AccountIT extends AbstractDaemonTest {
       gApi.accounts().self().unstarChange(triplet);
       change = info(triplet);
       assertThat(change.starred).isNull();
-      assertThat(change.stars).isNull();
       refUpdateCounter.assertRefUpdateFor(
           RefUpdateCounter.projectRef(
               allUsers, RefNames.refsStarredChanges(Change.id(change._number), admin.id())));

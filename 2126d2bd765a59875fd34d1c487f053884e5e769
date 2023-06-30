@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7725b651_ae63d23e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-06-30T13:24:05Z",
+      "side": 1,
+      "message": "Thomas and Sasha - could you please take a look? It seems the problem is introduced by https://gerrit-review.git.corp.google.com/c/gerrit/+/366462\nThe bug contains more information.\n\nDo you have an idea how it can be fixed?",
+      "revId": "2126d2bd765a59875fd34d1c487f053884e5e769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

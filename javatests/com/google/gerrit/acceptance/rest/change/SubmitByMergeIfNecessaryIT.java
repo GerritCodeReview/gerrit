@@ -24,6 +24,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -39,7 +40,9 @@ import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.util.List;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -49,6 +52,7 @@ import org.junit.Test;
 public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private Provider<InternalChangeQuery> changeQuery;
 
   @Override
   protected SubmitType getSubmitType() {
@@ -720,5 +724,35 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
                 + " is not visible");
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
+  }
+
+  @Test
+  public void submitOneWithFastForwardAlreadyAvailableInDifferentBranch_success() throws Throwable {
+    RevCommit tip = projectOperations.project(project).getHead("master");
+    RevCommit c1 = testRepo.commit().parent(tip).message("c1").insertChangeId().create();
+    testRepo.reset(c1);
+    GitUtil.pushHead(testRepo, "refs/heads/master");
+
+    createBranchWithRevision(BranchNameKey.create(project, "test"), tip.name());
+    testRepo.reset(c1);
+    GitUtil.pushHead(testRepo, "refs/for/test%base=" + tip.name());
+    int changeId = Iterables.getOnlyElement(changeQuery.get().byCommit(c1)).getId().get();
+    submit(Integer.toString(changeId));
+  }
+
+  @Test
+  public void submitOneWithFastForwardOutOfTwoAlreadyAvailableInDifferentBranch_success()
+      throws Throwable {
+    RevCommit tip = projectOperations.project(project).getHead("master");
+    RevCommit c1 = testRepo.commit().parent(tip).message("c1").insertChangeId().create();
+    RevCommit c2 = testRepo.commit().parent(c1).message("c2").insertChangeId().create();
+    testRepo.reset(c2);
+    GitUtil.pushHead(testRepo, "refs/heads/master");
+
+    createBranchWithRevision(BranchNameKey.create(project, "test"), tip.name());
+    testRepo.reset(c1);
+    GitUtil.pushHead(testRepo, "refs/for/test%base=" + tip.name());
+    int changeId = Iterables.getOnlyElement(changeQuery.get().byCommit(c1)).getId().get();
+    submit(Integer.toString(changeId));
   }
 }

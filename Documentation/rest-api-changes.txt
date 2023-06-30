@@ -7060,11 +7060,8 @@ submitted.
 The user who submitted the change, as an
 link:rest-api-accounts.html#account-info[ AccountInfo] entity.
 |`starred`            |not set if `false`|
-Whether the calling user has starred this change with the default label.
+Whether the calling user has starred this change.
 Only set if link:#star[requested].
-|`stars`              |optional|
-A list of star labels that are applied by the calling user to this
-change. The labels are lexicographically sorted.
 |`reviewed`           |not set if `false`|
 Whether the change was reviewed by the calling user.
 Only set if link:#reviewed[reviewed] is requested.

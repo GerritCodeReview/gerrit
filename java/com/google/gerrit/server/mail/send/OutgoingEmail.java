@@ -24,6 +24,7 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.EmailHeader;
@@ -788,6 +789,12 @@ public final class OutgoingEmail {
   /** Renders a soy template of kind="html". */
   public SanitizedContent soyHtmlTemplate(String name) {
     return configureRenderer(name).renderHtml().get();
+  }
+
+  /** Renders a soy template of kind="css". */
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public SanitizedContent soyCssTemplate(String name) {
+    return configureRenderer(name).renderCss().get();
   }
 
   /** Configures a soy renderer for the given template name and rendering data map. */

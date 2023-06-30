@@ -552,12 +552,14 @@ public class ExternalIdNotes extends VersionedMetaData {
     }
   }
 
-  NoteMap getNoteMap() {
+  // TODO(nitzan) change back to package visible once moved to storage.notedb subdir.
+  public NoteMap getNoteMap() {
     checkLoaded();
     return noteMap;
   }
 
-  static byte[] readNoteData(RevWalk rw, ObjectId noteDataId) throws IOException {
+  // TODO(nitzan) change back to package visible once moved to storage.notedb subdir.
+  public static byte[] readNoteData(RevWalk rw, ObjectId noteDataId) throws IOException {
     return rw.getObjectReader().open(noteDataId, OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
   }
 

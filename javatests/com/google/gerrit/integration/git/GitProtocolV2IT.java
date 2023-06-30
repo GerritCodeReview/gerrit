@@ -127,11 +127,11 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
           "ssh://%s@" + sshAddress.getHostName() + ":" + sshAddress.getPort() + "/" + project.get();
 
       // Admin user was already created by the base class
-      setUpUserAuthentication(admin.username());
+      setUpUserAuthentication(admin.username(), admin.id().get());
 
       // Create non-admin user
       TestAccount user = accountCreator.user1();
-      setUpUserAuthentication(user.username());
+      setUpUserAuthentication(user.username(), user.id().get());
 
       // Prepare data for new change on master branch
       ChangeInput in = new ChangeInput(project.get(), "master", "Test public change");
@@ -271,7 +271,7 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       ctx.getInjector().injectMembers(this);
 
       // Setup admin password
-      gApi.accounts().id(admin.username()).setHttpPassword(ADMIN_PASSWORD);
+      gApi.accounts().id(admin.id().get()).setHttpPassword(ADMIN_PASSWORD);
 
       // Get authenticated Git/HTTP URL
       String urlWithCredentials =
@@ -336,7 +336,7 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       ctx.getInjector().injectMembers(this);
 
       // Setup admin password
-      gApi.accounts().id(admin.username()).setHttpPassword(ADMIN_PASSWORD);
+      gApi.accounts().id(admin.id().get()).setHttpPassword(ADMIN_PASSWORD);
 
       // Get authenticated Git/HTTP URL
       String urlWithCredentials =
@@ -405,7 +405,7 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       ctx.getInjector().injectMembers(this);
 
       // Setup admin password
-      gApi.accounts().id(admin.username()).setHttpPassword(ADMIN_PASSWORD);
+      gApi.accounts().id(admin.id().get()).setHttpPassword(ADMIN_PASSWORD);
 
       // Get authenticated Git/HTTP URL
       String urlWithCredentials =
@@ -488,7 +488,7 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       ctx.getInjector().injectMembers(this);
 
       // Setup admin password
-      gApi.accounts().id(admin.username()).setHttpPassword(ADMIN_PASSWORD);
+      gApi.accounts().id(admin.id().get()).setHttpPassword(ADMIN_PASSWORD);
 
       String url = config.getString("gerrit", null, "canonicalweburl");
 
@@ -560,24 +560,24 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
     }
   }
 
-  private void setUpUserAuthentication(String username) throws Exception {
+  private void setUpUserAuthentication(String userName, int userId) throws Exception {
     // Assign HTTP password to user
-    gApi.accounts().id(username).setHttpPassword(ADMIN_PASSWORD);
+    gApi.accounts().id(userId).setHttpPassword(ADMIN_PASSWORD);
 
     // Generate private/public key for user
     execute(
         ImmutableList.<String>builder()
             .add(SSH_KEYGEN_CMD)
-            .add(String.format("id_rsa_%s", username))
+            .add(String.format("id_rsa_%s", userName))
             .build());
 
     // Read the content of generated public key and add it for the user in Gerrit
     gApi.accounts()
-        .id(username)
+        .id(userId)
         .addSshKey(
             new String(
                 java.nio.file.Files.readAllBytes(
-                    sitePaths.data_dir.resolve(String.format("id_rsa_%s.pub", username))),
+                    sitePaths.data_dir.resolve(String.format("id_rsa_%s.pub", userName))),
                 UTF_8));
   }
 

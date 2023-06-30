@@ -547,7 +547,7 @@ public class AccountIT extends AbstractDaemonTest {
     AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
-      AccountInfo info = gApi.accounts().id("admin").get();
+      AccountInfo info = gApi.accounts().id(admin.id().get()).get();
       assertThat(info.name).isEqualTo("Administrator");
       assertThat(info.email).isEqualTo("admin@example.com");
       assertThat(info.username).isEqualTo("admin");
@@ -560,9 +560,7 @@ public class AccountIT extends AbstractDaemonTest {
     AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
-      AccountInfo info = gApi.accounts().id("admin").get();
-      AccountInfo infoByIntId = gApi.accounts().id(info._accountId).get();
-      assertThat(info.name).isEqualTo(infoByIntId.name);
+      gApi.accounts().id(admin.id().get()).get();
       accountIndexedCounter.assertNoReindex();
     }
   }
@@ -586,25 +584,15 @@ public class AccountIT extends AbstractDaemonTest {
     AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
-      int id = gApi.accounts().id("user").get()._accountId;
-      assertThat(gApi.accounts().id("user").getActive()).isTrue();
-      gApi.accounts().id("user").setActive(false);
+      int userId = user.id().get();
+      assertThat(gApi.accounts().id(userId).getActive()).isTrue();
+      gApi.accounts().id(userId).setActive(false);
       accountIndexedCounter.assertReindexOf(user);
 
-      // Inactive users may only be resolved by ID.
-      ResourceNotFoundException thrown =
-          assertThrows(ResourceNotFoundException.class, () -> gApi.accounts().id("user"));
-      assertThat(thrown)
-          .hasMessageThat()
-          .isEqualTo(
-              "Account 'user' only matches inactive accounts. To use an inactive account, retry"
-                  + " with one of the following exact account IDs:\n"
-                  + id
-                  + ": User1 <user1@example.com>");
-      assertThat(gApi.accounts().id(id).getActive()).isFalse();
+      assertThat(gApi.accounts().id(userId).getActive()).isFalse();
 
-      gApi.accounts().id(id).setActive(true);
-      assertThat(gApi.accounts().id("user").getActive()).isTrue();
+      gApi.accounts().id(userId).setActive(true);
+      assertThat(gApi.accounts().id(userId).getActive()).isTrue();
       accountIndexedCounter.assertReindexOf(user);
     }
   }
@@ -774,15 +762,15 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void deactivateNotActive() throws Exception {
-    int id = gApi.accounts().id("user").get()._accountId;
-    assertThat(gApi.accounts().id("user").getActive()).isTrue();
-    gApi.accounts().id("user").setActive(false);
-    assertThat(gApi.accounts().id(id).getActive()).isFalse();
+    int userId = user.id().get();
+    assertThat(gApi.accounts().id(userId).getActive()).isTrue();
+    gApi.accounts().id(userId).setActive(false);
+    assertThat(gApi.accounts().id(userId).getActive()).isFalse();
     ResourceConflictException thrown =
         assertThrows(
-            ResourceConflictException.class, () -> gApi.accounts().id(id).setActive(false));
+            ResourceConflictException.class, () -> gApi.accounts().id(userId).setActive(false));
     assertThat(thrown).hasMessageThat().isEqualTo("account not active");
-    gApi.accounts().id(id).setActive(true);
+    gApi.accounts().id(userId).setActive(true);
   }
 
   @Test
@@ -1076,7 +1064,7 @@ public class AccountIT extends AbstractDaemonTest {
     TestAccount account = accountCreator.create(name("user"));
     EmailInput input = newEmailInput("test@example.com");
     requestScopeOperations.setApiUser(user.id());
-    assertThrows(AuthException.class, () -> gApi.accounts().id(account.username()).addEmail(input));
+    assertThrows(AuthException.class, () -> gApi.accounts().id(account.id().get()).addEmail(input));
   }
 
   @Test
@@ -1087,7 +1075,7 @@ public class AccountIT extends AbstractDaemonTest {
     ResourceConflictException thrown =
         assertThrows(
             ResourceConflictException.class,
-            () -> gApi.accounts().id(user.username()).addEmail(input));
+            () -> gApi.accounts().id(user.id().get()).addEmail(input));
     assertThat(thrown)
         .hasMessageThat()
         .contains("Identity 'mailto:" + email + "' in use by another account");
@@ -1472,8 +1460,8 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void adminCanSetNameOfOtherUser() throws Exception {
-    gApi.accounts().id(user.username()).setName("User McUserface");
-    assertThat(gApi.accounts().id(user.username()).get().name).isEqualTo("User McUserface");
+    gApi.accounts().id(user.id().get()).setName("User McUserface");
+    assertThat(gApi.accounts().id(user.id().get()).get().name).isEqualTo("User McUserface");
   }
 
   @Test
@@ -1481,7 +1469,7 @@ public class AccountIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
     assertThrows(
         AuthException.class,
-        () -> gApi.accounts().id(admin.username()).setName("Admin McAdminface"));
+        () -> gApi.accounts().id(admin.id().get()).setName("Admin McAdminface"));
   }
 
   @Test
@@ -1491,8 +1479,8 @@ public class AccountIT extends AbstractDaemonTest {
         .allProjectsForUpdate()
         .add(allowCapability(GlobalCapability.MODIFY_ACCOUNT).group(REGISTERED_USERS))
         .update();
-    gApi.accounts().id(admin.username()).setName("Admin McAdminface");
-    assertThat(gApi.accounts().id(admin.username()).get().name).isEqualTo("Admin McAdminface");
+    gApi.accounts().id(admin.id().get()).setName("Admin McAdminface");
+    assertThat(gApi.accounts().id(admin.id().get()).get().name).isEqualTo("Admin McAdminface");
   }
 
   @Test
@@ -1926,8 +1914,8 @@ public class AccountIT extends AbstractDaemonTest {
       // Add a new key
       sender.clear();
       String newKey = TestSshKeys.publicKey(SshSessionFactory.genSshKey(), user.email());
-      gApi.accounts().id(user.username()).addSshKey(newKey);
-      info = gApi.accounts().id(user.username()).listSshKeys();
+      gApi.accounts().id(user.id().get()).addSshKey(newKey);
+      info = gApi.accounts().id(user.id().get()).listSshKeys();
       assertThat(info).hasSize(2);
       assertSequenceNumbers(info);
       accountIndexedCounter.assertReindexOf(user);
@@ -1939,8 +1927,8 @@ public class AccountIT extends AbstractDaemonTest {
 
       // Delete key
       sender.clear();
-      gApi.accounts().id(user.username()).deleteSshKey(1);
-      info = gApi.accounts().id(user.username()).listSshKeys();
+      gApi.accounts().id(user.id().get()).deleteSshKey(1);
+      info = gApi.accounts().id(user.id().get()).listSshKeys();
       assertThat(info).hasSize(1);
       accountIndexedCounter.assertReindexOf(user);
 
@@ -1956,7 +1944,7 @@ public class AccountIT extends AbstractDaemonTest {
   public void userCannotAddSshKeyToOtherAccount() throws Exception {
     String newKey = TestSshKeys.publicKey(SshSessionFactory.genSshKey(), admin.email());
     requestScopeOperations.setApiUser(user.id());
-    assertThrows(AuthException.class, () -> gApi.accounts().id(admin.username()).addSshKey(newKey));
+    assertThrows(AuthException.class, () -> gApi.accounts().id(admin.id().get()).addSshKey(newKey));
   }
 
   @Test
@@ -1965,7 +1953,7 @@ public class AccountIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
     assertThrows(
         ResourceNotFoundException.class,
-        () -> gApi.accounts().id(admin.username()).deleteSshKey(0));
+        () -> gApi.accounts().id(admin.id().get()).deleteSshKey(0));
   }
 
   // reindex is tested by {@link AbstractQueryAccountsTest#reindex}
@@ -1976,7 +1964,7 @@ public class AccountIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
       // admin can reindex any account
       requestScopeOperations.setApiUser(admin.id());
-      gApi.accounts().id(user.username()).index();
+      gApi.accounts().id(user.id().get()).index();
       accountIndexedCounter.assertReindexOf(user);
 
       // user can reindex own account
@@ -1986,7 +1974,7 @@ public class AccountIT extends AbstractDaemonTest {
 
       // user cannot reindex any account
       AuthException thrown =
-          assertThrows(AuthException.class, () -> gApi.accounts().id(admin.username()).index());
+          assertThrows(AuthException.class, () -> gApi.accounts().id(admin.id().get()).index());
       assertThat(thrown).hasMessageThat().contains("modify account not permitted");
     }
   }
@@ -2039,10 +2027,10 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(accountQueryProvider.get().byDefault(name, true)).isEmpty();
 
     TestAccount foo1 = accountCreator.create(name + "-1");
-    assertThat(gApi.accounts().id(foo1.username()).getActive()).isTrue();
+    assertThat(gApi.accounts().id(foo1.id().get()).getActive()).isTrue();
 
     TestAccount foo2 = accountCreator.create(name + "-2");
-    gApi.accounts().id(foo2.username()).setActive(false);
+    gApi.accounts().id(foo2.id().get()).setActive(false);
     assertThat(gApi.accounts().id(foo2.id().get()).getActive()).isFalse();
 
     assertThat(accountQueryProvider.get().byDefault(name, true)).hasSize(2);
@@ -2091,7 +2079,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void allGroupsForAnAdminAccountCanBeRetrieved() throws Exception {
-    List<GroupInfo> groups = gApi.accounts().id(admin.username()).getGroups();
+    List<GroupInfo> groups = gApi.accounts().id(admin.id().get()).getGroups();
     assertThat(groups)
         .comparingElementsUsing(getGroupToNameCorrespondence())
         .containsExactly("Anonymous Users", "Registered Users", "Administrators");
@@ -2129,13 +2117,13 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void allGroupsForAUserAccountCanBeRetrieved() throws Exception {
     String username = name("user1");
-    accountOperations.newAccount().username(username).create();
+    Account.Id accountId = accountOperations.newAccount().username(username).create();
     AccountGroup.UUID groupID = groupOperations.newGroup().name("group").create();
     String group = groupOperations.group(groupID).get().name();
 
     gApi.groups().id(group).addMembers(username);
 
-    List<GroupInfo> allGroups = gApi.accounts().id(username).getGroups();
+    List<GroupInfo> allGroups = gApi.accounts().id(accountId.get()).getGroups();
     assertThat(allGroups)
         .comparingElementsUsing(getGroupToNameCorrespondence())
         .containsExactly("Anonymous Users", "Registered Users", group);
@@ -2623,7 +2611,7 @@ public class AccountIT extends AbstractDaemonTest {
   public void adminCanGenerateNewHttpPasswordForUser() throws Exception {
     requestScopeOperations.setApiUser(admin.id());
     sender.clear();
-    String newPassword = gApi.accounts().id(user.username()).generateHttpPassword();
+    String newPassword = gApi.accounts().id(user.id().get()).generateHttpPassword();
     assertThat(newPassword).isNotNull();
     assertThat(sender.getMessages()).hasSize(1);
     assertThat(sender.getMessages().get(0).body()).contains("HTTP password was added or updated");
@@ -2633,7 +2621,7 @@ public class AccountIT extends AbstractDaemonTest {
   public void userCannotGenerateNewHttpPasswordForOtherUser() throws Exception {
     requestScopeOperations.setApiUser(user.id());
     assertThrows(
-        AuthException.class, () -> gApi.accounts().id(admin.username()).generateHttpPassword());
+        AuthException.class, () -> gApi.accounts().id(admin.id().get()).generateHttpPassword());
   }
 
   @Test
@@ -2648,7 +2636,7 @@ public class AccountIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
     assertThrows(
         AuthException.class,
-        () -> gApi.accounts().id(admin.username()).setHttpPassword("my-new-password"));
+        () -> gApi.accounts().id(admin.id().get()).setHttpPassword("my-new-password"));
   }
 
   @Test
@@ -2664,7 +2652,7 @@ public class AccountIT extends AbstractDaemonTest {
   public void userCannotRemoveHttpPasswordForOtherUser() throws Exception {
     requestScopeOperations.setApiUser(user.id());
     assertThrows(
-        AuthException.class, () -> gApi.accounts().id(admin.username()).setHttpPassword(null));
+        AuthException.class, () -> gApi.accounts().id(admin.id().get()).setHttpPassword(null));
   }
 
   @Test
@@ -2672,7 +2660,7 @@ public class AccountIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(admin.id());
     String httpPassword = "new-password-for-user";
     sender.clear();
-    assertThat(gApi.accounts().id(user.username()).setHttpPassword(httpPassword))
+    assertThat(gApi.accounts().id(user.id().get()).setHttpPassword(httpPassword))
         .isEqualTo(httpPassword);
     assertThat(sender.getMessages()).hasSize(1);
     assertThat(sender.getMessages().get(0).body()).contains("HTTP password was added or updated");
@@ -2682,7 +2670,7 @@ public class AccountIT extends AbstractDaemonTest {
   public void adminCanRemoveHttpPasswordForUser() throws Exception {
     requestScopeOperations.setApiUser(admin.id());
     sender.clear();
-    assertThat(gApi.accounts().id(user.username()).setHttpPassword(null)).isNull();
+    assertThat(gApi.accounts().id(user.id().get()).setHttpPassword(null)).isNull();
     assertThat(sender.getMessages()).hasSize(1);
     assertThat(sender.getMessages().get(0).body()).contains("HTTP password was deleted");
   }
@@ -2846,7 +2834,6 @@ public class AccountIT extends AbstractDaemonTest {
     assertThrows(
         ResourceNotFoundException.class, () -> gApi.accounts().id("secondary@example.com"));
     requestScopeOperations.setApiUser(admin.id());
-    assertThat(gApi.accounts().id("secondary").get()._accountId).isEqualTo(foo.id().get());
     assertThat(gApi.accounts().id("secondary@example.com").get()._accountId)
         .isEqualTo(foo.id().get());
   }
@@ -3568,9 +3555,9 @@ public class AccountIT extends AbstractDaemonTest {
               extensionRegistry.newRegistration().add(accountIndexedCounter)) {
             Map<String, GpgKeyInfo> gpgKeys =
                 gApi.accounts()
-                    .id(account.username())
-                    .putGpgKeys(ImmutableList.of(armored), ImmutableList.<String>of());
-            accountIndexedCounter.assertReindexOf(gApi.accounts().id(account.username()).get());
+                    .id(account.id().get())
+                    .putGpgKeys(ImmutableList.of(armored), ImmutableList.of());
+            accountIndexedCounter.assertReindexOf(gApi.accounts().id(account.id().get()).get());
             return gpgKeys;
           }
         });

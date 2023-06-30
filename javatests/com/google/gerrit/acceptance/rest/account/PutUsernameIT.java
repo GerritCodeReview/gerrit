@@ -58,12 +58,12 @@ public class PutUsernameIT extends AbstractDaemonTest {
     UsernameInput in = new UsernameInput();
     in.username = "newUsername";
     adminRestSession
-        .put("/accounts/" + admin.username() + "/username", in)
+        .put("/accounts/" + admin.id().get() + "/username", in)
         .assertMethodNotAllowed();
   }
 
   @Test
   public void delete_MethodNotAllowed() throws Exception {
-    adminRestSession.put("/accounts/" + admin.username() + "/username").assertMethodNotAllowed();
+    adminRestSession.put("/accounts/" + admin.id().get() + "/username").assertMethodNotAllowed();
   }
 }

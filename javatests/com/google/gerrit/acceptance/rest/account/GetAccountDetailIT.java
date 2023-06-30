@@ -55,7 +55,7 @@ public class GetAccountDetailIT extends AbstractDaemonTest {
 
   @Test
   public void getDetail() throws Exception {
-    RestResponse r = adminRestSession.get("/accounts/" + admin.username() + "/detail/");
+    RestResponse r = adminRestSession.get("/accounts/" + admin.id().get() + "/detail/");
     AccountDetailInfo info = newGson().fromJson(r.getReader(), AccountDetailInfo.class);
     assertAccountInfo(admin, info);
     Account account = getAccount(admin.id());
@@ -81,7 +81,7 @@ public class GetAccountDetailIT extends AbstractDaemonTest {
 
   @Test
   public void getDetailForExtensionPointAccountTag() throws Exception {
-    RestResponse r = userRestSession.get("/accounts/" + user.username() + "/detail/");
+    RestResponse r = userRestSession.get("/accounts/" + user.id().get() + "/detail/");
     AccountDetailInfo info = newGson().fromJson(r.getReader(), AccountDetailInfo.class);
     assertThat(info.tags).containsExactly("BASIC_USER");
   }
@@ -95,14 +95,11 @@ public class GetAccountDetailIT extends AbstractDaemonTest {
             .addSecondaryEmail("secondary@example.com")
             .create();
 
-    RestResponse r = userRestSession.get("/accounts/secondary/detail/");
-    r.assertStatus(404);
-
-    r = userRestSession.get("/accounts/secondary@example.com/detail/");
+    RestResponse r = userRestSession.get("/accounts/secondary@example.com/detail/");
     r.assertStatus(404);
 
     // The admin has MODIFY_ACCOUNT permission and can see the user.
-    r = adminRestSession.get("/accounts/secondary/detail/");
+    r = adminRestSession.get("/accounts/secondary@example.com/detail/");
     r.assertStatus(200);
     AccountDetailInfo info = newGson().fromJson(r.getReader(), AccountDetailInfo.class);
     assertThat(info._accountId).isEqualTo(id.get());

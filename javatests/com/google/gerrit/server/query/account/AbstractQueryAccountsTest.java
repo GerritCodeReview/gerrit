@@ -668,7 +668,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     // which means we always read fresh data when matching.
     //
     // Reindex document
-    gApi.accounts().id(user1.username).index();
+    gApi.accounts().id(user1._accountId).index();
     assertQuery("name:" + quote(user1.name));
     assertQuery("name:" + quote(newName), user1);
   }

@@ -44,7 +44,7 @@ import com.google.gerrit.server.account.ProjectWatches;
 import com.google.gerrit.server.account.StoredPreferences;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
-import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdsNoteDbImpl;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CachedPreferences;
 import com.google.gerrit.server.config.VersionedDefaultPreferences;
@@ -132,7 +132,7 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
     private final GitRepositoryManager repoManager;
     private final GitReferenceUpdated gitRefUpdated;
     private final AllUsersName allUsersName;
-    private final ExternalIds externalIds;
+    private final ExternalIdsNoteDbImpl externalIds;
     private final ExternalIdNotes.ExternalIdNotesLoader extIdNotesFactory;
     private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
     private final RetryHelper retryHelper;
@@ -142,7 +142,7 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
         GitRepositoryManager repoManager,
         GitReferenceUpdated gitRefUpdated,
         AllUsersName allUsersName,
-        ExternalIds externalIds,
+        ExternalIdsNoteDbImpl externalIds,
         Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
         RetryHelper retryHelper,
         @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
@@ -201,7 +201,7 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
         GitRepositoryManager repoManager,
         GitReferenceUpdated gitRefUpdated,
         AllUsersName allUsersName,
-        ExternalIds externalIds,
+        ExternalIdsNoteDbImpl externalIds,
         Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
         RetryHelper retryHelper,
         @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
@@ -225,7 +225,7 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
         GitRepositoryManager repoManager,
         GitReferenceUpdated gitRefUpdated,
         AllUsersName allUsersName,
-        ExternalIds externalIds,
+        ExternalIdsNoteDbImpl externalIds,
         Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
         RetryHelper retryHelper,
         @GerritPersonIdent Provider<PersonIdent> serverIdentProvider,
@@ -246,7 +246,7 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
   private final GitReferenceUpdated gitRefUpdated;
   private final Optional<IdentifiedUser> currentUser;
   private final AllUsersName allUsersName;
-  private final ExternalIds externalIds;
+  private final ExternalIdsNoteDbImpl externalIds;
 
   private final ExternalIdNotes.ExternalIdNotesLoader extIdNotesFactory;
   private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
@@ -269,7 +269,7 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
       GitReferenceUpdated gitRefUpdated,
       Optional<IdentifiedUser> currentUser,
       AllUsersName allUsersName,
-      ExternalIds externalIds,
+      ExternalIdsNoteDbImpl externalIds,
       ExternalIdNotes.ExternalIdNotesLoader extIdNotesFactory,
       Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
       RetryHelper retryHelper,

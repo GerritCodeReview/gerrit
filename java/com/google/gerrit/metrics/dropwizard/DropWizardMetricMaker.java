@@ -375,7 +375,7 @@ public class DropWizardMetricMaker extends MetricMaker {
    * Modifications to the input metric name:
    * <ul>
    *   <li/> leading <code>/</code> is replaced with <code>_</code>
-   *   <li/> doubled (or repeated more times) <code>/</code> are reduced to a single <code>/<code>
+   *   <li/> doubled (or repeated more times) <code>/</code> are reduced to a single <code>/</code>
    *   <li/> ending <code>/</code> is removed
    *   <li/> all characters that are not <code>/a-zA-Z0-9_-</code> are replaced with <code>_0x[HEX CODE]_</code> (code is capitalized)
    *   <li/> the replacement prefix <code>_0x</code> is prepended with another replacement prefix

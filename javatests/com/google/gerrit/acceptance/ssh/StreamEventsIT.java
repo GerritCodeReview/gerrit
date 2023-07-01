@@ -22,6 +22,8 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -95,6 +97,16 @@ public class StreamEventsIT extends AbstractDaemonTest {
                             "ref-updated", refName.substring(0, refName.lastIndexOf('/')))
                         .size())
                 == 2);
+  }
+
+  @Test
+  @GerritConfig(name = "event.stream-events.enableBatchRefUpdatedEvents", value = "true")
+  public void batchRefsUpdatedShowsInStreamEvents() throws Exception {
+    ChangeData change = createChange().getChange();
+    String patchsetRefName = change.currentPatchSet().refName();
+    String metaRefName = RefNames.changeMetaRef(change.getId());
+    waitForEvent(
+        () -> pollEventsContaining("batch-ref-updated", patchsetRefName, metaRefName).size() == 1);
   }
 
   private void waitForEvent(Supplier<Boolean> waitCondition) throws InterruptedException {

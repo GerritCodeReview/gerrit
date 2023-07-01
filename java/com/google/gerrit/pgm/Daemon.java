@@ -448,7 +448,7 @@ public class Daemon extends SiteProgram {
     modules.add(new SubscriptionGraphModule());
     modules.add(new SuperprojectUpdateSubmissionListenerModule());
     modules.add(new WorkQueueModule());
-    modules.add(new StreamEventsApiListenerModule());
+    modules.add(new StreamEventsApiListenerModule(config));
     modules.add(new EventBrokerModule());
     if (accountPatchReviewStoreModule != null) {
       modules.add(accountPatchReviewStoreModule);

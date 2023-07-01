@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "685c5f03_a10470d2",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2360,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-01T07:05:35Z",
+      "side": 1,
+      "message": "Not sure if I follow - would appreciate the example 😊",
+      "parentUuid": "647cc864_e51e15ac",
+      "range": {
+        "startLine": 2360,
+        "startChar": 2,
+        "endLine": 2360,
+        "endChar": 19
+      },
+      "revId": "771df4361741688ed99a439fc3e0ba9fd4ac16d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4067211b_129c7565",
         "filename": "java/com/google/gerrit/metrics/dropwizard/DropWizardMetricMaker.java",
         "patchSetId": 5
@@ -37,6 +61,30 @@
       "writtenOn": "2023-06-30T08:58:44Z",
       "side": 1,
       "message": "Tiny nit: unclosed block.",
+      "range": {
+        "startLine": 380,
+        "startChar": 85,
+        "endLine": 380,
+        "endChar": 134
+      },
+      "revId": "771df4361741688ed99a439fc3e0ba9fd4ac16d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a24e020_4486e74a",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/DropWizardMetricMaker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-01T07:05:35Z",
+      "side": 1,
+      "message": "Actually in line #378 :)\nAddressed in https://gerrit-review.googlesource.com/c/gerrit/+/378559",
+      "parentUuid": "4067211b_129c7565",
       "range": {
         "startLine": 380,
         "startChar": 85,

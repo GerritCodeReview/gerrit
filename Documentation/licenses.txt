@@ -1117,28 +1117,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 [[flexmark]]
 flexmark
 
-* flexmark
-* flexmark-ext-abbreviation
-* flexmark-ext-anchorlink
-* flexmark-ext-autolink
-* flexmark-ext-definition
-* flexmark-ext-emoji
-* flexmark-ext-escaped-character
-* flexmark-ext-footnotes
-* flexmark-ext-gfm-issues
-* flexmark-ext-gfm-strikethrough
-* flexmark-ext-gfm-tasklist
-* flexmark-ext-gfm-users
-* flexmark-ext-ins
-* flexmark-ext-jekyll-front-matter
-* flexmark-ext-superscript
-* flexmark-ext-tables
-* flexmark-ext-toc
-* flexmark-ext-typographic
-* flexmark-ext-wikilink
-* flexmark-ext-yaml-front-matter
-* flexmark-profile-pegdown
-* flexmark-util
+* flexmark-all-lib
 
 [[flexmark_license]]
 ----

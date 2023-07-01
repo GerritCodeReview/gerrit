@@ -196,9 +196,9 @@ def java_dependencies():
 
     maven_jar(
         name = "flexmark-all-lib",
-        artifact = "com.vladsch.flexmark:flexmark-all:0.64.0:lib",
+        artifact = "com.vladsch.flexmark:flexmark-all:0.64.6:lib",
         attach_source = False,
-        sha1 = "de92cef20c1f61681a3c8f64dd5975fbd3125049",
+        sha1 = "93f0e96bdb5ba675cf6bbc995c7d5143458232dc",
     )
 
     # Transitive dependency of flexmark and gitiles

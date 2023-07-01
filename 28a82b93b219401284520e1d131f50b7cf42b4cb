@@ -366,6 +366,30 @@
       },
       "revId": "28a82b93b219401284520e1d131f50b7cf42b4cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2982b7ac_8ea3a95a",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-07-01T12:17:29Z",
+      "side": 1,
+      "message": "Sorry, I missed that the latest patch set was uploaded and my comments were addressed.",
+      "parentUuid": "2c1b8c92_ab915ac0",
+      "range": {
+        "startLine": 324,
+        "startChar": 0,
+        "endLine": 330,
+        "endChar": 5
+      },
+      "revId": "28a82b93b219401284520e1d131f50b7cf42b4cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

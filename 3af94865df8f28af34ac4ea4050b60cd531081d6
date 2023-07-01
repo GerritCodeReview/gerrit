@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11abc589_3b8ec5fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-07-01T12:17:29Z",
+      "side": 1,
+      "message": "This can be done in follow-up change.",
+      "parentUuid": "82ee1b27_904f19b1",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "3af94865df8f28af34ac4ea4050b60cd531081d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37ea2ec1_cc42681d",
@@ -43,6 +67,47 @@
         "endLine": 13,
         "endChar": 7
       },
+      "revId": "3af94865df8f28af34ac4ea4050b60cd531081d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60d899e7_ee71616f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-07-01T12:17:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37ea2ec1_cc42681d",
+      "range": {
+        "startLine": 13,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 7
+      },
+      "revId": "3af94865df8f28af34ac4ea4050b60cd531081d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43c7b234_735e6ee2",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-07-01T12:17:29Z",
+      "side": 1,
+      "message": "I figured that the split was done in this commit: [1] and the artifact classifier \"lib\" was introduced:\n\n```\nsplit flexmark-util into separate modules per directory\n```\n\nThe support for classifier was added to `maven_jar` Buck/Bazel macro years ago, see the POM reference: [2]:\n\n```\nThe classifier distinguishes artifacts that were built from the same POM but differ in content. It is some optional and arbitrary string that - if present - is appended to the artifact name just after the version number.\n```\nAlso the rule name should reflect the classifier. \n\nSo, what you could do is just this:\n\n```\n    maven_jar(\n        name \u003d \"flexmark-util-lib\",\n        artifact \u003d \"com.vladsch.flexmark:flexmark-util:\" + FLEXMARK_VERS + \":lib\",\n        sha1 \u003d \"108bb4a0be43b289bc9075509e276506ccd53e82\",\n        attach_source \u003d False,\n    )\n```\n\nMoreover, given that flexmark-all artifact also published with the lib classifier: [3] , we could even consume directly one single library:\n\n```\nmaven_jar(\n        name \u003d \"flexmark-all-lib\",\n        artifact \u003d \"com.vladsch.flexmark:flexmark-all:\" + FLEXMARK_VERS + \":lib\",\n[...]\n    )\n```\n\nThat would significantly reduce the noise of the updating of flexmark version. I will upload a follow-up change, in case we want this.\n\n[1]: https://github.com/vsch/flexmark-java/commit/fd34c2df057672b0a5a7ac311ba0404e8aa564cd\n[2]: https://maven.apache.org/pom.html#dependencies\n[3]: https://repo1.maven.org/maven2/com/vladsch/flexmark/flexmark-all/0.64.0/flexmark-all-0.64.0-lib.jar",
       "revId": "3af94865df8f28af34ac4ea4050b60cd531081d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

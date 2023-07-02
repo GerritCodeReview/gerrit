@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f36d9049_34e4fc36",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2360,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-02T08:38:14Z",
+      "side": 1,
+      "message": "Oops I meant the backslash, not the underscore. Either way my bad, the backslash _is_ required 😊",
+      "parentUuid": "685c5f03_a10470d2",
+      "range": {
+        "startLine": 2360,
+        "startChar": 2,
+        "endLine": 2360,
+        "endChar": 19
+      },
+      "revId": "771df4361741688ed99a439fc3e0ba9fd4ac16d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4067211b_129c7565",

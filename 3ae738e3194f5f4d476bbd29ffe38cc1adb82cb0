@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e259d2dd_7064d70d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-02T08:58:09Z",
+      "side": 1,
+      "message": "The side effect that I haven\u0027t noticed at first glance is that JVM/proc Gerrit\u0027s core metrics are also affected e.g.:\n`G1 Young Generation` JVM metric that previously was changed into `G1_Young_Generation` now translates to `G1_0x20_Young_0x20_Generation`\n\nand that is especially visible in `CodeHeap \u0027non-nmethods\u0027` that used to be `CodeHeap__non-nmethods_` and now becomes `CodeHeap_0x20__0x27_non-nmethods_0x27_`\n\nWhich basically means that all GC related metrics are affected",
+      "revId": "3ae738e3194f5f4d476bbd29ffe38cc1adb82cb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "45d1b62f_5ba128e0",
         "filename": "java/com/google/gerrit/metrics/dropwizard/CallbackMetricImpl1.java",
         "patchSetId": 3
@@ -38,6 +55,30 @@
       "side": 1,
       "message": "Not post-merge, got my wires crossed!",
       "parentUuid": "45d1b62f_5ba128e0",
+      "range": {
+        "startLine": 33,
+        "startChar": 30,
+        "endLine": 33,
+        "endChar": 47
+      },
+      "revId": "3ae738e3194f5f4d476bbd29ffe38cc1adb82cb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9be81d61_d8ca2667",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/CallbackMetricImpl1.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-02T08:58:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc25c92f_ab903d8a",
       "range": {
         "startLine": 33,
         "startChar": 30,

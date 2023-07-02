@@ -93,6 +93,30 @@
       },
       "revId": "9ff7e764a45867f951a76f56e14e7480730e38f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0466d41b_307ebca9",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/CallbackMetricImpl1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-02T08:58:09Z",
+      "side": 1,
+      "message": "AFAIU the sub-metric name is _calculated_ once per value. I have added the `log.info` statement to `com.google.gerrit.metrics.dropwizard.CallbackMetricImpl1.name` and I can see that it is called only once per sub-metric e.g.:\n\n```\n... Sanitizing the submetric value /Users/jcentkowski/workspace/apps/gerrit/git/foo/bar.git to _0x2F_Users_0x2F_jcentkowski_0x2F_workspace_0x2F_apps_0x2F_gerrit_0x2F_git_0x2F_foo_0x2F_bar_0x2E_git\n... Sanitizing the submetric value /Users/jcentkowski/workspace/apps/gerrit/git/foo-bar.git to _0x2F_Users_0x2F_jcentkowski_0x2F_workspace_0x2F_apps_0x2F_gerrit_0x2F_git_0x2F_foo-bar_0x2E_git\n```\n\nI have also hooked in the prometheus + grafana dashboard and confirmed that above still holds.",
+      "parentUuid": "c749ed15_20c3edda",
+      "range": {
+        "startLine": 105,
+        "startChar": 8,
+        "endLine": 105,
+        "endChar": 45
+      },
+      "revId": "9ff7e764a45867f951a76f56e14e7480730e38f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

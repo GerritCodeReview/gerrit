@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1086cd7_9672affc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-07-03T12:36:37Z",
+      "side": 1,
+      "message": "Maybe add a line in the commit message why we chose to fire the event through the model (GrDiffRow -\u003e model -\u003e GrDiff) instead of skipping the middle layer of the model.",
+      "revId": "c2fb7f153dd2dd20f2219392841efa98ef394148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

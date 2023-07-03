@@ -22,6 +22,7 @@ import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.common.IoUtil;
+import com.google.gerrit.common.JARUtil;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.IndexType;
@@ -331,7 +332,7 @@ public class BaseInit extends SiteProgram {
                 "%s has more that one implementation of %s interface",
                 secureStore, SecureStore.class.getName()));
       }
-      IoUtil.loadJARs(secureStoreLib);
+      JARUtil.loadJARs(secureStoreLib);
       return new SecureStoreInitData(secureStoreLib, secureStores.get(0));
     } catch (IOException e) {
       throw new InvalidSecureStoreException(String.format("%s is not a valid jar", secureStore), e);

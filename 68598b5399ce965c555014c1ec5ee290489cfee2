@@ -22,6 +22,30 @@
       },
       "revId": "68598b5399ce965c555014c1ec5ee290489cfee2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78fe741f_72802338",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-07-03T16:52:01Z",
+      "side": 1,
+      "message": "Some internal build targets were broken and some unwanted dependencies appeared.\n\nI think this revert is not needed anymore because of https://gerrit-review.git.corp.google.com/c/gerrit/+/378617.",
+      "parentUuid": "acdd5e7a_1d9b0a79",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 103
+      },
+      "revId": "68598b5399ce965c555014c1ec5ee290489cfee2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

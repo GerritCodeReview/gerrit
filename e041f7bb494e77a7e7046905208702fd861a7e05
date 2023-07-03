@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ecb0b98_ed2d7e69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-03T07:54:30Z",
+      "side": 1,
+      "message": "This should be flagged as a breaking change",
+      "revId": "e041f7bb494e77a7e7046905208702fd861a7e05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cab76219_6a4fbacb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-03T07:54:30Z",
+      "side": 1,
+      "message": "It would be best to have this on master: we don\u0027t want to break existing behaviour on stable branches, unless we really have to, which isn\u0027t the case here.",
+      "revId": "e041f7bb494e77a7e7046905208702fd861a7e05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

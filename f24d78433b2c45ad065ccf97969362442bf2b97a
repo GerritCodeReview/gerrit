@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d518408e_40600cd2",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/BucketedCallback.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-03T07:53:03Z",
+      "side": 1,
+      "message": "This would result in a double-wrapping around IAE: why not fixing the problem upstream?",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 9
+      },
+      "revId": "f24d78433b2c45ad065ccf97969362442bf2b97a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

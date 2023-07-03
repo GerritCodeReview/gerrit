@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95c48459_5764314e",
+        "filename": "polygerrit-ui/app/embed/diff-old/gr-diff/gr-diff.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-03T14:28:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f718b470_34b69d0f",
+      "range": {
+        "startLine": 569,
+        "startChar": 12,
+        "endLine": 569,
+        "endChar": 46
+      },
+      "revId": "8884e22166bc72d218cea96c5f5a65d4eb2ac4bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f341641b_47d6fb19",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93eefaa5_0ba89123",
+        "filename": "polygerrit-ui/app/embed/diff-old/gr-diff/gr-diff.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-03T14:28:14Z",
+      "side": 1,
+      "message": "Are suggesting to rename the method to `getGrDiffCommentThreadFromCommentThreadEl`? I find that rather long. I think I would be more inclined to rename `GrDiffCommentThread` to `GrDiffCommentThreadData`. But I don\u0027t want to rename 31 results and cause another review round. Since this is touching `diff-old` and thus code that is scheduled for deletion, maybe we can keep as is in this change.",
+      "parentUuid": "f341641b_47d6fb19",
+      "range": {
+        "startLine": 570,
+        "startChar": 61,
+        "endLine": 570,
+        "endChar": 66
+      },
+      "revId": "8884e22166bc72d218cea96c5f5a65d4eb2ac4bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "606af036_1890c948",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-07-03T13:34:12Z",
       "side": 1,
       "message": "nit: thread?",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 11
+      },
+      "revId": "8884e22166bc72d218cea96c5f5a65d4eb2ac4bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f53cc24c_1691f83e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-highlight/gr-diff-highlight.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-03T14:28:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "606af036_1890c948",
       "range": {
         "startLine": 138,
         "startChar": 4,

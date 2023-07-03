@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e823819_a5f6465b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-03T11:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0b3bfd5_f092756d",
+      "revId": "0e47df7b234f74568dfddc6e219b1b73d590e61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1e26a955_23242245",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-06-30T12:24:42Z",
       "side": 1,
       "message": "Superfluous constructor?",
+      "revId": "0e47df7b234f74568dfddc6e219b1b73d590e61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1837486_edb0a97e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-03T11:43:07Z",
+      "side": 1,
+      "message": "Needed now.",
+      "parentUuid": "1e26a955_23242245",
       "revId": "0e47df7b234f74568dfddc6e219b1b73d590e61f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9256c2c_2e51e0a0",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-03T11:43:07Z",
+      "side": 1,
+      "message": "The complicated part is to react to both, changes of `left` and changes of `comments$`. If we would just subscribe to `comments$`, then maybe it emits before `left` is set (and that is indeed what is happening).\n\nBut you are right. Instead let\u0027s create a `left$` observable in `willUpdate()` and use `combineLatest()`. That is more idiomatic. Done.",
+      "parentUuid": "e2a523fe_98681188",
+      "revId": "0e47df7b234f74568dfddc6e219b1b73d590e61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "448d94d1_157a2b42",
@@ -65,6 +119,24 @@
       "writtenOn": "2023-06-30T12:24:42Z",
       "side": 1,
       "message": "Is this really just a getter or does this trigger repeatedly?",
+      "revId": "0e47df7b234f74568dfddc6e219b1b73d590e61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60e0f795_2535ba09",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-03T11:43:07Z",
+      "side": 1,
+      "message": "This triggers whenever the list of comments changes in the model.",
+      "parentUuid": "448d94d1_157a2b42",
       "revId": "0e47df7b234f74568dfddc6e219b1b73d590e61f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bef8c0a_4a874216",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-03T11:43:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91665b62_7875ea53",
+      "revId": "0e47df7b234f74568dfddc6e219b1b73d590e61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1425296d_5ab1e2ca",
@@ -99,6 +189,24 @@
       "writtenOn": "2023-06-30T12:24:42Z",
       "side": 1,
       "message": "I\u0027m concerned about the number of observables this creates for large files.\n\nWhat about doing the filtering on the receiver end instead?",
+      "revId": "0e47df7b234f74568dfddc6e219b1b73d590e61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8033f68_130ec7d7",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-model/gr-diff-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-03T11:43:07Z",
+      "side": 1,
+      "message": "This is just a helper function that creates an observable. I don\u0027t think that is expensive.\n\nI have actually removed this function and moved the filtering to the receiver end, but I don\u0027t think it changes much. We are creating two observables for each diff row, and we subscribe to them. We have to do that one way or the other. And it is not expensive AFAICT.\n\nThe important bit here is that `leftComments` is a Lit `@state`, and we must make sure that it only updates when there is a change in comments on this very line. If any comment update would cause a Lit rendering cycle for *all* lines, then that would be expensive indeed!",
+      "parentUuid": "1425296d_5ab1e2ca",
       "revId": "0e47df7b234f74568dfddc6e219b1b73d590e61f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

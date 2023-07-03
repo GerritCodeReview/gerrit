@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "935f9ea7_f7460e44",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-03T07:48:16Z",
+      "side": 1,
+      "message": "Should this be abandoned now that metrics cannot collide anymore? If they do, it is correct to throw an exception.",
+      "revId": "635656070d7468da6654c1762a296cb0a35cfdac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "970719b3_b2c6beff",

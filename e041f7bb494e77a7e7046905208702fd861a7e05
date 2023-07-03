@@ -33,6 +33,23 @@
       "message": "It would be best to have this on master: we don\u0027t want to break existing behaviour on stable branches, unless we really have to, which isn\u0027t the case here.",
       "revId": "e041f7bb494e77a7e7046905208702fd861a7e05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a0203ba_b1d25e0a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-03T07:54:50Z",
+      "side": 1,
+      "message": "@Thomas this is the revert of one of your changes.",
+      "revId": "e041f7bb494e77a7e7046905208702fd861a7e05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

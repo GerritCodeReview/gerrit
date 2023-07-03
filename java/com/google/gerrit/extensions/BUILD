@@ -32,11 +32,13 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/common:annotations",
+        "//java/com/google/gerrit/proto",
         "//lib:guava",
         "//lib/auto:auto-value-annotations",
         "//lib/errorprone:annotations",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
+        "//proto:rest_java_proto",
     ],
 )
 

@@ -16,6 +16,7 @@ package com.google.gerrit.index.query;
 
 import com.google.gerrit.index.QueryOptions;
 
+/** hoi */
 public interface Paginated<T> {
   QueryOptions getOptions();
 

@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3c28750b_4fa5912c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-07-03T12:55:13Z",
+      "side": 1,
+      "message": "I was trying to not introduce the breaking change. The only change is in the refs order. So if someone rely on the current order(which is random) then yes it can be a breaking change, but other wise is should be compatible",
+      "parentUuid": "668c722c_0992b300",
+      "revId": "4676f39db3c0232d9d29af2beb0386c741c980a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c21f03c2_0b1dce03",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

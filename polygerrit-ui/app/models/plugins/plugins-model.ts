@@ -12,7 +12,7 @@ import {
 } from '../../api/checks';
 import {Model} from '../model';
 import {select} from '../../utils/observable-util';
-import {CoverageProvider} from '../../api/annotation';
+import {CoverageProvider, TokenHighlightListener} from '../../api/annotation';
 
 export interface CoveragePlugin {
   pluginName: string;
@@ -23,6 +23,11 @@ export interface ChecksPlugin {
   pluginName: string;
   provider: ChecksProvider;
   config: ChecksApiConfig;
+}
+
+export interface TokenHighlightListenerPlugin {
+  pluginName: string;
+  listener: TokenHighlightListener;
 }
 
 export interface ChecksUpdate {
@@ -41,6 +46,12 @@ interface PluginsState {
    * List of plugins that have called checks().register().
    */
   checksPlugins: ChecksPlugin[];
+
+  /**
+   * List of plugins that have called
+   * annotationApi().addTokenHighlightListener().
+   */
+  tokenHighlightPlugins: TokenHighlightListenerPlugin[];
 }
 
 export class PluginsModel extends Model<PluginsState> {
@@ -66,6 +77,7 @@ export class PluginsModel extends Model<PluginsState> {
     super({
       coveragePlugins: [],
       checksPlugins: [],
+      tokenHighlightPlugins: [],
     });
   }
 
@@ -98,6 +110,22 @@ export class PluginsModel extends Model<PluginsState> {
       return;
     }
     nextState.checksPlugins.push(plugin);
+    this.setState(nextState);
+  }
+
+  tokenHighlightListenerRegister(plugin: TokenHighlightListenerPlugin) {
+    const nextState = {...this.getState()};
+    nextState.tokenHighlightPlugins = [...nextState.tokenHighlightPlugins];
+    const alreadyRegistered = nextState.tokenHighlightPlugins.some(
+      p => p.pluginName === plugin.pluginName
+    );
+    if (alreadyRegistered) {
+      console.warn(
+        `${plugin.pluginName} tried to register twice as a hover callback. Ignored.`
+      );
+      return;
+    }
+    nextState.tokenHighlightPlugins.push(plugin);
     this.setState(nextState);
   }
 

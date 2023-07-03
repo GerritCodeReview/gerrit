@@ -170,6 +170,24 @@
       "parentUuid": "9bb8970e_16a0500d",
       "revId": "3af94865df8f28af34ac4ea4050b60cd531081d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b6db351_e3b8a05f",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-07-03T11:54:28Z",
+      "side": 1,
+      "message": "The review here is done.\n\nFell free to merge it as is or if you prefer to squash the follow-up change(s) in this one, we could also do this instead.",
+      "parentUuid": "5146a31d_808b35b9",
+      "revId": "3af94865df8f28af34ac4ea4050b60cd531081d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

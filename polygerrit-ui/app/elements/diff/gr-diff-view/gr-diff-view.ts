@@ -1259,12 +1259,9 @@ export class GrDiffView extends LitElement {
   private goToEditFile() {
     assertIsDefined(this.path, 'path');
 
-    // TODO(taoalpha): add a shortcut for editing
-    const cursorAddress = this.cursor?.getAddress();
-    this.getChangeModel().navigateToEdit({
-      path: this.path,
-      lineNum: cursorAddress?.number,
-    });
+    const lineNumber = this.cursor?.getTargetLineNumber();
+    const lineNum = typeof lineNumber === 'number' ? lineNumber : undefined;
+    this.getChangeModel().navigateToEdit({path: this.path, lineNum});
   }
 
   /**

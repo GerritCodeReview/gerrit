@@ -17,7 +17,7 @@ import {createDiff} from '../../../test/test-data-generators';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {GrDiffCursor} from './gr-diff-cursor';
 import {waitForEventOnce} from '../../../utils/event-util';
-import {DiffInfo, DiffViewMode, Side} from '../../../api/diff';
+import {DiffInfo, DiffViewMode, FILE, Side} from '../../../api/diff';
 import {GrDiff} from '../gr-diff/gr-diff';
 import {assertIsDefined} from '../../../utils/common-util';
 
@@ -27,12 +27,13 @@ suite('gr-diff-cursor tests', () => {
 
   setup(async () => {
     diffElement = await fixture(html`<gr-diff></gr-diff>`);
+    diffElement.path = 'some/path.ts';
     cursor = new GrDiffCursor();
     cursor.replaceDiffs([diffElement]);
 
     const promise = mockPromise();
     const setupDone = () => {
-      cursor._updateStops();
+      cursor.updateStops();
       cursor.moveToFirstChunk();
       diffElement.removeEventListener('render', setupDone);
       promise.resolve();
@@ -48,23 +49,23 @@ suite('gr-diff-cursor tests', () => {
   });
 
   test('diff cursor functionality (side-by-side)', () => {
-    assert.isOk(cursor.diffRow);
+    assert.isOk(cursor.diffRowTR);
 
     const deltaRows = queryAll<HTMLTableRowElement>(
       diffElement,
       '.section.delta tr.diff-row'
     );
-    assert.equal(cursor.diffRow, deltaRows[0]);
+    assert.equal(cursor.diffRowTR, deltaRows[0]);
 
     cursor.moveDown();
 
-    assert.notEqual(cursor.diffRow, deltaRows[0]);
-    assert.equal(cursor.diffRow, deltaRows[1]);
+    assert.notEqual(cursor.diffRowTR, deltaRows[0]);
+    assert.equal(cursor.diffRowTR, deltaRows[1]);
 
     cursor.moveUp();
 
-    assert.notEqual(cursor.diffRow, deltaRows[1]);
-    assert.equal(cursor.diffRow, deltaRows[0]);
+    assert.notEqual(cursor.diffRowTR, deltaRows[1]);
+    assert.equal(cursor.diffRowTR, deltaRows[0]);
   });
 
   test('moveToFirstChunk', async () => {
@@ -104,7 +105,7 @@ suite('gr-diff-cursor tests', () => {
     await waitForEventOnce(diffElement, 'render');
     await waitForEventOnce(diffElement, 'render');
 
-    cursor._updateStops();
+    cursor.updateStops();
 
     const chunks = [
       ...queryAll(diffElement, '.section.delta'),
@@ -118,19 +119,19 @@ suite('gr-diff-cursor tests', () => {
 
     // Verify it works on fresh diff.
     cursor.moveToFirstChunk();
-    assert.ok(cursor.diffRow);
-    assert.equal(cursor.diffRow, rows[0]);
+    assert.ok(cursor.diffRowTR);
+    assert.equal(cursor.diffRowTR, rows[0]);
     assert.equal(cursor.side, Side.RIGHT);
 
     // Verify it works from other cursor positions.
     cursor.moveToNextChunk();
-    assert.ok(cursor.diffRow);
-    assert.equal(cursor.diffRow, rows[1]);
+    assert.ok(cursor.diffRowTR);
+    assert.equal(cursor.diffRowTR, rows[1]);
     assert.equal(cursor.side, Side.LEFT);
 
     cursor.moveToFirstChunk();
-    assert.ok(cursor.diffRow);
-    assert.equal(cursor.diffRow, rows[0]);
+    assert.ok(cursor.diffRowTR);
+    assert.equal(cursor.diffRowTR, rows[0]);
     assert.equal(cursor.side, Side.RIGHT);
   });
 
@@ -165,7 +166,7 @@ suite('gr-diff-cursor tests', () => {
 
     await waitForEventOnce(diffElement, 'render');
     await waitForEventOnce(diffElement, 'render');
-    cursor._updateStops();
+    cursor.updateStops();
 
     const chunks = [
       ...queryAll(diffElement, '.section.delta'),
@@ -179,19 +180,19 @@ suite('gr-diff-cursor tests', () => {
 
     // Verify it works on fresh diff.
     cursor.moveToLastChunk();
-    assert.ok(cursor.diffRow);
-    assert.equal(cursor.diffRow, rows[1]);
+    assert.ok(cursor.diffRowTR);
+    assert.equal(cursor.diffRowTR, rows[1]);
     assert.equal(cursor.side, Side.RIGHT);
 
     // Verify it works from other cursor positions.
     cursor.moveToPreviousChunk();
-    assert.ok(cursor.diffRow);
-    assert.equal(cursor.diffRow, rows[0]);
+    assert.ok(cursor.diffRowTR);
+    assert.equal(cursor.diffRowTR, rows[0]);
     assert.equal(cursor.side, Side.LEFT);
 
     cursor.moveToLastChunk();
-    assert.ok(cursor.diffRow);
-    assert.equal(cursor.diffRow, rows[1]);
+    assert.ok(cursor.diffRowTR);
+    assert.equal(cursor.diffRowTR, rows[1]);
     assert.equal(cursor.side, Side.RIGHT);
   });
 
@@ -237,22 +238,22 @@ suite('gr-diff-cursor tests', () => {
     });
 
     test('diff cursor functionality (unified)', () => {
-      assert.isOk(cursor.diffRow);
+      assert.isOk(cursor.diffRowTR);
 
       const rows = [
         ...queryAll(diffElement, '.section.delta tr.diff-row'),
       ] as HTMLTableRowElement[];
-      assert.equal(cursor.diffRow, rows[0]);
+      assert.equal(cursor.diffRowTR, rows[0]);
 
       cursor.moveDown();
 
-      assert.notEqual(cursor.diffRow, rows[0]);
-      assert.equal(cursor.diffRow, rows[1]);
+      assert.notEqual(cursor.diffRowTR, rows[0]);
+      assert.equal(cursor.diffRowTR, rows[1]);
 
       cursor.moveUp();
 
-      assert.notEqual(cursor.diffRow, rows[1]);
-      assert.equal(cursor.diffRow, rows[0]);
+      assert.notEqual(cursor.diffRowTR, rows[1]);
+      assert.equal(cursor.diffRowTR, rows[0]);
     });
   });
 
@@ -275,7 +276,7 @@ suite('gr-diff-cursor tests', () => {
     // Because the first delta in this diff is on the right, it should be set
     // to the right side.
     assert.equal(cursor.side, Side.RIGHT);
-    assert.equal(cursor.diffRow, deltaRows[0]);
+    assert.equal(cursor.diffRowTR, deltaRows[0]);
     const firstIndex = cursor.cursorManager.index;
 
     // Move the side to the left. Because this delta only has a right side, we
@@ -284,8 +285,8 @@ suite('gr-diff-cursor tests', () => {
     cursor.moveLeft();
 
     assert.equal(cursor.side, Side.LEFT);
-    assert.notEqual(cursor.diffRow, rows[0]);
-    assert.equal(cursor.diffRow, rowBeforeFirstDelta);
+    assert.notEqual(cursor.diffRowTR, rows[0]);
+    assert.equal(cursor.diffRowTR, rowBeforeFirstDelta);
     assert.equal(cursor.cursorManager.index, firstIndex - 1);
 
     // If we move down, we should skip everything in the first delta because
@@ -293,8 +294,8 @@ suite('gr-diff-cursor tests', () => {
     cursor.moveDown();
 
     assert.equal(cursor.side, Side.LEFT);
-    assert.notEqual(cursor.diffRow, rowBeforeFirstDelta);
-    assert.notEqual(cursor.diffRow, rows[0]);
+    assert.notEqual(cursor.diffRowTR, rowBeforeFirstDelta);
+    assert.notEqual(cursor.diffRowTR, rows[0]);
     assert.isTrue(cursor.cursorManager.index > firstIndex);
   });
 
@@ -303,7 +304,7 @@ suite('gr-diff-cursor tests', () => {
 
     // We should be initialized to the first chunk. Since this chunk only has
     // content on the right side, our side should be right.
-    assert.equal(cursor.diffRow, deltaChunks[0].querySelector('tr'));
+    assert.equal(cursor.diffRowTR, deltaChunks[0].querySelector('tr'));
     assert.equal(cursor.side, Side.RIGHT);
 
     // Move to the next chunk.
@@ -311,7 +312,7 @@ suite('gr-diff-cursor tests', () => {
 
     // Since this chunk only has content on the left side. we should have been
     // automatically moved over.
-    assert.equal(cursor.diffRow, deltaChunks[1].querySelector('tr'));
+    assert.equal(cursor.diffRowTR, deltaChunks[1].querySelector('tr'));
     assert.equal(cursor.side, Side.LEFT);
   });
 
@@ -365,7 +366,7 @@ suite('gr-diff-cursor tests', () => {
 
   test('getTargetDiffElement', () => {
     cursor.initialLineNumber = 1;
-    assert.isTrue(!!cursor.diffRow);
+    assert.isTrue(!!cursor.diffRowTR);
     assert.equal(cursor.getTargetDiffElement(), diffElement);
   });
 
@@ -431,51 +432,56 @@ suite('gr-diff-cursor tests', () => {
         'createRangeComment'
       );
       const addDraftAtLineStub = sinon.stub(diffElement, 'addDraftAtLine');
-      cursor.diffRow = undefined;
+      cursor.diffRowTR = undefined;
       cursor.createCommentInPlace();
       assert.isFalse(createRangeCommentStub.called);
       assert.isFalse(addDraftAtLineStub.called);
     });
   });
 
-  test('getAddress', () => {
+  test('getTargetLineNumber', () => {
     // It should initialize to the first chunk: line 5 of the revision.
-    assert.deepEqual(cursor.getAddress(), {leftSide: false, number: 5});
+    assert.deepEqual(cursor.getTargetLineNumber(), 5);
+    assert.deepEqual(cursor.side, Side.RIGHT);
 
     // Revision line 4 is up.
     cursor.moveUp();
-    assert.deepEqual(cursor.getAddress(), {leftSide: false, number: 4});
+    assert.deepEqual(cursor.getTargetLineNumber(), 4);
+    assert.deepEqual(cursor.side, Side.RIGHT);
 
     // Base line 4 is left.
     cursor.moveLeft();
-    assert.deepEqual(cursor.getAddress(), {leftSide: true, number: 4});
+    assert.deepEqual(cursor.getTargetLineNumber(), 4);
+    assert.deepEqual(cursor.side, Side.LEFT);
 
     // Moving to the next chunk takes it back to the start.
     cursor.moveToNextChunk();
-    assert.deepEqual(cursor.getAddress(), {leftSide: false, number: 5});
+    assert.deepEqual(cursor.getTargetLineNumber(), 5);
+    assert.deepEqual(cursor.side, Side.RIGHT);
 
     // The following chunk is a removal starting on line 10 of the base.
     cursor.moveToNextChunk();
-    assert.deepEqual(cursor.getAddress(), {leftSide: true, number: 10});
+    assert.deepEqual(cursor.getTargetLineNumber(), 10);
+    assert.deepEqual(cursor.side, Side.LEFT);
 
     // Should be null if there is no selection.
     cursor.cursorManager.unsetCursor();
-    assert.isNotOk(cursor.getAddress());
+    assert.isUndefined(cursor.getTargetLineNumber());
   });
 
-  test('_findRowByNumberAndFile', () => {
+  test('findRowByNumberAndFile', () => {
     // Get the first ab row after the first chunk.
     const rows = [...queryAll<HTMLTableRowElement>(diffElement, 'tr')];
     const row = rows[9];
     assert.ok(row);
 
     // It should be line 8 on the right, but line 5 on the left.
-    assert.equal(cursor._findRowByNumberAndFile(8, Side.RIGHT), row);
-    assert.equal(cursor._findRowByNumberAndFile(5, Side.LEFT), row);
+    assert.equal(cursor.findRowByNumberAndFile(8, Side.RIGHT), row);
+    assert.equal(cursor.findRowByNumberAndFile(5, Side.LEFT), row);
   });
 
   test('expand context updates stops', async () => {
-    const spy = sinon.spy(cursor, '_updateStops');
+    const spy = sinon.spy(cursor, 'updateStops');
     const controls = queryAndAssert(diffElement, 'gr-context-controls');
     const showContext = queryAndAssert<HTMLElement>(controls, '.showContext');
     showContext.click();
@@ -485,7 +491,7 @@ suite('gr-diff-cursor tests', () => {
   });
 
   test('updates stops when loading changes', () => {
-    const spy = sinon.spy(cursor, '_updateStops');
+    const spy = sinon.spy(cursor, 'updateStops');
     diffElement.dispatchEvent(new Event('loading-changed'));
     assert.isTrue(spy.called);
   });
@@ -532,26 +538,17 @@ suite('gr-diff-cursor tests', () => {
 
       // Goto second last line of the first diff
       cursor.moveToLineNumber(lastLine - 1, Side.RIGHT);
-      assert.equal(
-        cursor.getTargetLineElement()!.textContent?.trim(),
-        `${lastLine - 1}`
-      );
+      assert.equal(cursor.getTargetLineNumber(), lastLine - 1);
 
       // Can move down until we reach the loading file
       cursor.moveDown();
       assert.equal(getTargetDiffIndex(), 0);
-      assert.equal(
-        cursor.getTargetLineElement()!.textContent?.trim(),
-        lastLine.toString()
-      );
+      assert.equal(cursor.getTargetLineNumber(), lastLine);
 
       // Cannot move down while still loading the diff we would switch to
       cursor.moveDown();
       assert.equal(getTargetDiffIndex(), 0);
-      assert.equal(
-        cursor.getTargetLineElement()!.textContent?.trim(),
-        lastLine.toString()
-      );
+      assert.equal(cursor.getTargetLineNumber(), lastLine);
 
       // Diff 1 finishing to load
       diffElements[1].diff = createDiff();
@@ -561,7 +558,7 @@ suite('gr-diff-cursor tests', () => {
       cursor.moveDown(); // LOST
       cursor.moveDown(); // FILE
       assert.equal(getTargetDiffIndex(), 1);
-      assert.equal(cursor.getTargetLineElement()!.textContent?.trim(), 'File');
+      assert.equal(cursor.getTargetLineNumber(), FILE);
     });
   });
 });

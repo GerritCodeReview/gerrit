@@ -17,7 +17,7 @@ suite('gr-context-controls-section test', () => {
   let element: GrContextControlsSection;
 
   setup(async () => {
-    const diffModel = new DiffModel();
+    const diffModel = new DiffModel(document);
     element = (
       await fixture<DIProviderElement>(
         wrapInProvider(

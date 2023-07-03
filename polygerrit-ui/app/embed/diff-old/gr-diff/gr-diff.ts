@@ -25,6 +25,8 @@ import {
   getResponsiveMode,
   isResponsive,
   isNewDiff,
+  getDataFromCommentThreadEl,
+  GrDiffCommentThread,
 } from '../../diff/gr-diff/gr-diff-utils';
 import {BlameInfo, CommentRange, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
@@ -564,10 +566,12 @@ export class GrDiff extends LitElement implements GrDiffApi {
     threadEl: GrDiffThreadElement
   ) {
     hoverEl.addEventListener('mouseenter', () => {
-      fire(threadEl, 'comment-thread-mouseenter', {});
+      const data = getDataFromCommentThreadEl(threadEl);
+      if (data) fire(threadEl, 'comment-thread-mouseenter', data);
     });
     hoverEl.addEventListener('mouseleave', () => {
-      fire(threadEl, 'comment-thread-mouseleave', {});
+      const data = getDataFromCommentThreadEl(threadEl);
+      if (data) fire(threadEl, 'comment-thread-mouseleave', data);
     });
   }
 
@@ -1119,8 +1123,8 @@ declare global {
     'gr-diff': LitElement;
   }
   interface HTMLElementEventMap {
-    'comment-thread-mouseenter': CustomEvent<{}>;
-    'comment-thread-mouseleave': CustomEvent<{}>;
+    'comment-thread-mouseenter': CustomEvent<GrDiffCommentThread>;
+    'comment-thread-mouseleave': CustomEvent<GrDiffCommentThread>;
     'loading-changed': ValueChangedEvent<boolean>;
     'render-required': CustomEvent<{}>;
   }

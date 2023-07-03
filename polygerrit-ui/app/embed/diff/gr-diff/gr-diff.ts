@@ -16,35 +16,23 @@ import '../gr-diff-builder/gr-diff-section';
 import './gr-diff-element';
 import '../gr-diff-builder/gr-diff-row';
 import {
-  getLine,
-  getLineElByChild,
   getLineNumber,
-  getRange,
-  getSide,
-  GrDiffThreadElement,
-  isLongCommentRange,
   isThreadEl,
-  rangesEqual,
   getResponsiveMode,
   isResponsive,
   isNewDiff,
   getSideByLineEl,
   compareComments,
-  toCommentThreadModel,
+  getDataFromCommentThreadEl,
   FullContext,
   DiffContextExpandedEventDetail,
+  GrDiffCommentThread,
 } from '../gr-diff/gr-diff-utils';
 import {BlameInfo, CommentRange, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
-import {
-  CreateRangeCommentEventDetail,
-  GrDiffHighlight,
-} from '../gr-diff-highlight/gr-diff-highlight';
+import {GrDiffHighlight} from '../gr-diff-highlight/gr-diff-highlight';
 import {CoverageRange, DiffLayer, isDefined} from '../../../types/types';
-import {
-  CommentRangeLayer,
-  GrRangedCommentLayer,
-} from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
+import {GrRangedCommentLayer} from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
 import {DiffViewMode, Side} from '../../../constants/constants';
 import {fire, fireAlert} from '../../../utils/event-util';
 import {MovedLinkClickedEvent, ValueChangedEvent} from '../../../types/events';
@@ -55,10 +43,9 @@ import {
   GrDiff as GrDiffApi,
   DisplayLine,
   LineNumber,
-  LOST,
   ContentLoadNeededEventDetail,
 } from '../../../api/diff';
-import {isHtmlElement, isSafari, toggleClass} from '../../../utils/dom-util';
+import {isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrDiffSelection} from '../gr-diff-selection/gr-diff-selection';
 import {property, query, state} from 'lit/decorators.js';
@@ -165,10 +152,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
   @property({type: Boolean})
   noRenderOnPrefsChange?: boolean;
 
-  // Private but used in tests.
-  @state()
-  commentRanges: CommentRangeLayer[] = [];
-
   // explicitly highlight a range if it is not associated with any comment
   @property({type: Object})
   highlightRange?: CommentRange;
@@ -252,7 +235,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
   highlights = new GrDiffHighlight();
 
   // Private but used in tests.
-  diffModel = new DiffModel();
+  diffModel = new DiffModel(this);
 
   /**
    * Just the layers that are passed in from the outside. Will be joined with
@@ -306,13 +289,8 @@ export class GrDiff extends LitElement implements GrDiffApi {
       () => this.diffModel.groups$,
       groups => (this.groups = groups)
     );
-    this.addEventListener(
-      'create-range-comment',
-      (e: CustomEvent<CreateRangeCommentEventDetail>) =>
-        this.handleCreateRangeComment(e)
-    );
     this.addEventListener('moved-link-clicked', (e: MovedLinkClickedEvent) => {
-      this.dispatchSelectedLine(e.detail.lineNum, e.detail.side);
+      this.diffModel.selectLine(e.detail.lineNum, e.detail.side);
     });
     this.addEventListener(
       'diff-context-expanded-internal-new',
@@ -430,7 +408,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   override render() {
     fire(this, 'render-start', {});
-    return html`<gr-diff-element @click=${this.handleTap}></gr-diff-element>`;
+    return html`<gr-diff-element></gr-diff-element>`;
   }
 
   private addSelectionListeners() {
@@ -472,63 +450,22 @@ export class GrDiff extends LitElement implements GrDiffApi {
       : document.getSelection();
   }
 
-  private updateRanges(
-    addedThreadEls: GrDiffThreadElement[],
-    removedThreadEls: GrDiffThreadElement[]
-  ) {
-    function commentRangeFromThreadEl(
-      threadEl: GrDiffThreadElement
-    ): CommentRangeLayer | undefined {
-      const side = getSide(threadEl);
-      if (!side) return undefined;
-      const range = getRange(threadEl);
-      if (!range) return undefined;
+  private commentThreadRedispatcher = (
+    target: EventTarget | null,
+    eventName: 'comment-thread-mouseenter' | 'comment-thread-mouseleave'
+  ) => {
+    if (!isThreadEl(target)) return;
+    const data = getDataFromCommentThreadEl(target);
+    if (data) fire(target, eventName, data);
+  };
 
-      return {side, range, rootId: threadEl.rootId};
-    }
+  private commentThreadEnterRedispatcher = (e: Event) => {
+    this.commentThreadRedispatcher(e.target, 'comment-thread-mouseenter');
+  };
 
-    // TODO(brohlfs): Rewrite `.map().filter() as ...` with `.reduce()` instead.
-    const addedCommentRanges = addedThreadEls
-      .map(commentRangeFromThreadEl)
-      .filter(range => !!range) as CommentRangeLayer[];
-    const removedCommentRanges = removedThreadEls
-      .map(commentRangeFromThreadEl)
-      .filter(range => !!range) as CommentRangeLayer[];
-    for (const removedCommentRange of removedCommentRanges) {
-      const i = this.commentRanges.findIndex(
-        cr =>
-          cr.side === removedCommentRange.side &&
-          rangesEqual(cr.range, removedCommentRange.range)
-      );
-      this.commentRanges.splice(i, 1);
-    }
-
-    if (addedCommentRanges?.length) {
-      this.commentRanges.push(...addedCommentRanges);
-    }
-    if (this.highlightRange) {
-      this.commentRanges.push({
-        side: Side.RIGHT,
-        range: this.highlightRange,
-        rootId: '',
-      });
-    }
-
-    this.rangeLayer?.updateRanges(this.commentRanges);
-  }
-
-  // Dispatch events that are handled by the gr-diff-highlight.
-  private redispatchHoverEvents(
-    hoverEl: HTMLElement,
-    threadEl: GrDiffThreadElement
-  ) {
-    hoverEl.addEventListener('mouseenter', () => {
-      fire(threadEl, 'comment-thread-mouseenter', {});
-    });
-    hoverEl.addEventListener('mouseleave', () => {
-      fire(threadEl, 'comment-thread-mouseleave', {});
-    });
-  }
+  private commentThreadLeaveRedispatcher = (e: Event) => {
+    this.commentThreadRedispatcher(e.target, 'comment-thread-mouseleave');
+  };
 
   /** TODO: Can be removed when diff-old is gone. */
   cancel() {}
@@ -565,105 +502,21 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   // Private but used in tests.
-  handleTap(e: Event) {
-    const el = e.target as Element;
-
-    if (
-      el.getAttribute('data-value') !== LOST &&
-      (el.classList.contains('lineNum') ||
-        el.classList.contains('lineNumButton'))
-    ) {
-      this.addDraftAtLine(el);
-    } else if (
-      el.tagName === 'HL' ||
-      el.classList.contains('content') ||
-      el.classList.contains('contentText')
-    ) {
-      const target = getLineElByChild(el);
-      if (target) {
-        this.selectLine(target);
-      }
-    }
-  }
-
-  // Private but used in tests.
   selectLine(el: Element) {
     const lineNumber = Number(el.getAttribute('data-value'));
     const side = el.classList.contains('left') ? Side.LEFT : Side.RIGHT;
-    this.dispatchSelectedLine(lineNumber, side);
+    this.diffModel.selectLine(lineNumber, side);
   }
 
-  private dispatchSelectedLine(number: LineNumber, side: Side) {
-    fire(this, 'line-selected', {
-      number,
-      side,
-      path: this.path,
-    });
-  }
-
-  addDraftAtLine(el: Element) {
-    this.selectLine(el);
-
-    const lineNum = getLineNumber(el);
-    if (lineNum === null) {
-      fireAlert(this, 'Invalid line number');
-      return;
-    }
-
-    this.createComment(el, lineNum);
+  addDraftAtLine(lineNum: LineNumber, side: Side) {
+    this.diffModel.createCommentOnLine(lineNum, side);
   }
 
   createRangeComment() {
-    if (!this.isRangeSelected()) {
-      throw Error('Selection is needed for new range comment');
-    }
     const selectedRange = this.highlights.selectedRange;
-    if (!selectedRange) throw Error('selected range not set');
+    assertIsDefined(selectedRange, 'no range selected');
     const {side, range} = selectedRange;
-    this.createCommentForSelection(side, range);
-  }
-
-  createCommentForSelection(side: Side, range: CommentRange) {
-    const lineNum = range.end_line;
-    const lineEl = this.getLineElByNumber(lineNum, side);
-    if (lineEl) {
-      this.createComment(lineEl, lineNum, side, range);
-    }
-  }
-
-  private handleCreateRangeComment(
-    e: CustomEvent<CreateRangeCommentEventDetail>
-  ) {
-    const range = e.detail.range;
-    const side = e.detail.side;
-    this.createCommentForSelection(side, range);
-  }
-
-  // Private but used in tests.
-  createComment(
-    lineEl: Element,
-    lineNum: LineNumber,
-    side?: Side,
-    range?: CommentRange
-  ) {
-    const contentEl = this.getContentTdByLineEl(lineEl);
-    if (!contentEl) throw new Error('content el not found for line el');
-    side = side ?? this.getCommentSideByLineAndContent(lineEl, contentEl);
-    fire(this, 'create-comment', {
-      side,
-      lineNum,
-      range,
-    });
-  }
-
-  private getCommentSideByLineAndContent(
-    lineEl: Element,
-    contentEl: Element
-  ): Side {
-    return lineEl.classList.contains(Side.LEFT) ||
-      contentEl.classList.contains('remove')
-      ? Side.LEFT
-      : Side.RIGHT;
+    this.diffModel.createCommentOnRange(range, side);
   }
 
   private lineOfInterestChanged() {
@@ -781,101 +634,33 @@ export class GrDiff extends LitElement implements GrDiffApi {
    * This must be called once, but only after diff lines are rendered. Otherwise
    * `processNodes()` will fail to lookup the HTML elements that it wants to
    * manipulate.
+   *
+   * TODO: Validate whether the above comment is still true. We don't look up
+   * elements anymore, and processing the nodes earlier might be beneficial
+   * performance wise.
    */
   private observeNodes() {
     if (this.nodeObserver) return;
-    // First stop observing old nodes.
-    // Then introduce a Mutation observer that watches for children being added
-    // to gr-diff. If those children are `isThreadEl`, namely then they are
-    // processed.
-    this.nodeObserver = new MutationObserver(mutations => {
-      const addedThreadEls = extractAddedNodes(mutations).filter(isThreadEl);
-      const removedThreadEls =
-        extractRemovedNodes(mutations).filter(isThreadEl);
-      this.processNodes(addedThreadEls, removedThreadEls);
-    });
+    // Watches children being added to gr-diff. We are expecting only comment
+    // widgets to be direct children.
+    this.nodeObserver = new MutationObserver(() => this.processNodes());
     this.nodeObserver.observe(this, {childList: true});
-    // Make sure to process existing gr-comment-threads that already exist.
-    this.processNodes([...this.childNodes].filter(isThreadEl), []);
+    // Process existing comment widgets before the first observed change.
+    this.processNodes();
   }
 
-  private processNodes(
-    addedThreadEls: GrDiffThreadElement[],
-    removedThreadEls: GrDiffThreadElement[]
-  ) {
-    this.diffModel.updateState({
-      comments: [...this.childNodes]
-        .filter(isHtmlElement)
-        .map(toCommentThreadModel)
-        .filter(isDefined)
-        .sort(compareComments),
-    });
-    this.updateRanges(addedThreadEls, removedThreadEls);
-    addedThreadEls.forEach(threadEl =>
-      this.redispatchHoverEvents(threadEl, threadEl)
-    );
-    // Removed nodes do not need to be handled because all this code does is
-    // adding a slot for the added thread elements, and the extra slots do
-    // not hurt. It's probably a bigger performance cost to remove them than
-    // to keep them around. Medium term we can even consider to add one slot
-    // for each line from the start.
-    for (const threadEl of addedThreadEls) {
-      const lineNum = getLine(threadEl);
-      const commentSide = getSide(threadEl);
-      const range = getRange(threadEl);
-      if (!commentSide) continue;
-      const lineEl = this.getLineElByNumber(lineNum, commentSide);
-      // When the line the comment refers to does not exist, log an error
-      // but don't crash. This can happen e.g. if the API does not fully
-      // validate e.g. (robot) comments
-      if (!lineEl) {
-        console.error(
-          'thread attached to line ',
-          commentSide,
-          lineNum,
-          ' which does not exist.'
-        );
-        continue;
-      }
-      const contentEl = this.getContentTdByLineEl(lineEl);
-      if (!contentEl) continue;
-      if (lineNum === LOST) {
-        this.insertPortedCommentsWithoutRangeMessage(contentEl);
-      }
-
-      const slotAtt = threadEl.getAttribute('slot');
-      if (range && isLongCommentRange(range) && slotAtt) {
-        const longRangeCommentHint = document.createElement(
-          'gr-ranged-comment-hint'
-        );
-        longRangeCommentHint.range = range;
-        longRangeCommentHint.setAttribute('threadElRootId', threadEl.rootId);
-        longRangeCommentHint.setAttribute('slot', slotAtt);
-        this.insertBefore(longRangeCommentHint, threadEl);
-        this.redispatchHoverEvents(longRangeCommentHint, threadEl);
-      }
+  private processNodes() {
+    const threadEls = [...this.childNodes].filter(isThreadEl);
+    const comments = threadEls
+      .map(getDataFromCommentThreadEl)
+      .filter(isDefined)
+      .sort(compareComments);
+    this.diffModel.updateState({comments});
+    this.rangeLayer.updateRanges(comments);
+    for (const el of threadEls) {
+      el.addEventListener('mouseenter', this.commentThreadEnterRedispatcher);
+      el.addEventListener('mouseleave', this.commentThreadLeaveRedispatcher);
     }
-
-    for (const threadEl of removedThreadEls) {
-      this.querySelector(
-        `gr-ranged-comment-hint[threadElRootId="${threadEl.rootId}"]`
-      )?.remove();
-    }
-  }
-
-  private insertPortedCommentsWithoutRangeMessage(lostCell: Element) {
-    const existingMessage = lostCell.querySelector('div.lost-message');
-    if (existingMessage) return;
-
-    const div = document.createElement('div');
-    div.className = 'lost-message';
-    const icon = document.createElement('gr-icon');
-    icon.setAttribute('icon', 'info');
-    div.appendChild(icon);
-    const span = document.createElement('span');
-    span.innerText = 'Original comment position not found in this patchset';
-    div.appendChild(span);
-    lostCell.insertBefore(div, lostCell.firstChild);
   }
 
   /** TODO: Can be removed when diff-old is gone. */
@@ -1174,14 +959,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 }
 
-function extractAddedNodes(mutations: MutationRecord[]) {
-  return mutations.flatMap(mutation => [...mutation.addedNodes]);
-}
-
-function extractRemovedNodes(mutations: MutationRecord[]) {
-  return mutations.flatMap(mutation => [...mutation.removedNodes]);
-}
-
 function getLineNumberCellWidth(prefs: DiffPreferencesInfo) {
   return prefs.font_size * 4;
 }
@@ -1217,8 +994,8 @@ declare global {
     'gr-diff': LitElement;
   }
   interface HTMLElementEventMap {
-    'comment-thread-mouseenter': CustomEvent<{}>;
-    'comment-thread-mouseleave': CustomEvent<{}>;
+    'comment-thread-mouseenter': CustomEvent<GrDiffCommentThread>;
+    'comment-thread-mouseleave': CustomEvent<GrDiffCommentThread>;
     'loading-changed': ValueChangedEvent<boolean>;
     'render-required': CustomEvent<{}>;
     /**

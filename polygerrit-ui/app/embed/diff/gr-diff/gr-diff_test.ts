@@ -22,7 +22,6 @@ import {
   Side,
 } from '../../../api/diff';
 import {
-  mockPromise,
   mouseDown,
   queryAll,
   stubBaseUrl,
@@ -188,43 +187,6 @@ suite('gr-diff tests', () => {
       assert.isFalse(element.classList.contains('no-left'));
     });
 
-    test('handleTap lineNum', async () => {
-      const addDraftStub = sinon.stub(element, 'addDraftAtLine');
-      const el = document.createElement('div');
-      el.className = 'lineNum';
-      const promise = mockPromise();
-      el.addEventListener('click', e => {
-        element.handleTap(e);
-        assert.isTrue(addDraftStub.called);
-        assert.equal(addDraftStub.lastCall.args[0], el);
-        promise.resolve();
-      });
-      el.click();
-      await promise;
-    });
-
-    test('handleTap content', async () => {
-      const content = document.createElement('div');
-      const lineEl = document.createElement('div');
-      lineEl.className = 'lineNum';
-      const row = document.createElement('div');
-      row.appendChild(lineEl);
-      row.appendChild(content);
-
-      const selectStub = sinon.stub(element, 'selectLine');
-
-      content.className = 'content';
-      const promise = mockPromise();
-      content.addEventListener('click', e => {
-        element.handleTap(e);
-        assert.isTrue(selectStub.called);
-        assert.equal(selectStub.lastCall.args[0], lineEl);
-        promise.resolve();
-      });
-      content.click();
-      await promise;
-    });
-
     suite('getCursorStops', () => {
       async function setupDiff() {
         element.diff = createDiff();
@@ -286,24 +248,9 @@ suite('gr-diff tests', () => {
   });
 
   suite('logged in', async () => {
-    let fakeLineEl: HTMLElement;
     setup(async () => {
       element.loggedIn = true;
-
-      fakeLineEl = {
-        getAttribute: sinon.stub().returns(42),
-        classList: {
-          contains: sinon.stub().returns(true),
-        },
-      } as unknown as HTMLElement;
       await element.updateComplete;
-    });
-
-    test('addDraftAtLine', () => {
-      sinon.stub(element, 'selectLine');
-      const createCommentStub = sinon.stub(element, 'createComment');
-      element.addDraftAtLine(fakeLineEl);
-      assert.isTrue(createCommentStub.calledWithExactly(fakeLineEl, 42));
     });
 
     test('adds long range comment hint', async () => {
@@ -371,35 +318,6 @@ suite('gr-diff tests', () => {
         element.querySelectorAll('gr-ranged-comment-hint').length,
         1
       );
-    });
-
-    test('removes long range comment hint when comment is discarded', async () => {
-      const range = {
-        start_line: 1,
-        end_line: 7,
-        start_character: 0,
-        end_character: 0,
-      };
-      const threadEl = document.createElement('div');
-      threadEl.className = 'comment-thread';
-      threadEl.setAttribute('diff-side', 'right');
-      threadEl.setAttribute('line-num', '1');
-      threadEl.setAttribute('range', JSON.stringify(range));
-      threadEl.setAttribute('slot', 'right-1');
-      const content = [
-        {
-          ab: Array(8).fill('text'),
-        },
-      ];
-      await setupSampleDiff({content});
-
-      element.appendChild(threadEl);
-      await waitUntil(() => element.commentRanges.length === 1);
-
-      threadEl.remove();
-      await waitUntil(() => element.commentRanges.length === 0);
-
-      assert.isEmpty(element.querySelectorAll('gr-ranged-comment-hint'));
     });
   });
 

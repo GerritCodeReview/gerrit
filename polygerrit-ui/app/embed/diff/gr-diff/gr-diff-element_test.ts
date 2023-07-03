@@ -39,7 +39,7 @@ suite('gr-diff-element tests', () => {
   };
 
   setup(async () => {
-    model = new DiffModel();
+    model = new DiffModel(document);
     element = (
       await fixture(
         wrapInProvider(
@@ -102,9 +102,9 @@ suite('gr-diff-element tests', () => {
                   <td class="blame gr-diff" data-line-number="LOST"></td>
                   <td class="gr-diff left lineNum" data-value="LOST"></td>
                   <td class="gr-diff lineNum right" data-value="LOST"></td>
-                  <td class="both content gr-diff lost no-intraline-info right">
-                    <div class="thread-group" data-side="right"></div>
-                  </td>
+                  <td
+                    class="both content gr-diff lost no-intraline-info right"
+                  ></td>
                 </tr>
               </tbody>
               <tbody class="both gr-diff section">
@@ -136,9 +136,9 @@ suite('gr-diff-element tests', () => {
                       File
                     </button>
                   </td>
-                  <td class="both content file gr-diff no-intraline-info right">
-                    <div class="thread-group" data-side="right"></div>
-                  </td>
+                  <td
+                    class="both content file gr-diff no-intraline-info right"
+                  ></td>
                 </tr>
               </tbody>
               <tbody class="both gr-diff section">
@@ -176,7 +176,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-1"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -213,7 +212,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-2"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -250,7 +248,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-3"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -287,7 +284,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-4"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -316,7 +312,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-5"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -343,7 +338,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-6"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -370,7 +364,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-7"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -409,7 +402,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-8"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -446,7 +438,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-9"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -483,7 +474,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-10"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -520,7 +510,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-11"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -557,7 +546,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-12"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -586,7 +574,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-10"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                 </tr>
                 <tr
@@ -613,7 +600,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-11"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                 </tr>
                 <tr
@@ -640,7 +626,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-12"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                 </tr>
                 <tr
@@ -667,7 +652,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-13"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                 </tr>
               </tbody>
@@ -696,7 +680,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-13"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -723,7 +706,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-14"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -752,7 +734,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-16"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                 </tr>
                 <tr
@@ -779,7 +760,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-15"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -818,7 +798,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-16"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -855,7 +834,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-17"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -892,7 +870,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-18"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -952,7 +929,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-37"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -989,7 +965,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-38"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1026,7 +1001,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-39"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -1055,7 +1029,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-40"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1082,7 +1055,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-41"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1109,7 +1081,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-42"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1136,7 +1107,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-43"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -1175,7 +1145,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-44"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1212,7 +1181,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-45"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1249,7 +1217,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-46"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1286,7 +1253,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-47"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1323,7 +1289,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-48"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -1376,14 +1341,14 @@ suite('gr-diff-element tests', () => {
                   <td class="blame gr-diff" data-line-number="LOST"></td>
                   <td class="gr-diff left lineNum" data-value="LOST"></td>
                   <td class="gr-diff left no-intraline-info sign"></td>
-                  <td class="both content gr-diff left lost no-intraline-info">
-                    <div class="thread-group" data-side="left"></div>
-                  </td>
+                  <td
+                    class="both content gr-diff left lost no-intraline-info"
+                  ></td>
                   <td class="gr-diff lineNum right" data-value="LOST"></td>
                   <td class="gr-diff no-intraline-info right sign"></td>
-                  <td class="both content gr-diff lost no-intraline-info right">
-                    <div class="thread-group" data-side="right"></div>
-                  </td>
+                  <td
+                    class="both content gr-diff lost no-intraline-info right"
+                  ></td>
                 </tr>
               </tbody>
               <tbody class="both gr-diff section">
@@ -1407,9 +1372,9 @@ suite('gr-diff-element tests', () => {
                     </button>
                   </td>
                   <td class="gr-diff left no-intraline-info sign"></td>
-                  <td class="both content file gr-diff left no-intraline-info">
-                    <div class="thread-group" data-side="left"></div>
-                  </td>
+                  <td
+                    class="both content file gr-diff left no-intraline-info"
+                  ></td>
                   <td class="gr-diff lineNum right" data-value="FILE">
                     <button
                       aria-label="Add file comment"
@@ -1422,9 +1387,9 @@ suite('gr-diff-element tests', () => {
                     </button>
                   </td>
                   <td class="gr-diff no-intraline-info right sign"></td>
-                  <td class="both content file gr-diff no-intraline-info right">
-                    <div class="thread-group" data-side="right"></div>
-                  </td>
+                  <td
+                    class="both content file gr-diff no-intraline-info right"
+                  ></td>
                 </tr>
               </tbody>
               <tbody class="both gr-diff section">
@@ -1454,7 +1419,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-1"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="1">
                     <button
@@ -1474,7 +1438,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-1"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1503,7 +1466,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-2"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="2">
                     <button
@@ -1523,7 +1485,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-2"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1552,7 +1513,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-3"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="3">
                     <button
@@ -1572,7 +1532,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-3"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1601,7 +1560,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-4"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="4">
                     <button
@@ -1621,7 +1579,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-4"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -1657,7 +1614,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-5"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1691,7 +1647,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-6"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1725,7 +1680,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-7"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -1756,7 +1710,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-5"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="8">
                     <button
@@ -1776,7 +1729,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-8"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1805,7 +1757,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-6"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="9">
                     <button
@@ -1825,7 +1776,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-9"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1854,7 +1804,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-7"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="10">
                     <button
@@ -1874,7 +1823,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-10"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1903,7 +1851,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-8"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="11">
                     <button
@@ -1923,7 +1870,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-11"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -1952,7 +1898,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-9"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="12">
                     <button
@@ -1972,7 +1917,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-12"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -2003,7 +1947,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-10"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="blankLineNum gr-diff right"></td>
                   <td class="blank gr-diff no-intraline-info right sign"></td>
@@ -2037,7 +1980,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-11"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="blankLineNum gr-diff right"></td>
                   <td class="blank gr-diff no-intraline-info right sign"></td>
@@ -2071,7 +2013,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-12"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="blankLineNum gr-diff right"></td>
                   <td class="blank gr-diff no-intraline-info right sign"></td>
@@ -2105,7 +2046,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-13"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="blankLineNum gr-diff right"></td>
                   <td class="blank gr-diff no-intraline-info right sign"></td>
@@ -2141,7 +2081,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-14"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="13">
                     <button
@@ -2161,7 +2100,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-13"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -2190,7 +2128,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-15"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="14">
                     <button
@@ -2210,7 +2147,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-14"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -2241,7 +2177,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-16"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="15">
                     <button
@@ -2261,7 +2196,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-15"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -2292,7 +2226,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-17"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="16">
                     <button
@@ -2312,7 +2245,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-16"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -2341,7 +2273,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-18"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="17">
                     <button
@@ -2361,7 +2292,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-17"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -2390,7 +2320,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-19"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="18">
                     <button
@@ -2410,7 +2339,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-18"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -2479,7 +2407,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-38"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="37">
                     <button
@@ -2499,7 +2426,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-37"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -2528,7 +2454,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-39"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="38">
                     <button
@@ -2548,7 +2473,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-38"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -2577,7 +2501,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-40"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="39">
                     <button
@@ -2597,7 +2520,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-39"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -2633,7 +2555,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-40"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -2667,7 +2588,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-41"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -2701,7 +2621,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-42"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -2735,7 +2654,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-43"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -2766,7 +2684,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-41"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="44">
                     <button
@@ -2786,7 +2703,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-44"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -2815,7 +2731,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-42"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="45">
                     <button
@@ -2835,7 +2750,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-45"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -2864,7 +2778,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-43"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="46">
                     <button
@@ -2884,7 +2797,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-46"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -2913,7 +2825,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-44"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="47">
                     <button
@@ -2933,7 +2844,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-47"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
                 <tr
@@ -2962,7 +2872,6 @@ suite('gr-diff-element tests', () => {
                       data-side="left"
                       id="left-content-45"
                     ></div>
-                    <div class="thread-group" data-side="left"></div>
                   </td>
                   <td class="gr-diff lineNum right" data-value="48">
                     <button
@@ -2982,7 +2891,6 @@ suite('gr-diff-element tests', () => {
                       data-side="right"
                       id="right-content-48"
                     ></div>
-                    <div class="thread-group" data-side="right"></div>
                   </td>
                 </tr>
               </tbody>
@@ -3063,11 +2971,7 @@ suite('gr-diff-element tests', () => {
                     <td class="gr-diff left no-intraline-info sign"></td>
                     <td
                       class="both content file gr-diff left no-intraline-info"
-                    >
-                      <div class="thread-group" data-side="left">
-                        <slot name="left-FILE"> </slot>
-                      </div>
-                    </td>
+                    ></td>
                     <td class="gr-diff lineNum right" data-value="FILE">
                       <button
                         aria-label="Add file comment"
@@ -3082,11 +2986,7 @@ suite('gr-diff-element tests', () => {
                     <td class="gr-diff no-intraline-info right sign"></td>
                     <td
                       class="both content file gr-diff no-intraline-info right"
-                    >
-                      <div class="thread-group" data-side="right">
-                        <slot name="right-FILE"> </slot>
-                      </div>
-                    </td>
+                    ></td>
                   </tr>
                 </tbody>
                 <tbody class="binary-diff gr-diff">

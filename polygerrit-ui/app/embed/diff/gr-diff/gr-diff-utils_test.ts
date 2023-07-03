@@ -12,7 +12,7 @@ import {
   getRange,
   computeKeyLocations,
   GrDiffCommentThread,
-  toCommentThreadModel,
+  getDataFromCommentThreadEl,
   compareComments,
   GrDiffThreadElement,
   computeContext,
@@ -290,7 +290,7 @@ suite('gr-diff-utils tests', () => {
       el.setAttribute('line-num', '3');
       el.rootId = 'ab12';
 
-      assert.deepEqual(toCommentThreadModel(el), {
+      assert.deepEqual(getDataFromCommentThreadEl(el), {
         line: 3,
         side: Side.LEFT,
         range: undefined,
@@ -306,7 +306,7 @@ suite('gr-diff-utils tests', () => {
       el.setAttribute('diff-side', 'left');
       el.rootId = 'ab12';
 
-      assert.deepEqual(toCommentThreadModel(el), {
+      assert.deepEqual(getDataFromCommentThreadEl(el), {
         line: FILE,
         side: Side.LEFT,
         range: undefined,
@@ -318,11 +318,11 @@ suite('gr-diff-utils tests', () => {
       const el = document.createElement(
         'div'
       ) as unknown as GrDiffThreadElement;
-      assert.isUndefined(toCommentThreadModel(el));
+      assert.isUndefined(getDataFromCommentThreadEl(el));
       el.className = 'comment-thread';
-      assert.isUndefined(toCommentThreadModel(el));
+      assert.isUndefined(getDataFromCommentThreadEl(el));
       el.setAttribute('line-num', '3');
-      assert.isUndefined(toCommentThreadModel(el));
+      assert.isUndefined(getDataFromCommentThreadEl(el));
     });
   });
 

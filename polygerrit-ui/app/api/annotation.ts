@@ -3,8 +3,13 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {CoverageRange} from './diff';
-import {ChangeInfo} from './rest-api';
+import {
+  CoverageRange,
+  Side,
+  TextRange,
+  TokenHighlightEventDetails,
+} from './diff';
+import {BasePatchSetNum, ChangeInfo, RevisionPatchSetNum} from './rest-api';
 
 /**
  * This is the callback object that Gerrit calls once for each diff. Gerrit
@@ -19,6 +24,16 @@ export type CoverageProvider = (
   change?: ChangeInfo
 ) => Promise<Array<CoverageRange> | undefined>;
 
+export type TokenHighlightListener = (
+  diff: {
+    change: ChangeInfo;
+    basePatchNum: BasePatchSetNum;
+    patchNum: RevisionPatchSetNum;
+    path: string;
+  },
+  highlight: TokenHighlightEventDetails
+) => void;
+
 export declare interface AnnotationPluginApi {
   /**
    * The specified function will be called when a gr-diff component is built,
@@ -29,4 +44,13 @@ export declare interface AnnotationPluginApi {
    * provider of the first call.
    */
   setCoverageProvider(coverageProvider: CoverageProvider): void;
+
+  /**
+   * Experimental endpoint for calling a function when a gr-diff token is
+   * hovered.
+   *
+   * The callback receives details of the diff itself and of the highlighted
+   * token.
+   */
+  addTokenHighlightListener(callback: TokenHighlightListener): void;
 }

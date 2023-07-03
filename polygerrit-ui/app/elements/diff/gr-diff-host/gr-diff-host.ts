@@ -671,7 +671,22 @@ export class GrDiffHost extends LitElement {
   private getLayers(enableTokenHighlight: boolean): DiffLayer[] {
     const layers = [];
     if (enableTokenHighlight) {
-      layers.push(new TokenHighlightLayer(this));
+      layers.push(
+        new TokenHighlightLayer(this, highlight => {
+          for (const plugin of this.getPluginLoader().pluginsModel.getState()
+            .tokenHighlightPlugins) {
+            plugin.listener(
+              {
+                change: this.change!,
+                basePatchNum: this.patchRange!.basePatchNum,
+                patchNum: this.patchRange!.patchNum,
+                path: this.path!,
+              },
+              highlight
+            );
+          }
+        })
+      );
     }
     layers.push(this.syntaxLayer);
     return layers;

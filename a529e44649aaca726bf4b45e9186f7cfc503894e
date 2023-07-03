@@ -16,6 +16,24 @@
       "message": "Why?\n\nAdditionally, the test coverage shouldn\u0027t be getting reduced in this change (I\u0027m not sure if it is or not).",
       "revId": "a529e44649aaca726bf4b45e9186f7cfc503894e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ebe3e29_9e9c0d28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-07-03T08:45:15Z",
+      "side": 1,
+      "message": "Noted. Thanks for the feedback.\n\nYes, the test coverage is reduced in this change. This was done as a pre-work for the next change in the chain. I\u0027ll leave this comment open until I address it.",
+      "parentUuid": "b4cbacd0_6c4f50dd",
+      "revId": "a529e44649aaca726bf4b45e9186f7cfc503894e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

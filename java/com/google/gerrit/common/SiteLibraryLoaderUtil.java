@@ -35,7 +35,7 @@ public final class SiteLibraryLoaderUtil {
   public static void loadSiteLib(Path libdir) {
     try {
       List<Path> jars = listJars(libdir);
-      IoUtil.loadJARs(jars);
+      JARUtil.loadJARs(jars);
       logger.atFine().log("Loaded site libraries: %s", lazy(() -> jarList(jars)));
     } catch (IOException e) {
       logger.atSevere().withCause(e).log("Error scanning lib directory %s", libdir);

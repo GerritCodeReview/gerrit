@@ -16,6 +16,8 @@ package com.google.gerrit.httpd.raw;
 
 import static java.nio.file.Files.exists;
 import static java.nio.file.Files.isReadable;
+import static com.google.gerrit.httpd.raw.StaticModuleConstants.CACHE;
+import static com.google.gerrit.httpd.raw.StaticModuleConstants.POLYGERRIT_INDEX_PATHS;
 
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
@@ -59,28 +61,6 @@ import org.eclipse.jgit.lib.Config;
 
 public class StaticModule extends ServletModule {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  public static final String CACHE = "static_content";
-
-  /**
-   * Paths at which we should serve the main PolyGerrit application {@code index.html}.
-   *
-   * <p>Supports {@code "/*"} as a trailing wildcard.
-   */
-  public static final ImmutableList<String> POLYGERRIT_INDEX_PATHS =
-      ImmutableList.of(
-          "/",
-          "/c/*",
-          "/id/*",
-          "/p/*",
-          "/q/*",
-          "/x/*",
-          "/admin/*",
-          "/dashboard/*",
-          "/profile/*",
-          "/groups/self",
-          "/settings/*",
-          "/Documentation/q/*");
 
   /**
    * Paths that should be treated as static assets when serving PolyGerrit.

@@ -14,19 +14,9 @@
 
 package com.google.gerrit.common;
 
-import static com.google.gerrit.launcher.GerritLauncher.GerritClassLoader;
-
-import com.google.common.collect.Sets;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
 
 public final class IoUtil {
   public static void copyWithThread(InputStream src, OutputStream dst) {
@@ -61,41 +51,6 @@ public final class IoUtil {
         }
       }
     }.start();
-  }
-
-  public static void loadJARs(Collection<Path> jars) {
-    if (jars.isEmpty()) {
-      return;
-    }
-
-    ClassLoader cl = IoUtil.class.getClassLoader();
-    if (!(cl instanceof GerritClassLoader)) {
-      throw noAddURL("Not loaded by GerritClassLoader", null);
-    }
-
-    @SuppressWarnings("resource") // Leave open so classes can be loaded.
-    GerritClassLoader gerritClassLoader = (GerritClassLoader) cl;
-
-    Set<URL> have = Sets.newHashSet(Arrays.asList(gerritClassLoader.getURLs()));
-    for (Path path : jars) {
-      try {
-        URL url = path.toUri().toURL();
-        if (have.add(url)) {
-          gerritClassLoader.addURL(url);
-        }
-      } catch (MalformedURLException | IllegalArgumentException e) {
-        throw noAddURL("addURL " + path + " failed", e);
-      }
-    }
-  }
-
-  public static void loadJARs(Path jar) {
-    loadJARs(Collections.singleton(jar));
-  }
-
-  private static UnsupportedOperationException noAddURL(String m, Throwable why) {
-    String prefix = "Cannot extend classpath: ";
-    return new UnsupportedOperationException(prefix + m, why);
   }
 
   private IoUtil() {}

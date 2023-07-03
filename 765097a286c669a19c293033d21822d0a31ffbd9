@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1daac40f_7509ae34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-07-03T22:57:22Z",
+      "side": 1,
+      "message": "Defaulting to V0 now.",
+      "parentUuid": "579531f7_53f7e158",
+      "revId": "765097a286c669a19c293033d21822d0a31ffbd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f213287b_01fedb14",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-06-23T23:24:19Z",
       "side": 1,
       "message": "Remove this TODO",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "765097a286c669a19c293033d21822d0a31ffbd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99d85809_70087875",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-07-03T22:57:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f213287b_01fedb14",
       "range": {
         "startLine": 6,
         "startChar": 0,

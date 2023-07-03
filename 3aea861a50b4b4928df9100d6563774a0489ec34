@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3e4a2bb_493e58b6",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-03T14:28:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "551b82ef_9e518f6b",
+      "range": {
+        "startLine": 85,
+        "startChar": 16,
+        "endLine": 85,
+        "endChar": 23
+      },
+      "revId": "3aea861a50b4b4928df9100d6563774a0489ec34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dea3cb1d_2b9e1917",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-07-03T12:47:00Z",
       "side": 1,
       "message": "nit: can we change null to undefined?",
+      "range": {
+        "startLine": 268,
+        "startChar": 35,
+        "endLine": 268,
+        "endChar": 39
+      },
+      "revId": "3aea861a50b4b4928df9100d6563774a0489ec34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51b42ec5_307791bc",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-03T14:28:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dea3cb1d_2b9e1917",
       "range": {
         "startLine": 268,
         "startChar": 35,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fc5b597_11172c15",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-03T14:28:06Z",
+      "side": 1,
+      "message": "Done in change 373318.",
+      "parentUuid": "6ea2157e_43377866",
+      "range": {
+        "startLine": 376,
+        "startChar": 2,
+        "endLine": 376,
+        "endChar": 14
+      },
+      "revId": "3aea861a50b4b4928df9100d6563774a0489ec34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8c2f83d8_12c91607",
@@ -110,6 +182,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bb7bca6_16c24061",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-03T14:28:06Z",
+      "side": 1,
+      "message": "Done in change 373318.",
+      "parentUuid": "8c2f83d8_12c91607",
+      "range": {
+        "startLine": 425,
+        "startChar": 2,
+        "endLine": 425,
+        "endChar": 16
+      },
+      "revId": "3aea861a50b4b4928df9100d6563774a0489ec34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "125ecb49_fd22042f",
@@ -123,6 +219,30 @@
       "writtenOn": "2023-07-03T12:47:00Z",
       "side": 1,
       "message": "nit: inline?",
+      "range": {
+        "startLine": 442,
+        "startChar": 10,
+        "endLine": 442,
+        "endChar": 14
+      },
+      "revId": "3aea861a50b4b4928df9100d6563774a0489ec34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dff81d2_b95f3a08",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 442,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-03T14:28:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "125ecb49_fd22042f",
       "range": {
         "startLine": 442,
         "startChar": 10,

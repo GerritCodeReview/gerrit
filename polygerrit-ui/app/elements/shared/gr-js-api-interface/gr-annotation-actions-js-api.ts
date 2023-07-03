@@ -24,4 +24,11 @@ export class GrAnnotationActionsInterface implements AnnotationPluginApi {
       provider,
     });
   }
+
+  addHoverCallback(cb: (element: any) => void): void {
+    this.pluginsModel.hoverCallbackRegister({
+      pluginName: this.plugin.getPluginName(),
+      cb,
+    });
+  }
 }

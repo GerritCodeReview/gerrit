@@ -29,4 +29,6 @@ export declare interface AnnotationPluginApi {
    * provider of the first call.
    */
   setCoverageProvider(coverageProvider: CoverageProvider): void;
+
+  addHoverCallback(cb: (element: any) => void): void;
 }

@@ -41,6 +41,8 @@ interface PluginsState {
    * List of plugins that have called checks().register().
    */
   checksPlugins: ChecksPlugin[];
+
+  hoverCallbacks: {pluginName: string; cb: (element: any) => void}[];
 }
 
 export class PluginsModel extends Model<PluginsState> {
@@ -66,6 +68,7 @@ export class PluginsModel extends Model<PluginsState> {
     super({
       coveragePlugins: [],
       checksPlugins: [],
+      hoverCallbacks: [],
     });
   }
 
@@ -98,6 +101,25 @@ export class PluginsModel extends Model<PluginsState> {
       return;
     }
     nextState.checksPlugins.push(plugin);
+    this.setState(nextState);
+  }
+
+  hoverCallbackRegister(plugin: {
+    pluginName: string;
+    cb: (element: any) => void;
+  }) {
+    const nextState = {...this.getState()};
+    nextState.hoverCallbacks = [...nextState.hoverCallbacks];
+    const alreadyRegistered = nextState.hoverCallbacks.some(
+      p => p.pluginName === plugin.pluginName
+    );
+    if (alreadyRegistered) {
+      console.warn(
+        `${plugin.pluginName} tried to register twice as a hover callback. Ignored.`
+      );
+      return;
+    }
+    nextState.hoverCallbacks.push(plugin);
     this.setState(nextState);
   }
 

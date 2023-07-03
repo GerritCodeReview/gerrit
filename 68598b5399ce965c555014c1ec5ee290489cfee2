@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acdd5e7a_1d9b0a79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-07-03T09:29:42Z",
+      "side": 1,
+      "message": "Can you provide more information, what internal tests are failing? Can you also provide the steps how to reproduce the problem?\n\nThis is important change for Java 17 support, as indicated in issue  40014855.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 103
+      },
+      "revId": "68598b5399ce965c555014c1ec5ee290489cfee2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

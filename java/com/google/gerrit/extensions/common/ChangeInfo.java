@@ -32,11 +32,18 @@ import java.util.Map;
  *
  * <p>Many fields are actually nullable.
  */
+@ClassDoc(doc = "The `ChangeInfo` entity contains information about a change.")
 public class ChangeInfo {
   // ActionJson#copy(List, ChangeInfo) must be adapted if new fields are added that are not
   // protected by any ListChangesOption.
 
+  @FieldDoc(
+      doc =
+          "The ID of the change in the format \"'<project>~<branch>~<Change-Id>'\", where 'project', 'branch' and 'Change-Id' are URL encoded. For 'branch' the refs/heads/ prefix is omitted.",
+      protoTag = 1,
+      optional = false)
   public String id;
+
   public String tripletId;
 
   public String project;
@@ -103,6 +110,7 @@ public class ChangeInfo {
 
   public Integer _number;
 
+  @FieldDoc(doc = "The owner of the change", protoTag = 2, optional = false)
   public AccountInfo owner;
 
   public Map<String, ActionInfo> actions;

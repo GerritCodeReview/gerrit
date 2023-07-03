@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4344cd3c_43d61a76",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-07-03T12:32:16Z",
+      "side": 1,
+      "message": "nit: if we are passing range, do we need to explicitly pass `range.end_line`?",
+      "range": {
+        "startLine": 519,
+        "startChar": 19,
+        "endLine": 519,
+        "endChar": 47
+      },
+      "revId": "7a5745fbe5ee2cee209de8d266a3e6c0f54058bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

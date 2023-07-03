@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a09171c_99174553",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-07-03T18:36:16Z",
+      "side": 1,
+      "message": "GerritClassLoader",
+      "range": {
+        "startLine": 10,
+        "startChar": 14,
+        "endLine": 10,
+        "endChar": 31
+      },
+      "revId": "bbb280ef4b6a4e9f46811ea84c6c385edda6b326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88e99693_10283cf9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-07-03T18:36:16Z",
+      "side": 1,
+      "message": "rearranges",
+      "range": {
+        "startLine": 15,
+        "startChar": 38,
+        "endLine": 15,
+        "endChar": 47
+      },
+      "revId": "bbb280ef4b6a4e9f46811ea84c6c385edda6b326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2133e4f3_94e723a8",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModuleConstants.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-07-03T18:36:16Z",
+      "side": 1,
+      "message": "Optionally: split it in two different changes? It seems that this extraction is not actually related to GerritClassLoader?",
+      "revId": "bbb280ef4b6a4e9f46811ea84c6c385edda6b326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ecfa86c_ed2bc3f4",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModuleConstants.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-07-03T18:36:16Z",
+      "side": 1,
+      "message": "Methods",
+      "range": {
+        "startLine": 22,
+        "startChar": 6,
+        "endLine": 22,
+        "endChar": 14
+      },
+      "revId": "bbb280ef4b6a4e9f46811ea84c6c385edda6b326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

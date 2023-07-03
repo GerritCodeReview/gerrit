@@ -35,7 +35,7 @@ public class SiteStaticDirectoryServlet extends ResourceServlet {
   SiteStaticDirectoryServlet(
       SitePaths site,
       @GerritServerConfig Config cfg,
-      @Named(StaticModule.CACHE) Cache<Path, Resource> cache) {
+      @Named(StaticModuleConstants.CACHE) Cache<Path, Resource> cache) {
     super(cache, cfg.getBoolean("site", "refreshHeaderFooter", true));
     Path p;
     try {

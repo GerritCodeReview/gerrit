@@ -3,7 +3,11 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {AnnotationPluginApi, CoverageProvider} from '../../../api/annotation';
+import {
+  AnnotationPluginApi,
+  CoverageProvider,
+  TokenHighlightListener,
+} from '../../../api/annotation';
 import {PluginApi} from '../../../api/plugin';
 import {PluginsModel} from '../../../models/plugins/plugins-model';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
@@ -22,6 +26,18 @@ export class GrAnnotationActionsInterface implements AnnotationPluginApi {
     this.pluginsModel.coverageRegister({
       pluginName: this.plugin.getPluginName(),
       provider,
+    });
+  }
+
+  addTokenHighlightListener(listener: TokenHighlightListener): void {
+    this.reporting.trackApi(
+      this.plugin,
+      'annotation',
+      'addTokenHighlightListener'
+    );
+    this.pluginsModel.tokenHighlightListenerRegister({
+      pluginName: this.plugin.getPluginName(),
+      listener,
     });
   }
 }

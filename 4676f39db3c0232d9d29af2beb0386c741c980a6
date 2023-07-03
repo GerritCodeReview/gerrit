@@ -16,6 +16,58 @@
       "message": "I\u0027ve tried to make the change as less invasive as possible and make sure that we are backward compatible. It is still possible to generate event with HashSet instead of LinkedHashSet so we are not enforcing the order. To do that we should store internally list of refs instead of set and introduce constructor which accepts list of refs but I\u0027m afraid that this could create incompatibility on the binary level",
       "revId": "4676f39db3c0232d9d29af2beb0386c741c980a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "668c722c_0992b300",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-03T07:39:57Z",
+      "side": 1,
+      "message": "Can you mention this as a breaking change on the release notes? Can you also start adding the release notes change on the `homepage` project?",
+      "parentUuid": "f4009a03_d0f11022",
+      "revId": "4676f39db3c0232d9d29af2beb0386c741c980a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c21f03c2_0b1dce03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-03T07:39:57Z",
+      "side": 1,
+      "message": "Missing `Release-Notes` footer.",
+      "revId": "4676f39db3c0232d9d29af2beb0386c741c980a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ba0b6fd_622695fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-03T07:39:57Z",
+      "side": 1,
+      "message": "@Thomas what do you think?",
+      "revId": "4676f39db3c0232d9d29af2beb0386c741c980a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

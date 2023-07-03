@@ -24,7 +24,6 @@ import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdate
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.server.update.context.RefUpdateContext.DirectPushRefUpdateContext;
 import java.util.Optional;
 import org.junit.After;
 import org.junit.Test;
@@ -107,8 +106,7 @@ public class RefUpdateContextTest {
       ImmutableList<RefUpdateContext> openedContexts = RefUpdateContext.getOpenedContexts();
       assertThat(openedContexts).hasSize(1);
       assertThat(openedContexts.get(0).getUpdateType()).isEqualTo(DIRECT_PUSH);
-      assertThat(((DirectPushRefUpdateContext) openedContexts.get(0)).getJustification())
-          .hasValue("Open in test");
+      assertThat(openedContexts.get(0).getJustification()).hasValue("Open in test");
       assertThat(RefUpdateContext.hasOpen(DIRECT_PUSH)).isTrue();
       assertThat(RefUpdateContext.hasOpen(INIT_REPO)).isFalse();
     }
@@ -123,7 +121,7 @@ public class RefUpdateContextTest {
       ImmutableList<RefUpdateContext> openedContexts = RefUpdateContext.getOpenedContexts();
       assertThat(openedContexts).hasSize(1);
       assertThat(openedContexts.get(0).getUpdateType()).isEqualTo(DIRECT_PUSH);
-      assertThat(((DirectPushRefUpdateContext) openedContexts.get(0)).getJustification()).isEmpty();
+      assertThat(openedContexts.get(0).getJustification()).isEmpty();
       assertThat(RefUpdateContext.hasOpen(DIRECT_PUSH)).isTrue();
       assertThat(RefUpdateContext.hasOpen(INIT_REPO)).isFalse();
     }

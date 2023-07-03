@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f718b470_34b69d0f",
+        "filename": "polygerrit-ui/app/embed/diff-old/gr-diff/gr-diff.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-07-03T13:34:12Z",
+      "side": 1,
+      "message": "model \u003d getData?\n\nmaybe rename to `data \u003d getData` otherwise looks like diffModel is being returned here.",
+      "range": {
+        "startLine": 569,
+        "startChar": 12,
+        "endLine": 569,
+        "endChar": 46
+      },
+      "revId": "8884e22166bc72d218cea96c5f5a65d4eb2ac4bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f341641b_47d6fb19",
+        "filename": "polygerrit-ui/app/embed/diff-old/gr-diff/gr-diff.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-07-03T13:34:12Z",
+      "side": 1,
+      "message": "the type defined in the event is `GrDiffCommentThread`?\n\n`getDataFromCommentThreadEl` implies the type is `data`. Maybe s/data/GrDiffCommentThread?",
+      "range": {
+        "startLine": 570,
+        "startChar": 61,
+        "endLine": 570,
+        "endChar": 66
+      },
+      "revId": "8884e22166bc72d218cea96c5f5a65d4eb2ac4bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "606af036_1890c948",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-highlight/gr-diff-highlight.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-07-03T13:34:12Z",
+      "side": 1,
+      "message": "nit: thread?",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 11
+      },
+      "revId": "8884e22166bc72d218cea96c5f5a65d4eb2ac4bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

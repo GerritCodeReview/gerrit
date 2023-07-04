@@ -197,7 +197,7 @@ export class GrFormattedText extends LitElement {
     function customRenderer(renderer: {[type: string]: Function}) {
       renderer['link'] = (href: string, title: string, text: string) =>
         /* HTML */
-        `<a
+        ` <a
           href="${href}"
           ${sameOrigin(href) ? '' : 'target="_blank" rel="noopener noreferrer"'}
           ${title ? `title="${title}"` : ''}

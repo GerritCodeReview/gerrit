@@ -67,7 +67,6 @@ import {getBaseUrl} from '../../utils/url-util';
 
 const EXPECTED_QUERY_OPTIONS = listChangesOptionsToHex(
   ListChangesOption.CHANGE_ACTIONS,
-  ListChangesOption.CURRENT_ACTIONS,
   ListChangesOption.CURRENT_REVISION,
   ListChangesOption.DETAILED_LABELS,
   ListChangesOption.SUBMIT_REQUIREMENTS

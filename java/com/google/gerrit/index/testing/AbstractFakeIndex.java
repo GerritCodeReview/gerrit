@@ -49,6 +49,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -74,6 +75,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
   private final String indexName;
   private final Map<K, D> indexedDocuments;
   private int queryCount;
+  private List<Integer> resultsSize;
 
   AbstractFakeIndex(Schema<V> schema, SitePaths sitePaths, String indexName) {
     this.schema = schema;
@@ -81,6 +83,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
     this.indexName = indexName;
     this.indexedDocuments = new HashMap<>();
     this.queryCount = 0;
+    this.resultsSize = new ArrayList<Integer>();
   }
 
   @Override
@@ -118,6 +121,10 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
     return queryCount;
   }
 
+  public List<Integer> getResultsSize() {
+    return resultsSize;
+  }
+
   @Override
   public DataSource<V> getSource(Predicate<V> p, QueryOptions opts) {
     List<V> results;
@@ -141,6 +148,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
         results = valueStream.skip(opts.start()).limit(opts.pageSize()).collect(toImmutableList());
       }
       queryCount++;
+      resultsSize.add(results.size());
     }
     return new DataSource<>() {
       @Override

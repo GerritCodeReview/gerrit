@@ -8,12 +8,14 @@ java_library(
         exclude = [
             "AssertableExecutorService.java",
             "TestActionRefUpdateContext.java",
+            "GerritJUnit.java",
         ],
     ),
     visibility = ["//visibility:public"],
     exports = [
         "//lib:junit",
         "//lib/mockito",
+        ":gerrit-junit",
     ],
     runtime_deps = ["//java/com/google/gerrit/index/testing"],
     deps = [
@@ -58,6 +60,12 @@ java_library(
         "//lib/log:impl-log4j",
         "//lib/truth",
     ],
+)
+
+java_library(
+    name = "gerrit-junit",
+    srcs = ["GerritJUnit.java"],
+    visibility = ["//visibility:public"],
 )
 
 java_library(

@@ -7,17 +7,6 @@ genrule2(
     name = "fonts",
     srcs = [
         "//lib/fonts:material-icons",
-        "//lib/fonts:robotofonts",
-    ],
-    outs = ["fonts.zip"],
-    cmd = " && ".join([
-        "mkdir -p $$TMP/fonts",
-        "cp $(SRCS) $$TMP/fonts/",
-        "cd $$TMP",
-        "find fonts/ -exec touch -t 198001010000 '{}' ';'",
-        "zip -qr $$ROOT/$@ fonts",
-    ]),
-    output_to_bindir = 1,
 )
 
 filegroup(

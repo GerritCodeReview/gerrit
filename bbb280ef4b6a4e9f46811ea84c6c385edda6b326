@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48938a77_53aae839",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-07-04T07:22:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a09171c_99174553",
+      "range": {
+        "startLine": 10,
+        "startChar": 14,
+        "endLine": 10,
+        "endChar": 31
+      },
+      "revId": "bbb280ef4b6a4e9f46811ea84c6c385edda6b326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "88e99693_10283cf9",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-07-03T18:36:16Z",
       "side": 1,
       "message": "rearranges",
+      "range": {
+        "startLine": 15,
+        "startChar": 38,
+        "endLine": 15,
+        "endChar": 47
+      },
+      "revId": "bbb280ef4b6a4e9f46811ea84c6c385edda6b326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd407134_66bf4a9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-07-04T07:22:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88e99693_10283cf9",
       "range": {
         "startLine": 15,
         "startChar": 38,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "202db956_92faad4a",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModuleConstants.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-07-04T07:22:49Z",
+      "side": 1,
+      "message": "StaticModule itself depends on JarUtil (not directly). I updated the commit message with this information.",
+      "parentUuid": "2133e4f3_94e723a8",
+      "revId": "bbb280ef4b6a4e9f46811ea84c6c385edda6b326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ecfa86c_ed2bc3f4",
@@ -77,6 +143,30 @@
       "writtenOn": "2023-07-03T18:36:16Z",
       "side": 1,
       "message": "Methods",
+      "range": {
+        "startLine": 22,
+        "startChar": 6,
+        "endLine": 22,
+        "endChar": 14
+      },
+      "revId": "bbb280ef4b6a4e9f46811ea84c6c385edda6b326",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfd0783c_dea740d7",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModuleConstants.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-07-04T07:22:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ecfa86c_ed2bc3f4",
       "range": {
         "startLine": 22,
         "startChar": 6,

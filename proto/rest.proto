@@ -1,0 +1,34 @@
+
+syntax = "proto2";
+
+package devtools.gerritcodereview;
+
+option java_package = "com.google.gerrit.proto";
+
+message AccountInfo {
+  optional int32 account_id = 1;
+  optional string name = 2;
+  optional string email = 3;
+  optional string display_name = 4;
+  repeated string secondary_emails = 5;
+  repeated AvatarInfo avatars = 6;
+  optional bool more_accounts = 7;
+}
+
+message AvatarInfo {
+  optional string url = 1;
+  optional int32 height = 2;
+  optional int32 width = 3;
+}
+
+enum ChangeStatus {
+  NEW = 0;
+  MERGED = 1;
+  ABANDONED = 2;
+}
+
+message ChangeInfo {
+  optional string id = 1;
+  optional AccountInfo owner = 2;
+  optional ChangeStatus status = 3;
+}

@@ -1,0 +1,107 @@
+
+syntax = "proto2";
+
+import "google/protobuf/timestamp.proto";
+
+package devtools.gerritcodereview;
+
+option java_package = "com.google.gerrit.proto";
+
+message AccountInfo {
+  optional int32 account_id = 1;
+  optional string name = 2;
+  optional string email = 3;
+  optional string display_name = 4;
+  repeated string secondary_emails = 5;
+  repeated AvatarInfo avatars = 6;
+  optional bool more_accounts = 7;
+}
+
+message AvatarInfo {
+  optional string url = 1;
+  optional int32 height = 2;
+  optional int32 width = 3;
+}
+
+enum ChangeStatus {
+  NEW = 0;
+  MERGED = 1;
+  ABANDONED = 2;
+}
+
+enum ChangeKind {
+  REWORK = 0;
+  TRIVIAL_REBASE = 1;
+  MERGE_FIRST_PARENT_UPDATE = 2;
+  NO_CODE_CHANGE = 3;
+  NO_CHANGE = 4;
+}
+
+enum SubmitType {
+  INHERIT = 0;
+  FAST_FORWARD_ONLY = 1;
+  MERGE_IF_NECESSARY = 2;
+  REBASE_IF_NECESSARY = 3;
+  REBASE_ALWAYS = 4;
+  MERGE_ALWAYS = 5;
+  CHERRY_PICK = 6;
+}
+
+message FetchInfo {
+  optional string url = 1;
+  optional string ref = 2;
+  map<string, string> commands = 3;
+}
+
+message RevisionInfo {
+  optional bool is_current = 1;
+  optional ChangeKind kind = 2;
+  optional int32 number = 3;
+  optional google.protobuf.Timestamp created = 4;
+  optional AccountInfo uploader = 5;
+  optional AccountInfo realUploader = 6;
+  optional string ref = 7;
+  map<string, FetchInfo> fetch = 8;
+}
+ enum ReviewerState {
+  REVIEWER = 0;
+  CC = 1;
+  REMOVED = 2;
+}
+
+message ReviewerStateInfo {
+  message Entry {
+    optional ReviewerState key = 1;
+    repeated AccountInfo values = 2;
+  };
+  repeated Entry entries = 1;
+}
+
+message VotingRangeInfo {
+  optional int32 min = 1;
+  optional int32 max = 2;
+}
+
+message ApprovalInfo {
+  optional AccountInfo account_info = 1;
+
+  optional string tag = 2;
+  optional VotingRangeInfo permitted_voting_range = 3;
+}
+
+message ChangeInfo {
+  optional string id = 1;
+  optional AccountInfo owner = 2;
+  optional ChangeStatus status = 3;
+  optional google.protobuf.Timestamp created = 4;
+  optional google.protobuf.Timestamp updated = 5;
+  optional google.protobuf.Timestamp submitted = 6;
+  optional bool starred = 7;
+  repeated string stars = 8;
+  optional int32 insertions = 9;
+  optional int32 deletions = 10;
+  map<string, RevisionInfo> revisions = 11;
+  optional SubmitType submit_type = 12;
+  optional ReviewerStateInfo reviewers = 13;
+}
+

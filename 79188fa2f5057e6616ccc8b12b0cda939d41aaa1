@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08c21f70_4a5890c6",
+        "filename": "java/com/google/gerrit/index/PaginationType.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-07-04T19:13:15Z",
+      "side": 1,
+      "message": "Check if it is for changes only",
+      "range": {
+        "startLine": 30,
+        "startChar": 6,
+        "endLine": 30,
+        "endChar": 12
+      },
+      "revId": "79188fa2f5057e6616ccc8b12b0cda939d41aaa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2709c97_321f2124",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-07-04T19:13:15Z",
+      "side": 1,
+      "message": "This is wrong, even before the breaking change it was returning `min` since an infinite limit is represented by a `0` value.",
+      "range": {
+        "startLine": 406,
+        "startChar": 14,
+        "endLine": 406,
+        "endChar": 52
+      },
+      "revId": "79188fa2f5057e6616ccc8b12b0cda939d41aaa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

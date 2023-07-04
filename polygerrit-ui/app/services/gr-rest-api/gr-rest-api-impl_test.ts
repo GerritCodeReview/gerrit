@@ -65,7 +65,9 @@ import {GrAuthMock} from '../gr-auth/gr-auth_mock';
 
 const EXPECTED_QUERY_OPTIONS = listChangesOptionsToHex(
   ListChangesOption.CHANGE_ACTIONS,
-  ListChangesOption.CURRENT_ACTIONS,
+  // Current actions can be costly to calculate (e.g submit action)
+  // They are not used in bulk actions.
+  // ListChangesOption.CURRENT_ACTIONS,
   ListChangesOption.CURRENT_REVISION,
   ListChangesOption.DETAILED_LABELS,
   ListChangesOption.SUBMIT_REQUIREMENTS

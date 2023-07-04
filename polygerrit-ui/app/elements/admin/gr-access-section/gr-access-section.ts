@@ -6,12 +6,6 @@
 import '@polymer/iron-input/iron-input';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
-import '../gr-permission/gr-permission';
-import {
-  AccessPermissions,
-  PermissionArray,
-  PermissionArrayItem,
-  toSortedPermissionsArray,
 } from '../../../utils/access-util';
 import {
   EditablePermissionInfo,

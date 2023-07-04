@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4024827_7b75c586",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseIfNecessaryIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-07-04T14:29:20Z",
+      "side": 1,
+      "message": "This test succeeds!",
+      "revId": "28ced0221214bffe2484b26356fbd8b136adc5a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53e57fb6_aae8008a",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseIfNecessaryIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-07-04T14:29:20Z",
+      "side": 1,
+      "message": "This test fails.\n\nNotice that the only difference to the previous test is the creation of `c2` on top of the `c1` in the line 80.",
+      "revId": "28ced0221214bffe2484b26356fbd8b136adc5a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

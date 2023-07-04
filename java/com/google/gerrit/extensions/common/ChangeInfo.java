@@ -19,6 +19,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.proto.ClassDoc;
+import com.google.gerrit.proto.ProtoField;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Collection;
@@ -32,11 +34,14 @@ import java.util.Map;
  *
  * <p>Many fields are actually nullable.
  */
+@ClassDoc(doc = "The `ChangeInfo` entity contains information about a change.")
 public class ChangeInfo {
   // ActionJson#copy(List, ChangeInfo) must be adapted if new fields are added that are not
   // protected by any ListChangesOption.
 
+  @ProtoField(protoTag = 1)
   public String id;
+
   public String tripletId;
 
   public String project;
@@ -56,23 +61,43 @@ public class ChangeInfo {
   public Collection<String> hashtags;
   public String changeId;
   public String subject;
+
+  @ProtoField(protoTag = 3)
   public ChangeStatus status;
 
   // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
   // Instant
+  @ProtoField(protoTag = 4)
   public Timestamp created;
+
+  @ProtoField(protoTag = 5)
   public Timestamp updated;
+
+  @ProtoField(protoTag = 6)
   public Timestamp submitted;
 
   public AccountInfo submitter;
+
+  @ProtoField(protoTag = 7)
   public Boolean starred;
+
+  @ProtoField(protoTag = 8)
   public Collection<String> stars;
+
   public Boolean reviewed;
+
+  @ProtoField(protoTag = 12)
   public SubmitType submitType;
+
   public Boolean mergeable;
   public Boolean submittable;
+
+  @ProtoField(protoTag = 9)
   public Integer insertions;
+
+  @ProtoField(protoTag = 10)
   public Integer deletions;
+
   public Integer totalCommentCount;
   public Integer unresolvedCommentCount;
   public Boolean isPrivate;
@@ -103,12 +128,15 @@ public class ChangeInfo {
 
   public Integer _number;
 
+  @ProtoField(protoTag = 2)
   public AccountInfo owner;
 
   public Map<String, ActionInfo> actions;
   public Map<String, LabelInfo> labels;
   public Map<String, Collection<String>> permittedLabels;
   public Map<String, Map<String, List<AccountInfo>>> removableLabels;
+
+  // TODO - should use concrete type, eg. List ?
   public Collection<AccountInfo> removableReviewers;
   public Map<ReviewerState, Collection<AccountInfo>> reviewers;
   public Map<ReviewerState, Collection<AccountInfo>> pendingReviewers;
@@ -116,7 +144,10 @@ public class ChangeInfo {
   public Collection<ChangeMessageInfo> messages;
 
   public String currentRevision;
+
+  @ProtoField(protoTag = 11)
   public Map<String, RevisionInfo> revisions;
+
   public Boolean _moreChanges;
 
   public List<ProblemInfo> problems;

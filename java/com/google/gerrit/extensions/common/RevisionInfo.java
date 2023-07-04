@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.extensions.client.ChangeKind;
+import com.google.gerrit.proto.ProtoField;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
@@ -24,18 +25,32 @@ import java.util.Objects;
 public class RevisionInfo {
   // ActionJson#copy(List, RevisionInfo) must be adapted if new fields are added that are not
   // protected by any ListChangesOption.
-  public transient boolean isCurrent;
+  @ProtoField(protoTag = 1)
+  public transient boolean isCurrent; // part of json or not?
+
+  @ProtoField(protoTag = 2)
   public ChangeKind kind;
+
+  @ProtoField(protoTag = 3)
   public int _number;
 
   // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
   // Instant
+  @ProtoField(protoTag = 4)
   public Timestamp created;
 
+  @ProtoField(protoTag = 5)
   public AccountInfo uploader;
+
+  @ProtoField(protoTag = 6)
   public AccountInfo realUploader;
+
+  @ProtoField(protoTag = 7)
   public String ref;
+
+  @ProtoField(protoTag = 8)
   public Map<String, FetchInfo> fetch;
+
   public CommitInfo commit;
   public List<ParentInfo> parentsData;
   public String branch;

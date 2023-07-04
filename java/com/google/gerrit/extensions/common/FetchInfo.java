@@ -14,12 +14,18 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.gerrit.proto.ProtoField;
 import java.util.Map;
 import java.util.Objects;
 
 public class FetchInfo {
+  @ProtoField(protoTag = 1)
   public String url;
+
+  @ProtoField(protoTag = 2)
   public String ref;
+
+  @ProtoField(protoTag = 3)
   public Map<String, String> commands;
 
   public FetchInfo(String url, String ref) {
@@ -43,5 +49,5 @@ public class FetchInfo {
     return Objects.hash(url, ref, commands);
   }
 
-  protected FetchInfo() {}
+  public FetchInfo() {}
 }

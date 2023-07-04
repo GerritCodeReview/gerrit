@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.gerrit.proto.ProtoField;
 import java.util.Objects;
 
 /**
@@ -33,12 +34,15 @@ public class AvatarInfo {
   public static final int DEFAULT_SIZE = 32;
 
   /** The URL to the avatar image. */
+  @ProtoField(protoTag = 1)
   public String url;
 
   /** The height of the avatar image in pixels. */
+  @ProtoField(protoTag = 2)
   public Integer height;
 
   /** The width of the avatar image in pixels. */
+  @ProtoField(protoTag = 3)
   public Integer width;
 
   @Override

@@ -2,7 +2,7 @@ load("@rules_java//java:defs.bzl", "java_library")
 
 java_library(
     name = "proto",
-    srcs = ["Protos.java"],
+    srcs = glob(["*.java"]),
     visibility = ["//visibility:public"],
     deps = [
         "//lib:protobuf",

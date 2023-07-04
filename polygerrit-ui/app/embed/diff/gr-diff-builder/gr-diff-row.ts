@@ -364,7 +364,7 @@ export class GrDiffRow extends LitElement {
           fire(this, 'line-mouse-enter', {lineNum: lineNumber, side})}
         @mouseleave=${() =>
           fire(this, 'line-mouse-leave', {lineNum: lineNumber, side})}
-      >${lineNumber === FILE ? 'File' : lineNumber.toString()}</button>
+      >${lineNumber === FILE ? 'FILE' : lineNumber.toString()}</button>
     `;
   }
 

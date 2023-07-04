@@ -122,7 +122,7 @@ suite('gr-diff-element tests', () => {
                       id="left-button-FILE"
                       tabindex="-1"
                     >
-                      File
+                      FILE
                     </button>
                   </td>
                   <td class="gr-diff lineNum right" data-value="FILE">
@@ -133,7 +133,7 @@ suite('gr-diff-element tests', () => {
                       id="right-button-FILE"
                       tabindex="-1"
                     >
-                      File
+                      FILE
                     </button>
                   </td>
                   <td
@@ -1368,7 +1368,7 @@ suite('gr-diff-element tests', () => {
                       id="left-button-FILE"
                       tabindex="-1"
                     >
-                      File
+                      FILE
                     </button>
                   </td>
                   <td class="gr-diff left no-intraline-info sign"></td>
@@ -1383,7 +1383,7 @@ suite('gr-diff-element tests', () => {
                       id="right-button-FILE"
                       tabindex="-1"
                     >
-                      File
+                      FILE
                     </button>
                   </td>
                   <td class="gr-diff no-intraline-info right sign"></td>
@@ -2965,7 +2965,7 @@ suite('gr-diff-element tests', () => {
                         id="left-button-FILE"
                         tabindex="-1"
                       >
-                        File
+                        FILE
                       </button>
                     </td>
                     <td class="gr-diff left no-intraline-info sign"></td>
@@ -2980,7 +2980,7 @@ suite('gr-diff-element tests', () => {
                         id="right-button-FILE"
                         tabindex="-1"
                       >
-                        File
+                        FILE
                       </button>
                     </td>
                     <td class="gr-diff no-intraline-info right sign"></td>

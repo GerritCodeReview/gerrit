@@ -23,3 +23,16 @@ java_proto_library(
     visibility = ["//visibility:public"],
     deps = [":entities_proto"],
 )
+
+proto_library(
+    name = "rest_proto",
+    srcs = ["rest.proto"],
+    visibility = ["//visibility:public"],
+    deps = ["@com_google_protobuf//:timestamp_proto"],
+)
+
+java_proto_library(
+    name = "rest_java_proto",
+    visibility = ["//visibility:public"],
+    deps = [":rest_proto"],
+)

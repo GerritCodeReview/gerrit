@@ -14,10 +14,15 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.gerrit.proto.ProtoField;
 import java.util.Objects;
 
 public class VotingRangeInfo {
+
+  @ProtoField(protoTag = 1)
   public int min;
+
+  @ProtoField(protoTag = 2)
   public int max;
 
   public VotingRangeInfo(int min, int max) {

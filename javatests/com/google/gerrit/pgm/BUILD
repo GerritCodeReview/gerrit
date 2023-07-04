@@ -4,9 +4,12 @@ load("//tools/bzl:license.bzl", "license_test")
 junit_tests(
     name = "pgm_tests",
     srcs = glob(["**/*.java"]),
+    runtime_deps = ["//proto:rest_java_proto"],
     deps = [
+        "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/pgm/http/jetty",
         "//java/com/google/gerrit/pgm/init/api",
+        "//java/com/google/gerrit/proto",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/securestore/testing",
         "//lib:guava",
@@ -16,6 +19,8 @@ junit_tests(
         "//lib/guice",
         "//lib/mockito",
         "//lib/truth",
+        "//proto:rest_java_proto",
+        "@com_google_protobuf//java/core",
         "@jetty-server//jar",
         "@servlet-api//jar",
     ],

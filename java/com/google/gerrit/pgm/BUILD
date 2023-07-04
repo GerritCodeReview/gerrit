@@ -30,6 +30,7 @@ java_library(
         "//java/com/google/gerrit/pgm/init",
         "//java/com/google/gerrit/pgm/init/api",
         "//java/com/google/gerrit/pgm/util",
+        "//java/com/google/gerrit/proto",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server:module",
         "//java/com/google/gerrit/server/api",
@@ -58,6 +59,7 @@ java_library(
         "//lib/prolog:cafeteria",
         "//lib/prolog:compiler",
         "//lib/prolog:runtime",
+        "//proto:rest_java_proto",
         "@gson//jar",
     ],
 )

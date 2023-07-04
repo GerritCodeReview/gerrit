@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common;
 
 import com.google.common.base.MoreObjects;
+import com.google.gerrit.proto.FieldDoc;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,9 +38,11 @@ public class AccountInfo {
   }
 
   /** The numeric ID of the account. */
+  @FieldDoc(protoTag = 1)
   public Integer _accountId;
 
   /** The full name of the user. */
+  @FieldDoc(protoTag = 2)
   public String name;
 
   /**
@@ -50,24 +53,29 @@ public class AccountInfo {
    * the backend. The display name will just be left unset, and the client has to load and apply the
    * default strategy.
    */
+  @FieldDoc(protoTag = 4)
   public String displayName;
 
   /** The preferred email address of the user. */
+  @FieldDoc(protoTag = 3)
   public String email;
 
   /** List of the secondary email addresses of the user. */
+  @FieldDoc(protoTag = 5)
   public List<String> secondaryEmails;
 
   /** The username of the user. */
   public String username;
 
   /** List of avatars of the user. */
+  @FieldDoc(protoTag = 6)
   public List<AvatarInfo> avatars;
 
   /**
    * Whether the query would deliver more results if not limited. Only set on the last account that
    * is returned as a query result.
    */
+  @FieldDoc(protoTag = 7)
   public Boolean _moreAccounts;
 
   /** Status message of the account (e.g. 'OOO' for out-of-office). */
@@ -134,5 +142,5 @@ public class AccountInfo {
         tags);
   }
 
-  protected AccountInfo() {}
+  public AccountInfo() {}
 }

@@ -19,6 +19,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.proto.ClassDoc;
+import com.google.gerrit.proto.ProtoField;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Collection;
@@ -32,11 +34,14 @@ import java.util.Map;
  *
  * <p>Many fields are actually nullable.
  */
+@ClassDoc(doc = "The `ChangeInfo` entity contains information about a change.")
 public class ChangeInfo {
   // ActionJson#copy(List, ChangeInfo) must be adapted if new fields are added that are not
   // protected by any ListChangesOption.
 
+  @ProtoField(protoTag = 1)
   public String id;
+
   public String tripletId;
 
   public String project;
@@ -56,6 +61,8 @@ public class ChangeInfo {
   public Collection<String> hashtags;
   public String changeId;
   public String subject;
+
+  @ProtoField(protoTag = 3)
   public ChangeStatus status;
 
   // TODO(issue-15508): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
@@ -103,6 +110,7 @@ public class ChangeInfo {
 
   public Integer _number;
 
+  @ProtoField(protoTag = 2)
   public AccountInfo owner;
 
   public Map<String, ActionInfo> actions;

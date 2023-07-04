@@ -63,7 +63,9 @@ public class PaginatingSource<T> implements DataSource<T> {
             pageResultSize++;
           }
 
-          if (last != null && source instanceof Paginated) {
+          if (last != null
+              && source instanceof Paginated
+              && !indexConfig.paginationType().equals(PaginationType.NONE)) {
             // Restart source and continue if we have not filled the
             // full limit the caller wants.
             //

@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4c8dba6_4d4210a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-07-04T16:14:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f54c187_9203f910",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 35
+      },
+      "revId": "fedae24c080942b9a02d24cbec185996745d77d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6089e5d0_67709384",
@@ -315,6 +339,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "684db1a4_17d292ad",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 3249,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-07-04T16:14:59Z",
+      "side": 1,
+      "message": "Removed `unlimited`",
+      "parentUuid": "122e2159_2e8b2e86",
+      "range": {
+        "startLine": 3249,
+        "startChar": 42,
+        "endLine": 3249,
+        "endChar": 48
+      },
+      "revId": "fedae24c080942b9a02d24cbec185996745d77d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "66d8b13e_bd4c2f01",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 16
@@ -326,6 +374,30 @@
       "writtenOn": "2023-06-29T23:37:08Z",
       "side": 1,
       "message": "`unlimited` to be removed: pagination takes place also for the user-limited ones, where user\u0027s permissions are reducing the granularity of the results.",
+      "range": {
+        "startLine": 3254,
+        "startChar": 0,
+        "endLine": 3254,
+        "endChar": 9
+      },
+      "revId": "fedae24c080942b9a02d24cbec185996745d77d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69ce79f4_ca08f199",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 3254,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-07-04T16:14:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66d8b13e_bd4c2f01",
       "range": {
         "startLine": 3254,
         "startChar": 0,
@@ -359,6 +431,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7151eb86_dbf412aa",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 3260,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-07-04T16:14:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b55377c_0cb2a698",
+      "range": {
+        "startLine": 3260,
+        "startChar": 0,
+        "endLine": 3260,
+        "endChar": 9
+      },
+      "revId": "fedae24c080942b9a02d24cbec185996745d77d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b6df6048_fe2ee7a9",
@@ -372,6 +468,30 @@
       "writtenOn": "2023-06-29T23:37:08Z",
       "side": 1,
       "message": "`unlimited` to be removed: pagination takes place also for the user-limited ones, where user\u0027s permissions are reducing the granularity of the results.",
+      "range": {
+        "startLine": 3269,
+        "startChar": 0,
+        "endLine": 3269,
+        "endChar": 9
+      },
+      "revId": "fedae24c080942b9a02d24cbec185996745d77d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed400f12_c6f54777",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 3269,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-07-04T16:14:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6df6048_fe2ee7a9",
       "range": {
         "startLine": 3269,
         "startChar": 0,
@@ -405,6 +525,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bedab17_a637c42b",
+        "filename": "java/com/google/gerrit/index/PaginationType.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-07-04T16:14:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bfc962e_5c488a3d",
+      "range": {
+        "startLine": 19,
+        "startChar": 5,
+        "endLine": 19,
+        "endChar": 14
+      },
+      "revId": "fedae24c080942b9a02d24cbec185996745d77d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c2babc4_d4386a47",
@@ -428,6 +572,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ebb7b821_e758f14e",
+        "filename": "java/com/google/gerrit/index/PaginationType.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-07-04T16:14:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c2babc4_d4386a47",
+      "range": {
+        "startLine": 25,
+        "startChar": 5,
+        "endLine": 25,
+        "endChar": 14
+      },
+      "revId": "fedae24c080942b9a02d24cbec185996745d77d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb9f7391_70e9dec3",
@@ -441,6 +609,30 @@
       "writtenOn": "2023-06-29T23:37:08Z",
       "side": 1,
       "message": "`unlimited` to be removed: pagination takes place also for the user-limited ones, where user\u0027s permissions are reducing the granularity of the results.",
+      "range": {
+        "startLine": 34,
+        "startChar": 5,
+        "endLine": 34,
+        "endChar": 14
+      },
+      "revId": "fedae24c080942b9a02d24cbec185996745d77d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab620b0a_7bd37ecf",
+        "filename": "java/com/google/gerrit/index/PaginationType.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-07-04T16:14:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb9f7391_70e9dec3",
       "range": {
         "startLine": 34,
         "startChar": 5,

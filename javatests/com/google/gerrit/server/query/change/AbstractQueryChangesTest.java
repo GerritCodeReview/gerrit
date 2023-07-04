@@ -118,6 +118,7 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -179,6 +180,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected AccountManager accountManager;
   @Inject protected AllUsersName allUsersName;
   @Inject protected BatchUpdate.Factory updateFactory;
+  @Inject protected AllProjectsName allProjectsName;
   @Inject protected ChangeInserter.Factory changeFactory;
   @Inject protected Provider<ChangeQueryBuilder> queryBuilderProvider;
   @Inject protected GerritApi gApi;
@@ -4634,5 +4636,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   protected Schema<ChangeData> getSchema() {
     return indexes.getSearchIndex().getSchema();
+  }
+
+  String getCurrentPaginationType() {
+    return config.getString("index", null, "paginationType");
   }
 }

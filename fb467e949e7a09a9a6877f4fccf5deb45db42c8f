@@ -16,6 +16,24 @@
       "message": "Why 0.64.6? The latest version is 0.64.8.",
       "revId": "fb467e949e7a09a9a6877f4fccf5deb45db42c8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74507530_cbf823f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-07-04T13:05:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ac3832f_56fb205f",
+      "revId": "fb467e949e7a09a9a6877f4fccf5deb45db42c8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

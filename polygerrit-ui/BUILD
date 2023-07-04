@@ -3,13 +3,6 @@ load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_test")
 
 package(default_visibility = ["//visibility:public"])
 
-genrule2(
-    name = "fonts",
-    srcs = [
-        "//lib/fonts:material-icons",
-        "//lib/fonts:robotofonts",
-    ],
-    outs = ["fonts.zip"],
     cmd = " && ".join([
         "mkdir -p $$TMP/fonts",
         "cp $(SRCS) $$TMP/fonts/",

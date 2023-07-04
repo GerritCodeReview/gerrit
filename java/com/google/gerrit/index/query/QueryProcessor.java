@@ -31,6 +31,7 @@ import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.IndexRewriter;
+import com.google.gerrit.index.PaginationType;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.metrics.Description;
@@ -265,7 +266,9 @@ public abstract class QueryProcessor<T> {
                 start,
                 initialPageSize,
                 pageSizeMultiplier,
-                limit,
+                indexConfig.paginationType().equals(PaginationType.NONE)
+                    ? getBackendSupportedLimit()
+                    : limit,
                 getRequestedFields());
         logger.atFine().log("Query options: %s", opts);
         Predicate<T> pred = rewriter.rewrite(q, opts);
@@ -395,8 +398,8 @@ public abstract class QueryProcessor<T> {
     return indexConfig.maxLimit();
   }
 
-  public int getEffectiveLimit(Predicate<T> p) {
-    if (isNoLimit == true) {
+  private int getEffectiveLimit(Predicate<T> p) {
+    if (isNoLimit) {
       return Integer.MAX_VALUE;
     }
     List<Integer> possibleLimits = new ArrayList<>(4);
@@ -414,7 +417,6 @@ public abstract class QueryProcessor<T> {
     int result = Ordering.natural().min(possibleLimits);
     // Should have short-circuited from #query or thrown some other exception before getting here.
     checkState(result > 0, "effective limit should be positive");
-
     return result;
   }
 

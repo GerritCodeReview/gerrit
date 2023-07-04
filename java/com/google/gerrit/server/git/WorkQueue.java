@@ -452,6 +452,10 @@ public class WorkQueue {
         }
 
         if (all.putIfAbsent(task.getTaskId(), task) == null) {
+          if (task.getQueueName().equals("Index-Interactive")) {
+            logger.atWarning().log(
+                "TROUBLESHOOTING interactive task scheduled %s", task.toString());
+          }
           return task;
         }
       }

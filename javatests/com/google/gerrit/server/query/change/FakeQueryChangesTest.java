@@ -15,16 +15,20 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.common.data.GlobalCapability.QUERY_LIMIT;
+import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.index.testing.AbstractFakeIndex;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
@@ -32,6 +36,7 @@ import com.google.gerrit.testing.InMemoryRepositoryManager.Repo;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import java.util.List;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
@@ -83,22 +88,9 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
   @UseClockStep
   @SuppressWarnings("unchecked")
   public void noLimitQueryPaginates() throws Exception {
-    TestRepository<InMemoryRepositoryManager.Repo> testRepo = createProject("repo");
-    // create 4 changes
-    insert(testRepo, newChange(testRepo));
-    insert(testRepo, newChange(testRepo));
-    insert(testRepo, newChange(testRepo));
-    insert(testRepo, newChange(testRepo));
+    skipIfPaginationTypeNone();
 
-    // Set queryLimit to 2
-    projectOperations
-        .project(allProjects)
-        .forUpdate()
-        .add(allowCapability(QUERY_LIMIT).group(REGISTERED_USERS).range(0, 2))
-        .update();
-
-    AbstractFakeIndex idx = (AbstractFakeIndex) changeIndexCollection.getSearchIndex();
-
+    AbstractFakeIndex idx = getAbstractFakeIndex();
     // 2 index searches are expected. The first index search will run with size 3 (i.e.
     // the configured query-limit+1), and then we will paginate to get the remaining
     // changes with the second index search.
@@ -108,10 +100,101 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
 
   @Test
   @UseClockStep
+  public void noLimitQueryDoNotPaginatesWithNonePaginationType() throws Exception {
+    runIfPaginationTypeNone();
+
+    AbstractFakeIndex idx = getAbstractFakeIndex();
+    newQuery("status:new").withNoLimit().get();
+    // 1 index search is expected since we are not paginating.
+    assertThat(idx.getQueryCount()).isEqualTo(1);
+  }
+
+  @Test
+  @UseClockStep
+  public void unreachableChangesNotPaginatedWithoutPagination() throws Exception {
+    runIfPaginationTypeNone();
+
+    AbstractFakeIndex idx = getAbstractFakeIndex();
+
+    projectOperations
+        .project(allProjectsName)
+        .forUpdate()
+        .removeAllAccessSections()
+        .add(allow(Permission.READ).ref("refs/*").group(SystemGroupBackend.REGISTERED_USERS))
+        .update();
+
+    // Set queryLimit to 3
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(QUERY_LIMIT).group(ANONYMOUS_USERS).range(0, 3))
+        .update();
+
+    requestContext.setContext(anonymousUserProvider::get);
+    List<ChangeInfo> result = newQuery("status:new").withLimit(3).get();
+    assertThat(result.size()).isEqualTo(0);
+    assertThat(idx.getQueryCount()).isEqualTo(1);
+    assertThat(idx.getResultsSize().get(0)).isEqualTo(4);
+  }
+
+  @Test
+  @UseClockStep
+  public void unreachableChangesPaginatedWithPagination() throws Exception {
+    skipIfPaginationTypeNone();
+
+    AbstractFakeIndex idx = getAbstractFakeIndex();
+
+    projectOperations
+        .project(allProjectsName)
+        .forUpdate()
+        .removeAllAccessSections()
+        .add(allow(Permission.READ).ref("refs/*").group(SystemGroupBackend.REGISTERED_USERS))
+        .update();
+
+    // Set queryLimit to 3
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .add(allowCapability(QUERY_LIMIT).group(ANONYMOUS_USERS).range(0, 3))
+        .update();
+
+    requestContext.setContext(anonymousUserProvider::get);
+    List<ChangeInfo> result = newQuery("status:new").withLimit(3).get();
+    assertThat(result.size()).isEqualTo(0);
+    assertThat(idx.getQueryCount()).isEqualTo(2);
+    assertThat(idx.getResultsSize().get(0)).isEqualTo(4); // First query size (limit (3) + 1)
+    assertThat(idx.getResultsSize().get(1)).isEqualTo(0); // Second query size
+  }
+
+  @Test
+  @UseClockStep
   @SuppressWarnings("unchecked")
   public void internalQueriesPaginate() throws Exception {
+    skipIfPaginationTypeNone();
+
+    AbstractFakeIndex idx = getAbstractFakeIndex();
+    // 2 index searches are expected. The first index search will run with size 3 (i.e.
+    // the configured query-limit+1), and then we will paginate to get the remaining
+    // changes with the second index search.
+    queryProvider.get().query(queryBuilderProvider.get().parse("status:new"));
+    assertThat(idx.getQueryCount()).isEqualTo(2);
+  }
+
+  @Test
+  @UseClockStep
+  @SuppressWarnings("unchecked")
+  public void internalQueriesDoNotPaginateWithNonePaginationType() throws Exception {
+    runIfPaginationTypeNone();
+
+    AbstractFakeIndex idx = getAbstractFakeIndex();
+    // 1 index search is expected since we are not paginating.
+    queryProvider.get().query(queryBuilderProvider.get().parse("status:new"));
+    assertThat(idx.getQueryCount()).isEqualTo(1);
+  }
+
+  private AbstractFakeIndex getAbstractFakeIndex() throws Exception {
+    TestRepository<Repo> testRepo = createProject("repo");
     // create 4 changes
-    TestRepository<InMemoryRepositoryManager.Repo> testRepo = createProject("repo");
     insert(testRepo, newChange(testRepo));
     insert(testRepo, newChange(testRepo));
     insert(testRepo, newChange(testRepo));
@@ -124,12 +207,6 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
         .add(allowCapability(QUERY_LIMIT).group(REGISTERED_USERS).range(0, 2))
         .update();
 
-    AbstractFakeIndex idx = (AbstractFakeIndex) changeIndexCollection.getSearchIndex();
-
-    // 2 index searches are expected. The first index search will run with size 3 (i.e.
-    // the configured query-limit+1), and then we will paginate to get the remaining
-    // changes with the second index search.
-    queryProvider.get().query(queryBuilderProvider.get().parse("status:new"));
-    assertThat(idx.getQueryCount()).isEqualTo(2);
+    return (AbstractFakeIndex) changeIndexCollection.getSearchIndex();
   }
 }

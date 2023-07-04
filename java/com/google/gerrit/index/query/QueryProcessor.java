@@ -31,6 +31,7 @@ import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.IndexRewriter;
+import com.google.gerrit.index.PaginationType;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.metrics.Description;
@@ -228,7 +229,7 @@ public abstract class QueryProcessor<T> {
       int queryCount = 0;
       for (Predicate<T> q : queries) {
         checkSupportedForQueries(q);
-        int limit = getEffectiveLimit(q);
+        int limit = getIndexQueryLimit(q);
         limits.add(limit);
         int initialPageSize = getInitialPageSize(limit);
 
@@ -236,7 +237,7 @@ public abstract class QueryProcessor<T> {
           initialPageSize--;
         }
 
-        int page = (start / limit) + 1;
+        int page = (start / getPaginationLimit(q, limit)) + 1;
         if (page > indexConfig.maxPages()) {
           throw new QueryParseException(
               "Cannot go beyond page " + indexConfig.maxPages() + " of results");
@@ -303,7 +304,7 @@ public abstract class QueryProcessor<T> {
             QueryResult.create(
                 queryStrings != null ? queryStrings.get(i) : null,
                 predicates.get(i),
-                limits.get(i),
+                getPaginationLimit(queries.get(i), limits.get(i)),
                 matchesList));
       }
 
@@ -395,10 +396,21 @@ public abstract class QueryProcessor<T> {
     return indexConfig.maxLimit();
   }
 
-  public int getEffectiveLimit(Predicate<T> p) {
-    if (isNoLimit == true) {
+  private int getIndexQueryLimit(Predicate<T> p) {
+    if (isNoLimit) {
       return Integer.MAX_VALUE;
     }
+    List<Integer> possibleLimits = getPossibleLimits(p);
+    int result =
+        indexConfig.paginationType().equals(PaginationType.NONE)
+            ? Ordering.natural().max(possibleLimits)
+            : Ordering.natural().min(possibleLimits);
+    // Should have short-circuited from #query or thrown some other exception before getting here.
+    checkState(result > 0, "effective limit should be positive");
+    return result;
+  }
+
+  private List<Integer> getPossibleLimits(Predicate<T> p) {
     List<Integer> possibleLimits = new ArrayList<>(4);
     possibleLimits.add(getBackendSupportedLimit());
     possibleLimits.add(getPermittedLimit());
@@ -411,10 +423,19 @@ public abstract class QueryProcessor<T> {
         possibleLimits.add(limitFromPredicate);
       }
     }
-    int result = Ordering.natural().min(possibleLimits);
+    return possibleLimits;
+  }
+
+  private int getPaginationLimit(Predicate<T> p, int limit) {
+    if (!indexConfig.paginationType().equals(PaginationType.NONE)) {
+      return limit;
+    }
+    if (isNoLimit) {
+      return Integer.MAX_VALUE;
+    }
+    int result = Ordering.natural().min(getPossibleLimits(p));
     // Should have short-circuited from #query or thrown some other exception before getting here.
     checkState(result > 0, "effective limit should be positive");
-
     return result;
   }
 

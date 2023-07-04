@@ -61,7 +61,8 @@ public abstract class QueryOptions {
         config,
         start,
         searchAfter,
-        pageSize,
+        // If no pagination is needed the page size is the same as the limit
+        config.paginationType().equals(PaginationType.NONE) ? limit : pageSize,
         pageSizeMultiplier,
         limit,
         ImmutableSet.copyOf(fields));

@@ -25,6 +25,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.primitives.Ints;
 import com.google.common.util.concurrent.AbstractFuture;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -36,6 +37,7 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.Index;
+import com.google.gerrit.index.PaginationType;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.Schema.Values;
@@ -534,12 +536,16 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
       return readImpl(AbstractLuceneIndex.this::toFieldBundle);
     }
 
+    private int getLimitBasedOnPaginationType() {
+      return PaginationType.NONE == opts.config().paginationType() ? opts.limit() : opts.pageSize();
+    }
+
     private <T> ResultSet<T> readImpl(Function<Document, T> mapper) {
       IndexSearcher searcher = null;
       ScoreDoc scoreDoc = null;
       try {
         searcher = acquire();
-        int realLimit = opts.start() + opts.pageSize();
+        int realLimit = Ints.saturatedCast((long) getLimitBasedOnPaginationType() + opts.start());
         TopFieldDocs docs =
             opts.searchAfter() != null
                 ? searcher.searchAfter(

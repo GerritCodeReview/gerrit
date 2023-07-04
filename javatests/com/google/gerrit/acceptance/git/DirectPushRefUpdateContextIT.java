@@ -21,7 +21,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.server.update.context.RefUpdateContext;
-import com.google.gerrit.server.update.context.RefUpdateContext.DirectPushRefUpdateContext;
 import com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType;
 import com.google.gerrit.testing.RefUpdateContextCollector;
 import java.util.Map.Entry;
@@ -49,7 +48,7 @@ public class DirectPushRefUpdateContextIT extends AbstractDaemonTest {
     assertThat(ctxts).hasSize(1);
     RefUpdateContext ctx = ctxts.get(0);
     assertThat(ctx.getUpdateType()).isEqualTo(RefUpdateType.DIRECT_PUSH);
-    assertThat(((DirectPushRefUpdateContext) ctx).getJustification()).isEmpty();
+    assertThat(ctx.getJustification()).isEmpty();
   }
 
   @Test
@@ -69,7 +68,6 @@ public class DirectPushRefUpdateContextIT extends AbstractDaemonTest {
     assertThat(ctxts).hasSize(1);
     RefUpdateContext ctx = ctxts.get(0);
     assertThat(ctx.getUpdateType()).isEqualTo(RefUpdateType.DIRECT_PUSH);
-    assertThat(((DirectPushRefUpdateContext) ctx).getJustification())
-        .hasValue("test justification");
+    assertThat(ctx.getJustification()).hasValue("test justification");
   }
 }

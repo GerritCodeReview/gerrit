@@ -16,6 +16,7 @@ package com.google.gerrit.testing;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.server.update.context.RefUpdateContext;
+import java.util.Optional;
 
 /**
  * Marks ref updates as a test actions.
@@ -60,6 +61,10 @@ public final class TestActionRefUpdateContext extends RefUpdateContext {
     try (RefUpdateContext ctx = openTestRefUpdateContext()) {
       c.run();
     }
+  }
+
+  public TestActionRefUpdateContext() {
+    super(Optional.empty());
   }
 
   public interface CallableWithException<V, E extends Exception> {

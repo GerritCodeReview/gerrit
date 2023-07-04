@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.common.UsedAt;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Optional;
@@ -131,11 +130,12 @@ public class RefUpdateContext implements AutoCloseable {
     checkArgument(
         updateType != RefUpdateType.DIRECT_PUSH,
         "openDirectPush method with justification must be used to open DIRECT_PUSH context.");
-    return open(new RefUpdateContext(updateType));
+    return open(new RefUpdateContext(updateType, Optional.empty()));
   }
 
-  public static DirectPushRefUpdateContext openDirectPush(Optional<String> justification) {
-    return open(new DirectPushRefUpdateContext(justification));
+  /** Opens a direct push context with an optional justification. */
+  public static RefUpdateContext openDirectPush(Optional<String> justification) {
+    return open(new RefUpdateContext(RefUpdateType.DIRECT_PUSH, justification));
   }
 
   /** Returns the list of opened contexts; the first element is the outermost context. */
@@ -149,13 +149,15 @@ public class RefUpdateContext implements AutoCloseable {
   }
 
   private final RefUpdateType updateType;
+  private final Optional<String> justification;
 
-  private RefUpdateContext(RefUpdateType updateType) {
+  private RefUpdateContext(RefUpdateType updateType, Optional<String> justification) {
     this.updateType = updateType;
+    this.justification = justification;
   }
 
-  protected RefUpdateContext() {
-    this(RefUpdateType.OTHER);
+  protected RefUpdateContext(Optional<String> justification) {
+    this(RefUpdateType.OTHER, justification);
   }
 
   protected static final Deque<RefUpdateContext> getCurrent() {
@@ -177,6 +179,11 @@ public class RefUpdateContext implements AutoCloseable {
     return updateType;
   }
 
+  /** Returns the justification for the operation. */
+  public final Optional<String> getJustification() {
+    return justification;
+  }
+
   /** Closes the current context. */
   @Override
   public void close() {
@@ -184,19 +191,5 @@ public class RefUpdateContext implements AutoCloseable {
     checkState(
         openedContexts.peekLast() == this, "The current context is different from this context.");
     openedContexts.removeLast();
-  }
-
-  public static class DirectPushRefUpdateContext extends RefUpdateContext {
-    private final Optional<String> justification;
-
-    private DirectPushRefUpdateContext(Optional<String> justification) {
-      super(RefUpdateType.DIRECT_PUSH);
-      this.justification = justification;
-    }
-
-    @UsedAt(UsedAt.Project.GOOGLE)
-    public Optional<String> getJustification() {
-      return justification;
-    }
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ac3832f_56fb205f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-04T10:10:59Z",
+      "side": 1,
+      "message": "Why 0.64.6? The latest version is 0.64.8.",
+      "revId": "fb467e949e7a09a9a6877f4fccf5deb45db42c8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

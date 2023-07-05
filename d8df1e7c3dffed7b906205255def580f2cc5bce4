@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2643920b_89884820",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-05T08:02:52Z",
+      "side": 1,
+      "message": "This change shouldn\u0027t be merged until Google\u0027s internal code is supporting V0.64.8 as well.\nGiven the US holidays - it might take some time.",
+      "revId": "d8df1e7c3dffed7b906205255def580f2cc5bce4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

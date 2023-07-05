@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "902cc649_6fa33739",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-07-05T08:44:55Z",
+      "side": 1,
+      "message": "I am working on this as my schedule allows. I would like to avoid reverting 366462 as this one fixed a huge performance issue where submit took 20-30 minutes for some changes in large projects.",
+      "parentUuid": "7725b651_ae63d23e",
+      "revId": "2126d2bd765a59875fd34d1c487f053884e5e769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5c40b3c3_3299afe9",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseIfNecessaryIT.java",
         "patchSetId": 2

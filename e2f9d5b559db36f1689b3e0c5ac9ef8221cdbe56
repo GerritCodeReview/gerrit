@@ -16,6 +16,24 @@
       "message": "Is adding this newline intended here?",
       "revId": "e2f9d5b559db36f1689b3e0c5ac9ef8221cdbe56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f0a2881_4f9be9f8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 889,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-07-05T09:59:30Z",
+      "side": 1,
+      "message": "Yes. It fixed how the file is rendered.\n  * Before: the \u0027+\u0027 sign appeared on the left of NOTE\n  * After: it\u0027s fixed.",
+      "parentUuid": "b5509db5_d0976722",
+      "revId": "e2f9d5b559db36f1689b3e0c5ac9ef8221cdbe56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

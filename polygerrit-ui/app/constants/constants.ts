@@ -35,16 +35,6 @@ export enum AccountTag {
 }
 
 export enum Tab {
-  FILES = 'files',
-  /**
-   * When renaming 'comments' or 'findings', UrlFormatter.java must be updated.
-   */
-  COMMENT_THREADS = 'comments',
-  FINDINGS = 'findings',
-  CHECKS = 'checks',
-}
-
-/**
  * Tag names of change log messages.
  */
 export enum MessageTag {

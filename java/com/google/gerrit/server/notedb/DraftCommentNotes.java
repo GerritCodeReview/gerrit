@@ -19,6 +19,7 @@ import static com.google.gerrit.entities.RefNames.refsDraftComments;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -38,10 +39,10 @@ import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 /** View of the draft comments for a single {@link Change} based on the log of its drafts branch. */
-public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
+class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public interface Factory {
+  interface Factory {
     DraftCommentNotes create(Change.Id changeId, Account.Id accountId);
   }
 
@@ -78,8 +79,8 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     return author;
   }
 
-  public ImmutableListMultimap<ObjectId, HumanComment> getComments() {
-    return comments;
+  public ImmutableList<HumanComment> getComments() {
+    return comments.values().asList();
   }
 
   public boolean containsComment(HumanComment c) {

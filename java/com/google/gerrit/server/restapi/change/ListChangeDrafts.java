@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.common.ContextLineInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.CommentsUtil;
+import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -34,7 +34,7 @@ import org.kohsuke.args4j.Option;
 public class ListChangeDrafts implements RestReadView<ChangeResource> {
   private final ChangeData.Factory changeDataFactory;
   private final Provider<CommentJson> commentJson;
-  private final CommentsUtil commentsUtil;
+  private final DraftCommentsReader draftCommentsReader;
 
   private boolean includeContext;
   private int contextPadding;
@@ -64,15 +64,16 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
   ListChangeDrafts(
       ChangeData.Factory changeDataFactory,
       Provider<CommentJson> commentJson,
-      CommentsUtil commentsUtil) {
+      DraftCommentsReader draftCommentsReader) {
     this.changeDataFactory = changeDataFactory;
     this.commentJson = commentJson;
-    this.commentsUtil = commentsUtil;
+    this.draftCommentsReader = draftCommentsReader;
   }
 
   private Iterable<HumanComment> listComments(ChangeResource rsrc) {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
-    return commentsUtil.draftByChangeAuthor(cd.notes(), rsrc.getUser().getAccountId());
+    return draftCommentsReader.getDraftsByChangeAndDraftAuthor(
+        cd.notes(), rsrc.getUser().getAccountId());
   }
 
   @Override

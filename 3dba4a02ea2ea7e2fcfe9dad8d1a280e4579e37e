@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "237220a1_3e8dfe61",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T20:04:25Z",
+      "side": 1,
+      "message": "LGTM overall, please see some additional comments.\n\nI believe we are now on the right track 👍",
+      "revId": "3dba4a02ea2ea7e2fcfe9dad8d1a280e4579e37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5ac47e5_61e4714a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 3249,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T20:04:25Z",
+      "side": 1,
+      "message": "AFAIK it is for all indexing, remove the mention to `change`",
+      "range": {
+        "startLine": 3249,
+        "startChar": 32,
+        "endLine": 3249,
+        "endChar": 38
+      },
+      "revId": "3dba4a02ea2ea7e2fcfe9dad8d1a280e4579e37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d390d02a_68b19a1a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 3276,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T20:04:25Z",
+      "side": 1,
+      "message": "The mention _ignored when paginationType is NONE_ next to the `index.maxPages` and `index.pageSizeMultiplier` descriptions is enough, no need to duplicate that information here.",
+      "range": {
+        "startLine": 3275,
+        "startChar": 0,
+        "endLine": 3276,
+        "endChar": 49
+      },
+      "revId": "3dba4a02ea2ea7e2fcfe9dad8d1a280e4579e37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84585d15_d7ff2a3b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 3278,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T20:04:25Z",
+      "side": 1,
+      "message": "```suggestion\nBear in mind that some indexing backends may not support unbounded queries; therefore, the NONE option is unavailable.\n```",
+      "range": {
+        "startLine": 3277,
+        "startChar": 0,
+        "endLine": 3278,
+        "endChar": 56
+      },
+      "revId": "3dba4a02ea2ea7e2fcfe9dad8d1a280e4579e37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55b18a8d_289cf4aa",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T20:04:25Z",
+      "side": 1,
+      "message": "```suggestion\n    return Math.min(getUserQueryLimit().getAsInt(), limit);\n```\n\nThe initial page size is sent as QueryOptions to the index backend: if the pagination type is `NONE` it is already ignored, so there is no point in making this switch anyway.\n\nI tested with and without the switch and the overall behaviour is exactly the same.",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 58
+      },
+      "revId": "3dba4a02ea2ea7e2fcfe9dad8d1a280e4579e37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

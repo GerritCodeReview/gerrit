@@ -22,6 +22,30 @@
       },
       "revId": "761e60aff490465c977339073981ff4c67b9273e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7595199_3e82d9b4",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-07-05T10:21:17Z",
+      "side": 1,
+      "message": "I hope that once someone changes query options, it will fail test. And they might need to read this comment and might think twice to change it.",
+      "parentUuid": "e9c9b366_1602a11d",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 72,
+        "endChar": 39
+      },
+      "revId": "761e60aff490465c977339073981ff4c67b9273e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

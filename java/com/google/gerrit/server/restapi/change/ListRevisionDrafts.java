@@ -19,7 +19,7 @@ import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.CommentsUtil;
+import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
@@ -31,17 +31,17 @@ import java.util.Map;
 @Singleton
 public class ListRevisionDrafts implements RestReadView<RevisionResource> {
   protected final Provider<CommentJson> commentJson;
-  protected final CommentsUtil commentsUtil;
+  private final DraftCommentsReader draftCommentsReader;
 
   @Inject
-  ListRevisionDrafts(Provider<CommentJson> commentJson, CommentsUtil commentsUtil) {
+  ListRevisionDrafts(Provider<CommentJson> commentJson, DraftCommentsReader draftCommentsReader) {
     this.commentJson = commentJson;
-    this.commentsUtil = commentsUtil;
+    this.draftCommentsReader = draftCommentsReader;
   }
 
   protected Iterable<HumanComment> listComments(RevisionResource rsrc) {
-    return commentsUtil.draftByPatchSetAuthor(
-        rsrc.getPatchSet().id(), rsrc.getAccountId(), rsrc.getNotes());
+    return draftCommentsReader.getDraftsByPatchSetAndDraftAuthor(
+        rsrc.getNotes(), rsrc.getPatchSet().id(), rsrc.getAccountId());
   }
 
   protected boolean includeAuthorInfo() {

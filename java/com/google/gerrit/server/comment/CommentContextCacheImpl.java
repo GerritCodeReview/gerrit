@@ -34,6 +34,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.CommentsUtil;
+import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.proto.Cache.AllCommentContextProto;
 import com.google.gerrit.server.cache.proto.Cache.AllCommentContextProto.CommentContextProto;
@@ -178,15 +179,18 @@ public class CommentContextCacheImpl implements CommentContextCache {
     private final ChangeNotes.Factory notesFactory;
     private final CommentsUtil commentsUtil;
     private final CommentContextLoader.Factory factory;
+    private final DraftCommentsReader draftCommentsReader;
 
     @Inject
     Loader(
         CommentsUtil commentsUtil,
         ChangeNotes.Factory notesFactory,
-        CommentContextLoader.Factory factory) {
+        CommentContextLoader.Factory factory,
+        DraftCommentsReader draftCommentsReader) {
       this.commentsUtil = commentsUtil;
       this.notesFactory = notesFactory;
       this.factory = factory;
+      this.draftCommentsReader = draftCommentsReader;
     }
 
     /**
@@ -252,7 +256,7 @@ public class CommentContextCacheImpl implements CommentContextCache {
         throws IOException {
       ChangeNotes notes = notesFactory.createChecked(project, changeId);
       List<HumanComment> humanComments = commentsUtil.publishedHumanCommentsByChange(notes);
-      List<HumanComment> drafts = commentsUtil.draftByChange(notes);
+      List<HumanComment> drafts = draftCommentsReader.getDraftsByChange(notes);
       List<HumanComment> allComments =
           Streams.concat(humanComments.stream(), drafts.stream()).collect(Collectors.toList());
       CommentContextLoader loader = factory.create(project);

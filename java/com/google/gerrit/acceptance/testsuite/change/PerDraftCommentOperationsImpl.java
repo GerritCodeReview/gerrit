@@ -18,7 +18,7 @@ import static com.google.common.collect.MoreCollectors.onlyElement;
 import static com.google.gerrit.acceptance.testsuite.change.PerCommentOperationsImpl.toTestComment;
 
 import com.google.gerrit.entities.HumanComment;
-import com.google.gerrit.server.CommentsUtil;
+import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -30,10 +30,9 @@ import com.google.inject.assistedinject.Assisted;
  * the separation between interface and implementation to enhance clarity.
  */
 public class PerDraftCommentOperationsImpl implements PerDraftCommentOperations {
-  private final CommentsUtil commentsUtil;
-
   private final ChangeNotes changeNotes;
   private final String commentUuid;
+  private final DraftCommentsReader draftCommentsReader;
 
   public interface Factory {
     PerDraftCommentOperationsImpl create(ChangeNotes changeNotes, String commentUuid);
@@ -41,16 +40,18 @@ public class PerDraftCommentOperationsImpl implements PerDraftCommentOperations 
 
   @Inject
   public PerDraftCommentOperationsImpl(
-      CommentsUtil commentsUtil, @Assisted ChangeNotes changeNotes, @Assisted String commentUuid) {
-    this.commentsUtil = commentsUtil;
+      DraftCommentsReader draftCommentsReader,
+      @Assisted ChangeNotes changeNotes,
+      @Assisted String commentUuid) {
     this.changeNotes = changeNotes;
     this.commentUuid = commentUuid;
+    this.draftCommentsReader = draftCommentsReader;
   }
 
   @Override
   public TestHumanComment get() {
     HumanComment comment =
-        commentsUtil.draftByChange(changeNotes).stream()
+        draftCommentsReader.getDraftsByChange(changeNotes).stream()
             .filter(foundComment -> foundComment.key.uuid.equals(commentUuid))
             .collect(onlyElement());
     return toTestComment(comment);

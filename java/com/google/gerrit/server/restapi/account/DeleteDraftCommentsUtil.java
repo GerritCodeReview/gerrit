@@ -32,6 +32,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.CommentsUtil;
+import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeJson;
@@ -67,6 +68,8 @@ public class DeleteDraftCommentsUtil {
   private final ChangeJson.Factory changeJsonFactory;
   private final Provider<CommentJson> commentJsonProvider;
   private final CommentsUtil commentsUtil;
+  private final DraftCommentsReader draftCommentsReader;
+
   private final PatchSetUtil psUtil;
 
   @Inject
@@ -78,6 +81,7 @@ public class DeleteDraftCommentsUtil {
       ChangeJson.Factory changeJsonFactory,
       Provider<CommentJson> commentJsonProvider,
       CommentsUtil commentsUtil,
+      DraftCommentsReader draftCommentsReader,
       PatchSetUtil psUtil) {
     this.batchUpdateFactory = batchUpdateFactory;
     this.queryBuilder = queryBuilder;
@@ -86,6 +90,7 @@ public class DeleteDraftCommentsUtil {
     this.changeJsonFactory = changeJsonFactory;
     this.commentJsonProvider = commentJsonProvider;
     this.commentsUtil = commentsUtil;
+    this.draftCommentsReader = draftCommentsReader;
     this.psUtil = psUtil;
   }
 
@@ -147,7 +152,8 @@ public class DeleteDraftCommentsUtil {
     public boolean updateChange(ChangeContext ctx) throws PermissionBackendException {
       ImmutableList.Builder<CommentInfo> comments = ImmutableList.builder();
       boolean dirty = false;
-      for (HumanComment c : commentsUtil.draftByChangeAuthor(ctx.getNotes(), accountId)) {
+      for (HumanComment c :
+          draftCommentsReader.getDraftsByChangeAuthor(ctx.getNotes(), accountId)) {
         dirty = true;
         PatchSet.Id psId = PatchSet.id(ctx.getChange().getId(), c.key.patchSetId);
         commentsUtil.setCommentCommitId(c, ctx.getChange(), psUtil.get(ctx.getNotes(), psId));

@@ -62,6 +62,7 @@ import com.google.gerrit.index.RefState;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
@@ -100,7 +101,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -315,6 +316,7 @@ public class ChangeData {
             null,
             null,
             null,
+            null,
             serverId,
             virtualIdAlgo,
             project,
@@ -339,6 +341,8 @@ public class ChangeData {
   private final ChangeMessagesUtil cmUtil;
   private final ChangeNotes.Factory notesFactory;
   private final CommentsUtil commentsUtil;
+
+  private final DraftCommentsReader draftCommentsReader;
   private final GitRepositoryManager repoManager;
   private final MergeUtilFactory mergeUtilFactory;
   private final MergeabilityCache mergeabilityCache;
@@ -393,7 +397,7 @@ public class ChangeData {
    * Map from {@link com.google.gerrit.entities.Account.Id} to the tip of the draft comments ref for
    * this change and the user.
    */
-  private Map<Account.Id, ObjectId> draftsByUser;
+  private Set<Account.Id> usersWithDrafts;
 
   private ImmutableList<Account.Id> stars;
   private Account.Id starredBy;
@@ -425,6 +429,7 @@ public class ChangeData {
       ChangeMessagesUtil cmUtil,
       ChangeNotes.Factory notesFactory,
       CommentsUtil commentsUtil,
+      DraftCommentsReader draftCommentsReader,
       GitRepositoryManager repoManager,
       MergeUtilFactory mergeUtilFactory,
       MergeabilityCache mergeabilityCache,
@@ -438,7 +443,7 @@ public class ChangeData {
       SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
       @GerritServerId String gerritServerId,
       ChangeNumberVirtualIdAlgorithm virtualIdFunc,
-      @Assisted Project.NameKey project,
+      @Assisted NameKey project,
       @Assisted Change.Id id,
       @Assisted @Nullable Change change,
       @Assisted @Nullable ChangeNotes notes) {
@@ -447,6 +452,7 @@ public class ChangeData {
     this.cmUtil = cmUtil;
     this.notesFactory = notesFactory;
     this.commentsUtil = commentsUtil;
+    this.draftCommentsReader = draftCommentsReader;
     this.repoManager = repoManager;
     this.mergeUtilFactory = mergeUtilFactory;
     this.mergeabilityCache = mergeabilityCache;
@@ -1200,7 +1206,21 @@ public class ChangeData {
   }
 
   public Set<Account.Id> draftsByUser() {
-    return draftRefs().keySet();
+    if (usersWithDrafts == null) {
+      if (!lazyload()) {
+        return Collections.emptySet();
+      }
+      Change c = change();
+      if (c == null) {
+        return Collections.emptySet();
+      }
+      try {
+        usersWithDrafts = draftCommentsReader.getUsersWithDrafts(notes());
+      } catch (IOException e) {
+        throw new StorageException(e);
+      }
+    }
+    return usersWithDrafts;
   }
 
   public boolean isReviewedBy(Account.Id accountId) {
@@ -1376,16 +1396,16 @@ public class ChangeData {
 
   public void setRefStates(ImmutableSetMultimap<Project.NameKey, RefState> refStates) {
     this.refStates = refStates;
-    if (draftsByUser == null) {
-      // Recover draft refs as well. Draft comments are represented as refs in the repository.
+    if (usersWithDrafts == null) {
+      // Recover draft state as well.
       // ChangeData exposes #draftsByUser which just provides a Set of Account.Ids of users who
       // have drafts comments on this change. Recovering this list from RefStates makes it
       // available even on ChangeData instances retrieved from the index.
-      draftsByUser = new HashMap<>();
+      usersWithDrafts = new HashSet<>();
       if (refStates.containsKey(allUsersName)) {
         refStates.get(allUsersName).stream()
             .filter(r -> RefNames.isRefsDraftsComments(r.ref()))
-            .forEach(r -> draftsByUser.put(Account.Id.fromRef(r.ref()), r.id()));
+            .forEach(r -> usersWithDrafts.add(Account.Id.fromRef(r.ref())));
       }
     }
   }
@@ -1407,33 +1427,5 @@ public class ChangeData {
     public abstract Account.Id author();
 
     public abstract Instant ts();
-  }
-
-  private Map<Account.Id, ObjectId> draftRefs() {
-    if (draftsByUser == null) {
-      if (!lazyload()) {
-        return Collections.emptyMap();
-      }
-      Change c = change();
-      if (c == null) {
-        return Collections.emptyMap();
-      }
-
-      draftsByUser = new HashMap<>();
-      for (Ref ref : commentsUtil.getDraftRefs(notes().getChangeId())) {
-        Account.Id account = Account.Id.fromRefSuffix(ref.getName());
-        if (account != null
-            // Double-check that any drafts exist for this user after
-            // filtering out zombies. If some but not all drafts in the ref
-            // were zombies, the returned Ref still includes those zombies;
-            // this is suboptimal, but is ok for the purposes of
-            // draftsByUser(), and easier than trying to rebuild the change at
-            // this point.
-            && !notes().getDraftComments(account, ref).isEmpty()) {
-          draftsByUser.put(account, ref.getObjectId());
-        }
-      }
-    }
-    return draftsByUser;
   }
 }

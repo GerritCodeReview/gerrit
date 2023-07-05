@@ -56,6 +56,7 @@ import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
@@ -80,9 +81,9 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 public class ChangeNotesTest extends AbstractChangeNotesTest {
-  @Inject private DraftCommentNotes.Factory draftNotesFactory;
-
   @Inject private ChangeNoteJson changeNoteJson;
+
+  @Inject private DraftCommentsReader draftCommentsReader;
 
   @Test
   public void tagChangeMessage() throws Exception {
@@ -2856,8 +2857,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId))
-        .containsExactlyEntriesIn(ImmutableListMultimap.of(commitId, comment1));
+    assertThat(notes.getDraftComments(otherUserId)).containsExactly(comment1);
     assertThat(notes.getHumanComments()).isEmpty();
 
     update = newUpdate(c, otherUser);
@@ -2920,12 +2920,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId))
-        .containsExactlyEntriesIn(
-            ImmutableListMultimap.of(
-                commitId, comment1,
-                commitId, comment2))
-        .inOrder();
+    assertThat(notes.getDraftComments(otherUserId)).containsExactly(comment1, comment2).inOrder();
     assertThat(notes.getHumanComments()).isEmpty();
 
     // Publish first draft.
@@ -2935,8 +2930,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId))
-        .containsExactlyEntriesIn(ImmutableListMultimap.of(commitId, comment2));
+    assertThat(notes.getDraftComments(otherUserId)).containsExactly(comment2);
     assertThat(notes.getHumanComments())
         .containsExactlyEntriesIn(ImmutableListMultimap.of(commitId, comment1));
   }
@@ -2991,11 +2985,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId))
-        .containsExactlyEntriesIn(
-            ImmutableListMultimap.of(
-                commitId1, baseComment,
-                commitId2, psComment));
+    assertThat(notes.getDraftComments(otherUserId)).containsExactly(baseComment, psComment);
     assertThat(notes.getHumanComments()).isEmpty();
 
     // Publish both comments.
@@ -3387,8 +3377,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId).get(commitId1))
-        .containsExactly(comment1, comment2);
+    assertThat(notes.getDraftComments(otherUserId)).containsExactly(comment1, comment2);
     assertThat(notes.getHumanComments()).isEmpty();
 
     update = newUpdate(c, otherUser);
@@ -3397,7 +3386,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.commit();
 
     notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId).get(commitId1)).containsExactly(comment1);
+    assertThat(notes.getDraftComments(otherUserId)).containsExactly(comment1);
     assertThat(notes.getHumanComments().get(commitId1)).containsExactly(comment2);
   }
 
@@ -3481,12 +3470,12 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     }
 
     // Looking at drafts directly shows the zombie comment.
-    DraftCommentNotes draftNotes = draftNotesFactory.create(c.getId(), otherUserId);
-    assertThat(draftNotes.load().getComments().get(commitId1)).containsExactly(comment1, comment2);
+    assertThat(draftCommentsReader.getDraftComments(c.getId(), otherUserId))
+        .containsExactly(comment1, comment2);
 
     // Zombie comment is filtered out of drafts via ChangeNotes.
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getDraftComments(otherUserId).get(commitId1)).containsExactly(comment1);
+    assertThat(notes.getDraftComments(otherUserId)).containsExactly(comment1);
     assertThat(notes.getHumanComments().get(commitId1)).containsExactly(comment2);
 
     update = newUpdate(c, otherUser);

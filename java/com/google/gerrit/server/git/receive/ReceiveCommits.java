@@ -109,9 +109,9 @@ import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.CancellationMetrics;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.DeadlineChecker;
+import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InvalidDeadlineException;
 import com.google.gerrit.server.PatchSetUtil;
@@ -373,7 +373,7 @@ class ReceiveCommits {
   private final ChangeNotes.Factory notesFactory;
   private final ChangeReportFormatter changeFormatter;
   private final CmdLineParser.Factory optionParserFactory;
-  private final CommentsUtil commentsUtil;
+  private final DraftCommentsReader draftCommentsReader;
   private final PluginSetContext<CommentValidator> commentValidators;
   private final BranchCommitValidator.Factory commitValidatorFactory;
   private final Config config;
@@ -462,7 +462,7 @@ class ReceiveCommits {
       ChangeNotes.Factory notesFactory,
       DynamicItem<ChangeReportFormatter> changeFormatterProvider,
       CmdLineParser.Factory optionParserFactory,
-      CommentsUtil commentsUtil,
+      DraftCommentsReader draftCommentsReader,
       BranchCommitValidator.Factory commitValidatorFactory,
       CreateGroupPermissionSyncer createGroupPermissionSyncer,
       CreateRefControl createRefControl,
@@ -512,7 +512,7 @@ class ReceiveCommits {
     this.cancellationMetrics = cancellationMetrics;
     this.changeFormatter = changeFormatterProvider.get();
     this.changeInserterFactory = changeInserterFactory;
-    this.commentsUtil = commentsUtil;
+    this.draftCommentsReader = draftCommentsReader;
     this.commentValidators = commentValidators;
     this.commitValidatorFactory = commitValidatorFactory;
     this.config = config;
@@ -1116,7 +1116,7 @@ class ReceiveCommits {
               continue;
             }
             List<HumanComment> drafts =
-                commentsUtil.draftByChangeAuthor(changeNotes.get(), user.getAccountId());
+                draftCommentsReader.getDraftsByChangeAuthor(changeNotes.get(), user.getAccountId());
             if (drafts.isEmpty()) {
               // If no comments, attention set shouldn't update since the user
               // didn't reply.
@@ -2255,7 +2255,7 @@ class ReceiveCommits {
 
       if (magicBranch != null && magicBranch.shouldPublishComments()) {
         List<HumanComment> drafts =
-            commentsUtil.draftByChangeAuthor(
+            draftCommentsReader.getDraftsByChangeAuthor(
                 notesFactory.createChecked(change), user.getAccountId());
         ImmutableList<CommentForValidation> draftsForValidation =
             drafts.stream()

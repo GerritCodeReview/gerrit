@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CommentsUtil;
+import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.DraftCommentResource;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -43,13 +44,19 @@ import java.util.Optional;
 public class DeleteDraftComment implements RestModifyView<DraftCommentResource, Input> {
   private final BatchUpdate.Factory updateFactory;
   private final CommentsUtil commentsUtil;
+  private final DraftCommentsReader draftCommentsReader;
+
   private final PatchSetUtil psUtil;
 
   @Inject
   DeleteDraftComment(
-      BatchUpdate.Factory updateFactory, CommentsUtil commentsUtil, PatchSetUtil psUtil) {
+      BatchUpdate.Factory updateFactory,
+      CommentsUtil commentsUtil,
+      DraftCommentsReader draftCommentsReader,
+      PatchSetUtil psUtil) {
     this.updateFactory = updateFactory;
     this.commentsUtil = commentsUtil;
+    this.draftCommentsReader = draftCommentsReader;
     this.psUtil = psUtil;
   }
 
@@ -77,7 +84,7 @@ public class DeleteDraftComment implements RestModifyView<DraftCommentResource, 
     @Override
     public boolean updateChange(ChangeContext ctx) throws ResourceNotFoundException {
       Optional<HumanComment> maybeComment =
-          commentsUtil.getDraft(ctx.getNotes(), ctx.getIdentifiedUser(), key);
+          draftCommentsReader.getDraftComment(ctx.getNotes(), ctx.getIdentifiedUser(), key);
       if (!maybeComment.isPresent()) {
         return false; // Nothing to do.
       }

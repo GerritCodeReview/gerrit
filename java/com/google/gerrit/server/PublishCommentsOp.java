@@ -48,7 +48,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
   private final PatchSetUtil psUtil;
   private final ChangeNotes.Factory changeNotesFactory;
   private final CommentAdded commentAdded;
-  private final CommentsUtil commentsUtil;
+  private final DraftCommentsReader draftCommentsReader;
   private final EmailReviewComments.Factory email;
   private final Project.NameKey projectNameKey;
   private final PatchSet.Id psId;
@@ -67,7 +67,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
   public PublishCommentsOp(
       ChangeNotes.Factory changeNotesFactory,
       CommentAdded commentAdded,
-      CommentsUtil commentsUtil,
+      DraftCommentsReader draftCommentsReader,
       EmailReviewComments.Factory email,
       PatchSetUtil psUtil,
       PublishCommentUtil publishCommentUtil,
@@ -76,7 +76,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
       @Assisted Project.NameKey projectNameKey) {
     this.changeNotesFactory = changeNotesFactory;
     this.commentAdded = commentAdded;
-    this.commentsUtil = commentsUtil;
+    this.draftCommentsReader = draftCommentsReader;
     this.email = email;
     this.psId = psId;
     this.publishCommentUtil = publishCommentUtil;
@@ -90,7 +90,8 @@ public class PublishCommentsOp implements BatchUpdateOp {
       throws ResourceConflictException, UnprocessableEntityException, IOException,
           PatchListNotAvailableException, CommentsRejectedException {
     preUpdateMetaId = ctx.getNotes().getMetaId();
-    comments = commentsUtil.draftByChangeAuthor(ctx.getNotes(), ctx.getUser().getAccountId());
+    comments =
+        draftCommentsReader.getDraftsByChangeAuthor(ctx.getNotes(), ctx.getUser().getAccountId());
 
     // PublishCommentsOp should update a separate ChangeUpdate Object than the one used by other ops
     // For example, with the "publish comments on PS upload" workflow,

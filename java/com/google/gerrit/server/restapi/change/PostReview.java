@@ -72,6 +72,7 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountCache;
@@ -163,6 +164,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final AccountCache accountCache;
   private final ApprovalsUtil approvalsUtil;
   private final CommentsUtil commentsUtil;
+  private final DraftCommentsReader draftCommentsReader;
+
   private final PatchListCache patchListCache;
   private final AccountResolver accountResolver;
   private final ReviewerModifier reviewerModifier;
@@ -186,6 +189,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       AccountCache accountCache,
       ApprovalsUtil approvalsUtil,
       CommentsUtil commentsUtil,
+      DraftCommentsReader draftCommentsReader,
       PatchListCache patchListCache,
       AccountResolver accountResolver,
       ReviewerModifier reviewerModifier,
@@ -204,6 +208,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.changeDataFactory = changeDataFactory;
     this.accountCache = accountCache;
     this.commentsUtil = commentsUtil;
+    this.draftCommentsReader = draftCommentsReader;
     this.patchListCache = patchListCache;
     this.approvalsUtil = approvalsUtil;
     this.accountResolver = accountResolver;
@@ -685,7 +690,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       RevisionResource resource, List<String> draftIds, DraftHandling draftHandling)
       throws BadRequestException {
     Map<String, HumanComment> draftsByUuid =
-        commentsUtil.draftByChangeAuthor(resource.getNotes(), resource.getUser().getAccountId())
+        draftCommentsReader
+            .getDraftsByChangeAuthor(resource.getNotes(), resource.getUser().getAccountId())
             .stream()
             .collect(Collectors.toMap(c -> c.key.uuid, c -> c));
     List<String> nonExistingDraftIds =

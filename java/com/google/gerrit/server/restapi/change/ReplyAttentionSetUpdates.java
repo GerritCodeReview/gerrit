@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.approval.ApprovalsUtil;
@@ -71,6 +72,7 @@ public class ReplyAttentionSetUpdates {
   private final AccountResolver accountResolver;
   private final ServiceUserClassifier serviceUserClassifier;
   private final CommentsUtil commentsUtil;
+  private final DraftCommentsReader draftCommentsReader;
 
   @Inject
   ReplyAttentionSetUpdates(
@@ -80,7 +82,8 @@ public class ReplyAttentionSetUpdates {
       ApprovalsUtil approvalsUtil,
       AccountResolver accountResolver,
       ServiceUserClassifier serviceUserClassifier,
-      CommentsUtil commentsUtil) {
+      CommentsUtil commentsUtil,
+      DraftCommentsReader draftCommentsReader) {
     this.permissionBackend = permissionBackend;
     this.addToAttentionSetOpFactory = addToAttentionSetOpFactory;
     this.removeFromAttentionSetOpFactory = removeFromAttentionSetOpFactory;
@@ -88,6 +91,7 @@ public class ReplyAttentionSetUpdates {
     this.accountResolver = accountResolver;
     this.serviceUserClassifier = serviceUserClassifier;
     this.commentsUtil = commentsUtil;
+    this.draftCommentsReader = draftCommentsReader;
   }
 
   /** Adjusts the attention set but only based on the automatic rules. */
@@ -165,11 +169,11 @@ public class ReplyAttentionSetUpdates {
     List<HumanComment> drafts = new ArrayList<>();
     if (input.drafts == ReviewInput.DraftHandling.PUBLISH) {
       drafts =
-          commentsUtil.draftByPatchSetAuthor(
+          draftCommentsReader.getDraftsByPatchSetAuthor(
               changeNotes.getChange().currentPatchSetId(), currentUser.getAccountId(), changeNotes);
     }
     if (input.drafts == ReviewInput.DraftHandling.PUBLISH_ALL_REVISIONS) {
-      drafts = commentsUtil.draftByChangeAuthor(changeNotes, currentUser.getAccountId());
+      drafts = draftCommentsReader.getDraftsByChangeAuthor(changeNotes, currentUser.getAccountId());
     }
     return Stream.concat(newComments.stream(), drafts.stream()).collect(toImmutableSet());
   }

@@ -21,8 +21,8 @@ import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.change.DraftCommentResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.inject.Inject;
@@ -34,18 +34,18 @@ public class DraftComments implements ChildCollection<RevisionResource, DraftCom
   private final DynamicMap<RestView<DraftCommentResource>> views;
   private final Provider<CurrentUser> user;
   private final ListRevisionDrafts list;
-  private final CommentsUtil commentsUtil;
+  private final DraftCommentsReader draftCommentsReader;
 
   @Inject
   DraftComments(
       DynamicMap<RestView<DraftCommentResource>> views,
       Provider<CurrentUser> user,
       ListRevisionDrafts list,
-      CommentsUtil commentsUtil) {
+      DraftCommentsReader draftCommentsReader) {
     this.views = views;
     this.user = user;
     this.list = list;
-    this.commentsUtil = commentsUtil;
+    this.draftCommentsReader = draftCommentsReader;
   }
 
   @Override
@@ -65,7 +65,7 @@ public class DraftComments implements ChildCollection<RevisionResource, DraftCom
     checkIdentifiedUser();
     String uuid = id.get();
     for (HumanComment c :
-        commentsUtil.draftByPatchSetAuthor(
+        draftCommentsReader.getDraftsByPatchSetAuthor(
             rev.getPatchSet().id(), rev.getAccountId(), rev.getNotes())) {
       if (uuid.equals(c.key.uuid)) {
         return new DraftCommentResource(rev, c);

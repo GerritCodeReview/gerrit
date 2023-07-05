@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0f9d33e3_98869642",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3254,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "@luca is this enough? Should I change to Indices queries and add a test for the other indices?",
+      "parentUuid": "5fd76bb6_8b0ab42f",
+      "range": {
+        "startLine": 3254,
+        "startChar": 0,
+        "endLine": 3254,
+        "endChar": 6
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0da8172b_98defb5d",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 20
@@ -37,6 +61,30 @@
       "writtenOn": "2023-07-05T11:28:47Z",
       "side": 1,
       "message": "nit: wrap long line",
+      "range": {
+        "startLine": 3256,
+        "startChar": 78,
+        "endLine": 3256,
+        "endChar": 89
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfd8200f_f2090661",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3256,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0da8172b_98defb5d",
       "range": {
         "startLine": 3256,
         "startChar": 78,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e4aaf839_e6097416",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3260,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "@luca is this enough? Should I change to Indices queries and add a test for the other indices?",
+      "parentUuid": "80073374_7db84786",
+      "range": {
+        "startLine": 3260,
+        "startChar": 0,
+        "endLine": 3260,
+        "endChar": 6
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ec90307c_7fa47e6b",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 20
@@ -83,6 +155,30 @@
       "writtenOn": "2023-07-05T11:28:47Z",
       "side": 1,
       "message": "nit: wrap long line",
+      "range": {
+        "startLine": 3264,
+        "startChar": 71,
+        "endLine": 3264,
+        "endChar": 100
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06bb024f_1412b610",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3264,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec90307c_7fa47e6b",
       "range": {
         "startLine": 3264,
         "startChar": 71,
@@ -141,6 +237,54 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e268e03e_8a2faddc",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3269,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "@luca is this enough? Should I change to Indices queries and add a test for the other indices?",
+      "parentUuid": "687c2767_28d9a28e",
+      "range": {
+        "startLine": 3269,
+        "startChar": 0,
+        "endLine": 3269,
+        "endChar": 6
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00f38245_67f5cfbd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3269,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c748048_de67411c",
+      "range": {
+        "startLine": 3269,
+        "startChar": 74,
+        "endLine": 3269,
+        "endChar": 85
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "69b5ee3b_730e1a17",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 20
@@ -152,6 +296,30 @@
       "writtenOn": "2023-07-05T11:28:47Z",
       "side": 1,
       "message": "nit: wrap long lines",
+      "range": {
+        "startLine": 3270,
+        "startChar": 0,
+        "endLine": 3273,
+        "endChar": 33
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "646d7ef4_292a6d0a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3273,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69b5ee3b_730e1a17",
       "range": {
         "startLine": 3270,
         "startChar": 0,
@@ -179,6 +347,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c0dfc09_2b3f9945",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3274,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c00d09f8_0ff006c9",
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "484a69e2_4439d843",
@@ -192,6 +378,24 @@
       "writtenOn": "2023-07-05T11:28:47Z",
       "side": 1,
       "message": "Add note that is ignored when paginationType is `NONE`",
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80f6884a_c81d569a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3317,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "484a69e2_4439d843",
       "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -213,6 +417,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0be4c592_03104754",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3329,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "adc0091e_caa09c92",
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "46b194ba_cafb4622",
@@ -226,6 +448,30 @@
       "writtenOn": "2023-07-05T11:28:47Z",
       "side": 1,
       "message": "Are we sure is only for the change index? I saw the page size being used in AbstractLuceneIndex which is the common base class for all indexes.",
+      "range": {
+        "startLine": 18,
+        "startChar": 6,
+        "endLine": 18,
+        "endChar": 12
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c407c0aa_1209e9e7",
+        "filename": "java/com/google/gerrit/index/PaginationType.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46b194ba_cafb4622",
       "range": {
         "startLine": 18,
         "startChar": 6,
@@ -259,6 +505,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "574f1088_b01c4b3b",
+        "filename": "java/com/google/gerrit/index/PaginationType.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef1e7097_ce538cfc",
+      "range": {
+        "startLine": 22,
+        "startChar": 5,
+        "endLine": 22,
+        "endChar": 11
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b011890_d6cb83b0",
@@ -272,6 +542,30 @@
       "writtenOn": "2023-07-05T11:28:47Z",
       "side": 1,
       "message": "This is wrong: we should not mess up the parameters and making them inconsistent. The right thing to do is to introduce the check in `AbstractLuceneIndex` where the `QueryOptions` are processed.",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 79
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e72acdee_8c4fde3d",
+        "filename": "java/com/google/gerrit/index/QueryOptions.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b011890_d6cb83b0",
       "range": {
         "startLine": 64,
         "startChar": 0,
@@ -305,6 +599,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79c1d50f_589b0a6c",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a1505de_4f000475",
+      "range": {
+        "startLine": 68,
+        "startChar": 14,
+        "endLine": 68,
+        "endChar": 73
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1a153102_7c8ee128",
@@ -318,6 +636,30 @@
       "writtenOn": "2023-07-05T11:28:47Z",
       "side": 1,
       "message": "Why is this needed? I believe `limit` is the right parameter to pass here, as it was prior to the introduction of the pagination.",
+      "range": {
+        "startLine": 269,
+        "startChar": 16,
+        "endLine": 271,
+        "endChar": 27
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7d82f39_0a90e428",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a153102_7c8ee128",
       "range": {
         "startLine": 269,
         "startChar": 16,
@@ -351,6 +693,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "954e6fac_28cb65f8",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc26901b_9e7fd2af",
+      "range": {
+        "startLine": 400,
+        "startChar": 0,
+        "endLine": 402,
+        "endChar": 20
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd0b8e8c_15bc3219",
@@ -364,6 +730,30 @@
       "writtenOn": "2023-07-05T11:28:47Z",
       "side": 1,
       "message": "`resultsSizes`?",
+      "range": {
+        "startLine": 86,
+        "startChar": 9,
+        "endLine": 86,
+        "endChar": 20
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c8808b2_3ff2774f",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd0b8e8c_15bc3219",
       "range": {
         "startLine": 86,
         "startChar": 9,
@@ -397,6 +787,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d349ba05_70650d40",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b7d4c3f_87527a58",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 3
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5da1fd94_8a96b2b6",
@@ -410,6 +824,30 @@
       "writtenOn": "2023-07-05T11:28:47Z",
       "side": 1,
       "message": "This is white-box testing and should be avoided. If we disable the pagination, the initial page size *should not* matter, instead of being set to what we know the implementation is doing.",
+      "range": {
+        "startLine": 4273,
+        "startChar": 0,
+        "endLine": 4298,
+        "endChar": 3
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d45a805a_06ba611e",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 4298,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5da1fd94_8a96b2b6",
       "range": {
         "startLine": 4273,
         "startChar": 0,
@@ -443,6 +881,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4109769b_10005fb0",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 4680,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9c93d0f_058ec184",
+      "range": {
+        "startLine": 4672,
+        "startChar": 0,
+        "endLine": 4680,
+        "endChar": 3
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9933eeb3_e6cb4b13",
@@ -456,6 +918,30 @@
       "writtenOn": "2023-07-05T11:28:47Z",
       "side": 1,
       "message": "Why not introducing a method called `assertThatSearchQueryWasNotPaginaged` and avoid the comment?",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 49
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dfe4dd9_e3f96b00",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9933eeb3_e6cb4b13",
       "range": {
         "startLine": 108,
         "startChar": 0,
@@ -512,6 +998,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "301e10a8_f6d0798e",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfa83977_519a7264",
+      "range": {
+        "startLine": 114,
+        "startChar": 44,
+        "endLine": 114,
+        "endChar": 61
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6223d640_81dcfd40",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b06814f6_c224810f",
+      "range": {
+        "startLine": 114,
+        "startChar": 14,
+        "endLine": 114,
+        "endChar": 25
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae2b92b3_25c8c642",
@@ -548,6 +1082,30 @@
       "writtenOn": "2023-07-05T11:28:47Z",
       "side": 1,
       "message": "Why not introducing a method called assertThatSearchQueryWasNotPaginaged and making this assertion more readable?",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 49
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5094a2d6_553fd716",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63c47e9d_d349c740",
       "range": {
         "startLine": 136,
         "startChar": 4,
@@ -604,6 +1162,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3182e95b_632cff57",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29ff7d62_07540983",
+      "range": {
+        "startLine": 142,
+        "startChar": 14,
+        "endLine": 142,
+        "endChar": 25
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "229d0e06_bb2d960d",
@@ -650,6 +1232,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b6f0849_59f9d22f",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f314c3a_3c1a256e",
+      "range": {
+        "startLine": 191,
+        "startChar": 4,
+        "endLine": 191,
+        "endChar": 78
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96a49619_1a750dad",
@@ -663,6 +1269,30 @@
       "writtenOn": "2023-07-05T11:28:47Z",
       "side": 1,
       "message": "This method is misaligned with the body: it does not really `get` an index but rather make some initial setup.\n\nWhy not using then the proper `setUp` with `@Before` annotation instead?",
+      "range": {
+        "startLine": 195,
+        "startChar": 28,
+        "endLine": 195,
+        "endChar": 49
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02269083_e6f7317d",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T15:35:00Z",
+      "side": 1,
+      "message": "@luca I don\u0027t really want to set up unconditionally for every test, I will rename it according to its behaviour.",
+      "parentUuid": "96a49619_1a750dad",
       "range": {
         "startLine": 195,
         "startChar": 28,

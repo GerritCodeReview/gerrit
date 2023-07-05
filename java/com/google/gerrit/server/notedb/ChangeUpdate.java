@@ -671,7 +671,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
           // update.
           //
           // Deleting aggressively in this way, combined with filtering out
-          // duplicate published/draft comments in ChangeNotes#getDraftComments,
+          // duplicate published/draft comments in ChangeNotes#getDraftsByChangeAndDraftAuthor,
           // makes up for the fact that updates between the change repo and
           // All-Users are not atomic.
           //

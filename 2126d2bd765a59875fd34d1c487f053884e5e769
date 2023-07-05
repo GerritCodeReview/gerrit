@@ -58,6 +58,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b413afe3_d67225d0",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseIfNecessaryIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-07-05T08:43:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c40b3c3_3299afe9",
+      "revId": "2126d2bd765a59875fd34d1c487f053884e5e769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bab32c2_39d6bb5e",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseIfNecessaryIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-07-05T08:43:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e42c6b20_c7a6a5ed",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 34
+      },
+      "revId": "2126d2bd765a59875fd34d1c487f053884e5e769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23d77e7b_72064077",
@@ -75,6 +117,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cf9433a_04df1ac4",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseIfNecessaryIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-07-05T08:43:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23d77e7b_72064077",
+      "revId": "2126d2bd765a59875fd34d1c487f053884e5e769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3f96404_d35ef475",
@@ -88,6 +148,24 @@
       "writtenOn": "2023-07-04T14:27:11Z",
       "side": 1,
       "message": "The parameter value `\"3\"` here is hard to follow. So the `push` and `push2` each create one change with change-ids `1` and `2`. The line 73 will create two changes for the test branch with the change-ids `3` and `4`. This line then tries to submit the first one, the change `3`.",
+      "revId": "2126d2bd765a59875fd34d1c487f053884e5e769",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5395a8e_404c8a23",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseIfNecessaryIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-07-05T08:43:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3f96404_d35ef475",
       "revId": "2126d2bd765a59875fd34d1c487f053884e5e769",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

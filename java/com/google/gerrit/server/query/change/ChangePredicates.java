@@ -23,7 +23,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.server.CommentsUtil;
+import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.HashtagsUtil;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -73,9 +73,10 @@ public class ChangePredicates {
    * Returns a predicate that matches changes where the provided {@link
    * com.google.gerrit.entities.Account.Id} has a pending draft comment.
    */
-  public static Predicate<ChangeData> draftBy(CommentsUtil commentsUtil, Account.Id id) {
+  public static Predicate<ChangeData> draftBy(
+      DraftCommentsReader draftCommentsReader, Account.Id id) {
     Set<Predicate<ChangeData>> changeIdPredicates =
-        commentsUtil.getChangesWithDrafts(id).stream()
+        draftCommentsReader.getChangesWithDrafts(id).stream()
             .map(ChangePredicates::idStr)
             .collect(toImmutableSet());
     return changeIdPredicates.isEmpty()

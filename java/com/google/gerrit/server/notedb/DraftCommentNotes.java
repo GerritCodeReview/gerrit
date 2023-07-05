@@ -19,6 +19,7 @@ import static com.google.gerrit.entities.RefNames.refsDraftComments;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -78,8 +79,8 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     return author;
   }
 
-  public ImmutableListMultimap<ObjectId, HumanComment> getComments() {
-    return comments;
+  public ImmutableList<HumanComment> getComments() {
+    return comments.values().asList();
   }
 
   public boolean containsComment(HumanComment c) {

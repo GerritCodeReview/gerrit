@@ -93,6 +93,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e8c63ff_92cc9535",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T21:54:38Z",
+      "side": 1,
+      "message": "`Release-Notes` missing",
+      "revId": "5fde67677016b8da52b6aad62e30d37c00cdc898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "b54fb0f5_c3aae68b",

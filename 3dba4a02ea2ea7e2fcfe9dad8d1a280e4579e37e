@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "89a1c484_5cdfffce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T20:20:33Z",
+      "side": 1,
+      "message": "`NONE` option",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 6
+      },
+      "revId": "3dba4a02ea2ea7e2fcfe9dad8d1a280e4579e37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d0474d37_e79a4cdf",
         "filename": "/COMMIT_MSG",
         "patchSetId": 23
@@ -37,6 +60,23 @@
       "writtenOn": "2023-07-05T20:09:25Z",
       "side": 1,
       "message": "You should also mention that it does not affect the API pagination, which is always preserved.",
+      "revId": "3dba4a02ea2ea7e2fcfe9dad8d1a280e4579e37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ba38dcc_8ac94f66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T20:20:33Z",
+      "side": 1,
+      "message": "You should also mention that the PaginationType.NONE option needs to be honoured by the indexing backend and this change introduces the correct implementation for Lucene.\n\nThen, you should also create the corresponding change on the elasticsearch libModule for throwing an IAE to highlight that the backend doesn\u0027t support `NONE` pagination type.",
       "revId": "3dba4a02ea2ea7e2fcfe9dad8d1a280e4579e37e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

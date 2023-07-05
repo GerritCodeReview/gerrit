@@ -29,23 +29,26 @@ public class ConfigRestApiModule extends RestApiModule {
     DynamicMap.mapOf(binder(), CONFIG_KIND);
     DynamicMap.mapOf(binder(), TASK_KIND);
     DynamicMap.mapOf(binder(), TopMenuResource.TOP_MENU_KIND);
+
     child(CONFIG_KIND, "capabilities").to(CapabilitiesCollection.class);
-    child(CONFIG_KIND, "tasks").to(TasksCollection.class);
-    get(TASK_KIND).to(GetTask.class);
-    delete(TASK_KIND).to(DeleteTask.class);
-    child(CONFIG_KIND, "top-menus").to(TopMenuCollection.class);
-    get(CONFIG_KIND, "version").to(GetVersion.class);
-    get(CONFIG_KIND, "info").to(GetServerInfo.class);
     post(CONFIG_KIND, "check.consistency").to(CheckConsistency.class);
+    put(CONFIG_KIND, "email.confirm").to(ConfirmEmail.class);
     post(CONFIG_KIND, "index.changes").to(IndexChanges.class);
-    post(CONFIG_KIND, "reload").to(ReloadConfig.class);
+    get(CONFIG_KIND, "info").to(GetServerInfo.class);
     get(CONFIG_KIND, "preferences").to(GetPreferences.class);
     put(CONFIG_KIND, "preferences").to(SetPreferences.class);
     get(CONFIG_KIND, "preferences.diff").to(GetDiffPreferences.class);
     put(CONFIG_KIND, "preferences.diff").to(SetDiffPreferences.class);
     get(CONFIG_KIND, "preferences.edit").to(GetEditPreferences.class);
     put(CONFIG_KIND, "preferences.edit").to(SetEditPreferences.class);
-    put(CONFIG_KIND, "email.confirm").to(ConfirmEmail.class);
+    post(CONFIG_KIND, "reload").to(ReloadConfig.class);
+
+    child(CONFIG_KIND, "tasks").to(TasksCollection.class);
+    delete(TASK_KIND).to(DeleteTask.class);
+    get(TASK_KIND).to(GetTask.class);
+
+    child(CONFIG_KIND, "top-menus").to(TopMenuCollection.class);
+    get(CONFIG_KIND, "version").to(GetVersion.class);
 
     // The caches and summary REST endpoints are bound via RestCacheAdminModule.
   }

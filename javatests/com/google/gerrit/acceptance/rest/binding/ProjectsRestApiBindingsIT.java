@@ -55,44 +55,42 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
       ImmutableList.of(
           RestCall.get("/projects/%s"),
           RestCall.put("/projects/%s"),
-          RestCall.get("/projects/%s/description"),
-          RestCall.put("/projects/%s/description"),
-          RestCall.delete("/projects/%s/description"),
-          RestCall.get("/projects/%s/parent"),
-          RestCall.put("/projects/%s/parent"),
-          RestCall.get("/projects/%s/config"),
-          RestCall.put("/projects/%s/config"),
-          RestCall.get("/projects/%s/HEAD"),
-          RestCall.put("/projects/%s/HEAD"),
           RestCall.get("/projects/%s/access"),
           RestCall.post("/projects/%s/access"),
           RestCall.put("/projects/%s/access:review"),
+          RestCall.put("/projects/%s/ban"),
+          RestCall.get("/projects/%s/branches"),
+          RestCall.put("/projects/%s/branches/new-branch"),
+          RestCall.post("/projects/%s/branches:delete"),
           RestCall.post("/projects/%s/check"),
           RestCall.get("/projects/%s/check.access"),
-          RestCall.put("/projects/%s/ban"),
-          RestCall.get("/projects/%s/statistics.git"),
+          RestCall.get("/projects/%s/children"),
+          // GET /projects/<project>/branches/<branch>/commits is not implemented
+          RestCall.builder(GET, "/projects/%s/commits").expectedResponseCode(SC_NOT_FOUND).build(),
+          RestCall.get("/projects/%s/commits:in"),
+          RestCall.get("/projects/%s/config"),
+          RestCall.put("/projects/%s/config"),
+          RestCall.post("/projects/%s/create.change"),
+          RestCall.get("/projects/%s/dashboards"),
+          RestCall.get("/projects/%s/description"),
+          RestCall.put("/projects/%s/description"),
+          RestCall.delete("/projects/%s/description"),
+          RestCall.post("/projects/%s/gc"),
+          RestCall.get("/projects/%s/HEAD"),
+          RestCall.put("/projects/%s/HEAD"),
           RestCall.post("/projects/%s/index"),
           RestCall.post("/projects/%s/index.changes"),
-          RestCall.post("/projects/%s/gc"),
-          RestCall.post("/projects/%s/create.change"),
-          RestCall.get("/projects/%s/children"),
-          RestCall.get("/projects/%s/branches"),
-          RestCall.post("/projects/%s/branches:delete"),
-          RestCall.put("/projects/%s/branches/new-branch"),
           RestCall.get("/projects/%s/labels"),
-          RestCall.get("/projects/%s/tags"),
-          RestCall.post("/projects/%s/tags:delete"),
-          RestCall.put("/projects/%s/tags/new-tag"),
-          RestCall.builder(GET, "/projects/%s/commits")
-              // GET /projects/<project>/branches/<branch>/commits is not implemented
-              .expectedResponseCode(SC_NOT_FOUND)
-              .build(),
-          RestCall.get("/projects/%s/commits:in"),
-          RestCall.get("/projects/%s/dashboards"),
-          RestCall.put("/projects/%s/labels/new-label"),
           RestCall.post("/projects/%s/labels/"),
+          RestCall.put("/projects/%s/labels/new-label"),
+          RestCall.get("/projects/%s/parent"),
+          RestCall.put("/projects/%s/parent"),
+          RestCall.get("/projects/%s/statistics.git"),
+          RestCall.get("/projects/%s/submit_requirements"),
           RestCall.put("/projects/%s/submit_requirements/new-sr"),
-          RestCall.get("/projects/%s/submit_requirements"));
+          RestCall.get("/projects/%s/tags"),
+          RestCall.put("/projects/%s/tags/new-tag"),
+          RestCall.post("/projects/%s/tags:delete"));
 
   /**
    * Child project REST endpoints to be tested, each URL contains placeholders for the parent
@@ -109,15 +107,15 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
       ImmutableList.of(
           RestCall.get("/projects/%s/branches/%s"),
           RestCall.put("/projects/%s/branches/%s"),
+          // GET /projects/<project>/branches/<branch>/files is not implemented
+          RestCall.builder(GET, "/projects/%s/branches/%s/files")
+              .expectedResponseCode(SC_NOT_FOUND)
+              .build(),
           RestCall.get("/projects/%s/branches/%s/mergeable"),
+          // The tests use DfsRepository which does not support getting the reflog.
           RestCall.builder(GET, "/projects/%s/branches/%s/reflog")
-              // The tests use DfsRepository which does not support getting the reflog.
               .expectedResponseCode(SC_METHOD_NOT_ALLOWED)
               .expectedMessage("reflog not supported on")
-              .build(),
-          RestCall.builder(GET, "/projects/%s/branches/%s/files")
-              // GET /projects/<project>/branches/<branch>/files is not implemented
-              .expectedResponseCode(SC_NOT_FOUND)
               .build(),
 
           // Branch deletion must be tested last
@@ -159,9 +157,9 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
   private static final ImmutableList<RestCall> COMMIT_ENDPOINTS =
       ImmutableList.of(
           RestCall.get("/projects/%s/commits/%s"),
-          RestCall.get("/projects/%s/commits/%s/in"),
+          RestCall.post("/projects/%s/commits/%s/cherrypick"),
           RestCall.get("/projects/%s/commits/%s/files"),
-          RestCall.post("/projects/%s/commits/%s/cherrypick"));
+          RestCall.get("/projects/%s/commits/%s/in"));
 
   /**
    * Commit file REST endpoints to be tested, each URL contains placeholders for the project

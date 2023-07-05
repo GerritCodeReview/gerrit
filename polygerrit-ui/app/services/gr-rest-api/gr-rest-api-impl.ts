@@ -1147,7 +1147,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       undefined,
       listChangesOptionsToHex(
         ListChangesOption.CHANGE_ACTIONS,
-        ListChangesOption.CURRENT_ACTIONS,
         ListChangesOption.CURRENT_REVISION,
         ListChangesOption.DETAILED_LABELS,
         // TODO: remove this option and merge requirements from dashboard req

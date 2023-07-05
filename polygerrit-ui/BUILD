@@ -5,13 +5,6 @@ load("@build_bazel_rules_nodejs//:inde
 filegroup(
     name = "web-test-runner_config-sources",
     srcs = glob([
-        "package.json",
-        "web-test-runner.config.mjs",
-    ]),
-)
-
-nodejs_test(
-    name = "web-test-runner",
     size = "large",
     chdir = package_name(),
     data = [

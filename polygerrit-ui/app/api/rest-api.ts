@@ -376,7 +376,6 @@ export declare interface ChangeInfo {
   submitted?: Timestamp;
   submitter?: AccountInfo;
   starred?: boolean; // not set if false
-  stars?: StarLabel[];
   submit_type?: SubmitType;
   mergeable?: boolean;
   submittable?: boolean;
@@ -1033,7 +1032,6 @@ export declare interface ServerInfo {
  */
 export type SshdInfo = {};
 
-export type StarLabel = BrandType<string, '_startLabel'>;
 // Timestamps are given in UTC and have the format
 // "'yyyy-mm-dd hh:mm:ss.fffffffff'"
 // where "'ffffffffff'" represents nanoseconds.

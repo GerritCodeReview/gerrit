@@ -48,7 +48,6 @@ import static com.google.gerrit.extensions.client.ListChangesOption.TRACKING_IDS
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REMOVED;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
-import static com.google.gerrit.server.StarredChangesUtil.DEFAULT_LABEL;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
@@ -4301,14 +4300,12 @@ public class ChangeIT extends AbstractDaemonTest {
       gApi.accounts().self().starChange(triplet);
       ChangeInfo change = info(triplet);
       assertThat(change.starred).isTrue();
-      assertThat(change.stars).contains(DEFAULT_LABEL);
       // change was not re-indexed
       changeIndexedCounter.assertReindexOf(change, 0);
 
       gApi.accounts().self().unstarChange(triplet);
       change = info(triplet);
       assertThat(change.starred).isNull();
-      assertThat(change.stars).isNull();
       // change was not re-indexed
       changeIndexedCounter.assertReindexOf(change, 0);
     }

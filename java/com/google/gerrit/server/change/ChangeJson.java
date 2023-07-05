@@ -693,10 +693,8 @@ public class ChangeJson {
     }
 
     if (user.isIdentifiedUser()) {
-      Collection<String> stars = cd.stars(user.getAccountId());
-      out.starred = stars.contains(StarredChangesUtil.DEFAULT_LABEL) ? true : null;
-      if (!stars.isEmpty()) {
-        out.stars = stars;
+      if (cd.isStarred(user.getAccountId())) {
+        out.starred = true;
       }
     }
 

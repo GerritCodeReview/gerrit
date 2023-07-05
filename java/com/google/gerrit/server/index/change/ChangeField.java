@@ -16,7 +16,6 @@ package com.google.gerrit.server.index.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.common.collect.ImmutableListMultimap.toImmutableListMultimap;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.util.AttentionSetUtil.additionsOnly;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -1267,21 +1266,20 @@ public class ChangeField {
   public static final IndexedField<ChangeData, Iterable<Integer>>.SearchSpec COMMENTBY_SPEC =
       COMMENTBY_FIELD.integer(ChangeQueryBuilder.FIELD_COMMENTBY);
 
-  /** Star labels on this change in the format: &lt;account-id&gt;:&lt;label&gt; */
+  /** Star labels on this change in the format: &lt;account-id&gt; */
   public static final IndexedField<ChangeData, Iterable<String>> STAR_FIELD =
       IndexedField.<ChangeData>iterableStringBuilder("Star")
           .stored()
           .build(
               cd ->
                   Iterables.transform(
-                      cd.stars().entries(),
-                      e ->
-                          StarredChangesUtil.StarField.create(e.getKey(), e.getValue()).toString()),
+                      cd.stars(),
+                      accountId -> StarredChangesUtil.StarField.create(accountId).toString()),
               (cd, field) ->
                   cd.setStars(
                       StreamSupport.stream(field.spliterator(), false)
-                          .map(f -> StarredChangesUtil.StarField.parse(f))
-                          .collect(toImmutableListMultimap(e -> e.accountId(), e -> e.label()))));
+                          .map(f -> StarredChangesUtil.StarField.parse(f).accountId())
+                          .collect(toImmutableList())));
 
   public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec STAR_SPEC =
       STAR_FIELD.exact(ChangeQueryBuilder.FIELD_STAR);
@@ -1289,7 +1287,7 @@ public class ChangeField {
   /** Users that have starred the change with any label. */
   public static final IndexedField<ChangeData, Iterable<Integer>> STARBY_FIELD =
       IndexedField.<ChangeData>iterableIntegerBuilder("StarBy")
-          .build(cd -> Iterables.transform(cd.stars().keySet(), Account.Id::get));
+          .build(cd -> Iterables.transform(cd.stars(), Account.Id::get));
 
   public static final IndexedField<ChangeData, Iterable<Integer>>.SearchSpec STARBY_SPEC =
       STARBY_FIELD.integer(ChangeQueryBuilder.FIELD_STARBY);

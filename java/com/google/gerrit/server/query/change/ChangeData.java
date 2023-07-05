@@ -28,7 +28,6 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
-import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -68,7 +67,6 @@ import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
-import com.google.gerrit.server.StarredChangesUtil.StarRef;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.CommentThread;
 import com.google.gerrit.server.change.CommentThreads;
@@ -397,9 +395,9 @@ public class ChangeData {
    */
   private Map<Account.Id, ObjectId> draftsByUser;
 
-  private ImmutableListMultimap<Account.Id, String> stars;
-  private StarsOf starsOf;
-  private ImmutableMap<Account.Id, StarRef> starRefs;
+  private ImmutableList<Account.Id> stars;
+  private Account.Id starredBy;
+  private ImmutableMap<Account.Id, Ref> starRefs;
   private ReviewerSet reviewers;
   private ReviewerByEmailSet reviewersByEmail;
   private ReviewerSet pendingReviewers;
@@ -1265,25 +1263,21 @@ public class ChangeData {
     return customKeyedValues;
   }
 
-  public ImmutableListMultimap<Account.Id, String> stars() {
+  public ImmutableList<Account.Id> stars() {
     if (stars == null) {
       if (!lazyload()) {
-        return ImmutableListMultimap.of();
+        return ImmutableList.of();
       }
-      ImmutableListMultimap.Builder<Account.Id, String> b = ImmutableListMultimap.builder();
-      for (Map.Entry<Account.Id, StarRef> e : starRefs().entrySet()) {
-        b.putAll(e.getKey(), e.getValue().labels());
-      }
-      return b.build();
+      return starRefs().keySet().asList();
     }
     return stars;
   }
 
-  public void setStars(ListMultimap<Account.Id, String> stars) {
-    this.stars = ImmutableListMultimap.copyOf(stars);
+  public void setStars(List<Account.Id> accountIds) {
+    this.stars = ImmutableList.copyOf(accountIds);
   }
 
-  private ImmutableMap<Account.Id, StarRef> starRefs() {
+  private ImmutableMap<Account.Id, Ref> starRefs() {
     if (starRefs == null) {
       if (!lazyload()) {
         return ImmutableMap.of();
@@ -1293,23 +1287,25 @@ public class ChangeData {
     return starRefs;
   }
 
-  public Set<String> stars(Account.Id accountId) {
-    if (starsOf != null) {
-      if (!starsOf.accountId().equals(accountId)) {
-        starsOf = null;
+  public boolean isStarred(Account.Id accountId) {
+    if (starredBy != null) {
+      if (!starredBy.equals(accountId)) {
+        starredBy = null;
       }
     }
-    if (starsOf == null) {
-      if (stars != null) {
-        starsOf = StarsOf.create(accountId, stars.get(accountId));
+    if (starredBy == null) {
+      if (stars != null && stars.contains(accountId)) {
+        starredBy = accountId;
       } else {
         if (!lazyload()) {
-          return ImmutableSet.of();
+          return false;
         }
-        starsOf = StarsOf.create(accountId, starredChangesUtil.getLabels(accountId, legacyId));
+        if (starredChangesUtil.isStarred(accountId, legacyId)) {
+          starredBy = accountId;
+        }
       }
     }
-    return starsOf.stars();
+    return starredBy != null;
   }
 
   /**
@@ -1411,17 +1407,6 @@ public class ChangeData {
     public abstract Account.Id author();
 
     public abstract Instant ts();
-  }
-
-  @AutoValue
-  abstract static class StarsOf {
-    private static StarsOf create(Account.Id accountId, Iterable<String> stars) {
-      return new AutoValue_ChangeData_StarsOf(accountId, ImmutableSortedSet.copyOf(stars));
-    }
-
-    public abstract Account.Id accountId();
-
-    public abstract ImmutableSortedSet<String> stars();
   }
 
   private Map<Account.Id, ObjectId> draftRefs() {

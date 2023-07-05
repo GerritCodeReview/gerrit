@@ -1139,6 +1139,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce9caa8d_1769673b",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T17:41:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04f3e398_f3dd53e6",
+      "range": {
+        "startLine": 137,
+        "startChar": 54,
+        "endLine": 137,
+        "endChar": 55
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29ff7d62_07540983",

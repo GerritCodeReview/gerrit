@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42319e69_873591f0",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-05T17:41:59Z",
+      "side": 1,
+      "message": "Investigating why this brakes the tests only in the live indices",
+      "revId": "5137a419621670d1f9e51440f5f56e1a14ccb573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1124,7 +1124,7 @@ export class GrSettingsView extends LitElement {
       // Use shadowRoot for Polymer 2
       const elem = (this.shadowRoot || document).querySelector(urlHash);
       if (elem) {
-        setTimeout(() => elem.scrollIntoView(), 0);
+        elem.scrollIntoView();
       }
     }
   };

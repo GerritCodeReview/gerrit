@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.server.CommentsUtil;
+import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.DraftCommentResource;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -54,6 +55,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
   private final BatchUpdate.Factory updateFactory;
   private final DeleteDraftComment delete;
   private final CommentsUtil commentsUtil;
+  private final DraftCommentsReader draftCommentsReader;
   private final PatchSetUtil psUtil;
   private final Provider<CommentJson> commentJson;
   private final ChangeNotes.Factory changeNotesFactory;
@@ -64,6 +66,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
       BatchUpdate.Factory updateFactory,
       DeleteDraftComment delete,
       CommentsUtil commentsUtil,
+      DraftCommentsReader draftCommentsReader,
       PatchSetUtil psUtil,
       Provider<CommentJson> commentJson,
       ChangeNotes.Factory changeNotesFactory,
@@ -71,6 +74,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
     this.updateFactory = updateFactory;
     this.delete = delete;
     this.commentsUtil = commentsUtil;
+    this.draftCommentsReader = draftCommentsReader;
     this.psUtil = psUtil;
     this.commentJson = commentJson;
     this.changeNotesFactory = changeNotesFactory;
@@ -125,7 +129,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
     @Override
     public boolean updateChange(ChangeContext ctx) throws ResourceNotFoundException {
       Optional<HumanComment> maybeComment =
-          commentsUtil.getDraft(ctx.getNotes(), ctx.getIdentifiedUser(), key);
+          draftCommentsReader.getDraftComment(ctx.getNotes(), ctx.getIdentifiedUser(), key);
       if (!maybeComment.isPresent()) {
         // Disappeared out from under us. Can't easily fall back to insert,
         // because the input might be missing required fields. Just give up.

@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.server.CommentsUtil;
+import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.Inject;
@@ -24,9 +25,15 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class ListRevisionComments extends ListRevisionDrafts {
+  private final CommentsUtil commentsUtil;
+
   @Inject
-  ListRevisionComments(Provider<CommentJson> commentJson, CommentsUtil commentsUtil) {
-    super(commentJson, commentsUtil);
+  ListRevisionComments(
+      Provider<CommentJson> commentJson,
+      CommentsUtil commentsUtil,
+      DraftCommentsReader draftCommentsReader) {
+    super(commentJson, draftCommentsReader);
+    this.commentsUtil = commentsUtil;
   }
 
   @Override

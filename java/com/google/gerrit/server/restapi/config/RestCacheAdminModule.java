@@ -25,10 +25,12 @@ public class RestCacheAdminModule extends RestApiModule {
   @Override
   protected void configure() {
     DynamicMap.mapOf(binder(), CACHE_KIND);
+
     child(CONFIG_KIND, "caches").to(CachesCollection.class);
     postOnCollection(CACHE_KIND).to(PostCaches.class);
     get(CACHE_KIND).to(GetCache.class);
     post(CACHE_KIND, "flush").to(FlushCache.class);
+
     get(CONFIG_KIND, "summary").to(GetSummary.class);
   }
 }

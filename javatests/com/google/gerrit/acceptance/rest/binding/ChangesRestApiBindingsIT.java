@@ -54,63 +54,57 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
   private static final ImmutableList<RestCall> CHANGE_ENDPOINTS =
       ImmutableList.of(
           RestCall.get("/changes/%s"),
-          RestCall.get("/changes/%s/detail"),
-          RestCall.get("/changes/%s/topic"),
-          RestCall.put("/changes/%s/topic"),
-          RestCall.delete("/changes/%s/topic"),
-          RestCall.get("/changes/%s/in"),
-          RestCall.get("/changes/%s/hashtags"),
-          RestCall.get("/changes/%s/custom_keyed_values"),
-          RestCall.post("/changes/%s/custom_keyed_values"),
-          RestCall.get("/changes/%s/comments"),
-          RestCall.get("/changes/%s/robotcomments"),
-          RestCall.get("/changes/%s/drafts"),
+          RestCall.post("/changes/%s/abandon"),
           RestCall.get("/changes/%s/attention"),
           RestCall.post("/changes/%s/attention"),
+          RestCall.get("/changes/%s/check"),
+          RestCall.post("/changes/%s/check"),
+          RestCall.post("/changes/%s/check.submit_requirement"),
+          RestCall.get("/changes/%s/comments"),
+          RestCall.get("/changes/%s/custom_keyed_values"),
+          RestCall.post("/changes/%s/custom_keyed_values"),
+          RestCall.get("/changes/%s/detail"),
+          RestCall.get("/changes/%s/drafts"),
+          RestCall.get("/changes/%s/edit"),
+          RestCall.post("/changes/%s/edit"),
+          RestCall.put("/changes/%s/edit/a.txt"),
+          RestCall.get("/changes/%s/edit:message"),
+          RestCall.put("/changes/%s/edit:message"),
+          RestCall.post("/changes/%s/edit:publish"),
+          RestCall.post("/changes/%s/edit:rebase"),
+          RestCall.get("/changes/%s/hashtags"),
+          RestCall.get("/changes/%s/in"),
+          RestCall.post("/changes/%s/index"),
+          RestCall.get("/changes/%s/meta_diff"),
+          RestCall.post("/changes/%s/merge"),
+          RestCall.get("/changes/%s/messages"),
+          RestCall.put("/changes/%s/message"),
+          RestCall.post("/changes/%s/move"),
           RestCall.post("/changes/%s/patch:apply"),
           RestCall.post("/changes/%s/private"),
           RestCall.post("/changes/%s/private.delete"),
           RestCall.delete("/changes/%s/private"),
-          RestCall.post("/changes/%s/wip"),
+          RestCall.get("/changes/%s/pure_revert"),
           RestCall.post("/changes/%s/ready"),
-          RestCall.get("/changes/%s/messages"),
-          RestCall.put("/changes/%s/message"),
-          RestCall.get("/changes/%s/meta_diff"),
-          RestCall.post("/changes/%s/merge"),
-          RestCall.post("/changes/%s/abandon"),
-          RestCall.post("/changes/%s/move"),
           RestCall.post("/changes/%s/rebase"),
           RestCall.post("/changes/%s/rebase:chain"),
           RestCall.post("/changes/%s/restore"),
           RestCall.post("/changes/%s/revert"),
           RestCall.post("/changes/%s/revert_submission"),
-          RestCall.get("/changes/%s/pure_revert"),
-          RestCall.post("/changes/%s/submit"),
-          RestCall.get("/changes/%s/submitted_together"),
-          RestCall.post("/changes/%s/index"),
-          RestCall.get("/changes/%s/check"),
-          RestCall.post("/changes/%s/check"),
-          RestCall.post("/changes/%s/check.submit_requirement"),
           RestCall.get("/changes/%s/reviewers"),
           RestCall.post("/changes/%s/reviewers"),
+          // GET /changes/<change-id>/revisions is not implemented
+          RestCall.builder(GET, "/changes/%s/revisions").expectedResponseCode(SC_NOT_FOUND).build(),
+          RestCall.get("/changes/%s/robotcomments"),
+          RestCall.get("/changes/%s/topic"),
+          RestCall.put("/changes/%s/topic"),
+          RestCall.delete("/changes/%s/topic"),
+          RestCall.post("/changes/%s/submit"),
+          RestCall.get("/changes/%s/submitted_together"),
           RestCall.get("/changes/%s/suggest_reviewers"),
-          RestCall.builder(GET, "/changes/%s/revisions")
-              // GET /changes/<change-id>/revisions is not implemented
-              .expectedResponseCode(SC_NOT_FOUND)
-              .build(),
-          RestCall.get("/changes/%s/edit"),
-          RestCall.post("/changes/%s/edit"),
-          RestCall.post("/changes/%s/edit:rebase"),
-          RestCall.get("/changes/%s/edit:message"),
-          RestCall.put("/changes/%s/edit:message"),
-
-          // Publish edit and create a new edit
-          RestCall.post("/changes/%s/edit:publish"),
-          RestCall.put("/changes/%s/edit/a.txt"),
-          RestCall.builder(GET, "/changes/%s/votes")
-              // GET /changes/<change-id>/votes is not implemented
-              .expectedResponseCode(SC_NOT_FOUND)
-              .build(),
+          // GET /changes/<change-id>/votes is not implemented
+          RestCall.builder(GET, "/changes/%s/votes").expectedResponseCode(SC_NOT_FOUND).build(),
+          RestCall.post("/changes/%s/wip"),
 
           // Deletion of change edit and change must be tested last
           RestCall.delete("/changes/%s/edit"),
@@ -123,9 +117,9 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
   private static final ImmutableList<RestCall> REVIEWER_ENDPOINTS =
       ImmutableList.of(
           RestCall.get("/changes/%s/reviewers/%s"),
-          RestCall.get("/changes/%s/reviewers/%s/votes"),
+          RestCall.delete("/changes/%s/reviewers/%s"),
           RestCall.post("/changes/%s/reviewers/%s/delete"),
-          RestCall.delete("/changes/%s/reviewers/%s"));
+          RestCall.get("/changes/%s/reviewers/%s/votes"));
 
   /**
    * Vote REST endpoints to be tested, each URL contains placeholders for the change identifier, the
@@ -143,36 +137,36 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
   private static final ImmutableList<RestCall> REVISION_ENDPOINTS =
       ImmutableList.of(
           RestCall.get("/changes/%s/revisions/%s/actions"),
+          RestCall.get("/changes/%s/revisions/%s/archive"),
           RestCall.post("/changes/%s/revisions/%s/cherrypick"),
+          RestCall.get("/changes/%s/revisions/%s/comments"),
           RestCall.get("/changes/%s/revisions/%s/commit"),
+          RestCall.get("/changes/%s/revisions/%s/description"),
+          RestCall.put("/changes/%s/revisions/%s/description"),
+          RestCall.get("/changes/%s/revisions/%s/drafts"),
+          RestCall.put("/changes/%s/revisions/%s/drafts"),
+          RestCall.get("/changes/%s/revisions/%s/files"),
+          // GET /changes/<change>/revisions/<revision>/fixes is not implemented
+          RestCall.builder(GET, "/changes/%s/revisions/%s/fixes")
+              .expectedResponseCode(SC_NOT_FOUND)
+              .build(),
+          RestCall.post("/changes/%s/revisions/%s/fix:apply"),
+          RestCall.post("/changes/%s/revisions/%s/fix:preview"),
           RestCall.get("/changes/%s/revisions/%s/mergeable"),
+          RestCall.get("/changes/%s/revisions/%s/mergelist"),
+          RestCall.get("/changes/%s/revisions/%s/patch"),
+          RestCall.get("/changes/%s/revisions/%s/ported_comments"),
+          RestCall.get("/changes/%s/revisions/%s/ported_drafts"),
+          RestCall.post("/changes/%s/revisions/%s/rebase"),
           RestCall.get("/changes/%s/revisions/%s/related"),
           RestCall.get("/changes/%s/revisions/%s/review"),
           RestCall.post("/changes/%s/revisions/%s/review"),
+          RestCall.get("/changes/%s/revisions/%s/reviewers"),
+          RestCall.get("/changes/%s/revisions/%s/robotcomments"),
           RestCall.post("/changes/%s/revisions/%s/submit"),
           RestCall.get("/changes/%s/revisions/%s/submit_type"),
           RestCall.post("/changes/%s/revisions/%s/test.submit_rule"),
-          RestCall.post("/changes/%s/revisions/%s/test.submit_type"),
-          RestCall.post("/changes/%s/revisions/%s/rebase"),
-          RestCall.post("/changes/%s/revisions/%s/fix:apply"),
-          RestCall.post("/changes/%s/revisions/%s/fix:preview"),
-          RestCall.get("/changes/%s/revisions/%s/description"),
-          RestCall.put("/changes/%s/revisions/%s/description"),
-          RestCall.get("/changes/%s/revisions/%s/patch"),
-          RestCall.get("/changes/%s/revisions/%s/archive"),
-          RestCall.get("/changes/%s/revisions/%s/mergelist"),
-          RestCall.get("/changes/%s/revisions/%s/reviewers"),
-          RestCall.get("/changes/%s/revisions/%s/drafts"),
-          RestCall.put("/changes/%s/revisions/%s/drafts"),
-          RestCall.get("/changes/%s/revisions/%s/comments"),
-          RestCall.get("/changes/%s/revisions/%s/robotcomments"),
-          RestCall.get("/changes/%s/revisions/%s/ported_comments"),
-          RestCall.get("/changes/%s/revisions/%s/ported_drafts"),
-          RestCall.builder(GET, "/changes/%s/revisions/%s/fixes")
-              // GET /changes/<change>/revisions/<revision>/fixes is not implemented
-              .expectedResponseCode(SC_NOT_FOUND)
-              .build(),
-          RestCall.get("/changes/%s/revisions/%s/files"));
+          RestCall.post("/changes/%s/revisions/%s/test.submit_type"));
 
   /**
    * Revision reviewer REST endpoints to be tested, each URL contains placeholders for the change
@@ -181,8 +175,8 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
   private static final ImmutableList<RestCall> REVISION_REVIEWER_ENDPOINTS =
       ImmutableList.of(
           RestCall.get("/changes/%s/revisions/%s/reviewers/%s"),
-          RestCall.get("/changes/%s/revisions/%s/reviewers/%s/votes"),
           RestCall.post("/changes/%s/revisions/%s/reviewers/%s/delete"),
+          RestCall.get("/changes/%s/revisions/%s/reviewers/%s/votes"),
           RestCall.delete("/changes/%s/revisions/%s/reviewers/%s"));
 
   /**
@@ -234,12 +228,12 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
    */
   private static final ImmutableList<RestCall> REVISION_FILE_ENDPOINTS =
       ImmutableList.of(
-          RestCall.put("/changes/%s/revisions/%s/files/%s/reviewed"),
-          RestCall.delete("/changes/%s/revisions/%s/files/%s/reviewed"),
+          RestCall.get("/changes/%s/revisions/%s/files/%s/blame"),
           RestCall.get("/changes/%s/revisions/%s/files/%s/content"),
-          RestCall.get("/changes/%s/revisions/%s/files/%s/download"),
           RestCall.get("/changes/%s/revisions/%s/files/%s/diff"),
-          RestCall.get("/changes/%s/revisions/%s/files/%s/blame"));
+          RestCall.get("/changes/%s/revisions/%s/files/%s/download"),
+          RestCall.put("/changes/%s/revisions/%s/files/%s/reviewed"),
+          RestCall.delete("/changes/%s/revisions/%s/files/%s/reviewed"));
 
   /**
    * Change message REST endpoints to be tested, each URL contains placeholders for the change

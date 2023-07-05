@@ -34,26 +34,26 @@ public class GroupsRestApiBindingsIT extends AbstractDaemonTest {
       ImmutableList.of(
           RestCall.get("/groups/%s"),
           RestCall.put("/groups/%s"),
-          RestCall.get("/groups/%s/detail"),
-          RestCall.get("/groups/%s/name"),
-          RestCall.put("/groups/%s/name"),
           RestCall.get("/groups/%s/description"),
           RestCall.put("/groups/%s/description"),
           RestCall.delete("/groups/%s/description"),
-          RestCall.get("/groups/%s/owner"),
-          RestCall.put("/groups/%s/owner"),
-          RestCall.get("/groups/%s/options"),
-          RestCall.put("/groups/%s/options"),
-          RestCall.post("/groups/%s/members"),
-          RestCall.post("/groups/%s/members.add"),
-          RestCall.post("/groups/%s/members.delete"),
+          RestCall.get("/groups/%s/detail"),
+          RestCall.get("/groups/%s/groups"),
           RestCall.post("/groups/%s/groups"),
           RestCall.post("/groups/%s/groups.add"),
           RestCall.post("/groups/%s/groups.delete"),
-          RestCall.get("/groups/%s/log.audit"),
           RestCall.post("/groups/%s/index"),
+          RestCall.get("/groups/%s/log.audit"),
           RestCall.get("/groups/%s/members"),
-          RestCall.get("/groups/%s/groups"));
+          RestCall.post("/groups/%s/members"),
+          RestCall.post("/groups/%s/members.add"),
+          RestCall.post("/groups/%s/members.delete"),
+          RestCall.get("/groups/%s/name"),
+          RestCall.put("/groups/%s/name"),
+          RestCall.get("/groups/%s/options"),
+          RestCall.put("/groups/%s/options"),
+          RestCall.get("/groups/%s/owner"),
+          RestCall.put("/groups/%s/owner"));
 
   /**
    * Member REST endpoints to be tested, each URL contains placeholders for the group identifier and

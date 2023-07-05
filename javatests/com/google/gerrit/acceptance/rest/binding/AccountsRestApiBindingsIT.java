@@ -56,63 +56,66 @@ public class AccountsRestApiBindingsIT extends AbstractDaemonTest {
       ImmutableList.of(
           RestCall.get("/accounts/%s"),
           RestCall.put("/accounts/%s"),
-          RestCall.get("/accounts/%s/detail"),
-          RestCall.put("/accounts/%s/displayname"),
-          RestCall.get("/accounts/%s/name"),
-          RestCall.put("/accounts/%s/name"),
-          RestCall.delete("/accounts/%s/name"),
-          RestCall.get("/accounts/%s/username"),
-          RestCall.builder(PUT, "/accounts/%s/username")
-              // Changing the username is not allowed.
-              .expectedResponseCode(SC_METHOD_NOT_ALLOWED)
-              .expectedMessage("Username cannot be changed.")
-              .build(),
           RestCall.get("/accounts/%s/active"),
           RestCall.put("/accounts/%s/active"),
           RestCall.delete("/accounts/%s/active"),
+          RestCall.get("/accounts/%s/agreements"),
+          RestCall.put("/accounts/%s/agreements"),
 
-          // The password.http REST endpoints must be tested separately, since changing/deleting the
-          // HTTP password breaks all further calls.
-          // See tests updateHttpPasswordEndpoints and deleteHttpPasswordEndpoints.
-
-          RestCall.get("/accounts/%s/status"),
-          RestCall.put("/accounts/%s/status"),
           // TODO: The avatar REST endpoints always returns '404 Not Found' because no avatar plugin
           // is installed.
           RestCall.builder(GET, "/accounts/%s/avatar").expectedResponseCode(SC_NOT_FOUND).build(),
           RestCall.builder(GET, "/accounts/%s/avatar.change.url")
               .expectedResponseCode(SC_NOT_FOUND)
               .build(),
+          RestCall.get("/accounts/%s/capabilities"),
+          RestCall.get("/accounts/%s/capabilities/viewPlugins"),
+          RestCall.put("/accounts/%s/displayname"),
+          RestCall.get("/accounts/%s/detail"),
+          RestCall.post("/accounts/%s/drafts:delete"),
           RestCall.get("/accounts/%s/emails/"),
           RestCall.put("/accounts/%s/emails/new-email@foo.com"),
-          RestCall.get("/accounts/%s/sshkeys/"),
-          RestCall.post("/accounts/%s/sshkeys/"),
-          RestCall.get("/accounts/%s/watched.projects"),
-          RestCall.post("/accounts/%s/watched.projects"),
-          RestCall.post("/accounts/%s/watched.projects:delete"),
+          RestCall.get("/accounts/%s/external.ids"),
+          RestCall.post("/accounts/%s/external.ids:delete"),
+          RestCall.get("/accounts/%s/gpgkeys"),
+          RestCall.post("/accounts/%s/gpgkeys"),
           RestCall.get("/accounts/%s/groups"),
+          RestCall.post("/accounts/%s/index"),
+          RestCall.get("/accounts/%s/name"),
+          RestCall.put("/accounts/%s/name"),
+          RestCall.delete("/accounts/%s/name"),
+
+          // TODO: The oauthtoken REST endpoint always returns '404 Not Found' because no oauth
+          // token is available for the test user.
+          RestCall.builder(GET, "/accounts/%s/oauthtoken")
+              .expectedResponseCode(SC_NOT_FOUND)
+              .build(),
+
+          // The password.http REST endpoints must be tested separately, since changing/deleting the
+          // HTTP password breaks all further calls.
+          // See tests updateHttpPasswordEndpoints and deleteHttpPasswordEndpoints.
+
           RestCall.get("/accounts/%s/preferences"),
           RestCall.put("/accounts/%s/preferences"),
           RestCall.get("/accounts/%s/preferences.diff"),
           RestCall.put("/accounts/%s/preferences.diff"),
           RestCall.get("/accounts/%s/preferences.edit"),
           RestCall.put("/accounts/%s/preferences.edit"),
+          RestCall.get("/accounts/%s/sshkeys/"),
+          RestCall.post("/accounts/%s/sshkeys/"),
           RestCall.get("/accounts/%s/starred.changes"),
-          RestCall.post("/accounts/%s/index"),
-          RestCall.get("/accounts/%s/agreements"),
-          RestCall.put("/accounts/%s/agreements"),
-          RestCall.get("/accounts/%s/external.ids"),
-          RestCall.post("/accounts/%s/external.ids:delete"),
-          RestCall.post("/accounts/%s/drafts:delete"),
-          // TODO: The oauthtoken REST endpoint always returns '404 Not Found' because no oauth
-          // token is available for the test user.
-          RestCall.builder(GET, "/accounts/%s/oauthtoken")
-              .expectedResponseCode(SC_NOT_FOUND)
+          RestCall.get("/accounts/%s/status"),
+          RestCall.put("/accounts/%s/status"),
+          RestCall.get("/accounts/%s/username"),
+          // Changing the username is not allowed.
+          RestCall.builder(PUT, "/accounts/%s/username")
+              .expectedResponseCode(SC_METHOD_NOT_ALLOWED)
+              .expectedMessage("Username cannot be changed.")
               .build(),
-          RestCall.get("/accounts/%s/capabilities"),
-          RestCall.get("/accounts/%s/capabilities/viewPlugins"),
-          RestCall.get("/accounts/%s/gpgkeys"),
-          RestCall.post("/accounts/%s/gpgkeys"),
+          RestCall.get("/accounts/%s/watched.projects"),
+          RestCall.post("/accounts/%s/watched.projects"),
+          RestCall.post("/accounts/%s/watched.projects:delete"),
+
           // Account deletion must be the last tested endpoint
           RestCall.delete("/accounts/%s"));
 
@@ -169,6 +172,16 @@ public class AccountsRestApiBindingsIT extends AbstractDaemonTest {
       })
   public void accountEndpoints() throws Exception {
     execute(adminRestSession, ACCOUNT_ENDPOINTS, "self");
+  }
+
+  @Test
+  public void updateHttpPasswordEndpoints() throws Exception {
+    execute(adminRestSession, RestCall.put("/accounts/%s/password.http"), "self");
+  }
+
+  @Test
+  public void deleteHttpPasswordEndpoints() throws Exception {
+    execute(adminRestSession, RestCall.delete("/accounts/%s/password.http"), "self");
   }
 
   @Test

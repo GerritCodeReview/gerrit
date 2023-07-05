@@ -886,6 +886,7 @@ Default is 1024 for most caches, except:
 +
 If set to 0 the cache is disabled; entries are loaded but not stored
 in-memory.
+
 +
 **NOTE**: When the cache is disabled, there is no locking when accessing
 the same key/value, and therefore multiple threads may
@@ -2439,7 +2440,7 @@ Example:
 [gerrit]
   installIndexModule = com.google.gerrit.elasticsearch.ElasticIndexModule
 ----
-+
+
 [[gerrit.installModule]]gerrit.installModule::
 +
 Repeatable list of class name of additional Guice modules to load at

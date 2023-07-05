@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90786db9_b513fcbd",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByMergeIfNecessaryIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 757,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-07-05T14:15:51Z",
+      "side": 1,
+      "message": "This test code is identical as in the `SubmitByRebaseIfNecessaryIT`.\n\nInterestingly, both tests succeed here with the MergeIfNecessary strategy although in this case it is a fast-forward merge for both strategies. IOW, the RebaseIfNecessary should do identical thing like the MergeIfNecessary in the fast-forward case, but it doesn\u0027t.",
+      "range": {
+        "startLine": 728,
+        "startChar": 0,
+        "endLine": 757,
+        "endChar": 3
+      },
+      "revId": "58b93cbe50d00b00cacb1d99910afa770a8d5eee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "931a0a6b_e9beea83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "Marking this as resolved, but feel free to unmark this again if you feel differently.",
+      "parentUuid": "18b6c5ed_cbeea969",
+      "revId": "fedae24c080942b9a02d24cbec185996745d77d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e67c6274_ab30d383",
@@ -704,6 +722,30 @@
       "side": 1,
       "message": "This change is for disabling pagination for both internal and external queries, hence the initial page size *is* the effective limit for both of them.\n\nAlso the validation tests are passing, demonstrating that this is working as expected.",
       "parentUuid": "b9080091_aec9765e",
+      "range": {
+        "startLine": 171,
+        "startChar": 10,
+        "endLine": 171,
+        "endChar": 41
+      },
+      "revId": "fedae24c080942b9a02d24cbec185996745d77d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d94463f_7802dd92",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "I believe this change on L170-L171 can be restored as it was: disabling the pagination should not impact the calculation of the initial page size.",
+      "parentUuid": "0e492d98_34a15f90",
       "range": {
         "startLine": 171,
         "startChar": 10,

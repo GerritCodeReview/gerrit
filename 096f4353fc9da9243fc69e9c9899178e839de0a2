@@ -1,0 +1,676 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fd76bb6_8b0ab42f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3254,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "Are we sure is only for the change index? I saw the page size being used in `AbstractLuceneIndex` which is the common base class for all indexes.",
+      "range": {
+        "startLine": 3254,
+        "startChar": 0,
+        "endLine": 3254,
+        "endChar": 6
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0da8172b_98defb5d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3256,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "range": {
+        "startLine": 3256,
+        "startChar": 78,
+        "endLine": 3256,
+        "endChar": 89
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80073374_7db84786",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3260,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "Are we sure is only for the change index? I saw the page size being used in `AbstractLuceneIndex` which is the common base class for all indexes.",
+      "range": {
+        "startLine": 3260,
+        "startChar": 0,
+        "endLine": 3260,
+        "endChar": 6
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec90307c_7fa47e6b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3264,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "range": {
+        "startLine": 3264,
+        "startChar": 71,
+        "endLine": 3264,
+        "endChar": 100
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c748048_de67411c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3269,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "nit: wrap long line.",
+      "range": {
+        "startLine": 3269,
+        "startChar": 74,
+        "endLine": 3269,
+        "endChar": 85
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "687c2767_28d9a28e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3269,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "Are we sure is only for the change index? I saw the page size being used in `AbstractLuceneIndex` which is the common base class for all indexes.",
+      "range": {
+        "startLine": 3269,
+        "startChar": 0,
+        "endLine": 3269,
+        "endChar": 6
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69b5ee3b_730e1a17",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3273,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "nit: wrap long lines",
+      "range": {
+        "startLine": 3270,
+        "startChar": 0,
+        "endLine": 3273,
+        "endChar": 33
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c00d09f8_0ff006c9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3274,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "You should also mention that, depending on the backend index, this flag may not have any benefit, because of the inability of the backend to support unbounded queries.\n\nAlso, it should be mentioned that the other pagination settings are ignored when type is `NONE`.",
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "484a69e2_4439d843",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3317,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "Add note that is ignored when paginationType is `NONE`",
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adc0091e_caa09c92",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3329,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "Add note that is ignored when paginationType is `NONE`",
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46b194ba_cafb4622",
+        "filename": "java/com/google/gerrit/index/PaginationType.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "Are we sure is only for the change index? I saw the page size being used in AbstractLuceneIndex which is the common base class for all indexes.",
+      "range": {
+        "startLine": 18,
+        "startChar": 6,
+        "endLine": 18,
+        "endChar": 12
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef1e7097_ce538cfc",
+        "filename": "java/com/google/gerrit/index/PaginationType.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "Are we sure is only for the change index? I saw the page size being used in AbstractLuceneIndex which is the common base class for all indexes.",
+      "range": {
+        "startLine": 22,
+        "startChar": 5,
+        "endLine": 22,
+        "endChar": 11
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b011890_d6cb83b0",
+        "filename": "java/com/google/gerrit/index/QueryOptions.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "This is wrong: we should not mess up the parameters and making them inconsistent. The right thing to do is to introduce the check in `AbstractLuceneIndex` where the `QueryOptions` are processed.",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 79
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a1505de_4f000475",
+        "filename": "java/com/google/gerrit/index/query/PaginatingSource.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "I see why you are doing this: you would like `PaginatingSource` to behave like a __Not__`PaginatingSource` for the sake of limiting the impact of this change.\n\nHowever, this should be rectified on master and the `AndSource` filtering logic L58-L64 put back where it belongs.\n\nCan you add a _TODO_ as a comment to explain this and indicate what to do on master? Otherwise this temporary fix would stay forever, which is inconsistent.",
+      "range": {
+        "startLine": 68,
+        "startChar": 14,
+        "endLine": 68,
+        "endChar": 73
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a153102_7c8ee128",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "Why is this needed? I believe `limit` is the right parameter to pass here, as it was prior to the introduction of the pagination.",
+      "range": {
+        "startLine": 269,
+        "startChar": 16,
+        "endLine": 271,
+        "endChar": 27
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc26901b_9e7fd2af",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "Is this related?",
+      "range": {
+        "startLine": 400,
+        "startChar": 0,
+        "endLine": 402,
+        "endChar": 20
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd0b8e8c_15bc3219",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "`resultsSizes`?",
+      "range": {
+        "startLine": 86,
+        "startChar": 9,
+        "endLine": 86,
+        "endChar": 20
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b7d4c3f_87527a58",
+        "filename": "java/com/google/gerrit/index/testing/AbstractFakeIndex.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "This is made public only for testing purposes. Add `@VisibleForTesting` annotation.",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 3
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5da1fd94_8a96b2b6",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 4298,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "This is white-box testing and should be avoided. If we disable the pagination, the initial page size *should not* matter, instead of being set to what we know the implementation is doing.",
+      "range": {
+        "startLine": 4273,
+        "startChar": 0,
+        "endLine": 4298,
+        "endChar": 3
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9c93d0f_058ec184",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 4680,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "It would be best to have these to just return the paginationType and have the callers doing the assumption.",
+      "range": {
+        "startLine": 4672,
+        "startChar": 0,
+        "endLine": 4680,
+        "endChar": 3
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9933eeb3_e6cb4b13",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "Why not introducing a method called `assertThatSearchQueryWasNotPaginaged` and avoid the comment?",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 49
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b06814f6_c224810f",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "`unreachable`? Do you mean `invisible`?",
+      "range": {
+        "startLine": 114,
+        "startChar": 14,
+        "endLine": 114,
+        "endChar": 25
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfa83977_519a7264",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "`WithNonePaginationType` for consistency with L103",
+      "range": {
+        "startLine": 114,
+        "startChar": 44,
+        "endLine": 114,
+        "endChar": 61
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae2b92b3_25c8c642",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "Why 3?",
+      "range": {
+        "startLine": 130,
+        "startChar": 74,
+        "endLine": 130,
+        "endChar": 75
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63c47e9d_d349c740",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "Why not introducing a method called assertThatSearchQueryWasNotPaginaged and making this assertion more readable?",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 49
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04f3e398_f3dd53e6",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "Why 4? You should avoid magic numbers in tests.",
+      "range": {
+        "startLine": 137,
+        "startChar": 54,
+        "endLine": 137,
+        "endChar": 55
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29ff7d62_07540983",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "`invisible`",
+      "range": {
+        "startLine": 142,
+        "startChar": 14,
+        "endLine": 142,
+        "endChar": 25
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "229d0e06_bb2d960d",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "Avoid magic numbers in tests. The fact that you needed to document them means that they are candidate for replacement with constants.",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 78
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f314c3a_3c1a256e",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "This is repeated multiple times: can you DRY out as a method?",
+      "range": {
+        "startLine": 191,
+        "startChar": 4,
+        "endLine": 191,
+        "endChar": 78
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96a49619_1a750dad",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T11:28:47Z",
+      "side": 1,
+      "message": "This method is misaligned with the body: it does not really `get` an index but rather make some initial setup.\n\nWhy not using then the proper `setUp` with `@Before` annotation instead?",
+      "range": {
+        "startLine": 195,
+        "startChar": 28,
+        "endLine": 195,
+        "endChar": 49
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

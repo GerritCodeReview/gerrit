@@ -10,10 +10,6 @@ genrule2(
         "//lib/fonts:robotofonts",
     ],
     outs = ["fonts.zip"],
-    cmd = " && ".join([
-        "mkdir -p $$TMP/fonts",
-        "cp $(SRCS) $$TMP/fonts/",
-        "cd $$TMP",
         "find fonts/ -exec touch -t 198001010000 '{}' ';'",
         "zip -qr $$ROOT/$@ fonts",
     ]),

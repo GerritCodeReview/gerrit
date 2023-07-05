@@ -237,7 +237,7 @@ public class ChangeResource implements RestResource, HasETag {
                 .build())) {
       Hasher h = Hashing.murmur3_128().newHasher();
       if (user.isIdentifiedUser()) {
-        h.putString(starredChangesUtil.getObjectId(user.getAccountId(), getId()).name(), UTF_8);
+        h.putBoolean(starredChangesUtil.isStarred(user.getAccountId(), getId()));
       }
       prepareETag(h, user);
       return h.hash().toString();

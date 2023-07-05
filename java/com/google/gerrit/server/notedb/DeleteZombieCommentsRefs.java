@@ -281,7 +281,7 @@ public class DeleteZombieCommentsRefs {
           DraftCommentNotes draftNotes = draftNotesFactory.create(changeId, accountId).load();
           ChangeNotes notes =
               changeNotesFactory.createChecked(changeProjectMap.get(changeId), changeId);
-          List<HumanComment> drafts = draftNotes.getComments().values().asList();
+          List<HumanComment> drafts = draftNotes.getComments();
           List<HumanComment> published = commentsUtil.publishedHumanCommentsByChange(notes);
           Set<String> publishedIds = toUuid(published);
           List<HumanComment> zombieDrafts =

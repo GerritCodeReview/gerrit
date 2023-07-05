@@ -24,7 +24,6 @@ import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
@@ -32,12 +31,10 @@ import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -53,13 +50,10 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 
@@ -116,18 +110,15 @@ public class CommentsUtil {
 
   private final DiffOperations diffOperations;
   private final GitRepositoryManager repoManager;
-  private final AllUsersName allUsers;
   private final String serverId;
 
   @Inject
   CommentsUtil(
       DiffOperations diffOperations,
       GitRepositoryManager repoManager,
-      AllUsersName allUsers,
       @GerritServerId String serverId) {
     this.diffOperations = diffOperations;
     this.repoManager = repoManager;
-    this.allUsers = allUsers;
     this.serverId = serverId;
   }
 
@@ -203,12 +194,6 @@ public class CommentsUtil {
         .findFirst();
   }
 
-  public Optional<HumanComment> getDraft(ChangeNotes notes, IdentifiedUser user, Comment.Key key) {
-    return draftByChangeAuthor(notes, user.getAccountId()).stream()
-        .filter(c -> key.equals(c.key))
-        .findFirst();
-  }
-
   public List<HumanComment> publishedHumanCommentsByChange(ChangeNotes notes) {
     notes.load();
     return sort(Lists.newArrayList(notes.getHumanComments().values()));
@@ -221,30 +206,6 @@ public class CommentsUtil {
 
   public Optional<RobotComment> getRobotComment(ChangeNotes notes, String uuid) {
     return robotCommentsByChange(notes).stream().filter(c -> c.key.uuid.equals(uuid)).findFirst();
-  }
-
-  public List<HumanComment> draftByChange(ChangeNotes notes) {
-    List<HumanComment> comments = new ArrayList<>();
-    for (Ref ref : getDraftRefs(notes.getChangeId())) {
-      Account.Id account = Account.Id.fromRefSuffix(ref.getName());
-      if (account != null) {
-        comments.addAll(draftByChangeAuthor(notes, account));
-      }
-    }
-    return sort(comments);
-  }
-
-  public List<HumanComment> byPatchSet(ChangeNotes notes, PatchSet.Id psId) {
-    List<HumanComment> comments = new ArrayList<>();
-    comments.addAll(publishedByPatchSet(notes, psId));
-
-    for (Ref ref : getDraftRefs(notes.getChangeId())) {
-      Account.Id account = Account.Id.fromRefSuffix(ref.getName());
-      if (account != null) {
-        comments.addAll(draftByPatchSetAuthor(psId, account, notes));
-      }
-    }
-    return sort(comments);
   }
 
   public List<HumanComment> publishedByChangeFile(ChangeNotes notes, String file) {
@@ -320,22 +281,6 @@ public class CommentsUtil {
     return list.stream()
         .filter(c -> c.side != 0 || !Patch.COMMIT_MSG.equals(c.key.filename))
         .collect(toList());
-  }
-
-  public List<HumanComment> draftByPatchSetAuthor(
-      PatchSet.Id psId, Account.Id author, ChangeNotes notes) {
-    return commentsOnPatchSet(notes.load().getDraftComments(author).values(), psId);
-  }
-
-  public List<HumanComment> draftByChangeFileAuthor(
-      ChangeNotes notes, String file, Account.Id author) {
-    return commentsOnFile(notes.load().getDraftComments(author).values(), file);
-  }
-
-  public List<HumanComment> draftByChangeAuthor(ChangeNotes notes, Account.Id author) {
-    List<HumanComment> comments = new ArrayList<>();
-    comments.addAll(notes.getDraftComments(author).values());
-    return sort(comments);
   }
 
   public void putHumanComments(
@@ -451,54 +396,7 @@ public class CommentsUtil {
     }
   }
 
-  /**
-   * Get NoteDb draft refs for a change.
-   *
-   * <p>This is just a simple ref scan, so the results may potentially include refs for zombie draft
-   * comments. A zombie draft is one which has been published but the write to delete the draft ref
-   * from All-Users failed.
-   *
-   * @param changeId change ID.
-   * @return raw refs from All-Users repo.
-   */
-  public Collection<Ref> getDraftRefs(Change.Id changeId) {
-    try (Repository repo = repoManager.openRepository(allUsers)) {
-      return getDraftRefs(repo, changeId);
-    } catch (IOException e) {
-      throw new StorageException(e);
-    }
-  }
-
-  /** returns all changes that contain draft comments of {@code accountId}. */
-  public Collection<Change.Id> getChangesWithDrafts(Account.Id accountId) {
-    try (Repository repo = repoManager.openRepository(allUsers)) {
-      return getChangesWithDrafts(repo, accountId);
-    } catch (IOException e) {
-      throw new StorageException(e);
-    }
-  }
-
-  private Collection<Ref> getDraftRefs(Repository repo, Change.Id changeId) throws IOException {
-    return repo.getRefDatabase().getRefsByPrefix(RefNames.refsDraftCommentsPrefix(changeId));
-  }
-
-  private Collection<Change.Id> getChangesWithDrafts(Repository repo, Account.Id accountId)
-      throws IOException {
-    Set<Change.Id> changes = new HashSet<>();
-    for (Ref ref : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_DRAFT_COMMENTS)) {
-      Integer accountIdFromRef = RefNames.parseRefSuffix(ref.getName());
-      if (accountIdFromRef != null && accountIdFromRef == accountId.get()) {
-        Change.Id changeId = Change.Id.fromAllUsersRef(ref.getName());
-        if (changeId == null) {
-          continue;
-        }
-        changes.add(changeId);
-      }
-    }
-    return changes;
-  }
-
-  private static <T extends Comment> List<T> sort(List<T> comments) {
+  public static <T extends Comment> List<T> sort(List<T> comments) {
     comments.sort(COMMENT_ORDER);
     return comments;
   }

@@ -104,7 +104,11 @@ public class RebaseSorter {
       sort.removeAll(contents);
       Collections.reverse(contents);
       sorted.removeAll(contents);
-      sorted.addAll(contents);
+      if (contents.isEmpty()) {
+        sorted.add(n);
+      } else {
+        sorted.addAll(contents);
+      }
     }
     return sorted;
   }

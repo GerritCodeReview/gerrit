@@ -1043,20 +1043,11 @@ public class NoteDbMigrator implements AutoCloseable {
             String.format(
                 "Rebuild %s (slice %d/%d)", ctx.project, slice.sliceNumber, ctx.sliceCount));
     try (Repository changeRepo = repoManager.openRepository(project);
-        // Only use a PackInserter for the change repo, not All-Users.
-        //
-        // It's not possible to share a single inserter for All-Users across all project tasks, and
-        // we don't want to add one pack per project to All-Users. Adding many loose objects is
-        // preferable to many packs.
-        //
-        // Anyway, the number of objects inserted into All-Users is proportional to the number
-        // of pending draft comments, which should not be high (relative to the total number of
-        // changes), so the number of loose objects shouldn't be too unreasonable.
         ObjectInserter changeIns = newPackInserter(changeRepo);
         ObjectReader changeReader = changeIns.newReader();
         RevWalk changeRw = new RevWalk(changeReader);
         Repository allUsersRepo = repoManager.openRepository(allUsers);
-        ObjectInserter allUsersIns = allUsersRepo.newObjectInserter();
+        ObjectInserter allUsersIns = newPackInserter(allUsersRepo);
         ObjectReader allUsersReader = allUsersIns.newReader();
         RevWalk allUsersRw = new RevWalk(allUsersReader)) {
       ChainedReceiveCommands changeCmds = new ChainedReceiveCommands(changeRepo);

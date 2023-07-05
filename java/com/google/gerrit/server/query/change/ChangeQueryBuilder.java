@@ -55,6 +55,7 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryRequiresAuthException;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountCache;
@@ -255,6 +256,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     final ChangeIndex index;
     final ChangeIndexRewriter rewriter;
     final CommentsUtil commentsUtil;
+    final DraftCommentsReader draftCommentsReader;
     final ConflictsCache conflictsCache;
     final DynamicMap<ChangeHasOperandFactory> hasOperands;
     final DynamicMap<ChangeIsOperandFactory> isOperands;
@@ -293,6 +295,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         PermissionBackend permissionBackend,
         ChangeData.Factory changeDataFactory,
         CommentsUtil commentsUtil,
+        DraftCommentsReader draftCommentsReader,
         AccountResolver accountResolver,
         GroupBackend groupBackend,
         AllProjectsName allProjectsName,
@@ -325,6 +328,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           permissionBackend,
           changeDataFactory,
           commentsUtil,
+          draftCommentsReader,
           accountResolver,
           groupBackend,
           allProjectsName,
@@ -360,6 +364,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         PermissionBackend permissionBackend,
         ChangeData.Factory changeDataFactory,
         CommentsUtil commentsUtil,
+        DraftCommentsReader draftCommentsReader,
         AccountResolver accountResolver,
         GroupBackend groupBackend,
         AllProjectsName allProjectsName,
@@ -390,6 +395,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       this.permissionBackend = permissionBackend;
       this.changeDataFactory = changeDataFactory;
       this.commentsUtil = commentsUtil;
+      this.draftCommentsReader = draftCommentsReader;
       this.accountResolver = accountResolver;
       this.groupBackend = groupBackend;
       this.allProjectsName = allProjectsName;
@@ -428,6 +434,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           permissionBackend,
           changeDataFactory,
           commentsUtil,
+          draftCommentsReader,
           accountResolver,
           groupBackend,
           allProjectsName,
@@ -1176,7 +1183,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   private Predicate<ChangeData> draftBySelf() throws QueryParseException {
-    return ChangePredicates.draftBy(args.commentsUtil, self());
+    return ChangePredicates.draftBy(args.draftCommentsReader, self());
   }
 
   @Operator

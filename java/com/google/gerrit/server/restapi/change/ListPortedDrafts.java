@@ -22,7 +22,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.CommentsUtil;
+import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
@@ -34,15 +34,17 @@ import java.util.Map;
 @Singleton
 public class ListPortedDrafts implements RestReadView<RevisionResource> {
 
-  private final CommentsUtil commentsUtil;
+  private final DraftCommentsReader draftCommentsReader;
   private final CommentPorter commentPorter;
   private final Provider<CommentJson> commentJson;
 
   @Inject
   public ListPortedDrafts(
-      Provider<CommentJson> commentJson, CommentsUtil commentsUtil, CommentPorter commentPorter) {
+      Provider<CommentJson> commentJson,
+      DraftCommentsReader draftCommentsReader,
+      CommentPorter commentPorter) {
     this.commentJson = commentJson;
-    this.commentsUtil = commentsUtil;
+    this.draftCommentsReader = draftCommentsReader;
     this.commentPorter = commentPorter;
   }
 
@@ -55,7 +57,7 @@ public class ListPortedDrafts implements RestReadView<RevisionResource> {
     PatchSet targetPatchset = revisionResource.getPatchSet();
 
     List<HumanComment> draftComments =
-        commentsUtil.draftByChangeAuthor(
+        draftCommentsReader.getDraftsByChangeAndDraftAuthor(
             revisionResource.getNotes(), revisionResource.getAccountId());
     ImmutableList<HumanComment> portedDraftComments =
         commentPorter.portComments(

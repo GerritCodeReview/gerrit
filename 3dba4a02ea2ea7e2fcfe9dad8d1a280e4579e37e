@@ -1,6 +1,109 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e58ba9a8_17adeb51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T20:09:25Z",
+      "side": 1,
+      "message": "index backend pagination",
+      "range": {
+        "startLine": 9,
+        "startChar": 25,
+        "endLine": 9,
+        "endChar": 35
+      },
+      "revId": "3dba4a02ea2ea7e2fcfe9dad8d1a280e4579e37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0474d37_e79a4cdf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T20:09:25Z",
+      "side": 1,
+      "message": "You should also mention that it does not affect the API pagination, which is always preserved.",
+      "revId": "3dba4a02ea2ea7e2fcfe9dad8d1a280e4579e37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47836bb6_539c652e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T20:09:25Z",
+      "side": 1,
+      "message": "next",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 5
+      },
+      "revId": "3dba4a02ea2ea7e2fcfe9dad8d1a280e4579e37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "217d96a9_e6f44b92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T20:09:25Z",
+      "side": 1,
+      "message": "You should also mention:\n`* wrong entries status (when changes are switching their state during the page switching)`",
+      "revId": "3dba4a02ea2ea7e2fcfe9dad8d1a280e4579e37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61418c48_7c748de2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T20:09:25Z",
+      "side": 1,
+      "message": "`corrupted` isn\u0027t the right wording, I would just say that the inconsistent results returned by the indexing backend may cause the cache loading function to fail or keep an inconsistent state which doesn\u0027t reflect the underlying data.",
+      "range": {
+        "startLine": 23,
+        "startChar": 57,
+        "endLine": 23,
+        "endChar": 72
+      },
+      "revId": "3dba4a02ea2ea7e2fcfe9dad8d1a280e4579e37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "237220a1_3e8dfe61",

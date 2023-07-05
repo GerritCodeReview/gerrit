@@ -90,6 +90,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ff355b5_fa8f25af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-05T20:09:25Z",
+      "side": 1,
+      "message": "Marking this as resolved, as Ponch has verified that there isn\u0027t a workaround available to fix the data inconsistency issue.",
+      "parentUuid": "98e1c6d6_d7c56c8e",
+      "revId": "a4cc6f64c7af7611917f8d4a02b0587b480abdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6bfec1cc_70e507d7",

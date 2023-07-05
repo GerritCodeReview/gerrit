@@ -17,6 +17,8 @@ package com.google.gerrit.server.notedb;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.server.StarredChangesUtil;
+import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Names;
 
@@ -44,6 +46,7 @@ public class NoteDbModule extends FactoryModule {
     factory(NoteDbUpdateManager.Factory.class);
     factory(RobotCommentNotes.Factory.class);
     factory(RobotCommentUpdate.Factory.class);
+    bind(StarredChangesUtil.class).to(StarredChangesUtilNoteDbImpl.class).in(Singleton.class);
 
     if (!useTestBindings) {
       install(ChangeNotesCache.module());

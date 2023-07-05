@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "635edf5b_572caeee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-05T10:05:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "530793ea_94c8d3f8",
+      "revId": "8ae297174eaaaa7bae1f95ba1aa96488593980e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "082adaad_72425b2d",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-07-05T07:02:09Z",
       "side": 1,
       "message": "Is this still working?\n\nIIUC ChangeField uses the toString() method to write the STAR_FIELD in the index, the parse(String) method is used to read/parse STAR_FIELD values from the index.\n\nIt seems like toString() writes \"\u003caccount-id\u003e\", but the parse method expects \"\u003caccount-id\u003e:\u003clabel\u003e\", resulting in the parse method returning null if the input string is \"\u003caccount-id\u003e\"? I think the parse method needs to be changed to support both formats (to be able to read old and new STAR_FIELD values), doesn\u0027t it?",
+      "range": {
+        "startLine": 68,
+        "startChar": 1,
+        "endLine": 96,
+        "endChar": 3
+      },
+      "revId": "8ae297174eaaaa7bae1f95ba1aa96488593980e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce9d2157_8d042fee",
+        "filename": "java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-05T10:05:03Z",
+      "side": 1,
+      "message": "Thanks! Done.\n\nThere is no tests coverage since we stopped indexing this field on V79.",
+      "parentUuid": "082adaad_72425b2d",
       "range": {
         "startLine": 68,
         "startChar": 1,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aea52411_6897bbb2",
+        "filename": "java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-05T10:05:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be881b87_17e39073",
+      "revId": "8ae297174eaaaa7bae1f95ba1aa96488593980e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e162924_c4a742e9",
@@ -71,6 +131,24 @@
       "writtenOn": "2023-07-05T07:02:09Z",
       "side": 1,
       "message": "nit: we usually define static members more at the top of the file, see https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#code-organization",
+      "revId": "8ae297174eaaaa7bae1f95ba1aa96488593980e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58772650_80c92357",
+        "filename": "java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-05T10:05:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e162924_c4a742e9",
       "revId": "8ae297174eaaaa7bae1f95ba1aa96488593980e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -98,6 +176,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "76fd8480_43340879",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1269,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-05T10:05:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eccf1f56_47feea7c",
+      "range": {
+        "startLine": 1269,
+        "startChar": 48,
+        "endLine": 1269,
+        "endChar": 80
+      },
+      "revId": "8ae297174eaaaa7bae1f95ba1aa96488593980e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d93e42e_06650d4a",
@@ -111,6 +213,24 @@
       "writtenOn": "2023-07-05T07:02:09Z",
       "side": 1,
       "message": "Could we drop this class and just use Account.Id instead?",
+      "revId": "8ae297174eaaaa7bae1f95ba1aa96488593980e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2aa23f94_5e528cc7",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1414,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-05T10:05:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d93e42e_06650d4a",
       "revId": "8ae297174eaaaa7bae1f95ba1aa96488593980e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

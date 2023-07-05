@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.extensions.common.ActionInfo;
@@ -74,8 +75,9 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
       h.putBoolean(MergeSuperSet.wholeTopicEnabled(config));
       ReviewDb db = dbProvider.get();
       ChangeSet cs = mergeSuperSet.get().completeChangeSet(db, rsrc.getChange(), user);
-      for (ChangeData cd : cs.changes()) {
-        changeResourceFactory.create(cd.notes(), user).prepareETag(h, user);
+      ImmutableCollection<ChangeData> changes = cs.changes();
+      for (ChangeData cd : changes) {
+        changeResourceFactory.create(cd.notes(), user).prepareETag(h, user, changes);
       }
       h.putBoolean(cs.furtherHiddenChanges());
     } catch (IOException | OrmException | PermissionBackendException e) {

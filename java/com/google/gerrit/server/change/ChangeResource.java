@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.Hasher;
@@ -50,6 +51,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
@@ -139,24 +141,34 @@ public class ChangeResource implements RestResource, HasETag, Cacheability {
     return notes;
   }
 
+  public void prepareETag(Hasher h, CurrentUser user) {
+    Change change = getChange();
+    try {
+      List<ChangeData> changeDataList = queryProvider.get().byLegacyChangeId(change.getId());
+      prepareETag(h, user, ImmutableList.copyOf(changeDataList));
+    } catch (OrmException e) {
+      logger.atWarning().withCause(e).log(
+          "Unable to query the index status in ETag for project %s, change %d",
+          change.getProject().get(), change.getChangeId());
+    }
+  }
+
   // This includes all information relevant for ETag computation
   // unrelated to the UI.
-  public void prepareETag(Hasher h, CurrentUser user) {
+  public void prepareETag(
+      Hasher h, CurrentUser user, ImmutableCollection<ChangeData> changeDataList) {
     h.putInt(JSON_FORMAT_VERSION)
         .putLong(getChange().getLastUpdatedOn().getTime())
         .putInt(getChange().getRowVersion())
         .putInt(user.isIdentifiedUser() ? user.getAccountId().get() : 0);
 
-    // Add index status to ETag
-    try {
-      for (ChangeData changeFromIndex : queryProvider.get().byLegacyChangeId(getChange().getId())) {
+    for (ChangeData changeFromIndex : changeDataList) {
+      try {
         h.putLong(changeFromIndex.change().getLastUpdatedOn().getTime())
             .putInt(changeFromIndex.change().getRowVersion());
+      } catch (OrmException e) {
+        logger.atWarning().withCause(e).log("Unable to query the index status in ETag ");
       }
-    } catch (OrmException e) {
-      logger.atWarning().withCause(e).log(
-          "Unable to include the index status in ETag for project %s, change %d",
-          getProject().get(), getChange().getChangeId());
     }
 
     if (user.isIdentifiedUser()) {

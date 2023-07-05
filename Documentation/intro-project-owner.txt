@@ -125,7 +125,7 @@ are a number of link:access-control.html#references_special[special refs]
 and link:access-control.html#references_magic[magic refs].
 
 Gerrit only supports tags that are reachable by any ref not owned by
-Gerrit. This includes branches (refs/heads/*) or custom ref namespaces
+Gerrit. This includes branches (refs/heads/\*) or custom ref namespaces
 (refs/my-company/*). Tagging a change ref is not supported.
 When filtering tags by visibility, Gerrit performs a reachability check
 and will present the user ony with tags that are reachable by any ref

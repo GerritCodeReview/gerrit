@@ -1,23 +1,5 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
-load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_test")
-
-package(default_visibility = ["//visibility:public"])
-
-genrule2(
-    name = "fonts",
-    srcs = [
-        "//lib/fonts:material-icons",
-        "//lib/fonts:robotofonts",
-    ],
-    outs = ["fonts.zip"],
-    cmd = " && ".join([
-        "mkdir -p $$TMP/fonts",
-        "cp $(SRCS) $$TMP/fonts/",
-        "cd $$TMP",
-        "find fonts/ -exec touch -t 198001010000 '{}' ';'",
-        "zip -qr $$ROOT/$@ fonts",
-    ]),
-    output_to_bindir = 1,
+load("@build_bazel_rules_nodejs//:inde
 )
 
 filegroup(

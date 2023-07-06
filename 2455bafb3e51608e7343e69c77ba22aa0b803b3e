@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c73b5ec_52c37af2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-06T12:08:25Z",
+      "side": 1,
+      "message": "indexing",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 13
+      },
+      "revId": "2455bafb3e51608e7343e69c77ba22aa0b803b3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "207914cf_75fd8774",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-06T12:08:25Z",
+      "side": 1,
+      "message": "missing or inconsistent",
+      "range": {
+        "startLine": 42,
+        "startChar": 43,
+        "endLine": 42,
+        "endChar": 50
+      },
+      "revId": "2455bafb3e51608e7343e69c77ba22aa0b803b3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ce25fdc_db925772",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-06T12:08:25Z",
+      "side": 1,
+      "message": "I would rephrase more explicitly as: _Introduce NONE pagination type and its support in Lucene indexing backend_",
+      "range": {
+        "startLine": 48,
+        "startChar": 15,
+        "endLine": 48,
+        "endChar": 62
+      },
+      "revId": "2455bafb3e51608e7343e69c77ba22aa0b803b3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0d70381_e984877c",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-06T12:08:25Z",
+      "side": 1,
+      "message": "Does",
+      "range": {
+        "startLine": 116,
+        "startChar": 26,
+        "endLine": 116,
+        "endChar": 28
+      },
+      "revId": "2455bafb3e51608e7343e69c77ba22aa0b803b3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd2ef864_58f06f0a",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-06T12:08:25Z",
+      "side": 1,
+      "message": "This is stale now.",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 26
+      },
+      "revId": "2455bafb3e51608e7343e69c77ba22aa0b803b3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed0e49bd_2c07c5b9",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-06T12:08:25Z",
+      "side": 1,
+      "message": "Avoid magic values in tests.",
+      "range": {
+        "startLine": 197,
+        "startChar": 75,
+        "endLine": 197,
+        "endChar": 76
+      },
+      "revId": "2455bafb3e51608e7343e69c77ba22aa0b803b3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc01b8c0_676e321c",
+        "filename": "javatests/com/google/gerrit/server/query/change/FakeQueryChangesTest.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-06T12:08:25Z",
+      "side": 1,
+      "message": "Avoid magic values in tests.",
+      "range": {
+        "startLine": 204,
+        "startChar": 46,
+        "endLine": 204,
+        "endChar": 47
+      },
+      "revId": "2455bafb3e51608e7343e69c77ba22aa0b803b3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

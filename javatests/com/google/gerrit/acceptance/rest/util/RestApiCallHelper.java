@@ -19,6 +19,7 @@ import static org.apache.http.HttpStatus.SC_FORBIDDEN;
 import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
 import static org.apache.http.HttpStatus.SC_METHOD_NOT_ALLOWED;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
+import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.RestResponse;
@@ -92,7 +93,8 @@ public class RestApiCallHelper {
     } else {
       assertWithMessage(msg)
           .that(status)
-          .isNotIn(ImmutableList.of(SC_FORBIDDEN, SC_NOT_FOUND, SC_METHOD_NOT_ALLOWED));
+          .isNotIn(
+              ImmutableList.of(SC_UNAUTHORIZED, SC_FORBIDDEN, SC_NOT_FOUND, SC_METHOD_NOT_ALLOWED));
       assertWithMessage(msg).that(status).isLessThan(SC_INTERNAL_SERVER_ERROR);
     }
   }

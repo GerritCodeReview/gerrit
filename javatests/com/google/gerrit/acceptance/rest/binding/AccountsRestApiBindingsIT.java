@@ -15,14 +15,17 @@
 package com.google.gerrit.acceptance.rest.binding;
 
 import static com.google.gerrit.acceptance.rest.util.RestApiCallHelper.execute;
+import static com.google.gerrit.acceptance.rest.util.RestCall.Method.GET;
 import static com.google.gerrit.acceptance.rest.util.RestCall.Method.PUT;
 import static com.google.gerrit.gpg.testing.TestKeys.validKeyWithoutExpiration;
 import static org.apache.http.HttpStatus.SC_METHOD_NOT_ALLOWED;
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.config.GerritConfigs;
 import com.google.gerrit.acceptance.rest.util.RestCall;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.common.ChangeInput;
@@ -66,12 +69,19 @@ public class AccountsRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.get("/accounts/%s/active"),
           RestCall.put("/accounts/%s/active"),
           RestCall.delete("/accounts/%s/active"),
-          RestCall.put("/accounts/%s/password.http"),
-          RestCall.delete("/accounts/%s/password.http"),
+
+          // The password.http REST endpoints must be tested separately, since changing/deleting the
+          // HTTP password breaks all further calls.
+          // See tests updateHttpPasswordEndpoints and deleteHttpPasswordEndpoints.
+
           RestCall.get("/accounts/%s/status"),
           RestCall.put("/accounts/%s/status"),
-          RestCall.get("/accounts/%s/avatar"),
-          RestCall.get("/accounts/%s/avatar.change.url"),
+          // TODO: The avatar REST endpoints always returns '404 Not Found' because no avatar plugin
+          // is installed.
+          RestCall.builder(GET, "/accounts/%s/avatar").expectedResponseCode(SC_NOT_FOUND).build(),
+          RestCall.builder(GET, "/accounts/%s/avatar.change.url")
+              .expectedResponseCode(SC_NOT_FOUND)
+              .build(),
           RestCall.get("/accounts/%s/emails/"),
           RestCall.put("/accounts/%s/emails/new-email@foo.com"),
           RestCall.get("/accounts/%s/sshkeys/"),
@@ -93,7 +103,11 @@ public class AccountsRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.get("/accounts/%s/external.ids"),
           RestCall.post("/accounts/%s/external.ids:delete"),
           RestCall.post("/accounts/%s/drafts:delete"),
-          RestCall.get("/accounts/%s/oauthtoken"),
+          // TODO: The oauthtoken REST endpoint always returns '404 Not Found' because no oauth
+          // token is available for the test user.
+          RestCall.builder(GET, "/accounts/%s/oauthtoken")
+              .expectedResponseCode(SC_NOT_FOUND)
+              .build(),
           RestCall.get("/accounts/%s/capabilities"),
           RestCall.get("/accounts/%s/capabilities/viewPlugins"),
           RestCall.get("/accounts/%s/gpgkeys"),
@@ -146,6 +160,12 @@ public class AccountsRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.delete("/accounts/%s/starred.changes/%s"));
 
   @Test
+  @GerritConfigs(
+      value = {
+        @GerritConfig(name = "auth.contributorAgreements", value = "true"),
+        @GerritConfig(name = "auth.registerEmailPrivateKey", value = "KEY"),
+        @GerritConfig(name = "receive.enableSignedPush", value = "true"),
+      })
   public void accountEndpoints() throws Exception {
     execute(adminRestSession, ACCOUNT_ENDPOINTS, "self");
   }

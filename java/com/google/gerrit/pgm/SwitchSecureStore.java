@@ -18,7 +18,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.IoUtil;
+import com.google.gerrit.common.JarUtil;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.SiteLibraryLoaderUtil;
 import com.google.gerrit.pgm.util.SiteProgram;
@@ -79,7 +79,7 @@ public class SwitchSecureStore extends SiteProgram {
       return -1;
     }
 
-    IoUtil.loadJARs(newSecureStorePath);
+    JarUtil.loadJars(newSecureStorePath);
     SiteLibraryLoaderUtil.loadSiteLib(sitePaths.lib_dir);
 
     logger.atInfo().log(

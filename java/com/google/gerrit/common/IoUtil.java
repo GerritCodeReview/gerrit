@@ -14,20 +14,9 @@
 
 package com.google.gerrit.common;
 
-import com.google.common.collect.Sets;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
 
 public final class IoUtil {
   public static void copyWithThread(InputStream src, OutputStream dst) {
@@ -62,51 +51,6 @@ public final class IoUtil {
         }
       }
     }.start();
-  }
-
-  public static void loadJARs(Collection<Path> jars) {
-    if (jars.isEmpty()) {
-      return;
-    }
-
-    ClassLoader cl = IoUtil.class.getClassLoader();
-    if (!(cl instanceof URLClassLoader)) {
-      throw noAddURL("Not loaded by URLClassLoader", null);
-    }
-
-    @SuppressWarnings("resource") // Leave open so classes can be loaded.
-    URLClassLoader urlClassLoader = (URLClassLoader) cl;
-
-    Method addURL;
-    try {
-      addURL = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
-      addURL.setAccessible(true);
-    } catch (SecurityException | NoSuchMethodException e) {
-      throw noAddURL("Method addURL not available", e);
-    }
-
-    Set<URL> have = Sets.newHashSet(Arrays.asList(urlClassLoader.getURLs()));
-    for (Path path : jars) {
-      try {
-        URL url = path.toUri().toURL();
-        if (have.add(url)) {
-          addURL.invoke(cl, url);
-        }
-      } catch (MalformedURLException | IllegalArgumentException | IllegalAccessException e) {
-        throw noAddURL("addURL " + path + " failed", e);
-      } catch (InvocationTargetException e) {
-        throw noAddURL("addURL " + path + " failed", e.getCause());
-      }
-    }
-  }
-
-  public static void loadJARs(Path jar) {
-    loadJARs(Collections.singleton(jar));
-  }
-
-  private static UnsupportedOperationException noAddURL(String m, Throwable why) {
-    String prefix = "Cannot extend classpath: ";
-    return new UnsupportedOperationException(prefix + m, why);
   }
 
   private IoUtil() {}

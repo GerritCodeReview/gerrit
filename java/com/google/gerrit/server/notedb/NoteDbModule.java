@@ -39,7 +39,7 @@ public class NoteDbModule extends FactoryModule {
 
   @Override
   public void configure() {
-    factory(ChangeDraftUpdate.Factory.class);
+    factory(ChangeDraftNotesUpdate.Factory.class);
     factory(ChangeUpdate.Factory.class);
     factory(DeleteCommentRewriter.Factory.class);
     factory(DraftCommentNotes.Factory.class);

@@ -81,6 +81,7 @@ import com.google.gerrit.extensions.webui.TagWebLink;
 import com.google.gerrit.extensions.webui.TopMenu;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.ChangeDraftUpdate;
 import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.DeadlineChecker;
@@ -172,6 +173,7 @@ import com.google.gerrit.server.mail.send.MailSoySauceModule;
 import com.google.gerrit.server.mail.send.MailSoyTemplateProvider;
 import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.mime.MimeUtilFileTypeRegistry;
+import com.google.gerrit.server.notedb.ChangeDraftNotesUpdate;
 import com.google.gerrit.server.notedb.DeleteZombieCommentsRefs;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.notedb.StoreSubmitRequirementsOp;
@@ -474,6 +476,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(CommentValidator.class)
         .annotatedWith(Exports.named(CommentCumulativeSizeValidator.class.getSimpleName()))
         .to(CommentCumulativeSizeValidator.class);
+    bind(ChangeDraftUpdate.ChangeDraftUpdateFactory.class).to(ChangeDraftNotesUpdate.Factory.class);
 
     DynamicMap.mapOf(binder(), DynamicOptions.DynamicBean.class);
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeOperatorFactory.class);

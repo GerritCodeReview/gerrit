@@ -61,11 +61,13 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.get("/changes/%s/in"),
           RestCall.get("/changes/%s/hashtags"),
           RestCall.get("/changes/%s/custom_keyed_values"),
+          RestCall.post("/changes/%s/custom_keyed_values"),
           RestCall.get("/changes/%s/comments"),
           RestCall.get("/changes/%s/robotcomments"),
           RestCall.get("/changes/%s/drafts"),
           RestCall.get("/changes/%s/attention"),
           RestCall.post("/changes/%s/attention"),
+          RestCall.post("/changes/%s/patch:apply"),
           RestCall.post("/changes/%s/private"),
           RestCall.post("/changes/%s/private.delete"),
           RestCall.delete("/changes/%s/private"),
@@ -73,10 +75,12 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.post("/changes/%s/ready"),
           RestCall.get("/changes/%s/messages"),
           RestCall.put("/changes/%s/message"),
+          RestCall.get("/changes/%s/meta_diff"),
           RestCall.post("/changes/%s/merge"),
           RestCall.post("/changes/%s/abandon"),
           RestCall.post("/changes/%s/move"),
           RestCall.post("/changes/%s/rebase"),
+          RestCall.post("/changes/%s/rebase:chain"),
           RestCall.post("/changes/%s/restore"),
           RestCall.post("/changes/%s/revert"),
           RestCall.post("/changes/%s/revert_submission"),
@@ -86,6 +90,7 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.post("/changes/%s/index"),
           RestCall.get("/changes/%s/check"),
           RestCall.post("/changes/%s/check"),
+          RestCall.post("/changes/%s/check.submit_requirement"),
           RestCall.get("/changes/%s/reviewers"),
           RestCall.post("/changes/%s/reviewers"),
           RestCall.get("/changes/%s/suggest_reviewers"),
@@ -102,6 +107,10 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
           // Publish edit and create a new edit
           RestCall.post("/changes/%s/edit:publish"),
           RestCall.put("/changes/%s/edit/a.txt"),
+          RestCall.builder(GET, "/changes/%s/votes")
+              // GET /changes/<change-id>/votes is not implemented
+              .expectedResponseCode(SC_NOT_FOUND)
+              .build(),
 
           // Deletion of change edit and change must be tested last
           RestCall.delete("/changes/%s/edit"),

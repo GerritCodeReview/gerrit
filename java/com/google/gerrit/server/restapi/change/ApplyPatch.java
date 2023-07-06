@@ -112,6 +112,10 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
     contributorAgreements.check(project, rsrc.getUser());
     BranchNameKey destBranch = rsrc.getChange().getDest();
 
+    if (input == null || input.patch == null || input.patch.patch == null) {
+      throw new BadRequestException("patch required");
+    }
+
     try (Repository repo = gitManager.openRepository(project);
         // This inserter and revwalk *must* be passed to any BatchUpdates
         // created later on, to ensure the applied commit is flushed

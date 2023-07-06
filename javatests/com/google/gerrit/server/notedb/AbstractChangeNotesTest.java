@@ -30,6 +30,7 @@ import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.server.ChangeDraftUpdate;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.DefaultRefLogIdentityProvider;
 import com.google.gerrit.server.FanOutExecutor;
@@ -217,6 +218,8 @@ public abstract class AbstractChangeNotesTest {
                       throw new UnsupportedOperationException();
                     });
             bind(PatchSetApprovalUuidGenerator.class).to(TestPatchSetApprovalUuidGenerator.class);
+            bind(ChangeDraftUpdate.ChangeDraftUpdateFactory.class)
+                .to(ChangeDraftNotesUpdate.Factory.class);
           }
         });
   }

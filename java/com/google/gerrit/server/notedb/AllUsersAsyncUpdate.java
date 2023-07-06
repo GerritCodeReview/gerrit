@@ -46,7 +46,7 @@ public class AllUsersAsyncUpdate {
   private final ExecutorService executor;
   private final AllUsersName allUsersName;
   private final GitRepositoryManager repoManager;
-  private final ListMultimap<String, ChangeDraftUpdate> draftUpdates;
+  private final ListMultimap<String, ChangeDraftNotesUpdate> draftUpdates;
 
   private PersonIdent serverIdent;
 
@@ -61,13 +61,13 @@ public class AllUsersAsyncUpdate {
     this.draftUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
   }
 
-  void setDraftUpdates(ListMultimap<String, ChangeDraftUpdate> draftUpdates) {
+  void setDraftUpdates(ListMultimap<String, ChangeDraftNotesUpdate> draftUpdates) {
     checkState(isEmpty(), "attempted to set draft comment updates for async execution twice");
     boolean allPublishOnly =
-        draftUpdates.values().stream().allMatch(ChangeDraftUpdate::canRunAsync);
+        draftUpdates.values().stream().allMatch(ChangeDraftNotesUpdate::canRunAsync);
     checkState(allPublishOnly, "not all updates can be run asynchronously");
     // Add deep copies to avoid any threading issues.
-    for (Map.Entry<String, ChangeDraftUpdate> entry : draftUpdates.entries()) {
+    for (Map.Entry<String, ChangeDraftNotesUpdate> entry : draftUpdates.entries()) {
       this.draftUpdates.put(entry.getKey(), entry.getValue().copy());
     }
     if (draftUpdates.size() > 0) {

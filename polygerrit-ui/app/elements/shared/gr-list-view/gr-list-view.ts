@@ -11,7 +11,7 @@ import {fire} from '../../../utils/event-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import {customElement, property, query} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {resolve} from '../../../models/dependency';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
@@ -29,6 +29,10 @@ declare global {
 
 @customElement('gr-list-view')
 export class GrListView extends LitElement {
+  @query('#prevArrow') protected prevArrow?: HTMLAnchorElement;
+
+  @query('#nextArrow') protected nextArrow?: HTMLAnchorElement;
+
   @property({type: Boolean})
   createNew?: boolean;
 
@@ -57,6 +61,11 @@ export class GrListView extends LitElement {
   override disconnectedCallback() {
     this.reloadTask?.cancel();
     super.disconnectedCallback();
+  }
+  constructor() {
+    super();
+    this.addEventListener('next-page', () => this.handleNextPage());
+    this.addEventListener('previous-page', () => this.handlePreviousPage());
   }
 
   static override get styles() {
@@ -133,14 +142,14 @@ export class GrListView extends LitElement {
           href=${this.computeNavLink(-1)}
           ?hidden=${this.loading || this.offset === 0}
         >
-          <gr-icon icon="chevron_left"></gr-icon>
+          <gr-icon icon="chevron_left" aria-label="Older"></gr-icon>
         </a>
         <a
           id="nextArrow"
           href=${this.computeNavLink(1)}
           ?hidden=${this.hideNextArrow()}
         >
-          <gr-icon icon="chevron_right"></gr-icon>
+          <gr-icon icon="chevron_right" aria-label="Newer"></gr-icon>
         </a>
       </nav>
     `;
@@ -199,6 +208,18 @@ export class GrListView extends LitElement {
       href += `,${newOffset}`;
     }
     return href;
+  }
+
+  // private but used in test
+  handleNextPage() {
+    if (!this.nextArrow) return;
+    this.getNavigation().setUrl(this.computeNavLink(1));
+  }
+
+  // private but used in test
+  handlePreviousPage() {
+    if (!this.prevArrow) return;
+    this.getNavigation().setUrl(this.computeNavLink(-1));
   }
 
   // private but used in test

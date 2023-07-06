@@ -16,6 +16,24 @@
       "message": "Missing `Release-Notes`.\nCan you also raise the issue on issues.gerritcodereview.com and link it here?",
       "revId": "dbe7eb6bc09cb0aa6268920701f28609e0aeee66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bbd2338_25e41b69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-07-06T07:41:56Z",
+      "side": 1,
+      "message": "The issue already exists, see the predecessor change. Eventually we will have just one change which adds the test and fixes the issue.\nHere I first need opinions from those familiar with the merge-strategy and merge/rebase-sorter design.",
+      "parentUuid": "8a6e1aea_e7e7f466",
+      "revId": "dbe7eb6bc09cb0aa6268920701f28609e0aeee66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

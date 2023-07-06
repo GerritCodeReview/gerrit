@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8053c4d9_5395661c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-06T10:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e58ba9a8_17adeb51",
+      "range": {
+        "startLine": 9,
+        "startChar": 25,
+        "endLine": 9,
+        "endChar": 35
+      },
+      "revId": "3dba4a02ea2ea7e2fcfe9dad8d1a280e4579e37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a041272_360e4164",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-06T10:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89a1c484_5cdfffce",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 6
+      },
+      "revId": "3dba4a02ea2ea7e2fcfe9dad8d1a280e4579e37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0474d37_e79a4cdf",
@@ -81,6 +129,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2a8e48e_54145a9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-06T10:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ba38dcc_8ac94f66",
+      "revId": "3dba4a02ea2ea7e2fcfe9dad8d1a280e4579e37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "301ce315_d4ed327f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-06T10:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0474d37_e79a4cdf",
+      "revId": "3dba4a02ea2ea7e2fcfe9dad8d1a280e4579e37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47836bb6_539c652e",
@@ -94,6 +178,30 @@
       "writtenOn": "2023-07-05T20:09:25Z",
       "side": 1,
       "message": "next",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 5
+      },
+      "revId": "3dba4a02ea2ea7e2fcfe9dad8d1a280e4579e37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0f7e67b_2445fd27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-06T10:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47836bb6_539c652e",
       "range": {
         "startLine": 14,
         "startChar": 0,
@@ -121,6 +229,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1c799df_6bfa7e50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-06T10:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "217d96a9_e6f44b92",
+      "revId": "3dba4a02ea2ea7e2fcfe9dad8d1a280e4579e37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61418c48_7c748de2",
@@ -134,6 +260,30 @@
       "writtenOn": "2023-07-05T20:09:25Z",
       "side": 1,
       "message": "`corrupted` isn\u0027t the right wording, I would just say that the inconsistent results returned by the indexing backend may cause the cache loading function to fail or keep an inconsistent state which doesn\u0027t reflect the underlying data.",
+      "range": {
+        "startLine": 23,
+        "startChar": 57,
+        "endLine": 23,
+        "endChar": 72
+      },
+      "revId": "3dba4a02ea2ea7e2fcfe9dad8d1a280e4579e37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fb51195_a62389c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-06T10:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61418c48_7c748de2",
       "range": {
         "startLine": 23,
         "startChar": 57,
@@ -184,6 +334,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79967875_cbf10b25",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 3249,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-06T10:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5ac47e5_61e4714a",
+      "range": {
+        "startLine": 3249,
+        "startChar": 32,
+        "endLine": 3249,
+        "endChar": 38
+      },
+      "revId": "3dba4a02ea2ea7e2fcfe9dad8d1a280e4579e37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d390d02a_68b19a1a",
@@ -197,6 +371,30 @@
       "writtenOn": "2023-07-05T20:04:25Z",
       "side": 1,
       "message": "The mention _ignored when paginationType is NONE_ next to the `index.maxPages` and `index.pageSizeMultiplier` descriptions is enough, no need to duplicate that information here.",
+      "range": {
+        "startLine": 3275,
+        "startChar": 0,
+        "endLine": 3276,
+        "endChar": 49
+      },
+      "revId": "3dba4a02ea2ea7e2fcfe9dad8d1a280e4579e37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "584ed23b_5b83682e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 3276,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-06T10:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d390d02a_68b19a1a",
       "range": {
         "startLine": 3275,
         "startChar": 0,
@@ -230,6 +428,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b564ab12_e67d3f1f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 23
+      },
+      "lineNbr": 3278,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-06T10:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84585d15_d7ff2a3b",
+      "range": {
+        "startLine": 3277,
+        "startChar": 0,
+        "endLine": 3278,
+        "endChar": 56
+      },
+      "revId": "3dba4a02ea2ea7e2fcfe9dad8d1a280e4579e37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "55b18a8d_289cf4aa",
@@ -243,6 +465,30 @@
       "writtenOn": "2023-07-05T20:04:25Z",
       "side": 1,
       "message": "```suggestion\n    return Math.min(getUserQueryLimit().getAsInt(), limit);\n```\n\nThe initial page size is sent as QueryOptions to the index backend: if the pagination type is `NONE` it is already ignored, so there is no point in making this switch anyway.\n\nI tested with and without the switch and the overall behaviour is exactly the same.",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 58
+      },
+      "revId": "3dba4a02ea2ea7e2fcfe9dad8d1a280e4579e37e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51b32c6a_08a2a5df",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-06T10:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55b18a8d_289cf4aa",
       "range": {
         "startLine": 170,
         "startChar": 0,

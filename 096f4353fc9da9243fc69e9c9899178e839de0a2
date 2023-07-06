@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5156464_0dc52264",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3254,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-06T10:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f9d33e3_98869642",
+      "range": {
+        "startLine": 3254,
+        "startChar": 0,
+        "endLine": 3254,
+        "endChar": 6
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0da8172b_98defb5d",
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "@luca is this enough? Should I change to Indices queries and add a test for the other indices?",
       "parentUuid": "80073374_7db84786",
+      "range": {
+        "startLine": 3260,
+        "startChar": 0,
+        "endLine": 3260,
+        "endChar": 6
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5df3796e_1b42102f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3260,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-06T10:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4aaf839_e6097416",
       "range": {
         "startLine": 3260,
         "startChar": 0,
@@ -278,6 +326,30 @@
         "startChar": 74,
         "endLine": 3269,
         "endChar": 85
+      },
+      "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d30155c7_fb3c7418",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 3269,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-06T10:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e268e03e_8a2faddc",
+      "range": {
+        "startLine": 3269,
+        "startChar": 0,
+        "endLine": 3269,
+        "endChar": 6
       },
       "revId": "096f4353fc9da9243fc69e9c9899178e839de0a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

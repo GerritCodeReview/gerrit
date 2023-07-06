@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9e5677e_8d8ebb06",
+        "filename": "polygerrit-ui/app/api/annotation.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-07-06T14:21:21Z",
+      "side": 1,
+      "message": "Add todo to remove \"experimental\" later on",
+      "range": {
+        "startLine": 44,
+        "startChar": 5,
+        "endLine": 44,
+        "endChar": 18
+      },
+      "revId": "08a2bc0c6df749cf8db97315cccf0cb89d951436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7349069f_11eee88f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-07-06T14:21:21Z",
+      "side": 1,
+      "message": "Should this have this.reporting.trackApi similar to other methods?",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 32,
+        "endChar": 27
+      },
+      "revId": "08a2bc0c6df749cf8db97315cccf0cb89d951436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

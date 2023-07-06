@@ -111,6 +111,7 @@ public class AccountRestApiModule extends RestApiModule {
     post(ACCOUNT_KIND, "drafts:delete").to(DeleteDraftComments.class);
 
     // The gpgkeys REST endpoints are bound via GpgApiModule.
+    // The oauthtoken REST endpoint is bound via OAuthRestModule.
   }
 
   @Provides

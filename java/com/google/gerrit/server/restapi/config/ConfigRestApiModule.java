@@ -46,5 +46,7 @@ public class ConfigRestApiModule extends RestApiModule {
     get(CONFIG_KIND, "preferences.edit").to(GetEditPreferences.class);
     put(CONFIG_KIND, "preferences.edit").to(SetEditPreferences.class);
     put(CONFIG_KIND, "email.confirm").to(ConfirmEmail.class);
+
+    // The caches and summary REST endpoints are bound via RestCacheAdminModule.
   }
 }

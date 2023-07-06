@@ -722,7 +722,7 @@ public final class OutgoingEmail {
   }
 
   @Nullable
-  private Address toAddress(Account.Id id) {
+  public Address toAddress(Account.Id id) {
     Optional<Account> accountState = args.accountCache.get(id).map(AccountState::account);
     if (!accountState.isPresent()) {
       return null;

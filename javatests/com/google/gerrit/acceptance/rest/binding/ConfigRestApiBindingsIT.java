@@ -46,7 +46,12 @@ public class ConfigRestApiBindingsIT extends AbstractDaemonTest {
    */
   private static final ImmutableList<RestCall> CONFIG_ENDPOINTS =
       ImmutableList.of(
-          RestCall.get("/config/server/version"),
+          RestCall.get("/config/server/caches"),
+          RestCall.post("/config/server/caches"),
+          RestCall.get("/config/server/capabilities"),
+          RestCall.post("/config/server/check.consistency"),
+          RestCall.put("/config/server/email.confirm"),
+          RestCall.post("/config/server/index.changes"),
           RestCall.get("/config/server/info"),
           RestCall.get("/config/server/preferences"),
           RestCall.put("/config/server/preferences"),
@@ -54,28 +59,22 @@ public class ConfigRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.put("/config/server/preferences.diff"),
           RestCall.get("/config/server/preferences.edit"),
           RestCall.put("/config/server/preferences.edit"),
-          RestCall.get("/config/server/top-menus"),
-          RestCall.put("/config/server/email.confirm"),
-          RestCall.post("/config/server/check.consistency"),
           RestCall.post("/config/server/reload"),
           RestCall.get("/config/server/summary"),
-          RestCall.get("/config/server/capabilities"),
-          RestCall.get("/config/server/caches"),
-          RestCall.post("/config/server/caches"),
           RestCall.get("/config/server/tasks"),
-          RestCall.post("/config/server/index.changes"));
+          RestCall.get("/config/server/top-menus"),
+          RestCall.get("/config/server/version"));
 
   /**
    * Cache REST endpoints to be tested, the URLs contain a placeholder for the cache identifier.
-   * Since there is only supported a single supported config identifier ('server') it can be
-   * hard-coded.
+   * Since there is only a single supported config identifier ('server') it can be hard-coded.
    */
   private static final ImmutableList<RestCall> CACHE_ENDPOINTS =
       ImmutableList.of(RestCall.get("/config/server/caches/%s"));
 
   /**
    * Task REST endpoints to be tested, the URLs contain a placeholder for the task identifier. Since
-   * there is only supported a single supported config identifier ('server') it can be hard-coded.
+   * there is only a single supported config identifier ('server') it can be hard-coded.
    */
   private static final ImmutableList<RestCall> TASK_ENDPOINTS =
       ImmutableList.of(

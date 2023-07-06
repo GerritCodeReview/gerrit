@@ -102,6 +102,13 @@ public class ApplyPatchIT extends AbstractDaemonTest {
           + "+Modified line\n";
 
   @Test
+  public void applyPatchWithoutProvidingPatch_badRequest() throws Exception {
+    initBaseWithFile(MODIFIED_FILE_NAME, MODIFIED_FILE_ORIGINAL_CONTENT);
+    Throwable error = assertThrows(BadRequestException.class, () -> applyPatch(buildInput(null)));
+    assertThat(error).hasMessageThat().isEqualTo("patch required");
+  }
+
+  @Test
   public void applyModifiedFilePatch_success() throws Exception {
     initBaseWithFile(MODIFIED_FILE_NAME, MODIFIED_FILE_ORIGINAL_CONTENT);
     ApplyPatchPatchSetInput in = buildInput(MODIFIED_FILE_DIFF);

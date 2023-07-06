@@ -23,7 +23,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -36,7 +38,9 @@ import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.change.RevisionJson;
+import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.restapi.change.GetRevisionActions;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import java.util.EnumSet;
@@ -58,6 +62,10 @@ public class ActionsIT extends AbstractDaemonTest {
 
   @Inject private DynamicSet<ActionVisitor> actionVisitors;
 
+  @Inject private ChangeIndexer changeIndexer;
+
+  @Inject GetRevisionActions revisionActions;
+
   private RegistrationHandle visitorHandle;
 
   @Before
@@ -78,6 +86,10 @@ public class ActionsIT extends AbstractDaemonTest {
 
   protected String getETag(String id) throws Exception {
     return gApi.changes().id(id).current().etag();
+  }
+
+  protected String getRevisionActionsETag(String id) throws Exception {
+    return revisionActions.getETag(parseCurrentRevisionResource(id));
   }
 
   @Test
@@ -148,6 +160,20 @@ public class ActionsIT extends AbstractDaemonTest {
       assertThat(etag3).isEqualTo(etag2);
       assertThat(etag4).isEqualTo(etag2);
     }
+  }
+
+  @Test
+  @UseLocalDisk
+  public void revisionActionsReindexETag() throws Exception {
+    Result changeResult = createChange();
+    String changeId = changeResult.getChangeId();
+    ChangeData changeData = changeResult.getChange();
+    String etag = getRevisionActionsETag(changeId);
+
+    changeIndexer.index(changeData);
+
+    String etagAfterReindex = getRevisionActionsETag(changeId);
+    assertThat(etag).isNotEqualTo(etagAfterReindex);
   }
 
   @Test

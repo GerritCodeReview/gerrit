@@ -67,10 +67,12 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.get("/projects/%s/access"),
           RestCall.post("/projects/%s/access"),
           RestCall.put("/projects/%s/access:review"),
+          RestCall.post("/projects/%s/check"),
           RestCall.get("/projects/%s/check.access"),
           RestCall.put("/projects/%s/ban"),
           RestCall.get("/projects/%s/statistics.git"),
           RestCall.post("/projects/%s/index"),
+          RestCall.post("/projects/%s/index.changes"),
           RestCall.post("/projects/%s/gc"),
           RestCall.post("/projects/%s/create.change"),
           RestCall.get("/projects/%s/children"),
@@ -85,6 +87,7 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
               // GET /projects/<project>/branches/<branch>/commits is not implemented
               .expectedResponseCode(SC_NOT_FOUND)
               .build(),
+          RestCall.get("/projects/%s/commits:in"),
           RestCall.get("/projects/%s/dashboards"),
           RestCall.put("/projects/%s/labels/new-label"),
           RestCall.post("/projects/%s/labels/"),

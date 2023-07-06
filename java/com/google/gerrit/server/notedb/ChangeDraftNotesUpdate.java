@@ -27,6 +27,7 @@ import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.server.ChangeDraftUpdate;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.inject.assistedinject.Assisted;
@@ -38,6 +39,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -54,16 +56,18 @@ import org.eclipse.jgit.revwalk.RevWalk;
  *
  * <p>This class is not thread safe.
  */
-public class ChangeDraftUpdate extends AbstractChangeUpdate {
-  public interface Factory {
-    ChangeDraftUpdate create(
+public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements ChangeDraftUpdate {
+  public interface Factory extends ChangeDraftUpdateFactory {
+    @Override
+    ChangeDraftNotesUpdate create(
         ChangeNotes notes,
         @Assisted("effective") Account.Id accountId,
         @Assisted("real") Account.Id realAccountId,
         PersonIdent authorIdent,
         Instant when);
 
-    ChangeDraftUpdate create(
+    @Override
+    ChangeDraftNotesUpdate create(
         Change change,
         @Assisted("effective") Account.Id accountId,
         @Assisted("real") Account.Id realAccountId,
@@ -84,8 +88,8 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     FIXED
   }
 
-  private static Key key(HumanComment c) {
-    return new AutoValue_ChangeDraftUpdate_Key(c.getCommitId(), c.key);
+  private static Key key(Comment c) {
+    return new AutoValue_ChangeDraftNotesUpdate_Key(c.getCommitId(), c.key);
   }
 
   private final AllUsersName draftsProject;
@@ -95,7 +99,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
   @SuppressWarnings("UnusedMethod")
   @AssistedInject
-  private ChangeDraftUpdate(
+  private ChangeDraftNotesUpdate(
       @GerritPersonIdent PersonIdent serverIdent,
       AllUsersName allUsers,
       ChangeNoteUtil noteUtil,
@@ -109,7 +113,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   }
 
   @AssistedInject
-  private ChangeDraftUpdate(
+  private ChangeDraftNotesUpdate(
       @GerritPersonIdent PersonIdent serverIdent,
       AllUsersName allUsers,
       ChangeNoteUtil noteUtil,
@@ -122,44 +126,37 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     this.draftsProject = allUsers;
   }
 
-  public void putComment(HumanComment c) {
+  @Override
+  public void putDraftComment(HumanComment c) {
     checkState(!put.contains(c), "comment already added");
     verifyComment(c);
     put.add(c);
   }
 
-  /**
-   * Marks a comment for deletion. Called when the comment is deleted because the user published it.
-   */
-  public void markCommentPublished(HumanComment c) {
+  @Override
+  public void markDraftCommentAsPublished(HumanComment c) {
     checkState(!delete.containsKey(key(c)), "comment already marked for deletion");
     verifyComment(c);
     delete.put(key(c), DeleteReason.PUBLISHED);
   }
 
-  /**
-   * Marks a comment for deletion. Called when the comment is deleted because the user removed it.
-   */
-  public void deleteComment(HumanComment c) {
+  @Override
+  public void addDraftCommentForDeletion(HumanComment c) {
     checkState(!delete.containsKey(key(c)), "comment already marked for deletion");
     verifyComment(c);
     delete.put(key(c), DeleteReason.DELETED);
   }
 
-  /**
-   * Marks a comment for deletion. Called when the comment should have been deleted previously, but
-   * wasn't, so we're fixing it up.
-   */
-  public void deleteComment(ObjectId commitId, Comment.Key key) {
-    Key commentKey = new AutoValue_ChangeDraftUpdate_Key(commitId, key);
-    checkState(!delete.containsKey(commentKey), "comment already marked for deletion");
-    delete.put(commentKey, DeleteReason.FIXED);
+  @Override
+  public void addAllDraftCommentsForDeletion(List<Comment> comments) {
+    comments.forEach(
+        comment -> {
+          Key commentKey = key(comment);
+          checkState(!delete.containsKey(commentKey), "comment already marked for deletion");
+          delete.put(commentKey, DeleteReason.FIXED);
+        });
   }
 
-  /**
-   * Returns true if all we do in this operations is deletes caused by publishing or fixing up
-   * comments.
-   */
   public boolean canRunAsync() {
     return put.isEmpty()
         && delete.values().stream()
@@ -167,15 +164,16 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   }
 
   /**
-   * Returns a copy of the current {@link ChangeDraftUpdate} that contains references to all
-   * deletions. Copying of {@link ChangeDraftUpdate} is only allowed if it contains no new comments.
+   * Returns a copy of the current {@link ChangeDraftNotesUpdate} that contains references to all
+   * deletions. Copying of {@link ChangeDraftNotesUpdate} is only allowed if it contains no new
+   * comments.
    */
-  ChangeDraftUpdate copy() {
+  ChangeDraftNotesUpdate copy() {
     checkState(
         put.isEmpty(),
-        "copying ChangeDraftUpdate is allowed only if it doesn't contain new comments");
-    ChangeDraftUpdate clonedUpdate =
-        new ChangeDraftUpdate(
+        "copying ChangeDraftNotesUpdate is allowed only if it doesn't contain new comments");
+    ChangeDraftNotesUpdate clonedUpdate =
+        new ChangeDraftNotesUpdate(
             authorIdent,
             draftsProject,
             noteUtil,
@@ -261,7 +259,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       noteMap = NoteMap.newEmptyMap();
     }
     // Even though reading from changes might not be enabled, we need to
-    // parse any existing revision notes so we can merge them.
+    // parse any existing revision notes, so we can merge them.
     return RevisionNoteMap.parse(
         noteUtil.getChangeNoteJson(), rw.getObjectReader(), noteMap, HumanComment.Status.DRAFT);
   }
@@ -296,5 +294,16 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
   @Override
   public boolean isEmpty() {
     return delete.isEmpty() && put.isEmpty();
+  }
+
+  public static Optional<ChangeDraftNotesUpdate> asChangeDraftNotesUpdate(
+      @Nullable ChangeDraftUpdate obj) {
+    if (obj == null) {
+      return Optional.empty();
+    }
+    if (obj instanceof ChangeDraftNotesUpdate) {
+      return Optional.of((ChangeDraftNotesUpdate) obj);
+    }
+    return Optional.empty();
   }
 }

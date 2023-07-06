@@ -119,20 +119,6 @@ public final class ChangeEmailImpl implements ChangeEmail {
     this.changeEmailDecorator = changeEmailDecorator;
   }
 
-  public ChangeEmailImpl(
-      @Provided EmailArguments args,
-      ChangeData changeData,
-      ChangeEmailDecorator changeEmailDecorator) {
-    this.args = args;
-    this.changeData = changeData;
-    change = changeData.change();
-    emailOnlyAuthors = false;
-    emailOnlyAttentionSetIfEnabled = true;
-    currentAttentionSet = getAttentionSet();
-    branch = changeData.change().getDest();
-    this.changeEmailDecorator = changeEmailDecorator;
-  }
-
   @Override
   public void markAsReply() {
     isThreadReply = true;

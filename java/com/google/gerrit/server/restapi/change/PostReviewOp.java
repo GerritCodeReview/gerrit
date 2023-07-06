@@ -402,7 +402,7 @@ public class PostReviewOp implements BatchUpdateOp {
                   inputComment.unresolved,
                   parent);
         } else {
-          // In ChangeUpdate#putComment() the draft with the same ID will be deleted.
+          // In ChangeUpdate#putDraftComment() the draft with the same ID will be deleted.
           comment.writtenOn = Timestamp.from(ctx.getWhen());
           comment.side = inputComment.side();
           comment.message = inputComment.message;

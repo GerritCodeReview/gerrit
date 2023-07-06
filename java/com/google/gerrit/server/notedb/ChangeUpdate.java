@@ -76,6 +76,7 @@ import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ReviewerState;
+import com.google.gerrit.server.ChangeDraftUpdate;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.ServiceUserClassifier;
@@ -145,7 +146,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   public static final int MAX_CUSTOM_KEYED_VALUES = 100;
 
   private final NoteDbUpdateManager.Factory updateManagerFactory;
-  private final ChangeDraftUpdate.Factory draftUpdateFactory;
+  private final ChangeDraftUpdate.ChangeDraftUpdateFactory draftUpdateFactory;
   private final RobotCommentUpdate.Factory robotCommentUpdateFactory;
   private final DeleteCommentRewriter.Factory deleteCommentRewriterFactory;
   private final ServiceUserClassifier serviceUserClassifier;
@@ -199,7 +200,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private ChangeUpdate(
       @GerritPersonIdent PersonIdent serverIdent,
       NoteDbUpdateManager.Factory updateManagerFactory,
-      ChangeDraftUpdate.Factory draftUpdateFactory,
+      ChangeDraftUpdate.ChangeDraftUpdateFactory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
       ProjectCache projectCache,
@@ -237,7 +238,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private ChangeUpdate(
       @GerritPersonIdent PersonIdent serverIdent,
       NoteDbUpdateManager.Factory updateManagerFactory,
-      ChangeDraftUpdate.Factory draftUpdateFactory,
+      ChangeDraftUpdate.ChangeDraftUpdateFactory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
       ServiceUserClassifier serviceUserClassifier,
@@ -388,10 +389,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     verifyComment(c);
     createDraftUpdateIfNull();
     if (status == HumanComment.Status.DRAFT) {
-      draftUpdate.putComment(c);
+      draftUpdate.putDraftComment(c);
     } else {
       comments.add(c);
-      draftUpdate.markCommentPublished(c);
+      draftUpdate.markDraftCommentAsPublished(c);
     }
   }
 
@@ -403,7 +404,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   public void deleteComment(HumanComment c) {
     verifyComment(c);
-    createDraftUpdateIfNull().deleteComment(c);
+    createDraftUpdateIfNull().markDraftCommentAsDeleted(c);
   }
 
   public void deleteCommentByRewritingHistory(String uuid, String newMessage) {
@@ -680,7 +681,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
           // separate commit. But note that we don't care much about the commit
           // graph of the draft ref, particularly because the ref is completely
           // deleted when all drafts are gone.
-          draftUpdate.deleteComment(c.getCommitId(), c.key);
+          draftUpdate.markDraftCommentAsFixed(c);
         }
       }
     }

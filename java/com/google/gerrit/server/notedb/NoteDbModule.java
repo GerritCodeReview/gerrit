@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.server.ChangeDraftUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
@@ -39,7 +40,8 @@ public class NoteDbModule extends FactoryModule {
 
   @Override
   public void configure() {
-    factory(ChangeDraftUpdate.Factory.class);
+    factory(ChangeDraftNotesUpdate.Factory.class);
+    bind(ChangeDraftUpdate.ChangeDraftUpdateFactory.class).to(ChangeDraftNotesUpdate.Factory.class);
     factory(ChangeUpdate.Factory.class);
     factory(DeleteCommentRewriter.Factory.class);
     factory(DraftCommentNotes.Factory.class);

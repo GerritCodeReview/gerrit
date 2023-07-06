@@ -91,7 +91,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private final int maxUpdates;
   private final int maxPatchSets;
   private final ListMultimap<String, ChangeUpdate> changeUpdates;
-  private final ListMultimap<String, ChangeDraftUpdate> draftUpdates;
+  private final ListMultimap<String, ChangeDraftNotesUpdate> draftUpdates;
   private final ListMultimap<String, RobotCommentUpdate> robotCommentUpdates;
   private final ListMultimap<String, NoteDbRewriter> rewriters;
   private final Set<Change.Id> changesToDelete;
@@ -241,7 +241,8 @@ public class NoteDbUpdateManager implements AutoCloseable {
         "cannot update & rewrite ref %s in one BatchUpdate",
         update.getRefName());
 
-    ChangeDraftUpdate du = update.getDraftUpdate();
+    ChangeDraftNotesUpdate du =
+        ChangeDraftNotesUpdate.asChangeDraftNotesUpdate(update.getDraftUpdate());
     if (du != null) {
       draftUpdates.put(du.getRefName(), du);
     }
@@ -281,7 +282,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     changeUpdates.put(update.getRefName(), update);
   }
 
-  public void add(ChangeDraftUpdate draftUpdate) {
+  public void add(ChangeDraftNotesUpdate draftUpdate) {
     checkNotExecuted();
     draftUpdates.put(draftUpdate.getRefName(), draftUpdate);
   }
@@ -326,7 +327,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
         NonCancellableOperationContext nonCancellableOperationContext =
             RequestStateContext.startNonCancellableOperation()) {
       stage();
-      // ChangeUpdates must execute before ChangeDraftUpdates.
+      // ChangeUpdates must execute before ChangeDraftNotesUpdates.
       //
       // ChangeUpdate will automatically delete draft comments for any published
       // comments, but the updates to the two repos don't happen atomically.
@@ -404,7 +405,8 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private void addCommands() throws IOException {
     changeRepo.addUpdates(changeUpdates, Optional.of(maxUpdates), Optional.of(maxPatchSets));
     if (!draftUpdates.isEmpty()) {
-      boolean publishOnly = draftUpdates.values().stream().allMatch(ChangeDraftUpdate::canRunAsync);
+      boolean publishOnly =
+          draftUpdates.values().stream().allMatch(ChangeDraftNotesUpdate::canRunAsync);
       if (publishOnly) {
         updateAllUsersAsync.setDraftUpdates(draftUpdates);
       } else {

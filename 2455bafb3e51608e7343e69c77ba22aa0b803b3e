@@ -87,6 +87,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3c82a77_38846be2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-06T22:17:28Z",
+      "side": 1,
+      "message": "Thanks for confirming @Diego. Can you address the remaining comments?",
+      "parentUuid": "596cb1d2_19b4cfae",
+      "revId": "2455bafb3e51608e7343e69c77ba22aa0b803b3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0d70381_e984877c",

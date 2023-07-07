@@ -40,6 +40,12 @@ export const fontStyles = css`
     font-weight: var(--font-weight-h4);
     line-height: var(--line-height-normal);
   }
+  .heading-5 {
+    font-family: var(--header-font-family);
+    font-size: var(--font-size-normal);
+    font-weight: var(--font-weight-h4);
+    line-height: var(--line-height-normal);
+  }
   strong {
     font-weight: var(--font-weight-bold);
   }

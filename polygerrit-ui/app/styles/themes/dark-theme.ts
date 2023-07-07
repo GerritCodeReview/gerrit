@@ -281,6 +281,7 @@ const darkThemeCss = safeStyleSheet`
     --syntax-title-function-color: var(--syntax-title-color);
     --syntax-type-color: #dd5f5f;
     --syntax-variable-color: #f77669;
+    --syntax-variable-color: #f77669;
     --syntax-variable-language-color: var(--syntax-built_in-color);
 
     /* misc */

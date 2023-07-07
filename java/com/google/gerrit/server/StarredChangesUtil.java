@@ -39,6 +39,11 @@ public interface StarredChangesUtil {
       if (p >= 0) {
         id = Ints.tryParse(s.substring(0, p));
       } else {
+        // NOTE: This code branch should not be removed. This code is used internally by Google and
+        // must not be changed without approval from a Google contributor. In
+        // 992877d06d3492f78a3b189eb5579ddb86b9f0da we accidentally changed index writing to write
+        // <account_id> instead of <account_id>:star. As some servers have picked that up and wrote
+        // index entries with the short format, we should keep support its parsing.
         id = Ints.tryParse(s);
       }
       if (id == null) {
@@ -55,7 +60,12 @@ public interface StarredChangesUtil {
 
     @Override
     public final String toString() {
-      return accountId().toString();
+      // NOTE: The ":star" addition is used internally by Google and must not be removed without
+      // approval from a Google contributor. This method is used for writing change index data.
+      // Historically, we supported different kinds of labels, which were stored in this
+      // format, with "star" being the only label in use. This label addition stayed in order to
+      // keep the index format consistent while removing the star-label support.
+      return accountId() + SEPARATOR + "star";
     }
   }
 

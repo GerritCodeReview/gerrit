@@ -297,16 +297,20 @@ public abstract class QueryProcessor<T> {
 
       out = new ArrayList<>(cnt);
       for (int i = 0; i < cnt; i++) {
+        String queryString = queryStrings != null ? queryStrings.get(i) : null;
         ImmutableList<T> matchesList = matches.get(i).toList();
+        int matchCount = matchesList.size();
+        int limit = limits.get(i);
         logger.atFine().log(
             "Matches[%d]:\n%s",
             i, lazy(() -> matchesList.stream().map(this::formatForLogging).collect(toList())));
-        out.add(
-            QueryResult.create(
-                queryStrings != null ? queryStrings.get(i) : null,
-                predicates.get(i),
-                limits.get(i),
-                matchesList));
+        // TODO(brohlfs): Remove this extra logging by end of Q3 2023.
+        if (limit > 500 && userProvidedLimit <= 0 && matchCount > 100 && enforceVisibility) {
+          logger.atWarning().log(
+              "%s index query without provided limit. effective limit: %d, result count: %d, query: %s",
+              schemaDef.getName(), getPermittedLimit(), matchCount, p.getPredicateString());
+        }
+        out.add(QueryResult.create(queryString, predicates.get(i), limit, matchesList));
       }
 
       // Only measure successful queries that actually touched the index.

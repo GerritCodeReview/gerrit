@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "626997d4_9bda348f",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-07-07T00:44:41Z",
+      "side": 1,
+      "message": "I just realized we might need to do a visibility check on this branch before including it in the output. If an older patchset targeted a non-visible branch and then the change was moved to a visible branch, we shouldn\u0027t share information on the non-visible branch. Does that make sense?",
+      "range": {
+        "startLine": 299,
+        "startChar": 6,
+        "endLine": 299,
+        "endChar": 37
+      },
+      "revId": "4c11544ba8c7170c21c8ad9124ecf9c82e57e096",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

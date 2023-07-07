@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e72bd6b_a760cf13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-07T09:08:44Z",
+      "side": 1,
+      "message": "Ah, didn\u0027t know that - thanks.",
+      "parentUuid": "eead5d4e_78668d41",
+      "range": {
+        "startLine": 15,
+        "startChar": 20,
+        "endLine": 15,
+        "endChar": 23
+      },
+      "revId": "033ac044867a0d9b04e41cbc7a676d3a72b1fa99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5642ee81_b234c2fb",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-07-03T07:51:52Z",
       "side": 1,
       "message": "Not needed, as gerrit-review renders the change numbers as links.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 60
+      },
+      "revId": "033ac044867a0d9b04e41cbc7a676d3a72b1fa99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13668409_b8d485a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-07T09:08:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5642ee81_b234c2fb",
       "range": {
         "startLine": 20,
         "startChar": 0,

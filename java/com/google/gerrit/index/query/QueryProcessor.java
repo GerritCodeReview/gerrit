@@ -406,6 +406,12 @@ public abstract class QueryProcessor<T> {
     possibleLimits.add(getPermittedLimit());
     if (userProvidedLimit > 0) {
       possibleLimits.add(userProvidedLimit);
+    } else {
+      if (getPermittedLimit() > 500) {
+        logger.atWarning().log(
+            "%s index query without provided limit and high permitted limit %d: %s",
+            schemaDef.getName(), getPermittedLimit(), p.getPredicateString());
+      }
     }
     if (limitField != null) {
       Integer limitFromPredicate = LimitPredicate.getLimit(limitField, p);

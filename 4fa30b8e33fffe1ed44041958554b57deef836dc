@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4042d0d6_d7aa09ae",
+        "filename": "java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-07-07T09:01:33Z",
+      "side": 1,
+      "message": "Please add explicitly that `This code is used internally by Google and must not be removed without approval from a google contributor.`",
+      "range": {
+        "startLine": 45,
+        "startChar": 7,
+        "endLine": 45,
+        "endChar": 46
+      },
+      "revId": "4fa30b8e33fffe1ed44041958554b57deef836dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

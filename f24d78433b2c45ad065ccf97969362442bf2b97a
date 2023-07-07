@@ -22,6 +22,30 @@
       },
       "revId": "f24d78433b2c45ad065ccf97969362442bf2b97a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1adf7a7b_79f0644d",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/BucketedCallback.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-07T09:54:01Z",
+      "side": 1,
+      "message": "I see what you mean about the double wrapping.\n\nAfter some thought, I think I\u0027m going to abandon this change:\n* I don\u0027t think `register` knowing about `key` and `submetric(key)` is appropriate for its level of abstraction - it complicates it for logging purposes only.\n* Abandoning this change would mean there\u0027s a little more work for the person debugging to figure out which two keys cause the collision, but as we only report on the one that errored we only have part of the picture anyway. And as this is an edge case that we don\u0027t currently have as the collision issue has been addressed earlier in this relation chain, I would prefer this code to be kept simpler anyway.",
+      "parentUuid": "d518408e_40600cd2",
+      "range": {
+        "startLine": 108,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 9
+      },
+      "revId": "f24d78433b2c45ad065ccf97969362442bf2b97a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

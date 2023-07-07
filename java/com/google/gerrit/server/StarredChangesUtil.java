@@ -55,7 +55,7 @@ public interface StarredChangesUtil {
 
     @Override
     public final String toString() {
-      return accountId().toString();
+      return accountId() + SEPARATOR + "star";
     }
   }
 

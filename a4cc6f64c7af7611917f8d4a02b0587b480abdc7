@@ -675,6 +675,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8313d741_ded5b5a7",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-07T16:51:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e6f569c_03eb39a0",
+      "range": {
+        "startLine": 285,
+        "startChar": 12,
+        "endLine": 285,
+        "endChar": 69
+      },
+      "revId": "a4cc6f64c7af7611917f8d4a02b0587b480abdc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94094c74_50a9362f",

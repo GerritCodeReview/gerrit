@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dab78f5_bb54f063",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 27
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-07T17:10:52Z",
+      "side": 1,
+      "message": "What is the correct way to deal with multi line release notes?",
+      "range": {
+        "startLine": 49,
+        "startChar": 1,
+        "endLine": 49,
+        "endChar": 88
+      },
+      "revId": "4b25c239d1d2192401a0cab4763bf219048b013d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

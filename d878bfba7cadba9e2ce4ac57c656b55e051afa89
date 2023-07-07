@@ -46,6 +46,30 @@
       },
       "revId": "d878bfba7cadba9e2ce4ac57c656b55e051afa89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1784650_06460b26",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-07T13:05:49Z",
+      "side": 1,
+      "message": "Please take another look.\n\nBy also filtering on `enforcedVisibility` and `matchCount` I think we are making sure that this log line does not trigger very often.\n\nAlso added a TODO to remove this logging by EOQ.",
+      "parentUuid": "ce3f33d7_c1ee06eb",
+      "range": {
+        "startLine": 412,
+        "startChar": 13,
+        "endLine": 412,
+        "endChar": 22
+      },
+      "revId": "d878bfba7cadba9e2ce4ac57c656b55e051afa89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

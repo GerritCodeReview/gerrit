@@ -175,7 +175,9 @@ import com.google.gerrit.server.mime.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.notedb.DeleteZombieCommentsRefs;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.notedb.StoreSubmitRequirementsOp;
+import com.google.gerrit.server.patch.DiffFileSizeValidator;
 import com.google.gerrit.server.patch.DiffOperationsImpl;
+import com.google.gerrit.server.patch.DiffValidator;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.patch.PatchScriptFactory;
 import com.google.gerrit.server.patch.PatchScriptFactoryForAutoFix;
@@ -403,6 +405,8 @@ public class GerritGlobalModule extends FactoryModule {
         .to(SubmitRequirementConfigValidator.class);
     DynamicSet.bind(binder(), CommitValidationListener.class).to(PrologRulesWarningValidator.class);
     DynamicSet.setOf(binder(), CommentValidator.class);
+    DynamicSet.setOf(binder(), DiffValidator.class);
+    DynamicSet.bind(binder(), DiffValidator.class).to(DiffFileSizeValidator.class);
     DynamicSet.setOf(binder(), ChangeMessageModifier.class);
     DynamicSet.setOf(binder(), RefOperationValidationListener.class);
     DynamicSet.setOf(binder(), OnSubmitValidationListener.class);

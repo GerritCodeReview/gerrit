@@ -156,7 +156,7 @@ public class CommitValidators {
           .add(new ProjectStateValidationListener(projectState))
           .add(new AmendedGerritMergeCommitValidationListener(perm, gerritIdent))
           .add(new AuthorUploaderValidator(user, perm, urlFormatter.get()))
-          .add(new FileCountValidator(repoManager, config))
+          .add(new FileCountValidator(repoManager, config, urlFormatter.get()))
           .add(new CommitterUploaderValidator(user, perm, urlFormatter.get()))
           .add(new SignedOffByValidator(user, perm, projectState))
           .add(
@@ -188,7 +188,7 @@ public class CommitValidators {
           .add(new ProjectStateValidationListener(projectState))
           .add(new AmendedGerritMergeCommitValidationListener(perm, gerritIdent))
           .add(new AuthorUploaderValidator(user, perm, urlFormatter.get()))
-          .add(new FileCountValidator(repoManager, config))
+          .add(new FileCountValidator(repoManager, config, urlFormatter.get()))
           .add(new SignedOffByValidator(user, perm, projectState))
           .add(
               new ChangeIdValidator(
@@ -425,11 +425,15 @@ public class CommitValidators {
   /** Limits the number of files per change. */
   private static class FileCountValidator implements CommitValidationListener {
 
+    private static final int FILE_COUNT_WARNING_THRESHOLD = 10_000;
+
     private final GitRepositoryManager repoManager;
     private final int maxFileCount;
+    private final UrlFormatter urlFormatter;
 
-    FileCountValidator(GitRepositoryManager repoManager, Config config) {
+    FileCountValidator(GitRepositoryManager repoManager, Config config, UrlFormatter urlFormatter) {
       this.repoManager = repoManager;
+      this.urlFormatter = urlFormatter;
       maxFileCount = config.getInt("change", null, "maxFiles", 100_000);
     }
 
@@ -456,6 +460,13 @@ public class CommitValidators {
               String.format(
                   "Exceeding maximum number of files per change (%d > %d)",
                   changedFiles, maxFileCount));
+        }
+        if (changedFiles > FILE_COUNT_WARNING_THRESHOLD) {
+          String host = getGerritHost(urlFormatter.getWebUrl().orElse(null));
+          String project = receiveEvent.project.getNameKey().get();
+          logger.atWarning().log(
+              "Warning: Change with %d files on host %s, project %s, ref %s",
+              changedFiles, host, project, refName);
         }
       } catch (IOException e) {
         // This happens e.g. for cherrypicks.

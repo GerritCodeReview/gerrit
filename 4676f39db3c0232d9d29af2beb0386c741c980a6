@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1f27546f_45f65a2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-08T06:02:36Z",
+      "side": 1,
+      "message": "I wouldn\u0027t call it _breaking change_ but rather _fixing change_ 😄 Having said that: how about moving it to `stable-3.6` as the original change was introduced there?\nOtherwise it LGTM 🔥",
+      "parentUuid": "3c28750b_4fa5912c",
+      "revId": "4676f39db3c0232d9d29af2beb0386c741c980a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c21f03c2_0b1dce03",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

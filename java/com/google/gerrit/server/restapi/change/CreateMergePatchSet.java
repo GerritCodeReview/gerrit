@@ -185,7 +185,12 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
           in.author == null
               ? me.newCommitterIdent(now, serverZoneId)
               : new PersonIdent(in.author.name, in.author.email, now, serverZoneId);
-      PersonIdent committer = me.newCommitterIdent(now, serverZoneId);
+      RevCommit commit = rw.parseCommit(ps.commitId());
+      PersonIdent committer =
+          commit.getCommitterIdent() == null
+              ? me.newCommitterIdent(now, serverZoneId)
+              : me.newCommitterIdent(
+                  commit.getCommitterIdent().getEmailAddress(), now, serverZoneId);
       CodeReviewCommit newCommit =
           createMergeCommit(
               in,

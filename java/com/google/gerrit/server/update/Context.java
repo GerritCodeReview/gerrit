@@ -164,4 +164,16 @@ public interface Context {
   default PersonIdent newCommitterIdent(IdentifiedUser user) {
     return user.newCommitterIdent(getWhen(), getZoneId());
   }
+
+  /**
+   * Creates a committer {@link PersonIdent} for the given user. The identity will be created with
+   * the given email if the user is allowed to use it, otherwise fallback to preferred email.
+   *
+   * @param user user for which a committer {@link PersonIdent} should be created
+   * @param email committer email of the source commit
+   * @return the created committer {@link PersonIdent}
+   */
+  default PersonIdent newCommitterIdent(String email, IdentifiedUser user) {
+    return user.newCommitterIdent(email, getWhen(), getZoneId()).orElseGet(this::newCommitterIdent);
+  }
 }

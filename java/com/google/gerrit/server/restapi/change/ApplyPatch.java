@@ -61,6 +61,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -178,7 +179,14 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
       ObjectId treeId = applyResult.getTreeId();
 
       Instant now = TimeUtil.now();
-      PersonIdent committerIdent = user.get().newCommitterIdent(now, serverZoneId);
+      PersonIdent committerIdent =
+          Optional.ofNullable(latestPatchset.getCommitterIdent())
+              .map(
+                  ident ->
+                      user.get()
+                          .newCommitterIdent(ident.getEmailAddress(), now, serverZoneId)
+                          .orElseGet(() -> user.get().newCommitterIdent(now, serverZoneId)))
+              .orElseGet(() -> user.get().newCommitterIdent(now, serverZoneId));
       PersonIdent authorIdent =
           input.author == null
               ? committerIdent

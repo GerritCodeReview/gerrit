@@ -58,6 +58,7 @@ import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.diff.Sequence;
 import org.eclipse.jgit.dircache.DirCache;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -504,7 +505,11 @@ public class RebaseChangeOp implements BatchUpdateOp {
     if (committerIdent != null) {
       cb.setCommitter(committerIdent);
     } else {
-      cb.setCommitter(ctx.newCommitterIdent());
+      PersonIdent committerIdent =
+          Optional.ofNullable(original.getCommitterIdent())
+              .map(ident -> ctx.newCommitterIdent(ident.getEmailAddress(), ctx.getIdentifiedUser()))
+              .orElseGet(ctx::newCommitterIdent);
+      cb.setCommitter(committerIdent);
     }
     if (matchAuthorToCommitterDate) {
       cb.setAuthor(

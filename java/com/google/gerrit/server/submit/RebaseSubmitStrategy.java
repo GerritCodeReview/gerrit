@@ -41,6 +41,7 @@ import com.google.gerrit.server.update.RepoContext;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -167,7 +168,10 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         RevCommit mergeTip = args.mergeTip.getCurrentTip();
         args.rw.parseBody(mergeTip);
         String cherryPickCmtMsg = args.mergeUtil.createCommitMessageOnSubmit(toMerge, mergeTip);
-        PersonIdent committer = ctx.newCommitterIdent(args.caller);
+        PersonIdent committer =
+            Optional.ofNullable(toMerge.getCommitterIdent())
+                .map(ident -> ctx.newCommitterIdent(ident.getEmailAddress(), args.caller))
+                .orElseGet(() -> ctx.newCommitterIdent(args.caller));
         try {
           newCommit =
               args.mergeUtil.createCherryPickFromCommit(

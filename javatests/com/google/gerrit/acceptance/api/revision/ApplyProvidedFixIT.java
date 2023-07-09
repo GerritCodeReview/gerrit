@@ -128,7 +128,7 @@ public class ApplyProvidedFixIT extends AbstractDaemonTest {
     gApi.changes().id(change.get()).current().applyFix(applyProvidedFixInput);
 
     EditInfo editInfo = gApi.changes().id(change.get()).edit().get().orElseThrow();
-    assertThat(editInfo.commit.committer.email).isEqualTo(emailTwo);
+    assertThat(editInfo.commit.committer.email).isEqualTo(emailOne);
   }
 
   @Test

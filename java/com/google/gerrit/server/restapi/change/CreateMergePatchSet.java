@@ -73,6 +73,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -181,11 +182,18 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
 
       Instant now = TimeUtil.now();
       IdentifiedUser me = user.get().asIdentifiedUser();
-      PersonIdent committer = me.newCommitterIdent(now, serverZoneId);
       PersonIdent author =
           in.author == null
-              ? committer
+              ? me.newCommitterIdent(now, serverZoneId)
               : new PersonIdent(in.author.name, in.author.email, now, serverZoneId);
+      RevCommit commit = rw.parseCommit(ps.commitId());
+      PersonIdent committer =
+          Optional.ofNullable(commit.getCommitterIdent())
+              .map(
+                  ident ->
+                      me.newCommitterIdent(ident.getEmailAddress(), now, serverZoneId)
+                          .orElseGet(() -> me.newCommitterIdent(now, serverZoneId)))
+              .orElseGet(() -> me.newCommitterIdent(now, serverZoneId));
       CodeReviewCommit newCommit =
           createMergeCommit(
               in,

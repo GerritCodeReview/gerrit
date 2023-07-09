@@ -466,32 +466,29 @@ public class IdentifiedUser extends CurrentUser {
     return newCommitterIdent(ident.getWhenAsInstant(), ident.getZoneId());
   }
 
-  public PersonIdent newCommitterIdent(Instant when, ZoneId zoneId) {
-    final Account ua = getAccount();
-    String name = ua.fullName();
-    String email = ua.preferredEmail();
+  protected String getGenericEmail(Account ua) {
+    // No preferred email is configured. Use a generic identity so we
+    // don't leak an address the user may have given us, but doesn't
+    // necessarily want to publish through Git records.
+    //
+    String user = getUserName().orElseGet(() -> "account-" + ua.id().toString());
 
-    if (email == null || email.isEmpty()) {
-      // No preferred email is configured. Use a generic identity so we
-      // don't leak an address the user may have given us, but doesn't
-      // necessarily want to publish through Git records.
-      //
-      String user = getUserName().orElseGet(() -> "account-" + ua.id().toString());
-
-      String host;
-      if (canonicalUrl.get() != null) {
-        try {
-          host = new URL(canonicalUrl.get()).getHost();
-        } catch (MalformedURLException e) {
-          host = SystemReader.getInstance().getHostname();
-        }
-      } else {
+    String host;
+    if (canonicalUrl.get() != null) {
+      try {
+        host = new URL(canonicalUrl.get()).getHost();
+      } catch (MalformedURLException e) {
         host = SystemReader.getInstance().getHostname();
       }
-
-      email = user + "@" + host;
+    } else {
+      host = SystemReader.getInstance().getHostname();
     }
 
+    return user + "@" + host;
+  }
+
+  protected String getCommitterName(Account ua, String email) {
+    String name = ua.fullName();
     if (name == null || name.isEmpty()) {
       final int at = email.indexOf('@');
       if (0 < at) {
@@ -500,8 +497,25 @@ public class IdentifiedUser extends CurrentUser {
         name = anonymousCowardName;
       }
     }
+    return name;
+  }
 
+  public PersonIdent newCommitterIdent(Instant when, ZoneId zoneId) {
+    final Account ua = getAccount();
+    String email = ua.preferredEmail();
+    if (email == null || email.isEmpty()) {
+      email = getGenericEmail(ua);
+    }
+    String name = getCommitterName(ua, email);
     return new PersonIdent(name, email, when, zoneId);
+  }
+
+  public Optional<PersonIdent> newCommitterIdent(String email, Instant when, ZoneId zoneId) {
+    if (!hasEmailAddress(email)) {
+      return Optional.empty();
+    }
+    String name = getCommitterName(getAccount(), email);
+    return Optional.of(new PersonIdent(name, email, when, zoneId));
   }
 
   @Override

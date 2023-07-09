@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyResolver;
@@ -51,6 +52,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -175,8 +177,15 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
     builder.setTreeId(basePatchSetCommit.getTree());
     builder.setParentIds(basePatchSetCommit.getParents());
     builder.setAuthor(basePatchSetCommit.getAuthorIdent());
-    builder.setCommitter(
-        userProvider.get().asIdentifiedUser().newCommitterIdent(timestamp, zoneId));
+    IdentifiedUser user = userProvider.get().asIdentifiedUser();
+    PersonIdent committer =
+        Optional.ofNullable(basePatchSetCommit.getCommitterIdent())
+            .map(
+                ident ->
+                    user.newCommitterIdent(ident.getEmailAddress(), timestamp, zoneId)
+                        .orElseGet(() -> user.newCommitterIdent(timestamp, zoneId)))
+            .orElseGet(() -> user.newCommitterIdent(timestamp, zoneId));
+    builder.setCommitter(committer);
     builder.setMessage(commitMessage);
     ObjectId newCommitId = objectInserter.insert(builder);
     objectInserter.flush();

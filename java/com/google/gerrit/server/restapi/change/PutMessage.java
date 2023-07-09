@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyResolver;
@@ -175,8 +176,13 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
     builder.setTreeId(basePatchSetCommit.getTree());
     builder.setParentIds(basePatchSetCommit.getParents());
     builder.setAuthor(basePatchSetCommit.getAuthorIdent());
-    builder.setCommitter(
-        userProvider.get().asIdentifiedUser().newCommitterIdent(timestamp, zoneId));
+    IdentifiedUser user = userProvider.get().asIdentifiedUser();
+    PersonIdent committerIdent =
+        basePatchSetCommit.getCommitterIdent() == null
+            ? user.newCommitterIdent(timestamp, zoneId)
+            : user.newCommitterIdent(
+                basePatchSetCommit.getCommitterIdent().getEmailAddress(), timestamp, zoneId);
+    builder.setCommitter(committerIdent);
     builder.setMessage(commitMessage);
     ObjectId newCommitId = objectInserter.insert(builder);
     objectInserter.flush();

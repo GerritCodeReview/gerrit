@@ -178,7 +178,12 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
       ObjectId treeId = applyResult.getTreeId();
 
       Instant now = TimeUtil.now();
-      PersonIdent committerIdent = user.get().newCommitterIdent(now, serverZoneId);
+      PersonIdent committerIdent =
+          latestPatchset.getCommitterIdent() == null
+              ? user.get().newCommitterIdent(now, serverZoneId)
+              : user.get()
+                  .newCommitterIdent(
+                      latestPatchset.getCommitterIdent().getEmailAddress(), now, serverZoneId);
       PersonIdent authorIdent =
           input.author == null
               ? committerIdent

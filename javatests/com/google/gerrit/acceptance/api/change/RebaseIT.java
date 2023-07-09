@@ -237,7 +237,7 @@ public class RebaseIT {
       // Rebase the second change
       gApi.changes().id(c2.get()).rebase();
       assertThat(gApi.changes().id(c2.get()).get().getCurrentRevision().commit.committer.email)
-          .isEqualTo(emailTwo);
+          .isEqualTo(emailOne);
     }
 
     @Test
@@ -461,6 +461,11 @@ public class RebaseIT {
       String changeId = r2.getChangeId();
       requestScopeOperations.setApiUser(user.id());
       rebaseCall.call(changeId);
+
+      // Verify that the committer has been updated
+      GitPerson committer = gApi.changes().id(r2.getChangeId()).get().getCurrentRevision().commit.committer;
+      assertThat(committer.name).isEqualTo(user.fullName());
+      assertThat(committer.email).isEqualTo(user.email());
     }
 
     @Test

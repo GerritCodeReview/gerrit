@@ -181,7 +181,7 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
     gApi.changes().id(change.get()).createMergePatchSet(in);
 
     assertThat(gApi.changes().id(change.get()).get().getCurrentRevision().commit.committer.email)
-        .isEqualTo(emailTwo);
+        .isEqualTo(emailOne);
   }
 
   @Test

@@ -291,7 +291,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     gApi.changes().id(change.get()).edit().rebase();
 
     EditInfo editInfo = gApi.changes().id(change.get()).edit().get().orElseThrow();
-    assertThat(editInfo.commit.committer.email).isEqualTo(emailTwo);
+    assertThat(editInfo.commit.committer.email).isEqualTo(emailOne);
   }
 
   @Test
@@ -365,7 +365,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     gApi.changes().id(change.get()).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
 
     EditInfo editInfo = gApi.changes().id(change.get()).edit().get().orElseThrow();
-    assertThat(editInfo.commit.committer.email).isEqualTo(emailTwo);
+    assertThat(editInfo.commit.committer.email).isEqualTo(emailOne);
   }
 
   @Test
@@ -530,7 +530,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     gApi.changes().id(change.get()).edit().modifyCommitMessage(msg);
 
     EditInfo editInfo = gApi.changes().id(change.get()).edit().get().orElseThrow();
-    assertThat(editInfo.commit.committer.email).isEqualTo(emailTwo);
+    assertThat(editInfo.commit.committer.email).isEqualTo(emailOne);
   }
 
   @Test
@@ -703,7 +703,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     gApi.changes().id(change.get()).edit().deleteFile(FILE_NAME);
 
     EditInfo editInfo = gApi.changes().id(change.get()).edit().get().orElseThrow();
-    assertThat(editInfo.commit.committer.email).isEqualTo(emailTwo);
+    assertThat(editInfo.commit.committer.email).isEqualTo(emailOne);
   }
 
   @Test
@@ -738,7 +738,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     gApi.changes().id(change.get()).edit().renameFile(FILE_NAME, FILE_NAME3);
 
     EditInfo editInfo = gApi.changes().id(change.get()).edit().get().orElseThrow();
-    assertThat(editInfo.commit.committer.email).isEqualTo(emailTwo);
+    assertThat(editInfo.commit.committer.email).isEqualTo(emailOne);
   }
 
   @Test
@@ -800,7 +800,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     gApi.changes().id(change.get()).edit().restoreFile(FILE_NAME);
 
     EditInfo editInfo = gApi.changes().id(change.get()).edit().get().orElseThrow();
-    assertThat(editInfo.commit.committer.email).isEqualTo(emailTwo);
+    assertThat(editInfo.commit.committer.email).isEqualTo(emailOne);
   }
 
   @Test

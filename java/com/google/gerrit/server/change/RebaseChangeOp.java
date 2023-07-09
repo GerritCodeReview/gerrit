@@ -504,7 +504,12 @@ public class RebaseChangeOp implements BatchUpdateOp {
     if (committerIdent != null) {
       cb.setCommitter(committerIdent);
     } else {
-      cb.setCommitter(ctx.newCommitterIdent());
+      PersonIdent committerIdent =
+          original.getCommitterIdent() == null
+              ? ctx.newCommitterIdent()
+              : ctx.newCommitterIdent(
+                  ctx.getIdentifiedUser(), original.getCommitterIdent().getEmailAddress());
+      cb.setCommitter(committerIdent);
     }
     if (matchAuthorToCommitterDate) {
       cb.setAuthor(

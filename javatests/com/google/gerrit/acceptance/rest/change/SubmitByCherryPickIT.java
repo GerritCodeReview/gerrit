@@ -136,7 +136,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
 
     // Change preferred email for the user
     String emailTwo = "email2@example.com";
-    accountOperations.account(testUser).forUpdate().preferredEmail(emailTwo).update();
+    accountOperations.account(testUser).forUpdate().preferredEmail(emailTwo).addSecondaryEmail(emailOne).update();
     requestScopeOperations.setApiUser(testUser);
 
     // Approve and submit the change
@@ -144,7 +144,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     revision.review(ReviewInput.approve());
     revision.submit();
     assertThat(gApi.changes().id(changeId.get()).get().getCurrentRevision().commit.committer.email)
-        .isEqualTo(emailTwo);
+        .isEqualTo(emailOne);
   }
 
   @Test

@@ -306,7 +306,14 @@ public class CherryPickChange {
       CodeReviewCommit cherryPickCommit;
       ProjectState projectState =
           projectCache.get(dest.project()).orElseThrow(noSuchProject(dest.project()));
-      PersonIdent committerIdent = identifiedUser.newCommitterIdent(timestamp, serverZoneId);
+      PersonIdent prevCommitterIdent = commitToCherryPick.getCommitterIdent();
+      PersonIdent committerIdent =
+          prevCommitterIdent == null
+              ? identifiedUser.newCommitterIdent(timestamp, serverZoneId)
+              : identifiedUser
+                  .getOptionalCommitterIdent(
+                      prevCommitterIdent.getEmailAddress(), timestamp, serverZoneId)
+                  .orElseGet(() -> identifiedUser.newCommitterIdent(timestamp, serverZoneId));
 
       try {
         MergeUtil mergeUtil;

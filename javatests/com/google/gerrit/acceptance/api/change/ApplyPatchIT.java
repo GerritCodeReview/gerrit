@@ -112,7 +112,7 @@ public class ApplyPatchIT extends AbstractDaemonTest {
     in.responseFormatOptions = ImmutableList.of(CURRENT_REVISION, CURRENT_COMMIT);
     ChangeInfo result = gApi.changes().id(change.get()).applyPatch(in);
 
-    assertThat(result.getCurrentRevision().commit.committer.email).isEqualTo(emailTwo);
+    assertThat(result.getCurrentRevision().commit.committer.email).isEqualTo(emailOne);
   }
 
   private static final String MODIFIED_FILE_NAME = "modified_file.txt";

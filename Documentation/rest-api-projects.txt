@@ -2658,6 +2658,10 @@ The content is returned as base64 encoded string.
 
 Cherry-picks a commit of a project to a destination branch.
 
+If one of the secondary emails associated with the user performing the operation was used as the
+committer email in the cherry-picked commit, the same email will be used as the committer email
+otherwise, the user's preferred email will be used.
+
 To cherry pick a change revision, see link:rest-api-changes.html#cherry-pick[CherryPick].
 
 The destination branch must be provided in the request body inside a

@@ -986,6 +986,10 @@ Gerrit will create a merge commit based on the information of
 MergePatchSetInput and add a new patch set to the change corresponding
 to the new merge commit.
 
+If one of the secondary emails associated with the user performing the operation was used as the
+committer email in the current patch set, the same email will be used as the committer email
+otherwise, the user's preferred email will be used.
+
 .Request
 ----
   POST /changes/test~master~Ic5466d107c5294414710935a8ef3b0180fb848dc/merge  HTTP/1.0
@@ -1038,6 +1042,10 @@ returned that describes the resulting change.
 --
 
 Creates a new patch set with a new commit message.
+
+If one of the secondary emails associated with the user performing the operation was used as the
+committer email in the current patch set, the same email will be used as the committer email
+otherwise, the user's preferred email will be used.
 
 The new commit message must be provided in the request body inside a
 link:#commit-message-input[CommitMessageInput] entity. If a Change-Id
@@ -1314,6 +1322,10 @@ the error message is contained in the response body.
 
 Rebases a change.
 
+If one of the secondary emails associated with the user performing the operation was used as the
+committer email in the current patch set, the same email will be used as the committer email
+otherwise, the user's preferred email will be used.
+
 Optionally, the parent revision can be changed to another patch set through the
 link:#rebase-input[RebaseInput] entity.
 
@@ -1439,6 +1451,10 @@ change (as approvals of the uploader are ignored).
 --
 
 Rebases an ancestry chain of changes.
+
+If one of the secondary emails associated with the user performing the operation was used as the
+committer email in the current patch set, the same email will be used as the committer email
+otherwise, the user's preferred email will be used.
 
 The operated change is treated as the chain tip. All unsubmitted ancestors are rebased.
 
@@ -1919,6 +1935,11 @@ message is contained in the response body.
 
 Submits a change.
 
+If the submission results in a new patch set (due to a rebase or cherry-pick merge method), the
+committer email will remain the same as the one used in the previous commit, provided that one of
+the secondary emails associated with the user performing the operation was used as the committer
+email in the previous commit. Otherwise, the user's preferred email will be used.
+
 The request body only needs to include a link:#submit-input[
 SubmitInput] entity if submitting on behalf of another user.
 
@@ -2275,6 +2296,10 @@ otherwise only by administrators.
 --
 
 Creates a new patch set on a destination change from the provided patch.
+
+If one of the secondary emails associated with the user performing the operation was used as the
+committer email in the current patch set, the same email will be used as the committer email
+otherwise, the user's preferred email will be used.
 
 The patch must be provided in the request body, inside a
 link:#applypatchpatchset-input[ApplyPatchPatchSetInput] entity.
@@ -3183,10 +3208,14 @@ provided fetch info map is also included.
 [[put-edit-file]]
 === Change file content in Change Edit
 --
-'PUT /changes/link:#change-id[\{change-id\}]/edit/path%2fto%2ffile
+'PUT /changes/link:#change-id[\{change-id\}]/edit/path%2fto%2ffile'
 --
 
 Put content of a file to a change edit.
+
+If one of the secondary emails associated with the user performing the operation was used as the
+committer email in the latest patch set, the same email will be used as the committer email in the
+new change edit commit otherwise, the user's preferred email will be used.
 
 .Request
 ----
@@ -3234,13 +3263,17 @@ content that the file already has, '409 no changes were made' is returned.
 [[post-edit]]
 === Restore file content or rename files in Change Edit
 --
-'POST /changes/link:#change-id[\{change-id\}]/edit
+'POST /changes/link:#change-id[\{change-id\}]/edit'
 --
 
 Creates empty change edit, restores file content or renames files in change
 edit. The request body needs to include a
 link:#change-edit-input[ChangeEditInput] entity when a file within change
 edit should be restored or old and new file names to rename a file.
+
+If one of the secondary emails associated with the user performing the operation was used as the
+committer email in the latest patch set, the same email will be used as the committer email in the
+new change edit commit otherwise, the user's preferred email will be used.
 
 .Request
 ----
@@ -3278,12 +3311,16 @@ old and new file names are provided, the file is renamed. As response
 [[put-change-edit-message]]
 === Change commit message in Change Edit
 --
-'PUT /changes/link:#change-id[\{change-id\}]/edit:message
+'PUT /changes/link:#change-id[\{change-id\}]/edit:message'
 --
 
 Modify commit message. The request body needs to include a
 link:#change-edit-message-input[ChangeEditMessageInput]
 entity.
+
+If one of the secondary emails associated with the user performing the operation was used as the
+committer email in the latest patch set, the same email will be used as the committer email in the
+new change edit commit otherwise, the user's preferred email will be used.
 
 .Request
 ----
@@ -3312,6 +3349,10 @@ response "`204 No Content`" is returned.
 Deletes a file from a change edit. This deletes the file from the repository
 completely. This is not the same as reverting or restoring a file to its
 previous contents.
+
+If one of the secondary emails associated with the user performing the operation was used as the
+committer email in the latest patch set, the same email will be used as the committer email in the
+new change edit commit otherwise, the user's preferred email will be used.
 
 .Request
 ----
@@ -3480,10 +3521,14 @@ As response "`204 No Content`" is returned.
 [[rebase-edit]]
 === Rebase Change Edit
 --
-'POST /changes/link:#change-id[\{change-id\}]/edit:rebase
+'POST /changes/link:#change-id[\{change-id\}]/edit:rebase'
 --
 
 Rebases change edit on top of latest patch set.
+
+If one of the secondary emails associated with the user performing the operation was used as the
+committer email in the latest patch set, the same email will be used as the committer email in the
+new change edit commit otherwise, the user's preferred email will be used.
 
 .Request
 ----
@@ -5594,6 +5639,10 @@ it will be updated accordingly. A fix can only be applied if no change edit
 exists and the fix refers to the current patch set, or the fix refers to the
 patch set on which the change edit is based.
 
+If one of the secondary emails associated with the user performing the operation was used as the
+committer email in the current patch set, the same email will be used as the committer email in the
+new change edit commit otherwise, the user's preferred email will be used.
+
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/fixes/8f605a55_f6aa4ecc/apply HTTP/1.0
@@ -5659,6 +5708,10 @@ Applies a list of <<fix-replacement-info,FixReplacementInfo>> loaded from the
 <<apply-provided-fix-input,ApplyProvidedFixInput>> entity. The fixes are passed as part of the request body. The
 application of the fixes creates a new change edit. `Apply Provided Fix` can only be applied on the current
 patchset.
+
+If one of the secondary emails associated with the user performing the operation was used as the
+committer email in the current patch set, the same email will be used as the committer email in the
+new change edit commit otherwise, the user's preferred email will be used.
 
 .Request
 ----
@@ -6314,6 +6367,10 @@ Deletes the reviewed flag of the calling user from a file of a revision.
 --
 
 Cherry picks a revision to a destination branch.
+
+If one of the secondary emails associated with the user performing the operation was used as the
+committer email in the cherry-picked revision, the same email will be used as the committer email
+otherwise, the user's preferred email will be used.
 
 To cherry pick a commit with no change-id associated with it, see
 link:rest-api-projects.html#cherry-pick-commit[CherryPickCommit].

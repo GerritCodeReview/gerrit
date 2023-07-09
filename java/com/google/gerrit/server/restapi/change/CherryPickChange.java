@@ -74,6 +74,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -306,8 +307,15 @@ public class CherryPickChange {
       CodeReviewCommit cherryPickCommit;
       ProjectState projectState =
           projectCache.get(dest.project()).orElseThrow(noSuchProject(dest.project()));
-      PersonIdent committerIdent = identifiedUser.newCommitterIdent(timestamp, serverZoneId);
-
+      PersonIdent committerIdent =
+          Optional.ofNullable(commitToCherryPick.getCommitterIdent())
+              .map(
+                  ident ->
+                      identifiedUser
+                          .newCommitterIdent(ident.getEmailAddress(), timestamp, serverZoneId)
+                          .orElseGet(
+                              () -> identifiedUser.newCommitterIdent(timestamp, serverZoneId)))
+              .orElseGet(() -> identifiedUser.newCommitterIdent(timestamp, serverZoneId));
       try {
         MergeUtil mergeUtil;
         if (input.allowConflicts) {

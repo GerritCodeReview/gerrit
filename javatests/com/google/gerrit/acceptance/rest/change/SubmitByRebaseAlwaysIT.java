@@ -146,7 +146,7 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
     revision.review(ReviewInput.approve());
     revision.submit();
     assertThat(gApi.changes().id(changeId.get()).get().getCurrentRevision().commit.committer.email)
-        .isEqualTo(emailTwo);
+        .isEqualTo(emailOne);
   }
 
   @Test

@@ -468,9 +468,7 @@ public class IdentifiedUser extends CurrentUser {
 
   public PersonIdent newCommitterIdent(Instant when, ZoneId zoneId) {
     final Account ua = getAccount();
-    String name = ua.fullName();
     String email = ua.preferredEmail();
-
     if (email == null || email.isEmpty()) {
       // No preferred email is configured. Use a generic identity so we
       // don't leak an address the user may have given us, but doesn't
@@ -491,17 +489,16 @@ public class IdentifiedUser extends CurrentUser {
 
       email = user + "@" + host;
     }
-
-    if (name == null || name.isEmpty()) {
-      final int at = email.indexOf('@');
-      if (0 < at) {
-        name = email.substring(0, at);
-      } else {
-        name = anonymousCowardName;
-      }
-    }
-
+    String name = getCommitterName(ua, email);
     return new PersonIdent(name, email, when, zoneId);
+  }
+
+  public Optional<PersonIdent> newCommitterIdent(String email, Instant when, ZoneId zoneId) {
+    if (!hasEmailAddress(email)) {
+      return Optional.empty();
+    }
+    String name = getCommitterName(getAccount(), email);
+    return Optional.of(new PersonIdent(name, email, when, zoneId));
   }
 
   @Override
@@ -550,5 +547,18 @@ public class IdentifiedUser extends CurrentUser {
   @Override
   public boolean hasSameAccountId(CurrentUser other) {
     return getAccountId().get() == other.getAccountId().get();
+  }
+
+  protected String getCommitterName(Account ua, String email) {
+    String name = ua.fullName();
+    if (name == null || name.isEmpty()) {
+      final int at = email.indexOf('@');
+      if (0 < at) {
+        name = email.substring(0, at);
+      } else {
+        name = anonymousCowardName;
+      }
+    }
+    return name;
   }
 }

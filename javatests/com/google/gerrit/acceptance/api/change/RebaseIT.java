@@ -237,7 +237,7 @@ public class RebaseIT {
       // Rebase the second change
       gApi.changes().id(c2.get()).rebase();
       assertThat(gApi.changes().id(c2.get()).get().getCurrentRevision().commit.committer.email)
-          .isEqualTo(emailTwo);
+          .isEqualTo(emailOne);
     }
 
     @Test

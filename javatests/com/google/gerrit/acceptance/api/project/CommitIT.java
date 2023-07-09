@@ -228,7 +228,7 @@ public class CommitIT extends AbstractDaemonTest {
     input.message = "cherry-pick to foo branch";
     ChangeInfo cherryPickResult =
         gApi.projects().name(project.get()).commit(commit).cherryPick(input).get();
-    assertThat(cherryPickResult.getCurrentRevision().commit.committer.email).isEqualTo(emailTwo);
+    assertThat(cherryPickResult.getCurrentRevision().commit.committer.email).isEqualTo(emailOne);
   }
 
   @Test

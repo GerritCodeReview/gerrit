@@ -102,8 +102,10 @@ public class CherryPick extends SubmitStrategy {
       RevCommit mergeTip = args.mergeTip.getCurrentTip();
       args.rw.parseBody(mergeTip);
       String cherryPickCmtMsg = args.mergeUtil.createCommitMessageOnSubmit(toMerge, mergeTip);
-
-      PersonIdent committer = ctx.newCommitterIdent(args.caller);
+      PersonIdent committer =
+          toMerge.getCommitterIdent() == null
+              ? ctx.newCommitterIdent(args.caller)
+              : ctx.newCommitterIdent(toMerge.getCommitterIdent().getEmailAddress(), args.caller);
       try {
         newCommit =
             args.mergeUtil.createCherryPickFromCommit(

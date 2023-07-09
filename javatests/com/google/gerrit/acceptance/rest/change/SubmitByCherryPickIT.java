@@ -144,7 +144,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     revision.review(ReviewInput.approve());
     revision.submit();
     assertThat(gApi.changes().id(changeId.get()).get().getCurrentRevision().commit.committer.email)
-        .isEqualTo(emailTwo);
+        .isEqualTo(emailOne);
   }
 
   @Test

@@ -535,7 +535,7 @@ public class ChangeEditModifier {
       builder.setTreeId(tree);
       builder.setParentIds(basePatchsetCommit.getParents());
       builder.setAuthor(basePatchsetCommit.getAuthorIdent());
-      builder.setCommitter(getCommitterIdent(timestamp));
+      builder.setCommitter(getCommitterIdent(basePatchsetCommit, timestamp));
       builder.setMessage(commitMessage);
       ObjectId newCommitId = objectInserter.insert(builder);
       objectInserter.flush();
@@ -543,9 +543,13 @@ public class ChangeEditModifier {
     }
   }
 
-  private PersonIdent getCommitterIdent(Instant commitTimestamp) {
+  private PersonIdent getCommitterIdent(RevCommit basePatchsetCommit, Instant commitTimestamp) {
     IdentifiedUser user = currentUser.get().asIdentifiedUser();
-    return user.newCommitterIdent(commitTimestamp, zoneId);
+    PersonIdent prevCommitterIdent = basePatchsetCommit.getCommitterIdent();
+    return prevCommitterIdent == null
+        ? user.newCommitterIdent(commitTimestamp, zoneId)
+        : user.newCommitterIdent(prevCommitterIdent.getEmailAddress(), commitTimestamp, zoneId)
+            .orElseGet(() -> user.newCommitterIdent(commitTimestamp, zoneId));
   }
 
   /**

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a03db6c1_1519fb4c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 30
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-10T11:16:23Z",
+      "side": 1,
+      "message": "The PolyGerrit failure is unrelated.",
+      "revId": "7cd5ca869d7ea2692efb97501a68278c1d2b4e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

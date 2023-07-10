@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7b0144ca_3cc207b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-10T07:03:36Z",
+      "side": 1,
+      "message": "Couldn\u0027t we do that only specifically if a path is used, e.g. by creating a specific extension of `BucketedCallback` or `CallbackMetricImpl1` that can be used, if field1 is a filepath? That would be less disruptive for consumers.",
+      "parentUuid": "e259d2dd_7064d70d",
+      "revId": "3ae738e3194f5f4d476bbd29ffe38cc1adb82cb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "45d1b62f_5ba128e0",
         "filename": "java/com/google/gerrit/metrics/dropwizard/CallbackMetricImpl1.java",
         "patchSetId": 3

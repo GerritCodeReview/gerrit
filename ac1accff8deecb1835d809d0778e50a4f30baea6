@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81daa121_2705b14c",
+        "filename": "java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-07-10T10:15:32Z",
+      "side": 1,
+      "message": "it\u0027s not just Google that uses this. Upstream zero-downtime upgrades have the same kind of requirements as we do.",
+      "range": {
+        "startLine": 63,
+        "startChar": 9,
+        "endLine": 64,
+        "endChar": 95
+      },
+      "revId": "ac1accff8deecb1835d809d0778e50a4f30baea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

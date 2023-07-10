@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "decb3bcf_5d2de7dc",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-07-10T08:23:08Z",
+      "side": 1,
+      "message": "Can we make this package private? It looks like email decorators exist in the same package.",
+      "range": {
+        "startLine": 726,
+        "startChar": 2,
+        "endLine": 726,
+        "endChar": 8
+      },
+      "revId": "5d6b34b959987b78763eed90fb956920f1dc6fce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

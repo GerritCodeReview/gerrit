@@ -63,7 +63,13 @@ public class PaginatingSource<T> implements DataSource<T> {
             pageResultSize++;
           }
 
-          if (last != null && source instanceof Paginated) {
+          if (last != null
+              && source instanceof Paginated
+              // TODO: this fix is only for the stable branches and the real refactoring would be to
+              // restore the logic
+              // for the filtering in AndSource (L58 - 64) as per
+              // https://gerrit-review.googlesource.com/c/gerrit/+/345634/9
+              && !indexConfig.paginationType().equals(PaginationType.NONE)) {
             // Restart source and continue if we have not filled the
             // full limit the caller wants.
             //

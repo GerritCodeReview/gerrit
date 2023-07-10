@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "535ffed1_577608c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-07-10T14:33:25Z",
+      "side": 1,
+      "message": "This is fine for me although must not be included in the merge up to 3.7+ (or reverted if not possible to exclude).\n\n@nasser was looking at backporting the new runner from 3.7 although that\u0027s kinda big.",
+      "revId": "f4c78d9f6bb318e4b8acac9cb6b9e80dba820a54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

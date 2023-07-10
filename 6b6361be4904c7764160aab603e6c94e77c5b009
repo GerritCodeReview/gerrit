@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "312c7a52_18ea7bb8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-07-10T15:15:26Z",
+      "side": 1,
+      "message": "Sorry, not sure I understand - how could we fail diff before the computation - we wouldn\u0027t know the size of the diff?\nOr do you mean that would be the result if we fail the diff on PS upload/diff cache entry computation?",
+      "range": {
+        "startLine": 22,
+        "startChar": 44,
+        "endLine": 23,
+        "endChar": 30
+      },
+      "revId": "6b6361be4904c7764160aab603e6c94e77c5b009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b4592f8_9570d583",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-07-10T15:15:26Z",
+      "side": 1,
+      "message": "Why is ListDiff also computing each file-pair diff?\nWould it be possible to only compute the diff list in List Diff, but not the per-file diff?\n\nWould it require refactoring on our side or also some jgit related changes?",
+      "range": {
+        "startLine": 23,
+        "startChar": 58,
+        "endLine": 23,
+        "endChar": 68
+      },
+      "revId": "6b6361be4904c7764160aab603e6c94e77c5b009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "90844b9e_04ede959",
         "filename": "java/com/google/gerrit/server/patch/DiffFileSizeValidator.java",
         "patchSetId": 1
@@ -19,6 +65,29 @@
         "startChar": 35,
         "endLine": 20,
         "endChar": 43
+      },
+      "revId": "6b6361be4904c7764160aab603e6c94e77c5b009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e128a1be_0eed0ad5",
+        "filename": "java/com/google/gerrit/server/patch/DiffFileSizeValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-07-10T15:15:26Z",
+      "side": 1,
+      "message": "which error code is this error translated to? Are we confident UI can reasonably handle it?",
+      "range": {
+        "startLine": 28,
+        "startChar": 16,
+        "endLine": 28,
+        "endChar": 41
       },
       "revId": "6b6361be4904c7764160aab603e6c94e77c5b009",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

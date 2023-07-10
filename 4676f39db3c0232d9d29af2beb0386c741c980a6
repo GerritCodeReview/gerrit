@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8928d979_a692e88a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-10T07:27:35Z",
+      "side": 1,
+      "message": "I agree with Jacek and would also vote for moving it to 3.6.",
+      "parentUuid": "1f27546f_45f65a2f",
+      "revId": "4676f39db3c0232d9d29af2beb0386c741c980a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c21f03c2_0b1dce03",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

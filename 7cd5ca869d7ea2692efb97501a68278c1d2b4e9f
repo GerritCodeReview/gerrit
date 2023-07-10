@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9dea7ce5_29d72b1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 30
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-10T13:25:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6b4d16c_63e67e0d",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 47
+      },
+      "revId": "7cd5ca869d7ea2692efb97501a68278c1d2b4e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a03db6c1_1519fb4c",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 30
@@ -81,6 +105,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca544ca9_1d096de2",
+        "filename": "javatests/com/google/gerrit/server/query/group/AbstractFakeQueryGroupsTest.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-10T13:25:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c62d8c8_8a54bb81",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 60
+      },
+      "revId": "7cd5ca869d7ea2692efb97501a68278c1d2b4e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "130f75a5_d1d1bbe2",
@@ -104,6 +152,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5ab13cd_af42dbc4",
+        "filename": "javatests/com/google/gerrit/server/query/group/AbstractFakeQueryGroupsTest.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-10T13:25:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "130f75a5_d1d1bbe2",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 37
+      },
+      "revId": "7cd5ca869d7ea2692efb97501a68278c1d2b4e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "51098d0d_4f93c594",
@@ -117,6 +189,30 @@
       "writtenOn": "2023-07-10T11:38:11Z",
       "side": 1,
       "message": "```suggestion\n    return cfg.getEnum(\"index\", null, \"paginationType\", PaginationType.OFFSET)\n```",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 61
+      },
+      "revId": "7cd5ca869d7ea2692efb97501a68278c1d2b4e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7667e09_2fe00cd5",
+        "filename": "javatests/com/google/gerrit/server/query/group/AbstractFakeQueryGroupsTest.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-10T13:25:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51098d0d_4f93c594",
       "range": {
         "startLine": 67,
         "startChar": 0,

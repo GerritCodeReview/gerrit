@@ -1,7 +1,9 @@
 load("@rules_java//java:defs.bzl", "java_library")
 load("//tools/bzl:junit.bzl", "junit_tests")
 
-ABSTRACT_QUERY_TEST = ["AbstractQueryGroupsTest.java"]
+ABSTRACT_QUERY_TEST = [
+    "AbstractQueryGroupsTest.java",
+]
 
 java_library(
     name = "abstract_query_tests",

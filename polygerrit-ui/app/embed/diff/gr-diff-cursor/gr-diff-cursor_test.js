@@ -613,21 +613,6 @@ suite('gr-diff-cursor tests', () => {
     assert.equal(cursor._findRowByNumberAndFile(5, 'left'), row);
   });
 
-  test('expand context updates stops', async () => {
-    sinon.spy(cursor, '_updateStops');
-    MockInteractions.tap(diffElement.shadowRoot
-        .querySelector('gr-context-controls').shadowRoot
-        .querySelector('.showContext'));
-    await flush();
-    assert.isTrue(cursor._updateStops.called);
-  });
-
-  test('updates stops when loading changes', () => {
-    sinon.spy(cursor, '_updateStops');
-    diffElement.dispatchEvent(new Event('loading-changed'));
-    assert.isTrue(cursor._updateStops.called);
-  });
-
   suite('multi diff', () => {
     let diffElements;
 

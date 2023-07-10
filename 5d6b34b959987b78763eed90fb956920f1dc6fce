@@ -22,6 +22,30 @@
       },
       "revId": "5d6b34b959987b78763eed90fb956920f1dc6fce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3af28d29_fcfa9245",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-07-10T08:24:11Z",
+      "side": 1,
+      "message": "No. The google-internal overrides for example won\u0027t have the same package.",
+      "parentUuid": "decb3bcf_5d2de7dc",
+      "range": {
+        "startLine": 726,
+        "startChar": 2,
+        "endLine": 726,
+        "endChar": 8
+      },
+      "revId": "5d6b34b959987b78763eed90fb956920f1dc6fce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

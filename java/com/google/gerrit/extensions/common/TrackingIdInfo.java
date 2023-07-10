@@ -39,5 +39,5 @@ public class TrackingIdInfo {
     return Objects.hash(system, id);
   }
 
-  protected TrackingIdInfo() {}
+  public TrackingIdInfo() {}
 }

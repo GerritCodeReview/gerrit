@@ -25,6 +25,8 @@ public class VotingRangeInfo {
     this.max = max;
   }
 
+  public VotingRangeInfo() {}
+
   @Override
   public boolean equals(Object o) {
     if (o instanceof VotingRangeInfo) {

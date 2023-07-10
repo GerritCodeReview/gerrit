@@ -103,6 +103,8 @@ public abstract class GroupAuditEventInfo {
     this.date = date != null ? Timestamp.from(date) : null;
   }
 
+  public GroupAuditEventInfo() {}
+
   public static class UserMemberAuditEventInfo extends GroupAuditEventInfo {
     public AccountInfo member;
 
@@ -111,15 +113,19 @@ public abstract class GroupAuditEventInfo {
       super(type, user, date);
       this.member = member;
     }
+
+    public UserMemberAuditEventInfo() {}
   }
 
   public static class GroupMemberAuditEventInfo extends GroupAuditEventInfo {
     public GroupInfo member;
+    public GroupMemberAuditEventInfo() {}
 
     private GroupMemberAuditEventInfo(
         Type type, AccountInfo user, @Nullable Instant date, GroupInfo member) {
       super(type, user, date);
       this.member = member;
     }
+
   }
 }

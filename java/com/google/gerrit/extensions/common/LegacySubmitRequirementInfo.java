@@ -56,5 +56,5 @@ public class LegacySubmitRequirementInfo {
         .toString();
   }
 
-  protected LegacySubmitRequirementInfo() {}
+  public LegacySubmitRequirementInfo() {}
 }

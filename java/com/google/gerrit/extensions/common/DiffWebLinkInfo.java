@@ -41,4 +41,6 @@ public class DiffWebLinkInfo extends WebLinkInfo {
     this.showOnSideBySideDiffView = showOnSideBySideDiffView ? true : null;
     this.showOnUnifiedDiffView = showOnUnifiedDiffView ? true : null;
   }
+
+  public DiffWebLinkInfo() {}
 }

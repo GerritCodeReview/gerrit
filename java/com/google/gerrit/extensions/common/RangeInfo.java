@@ -22,4 +22,6 @@ public class RangeInfo {
     this.start = start;
     this.end = end;
   }
+
+  public RangeInfo() {}
 }

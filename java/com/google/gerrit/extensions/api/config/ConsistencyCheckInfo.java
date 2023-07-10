@@ -29,6 +29,8 @@ public class ConsistencyCheckInfo {
     public CheckAccountsResultInfo(List<ConsistencyProblemInfo> problems) {
       this.problems = problems;
     }
+
+    public CheckAccountsResultInfo() {}
   }
 
   public static class CheckAccountExternalIdsResultInfo {
@@ -45,6 +47,8 @@ public class ConsistencyCheckInfo {
     public CheckGroupsResultInfo(List<ConsistencyProblemInfo> problems) {
       this.problems = problems;
     }
+
+    public CheckGroupsResultInfo() {}
   }
 
   public static class ConsistencyProblemInfo {
@@ -54,13 +58,15 @@ public class ConsistencyCheckInfo {
       WARNING,
     }
 
-    public final Status status;
-    public final String message;
+    public Status status;
+    public String message;
 
     public ConsistencyProblemInfo(Status status, String message) {
       this.status = status;
       this.message = message;
     }
+
+    public ConsistencyProblemInfo() {}
 
     @Override
     public boolean equals(Object o) {

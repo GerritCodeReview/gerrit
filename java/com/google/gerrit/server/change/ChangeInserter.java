@@ -46,7 +46,6 @@ import com.google.gerrit.entities.PatchSetInfo;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ReviewerState;
-import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -59,7 +58,6 @@ import com.google.gerrit.server.change.ReviewerModifier.InternalReviewerInput;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModification;
 import com.google.gerrit.server.change.ReviewerModifier.ReviewerModificationList;
 import com.google.gerrit.server.config.SendEmailExecutor;
-import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
@@ -123,8 +121,8 @@ public class ChangeInserter implements InsertChangeOp {
   private final CommentAdded commentAdded;
   private final ReviewerModifier reviewerModifier;
   private final MessageIdGenerator messageIdGenerator;
-  private final DynamicItem<UrlFormatter> urlFormatter;
   private final AutoMerger autoMerger;
+  private final ChangeUtil changeUtil;
 
   private final Change.Id changeId;
   private final PatchSet.Id psId;
@@ -176,8 +174,8 @@ public class ChangeInserter implements InsertChangeOp {
       RevisionCreated revisionCreated,
       ReviewerModifier reviewerModifier,
       MessageIdGenerator messageIdGenerator,
-      DynamicItem<UrlFormatter> urlFormatter,
       AutoMerger autoMerger,
+      ChangeUtil changeUtil,
       @Assisted Change.Id changeId,
       @Assisted ObjectId commitId,
       @Assisted String refName) {
@@ -194,8 +192,8 @@ public class ChangeInserter implements InsertChangeOp {
     this.commentAdded = commentAdded;
     this.reviewerModifier = reviewerModifier;
     this.messageIdGenerator = messageIdGenerator;
-    this.urlFormatter = urlFormatter;
     this.autoMerger = autoMerger;
+    this.changeUtil = changeUtil;
 
     this.changeId = changeId;
     this.psId = PatchSet.id(changeId, INITIAL_PATCH_SET_ID);
@@ -230,7 +228,7 @@ public class ChangeInserter implements InsertChangeOp {
   private Change.Key getChangeKey(RevWalk rw) throws IOException {
     RevCommit commit = rw.parseCommit(commitId);
     rw.parseBody(commit);
-    List<String> idList = ChangeUtil.getChangeIdsFromFooter(commit, urlFormatter.get());
+    List<String> idList = changeUtil.getChangeIdsFromFooter(commit);
     if (!idList.isEmpty()) {
       return Change.key(idList.get(idList.size() - 1).trim());
     }

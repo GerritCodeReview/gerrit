@@ -143,6 +143,7 @@ public class MergeUtil {
   private final boolean useContentMerge;
   private final boolean useRecursiveMerge;
   private final PluggableCommitMessageGenerator commitMessageGenerator;
+  private final ChangeUtil changeUtil;
 
   MergeUtil(
       @Provided @GerritServerConfig Config serverConfig,
@@ -150,6 +151,7 @@ public class MergeUtil {
       @Provided DynamicItem<UrlFormatter> urlFormatter,
       @Provided ApprovalsUtil approvalsUtil,
       @Provided PluggableCommitMessageGenerator commitMessageGenerator,
+      @Provided ChangeUtil changeUtil,
       ProjectState project) {
     this(
         serverConfig,
@@ -157,6 +159,7 @@ public class MergeUtil {
         urlFormatter,
         approvalsUtil,
         commitMessageGenerator,
+        changeUtil,
         project,
         project.is(BooleanProjectConfig.USE_CONTENT_MERGE));
   }
@@ -167,12 +170,14 @@ public class MergeUtil {
       @Provided DynamicItem<UrlFormatter> urlFormatter,
       @Provided ApprovalsUtil approvalsUtil,
       @Provided PluggableCommitMessageGenerator commitMessageGenerator,
+      @Provided ChangeUtil changeUtil,
       ProjectState project,
       boolean useContentMerge) {
     this.identifiedUserFactory = identifiedUserFactory;
     this.urlFormatter = urlFormatter;
     this.approvalsUtil = approvalsUtil;
     this.commitMessageGenerator = commitMessageGenerator;
+    this.changeUtil = changeUtil;
     this.project = project;
     this.useContentMerge = useContentMerge;
     this.useRecursiveMerge = useRecursiveMerge(serverConfig);
@@ -529,7 +534,7 @@ public class MergeUtil {
       msgbuf.append('\n');
     }
 
-    if (ChangeUtil.getChangeIdsFromFooter(n, urlFormatter.get()).isEmpty()) {
+    if (changeUtil.getChangeIdsFromFooter(n).isEmpty()) {
       msgbuf.append(FooterConstants.CHANGE_ID.getName());
       msgbuf.append(": ");
       msgbuf.append(c.getKey().get());

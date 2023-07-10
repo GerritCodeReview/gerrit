@@ -133,7 +133,6 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.ProjectConfigEntry;
-import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.git.BanCommit;
@@ -372,6 +371,7 @@ class ReceiveCommits {
   private final ChangeInserter.Factory changeInserterFactory;
   private final ChangeNotes.Factory notesFactory;
   private final ChangeReportFormatter changeFormatter;
+  private final ChangeUtil changeUtil;
   private final CmdLineParser.Factory optionParserFactory;
   private final CommentsUtil commentsUtil;
   private final PluginSetContext<CommentValidator> commentValidators;
@@ -408,7 +408,6 @@ class ReceiveCommits {
   private final ProjectConfig.Factory projectConfigFactory;
   private final SetPrivateOp.Factory setPrivateOpFactory;
   private final ReplyAttentionSetUpdates replyAttentionSetUpdates;
-  private final DynamicItem<UrlFormatter> urlFormatter;
   private final AutoMerger autoMerger;
 
   // Assisted injected fields.
@@ -461,6 +460,7 @@ class ReceiveCommits {
       ChangeInserter.Factory changeInserterFactory,
       ChangeNotes.Factory notesFactory,
       DynamicItem<ChangeReportFormatter> changeFormatterProvider,
+      ChangeUtil changeUtil,
       CmdLineParser.Factory optionParserFactory,
       CommentsUtil commentsUtil,
       BranchCommitValidator.Factory commitValidatorFactory,
@@ -496,7 +496,6 @@ class ReceiveCommits {
       TagCache tagCache,
       SetPrivateOp.Factory setPrivateOpFactory,
       ReplyAttentionSetUpdates replyAttentionSetUpdates,
-      DynamicItem<UrlFormatter> urlFormatter,
       AutoMerger autoMerger,
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
@@ -511,6 +510,7 @@ class ReceiveCommits {
     this.batchUpdateFactory = batchUpdateFactory;
     this.cancellationMetrics = cancellationMetrics;
     this.changeFormatter = changeFormatterProvider.get();
+    this.changeUtil = changeUtil;
     this.changeInserterFactory = changeInserterFactory;
     this.commentsUtil = commentsUtil;
     this.commentValidators = commentValidators;
@@ -551,7 +551,6 @@ class ReceiveCommits {
     this.projectConfigFactory = projectConfigFactory;
     this.setPrivateOpFactory = setPrivateOpFactory;
     this.replyAttentionSetUpdates = replyAttentionSetUpdates;
-    this.urlFormatter = urlFormatter;
     this.autoMerger = autoMerger;
 
     // Assisted injected fields.
@@ -2294,7 +2293,7 @@ class ReceiveCommits {
       } catch (IOException e) {
         throw new StorageException("Can't parse commit", e);
       }
-      List<String> idList = ChangeUtil.getChangeIdsFromFooter(create.commit, urlFormatter.get());
+      List<String> idList = changeUtil.getChangeIdsFromFooter(create.commit);
 
       if (idList.isEmpty()) {
         messages.add(
@@ -2369,7 +2368,7 @@ class ReceiveCommits {
             }
           }
 
-          List<String> idList = ChangeUtil.getChangeIdsFromFooter(c, urlFormatter.get());
+          List<String> idList = changeUtil.getChangeIdsFromFooter(c);
           if (!idList.isEmpty()) {
             pending.put(c, lookupByChangeKey(c, Change.key(idList.get(idList.size() - 1).trim())));
           } else {
@@ -3492,8 +3491,7 @@ class ReceiveCommits {
                         }
                       }
 
-                      for (String changeId :
-                          ChangeUtil.getChangeIdsFromFooter(c, urlFormatter.get())) {
+                      for (String changeId : changeUtil.getChangeIdsFromFooter(c)) {
                         if (changeDataByKey == null) {
                           changeDataByKey =
                               retryHelper

@@ -22,10 +22,12 @@ import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.util.CommitMessageUtil;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.security.SecureRandom;
@@ -53,6 +55,13 @@ public class ChangeUtil {
 
   public static final Ordering<PatchSet> PS_ID_ORDER =
       Ordering.from(comparingInt(PatchSet::number));
+
+  private final DynamicItem<UrlFormatter> urlFormatter;
+
+  @Inject
+  ChangeUtil(DynamicItem<UrlFormatter> urlFormatter) {
+    this.urlFormatter = urlFormatter;
+  }
 
   /** Returns a new unique identifier for change message entities. */
   public static String messageUuid() {
@@ -124,11 +133,8 @@ public class ChangeUtil {
    * @throws ResourceConflictException if the new commit message has a missing or invalid Change-Id
    * @throws BadRequestException if the new commit message is null or empty
    */
-  public static void ensureChangeIdIsCorrect(
-      boolean requireChangeId,
-      String currentChangeId,
-      String newCommitMessage,
-      UrlFormatter urlFormatter)
+  public void ensureChangeIdIsCorrect(
+      boolean requireChangeId, String currentChangeId, String newCommitMessage)
       throws ResourceConflictException, BadRequestException {
     RevCommit revCommit =
         RevCommit.parse(
@@ -137,7 +143,7 @@ public class ChangeUtil {
     // Check that the commit message without footers is not empty
     CommitMessageUtil.checkAndSanitizeCommitMessage(revCommit.getShortMessage());
 
-    List<String> changeIdFooters = getChangeIdsFromFooter(revCommit, urlFormatter);
+    List<String> changeIdFooters = getChangeIdsFromFooter(revCommit);
     if (requireChangeId && changeIdFooters.isEmpty()) {
       throw new ResourceConflictException("missing Change-Id footer");
     }
@@ -155,9 +161,9 @@ public class ChangeUtil {
 
   private static final Pattern LINK_CHANGE_ID_PATTERN = Pattern.compile("I[0-9a-f]{40}");
 
-  public static List<String> getChangeIdsFromFooter(RevCommit c, UrlFormatter urlFormatter) {
+  public List<String> getChangeIdsFromFooter(RevCommit c) {
     List<String> changeIds = c.getFooterLines(FooterConstants.CHANGE_ID);
-    Optional<String> webUrl = urlFormatter.getWebUrl();
+    Optional<String> webUrl = urlFormatter.get().getWebUrl();
     if (!webUrl.isPresent()) {
       return changeIds;
     }
@@ -176,6 +182,4 @@ public class ChangeUtil {
 
     return changeIds;
   }
-
-  private ChangeUtil() {}
 }

@@ -38,14 +38,12 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.ProblemInfo.Status;
-import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.Accounts;
-import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.PatchSetState;
@@ -118,7 +116,7 @@ public class ConsistencyChecker {
   private final Provider<CurrentUser> user;
   private final Provider<PersonIdent> serverIdent;
   private final RetryHelper retryHelper;
-  private final DynamicItem<UrlFormatter> urlFormatter;
+  private final ChangeUtil changeUtil;
 
   private BatchUpdate.Factory updateFactory;
   private FixInput fix;
@@ -146,7 +144,7 @@ public class ConsistencyChecker {
       PatchSetUtil psUtil,
       Provider<CurrentUser> user,
       RetryHelper retryHelper,
-      DynamicItem<UrlFormatter> urlFormatter) {
+      ChangeUtil changeUtil) {
     this.accounts = accounts;
     this.accountPatchReviewStore = accountPatchReviewStore;
     this.notesFactory = notesFactory;
@@ -157,7 +155,7 @@ public class ConsistencyChecker {
     this.retryHelper = retryHelper;
     this.serverIdent = serverIdent;
     this.user = user;
-    this.urlFormatter = urlFormatter;
+    this.changeUtil = changeUtil;
     reset();
   }
 
@@ -463,9 +461,7 @@ public class ConsistencyChecker {
         case 0:
           // No patch set for this commit; insert one.
           rw.parseBody(commit);
-          String changeId =
-              Iterables.getFirst(
-                  ChangeUtil.getChangeIdsFromFooter(commit, urlFormatter.get()), null);
+          String changeId = Iterables.getFirst(changeUtil.getChangeIdsFromFooter(commit), null);
           // Missing Change-Id footer is ok, but mismatched is not.
           if (changeId != null && !changeId.equals(change().getKey().get())) {
             problem(

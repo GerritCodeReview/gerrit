@@ -1,4 +1,6 @@
-// Copyright (C) 2019 The Android Open Source Project
+<<<<<<< HEAD   (556626 Fix GerritServer replica mode when used with @UseLocalDisk)
+=======
+// Copyright (C) 2021 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,7 +23,10 @@ import com.google.gerrit.testing.IndexConfig;
 import com.google.gerrit.testing.IndexVersions;
 import org.eclipse.jgit.lib.Config;
 
-public class LuceneQueryChangesPreviousIndexVersionTest extends LuceneQueryChangesTest {
+/**
+ * Test against {@link com.google.gerrit.index.testing.AbstractFakeIndex} using the current schema.
+ */
+public class FakeQueryChangesPreviousIndexVersionTest extends FakeQueryChangesTest {
   @ConfigSuite.Default
   public static Config againstPreviousIndexVersion() {
     // the current schema version is already tested by the inherited default config suite
@@ -30,7 +35,7 @@ public class LuceneQueryChangesPreviousIndexVersionTest extends LuceneQueryChang
                 ChangeSchemaDefinitions.INSTANCE,
                 IndexVersions.getWithoutLatest(ChangeSchemaDefinitions.INSTANCE),
                 "againstIndexVersion",
-                IndexConfig.createForLucene())
+                IndexConfig.createForFake())
             .values());
   }
 
@@ -48,3 +53,4 @@ public class LuceneQueryChangesPreviousIndexVersionTest extends LuceneQueryChang
     return config;
   }
 }
+>>>>>>> CHANGE (a0da72 Add configuration to disable indexes pagination)

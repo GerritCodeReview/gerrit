@@ -721,8 +721,9 @@ public final class OutgoingEmail {
     }
   }
 
+  /** Returns preferred email address for the account. */
   @Nullable
-  private Address toAddress(Account.Id id) {
+  public Address toAddress(Account.Id id) {
     Optional<Account> accountState = args.accountCache.get(id).map(AccountState::account);
     if (!accountState.isPresent()) {
       return null;
@@ -734,6 +735,11 @@ public final class OutgoingEmail {
       return null;
     }
     return Address.create(account.fullName(), e);
+  }
+
+  /** Returns the type of notification being sent. */
+  public String getMessageClass() {
+    return messageClass;
   }
 
   /** Set recipients, headers, body of the email. */

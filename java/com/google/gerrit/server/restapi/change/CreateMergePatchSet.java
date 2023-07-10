@@ -181,9 +181,10 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
 
       Instant now = TimeUtil.now();
       IdentifiedUser me = user.get().asIdentifiedUser();
+      PersonIdent committer = me.newCommitterIdent(now, serverZoneId);
       PersonIdent author =
           in.author == null
-              ? me.newCommitterIdent(now, serverZoneId)
+              ? committer
               : new PersonIdent(in.author.name, in.author.email, now, serverZoneId);
       CodeReviewCommit newCommit =
           createMergeCommit(
@@ -196,6 +197,7 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
               currentPsCommit,
               sourceCommit,
               author,
+              committer,
               ObjectId.fromString(change.getKey().get().substring(1)));
       oi.flush();
 
@@ -253,6 +255,7 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
       RevCommit currentPsCommit,
       RevCommit sourceCommit,
       PersonIdent author,
+      PersonIdent committer,
       ObjectId changeId)
       throws ResourceNotFoundException, MergeIdenticalTreeException, MergeConflictException,
           IOException {
@@ -295,6 +298,7 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
         mergeStrategy,
         in.merge.allowConflicts,
         author,
+        committer,
         commitMsg,
         rw);
   }

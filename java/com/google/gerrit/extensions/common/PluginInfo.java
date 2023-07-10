@@ -15,12 +15,12 @@
 package com.google.gerrit.extensions.common;
 
 public class PluginInfo {
-  public final String id;
-  public final String version;
-  public final String apiVersion;
-  public final String indexUrl;
-  public final String filename;
-  public final Boolean disabled;
+  public String id;
+  public String version;
+  public String apiVersion;
+  public String indexUrl;
+  public String filename;
+  public Boolean disabled;
 
   public PluginInfo(
       String id,
@@ -36,4 +36,6 @@ public class PluginInfo {
     this.filename = filename;
     this.disabled = disabled;
   }
+
+  public PluginInfo() {}
 }

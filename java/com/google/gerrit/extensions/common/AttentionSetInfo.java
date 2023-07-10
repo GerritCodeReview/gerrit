@@ -67,7 +67,7 @@ public class AttentionSetInfo {
     this.reasonAccount = reasonAccount;
   }
 
-  protected AttentionSetInfo() {}
+  public AttentionSetInfo() {}
 
   @Override
   public boolean equals(Object o) {

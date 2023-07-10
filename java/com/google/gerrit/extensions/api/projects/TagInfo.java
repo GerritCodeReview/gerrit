@@ -45,6 +45,8 @@ public class TagInfo extends RefInfo {
     this.created = created;
   }
 
+  public TagInfo() {}
+
   @SuppressWarnings("JdkObsolete")
   public TagInfo(
       String ref,

@@ -59,5 +59,5 @@ public class WebLinkInfo {
         + "}";
   }
 
-  protected WebLinkInfo() {}
+  public WebLinkInfo() {}
 }

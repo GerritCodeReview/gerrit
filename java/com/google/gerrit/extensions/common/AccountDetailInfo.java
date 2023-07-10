@@ -42,4 +42,6 @@ public class AccountDetailInfo extends AccountInfo {
   public void setRegisteredOn(Instant registeredOn) {
     this.registeredOn = Timestamp.from(registeredOn);
   }
+
+  public AccountDetailInfo() {}
 }

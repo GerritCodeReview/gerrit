@@ -63,6 +63,8 @@ public class ApprovalInfo extends AccountInfo {
     super(id);
   }
 
+  public ApprovalInfo() {}
+
   public ApprovalInfo(
       Integer id,
       @Nullable Integer value,

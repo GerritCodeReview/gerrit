@@ -37,6 +37,8 @@ public class PermissionInfo {
     return false;
   }
 
+  public PermissionInfo() {}
+
   @Override
   public int hashCode() {
     return Objects.hash(label, exclusive, rules);

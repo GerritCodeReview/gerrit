@@ -95,5 +95,5 @@ public class ActionInfo {
     return Objects.hash(method, label, title, enabled, enabledOptions);
   }
 
-  protected ActionInfo() {}
+  public ActionInfo() {}
 }

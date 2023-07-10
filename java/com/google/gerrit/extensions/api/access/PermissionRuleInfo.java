@@ -34,6 +34,8 @@ public class PermissionRuleInfo {
     this.force = force;
   }
 
+  PermissionRuleInfo() {}
+
   @Override
   public boolean equals(Object obj) {
     if (obj instanceof PermissionRuleInfo) {

@@ -46,6 +46,30 @@
       },
       "revId": "5d6b34b959987b78763eed90fb956920f1dc6fce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bbf3faf_c8c1b1b3",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 726,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-07-10T08:27:44Z",
+      "side": 1,
+      "message": "OK you\u0027re right. the internal code uses a different package name.",
+      "parentUuid": "3af28d29_fcfa9245",
+      "range": {
+        "startLine": 726,
+        "startChar": 2,
+        "endLine": 726,
+        "endChar": 8
+      },
+      "revId": "5d6b34b959987b78763eed90fb956920f1dc6fce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

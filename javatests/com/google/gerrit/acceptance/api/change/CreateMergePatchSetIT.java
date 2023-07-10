@@ -505,6 +505,7 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
     assertThat(commitInfo.message).contains(subject);
     assertThat(commitInfo.author.name).isEqualTo("Other Author");
     assertThat(commitInfo.author.email).isEqualTo("otherauthor@example.com");
+    assertThat(commitInfo.committer.email).isEqualTo(admin.email());
   }
 
   @Test

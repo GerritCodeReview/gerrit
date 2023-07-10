@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94d2ed22_a4c0d397",
+        "filename": "polygerrit-ui/app/api/annotation.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-07-10T15:19:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f1684be_06f68c29",
+      "revId": "e373d77b6feea3423111333d487f92272d311cc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d14bb72_18dcb914",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2516e717_25ecef5c",
+        "filename": "polygerrit-ui/app/api/annotation.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-07-10T15:19:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d14bb72_18dcb914",
+      "revId": "e373d77b6feea3423111333d487f92272d311cc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9ad84d2_194a5d84",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-07-10T15:07:28Z",
       "side": 1,
       "message": "addTokenHoverListenerRegister",
+      "revId": "e373d77b6feea3423111333d487f92272d311cc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04fc8c2c_a0b2a149",
+        "filename": "polygerrit-ui/app/models/plugins/plugins-model.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-07-10T15:19:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9ad84d2_194a5d84",
       "revId": "e373d77b6feea3423111333d487f92272d311cc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

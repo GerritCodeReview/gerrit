@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90844b9e_04ede959",
+        "filename": "java/com/google/gerrit/server/patch/DiffFileSizeValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-07-10T10:14:01Z",
+      "side": 1,
+      "message": "\"50 \u003c\u003c 20\"\n\n\nhowever, can you softcode this? our max may not align with other people\u0027s ideas of what a reasonable size is.\n\nThere is a jGit config that sets the limit for diff/merge processing. I suggest using the same setting.",
+      "range": {
+        "startLine": 20,
+        "startChar": 35,
+        "endLine": 20,
+        "endChar": 43
+      },
+      "revId": "6b6361be4904c7764160aab603e6c94e77c5b009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

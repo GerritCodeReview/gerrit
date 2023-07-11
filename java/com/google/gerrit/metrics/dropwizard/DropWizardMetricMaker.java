@@ -370,15 +370,16 @@ public class DropWizardMetricMaker extends MetricMaker {
   }
 
   /**
-   * Ensures that the sanitized metric name doesn't contain invalid characters and
-   * removes the risk of collision (between the sanitized metric names).
-   * Modifications to the input metric name:
+   * Ensures that the sanitized metric name doesn't contain invalid characters and removes the risk
+   * of collision (between the sanitized metric names). Modifications to the input metric name:
+   *
    * <ul>
-   *   <li/> leading <code>/</code> is replaced with <code>_</code>
-   *   <li/> doubled (or repeated more times) <code>/</code> are reduced to a single <code>/<code>
-   *   <li/> ending <code>/</code> is removed
-   *   <li/> all characters that are not <code>/a-zA-Z0-9_-</code> are replaced with <code>_0x[HEX CODE]_</code> (code is capitalized)
-   *   <li/> the replacement prefix <code>_0x</code> is prepended with another replacement prefix
+   *   <li/>leading <code>/</code> is replaced with <code>_</code>
+   *   <li/>doubled (or repeated more times) <code>/</code> are reduced to a single <code>/</code>
+   *   <li/>ending <code>/</code> is removed
+   *   <li/>all characters that are not <code>/a-zA-Z0-9_-</code> are replaced with <code>
+   *       _0x[HEX CODE]_</code> (code is capitalized)
+   *   <li/>the replacement prefix <code>_0x</code> is prepended with another replacement prefix
    * </ul>
    *
    * @param name name of the metric to sanitize

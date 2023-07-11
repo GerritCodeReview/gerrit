@@ -259,6 +259,30 @@
       },
       "revId": "6b6361be4904c7764160aab603e6c94e77c5b009",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e816d8a_9e21a0c5",
+        "filename": "java/com/google/gerrit/server/patch/DiffFileSizeValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-07-11T13:11:19Z",
+      "side": 1,
+      "message": "Asked and this is already handled properly in https://gerrit.googlesource.com/gerrit/+/117cc5a8d04e5d765c75974a8e99c7e6c39f76f5/polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts#927",
+      "parentUuid": "150a5e58_757d084b",
+      "range": {
+        "startLine": 28,
+        "startChar": 16,
+        "endLine": 28,
+        "endChar": 41
+      },
+      "revId": "6b6361be4904c7764160aab603e6c94e77c5b009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

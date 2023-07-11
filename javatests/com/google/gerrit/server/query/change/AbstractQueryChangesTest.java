@@ -94,6 +94,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.httpd.raw.IndexPreloadingUtil;
 import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.PaginationType;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
@@ -116,6 +117,7 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.testing.TestGroupBackend;
@@ -176,6 +178,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected AccountManager accountManager;
   @Inject protected AllUsersName allUsersName;
   @Inject protected BatchUpdate.Factory updateFactory;
+  @Inject protected AllProjectsName allProjectsName;
   @Inject protected ChangeInserter.Factory changeFactory;
   @Inject protected ChangeQueryBuilder queryBuilder;
   @Inject protected GerritApi gApi;
@@ -4403,5 +4406,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   protected Schema<ChangeData> getSchema() {
     return indexes.getSearchIndex().getSchema();
+  }
+
+  PaginationType getCurrentPaginationType() {
+    return config.getEnum("index", null, "paginationType", PaginationType.OFFSET);
   }
 }

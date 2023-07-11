@@ -383,9 +383,9 @@ public abstract class AbstractDaemonTest {
             RefNames.REFS_DRAFT_COMMENTS + "*");
   }
 
-  protected void restartAsSlave() throws Exception {
+  protected void restartAsSlave(String... additionalArgs) throws Exception {
     closeSsh();
-    server = GerritServer.restartAsSlave(server);
+    server = GerritServer.restartAsSlave(server, additionalArgs);
     server.getTestInjector().injectMembers(this);
     if (resetter != null) {
       server.getTestInjector().injectMembers(resetter);

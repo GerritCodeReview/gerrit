@@ -614,7 +614,8 @@ public class GerritServer implements AutoCloseable {
     return desc;
   }
 
-  public static GerritServer restartAsSlave(GerritServer server) throws Exception {
+  public static GerritServer restartAsSlave(GerritServer server, String... additionalArgs)
+      throws Exception {
     checkState(server.desc.sandboxed(), "restarting as slave requires @Sandboxed");
 
     Path site = server.testInjector.getInstance(Key.get(Path.class, SitePath.class));
@@ -629,7 +630,7 @@ public class GerritServer implements AutoCloseable {
 
     server.close();
     server.daemon.stop();
-    return start(server.desc, cfg, site, null, null, null, inMemoryRepoManager);
+    return start(server.desc, cfg, site, null, null, null, inMemoryRepoManager, additionalArgs);
   }
 
   public static GerritServer restart(

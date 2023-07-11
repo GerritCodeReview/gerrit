@@ -235,6 +235,30 @@
       },
       "revId": "6b6361be4904c7764160aab603e6c94e77c5b009",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "150a5e58_757d084b",
+        "filename": "java/com/google/gerrit/server/patch/DiffFileSizeValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-07-11T12:59:56Z",
+      "side": 1,
+      "message": "Thank you, sound good.\nCould we check with the Fronted folks if this status code can be adequately handled?",
+      "parentUuid": "709ec8ca_23adf921",
+      "range": {
+        "startLine": 28,
+        "startChar": 16,
+        "endLine": 28,
+        "endChar": 41
+      },
+      "revId": "6b6361be4904c7764160aab603e6c94e77c5b009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

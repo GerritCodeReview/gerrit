@@ -8,18 +8,6 @@ exports_files([
 ])
 
 filegroup(
-    name = "prettify_files",
-    srcs = [
-        ":prettify.min.css",
-        ":prettify.min.js",
-    ],
-)
-
-genrule(
-    name = "prettify_min_css",
-    srcs = ["//resources/com/google/gerrit/prettify:client/prettify.css"],
-    outs = ["prettify.min.css"],
-    cmd = "cp $< $@",
 )
 
 genrule(

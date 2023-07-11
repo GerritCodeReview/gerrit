@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f74fe0b6_35036a4a",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateMergePatchSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-07-11T23:33:02Z",
+      "side": 1,
+      "message": "Get the committer ident above line 184 and re-use it when `in.author \u003d\u003d null`.\n\n```suggestion\n      PersonIdent committer \u003d me.newCommitterIdent(now, serverZoneId);\n      PersonIdent author \u003d\n          in.author \u003d\u003d null\n              ? committer\n              : new PersonIdent(in.author.name, in.author.email, now, serverZoneId);\n```",
+      "range": {
+        "startLine": 184,
+        "startChar": 6,
+        "endLine": 188,
+        "endChar": 70
+      },
+      "revId": "73f46767c9580a92e4aa45477d0709837d951b16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

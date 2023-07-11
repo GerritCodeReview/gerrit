@@ -23,7 +23,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -128,7 +128,7 @@ public class GitReferenceUpdated {
     if (batchRefUpdateListeners.isEmpty() && refUpdatedListeners.isEmpty()) {
       return;
     }
-    Set<GitBatchRefUpdateListener.UpdatedRef> updates = new HashSet<>();
+    Set<GitBatchRefUpdateListener.UpdatedRef> updates = new LinkedHashSet<>();
     for (ReceiveCommand cmd : batchRefUpdate.getCommands()) {
       if (cmd.getResult() == ReceiveCommand.Result.OK) {
         updates.add(
@@ -254,7 +254,7 @@ public class GitReferenceUpdated {
     public Set<String> getRefNames() {
       return updatedRefs.stream()
           .map(GitBatchRefUpdateListener.UpdatedRef::getRefName)
-          .collect(Collectors.toSet());
+          .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     @Override

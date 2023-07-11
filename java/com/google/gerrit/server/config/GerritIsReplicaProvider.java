@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.gerrit.server.util.ReplicaUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -26,21 +27,15 @@ import org.eclipse.jgit.lib.Config;
  */
 @Singleton
 public final class GerritIsReplicaProvider implements Provider<Boolean> {
-  public static final String CONFIG_SECTION = "container";
-  public static final String REPLICA_KEY = "replica";
-  public static final String DEPRECATED_REPLICA_KEY = "slave";
-
-  public final boolean isReplica;
+  private final Config config;
 
   @Inject
   public GerritIsReplicaProvider(@GerritServerConfig Config config) {
-    this.isReplica =
-        config.getBoolean(CONFIG_SECTION, REPLICA_KEY, false)
-            || config.getBoolean(CONFIG_SECTION, DEPRECATED_REPLICA_KEY, false);
+    this.config = config;
   }
 
   @Override
   public Boolean get() {
-    return isReplica;
+    return ReplicaUtil.isReplica(config);
   }
 }

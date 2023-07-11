@@ -424,6 +424,9 @@ public class GerritServer implements AutoCloseable {
       daemon.addAdditionalSshModuleForTesting(testSshModule);
     }
     daemon.setEnableSshd(desc.useSsh());
+    daemon.setEnableHttpd(desc.httpd());
+    daemon.setReplica(
+        ReplicaUtil.isReplica(baseConfig) || ReplicaUtil.isReplica(desc.buildConfig(baseConfig)));
     daemon.addAdditionalSysModuleForTesting(
         new AbstractModule() {
           @Override
@@ -466,7 +469,6 @@ public class GerritServer implements AutoCloseable {
       @Nullable InMemoryRepositoryManager inMemoryRepoManager)
       throws Exception {
     Config cfg = desc.buildConfig(baseConfig);
-    daemon.setReplica(ReplicaUtil.isReplica(baseConfig) || ReplicaUtil.isReplica(cfg));
     mergeTestConfig(cfg);
     // Set the log4j configuration to an invalid one to prevent system logs
     // from getting configured and creating log files.
@@ -478,29 +480,10 @@ public class GerritServer implements AutoCloseable {
     cfg.setString("gitweb", null, "cgi", "");
     cfg.setString(
         "accountPatchReviewDb", null, "url", JdbcAccountPatchReviewStore.TEST_IN_MEMORY_URL);
-
-    String configuredIndexBackend = cfg.getString("index", null, "type");
-    IndexType indexType;
-    if (configuredIndexBackend != null) {
-      // Explicitly configured index backend from gerrit.config trumps any other ways to configure
-      // index backends so that Reindex tests can be explicit about the backend they want to test
-      // against.
-      indexType = new IndexType(configuredIndexBackend);
-    } else {
-      // Allow configuring the index backend based on sys/env variables so that integration tests
-      // can be run against different index backends.
-      indexType = IndexType.fromEnvironment().orElse(new IndexType("fake"));
-    }
-    if (indexType.isLucene()) {
-      daemon.setIndexModule(
-          LuceneIndexModule.singleVersionAllLatest(
-              0, ReplicaUtil.isReplica(baseConfig), AutoFlush.ENABLED));
-    } else {
-      daemon.setIndexModule(FakeIndexModule.latestVersion(false));
-    }
-
     daemon.setEnableHttpd(desc.httpd());
-    daemon.setInMemory(true);
+    daemon.setLuceneModule(
+        LuceneIndexModule.singleVersionAllLatest(
+            0, ReplicaUtil.isReplica(baseConfig), AutoFlush.ENABLED));
     daemon.setDatabaseForTesting(
         ImmutableList.of(
             new InMemoryTestingDatabaseModule(cfg, site, inMemoryRepoManager),
@@ -742,5 +725,9 @@ public class GerritServer implements AutoCloseable {
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this).addValue(desc).toString();
+  }
+
+  public boolean isReplica() {
+    return daemon.isReplica();
   }
 }

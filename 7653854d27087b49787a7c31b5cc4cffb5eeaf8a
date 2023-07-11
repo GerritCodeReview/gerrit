@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdec884a_30f42794",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-07-11T14:40:54Z",
+      "side": 1,
+      "message": "FWIW, performing the file size validation after computing the diff is less of a problem because this expensive diff computation is only performed once, then diffs are cached and later requests will be fast.",
+      "revId": "7653854d27087b49787a7c31b5cc4cffb5eeaf8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -3315,6 +3315,8 @@ obtain the next set of results. Supported values are:
 +
 Index queries are repeated with a non-zero offset to obtain the
 next set of results.
+_Note: Results may be inaccurate if the data-set is changing during the query
+execution._
 +
 * `SEARCH_AFTER`
 +
@@ -3322,6 +3324,18 @@ Index queries are repeated using a search-after object. Index
 backends can provide their custom implementations for search-after.
 Note that, `SEARCH_AFTER` does not impact using offsets in Gerrit
 query APIs.
+_Note: Depending on the index backend and its settings, results may be
+inaccurate if the data-set is changing during the query execution._
++
+* `NONE`
++
+Index queries are executed returning all results, without internal
+pagination.
+_Note: Since the entire set of indexing results is kept in memory
+during the API execution, this option may lead to higher memory utilisation
+and overall reduced performance.
+Bear in mind that some indexing backends may not support unbounded queries;
+therefore, the NONE option is unavailable._
 +
 Defaults to `OFFSET`.
 
@@ -3367,6 +3381,8 @@ likely help reduce the impacts of this.
 For example, if the limit of the previous query was 500 and pageSizeMultiplier
 is configured to 5, the next query will have a limit of 2500.
 +
+_Note: ignored when paginationType is `NONE`_
++
 Defaults to 1 which effectively turns this feature off.
 
 [[index.maxPageSize]]index.maxPageSize::
@@ -3378,6 +3394,8 @@ is configured to a value lower than maxPageSize.
 For example, if the limit of previous query was 500, pageSizeMultiplier is
 configured to 5 and maxPageSize to 2000, the next query will have a limit of
 2000 (instead of 2500).
++
+_Note: ignored when paginationType is `NONE`_
 +
 Defaults to no limit.
 

@@ -49,6 +49,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "40db530b_752e31b1",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-07-11T16:53:40Z",
+      "side": 1,
+      "message": "this will always bind ChangeDraftNotesUpdate. I think we want to be able to override it internally?",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 100
+      },
+      "revId": "239af03536d8a37b9c04c57000b6aa41385c6b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1c6973d3_7016ae93",
         "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 1

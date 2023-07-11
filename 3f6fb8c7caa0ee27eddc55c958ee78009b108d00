@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6de674f_3847b088",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor_test.ts.orig",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-07-11T09:14:20Z",
+      "side": 1,
+      "message": "This is not necessary. Deleting it.",
+      "revId": "3f6fb8c7caa0ee27eddc55c958ee78009b108d00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

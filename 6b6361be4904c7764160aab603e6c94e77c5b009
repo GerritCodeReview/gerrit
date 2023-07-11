@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d00a6c3_2665d1be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-07-11T09:01:28Z",
+      "side": 1,
+      "message": "\u003e how could we fail diff before the computation - we wouldn\u0027t know the size of the diff?\n\nThat\u0027s possible, JGit has APIs that return the file size that don\u0027t need the diff, e.g. see [1]. This is also how we compute the file size in Gerrit [2].\n\n[1] https://gerrit.googlesource.com/jgit/+/dceebe350e050d15ecf460e818b97fdedc2eee3b/org.eclipse.jgit/src/org/eclipse/jgit/lib/ObjectReader.java#334\n\n[2] https://gerrit.googlesource.com/gerrit/+/117cc5a8d04e5d765c75974a8e99c7e6c39f76f5/java/com/google/gerrit/server/patch/filediff/FileSizeEvaluator.java#56\n\n\n\u003e Or do you mean that would be the result if we fail the diff on PS upload/diff cache entry computation?\n\nNo, we used to allow making such large uploads, and we don\u0027t restrict this in this change. In this change we fail the \u0027Get Diff\u0027 request if the file size exceeds a threshold. We can fail the request in two different places: before or after performing the diff. Failing before the diff is not feasible (not impossible, but hard given code structure) for the reason explained in the commit message, so it\u0027s performed after the diff.",
+      "parentUuid": "312c7a52_18ea7bb8",
+      "range": {
+        "startLine": 22,
+        "startChar": 44,
+        "endLine": 23,
+        "endChar": 30
+      },
+      "revId": "6b6361be4904c7764160aab603e6c94e77c5b009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91c158de_59d57ba2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-07-11T09:01:28Z",
+      "side": 1,
+      "message": "Unfortunately this is not possible without changing the \u0027List Files\u0027 API, because the response includes some fields that require performing the file diff, e.g. lines added/deleted. See [1].\n\nThis is also explained in the commit message.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#file-info",
+      "parentUuid": "0b4592f8_9570d583",
+      "range": {
+        "startLine": 23,
+        "startChar": 58,
+        "endLine": 23,
+        "endChar": 68
+      },
+      "revId": "6b6361be4904c7764160aab603e6c94e77c5b009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90844b9e_04ede959",
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85aeeaa8_59683832",
+        "filename": "java/com/google/gerrit/server/patch/DiffFileSizeValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-07-11T09:01:28Z",
+      "side": 1,
+      "message": "Done. The JGit threshold is also 50 MB.",
+      "parentUuid": "90844b9e_04ede959",
+      "range": {
+        "startLine": 20,
+        "startChar": 35,
+        "endLine": 20,
+        "endChar": 43
+      },
+      "revId": "6b6361be4904c7764160aab603e6c94e77c5b009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e128a1be_0eed0ad5",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-07-10T15:15:26Z",
       "side": 1,
       "message": "which error code is this error translated to? Are we confident UI can reasonably handle it?",
+      "range": {
+        "startLine": 28,
+        "startChar": 16,
+        "endLine": 28,
+        "endChar": 41
+      },
+      "revId": "6b6361be4904c7764160aab603e6c94e77c5b009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "709ec8ca_23adf921",
+        "filename": "java/com/google/gerrit/server/patch/DiffFileSizeValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-07-11T09:01:28Z",
+      "side": 1,
+      "message": "This is translated to StorageException [1], which translates to 500 I guess since it\u0027s a runtime exception. I changed this too LargeObjectException (didn\u0027t notice this one at first) which translates to ResourceConflictException [2] \u003d HTTP 409 Conflict.\n\n[1] https://gerrit.googlesource.com/gerrit/+/117cc5a8d04e5d765c75974a8e99c7e6c39f76f5/java/com/google/gerrit/server/patch/PatchScriptFactory.java#206\n\n[2] https://gerrit.googlesource.com/gerrit/+/117cc5a8d04e5d765c75974a8e99c7e6c39f76f5/java/com/google/gerrit/server/restapi/change/GetDiff.java#175",
+      "parentUuid": "e128a1be_0eed0ad5",
       "range": {
         "startLine": 28,
         "startChar": 16,

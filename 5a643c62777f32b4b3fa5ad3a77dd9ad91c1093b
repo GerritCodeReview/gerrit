@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "937022b2_48aeb372",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-07-11T18:23:02Z",
+      "side": 1,
+      "message": "I think it could be great to have a dummy test as a documentation where primary and replica are configured",
+      "revId": "5a643c62777f32b4b3fa5ad3a77dd9ad91c1093b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

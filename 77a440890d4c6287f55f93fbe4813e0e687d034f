@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1d4ef51_fb140a3a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-12T11:52:44Z",
+      "side": 1,
+      "message": "Verifying based on the stable-3.6 successful validation results.",
+      "revId": "77a440890d4c6287f55f93fbe4813e0e687d034f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

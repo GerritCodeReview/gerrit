@@ -68,6 +68,23 @@
       "message": "I have checked out the merge and confirmed that it is there.",
       "revId": "77a440890d4c6287f55f93fbe4813e0e687d034f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1749f1b4_96e0ee48",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-07-12T17:56:33Z",
+      "side": 1,
+      "message": "Did you mean to remove this line in the conflict resolution? You set it again on 436.",
+      "revId": "77a440890d4c6287f55f93fbe4813e0e687d034f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

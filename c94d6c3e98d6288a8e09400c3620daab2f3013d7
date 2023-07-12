@@ -22,6 +22,30 @@
       },
       "revId": "c94d6c3e98d6288a8e09400c3620daab2f3013d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14125674_1548805f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-12T06:55:20Z",
+      "side": 1,
+      "message": "AFAIU one cannot _fix_ the `Release-Notes` footer",
+      "parentUuid": "4b8574b3_5286956d",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 75
+      },
+      "revId": "c94d6c3e98d6288a8e09400c3620daab2f3013d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

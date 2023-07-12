@@ -89,6 +89,7 @@ import com.google.gerrit.acceptance.api.change.ChangeIT.TestAttentionSetListener
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.server.change.CommentsUtil;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.change.IndexOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -237,6 +238,7 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject private ExtensionRegistry extensionRegistry;
   @Inject private IndexOperations.Change changeIndexOperations;
   @Inject private AccountControl.Factory accountControlFactory;
+  @Inject private ChangeOperations changeOperations;
 
   @Inject
   @Named("diff_intraline")
@@ -3858,6 +3860,28 @@ public class ChangeIT extends AbstractDaemonTest {
     info = gApi.changes().id(r.getChangeId()).get();
     assertThat(Iterables.getLast(info.messages).tag)
         .isEqualTo(ChangeMessagesUtil.TAG_UPLOADED_WIP_PATCH_SET);
+  }
+
+  @Test
+  public void changeCommitMessageAfterUpdatingPreferredEmail() throws Exception {
+    String emailOne = "email1@example.com";
+    Account.Id testUser = accountOperations.newAccount().preferredEmail(emailOne).create();
+
+    // Create change
+    Change.Id change = changeOperations.newChange().project(project).owner(testUser).create();
+
+    // Change preferred email for the user
+    String emailTwo = "email2@example.com";
+    accountOperations.account(testUser).forUpdate().preferredEmail(emailTwo).update();
+    requestScopeOperations.setApiUser(testUser);
+
+    // Change commit message
+    ChangeInfo changeInfo = gApi.changes().id(change.get()).get();
+    String msg = String.format("New commit message\n\nChange-Id: %s\n", changeInfo.changeId);
+    gApi.changes().id(change.get()).setMessage(msg);
+
+    assertThat(gApi.changes().id(change.get()).get().getCurrentRevision().commit.committer.email)
+        .isEqualTo(emailTwo);
   }
 
   @Test

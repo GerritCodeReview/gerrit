@@ -251,6 +251,41 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void rebaseChangeOnBehalfOfUploaderAfterUpdatingPreferredEmailForUploader()
+      throws Exception {
+    String uploaderEmailOne = "uploader1@example.com";
+    Account.Id uploader = accountOperations.newAccount().preferredEmail(uploaderEmailOne).create();
+
+    // Create two changes both with the same parent
+    Change.Id changeToBeTheNewBase =
+        changeOperations.newChange().project(project).owner(uploader).create();
+    Change.Id changeToBeRebased =
+        changeOperations.newChange().project(project).owner(uploader).create();
+
+    // Approve and submit the change that will be the new base for the change that will be rebased.
+    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+
+    // Change preferred email for the uploader
+    String uploaderEmailTwo = "uploader2@example.com";
+    accountOperations.account(uploader).forUpdate().preferredEmail(uploaderEmailTwo).update();
+
+    // Rebase the second change on behalf of the uploader
+    RebaseInput rebaseInput = new RebaseInput();
+    rebaseInput.onBehalfOfUploader = true;
+    gApi.changes().id(changeToBeRebased.get()).rebase(rebaseInput);
+    assertThat(
+            gApi.changes()
+                .id(changeToBeRebased.get())
+                .get()
+                .getCurrentRevision()
+                .commit
+                .committer
+                .email)
+        .isEqualTo(uploaderEmailTwo);
+  }
+
+  @Test
   public void rebaseChangeOnBehalfOfUploaderMultipleTimesInARow() throws Exception {
     allowPermissionToAllUsers(Permission.REBASE);
 

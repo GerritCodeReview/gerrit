@@ -31,9 +31,13 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
@@ -76,6 +80,8 @@ public class ApplyPatchIT extends AbstractDaemonTest {
 
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ChangeOperations changeOperations;
+  @Inject private AccountOperations accountOperations;
 
   @Test
   public void applyAddedFilePatch_success() throws Exception {
@@ -86,6 +92,27 @@ public class ApplyPatchIT extends AbstractDaemonTest {
 
     DiffInfo diff = fetchDiffForFile(result, ADDED_FILE_NAME);
     assertDiffForNewFile(diff, result.currentRevision, ADDED_FILE_NAME, ADDED_FILE_CONTENT);
+  }
+
+  @Test
+  public void applyAddedFilePatchAfterUpdatingPreferredEmail() throws Exception {
+    String emailOne = "email1@example.com";
+    Account.Id testUser = accountOperations.newAccount().preferredEmail(emailOne).create();
+
+    // Create change
+    Change.Id change = changeOperations.newChange().project(project).owner(testUser).create();
+
+    // Change preferred email for the user
+    String emailTwo = "email2@example.com";
+    accountOperations.account(testUser).forUpdate().preferredEmail(emailTwo).update();
+    requestScopeOperations.setApiUser(testUser);
+
+    // Apply patch
+    ApplyPatchPatchSetInput in = buildInput(ADDED_FILE_DIFF);
+    in.responseFormatOptions = ImmutableList.of(CURRENT_REVISION, CURRENT_COMMIT);
+    ChangeInfo result = gApi.changes().id(change.get()).applyPatch(in);
+
+    assertThat(result.getCurrentRevision().commit.committer.email).isEqualTo(emailTwo);
   }
 
   private static final String MODIFIED_FILE_NAME = "modified_file.txt";

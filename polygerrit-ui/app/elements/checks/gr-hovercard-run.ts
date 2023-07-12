@@ -7,16 +7,15 @@ import '../shared/gr-icon/gr-icon';
 import {fontStyles} from '../../styles/gr-font-styles';
 import {customElement, property} from 'lit/decorators.js';
 import './gr-checks-action';
-import {CheckRun} from '../../models/checks/checks-model';
+import {CheckRun, RunResult} from '../../models/checks/checks-model';
 import {
   AttemptDetail,
   ChecksIcon,
   iconFor,
   runActions,
-  worstCategory,
 } from '../../models/checks/checks-util';
 import {durationString, fromNow} from '../../utils/date-util';
-import {RunStatus} from '../../api/checks';
+import {Category, RunStatus} from '../../api/checks';
 import {ordinal} from '../../utils/string-util';
 import {HovercardMixin} from '../../mixins/hovercard-mixin/hovercard-mixin';
 import {css, html, LitElement} from 'lit';
@@ -28,7 +27,10 @@ const base = HovercardMixin(LitElement);
 @customElement('gr-hovercard-run')
 export class GrHovercardRun extends base {
   @property({type: Object})
-  run?: CheckRun;
+  run?: RunResult | CheckRun;
+
+  @property({type: Object})
+  worstCategory?: Category;
 
   static override get styles() {
     return [
@@ -357,8 +359,7 @@ export class GrHovercardRun extends base {
 
   computeIcon(): ChecksIcon {
     if (!this.run) return {name: ''};
-    const category = worstCategory(this.run);
-    if (category) return iconFor(category);
+    if (this.worstCategory) return iconFor(this.worstCategory);
     return this.run.status === RunStatus.COMPLETED
       ? iconFor(RunStatus.COMPLETED)
       : {name: ''};

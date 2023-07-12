@@ -288,7 +288,7 @@ export function primaryRunAction(run?: CheckRun): Action | undefined {
   )[0];
 }
 
-export function runActions(run?: CheckRun): Action[] {
+export function runActions(run?: CheckRun | RunResult): Action[] {
   if (!run?.actions) return [];
   return run.actions.map(action => toCanonicalAction(action, run.status));
 }

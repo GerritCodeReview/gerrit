@@ -1129,6 +1129,8 @@ export function createRunResult(): RunResult {
     pluginName: 'test-plugin-name',
     summary: 'This is the test summary.',
     message: 'This is the test message.',
+    status: RunStatus.COMPLETED,
+    attemptDetails: [{attempt: 'latest'}],
   };
 }
 

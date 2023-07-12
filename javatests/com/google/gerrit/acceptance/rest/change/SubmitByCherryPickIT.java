@@ -16,8 +16,11 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.Comparator.comparing;
 
 import com.google.common.collect.Iterables;
@@ -25,13 +28,20 @@ import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.FooterConstants;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSetApproval;
+import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -39,6 +49,7 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.server.git.ChangeMessageModifier;
+import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.submit.CommitMergeStatus;
 import com.google.inject.Inject;
 import java.util.List;
@@ -49,6 +60,9 @@ import org.junit.Test;
 public class SubmitByCherryPickIT extends AbstractSubmit {
   @Inject private ProjectOperations projectOperations;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private AccountOperations accountOperations;
+  @Inject private ChangeOperations changeOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Override
   protected SubmitType getSubmitType() {
@@ -91,6 +105,46 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     assertRefUpdatedEvents(initialHead, headAfterFirstSubmit, headAfterFirstSubmit, newHead);
     assertChangeMergedEvents(
         change.getChangeId(), headAfterFirstSubmit.name(), change2.getChangeId(), newHead.name());
+  }
+
+  @Test
+  public void submitWithCherryPickAfterUpdatingPreferredEmail() throws Throwable {
+    String emailOne = "email1@example.com";
+    Account.Id testUser = accountOperations.newAccount().preferredEmail(emailOne).create();
+
+    // Add permissions to apply label "Code-Review": 2 and submit
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(TestLabels.codeReview().getName())
+                .ref("refs/heads/master")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
+        .add(allow(Permission.SUBMIT).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
+
+    // Create change to submit
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .project(project)
+            .file("file")
+            .content("content")
+            .owner(testUser)
+            .create();
+
+    // Change preferred email for the user
+    String emailTwo = "email2@example.com";
+    accountOperations.account(testUser).forUpdate().preferredEmail(emailTwo).update();
+    requestScopeOperations.setApiUser(testUser);
+
+    // Approve and submit the change
+    RevisionApi revision = gApi.changes().id(changeId.get()).current();
+    revision.review(ReviewInput.approve());
+    revision.submit();
+    assertThat(gApi.changes().id(changeId.get()).get().getCurrentRevision().commit.committer.email)
+        .isEqualTo(emailTwo);
   }
 
   @Test

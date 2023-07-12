@@ -22,6 +22,30 @@
       },
       "revId": "d7ad5e3e43b6a98d50d9f9460dba006f0c3b4cbd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6c0cbeb_f16a5a42",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-07-12T09:26:10Z",
+      "side": 1,
+      "message": "You can see in the [demo](https://imgur.com/a/GiTHlVY) that the blue top header row with the logo disappears as you scroll (the rest of the headers are sticky) to make more room for the diff. The sidebar needs to adjust to the new diff height in the viewport because it needs to cover the whole diff on the screen, but not put any sidebar parts offscreen where they would never be reachable.",
+      "parentUuid": "0637491e_5872be13",
+      "range": {
+        "startLine": 700,
+        "startChar": 4,
+        "endLine": 700,
+        "endChar": 64
+      },
+      "revId": "d7ad5e3e43b6a98d50d9f9460dba006f0c3b4cbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

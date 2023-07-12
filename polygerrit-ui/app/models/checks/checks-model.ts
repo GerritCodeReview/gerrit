@@ -9,6 +9,7 @@ import {
   createAttemptMap,
   LATEST_ATTEMPT,
   sortAttemptDetails,
+  worstCategory,
 } from './checks-util';
 import {assertIsDefined} from '../../utils/common-util';
 import {select} from '../../utils/observable-util';
@@ -104,6 +105,12 @@ export interface CheckRun extends CheckRunApi {
    * List of all attempts for the same check, ordered by attempt number.
    */
   attemptDetails: AttemptDetail[];
+
+  /**
+   * The category of the worst check result in the run.
+   */
+  worstCategory?: Category;
+
   results?: CheckResult[];
 }
 
@@ -119,7 +126,18 @@ export type RunResult = CheckResult &
   Pick<CheckRun, 'patchset'> &
   Pick<CheckRun, 'isLatestAttempt'> &
   Pick<CheckRun, 'checkName'> &
-  Pick<CheckRun, 'labelName'> & {results?: never};
+  Pick<CheckRun, 'labelName'> &
+  Pick<CheckRun, 'status'> &
+  Pick<CheckRun, 'statusLink'> &
+  Pick<CheckRun, 'statusDescription'> &
+  Pick<CheckRun, 'startedTimestamp'> &
+  Pick<CheckRun, 'scheduledTimestamp'> &
+  Pick<CheckRun, 'finishedTimestamp'> &
+  Pick<CheckRun, 'checkLink'> &
+  Pick<CheckRun, 'checkDescription'> &
+  Pick<CheckRun, 'actions'> &
+  Pick<CheckRun, 'attemptDetails'> &
+  Pick<CheckRun, 'worstCategory'> & {results?: never};
 
 export function runResult(run: CheckRun, result: CheckResult): RunResult {
   return {
@@ -129,6 +147,17 @@ export function runResult(run: CheckRun, result: CheckResult): RunResult {
     isLatestAttempt: run.isLatestAttempt,
     checkName: run.checkName,
     labelName: run.labelName,
+    status: run.status,
+    statusLink: run.statusLink,
+    statusDescription: run.statusDescription,
+    startedTimestamp: run.startedTimestamp,
+    scheduledTimestamp: run.scheduledTimestamp,
+    finishedTimestamp: run.finishedTimestamp,
+    checkLink: run.checkLink,
+    checkDescription: run.checkDescription,
+    actions: run.actions,
+    attemptDetails: run.attemptDetails,
+    worstCategory: run.worstCategory,
     ...result,
   };
 }
@@ -593,6 +622,7 @@ export class ChecksModel extends Model<ChecksState> {
           isLatestAttempt: attemptInfo.latestAttempt === (run.attempt ?? 0),
           isSingleAttempt: attemptInfo.isSingleAttempt,
           attemptDetails: attemptInfo.attempts,
+          worstCategory: worstCategory(run),
           results: (run.results ?? []).map((result, i) => {
             return {
               ...result,
@@ -637,7 +667,11 @@ export class ChecksModel extends Model<ChecksState> {
         }
         return result;
       });
-      return resultUpdated ? {...run, results} : run;
+      if (resultUpdated) {
+        run = {...run, results};
+        run.worstCategory = worstCategory(run);
+      }
+      return run;
     });
     if (!runUpdated) return;
     pluginState[pluginName] = {

@@ -23,7 +23,6 @@ import {
   iconForRun,
   PRIMARY_STATUS_ACTIONS,
   primaryRunAction,
-  worstCategory,
 } from '../../models/checks/checks-util';
 import {
   CheckRun,
@@ -366,7 +365,7 @@ export class GrChecksRun extends LitElement {
    */
   renderAdditionalIcon() {
     if (this.run.status !== RunStatus.RUNNING) return nothing;
-    const category = worstCategory(this.run);
+    const category = this.run.worstCategory;
     if (!category) return nothing;
     const icon = iconFor(category);
     return html`

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0676e6c_78d8e01c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-07-12T13:15:49Z",
+      "side": 1,
+      "message": "gr-hovercard-run",
+      "range": {
+        "startLine": 10,
+        "startChar": 14,
+        "endLine": 10,
+        "endChar": 30
+      },
+      "revId": "ea2779dede83b670b322e67e4d3c3ff4e5a64732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b77e955_c647a005",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-07-12T13:15:49Z",
+      "side": 1,
+      "message": "Why cant gr-hovercard-run look at `this.run.worstCategory`?\n\nIn all places that you create a gr-hovercard-run you\u0027re referring to a field on the value passed into `.run`",
+      "revId": "ea2779dede83b670b322e67e4d3c3ff4e5a64732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

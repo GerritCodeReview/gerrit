@@ -9,6 +9,7 @@ import {
   createAttemptMap,
   LATEST_ATTEMPT,
   sortAttemptDetails,
+  worstCategory,
 } from './checks-util';
 import {assertIsDefined} from '../../utils/common-util';
 import {select} from '../../utils/observable-util';
@@ -119,7 +120,19 @@ export type RunResult = CheckResult &
   Pick<CheckRun, 'patchset'> &
   Pick<CheckRun, 'isLatestAttempt'> &
   Pick<CheckRun, 'checkName'> &
-  Pick<CheckRun, 'labelName'> & {results?: never};
+  Pick<CheckRun, 'labelName'> &
+  Pick<CheckRun, 'status'> &
+  Pick<CheckRun, 'statusLink'> &
+  Pick<CheckRun, 'statusDescription'> &
+  Pick<CheckRun, 'startedTimestamp'> &
+  Pick<CheckRun, 'scheduledTimestamp'> &
+  Pick<CheckRun, 'finishedTimestamp'> &
+  Pick<CheckRun, 'checkLink'> &
+  Pick<CheckRun, 'checkDescription'> &
+  Pick<CheckRun, 'actions'> &
+  Pick<CheckRun, 'attemptDetails'> &
+  {worstCategory?: Category} &
+  Pick<CheckRun, 'actions'> & {results?: never};
 
 export function runResult(run: CheckRun, result: CheckResult): RunResult {
   return {
@@ -129,6 +142,17 @@ export function runResult(run: CheckRun, result: CheckResult): RunResult {
     isLatestAttempt: run.isLatestAttempt,
     checkName: run.checkName,
     labelName: run.labelName,
+    status: run.status,
+    statusLink: run.statusLink,
+    statusDescription: run.statusDescription,
+    startedTimestamp: run.startedTimestamp,
+    scheduledTimestamp: run.scheduledTimestamp,
+    finishedTimestamp: run.finishedTimestamp,
+    checkLink: run.checkLink,
+    checkDescription: run.checkDescription,
+    actions: run.actions,
+    attemptDetails: run.attemptDetails,
+    worstCategory: worstCategory(run),
     ...result,
   };
 }

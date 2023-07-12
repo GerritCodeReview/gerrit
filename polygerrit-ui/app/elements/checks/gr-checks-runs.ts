@@ -249,7 +249,10 @@ export class GrChecksRun extends LitElement {
         tabindex="0"
       >
         <div class="left" tabindex="0">
-          <gr-hovercard-run .run=${this.run}></gr-hovercard-run>
+          <gr-hovercard-run
+            .run=${this.run}
+            .worstCategory=${worstCategory(this.run)}
+          ></gr-hovercard-run>
           ${this.renderFilterIcon()}
           <gr-icon
             class=${icon.name}

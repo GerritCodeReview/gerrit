@@ -152,7 +152,10 @@ export class GrDiffCheckResult extends LitElement {
             <gr-icon icon=${icon.name} ?filled=${icon.filled}></gr-icon>
           </div>
           <div class="name">
-            <gr-hovercard-run .run=${this.result}></gr-hovercard-run>
+            <gr-hovercard-run
+              .run=${this.result}
+              .worstCategory=${this.result.worstCategory}
+            ></gr-hovercard-run>
             <div
               class="name"
               role="button"

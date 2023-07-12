@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e642728_937d736c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-07-12T14:45:00Z",
+      "side": 1,
+      "message": "n",
+      "revId": "f52aa3e84460ef906adfd51dfb6a532b11d823f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fbf2b8a_193a51be",
+        "filename": "java/com/google/gerrit/server/ChangeDraftUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-07-12T14:45:00Z",
+      "side": 1,
+      "message": "nit: I would prefer to just call it delete.\n\nTo be fare Fix seems misleading.",
+      "range": {
+        "startLine": 61,
+        "startChar": 7,
+        "endLine": 61,
+        "endChar": 30
+      },
+      "revId": "f52aa3e84460ef906adfd51dfb6a532b11d823f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3092dd72_9f76c625",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeDraftNotesUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-07-12T14:45:00Z",
+      "side": 1,
+      "message": "would instanceof work?",
+      "range": {
+        "startLine": 307,
+        "startChar": 25,
+        "endLine": 307,
+        "endChar": 63
+      },
+      "revId": "f52aa3e84460ef906adfd51dfb6a532b11d823f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

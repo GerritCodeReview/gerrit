@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9931cd7_9b67b061",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-07-12T15:24:40Z",
+      "side": 1,
+      "message": "Since your fix doesn\u0027t seem to affect any tests, it might be nice to improve the test coverage for this REST API to prevent a regression.",
+      "revId": "bf9f0eec001696dc5d7c053f3ebf37040d57c6b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

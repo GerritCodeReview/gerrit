@@ -362,7 +362,10 @@ export class GrResultRow extends LitElement {
       <tr class=${classMap({container: true, collapsed: !this.isExpanded})}>
         <td class="nameCol" @click=${this.toggleExpandedClick}>
           <div class="flex">
-            <gr-hovercard-run .run=${this.result}></gr-hovercard-run>
+            <gr-hovercard-run
+              .run=${this.result}
+              .worstCategory=${this.result.worstCategory}
+            ></gr-hovercard-run>
             <div
               class="name"
               role="button"

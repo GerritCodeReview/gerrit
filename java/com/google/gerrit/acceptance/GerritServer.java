@@ -430,6 +430,9 @@ public class GerritServer implements AutoCloseable {
                 .to(GitObjectVisibilityChecker.class);
           }
         });
+    daemon.setEnableHttpd(desc.httpd());
+    daemon.setReplica(
+        ReplicaUtil.isReplica(baseConfig) || ReplicaUtil.isReplica(desc.buildConfig(baseConfig)));
 
     if (desc.memory()) {
       checkArgument(additionalArgs.length == 0, "cannot pass args to in-memory server");
@@ -446,7 +449,6 @@ public class GerritServer implements AutoCloseable {
       @Nullable InMemoryRepositoryManager inMemoryRepoManager)
       throws Exception {
     Config cfg = desc.buildConfig(baseConfig);
-    daemon.setReplica(ReplicaUtil.isReplica(baseConfig) || ReplicaUtil.isReplica(cfg));
     mergeTestConfig(cfg);
     // Set the log4j configuration to an invalid one to prevent system logs
     // from getting configured and creating log files.
@@ -722,5 +724,9 @@ public class GerritServer implements AutoCloseable {
   @Override
   public String toString() {
     return MoreObjects.toStringHelper(this).addValue(desc).toString();
+  }
+
+  public boolean isReplica() {
+    return daemon.isReplica();
   }
 }

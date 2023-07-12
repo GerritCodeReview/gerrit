@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c1c2163_4e32c3e1",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeDraftNotesUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-12T12:15:50Z",
+      "side": 1,
+      "message": "The other `markAs` methods are deleting comments as well. I don\u0027t feel strongly about it though. Renamed.",
+      "parentUuid": "c7e11a08_3e6d1073",
+      "range": {
+        "startLine": 143,
+        "startChar": 14,
+        "endLine": 143,
+        "endChar": 39
+      },
+      "revId": "239af03536d8a37b9c04c57000b6aa41385c6b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02a0f5f1_18128c08",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-07-11T14:43:44Z",
       "side": 1,
       "message": "in our implementation, is this change going to be instantly applied?\n\nOr do we want to collect all such updated and only transactionally apply them in NoteDbUpdateManager?",
+      "range": {
+        "startLine": 684,
+        "startChar": 22,
+        "endLine": 684,
+        "endChar": 45
+      },
+      "revId": "239af03536d8a37b9c04c57000b6aa41385c6b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4987c1db_457dbe0d",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-12T12:15:50Z",
+      "side": 1,
+      "message": "I think instant application makes more sense, but no reason to have a transaction per draft. Edited.",
+      "parentUuid": "02a0f5f1_18128c08",
       "range": {
         "startLine": 684,
         "startChar": 22,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9626da8_f45deb3f",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-12T12:15:50Z",
+      "side": 1,
+      "message": "Thanks!\nMoved.",
+      "parentUuid": "40db530b_752e31b1",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 100
+      },
+      "revId": "239af03536d8a37b9c04c57000b6aa41385c6b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c6973d3_7016ae93",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-07-11T14:43:44Z",
       "side": 1,
       "message": "how are we going to stab this out in our implementation? Will this be a noop?",
+      "range": {
+        "startLine": 245,
+        "startChar": 8,
+        "endLine": 245,
+        "endChar": 56
+      },
+      "revId": "239af03536d8a37b9c04c57000b6aa41385c6b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33ce3814_8e83400f",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-12T12:15:50Z",
+      "side": 1,
+      "message": "Edited to return an optional.\nThis is a static method of the implementing class.",
+      "parentUuid": "1c6973d3_7016ae93",
       "range": {
         "startLine": 245,
         "startChar": 8,

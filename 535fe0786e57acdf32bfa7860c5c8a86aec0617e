@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b748bab_fe127f63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-12T12:51:59Z",
+      "side": 1,
+      "message": "I don\u0027t see the changes mentioned in [1] being a part of `Documentation/licenses.txt`\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/356415",
+      "range": {
+        "startLine": 14,
+        "startChar": 2,
+        "endLine": 14,
+        "endChar": 52
+      },
+      "revId": "535fe0786e57acdf32bfa7860c5c8a86aec0617e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

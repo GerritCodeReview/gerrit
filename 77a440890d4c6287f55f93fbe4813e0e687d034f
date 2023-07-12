@@ -16,6 +16,23 @@
       "message": "Verifying based on the stable-3.6 successful validation results.",
       "revId": "77a440890d4c6287f55f93fbe4813e0e687d034f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "530afad5_1bdc7664",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-12T12:52:47Z",
+      "side": 1,
+      "message": "I don\u0027t see the changes mentioned in [1] being a part of Documentation/licenses.txt\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/356415",
+      "revId": "77a440890d4c6287f55f93fbe4813e0e687d034f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

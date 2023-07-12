@@ -26,6 +26,7 @@ export const fakeRun0: CheckRun = {
   isSingleAttempt: true,
   isLatestAttempt: true,
   attemptDetails: [],
+  worstCategory: Category.ERROR,
   results: [
     {
       internalResultId: 'f0r0',
@@ -94,6 +95,7 @@ export const fakeRun1: CheckRun = {
   isSingleAttempt: true,
   isLatestAttempt: true,
   attemptDetails: [],
+  worstCategory: Category.ERROR,
   results: [
     {
       internalResultId: 'f1r0',
@@ -228,6 +230,7 @@ export const fakeRun2: CheckRun = {
       callback: () => Promise.resolve({message: 'fake "delete" triggered'}),
     },
   ],
+  worstCategory: Category.INFO,
   results: [
     {
       internalResultId: 'f2r0',
@@ -276,6 +279,7 @@ export const fakeRun4_2: CheckRun = {
   isSingleAttempt: false,
   isLatestAttempt: false,
   attemptDetails: [],
+  worstCategory: Category.INFO,
   results: [
     {
       internalResultId: 'f42r0',
@@ -294,6 +298,7 @@ export const fakeRun4_3: CheckRun = {
   isSingleAttempt: false,
   isLatestAttempt: false,
   attemptDetails: [],
+  worstCategory: Category.ERROR,
   results: [
     {
       internalResultId: 'f43r0',
@@ -320,6 +325,7 @@ export const fakeRun4_4: CheckRun = {
   isSingleAttempt: false,
   isLatestAttempt: true,
   attemptDetails: [],
+  worstCategory: Category.INFO,
   results: [
     {
       internalResultId: 'f44r0',
@@ -380,6 +386,7 @@ export function fakeRun4CreateAttempt(attempt: number): CheckRun {
     isSingleAttempt: false,
     isLatestAttempt: false,
     attemptDetails: [],
+    worstCategory: Category.ERROR,
     results:
       attempt % 2 === 0
         ? [

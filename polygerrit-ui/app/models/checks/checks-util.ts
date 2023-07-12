@@ -164,7 +164,7 @@ export function rectifyReplacement(
   return r;
 }
 
-export function worstCategory(run: CheckRun) {
+export function worstCategory(run: CheckRunApi) {
   if (hasResultsOf(run, Category.ERROR)) return Category.ERROR;
   if (hasResultsOf(run, Category.WARNING)) return Category.WARNING;
   if (hasResultsOf(run, Category.INFO)) return Category.INFO;
@@ -288,7 +288,7 @@ export function primaryRunAction(run?: CheckRun): Action | undefined {
   )[0];
 }
 
-export function runActions(run?: CheckRun): Action[] {
+export function runActions(run?: CheckRun | RunResult): Action[] {
   if (!run?.actions) return [];
   return run.actions.map(action => toCanonicalAction(action, run.status));
 }
@@ -297,7 +297,7 @@ export function iconForRun(run: CheckRun) {
   if (run.status !== RunStatus.COMPLETED) {
     return iconFor(run.status);
   } else {
-    const category = worstCategory(run);
+    const category = run.worstCategory;
     return category ? iconFor(category) : iconFor(run.status);
   }
 }
@@ -340,16 +340,16 @@ export function allResults(runs: CheckRun[]): CheckResult[] {
   );
 }
 
-export function hasResultsOf(run: CheckRun, category: Category) {
+export function hasResultsOf(run: CheckRunApi, category: Category) {
   return getResultsOf(run, category).length > 0;
 }
 
-export function getResultsOf(run: CheckRun, category: Category) {
+export function getResultsOf(run: CheckRunApi, category: Category) {
   return (run.results ?? []).filter(r => r.category === category);
 }
 
 export function compareByWorstCategory(a: CheckRun, b: CheckRun) {
-  const catComp = catLevel(worstCategory(b)) - catLevel(worstCategory(a));
+  const catComp = catLevel(b.worstCategory) - catLevel(a.worstCategory);
   if (catComp !== 0) return catComp;
   const statusComp = runLevel(b.status) - runLevel(a.status);
   return statusComp;
@@ -490,6 +490,7 @@ export function fromApiToInternalRun(run: CheckRunApi): CheckRun {
     isSingleAttempt: false,
     isLatestAttempt: false,
     attemptDetails: [],
+    worstCategory: worstCategory(run),
     results: (run.results ?? []).map(fromApiToInternalResult),
   };
 }

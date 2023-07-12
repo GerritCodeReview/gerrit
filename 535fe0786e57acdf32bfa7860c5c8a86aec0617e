@@ -46,6 +46,30 @@
       },
       "revId": "535fe0786e57acdf32bfa7860c5c8a86aec0617e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19d48e53_2651e4f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-12T17:30:01Z",
+      "side": 1,
+      "message": "See Change 269976.",
+      "parentUuid": "1118e035_17292ae0",
+      "range": {
+        "startLine": 14,
+        "startChar": 2,
+        "endLine": 14,
+        "endChar": 52
+      },
+      "revId": "535fe0786e57acdf32bfa7860c5c8a86aec0617e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

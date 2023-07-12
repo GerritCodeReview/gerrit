@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "936ef3b2_2687e284",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-12T11:51:50Z",
+      "side": 1,
+      "message": "Verifying based on the successful results of the merge ups to stable-3.6",
+      "revId": "55662623f29fcd5348b006351c362287de96ee50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

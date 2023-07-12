@@ -29,10 +29,14 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -58,6 +62,8 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private ChangeOperations changeOperations;
+  @Inject private AccountOperations accountOperations;
 
   @Before
   public void setUp() {
@@ -147,6 +153,35 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).createMergePatchSet(in);
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
     assertThat(changeInfo.subject).isEqualTo(subject);
+  }
+
+  @Test
+  public void createMergePatchSetAfterUpdatingPreferredEmail() throws Exception {
+    String emailOne = "email1@example.com";
+    Account.Id testUser = accountOperations.newAccount().preferredEmail(emailOne).create();
+    String branch = "dev";
+    createBranch(BranchNameKey.create(project, branch));
+
+    // Create a change for master branch
+    Change.Id change = changeOperations.newChange().project(project).owner(testUser).create();
+
+    // Push a commit to dev branch
+    createChange("refs/heads/dev");
+
+    // Change preferred email for the user
+    String emailTwo = "email2@example.com";
+    accountOperations.account(testUser).forUpdate().preferredEmail(emailTwo).update();
+    requestScopeOperations.setApiUser(testUser);
+
+    // Create merge patch-set
+    MergeInput mergeInput = new MergeInput();
+    mergeInput.source = branch;
+    MergePatchSetInput in = new MergePatchSetInput();
+    in.merge = mergeInput;
+    gApi.changes().id(change.get()).createMergePatchSet(in);
+
+    assertThat(gApi.changes().id(change.get()).get().getCurrentRevision().commit.committer.email)
+        .isEqualTo(emailTwo);
   }
 
   @Test

@@ -34,7 +34,10 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
@@ -73,6 +76,8 @@ import org.junit.Test;
 public class RobotCommentsIT extends AbstractDaemonTest {
   @Inject private TestCommentHelper testCommentHelper;
   @Inject private ChangeOperations changeOperations;
+  @Inject private AccountOperations accountOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   private static final String PLAIN_TEXT_CONTENT_TYPE = "text/plain";
   private static final String GERRIT_COMMIT_MESSAGE_TYPE = "text/x-gerrit-commit-message";
@@ -752,6 +757,46 @@ public class RobotCommentsIT extends AbstractDaemonTest {
         .isEqualTo(
             "First line\nSecond line\nTModified contentrd line\nFourth line\nFifth line\n"
                 + "Sixth line\nSeventh line\nEighth line\nNinth line\nTenth line\n");
+  }
+
+  @Test
+  public void applyStoredFixAfterUpdatingPreferredEmail() throws Exception {
+    String emailOne = "email1@example.com";
+    Account.Id testUser = accountOperations.newAccount().preferredEmail(emailOne).create();
+
+    // Create change
+    Change.Id change =
+        changeOperations
+            .newChange()
+            .project(project)
+            .file(FILE_NAME)
+            .content(FILE_CONTENT)
+            .owner(testUser)
+            .create();
+
+    // Add Robot Comment to the change
+    fixReplacementInfo.path = FILE_NAME;
+    fixReplacementInfo.replacement = "Modified content";
+    fixReplacementInfo.range = createRange(3, 1, 3, 3);
+    testCommentHelper.addRobotComment(project + "~" + change.get(), withFixRobotCommentInput);
+
+    // Change preferred email for the user
+    String emailTwo = "email2@example.com";
+    accountOperations.account(testUser).forUpdate().preferredEmail(emailTwo).update();
+    requestScopeOperations.setApiUser(testUser);
+
+    // Fetch Fix ID
+    List<RobotCommentInfo> robotCommentInfoList =
+        gApi.changes().id(change.get()).current().robotCommentsAsList();
+
+    List<String> fixIds = getFixIds(robotCommentInfoList);
+    String fixId = Iterables.getOnlyElement(fixIds);
+
+    // Apply fix
+    gApi.changes().id(change.get()).current().applyFix(fixId);
+
+    EditInfo editInfo = gApi.changes().id(change.get()).edit().get().orElseThrow();
+    assertThat(editInfo.commit.committer.email).isEqualTo(emailTwo);
   }
 
   @Test

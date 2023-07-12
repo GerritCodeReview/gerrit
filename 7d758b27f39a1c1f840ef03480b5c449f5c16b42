@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8928266_4bd43326",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-12T10:06:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afb20ff7_af997b36",
+      "revId": "7d758b27f39a1c1f840ef03480b5c449f5c16b42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0433368_0420d3d2",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c118a17d_ac8a84f2",
+        "filename": "java/com/google/gerrit/server/DraftCommentsReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-12T10:06:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0433368_0420d3d2",
+      "revId": "7d758b27f39a1c1f840ef03480b5c449f5c16b42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7376dbff_336aeb85",
@@ -48,6 +84,30 @@
       "writtenOn": "2023-07-06T12:36:32Z",
       "side": 1,
       "message": "It looks inconsistent that other methods catch IOException\u0027s (at [1]), but these 2 methods not. Should we catch IOException\u0027s consistently for all methods and let them throw StorageException instead?\n\n[1] https://gerrit-review.git.corp.google.com/c/gerrit/+/378901/1/java/com/google/gerrit/server/notedb/DraftCommentsNotesReader.java#143",
+      "range": {
+        "startLine": 35,
+        "startChar": 69,
+        "endLine": 35,
+        "endChar": 80
+      },
+      "revId": "7d758b27f39a1c1f840ef03480b5c449f5c16b42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e47462c_51892727",
+        "filename": "java/com/google/gerrit/server/DraftCommentsReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-12T10:06:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7376dbff_336aeb85",
       "range": {
         "startLine": 35,
         "startChar": 69,
@@ -81,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6f70263_1c22468c",
+        "filename": "java/com/google/gerrit/server/DraftCommentsReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-12T10:06:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67a398d2_025989f5",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 83
+      },
+      "revId": "7d758b27f39a1c1f840ef03480b5c449f5c16b42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7af3560c_b4b39d70",
@@ -94,6 +178,24 @@
       "writtenOn": "2023-07-06T12:36:32Z",
       "side": 1,
       "message": "The draftByPatchSetAuthor method in CommentsUtil, that this method seems to replace, was sorting the returned comments. Should they still be sorted? Sorting would be consistent with getDraftsByChangeAuthor that also sorts. \n\nIf callers rely on the sorting, I guess sorting should be stated in the DraftCommentsReader interface (e.g. in javadoc) so that other implementations take care about this as well. If callers don\u0027t rely on the sorting, let\u0027s drop it in all methods.\n\n[1] https://gerrit-review.git.corp.google.com/c/gerrit/+/378901/1/java/com/google/gerrit/server/CommentsUtil.java#b327\n[2] https://gerrit-review.git.corp.google.com/c/gerrit/+/378901/1/java/com/google/gerrit/server/CommentsUtil.java#b385",
+      "revId": "7d758b27f39a1c1f840ef03480b5c449f5c16b42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "314b99a1_ff536034",
+        "filename": "java/com/google/gerrit/server/notedb/DraftCommentsNotesReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-12T10:06:15Z",
+      "side": 1,
+      "message": "Thanks!\nI have applied sorting on all methods. Even if the current callers do not relay on this, a consistent getter is less error prone.",
+      "parentUuid": "7af3560c_b4b39d70",
       "revId": "7d758b27f39a1c1f840ef03480b5c449f5c16b42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

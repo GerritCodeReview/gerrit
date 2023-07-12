@@ -247,6 +247,10 @@ public class Daemon extends SiteProgram {
     this.replica = replica;
   }
 
+  public boolean isReplica() {
+    return replica;
+  }
+
   @VisibleForTesting
   public Injector getHttpdInjector() {
     return httpdInjector;
@@ -367,6 +371,7 @@ public class Daemon extends SiteProgram {
     }
     cfgInjector = createCfgInjector();
     config = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
+    config.setBoolean("container", null, "replica", replica);
     indexType = IndexModule.getIndexType(cfgInjector);
     sysInjector = createSysInjector();
     sysInjector.getInstance(PluginGuiceEnvironment.class).setDbCfgInjector(dbInjector, cfgInjector);

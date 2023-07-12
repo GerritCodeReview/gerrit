@@ -8,7 +8,7 @@ import './gr-hovercard-run';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrHovercardRun} from './gr-hovercard-run';
 import {fakeRun4Att, fakeRun4_4} from '../../models/checks/checks-fakes';
-import {createAttemptMap} from '../../models/checks/checks-util';
+import {createAttemptMap, worstCategory} from '../../models/checks/checks-util';
 import {CheckRun} from '../../models/checks/checks-model';
 
 suite('gr-hovercard-run tests', () => {
@@ -31,6 +31,7 @@ suite('gr-hovercard-run tests', () => {
     const attemptDetails = attemptMap.get(fakeRun4_4.checkName)!.attempts;
     const run: CheckRun = {...fakeRun4_4, attemptDetails};
     element.run = run;
+    element.worstCategory = worstCategory(run);
     await element.updateComplete;
     assert.shadowDom.equal(
       element,

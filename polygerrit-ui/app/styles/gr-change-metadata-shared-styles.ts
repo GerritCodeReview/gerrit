@@ -25,6 +25,12 @@ export const changeMetadataStyles = css`
     vertical-align: top;
   }
 
+  .title,
+  .value {
+    display: table-cell;
+    vertical-align: top;
+  }
+
   .title {
     color: var(--deemphasized-text-color);
     max-width: 20em;

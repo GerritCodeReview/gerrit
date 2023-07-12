@@ -10,7 +10,7 @@
 export {};
 
 const $_documentContainer = document.createElement('template');
-
+const $_documentContainer = document.createElement('template');
 /*
   These are shared styles for change-view-integration endpoints.
   All plugins that registered that endpoint should include this in

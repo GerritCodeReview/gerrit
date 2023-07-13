@@ -1,7 +1,10 @@
 load("@rules_java//java:defs.bzl", "java_library")
 load("//tools/bzl:junit.bzl", "junit_tests")
 
-ABSTRACT_QUERY_TEST = ["AbstractQueryGroupsTest.java"]
+ABSTRACT_QUERY_TEST = [
+    "AbstractQueryGroupsTest.java",
+    "AbstractFakeQueryGroupsTest.java",
+]
 
 java_library(
     name = "abstract_query_tests",
@@ -14,6 +17,7 @@ java_library(
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/index",
+        "//java/com/google/gerrit/index/testing",
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/schema",

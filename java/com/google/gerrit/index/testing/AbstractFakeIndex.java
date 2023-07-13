@@ -16,6 +16,7 @@ package com.google.gerrit.index.testing;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
@@ -50,6 +51,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -75,6 +77,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
   private final String indexName;
   private final Map<K, D> indexedDocuments;
   private int queryCount;
+  private List<Integer> resultsSizes;
 
   AbstractFakeIndex(Schema<V> schema, SitePaths sitePaths, String indexName) {
     this.schema = schema;
@@ -82,6 +85,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
     this.indexName = indexName;
     this.indexedDocuments = new HashMap<>();
     this.queryCount = 0;
+    this.resultsSizes = new ArrayList<Integer>();
   }
 
   @Override
@@ -119,6 +123,16 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
     return queryCount;
   }
 
+  @VisibleForTesting
+  public void resetQueryCount() {
+    queryCount = 0;
+  }
+
+  @VisibleForTesting
+  public List<Integer> getResultsSizes() {
+    return resultsSizes;
+  }
+
   @Override
   public DataSource<V> getSource(Predicate<V> p, QueryOptions opts) {
     List<V> results;
@@ -142,6 +156,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
         results = valueStream.skip(opts.start()).limit(opts.pageSize()).collect(toImmutableList());
       }
       queryCount++;
+      resultsSizes.add(results.size());
     }
     return new DataSource<>() {
       @Override

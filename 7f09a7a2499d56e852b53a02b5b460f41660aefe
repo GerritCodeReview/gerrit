@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc682d62_e396ff26",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdsConsistencyChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-07-13T08:14:30Z",
+      "side": 1,
+      "message": "We can get the AccountCache injected in the concrete implementations. So no need to pass it down here.",
+      "range": {
+        "startLine": 25,
+        "startChar": 58,
+        "endLine": 25,
+        "endChar": 84
+      },
+      "revId": "7f09a7a2499d56e852b53a02b5b460f41660aefe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7bd22ac_79e00fc1",
+        "filename": "java/com/google/gerrit/server/account/externalids/storage/notedb/ExternalIdsConsistencyCheckerNoteDbImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-07-13T08:14:30Z",
+      "side": 1,
+      "message": "2023",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "7f09a7a2499d56e852b53a02b5b460f41660aefe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

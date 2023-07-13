@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "430c7cc7_bc7b39c6",
+        "filename": "java/com/google/gerrit/metrics/Field.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-13T07:33:58Z",
+      "side": 1,
+      "message": "`projectNameField`?",
+      "parentUuid": "a4ba8e27_46950c05",
+      "range": {
+        "startLine": 114,
+        "startChar": 59,
+        "endLine": 114,
+        "endChar": 63
+      },
+      "revId": "0f8d8bb23b12b586a731f466a354a5af1aa715ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "59b0810e_96b843a7",

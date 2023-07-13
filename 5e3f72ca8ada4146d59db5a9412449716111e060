@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f72b639b_37e20a23",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-07-13T10:07:54Z",
+      "side": 1,
+      "message": "Add/update integration tests. (I know you are actively working on to add tests, adding a comment for tracking)",
+      "revId": "5e3f72ca8ada4146d59db5a9412449716111e060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa2c084d_d93bc61a",
+        "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-07-13T10:07:54Z",
+      "side": 1,
+      "message": "protected String?",
+      "range": {
+        "startLine": 469,
+        "startChar": 2,
+        "endLine": 469,
+        "endChar": 8
+      },
+      "revId": "5e3f72ca8ada4146d59db5a9412449716111e060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ff31a3c_912eceda",
+        "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-07-13T10:07:54Z",
+      "side": 1,
+      "message": "protected String?",
+      "range": {
+        "startLine": 490,
+        "startChar": 2,
+        "endLine": 490,
+        "endChar": 8
+      },
+      "revId": "5e3f72ca8ada4146d59db5a9412449716111e060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "600f7e03_21cf345e",
+        "filename": "java/com/google/gerrit/server/update/Context.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-07-13T10:07:54Z",
+      "side": 1,
+      "message": "using source committer email if it belongs to the user otherwise use user\u0027s preferred email.",
+      "range": {
+        "startLine": 169,
+        "startChar": 64,
+        "endLine": 170,
+        "endChar": 24
+      },
+      "revId": "5e3f72ca8ada4146d59db5a9412449716111e060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

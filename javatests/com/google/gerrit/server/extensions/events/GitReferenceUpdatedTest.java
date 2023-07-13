@@ -14,12 +14,15 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.events.GitBatchRefUpdateListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated.GitBatchRefUpdateEvent;
 import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import java.io.IOException;
@@ -34,6 +37,8 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -49,6 +54,7 @@ public class GitReferenceUpdatedTest {
   @Mock GitReferenceUpdatedListener refUpdatedListener;
   @Mock GitBatchRefUpdateListener batchRefUpdateListener;
   @Mock EventUtil util;
+  @Captor ArgumentCaptor<GitBatchRefUpdateEvent> eventCaptor;
 
   @Before
   public void setup() {
@@ -84,6 +90,36 @@ public class GitReferenceUpdatedTest {
     event.fire(Project.NameKey.parse("project"), update, updater);
     Mockito.verify(batchRefUpdateListener, Mockito.times(1)).onGitBatchRefUpdate(Mockito.any());
     Mockito.verify(refUpdatedListener, Mockito.times(2)).onGitReferenceUpdated(Mockito.any());
+  }
+
+  @Test
+  public void shouldPreserveRefsOrderInTheBatchRefsUpdatedEvent() {
+    BatchRefUpdate update = newBatchRefUpdate();
+    ReceiveCommand cmd1 =
+        new ReceiveCommand(
+            ObjectId.zeroId(),
+            ObjectId.fromString("0000000000000000000000000000000000000001"),
+            "refs/changes/01/1/1");
+    ReceiveCommand cmd2 =
+        new ReceiveCommand(
+            ObjectId.zeroId(),
+            ObjectId.fromString("0000000000000000000000000000000000000001"),
+            "refs/changes/01/1/meta");
+    cmd1.setResult(ReceiveCommand.Result.OK);
+    cmd2.setResult(ReceiveCommand.Result.OK);
+    update.addCommand(cmd1);
+    update.addCommand(cmd2);
+
+    GitReferenceUpdated event =
+        new GitReferenceUpdated(
+            new PluginSetContext<>(batchRefUpdateListeners, PluginMetrics.DISABLED_INSTANCE),
+            new PluginSetContext<>(refUpdatedListeners, PluginMetrics.DISABLED_INSTANCE),
+            util);
+    event.fire(Project.NameKey.parse("project"), update, updater);
+    Mockito.verify(batchRefUpdateListener, Mockito.times(1))
+        .onGitBatchRefUpdate(eventCaptor.capture());
+    GitBatchRefUpdateEvent batchEvent = eventCaptor.getValue();
+    assertThat(batchEvent.getRefNames()).isInOrder();
   }
 
   @Test

@@ -25,5 +25,8 @@ public enum PaginationType {
    * <p>For example, Lucene implementation uses the last doc from the previous search as
    * search-after object and uses the IndexSearcher.searchAfter API to get the next set of results.
    */
-  SEARCH_AFTER
+  SEARCH_AFTER,
+
+  /** Index queries are executed returning all results, without internal pagination. */
+  NONE
 }

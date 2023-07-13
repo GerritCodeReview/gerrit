@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29ab1b85_5f891da7",
+        "filename": "polygerrit-ui/app/styles/gr-change-metadata-shared-styles.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2023-07-13T09:46:45Z",
+      "side": 1,
+      "message": "test comment",
+      "range": {
+        "startLine": 28,
+        "startChar": 3,
+        "endLine": 30,
+        "endChar": 14
+      },
+      "revId": "a7d1ce9962954c37f62b629965cce43116992310",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

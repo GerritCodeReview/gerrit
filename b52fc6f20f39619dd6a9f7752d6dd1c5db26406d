@@ -16,6 +16,23 @@
       "message": "https://gerrit-review.googlesource.com/c/gerrit/+/377954/3",
       "revId": "b52fc6f20f39619dd6a9f7752d6dd1c5db26406d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8b8d863_163d73e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1162947
+      },
+      "writtenOn": "2023-07-13T12:18:16Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/377954/3",
+      "revId": "b52fc6f20f39619dd6a9f7752d6dd1c5db26406d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

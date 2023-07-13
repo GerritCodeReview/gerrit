@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38474854_dbbfa66c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-07-13T09:33:29Z",
+      "side": 1,
+      "message": "Changed to defining worstCategory when CheckRunApi is converted to CheckRun. PTAL",
+      "parentUuid": "099b5a7c_e8d868b7",
+      "revId": "1f91c7dae0d610901ed9b218b1f6783cd5c93db6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efd9e1bf_f4320061",
@@ -48,6 +66,30 @@
       "writtenOn": "2023-07-12T19:02:16Z",
       "side": 1,
       "message": "Isn\u0027t actions already on line 132?",
+      "range": {
+        "startLine": 133,
+        "startChar": 65,
+        "endLine": 136,
+        "endChar": 3
+      },
+      "revId": "1f91c7dae0d610901ed9b218b1f6783cd5c93db6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40365e37_1bcb3fb4",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-07-13T09:33:29Z",
+      "side": 1,
+      "message": "Right. Fixed",
+      "parentUuid": "efd9e1bf_f4320061",
       "range": {
         "startLine": 133,
         "startChar": 65,

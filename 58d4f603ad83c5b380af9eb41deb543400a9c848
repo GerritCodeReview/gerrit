@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09bad18f_ab823995",
+        "filename": "java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-13T20:58:42Z",
+      "side": 0,
+      "message": "This isn\u0027t strictly related to this change.",
+      "range": {
+        "startLine": 145,
+        "startChar": 0,
+        "endLine": 148,
+        "endChar": 73
+      },
+      "revId": "58d4f603ad83c5b380af9eb41deb543400a9c848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

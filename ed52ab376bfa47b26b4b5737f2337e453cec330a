@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e291ee05_b5af1509",
+        "filename": "java/com/google/gerrit/server/change/ChangeResource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-13T20:58:42Z",
+      "side": 1,
+      "message": "This is really the only 1-liner needed to make the ETag work.",
+      "range": {
+        "startLine": 152,
+        "startChar": 12,
+        "endLine": 152,
+        "endChar": 55
+      },
+      "revId": "ed52ab376bfa47b26b4b5737f2337e453cec330a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

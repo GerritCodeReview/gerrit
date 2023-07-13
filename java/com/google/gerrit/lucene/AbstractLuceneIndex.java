@@ -25,6 +25,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.primitives.Ints;
 import com.google.common.util.concurrent.AbstractFuture;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -35,6 +36,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.Index;
+import com.google.gerrit.index.PaginationType;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.Schema.Values;
@@ -422,6 +424,10 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     return f.isStored() ? Field.Store.YES : Field.Store.NO;
   }
 
+  static int getLimitBasedOnPaginationType(QueryOptions opts, int pagesize) {
+    return PaginationType.NONE == opts.config().paginationType() ? opts.limit() : pagesize;
+  }
+
   private final class NrtFuture extends AbstractFuture<Void> {
     private final long gen;
 
@@ -541,7 +547,9 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
       ScoreDoc scoreDoc = null;
       try {
         searcher = acquire();
-        int realLimit = opts.start() + opts.pageSize();
+        int realLimit =
+            Ints.saturatedCast(
+                (long) getLimitBasedOnPaginationType(opts, opts.pageSize()) + opts.start());
         TopFieldDocs docs =
             opts.searchAfter() != null
                 ? searcher.searchAfter((ScoreDoc) opts.searchAfter(), query, realLimit, sort, false)

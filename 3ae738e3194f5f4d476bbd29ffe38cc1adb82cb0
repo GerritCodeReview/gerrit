@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "da4280e7_1c4ee940",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-13T05:31:51Z",
+      "side": 1,
+      "message": "@Thomas how about the current PS? I believe that scope was limited to `project name` based sub-metrics in Gerrit\u0027s core so that collision is fixed with the limited side effects on the existing cores.",
+      "parentUuid": "485d0c8d_d6943334",
+      "revId": "3ae738e3194f5f4d476bbd29ffe38cc1adb82cb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "45d1b62f_5ba128e0",
         "filename": "java/com/google/gerrit/metrics/dropwizard/CallbackMetricImpl1.java",
         "patchSetId": 3

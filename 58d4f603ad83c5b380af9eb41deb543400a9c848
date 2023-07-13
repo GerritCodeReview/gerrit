@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2bbbfe05_8dc84fc0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-07-13T15:10:07Z",
+      "side": 1,
+      "message": "@luca, I have provided an alternative version of the test (and a fix) here [1]\n\n[1]https://gerrit-review.googlesource.com/c/gerrit/+/379434",
+      "revId": "58d4f603ad83c5b380af9eb41deb543400a9c848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9e268ff1_7ab010d5",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
         "patchSetId": 1

@@ -7,7 +7,6 @@ gerrit show-caches - Display current cache statistics.
 [verse]
 --
 _ssh_ -p <port> <host> _gerrit show-caches_
-  [--gc]
   [--show-jvm]
 --
 
@@ -15,10 +14,6 @@ _ssh_ -p <port> <host> _gerrit show-caches_
 Display statistics about the size and hit ratio of in-memory caches.
 
 == OPTIONS
---gc::
-	Request Java garbage collection before displaying information
-	about the Java memory heap.
-
 --show-jvm::
 	List the name and version of the Java virtual machine, host
 	operating system, and other details about the environment

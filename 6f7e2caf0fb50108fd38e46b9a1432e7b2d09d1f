@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8dfe270a_20f10334",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-13T18:17:34Z",
+      "side": 1,
+      "message": "LGTM but I will let @Nasser to approve 😊",
+      "revId": "6f7e2caf0fb50108fd38e46b9a1432e7b2d09d1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

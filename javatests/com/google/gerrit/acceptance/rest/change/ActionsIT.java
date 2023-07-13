@@ -24,6 +24,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -36,7 +37,9 @@ import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.change.RevisionJson;
+import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.restapi.change.GetRevisionActions;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import java.util.EnumSet;
@@ -58,6 +61,10 @@ public class ActionsIT extends AbstractDaemonTest {
 
   @Inject private DynamicSet<ActionVisitor> actionVisitors;
 
+  @Inject private ChangeIndexer changeIndexer;
+
+  @Inject GetRevisionActions revisionActions;
+
   private RegistrationHandle visitorHandle;
 
   @Before
@@ -78,6 +85,10 @@ public class ActionsIT extends AbstractDaemonTest {
 
   protected String getETag(String id) throws Exception {
     return gApi.changes().id(id).current().etag();
+  }
+
+  protected String getRevisionActionsETag(String id) throws Exception {
+    return revisionActions.getETag(parseCurrentRevisionResource(id));
   }
 
   @Test
@@ -123,6 +134,26 @@ public class ActionsIT extends AbstractDaemonTest {
       approve(changeId2);
       noSubmitWholeTopicAssertions(getActions(changeId2), 2);
     }
+  }
+
+  @Test
+  @UseLocalDisk
+  public void revisionActionsETagIncludesMergeability() throws Exception {
+    PushOneCommit.Result change1Result = createChange("Change 1", "a_file.txt", "some content");
+    testRepo.reset("HEAD~1");
+    PushOneCommit.Result change2Result =
+        createChange("Change 2", "a_file.txt", "some other content");
+
+    approve(change2Result.getChangeId());
+    String eTagWhenChangeMergeable = getRevisionActionsETag(change2Result.getChangeId());
+
+    merge(change1Result); // causes change2 not to be submittable
+
+    changeIndexer.index(changeDataFactory.create(db, project, change2Result.getChange().getId()));
+
+    String eTagWhenChangeNotMergeable = getRevisionActionsETag(change2Result.getChangeId());
+
+    assertThat(eTagWhenChangeMergeable).isNotEqualTo(eTagWhenChangeNotMergeable);
   }
 
   @Test

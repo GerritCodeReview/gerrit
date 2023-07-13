@@ -142,16 +142,14 @@ public class ChangeResource implements RestResource, HasETag, Cacheability {
   // This includes all information relevant for ETag computation
   // unrelated to the UI.
   public void prepareETag(Hasher h, CurrentUser user) {
-    h.putInt(JSON_FORMAT_VERSION)
-        .putLong(getChange().getLastUpdatedOn().getTime())
-        .putInt(getChange().getRowVersion())
-        .putInt(user.isIdentifiedUser() ? user.getAccountId().get() : 0);
+    h.putInt(JSON_FORMAT_VERSION).putInt(user.isIdentifiedUser() ? user.getAccountId().get() : 0);
 
     // Add index status to ETag
     try {
       for (ChangeData changeFromIndex : queryProvider.get().byLegacyChangeId(getChange().getId())) {
         h.putLong(changeFromIndex.change().getLastUpdatedOn().getTime())
-            .putInt(changeFromIndex.change().getRowVersion());
+            .putInt(changeFromIndex.change().getRowVersion())
+            .putBoolean(changeFromIndex.isMergeable());
       }
     } catch (OrmException e) {
       logger.atWarning().withCause(e).log(

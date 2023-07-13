@@ -179,7 +179,8 @@ public class ExternalIdFactory {
     return createWithEmail(ExternalId.SCHEME_MAILTO, email, accountId, requireNonNull(email));
   }
 
-  ExternalId create(ExternalId extId, @Nullable ObjectId blobId) {
+  // TODO(nitzan) change back to package visibility once moved to `storage.notedb` subpackage.
+  public ExternalId create(ExternalId extId, @Nullable ObjectId blobId) {
     return create(extId.key(), extId.accountId(), extId.email(), extId.password(), blobId);
   }
 

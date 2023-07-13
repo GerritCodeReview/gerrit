@@ -27,9 +27,9 @@ import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyExcept
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
-import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.OnlineExternalIdCaseSensivityMigratiorExecutor;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdCaseSensitivityMigrator;
+import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.storage.notedb.OnlineExternalIdCaseSensivityMigrator;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.inject.AbstractModule;

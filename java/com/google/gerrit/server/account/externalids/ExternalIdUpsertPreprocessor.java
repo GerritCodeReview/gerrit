@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account.externalids;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNotes;
 
 /**
  * This optional preprocessor is called in {@link ExternalIdNotes} before an update is committed.

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98a45f2e_cff654b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-13T09:59:48Z",
+      "side": 1,
+      "message": "how do you feel in applying this fix also to stable-3.4, despite being EOL?",
+      "revId": "40ba7f67c218406dfa6167cce25442681b74f523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

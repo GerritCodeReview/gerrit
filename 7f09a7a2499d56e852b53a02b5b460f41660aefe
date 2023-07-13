@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ab62caa7_4fb32b1f",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdsConsistencyChecker.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-13T09:35:47Z",
+      "side": 1,
+      "message": "`ChangeExternalIdCaseSensitivity` PGM is using `ExternalIdNoteDbStorageModule` but doesn\u0027t have an `AccountCache` injected.\n\nSo it\u0027s either passing the cache param this way, or split out `ExternalIdsConsistencyCheckerNoteDbImpl` to a separate module and install it wherever needed.\n\nI think the current solution is more clean.",
+      "parentUuid": "dc682d62_e396ff26",
+      "range": {
+        "startLine": 25,
+        "startChar": 58,
+        "endLine": 25,
+        "endChar": 84
+      },
+      "revId": "7f09a7a2499d56e852b53a02b5b460f41660aefe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c7bd22ac_79e00fc1",
         "filename": "java/com/google/gerrit/server/account/externalids/storage/notedb/ExternalIdsConsistencyCheckerNoteDbImpl.java",
         "patchSetId": 5
@@ -37,6 +61,30 @@
       "writtenOn": "2023-07-13T08:14:30Z",
       "side": 1,
       "message": "2023",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "7f09a7a2499d56e852b53a02b5b460f41660aefe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8539f55_a67e3741",
+        "filename": "java/com/google/gerrit/server/account/externalids/storage/notedb/ExternalIdsConsistencyCheckerNoteDbImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-13T09:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7bd22ac_79e00fc1",
       "range": {
         "startLine": 1,
         "startChar": 17,

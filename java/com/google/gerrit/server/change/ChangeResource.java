@@ -151,7 +151,8 @@ public class ChangeResource implements RestResource, HasETag, Cacheability {
     try {
       for (ChangeData changeFromIndex : queryProvider.get().byLegacyChangeId(getChange().getId())) {
         h.putLong(changeFromIndex.change().getLastUpdatedOn().getTime())
-            .putInt(changeFromIndex.change().getRowVersion());
+            .putInt(changeFromIndex.change().getRowVersion())
+            .putBoolean(changeFromIndex.isMergeable());
       }
     } catch (OrmException e) {
       logger.atWarning().withCause(e).log(

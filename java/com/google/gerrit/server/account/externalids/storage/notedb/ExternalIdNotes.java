@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account.externalids;
+package com.google.gerrit.server.account.externalids.storage.notedb;
 
 import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -36,6 +36,12 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdCache;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
+import com.google.gerrit.server.account.externalids.ExternalIdUpsertPreprocessor;
+import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -552,14 +558,12 @@ public class ExternalIdNotes extends VersionedMetaData {
     }
   }
 
-  // TODO(nitzan) change back to package visible once moved to storage.notedb subdir.
-  public NoteMap getNoteMap() {
+  NoteMap getNoteMap() {
     checkLoaded();
     return noteMap;
   }
 
-  // TODO(nitzan) change back to package visible once moved to storage.notedb subdir.
-  public static byte[] readNoteData(RevWalk rw, ObjectId noteDataId) throws IOException {
+  static byte[] readNoteData(RevWalk rw, ObjectId noteDataId) throws IOException {
     return rw.getObjectReader().open(noteDataId, OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
   }
 

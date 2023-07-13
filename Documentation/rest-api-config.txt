@@ -721,11 +721,6 @@ The following options are supported:
 +
 Includes a JVM summary.
 
-* `gc`:
-+
-Requests a Java garbage collection before computing the information
-about the Java memory heap.
-
 .Request
 ----
   GET /config/server/summary?jvm HTTP/1.0

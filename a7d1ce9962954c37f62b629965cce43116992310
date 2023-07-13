@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d4f76276_44950ec7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2023-07-13T09:46:56Z",
+      "side": 1,
+      "message": "high level comment",
+      "revId": "a7d1ce9962954c37f62b629965cce43116992310",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "29ab1b85_5f891da7",
         "filename": "polygerrit-ui/app/styles/gr-change-metadata-shared-styles.ts",
         "patchSetId": 1

@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32e77d29_70e1c95d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-13T16:16:00Z",
+      "side": 1,
+      "message": "Who can say to more tests ❤️",
+      "revId": "6d715350e9e1ed296ab617edd65ed57e2a96f40d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2df62ee1_8322a171",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/BucketedCallbackTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-13T16:16:00Z",
+      "side": 1,
+      "message": "dont think this is ever initialised.",
+      "revId": "6d715350e9e1ed296ab617edd65ed57e2a96f40d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8216611_160266ed",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/BucketedCallbackTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-13T16:16:00Z",
+      "side": 1,
+      "message": "could these be private?",
+      "revId": "6d715350e9e1ed296ab617edd65ed57e2a96f40d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6814551b_ad164492",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/BucketedCallbackTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-13T16:16:00Z",
+      "side": 1,
+      "message": "how about calling the method simply `setup` - we are not setting up any mocks here.",
+      "revId": "6d715350e9e1ed296ab617edd65ed57e2a96f40d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94d4775e_d9342691",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/BucketedCallbackTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-07-13T16:16:00Z",
+      "side": 1,
+      "message": "I think you can extract `foo` and `setToFoo` as constants, they are used a few times",
+      "revId": "6d715350e9e1ed296ab617edd65ed57e2a96f40d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

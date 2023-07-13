@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4ba8e27_46950c05",
+        "filename": "java/com/google/gerrit/metrics/Field.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-13T06:32:11Z",
+      "side": 1,
+      "message": "This variable name is confusing. I first thought it would be the project name, since that seems to be implied by the method name. Better change it to `fieldName`.",
+      "range": {
+        "startLine": 114,
+        "startChar": 59,
+        "endLine": 114,
+        "endChar": 63
+      },
+      "revId": "0f8d8bb23b12b586a731f466a354a5af1aa715ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59b0810e_96b843a7",
+        "filename": "java/com/google/gerrit/metrics/proc/JGitMetricModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-13T06:32:11Z",
+      "side": 1,
+      "message": "Not as part of this change, but this should be changed to `project` to be consistent, which would of course be a breaking change.",
+      "range": {
+        "startLine": 186,
+        "startChar": 32,
+        "endLine": 186,
+        "endChar": 49
+      },
+      "revId": "0f8d8bb23b12b586a731f466a354a5af1aa715ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

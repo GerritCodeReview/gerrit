@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbb48210_3b797925",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-07-13T06:32:11Z",
+      "side": 1,
+      "message": "Yes that is exactly what I meant. Thanks!",
+      "parentUuid": "da4280e7_1c4ee940",
+      "revId": "3ae738e3194f5f4d476bbd29ffe38cc1adb82cb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45d1b62f_5ba128e0",

@@ -57,7 +57,7 @@ public class SubmitRequirementsUtil {
                           + "w.r.t. change submittability.")
                   .setRate()
                   .setUnit("count"),
-              Field.ofString("project", Metadata.Builder::projectName).build(),
+              Field.ofProjectName("project").build(),
               Field.ofString("sr_name", Metadata.Builder::submitRequirementName)
                   .description("Submit requirement name")
                   .build());
@@ -71,7 +71,7 @@ public class SubmitRequirementsUtil {
                           + "w.r.t. change submittability.")
                   .setRate()
                   .setUnit("count"),
-              Field.ofString("project", Metadata.Builder::projectName).build(),
+              Field.ofProjectName("project").build(),
               Field.ofString("sr_name", Metadata.Builder::submitRequirementName)
                   .description("Submit requirement name")
                   .build());
@@ -83,7 +83,7 @@ public class SubmitRequirementsUtil {
                           + "but not a project config requirement with the same name for a change.")
                   .setRate()
                   .setUnit("count"),
-              Field.ofString("project", Metadata.Builder::projectName).build(),
+              Field.ofProjectName("project").build(),
               Field.ofString("sr_name", Metadata.Builder::submitRequirementName)
                   .description("Submit requirement name")
                   .build());
@@ -95,7 +95,7 @@ public class SubmitRequirementsUtil {
                           + "result but not a legacy requirement with the same name for a change.")
                   .setRate()
                   .setUnit("count"),
-              Field.ofString("project", Metadata.Builder::projectName).build(),
+              Field.ofProjectName("project").build(),
               Field.ofString("sr_name", Metadata.Builder::submitRequirementName)
                   .description("Submit requirement name")
                   .build());

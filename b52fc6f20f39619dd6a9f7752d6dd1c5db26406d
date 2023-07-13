@@ -50,6 +50,23 @@
       "message": "377954: Fix project name\u0027s based submetric names collision | https://gerrit-review.googlesource.com/c/gerrit/+/377954",
       "revId": "b52fc6f20f39619dd6a9f7752d6dd1c5db26406d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "295ed510_babeb185",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1162947
+      },
+      "writtenOn": "2023-07-13T12:19:53Z",
+      "side": 1,
+      "message": "377954: Fix project name\u0027s based submetric names collision | https://gerrit-review.googlesource.com/c/gerrit/+/377954",
+      "revId": "b52fc6f20f39619dd6a9f7752d6dd1c5db26406d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

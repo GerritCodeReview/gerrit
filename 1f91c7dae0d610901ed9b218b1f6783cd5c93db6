@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "099b5a7c_e8d868b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-07-13T07:37:03Z",
+      "side": 1,
+      "message": "Calculating worstCategory for every result, is quadratic amount of effort, which is the similar to original issue. Need to address this before submitting",
+      "revId": "1f91c7dae0d610901ed9b218b1f6783cd5c93db6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "efd9e1bf_f4320061",

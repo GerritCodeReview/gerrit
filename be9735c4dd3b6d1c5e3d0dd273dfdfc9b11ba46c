@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f0abe18_78443c14",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-07-13T08:57:42Z",
+      "side": 1,
+      "message": "Nit: Maybe some spacing between buttons and account-info. I think delete button is too close to account-info.",
+      "range": {
+        "startLine": 415,
+        "startChar": 11,
+        "endLine": 427,
+        "endChar": 13
+      },
+      "revId": "be9735c4dd3b6d1c5e3d0dd273dfdfc9b11ba46c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25f492f5_628c464d",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1251,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-07-13T08:57:42Z",
+      "side": 1,
+      "message": "Do we need to change any model e.g. user-model?",
+      "range": {
+        "startLine": 1251,
+        "startChar": 4,
+        "endLine": 1251,
+        "endChar": 68
+      },
+      "revId": "be9735c4dd3b6d1c5e3d0dd273dfdfc9b11ba46c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e57c0923_d6298b55",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1251,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-07-13T08:57:42Z",
+      "side": 1,
+      "message": "I guess user dashboard doesn\u0027t work. \n\nMaybe we could rather call:\n```this.getNavigation().setUrl(rootUrl());``` \nsame as for ChangeActions.DELETE.",
+      "range": {
+        "startLine": 1251,
+        "startChar": 4,
+        "endLine": 1251,
+        "endChar": 68
+      },
+      "revId": "be9735c4dd3b6d1c5e3d0dd273dfdfc9b11ba46c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

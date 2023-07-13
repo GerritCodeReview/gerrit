@@ -67,6 +67,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c6c07bfa_f1b016af",
+        "filename": "java/com/google/gerrit/metrics/Field.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-13T08:37:42Z",
+      "side": 1,
+      "message": "changed to `fieldName` as it is in fact a name of the field that contains the project name as value - IOW obtains the value from `Metadata.Builder::projectName`",
+      "parentUuid": "430c7cc7_bc7b39c6",
+      "range": {
+        "startLine": 114,
+        "startChar": 59,
+        "endLine": 114,
+        "endChar": 63
+      },
+      "revId": "0f8d8bb23b12b586a731f466a354a5af1aa715ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "59b0810e_96b843a7",
         "filename": "java/com/google/gerrit/metrics/proc/JGitMetricModule.java",
         "patchSetId": 6
@@ -101,6 +125,30 @@
       "writtenOn": "2023-07-13T07:32:32Z",
       "side": 1,
       "message": "```suggestion\n    srcs \u003d glob([\"*.java\"]),\n    tags \u003d [\"metrics\"],\n```\n\nNeeds formatting",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "0f8d8bb23b12b586a731f466a354a5af1aa715ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84527725_68d69f81",
+        "filename": "javatests/com/google/gerrit/metrics/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-13T08:37:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c842c4d_8d7a21e2",
       "range": {
         "startLine": 6,
         "startChar": 0,

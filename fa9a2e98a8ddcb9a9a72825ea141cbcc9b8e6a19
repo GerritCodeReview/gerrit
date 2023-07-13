@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4aec78c4_dc72286f",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-07-13T14:35:06Z",
+      "side": 1,
+      "message": "Returning early if no message is provided will make the flow a little easier:\n\n```\nif (Strings.isNullOrEmpty(input.commitMessage)) {\n  return latestPatchset.getMessage();\n}\n...\n```",
+      "revId": "fa9a2e98a8ddcb9a9a72825ea141cbcc9b8e6a19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f25ebb3_4fb120e9",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-07-13T14:35:06Z",
+      "side": 1,
+      "message": "That\u0027s just a string contains check so it will trigger if we do:\n\n```\nFoo bar Change-Id: asd\ntest\nno footer\n```\n\nBut we only want it to trigger if there is an actual footer.\n\n`CommitMessageUtil#getChangeIdFromCommitMessageFooter` should do the trick.",
+      "range": {
+        "startLine": 239,
+        "startChar": 20,
+        "endLine": 239,
+        "endChar": 40
+      },
+      "revId": "fa9a2e98a8ddcb9a9a72825ea141cbcc9b8e6a19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

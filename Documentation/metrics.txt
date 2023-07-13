@@ -362,7 +362,14 @@ Each queue provides the following metrics:
 * `cache_used_per_repository` : Bytes of memory retained per repository for the
   top N repositories having most data in the cache. The number N of reported
   repositories is limited to 1000.
-** `repository_name`: The name of the repository.
+** `repository_name`: The name of the repository. Note that it is a subject of
+   sanitization in order to avoid collision between repository names. Rules
+   are:
+*** any character outside `[a-zA-Z0-9_-]+([a-zA-Z0-9_-]+)*` pattern is replaced
+    with `\_0x[HEX CODE]_` (code is capitalized) string
+*** for instance `repo/name` is sanitized to `repo_0x2F_name`
+*** if repository name contains the replacement prefix (`_0x`) it is prefixed
+    with another `_0x` e.g. `repo_0x2F_name` becomes `repo_0x_0x2F_name`
 
 === Git
 

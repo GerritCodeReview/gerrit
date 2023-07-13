@@ -12,12 +12,8 @@ import {customElement, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {getAppContext} from '../../../services/app-context';
-import {
-  CheckResult,
-  CheckRun,
-  ErrorMessages,
-} from '../../../models/checks/checks-model';
-import {Action, Category, RunStatus} from '../../../api/checks';
+import {CheckRun, ErrorMessages} from '../../../models/checks/checks-model';
+import {Action, Category, CheckResult, RunStatus} from '../../../api/checks';
 import {fireShowTab} from '../../../utils/event-util';
 import {
   compareByWorstCategory,

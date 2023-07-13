@@ -14,10 +14,13 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.FooterConstants;
+import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -48,11 +51,13 @@ import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.update.context.RefUpdateContext;
+import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -61,6 +66,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -83,6 +89,8 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
   private final PatchSetInserter.Factory patchSetInserterFactory;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ZoneId serverZoneId;
+  private final ProjectCache projectCache;
+  private final ChangeUtil changeUtil;
 
   @Inject
   ApplyPatch(
@@ -93,7 +101,9 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
       BatchUpdate.Factory batchUpdateFactory,
       PatchSetInserter.Factory patchSetInserterFactory,
       Provider<InternalChangeQuery> queryProvider,
-      @GerritPersonIdent PersonIdent myIdent) {
+      @GerritPersonIdent PersonIdent myIdent,
+      ProjectCache projectCache,
+      ChangeUtil changeUtil) {
     this.jsonFactory = jsonFactory;
     this.contributorAgreements = contributorAgreements;
     this.user = user;
@@ -102,6 +112,8 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.queryProvider = queryProvider;
     this.serverZoneId = myIdent.getZoneId();
+    this.projectCache = projectCache;
+    this.changeUtil = changeUtil;
   }
 
   @Override
@@ -183,18 +195,14 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
           input.author == null
               ? committerIdent
               : new PersonIdent(input.author.name, input.author.email, now, serverZoneId);
-      List<FooterLine> footerLines = latestPatchset.getFooterLines();
-      String messageWithNoFooters =
-          !Strings.isNullOrEmpty(input.commitMessage)
-              ? input.commitMessage
-              : removeFooters(latestPatchset.getFullMessage(), footerLines);
       String commitMessage =
-          ApplyPatchUtil.buildCommitMessage(
-              messageWithNoFooters,
-              footerLines,
-              input.patch.patch,
+          buildFullCommitMessage(
+              project,
+              latestPatchset,
+              input,
               ApplyPatchUtil.getResultPatch(repo, reader, baseCommit, revWalk.lookupTree(treeId)),
               applyResult.getErrors());
+
       ObjectId appliedCommit =
           CommitUtil.createCommitWithTree(
               oi, authorIdent, committerIdent, parents, commitMessage, treeId);
@@ -216,6 +224,43 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
       ChangeInfo changeInfo = jsonFactory.create(opts).format(resultChange);
       return Response.ok(changeInfo);
     }
+  }
+
+  private String buildFullCommitMessage(
+      NameKey project,
+      RevCommit latestPatchset,
+      ApplyPatchPatchSetInput input,
+      String resultPatch,
+      List<org.eclipse.jgit.patch.PatchApplier.Result.Error> errors)
+      throws ResourceConflictException, BadRequestException {
+    List<FooterLine> footerLines = latestPatchset.getFooterLines();
+    boolean hasInputCommitMessage = !Strings.isNullOrEmpty(input.commitMessage);
+    String messageWithNoFooters =
+        hasInputCommitMessage
+            ? input.commitMessage
+            : removeFooters(latestPatchset.getFullMessage(), footerLines);
+    if (hasInputCommitMessage
+        && CommitMessageUtil.getChangeIdFromCommitMessageFooter(input.commitMessage).isPresent()) {
+      // In case the input commitMessage contains a Change-Id footer, we want to keep it, and not
+      // override it by the previous patch-set one.
+      footerLines =
+          footerLines.stream()
+              .filter(l -> !l.matches(FooterConstants.CHANGE_ID))
+              .collect(Collectors.toList());
+    }
+    String commitMessage =
+        ApplyPatchUtil.buildCommitMessage(
+            messageWithNoFooters, footerLines, input.patch.patch, resultPatch, errors);
+
+    boolean changeIdRequired =
+        projectCache
+            .get(project)
+            .orElseThrow(illegalState(project))
+            .is(BooleanProjectConfig.REQUIRE_CHANGE_ID);
+    changeUtil.ensureChangeIdIsCorrect(
+        changeIdRequired, changeUtil.getChangeIdsFromFooter(latestPatchset).get(0), commitMessage);
+
+    return commitMessage;
   }
 
   private static Change insertPatchSet(

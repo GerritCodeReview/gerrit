@@ -41,15 +41,6 @@ class PluginCleanerTask implements Runnable {
 
   @Override
   public void run() {
-    try {
-      for (int t = 0; t < 2 * (attempts + 1); t++) {
-        System.gc();
-        Thread.sleep(50);
-      }
-    } catch (InterruptedException e) {
-      // Ignored
-    }
-
     int left = loader.processPendingCleanups();
     synchronized (this) {
       pending = left;

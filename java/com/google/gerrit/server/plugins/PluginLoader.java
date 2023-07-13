@@ -350,7 +350,6 @@ public class PluginLoader implements LifecycleListener {
       disabled.clear();
       broken.clear();
       if (!toCleanup.isEmpty()) {
-        System.gc();
         processPendingCleanups();
       }
     }

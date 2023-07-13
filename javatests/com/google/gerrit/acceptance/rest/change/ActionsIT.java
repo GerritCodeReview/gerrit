@@ -138,6 +138,26 @@ public class ActionsIT extends AbstractDaemonTest {
   }
 
   @Test
+  @UseLocalDisk
+  public void revisionActionsETagIncludesMergeability() throws Exception {
+    PushOneCommit.Result change1Result = createChange("Change 1", "a_file.txt", "some content");
+    testRepo.reset("HEAD~1");
+    PushOneCommit.Result change2Result =
+        createChange("Change 2", "a_file.txt", "some other content");
+
+    approve(change2Result.getChangeId());
+    String eTagWhenChangeMergeable = getRevisionActionsETag(change2Result.getChangeId());
+
+    merge(change1Result); // causes change2 not to be submittable
+
+    changeIndexer.index(changeDataFactory.create(db, project, change2Result.getChange().getId()));
+
+    String eTagWhenChangeNotMergeable = getRevisionActionsETag(change2Result.getChangeId());
+
+    assertThat(eTagWhenChangeMergeable).isNotEqualTo(eTagWhenChangeNotMergeable);
+  }
+
+  @Test
   public void revisionActionsETag() throws Exception {
     String parent = createChange().getChangeId();
     String change = createChangeWithTopic().getChangeId();

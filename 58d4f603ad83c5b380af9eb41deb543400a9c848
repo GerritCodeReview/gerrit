@@ -33,6 +33,24 @@
       "message": "I am not sure the assumption of this test is correct.\n\nIf I understand correctly, in this test we are stating that the ETag calculation is based on the timestamp of the latest change reindex, thus, when a change is reindexed, we expect a new, different ETag for that change\u0027s actions.\n\nAs we discussed, this makes sense, because the actions associated with a change do not depend exclusively on the change itself, but also on the context that change is based on (parent chain, destination target, permission changes and so on).\n\nSo, I think it is misleading that change I4a3bd3147 summary is \"Include indexing status in ETag calculation\".\nFrom what I can tell, all it does is consider `lastUpdatedOn` in the ETag calculation, which is not an index property, as its definition suggests [1].\n\n`lastUpdatedOn` represents:\n\n```\nWhen was a meaningful modification last made to this record\u0027s data\n```\n\nand not, when the change was last indexed (which I don\u0027t think is a piece of data that exists at the moment in Gerrit).\n\nThoughts? @luca, @marcin?\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-2.16/java/com/google/gerrit/reviewdb/client/Change.java#453",
       "revId": "58d4f603ad83c5b380af9eb41deb543400a9c848",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6de64394_eea14676",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-13T20:45:54Z",
+      "side": 1,
+      "message": "\u003e I am not sure the assumption of this test is correct.\n\u003e \n\u003e If I understand correctly, in this test we are stating that the ETag calculation is based on the timestamp of the latest change reindex, thus, when a change is reindexed, we expect a new, different ETag for that change\u0027s actions.\n\nWell, not necessarily the timestamp, but rather the latest reindexed document status.\n\n\u003e As we discussed, this makes sense, because the actions associated with a change do not depend exclusively on the change itself, but also on the context that change is based on (parent chain, destination target, permission changes and so on).\n\nYes, or just also based on group ownership, which could be completely external from Gerrit.\n\nExample:\n\n1. User John belongs to the LDAP group \"Reviewers\" and gives Code-Review +2\n2. Change 123 is submittable\n3. User John is removed from the LDAP group \"Reviewers\"\n4. Change 123 is NOT submittable\n\nI am expecting the ETag of Change 123 at 2. and 4. (after a reindex) to be different.\n\n\u003e So, I think it is misleading that change I4a3bd3147 summary is \"Include indexing status in ETag calculation\".\n\u003e From what I can tell, all it does is consider `lastUpdatedOn` in the ETag calculation, which is not an index property\n\nAgreed. I am writing this test to demonstrate that the ETag calculation is broken today.",
+      "parentUuid": "9e268ff1_7ab010d5",
+      "revId": "58d4f603ad83c5b380af9eb41deb543400a9c848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

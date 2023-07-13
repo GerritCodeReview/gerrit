@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "02fe0d85_dda52d45",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-13T07:32:32Z",
+      "side": 1,
+      "message": "I like the reduction in scope, however, documentation should also be updated isn\u0027t it?",
+      "revId": "0f8d8bb23b12b586a731f466a354a5af1aa715ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4ba8e27_46950c05",
@@ -42,6 +59,29 @@
         "startChar": 32,
         "endLine": 186,
         "endChar": 49
+      },
+      "revId": "0f8d8bb23b12b586a731f466a354a5af1aa715ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c842c4d_8d7a21e2",
+        "filename": "javatests/com/google/gerrit/metrics/BUILD",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-13T07:32:32Z",
+      "side": 1,
+      "message": "```suggestion\n    srcs \u003d glob([\"*.java\"]),\n    tags \u003d [\"metrics\"],\n```\n\nNeeds formatting",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 28
       },
       "revId": "0f8d8bb23b12b586a731f466a354a5af1aa715ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

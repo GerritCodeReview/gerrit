@@ -33,6 +33,23 @@
       "message": "Resetting vote.",
       "revId": "d0e3cae0473a107db36831e54b4514007dc519c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e77e1297_3caf97e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-07-13T13:23:32Z",
+      "side": 1,
+      "message": "Message",
+      "revId": "d0e3cae0473a107db36831e54b4514007dc519c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

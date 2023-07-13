@@ -46,6 +46,30 @@
       },
       "revId": "38b2c02b36a929c01757e7175a31f862ab0a9014",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6b40eb5_c418c0e2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/CreateMergePatchSetIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-07-13T09:33:09Z",
+      "side": 1,
+      "message": "I see, the \u0027merge\u0027 api is being called by \u0027admin\u0027, so admin\u0027s email will be used. Ack.",
+      "parentUuid": "8f1267b6_2251a177",
+      "range": {
+        "startLine": 508,
+        "startChar": 53,
+        "endLine": 508,
+        "endChar": 58
+      },
+      "revId": "38b2c02b36a929c01757e7175a31f862ab0a9014",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

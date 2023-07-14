@@ -121,6 +121,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "24d56a79_ad38acc2",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-14T16:10:40Z",
+      "side": 1,
+      "message": "Thanks for bringing that up!\n\nI think the most elegant solution will be:\n1. Add an `executeAllAsync` method to `ChangeDraftUpdate` (or `publishAllAsync`? That\u0027s the only usage).\n   For NoteDB, this will wrap `AllUsersAsyncUpdate::execute`.\n1. Internally, published draft will be added to the queue which uses `executeAllAsync`. Other changes will be executed immediately upon request.\n\nIn any case, I think this should be a followup change, since it\u0027s error prone and not blocking the current change from working.",
+      "parentUuid": "f5e23224_69e99128",
+      "range": {
+        "startLine": 684,
+        "startChar": 22,
+        "endLine": 684,
+        "endChar": 45
+      },
+      "revId": "239af03536d8a37b9c04c57000b6aa41385c6b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "40db530b_752e31b1",
         "filename": "java/com/google/gerrit/server/notedb/NoteDbModule.java",
         "patchSetId": 1

@@ -159,6 +159,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d0a457b_a9ed74ed",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/BucketedCallbackTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-07-14T13:58:36Z",
+      "side": 1,
+      "message": "Nope, I don\u0027t have a better naming to suggest, unfortunately.\nLet\u0027s leave it as-is.\n\nTHanks for explaining",
+      "parentUuid": "a80b5aff_ec3ee322",
+      "range": {
+        "startLine": 31,
+        "startChar": 9,
+        "endLine": 31,
+        "endChar": 18
+      },
+      "revId": "ed30b9791313aad33c8b6b1f979d25808a2734b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a5bc2482_c2e95fd9",

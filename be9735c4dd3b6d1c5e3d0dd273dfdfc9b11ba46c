@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "889af570_d3538567",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-07-14T08:18:42Z",
+      "side": 1,
+      "message": "It looks like it\u0027s hidden. I would add margin:\n```\n        .confirm-account-deletion-main ul {\n          list-style: disc;\n          margin-left: var(--spacing-l);\n        }\n        ```",
+      "parentUuid": "3c01bfe2_05bf31ba",
+      "range": {
+        "startLine": 354,
+        "startChar": 8,
+        "endLine": 356,
+        "endChar": 9
+      },
+      "revId": "be9735c4dd3b6d1c5e3d0dd273dfdfc9b11ba46c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6f0abe18_78443c14",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
         "patchSetId": 4

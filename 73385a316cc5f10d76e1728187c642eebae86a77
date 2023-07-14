@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ec2cc54_0f411b73",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-07-14T08:55:50Z",
+      "side": 1,
+      "message": "I\u0027m hoping this might help with the ChecksRun and RunResult issues that are causing quadratic time due to splaying everything into the RunResult rather than simply referring to the ChecksRun and storing that on the RunResult (which would result no pun intended in circular data-structures)",
+      "revId": "73385a316cc5f10d76e1728187c642eebae86a77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -14,79 +14,12 @@
 
 package com.google.gerrit.pgm.init;
 
-import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
-import com.google.gerrit.pgm.init.api.InitFlags;
-import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdFactory;
-import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNotes;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.meta.MetaDataUpdate;
-import com.google.inject.Inject;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Collection;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.internal.storage.file.FileRepository;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.RepositoryCache.FileKey;
-import org.eclipse.jgit.util.FS;
 
-public class ExternalIdsOnInit {
-  private final InitFlags flags;
-  private final SitePaths site;
-  private final AllUsersName allUsers;
-  private final ExternalIdFactory externalIdFactory;
-  private final AuthConfig authConfig;
-
-  @Inject
-  public ExternalIdsOnInit(
-      InitFlags flags,
-      SitePaths site,
-      AllUsersNameOnInitProvider allUsers,
-      ExternalIdFactory externalIdFactory,
-      AuthConfig authConfig) {
-    this.flags = flags;
-    this.site = site;
-    this.allUsers = new AllUsersName(allUsers.get());
-    this.externalIdFactory = externalIdFactory;
-    this.authConfig = authConfig;
-  }
-
-  public synchronized void insert(String commitMessage, Collection<ExternalId> extIds)
-      throws IOException, ConfigInvalidException {
-    File path = getPath();
-    if (path != null) {
-      try (Repository allUsersRepo = new FileRepository(path)) {
-        ExternalIdNotes extIdNotes =
-            ExternalIdNotes.load(
-                allUsers,
-                allUsersRepo,
-                externalIdFactory,
-                authConfig.isUserNameCaseInsensitiveMigrationMode());
-        extIdNotes.insert(extIds);
-        try (MetaDataUpdate metaDataUpdate =
-            new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsers, allUsersRepo)) {
-          PersonIdent serverIdent = new GerritPersonIdentProvider(flags.cfg).get();
-          metaDataUpdate.getCommitBuilder().setAuthor(serverIdent);
-          metaDataUpdate.getCommitBuilder().setCommitter(serverIdent);
-          metaDataUpdate.getCommitBuilder().setMessage(commitMessage);
-          extIdNotes.commit(metaDataUpdate);
-        }
-      }
-    }
-  }
-
-  private File getPath() {
-    Path basePath = site.resolve(flags.cfg.getString("gerrit", null, "basePath"));
-    if (basePath == null) {
-      throw new IllegalStateException("gerrit.basePath must be configured");
-    }
-    return FileKey.resolve(basePath.resolve(allUsers.get()).toFile(), FS.DETECTED);
-  }
+public interface ExternalIdsOnInit {
+  void insert(String commitMessage, Collection<ExternalId> extIds)
+      throws IOException, ConfigInvalidException;
 }

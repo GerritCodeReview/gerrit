@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "448a69ed_884ce6e2",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/BucketedCallbackTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-14T10:09:05Z",
+      "side": 1,
+      "message": "Good spot. We do need to pass something as a second arg to `DropWizardMetricMaker`. Mocking it does make it explicit, but as it\u0027s never called I suppose `null` will do, and is simpler anyway. I\u0027ll do that instead.",
+      "parentUuid": "2df62ee1_8322a171",
+      "revId": "6d715350e9e1ed296ab617edd65ed57e2a96f40d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8216611_160266ed",
@@ -48,6 +66,24 @@
       "writtenOn": "2023-07-13T16:16:00Z",
       "side": 1,
       "message": "could these be private?",
+      "revId": "6d715350e9e1ed296ab617edd65ed57e2a96f40d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf516372_653f3bb8",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/BucketedCallbackTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-14T10:09:05Z",
+      "side": 1,
+      "message": "The annotation expects them to be public, or they don\u0027t get picked up.",
+      "parentUuid": "b8216611_160266ed",
       "revId": "6d715350e9e1ed296ab617edd65ed57e2a96f40d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -69,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30705c9a_81015e87",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/BucketedCallbackTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-14T10:09:05Z",
+      "side": 1,
+      "message": "Good suggestion.",
+      "parentUuid": "6814551b_ad164492",
+      "revId": "6d715350e9e1ed296ab617edd65ed57e2a96f40d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94d4775e_d9342691",
@@ -82,6 +136,24 @@
       "writtenOn": "2023-07-13T16:16:00Z",
       "side": 1,
       "message": "I think you can extract `foo` and `setToFoo` as constants, they are used a few times",
+      "revId": "6d715350e9e1ed296ab617edd65ed57e2a96f40d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c6c1386_98146f54",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/BucketedCallbackTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-14T10:09:05Z",
+      "side": 1,
+      "message": "True - I opted not to at first, but as you\u0027ve pointed it out I\u0027d be happy to.",
+      "parentUuid": "94d4775e_d9342691",
       "revId": "6d715350e9e1ed296ab617edd65ed57e2a96f40d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

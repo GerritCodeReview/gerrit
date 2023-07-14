@@ -16,6 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.entities.RefNames.changeMetaRef;
 import static java.util.Comparator.comparing;
 
@@ -29,7 +30,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.FormatMethod;
@@ -543,19 +543,18 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return Optional.ofNullable(state.mergedOn());
   }
 
-  public ImmutableListMultimap<ObjectId, HumanComment> getDraftComments(Account.Id author) {
+  public ImmutableList<HumanComment> getDraftComments(Account.Id author) {
     return getDraftComments(author, null);
   }
 
-  public ImmutableListMultimap<ObjectId, HumanComment> getDraftComments(
-      Account.Id author, @Nullable Ref ref) {
+  ImmutableList<HumanComment> getDraftComments(Account.Id author, @Nullable Ref ref) {
     loadDraftComments(author, ref);
     // Filter out any zombie draft comments. These are drafts that are also in
     // the published map, and arise when the update to All-Users to delete them
     // during the publish operation failed.
-    return ImmutableListMultimap.copyOf(
-        Multimaps.filterEntries(
-            draftCommentNotes.getComments(), e -> !getCommentKeys().contains(e.getValue().key)));
+    return draftCommentNotes.getComments().stream()
+        .filter(d -> !getCommentKeys().contains(d.key))
+        .collect(toImmutableList());
   }
 
   public ImmutableListMultimap<ObjectId, RobotComment> getRobotComments() {

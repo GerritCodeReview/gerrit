@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0cc7c7cc_d0ea7956",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-14T13:04:03Z",
+      "side": 1,
+      "message": "Thanks, good spot.",
+      "parentUuid": "e28c6b41_308c35f8",
+      "range": {
+        "startLine": 16,
+        "startChar": 19,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "ed30b9791313aad33c8b6b1f979d25808a2734b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "79f12376_c01a67e8",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5650d872_5cd47953",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/BucketedCallbackTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-14T13:04:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3651c03_ed159881",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 32
+      },
+      "revId": "ed30b9791313aad33c8b6b1f979d25808a2734b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c63262f6_1dd8beaa",
@@ -77,6 +125,30 @@
       "writtenOn": "2023-07-14T12:03:29Z",
       "side": 1,
       "message": "why is this field named `CODE_NAME`? What does `code` stand for in this context?",
+      "range": {
+        "startLine": 31,
+        "startChar": 9,
+        "endLine": 31,
+        "endChar": 18
+      },
+      "revId": "ed30b9791313aad33c8b6b1f979d25808a2734b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a80b5aff_ec3ee322",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/BucketedCallbackTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-14T13:04:03Z",
+      "side": 1,
+      "message": "I had a little difficulty naming these. We have some naming overlap in the codebase\u0027s terminology where name is used as the metric (prefix) name as well as the metric (full) name.\n\nI don\u0027t fully understand `CODE_NAME`, but it is the name of the argument passed to `DropWizardMetricMaker.name`, where this is passed on to.\n\n`KEY_NAME` was also awkward. I originally called it `KEY`, but errorprone whinged because in the `BucketedCallback` test double we have a method whose argument is `key`, and it didn\u0027t like the same variable being used with a different case. Also note that this isn\u0027t exactly the same as `name` as that\u0027s given _after_ `key` is passed to the `name` method.\n\nHappy to rename these if you have want to suggest something that makes more sense.",
+      "parentUuid": "c63262f6_1dd8beaa",
       "range": {
         "startLine": 31,
         "startChar": 9,
@@ -110,6 +182,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbd0b268_c7cbff28",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/BucketedCallbackTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-14T13:04:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5bc2482_c2e95fd9",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 41
+      },
+      "revId": "ed30b9791313aad33c8b6b1f979d25808a2734b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce99914a_57b62062",
@@ -123,6 +219,30 @@
       "writtenOn": "2023-07-14T12:03:29Z",
       "side": 1,
       "message": "nit: uppercase `R`",
+      "range": {
+        "startLine": 58,
+        "startChar": 25,
+        "endLine": 58,
+        "endChar": 26
+      },
+      "revId": "ed30b9791313aad33c8b6b1f979d25808a2734b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c623c39_c77817c7",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/BucketedCallbackTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-14T13:04:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce99914a_57b62062",
       "range": {
         "startLine": 58,
         "startChar": 25,

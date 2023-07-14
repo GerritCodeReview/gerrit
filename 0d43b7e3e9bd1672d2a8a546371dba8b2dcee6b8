@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5e72a25_d6e257b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-14T09:49:52Z",
+      "side": 1,
+      "message": "Did you send a heads up for this? Both publicly and internally?\nDo you have some data for which hosts/repos currently have SRs that will get blocked?\nI\u0027m concerned that this currently 1-step rollout won\u0027t go out smoothly.",
+      "revId": "0d43b7e3e9bd1672d2a8a546371dba8b2dcee6b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

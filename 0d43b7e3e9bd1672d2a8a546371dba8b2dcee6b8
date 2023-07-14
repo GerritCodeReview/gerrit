@@ -16,6 +16,24 @@
       "message": "Did you send a heads up for this? Both publicly and internally?\nDo you have some data for which hosts/repos currently have SRs that will get blocked?\nI\u0027m concerned that this currently 1-step rollout won\u0027t go out smoothly.",
       "revId": "0d43b7e3e9bd1672d2a8a546371dba8b2dcee6b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c423220_18d27dff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-07-14T10:21:30Z",
+      "side": 1,
+      "message": "There are really no usages in google of any of these operators in SRs. I double checked with https://paste.googleplex.com/5582916863131648?raw. So this change will not have any effect for us.\n\nI also don\u0027t expect any usages in any other Gerrit installations since these operators don\u0027t make sense for submit requirements.\n\nIntroducing this change is for preventing accidental usage in the future.",
+      "parentUuid": "b5e72a25_d6e257b3",
+      "revId": "0d43b7e3e9bd1672d2a8a546371dba8b2dcee6b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95e386e8_6ea691ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-07-14T10:08:10Z",
+      "side": 1,
+      "message": "@luca, I think the changes are making this sentence obsolete.",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 23,
+        "endChar": 10
+      },
+      "revId": "f9aab716b088f838ac4f239271740b1d8e55e967",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

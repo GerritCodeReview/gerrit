@@ -39,6 +39,7 @@ suite('compare-util tests', () => {
     assert.isFalse(deepEqual({}, null));
     assert.isFalse(deepEqual({}, {x: 'y'}));
     assert.isFalse(deepEqual({x: 'y'}, {x: 'z'}));
+    assert.isFalse(deepEqual({a: 'y'}, {b: 'y'}));
     assert.isFalse(deepEqual({x: 'y'}, {z: 'y'}));
     assert.isFalse(deepEqual({x: {y: 'y'}}, {x: {y: 'z'}}));
   });
@@ -97,5 +98,16 @@ suite('compare-util tests', () => {
 
   test('deepEqual nested', () => {
     assert.isFalse(deepEqual({foo: new Set([])}, {foo: new Map([])}));
+  });
+
+  test('deepEqual recursive', () => {
+    let a = {};
+    let b = {a: a};
+    a['b'] = b;
+    let c = {};
+    let d = {a: c};
+    c['b'] = d;
+
+    assert.isTrue(deepEqual(a, c));
   });
 });

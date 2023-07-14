@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e28c6b41_308c35f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-07-14T12:03:29Z",
+      "side": 1,
+      "message": "nit: double space",
+      "range": {
+        "startLine": 16,
+        "startChar": 19,
+        "endLine": 16,
+        "endChar": 21
+      },
+      "revId": "ed30b9791313aad33c8b6b1f979d25808a2734b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "79f12376_c01a67e8",
@@ -14,6 +37,98 @@
       "writtenOn": "2023-07-14T10:42:38Z",
       "side": 1,
       "message": "Good stuff",
+      "revId": "ed30b9791313aad33c8b6b1f979d25808a2734b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3651c03_ed159881",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/BucketedCallbackTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-07-14T12:03:29Z",
+      "side": 1,
+      "message": "nit: these could be private",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 32
+      },
+      "revId": "ed30b9791313aad33c8b6b1f979d25808a2734b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c63262f6_1dd8beaa",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/BucketedCallbackTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-07-14T12:03:29Z",
+      "side": 1,
+      "message": "why is this field named `CODE_NAME`? What does `code` stand for in this context?",
+      "range": {
+        "startLine": 31,
+        "startChar": 9,
+        "endLine": 31,
+        "endChar": 18
+      },
+      "revId": "ed30b9791313aad33c8b6b1f979d25808a2734b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5bc2482_c2e95fd9",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/BucketedCallbackTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-07-14T12:03:29Z",
+      "side": 1,
+      "message": "nit: All of these could be `private static final`",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 41
+      },
+      "revId": "ed30b9791313aad33c8b6b1f979d25808a2734b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce99914a_57b62062",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/BucketedCallbackTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-07-14T12:03:29Z",
+      "side": 1,
+      "message": "nit: uppercase `R`",
+      "range": {
+        "startLine": 58,
+        "startChar": 25,
+        "endLine": 58,
+        "endChar": 26
+      },
       "revId": "ed30b9791313aad33c8b6b1f979d25808a2734b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

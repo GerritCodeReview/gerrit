@@ -3,6 +3,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b8040b61_57eedaad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-07-14T05:45:35Z",
+      "side": 1,
+      "message": "This is probably incorrect as most gerrit operations change committer email. How about? May need to shorten it.\n\n\u003eModify ops resulting in new patchsets to not always default to preferred email",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "5e3f72ca8ada4146d59db5a9412449716111e060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4179cddd_4d673c37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-07-14T05:45:35Z",
+      "side": 1,
+      "message": "Maybe reword as\n\n\n\u003eGerrit operations (listed below) which create new patchsets always use the preferred email of the user performing the update as the committer email. With this change, if one of the user\u0027s secondary emails was used as the committer email in previous patchset, continue using it instead of preferred email. This is better as it won\u0027t break the user\u0027s intentions of choosing their secondary email deliberately in previous patchset.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 59
+      },
+      "revId": "5e3f72ca8ada4146d59db5a9412449716111e060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87bcf9a9_b7e0d35b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-07-14T05:45:35Z",
+      "side": 1,
+      "message": "We probably don\u0027t need this section as it is implied that UI will behave differently when REST APIs are updated.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 37
+      },
+      "revId": "5e3f72ca8ada4146d59db5a9412449716111e060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f72b639b_37e20a23",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -43,6 +112,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2c719c91_0625a255",
+        "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-07-14T05:45:35Z",
+      "side": 1,
+      "message": "Rename to `getGenericEmail` as this method may not be limited for committer only?",
+      "range": {
+        "startLine": 469,
+        "startChar": 9,
+        "endLine": 469,
+        "endChar": 33
+      },
+      "revId": "5e3f72ca8ada4146d59db5a9412449716111e060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ff31a3c_912eceda",
         "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
         "patchSetId": 1
@@ -59,6 +151,52 @@
         "startChar": 2,
         "endLine": 490,
         "endChar": 8
+      },
+      "revId": "5e3f72ca8ada4146d59db5a9412449716111e060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7165a7ff_637a6a4b",
+        "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-07-14T05:45:35Z",
+      "side": 1,
+      "message": "Why do we name this `sourceCommitterEmail`? This class need not know about the  usage of this method. It should probably be named `email`.",
+      "range": {
+        "startLine": 513,
+        "startChar": 46,
+        "endLine": 513,
+        "endChar": 66
+      },
+      "revId": "5e3f72ca8ada4146d59db5a9412449716111e060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe48fa87_1deed187",
+        "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-07-14T05:45:35Z",
+      "side": 1,
+      "message": "This method is misleading as the caller will expect to get an identity with provided email, but they may end up getting a different identity with the preferred email instead. Maybe it should throw an exception if the provided email is not valid instead of silently defaulting to the preferred email?",
+      "range": {
+        "startLine": 515,
+        "startChar": 4,
+        "endLine": 516,
+        "endChar": 91
       },
       "revId": "5e3f72ca8ada4146d59db5a9412449716111e060",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

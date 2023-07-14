@@ -110,6 +110,30 @@
       },
       "revId": "73385a316cc5f10d76e1728187c642eebae86a77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d51c944_d414d963",
+        "filename": "polygerrit-ui/app/utils/deep-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-07-14T10:11:33Z",
+      "side": 1,
+      "message": "There\u0027s no recursion for Sets.\n\nExtended it to maps, though this sounds like a corner-case we\u0027re unlikely to hit.",
+      "parentUuid": "e4524743_d72b386e",
+      "range": {
+        "startLine": 18,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 5
+      },
+      "revId": "73385a316cc5f10d76e1728187c642eebae86a77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

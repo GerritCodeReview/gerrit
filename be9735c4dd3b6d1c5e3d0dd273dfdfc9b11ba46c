@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3c01bfe2_05bf31ba",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-07-14T07:34:35Z",
+      "side": 1,
+      "message": "I was trying to get bullets to show up but they don\u0027t. Any suggestions?",
+      "parentUuid": "6304d0ad_1a2b61a9",
+      "range": {
+        "startLine": 354,
+        "startChar": 8,
+        "endLine": 356,
+        "endChar": 9
+      },
+      "revId": "be9735c4dd3b6d1c5e3d0dd273dfdfc9b11ba46c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6f0abe18_78443c14",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
         "patchSetId": 4
@@ -37,6 +61,30 @@
       "writtenOn": "2023-07-13T08:57:42Z",
       "side": 1,
       "message": "Nit: Maybe some spacing between buttons and account-info. I think delete button is too close to account-info.",
+      "range": {
+        "startLine": 415,
+        "startChar": 11,
+        "endLine": 427,
+        "endChar": 13
+      },
+      "revId": "be9735c4dd3b6d1c5e3d0dd273dfdfc9b11ba46c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c37a8795_d717b6c7",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-07-14T07:34:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f0abe18_78443c14",
       "range": {
         "startLine": 415,
         "startChar": 11,
@@ -83,6 +131,54 @@
       "writtenOn": "2023-07-13T08:57:42Z",
       "side": 1,
       "message": "I guess user dashboard doesn\u0027t work. \n\nMaybe we could rather call:\n```this.getNavigation().setUrl(rootUrl());``` \nsame as for ChangeActions.DELETE.",
+      "range": {
+        "startLine": 1251,
+        "startChar": 4,
+        "endLine": 1251,
+        "endChar": 68
+      },
+      "revId": "be9735c4dd3b6d1c5e3d0dd273dfdfc9b11ba46c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e2f479b_894fc8e4",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1251,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-07-14T07:34:35Z",
+      "side": 1,
+      "message": "Aha, that\u0027s what I was looking for!",
+      "parentUuid": "e57c0923_d6298b55",
+      "range": {
+        "startLine": 1251,
+        "startChar": 4,
+        "endLine": 1251,
+        "endChar": 68
+      },
+      "revId": "be9735c4dd3b6d1c5e3d0dd273dfdfc9b11ba46c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e917f7a6_7cfb8d09",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1251,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-07-14T07:34:35Z",
+      "side": 1,
+      "message": "Good question, ideally we just reload the entire page.",
+      "parentUuid": "25f492f5_628c464d",
       "range": {
         "startLine": 1251,
         "startChar": 4,

@@ -93,6 +93,30 @@
       },
       "revId": "ca7f3b2f1c9444257692534fb8de89a0c7f32772",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b275972a_c517f4be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-07-14T13:55:06Z",
+      "side": 1,
+      "message": "Is reverting this a breaking change?\nIf not I suggest to skip this: the behaviour for the final user hasn\u0027t changed correct?",
+      "parentUuid": "280ff0c3_a6c46630",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 15
+      },
+      "revId": "ca7f3b2f1c9444257692534fb8de89a0c7f32772",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

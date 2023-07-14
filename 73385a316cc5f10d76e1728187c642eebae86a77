@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "adf64bb6_3d784b22",
+        "filename": "polygerrit-ui/app/utils/deep-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-07-14T09:33:57Z",
+      "side": 1,
+      "message": "maybe a comment explaining what it holds and how the recursive check works is easier than an elaborate name",
+      "parentUuid": "9cb196d8_06f8a8e2",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 8,
+        "endChar": 11
+      },
+      "revId": "73385a316cc5f10d76e1728187c642eebae86a77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e4524743_d72b386e",
         "filename": "polygerrit-ui/app/utils/deep-util.ts",
         "patchSetId": 1

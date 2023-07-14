@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a073357f_c9ff5807",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-14T15:49:00Z",
+      "side": 1,
+      "message": "Unfortunately, I don\u0027t think there\u0027s a nice way to do so. The returned value also includes potential errors/conflicts.\nExtracting the \"basic message\" part to another method is also not that readable IMO, because the `footerLines` list is also affected by the same flow.\n\nI\u0027ve tried to make it a bit nicer though.",
+      "parentUuid": "4aec78c4_dc72286f",
+      "revId": "fa9a2e98a8ddcb9a9a72825ea141cbcc9b8e6a19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f25ebb3_4fb120e9",
         "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
         "patchSetId": 1
@@ -31,6 +49,30 @@
       "writtenOn": "2023-07-13T14:35:06Z",
       "side": 1,
       "message": "That\u0027s just a string contains check so it will trigger if we do:\n\n```\nFoo bar Change-Id: asd\ntest\nno footer\n```\n\nBut we only want it to trigger if there is an actual footer.\n\n`CommitMessageUtil#getChangeIdFromCommitMessageFooter` should do the trick.",
+      "range": {
+        "startLine": 239,
+        "startChar": 20,
+        "endLine": 239,
+        "endChar": 40
+      },
+      "revId": "fa9a2e98a8ddcb9a9a72825ea141cbcc9b8e6a19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e036972d_260f271f",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-14T15:49:00Z",
+      "side": 1,
+      "message": "Thanks! Done.",
+      "parentUuid": "9f25ebb3_4fb120e9",
       "range": {
         "startLine": 239,
         "startChar": 20,

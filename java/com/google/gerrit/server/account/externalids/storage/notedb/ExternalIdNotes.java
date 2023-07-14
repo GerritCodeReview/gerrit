@@ -26,6 +26,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
@@ -865,6 +866,7 @@ public class ExternalIdNotes extends VersionedMetaData {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public RevCommit commit(MetaDataUpdate update) throws IOException {
     oldRev = ObjectIds.copyOrZero(revision);
     RevCommit commit = super.commit(update);
@@ -922,6 +924,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    *
    * @return the ID of the account to which all specified external IDs belong.
    */
+  @CanIgnoreReturnValue
   public static Account.Id checkSameAccount(
       Iterable<ExternalId> extIds, @Nullable Account.Id accountId) {
     for (ExternalId extId : extIds) {
@@ -1097,6 +1100,7 @@ public class ExternalIdNotes extends VersionedMetaData {
     final Set<ExternalId> added = new HashSet<>();
     final Set<ExternalId> removed = new HashSet<>();
 
+    @CanIgnoreReturnValue
     ExternalIdCacheUpdates add(Collection<ExternalId> extIds) {
       this.added.addAll(extIds);
       return this;
@@ -1106,6 +1110,7 @@ public class ExternalIdNotes extends VersionedMetaData {
       return ImmutableSet.copyOf(added);
     }
 
+    @CanIgnoreReturnValue
     ExternalIdCacheUpdates remove(Collection<ExternalId> extIds) {
       this.removed.addAll(extIds);
       return this;

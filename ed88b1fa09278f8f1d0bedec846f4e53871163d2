@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abb20db7_57436cb3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-15T07:04:47Z",
+      "side": 1,
+      "message": "With change 377954 (and 377439 earlier) we gave means to avoid collision either through the usage of improved `sanitizeMetricName` or through the usage `Field.ofProjectName` factory and Gerrit\u0027s core is safe. However the path we took (preserve backward compatibility on core metric names as much as possible) means that it is in developer\u0027s discretion to use either of it.\nIMHO that means that collision could still happen and Gerrit should be immune to it IOW we should not revert the change.",
+      "range": {
+        "startLine": 12,
+        "startChar": 25,
+        "endLine": 12,
+        "endChar": 39
+      },
+      "revId": "ed88b1fa09278f8f1d0bedec846f4e53871163d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

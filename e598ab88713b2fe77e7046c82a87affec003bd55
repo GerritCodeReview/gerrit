@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbdae760_ad7b5333",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-15T06:55:03Z",
+      "side": 1,
+      "message": "@Darius feel free to ignore the nit if you disagree ;)",
+      "revId": "e598ab88713b2fe77e7046c82a87affec003bd55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c37b2420_fcbbf38b",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/BucketedCallbackTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-15T06:55:03Z",
+      "side": 1,
+      "message": "nit: would probably used sth like `COLLIDING_SUBMETRIC_NAME` and rewritten the condition to sth like\n```\n    if (key.equals(COLLIDING_KEY_NAME1) or key.equals(COLLIDING_KEY_NAME2)) {\n      return COLLIDING_SUBMETRIC_NAME;\n    }\n```\n\nas collision with `KEY_NAME` is implicit only when `KEY_NAME` gets passed in `shouldErrorIfKeyIsDifferentButNameCollides` and `KEY_NAME` doesn\u0027t suggest that this is the collision case. WDYT?",
+      "range": {
+        "startLine": 92,
+        "startChar": 15,
+        "endLine": 92,
+        "endChar": 23
+      },
+      "revId": "e598ab88713b2fe77e7046c82a87affec003bd55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

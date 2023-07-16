@@ -299,6 +299,9 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
     if (psUtil.isPatchSetLocked(rsrc.getNotes())) {
       return description;
     }
+    if (!moveEnabled) {
+      return description;
+    }
     return description.setVisible(
         and(
             permissionBackend.user(rsrc.getUser()).ref(change.getDest()).testCond(CREATE_CHANGE),

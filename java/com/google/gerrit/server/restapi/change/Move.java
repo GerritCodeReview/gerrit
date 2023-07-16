@@ -287,6 +287,9 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
             .setTitle("Move change to a different branch")
             .setVisible(false);
 
+    if (!moveEnabled) {
+      return description;
+    }
     Change change = rsrc.getChange();
     if (!change.isNew()) {
       return description;

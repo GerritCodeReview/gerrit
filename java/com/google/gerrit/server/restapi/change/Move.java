@@ -107,7 +107,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
     this.psUtil = psUtil;
     this.approvalsUtil = approvalsUtil;
     this.projectCache = projectCache;
-    this.moveEnabled = gerritConfig.getBoolean("change", null, "move", true);
+    this.and = gerritConfig.getBoolean("change", null, "move", true);
   }
 
   @Override
@@ -297,6 +297,9 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
       return description;
     }
     if (psUtil.isPatchSetLocked(rsrc.getNotes())) {
+      return description;
+    }
+    if (!moveEnabled) {
       return description;
     }
     return description.setVisible(

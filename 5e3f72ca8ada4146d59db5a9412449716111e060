@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5283495d_b8c21190",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-07-17T11:03:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8040b61_57eedaad",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "5e3f72ca8ada4146d59db5a9412449716111e060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4179cddd_4d673c37",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-07-14T05:45:35Z",
       "side": 1,
       "message": "Maybe reword as\n\n\n\u003eGerrit operations (listed below) which create new patchsets always use the preferred email of the user performing the update as the committer email. With this change, if one of the user\u0027s secondary emails was used as the committer email in previous patchset, continue using it instead of preferred email. This is better as it won\u0027t break the user\u0027s intentions of choosing their secondary email deliberately in previous patchset.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 59
+      },
+      "revId": "5e3f72ca8ada4146d59db5a9412449716111e060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aedae989_236c5bf4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-07-17T11:03:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4179cddd_4d673c37",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e9f98a2_99d0046f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-07-17T11:03:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87bcf9a9_b7e0d35b",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 37
+      },
+      "revId": "5e3f72ca8ada4146d59db5a9412449716111e060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f72b639b_37e20a23",
@@ -83,6 +155,24 @@
       "writtenOn": "2023-07-13T10:07:54Z",
       "side": 1,
       "message": "Add/update integration tests. (I know you are actively working on to add tests, adding a comment for tracking)",
+      "revId": "5e3f72ca8ada4146d59db5a9412449716111e060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb14daaf_ed2686c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-07-17T11:03:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f72b639b_37e20a23",
       "revId": "5e3f72ca8ada4146d59db5a9412449716111e060",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -133,6 +223,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48a74760_6bfe7bd3",
+        "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-07-17T11:03:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa2c084d_d93bc61a",
+      "range": {
+        "startLine": 469,
+        "startChar": 2,
+        "endLine": 469,
+        "endChar": 8
+      },
+      "revId": "5e3f72ca8ada4146d59db5a9412449716111e060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6516657e_189b55a6",
+        "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-07-17T11:03:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c719c91_0625a255",
+      "range": {
+        "startLine": 469,
+        "startChar": 9,
+        "endLine": 469,
+        "endChar": 33
+      },
+      "revId": "5e3f72ca8ada4146d59db5a9412449716111e060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ff31a3c_912eceda",
@@ -146,6 +284,30 @@
       "writtenOn": "2023-07-13T10:07:54Z",
       "side": 1,
       "message": "protected String?",
+      "range": {
+        "startLine": 490,
+        "startChar": 2,
+        "endLine": 490,
+        "endChar": 8
+      },
+      "revId": "5e3f72ca8ada4146d59db5a9412449716111e060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7ecbce9_d84e30a5",
+        "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-07-17T11:03:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ff31a3c_912eceda",
       "range": {
         "startLine": 490,
         "startChar": 2,
@@ -215,6 +377,30 @@
       "writtenOn": "2023-07-13T10:07:54Z",
       "side": 1,
       "message": "using source committer email if it belongs to the user otherwise use user\u0027s preferred email.",
+      "range": {
+        "startLine": 169,
+        "startChar": 64,
+        "endLine": 170,
+        "endChar": 24
+      },
+      "revId": "5e3f72ca8ada4146d59db5a9412449716111e060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad05b3bc_f8ca55c1",
+        "filename": "java/com/google/gerrit/server/update/Context.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-07-17T11:03:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "600f7e03_21cf345e",
       "range": {
         "startLine": 169,
         "startChar": 64,

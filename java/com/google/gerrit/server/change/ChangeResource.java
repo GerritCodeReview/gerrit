@@ -41,8 +41,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -81,7 +79,6 @@ public class ChangeResource implements RestResource, HasETag, Cacheability {
   private final PermissionBackend permissionBackend;
   private final StarredChangesUtil starredChangesUtil;
   private final ProjectCache projectCache;
-  private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeNotes notes;
   private final CurrentUser user;
 
@@ -94,7 +91,6 @@ public class ChangeResource implements RestResource, HasETag, Cacheability {
       PermissionBackend permissionBackend,
       StarredChangesUtil starredChangesUtil,
       ProjectCache projectCache,
-      Provider<InternalChangeQuery> queryProvider,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user) {
     this.db = db;
@@ -104,7 +100,6 @@ public class ChangeResource implements RestResource, HasETag, Cacheability {
     this.permissionBackend = permissionBackend;
     this.starredChangesUtil = starredChangesUtil;
     this.projectCache = projectCache;
-    this.queryProvider = queryProvider;
     this.notes = notes;
     this.user = user;
   }
@@ -146,18 +141,6 @@ public class ChangeResource implements RestResource, HasETag, Cacheability {
         .putLong(getChange().getLastUpdatedOn().getTime())
         .putInt(getChange().getRowVersion())
         .putInt(user.isIdentifiedUser() ? user.getAccountId().get() : 0);
-
-    // Add index status to ETag
-    try {
-      for (ChangeData changeFromIndex : queryProvider.get().byLegacyChangeId(getChange().getId())) {
-        h.putLong(changeFromIndex.change().getLastUpdatedOn().getTime())
-            .putInt(changeFromIndex.change().getRowVersion());
-      }
-    } catch (OrmException e) {
-      logger.atWarning().withCause(e).log(
-          "Unable to include the index status in ETag for project %s, change %d",
-          getProject().get(), getChange().getChangeId());
-    }
 
     if (user.isIdentifiedUser()) {
       for (AccountGroup.UUID uuid : user.getEffectiveGroups().getKnownGroups()) {

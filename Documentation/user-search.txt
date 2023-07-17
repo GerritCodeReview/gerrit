@@ -128,11 +128,13 @@ Changes that conflict with change 'ID'. Change 'ID' can be specified
 as a change number such as 15183, or a Change-Id from the Change-Id footer.
 
 [[destination]]
-destination:'[name=]NAME[,user=USER]'::
+destination:'[name=]NAME[,user=USER|,group=GROUP]'::
 +
-Changes which match the specified USER's destination named 'NAME'. If 'USER'
-is unspecified, the current user is used. The named destinations can be
-publicly accessible by other users.
+Changes which match the specified USER's or GROUP's destination named 'NAME'.
+If 'USER' is unspecified, the current user is used. The named destinations can
+be publicly accessible by other users.
+The value may be wrapped in double quotes to include spaces. For example,
+`destination:"myreviews,group=My Group"`
 (see link:user-named-destinations.html[Named Destinations]).
 
 [[owner]]

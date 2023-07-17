@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a93a4879_cdac3c1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-07-17T08:35:09Z",
+      "side": 1,
+      "message": "I think this can be \"skip\" for a tests change",
+      "range": {
+        "startLine": 30,
+        "startChar": 15,
+        "endLine": 30,
+        "endChar": 72
+      },
+      "revId": "c3a9256fed59b45cac1afa2dbd75de750bc12bc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5d5fd2c_d833df0e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ApplyPatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-07-17T08:35:09Z",
+      "side": 1,
+      "message": "If you want to create a test user with multiple email addresses, it is probably best to add this test user in `AbstractDaemonTest`, as `userWithTwoEmails`. This way you could share this user with other tests as well?",
+      "range": {
+        "startLine": 100,
+        "startChar": 26,
+        "endLine": 100,
+        "endChar": 91
+      },
+      "revId": "c3a9256fed59b45cac1afa2dbd75de750bc12bc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "065f9733_2c8ca1a3",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ApplyPatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-07-17T08:35:09Z",
+      "side": 1,
+      "message": "When emailTwo becomes preferred, then I expect email1 to be added as secondary email",
+      "range": {
+        "startLine": 107,
+        "startChar": 67,
+        "endLine": 107,
+        "endChar": 75
+      },
+      "revId": "c3a9256fed59b45cac1afa2dbd75de750bc12bc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

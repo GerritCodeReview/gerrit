@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account.externalids.storage.notedb;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static java.util.stream.Collectors.joining;
 
@@ -45,7 +46,7 @@ public class ExternalIdsConsistencyCheckerNoteDbImpl implements ExternalIdsConsi
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
   private final OutgoingEmailValidator validator;
-  private final ExternalIdFactory externalIdFactory;
+  private final ExternalIdFactoryNoteDbImpl externalIdFactory;
 
   @Inject
   ExternalIdsConsistencyCheckerNoteDbImpl(
@@ -56,7 +57,10 @@ public class ExternalIdsConsistencyCheckerNoteDbImpl implements ExternalIdsConsi
     this.repoManager = repoManager;
     this.allUsers = allUsers;
     this.validator = validator;
-    this.externalIdFactory = externalIdFactory;
+    checkState(
+        externalIdFactory instanceof ExternalIdFactoryNoteDbImpl,
+        "ExternalIdsConsistencyCheckerNoteDbImpl must be initiated with ExternalIdFactoryNoteDbImpl.");
+    this.externalIdFactory = (ExternalIdFactoryNoteDbImpl) externalIdFactory;
   }
 
   @Override

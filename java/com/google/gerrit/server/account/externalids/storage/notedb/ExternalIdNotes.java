@@ -40,7 +40,6 @@ import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdCache;
-import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdUpsertPreprocessor;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
@@ -108,7 +107,7 @@ public class ExternalIdNotes extends VersionedMetaData {
     protected final MetricMaker metricMaker;
     protected final AllUsersName allUsersName;
     protected final DynamicMap<ExternalIdUpsertPreprocessor> upsertPreprocessors;
-    protected final ExternalIdFactory externalIdFactory;
+    protected final ExternalIdFactoryNoteDbImpl externalIdFactory;
     protected final AuthConfig authConfig;
 
     protected ExternalIdNotesLoader(
@@ -116,7 +115,7 @@ public class ExternalIdNotes extends VersionedMetaData {
         MetricMaker metricMaker,
         AllUsersName allUsersName,
         DynamicMap<ExternalIdUpsertPreprocessor> upsertPreprocessors,
-        ExternalIdFactory externalIdFactory,
+        ExternalIdFactoryNoteDbImpl externalIdFactory,
         AuthConfig authConfig) {
       this.externalIdCache = externalIdCache;
       this.metricMaker = metricMaker;
@@ -204,7 +203,7 @@ public class ExternalIdNotes extends VersionedMetaData {
         MetricMaker metricMaker,
         AllUsersName allUsersName,
         DynamicMap<ExternalIdUpsertPreprocessor> upsertPreprocessors,
-        ExternalIdFactory externalIdFactory,
+        ExternalIdFactoryNoteDbImpl externalIdFactory,
         AuthConfig authConfig) {
       super(
           externalIdCache,
@@ -257,7 +256,7 @@ public class ExternalIdNotes extends VersionedMetaData {
         MetricMaker metricMaker,
         AllUsersName allUsersName,
         DynamicMap<ExternalIdUpsertPreprocessor> upsertPreprocessors,
-        ExternalIdFactory externalIdFactory,
+        ExternalIdFactoryNoteDbImpl externalIdFactory,
         AuthConfig authConfig) {
       super(
           externalIdCache,
@@ -316,7 +315,7 @@ public class ExternalIdNotes extends VersionedMetaData {
       AllUsersName allUsersName,
       Repository allUsersRepo,
       @Nullable ObjectId rev,
-      ExternalIdFactory externalIdFactory,
+      ExternalIdFactoryNoteDbImpl externalIdFactory,
       boolean isUserNameCaseInsensitiveMigrationMode)
       throws IOException, ConfigInvalidException {
     return new ExternalIdNotes(
@@ -344,7 +343,7 @@ public class ExternalIdNotes extends VersionedMetaData {
   public static ExternalIdNotes load(
       AllUsersName allUsersName,
       Repository allUsersRepo,
-      ExternalIdFactory externalIdFactory,
+      ExternalIdFactoryNoteDbImpl externalIdFactory,
       boolean isUserNameCaseInsensitiveMigrationMode)
       throws IOException, ConfigInvalidException {
     return new ExternalIdNotes(
@@ -363,7 +362,7 @@ public class ExternalIdNotes extends VersionedMetaData {
   private final Repository repo;
   private final DynamicMap<ExternalIdUpsertPreprocessor> upsertPreprocessors;
   private final CallerFinder callerFinder;
-  private final ExternalIdFactory externalIdFactory;
+  private final ExternalIdFactoryNoteDbImpl externalIdFactory;
 
   private NoteMap noteMap;
   private ObjectId oldRev;
@@ -407,7 +406,7 @@ public class ExternalIdNotes extends VersionedMetaData {
       AllUsersName allUsersName,
       Repository allUsersRepo,
       DynamicMap<ExternalIdUpsertPreprocessor> upsertPreprocessors,
-      ExternalIdFactory externalIdFactory,
+      ExternalIdFactoryNoteDbImpl externalIdFactory,
       boolean isUserNameCaseInsensitiveMigrationMode) {
     this.updateCount =
         metricMaker.newCounter(

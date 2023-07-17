@@ -21,7 +21,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -60,7 +59,7 @@ public class ExternalIdCaseSensitivityMigrator {
   private final Provider<MetaDataUpdate.Server> metaDataUpdateServerFactory;
   private final ExternalIdNotes.FactoryNoReindex externalIdNotesFactory;
 
-  private final ExternalIdFactory externalIdFactory;
+  private final ExternalIdFactoryNoteDbImpl externalIdFactory;
   private final Boolean isUserNameCaseInsensitive;
   private final Boolean dryRun;
 
@@ -70,7 +69,7 @@ public class ExternalIdCaseSensitivityMigrator {
       AllUsersName allUsersName,
       Provider<MetaDataUpdate.Server> metaDataUpdateServerFactory,
       ExternalIdNotes.FactoryNoReindex externalIdNotesFactory,
-      ExternalIdFactory externalIdFactory,
+      ExternalIdFactoryNoteDbImpl externalIdFactory,
       @Assisted("isUserNameCaseInsensitive") Boolean isUserNameCaseInsensitive,
       @Assisted("dryRun") Boolean dryRun) {
     this.repoManager = repoManager;

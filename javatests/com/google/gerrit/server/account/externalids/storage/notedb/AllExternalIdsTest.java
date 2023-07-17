@@ -23,7 +23,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.storage.notedb.AllExternalIds.Serializer;
 import com.google.gerrit.server.cache.proto.Cache.AllExternalIdsProto;
@@ -38,14 +37,14 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 public class AllExternalIdsTest {
-  private ExternalIdFactory externalIdFactory;
+  private ExternalIdFactoryNoteDbImpl externalIdFactory;
 
   @Mock AuthConfig authConfig;
 
   @Before
   public void setUp() throws Exception {
     externalIdFactory =
-        new ExternalIdFactory(
+        new ExternalIdFactoryNoteDbImpl(
             new ExternalIdKeyFactory(
                 new ExternalIdKeyFactory.Config() {
                   @Override

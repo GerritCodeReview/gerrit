@@ -18,7 +18,7 @@ import com.google.gerrit.pgm.init.api.AllUsersNameOnInitProvider;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdFactory;
+import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdFactoryNoteDbImpl;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNotes;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AuthConfig;
@@ -41,7 +41,7 @@ class ExternalIdsOnInitNoteDbImpl implements ExternalIdsOnInit {
   private final InitFlags flags;
   private final SitePaths site;
   private final AllUsersName allUsers;
-  private final ExternalIdFactory externalIdFactory;
+  private final ExternalIdFactoryNoteDbImpl externalIdFactory;
   private final AuthConfig authConfig;
 
   @Inject
@@ -49,7 +49,7 @@ class ExternalIdsOnInitNoteDbImpl implements ExternalIdsOnInit {
       InitFlags flags,
       SitePaths site,
       AllUsersNameOnInitProvider allUsers,
-      ExternalIdFactory externalIdFactory,
+      ExternalIdFactoryNoteDbImpl externalIdFactory,
       AuthConfig authConfig) {
     this.flags = flags;
     this.site = site;

@@ -3853,7 +3853,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @GerritConfig(name = "accounts.visibility", value = "NONE")
   @Test
-  public void userDestination() throws Exception {
+  public void namedDestination() throws Exception {
     createProject("repo1");
     Change change1 = insert("repo1", newChange("repo1"));
     createProject("repo2");
@@ -3863,6 +3863,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         .hasMessageThat()
         .isEqualTo("Unknown named destination: foo");
 
+    String group = "test-group";
+    AccountGroup.UUID groupId = groupOperations.newGroup().name(group).create();
     Account.Id anotherUserId =
         accountManager.authenticate(authRequestFactory.createForUser("anotheruser")).getAccountId();
     String destination1 = "refs/heads/master\trepo1";
@@ -3906,6 +3908,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       Ref anotherUserRef = allUsers.getRepository().exactRef(anotherRefsUsers);
       assertThat(userRef).isNotNull();
       assertThat(anotherUserRef).isNotNull();
+
+      String groupRef = RefNames.refsGroups(groupId);
+      allUsers.branch(groupRef).commit().add("destinations/destination1", destination1).create();
+      allUsers.branch(groupRef).commit().add("destinations/destination2", destination2).create();
+      allUsers.branch(groupRef).commit().add("destinations/destination3", destination3).create();
+      allUsers.branch(groupRef).commit().add("destinations/destination4", destination4).create();
+      assertThat(allUsers.getRepository().exactRef(groupRef)).isNotNull();
     }
 
     assertQuery("destination:destination1", change1);
@@ -3931,6 +3940,24 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertThatQueryException("destination:destination3,user=" + userId)
         .hasMessageThat()
         .isEqualTo(String.format("Account '%s' not found", userId));
+
+    // Group destinations
+    requestContext.setContext(newRequestContext(userId));
+    assertThatQueryException("destination:non-existent-dest,group=" + group)
+        .hasMessageThat()
+        .isEqualTo("Unknown named destination: non-existent-dest");
+    assertThatQueryException("destination:destination1,group=non-existent-group")
+        .hasMessageThat()
+        .isEqualTo("Group non-existent-group not found");
+    assertThatQueryException("destination:destination1,group=" + group + ",user=" + userId)
+        .hasMessageThat()
+        .isEqualTo("User and group arguments are mutually exclusive");
+
+    assertQuery("destination:destination1,group=" + group, change1);
+    assertQuery("destination:name=destination1,group=" + group, change1);
+    assertQuery("destination:group=" + group + ",destination2", change2);
+    assertQuery("destination:group=" + group + ",name=destination3", change2, change1);
+    assertQuery("destination:destination4,group=" + group);
   }
 
   @GerritConfig(name = "accounts.visibility", value = "NONE")

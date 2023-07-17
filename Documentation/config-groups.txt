@@ -93,8 +93,10 @@ capability.
 
 == Pushing to group refs
 
-Validation on push for changes to the group ref is not implemented, so
-pushes are rejected. Pushes that bypass Gerrit should be avoided since
+Users can push changes to `refs/for/refs/groups/*`, but submit is rejected
+for changes which update group files (i.e., group.config, members, subgroups).
+It is possible for users to upload and submit changes on the named destination
+files in a group ref. Pushes that bypass Gerrit should be avoided since
 the names, IDs and UUIDs must be internally consistent between all the
 branches involved. In addition, group references should not be created
 or deleted manually either. If you attempt any of these actions

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60f4f90b_01096197",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-07-17T07:30:19Z",
+      "side": 1,
+      "message": "I don\u0027t think footer lines should be merged.\n\nWhen I provide a commit message in the input I expect it to override any existing commit message. The only exception is that the change ID footer should be appended in case I forgot to provide it. That\u0027s also how the commit message endpoint works.",
+      "range": {
+        "startLine": 246,
+        "startChar": 3,
+        "endLine": 249,
+        "endChar": 44
+      },
+      "revId": "2c2a670409b3522fbe9ea399f03c6a0eb6a81e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

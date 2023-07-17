@@ -1,20 +1,8 @@
 /**
  * @license
  * Copyright 2020 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-
-  AuthType,
   GpgKeyInfoStatus,
   ReviewerState,
-  RevisionKind,
-  SubmitType,
-} from '../api/rest-api';
-
-export {
-  AuthType,
-  ChangeStatus,
-  ConfigParameterInfoType,
   DefaultDisplayNameConfig,
   EditableAccountField,
   FileInfoStatus,
@@ -35,16 +23,6 @@ export enum AccountTag {
 }
 
 export enum Tab {
-  FILES = 'files',
-  /**
-   * When renaming 'comments' or 'findings', UrlFormatter.java must be updated.
-   */
-  COMMENT_THREADS = 'comments',
-  FINDINGS = 'findings',
-  CHECKS = 'checks',
-}
-
-/**
  * Tag names of change log messages.
  */
 export enum MessageTag {
@@ -70,12 +48,7 @@ export enum ProgressStatus {
   FAILED = 'FAILED',
   NOT_STARTED = 'NOT STARTED',
   SUCCESSFUL = 'SUCCESSFUL',
-}
-
-export enum ColumnNames {
-  SUBJECT = 'Subject',
-  // TODO(milutin) - remove once Submit Requirements are rolled out.
-  STATUS = 'Status',
+}x',
   OWNER = 'Owner',
   REVIEWERS = 'Reviewers',
   COMMENTS = 'Comments',

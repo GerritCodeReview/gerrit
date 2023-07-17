@@ -46,6 +46,30 @@
       },
       "revId": "f229998f8a44724110346f0db4eb517a376c518d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6af5a98_f3a4b9fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-07-17T10:01:03Z",
+      "side": 1,
+      "message": "AbstractDaemonTests are purele upstream tests. We can not run them with google3 bindings anyways, AFAIK.",
+      "parentUuid": "85033a2d_e585a7b7",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "f229998f8a44724110346f0db4eb517a376c518d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

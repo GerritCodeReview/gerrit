@@ -74,6 +74,7 @@ import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes.QueryRequest;
+import com.google.gerrit.extensions.api.changes.CustomKeyedValuesInput;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -4136,6 +4137,37 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertThat(thrown)
         .hasMessageThat()
         .contains("'is:mergeable' operator is not supported on this gerrit host");
+  }
+
+  @Test
+  public void customKeyedValue() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.CUSTOM_KEYED_VALUES_SPEC)).isTrue();
+    repo = createAndOpenProject("repo");
+    Change change1 = insert("repo", newChange(repo));
+    CustomKeyedValuesInput in = new CustomKeyedValuesInput();
+    in.add = ImmutableMap.of("workspace", "my-ws");
+    gApi.changes().id(change1.getChangeId()).setCustomKeyedValues(in);
+
+    Change change2 = insert("repo", newChange(repo));
+
+    in = new CustomKeyedValuesInput();
+    in.add = ImmutableMap.of("workspace", "123");
+    gApi.changes().id(change2.getChangeId()).setCustomKeyedValues(in);
+
+    // Insert a change without a KV pair
+    insert("repo", newChange(repo));
+
+    assertThat(customKeyedValues("workspace:"))
+        .containsExactly(change1.getChangeId(), change2.getChangeId());
+    assertThat(customKeyedValues("workspace:my")).containsExactly(change1.getChangeId());
+    assertThat(customKeyedValues("workspace:123")).containsExactly(change2.getChangeId());
+    assertThat(customKeyedValues("workspace:foo-bar")).isEmpty();
+  }
+
+  protected List<Integer> customKeyedValues(String query) {
+    return queryProvider.get().byCustomKeyedValue(query).stream()
+        .map(cd -> cd.getId().get())
+        .collect(toList());
   }
 
   protected ChangeInserter newChangeForCommit(TestRepository<Repository> repo, RevCommit commit)

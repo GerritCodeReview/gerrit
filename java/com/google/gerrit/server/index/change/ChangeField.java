@@ -80,6 +80,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -1707,6 +1708,30 @@ public class ChangeField {
 
   public static final IndexedField<ChangeData, Iterable<byte[]>>.SearchSpec REF_STATE_PATTERN_SPEC =
       REF_STATE_PATTERN_FIELD.storedOnly("ref_state_pattern");
+
+  public static final IndexedField<ChangeData, Iterable<String>> CUSTOM_KEYED_VALUES_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("CustomKeyedValues")
+          .stored()
+          .build(
+              cd ->
+                  cd.customKeyedValues().entrySet().stream()
+                      .map(e -> e.getKey() + "=" + e.getValue())
+                      .collect(toList()),
+              (cd, field) -> {
+                Map<String, String> ckv = new HashMap<>();
+                for (String entry : field) {
+                  int splitPoint = entry.indexOf('=');
+                  if (splitPoint < 0) {
+                    continue;
+                  }
+                  ckv.put(entry.substring(0, splitPoint), entry.substring(splitPoint + 1));
+                }
+                cd.setCustomKeyedValues(ckv);
+              });
+
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec
+      CUSTOM_KEYED_VALUES_SPEC =
+          CUSTOM_KEYED_VALUES_FIELD.prefix(ChangeQueryBuilder.FIELD_CUSTOM_KEYED_VALUES);
 
   @Nullable
   private static String getTopic(ChangeData cd) {

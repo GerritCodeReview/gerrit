@@ -1279,6 +1279,10 @@ public class ChangeData {
     return customKeyedValues;
   }
 
+  public void setCustomKeyedValues(Map<String, String> customKeyedValues) {
+    this.customKeyedValues = ImmutableMap.copyOf(customKeyedValues);
+  }
+
   public ImmutableList<Account.Id> stars() {
     if (stars == null) {
       if (!lazyload()) {

@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import java.io.IOException;
@@ -23,12 +24,16 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.FileMode;
 
-/** User configured named destinations. */
+/** User or Group configured named destinations. */
 public class VersionedAccountDestinations extends VersionedMetaData {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static VersionedAccountDestinations forUser(Account.Id id) {
     return new VersionedAccountDestinations(RefNames.refsUsers(id));
+  }
+
+  public static VersionedAccountDestinations forGroup(AccountGroup.UUID groupId) {
+    return new VersionedAccountDestinations(RefNames.refsGroups(groupId));
   }
 
   private final String ref;

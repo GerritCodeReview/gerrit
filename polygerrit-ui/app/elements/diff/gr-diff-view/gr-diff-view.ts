@@ -85,6 +85,7 @@ import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {when} from 'lit/directives/when.js';
+import {styleMap} from 'lit/directives/style-map.js';
 import {
   createDiffUrl,
   ChangeChildView,
@@ -915,7 +916,7 @@ export class GrDiffView extends LitElement {
           () => html`
             <div
               class="sidebarContents"
-              style=${`height: ${this.sidebarHeight}px`}
+              style=${styleMap({height: `${this.sidebarHeight}px`})}
             >
               <gr-endpoint-decorator
                 name=${`sidebarContent-${this.shownSidebar}`}

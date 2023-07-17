@@ -34,6 +34,29 @@
       "parentUuid": "0ee66cdd_96d324b8",
       "revId": "4d31a8e755fd06fd6d21b049c6b8a7621ec2bd15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f5ae623_97bcf044",
+        "filename": "polygerrit-ui/app/utils/deep-util_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-07-17T12:25:32Z",
+      "side": 1,
+      "message": "consider making `a`/`b` be the things you are comparing in deepEqual. Using the same 1-letter name as other tests for a different purpose may be less clear",
+      "range": {
+        "startLine": 150,
+        "startChar": 4,
+        "endLine": 151,
+        "endChar": 16
+      },
+      "revId": "4d31a8e755fd06fd6d21b049c6b8a7621ec2bd15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

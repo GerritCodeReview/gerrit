@@ -22,6 +22,30 @@
       },
       "revId": "2c2a670409b3522fbe9ea399f03c6a0eb6a81e9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7793ad2b_5c8eeb91",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-17T07:33:54Z",
+      "side": 1,
+      "message": "That\u0027s exactly what happens here.\nThe Change-Id is deleted from the footers extracted from the old PS, before these are added to the result message.\n\nThat being said, `ensureChangeIdIsCorrect` makes sure the provided Change-Id (taken from the input) is the same as in the last PS.",
+      "parentUuid": "60f4f90b_01096197",
+      "range": {
+        "startLine": 246,
+        "startChar": 3,
+        "endLine": 249,
+        "endChar": 44
+      },
+      "revId": "2c2a670409b3522fbe9ea399f03c6a0eb6a81e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

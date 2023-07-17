@@ -167,6 +167,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "713615fd_3808b92a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-17T09:21:55Z",
+      "side": 1,
+      "message": "Added in the interface.",
+      "parentUuid": "632bfc88_bc89be8b",
+      "range": {
+        "startLine": 684,
+        "startChar": 22,
+        "endLine": 684,
+        "endChar": 45
+      },
+      "revId": "239af03536d8a37b9c04c57000b6aa41385c6b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40db530b_752e31b1",

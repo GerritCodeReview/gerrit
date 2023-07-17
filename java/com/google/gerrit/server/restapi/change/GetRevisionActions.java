@@ -75,7 +75,6 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
     Hasher h = Hashing.murmur3_128().newHasher();
     CurrentUser user = rsrc.getUser();
     try {
-      rsrc.getChangeResource().prepareETag(h, user);
       h.putBoolean(MergeSuperSet.wholeTopicEnabled(config));
       ReviewDb db = dbProvider.get();
       ChangeSet cs = mergeSuperSet.get().completeChangeSet(db, rsrc.getChange(), user);

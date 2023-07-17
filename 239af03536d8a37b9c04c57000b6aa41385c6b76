@@ -145,6 +145,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "632bfc88_bc89be8b",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 684,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-07-17T08:40:04Z",
+      "side": 1,
+      "message": "\u003e Add an executeAllAsync method to ChangeDraftUpdate\n\nOnly if it is a static method, since we execute multiple draft updates at the same time.\n\nSure, let\u0027s not block this change. Please,add a TODO in NoteDBUpdateManager or to the interface about the order of the updates and that it should be respected by all implementations. (based on the comment that I linked).",
+      "parentUuid": "24d56a79_ad38acc2",
+      "range": {
+        "startLine": 684,
+        "startChar": 22,
+        "endLine": 684,
+        "endChar": 45
+      },
+      "revId": "239af03536d8a37b9c04c57000b6aa41385c6b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "40db530b_752e31b1",
         "filename": "java/com/google/gerrit/server/notedb/NoteDbModule.java",
         "patchSetId": 1

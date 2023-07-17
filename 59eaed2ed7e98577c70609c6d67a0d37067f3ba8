@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58f84be5_5dbd336f",
+        "filename": "java/com/google/gerrit/server/ChangeDraftUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-07-17T08:40:04Z",
+      "side": 1,
+      "message": "nit: maybe addForDeletion?\n\nSince we need to make it clear this method should not immediately delete the comment.\n\nSame for other methods.",
+      "range": {
+        "startLine": 55,
+        "startChar": 7,
+        "endLine": 55,
+        "endChar": 20
+      },
+      "revId": "59eaed2ed7e98577c70609c6d67a0d37067f3ba8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

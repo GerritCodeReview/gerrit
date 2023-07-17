@@ -28,7 +28,6 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.testing.ExternalIdTestUtil;
 import com.google.gerrit.server.config.AllUsersName;
@@ -66,12 +65,13 @@ public class ExternalIDCacheLoaderTest {
   private ExternalIdReader externalIdReader;
   private ExternalIdReader externalIdReaderSpy;
 
-  private ExternalIdFactory externalIdFactory;
+  private ExternalIdFactoryNoteDbImpl externalIdFactory;
   @Mock private AuthConfig authConfig;
 
   @Before
   public void setUp() throws Exception {
-    externalIdFactory = new ExternalIdFactory(new ExternalIdKeyFactory(() -> false), authConfig);
+    externalIdFactory =
+        new ExternalIdFactoryNoteDbImpl(new ExternalIdKeyFactory(() -> false), authConfig);
     externalIdCache = CacheBuilder.newBuilder().build();
     repoManager.createRepository(ALL_USERS).close();
     externalIdReader =

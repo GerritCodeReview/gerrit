@@ -23,7 +23,6 @@ import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -72,7 +71,7 @@ public class ExternalIdReader {
   private boolean failOnLoad = false;
   private final Timer0 readAllLatency;
   private final Timer0 readSingleLatency;
-  private final ExternalIdFactory externalIdFactory;
+  private final ExternalIdFactoryNoteDbImpl externalIdFactory;
   private final AuthConfig authConfig;
 
   @VisibleForTesting
@@ -81,7 +80,7 @@ public class ExternalIdReader {
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
       MetricMaker metricMaker,
-      ExternalIdFactory externalIdFactory,
+      ExternalIdFactoryNoteDbImpl externalIdFactory,
       AuthConfig authConfig) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;

@@ -22,6 +22,30 @@
       },
       "revId": "f229998f8a44724110346f0db4eb517a376c518d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85033a2d_e585a7b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-17T09:54:09Z",
+      "side": 1,
+      "message": "`pgm/Init` is wired here:\n\nhttp://cs/h/gerrit/gerrit/+/9cd0256542cfb7c2c116ef9f2fc13af87b8650b8:java/com/google/gerrit/acceptance/GerritServer.java?l\u003d324\n\nThis flow is then used by `AbstractDaemonTest`.\n\nI think this change is more robust than overriding the init flow later in the chain.",
+      "parentUuid": "260fbe06_8af5b11c",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "f229998f8a44724110346f0db4eb517a376c518d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -35,6 +35,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.InternalQuery;
 import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.Inject;
@@ -116,6 +117,11 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
       preds.add(ChangePredicates.idStr(id));
     }
     return query(or(preds));
+  }
+
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public List<ChangeData> byCustomKeyedValue(String keyValue) {
+    return query(new ChangeIndexPredicate(ChangeField.CUSTOM_KEYED_VALUES_SPEC, keyValue));
   }
 
   public List<ChangeData> byBranchKey(BranchNameKey branch, Change.Key key) {

@@ -12,13 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account.externalids;
+package com.google.gerrit.server.account.externalids.storage.notedb;
 
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdReader;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdCache;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
@@ -60,8 +61,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
     return get().byAccount().get(accountId);
   }
 
-  @Override
-  public ImmutableSet<ExternalId> byAccount(Account.Id accountId, ObjectId rev) throws IOException {
+  ImmutableSet<ExternalId> byAccount(Account.Id accountId, ObjectId rev) throws IOException {
     return get(rev).byAccount().get(accountId);
   }
 

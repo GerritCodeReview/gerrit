@@ -16,6 +16,29 @@
       "message": "Tested locally and working as expected.",
       "revId": "bbe28b70f6debfd0620ef9a915867806e0f78513",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "add8a736_09a41868",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3259,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-07-17T08:31:31Z",
+      "side": 1,
+      "message": "please, fix",
+      "range": {
+        "startLine": 3259,
+        "startChar": 0,
+        "endLine": 3259,
+        "endChar": 82
+      },
+      "revId": "bbe28b70f6debfd0620ef9a915867806e0f78513",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

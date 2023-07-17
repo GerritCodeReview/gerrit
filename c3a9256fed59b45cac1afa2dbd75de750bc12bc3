@@ -68,6 +68,30 @@
       },
       "revId": "c3a9256fed59b45cac1afa2dbd75de750bc12bc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12a6fb3a_cb972324",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ApplyPatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-07-17T11:05:28Z",
+      "side": 1,
+      "message": "Internally email1 is added as secondary email when preferred email is updated",
+      "parentUuid": "065f9733_2c8ca1a3",
+      "range": {
+        "startLine": 107,
+        "startChar": 67,
+        "endLine": 107,
+        "endChar": 75
+      },
+      "revId": "c3a9256fed59b45cac1afa2dbd75de750bc12bc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

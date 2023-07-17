@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61837ef6_8dd5dbcf",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetRevisionActions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-07-17T16:44:49Z",
+      "side": 1,
+      "message": "What about this instead:\n\n```\nqueryProvider.get().byLegacyChangeId(getId()).forEach((id) -\u003e h.putBoolean(id.isMergeable()));\n```",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 3
+      },
+      "revId": "29722e48a4bf09a1ebbc4fd438626c89735bdbe3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70503e0d_366113f5",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-07-17T16:44:49Z",
+      "side": 1,
+      "message": "nit: maybe use a variable for the filename?",
+      "range": {
+        "startLine": 144,
+        "startChar": 34,
+        "endLine": 144,
+        "endChar": 44
+      },
+      "revId": "29722e48a4bf09a1ebbc4fd438626c89735bdbe3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

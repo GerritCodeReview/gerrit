@@ -5,7 +5,7 @@
  */
 export function deepEqual<T>(a: T, b: T): boolean {
   // These maps keep track of whether we've already seen an object for either
-  // `a` (`left`) or `b` (`right`).  They store the corresponding object they
+  // `a` (`left`) or `b` (`right`).  They store the corresponding objects they
   // were being compared against. This enables us to short-circuit deep-equaling
   // objects in case we've already seen them before and the corresponding other
   // object has the same pointer.
@@ -28,10 +28,10 @@ export function deepEqual<T>(a: T, b: T): boolean {
     }
     if (a instanceof Map || b instanceof Map) {
       if (!(a instanceof Map && b instanceof Map)) return false;
-      if (left.get(a) === b) return true;
-      if (right.get(b) === a) return true;
-      left.set(a, b);
-      right.set(b, a);
+      if (left.get(a)?.has(a)) return true;
+      if (right.get(b)?.has(a)) return true;
+      left.set(a, (left.get(a) ?? new Set()).add(b));
+      right.set(b, (right.get(b) ?? new Set()).add(a));
       if (a.size !== b.size) return false;
       for (const [aKey, aValue] of a.entries()) {
         if (!b.has(aKey) || !deepEqualImpl(aValue, b.get(aKey))) return false;
@@ -41,10 +41,10 @@ export function deepEqual<T>(a: T, b: T): boolean {
 
     if (typeof a === 'object') {
       if (typeof b !== 'object') return false;
-      if (left.get(a) === b) return true;
-      if (right.get(b) === a) return true;
-      left.set(a, b);
-      right.set(b, a);
+      if (left.get(a)?.has(a)) return true;
+      if (right.get(b)?.has(a)) return true;
+      left.set(a, (left.get(a) ?? new Set()).add(b));
+      right.set(b, (right.get(b) ?? new Set()).add(a));
 
       const aObj = a as Record<string, unknown>;
       const bObj = b as Record<string, unknown>;

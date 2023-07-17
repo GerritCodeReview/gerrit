@@ -22,6 +22,30 @@
       },
       "revId": "83be66f9432a5f04af6f4c8babdfebf65b30eee4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d23cc913_1c5de6d8",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1718,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-07-17T13:22:45Z",
+      "side": 1,
+      "message": "Please separate on \u0027\u003d\u0027, keys may not contain \u0027\u003d\u0027",
+      "parentUuid": "5780f710_73154442",
+      "range": {
+        "startLine": 1718,
+        "startChar": 53,
+        "endLine": 1718,
+        "endChar": 61
+      },
+      "revId": "83be66f9432a5f04af6f4c8babdfebf65b30eee4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

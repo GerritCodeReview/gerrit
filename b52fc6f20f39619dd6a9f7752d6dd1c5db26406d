@@ -67,6 +67,29 @@
       "message": "377954: Fix project name\u0027s based submetric names collision | https://gerrit-review.googlesource.com/c/gerrit/+/377954",
       "revId": "b52fc6f20f39619dd6a9f7752d6dd1c5db26406d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f67f00a3_d054898a",
+        "filename": "java/com/google/gerrit/metrics/Field.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-17T07:52:08Z",
+      "side": 1,
+      "message": "Not needed, you can use Java\u0027s lambdas here:\n```java\n(projectName) - { ... };\n```",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 167,
+        "endChar": 49
+      },
+      "revId": "b52fc6f20f39619dd6a9f7752d6dd1c5db26406d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

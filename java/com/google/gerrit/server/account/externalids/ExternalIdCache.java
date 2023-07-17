@@ -19,7 +19,6 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.entities.Account;
 import java.io.IOException;
 import java.util.Optional;
-import org.eclipse.jgit.lib.ObjectId;
 
 /**
  * Caches external IDs of all accounts. Note that the granularity is "revision" only, so each update
@@ -34,8 +33,6 @@ public interface ExternalIdCache {
   Optional<ExternalId> byKey(ExternalId.Key key) throws IOException;
 
   ImmutableSet<ExternalId> byAccount(Account.Id accountId) throws IOException;
-
-  ImmutableSet<ExternalId> byAccount(Account.Id accountId, ObjectId rev) throws IOException;
 
   ImmutableSetMultimap<Account.Id, ExternalId> allByAccount() throws IOException;
 

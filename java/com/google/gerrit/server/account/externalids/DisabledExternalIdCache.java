@@ -21,7 +21,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import java.io.IOException;
 import java.util.Optional;
-import org.eclipse.jgit.lib.ObjectId;
 
 public class DisabledExternalIdCache implements ExternalIdCache {
   public static Module module() {
@@ -41,11 +40,6 @@ public class DisabledExternalIdCache implements ExternalIdCache {
 
   @Override
   public ImmutableSet<ExternalId> byAccount(Account.Id accountId) {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public ImmutableSet<ExternalId> byAccount(Account.Id accountId, ObjectId rev) {
     throw new UnsupportedOperationException();
   }
 

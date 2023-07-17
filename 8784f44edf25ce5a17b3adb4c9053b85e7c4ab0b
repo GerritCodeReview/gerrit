@@ -85,6 +85,29 @@
       },
       "revId": "8784f44edf25ce5a17b3adb4c9053b85e7c4ab0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40328132_9373d9bf",
+        "filename": "polygerrit-ui/app/utils/deep-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-07-17T13:44:17Z",
+      "side": 1,
+      "message": "Moved thread from the child change:\n\n\u003e Kamil Musin\nPatchset 2\n14:03\nThere is certain arcane-ness to the algorithm, because the left, right maps contains both:\n\n\u003e objects that have been seen, but have not been proven to be equal to each other yet (dealing with recursion)\nobjects that have been compared and established to be equal to eachother (dealing with duplicate comparisons)\nand it works because any inequality will cause the whole stack to immediately return false. But I find it hard to reason about, that having both of those functions at the same time in the same variable doesn\u0027t break anything. I think it\u0027s true, but that\u0027s almost certainly a piece of code that will be pretty incomprehensible for a future reader lacking context.\nI think the readability can be greatly improved, if those two aspects are separated: Meaning we have separate variables, for pairs that are in the current equality check stack (onTheStack(a,b)) and for pairs that have been compared and returned true (isCachedEqual(a,b)).\n\n\u003e Simply Chris\nPatchset 2\n14:07\nYou\u0027d have to be checking both always, so you\u0027d be doubling the checks.\n\n\u003e Edit-suggestions welcome 😊\n\n\u003e Kamil Musin\nPatchset 2\n14:52\nResolving. I will do it in a separate change \n\n```suggestion\nexport function deepEqual\u003cT\u003e(a: T, b: T): boolean {\n  // The pairs of objects that are currently being compared. If a pair is\n  // encountered again while on the stack, we shouldn\u0027t go any deeper, as we\n  // would only be walking through same pairs again infinitely. Such pairs are\n  // equal as long as all non-recursive pairs are equal, ie. given an infinite\n  // traversal we would\u0027ve never reached a pair of values that are not equal to\n  // each other.\n  const onStackValuePair \u003d new Map();\n  // Cache of compared object instances. This allows as to avoid comparing same\n  // pair of large objects repeatedly in cases where the reference to the same\n  // object is stored in many different attributes in the tree.\n  const equalValues \u003d new Map();\n  function deepEqualImpl(a: unknown, b: unknown) {\n    if (a \u003d\u003d\u003d b) return true;\n    if (a \u003d\u003d\u003d undefined || b \u003d\u003d\u003d undefined) return false;\n    if (a \u003d\u003d\u003d null || b \u003d\u003d\u003d null) return false;\n    if (a instanceof Date || b instanceof Date) {\n      if (!(a instanceof Date \u0026\u0026 b instanceof Date)) return false;\n      return a.getTime() \u003d\u003d\u003d b.getTime();\n    }\n\n    // Check cache first for container types.\n    if (equalValues?.get(a)?.has(b)) return true;\n\n    if (a instanceof Set || b instanceof Set) {\n      if (!(a instanceof Set \u0026\u0026 b instanceof Set)) return false;\n      if (a.size !\u003d\u003d b.size) return false;\n      for (const ai of a) if (!b.has(ai)) return false;\n      equalValues.set(a, (equalValues.get(a) ?? new Set()).add(b));\n      return true;\n    }\n    if (a instanceof Map || b instanceof Map) {\n      if (!(a instanceof Map \u0026\u0026 b instanceof Map)) return false;\n      if (onStackValuePair.get(a)?.has(b)) return true;\n      onStackValuePair.set(a, (onStackValuePair.get(a) ?? new Set()).add(b));\n      if (a.size !\u003d\u003d b.size) return false;\n      for (const [aKey, aValue] of a.entries()) {\n        if (!b.has(aKey) || !deepEqualImpl(aValue, b.get(aKey))) return false;\n      }\n      onStackValuePair.get(a)!.delete(b);\n      equalValues.set(a, (equalValues.get(a) ?? new Set()).add(b));\n      return true;\n    }\n\n    if (typeof a \u003d\u003d\u003d \u0027object\u0027) {\n      if (typeof b !\u003d\u003d \u0027object\u0027) return false;\n      if (onStackValuePair.get(a)?.has(b)) return true;\n      onStackValuePair.set(a, (onStackValuePair.get(a) ?? new Set()).add(b));\n\n      const aObj \u003d a as Record\u003cstring, unknown\u003e;\n      const bObj \u003d b as Record\u003cstring, unknown\u003e;\n      const aKeys \u003d Object.keys(aObj);\n      const bKeys \u003d Object.keys(bObj);\n      if (aKeys.length !\u003d\u003d bKeys.length) return false;\n      for (const key of aKeys) {\n        if (!deepEqualImpl(aObj[key], bObj[key])) return false;\n      }\n      equalValues.set(a, (equalValues.get(a) ?? new Set()).add(b));\n      return true;\n    }\n    return false;\n  }\n\n  return deepEqualImpl(a, b);\n}\n```",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 1
+      },
+      "revId": "8784f44edf25ce5a17b3adb4c9053b85e7c4ab0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

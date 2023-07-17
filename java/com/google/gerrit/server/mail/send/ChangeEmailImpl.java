@@ -611,12 +611,10 @@ public final class ChangeEmailImpl implements ChangeEmail {
     for (Account.Id attentionUser : currentAttentionSet) {
       email.addFooter(MailHeader.ATTENTION.withDelimiter() + email.getNameEmailFor(attentionUser));
     }
-    if (!currentAttentionSet.isEmpty()) {
-      // We need names rather than account ids / emails to make it user readable.
-      email.addSoyParam(
-          "attentionSet",
-          currentAttentionSet.stream().map(email::getNameFor).sorted().collect(toImmutableList()));
-    }
+    // We need names rather than account ids / emails to make it user readable.
+    email.addSoyParam(
+        "attentionSet",
+        currentAttentionSet.stream().map(email::getNameFor).sorted().collect(toImmutableList()));
 
     setChangeSubjectHeader();
     if (email.getNotify().handling().equals(NotifyHandling.OWNER_REVIEWERS)

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ea51be2_7fc0964d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-07-17T12:53:00Z",
+      "side": 1,
+      "message": "Let\u0027s add a test that was breaking before the multimap\n\n```\ntest(\u0027deepEqual recursive\u0027, () \u003d\u003e {\n  let a: {link?: any} \u003d {};\n  let b: {link?: any} \u003d {};\n  let c: {link?: any} \u003d {};\n  a.link \u003d b;\n  b.link \u003d c;\n  c.link \u003d a;\n  deepEqual(a, c);\n});\n```",
+      "revId": "8784f44edf25ce5a17b3adb4c9053b85e7c4ab0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

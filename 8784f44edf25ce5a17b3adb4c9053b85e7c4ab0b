@@ -16,6 +16,75 @@
       "message": "Let\u0027s add a test that was breaking before the multimap\n\n```\ntest(\u0027deepEqual recursive\u0027, () \u003d\u003e {\n  let a: {link?: any} \u003d {};\n  let b: {link?: any} \u003d {};\n  let c: {link?: any} \u003d {};\n  a.link \u003d b;\n  b.link \u003d c;\n  c.link \u003d a;\n  deepEqual(a, c);\n});\n```",
       "revId": "8784f44edf25ce5a17b3adb4c9053b85e7c4ab0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10342c0e_4f60486c",
+        "filename": "polygerrit-ui/app/utils/deep-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-07-17T13:00:29Z",
+      "side": 1,
+      "message": "The right is not needed\n\nWe always set it together, so left.get(a).has(b) is equivalent to right.get(b).has(a)\n\nThis wasn\u0027t true before the multimaps",
+      "range": {
+        "startLine": 13,
+        "startChar": 2,
+        "endLine": 13,
+        "endChar": 26
+      },
+      "revId": "8784f44edf25ce5a17b3adb4c9053b85e7c4ab0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be299b42_90305092",
+        "filename": "polygerrit-ui/app/utils/deep-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-07-17T13:00:29Z",
+      "side": 1,
+      "message": "b",
+      "range": {
+        "startLine": 31,
+        "startChar": 27,
+        "endLine": 31,
+        "endChar": 28
+      },
+      "revId": "8784f44edf25ce5a17b3adb4c9053b85e7c4ab0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51d9ced3_be302867",
+        "filename": "polygerrit-ui/app/utils/deep-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-07-17T13:00:29Z",
+      "side": 1,
+      "message": "b",
+      "range": {
+        "startLine": 44,
+        "startChar": 27,
+        "endLine": 44,
+        "endChar": 28
+      },
+      "revId": "8784f44edf25ce5a17b3adb4c9053b85e7c4ab0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

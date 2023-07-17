@@ -22,6 +22,30 @@
       },
       "revId": "47fd9cb1cbe32a40f3a185900e960d44b3510e27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1dff884_767a78d6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1735,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-07-17T13:57:59Z",
+      "side": 0,
+      "message": "Yes absolutely, the test still passes as I mention in the commit message.\n\nHowever, the test title (`reindexChangeWithStatusVariationModifiesETag`) is misleading since it has nothing to do with reindexing, it should be named something like: `votingOnChangeModifiesETag` or something similar, imho.\n\nThe entire reindexing part of the test is also unnecessary so that most of the body of the test can be removed, specifically (L1710-1731).\n\nI\u0027d rather keep this change as a full revert, not a partial one.\n\nPerhaps we can add a cleaner one as a follow up? (there are alredy quite a few tests to cover etag calculation, not sure this one increases confidence much).\n\nThoughts @luca?",
+      "parentUuid": "eb850341_4ac1ba58",
+      "range": {
+        "startLine": 1699,
+        "startChar": 0,
+        "endLine": 1735,
+        "endChar": 3
+      },
+      "revId": "47fd9cb1cbe32a40f3a185900e960d44b3510e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

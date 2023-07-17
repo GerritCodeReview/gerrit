@@ -16,6 +16,24 @@
       "message": "There is certain arcane-ness to the algorithm, because the left, right maps contains both:\n- objects that have been seen, but have not been proven to be equal to each other yet (dealing with recursion)\n- objects that have been compared and established to be equal to eachother (dealing with duplicate comparisons)\nand it works because any inequality will cause the whole stack to immediately return false. But I find it hard to reason about, that having both of those functions at the same time in the same variable doesn\u0027t break anything. I think it\u0027s true, but that\u0027s almost certainly a piece of code that will be pretty incomprehensible for a future reader lacking context.\n\n\nI think the readability can be greatly improved, if those two aspects are separated: Meaning we have separate variables, for pairs that are in the current equality check stack (onTheStack(a,b)) and for pairs that have been compared and returned true (isCachedEqual(a,b)).",
       "revId": "4d31a8e755fd06fd6d21b049c6b8a7621ec2bd15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f778f230_c77b50cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-07-17T12:07:06Z",
+      "side": 1,
+      "message": "You\u0027d have to be checking both always, so you\u0027d be doubling the checks.\n\nEdit-suggestions welcome 😊",
+      "parentUuid": "0ee66cdd_96d324b8",
+      "revId": "4d31a8e755fd06fd6d21b049c6b8a7621ec2bd15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

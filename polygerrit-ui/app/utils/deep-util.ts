@@ -3,6 +3,10 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+
+// NOTE: This algorithm has the following limitations:
+// It does not support deep-value-equality of values in sets that are not
+// `===`.  The same applies for keys in a map.
 export function deepEqual<T>(a: T, b: T): boolean {
   // The pairs of objects that are currently being compared. If a pair is
   // encountered again while on the stack, we shouldn't go any deeper, as we

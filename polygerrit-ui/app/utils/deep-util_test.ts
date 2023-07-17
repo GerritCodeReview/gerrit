@@ -136,4 +136,14 @@ suite('compare-util tests', () => {
 
     assert.isTrue(deepEqual(a, c));
   });
+
+  test('deepEqual recursively deeper', () => {
+    let a: {link?: any} = {};
+    let b: {link?: any} = {};
+    let c: {link?: any} = {};
+    a.link = b;
+    b.link = c;
+    c.link = a;
+    deepEqual(a, c);
+  });
 });

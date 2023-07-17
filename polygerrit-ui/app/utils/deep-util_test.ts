@@ -137,6 +137,24 @@ suite('compare-util tests', () => {
     assert.isTrue(deepEqual(a, c));
   });
 
+  test('deepEqual direct self recursion', () => {
+    const a = {value: 3};
+    (a as any).self = a;
+    const b = {value: 3};
+    (b as any).self = b;
+
+    assert.isTrue(deepEqual(a, b));
+  });
+
+  test('deepEqual through of sets containing Symbols', () => {
+    const asymbol = Symbol('a');
+    const bsymbol = asymbol;
+
+    const a = new Set([asymbol]);
+    const b = new Set([bsymbol]);
+    assert.isTrue(deepEqual(a, b));
+  });
+
   test('deepEqual recursively deeper', () => {
     const a: {link?: any} = {};
     const b: {link?: any} = {};

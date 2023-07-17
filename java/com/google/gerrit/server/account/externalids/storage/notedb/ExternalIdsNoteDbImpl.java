@@ -93,7 +93,13 @@ public class ExternalIdsNoteDbImpl implements ExternalIds {
 
   /** Returns the external IDs of the specified account. */
   public ImmutableSet<ExternalId> byAccount(Account.Id accountId, ObjectId rev) throws IOException {
-    return externalIdCache.byAccount(accountId, rev);
+    Optional<ExternalIdCacheImpl> cache =
+        ExternalIdCacheImpl.asExternalIdCacheImpl(externalIdCache);
+    if (cache.isEmpty()) {
+      throw new IllegalStateException(
+          "byAccount(Account.Id, ObjectId) should only be called with a revision-based cache.");
+    }
+    return cache.get().byAccount(accountId, rev);
   }
 
   @Override

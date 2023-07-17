@@ -59,9 +59,9 @@ import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdFactoryNoteDbImpl;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdReader;
 import com.google.gerrit.server.config.AllUsersName;
@@ -105,7 +105,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExternalIdKeyFactory externalIdKeyFactory;
-  @Inject private ExternalIdFactory externalIdFactory;
+  @Inject private ExternalIdFactoryNoteDbImpl externalIdFactory;
   @Inject private AllUsersName allUsersName;
 
   @Test

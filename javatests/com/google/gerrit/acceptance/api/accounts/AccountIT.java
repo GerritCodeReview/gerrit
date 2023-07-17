@@ -141,8 +141,8 @@ import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
+import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdFactoryNoteDbImpl;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdsNoteDbImpl;
 import com.google.gerrit.server.account.storage.notedb.AccountsUpdateNoteDbImpl;
@@ -249,7 +249,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private ExtensionRegistry extensionRegistry;
   @Inject private PluginSetContext<ExceptionHook> exceptionHooks;
   @Inject private ExternalIdKeyFactory externalIdKeyFactory;
-  @Inject private ExternalIdFactory externalIdFactory;
+  @Inject private ExternalIdFactoryNoteDbImpl externalIdFactory;
   @Inject private AuthConfig authConfig;
   @Inject private AccountControl.Factory accountControlFactory;
 

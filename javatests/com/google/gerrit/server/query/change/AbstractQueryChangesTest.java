@@ -3929,6 +3929,45 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         .isEqualTo(String.format("Account '%s' not found", userId));
   }
 
+  @Test
+  public void groupDestination() throws Exception {
+    createProject("repo1");
+    Change change1 = insert("repo1", newChange("repo1"));
+    createProject("repo2");
+    Change change2 = insert("repo2", newChange("repo2"));
+
+    String group = "test-group";
+    AccountGroup.UUID groupId = groupOperations.newGroup().name(group).create();
+
+    String destination1 = "refs/heads/master\trepo1";
+    String destination2 = "refs/heads/master\trepo2";
+    String destination3 = "refs/heads/master\trepo1\nrefs/heads/master\trepo2";
+    String destination4 = "refs/heads/master\trepo3";
+
+    try (TestRepository<Repository> allUsers =
+        new TestRepository<>(repoManager.openRepository(allUsersName))) {
+      String groupRef = RefNames.refsGroups(groupId);
+      allUsers.branch(groupRef).commit().add("destinations/destination1", destination1).create();
+      allUsers.branch(groupRef).commit().add("destinations/destination2", destination2).create();
+      allUsers.branch(groupRef).commit().add("destinations/destination3", destination3).create();
+      allUsers.branch(groupRef).commit().add("destinations/destination4", destination4).create();
+      assertThat(allUsers.getRepository().exactRef(groupRef)).isNotNull();
+    }
+
+    assertThatQueryException("destination:non-existent-dest,group=" + group)
+        .hasMessageThat()
+        .isEqualTo("Unknown named destination: non-existent-dest");
+    assertThatQueryException("destination:destination1,group=non-existent-group")
+        .hasMessageThat()
+        .isEqualTo("Group non-existent-group not found");
+
+    assertQuery("destination:destination1,group=" + group, change1);
+    assertQuery("destination:name=destination1,group=" + group, change1);
+    assertQuery("destination:group=" + group + ",destination2", change2);
+    assertQuery("destination:group=" + group + ",name=destination3", change2, change1);
+    assertQuery("destination:destination4,group=" + group);
+  }
+
   @GerritConfig(name = "accounts.visibility", value = "NONE")
   @Test
   public void userQuery() throws Exception {

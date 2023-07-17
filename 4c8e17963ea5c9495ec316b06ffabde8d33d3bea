@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b10bd55c_4c20ab72",
+        "filename": "java/com/google/gerrit/server/git/validators/MergeValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-07-17T23:05:16Z",
+      "side": 1,
+      "message": "Maybe this should come with a comment explaining why this code doesn\u0027t support those 3 files yet (and why it is useful despite that).",
+      "revId": "4c8e17963ea5c9495ec316b06ffabde8d33d3bea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

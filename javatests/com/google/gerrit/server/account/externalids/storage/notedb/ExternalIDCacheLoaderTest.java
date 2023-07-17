@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account.externalids;
+package com.google.gerrit.server.account.externalids.storage.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.times;
@@ -23,11 +23,13 @@ import com.google.common.base.CharMatcher;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.metrics.DisabledMetricMaker;
-import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNotes;
-import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdReader;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.testing.ExternalIdTestUtil;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
@@ -269,6 +271,7 @@ public class ExternalIDCacheLoaderTest {
     return oldState;
   }
 
+  @CanIgnoreReturnValue
   private ObjectId insertExternalId(int key, int accountId) throws Exception {
     return performExternalIdUpdate(
         u -> {

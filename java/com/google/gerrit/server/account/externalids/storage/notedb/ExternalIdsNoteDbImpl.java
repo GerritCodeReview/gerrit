@@ -18,6 +18,7 @@ import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdCache;
@@ -39,7 +40,7 @@ import org.eclipse.jgit.lib.ObjectId;
 @Singleton
 public class ExternalIdsNoteDbImpl implements ExternalIds {
   private final ExternalIdReader externalIdReader;
-  private final ExternalIdCache externalIdCache;
+  @Nullable private final ExternalIdCacheImpl externalIdCache;
   private final AuthConfig authConfig;
   private final ExternalIdKeyFactory externalIdKeyFactory;
 
@@ -50,7 +51,16 @@ public class ExternalIdsNoteDbImpl implements ExternalIds {
       ExternalIdKeyFactory externalIdKeyFactory,
       AuthConfig authConfig) {
     this.externalIdReader = externalIdReader;
-    this.externalIdCache = externalIdCache;
+    if (externalIdCache instanceof ExternalIdCacheImpl) {
+      this.externalIdCache = (ExternalIdCacheImpl) externalIdCache;
+    } else if (externalIdCache instanceof DisabledExternalIdCache) {
+      // Supported case for testing only. Non of the disabled cache methods should be called, so
+      // it's safe to not assign the var.
+      this.externalIdCache = null;
+    } else {
+      throw new IllegalStateException(
+          "The cache provided in ExternalIdsNoteDbImpl should be either ExternalIdCacheImpl or DisabledExternalIdCache");
+    }
     this.externalIdKeyFactory = externalIdKeyFactory;
     this.authConfig = authConfig;
   }

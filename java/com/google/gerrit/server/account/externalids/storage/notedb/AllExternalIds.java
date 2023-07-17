@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account.externalids;
+package com.google.gerrit.server.account.externalids.storage.notedb;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.proto.Protos;
+import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.cache.proto.Cache.AllExternalIdsProto;
 import com.google.gerrit.server.cache.proto.Cache.AllExternalIdsProto.ExternalIdProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;

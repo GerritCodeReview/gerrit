@@ -12,15 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account.externalids;
+package com.google.gerrit.server.account.externalids.storage.notedb;
 
+import com.google.gerrit.server.account.externalids.ExternalIdCache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.serialize.ObjectIdCacheSerializer;
 import com.google.inject.TypeLiteral;
 import java.time.Duration;
 import org.eclipse.jgit.lib.ObjectId;
 
-public class ExternalIdCacheModule extends CacheModule {
+public class ExternalIdCacheNoteDbModule extends CacheModule {
   @Override
   protected void configure() {
     persist(ExternalIdCacheImpl.CACHE_NAME, ObjectId.class, new TypeLiteral<AllExternalIds>() {})

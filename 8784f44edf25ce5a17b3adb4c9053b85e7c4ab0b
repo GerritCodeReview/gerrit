@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5c3b972_23c8cc4d",
+        "filename": "polygerrit-ui/app/utils/deep-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-07-17T15:01:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10342c0e_4f60486c",
+      "range": {
+        "startLine": 13,
+        "startChar": 2,
+        "endLine": 13,
+        "endChar": 26
+      },
+      "revId": "8784f44edf25ce5a17b3adb4c9053b85e7c4ab0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be299b42_90305092",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5791a4f_d101131a",
+        "filename": "polygerrit-ui/app/utils/deep-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-07-17T15:01:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be299b42_90305092",
+      "range": {
+        "startLine": 31,
+        "startChar": 27,
+        "endLine": 31,
+        "endChar": 28
+      },
+      "revId": "8784f44edf25ce5a17b3adb4c9053b85e7c4ab0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "51d9ced3_be302867",
@@ -77,6 +125,30 @@
       "writtenOn": "2023-07-17T13:00:29Z",
       "side": 1,
       "message": "b",
+      "range": {
+        "startLine": 44,
+        "startChar": 27,
+        "endLine": 44,
+        "endChar": 28
+      },
+      "revId": "8784f44edf25ce5a17b3adb4c9053b85e7c4ab0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a879001_089ea6f0",
+        "filename": "polygerrit-ui/app/utils/deep-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-07-17T15:01:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51d9ced3_be302867",
       "range": {
         "startLine": 44,
         "startChar": 27,

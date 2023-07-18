@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c878065_0a96c675",
+        "filename": "javatests/com/google/gerrit/metrics/FieldTestSanitizeProjectNameField.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-18T06:11:20Z",
+      "side": 1,
+      "message": "nit: rename to `FieldSanitizeProjectNameTest` so that it is consistent with the other tests",
+      "range": {
+        "startLine": 26,
+        "startChar": 13,
+        "endLine": 26,
+        "endChar": 46
+      },
+      "revId": "465730f1a36ce35eadcf1a105a52cc0171e2f919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

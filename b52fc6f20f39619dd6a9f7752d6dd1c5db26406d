@@ -114,6 +114,30 @@
       },
       "revId": "b52fc6f20f39619dd6a9f7752d6dd1c5db26406d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ef3a5fe_eb181ec7",
+        "filename": "java/com/google/gerrit/metrics/Field.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-18T06:11:20Z",
+      "side": 1,
+      "message": "Technically I could but that triggers the `errorprone` to complain with\n```\nReturning a lambda from a helper method or saving it in a constant is unnecessary; prefer to implement the functional interface method directly and use a method reference instead.\n```\nSo I\u0027m changing it to a `private static method` as suggested in http://errorprone.info/bugpattern/UnnecessaryLambda 😊",
+      "parentUuid": "2363c14a_55c40474",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 167,
+        "endChar": 49
+      },
+      "revId": "b52fc6f20f39619dd6a9f7752d6dd1c5db26406d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -26,6 +26,53 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7d639d9c_13a330ed",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetRevisionActions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-18T00:07:56Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "61837ef6_8dd5dbcf",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 3
+      },
+      "revId": "29722e48a4bf09a1ebbc4fd438626c89735bdbe3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d389b818_74afa07a",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-18T00:07:56Z",
+      "side": 1,
+      "message": "Use the same variable here and in L144",
+      "range": {
+        "startLine": 141,
+        "startChar": 66,
+        "endLine": 141,
+        "endChar": 78
+      },
+      "revId": "29722e48a4bf09a1ebbc4fd438626c89735bdbe3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "70503e0d_366113f5",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
         "patchSetId": 1
@@ -42,6 +89,52 @@
         "startChar": 34,
         "endLine": 144,
         "endChar": 44
+      },
+      "revId": "29722e48a4bf09a1ebbc4fd438626c89735bdbe3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c1bfd64_96cebd19",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-18T00:07:56Z",
+      "side": 1,
+      "message": "conflicting?",
+      "range": {
+        "startLine": 144,
+        "startChar": 53,
+        "endLine": 144,
+        "endChar": 58
+      },
+      "revId": "29722e48a4bf09a1ebbc4fd438626c89735bdbe3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c43cdb0b_e0467281",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-18T00:07:56Z",
+      "side": 1,
+      "message": "+ because is conflicting",
+      "range": {
+        "startLine": 149,
+        "startChar": 44,
+        "endLine": 149,
+        "endChar": 65
       },
       "revId": "29722e48a4bf09a1ebbc4fd438626c89735bdbe3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

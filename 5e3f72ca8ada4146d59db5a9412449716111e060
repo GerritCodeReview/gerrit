@@ -366,6 +366,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "61645569_0875ea4a",
+        "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-07-18T03:54:48Z",
+      "side": 1,
+      "message": "Would it make sense to rename the method to align with the behaviour, since I want the method to fallback to preferred email if the suggested email is not among the secondary emails of the user ? Something like \u0027newCommitterIdentWithGivenOrPreferredEmail\u0027",
+      "parentUuid": "fe48fa87_1deed187",
+      "range": {
+        "startLine": 515,
+        "startChar": 4,
+        "endLine": 516,
+        "endChar": 91
+      },
+      "revId": "5e3f72ca8ada4146d59db5a9412449716111e060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "600f7e03_21cf345e",
         "filename": "java/com/google/gerrit/server/update/Context.java",
         "patchSetId": 1

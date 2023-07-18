@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93594894_31cd69d3",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetRevisionActions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-18T12:39:21Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "274348d3_ff3a624f",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 3
+      },
+      "revId": "29722e48a4bf09a1ebbc4fd438626c89735bdbe3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d389b818_74afa07a",

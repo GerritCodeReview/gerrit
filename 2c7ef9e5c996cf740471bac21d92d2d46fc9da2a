@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9763da95_e864ed59",
+        "filename": ".mailmap",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-07-18T13:33:12Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "ed42c14f_5c16214e",
+      "revId": "2c7ef9e5c996cf740471bac21d92d2d46fc9da2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "732329a9_33f5a5f1",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-07-18T13:20:51Z",
       "side": 1,
       "message": "Are you sure you want to do this?",
+      "revId": "2c7ef9e5c996cf740471bac21d92d2d46fc9da2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20857df6_be6f660f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-07-18T13:33:12Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "732329a9_33f5a5f1",
       "revId": "2c7ef9e5c996cf740471bac21d92d2d46fc9da2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

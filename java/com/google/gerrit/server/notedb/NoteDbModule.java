@@ -43,6 +43,7 @@ public class NoteDbModule extends FactoryModule {
   @Override
   public void configure() {
     factory(ChangeDraftNotesUpdate.Factory.class);
+    factory(ChangeDraftNotesUpdate.Executor.Factory.class);
     factory(ChangeUpdate.Factory.class);
     factory(DeleteCommentRewriter.Factory.class);
     factory(DraftCommentNotes.Factory.class);
@@ -53,6 +54,9 @@ public class NoteDbModule extends FactoryModule {
     bind(StarredChangesWriter.class).to(StarredChangesUtilNoteDbImpl.class).in(Singleton.class);
     bind(StarredChangesUtil.class).to(StarredChangesUtilNoteDbImpl.class).in(Singleton.class);
     bind(DraftCommentsReader.class).to(DraftCommentsNotesReader.class).in(Singleton.class);
+    bind(ChangeDraftUpdateExecutor.AbstractFactory.class)
+        .to(ChangeDraftNotesUpdate.Executor.Factory.class)
+        .in(Singleton.class);
 
     if (!useTestBindings) {
       install(ChangeNotesCache.module());

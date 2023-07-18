@@ -71,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ad3f97f_cb962ff3",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ApplyPatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-07-18T06:51:53Z",
+      "side": 1,
+      "message": "Also it\u0027s not possible to do something like \n\nString emailOne \u003d \"email1@example.com\";\nString emailTwo \u003d \"email2@example.com\";\n\nAccount.Id testUser \u003d accountOperations.newAccount()\n.preferredEmail(emailOne).addSecondaryEmail(emailTwo).create();\n\naccountOperations.account(testUser)\n  .forUpdate().preferredEmail(emailTwo).update();\n  \nsince it results in exception \ncom.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException: Duplicate external ID key: mailto:email2@example.com",
+      "parentUuid": "c7e78960_d33d4be1",
+      "range": {
+        "startLine": 100,
+        "startChar": 26,
+        "endLine": 100,
+        "endChar": 91
+      },
+      "revId": "c3a9256fed59b45cac1afa2dbd75de750bc12bc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "065f9733_2c8ca1a3",

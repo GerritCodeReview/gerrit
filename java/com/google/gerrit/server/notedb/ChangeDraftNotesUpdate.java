@@ -16,9 +16,12 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.logging.TraceContext.newTimer;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -30,6 +33,11 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.ChangeDraftUpdate;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.update.BatchUpdateListener;
+import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -41,12 +49,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.PushCertificate;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 /**
  * A single delta to apply atomically to a change.
@@ -90,6 +102,113 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
 
   private static Key key(Comment c) {
     return new AutoValue_ChangeDraftNotesUpdate_Key(c.getCommitId(), c.key);
+  }
+
+  static class Executor implements ChangeDraftUpdateExecutor, AutoCloseable {
+    interface Factory extends ChangeDraftUpdateExecutor.AbstractFactory<Executor> {}
+
+    private final GitRepositoryManager repoManager;
+    private final AllUsersName allUsersName;
+    private final NoteDbUpdateExecutor noteDbUpdateExecutor;
+    private final AllUsersAsyncUpdate updateAllUsersAsync;
+    private OpenRepo allUsersRepo;
+    private boolean shouldAllowFastForward = false;
+
+    @Inject
+    Executor(
+        GitRepositoryManager repoManager,
+        AllUsersName allUsersName,
+        NoteDbUpdateExecutor noteDbUpdateExecutor,
+        AllUsersAsyncUpdate updateAllUsersAsync) {
+      this.updateAllUsersAsync = updateAllUsersAsync;
+      this.repoManager = repoManager;
+      this.allUsersName = allUsersName;
+      this.noteDbUpdateExecutor = noteDbUpdateExecutor;
+    }
+
+    @Override
+    public void queueAllDraftUpdates(ListMultimap<String, ChangeDraftUpdate> updaters)
+        throws IOException {
+      ListMultimap<String, ChangeDraftNotesUpdate> noteDbUpdaters =
+          filterTypedUpdaters(
+              updaters, u -> u instanceof ChangeDraftNotesUpdate, u -> (ChangeDraftNotesUpdate) u);
+      boolean canRunAsync = noteDbUpdaters.values().stream().allMatch(u -> u.canRunAsync());
+      if (canRunAsync) {
+        updateAllUsersAsync.setDraftUpdates(noteDbUpdaters);
+      } else {
+        initAllUsersRepoIfNull();
+        shouldAllowFastForward = true;
+        allUsersRepo.addUpdatesNoLimits(noteDbUpdaters);
+      }
+    }
+
+    @Override
+    public void queueDeletionForChangeDrafts(Change.Id id) throws IOException {
+      initAllUsersRepoIfNull();
+      // Just scan repo for ref names, but get "old" values from cmds.
+      for (Ref r :
+          allUsersRepo
+              .repo
+              .getRefDatabase()
+              .getRefsByPrefix(RefNames.refsDraftCommentsPrefix(id))) {
+        Optional<ObjectId> old = allUsersRepo.cmds.get(r.getName());
+        old.ifPresent(
+            objectId ->
+                allUsersRepo.cmds.add(
+                    new ReceiveCommand(objectId, ObjectId.zeroId(), r.getName())));
+      }
+    }
+
+    @Override
+    public Optional<BatchRefUpdate> executeAllSyncUpdates(
+        boolean dryRun,
+        ImmutableList<BatchUpdateListener> batchUpdateListeners,
+        @Nullable PersonIdent refLogIdent,
+        @Nullable String refLogMessage)
+        throws IOException {
+      if (allUsersRepo == null) {
+        return Optional.empty();
+      }
+      try (TraceContext.TraceTimer ignored =
+          newTimer("ChangeDraftNotesUpdate#Executor#updateAllUsersSync", Metadata.empty())) {
+        return noteDbUpdateExecutor.execute(
+            allUsersRepo,
+            dryRun,
+            shouldAllowFastForward,
+            batchUpdateListeners,
+            null,
+            refLogIdent,
+            refLogMessage);
+      }
+    }
+
+    @Override
+    public void executeAllAsyncUpdates(
+        @Nullable PersonIdent refLogIdent,
+        @Nullable String refLogMessage,
+        @Nullable PushCertificate pushCert) {
+      updateAllUsersAsync.execute(refLogIdent, refLogMessage, pushCert);
+    }
+
+    @Override
+    public boolean isEmpty() {
+      return (allUsersRepo == null || allUsersRepo.cmds.isEmpty()) && updateAllUsersAsync.isEmpty();
+    }
+
+    @Override
+    public void close() throws Exception {
+      if (allUsersRepo != null) {
+        OpenRepo r = allUsersRepo;
+        allUsersRepo = null;
+        r.close();
+      }
+    }
+
+    private void initAllUsersRepoIfNull() throws IOException {
+      if (allUsersRepo == null) {
+        allUsersRepo = OpenRepo.open(repoManager, allUsersName);
+      }
+    }
   }
 
   private final AllUsersName draftsProject;
@@ -157,6 +276,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
         });
   }
 
+  @Override
   public boolean canRunAsync() {
     return put.isEmpty()
         && delete.values().stream()
@@ -287,6 +407,11 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
   }
 
   @Override
+  public String getKey() {
+    return getRefName();
+  }
+
+  @Override
   protected void setParentCommit(CommitBuilder cb, ObjectId parentCommitId) {
     cb.setParentIds(); // Draft updates should not keep history of parent commits
   }
@@ -294,16 +419,5 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
   @Override
   public boolean isEmpty() {
     return delete.isEmpty() && put.isEmpty();
-  }
-
-  public static Optional<ChangeDraftNotesUpdate> asChangeDraftNotesUpdate(
-      @Nullable ChangeDraftUpdate obj) {
-    if (obj == null) {
-      return Optional.empty();
-    }
-    if (obj instanceof ChangeDraftNotesUpdate) {
-      return Optional.of((ChangeDraftNotesUpdate) obj);
-    }
-    return Optional.empty();
   }
 }

@@ -51,6 +51,24 @@
       "message": "@dmfilippov@google.com would you please +2 this change? Thanks!",
       "revId": "0d43b7e3e9bd1672d2a8a546371dba8b2dcee6b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee43b4d4_514185f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-07-18T08:20:37Z",
+      "side": 1,
+      "message": "\u003e I also don\u0027t expect any usages in any other Gerrit installations since these operators don\u0027t make sense for submit requirements.\n\nI agree that it will be good to announce this change in the public announcement group and may be wait 2-3 days before submitting.\n\n+2, but please announce and wait before submit.",
+      "parentUuid": "2c423220_18d27dff",
+      "revId": "0d43b7e3e9bd1672d2a8a546371dba8b2dcee6b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

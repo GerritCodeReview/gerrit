@@ -138,6 +138,30 @@
       },
       "revId": "b52fc6f20f39619dd6a9f7752d6dd1c5db26406d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afbdbda4_6e60fb04",
+        "filename": "java/com/google/gerrit/metrics/Field.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-18T07:41:46Z",
+      "side": 1,
+      "message": "Good stuff ! I like simplicity :-)",
+      "parentUuid": "7ef3a5fe_eb181ec7",
+      "range": {
+        "startLine": 164,
+        "startChar": 0,
+        "endLine": 167,
+        "endChar": 49
+      },
+      "revId": "b52fc6f20f39619dd6a9f7752d6dd1c5db26406d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

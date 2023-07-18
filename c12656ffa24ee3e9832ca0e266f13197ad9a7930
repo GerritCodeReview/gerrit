@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9107e32b_14312009",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-07-18T16:19:30Z",
+      "side": 1,
+      "message": "I think this should actually be:\n\n destination:\u0027[name\u003d]NAME[,user\u003dUSER|,group\u003dGROUP]\u0027\n \n(i.e. I don\u0027t think it is legal to specify both a user and a group.)",
+      "range": {
+        "startLine": 131,
+        "startChar": 0,
+        "endLine": 131,
+        "endChar": 52
+      },
+      "revId": "c12656ffa24ee3e9832ca0e266f13197ad9a7930",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "271e0549_8feea248",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3933,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-07-18T16:19:30Z",
+      "side": 1,
+      "message": "Seems like this should perhaps share much more with the test above it?",
+      "range": {
+        "startLine": 3933,
+        "startChar": 14,
+        "endLine": 3933,
+        "endChar": 30
+      },
+      "revId": "c12656ffa24ee3e9832ca0e266f13197ad9a7930",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

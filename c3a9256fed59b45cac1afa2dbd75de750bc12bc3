@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c7e78960_d33d4be1",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ApplyPatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-07-18T04:24:17Z",
+      "side": 1,
+      "message": "Since this is already concise, straightforward and readable, I don\u0027t see much value in abstracting away the builder steps. Also by encapsulating this we might be losing on flexibility as user might need to add some additional steps to the builder while creating an account in future. WDYT ?",
+      "parentUuid": "f5d5fd2c_d833df0e",
+      "range": {
+        "startLine": 100,
+        "startChar": 26,
+        "endLine": 100,
+        "endChar": 91
+      },
+      "revId": "c3a9256fed59b45cac1afa2dbd75de750bc12bc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "065f9733_2c8ca1a3",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ApplyPatchIT.java",
         "patchSetId": 1

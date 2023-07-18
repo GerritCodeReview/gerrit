@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -30,6 +31,7 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.ChangeDraftUpdate;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -39,7 +41,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -82,14 +83,44 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
     abstract Comment.Key key();
   }
 
+  private static Key key(Comment c) {
+    return new AutoValue_ChangeDraftNotesUpdate_Key(c.getCommitId(), c.key);
+  }
+
   enum DeleteReason {
     DELETED,
     PUBLISHED,
     FIXED
   }
 
-  private static Key key(Comment c) {
-    return new AutoValue_ChangeDraftNotesUpdate_Key(c.getCommitId(), c.key);
+  @Singleton
+  static class Executor implements ChangeDraftUpdateExecutor<ChangeDraftNotesUpdate> {
+    static class Params extends ChangeDraftUpdateExecutor.ExecutorParams {
+      private final AllUsersAsyncUpdate updateAllUsersAsync;
+      private final OpenRepo allUsersRepo;
+
+      Params(AllUsersAsyncUpdate updateAllUsersAsync, OpenRepo allUsersRepo) {
+        this.updateAllUsersAsync = updateAllUsersAsync;
+        this.allUsersRepo = allUsersRepo;
+      }
+    }
+
+    @Override
+    public void executeAll(
+        ListMultimap<String, ChangeDraftNotesUpdate> updaters, ExecutorParams executorParams)
+        throws IOException {
+      checkState(
+          executorParams instanceof Params,
+          "ChangeDraftNotesUpdate::Executor::executeAll was called with the wrong parameters.");
+      Params params = (Params) executorParams;
+      boolean canRunAsync =
+          updaters.values().stream().allMatch(ChangeDraftNotesUpdate::canRunAsync);
+      if (canRunAsync) {
+        params.updateAllUsersAsync.setDraftUpdates(updaters);
+      } else {
+        params.allUsersRepo.addUpdatesNoLimits(updaters);
+      }
+    }
   }
 
   private final AllUsersName draftsProject;
@@ -287,6 +318,11 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
   }
 
   @Override
+  public String getKey() {
+    return getRefName();
+  }
+
+  @Override
   protected void setParentCommit(CommitBuilder cb, ObjectId parentCommitId) {
     cb.setParentIds(); // Draft updates should not keep history of parent commits
   }
@@ -294,16 +330,5 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
   @Override
   public boolean isEmpty() {
     return delete.isEmpty() && put.isEmpty();
-  }
-
-  public static Optional<ChangeDraftNotesUpdate> asChangeDraftNotesUpdate(
-      @Nullable ChangeDraftUpdate obj) {
-    if (obj == null) {
-      return Optional.empty();
-    }
-    if (obj instanceof ChangeDraftNotesUpdate) {
-      return Optional.of((ChangeDraftNotesUpdate) obj);
-    }
-    return Optional.empty();
   }
 }

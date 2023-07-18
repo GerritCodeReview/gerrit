@@ -49,6 +49,9 @@ public class NoteDbModule extends FactoryModule {
     factory(RobotCommentUpdate.Factory.class);
     bind(StarredChangesUtil.class).to(StarredChangesUtilNoteDbImpl.class).in(Singleton.class);
     bind(DraftCommentsReader.class).to(DraftCommentsNotesReader.class).in(Singleton.class);
+    bind(ChangeDraftUpdateExecutor.class)
+        .to(ChangeDraftNotesUpdate.Executor.class)
+        .in(Singleton.class);
 
     if (!useTestBindings) {
       install(ChangeNotesCache.module());

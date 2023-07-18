@@ -55,6 +55,7 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.server.ChangeDraftUpdate;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.IdentifiedUser;
@@ -3462,13 +3463,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     // Re-add draft version of comment2 back to draft ref without updating
     // change ref. Simulates the case where deleting the draft failed
     // non-atomically after adding the published comment succeeded.
-    Optional<ChangeDraftNotesUpdate> draftUpdate =
-        ChangeDraftNotesUpdate.asChangeDraftNotesUpdate(
-            newUpdate(c, otherUser).createDraftUpdateIfNull());
-    if (draftUpdate.isPresent()) {
-      draftUpdate.get().putDraftComment(comment2);
+    ChangeDraftUpdate draftUpdate = newUpdate(c, otherUser).createDraftUpdateIfNull();
+    if (draftUpdate != null) {
+      draftUpdate.putDraftComment(comment2);
       try (NoteDbUpdateManager manager = updateManagerFactory.create(c.getProject())) {
-        manager.add(draftUpdate.get());
+        manager.add(draftUpdate);
         testRefAction(() -> manager.execute());
       }
     }

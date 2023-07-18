@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.notedb;
 
-import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
@@ -33,9 +32,8 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.ProjectChangeKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.metrics.Timer0;
-import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.ChangeDraftUpdate;
 import com.google.gerrit.server.cancellation.RequestStateContext;
 import com.google.gerrit.server.cancellation.RequestStateContext.NonCancellableOperationContext;
 import com.google.gerrit.server.config.AllUsersName;
@@ -46,7 +44,6 @@ import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.update.BatchUpdateListener;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Collection;
@@ -60,7 +57,6 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
@@ -84,7 +80,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
     NoteDbUpdateManager create(Project.NameKey projectName);
   }
 
-  private final Provider<PersonIdent> serverIdent;
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
   private final NoteDbMetrics metrics;
@@ -92,37 +87,38 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private final int maxUpdates;
   private final int maxPatchSets;
   private final ListMultimap<String, ChangeUpdate> changeUpdates;
-  private final ListMultimap<String, ChangeDraftNotesUpdate> draftUpdates;
+  private final ListMultimap<String, ChangeDraftUpdate> draftUpdates;
+  private final NoteDbUpdateExecutor noteDbUpdateExecutor;
+  private final ChangeDraftUpdateExecutor.AbstractFactory draftUpdatesExecutorFactory;
   private final ListMultimap<String, RobotCommentUpdate> robotCommentUpdates;
   private final ListMultimap<String, NoteDbRewriter> rewriters;
   private final Set<Change.Id> changesToDelete;
 
   private OpenRepo changeRepo;
-  private OpenRepo allUsersRepo;
-  private AllUsersAsyncUpdate updateAllUsersAsync;
   private boolean executed;
   private String refLogMessage;
   private PersonIdent refLogIdent;
   private PushCertificate pushCert;
   private ImmutableList<BatchUpdateListener> batchUpdateListeners;
+  private ChangeDraftUpdateExecutor draftUpdatesExecutor;
 
   @Inject
   NoteDbUpdateManager(
       @GerritServerConfig Config cfg,
-      @GerritPersonIdent Provider<PersonIdent> serverIdent,
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
       NoteDbMetrics metrics,
-      AllUsersAsyncUpdate updateAllUsersAsync,
-      @Assisted Project.NameKey projectName) {
-    this.serverIdent = serverIdent;
+      @Assisted Project.NameKey projectName,
+      NoteDbUpdateExecutor noteDbUpdateExecutor,
+      ChangeDraftUpdateExecutor.AbstractFactory draftUpdatesExecutorFactory) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
     this.metrics = metrics;
-    this.updateAllUsersAsync = updateAllUsersAsync;
     this.projectName = projectName;
     maxUpdates = cfg.getInt("change", null, "maxUpdates", MAX_UPDATES_DEFAULT);
     maxPatchSets = cfg.getInt("change", null, "maxPatchSets", MAX_PATCH_SETS_DEFAULT);
+    this.noteDbUpdateExecutor = noteDbUpdateExecutor;
+    this.draftUpdatesExecutorFactory = draftUpdatesExecutorFactory;
     changeUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     draftUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     robotCommentUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
@@ -133,18 +129,10 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
   @Override
   public void close() {
-    try {
-      if (allUsersRepo != null) {
-        OpenRepo r = allUsersRepo;
-        allUsersRepo = null;
-        r.close();
-      }
-    } finally {
-      if (changeRepo != null) {
-        OpenRepo r = changeRepo;
-        changeRepo = null;
-        r.close();
-      }
+    if (changeRepo != null) {
+      OpenRepo r = changeRepo;
+      changeRepo = null;
+      r.close();
     }
   }
 
@@ -201,12 +189,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
     }
   }
 
-  private void initAllUsersRepo() throws IOException {
-    if (allUsersRepo == null) {
-      allUsersRepo = OpenRepo.open(repoManager, allUsersName);
-    }
-  }
-
   private boolean isEmpty() {
     return changeUpdates.isEmpty()
         && draftUpdates.isEmpty()
@@ -214,8 +196,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
         && rewriters.isEmpty()
         && changesToDelete.isEmpty()
         && !hasCommands(changeRepo)
-        && !hasCommands(allUsersRepo)
-        && updateAllUsersAsync.isEmpty();
+        && draftUpdatesExecutor.isEmpty();
   }
 
   private static boolean hasCommands(@Nullable OpenRepo or) {
@@ -242,10 +223,9 @@ public class NoteDbUpdateManager implements AutoCloseable {
         "cannot update & rewrite ref %s in one BatchUpdate",
         update.getRefName());
 
-    Optional<ChangeDraftNotesUpdate> du =
-        ChangeDraftNotesUpdate.asChangeDraftNotesUpdate(update.getDraftUpdate());
-    if (du.isPresent()) {
-      draftUpdates.put(du.get().getRefName(), du.get());
+    ChangeDraftUpdate du = update.getDraftUpdate();
+    if (du != null) {
+      draftUpdates.put(du.getKey(), du);
     }
     RobotCommentUpdate rcu = update.getRobotCommentUpdate();
     if (rcu != null) {
@@ -283,9 +263,9 @@ public class NoteDbUpdateManager implements AutoCloseable {
     changeUpdates.put(update.getRefName(), update);
   }
 
-  public void add(ChangeDraftNotesUpdate draftUpdate) {
+  public void add(ChangeDraftUpdate draftUpdate) {
     checkNotExecuted();
-    draftUpdates.put(draftUpdate.getRefName(), draftUpdate);
+    draftUpdates.put(draftUpdate.getKey(), draftUpdate);
   }
 
   public void deleteChange(Change.Id id) {
@@ -306,7 +286,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
       initChangeRepo();
       if (!draftUpdates.isEmpty() || !changesToDelete.isEmpty()) {
-        initAllUsersRepo();
+        draftUpdatesExecutor = draftUpdatesExecutorFactory.create();
       }
       addCommands();
     }
@@ -329,7 +309,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
         NonCancellableOperationContext nonCancellableOperationContext =
             RequestStateContext.startNonCancellableOperation()) {
       stage();
-      // ChangeUpdates must execute before ChangeDraftNotesUpdates.
+      // ChangeUpdates must execute before ChangeDrafUpdates.
       //
       // ChangeUpdate will automatically delete draft comments for any published
       // comments, but the updates to the two repos don't happen atomically.
@@ -341,16 +321,20 @@ public class NoteDbUpdateManager implements AutoCloseable {
           newTimer("NoteDbUpdateManager#updateRepo", Metadata.empty())) {
         execute(changeRepo, dryrun, pushCert).ifPresent(bru -> resultBuilder.put(projectName, bru));
       }
-      try (TraceContext.TraceTimer ignored =
-          newTimer("NoteDbUpdateManager#updateAllUsersSync", Metadata.empty())) {
-        execute(allUsersRepo, dryrun, null).ifPresent(bru -> resultBuilder.put(allUsersName, bru));
-      }
-      if (!dryrun) {
-        // Only execute the asynchronous operation if we are not in dry-run mode: The dry run would
-        // have to run synchronous to be of any value at all. For the removal of draft comments from
-        // All-Users we don't care much of the operation succeeds, so we are skipping the dry run
-        // altogether.
-        updateAllUsersAsync.execute(refLogIdent, refLogMessage, pushCert);
+
+      if (draftUpdatesExecutor != null) {
+        draftUpdatesExecutor
+            .executeAllSyncUpdates(dryrun, batchUpdateListeners, refLogIdent, refLogMessage)
+            .ifPresent(bru -> resultBuilder.put(allUsersName, bru));
+        if (!dryrun) {
+          // Only execute the asynchronous operation if we are not in dry-run mode: The dry run
+          // would
+          // have to run synchronous to be of any value at all. For the removal of draft comments
+          // from
+          // All-Users we don't care much of the operation succeeds, so we are skipping the dry run
+          // altogether.
+          draftUpdatesExecutor.executeAllAsyncUpdates(refLogIdent, refLogMessage, pushCert);
+        }
       }
       executed = true;
       return resultBuilder.build();
@@ -369,49 +353,20 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
   private Optional<BatchRefUpdate> execute(
       OpenRepo or, boolean dryrun, @Nullable PushCertificate pushCert) throws IOException {
-    if (or == null || or.cmds.isEmpty()) {
-      return Optional.empty();
-    }
-    if (!dryrun) {
-      or.flush();
-    } else {
-      // OpenRepo buffers objects separately; caller may assume that objects are available in the
-      // inserter it previously passed via setChangeRepo.
-      or.flushToFinalInserter();
-    }
-
-    BatchRefUpdate bru = or.repo.getRefDatabase().newBatchUpdate();
-    bru.setPushCertificate(pushCert);
-    if (refLogMessage != null) {
-      bru.setRefLogMessage(refLogMessage, false);
-    } else {
-      bru.setRefLogMessage(
-          firstNonNull(NoteDbUtil.guessRestApiHandler(), "Update NoteDb refs"), false);
-    }
-    bru.setRefLogIdent(refLogIdent != null ? refLogIdent : serverIdent.get());
-    bru.setAtomic(true);
-    or.cmds.addTo(bru);
-    bru.setAllowNonFastForwards(allowNonFastForwards(or.cmds));
-    for (BatchUpdateListener listener : batchUpdateListeners) {
-      bru = listener.beforeUpdateRefs(bru);
-    }
-
-    if (!dryrun) {
-      RefUpdateUtil.executeChecked(bru, or.rw);
-    }
-    return Optional.of(bru);
+    return noteDbUpdateExecutor.execute(
+        or,
+        dryrun,
+        allowNonFastForwards(),
+        batchUpdateListeners,
+        pushCert,
+        refLogIdent,
+        refLogMessage);
   }
 
   private void addCommands() throws IOException {
     changeRepo.addUpdates(changeUpdates, Optional.of(maxUpdates), Optional.of(maxPatchSets));
     if (!draftUpdates.isEmpty()) {
-      boolean publishOnly =
-          draftUpdates.values().stream().allMatch(ChangeDraftNotesUpdate::canRunAsync);
-      if (publishOnly) {
-        updateAllUsersAsync.setDraftUpdates(draftUpdates);
-      } else {
-        allUsersRepo.addUpdatesNoLimits(draftUpdates);
-      }
+      draftUpdatesExecutor.queueAllDraftUpdates(draftUpdates);
     }
     if (!robotCommentUpdates.isEmpty()) {
       changeRepo.addUpdatesNoLimits(robotCommentUpdates);
@@ -431,14 +386,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     old.ifPresent(
         objectId -> changeRepo.cmds.add(new ReceiveCommand(objectId, ObjectId.zeroId(), metaRef)));
 
-    // Just scan repo for ref names, but get "old" values from cmds.
-    for (Ref r :
-        allUsersRepo.repo.getRefDatabase().getRefsByPrefix(RefNames.refsDraftCommentsPrefix(id))) {
-      old = allUsersRepo.cmds.get(r.getName());
-      old.ifPresent(
-          objectId ->
-              allUsersRepo.cmds.add(new ReceiveCommand(objectId, ObjectId.zeroId(), r.getName())));
-    }
+    draftUpdatesExecutor.queueDeletionForChangeDrafts(id);
   }
 
   private void checkNotExecuted() {
@@ -490,10 +438,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
    * <p>Note that we don't need to explicitly allow non fast-forward updates for DELETE commands
    * since JGit forces the update implicitly in this case.
    */
-  private boolean allowNonFastForwards(ChainedReceiveCommands receiveCommands) {
-    return !draftUpdates.isEmpty()
-        || !rewriters.isEmpty()
-        || receiveCommands.getCommands().values().stream()
-            .anyMatch(cmd -> cmd.getType().equals(ReceiveCommand.Type.UPDATE_NONFASTFORWARD));
+  private boolean allowNonFastForwards() {
+    return !draftUpdates.isEmpty() || !rewriters.isEmpty();
   }
 }

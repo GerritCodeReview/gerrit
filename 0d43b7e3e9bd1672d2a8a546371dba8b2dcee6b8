@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "baab39ab_90f3cf48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-07-18T20:38:02Z",
+      "side": 1,
+      "message": "My inclination is that someone might want rules with these last 4.",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 9
+      },
+      "revId": "0d43b7e3e9bd1672d2a8a546371dba8b2dcee6b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b5e72a25_d6e257b3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5

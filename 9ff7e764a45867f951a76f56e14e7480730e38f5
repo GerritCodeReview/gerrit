@@ -117,6 +117,30 @@
       },
       "revId": "9ff7e764a45867f951a76f56e14e7480730e38f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49ee295b_9227da9e",
+        "filename": "java/com/google/gerrit/metrics/dropwizard/CallbackMetricImpl1.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-18T06:12:26Z",
+      "side": 1,
+      "message": "Checked",
+      "parentUuid": "0466d41b_307ebca9",
+      "range": {
+        "startLine": 105,
+        "startChar": 8,
+        "endLine": 105,
+        "endChar": 45
+      },
+      "revId": "9ff7e764a45867f951a76f56e14e7480730e38f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -390,6 +390,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ab3e9fb9_48addae8",
+        "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-07-18T22:58:59Z",
+      "side": 1,
+      "message": "How about returning an `Optional` instead, i.e return `Optional.empty()` if the email is not valid? You can then use it like:\n\n`identifiedUser.newCommitterIdent(email, when, zoneId).orElseGet(\n  () -\u003e identifiedUser.newCommitterIdent(when, zoneId))`",
+      "parentUuid": "61645569_0875ea4a",
+      "range": {
+        "startLine": 515,
+        "startChar": 4,
+        "endLine": 516,
+        "endChar": 91
+      },
+      "revId": "5e3f72ca8ada4146d59db5a9412449716111e060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "600f7e03_21cf345e",
         "filename": "java/com/google/gerrit/server/update/Context.java",
         "patchSetId": 1

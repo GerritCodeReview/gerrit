@@ -69,6 +69,24 @@
       "parentUuid": "732329a9_33f5a5f1",
       "revId": "2c7ef9e5c996cf740471bac21d92d2d46fc9da2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "241ef236_c1458923",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-07-19T07:13:48Z",
+      "side": 1,
+      "message": "Talking to yourself? ;-)",
+      "parentUuid": "20857df6_be6f660f",
+      "revId": "2c7ef9e5c996cf740471bac21d92d2d46fc9da2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

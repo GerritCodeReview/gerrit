@@ -77,6 +77,7 @@ import {
  * The AppContext lazy initializator for all services
  */
 export function createAppContext(): AppContext & Finalizable {
+  const flagService = new FlagsServiceImplementation();
   const appRegistry: Registry<AppContext> = {
     flagsService: (_ctx: Partial<AppContext>) =>
       new FlagsServiceImplementation(),

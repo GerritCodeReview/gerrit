@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af7f8d05_8d00bb2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-19T18:48:02Z",
+      "side": 1,
+      "message": "Post-merge -1: this broke the Gerrit build.\n\nLooking at its validation [1] it doesn\u0027t seem to run a basic build validation, but just running tests, which may not be enough to make sure that the build is successful.\n\nHow should we proceed from here? Should we put back the Gerrit-CI validation for PolyGerrit changes (only the build part, not running the tests) until we complete the LUCI validation with the build step as well?\n\n[1] https://ci.chromium.org/ui/p/gerrit/builders/try/Verify%20gerrit%20CL/b8775136621048500449/overview",
+      "revId": "ace0b336a15646f15d2d69f7e1b1105cb2263aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

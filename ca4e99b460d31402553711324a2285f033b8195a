@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ebf982e_3b010d65",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-07-19T15:17:10Z",
+      "side": 1,
+      "message": "Note: this change might require a small adaptation when imported.",
+      "revId": "ca4e99b460d31402553711324a2285f033b8195a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c838f1b4_b9174e1b",
+        "filename": "java/com/google/gerrit/server/DeleteZombieComments.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-07-19T15:17:10Z",
+      "side": 1,
+      "message": "can this be made private? Otherwise (if it\u0027s only invoked from child) then we can move it to child class.",
+      "range": {
+        "startLine": 145,
+        "startChar": 2,
+        "endLine": 145,
+        "endChar": 11
+      },
+      "revId": "ca4e99b460d31402553711324a2285f033b8195a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03546af4_5cbad794",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-07-19T15:17:10Z",
+      "side": 1,
+      "message": "Please add javadocs.",
+      "revId": "ca4e99b460d31402553711324a2285f033b8195a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b6a84a4_7956d773",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-07-19T15:17:10Z",
+      "side": 1,
+      "message": "nit: you could move all overridden methods to the top (before private methods).",
+      "revId": "ca4e99b460d31402553711324a2285f033b8195a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

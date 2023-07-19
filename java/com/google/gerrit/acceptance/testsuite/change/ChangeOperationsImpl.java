@@ -396,7 +396,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
   }
 
   private static <T> ImmutableList<T> asImmutableList(Optional<T> value) {
-    return Streams.stream(value).collect(toImmutableList());
+    return value.stream().collect(toImmutableList());
   }
 
   private static TreeCreator getTreeCreator(

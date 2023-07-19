@@ -192,7 +192,7 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
     private ImmutableSet<String> getOldAndNewPaths(List<ModifiedFile> files) {
       return files.stream()
           .flatMap(
-              file -> Stream.concat(Streams.stream(file.oldPath()), Streams.stream(file.newPath())))
+              file -> Stream.concat(file.oldPath().stream(), file.newPath().stream()))
           .collect(ImmutableSet.toImmutableSet());
     }
 

@@ -174,7 +174,7 @@ public class WebLinks {
     if (Patch.isMagic(file)) {
       return ImmutableList.of();
     }
-    return Streams.stream(fileHistoryLinks)
+    return fileHistoryLinks.stream()
         .map(webLink -> webLink.getFileHistoryWebLink(project, revision, file))
         .filter(WebLinks::isValid)
         .collect(toImmutableList());
@@ -203,7 +203,7 @@ public class WebLinks {
     if (Patch.isMagic(fileA) || Patch.isMagic(fileB)) {
       return ImmutableList.of();
     }
-    return Streams.stream(diffLinks)
+    return diffLinks.stream()
         .map(
             webLink ->
                 webLink.getDiffLink(
@@ -250,7 +250,7 @@ public class WebLinks {
 
   private <T extends WebLink> ImmutableList<WebLinkInfo> filterLinks(
       DynamicSet<T> links, Function<T, WebLinkInfo> transformer) {
-    return Streams.stream(links)
+    return links.stream()
         .map(transformer)
         .filter(WebLinks::isValid)
         .collect(toImmutableList());

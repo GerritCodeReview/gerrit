@@ -369,20 +369,20 @@ public class ReplaceOp implements BatchUpdateOp {
     // bulk new change email.
     Stream<ReviewerInput> inputs =
         Streams.concat(
-            Streams.stream(
-                newReviewerInputFromCommitIdentity(
-                    change,
-                    psInfo.getCommitId(),
-                    psInfo.getAuthor().getAccount(),
-                    NotifyHandling.NONE,
-                    newPatchSet.uploader())),
-            Streams.stream(
-                newReviewerInputFromCommitIdentity(
-                    change,
-                    psInfo.getCommitId(),
-                    psInfo.getCommitter().getAccount(),
-                    NotifyHandling.NONE,
-                    newPatchSet.uploader())));
+            newReviewerInputFromCommitIdentity(
+                change,
+                psInfo.getCommitId(),
+                psInfo.getAuthor().getAccount(),
+                NotifyHandling.NONE,
+                newPatchSet.uploader())
+                .stream(),
+            newReviewerInputFromCommitIdentity(
+                change,
+                psInfo.getCommitId(),
+                psInfo.getCommitter().getAccount(),
+                NotifyHandling.NONE,
+                newPatchSet.uploader())
+                .stream());
     if (magicBranch != null) {
       inputs =
           Streams.concat(

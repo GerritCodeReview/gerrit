@@ -13,11 +13,13 @@
 // limitations under the License.
 package com.google.gerrit.server.restapi.group;
 
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.CachedProjectConfig;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.DeleteGroupInput;
 import com.google.gerrit.extensions.common.GroupInfo;
@@ -46,6 +48,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+@RequiresCapability(GlobalCapability.DELETE_GROUP)
 @Singleton
 public class DeleteGroup implements RestModifyView<GroupResource, DeleteGroupInput> {
   private final Provider<ListGroups> listGroupProvider;

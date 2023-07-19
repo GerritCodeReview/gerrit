@@ -48,7 +48,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
-@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
+@RequiresCapability(GlobalCapability.DELETE_GROUP)
 @Singleton
 public class DeleteGroup implements RestModifyView<GroupResource, DeleteGroupInput> {
   private final Provider<ListGroups> listGroupProvider;

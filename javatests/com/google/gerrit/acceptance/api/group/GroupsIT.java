@@ -57,6 +57,7 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.auth.ldap.FakeLdapGroupBackend;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupReference;
@@ -825,11 +826,53 @@ public class GroupsIT extends AbstractDaemonTest {
     groupInput.name = name;
     groupInput.visibleToAll = true;
     gApi.groups().create(groupInput);
+
     requestScopeOperations.setApiUser(user.id());
     Throwable exception = assertThrows(AuthException.class, () -> gApi.groups().id(name).delete());
     assertThat(exception.getMessage()).isEqualTo("administrate server not permitted");
   }
 
+
+  @Test
+  public void nonAdminGrantedCapabilityToDeleteGroup() throws Exception {
+    String name = name("groupToDelete");
+    GroupInput groupInput = new GroupInput();
+    groupInput.name = name;
+    groupInput.visibleToAll = true;
+    gApi.groups().create(groupInput);
+    ProjectAccessInput accessInput = newProjectAccessInput();
+    AccessSectionInfo accessSectionInfo = createDefaultGlobalCapabilitiesAccessSectionInfo();
+    accessInput.add.put(AccessSection.GLOBAL_CAPABILITIES, accessSectionInfo);
+    gApi.projects().name(allProjects.get()).access(accessInput);
+    requestScopeOperations.setApiUser(user.id());
+    gApi.groups().id(name).delete();
+    assertGroupDoesNotExist(name);
+  }
+  private AccessSectionInfo createDefaultGlobalCapabilitiesAccessSectionInfo() {
+    AccessSectionInfo accessSection = newAccessSectionInfo();
+    PermissionInfo deleteGroup = newPermissionInfo();
+    PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
+    deleteGroup.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), pri);
+    accessSection.permissions.put(GlobalCapability.DELETE_GROUP, deleteGroup);
+    return accessSection;
+  }
+  private AccessSectionInfo newAccessSectionInfo() {
+    AccessSectionInfo a = new AccessSectionInfo();
+    a.permissions = new HashMap<>();
+    return a;
+  }
+  private ProjectAccessInput newProjectAccessInput() {
+    ProjectAccessInput p = new ProjectAccessInput();
+    p.add = new HashMap<>();
+    p.remove = new HashMap<>();
+    return p;
+  }
+  private PermissionInfo newPermissionInfo() {
+    PermissionInfo p = new PermissionInfo(null, null);
+    p.rules = new HashMap<>();
+    return p;
+  }
+  
   @Test
   public void groupDescription() throws Exception {
     String name = name("group");

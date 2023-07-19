@@ -14,11 +14,13 @@
 package com.google.gerrit.server.restapi.group;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.CachedProjectConfig;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.NameInput;
@@ -47,6 +49,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+@RequiresCapability(GlobalCapability.CREATE_GROUP)
 @Singleton
 public class DeleteGroup implements RestModifyView<GroupResource, NameInput> {
   private final Provider<ListGroups> listGroupProvider;
@@ -85,7 +88,7 @@ public class DeleteGroup implements RestModifyView<GroupResource, NameInput> {
     GroupDescription.Internal internalGroup =
         resource.asInternalGroup().orElseThrow(NotInternalGroupException::new);
     groupDeletionPrecondition(internalGroup);
-    if (input != null && !Strings.isNullOrEmpty(input.name)) {
+    if (input != null && !Strings.isNullOrEmpty(input.name) && internalGroup.getName().equals(input.name)) {
       deleteGroup(internalGroup);
       return Response.ok();
     }

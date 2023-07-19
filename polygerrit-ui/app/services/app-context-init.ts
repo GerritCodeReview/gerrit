@@ -77,20 +77,22 @@ import {
  * The AppContext lazy initializator for all services
  */
 export function createAppContext(): AppContext & Finalizable {
-  const appRegistry: Registry<AppContext> = {
-    flagsService: (_ctx: Partial<AppContext>) =>
-      new FlagsServiceImplementation(),
-    reportingService: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.flagsService, 'flagsService)');
-      return new GrReporting(ctx.flagsService);
-    },
-    authService: (_ctx: Partial<AppContext>) => new Auth(),
-    restApiService: (ctx: Partial<AppContext>) => {
-      assertIsDefined(ctx.authService, 'authService');
-      return new GrRestApiServiceImpl(ctx.authService);
-    },
+  const flagService = new FlagsServiceImplementation();
+  const reportingService = new GrReporting(ctx.flagsService);
+  const authService = new Auth();
+  const restApiService = new GrRestApiServiceImpl(authService);
+  return {
+    flagService,
+    reportingService,
+    authService,
+    restApiService,
+    finalize: () => {
+      reportingService.finalize();
+      restApiService.finalize();
+      authService.finalize();
+      flagService.finalize();
+    }
   };
-  return create<AppContext>(appRegistry);
 }
 
 export type Creator<T> = () => T & Finalizable;

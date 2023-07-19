@@ -14,11 +14,11 @@ export function deepEqual<T>(a: T, b: T): boolean {
   // equal as long as all non-recursive pairs are equal, ie. given an infinite
   // traversal we would've never reached a pair of values that are not equal to
   // each other.
-  const onStackValuePair = new Map();
+  const onStackValuePair = new Map<unknown, Set<unknown>>();
   // Cache of compared object instances. This allows as to avoid comparing same
   // pair of large objects repeatedly in cases where the reference to the same
   // object is stored in many different attributes in the tree.
-  const equalValues = new Map();
+  const equalValues = new Map<unknown, Set<unknown>>();
   function deepEqualImpl(a: unknown, b: unknown) {
     if (a === b) return true;
     if (a === undefined || b === undefined) return false;

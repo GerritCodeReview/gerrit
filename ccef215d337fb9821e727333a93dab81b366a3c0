@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3e183c0_21ac0d34",
+        "filename": "Documentation/config-groups.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-07-19T16:00:00Z",
+      "side": 1,
+      "message": "Ack, removed.",
+      "parentUuid": "612b6187_9e12e523",
+      "range": {
+        "startLine": 97,
+        "startChar": 42,
+        "endLine": 97,
+        "endChar": 43
+      },
+      "revId": "ccef215d337fb9821e727333a93dab81b366a3c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11d07180_7886a092",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-07-19T15:30:19Z",
       "side": 1,
       "message": "Instead of having 2 caches (one for user, one for groups), perhaps it makes more sense to cache these be BranchNameKey?",
+      "range": {
+        "startLine": 1569,
+        "startChar": 6,
+        "endLine": 1569,
+        "endChar": 28
+      },
+      "revId": "ccef215d337fb9821e727333a93dab81b366a3c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa00a06d_aadf5b36",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1569,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-07-19T16:00:00Z",
+      "side": 1,
+      "message": "Nice suggestion! Done.",
+      "parentUuid": "11d07180_7886a092",
       "range": {
         "startLine": 1569,
         "startChar": 6,

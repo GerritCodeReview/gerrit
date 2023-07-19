@@ -16,6 +16,24 @@
       "message": "We at typo3.org are suffering from broken displayNames after our recent change from LDAP to SAML authentication. I was hoping this change would make it into 3.7.4 - could you please consider this issue as more urgent? As the names of committers are saved to our git repository with broken chars currently.",
       "revId": "0d94e54dc911809291befb85eb572696b2738b00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c49c027_f2164a3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-19T10:22:51Z",
+      "side": 1,
+      "message": "I don\u0027t believe this change will be merged as-is: the issue is that the SAML plugin uses an HTTP header with UTF-8 content, which is a non-standard option.",
+      "parentUuid": "870533aa_229fc371",
+      "revId": "0d94e54dc911809291befb85eb572696b2738b00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

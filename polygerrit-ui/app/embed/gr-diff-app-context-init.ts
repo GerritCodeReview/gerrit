@@ -3,11 +3,12 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {create, Registry, Finalizable} from '../services/registry';
+import {Finalizable} from '../services/registry';
 import {AppContext} from '../services/app-context';
 import {AuthService} from '../services/gr-auth/gr-auth';
 import {FlagsService} from '../services/flags/flags';
 import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock';
+import {grRestApiMock} from '../test/mocks/gr-rest-api_mock';
 
 class MockFlagsService implements FlagsService {
   isEnabled() {
@@ -53,16 +54,20 @@ class MockAuthService implements AuthService {
 // This is a temporary solution
 // TODO(dmfilippov): find a better solution for gr-diff
 export function createDiffAppContext(): AppContext & Finalizable {
-  const appRegistry: Registry<AppContext> = {
-    flagsService: (_ctx: Partial<AppContext>) => new MockFlagsService(),
-    authService: (_ctx: Partial<AppContext>) => new MockAuthService(),
-    reportingService: (_ctx: Partial<AppContext>) => grReportingMock,
-    eventEmitter: (_ctx: Partial<AppContext>) => {
-      throw new Error('eventEmitter is not implemented');
-    },
-    restApiService: (_ctx: Partial<AppContext>) => {
-      throw new Error('restApiService is not implemented');
+  const flagsService = new MockFlagsService();
+  const reportingService = grReportingMock;
+  const authService = new MockAuthService();
+  const restApiService = grRestApiMock;
+  return {
+    flagsService,
+    reportingService,
+    authService,
+    restApiService,
+    finalize: () => {
+      reportingService.finalize();
+      restApiService.finalize();
+      authService.finalize();
+      flagsService.finalize();
     },
   };
-  return create<AppContext>(appRegistry);
 }

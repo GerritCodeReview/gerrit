@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1b249056_af678a12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-07-19T09:19:35Z",
+      "side": 1,
+      "message": "Thanks for the feedback. Why/how do you think these operators will be useful?\n\n`is:owner` \u003d if the user **who\u0027s calling the rest API** is the owner of the change, then this operator will be true. I\u0027m not sure how it\u0027s going to work in this case, but I believe that only owner will get a \u0027submittable\u0027 state and will be allowed to click on the submit button.\n\nIMO, SRs are not intended to be used this way. Also submit actions are controlled by the project\u0027s \u0027submit\u0027 permissions.",
+      "parentUuid": "baab39ab_90f3cf48",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 9
+      },
+      "revId": "0d43b7e3e9bd1672d2a8a546371dba8b2dcee6b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b5e72a25_d6e257b3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5

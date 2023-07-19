@@ -51,6 +51,7 @@ public class CapabilityCollection {
   public final ImmutableList<PermissionRule> readAs;
   public final ImmutableList<PermissionRule> queryLimit;
   public final ImmutableList<PermissionRule> createGroup;
+  public final ImmutableList<PermissionRule> deleteGroup;
 
   @Inject
   CapabilityCollection(
@@ -100,6 +101,7 @@ public class CapabilityCollection {
     readAs = getPermission(GlobalCapability.READ_AS);
     queryLimit = getPermission(GlobalCapability.QUERY_LIMIT);
     createGroup = getPermission(GlobalCapability.CREATE_GROUP);
+    deleteGroup = getPermission(GlobalCapability.DELETE_GROUP);
   }
 
   private static List<PermissionRule> mergeAdmin(

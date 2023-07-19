@@ -16,6 +16,24 @@
       "message": "Not sure why they were separate before, possibly at Google there is a non-dropwizard metric system? @Patrick can you double-check?",
       "revId": "06c11877a9e3ad077445400528e9b4cb9fb8f2b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "952a7877_02989f33",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-07-19T07:15:07Z",
+      "side": 1,
+      "message": "Correct. We skip dropwizard when we import the source. Please leave this as-is if you can. Thanks.",
+      "parentUuid": "113bab5f_66fee9b6",
+      "revId": "06c11877a9e3ad077445400528e9b4cb9fb8f2b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

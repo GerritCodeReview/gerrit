@@ -5,7 +5,7 @@
  */
 
 // Init app context before any other imports
-import {Finalizable} from '../services/registry';
+import {create, Registry, Finalizable} from '../services/registry';
 import {AppContext} from '../services/app-context';
 import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock';
 import {grRestApiMock} from './mocks/gr-rest-api_mock';
@@ -24,22 +24,14 @@ import {
 } from '../embed/diff/gr-diff-model/gr-diff-model';
 
 export function createTestAppContext(): AppContext & Finalizable {
-  const flagsService = new FlagsServiceImplementation();
-  const reportingService = grReportingMock;
-  const authService = new GrAuthMock();
-  const restApiService = grRestApiMock;
-  return {
-    flagsService,
-    reportingService,
-    authService,
-    restApiService,
-    finalize: () => {
-      reportingService.finalize();
-      restApiService.finalize();
-      authService.finalize();
-      flagsService.finalize();
-    },
+  const appRegistry: Registry<AppContext> = {
+    flagsService: (_ctx: Partial<AppContext>) =>
+      new FlagsServiceImplementation(),
+    reportingService: (_ctx: Partial<AppContext>) => grReportingMock,
+    authService: (_ctx: Partial<AppContext>) => new GrAuthMock(),
+    restApiService: (_ctx: Partial<AppContext>) => grRestApiMock,
   };
+  return create<AppContext>(appRegistry);
 }
 
 export function createTestDependencies(

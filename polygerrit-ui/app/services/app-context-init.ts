@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {AppContext} from './app-context';
-import {Finalizable} from './registry';
+import {create, Finalizable, Registry} from './registry';
 import {DependencyToken} from '../models/dependency';
 import {FlagsServiceImplementation} from './flags/flags_impl';
 import {GrReporting} from './gr-reporting/gr-reporting_impl';
@@ -24,6 +24,7 @@ import {
   ShortcutsService,
   shortcutsServiceToken,
 } from './shortcuts/shortcuts-service';
+import {assertIsDefined} from '../utils/common-util';
 import {ConfigModel, configModelToken} from '../models/config/config-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
 import {
@@ -76,22 +77,20 @@ import {
  * The AppContext lazy initializator for all services
  */
 export function createAppContext(): AppContext & Finalizable {
-  const flagsService = new FlagsServiceImplementation();
-  const reportingService = new GrReporting(flagsService);
-  const authService = new Auth();
-  const restApiService = new GrRestApiServiceImpl(authService);
-  return {
-    flagsService,
-    reportingService,
-    authService,
-    restApiService,
-    finalize: () => {
-      reportingService.finalize();
-      restApiService.finalize();
-      authService.finalize();
-      flagsService.finalize();
+  const appRegistry: Registry<AppContext> = {
+    flagsService: (_ctx: Partial<AppContext>) =>
+      new FlagsServiceImplementation(),
+    reportingService: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.flagsService, 'flagsService)');
+      return new GrReporting(ctx.flagsService);
+    },
+    authService: (_ctx: Partial<AppContext>) => new Auth(),
+    restApiService: (ctx: Partial<AppContext>) => {
+      assertIsDefined(ctx.authService, 'authService');
+      return new GrRestApiServiceImpl(ctx.authService);
     },
   };
+  return create<AppContext>(appRegistry);
 }
 
 export type Creator<T> = () => T & Finalizable;

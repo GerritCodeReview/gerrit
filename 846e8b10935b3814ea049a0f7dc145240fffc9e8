@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a49682e3_9d27d0a7",
+        "filename": "java/com/google/gerrit/server/account/externalids/storage/notedb/ExternalIdsNoteDbImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-07-19T12:57:38Z",
+      "side": 1,
+      "message": "Please use ExternalIdCacheImpl here and do the cast in the constructor. Tahis class is a singleton and in production we eagerly instantiate all singletons. By doing so, we frontload any failures to when the task starts up.\n\nThe code will also get a bit easier as you can remove the static method from the non-impl cache which seems a bit cleaner to me.",
+      "range": {
+        "startLine": 42,
+        "startChar": 16,
+        "endLine": 42,
+        "endChar": 31
+      },
+      "revId": "846e8b10935b3814ea049a0f7dc145240fffc9e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -299,7 +299,7 @@ public class AccountResolver {
   private abstract class AccountIdSearcher implements Searcher<Account.Id> {
     @Override
     public final Stream<AccountState> search(Account.Id input) {
-      return Streams.stream(accountCache.get(input));
+      return accountCache.get(input).stream();
     }
   }
 
@@ -373,7 +373,7 @@ public class AccountResolver {
 
     @Override
     public Stream<AccountState> search(String input) {
-      return Streams.stream(accountCache.getByUsername(input));
+      return accountCache.getByUsername(input).stream();
     }
 
     @Override

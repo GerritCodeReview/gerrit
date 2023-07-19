@@ -689,20 +689,18 @@ public class ChangeInserter implements InsertChangeOp {
     }
     return Streams.concat(
             reviewerInputs.stream(),
-            Streams.stream(
                 newReviewerInputFromCommitIdentity(
                     change,
                     patchSetInfo.getCommitId(),
                     patchSetInfo.getAuthor().getAccount(),
                     NotifyHandling.NONE,
-                    change.getOwner())),
-            Streams.stream(
+                    change.getOwner()).stream(),
                 newReviewerInputFromCommitIdentity(
                     change,
                     patchSetInfo.getCommitId(),
                     patchSetInfo.getCommitter().getAccount(),
                     NotifyHandling.NONE,
-                    change.getOwner())))
+                    change.getOwner()).stream())
         .collect(toImmutableList());
   }
 }

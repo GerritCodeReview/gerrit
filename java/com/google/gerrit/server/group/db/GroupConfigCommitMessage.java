@@ -57,7 +57,7 @@ class GroupConfigCommitMessage {
     StringJoiner footerJoiner = new StringJoiner("\n", "\n\n", "");
     footerJoiner.setEmptyValue("");
     Streams.concat(
-            Streams.stream(getFooterForRename()),
+            getFooterForRename().stream(),
             getFootersForMemberModifications(),
             getFootersForSubgroupModifications())
         .sorted()

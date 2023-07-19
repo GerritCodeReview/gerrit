@@ -20,6 +20,7 @@ error-prone-annotations
 flogger
 flogger-log4j-backend
 flogger-system-backend
+flogger-google-extensions
 guava
 guava-testlib
 guice-assistedinject

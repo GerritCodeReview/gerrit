@@ -22,6 +22,30 @@
       },
       "revId": "acd5cb28b4b9aa5939e89cb638b445410e77c0ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "509c950b_bd536f1d",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetRevisionActions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-19T00:28:07Z",
+      "side": 1,
+      "message": "\u003e Is mergability enough? For example in the original change[1] before we decided to use lastUpdatedTimestamp we were checking if whole topic submission is enabled. Because changing Gerrit config can impact the UI Actions: ` h.putBoolean(MergeSuperSet.wholeTopicEnabled(config));` \n\u003e \n\u003e 1. https://gerrit-review.googlesource.com/c/gerrit/+/233044/2/java/com/google/gerrit/server/restapi/change/GetChange.java\n\nI believe the mergeability is needed, as demonstrated by the test.\nThe project\u0027s configuration is already taken into consideration, and also the group ownership.\n\nWith regards to the dynamic Gerrit configuration, it doesn\u0027t look that the submitWholeTopic is reloadable, see [1]. Have you verified it manually?\n\n[1] https://gerrit-documentation.storage.googleapis.com/Documentation/2.16.28/config-gerrit.html#change.submitWholeTopic",
+      "parentUuid": "b6928dd1_5026b229",
+      "range": {
+        "startLine": 85,
+        "startChar": 6,
+        "endLine": 85,
+        "endChar": 28
+      },
+      "revId": "acd5cb28b4b9aa5939e89cb638b445410e77c0ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

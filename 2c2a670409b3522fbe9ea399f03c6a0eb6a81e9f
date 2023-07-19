@@ -46,6 +46,30 @@
       },
       "revId": "2c2a670409b3522fbe9ea399f03c6a0eb6a81e9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd5d5df5_1de795a8",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-07-19T07:57:10Z",
+      "side": 1,
+      "message": "Discussed offline. Will adapt the behavior to match the edit change message endpoint as otherwise there is no way to delete footers.",
+      "parentUuid": "7793ad2b_5c8eeb91",
+      "range": {
+        "startLine": 246,
+        "startChar": 3,
+        "endLine": 249,
+        "endChar": 44
+      },
+      "revId": "2c2a670409b3522fbe9ea399f03c6a0eb6a81e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

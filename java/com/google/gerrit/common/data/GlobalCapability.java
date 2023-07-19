@@ -59,6 +59,9 @@ public class GlobalCapability {
   /** Can create any group on the server. */
   public static final String CREATE_GROUP = "createGroup";
 
+  /** Can delete some group on the server. */
+  public static final String DELETE_GROUP = "deleteGroup";
+
   /** Can create any project on the server. */
   public static final String CREATE_PROJECT = "createProject";
 
@@ -145,6 +148,7 @@ public class GlobalCapability {
     NAMES_ALL.add(BATCH_CHANGES_LIMIT);
     NAMES_ALL.add(CREATE_ACCOUNT);
     NAMES_ALL.add(CREATE_GROUP);
+    NAMES_ALL.add(DELETE_GROUP);
     NAMES_ALL.add(CREATE_PROJECT);
     NAMES_ALL.add(EMAIL_REVIEWERS);
     NAMES_ALL.add(FLUSH_CACHES);

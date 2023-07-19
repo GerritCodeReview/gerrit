@@ -14,10 +14,12 @@
 package com.google.gerrit.server.restapi.group;
 
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.CachedProjectConfig;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.DeleteGroupInput;
 import com.google.gerrit.extensions.common.GroupInfo;
@@ -46,6 +48,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+@RequiresCapability(GlobalCapability.DELETE_GROUP)
 @Singleton
 public class DeleteGroup implements RestModifyView<GroupResource, DeleteGroupInput> {
   private final Provider<ListGroups> listGroupProvider;
@@ -79,8 +82,8 @@ public class DeleteGroup implements RestModifyView<GroupResource, DeleteGroupInp
   @Override
   public Response<String> apply(GroupResource resource, DeleteGroupInput input)
       throws AuthException, BadRequestException, UnprocessableEntityException,
-          ResourceConflictException, IOException, ConfigInvalidException, ResourceNotFoundException,
-          PermissionBackendException, NotInternalGroupException {
+      ResourceConflictException, IOException, ConfigInvalidException, ResourceNotFoundException,
+      PermissionBackendException, NotInternalGroupException {
     GroupDescription.Internal internalGroup =
         resource.asInternalGroup().orElseThrow(NotInternalGroupException::new);
     groupDeletionPrecondition(internalGroup);
@@ -100,8 +103,8 @@ public class DeleteGroup implements RestModifyView<GroupResource, DeleteGroupInp
       String msg =
           "Cannot delete group that is owner of other groups: \n"
               + ownedGroup.stream()
-                  .map(InternalGroup::getName)
-                  .collect(Collectors.joining(", ", "[", "]"));
+              .map(InternalGroup::getName)
+              .collect(Collectors.joining(", ", "[", "]"));
       throw new ResourceConflictException(msg);
     }
     List<String> inProjects = getProjectsWithGroupRefs(uuid);

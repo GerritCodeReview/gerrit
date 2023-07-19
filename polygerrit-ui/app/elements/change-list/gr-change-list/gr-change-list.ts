@@ -6,6 +6,7 @@
 import '../../shared/gr-cursor-manager/gr-cursor-manager';
 import '../gr-change-list-item/gr-change-list-item';
 import '../gr-change-list-section/gr-change-list-section';
+import '../gr-change-list-section/gr-change-list-section';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import {getAppContext} from '../../../services/app-context';
@@ -16,6 +17,11 @@ import {
   ChangeInfo,
   ServerInfo,
   PreferencesInput,
+  import {
+    AccountInfo,
+    ChangeInfo,
+    ServerInfo,
+    PreferencesInput,
 } from '../../../types/common';
 import {fire, fireReload} from '../../../utils/event-util';
 import {ColumnNames, ScrollMode} from '../../../constants/constants';

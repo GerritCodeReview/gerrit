@@ -13,13 +13,11 @@
 // limitations under the License.
 package com.google.gerrit.server.restapi.group;
 
-import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.CachedProjectConfig;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.DeleteGroupInput;
 import com.google.gerrit.extensions.common.GroupInfo;
@@ -32,6 +30,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.group.db.GroupsUpdate;
@@ -48,7 +47,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
-@RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton
 public class DeleteGroup implements RestModifyView<GroupResource, DeleteGroupInput> {
   private final Provider<ListGroups> listGroupProvider;
@@ -86,6 +84,10 @@ public class DeleteGroup implements RestModifyView<GroupResource, DeleteGroupInp
           PermissionBackendException, NotInternalGroupException {
     GroupDescription.Internal internalGroup =
         resource.asInternalGroup().orElseThrow(NotInternalGroupException::new);
+    final GroupControl control = resource.getControl();
+    if (!control.canDeleteGroup()) {
+      throw new AuthException("Cannot delete group " + internalGroup.getName());
+    }
     groupDeletionPrecondition(internalGroup);
     deleteGroup(internalGroup);
     return Response.ok();

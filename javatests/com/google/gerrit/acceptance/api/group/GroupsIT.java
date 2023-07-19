@@ -825,9 +825,26 @@ public class GroupsIT extends AbstractDaemonTest {
     groupInput.name = name;
     groupInput.visibleToAll = true;
     gApi.groups().create(groupInput);
+
     requestScopeOperations.setApiUser(user.id());
     Throwable exception = assertThrows(AuthException.class, () -> gApi.groups().id(name).delete());
-    assertThat(exception.getMessage()).isEqualTo("administrate server not permitted");
+    assertThat(exception.getMessage()).isEqualTo("Cannot delete group " + name);
+  }
+
+  @Test
+  public void nonAdminGrantedCapabilityToDeleteGroup() throws Exception {
+    String name = name("groupToDelete");
+    GroupInput groupInput = new GroupInput();
+    groupInput.name = name;
+    groupInput.visibleToAll = true;
+    gApi.groups().create(groupInput);
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.DELETE_GROUP).group(REGISTERED_USERS))
+        .update();
+    requestScopeOperations.setApiUser(user.id());
+    gApi.groups().id(name).delete();
+    assertGroupDoesNotExist(name);
   }
 
   @Test
@@ -885,7 +902,7 @@ public class GroupsIT extends AbstractDaemonTest {
     gApi.groups().id(name).owner(adminUUID);
     assertThat(Url.decode(gApi.groups().id(name).owner().id)).isEqualTo(adminUUID);
 
-    // set non existing owner
+    // set non-existing owner
     assertThrows(
         UnprocessableEntityException.class,
         () -> gApi.groups().id(name).owner("Non-Existing Group"));

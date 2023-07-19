@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0393e38e_195ab249",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-19T18:55:45Z",
+      "side": 1,
+      "message": "Can you add a link to the breakage?",
+      "range": {
+        "startLine": 11,
+        "startChar": 19,
+        "endLine": 11,
+        "endChar": 41
+      },
+      "revId": "eb61bb2ac6f5f572eda60fbbe9ef35eba48eb15c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bc8945f_f8217e78",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-19T18:55:45Z",
+      "side": 1,
+      "message": "@poucet@google.com feel free to fix the issue instead of reverting the change",
+      "revId": "eb61bb2ac6f5f572eda60fbbe9ef35eba48eb15c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

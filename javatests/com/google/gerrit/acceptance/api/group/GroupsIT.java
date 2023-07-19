@@ -819,6 +819,19 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "groups.enableDeleteGroup", value = "true")
+  public void nonAdminGrantedCapabilityToDeleteGroup() throws Exception {
+    String name = groupOperations.newGroup().visibleToAll(true).create().get();
+    projectOperations
+        .allProjectsForUpdate()
+        .add(allowCapability(GlobalCapability.DELETE_GROUP).group(REGISTERED_USERS))
+        .update();
+    requestScopeOperations.setApiUser(user.id());
+    gApi.groups().id(name).delete();
+    assertGroupDoesNotExist(name);
+  }
+
+  @Test
   public void groupDescription() throws Exception {
     String name = name("group");
     gApi.groups().create(name);

@@ -190,6 +190,7 @@ public class DefaultPermissionBackend extends PermissionBackend {
 
         case CREATE_ACCOUNT:
         case CREATE_GROUP:
+        case DELETE_GROUP:
         case CREATE_PROJECT:
         case MAINTAIN_SERVER:
         case MODIFY_ACCOUNT:

@@ -46,6 +46,30 @@
       },
       "revId": "acd5cb28b4b9aa5939e89cb638b445410e77c0ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "552bf50f_dd53a453",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetRevisionActions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-07-19T09:17:59Z",
+      "side": 1,
+      "message": "Hey @marcin,\n\nI just tested this and the ETag does change if the submit whole topic is changed and the change is changed from `false` to `true` and viceversa.\n\nI believe this is because its mergeability status (which is included in the etag) would change accordingly.\n\nWDYT?",
+      "parentUuid": "509c950b_bd536f1d",
+      "range": {
+        "startLine": 85,
+        "startChar": 6,
+        "endLine": 85,
+        "endChar": 28
+      },
+      "revId": "acd5cb28b4b9aa5939e89cb638b445410e77c0ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

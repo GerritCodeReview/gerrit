@@ -16,6 +16,23 @@
       "message": "The PolyGerrit failure is unrelated and already exists on stable-3.6",
       "revId": "d98312f7026cd2982c323b8f8bdd66aa7a5a0698",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "637721f8_adf50f16",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-07-19T08:37:25Z",
+      "side": 1,
+      "message": "Testing",
+      "revId": "d98312f7026cd2982c323b8f8bdd66aa7a5a0698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

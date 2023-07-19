@@ -1197,12 +1197,18 @@ branch of each project. This is the persisted variant of the
 `projects` cache. The intention is for this cache to have an in-memory
 size of 0.
 
+NOTE: This cache should be disabled or set with a low refreshAfterWrite
+in a cluster setup using multiple primary or multiple replica nodes.
+
 cache `"projects"`::
 +
 Caches the project description records, from the `refs/meta/config`
 branch of each project. If a project record is updated or deleted, this
 cache should be flushed.  Newly inserted projects do not require
 a cache flush, as they will be read upon first reference.
+
+NOTE: This cache should be disabled or set with a low refreshAfterWrite
+in a cluster setup using multiple primary or multiple replica nodes.
 
 cache `"prolog_rules"`::
 +
@@ -1229,6 +1235,9 @@ can match against them during authentication.  The unit of storage
 is per-user, so 1024 items translates to 1024 unique user accounts.
 As each individual user account may configure multiple SSH keys,
 the total number of keys may be larger than the item count.
+
+NOTE: This cache should be disabled or set with a low refreshAfterWrite
+in a cluster setup using multiple primary or multiple replica nodes.
 
 cache `"web_sessions"`::
 +

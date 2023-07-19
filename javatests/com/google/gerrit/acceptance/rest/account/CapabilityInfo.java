@@ -20,6 +20,7 @@ class CapabilityInfo {
   public BatchChangesLimit batchChangesLimit;
   public boolean createAccount;
   public boolean createGroup;
+  public boolean deleteGroup;
   public boolean createProject;
   public boolean emailReviewers;
   public boolean flushCaches;

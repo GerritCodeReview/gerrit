@@ -18,8 +18,7 @@ import static java.util.stream.Collectors.joining;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import java.io.IOException;
@@ -37,8 +36,8 @@ import org.eclipse.jgit.lib.CommitBuilder;
 public class VersionedAccountQueries extends VersionedMetaData {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public static VersionedAccountQueries forUser(Account.Id id) {
-    return new VersionedAccountQueries(RefNames.refsUsers(id));
+  public static VersionedAccountQueries forBranch(BranchNameKey branch) {
+    return new VersionedAccountQueries(branch.branch());
   }
 
   private final String ref;

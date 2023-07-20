@@ -502,7 +502,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   protected final Arguments args;
   protected Map<String, String> hasOperandAliases = Collections.emptyMap();
   private final Map<BranchNameKey, DestinationList> destinationListByBranch = new HashMap<>();
-  private final Map<Account.Id, QueryList> queryListByAccount = new HashMap<>();
+  private final Map<BranchNameKey, QueryList> queryListByBranch = new HashMap<>();
 
   private static final Splitter RULE_SPLITTER = Splitter.on("=");
   private static final Splitter PLUGIN_SPLITTER = Splitter.on("_");
@@ -1421,11 +1421,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> query(String value) throws QueryParseException {
-    // [name=]<name>[,user=<user>] || [user=<user>,][name=]<name>
+    // [name=]<name>[,user=<user>|,group=<group>] || [group=<group>,|user=<user>,][name=]<name>
     PredicateArgs inputArgs = new PredicateArgs(value);
     String name = null;
     Account.Id account = null;
+    GroupDescription.Internal group = null;
 
+    if (inputArgs.keyValue.containsKey(ARG_ID_USER)
+        && inputArgs.keyValue.containsKey(ARG_ID_GROUP)) {
+      throw new QueryParseException("User and group arguments are mutually exclusive");
+    }
     // [name=]<name>
     if (inputArgs.keyValue.containsKey(ARG_ID_NAME)) {
       name = inputArgs.keyValue.get(ARG_ID_NAME).value();
@@ -1449,7 +1454,23 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         account = self();
       }
 
-      String query = getQueryList(account).getQuery(name);
+      // [,group=<group>]
+      if (inputArgs.keyValue.containsKey(ARG_ID_GROUP)) {
+        AccountGroup.UUID groupId =
+            parseGroup(inputArgs.keyValue.get(ARG_ID_GROUP).value()).getUUID();
+        GroupDescription.Basic backendGroup = args.groupBackend.get(groupId);
+        if (!(backendGroup instanceof GroupDescription.Internal)) {
+          throw error(backendGroup.getName() + " is not an Internal group");
+        }
+        group = (GroupDescription.Internal) backendGroup;
+      }
+
+      BranchNameKey branch = BranchNameKey.create(args.allUsersName, RefNames.refsUsers(account));
+      if (group != null) {
+        branch = BranchNameKey.create(args.allUsersName, RefNames.refsGroups(group.getGroupUUID()));
+      }
+
+      String query = getQueryList(branch).getQuery(name);
       if (query != null) {
         return parse(query);
       }
@@ -1462,17 +1483,19 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     throw new QueryParseException("Unknown named query: " + name);
   }
 
-  protected QueryList getQueryList(Account.Id account) throws ConfigInvalidException, IOException {
-    QueryList ql = queryListByAccount.get(account);
+  protected QueryList getQueryList(BranchNameKey branch)
+      throws ConfigInvalidException, IOException {
+    QueryList ql = queryListByBranch.get(branch);
     if (ql == null) {
-      ql = loadQueryList(account);
-      queryListByAccount.put(account, ql);
+      ql = loadQueryList(branch);
+      queryListByBranch.put(branch, ql);
     }
     return ql;
   }
 
-  protected QueryList loadQueryList(Account.Id account) throws ConfigInvalidException, IOException {
-    VersionedAccountQueries q = VersionedAccountQueries.forUser(account);
+  protected QueryList loadQueryList(BranchNameKey branch)
+      throws ConfigInvalidException, IOException {
+    VersionedAccountQueries q = VersionedAccountQueries.forBranch(branch);
     try (Repository git = args.repoManager.openRepository(args.allUsersName)) {
       q.load(args.allUsersName, git);
     }

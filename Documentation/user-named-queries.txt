@@ -1,11 +1,12 @@
 = Gerrit Code Review - Named Queries
 
-[[user-named-queries]]
-== User Named Queries
-It is possible to define named queries on a user level. To do
+[[user-or-group-named-queries]]
+== User Or Group Named Queries
+It is possible to define named queries on a user or group level. To do
 this, define the named queries in the `queries` file under the
-link:intro-user.html#user-refs[user's ref] in the `All-Users` project.  The
-user's queries file is a 2 column tab delimited file.  The left
+link:intro-user.html#user-refs[user's ref] or
+link:config-groups.html#_storage_format[group's ref] in the `All-Users`
+project. The named queries file is a 2 column tab delimited file. The left
 column represents the name of the query, and the right column
 represents the query expression represented by the name. The named queries
 can be publicly accessible by other users.

@@ -36,6 +36,7 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -500,7 +501,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   protected final Arguments args;
   protected Map<String, String> hasOperandAliases = Collections.emptyMap();
-  private final Map<Account.Id, DestinationList> destinationListByAccount = new HashMap<>();
+  private final Map<BranchNameKey, DestinationList> destinationListByBranch = new HashMap<>();
   private final Map<Account.Id, QueryList> queryListByAccount = new HashMap<>();
 
   private static final Splitter RULE_SPLITTER = Splitter.on("=");
@@ -1486,11 +1487,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> destination(String value) throws QueryParseException {
-    // [name=]<name>[,user=<user>] || [user=<user>,][name=]<name>
+    // [name=]<name>[,user=<user>|,group=<group>] || [group=<group>,|user=<user>,][name=]<name>
     PredicateArgs inputArgs = new PredicateArgs(value);
     String name = null;
     Account.Id account = null;
+    GroupDescription.Internal group = null;
 
+    if (inputArgs.keyValue.containsKey(ARG_ID_USER)
+        && inputArgs.keyValue.containsKey(ARG_ID_GROUP)) {
+      throw new QueryParseException("User and group arguments are mutually exclusive");
+    }
     // [name=]<name>
     if (inputArgs.keyValue.containsKey(ARG_ID_NAME)) {
       name = inputArgs.keyValue.get(ARG_ID_NAME).value();
@@ -1514,7 +1520,23 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         account = self();
       }
 
-      Set<BranchNameKey> destinations = getDestinationList(account).getDestinations(name);
+      // [,group=<group>]
+      if (inputArgs.keyValue.containsKey(ARG_ID_GROUP)) {
+        AccountGroup.UUID groupId =
+            parseGroup(inputArgs.keyValue.get(ARG_ID_GROUP).value()).getUUID();
+        GroupDescription.Basic backendGroup = args.groupBackend.get(groupId);
+        if (!(backendGroup instanceof GroupDescription.Internal)) {
+          throw error(backendGroup.getName() + " is not an Internal group");
+        }
+        group = (GroupDescription.Internal) backendGroup;
+      }
+
+      BranchNameKey branch = BranchNameKey.create(args.allUsersName, RefNames.refsUsers(account));
+      if (group != null) {
+        branch = BranchNameKey.create(args.allUsersName, RefNames.refsGroups(group.getGroupUUID()));
+      }
+      Set<BranchNameKey> destinations = getDestinationList(branch).getDestinations(name);
+
       if (destinations != null && !destinations.isEmpty()) {
         return new BranchSetIndexPredicate(FIELD_DESTINATION + ":" + value, destinations);
       }
@@ -1527,19 +1549,19 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     throw new QueryParseException("Unknown named destination: " + name);
   }
 
-  protected DestinationList getDestinationList(Account.Id account)
+  protected DestinationList getDestinationList(BranchNameKey branch)
       throws ConfigInvalidException, RepositoryNotFoundException, IOException {
-    DestinationList dl = destinationListByAccount.get(account);
+    DestinationList dl = destinationListByBranch.get(branch);
     if (dl == null) {
-      dl = loadDestinationList(account);
-      destinationListByAccount.put(account, dl);
+      dl = loadDestinationList(branch);
+      destinationListByBranch.put(branch, dl);
     }
     return dl;
   }
 
-  protected DestinationList loadDestinationList(Account.Id account)
+  protected DestinationList loadDestinationList(BranchNameKey branch)
       throws ConfigInvalidException, RepositoryNotFoundException, IOException {
-    VersionedAccountDestinations d = VersionedAccountDestinations.forUser(account);
+    VersionedAccountDestinations d = VersionedAccountDestinations.forBranch(branch);
     try (Repository git = args.repoManager.openRepository(args.allUsersName)) {
       d.load(args.allUsersName, git);
     }

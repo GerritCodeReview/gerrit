@@ -90,8 +90,8 @@ import org.eclipse.jgit.revwalk.RevSort;
  */
 public class GroupConfig extends VersionedMetaData {
   @VisibleForTesting public static final String GROUP_CONFIG_FILE = "group.config";
-  @VisibleForTesting static final String MEMBERS_FILE = "members";
-  @VisibleForTesting static final String SUBGROUPS_FILE = "subgroups";
+  @VisibleForTesting public static final String MEMBERS_FILE = "members";
+  @VisibleForTesting public static final String SUBGROUPS_FILE = "subgroups";
   private static final Pattern LINE_SEPARATOR_PATTERN = Pattern.compile("\\R");
 
   /**

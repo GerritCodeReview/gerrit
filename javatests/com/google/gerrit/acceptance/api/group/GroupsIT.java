@@ -1285,16 +1285,24 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void pushToGroupBranchForReviewForAllUsersRepoIsRejectedOnSubmit() throws Throwable {
+  public void pushToGroupBranchForReviewForAllUsersRepoIsRejectedOnSubmitForGroupFiles()
+      throws Throwable {
+    String error = "update to group files (group.config, members, subgroups) not allowed";
     pushToGroupBranchForReviewAndSubmit(
-        allUsers, RefNames.refsGroups(adminGroupUuid()), "group update not allowed");
+        allUsers, RefNames.refsGroups(adminGroupUuid()), "group.config", error);
+    pushToGroupBranchForReviewAndSubmit(
+        allUsers, RefNames.refsGroups(adminGroupUuid()), "members", error);
+    pushToGroupBranchForReviewAndSubmit(
+        allUsers, RefNames.refsGroups(adminGroupUuid()), "subgroups", error);
+    pushToGroupBranchForReviewAndSubmit(
+        allUsers, RefNames.refsGroups(adminGroupUuid()), "destinations/myreviews", null);
   }
 
   @Test
   public void pushToGroupBranchForReviewForNonAllUsersRepoAndSubmit() throws Throwable {
     String groupRef = RefNames.refsGroups(adminGroupUuid());
     createBranch(project, groupRef);
-    pushToGroupBranchForReviewAndSubmit(project, groupRef, null);
+    pushToGroupBranchForReviewAndSubmit(project, groupRef, "group.config", null);
   }
 
   @Test
@@ -1576,7 +1584,8 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   private void pushToGroupBranchForReviewAndSubmit(
-      Project.NameKey project, String groupRef, String expectedError) throws Throwable {
+      Project.NameKey project, String groupRef, String fileName, String expectedError)
+      throws Throwable {
     projectOperations
         .project(project)
         .forUpdate()
@@ -1594,7 +1603,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
     PushOneCommit.Result r =
         pushFactory
-            .create(admin.newIdent(), repo, "Update group config", "group.config", "some content")
+            .create(admin.newIdent(), repo, "Update group config", fileName, "some content")
             .to(MagicBranch.NEW_CHANGE + groupRef);
     r.assertOkStatus();
     assertThat(r.getChange().change().getDest().branch()).isEqualTo(groupRef);
@@ -1603,7 +1612,7 @@ public class GroupsIT extends AbstractDaemonTest {
     ThrowingRunnable submit = () -> gApi.changes().id(r.getChangeId()).current().submit();
     if (expectedError != null) {
       Throwable thrown = assertThrows(ResourceConflictException.class, submit);
-      assertThat(thrown).hasMessageThat().contains("group update not allowed");
+      assertThat(thrown).hasMessageThat().contains(expectedError);
     } else {
       submit.run();
     }

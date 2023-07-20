@@ -36,6 +36,7 @@ import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
+import com.google.gerrit.server.group.db.GroupConfig;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -343,10 +344,12 @@ public class MergeValidators {
     }
 
     private final AllUsersName allUsersName;
+    private final ChangeData.Factory changeDataFactory;
 
     @Inject
-    public GroupMergeValidator(AllUsersName allUsersName) {
+    public GroupMergeValidator(AllUsersName allUsersName, ChangeData.Factory changeDataFactory) {
       this.allUsersName = allUsersName;
+      this.changeDataFactory = changeDataFactory;
     }
 
     @Override
@@ -365,7 +368,29 @@ public class MergeValidators {
         return;
       }
 
-      throw new MergeValidationException("group update not allowed");
+      // Update to group files is not supported because there are no validations
+      // on the changes being done to these files, without which the group data
+      // might get corrupted. Thus don't allow merges into All-Users group refs
+      // which updates group files (i.e., group.config, members and subgroups).
+      // But it is still useful to allow users to update files apart from group
+      // files. For example, users can upload named destinations into group refs.
+      ChangeData cd =
+          changeDataFactory.create(destProject.getProject().getNameKey(), patchSetId.changeId());
+      try {
+        if (cd.currentFilePaths().contains(GroupConfig.GROUP_CONFIG_FILE)
+            || cd.currentFilePaths().contains(GroupConfig.MEMBERS_FILE)
+            || cd.currentFilePaths().contains(GroupConfig.SUBGROUPS_FILE)) {
+          throw new MergeValidationException(
+              String.format(
+                  "update to group files (%s, %s, %s) not allowed",
+                  GroupConfig.GROUP_CONFIG_FILE,
+                  GroupConfig.MEMBERS_FILE,
+                  GroupConfig.SUBGROUPS_FILE));
+        }
+      } catch (StorageException e) {
+        logger.atSevere().withCause(e).log("Cannot validate group update");
+        throw new MergeValidationException("group validation unavailable", e);
+      }
     }
   }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15a0c8f3_737438c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-07-20T08:39:27Z",
+      "side": 1,
+      "message": "I\u0027m working on a fix, can we wait with this one?",
+      "revId": "5df0e31bfc130b83b081d1a9cf188bb1a4614b53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

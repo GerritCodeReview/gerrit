@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0418396c_3e2d6a9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-07-20T04:28:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd2ac264_7c26812a",
+      "range": {
+        "startLine": 15,
+        "startChar": 12,
+        "endLine": 15,
+        "endChar": 15
+      },
+      "revId": "3b40917b924990fd0db55448226990f96a158af2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "68e3684d_e57a349f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -54,6 +78,30 @@
       "writtenOn": "2023-07-19T20:26:52Z",
       "side": 1,
       "message": "s/ByBranchNameKey/ByBranch/ tends to be the convention. Assume Map keys are some form of Key in the naming because it would be bad for them not to be, for example  XByChange would mean Map\u003cChange.Id, X\u003e because Map\u003cChange, X\u003e would be bad, buggy and should never be done.",
+      "range": {
+        "startLine": 504,
+        "startChar": 52,
+        "endLine": 504,
+        "endChar": 82
+      },
+      "revId": "3b40917b924990fd0db55448226990f96a158af2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6f38afc_93731c35",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-07-20T04:28:39Z",
+      "side": 1,
+      "message": "Ack. Done.",
+      "parentUuid": "da2ffee9_51c51316",
       "range": {
         "startLine": 504,
         "startChar": 52,

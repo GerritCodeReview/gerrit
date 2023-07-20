@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c6dd30f_8019b885",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-07-20T18:15:28Z",
+      "side": 1,
+      "message": "add \"or GROUP\" (unspecified)",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 26
+      },
+      "revId": "b964db91920f6a531e3f09070fe554bb268c141d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd73c052_7127883f",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1424,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-07-20T18:15:28Z",
+      "side": 1,
+      "message": "I guess the \"permutation\" here is to show that the user/group could come before or after the query name? However, currently you are also permuting the user and group by putting the group in front of the user (which is not an important permutation to show since you can\u0027t use both user and group at the same time).",
+      "range": {
+        "startLine": 1424,
+        "startChar": 54,
+        "endLine": 1424,
+        "endChar": 59
+      },
+      "revId": "b964db91920f6a531e3f09070fe554bb268c141d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

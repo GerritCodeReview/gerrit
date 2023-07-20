@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc276134_a7f3d7ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-20T11:36:09Z",
+      "side": 1,
+      "message": "Thanks!\nAlready done a test import. No internal changes are needed.",
+      "parentUuid": "0ebf982e_3b010d65",
+      "revId": "ca4e99b460d31402553711324a2285f033b8195a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c838f1b4_b9174e1b",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-07-19T15:17:10Z",
       "side": 1,
       "message": "can this be made private? Otherwise (if it\u0027s only invoked from child) then we can move it to child class.",
+      "range": {
+        "startLine": 145,
+        "startChar": 2,
+        "endLine": 145,
+        "endChar": 11
+      },
+      "revId": "ca4e99b460d31402553711324a2285f033b8195a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17bde3d2_722f6df2",
+        "filename": "java/com/google/gerrit/server/DeleteZombieComments.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-20T11:36:09Z",
+      "side": 1,
+      "message": "Thanks! I actually missed a usage here, so it\u0027s now used both here and in the child class.",
+      "parentUuid": "c838f1b4_b9174e1b",
       "range": {
         "startLine": 145,
         "startChar": 2,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "130934a1_ba7eb031",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-20T11:36:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03546af4_5cbad794",
+      "revId": "ca4e99b460d31402553711324a2285f033b8195a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2b6a84a4_7956d773",
@@ -71,6 +131,24 @@
       "writtenOn": "2023-07-19T15:17:10Z",
       "side": 1,
       "message": "nit: you could move all overridden methods to the top (before private methods).",
+      "revId": "ca4e99b460d31402553711324a2285f033b8195a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3f85476_e588314a",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-20T11:36:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b6a84a4_7956d773",
       "revId": "ca4e99b460d31402553711324a2285f033b8195a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

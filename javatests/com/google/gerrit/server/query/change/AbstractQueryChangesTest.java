@@ -3962,11 +3962,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @GerritConfig(name = "accounts.visibility", value = "NONE")
   @Test
-  public void userQuery() throws Exception {
+  public void namedQuery() throws Exception {
     repo = createAndOpenProject("repo");
     Change change1 = insert("repo", newChange(repo));
     Change change2 = insert("repo", newChangeForBranch(repo, "stable"));
 
+    String group = "test-group";
+    AccountGroup.UUID groupId = groupOperations.newGroup().name(group).create();
     Account.Id anotherUserId = createAccount("anotheruser");
     String queryListText =
         "query1\tproject:repo\n"
@@ -3983,14 +3985,20 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
             new TestRepository<>(repoManager.openRepository(allUsersName));
         MetaDataUpdate md = metaDataUpdateFactory.create(allUsersName);
         MetaDataUpdate anotherMd = metaDataUpdateFactory.create(allUsersName)) {
-      VersionedAccountQueries queries = VersionedAccountQueries.forUser(userId);
+      VersionedAccountQueries queries =
+          VersionedAccountQueries.forBranch(
+              BranchNameKey.create(allUsersName, RefNames.refsUsers(userId)));
       queries.load(md);
       queries.setQueryList(queryListText);
       queries.commit(md);
-      VersionedAccountQueries anotherQueries = VersionedAccountQueries.forUser(anotherUserId);
+      VersionedAccountQueries anotherQueries =
+          VersionedAccountQueries.forBranch(
+              BranchNameKey.create(allUsersName, RefNames.refsUsers(anotherUserId)));
       anotherQueries.load(anotherMd);
       anotherQueries.setQueryList(anotherQueryListText);
       anotherQueries.commit(anotherMd);
+
+      allUsers.branch(RefNames.refsGroups(groupId)).commit().add("queries", queryListText).create();
     }
 
     assertThat(gApi.accounts().self().get()._accountId).isEqualTo(userId.get());
@@ -4021,6 +4029,23 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("query:query6,user=" + anotherUserId, change1);
     assertQuery("query:user=" + anotherUserId + ",query7", change2);
     assertQuery("query:query8,user=" + anotherUserId);
+
+    // Group queries
+    assertThatQueryException("query:non-existent,group=" + group)
+        .hasMessageThat()
+        .isEqualTo("Unknown named query: non-existent");
+    assertThatQueryException("query:query1,group=non-existent-group")
+        .hasMessageThat()
+        .isEqualTo("Group non-existent-group not found");
+    assertThatQueryException("query:query1,group=" + group + ",user=" + userId)
+        .hasMessageThat()
+        .isEqualTo("User and group arguments are mutually exclusive");
+
+    assertQuery("query:name=query1,group=" + group, change1, change2);
+    assertQuery("query:query1,group=" + group, change1, change2);
+    assertQuery("query:group=" + group + ",name=query2", change2);
+    assertQuery("query:group=" + group + ",query4");
+    assertQuery("query:name=query4,group=" + group);
   }
 
   @Test

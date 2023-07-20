@@ -162,11 +162,13 @@ Changes where the latest patch set was uploaded by a user in
 'GROUP'.
 
 [[query]]
-query:'[name=]NAME[,user=USER]'::
+query:'[name=]NAME[,user=USER|,group=GROUP]'::
 +
-Changes which match the specified USER's query named 'NAME'. If 'USER'
-is unspecified, the current user is used. The named queries can be
-publicly accessible by other users.
+Changes which match the specified USER's or GROUP's query named 'NAME'.
+If neither 'USER' nor 'GROUP' is specified, the current user is used.
+The named queries can be publicly accessible by other users.
+The value may be wrapped in double quotes to include spaces. For example,
+`query:"myquery,group=My Group"`
 (see link:user-named-queries.html[Named Queries]).
 
 [[reviewer]]

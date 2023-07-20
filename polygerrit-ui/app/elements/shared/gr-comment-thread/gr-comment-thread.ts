@@ -27,7 +27,6 @@ import {
   id,
 } from '../../../utils/comment-util';
 import {ChangeMessageId} from '../../../api/rest-api';
-import {getAppContext} from '../../../services/app-context';
 import {
   createDefaultDiffPrefs,
   SpecialFilePath,
@@ -252,8 +251,7 @@ export class GrCommentThread extends LitElement {
   private readonly shortcuts = new ShortcutController(this);
 
   private readonly syntaxLayer = new GrSyntaxLayerWorker(
-    resolve(this, highlightServiceToken),
-    () => getAppContext().reportingService
+    resolve(this, highlightServiceToken)
   );
 
   constructor() {

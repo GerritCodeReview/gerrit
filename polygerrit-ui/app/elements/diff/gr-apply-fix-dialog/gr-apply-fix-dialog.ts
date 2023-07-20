@@ -111,8 +111,7 @@ export class GrApplyFixDialog extends LitElement {
   private readonly reporting = getAppContext().reportingService;
 
   private readonly syntaxLayer = new GrSyntaxLayerWorker(
-    resolve(this, highlightServiceToken),
-    () => getAppContext().reportingService
+    resolve(this, highlightServiceToken)
   );
 
   constructor() {

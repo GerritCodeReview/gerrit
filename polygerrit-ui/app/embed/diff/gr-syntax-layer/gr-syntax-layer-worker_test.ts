@@ -5,7 +5,6 @@
  */
 import {assert} from '@open-wc/testing';
 import {DiffInfo, GrDiffLineType, Side} from '../../../api/diff';
-import {getAppContext} from '../../../services/app-context';
 import {
   HighlightService,
   highlightServiceToken,
@@ -84,10 +83,7 @@ suite('gr-syntax-layer-worker tests', () => {
 
   setup(() => {
     highlightService = testResolver(highlightServiceToken);
-    layer = new GrSyntaxLayerWorker(
-      () => highlightService,
-      () => getAppContext().reportingService
-    );
+    layer = new GrSyntaxLayerWorker(() => highlightService);
   });
 
   test('cancel processing', async () => {

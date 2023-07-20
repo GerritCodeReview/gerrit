@@ -12,7 +12,6 @@ import {SyntaxLayerLine} from '../../../types/syntax-worker-api';
 import {CancelablePromise, makeCancelable} from '../../../utils/async-util';
 import {HighlightService} from '../../../services/highlight/highlight-service';
 import {Provider} from '../../../models/dependency';
-import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {GrDiffLineType} from '../../../api/diff';
 import {assert} from '../../../utils/common-util';
 
@@ -167,8 +166,7 @@ export class GrSyntaxLayerWorker implements DiffLayer {
   private listeners: DiffLayerListener[] = [];
 
   constructor(
-    private readonly getHighlightService: Provider<HighlightService>,
-    private readonly getReportingService: Provider<ReportingService>
+    private readonly getHighlightService: Provider<HighlightService>
   ) {}
 
   setEnabled(enabled: boolean) {
@@ -281,8 +279,6 @@ export class GrSyntaxLayerWorker implements DiffLayer {
       this.notify();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      if (!err.isCanceled)
-        this.getReportingService().error('Diff Syntax Layer', err as Error);
       // One source of "error" can promise cancelation.
       this.leftRanges = [];
       this.rightRanges = [];

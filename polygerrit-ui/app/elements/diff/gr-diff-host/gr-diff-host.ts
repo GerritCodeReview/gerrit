@@ -340,8 +340,7 @@ export class GrDiffHost extends LitElement {
   constructor() {
     super();
     this.syntaxLayer = new GrSyntaxLayerWorker(
-      resolve(this, highlightServiceToken),
-      () => getAppContext().reportingService
+      resolve(this, highlightServiceToken)
     );
     this.addEventListener(
       // These are named inconsistently for a reason:

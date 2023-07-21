@@ -1561,6 +1561,10 @@ If not set, defaults to '$site_path/bin/gerrit.war', or to
 [[core]]
 === Section core
 
+[NOTE]
+The link:#jgitConfig[etc/jgit.config] file supports configuration of all JGit
+options.
+
 [[core.packedGitWindowSize]]core.packedGitWindowSize::
 +
 Number of bytes of a pack file to load into memory in a single
@@ -5369,6 +5373,19 @@ Files in this directory provide additional configuration.
 Other files support site customization.
 +
 * link:config-themes.html[Themes]
+
+[[jgitConfig]]
+== File `etc/jgit.config`
+
+Gerrit uses the `$site_path/etc/jgit.config` file instead of the
+system-wide and user-global Git configuration for its runtime JGit
+configuration.
+
+Sample `etc/jgit.config` file:
+----
+[core]
+  trustFolderStat = false
+----
 
 GERRIT
 ------

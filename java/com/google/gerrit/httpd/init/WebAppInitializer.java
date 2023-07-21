@@ -73,6 +73,7 @@ import com.google.gerrit.server.events.StreamEventsApiListener;
 import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.GitRepositoryManagerModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
+import com.google.gerrit.server.git.SystemReaderInstaller;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.AutoFlush;
 import com.google.gerrit.server.index.IndexModule;
@@ -308,6 +309,13 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     }
     modules.add(new DatabaseModule());
     modules.add(new NotesMigration.Module());
+    modules.add(
+        new LifecycleModule() {
+          @Override
+          protected void configure() {
+            listener().to(SystemReaderInstaller.class);
+          }
+        });
     modules.add(new DropWizardMetricMaker.ApiModule());
     return Guice.createInjector(PRODUCTION, modules);
   }

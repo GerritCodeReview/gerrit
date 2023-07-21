@@ -16,6 +16,24 @@
       "message": "Hello @dmfilippov@google.com, thanks for your review! Can you help me submit it? I don\u0027t seem to have the permission.",
       "revId": "ee811494393d8d937e010484697b028af412a7fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4266bc77_0043f180",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1153900
+      },
+      "writtenOn": "2023-07-21T22:33:51Z",
+      "side": 1,
+      "message": "@dmfilippov@google.com Sorry to ask again. I don\u0027t have the permission to submit this CL. Can you submit it for me? Thanks!",
+      "parentUuid": "e2c0b545_98f5b931",
+      "revId": "ee811494393d8d937e010484697b028af412a7fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

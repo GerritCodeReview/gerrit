@@ -22,6 +22,30 @@
       },
       "revId": "ed88b1fa09278f8f1d0bedec846f4e53871163d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c83ac9e3_6ca90cd6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-21T08:43:50Z",
+      "side": 1,
+      "message": "Good point, we have decided to drop this as this breakage can still happen - the change to maintain backwards compatibility means this is still a possibility, and as such we still want to be tolerant of collisions.\n\nI will abandon this change.",
+      "parentUuid": "abb20db7_57436cb3",
+      "range": {
+        "startLine": 12,
+        "startChar": 25,
+        "endLine": 12,
+        "endChar": 39
+      },
+      "revId": "ed88b1fa09278f8f1d0bedec846f4e53871163d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

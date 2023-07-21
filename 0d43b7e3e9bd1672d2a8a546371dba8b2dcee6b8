@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b7b078b_98b82f91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-07-21T09:54:50Z",
+      "side": 1,
+      "message": "OK, SGTM. I also agree on this.\n\nI updated the change and excluded them.",
+      "parentUuid": "c4d9ce63_533839a7",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 9
+      },
+      "revId": "0d43b7e3e9bd1672d2a8a546371dba8b2dcee6b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5e72a25_d6e257b3",

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ffae306_b67c31e3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 2021,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-07-21T09:22:11Z",
+      "side": 1,
+      "message": "Maybe it can be refactor in following way:\n```suggestion\n    if (this.change.topic) {\n      const query \u003d `topic: \"${this.change.topic}\"`;\n      const options \u003d listChangesOptionsToHex(\n        ListChangesOption.MESSAGES,\n        ListChangesOption.ALL_REVISIONS\n      );\n      changes \u003d await getChanges(this.change)\n      if (!changes.length) return;\n      this.confirmCherrypick!.updateChanges(changes);\n      this.showActionDialog(this.confirmCherrypick!);\n    }\n  }\n  \nasync getChanges(change) {\n    if (!change.topic) return [change];\n    const query \u003d `topic: \"${this.change.topic}\"`;\n    const options \u003d listChangesOptionsToHex(\n      ListChangesOption.MESSAGES,\n      ListChangesOption.ALL_REVISIONS\n    );\n     await this.restApiService\n        .getChanges(0, query, undefined, options);\n     if (!changes) {\n        this.reporting.error(\n          \u0027Change Actions\u0027,\n           new Error(\u0027getChanges returns undefined\u0027)\n           return [];\n      );\n      return changes\n}\n```",
+      "range": {
+        "startLine": 1998,
+        "startChar": 0,
+        "endLine": 2021,
+        "endChar": 3
+      },
+      "revId": "95f3b729bf0ebca9282780d082187a636cf7ffbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

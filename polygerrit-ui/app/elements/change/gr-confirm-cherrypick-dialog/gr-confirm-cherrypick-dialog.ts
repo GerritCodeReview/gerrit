@@ -40,6 +40,7 @@ import {resolve} from '../../../models/dependency';
 import {createSearchUrl} from '../../../models/views/search';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {uuid} from '../../../utils/common-util';
+import {ParsedChangeInfo} from '../../../types/types';
 
 const SUGGESTIONS_LIMIT = 15;
 const CHANGE_SUBJECT_LIMIT = 50;
@@ -100,7 +101,7 @@ export class GrConfirmCherrypickDialog
   project?: RepoName;
 
   @property({type: Array})
-  changes: ChangeInfo[] = [];
+  changes: (ParsedChangeInfo | ChangeInfo)[] = [];
 
   @state()
   private query: AutocompleteQuery;
@@ -395,7 +396,7 @@ export class GrConfirmCherrypickDialog
     `;
   }
 
-  containsDuplicateProject(changes: ChangeInfo[]) {
+  containsDuplicateProject(changes: (ChangeInfo | ParsedChangeInfo)[]) {
     const projects: {[projectName: string]: boolean} = {};
     for (let i = 0; i < changes.length; i++) {
       const change = changes[i];
@@ -407,7 +408,7 @@ export class GrConfirmCherrypickDialog
     return false;
   }
 
-  updateChanges(changes: ChangeInfo[]) {
+  updateChanges(changes: (ParsedChangeInfo | ChangeInfo)[]) {
     this.changes = changes;
     this.statuses = {};
     changes.forEach(change => {
@@ -447,22 +448,31 @@ export class GrConfirmCherrypickDialog
     return '';
   }
 
-  updateStatus(change: ChangeInfo, status: Status) {
+  updateStatus(change: ChangeInfo | ParsedChangeInfo, status: Status) {
     this.statuses = {...this.statuses, [change.id]: status};
   }
 
-  private computeStatus(change: ChangeInfo, statuses: Statuses) {
+  private computeStatus(
+    change: ChangeInfo | ParsedChangeInfo,
+    statuses: Statuses
+  ) {
     if (!change || !statuses || !statuses[change.id])
       return ProgressStatus.NOT_STARTED;
     return statuses[change.id].status;
   }
 
-  computeStatusClass(change: ChangeInfo, statuses: Statuses) {
+  computeStatusClass(
+    change: ChangeInfo | ParsedChangeInfo,
+    statuses: Statuses
+  ) {
     if (!change || !statuses || !statuses[change.id]) return '';
     return statuses[change.id].status === ProgressStatus.FAILED ? 'error' : '';
   }
 
-  private computeError(change: ChangeInfo, statuses: Statuses) {
+  private computeError(
+    change: ChangeInfo | ParsedChangeInfo,
+    statuses: Statuses
+  ) {
     if (!change || !statuses || !statuses[change.id]) return '';
     if (statuses[change.id].status === ProgressStatus.FAILED) {
       return statuses[change.id].msg;
@@ -470,7 +480,7 @@ export class GrConfirmCherrypickDialog
     return '';
   }
 
-  private getChangeId(change: ChangeInfo) {
+  private getChangeId(change: ChangeInfo | ParsedChangeInfo) {
     return change.change_id.substring(0, 10);
   }
 
@@ -534,13 +544,13 @@ export class GrConfirmCherrypickDialog
     this.message = newMessage;
   }
 
-  private generateRandomCherryPickTopic(change: ChangeInfo) {
+  private generateRandomCherryPickTopic(change: ChangeInfo | ParsedChangeInfo) {
     const message = `cherrypick-${change.topic}-${uuid()}`;
     return message;
   }
 
   private handleCherryPickFailed(
-    change: ChangeInfo,
+    change: ParsedChangeInfo | ChangeInfo,
     response?: Response | null
   ) {
     if (!response) return;

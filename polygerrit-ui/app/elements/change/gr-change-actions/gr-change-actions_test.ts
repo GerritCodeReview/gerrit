@@ -1089,8 +1089,9 @@ suite('gr-change-actions tests', () => {
           },
         ];
         setup(async () => {
+          element.change!.topic = 'T' as TopicName;
           stubRestApi('getChanges').returns(Promise.resolve(changes));
-          element.handleCherrypickTap();
+          await element.handleCherrypickTap();
           await element.updateComplete;
           const confirmCherrypick = queryAndAssert<GrConfirmCherrypickDialog>(
             element,

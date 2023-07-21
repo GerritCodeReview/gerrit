@@ -1989,18 +1989,27 @@ export class GrChangeActions
   }
 
   // private but used in test
-  handleCherrypickTap() {
+  async handleCherrypickTap() {
     if (!this.change) {
       throw new Error('The change property must be set');
     }
     assertIsDefined(this.confirmCherrypick, 'confirmCherrypick');
     this.confirmCherrypick.branch = '' as BranchName;
+    const changes = await this.getCherryPickChanges();
+    if (!changes.length) return;
+    this.confirmCherrypick!.updateChanges(changes);
+    this.showActionDialog(this.confirmCherrypick!);
+  }
+
+  private getCherryPickChanges() {
+    if (!this.change) return [];
+    if (!this.change.topic) return [this.change as ChangeInfo];
     const query = `topic: "${this.change.topic}"`;
     const options = listChangesOptionsToHex(
       ListChangesOption.MESSAGES,
       ListChangesOption.ALL_REVISIONS
     );
-    this.restApiService
+    return this.restApiService
       .getChanges(0, query, undefined, options)
       .then(changes => {
         if (!changes) {
@@ -2008,10 +2017,9 @@ export class GrChangeActions
             'Change Actions',
             new Error('getChanges returns undefined')
           );
-          return;
+          return [];
         }
-        this.confirmCherrypick!.updateChanges(changes);
-        this.showActionDialog(this.confirmCherrypick!);
+        return changes;
       });
   }
 

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "306958ab_144cd636",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-07-21T04:27:21Z",
+      "side": 1,
+      "message": "\"If neither \u0027USER\u0027 no \u0027GROUP\u0027 is specified\" is probably clearer.",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 20
+      },
+      "revId": "0c121625c5cc9b3f4c47aaf1d8d9edef2cf39e5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fa1c5fb_c4aab886",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1425,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-07-21T04:27:21Z",
+      "side": 1,
+      "message": "I\u0027ll be honest, this seems like overkill, it probably should just be the single rule that is in the docs.",
+      "revId": "0c121625c5cc9b3f4c47aaf1d8d9edef2cf39e5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

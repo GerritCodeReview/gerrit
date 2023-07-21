@@ -733,3 +733,15 @@ def java_dependencies():
         artifact = "org.objenesis:objenesis:3.0.1",
         sha1 = "11cfac598df9dc48bb9ed9357ed04212694b7808",
     )
+
+    maven_jar(
+        name = "roaringbitmap",
+        artifact = "org.roaringbitmap:RoaringBitmap:0.9.44",
+        sha1 = "d25b4bcb67193d587f6e0617da2c6f84e2d02a9c",
+    )
+
+    maven_jar(
+        name = "roaringbitmap-shims",
+        artifact = "org.roaringbitmap:shims:0.9.44",
+        sha1 = "e22be0d690a99c046bf9f57106065a77edad1eda",
+    )

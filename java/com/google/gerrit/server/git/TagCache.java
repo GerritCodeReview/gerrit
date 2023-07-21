@@ -34,7 +34,7 @@ public class TagCache {
       @Override
       protected void configure() {
         persist(CACHE_NAME, String.class, TagSetHolder.class)
-            .version(1)
+            .version(2)
             .keySerializer(StringCacheSerializer.INSTANCE)
             .valueSerializer(TagSetHolder.Serializer.INSTANCE);
         bind(TagCache.class);

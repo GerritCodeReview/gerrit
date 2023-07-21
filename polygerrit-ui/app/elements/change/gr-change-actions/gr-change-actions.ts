@@ -1989,10 +1989,16 @@ export class GrChangeActions
   }
 
   // private but used in test
+<<<<<<< PATCH SET (0638f6 [DO NOT SUBMIT] Testing Rebase in cog api.)
+  ChangehandleCherrypickTap() {
+    // Creating a change here.
+=======
   async handleCherrypickTap() {
+>>>>>>> BASE      (824144 Update git submodules)
     if (!this.change) {
       throw new Error('The change property must be set');
     }
+    // More changes
     assertIsDefined(this.confirmCherrypick, 'confirmCherrypick');
     this.confirmCherrypick.branch = '' as BranchName;
     const changes = await this.getCherryPickChanges();

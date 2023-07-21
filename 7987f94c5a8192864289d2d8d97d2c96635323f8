@@ -94,6 +94,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bc7ad86c_85890673",
+        "filename": "java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-21T06:52:26Z",
+      "side": 1,
+      "message": "if `Optional` is preferred then lines #271-#274 could be reworked to that as well",
+      "parentUuid": "2f885c46_05009a40",
+      "range": {
+        "startLine": 277,
+        "startChar": 6,
+        "endLine": 279,
+        "endChar": 7
+      },
+      "revId": "7987f94c5a8192864289d2d8d97d2c96635323f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fff4947d_fcc6a46d",
         "filename": "java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
         "patchSetId": 18

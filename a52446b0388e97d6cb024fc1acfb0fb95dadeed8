@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61eb73d4_33dbc044",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-21T06:52:26Z",
+      "side": 1,
+      "message": "nit: sounds a bit bumpy - would rephrase it to sth more like\n\u003e The plugin loader sorts plugins by putting all that end\n  with .api.jar *before* the others, so that all Plugin APIs\n  are declared *before* any other plugin that can use them.",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 11
+      },
+      "revId": "a52446b0388e97d6cb024fc1acfb0fb95dadeed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00f5006e_d5beedb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-21T06:52:26Z",
+      "side": 1,
+      "message": "nit: how about\n\u003e All other plugins could include Gerrit-ApiModules as no-link libraries in their BUILD file, so that...",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 46,
+        "endChar": 21
+      },
+      "revId": "a52446b0388e97d6cb024fc1acfb0fb95dadeed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab0081a9_d3d67b9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-21T06:52:26Z",
+      "side": 1,
+      "message": "nit: have",
+      "range": {
+        "startLine": 74,
+        "startChar": 25,
+        "endLine": 74,
+        "endChar": 29
+      },
+      "revId": "a52446b0388e97d6cb024fc1acfb0fb95dadeed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee0b7edd_2895b538",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-21T06:52:26Z",
+      "side": 1,
+      "message": "nit: `s/to to have the/to have is the`",
+      "range": {
+        "startLine": 107,
+        "startChar": 33,
+        "endLine": 107,
+        "endChar": 47
+      },
+      "revId": "a52446b0388e97d6cb024fc1acfb0fb95dadeed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5373c004_9d8b3441",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-21T06:52:26Z",
+      "side": 1,
+      "message": "nit: `s/of of/of`",
+      "range": {
+        "startLine": 109,
+        "startChar": 46,
+        "endLine": 109,
+        "endChar": 51
+      },
+      "revId": "a52446b0388e97d6cb024fc1acfb0fb95dadeed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9221e800_9726d393",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-21T06:52:26Z",
+      "side": 1,
+      "message": "nit: `s/I55658f6/I55658f62`",
+      "range": {
+        "startLine": 152,
+        "startChar": 45,
+        "endLine": 152,
+        "endChar": 53
+      },
+      "revId": "a52446b0388e97d6cb024fc1acfb0fb95dadeed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8bd00a8_fd5f2dea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-21T06:52:26Z",
+      "side": 1,
+      "message": "I have read the description once, found a few nits but need a bit of time to process what I have read - will do another round of review in couple of days.",
+      "revId": "a52446b0388e97d6cb024fc1acfb0fb95dadeed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b02b54a2_c26661aa",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-21T06:52:26Z",
+      "side": 1,
+      "message": "IMHO code would benefit if `apiModuleClass`, `apiInjector` and `apiModule` were optionals, WDYT?",
+      "revId": "a52446b0388e97d6cb024fc1acfb0fb95dadeed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab296b7e_0043faa8",
+        "filename": "tools/bzl/plugin.bzl",
+        "patchSetId": 23
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-07-21T06:52:26Z",
+      "side": 1,
+      "message": "not sure why this change was introduced, can you elaborate?",
+      "range": {
+        "startLine": 20,
+        "startChar": 8,
+        "endLine": 20,
+        "endChar": 24
+      },
+      "revId": "a52446b0388e97d6cb024fc1acfb0fb95dadeed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

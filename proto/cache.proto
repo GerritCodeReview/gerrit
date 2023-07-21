@@ -252,7 +252,7 @@ message TagSetHolderProto {
     // Next ID: 3
     message TagProto {
       bytes id = 1;
-      bytes flags = 2;
+      bytes flags = 2; // org.roaringbitmap.RoaringBitmap serialized as ByteString
     }
     repeated TagProto tag = 3;
   }

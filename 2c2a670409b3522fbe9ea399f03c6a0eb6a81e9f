@@ -70,6 +70,30 @@
       },
       "revId": "2c2a670409b3522fbe9ea399f03c6a0eb6a81e9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed224ab3_fcd88655",
+        "filename": "java/com/google/gerrit/server/restapi/change/ApplyPatch.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-21T08:59:47Z",
+      "side": 1,
+      "message": "Created https://git.eclipse.org/r/c/jgit/jgit/+/203223 to allow adding the potential error messages above the input message footers.",
+      "parentUuid": "fd5d5df5_1de795a8",
+      "range": {
+        "startLine": 246,
+        "startChar": 3,
+        "endLine": 249,
+        "endChar": 44
+      },
+      "revId": "2c2a670409b3522fbe9ea399f03c6a0eb6a81e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

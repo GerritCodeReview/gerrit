@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3735869_bccc024a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-07-21T15:04:43Z",
+      "side": 1,
+      "message": "I was thinking, that I suspected that you may also want to restrict the usage of \"unqualified\" (when a user-name or group-name are not specified) named-destinations https://gerrit-review.googlesource.com/Documentation/user-named-destinations.html and named-queries https://gerrit-review.googlesource.com/Documentation/user-named-queries.html since these operators will return different results base on the user running them. But then I was thinking that perhaps users might want to define their own \"safety\" criteria for things to prevent them from accidentally submitting changes of various types, and this leads me to believe that the type of restriction your are adding here has the potential to restrict someone from doing legitimate things that makes sense to them. I don\u0027t think it is a good idea for us to assume that certain things are bad. And the more I think about it, the more I can see reasons people may want to define requirements with the 4 operators above also, so I do not think we should restrict them.",
+      "revId": "d628e4ee2edbff3e0e793ee49158f1295a9e5596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

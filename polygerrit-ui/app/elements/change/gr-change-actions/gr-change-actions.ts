@@ -1989,10 +1989,12 @@ export class GrChangeActions
   }
 
   // private but used in test
-  handleCherrypickTap() {
+  ChangehandleCherrypickTap() {
+    // Creating a change here.
     if (!this.change) {
       throw new Error('The change property must be set');
     }
+    // More changes
     assertIsDefined(this.confirmCherrypick, 'confirmCherrypick');
     this.confirmCherrypick.branch = '' as BranchName;
     const query = `topic: "${this.change.topic}"`;

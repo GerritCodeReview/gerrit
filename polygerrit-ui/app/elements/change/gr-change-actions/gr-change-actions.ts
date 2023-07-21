@@ -1995,24 +1995,29 @@ export class GrChangeActions
     }
     assertIsDefined(this.confirmCherrypick, 'confirmCherrypick');
     this.confirmCherrypick.branch = '' as BranchName;
-    const query = `topic: "${this.change.topic}"`;
-    const options = listChangesOptionsToHex(
-      ListChangesOption.MESSAGES,
-      ListChangesOption.ALL_REVISIONS
-    );
-    this.restApiService
-      .getChanges(0, query, undefined, options)
-      .then(changes => {
-        if (!changes) {
-          this.reporting.error(
-            'Change Actions',
-            new Error('getChanges returns undefined')
-          );
-          return;
-        }
-        this.confirmCherrypick!.updateChanges(changes);
-        this.showActionDialog(this.confirmCherrypick!);
-      });
+    if (this.change.topic) {
+      const query = `topic: "${this.change.topic}"`;
+      const options = listChangesOptionsToHex(
+        ListChangesOption.MESSAGES,
+        ListChangesOption.ALL_REVISIONS
+      );
+      this.restApiService
+        .getChanges(0, query, undefined, options)
+        .then(changes => {
+          if (!changes) {
+            this.reporting.error(
+              'Change Actions',
+              new Error('getChanges returns undefined')
+            );
+            return;
+          }
+          this.confirmCherrypick!.updateChanges(changes);
+          this.showActionDialog(this.confirmCherrypick!);
+        });
+    } else {
+      this.confirmCherrypick!.updateChanges([this.change as ChangeInfo]);
+      this.showActionDialog(this.confirmCherrypick!);
+    }
   }
 
   // private but used in test

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df5e9fe1_6c8ddad5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-21T22:09:16Z",
+      "side": 1,
+      "message": "Can you please verify that the field calculation for the metrics is correct in this merge?",
+      "revId": "56c0b3d9ce513be3663f386cc92f908f8f1a0720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

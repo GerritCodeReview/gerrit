@@ -39,6 +39,30 @@
       },
       "revId": "e598ab88713b2fe77e7046c82a87affec003bd55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "300c65d0_edbdc42a",
+        "filename": "javatests/com/google/gerrit/metrics/dropwizard/BucketedCallbackTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-07-21T10:30:25Z",
+      "side": 1,
+      "message": "Yes makes sense.",
+      "parentUuid": "c37b2420_fcbbf38b",
+      "range": {
+        "startLine": 92,
+        "startChar": 15,
+        "endLine": 92,
+        "endChar": 23
+      },
+      "revId": "e598ab88713b2fe77e7046c82a87affec003bd55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

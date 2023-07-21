@@ -25,7 +25,7 @@ import com.google.gerrit.entities.AccountGroupByIdAudit;
 import com.google.gerrit.entities.AccountGroupMemberAudit;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.server.account.GroupUuid;
-import com.google.gerrit.server.account.externalids.DisabledExternalIdCache;
+import com.google.gerrit.server.account.externalids.storage.notedb.DisabledExternalIdCache;
 import com.google.gerrit.server.notedb.NoteDbUtil;
 import java.time.Instant;
 import java.util.Set;

@@ -12,16 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account.externalids;
+package com.google.gerrit.server.account.externalids.storage.notedb;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdCache;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import java.io.IOException;
 import java.util.Optional;
-import org.eclipse.jgit.lib.ObjectId;
 
 public class DisabledExternalIdCache implements ExternalIdCache {
   public static Module module() {
@@ -41,11 +42,6 @@ public class DisabledExternalIdCache implements ExternalIdCache {
 
   @Override
   public ImmutableSet<ExternalId> byAccount(Account.Id accountId) {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  public ImmutableSet<ExternalId> byAccount(Account.Id accountId, ObjectId rev) {
     throw new UnsupportedOperationException();
   }
 

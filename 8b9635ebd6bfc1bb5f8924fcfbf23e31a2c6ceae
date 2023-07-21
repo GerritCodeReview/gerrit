@@ -16,6 +16,24 @@
       "message": "nit: annotate with @Nullable",
       "revId": "8b9635ebd6bfc1bb5f8924fcfbf23e31a2c6ceae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35867f49_4f608c72",
+        "filename": "java/com/google/gerrit/server/account/externalids/storage/notedb/ExternalIdsNoteDbImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-07-21T07:50:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0f30788_44a9a8aa",
+      "revId": "8b9635ebd6bfc1bb5f8924fcfbf23e31a2c6ceae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

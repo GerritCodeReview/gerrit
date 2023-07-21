@@ -733,3 +733,9 @@ def java_dependencies():
         artifact = "org.objenesis:objenesis:3.0.1",
         sha1 = "11cfac598df9dc48bb9ed9357ed04212694b7808",
     )
+
+    maven_jar(
+        name = "roaringbitmap",
+        artifact = "org.roaringbitmap:RoaringBitmap:0.6.51",
+        sha1 = "46562054ac415ca70ee4ecb83aae3247b6058a48",
+    )

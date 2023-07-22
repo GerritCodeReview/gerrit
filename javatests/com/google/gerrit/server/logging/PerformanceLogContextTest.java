@@ -171,7 +171,7 @@ public class PerformanceLogContextTest {
               new Description("Latency metric for testing"),
               Field.ofInteger("account", Metadata.Builder::accountId).build(),
               Field.ofInteger("change", Metadata.Builder::changeId).build(),
-              Field.ofString("project", Metadata.Builder::projectName).build());
+              Field.ofProjectName("project").build());
       timer3.start(1000000, 123, "foo/bar").close();
 
       assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).hasSize(4);
@@ -206,14 +206,14 @@ public class PerformanceLogContextTest {
           metricMaker.newTimer(
               "test1/latency",
               new Description("Latency metric for testing"),
-              Field.ofString("project", Metadata.Builder::projectName).build());
+              Field.ofProjectName("project").build());
       timer1.start(null).close();
 
       Timer2<String, String> timer2 =
           metricMaker.newTimer(
               "test2/latency",
               new Description("Latency metric for testing"),
-              Field.ofString("project", Metadata.Builder::projectName).build(),
+              Field.ofProjectName("project").build(),
               Field.ofString("branch", Metadata.Builder::branchName).build());
       timer2.start(null, null).close();
 
@@ -221,7 +221,7 @@ public class PerformanceLogContextTest {
           metricMaker.newTimer(
               "test3/latency",
               new Description("Latency metric for testing"),
-              Field.ofString("project", Metadata.Builder::projectName).build(),
+              Field.ofProjectName("project").build(),
               Field.ofString("branch", Metadata.Builder::branchName).build(),
               Field.ofString("revision", Metadata.Builder::revision).build());
       timer3.start(null, null, null).close();
@@ -270,7 +270,7 @@ public class PerformanceLogContextTest {
             new Description("Latency metric for testing"),
             Field.ofInteger("account", Metadata.Builder::accountId).build(),
             Field.ofInteger("change", Metadata.Builder::changeId).build(),
-            Field.ofString("project", Metadata.Builder::projectName).build());
+            Field.ofProjectName("project").build());
     timer3.start(1000000, 123, "value3").close();
 
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
@@ -317,7 +317,7 @@ public class PerformanceLogContextTest {
               new Description("Latency metric for testing"),
               Field.ofInteger("account", Metadata.Builder::accountId).build(),
               Field.ofInteger("change", Metadata.Builder::changeId).build(),
-              Field.ofString("project", Metadata.Builder::projectName).build());
+              Field.ofProjectName("project").build());
       timer3.start(1000000, 123, "foo/bar").close();
 
       assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();

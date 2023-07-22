@@ -21,6 +21,8 @@ import com.google.gerrit.server.logging.Metadata;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Describes a bucketing field used by a metric.
@@ -102,6 +104,21 @@ public abstract class Field<T> {
         .metadataMapper(metadataMapper);
   }
 
+  /**
+   * A dedicated field to be used with metrics based on {@link Metadata#projectName()}. It was
+   * introduced to sanitize the project name to avoid sub-metric name's collision.
+   *
+   * @param fieldName name of the field that contains a project name as value
+   * @return builder for the project name field
+   */
+  public static Field.Builder<String> ofProjectName(String fieldName) {
+    return new AutoValue_Field.Builder<String>()
+        .valueType(String.class)
+        .formatter(Field::sanitizeProjectName)
+        .name(fieldName)
+        .metadataMapper(Metadata.Builder::projectName);
+  }
+
   /** Returns name of this field within the metric. */
   public abstract String name();
 
@@ -136,5 +153,34 @@ public abstract class Field<T> {
       checkArgument(field.name().matches("^[a-z_]+$"), "name must match [a-z_]");
       return field;
     }
+  }
+
+  private static final Pattern SUBMETRIC_NAME_PATTERN =
+      Pattern.compile("[a-zA-Z0-9_-]+([a-zA-Z0-9_-]+)*");
+  private static final Pattern INVALID_CHAR_PATTERN = Pattern.compile("[^\\w-]");
+  private static final String REPLACEMENT_PREFIX = "_0x";
+
+  private static String sanitizeProjectName(String projectName) {
+    if (SUBMETRIC_NAME_PATTERN.matcher(projectName).matches()
+        && !projectName.contains(REPLACEMENT_PREFIX)) {
+      return projectName;
+    }
+
+    String replacmentPrefixSanitizedName =
+        projectName.replaceAll(REPLACEMENT_PREFIX, REPLACEMENT_PREFIX + REPLACEMENT_PREFIX);
+    StringBuilder sanitizedName = new StringBuilder();
+    for (int i = 0; i < replacmentPrefixSanitizedName.length(); i++) {
+      Character c = replacmentPrefixSanitizedName.charAt(i);
+      Matcher matcher = INVALID_CHAR_PATTERN.matcher(c.toString());
+      if (matcher.matches()) {
+        sanitizedName.append(REPLACEMENT_PREFIX);
+        sanitizedName.append(Integer.toHexString(c).toUpperCase());
+        sanitizedName.append('_');
+      } else {
+        sanitizedName.append(c);
+      }
+    }
+
+    return sanitizedName.toString();
   }
 }

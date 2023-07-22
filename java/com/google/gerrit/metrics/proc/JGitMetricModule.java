@@ -20,7 +20,6 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
-import com.google.gerrit.server.logging.Metadata;
 import java.util.Map;
 import org.eclipse.jgit.storage.file.WindowCacheStats;
 
@@ -184,7 +183,7 @@ public class JGitMetricModule extends MetricModule {
                         + "having most data in the cache.")
                 .setGauge()
                 .setUnit("byte"),
-            Field.ofString("repository_name", Metadata.Builder::projectName)
+            Field.ofProjectName("repository_name")
                 .description("The name of the repository.")
                 .build());
     metrics.newTrigger(

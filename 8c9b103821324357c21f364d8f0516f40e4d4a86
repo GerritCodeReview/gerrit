@@ -46,6 +46,30 @@
       },
       "revId": "8c9b103821324357c21f364d8f0516f40e4d4a86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "933f6238_33a12f72",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-07-24T15:52:38Z",
+      "side": 1,
+      "message": "I don\u0027t know (and would rather not spend time to find out.)",
+      "parentUuid": "f068b379_3df46e87",
+      "range": {
+        "startLine": 739,
+        "startChar": 52,
+        "endLine": 739,
+        "endChar": 58
+      },
+      "revId": "8c9b103821324357c21f364d8f0516f40e4d4a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

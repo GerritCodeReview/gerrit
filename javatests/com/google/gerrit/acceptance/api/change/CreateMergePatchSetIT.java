@@ -361,6 +361,44 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createMergePatchSetInheritParent() throws Exception {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    createBranch(BranchNameKey.create(project, "dev"));
+
+    // create a change for master
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String parent = r.getCommit().getParent(0).getName();
+
+    // advance master branch
+    testRepo.reset(initialHead);
+    PushOneCommit.Result currentMaster = pushTo("refs/heads/master");
+    currentMaster.assertOkStatus();
+
+    // push a commit into dev branch
+    testRepo.reset(initialHead);
+    PushOneCommit.Result changeA =
+        pushFactory
+            .create(user.newIdent(), testRepo, "change A", "A.txt", "A content")
+            .to("refs/heads/dev");
+    changeA.assertOkStatus();
+    MergeInput mergeInput = new MergeInput();
+    mergeInput.source = "dev";
+    MergePatchSetInput in = new MergePatchSetInput();
+    in.merge = mergeInput;
+    in.subject = "update change by merge ps2 inherit parent of ps1";
+    in.validationOptions = ImmutableMap.of("key", "value");
+
+    TestCommitValidationListener testCommitValidationListener = new TestCommitValidationListener();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(testCommitValidationListener)) {
+      gApi.changes().id(changeId).createMergePatchSet(in);
+      assertThat(testCommitValidationListener.receiveEvent.pushOptions)
+          .containsExactly("key", "value");
+    }
+  }
+
+  @Test
   public void createMergePatchSetCannotBaseOnInvisibleChange() throws Exception {
     RevCommit initialHead = projectOperations.project(project).getHead("master");
     createBranch(BranchNameKey.create(project, "foo"));

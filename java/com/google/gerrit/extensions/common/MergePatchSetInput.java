@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.extensions.api.accounts.AccountInput;
+import java.util.Map;
 
 public class MergePatchSetInput {
   public String subject;
@@ -22,4 +23,5 @@ public class MergePatchSetInput {
   public String baseChange;
   public MergeInput merge;
   public AccountInput author;
+  public Map<String, String> validationOptions;
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "813f696e_9d0ff85b",
+        "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 513,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-07-24T08:13:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5e4f5fa_bcd3c7cc",
+      "range": {
+        "startLine": 513,
+        "startChar": 31,
+        "endLine": 513,
+        "endChar": 56
+      },
+      "revId": "de95e9ef705b45712ad1a2ea1839a0bd34bbc3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "86850f9e_ef640a15",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-07-21T16:24:58Z",
       "side": 1,
       "message": "Do you think below is more readable?\n\n```\nbuilder.setCommitter(\n    Optional.ofNullable(basePatchSetCommit.getCommitterIdent()).isPresent()\n        ? user.newCommitterIdent(\n                basePatchSetCommit.getCommitterIdent().getEmailAddress(), timestamp, zoneId)\n            .orElseGet(() -\u003e user.newCommitterIdent(timestamp, zoneId))\n        : user.newCommitterIdent(timestamp, zoneId));\n```",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 41
+      },
+      "revId": "de95e9ef705b45712ad1a2ea1839a0bd34bbc3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "979080e9_4a29c842",
+        "filename": "java/com/google/gerrit/server/restapi/change/PutMessage.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-07-24T08:13:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86850f9e_ef640a15",
       "range": {
         "startLine": 179,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7790bbd5_77b123c4",
+        "filename": "java/com/google/gerrit/server/update/Context.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-07-24T08:13:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be071583_409b67c6",
+      "range": {
+        "startLine": 169,
+        "startChar": 5,
+        "endLine": 170,
+        "endChar": 62
+      },
+      "revId": "de95e9ef705b45712ad1a2ea1839a0bd34bbc3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e37068d9_d4b1f8aa",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-07-21T16:24:58Z",
       "side": 1,
       "message": "Rename to `email`?",
+      "range": {
+        "startLine": 176,
+        "startChar": 47,
+        "endLine": 176,
+        "endChar": 67
+      },
+      "revId": "de95e9ef705b45712ad1a2ea1839a0bd34bbc3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c865f748_67129398",
+        "filename": "java/com/google/gerrit/server/update/Context.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-07-24T08:13:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e37068d9_d4b1f8aa",
       "range": {
         "startLine": 176,
         "startChar": 47,

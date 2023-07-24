@@ -8133,6 +8133,14 @@ the `name` and `email` fields set.
 The caller needs "Forge Author" permission when using this field.
 This field does not affect the owner or the committer of the change, which will
 continue to use the identity of the caller.
+|`validation_options`   |optional|
+Map with key-value pairs that are forwarded as options to the commit validation
+listeners (e.g. can be used to skip certain validations). Which validation
+options are supported depends on the installed commit validation listeners.
+Gerrit core doesn't support any validation options, but commit validation
+listeners that are implemented in plugins may. Please refer to the
+documentation of the installed plugins to learn whether they support validation
+options. Unknown validation options are silently ignored.
 |==================================
 
 [[move-input]]

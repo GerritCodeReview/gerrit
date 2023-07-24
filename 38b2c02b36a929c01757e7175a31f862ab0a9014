@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "595a2bc9_cc135560",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-07-24T04:54:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28fb2abd_14e2a80c",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 29
+      },
+      "revId": "38b2c02b36a929c01757e7175a31f862ab0a9014",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8213501c_26bb0550",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-07-23T03:09:31Z",
       "side": 1,
       "message": "[nit] s/api/API/",
+      "range": {
+        "startLine": 9,
+        "startChar": 29,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "38b2c02b36a929c01757e7175a31f862ab0a9014",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f01b8a9_11caa310",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-07-24T04:54:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8213501c_26bb0550",
       "range": {
         "startLine": 9,
         "startChar": 29,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1aa9087e_945dc0bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-07-24T04:54:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb68247d_3907e4ed",
+      "range": {
+        "startLine": 12,
+        "startChar": 35,
+        "endLine": 12,
+        "endChar": 38
+      },
+      "revId": "38b2c02b36a929c01757e7175a31f862ab0a9014",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5408eef_46c95278",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-07-23T03:09:31Z",
       "side": 1,
       "message": "Release-Notes: Fixed create merge patch-set API to use identity of caller as committer",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 106
+      },
+      "revId": "38b2c02b36a929c01757e7175a31f862ab0a9014",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4891a3c0_7d16c187",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-07-24T04:54:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5408eef_46c95278",
       "range": {
         "startLine": 15,
         "startChar": 0,

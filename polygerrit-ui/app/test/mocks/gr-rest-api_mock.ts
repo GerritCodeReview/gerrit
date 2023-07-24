@@ -514,6 +514,9 @@ export const grRestApiMock: RestApiService = {
   saveGroupOptions(): Promise<Response> {
     return Promise.resolve(new Response());
   },
+  deleteGroup(): Promise<Response> {
+    return Promise.resolve(new Response());
+  },
   saveGroupOwner(): Promise<Response> {
     return Promise.resolve(new Response());
   },

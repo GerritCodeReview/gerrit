@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24217f7a_85aa70b5",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-07-24T09:22:07Z",
+      "side": 1,
+      "message": "google has this library (barely used), but at version 0.6.51. I can look into an upgrade, but if you can get the benefits without it, that would be great.",
+      "range": {
+        "startLine": 739,
+        "startChar": 52,
+        "endLine": 739,
+        "endChar": 58
+      },
+      "revId": "8c9b103821324357c21f364d8f0516f40e4d4a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

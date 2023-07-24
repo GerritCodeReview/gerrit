@@ -1289,6 +1289,7 @@ export interface AccountCapabilityInfo {
   createAccount?: boolean;
   createGroup?: boolean;
   createProject?: boolean;
+  deleteGroup?: boolean;
   emailReviewers?: boolean;
   flushCaches?: boolean;
   killTask?: boolean;

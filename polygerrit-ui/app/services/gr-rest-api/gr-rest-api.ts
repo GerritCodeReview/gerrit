@@ -361,6 +361,8 @@ export interface RestApiService extends Finalizable {
     options: GroupOptionsInput
   ): Promise<Response>;
 
+  deleteGroup(name: GroupName): Promise<Response>;
+
   saveChangeReview(
     changeNum: ChangeId | NumericChangeId,
     patchNum: RevisionId,

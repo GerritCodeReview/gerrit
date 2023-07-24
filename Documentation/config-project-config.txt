@@ -482,7 +482,7 @@ commit message a short summary of the change's approvals, and a URL link back
 to the change in the web UI (see link:#submit-footers[below]).
 +
 The footers that are added are exactly the same footers that are also added by
-the link:cherry_pick[cherry pick] action. Thus, the `rebase always` action can
+the link:#cherry_pick[cherry pick] action. Thus, the `rebase always` action can
 be considered similar to the `cherry pick` action, but with the important
 distinction that `rebase always` does not ignore dependencies, which is why
 using the `rebase always` action should be preferred over the `cherry pick`

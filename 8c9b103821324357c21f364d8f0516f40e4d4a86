@@ -70,6 +70,30 @@
       },
       "revId": "8c9b103821324357c21f364d8f0516f40e4d4a86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e5dc6c1_cc2135a6",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-07-24T17:05:16Z",
+      "side": 1,
+      "message": "Ok, I checked and 0.6.51 seems ok. We miss out on some deserialization optimizations, but I think we still come out well ahead of bitsets. We\u0027ve been using 0.6.66 internally, so I\u0027m a little nervous about going backwards from that. I can upload a separate change to bump to the newer version and hopefully it\u0027s not much effort for you to update (APIs seem very stable and no license changes).",
+      "parentUuid": "933f6238_33a12f72",
+      "range": {
+        "startLine": 739,
+        "startChar": 52,
+        "endLine": 739,
+        "endChar": 58
+      },
+      "revId": "8c9b103821324357c21f364d8f0516f40e4d4a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

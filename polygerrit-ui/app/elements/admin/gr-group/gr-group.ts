@@ -127,6 +127,7 @@ export class GrGroup extends LitElement {
               ${this.renderGroupUUID()} ${this.renderGroupName()}
               ${this.renderGroupOwner()} ${this.renderGroupDescription()}
               ${this.renderGroupOptions()}
+              ${this.renderGroupDeleteButton()}
             </fieldset>
           </div>
         </div>
@@ -296,6 +297,27 @@ export class GrGroup extends LitElement {
     `;
   }
 
+  private renderGroupDeleteButton() {
+    return html`
+      <h3
+        id="deleteGroup"
+        class="heading-3 ${this.computeHeaderClass(false)}"
+      >
+        Delete Group
+      </h3>
+      <fieldset>
+        <span class="value">
+          <gr-button
+            ?disabled=false
+            @click=${this.handleDeleteGroup}
+          >
+            Delete Group
+          </gr-button>
+        </span>
+      </fieldset>
+    `;
+  }
+
   override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('groupId')) {
       this.loadGroup();
@@ -413,6 +435,8 @@ export class GrGroup extends LitElement {
     await this.restApiService.saveGroupOptions(this.groupId, options);
     this.originalOptionsVisibleToAll = visible;
   }
+
+  async handleDeleteGroup() {}
 
   private computeHeaderClass(configChanged: boolean) {
     return configChanged ? 'edited' : '';

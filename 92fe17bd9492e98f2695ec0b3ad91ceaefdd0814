@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "911dff6a_dc253be8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148165
+      },
+      "writtenOn": "2023-07-24T14:18:40Z",
+      "side": 1,
+      "message": "fatal: not a git repository (or any of the parent directories): .git\n\nIt seems to be a jekins environment problem?",
+      "revId": "92fe17bd9492e98f2695ec0b3ad91ceaefdd0814",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

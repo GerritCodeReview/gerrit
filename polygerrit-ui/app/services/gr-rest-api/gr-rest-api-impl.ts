@@ -586,6 +586,17 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
+  deleteGroup(groupName: GroupName): Promise<Response> {
+    const encodeName = encodeURIComponent(groupName);
+    return this._restApiHelper.fetch({
+      fetchOptions: {
+        method: HttpMethod.DELETE,
+      },
+      url: `/groups/${encodeName}`,
+      anonymizedUrl: '/groups/*',
+    });
+  }
+
   getGroupAuditLog(
     group: GroupId,
     errFn?: ErrorCallback

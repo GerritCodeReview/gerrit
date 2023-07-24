@@ -20,6 +20,7 @@ import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdate
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -216,6 +217,19 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
           bu.addOp(rsrc.getId(), psInserter);
           bu.execute();
         }
+
+        if (in.validationOptions != null) {
+          ImmutableListMultimap.Builder<String, String> validationOptions =
+              ImmutableListMultimap.builder();
+          in
+              .validationOptions
+              .entrySet()
+              .forEach(e -> validationOptions.put(e.getKey(), e.getValue()));
+          psInserter.setValidationOptions(validationOptions.build());
+        }
+
+        bu.addOp(rsrc.getId(), psInserter);
+        bu.execute();
       }
 
       ChangeJson json = jsonFactory.create(ListChangesOption.CURRENT_REVISION);

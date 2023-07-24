@@ -143,6 +143,24 @@ suite('gr-group tests', () => {
                     </gr-button>
                   </span>
                 </fieldset>
+                <h3
+                  id="deleteGroup"
+                  class="heading-3 ${this.computeHeaderClass(false)}"
+                >
+                  Delete Group
+                </h3>
+                <fieldset>
+                  <span class="value">
+                    <gr-button disabled=""> Delete Group </gr-button>
+                  </span>
+                </fieldset>
+                <dialog id="deleteGroupModal">
+                  <gr-dialog id="deleteGroupDialog" confirm-label="Delete">
+                    <div class="header" slot="header">
+                      Are you really sure you want to delete the group:""?
+                    </div>
+                  </gr-dialog>
+                </dialog>
               </fieldset>
             </div>
           </div>

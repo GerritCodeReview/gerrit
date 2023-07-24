@@ -19,6 +19,7 @@ import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdate
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
@@ -210,6 +211,16 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
               .setMessage(messageForChange(nextPsId, newCommit))
               .setWorkInProgress(!newCommit.getFilesWithGitConflicts().isEmpty())
               .setCheckAddPatchSetPermission(false);
+
+          if (in.validationOptions != null) {
+            ImmutableListMultimap.Builder<String, String> validationOptions =
+                ImmutableListMultimap.builder();
+            in.validationOptions
+                .entrySet()
+                .forEach(e -> validationOptions.put(e.getKey(), e.getValue()));
+            psInserter.setValidationOptions(validationOptions.build());
+          }
+
           if (groups != null) {
             psInserter.setGroups(groups);
           }

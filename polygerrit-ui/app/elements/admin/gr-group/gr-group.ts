@@ -23,8 +23,10 @@ import {formStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
+import {customElement, property, state, query} from 'lit/decorators.js';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {modalStyles} from '../../../styles/gr-modal-styles';
+import {getBaseUrl} from '../../../utils/url-util';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
@@ -56,6 +58,9 @@ declare global {
 @customElement('gr-group')
 export class GrGroup extends LitElement {
   private readonly query: AutocompleteQuery;
+
+  @query('#deleteGroupModal')
+  deleteGroupModal?: HTMLDialogElement;
 
   @property({type: String})
   groupId?: GroupId;
@@ -102,6 +107,7 @@ export class GrGroup extends LitElement {
 
   static override get styles() {
     return [
+      modalStyles,
       fontStyles,
       formStyles,
       sharedStyles,
@@ -126,7 +132,7 @@ export class GrGroup extends LitElement {
             <fieldset>
               ${this.renderGroupUUID()} ${this.renderGroupName()}
               ${this.renderGroupOwner()} ${this.renderGroupDescription()}
-              ${this.renderGroupOptions()}
+              ${this.renderGroupOptions()}${this.renderGroupDeleteButton()}
             </fieldset>
           </div>
         </div>
@@ -296,6 +302,41 @@ export class GrGroup extends LitElement {
     `;
   }
 
+  private renderGroupDeleteButton() {
+    return html`
+      <h3 id="deleteGroup" class="heading-3 ${this.computeHeaderClass(false)}">
+        Delete Group
+      </h3>
+      <fieldset>
+        <span class="value">
+          <gr-button
+            ?disabled=${() => {
+              false;
+            }}
+            @click=${() => {
+              this.deleteGroupModal?.showModal();
+            }}
+          >
+            Delete Group
+          </gr-button>
+        </span>
+      </fieldset>
+      <dialog id="deleteGroupModal">
+        <gr-dialog
+          id="deleteGroupDialog"
+          confirm-label="Delete"
+          @confirm=${this.handleDeleteGroup}
+          @cancel=${() => this.deleteGroupModal?.close()}
+        >
+          <div class="header" slot="header">
+            Are you really sure you want to delete the group:
+            "${this.originalName}"?
+          </div>
+        </gr-dialog>
+      </dialog>
+    `;
+  }
+
   override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('groupId')) {
       this.loadGroup();
@@ -412,6 +453,15 @@ export class GrGroup extends LitElement {
     const options = {visible_to_all: visible};
     await this.restApiService.saveGroupOptions(this.groupId, options);
     this.originalOptionsVisibleToAll = visible;
+  }
+
+  async handleDeleteGroup() {
+    if (!this.originalName) return;
+    await this.restApiService.deleteGroup(this.originalName).then(_ => {
+      this.restApiService.invalidateGroupsCache();
+      this.deleteGroupModal?.close();
+      window.location.href = `${getBaseUrl()}/admin/groups`;
+    });
   }
 
   private computeHeaderClass(configChanged: boolean) {

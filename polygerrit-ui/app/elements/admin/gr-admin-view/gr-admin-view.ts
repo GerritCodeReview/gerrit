@@ -85,6 +85,8 @@ export class GrAdminView extends LitElement {
   @state()
   repoViewState?: RepoViewState;
 
+  @state() canDeleteCapability = false;
+
   @state() private breadcrumbParentName?: string;
 
   // private but used in test
@@ -356,6 +358,7 @@ export class GrAdminView extends LitElement {
       <div class="main breadcrumbs">
         <gr-group
           .groupId=${this.groupViewState?.groupId}
+          .canDelete=${this.canDeleteCapability}
           @name-changed=${(e: CustomEvent<GroupNameChangedDetail>) => {
             this.updateGroupName(e);
           }}
@@ -468,6 +471,14 @@ export class GrAdminView extends LitElement {
         ];
       const result = await Promise.all(promises);
       const account = result[0];
+      if (account) {
+        const capabilities = await this.restApiService.getAccountCapabilities([
+          'deleteGroup',
+        ]);
+        if (capabilities?.deleteGroup) {
+          this.canDeleteCapability = true;
+        }
+      }
       let options: AdminNavLinksOption | undefined = undefined;
       if (this.repoName) {
         options = {repoName: this.repoName};

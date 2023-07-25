@@ -16,7 +16,10 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.common.io.MoreFiles;
+import com.google.common.io.RecursiveDeleteOption;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.ioutil.HostPlatform;
@@ -227,6 +230,26 @@ public class LocalDiskRepositoryManagerTest extends EasyMockSupport {
   @Test(expected = RepositoryNotFoundException.class)
   public void testOpenRepositoryInvalidName() throws Exception {
     repoManager.openRepository(new Project.NameKey("project%?|<>A"));
+  }
+
+  @Test
+  public void testReOpenRepositoryDeletedDirectlyOnDiskThrowsException() throws Exception {
+    Project.NameKey project = new Project.NameKey("projectA");
+    createRepository(repoManager.getBasePath(project), project.get());
+
+    try (Repository repo = repoManager.openRepository(project)) {}
+
+    MoreFiles.deleteRecursively(
+        FileKey.lenient(
+                site.resolve(cfg.getString("gerrit", null, "basePath"))
+                    .resolve(project.get())
+                    .toFile(),
+                FS.DETECTED)
+            .getFile()
+            .toPath(),
+        RecursiveDeleteOption.ALLOW_INSECURE);
+
+    assertThrows(RepositoryNotFoundException.class, () -> repoManager.openRepository(project));
   }
 
   @Test

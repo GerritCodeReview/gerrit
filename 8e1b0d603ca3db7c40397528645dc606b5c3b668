@@ -87,6 +87,24 @@
       "parentUuid": "09e79dbe_09517eae",
       "revId": "8e1b0d603ca3db7c40397528645dc606b5c3b668",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50e97535_99e87f00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-07-25T22:10:33Z",
+      "side": 1,
+      "message": "\u003e The memory field logged in the sshd_log is the memory allocated by this thread during the request\u0027s lifetime as reported by ThreadMxBean#getThreadAllocatedBytes [1].\n\nI understand that, but I also thought that most JVM implementations don\u0027t really track memory at the per-thread level, so often what\u0027s reported here is all allocations during the life of this thread. Am I mistaken on that?\n\n\u003e \n\u003e Maybe you can create a heap dump and use MAT [2] to analyse it.\n\nI have been using MAT, but the heap sizes are large enough that\u0027s it\u0027s a bit challenging to use well as I\u0027m doing all the parsing on a machine without the Eclipse GUI running (using the ParseHeapDump script). There\u0027s also the timing aspect of getting a dump when the tags cache will be in it, but I can probably figure that out.\n\n\u003e My other idea so far is to try and drop the heapLimit to a point that it fails with one and works with the other 😂\n\nSo I did actually try this as it seemed pretty simple and it worked pretty well. With `-Xmx\u003d38g -Xms\u003d38g` both bitsets and RB are able to run `git ls-remote` on that huge repo with 1.3M refs. When I drop down to `-Xmx24g -Xms24g`, RB succeeds in 5.5 minutes, but bitsets OOM with a GC overhead limit exception after about 7 minutes. I used `-XX:+UseParallelOldGC -XX:ParallelGCThreads\u003d20` for both. Interestingly, this time that `memory` field only reported ~175GB with RB.",
+      "parentUuid": "fb01c3e6_12463b24",
+      "revId": "8e1b0d603ca3db7c40397528645dc606b5c3b668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

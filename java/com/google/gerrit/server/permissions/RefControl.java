@@ -445,12 +445,15 @@ class RefControl {
         if (logger.atFine().isEnabled() || LoggingContext.getInstance().isAclLogging()) {
           String logMessage =
               String.format(
-                  "'%s' can perform '%s' with force=%s on project '%s' for ref '%s'",
+                  "'%s' can perform '%s' with force=%s on project '%s' for ref '%s'"
+                      + " (allowed for group '%s' by rule '%s')",
                   getUser().getLoggableName(),
                   permissionName,
                   withForce,
                   projectControl.getProject().getName(),
-                  refName);
+                  refName,
+                  pr.getGroup().getUUID(),
+                  pr);
           LoggingContext.getInstance().addAclLogRecord(logMessage);
           logger.atFine().log("%s (caller: %s)", logMessage, callerFinder.findCallerLazy());
         }

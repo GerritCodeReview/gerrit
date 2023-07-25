@@ -59,6 +59,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
   private Project.NameKey normalProject;
   private Project.NameKey secretProject;
   private Project.NameKey secretRefProject;
+  private AccountGroup.UUID privilegedGroupUuid;
   private TestAccount privilegedUser;
 
   @Before
@@ -66,8 +67,7 @@ public class CheckAccessIT extends AbstractDaemonTest {
     normalProject = projectOperations.newProject().create();
     secretProject = projectOperations.newProject().create();
     secretRefProject = projectOperations.newProject().create();
-    AccountGroup.UUID privilegedGroupUuid =
-        groupOperations.newGroup().name(name("privilegedGroup")).create();
+    privilegedGroupUuid = groupOperations.newGroup().name(name("privilegedGroup")).create();
 
     privilegedUser = accountCreator.create("privilegedUser", "snowden@nsa.gov", "Ed Snowden", null);
     groupOperations.group(privilegedGroupUuid).forUpdate().addMember(privilegedUser.id()).update();
@@ -239,7 +239,9 @@ public class CheckAccessIT extends AbstractDaemonTest {
                 ImmutableList.of(
                     "'user1' can perform 'read' with force=false on project '"
                         + normalProject.get()
-                        + "' for ref 'refs/heads/*'",
+                        + "' for ref 'refs/heads/*' (allowed for group '"
+                        + SystemGroupBackend.ANONYMOUS_USERS.get()
+                        + "' by rule 'group Anonymous Users')",
                     "'user1' cannot perform 'viewPrivateChanges' with force=false on project '"
                         + normalProject.get()
                         + "' for ref 'refs/heads/master'")),
@@ -251,7 +253,9 @@ public class CheckAccessIT extends AbstractDaemonTest {
                 ImmutableList.of(
                     "'user1' can perform 'read' with force=false on project '"
                         + normalProject.get()
-                        + "' for ref 'refs/heads/*'")),
+                        + "' for ref 'refs/heads/*' (allowed for group '"
+                        + SystemGroupBackend.ANONYMOUS_USERS.get()
+                        + "' by rule 'group Anonymous Users')")),
             // Test 3
             TestCase.project(
                 user.email(),
@@ -273,7 +277,13 @@ public class CheckAccessIT extends AbstractDaemonTest {
                 ImmutableList.of(
                     "'user1' can perform 'read' with force=false on project '"
                         + secretRefProject.get()
-                        + "' for ref 'refs/heads/*'",
+                        + "' for ref 'refs/heads/*' (allowed for group '"
+                        + SystemGroupBackend.REGISTERED_USERS.get()
+                        // if the permission was assigned through ProjectOperations the local group
+                        // name is set to the UUID
+                        + "' by rule 'group "
+                        + SystemGroupBackend.REGISTERED_USERS.get()
+                        + "')",
                     "'user1' cannot perform 'read' with force=false on project '"
                         + secretRefProject.get()
                         + "' for ref 'refs/heads/secret/master' because this permission is blocked")),
@@ -286,10 +296,22 @@ public class CheckAccessIT extends AbstractDaemonTest {
                 ImmutableList.of(
                     "'privilegedUser' can perform 'read' with force=false on project '"
                         + secretRefProject.get()
-                        + "' for ref 'refs/heads/*'",
+                        + "' for ref 'refs/heads/*' (allowed for group '"
+                        + SystemGroupBackend.REGISTERED_USERS.get()
+                        // if the permission was assigned through ProjectOperations the local group
+                        // name is set to the UUID
+                        + "' by rule 'group "
+                        + SystemGroupBackend.REGISTERED_USERS.get()
+                        + "')",
                     "'privilegedUser' can perform 'read' with force=false on project '"
                         + secretRefProject.get()
-                        + "' for ref 'refs/heads/secret/master'")),
+                        + "' for ref 'refs/heads/secret/master' (allowed for group '"
+                        + privilegedGroupUuid.get()
+                        // if the permission was assigned through ProjectOperations the local group
+                        // name is set to the UUID
+                        + "' by rule 'group "
+                        + privilegedGroupUuid.get()
+                        + "')")),
             // Test 6
             TestCase.projectRef(
                 privilegedUser.email(),
@@ -299,7 +321,9 @@ public class CheckAccessIT extends AbstractDaemonTest {
                 ImmutableList.of(
                     "'privilegedUser' can perform 'read' with force=false on project '"
                         + normalProject.get()
-                        + "' for ref 'refs/heads/*'")),
+                        + "' for ref 'refs/heads/*' (allowed for group '"
+                        + SystemGroupBackend.ANONYMOUS_USERS.get()
+                        + "' by rule 'group Anonymous Users')")),
             // Test 7
             TestCase.projectRef(
                 privilegedUser.email(),
@@ -309,7 +333,13 @@ public class CheckAccessIT extends AbstractDaemonTest {
                 ImmutableList.of(
                     "'privilegedUser' can perform 'read' with force=false on project '"
                         + secretProject.get()
-                        + "' for ref 'refs/*'")),
+                        + "' for ref 'refs/*' (allowed for group '"
+                        + privilegedGroupUuid.get()
+                        // if the permission was assigned through ProjectOperations the local group
+                        // name is set to the UUID
+                        + "' by rule 'group "
+                        + privilegedGroupUuid.get()
+                        + "')")),
             // Test 8
             TestCase.projectRefPerm(
                 privilegedUser.email(),
@@ -320,10 +350,18 @@ public class CheckAccessIT extends AbstractDaemonTest {
                 ImmutableList.of(
                     "'privilegedUser' can perform 'read' with force=false on project '"
                         + normalProject.get()
-                        + "' for ref 'refs/heads/*'",
+                        + "' for ref 'refs/heads/*' (allowed for group '"
+                        + SystemGroupBackend.ANONYMOUS_USERS.get()
+                        + "' by rule 'group Anonymous Users')",
                     "'privilegedUser' can perform 'viewPrivateChanges' with force=false on project '"
                         + normalProject.get()
-                        + "' for ref 'refs/heads/master'")),
+                        + "' for ref 'refs/heads/master' (allowed for group '"
+                        + privilegedGroupUuid.get()
+                        // if the permission was assigned through ProjectOperations the local group
+                        // name is set to the UUID
+                        + "' by rule 'group "
+                        + privilegedGroupUuid.get()
+                        + "')")),
             // Test 9
             TestCase.projectRefPerm(
                 privilegedUser.email(),
@@ -334,10 +372,18 @@ public class CheckAccessIT extends AbstractDaemonTest {
                 ImmutableList.of(
                     "'privilegedUser' can perform 'read' with force=false on project '"
                         + normalProject.get()
-                        + "' for ref 'refs/heads/*'",
+                        + "' for ref 'refs/heads/*' (allowed for group '"
+                        + SystemGroupBackend.ANONYMOUS_USERS.get()
+                        + "' by rule 'group Anonymous Users')",
                     "'privilegedUser' can perform 'forgeServerAsCommitter' with force=false on project '"
                         + normalProject.get()
-                        + "' for ref 'refs/heads/master'")));
+                        + "' for ref 'refs/heads/master' (allowed for group '"
+                        + privilegedGroupUuid.get()
+                        // if the permission was assigned through ProjectOperations the local group
+                        // name is set to the UUID
+                        + "' by rule 'group "
+                        + privilegedGroupUuid.get()
+                        + "')")));
 
     for (TestCase tc : inputs) {
       String in = newGson().toJson(tc.input);

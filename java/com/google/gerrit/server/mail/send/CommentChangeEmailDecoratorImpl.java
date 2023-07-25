@@ -68,9 +68,9 @@ import org.eclipse.jgit.lib.Repository;
 /** Send comments, after the author of them hit used Publish Comments in the UI. */
 @AutoFactory
 public class CommentChangeEmailDecoratorImpl implements CommentChangeEmailDecorator {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  protected static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private class FileCommentGroup {
+  protected class FileCommentGroup {
 
     public String filename;
     public int patchSetId;
@@ -123,13 +123,13 @@ public class CommentChangeEmailDecoratorImpl implements CommentChangeEmailDecora
     }
   }
 
-  private EmailArguments args;
-  private OutgoingEmail email;
-  private ChangeEmail changeEmail;
-  private List<? extends Comment> inlineComments = Collections.emptyList();
-  @Nullable private String patchSetComment;
-  private List<LabelVote> labels = ImmutableList.of();
-  private final CommentsUtil commentsUtil;
+  protected EmailArguments args;
+  protected OutgoingEmail email;
+  protected ChangeEmail changeEmail;
+  protected List<? extends Comment> inlineComments = Collections.emptyList();
+  @Nullable protected String patchSetComment;
+  protected List<LabelVote> labels = ImmutableList.of();
+  protected final CommentsUtil commentsUtil;
   private final boolean incomingEmailEnabled;
   private final String replyToAddress;
   private final Supplier<Map<SubmitRequirement, SubmitRequirementResult>>
@@ -241,7 +241,7 @@ public class CommentChangeEmailDecoratorImpl implements CommentChangeEmailDecora
   }
 
   /** Get the set of accounts whose comments have been replied to in this email. */
-  private HashSet<Account.Id> getReplyAccounts() {
+  protected HashSet<Account.Id> getReplyAccounts() {
     HashSet<Account.Id> replyAccounts = new HashSet<>();
     // Track visited parent UUIDs to avoid cycles.
     HashSet<String> visitedUuids = new HashSet<>();
@@ -456,7 +456,7 @@ public class CommentChangeEmailDecoratorImpl implements CommentChangeEmailDecora
     return commentGroups;
   }
 
-  private List<Map<String, Object>> commentBlocksToSoyData(List<CommentFormatter.Block> blocks) {
+  protected List<Map<String, Object>> commentBlocksToSoyData(List<CommentFormatter.Block> blocks) {
     return blocks.stream()
         .map(
             b -> {
@@ -494,7 +494,7 @@ public class CommentChangeEmailDecoratorImpl implements CommentChangeEmailDecora
   }
 
   @Nullable
-  private Repository getRepository() {
+  protected Repository getRepository() {
     try {
       return args.server.openRepository(changeEmail.getProjectState().getNameKey());
     } catch (IOException e) {
@@ -612,7 +612,7 @@ public class CommentChangeEmailDecoratorImpl implements CommentChangeEmailDecora
         .collect(toImmutableList());
   }
 
-  private String getLine(PatchFile fileInfo, short side, int lineNbr) {
+  protected String getLine(PatchFile fileInfo, short side, int lineNbr) {
     try {
       return fileInfo.getLine(side, lineNbr);
     } catch (IOException err) {
@@ -646,7 +646,7 @@ public class CommentChangeEmailDecoratorImpl implements CommentChangeEmailDecora
     return result.build();
   }
 
-  private String getCommentTimestamp() {
+  protected String getCommentTimestamp() {
     // Grouping is currently done by timestamp.
     return MailProcessingUtil.rfcDateformatter.format(
         ZonedDateTime.ofInstant(changeEmail.getTimestamp(), ZoneId.of("UTC")));

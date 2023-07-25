@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25f6ce6e_3517b219",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-07-25T19:08:15Z",
+      "side": 1,
+      "message": "There\u0027s no CI so have to manually v+1/cs+1. But the commit looks good to me (made sure moveEnabled existed.",
+      "revId": "633c10e63ce3c6c384e431035564eb8028a5efb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

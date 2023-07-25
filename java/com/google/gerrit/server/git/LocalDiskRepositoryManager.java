@@ -135,6 +135,9 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     FileKey cachedLocation = fileKeyByProject.get(name);
     if (cachedLocation != null) {
       try {
+        if (!RepositoryCache.FileKey.isGitRepository(cachedLocation.getFile(), FS.DETECTED)) {
+          throw new RepositoryNotFoundException("Cannot open repository:" + name);
+        }
         return RepositoryCache.open(cachedLocation);
       } catch (IOException e) {
         fileKeyByProject.remove(name, cachedLocation);

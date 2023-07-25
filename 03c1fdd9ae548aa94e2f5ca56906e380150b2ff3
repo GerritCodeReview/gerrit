@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2470de8_5bed4c79",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-07-25T23:04:22Z",
+      "side": 1,
+      "message": "```\n\nbazel build release \u0026\u0026 bazel test --cache_test_results\u003dno --flaky_test_attempts 3 --test_timeout 3600 --test_tag_filters\u003d-flaky,-elastic //...\n...\n[snip]\n//javatests/com/google/gerrit/server/group/db:db_tests                   PASSED in 3.8s\n//javatests/com/google/gerrit/server/ioutil:ioutil_tests                 PASSED in 1.5s\n//javatests/com/google/gerrit/server/query/account:lucene_query_test     PASSED in 50.5s\n//javatests/com/google/gerrit/server/query/change:lucene_query_test      PASSED in 134.1s\n//javatests/com/google/gerrit/server/query/change:small_tests            PASSED in 2.0s\n//javatests/com/google/gerrit/server/query/group:lucene_query_test       PASSED in 28.2s\n//javatests/com/google/gerrit/server/query/project:lucene_query_test     PASSED in 26.0s\n//javatests/com/google/gerrit/server/rules:prolog_tests                  PASSED in 2.9s\n//javatests/com/google/gerrit/server/update:medium_tests                 PASSED in 2.2s\n//javatests/com/google/gerrit/server/update:small_tests                  PASSED in 7.8s\n//javatests/com/google/gerrit/server/util/git:git_tests                  PASSED in 1.1s\n//javatests/com/google/gerrit/sshd:sshd_tests                            PASSED in 1.5s\n//javatests/com/google/gerrit/testing:testing_tests                      PASSED in 1.8s\n//javatests/com/google/gerrit/util/http:http_tests                       PASSED in 1.3s\n//javatests/com/google/gwtexpui/safehtml:safehtml_tests                  PASSED in 1.5s\n//javatests/org/eclipse/jgit:jgit_patch_tests                            PASSED in 0.9s\n//lib:nongoogle_test                                                     PASSED in 0.5s\n//plugins/hooks:hooks_tests                                              PASSED in 16.1s\n//plugins/replication:replication_it                                     PASSED in 262.2s\n//plugins/replication:replication_tests                                  PASSED in 3.5s\n//plugins/singleusergroup:singleusergroup_tests                          PASSED in 32.1s\n//resources/com/google/gerrit/server:commit-msg_test                     PASSED in 4.0s\n//tools/bzl:always_pass_test                                             PASSED in 0.2s\n\nExecuted 86 out of 86 tests: 86 tests pass.\nINFO: Build completed successfully, 466 total actions\n\n```",
+      "revId": "03c1fdd9ae548aa94e2f5ca56906e380150b2ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

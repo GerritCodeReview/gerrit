@@ -16,6 +16,23 @@
       "message": "+patrick, who might be interested in faster/leaner tag visibility.",
       "revId": "8e1b0d603ca3db7c40397528645dc606b5c3b668",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "208bf7c1_ec7e5cdc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-07-25T11:14:39Z",
+      "side": 1,
+      "message": "The change LGTM overall. Roaring claims it\u0027s so much better than EWAH and others, so now I am curious and would care about some numbers. Can you benchmark this against one of your large repos and see what you get on either library?",
+      "revId": "8e1b0d603ca3db7c40397528645dc606b5c3b668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

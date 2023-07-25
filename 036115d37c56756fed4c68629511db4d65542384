@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8367f8f_796e8acb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-07-25T22:22:46Z",
+      "side": 1,
+      "message": "```\nbazel build release \u0026\u0026 bazel test --cache_test_results\u003dno --flaky_test_attempts 3 --test_timeout 3600 --test_tag_filters\u003d-flaky,-elastic //...\n...\n[snip]\n//javatests/com/google/gerrit/testing:testing_tests                      PASSED in 1.6s\n//javatests/com/google/gerrit/util/http:http_tests                       PASSED in 1.1s\n//javatests/com/google/gwtexpui/safehtml:safehtml_tests                  PASSED in 1.1s\n//javatests/org/eclipse/jgit:jgit_patch_tests                            PASSED in 1.1s\n//lib:nongoogle_test                                                     PASSED in 0.4s\n//plugins/hooks:hooks_tests                                              PASSED in 15.2s\n//plugins/replication:replication_it                                     PASSED in 219.9s\n//plugins/replication:replication_tests                                  PASSED in 3.6s\n//plugins/singleusergroup:singleusergroup_tests                          PASSED in 14.1s\n//resources/com/google/gerrit/server:commit-msg_test                     PASSED in 4.8s\n//tools/bzl:always_pass_test                                             PASSED in 0.3s\n//javatests/com/google/gerrit/server/query/change:lucene_query_test       FLAKY, failed in 1 out of 2 in 138.2s\n  Stats over 2 runs: max \u003d 138.2s, min \u003d 135.2s, avg \u003d 136.7s, dev \u003d 1.5s\n  /Users/kaushikl/.cache/bazel/578a7b19c67881fe5cbe834122c08176/execroot/gerrit/bazel-out/darwin-fastbuild/testlogs/javatests/com/google/gerrit/server/query/change/lucene_query_test/test_attempts/attempt_1.log\n\nExecuted 86 out of 86 tests: 86 tests pass.\nINFO: Build completed successfully, 467 total actions\n```",
+      "revId": "036115d37c56756fed4c68629511db4d65542384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

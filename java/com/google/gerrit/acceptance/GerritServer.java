@@ -452,10 +452,11 @@ public class GerritServer implements AutoCloseable {
             bind(TestTicker.class).toInstance(testTicker);
           }
         });
-    daemon.setEnableHttpd(desc.httpd());
-    // Assure that SSHD is enabled if HTTPD is not required, otherwise the Gerrit server would not
-    // even start.
-    daemon.setEnableSshd(!desc.httpd() || desc.useSsh());
+    // Assure that HTTPD is enabled if SSHD is not required. If both are disabled the Gerrit server
+    // does not start. Alternatively we could assure that SSHD is enabled if HTTPD is not required,
+    // but this would break the tests at Google, because they don't have support for SSHD.
+    daemon.setEnableHttpd(desc.httpd() || !desc.useSsh());
+    daemon.setEnableSshd(desc.useSsh());
     daemon.setReplica(
         ReplicaUtil.isReplica(baseConfig) || ReplicaUtil.isReplica(desc.buildConfig(baseConfig)));
 

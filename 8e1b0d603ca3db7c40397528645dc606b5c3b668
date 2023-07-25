@@ -51,6 +51,24 @@
       "parentUuid": "208bf7c1_ec7e5cdc",
       "revId": "8e1b0d603ca3db7c40397528645dc606b5c3b668",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09e79dbe_09517eae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-07-25T21:22:06Z",
+      "side": 1,
+      "message": "Yeah, I\u0027m doing exactly that, but with this change backported to 3.5. I had tested with EWAH first when I originally made this improvement on our fork several years ago and RB was significantly better than EWAH, but I don\u0027t remember the details of how I tested it.\n\nSo far I can conclusively say that the on-disk storage size is *much* smaller with RB than with bitsets. A set of 30 kernel repos gives a git_tags cache size of ~550MB with bitsets and only ~115MB with RB.\n\nI\u0027d like to see that same kind of 5x improvement for memory, but I\u0027m not sure of the/a right way to precisely measure the memory difference. If I look at the \u0027memory\u0027 field logged in the sshd_log from a git ls-remote of a very large repo with 1.3M refs (including ~375K tags and ~26.5K other non-skippable refs), using bitsets logs ~230GB of memory and using RB logs ~214GB of memory.\n\nThe other impact I\u0027ve measured (but haven\u0027t repeated enough to feel sure about it) is that there does seem to be a small runtime performance impact to using RB (at least for these large repos).\n\nDo you have better ideas for how to get a representative memory impact with and without this change? My other idea so far is to try and drop the heapLimit to a point that it fails with one and works with the other 😂\n\nI think @prudhvi.alahari@linaro.org had gotten a jmh benchmark based on change 243053 working a while back, but it wasn\u0027t clear if that was an accurate way to measure memory impacts since running servers look a lot different than the benchmark.",
+      "parentUuid": "2a97643e_24f54f40",
+      "revId": "8e1b0d603ca3db7c40397528645dc606b5c3b668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

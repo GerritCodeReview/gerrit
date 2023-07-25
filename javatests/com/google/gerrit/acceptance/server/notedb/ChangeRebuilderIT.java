@@ -17,9 +17,13 @@ package com.google.gerrit.acceptance.server.notedb;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assert_;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
+import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.project.testing.Util.category;
+import static com.google.gerrit.server.project.testing.Util.value;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -36,6 +40,8 @@ import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
@@ -43,9 +49,11 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.Input;
+import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -1161,6 +1169,63 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     gApi.changes().id(id.get()).revision(1).review(rin);
 
     checker.rebuildAndCheckChanges(id);
+  }
+
+  @Test
+  public void rebuilderRespectsLabelVoteReset() throws Exception {
+    // Add a Verified label and provide necessary permissions
+    LabelType verified =
+        category("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().getLabelSections().put(verified.getName(), verified);
+      String heads = "refs/heads/*";
+      AccountGroup.UUID registered = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+      Util.allow(u.getConfig(), Permission.forLabel(verified.getName()), -1, 1, registered, heads);
+      u.save();
+    }
+
+    // Set Code-Review=-2 on patch-set 1
+    PushOneCommit.Result r = createChange();
+    PatchSet.Id psId1 = r.getPatchSetId();
+    Change.Id id = psId1.getParentKey();
+    ReviewInput input = ReviewInput.reject();
+    gApi.changes().id(id.get()).revision(r.getCommit().name()).review(input);
+
+    // Set Code-Review=0 and Verified=1 on patch-set 2
+    r = amendChange(r.getChangeId());
+    PatchSet.Id psId2 = r.getPatchSetId();
+    input = ReviewInput.noScore();
+    input.label(verified.getName(), 1);
+    gApi.changes().id(id.get()).revision(r.getCommit().name()).review(input);
+
+    // Assert Code-Review is 0 on current patch-set before rebuilding change
+    LabelInfo cr =
+        gApi.changes()
+            .id(id.get())
+            .get(CURRENT_REVISION, DETAILED_LABELS)
+            .labels
+            .get("Code-Review");
+    assertThat(cr).isNotNull();
+    assertThat(cr.all).hasSize(1);
+    assertThat(cr.all.get(0).value).isEqualTo(0);
+
+    try {
+      checker.rebuildAndCheckChange(psId2.getParentKey());
+    } catch (AssertionError e) {
+      // ignore as a difference in patchset approval is expected
+    }
+
+    // Assert Code-Review is 0 on current patchset after rebuilding change
+    setNotesMigration(true, true);
+    cr =
+        gApi.changes()
+            .id(id.get())
+            .get(CURRENT_REVISION, DETAILED_LABELS)
+            .labels
+            .get("Code-Review");
+    assertThat(cr).isNotNull();
+    assertThat(cr.all).hasSize(1);
+    assertThat(cr.all.get(0).value).isEqualTo(0);
   }
 
   @Test

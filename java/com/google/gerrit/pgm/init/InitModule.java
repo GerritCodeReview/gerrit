@@ -17,7 +17,10 @@ package com.google.gerrit.pgm.init;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
+import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdFactoryNoteDbImpl;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.inject.Singleton;
 import com.google.inject.binder.LinkedBindingBuilder;
 import com.google.inject.internal.UniqueAnnotations;
 import java.lang.annotation.Annotation;
@@ -57,6 +60,7 @@ public class InitModule extends FactoryModule {
     step().to(InitDev.class);
 
     bind(AccountsOnInit.class).to(AccountsOnInitNoteDbImpl.class);
+    bind(ExternalIdFactory.class).to(ExternalIdFactoryNoteDbImpl.class).in(Singleton.class);
   }
 
   protected LinkedBindingBuilder<InitStep> step() {

@@ -19,7 +19,6 @@ import com.google.inject.AbstractModule;
 public class ExternalIdModule extends AbstractModule {
   @Override
   protected void configure() {
-    bind(ExternalIdFactory.class);
     bind(ExternalIdKeyFactory.class);
     bind(PasswordVerifier.class);
   }

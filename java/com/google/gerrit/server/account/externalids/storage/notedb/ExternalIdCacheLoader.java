@@ -30,7 +30,6 @@ import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -75,7 +74,7 @@ public class ExternalIdCacheLoader {
   private final Counter1<Boolean> reloadCounter;
   private final Timer0 reloadDifferential;
   private final boolean isPersistentCache;
-  private final ExternalIdFactory externalIdFactory;
+  private final ExternalIdFactoryNoteDbImpl externalIdFactory;
 
   @Inject
   ExternalIdCacheLoader(
@@ -85,7 +84,7 @@ public class ExternalIdCacheLoader {
       @Named(ExternalIdCacheImpl.CACHE_NAME) Cache<ObjectId, AllExternalIds> externalIdCache,
       MetricMaker metricMaker,
       @GerritServerConfig Config config,
-      ExternalIdFactory externalIdFactory) {
+      ExternalIdFactoryNoteDbImpl externalIdFactory) {
     this.externalIdReader = externalIdReader;
     this.externalIdCache = externalIdCache;
     this.gitRepositoryManager = gitRepositoryManager;

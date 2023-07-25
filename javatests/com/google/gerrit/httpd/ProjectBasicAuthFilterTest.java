@@ -38,6 +38,7 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.PasswordVerifier;
+import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdFactoryNoteDbImpl;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import com.google.gerrit.util.http.testutil.FakeHttpServletResponse;
@@ -100,7 +101,7 @@ public class ProjectBasicAuthFilterTest {
     res = new FakeHttpServletResponse();
 
     extIdKeyFactory = new ExternalIdKeyFactory(new ExternalIdKeyFactory.ConfigImpl(authConfig));
-    extIdFactory = new ExternalIdFactory(extIdKeyFactory, authConfig);
+    extIdFactory = new ExternalIdFactoryNoteDbImpl(extIdKeyFactory, authConfig);
     authRequestFactory = new AuthRequest.Factory(extIdKeyFactory);
     pwdVerifier = new PasswordVerifier(extIdKeyFactory, authConfig);
 

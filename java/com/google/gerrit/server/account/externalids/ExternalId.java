@@ -99,10 +99,10 @@ public abstract class ExternalId implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
-  static final String EXTERNAL_ID_SECTION = "externalId";
-  static final String ACCOUNT_ID_KEY = "accountId";
-  static final String EMAIL_KEY = "email";
-  static final String PASSWORD_KEY = "password";
+  public static final String EXTERNAL_ID_SECTION = "externalId";
+  public static final String ACCOUNT_ID_KEY = "accountId";
+  public static final String EMAIL_KEY = "email";
+  public static final String PASSWORD_KEY = "password";
 
   /**
    * Scheme used to label accounts created, when using the LDAP-based authentication types {@link

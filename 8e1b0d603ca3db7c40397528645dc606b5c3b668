@@ -105,6 +105,24 @@
       "parentUuid": "fb01c3e6_12463b24",
       "revId": "8e1b0d603ca3db7c40397528645dc606b5c3b668",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9f1f181_15aceb1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-07-25T23:47:47Z",
+      "side": 1,
+      "message": "And I have even better data now. I did get bitsets to work for that huge repo at -Xmx\u003d30g. It finished in 5 minutes 45 seconds and was **1.48gb** on disk (as reported by `gerrit show-caches`). However, I was able to maintain the 5 minutes 30 seconds with RB all the way down to -Xmx\u003d16g and it was only **58mb(!!!!)** on disk. Further, I tried -Xmx\u003d10g and it still worked with RB, but runtime increased to 6 minutes 30 seconds.\n\nI have heap dumps, so I\u0027ll run MAT and see what else I can tell.",
+      "parentUuid": "50e97535_99e87f00",
+      "revId": "8e1b0d603ca3db7c40397528645dc606b5c3b668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

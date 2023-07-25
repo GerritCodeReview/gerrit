@@ -94,6 +94,30 @@
       },
       "revId": "8c9b103821324357c21f364d8f0516f40e4d4a86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c00f4685_ba3b14ba",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-07-25T09:13:20Z",
+      "side": 1,
+      "message": "the trouble is that google changed its 3rd party process, which now involves importing the repo source from Github, setting up a bazel build, etc. We could skip that if using 0.6.51",
+      "parentUuid": "0e5dc6c1_cc2135a6",
+      "range": {
+        "startLine": 739,
+        "startChar": 52,
+        "endLine": 739,
+        "endChar": 58
+      },
+      "revId": "8c9b103821324357c21f364d8f0516f40e4d4a86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

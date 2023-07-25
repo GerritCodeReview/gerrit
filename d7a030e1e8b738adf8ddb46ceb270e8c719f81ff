@@ -22,6 +22,30 @@
       },
       "revId": "d7a030e1e8b738adf8ddb46ceb270e8c719f81ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aabe9411_327372f9",
+        "filename": "javatests/com/google/gerrit/server/git/DeleteZombieCommentsRefsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-07-25T11:43:18Z",
+      "side": 1,
+      "message": "Because we create 5000 zombie refs (lime 125) + 1 (line 130)\n\nL130: empty refs, that is refs that point to the empty tree are also considered as zombie draft refs.\n\nThanks for looking into this thoroughly!",
+      "parentUuid": "07e93855_fbfddaf3",
+      "range": {
+        "startLine": 148,
+        "startChar": 42,
+        "endLine": 148,
+        "endChar": 46
+      },
+      "revId": "d7a030e1e8b738adf8ddb46ceb270e8c719f81ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

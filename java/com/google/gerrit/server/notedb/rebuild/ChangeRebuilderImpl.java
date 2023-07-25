@@ -33,12 +33,15 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
+import com.google.common.primitives.Shorts;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.ChangeMessage;
 import com.google.gerrit.reviewdb.client.Comment;
+import com.google.gerrit.reviewdb.client.LabelId;
 import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -77,15 +80,19 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -96,6 +103,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 public class ChangeRebuilderImpl extends ChangeRebuilder {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   /**
    * The maximum amount of time between the ReviewDb timestamp of the first and last events batched
    * together into a single NoteDb update.
@@ -343,10 +351,12 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
     }
     ensurePatchSetOrder(patchSetEvents);
 
+    Map<LabelId, String> labelResetByLabelId = new HashMap<>();
     for (PatchSetApproval psa : bundle.getPatchSetApprovals()) {
       PatchSetEvent pse = patchSetEvents.get(psa.getPatchSetId());
       if (pse != null) {
         events.add(new ApprovalEvent(psa, change.getCreatedOn()).addDep(pse));
+        labelResetByLabelId.put(psa.getLabelId(), "-" + psa.getLabelId().get());
       }
     }
 
@@ -363,6 +373,28 @@ public class ChangeRebuilderImpl extends ChangeRebuilder {
         if (pse == null) {
           continue; // Ignore events for missing patch sets.
         }
+
+        // Parse change messages to identify label vote resets and add them to relevant patch-set
+        for (String maybeLabelReset :
+            Arrays.asList(msg.getMessage().split("\\r?\\n")[0].split("\\s+")).stream()
+                .filter(w -> w.startsWith("-"))
+                .collect(Collectors.toSet())) {
+          for (Map.Entry<LabelId, String> entry : labelResetByLabelId.entrySet()) {
+            if (maybeLabelReset.equals(entry.getValue())) {
+              events.add(
+                  new ApprovalEvent(
+                          new PatchSetApproval(
+                              new PatchSetApproval.Key(
+                                  msg.getPatchSetId(), msg.getAuthor(), entry.getKey()),
+                              Shorts.checkedCast(0),
+                              msg.getWrittenOn()),
+                          change.getCreatedOn())
+                      .addDep(pse));
+              break;
+            }
+          }
+        }
+
         msgEvent.addDep(pse);
       }
       events.add(msgEvent);

@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -104,8 +105,9 @@ public abstract class DeleteZombieComments<KeyT> implements AutoCloseable {
     this.commentsUtil = commentsUtil;
   }
 
-  /** Deletes all draft comments. */
-  public void execute() throws IOException {
+  /** Deletes all draft comments. Returns the number of zombie draft comments that were deleted. */
+  @CanIgnoreReturnValue
+  public int execute() throws IOException {
     setup();
     List<KeyT> emptyDrafts = filterByCleanupPercentage(listEmptyDrafts(), "empty");
     ListMultimap<KeyT, HumanComment> alreadyPublished = listDraftCommentsThatAreAlsoPublished();
@@ -121,6 +123,7 @@ public abstract class DeleteZombieComments<KeyT> implements AutoCloseable {
       deleteEmptyDraftsByKey(emptyDrafts);
       deleteZombieDrafts(alreadyPublished);
     }
+    return emptyDrafts.size() + alreadyPublished.size();
   }
 
   @VisibleForTesting

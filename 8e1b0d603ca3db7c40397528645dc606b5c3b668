@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e27cf697_864ab04a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-07-25T08:36:29Z",
+      "side": 1,
+      "message": "+patrick, who might be interested in faster/leaner tag visibility.",
+      "revId": "8e1b0d603ca3db7c40397528645dc606b5c3b668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

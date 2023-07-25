@@ -16,6 +16,24 @@
       "message": "I was thinking, that I suspected that you may also want to restrict the usage of \"unqualified\" (when a user-name or group-name are not specified) named-destinations https://gerrit-review.googlesource.com/Documentation/user-named-destinations.html and named-queries https://gerrit-review.googlesource.com/Documentation/user-named-queries.html since these operators will return different results base on the user running them. But then I was thinking that perhaps users might want to define their own \"safety\" criteria for things to prevent them from accidentally submitting changes of various types, and this leads me to believe that the type of restriction your are adding here has the potential to restrict someone from doing legitimate things that makes sense to them. I don\u0027t think it is a good idea for us to assume that certain things are bad. And the more I think about it, the more I can see reasons people may want to define requirements with the 4 operators above also, so I do not think we should restrict them.",
       "revId": "d628e4ee2edbff3e0e793ee49158f1295a9e5596",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d26c6363_2585c72e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-07-25T08:39:16Z",
+      "side": 1,
+      "message": "\u003e want to restrict the usage of \"unqualified\" named-destinations\n\nThanks for bringing to my attention.\n\n\n\u003e and named-queries\n\nAnother follow-up change addresses that Ie6210ef0ba.\n\n\u003e and this leads me to believe that the type of restriction your are adding here has the potential to restrict someone from doing legitimate things that makes sense to them\n\nWell, that could be true if SRs are defined by users independently for each change, but that\u0027s not how SRs are designed today. They are configured by admins and fixed for a project. That could\u0027ve made sense if the change owner had the capability to configure their own custom SR and e.g. block submission if there is a draft comment.\nI still don\u0027t think the four operators that we disabled in this change make sense, and I think they\u0027ll bring more confusion than benefit if configured.\n\n\u003e I don\u0027t think it is a good idea for us to assume that certain things are bad. And the more I think about it, the more I can see reasons people may want to define requirements with the 4 operators above also, so I do not think we should restrict them.\n\nOK, let\u0027s retreat on this change if you think you might want to use any of these operators.",
+      "parentUuid": "b3735869_bccc024a",
+      "revId": "d628e4ee2edbff3e0e793ee49158f1295a9e5596",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

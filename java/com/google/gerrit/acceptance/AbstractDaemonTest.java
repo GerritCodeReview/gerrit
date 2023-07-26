@@ -126,8 +126,10 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.index.group.GroupIndexer;
 import com.google.gerrit.server.notedb.AbstractChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -289,6 +291,8 @@ public abstract class AbstractDaemonTest {
   @Inject protected BatchAbandon batchAbandon;
   @Inject protected TestSshKeys sshKeys;
   @Inject protected TestTicker testTicker;
+  @Inject protected GroupIndexer groupIndexer;
+  @Inject protected Groups groups;
 
   protected EventRecorder eventRecorder;
   protected GerritServer server;
@@ -432,6 +436,12 @@ public abstract class AbstractDaemonTest {
     return cfg.getBoolean("auth", null, "contributorAgreements", false);
   }
 
+  /**
+   * Override to execute additional logic after gerrit stated, but before it finishes the set-up
+   * adding the users and projects.
+   */
+  protected void afterGerritStartup() {}
+
   protected void beforeTest(Description description) throws Exception {
     // SystemReader must be overridden before creating any repos, since they read the user/system
     // configs at initialization time, and are then stored in the RepositoryCache forever.
@@ -473,6 +483,8 @@ public abstract class AbstractDaemonTest {
     server.getTestInjector().injectMembers(this);
     Transport.register(inProcessProtocol);
     toClose = Collections.synchronizedList(new ArrayList<>());
+
+    afterGerritStartup();
 
     admin = accountCreator.admin();
     user = accountCreator.user1();

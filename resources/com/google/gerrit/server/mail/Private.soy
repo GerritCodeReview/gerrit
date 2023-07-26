@@ -38,7 +38,7 @@
                                       // monospace text.
     white-space: pre-wrap;
   {/let}
-  <pre style="{$preStyle}">{$content|changeNewlineToBr}</pre>
+  <pre class="blocks" style="{$preStyle}">{$content|changeNewlineToBr}</pre>
 {/template}
 
 /**
@@ -69,15 +69,15 @@
 
   {for $block in $content}
     {if $block.type == 'paragraph'}
-      <p style="{$pStyle}">{$block.text|changeNewlineToBr}</p>
+      <p class="blocks" style="{$pStyle}">{$block.text|changeNewlineToBr}</p>
     {elseif $block.type == 'quote'}
-      <blockquote style="{$blockquoteStyle}">
+      <blockquote class="blocks" style="{$blockquoteStyle}">
         {call WikiFormat}{param content: $block.quotedBlocks /}{/call}
       </blockquote>
     {elseif $block.type == 'pre'}
       {call Pre}{param content: $block.text /}{/call}
     {elseif $block.type == 'list'}
-      <ul>
+      <ul class="blocks">
         {for $item in $block.items}
           <li>{$item}</li>
         {/for}

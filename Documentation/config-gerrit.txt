@@ -3397,6 +3397,15 @@ therefore, the NONE option is unavailable._
 +
 Defaults to `OFFSET`.
 
+[[index.defaultLimit]]index.defaultLimit::
++
+Default limit, if the user does not provide a limit. If this is not set or set
+to 0, then index queries are executed with the maximum permitted limit for the 
+user, which may be really high and cause too much load on the index. Thus
+setting this default limit to something smaller like 100 allows you to control 
+the load, while not taking away any permission from the user. If the user 
+provides a limit themselves, then `defaultLimit` is ignored.
+
 [[index.maxLimit]]index.maxLimit::
 +
 Maximum limit to allow for search queries. Requesting results above this

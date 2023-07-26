@@ -16,6 +16,24 @@
       "message": "@hanwen@google.com in addition to hopefully checking this for LC, I think you\u0027re the only one who has reviewed anything in TagSet in recent memory. We\u0027ve been running a version of this on 2.7 for 4 years now and had been hoping to have an even more optimal solution when we moved to 3.5, but we don\u0027t have that yet, so I think we at least need this.\n\nWithout this change we have some repos that have so many non-change/non-tag refs that we get exceptions in H2 trying to store them into the disk cache and there\u0027s almost 1GB of heap being used just for the TagSet. I don\u0027t have the new usage # yet with this change backported to 3.5, but we know from our 2.7 production usage that it\u0027s significantly less.",
       "revId": "9fe6e722570426e580c78ef1306bd9556f171774",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f7eaaf5_84f7e209",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-07-26T09:34:15Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "5fbe5fb9_d975c93a",
+      "revId": "9fe6e722570426e580c78ef1306bd9556f171774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

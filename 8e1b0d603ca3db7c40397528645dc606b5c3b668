@@ -265,6 +265,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36d59d6b_b385d9a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-07-26T20:37:57Z",
+      "side": 1,
+      "message": "\u003e here is a change fixing this\n\u003e https://gerrit-review.googlesource.com/c/gerrit/+/380916\n\nThanks!",
+      "parentUuid": "6decbd80_21cb895a",
+      "revId": "8e1b0d603ca3db7c40397528645dc606b5c3b668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4c28742e_3a3a062d",
@@ -278,6 +296,30 @@
       "writtenOn": "2023-07-26T09:29:23Z",
       "side": 1,
       "message": "this line can be outside the try{} ?",
+      "range": {
+        "startLine": 266,
+        "startChar": 16,
+        "endLine": 266,
+        "endChar": 36
+      },
+      "revId": "8e1b0d603ca3db7c40397528645dc606b5c3b668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d75112ec_f7e59bfb",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-07-26T20:37:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c28742e_3a3a062d",
       "range": {
         "startLine": 266,
         "startChar": 16,
@@ -311,6 +353,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f1b04b5_c698279a",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-07-26T20:37:57Z",
+      "side": 1,
+      "message": "\u003e this changes the format of the proto, but that\u0027s covered by the cache version, right? \n\nYes and yes.\n\n\u003e \n\u003e even so, update the .proto definition to say what the format of the bytes is.\n\nI added a comment in the proto definition similar to others I found there. Feel free to un-resolve this thread or comment on that file if I should do it differently.",
+      "parentUuid": "aa680d39_61c7153e",
+      "range": {
+        "startLine": 292,
+        "startChar": 13,
+        "endLine": 292,
+        "endChar": 60
+      },
+      "revId": "8e1b0d603ca3db7c40397528645dc606b5c3b668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bab992d2_6eb7beaa",
@@ -324,6 +390,30 @@
       "writtenOn": "2023-07-26T15:16:47Z",
       "side": 1,
       "message": "update to 0.9.44 as Han-Wen did that for Google ?",
+      "range": {
+        "startLine": 739,
+        "startChar": 52,
+        "endLine": 739,
+        "endChar": 58
+      },
+      "revId": "8e1b0d603ca3db7c40397528645dc606b5c3b668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a92afc6d_40d9941e",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-07-26T20:37:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bab992d2_6eb7beaa",
       "range": {
         "startLine": 739,
         "startChar": 52,

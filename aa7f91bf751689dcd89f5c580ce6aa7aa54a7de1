@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b884610_81fcc274",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-07-26T14:01:28Z",
+      "side": 1,
+      "message": "Thanks for the detailed description in commit message!\n\nDoes this also need to be fixed in EqualsLabelPredicate?",
+      "revId": "aa7f91bf751689dcd89f5c580ce6aa7aa54a7de1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

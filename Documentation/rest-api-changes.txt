@@ -6676,20 +6676,20 @@ progress, the user will still be added.
 [[change-id]]
 === \{change-id\}
 Identifier that uniquely identifies one change. It contains the URL-encoded
-project name as well as the change number: "'$$<project>~<changeNumber>$$'"
+project name as well as the change number: "$$<project>~<changeNumber>$$"
 
 ==== Alternative identifiers
 Gerrit also supports an array of other change identifiers.
 
 [NOTE]
 Even though these identifiers will work in the majority of cases it is highly
-recommended to use "'$$<project>~<changeNumber>$$'" whenever possible.
+recommended to use "$$<project>~<changeNumber>$$" whenever possible.
 Since these identifiers require additional lookups from index and caches, to
-be translated to the "'$$<project>~<changeNumber>$$'" identifier, they
+be translated to the "$$<project>~<changeNumber>$$" identifier, they
 may result in both false-positives and false-negatives.
 Furthermore the additional lookup mean that they come with a performance penalty.
 
-* an ID of the change in the format "'$$<project>~<branch>~<Change-Id>$$'",
+* an ID of the change in the format "$$<project>~<branch>~<Change-Id>$$",
   where for the branch the `refs/heads/` prefix can be omitted
   ("$$myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940$$")
 * a Change-Id if it uniquely identifies one change

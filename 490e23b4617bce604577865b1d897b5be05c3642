@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adf1e4ec_5ae30f56",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-07-26T20:17:00Z",
+      "side": 1,
+      "message": "I tried running the tests on MacOS M1 and the following failed\n\n//javatests/com/google/gerrit/acceptance/rest/binding:rest_bindings      FAILED in 89.5s\n//javatests/com/google/gerrit/integration/git:protocol-v2                FAILED in 35.5s\n//javatests/com/google/gerrit/integration/git:upload-archive             FAILED in 35.1s\n//javatests/com/google/gerrit/integration/ssh:no-shell                   FAILED in 23.5s\n//javatests/com/google/gerrit/integration/ssh:peer-keys-auth             FAILED in 19.4s\n//javatests/com/google/gerrit/server:server_tests                        FAILED in 31.2s\n//javatests/com/google/gerrit/server/query/change:LuceneQueryChangesLatestIndexVersionTest FAILED in 170.9s\n//javatests/com/google/gerrit/server/query/change:LuceneQueryChangesPreviousIndexVersionTest FAILED in 163.1s",
+      "revId": "490e23b4617bce604577865b1d897b5be05c3642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

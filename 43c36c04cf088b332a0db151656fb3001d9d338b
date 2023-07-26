@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0b75f0c_6c3fee50",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-07-26T11:15:25Z",
+      "side": 1,
+      "message": "@Kaushik Are we waiting for review from other folks here ?",
+      "revId": "43c36c04cf088b332a0db151656fb3001d9d338b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

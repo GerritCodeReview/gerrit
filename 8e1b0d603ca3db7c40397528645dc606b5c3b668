@@ -232,6 +232,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6decbd80_21cb895a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-07-26T15:16:47Z",
+      "side": 1,
+      "message": "here is a change fixing this\nhttps://gerrit-review.googlesource.com/c/gerrit/+/380916",
+      "parentUuid": "6d712fc9_95894a78",
+      "revId": "8e1b0d603ca3db7c40397528645dc606b5c3b668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c28742e_3a3a062d",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
         "patchSetId": 4
@@ -271,6 +289,29 @@
         "startChar": 13,
         "endLine": 292,
         "endChar": 60
+      },
+      "revId": "8e1b0d603ca3db7c40397528645dc606b5c3b668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bab992d2_6eb7beaa",
+        "filename": "tools/deps.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 739,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-07-26T15:16:47Z",
+      "side": 1,
+      "message": "update to 0.9.44 as Han-Wen did that for Google ?",
+      "range": {
+        "startLine": 739,
+        "startChar": 52,
+        "endLine": 739,
+        "endChar": 58
       },
       "revId": "8e1b0d603ca3db7c40397528645dc606b5c3b668",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

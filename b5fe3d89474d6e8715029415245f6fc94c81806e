@@ -22,6 +22,30 @@
       },
       "revId": "b5fe3d89474d6e8715029415245f6fc94c81806e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5873e12d_830f9e19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-07-26T05:50:15Z",
+      "side": 1,
+      "message": "Before change I76c161275 GerritServer.start didn\u0027t call daemon.setEnableHttpd, then httpd in Deamon was null, and Deamon set it to true if it was not a replica [1]. This means HTTPD was enabled for these tests before change I76c161275, which is fine since @NoHttpd only says HTTPD is not required, but it\u0027s OK if it\u0027s enabled anyway. @NoHttp doesn\u0027t mean that SSHD is required, if SSHD is required tests are annotated with @UseSsh which are the tests that we skip.\n\n[1] https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/pgm/Daemon.java#285",
+      "parentUuid": "c044a998_4c4a132b",
+      "range": {
+        "startLine": 10,
+        "startChar": 38,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "b5fe3d89474d6e8715029415245f6fc94c81806e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

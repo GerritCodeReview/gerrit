@@ -123,6 +123,24 @@
       "parentUuid": "50e97535_99e87f00",
       "revId": "8e1b0d603ca3db7c40397528645dc606b5c3b668",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6d92909_306eb9f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-07-26T00:00:16Z",
+      "side": 1,
+      "message": "\u003e I have heap dumps, so I\u0027ll run MAT and see what else I can tell.\n\nOk, that was faster than I thought. Looking at heap dumps after only that ls-remote command, the h2 PageStore uses 2.5GB with bitsets and a wonderful 155MB with roaring bitmaps. So yeah, I think there\u0027s very real memory improvements.",
+      "parentUuid": "b9f1f181_15aceb1f",
+      "revId": "8e1b0d603ca3db7c40397528645dc606b5c3b668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -61,6 +61,7 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.experiments.ConfigExperimentFeatures.ConfigExperimentFeaturesModule;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits.AsyncReceiveCommitsModule;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
+import com.google.gerrit.server.index.AbstractIndexModule;
 import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.gerrit.server.ssh.NoSshModule;
@@ -110,6 +111,8 @@ public class GerritServer implements AutoCloseable {
       super(msg, cause);
     }
   }
+
+  private static AbstractIndexModule customIndexModule = null;
 
   /** Marker on {@link InetSocketAddress} for test SSH server. */
   @Retention(RUNTIME)
@@ -418,6 +421,9 @@ public class GerritServer implements AutoCloseable {
     daemon.setAuditEventModuleForTesting(
         MoreObjects.firstNonNull(testAuditModule, new FakeGroupAuditServiceModule()));
     if (testSysModule != null) {
+      if (testSysModule instanceof AbstractIndexModule) {
+        customIndexModule = (AbstractIndexModule) testSysModule;
+      }
       daemon.addAdditionalSysModuleForTesting(testSysModule);
     }
     if (testSshModule != null) {
@@ -491,17 +497,20 @@ public class GerritServer implements AutoCloseable {
       // index backends so that Reindex tests can be explicit about the backend they want to test
       // against.
       indexType = new IndexType(configuredIndexBackend);
+      if (customIndexModule != null) {
+        daemon.setIndexModule(customIndexModule);
+      }
     } else {
       // Allow configuring the index backend based on sys/env variables so that integration tests
       // can be run against different index backends.
       indexType = IndexType.fromEnvironment().orElse(new IndexType("fake"));
-    }
-    if (indexType.isLucene()) {
-      daemon.setIndexModule(
-          LuceneIndexModule.singleVersionAllLatest(
-              0, ReplicaUtil.isReplica(baseConfig), AutoFlush.ENABLED));
-    } else {
-      daemon.setIndexModule(FakeIndexModule.latestVersion(false));
+      if (indexType.isLucene()) {
+        daemon.setIndexModule(
+            LuceneIndexModule.singleVersionAllLatest(
+                0, ReplicaUtil.isReplica(baseConfig), AutoFlush.ENABLED));
+      } else {
+        daemon.setIndexModule(FakeIndexModule.latestVersion(false));
+      }
     }
 
     daemon.setEnableHttpd(desc.httpd());

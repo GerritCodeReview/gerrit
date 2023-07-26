@@ -138,6 +138,8 @@ export class GrPluginEndpoints {
    * endpoint.
    */
   getDetails(name: string): ModuleInfo[] {
-    return this._endpoints.get(name) ?? [];
+    return (this._endpoints.get(name) ?? []).sort((m1, m2) =>
+      m1.plugin.getPluginName().localeCompare(m2.plugin.getPluginName())
+    );
   }
 }

@@ -80,7 +80,7 @@ public class MagicLabelPredicates {
       public IndexMatcher(
           LabelPredicate.Args args,
           MagicLabelVote magicLabelVote,
-          Account.Id account,
+          @Nullable Account.Id account,
           @Nullable Integer count) {
         super(args, magicLabelVote, account, count);
       }
@@ -102,7 +102,7 @@ public class MagicLabelPredicates {
     public IndexMagicLabelPredicate(
         LabelPredicate.Args args,
         MagicLabelVote magicLabelVote,
-        Account.Id account,
+        @Nullable Account.Id account,
         @Nullable Integer count) {
       super(
           ChangeField.LABEL_SPEC,
@@ -128,7 +128,7 @@ public class MagicLabelPredicates {
   private abstract static class Matcher {
     protected final LabelPredicate.Args args;
     protected final MagicLabelVote magicLabelVote;
-    protected final Account.Id account;
+    @Nullable protected final Account.Id account;
     @Nullable protected final Integer count;
 
     public Matcher(
@@ -139,7 +139,7 @@ public class MagicLabelPredicates {
     public Matcher(
         LabelPredicate.Args args,
         MagicLabelVote magicLabelVote,
-        Account.Id account,
+        @Nullable Account.Id account,
         @Nullable Integer count) {
       this.account = account;
       this.args = args;
@@ -180,9 +180,12 @@ public class MagicLabelPredicates {
     }
 
     public boolean ignoresUploaderApprovals() {
-      logger.atFine().log("account = %d", account.get());
-      return account.equals(ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID)
-          || account.equals(ChangeQueryBuilder.NON_CONTRIBUTOR_ACCOUNT_ID);
+      logger.atFine().log("account = %s", account);
+      if (account != null) {
+        return account.equals(ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID)
+            || account.equals(ChangeQueryBuilder.NON_CONTRIBUTOR_ACCOUNT_ID);
+      }
+      return false;
     }
 
     private boolean matchAny(ChangeData changeData, LabelType labelType) {

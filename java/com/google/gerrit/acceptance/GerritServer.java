@@ -61,6 +61,7 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.experiments.ConfigExperimentFeatures.ConfigExperimentFeaturesModule;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits.AsyncReceiveCommitsModule;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
+import com.google.gerrit.server.index.AbstractIndexModule;
 import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.gerrit.server.ssh.NoSshModule;
@@ -459,7 +460,7 @@ public class GerritServer implements AutoCloseable {
 
     if (desc.memory()) {
       checkArgument(additionalArgs.length == 0, "cannot pass args to in-memory server");
-      return startInMemory(desc, site, baseConfig, daemon, inMemoryRepoManager);
+      return startInMemory(desc, site, baseConfig, daemon, inMemoryRepoManager, testSysModule);
     }
     return startOnDisk(desc, site, daemon, serverStarted, additionalArgs);
   }
@@ -469,7 +470,8 @@ public class GerritServer implements AutoCloseable {
       Path site,
       Config baseConfig,
       Daemon daemon,
-      @Nullable InMemoryRepositoryManager inMemoryRepoManager)
+      @Nullable InMemoryRepositoryManager inMemoryRepoManager,
+      @Nullable Module testSysModule)
       throws Exception {
     Config cfg = desc.buildConfig(baseConfig);
     mergeTestConfig(cfg);
@@ -485,24 +487,9 @@ public class GerritServer implements AutoCloseable {
         "accountPatchReviewDb", null, "url", JdbcAccountPatchReviewStore.TEST_IN_MEMORY_URL);
 
     String configuredIndexBackend = cfg.getString("index", null, "type");
-    IndexType indexType;
-    if (configuredIndexBackend != null) {
-      // Explicitly configured index backend from gerrit.config trumps any other ways to configure
-      // index backends so that Reindex tests can be explicit about the backend they want to test
-      // against.
-      indexType = new IndexType(configuredIndexBackend);
-    } else {
-      // Allow configuring the index backend based on sys/env variables so that integration tests
-      // can be run against different index backends.
-      indexType = IndexType.fromEnvironment().orElse(new IndexType("fake"));
-    }
-    if (indexType.isLucene()) {
-      daemon.setIndexModule(
-          LuceneIndexModule.singleVersionAllLatest(
-              0, ReplicaUtil.isReplica(baseConfig), AutoFlush.ENABLED));
-    } else {
-      daemon.setIndexModule(FakeIndexModule.latestVersion(false));
-    }
+    IndexType indexType = new IndexType(configuredIndexBackend);
+    AbstractIndexModule indexModule = (testSysModule instanceof AbstractIndexModule) ? (AbstractIndexModule) testSysModule : createIndexModule(indexType, baseConfig);
+    daemon.setIndexModule(indexModule);
 
     daemon.setEnableHttpd(desc.httpd());
     daemon.setInMemory(true);
@@ -520,6 +507,12 @@ public class GerritServer implements AutoCloseable {
         new ReindexProjectsAtStartupModule(), new ReindexGroupsAtStartupModule());
     daemon.start();
     return new GerritServer(desc, null, createTestInjector(daemon), daemon, null);
+  }
+
+  private static AbstractIndexModule createIndexModule(IndexType indexType, Config baseConfig) {
+    return indexType.isLucene() ? LuceneIndexModule.singleVersionAllLatest(
+        0, ReplicaUtil.isReplica(baseConfig), AutoFlush.ENABLED)
+        : FakeIndexModule.latestVersion(false);
   }
 
   private static GerritServer startOnDisk(

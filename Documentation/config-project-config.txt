@@ -69,8 +69,8 @@ As you can see, there are several sections.
 
 The link:#project-section[+project+ section] appears once per project.
 
-The link:#access-section[+access+ section] appears once per reference pattern,
-such as `+refs/*+` or `+refs/heads/*+`.  Only one access section per pattern is
+The link:#access-subsection[+access+ section] appears once per reference pattern,
+such as `+refs/*+` or `+refs/heads/*+`. Only one access section per pattern is
 allowed.
 
 The link:#receive-section[+receive+ section] appears once per project.
@@ -635,8 +635,17 @@ initial commit on a branch.
 [[access-section]]
 === Access section
 
-Each +access+ section includes a reference and access rights connected
-to groups.  Each group listed must exist in the link:#file-groups[+groups+ file].
+[[access.inheritFrom]]access.inheritFrom::
++
+Name of the parent project from which access rights are inherited.
++
+If not set, access rights are inherited from the `All-Projects` root project.
+
+[[access-subsection]]
+==== Access subsection
+
++access+ subsections for references connect access rights to groups. Each group
+listed must exist in the link:#file-groups[+groups+ file].
 
 Please refer to the
 link:access-control.html#access_categories[Access Categories]

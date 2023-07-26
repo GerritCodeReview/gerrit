@@ -21,6 +21,9 @@ class ThreadMXBeanSun implements ThreadMXBeanInterface {
 
   ThreadMXBeanSun(java.lang.management.ThreadMXBean sys) {
     this.sys = (ThreadMXBean) sys;
+    if (this.sys.isThreadAllocatedMemorySupported()) {
+    	this.sys.setThreadAllocatedMemoryEnabled(true);
+    }
   }
 
   @Override
@@ -40,7 +43,7 @@ class ThreadMXBeanSun implements ThreadMXBeanInterface {
 
   @Override
   public boolean supportsAllocatedBytes() {
-    return true;
+    return sys.isThreadAllocatedMemorySupported();
   }
 
   @Override

@@ -38,6 +38,7 @@ public abstract class IndexConfig {
 
   public static Builder fromConfig(Config cfg) {
     Builder b = builder();
+    setIfPresent(cfg, "defaultLimit", b::defaultLimit);
     setIfPresent(cfg, "maxLimit", b::maxLimit);
     setIfPresent(cfg, "maxPages", b::maxPages);
     setIfPresent(cfg, "maxTerms", b::maxTerms);
@@ -67,6 +68,7 @@ public abstract class IndexConfig {
 
   public static Builder builder() {
     return new AutoValue_IndexConfig.Builder()
+        .defaultLimit(Integer.MAX_VALUE)
         .maxLimit(Integer.MAX_VALUE)
         .maxPages(Integer.MAX_VALUE)
         .maxTerms(DEFAULT_MAX_TERMS)
@@ -79,6 +81,10 @@ public abstract class IndexConfig {
 
   @AutoValue.Builder
   public abstract static class Builder {
+    public abstract Builder defaultLimit(int defaultLimit);
+
+    public abstract int defaultLimit();
+
     public abstract Builder maxLimit(int maxLimit);
 
     public abstract int maxLimit();
@@ -107,6 +113,7 @@ public abstract class IndexConfig {
 
     public IndexConfig build() {
       IndexConfig cfg = autoBuild();
+      checkLimit(cfg.defaultLimit(), "defaultLimit");
       checkLimit(cfg.maxLimit(), "maxLimit");
       checkLimit(cfg.maxPages(), "maxPages");
       checkLimit(cfg.maxTerms(), "maxTerms");
@@ -119,6 +126,12 @@ public abstract class IndexConfig {
   private static void checkLimit(int limit, String name) {
     checkArgument(limit > 0, "%s must be positive: %s", name, limit);
   }
+
+  /**
+   * Returns default limit for index queries, if the user does not provide one. If this is not set,
+   * then the max permitted limit for each user is used, which might be much higher than intended.
+   */
+  public abstract int defaultLimit();
 
   /**
    * Returns maximum limit supported by the underlying index, or limited for performance reasons.

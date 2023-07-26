@@ -30,6 +30,13 @@ public class FilenameComparator implements Comparator<String> {
 
   @Override
   public int compare(String path1, String path2) {
+    if (Patch.PATCHSET_LEVEL.equals(path1) && Patch.PATCHSET_LEVEL.equals(path2)) {
+      return 0;
+    } else if (Patch.PATCHSET_LEVEL.equals(path1)) {
+      return -1;
+    } else if (Patch.PATCHSET_LEVEL.equals(path2)) {
+      return 1;
+    }
     if (Patch.COMMIT_MSG.equals(path1) && Patch.COMMIT_MSG.equals(path2)) {
       return 0;
     } else if (Patch.COMMIT_MSG.equals(path1)) {

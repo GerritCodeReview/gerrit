@@ -48,14 +48,6 @@ public class GetSummary implements RestReadView<ConfigResource> {
   private final WorkQueue workQueue;
   private final Path sitePath;
 
-  @Option(name = "--gc", usage = "perform Java GC before retrieving memory stats")
-  private boolean gc;
-
-  public GetSummary setGc(boolean gc) {
-    this.gc = gc;
-    return this;
-  }
-
   @Option(name = "--jvm", usage = "include details about the JVM")
   private boolean jvm;
 
@@ -72,12 +64,6 @@ public class GetSummary implements RestReadView<ConfigResource> {
 
   @Override
   public Response<SummaryInfo> apply(ConfigResource rsrc) {
-    if (gc) {
-      System.gc();
-      System.runFinalization();
-      System.gc();
-    }
-
     SummaryInfo summary = new SummaryInfo();
     summary.taskSummary = getTaskSummary();
     summary.memSummary = getMemSummary();

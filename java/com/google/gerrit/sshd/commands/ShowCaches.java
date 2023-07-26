@@ -74,9 +74,6 @@ final class ShowCaches extends SshCommand {
     public void stop() {}
   }
 
-  @Option(name = "--gc", usage = "perform Java GC before printing memory stats")
-  private boolean gc;
-
   @Option(name = "--show-jvm", usage = "show details about the JVM")
   private boolean showJVM;
 
@@ -141,8 +138,7 @@ final class ShowCaches extends SshCommand {
       if (showJvm) {
         sshSummary();
 
-        SummaryInfo summary =
-            getSummary.setGc(gc).setJvm(showJVM).apply(new ConfigResource()).value();
+        SummaryInfo summary = getSummary.setJvm(showJVM).apply(new ConfigResource()).value();
         taskSummary(summary.taskSummary);
         memSummary(summary.memSummary);
         threadSummary(summary.threadSummary);

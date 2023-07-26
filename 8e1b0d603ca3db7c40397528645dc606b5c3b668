@@ -214,6 +214,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6d712fc9_95894a78",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-07-26T09:59:43Z",
+      "side": 1,
+      "message": "\u003e I understand that, but I also thought that most JVM implementations don\u0027t really \n\u003e track memory at the per-thread level, so often what\u0027s reported here is all \n\u003e allocations during the life of this thread. Am I mistaken on that?\n\nHere is the javadoc [2] of com.sun.management.ThreadMXBean#getCurrentThreadAllocatedBytes. Looks like we should call [3] in the implementation of ThreadMxBeanSun#supportsAllocatedBytes.\nAnd we should also enable that using [4] since the default is platform dependent. Will upload a change for that.\n\n[2] https://docs.oracle.com/en/java/javase/11/docs/api/jdk.management/com/sun/management/ThreadMXBean.html#getCurrentThreadAllocatedBytes()\n[3] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/metrics/proc/ThreadMXBeanSun.java#42\n[4] https://docs.oracle.com/en/java/javase/11/docs/api/jdk.management/com/sun/management/ThreadMXBean.html#setThreadAllocatedMemoryEnabled(boolean)",
+      "parentUuid": "d6d92909_306eb9f6",
+      "revId": "8e1b0d603ca3db7c40397528645dc606b5c3b668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c28742e_3a3a062d",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
         "patchSetId": 4

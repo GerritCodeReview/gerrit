@@ -74,7 +74,7 @@ public class EqualsLabelPredicates {
         LabelPredicate.Args args,
         String label,
         int expVal,
-        Account.Id account,
+        @Nullable Account.Id account,
         @Nullable Integer count) {
       super(ChangeField.LABEL_SPEC, ChangeField.formatLabel(label, expVal, account, count));
       this.matcher = new Matcher(args, label, expVal, account, count);
@@ -108,7 +108,7 @@ public class EqualsLabelPredicates {
     @Nullable protected final Integer count;
 
     /** Account ID that has voted on the label. */
-    protected final Account.Id account;
+    @Nullable protected final Account.Id account;
 
     protected final AccountGroup.UUID group;
 
@@ -120,7 +120,7 @@ public class EqualsLabelPredicates {
         LabelPredicate.Args args,
         String label,
         int expVal,
-        Account.Id account,
+        @Nullable Account.Id account,
         @Nullable Integer count) {
       this.permissionBackend = args.permissionBackend;
       this.accountResolver = args.accountResolver;
@@ -246,9 +246,10 @@ public class EqualsLabelPredicates {
     }
 
     private boolean isMagicUser() {
-      return account.equals(ChangeQueryBuilder.OWNER_ACCOUNT_ID)
-          || account.equals(ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID)
-          || account.equals(ChangeQueryBuilder.NON_CONTRIBUTOR_ACCOUNT_ID);
+      return account != null
+          && (account.equals(ChangeQueryBuilder.OWNER_ACCOUNT_ID)
+              || account.equals(ChangeQueryBuilder.NON_UPLOADER_ACCOUNT_ID)
+              || account.equals(ChangeQueryBuilder.NON_CONTRIBUTOR_ACCOUNT_ID));
     }
   }
 

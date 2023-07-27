@@ -576,6 +576,7 @@ public class GerritServer implements AutoCloseable {
     cfg.setString("gerrit", null, "basePath", "git");
     cfg.setBoolean("sendemail", null, "enable", true);
     cfg.setInt("sendemail", null, "threadPoolSize", 0);
+    cfg.setInt("execution", null, "fanOutThreadPoolSize", 0);
     cfg.setInt("plugins", null, "checkFrequency", 0);
 
     cfg.setInt("sshd", null, "threads", 1);

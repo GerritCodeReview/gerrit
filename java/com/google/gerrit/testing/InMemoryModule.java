@@ -85,7 +85,6 @@ import com.google.gerrit.server.git.GarbageCollection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl.SearchingChangeCacheImplModule;
-import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.WorkQueue.WorkQueueModule;
 import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
@@ -152,6 +151,7 @@ public class InMemoryModule extends FactoryModule {
     cfg.unset("cache", null, "directory");
     cfg.setBoolean("index", "lucene", "testInmemory", true);
     cfg.setInt("sendemail", null, "threadPoolSize", 0);
+    cfg.setInt("execution", null, "fanOutThreadPoolSize", 0);
     cfg.setBoolean("receive", null, "enableSignedPush", false);
     cfg.setString("receive", null, "certNonceSeed", "sekret");
   }
@@ -344,8 +344,8 @@ public class InMemoryModule extends FactoryModule {
   @Provides
   @Singleton
   @FanOutExecutor
-  public ExecutorService createFanOutExecutor(WorkQueue queues) {
-    return queues.createQueue(2, "FanOut");
+  public ExecutorService createFanOutExecutor() {
+    return newDirectExecutorService();
   }
 
   @Provides

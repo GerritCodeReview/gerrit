@@ -64,7 +64,7 @@ public class ApplyPatchIT extends AbstractDaemonTest {
   private static final String DESTINATION_BRANCH = "destBranch";
 
   private static final String ADDED_FILE_NAME = "a_new_file.txt";
-  private static final String ADDED_FILE_CONTENT = "First added line\nSecond added line\n";
+  private static final String ADDED_FILE_CONTENT = "First added line\nSecond added line";
   private static final String ADDED_FILE_DIFF =
       "diff --git a/a_new_file.txt b/a_new_file.txt\n"
           + "new file mode 100644\n"
@@ -72,7 +72,8 @@ public class ApplyPatchIT extends AbstractDaemonTest {
           + "+++ b/a_new_file.txt\n"
           + "@@ -0,0 +1,2 @@\n"
           + "+First added line\n"
-          + "+Second added line\n";
+          + "+Second added line\n"
+          + "\\ No newline at end of file\n";
 
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;

@@ -2,7 +2,7 @@ def _classpath_collector(ctx):
     all = []
     for d in ctx.attr.deps:
         if JavaInfo in d:
-            all.append(d[JavaInfo].transitive_runtime_deps)
+            all.append(d[JavaInfo].transitive_runtime_jars)
             if hasattr(d[JavaInfo].compilation_info, "runtime_classpath"):
                 all.append(d[JavaInfo].compilation_info.runtime_classpath)
         elif hasattr(d, "files"):

@@ -88,7 +88,7 @@ def _war_impl(ctx):
     transitive_libs = []
     for j in ctx.attr.libs:
         if JavaInfo in j:
-            transitive_libs.append(j[JavaInfo].transitive_runtime_deps)
+            transitive_libs.append(j[JavaInfo].transitive_runtime_jars)
         elif hasattr(j, "files"):
             transitive_libs.append(j.files)
 
@@ -102,7 +102,7 @@ def _war_impl(ctx):
     # Add pgm lib
     transitive_pgmlibs = []
     for j in ctx.attr.pgmlibs:
-        transitive_pgmlibs.append(j[JavaInfo].transitive_runtime_deps)
+        transitive_pgmlibs.append(j[JavaInfo].transitive_runtime_jars)
 
     transitive_pgmlib_deps = depset(transitive = transitive_pgmlibs)
     for dep in transitive_pgmlib_deps.to_list():
@@ -117,7 +117,7 @@ def _war_impl(ctx):
     if ctx.attr.context:
         for jar in ctx.attr.context:
             if JavaInfo in jar:
-                transitive_context_libs.append(jar[JavaInfo].transitive_runtime_deps)
+                transitive_context_libs.append(jar[JavaInfo].transitive_runtime_jars)
             elif hasattr(jar, "files"):
                 transitive_context_libs.append(jar.files)
 

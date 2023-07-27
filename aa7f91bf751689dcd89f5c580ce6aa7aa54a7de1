@@ -16,6 +16,24 @@
       "message": "Thanks for the detailed description in commit message!\n\nDoes this also need to be fixed in EqualsLabelPredicate?",
       "revId": "aa7f91bf751689dcd89f5c580ce6aa7aa54a7de1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e56552b0_5f3bc70f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-07-27T08:53:57Z",
+      "side": 1,
+      "message": "Good point to check/update EqualsLabelPredicate too.\n\nIf I see this correctly EqualsLabelPredicate doesn\u0027t have a problem with account being null, but it seems like a good idea to annotate account with @Nullable there too and add an extra check to the isMagicUser() method.\n\nDone.",
+      "parentUuid": "7b884610_81fcc274",
+      "revId": "aa7f91bf751689dcd89f5c580ce6aa7aa54a7de1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -17,15 +17,15 @@ package com.google.gerrit.server.git;
 import com.google.gerrit.server.git.TagSet.Tag;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.BitSet;
 import java.util.Collection;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.roaringbitmap.RoaringBitmap;
 
 public class TagMatcher {
-  final BitSet mask = new BitSet();
+  final RoaringBitmap mask = new RoaringBitmap();
   final List<Ref> newRefs = new ArrayList<>();
   final List<LostRef> lostRefs = new ArrayList<>();
   final TagSetHolder holder;

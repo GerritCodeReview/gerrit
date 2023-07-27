@@ -31,9 +31,8 @@ import com.google.gerrit.server.cache.proto.Cache.TagSetHolderProto.TagSetProto.
 import com.google.gerrit.server.git.TagSet.CachedRef;
 import com.google.gerrit.server.git.TagSet.Tag;
 import com.google.inject.TypeLiteral;
+import com.google.protobuf.ByteString;
 import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.BitSet;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +40,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectIdOwnerMap;
 import org.junit.Test;
+import org.roaringbitmap.RoaringBitmap;
 
 public class TagSetTest {
   @Test
@@ -55,10 +55,12 @@ public class TagSetTest {
     ObjectIdOwnerMap<Tag> tags = new ObjectIdOwnerMap<>();
     tags.add(
         new Tag(
-            ObjectId.fromString("cccccccccccccccccccccccccccccccccccccccc"), newBitSet(1, 3, 5)));
+            ObjectId.fromString("cccccccccccccccccccccccccccccccccccccccc"),
+            RoaringBitmap.bitmapOf(1, 3, 5)));
     tags.add(
         new Tag(
-            ObjectId.fromString("dddddddddddddddddddddddddddddddddddddddd"), newBitSet(2, 4, 6)));
+            ObjectId.fromString("dddddddddddddddddddddddddddddddddddddddd"),
+            RoaringBitmap.bitmapOf(2, 4, 6)));
     TagSet tagSet = new TagSet(Project.nameKey("project"), refs, tags);
 
     TagSetProto proto = tagSet.toProto();
@@ -91,7 +93,9 @@ public class TagSetTest {
                             byteString(
                                 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc,
                                 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc, 0xcc))
-                        .setFlags(byteString(0x2a))
+                        .setFlags(
+                            ByteString.copyFromUtf8(
+                                ":0\000\000\001\000\000\000\000\000\002\000\020\000\000\000\001\000\003\000\005\000"))
                         .build())
                 .addTag(
                     TagProto.newBuilder()
@@ -99,7 +103,9 @@ public class TagSetTest {
                             byteString(
                                 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd,
                                 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd, 0xdd))
-                        .setFlags(byteString(0x54))
+                        .setFlags(
+                            ByteString.copyFromUtf8(
+                                ":0\000\000\001\000\000\000\000\000\002\000\020\000\000\000\002\000\004\000\006\000"))
                         .build())
                 .build());
 
@@ -132,7 +138,7 @@ public class TagSetTest {
     assertThatSerializedClass(Tag.class)
         .hasFields(
             ImmutableMap.<String, Type>builder()
-                .put("refFlags", BitSet.class)
+                .put("refFlags", RoaringBitmap.class)
                 .put("next", ObjectIdOwnerMap.Entry.class)
                 .put("w1", int.class)
                 .put("w2", int.class)
@@ -180,11 +186,5 @@ public class TagSetTest {
     return Streams.stream(bTags)
         .map(Tag::name)
         .collect(ImmutableSortedSet.toImmutableSortedSet(Comparator.naturalOrder()));
-  }
-
-  private BitSet newBitSet(int... bits) {
-    BitSet result = new BitSet();
-    Arrays.stream(bits).forEach(result::set);
-    return result;
   }
 }

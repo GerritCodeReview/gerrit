@@ -510,6 +510,16 @@ java_library(
     exports = ["@icu4j//jar"],
 )
 
+java_library(
+    name = "roaringbitmap",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = [
+        "@roaringbitmap-shims//jar",
+        "@roaringbitmap//jar",
+    ],
+)
+
 sh_test(
     name = "nongoogle_test",
     srcs = ["nongoogle_test.sh"],

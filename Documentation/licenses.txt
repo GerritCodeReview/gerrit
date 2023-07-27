@@ -99,6 +99,7 @@ Apache2.0
 * javaewah
 * jsr305
 * mime-util
+* roaringbitmap
 * servlet-api
 * servlet-api-without-neverlink
 * soy

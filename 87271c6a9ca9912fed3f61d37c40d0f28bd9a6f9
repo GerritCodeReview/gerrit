@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27442b3e_b5fdbcd8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-07-27T04:53:19Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com Did you happen to run into the problem described here with notedb migration?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 68
+      },
+      "revId": "87271c6a9ca9912fed3f61d37c40d0f28bd9a6f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

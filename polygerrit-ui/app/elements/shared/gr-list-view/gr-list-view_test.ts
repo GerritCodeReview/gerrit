@@ -61,23 +61,29 @@ suite('gr-list-view tests', () => {
     element.offset = 25;
     element.itemsPerPage = 25;
     element.filter = 'test';
-    element.path = '/admin/projects';
+    element.path = '/base/admin/projects';
 
-    stubBaseUrl('');
+    stubBaseUrl('/base');
 
-    assert.equal(element.computeNavLink(1), '/admin/projects/q/filter:test,50');
+    assert.equal(
+      element.computeNavLink(1),
+      '/base/admin/projects/q/filter:test,50'
+    );
 
-    assert.equal(element.computeNavLink(-1), '/admin/projects/q/filter:test');
+    assert.equal(
+      element.computeNavLink(-1),
+      '/base/admin/projects/q/filter:test'
+    );
 
     element.filter = undefined;
-    assert.equal(element.computeNavLink(1), '/admin/projects,50');
+    assert.equal(element.computeNavLink(1), '/base/admin/projects,50');
 
-    assert.equal(element.computeNavLink(-1), '/admin/projects');
+    assert.equal(element.computeNavLink(-1), '/base/admin/projects');
 
     element.filter = 'plugins/';
     assert.equal(
       element.computeNavLink(1),
-      '/admin/projects/q/filter:plugins/,50'
+      '/base/admin/projects/q/filter:plugins/,50'
     );
   });
 

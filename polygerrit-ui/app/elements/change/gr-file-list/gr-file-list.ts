@@ -1012,7 +1012,10 @@ export class GrFileList extends LitElement {
           class="extra-col"
           .name=${headerEndpoint}
           role="columnheader"
-        ></gr-endpoint-decorator>
+        >
+          <gr-endpoint-param name="change" .value=${this.change}>
+          </gr-endpoint-param>
+				</gr-endpoint-decorator>
       `
     );
   }

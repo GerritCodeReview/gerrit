@@ -14,7 +14,10 @@ import {LitElement, html} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
-import {documentationViewModelToken} from '../../../models/views/documentation';
+import {
+  createDocumentationUrl,
+  documentationViewModelToken,
+} from '../../../models/views/documentation';
 
 @customElement('gr-documentation-search')
 export class GrDocumentationSearch extends LitElement {
@@ -57,7 +60,7 @@ export class GrDocumentationSearch extends LitElement {
       .filter=${this.filter}
       .offset=${0}
       .loading=${this.loading}
-      .path=${'/Documentation'}
+      .path=${createDocumentationUrl()}
     >
       <table id="list" class="genericList">
         <tbody>

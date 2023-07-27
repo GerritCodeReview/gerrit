@@ -34,6 +34,24 @@
       "parentUuid": "f0b75f0c_6c3fee50",
       "revId": "43c36c04cf088b332a0db151656fb3001d9d338b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47c96b8e_7950a2c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-07-27T08:55:26Z",
+      "side": 1,
+      "message": "Nasser, Can you take a look ?",
+      "parentUuid": "d476ad64_e67794ce",
+      "revId": "43c36c04cf088b332a0db151656fb3001d9d338b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

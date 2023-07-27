@@ -22,6 +22,30 @@
       },
       "revId": "87271c6a9ca9912fed3f61d37c40d0f28bd9a6f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61029d06_7578d2eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-27T06:58:21Z",
+      "side": 1,
+      "message": "Good catch, can you also create an issue on the issue tracker?\nI believe the above case should also be covered by a test.\n\nWe did not see the above problem, maybe just luck? Does that happen during the trial mode?",
+      "parentUuid": "27442b3e_b5fdbcd8",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 68
+      },
+      "revId": "87271c6a9ca9912fed3f61d37c40d0f28bd9a6f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

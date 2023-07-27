@@ -47,6 +47,7 @@ export class GrListView extends LitElement {
   @property({type: Boolean})
   loading?: boolean;
 
+  /** Must include the base path. */
   @property({type: String})
   path?: string;
 
@@ -191,7 +192,8 @@ export class GrListView extends LitElement {
     // Offset could be a string when passed from the router.
     const offset = +(this.offset || 0);
     const newOffset = Math.max(0, offset + this.itemsPerPage * direction);
-    let href = getBaseUrl() + (this.path ?? '');
+    // Note that `this.path` already includes the base URL, if set and non-empty;
+    let href = this.path || getBaseUrl();
     if (this.filter) {
       href += '/q/filter:' + encodeURL(this.filter);
     }

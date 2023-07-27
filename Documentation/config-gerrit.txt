@@ -1415,6 +1415,13 @@ The value must be positive.
 +
 The default limit is 16kiB.
 
+[[change.topicLimit]]change.topicLimit::
++
+Maximum allowed number of changes with the same topic. The value must be
+positive.
++
+By default 5,000.
+
 [[change.cumulativeCommentSizeLimit]]change.cumulativeCommentSizeLimit::
 +
 Maximum allowed size in characters of all comments (including robot comments)

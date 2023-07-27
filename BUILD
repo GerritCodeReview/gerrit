@@ -3,6 +3,9 @@ load("//tools/bzl:pkg_war.bzl", "pkg_war")
 
 package(default_visibility = ["//visibility:public"])
 
+
+test
+
 config_setting(
     name = "java17",
     values = {

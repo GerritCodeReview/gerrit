@@ -55,6 +55,9 @@ export class GrDiffCheckResult extends LitElement {
       fontStyles,
       css`
         .container {
+          /* Allows hiding the check results along with the comments
+             when the user presses the keyboard shortcut 'h'. */
+          display: var(--gr-comment-thread-display, block);
           font-family: var(--font-family);
           margin: 0 var(--spacing-s) var(--spacing-s);
           background-color: var(--unresolved-comment-background-color);

@@ -13,7 +13,11 @@ import {tableStyles} from '../../../styles/gr-table-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
-import {AdminViewState} from '../../../models/views/admin';
+import {
+  AdminChildView,
+  AdminViewState,
+  createAdminUrl,
+} from '../../../models/views/admin';
 
 // Exported for tests
 export interface PluginInfoWithName extends PluginInfo {
@@ -22,8 +26,6 @@ export interface PluginInfoWithName extends PluginInfo {
 
 @customElement('gr-plugin-list')
 export class GrPluginList extends LitElement {
-  readonly path = '/admin/plugins';
-
   /**
    * URL params passed from the router.
    */
@@ -70,7 +72,7 @@ export class GrPluginList extends LitElement {
         .items=${this.plugins}
         .loading=${this.loading}
         .offset=${this.offset}
-        .path=${this.path}
+        .path=${createAdminUrl({adminView: AdminChildView.PLUGINS})}
       >
         <table id="list" class="genericList">
           <tbody>

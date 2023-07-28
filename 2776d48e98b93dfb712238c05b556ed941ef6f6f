@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f454a21e_f8ac6540",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3407,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-28T12:26:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be0f0474_fc81a1b3",
+      "range": {
+        "startLine": 3402,
+        "startChar": 0,
+        "endLine": 3407,
+        "endChar": 60
+      },
+      "revId": "2776d48e98b93dfb712238c05b556ed941ef6f6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "12e80e02_af7a4e6a",
@@ -54,6 +78,24 @@
       "writtenOn": "2023-07-28T09:20:32Z",
       "side": 1,
       "message": "Do we need to skip adding this limit if the default limit is 0?",
+      "revId": "2776d48e98b93dfb712238c05b556ed941ef6f6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31888227_e1bbd5cc",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-28T12:26:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12e80e02_af7a4e6a",
       "revId": "2776d48e98b93dfb712238c05b556ed941ef6f6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -9,7 +9,6 @@ import {
   SubmitType,
   InheritedBooleanInfoConfiguredValue,
   PermissionAction,
-  CommentSide,
   AppTheme,
   DateFormat,
   TimeFormat,
@@ -42,8 +41,10 @@ import {
   ChangeMessageId,
   ChangeMessageInfo,
   ChangeSubmissionId,
+  CommentInfo,
   CommentLinkInfo,
   CommentLinks,
+  CommentSide,
   CommitId,
   CommitInfo,
   ConfigArrayParameterInfo,
@@ -51,6 +52,7 @@ import {
   ConfigListParameterInfo,
   ConfigParameterInfo,
   ConfigParameterInfoBase,
+  ContextLine,
   ContributorAgreementInfo,
   CustomKey,
   CustomKeyedValues,
@@ -108,6 +110,7 @@ import {
   SuggestInfo,
   Timestamp,
   TopicName,
+  UrlEncodedCommentId,
   UrlEncodedRepoName,
   UserConfigInfo,
   VotingRangeInfo,
@@ -141,6 +144,7 @@ export type {
   ChangeMessageId,
   ChangeMessageInfo,
   ChangeSubmissionId,
+  CommentInfo,
   CommentLinkInfo,
   CommentLinks,
   CommentRange,
@@ -151,6 +155,7 @@ export type {
   ConfigListParameterInfo,
   ConfigParameterInfo,
   ConfigParameterInfoBase,
+  ContextLine,
   ContributorAgreementInfo,
   DetailedLabelInfo,
   DownloadInfo,
@@ -202,6 +207,7 @@ export type {
   SuggestInfo,
   Timestamp,
   TopicName,
+  UrlEncodedCommentId,
   UrlEncodedRepoName,
   UserConfigInfo,
   VotingRangeInfo,
@@ -232,9 +238,6 @@ export type RevisionId = 'current' | CommitId | PatchSetNum;
 
 // The UUID of the suggested fix.
 export type FixId = BrandType<string, '_fixId'>;
-
-// The URL encoded UUID of the comment
-export type UrlEncodedCommentId = BrandType<string, '_urlEncodedCommentId'>;
 
 // The ID of the dashboard, in the form of '<ref>:<path>'
 export type DashboardId = BrandType<string, '_dahsboardId'>;
@@ -840,40 +843,6 @@ export interface ChangeMessage extends ChangeMessageInfo {
   type: string;
   expanded: boolean;
   commentThreads: CommentThread[];
-}
-
-/**
- * The CommentInfo entity contains information about an inline comment.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-info
- */
-export interface CommentInfo {
-  id: UrlEncodedCommentId;
-  updated: Timestamp;
-  // TODO(TS): Make this required. Every comment must have patch_set set.
-  patch_set?: RevisionPatchSetNum;
-  path?: string;
-  side?: CommentSide;
-  parent?: number;
-  line?: number;
-  range?: CommentRange;
-  in_reply_to?: UrlEncodedCommentId;
-  message?: string;
-  author?: AccountInfo;
-  tag?: string;
-  unresolved?: boolean;
-  change_message_id?: string;
-  commit_id?: string;
-  context_lines?: ContextLine[];
-  source_content_type?: string;
-}
-
-/**
- * The ContextLine entity contains the line number and line text of a single line of the source file content..
- * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#context-line
- */
-export interface ContextLine {
-  line_number: number;
-  context_line: string;
 }
 
 export type NameToProjectInfoMap = {[projectName: string]: ProjectInfo};

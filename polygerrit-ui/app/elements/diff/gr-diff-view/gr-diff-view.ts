@@ -934,6 +934,10 @@ export class GrDiffView extends LitElement {
                   .value=${this.patchNum}
                 ></gr-endpoint-param>
                 <gr-endpoint-param
+                  name="content"
+                  .value=${this.diff}
+                ></gr-endpoint-param>
+                <gr-endpoint-param
                   name="cursor"
                   .value=${this.cursor}
                 ></gr-endpoint-param>

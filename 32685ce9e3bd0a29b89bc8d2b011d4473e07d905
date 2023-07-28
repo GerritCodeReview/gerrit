@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8427240f_5d6aa7c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-28T19:56:45Z",
+      "side": 1,
+      "message": "Run the `release` and `test //...` and they are all passing.",
+      "revId": "32685ce9e3bd0a29b89bc8d2b011d4473e07d905",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

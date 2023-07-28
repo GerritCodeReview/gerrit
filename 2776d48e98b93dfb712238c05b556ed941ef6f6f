@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89b0c946_070b97d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-07-28T09:20:32Z",
+      "side": 1,
+      "message": "Thanks for the detailed and well-written commit message!",
+      "revId": "2776d48e98b93dfb712238c05b556ed941ef6f6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be0f0474_fc81a1b3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3407,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-07-28T09:20:32Z",
+      "side": 1,
+      "message": "super nit: remove the trailing whitespace",
+      "range": {
+        "startLine": 3402,
+        "startChar": 0,
+        "endLine": 3407,
+        "endChar": 60
+      },
+      "revId": "2776d48e98b93dfb712238c05b556ed941ef6f6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12e80e02_af7a4e6a",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-07-28T09:20:32Z",
+      "side": 1,
+      "message": "Do we need to skip adding this limit if the default limit is 0?",
+      "revId": "2776d48e98b93dfb712238c05b556ed941ef6f6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

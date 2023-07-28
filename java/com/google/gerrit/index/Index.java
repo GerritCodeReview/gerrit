@@ -19,6 +19,7 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.IndexPredicate;
+import com.google.gerrit.index.query.Matchable;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import java.util.Optional;
@@ -158,12 +159,14 @@ public interface Index<K, V> {
   }
 
   /**
-   * Rewriter that should be invoked on queries to this index.
+   * An Optional filter that is invoked right after the results are returned from the index, but
+   * before any post-filter predicates.
    *
-   * <p>The default implementation does not do anything. Should be overridden by implementation, if
-   * needed.
+   * <p>The filter is invoked before any other index predicates. If the filter returns 'true', then
+   * other index predicates are evaluated. Otherwise, the result from the index is not returned to
+   * the DataSource.
    */
-  default IndexRewriter<V> getIndexRewriter() {
-    return (in, opts) -> in;
+  default Optional<Matchable<V>> getIndexFilter() {
+    return Optional.empty();
   }
 }

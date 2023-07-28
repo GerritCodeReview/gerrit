@@ -274,8 +274,7 @@ public abstract class QueryProcessor<T> {
                 getRequestedFields());
         logger.atFine().log("Query options: %s", opts);
         // Apply index-specific rewrite first
-        Predicate<T> pred = indexes.getSearchIndex().getIndexRewriter().rewrite(q, opts);
-        pred = rewriter.rewrite(pred, opts);
+        Predicate<T> pred = rewriter.rewrite(q, opts);
         if (enforceVisibility) {
           pred = enforceVisibility(pred);
         }

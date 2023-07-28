@@ -516,6 +516,31 @@ export declare interface ConfigInfo {
 }
 
 /**
+ * The CommentInfo entity contains information about an inline comment.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-info
+ */
+export interface CommentInfo {
+  id: UrlEncodedCommentId;
+  updated: Timestamp;
+  // TODO(TS): Make this required. Every comment must have patch_set set.
+  patch_set?: RevisionPatchSetNum;
+  path?: string;
+  side?: CommentSide;
+  parent?: number;
+  line?: number;
+  range?: CommentRange;
+  in_reply_to?: UrlEncodedCommentId;
+  message?: string;
+  author?: AccountInfo;
+  tag?: string;
+  unresolved?: boolean;
+  change_message_id?: string;
+  commit_id?: string;
+  context_lines?: ContextLine[];
+  source_content_type?: string;
+}
+
+/**
  * The CommentRange entity describes the range of an inline comment.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-range
  *
@@ -540,6 +565,15 @@ export declare interface CommentRange {
 
   /** The character position in the end line. (0-based) */
   end_character: number;
+}
+
+/**
+ * The side on which the comment was added
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-info
+ */
+export enum CommentSide {
+  REVISION = 'REVISION',
+  PARENT = 'PARENT',
 }
 
 export declare interface ConfigListParameterInfo
@@ -569,6 +603,15 @@ export declare interface ConfigParameterInfoBase {
   inheritable?: boolean;
   configured_value?: string;
   inherited_value?: string;
+}
+
+/**
+ * The ContextLine entity contains the line number and line text of a single line of the source file content.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#context-line
+ */
+export interface ContextLine {
+  line_number: number;
+  context_line: string;
 }
 
 // https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#contributor-agreement-info
@@ -1229,3 +1272,6 @@ export function isBase64FileContent(
 ): res is Base64FileContent {
   return (res as Base64FileContent).ok;
 }
+
+// The URL encoded UUID of the comment
+export type UrlEncodedCommentId = BrandType<string, '_urlEncodedCommentId'>;

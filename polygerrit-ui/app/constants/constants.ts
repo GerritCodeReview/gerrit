@@ -13,6 +13,7 @@ import {EditPreferencesInfo, PreferencesInfo} from '../types/common';
 import {
   AuthType,
   ChangeStatus,
+  CommentSide,
   ConfigParameterInfoType,
   DefaultDisplayNameConfig,
   EditableAccountField,
@@ -32,6 +33,7 @@ import {
 export {
   AuthType,
   ChangeStatus,
+  CommentSide,
   ConfigParameterInfoType,
   DefaultDisplayNameConfig,
   EditableAccountField,
@@ -157,15 +159,6 @@ export enum PermissionAction {
 export enum UserPriority {
   BATCH = 'BATCH',
   INTERACTIVE = 'INTERACTIVE',
-}
-
-/**
- * The side on which the comment was added
- * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-info
- */
-export enum CommentSide {
-  REVISION = 'REVISION',
-  PARENT = 'PARENT',
 }
 
 /**

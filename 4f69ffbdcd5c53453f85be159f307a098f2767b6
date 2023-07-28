@@ -16,6 +16,24 @@
       "message": "please advise on testing",
       "revId": "4f69ffbdcd5c53453f85be159f307a098f2767b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "045b3bb8_8f729bb2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-07-28T09:44:30Z",
+      "side": 1,
+      "message": "Here are some example tests that set a topic:\n\n* Setting topic on an existing change: ChangeIT.topic()\n* Create a change with a topic via REST API: com.google.gerrit.acceptance.rest.change.CreateChangeIT.createNewChange() (the topic is set in newChangeInput(ChangeStatus))\n* Revert change with setting a topic: RevertIT.revertWithSetTopic()\n* Push a change/patch-set with setting a topic: AbstractPushForReview.pushForMasterWithTopic() (e.g. execute SshPushForReviewIT)\n\nI don\u0027t think all of these trigger setting the topic through SetTopicOp, but at least the first one should.\n\nYou can use the @GerritConfig to set the topic limit in gerrit.config and assertThrows(...) to verify that the REST request is rejected with Bad Request.",
+      "parentUuid": "d6914ea1_8de6990b",
+      "revId": "4f69ffbdcd5c53453f85be159f307a098f2767b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

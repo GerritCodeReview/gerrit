@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e473017_ed573298",
+        "filename": "java/com/google/gerrit/server/change/SetTopicOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-07-28T09:44:30Z",
+      "side": 1,
+      "message": "nit: please also enclose single line blocks with curly braces:\n\n```\n  if (Strings.isNullOrEmpty(topic)) {\n    return;\n  }\n```",
+      "revId": "59007bbff851cbfb3168bc9461267ec4f8cb19a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

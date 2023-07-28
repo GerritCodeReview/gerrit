@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32b28b70_ef2ff1b8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3342,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-07-28T17:56:53Z",
+      "side": 1,
+      "message": "Conflict headers.",
+      "revId": "ee1ffa2d28f0a9705de3b94812d7dd6d425538bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

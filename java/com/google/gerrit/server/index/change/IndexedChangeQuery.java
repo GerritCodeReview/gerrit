@@ -157,6 +157,12 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
 
   @Override
   public boolean match(ChangeData cd) {
+    if (index.getIndexFilter().isPresent()) {
+      // Evaluate the filter. If we pass the filter, then evaluate everything else.
+      if (!index.getIndexFilter().get().match(cd)) {
+        return false;
+      }
+    }
     Predicate<ChangeData> pred = getChild(0);
     if (source != null && fromSource.get(cd) == source && postIndexMatch(pred, cd)) {
       return true;

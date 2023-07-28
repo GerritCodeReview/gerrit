@@ -415,6 +415,8 @@ public abstract class QueryProcessor<T> {
     possibleLimits.add(getPermittedLimit());
     if (userProvidedLimit > 0) {
       possibleLimits.add(userProvidedLimit);
+    } else if (indexConfig.defaultLimit() > 0) {
+      possibleLimits.add(indexConfig.defaultLimit());
     }
     if (limitField != null) {
       Integer limitFromPredicate = LimitPredicate.getLimit(limitField, p);

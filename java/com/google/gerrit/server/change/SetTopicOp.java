@@ -20,6 +20,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.extensions.events.TopicEdited;
+import com.google.gerrit.server.git.validators.TopicValidator;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -36,6 +37,7 @@ public class SetTopicOp implements BatchUpdateOp {
   private final String topic;
   private final TopicEdited topicEdited;
   private final ChangeMessagesUtil cmUtil;
+  private final TopicValidator topicValidator;
 
   private Change change;
   private String oldTopicName;
@@ -43,10 +45,14 @@ public class SetTopicOp implements BatchUpdateOp {
 
   @Inject
   public SetTopicOp(
-      TopicEdited topicEdited, ChangeMessagesUtil cmUtil, @Nullable @Assisted String topic) {
+      TopicEdited topicEdited,
+      ChangeMessagesUtil cmUtil,
+      @Nullable @Assisted String topic,
+      TopicValidator topicValidator) {
     this.topic = topic;
     this.topicEdited = topicEdited;
     this.cmUtil = cmUtil;
+    this.topicValidator = topicValidator;
   }
 
   @Override
@@ -58,6 +64,7 @@ public class SetTopicOp implements BatchUpdateOp {
     if (oldTopicName.equals(newTopicName)) {
       return false;
     }
+    topicValidator.validateSize(topic);
 
     String summary;
     if (oldTopicName.isEmpty()) {

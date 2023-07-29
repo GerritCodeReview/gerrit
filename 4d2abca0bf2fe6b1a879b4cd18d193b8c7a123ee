@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aae33c13_512d9df7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-29T06:33:03Z",
+      "side": 1,
+      "message": "Hi Patrick, could you apply LC+1 to this JGit bump?",
+      "revId": "4d2abca0bf2fe6b1a879b4cd18d193b8c7a123ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

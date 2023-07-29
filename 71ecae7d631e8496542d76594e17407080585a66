@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb2e7143_381cdf0d",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-29T06:35:46Z",
+      "side": 1,
+      "message": "I recall the `isGitRepository` was a quite expensive operation: have you checked the additional performance degradation involved?\n\nIf that is way too expensive, wouldn\u0027t it be enough to make sure that the directory exists?",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 9
+      },
+      "revId": "71ecae7d631e8496542d76594e17407080585a66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

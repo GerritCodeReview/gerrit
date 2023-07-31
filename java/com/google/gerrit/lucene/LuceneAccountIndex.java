@@ -102,6 +102,7 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
     super(
         schema,
         sitePaths,
+        cfg,
         dir(schema, cfg, sitePaths),
         ACCOUNTS,
         ImmutableSet.of(),

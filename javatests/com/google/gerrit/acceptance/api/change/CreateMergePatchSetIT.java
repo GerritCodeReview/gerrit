@@ -25,9 +25,12 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
@@ -46,6 +49,10 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.git.validators.CommitValidationException;
+import com.google.gerrit.server.git.validators.CommitValidationListener;
+import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
@@ -361,6 +368,43 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createMergePatchSetWithValidationOption() throws Exception {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    createBranch(BranchNameKey.create(project, "dev"));
+
+    // create a change for master
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    // advance master branch
+    testRepo.reset(initialHead);
+    PushOneCommit.Result currentMaster = pushTo("refs/heads/master");
+    currentMaster.assertOkStatus();
+
+    // push a commit into dev branch
+    testRepo.reset(initialHead);
+    PushOneCommit.Result changeA =
+        pushFactory
+            .create(user.newIdent(), testRepo, "change A", "A.txt", "A content")
+            .to("refs/heads/dev");
+    changeA.assertOkStatus();
+    MergeInput mergeInput = new MergeInput();
+    mergeInput.source = "dev";
+    MergePatchSetInput in = new MergePatchSetInput();
+    in.merge = mergeInput;
+    in.subject = "update change by merge ps2 inherit parent of ps1";
+    in.validationOptions = ImmutableMap.of("key", "value");
+
+    TestCommitValidationListener testCommitValidationListener = new TestCommitValidationListener();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(testCommitValidationListener)) {
+      gApi.changes().id(changeId).createMergePatchSet(in);
+      assertThat(testCommitValidationListener.receiveEvent.pushOptions)
+          .containsExactly("key", "value");
+    }
+  }
+
+  @Test
   public void createMergePatchSetCannotBaseOnInvisibleChange() throws Exception {
     RevCommit initialHead = projectOperations.project(project).getHead("master");
     createBranch(BranchNameKey.create(project, "foo"));
@@ -651,6 +695,17 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
       this.invoked = true;
       this.wip =
           event.getChange().workInProgress != null ? event.getChange().workInProgress : false;
+    }
+  }
+
+  private static class TestCommitValidationListener implements CommitValidationListener {
+    public CommitReceivedEvent receiveEvent;
+
+    @Override
+    public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
+        throws CommitValidationException {
+      this.receiveEvent = receiveEvent;
+      return ImmutableList.of();
     }
   }
 }

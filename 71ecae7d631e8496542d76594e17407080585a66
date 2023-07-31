@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e96fed46_731d49a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-31T23:04:40Z",
+      "side": 1,
+      "message": "I am good with this in principle, assuming that we:\n- mention some numbers in the commit message on the expected performance degradation\n- cover this case with one test",
+      "revId": "71ecae7d631e8496542d76594e17407080585a66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb2e7143_381cdf0d",
@@ -38,6 +55,30 @@
       "side": 1,
       "message": "\u003e I recall the `isGitRepository` was a quite expensive operation: have you checked the additional performance degradation involved?\n\nIt is actually `RepositoryCache.FileKey.resolve` that is expensive as it calls `isGitRepository` 3 times. This change will degrade performance to some extent, but at-least performance will be better than before we started caching resolved locations.\n\n\u003e \n\u003e If that is way too expensive, wouldn\u0027t it be enough to make sure that the directory exists?\n\nI suspect we can, however that is not going to cover everything needed to throw the RepositoryNotFound exception, for example if the HEAD file is missing (which is one of the checks in `isGitRepository`) we\u0027d still open the repository.\n\nWe are open to more ideas on how to improve performance, however in my opinion ensuring correctness comes first.",
       "parentUuid": "bb2e7143_381cdf0d",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 140,
+        "endChar": 9
+      },
+      "revId": "71ecae7d631e8496542d76594e17407080585a66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1d3cbb2_395a7409",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-07-31T23:04:40Z",
+      "side": 1,
+      "message": "I believe just include in the commit message the expected performance degradation with some numbers taken from your tests.",
+      "parentUuid": "862d2345_57d87448",
       "range": {
         "startLine": 138,
         "startChar": 0,

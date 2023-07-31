@@ -16,13 +16,24 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.inject.Inject;
+import java.io.IOException;
+import java.util.Optional;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.transport.RemoteRefUpdate;
+import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.junit.Test;
 
 public class SubmitByRebaseIfNecessaryIT extends AbstractSubmitByRebase {
@@ -31,6 +42,56 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmitByRebase {
   @Override
   protected SubmitType getSubmitType() {
     return SubmitType.REBASE_IF_NECESSARY;
+  }
+
+  @Test
+  public void submitChangeAfterCommitWasDirectlyPushed() throws Throwable {
+    TestRepository<?> localRepo = cloneProject(project);
+
+    ObjectId revChange =
+        localRepo
+            .branch("HEAD")
+            .commit()
+            .insertChangeId()
+            .message("Test commit")
+            .add("testDev.txt", "content")
+            .create();
+    pushChangeTo(localRepo, "refs/for/master", revChange);
+
+    ObjectId revChangeDev =
+        localRepo
+            .branch("HEAD")
+            .commit()
+            .insertChangeId()
+            .message("Test commit")
+            .add("testDev.txt", "content")
+            .create();
+    pushChangeTo(localRepo, "refs/heads/dev", revChange);
+
+    submit(getChangeId(localRepo, revChange).get());
+    RevCommit head = projectOperations.project(project).getHead("master");
+    assertThat(head.getId()).isEqualTo(revChange);
+  }
+
+  protected void pushChangeTo(TestRepository<?> repo, String targetRef, ObjectId rev)
+      throws Exception {
+    String pushedRef = targetRef;
+    String refspec = "HEAD:" + pushedRef;
+
+    Iterable<PushResult> res =
+        repo.git().push().setRemote("origin").setRefSpecs(new RefSpec(refspec)).call();
+
+    RemoteRefUpdate u = Iterables.getOnlyElement(res).getRemoteUpdate(pushedRef);
+    assertThat(u).isNotNull();
+    assertThat(u.getStatus()).isEqualTo(Status.OK);
+    assertThat(u.getNewObjectId()).isEqualTo(rev);
+  }
+
+  private static Optional<String> getChangeId(TestRepository<?> tr, ObjectId id)
+      throws IOException {
+    RevCommit c = tr.getRevWalk().parseCommit(id);
+    tr.getRevWalk().parseBody(c);
+    return Lists.reverse(c.getFooterLines(FooterConstants.CHANGE_ID)).stream().findFirst();
   }
 
   @Test

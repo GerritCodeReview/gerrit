@@ -30,6 +30,7 @@ import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
@@ -43,42 +44,53 @@ import org.apache.lucene.document.NumericDocValuesField;
 import org.apache.lucene.search.SearcherFactory;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.eclipse.jgit.lib.Config;
 
 public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
     implements ChangeIndex {
+
+  private final String name;
+
   ChangeSubIndex(
       Schema<ChangeData> schema,
       SitePaths sitePaths,
+      @GerritServerConfig Config cfg,
       Path path,
       ImmutableSet<String> skipFields,
       GerritIndexWriterConfig writerConfig,
       SearcherFactory searcherFactory,
-      AutoFlush autoFlush)
+      AutoFlush autoFlush,
+      String name)
       throws IOException {
     this(
         schema,
         sitePaths,
+        cfg,
         FSDirectory.open(path),
         path.getFileName().toString(),
         skipFields,
         writerConfig,
         searcherFactory,
-        autoFlush);
+        autoFlush,
+        name);
   }
 
   ChangeSubIndex(
       Schema<ChangeData> schema,
       SitePaths sitePaths,
+      @GerritServerConfig Config cfg,
       Directory dir,
       String subIndex,
       ImmutableSet<String> skipFields,
       GerritIndexWriterConfig writerConfig,
       SearcherFactory searcherFactory,
-      AutoFlush autoFlush)
+      AutoFlush autoFlush,
+      String name)
       throws IOException {
     super(
         schema,
         sitePaths,
+        cfg,
         dir,
         NAME,
         skipFields,
@@ -87,6 +99,7 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
         searcherFactory,
         autoFlush,
         ChangeIndex.ENTITY_TO_KEY);
+    this.name = name;
   }
 
   @Override
@@ -136,5 +149,9 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
   @Override
   protected ChangeData fromDocument(Document doc) {
     throw new UnsupportedOperationException("don't use ChangeSubIndex directly");
+  }
+
+  public String getName() {
+    return name;
   }
 }

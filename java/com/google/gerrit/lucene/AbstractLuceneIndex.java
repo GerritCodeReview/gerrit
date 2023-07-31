@@ -25,6 +25,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.io.Files;
 import com.google.common.primitives.Ints;
 import com.google.common.util.concurrent.AbstractFuture;
 import com.google.common.util.concurrent.Futures;
@@ -47,6 +48,7 @@ import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.ListResultSet;
 import com.google.gerrit.index.query.ResultSet;
 import com.google.gerrit.proto.Protos;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.options.AutoFlush;
@@ -54,7 +56,9 @@ import com.google.gerrit.server.logging.LoggingContextAwareExecutorService;
 import com.google.gerrit.server.logging.LoggingContextAwareScheduledExecutorService;
 import com.google.protobuf.MessageLite;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -74,8 +78,12 @@ import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
+import org.apache.lucene.index.IndexCommit;
+import org.apache.lucene.index.IndexDeletionPolicy;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexableField;
+import org.apache.lucene.index.KeepOnlyLastCommitDeletionPolicy;
+import org.apache.lucene.index.SnapshotDeletionPolicy;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.ControlledRealTimeReopenThread;
 import org.apache.lucene.search.IndexSearcher;
@@ -88,6 +96,8 @@ import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.TopFieldDocs;
 import org.apache.lucene.store.AlreadyClosedException;
 import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
+import org.eclipse.jgit.lib.Config;
 
 /** Basic Lucene index implementation. */
 public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
@@ -110,11 +120,13 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   private final AutoFlush autoFlush;
   private ScheduledExecutorService autoCommitExecutor;
   private final Function<V, K> valueToKeyFunction;
+  private final IndexDeletionPolicy indexDeletionPolicy;
 
   @SuppressWarnings("ThreadPriorityCheck")
   AbstractLuceneIndex(
       Schema<V> schema,
       SitePaths sitePaths,
+      @GerritServerConfig Config cfg,
       Directory dir,
       String name,
       ImmutableSet<String> skipFields,
@@ -133,6 +145,15 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     this.valueToKeyFunction = valueToKeyFunction;
     String index = Joiner.on('_').skipNulls().join(name, subIndex);
     long commitPeriod = writerConfig.getCommitWithinMs();
+
+    boolean allowSnapshots = cfg.getBoolean("index", "allowSnapshots", false);
+    if (allowSnapshots) {
+      indexDeletionPolicy = new SnapshotDeletionPolicy(new KeepOnlyLastCommitDeletionPolicy());
+    } else {
+      indexDeletionPolicy = new KeepOnlyLastCommitDeletionPolicy();
+    }
+
+    writerConfig.setIndexDeletionPolicy(indexDeletionPolicy);
 
     if (commitPeriod < 0) {
       writer = new AutoCommitWriter(dir, writerConfig.getLuceneConfig());
@@ -514,6 +535,35 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   @Override
   public Schema<V> getSchema() {
     return schema;
+  }
+
+  @Override
+  public boolean snapshot() throws IOException {
+    if (!(indexDeletionPolicy instanceof SnapshotDeletionPolicy)) {
+      return false;
+    }
+    SnapshotDeletionPolicy snapshooter = (SnapshotDeletionPolicy) indexDeletionPolicy;
+
+    IndexCommit commit = null;
+    try {
+      commit = snapshooter.snapshot();
+      for (String file : commit.getFileNames()) {
+        Path sourceDir = ((FSDirectory) commit.getDirectory()).getDirectory();
+        Path targetDir =
+            this.sitePaths
+                .index_dir
+                .resolve("snapshots")
+                .resolve(String.valueOf(Instant.now().getEpochSecond()))
+                .resolve(sitePaths.index_dir.relativize(sourceDir));
+        targetDir.toFile().mkdirs();
+        Files.copy(sourceDir.resolve(file).toFile(), targetDir.resolve(file).toFile());
+      }
+    } finally {
+      if (commit != null) {
+        snapshooter.release(commit);
+      }
+    }
+    return true;
   }
 
   protected class LuceneQuerySource implements DataSource<V> {

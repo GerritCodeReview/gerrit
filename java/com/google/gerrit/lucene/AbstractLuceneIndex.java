@@ -25,6 +25,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.io.Files;
 import com.google.common.primitives.Ints;
 import com.google.common.util.concurrent.AbstractFuture;
 import com.google.common.util.concurrent.Futures;
@@ -54,6 +55,8 @@ import com.google.gerrit.server.logging.LoggingContextAwareExecutorService;
 import com.google.gerrit.server.logging.LoggingContextAwareScheduledExecutorService;
 import com.google.protobuf.MessageLite;
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -74,8 +77,10 @@ import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
+import org.apache.lucene.index.IndexCommit;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexableField;
+import org.apache.lucene.index.SnapshotDeletionPolicy;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.ControlledRealTimeReopenThread;
 import org.apache.lucene.search.IndexSearcher;
@@ -88,6 +93,7 @@ import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.TopFieldDocs;
 import org.apache.lucene.store.AlreadyClosedException;
 import org.apache.lucene.store.Directory;
+import org.apache.lucene.store.FSDirectory;
 
 /** Basic Lucene index implementation. */
 public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
@@ -133,6 +139,9 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     this.valueToKeyFunction = valueToKeyFunction;
     String index = Joiner.on('_').skipNulls().join(name, subIndex);
     long commitPeriod = writerConfig.getCommitWithinMs();
+
+    writerConfig.setIndexDeletionPolicy(
+        new SnapshotDeletionPolicy(writerConfig.getIndexDeletionPolicy()));
 
     if (commitPeriod < 0) {
       writer = new AutoCommitWriter(dir, writerConfig.getLuceneConfig());
@@ -514,6 +523,34 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   @Override
   public Schema<V> getSchema() {
     return schema;
+  }
+
+  @Override
+  public boolean snapshot(String id) throws IOException {
+    SnapshotDeletionPolicy snapshooter =
+        (SnapshotDeletionPolicy) writer.getConfig().getIndexDeletionPolicy();
+
+    IndexCommit commit = snapshooter.snapshot();
+    try {
+      Path sourceDir = canonical(((FSDirectory) commit.getDirectory()).getDirectory());
+      Path indexDir = canonical(sitePaths.index_dir);
+      Path targetDir =
+          indexDir.resolve("snapshots").resolve(id).resolve(indexDir.relativize(sourceDir));
+      if (targetDir.toFile().exists()) {
+        throw new FileAlreadyExistsException(targetDir.toString());
+      }
+      targetDir.toFile().mkdirs();
+      for (String file : commit.getFileNames()) {
+        Files.copy(sourceDir.resolve(file).toFile(), targetDir.resolve(file).toFile());
+      }
+    } finally {
+      snapshooter.release(commit);
+    }
+    return true;
+  }
+
+  private static Path canonical(Path p) throws IOException {
+    return p.toFile().getCanonicalFile().toPath();
   }
 
   protected class LuceneQuerySource implements DataSource<V> {

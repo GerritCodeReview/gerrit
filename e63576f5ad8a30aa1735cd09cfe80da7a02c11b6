@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "099e025f_faf6308f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-31T14:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33a4b1e9_fcc15946",
+      "revId": "e63576f5ad8a30aa1735cd09cfe80da7a02c11b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dcf2f25e_94f08654",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-07-31T13:25:12Z",
       "side": 1,
       "message": "This looks like a change that is worth to be mentioned in the release notes.",
+      "revId": "e63576f5ad8a30aa1735cd09cfe80da7a02c11b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35bbab1b_7f957ed6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-31T14:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcf2f25e_94f08654",
       "revId": "e63576f5ad8a30aa1735cd09cfe80da7a02c11b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +122,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af5aa2cf_de89d425",
+        "filename": "java/com/google/gerrit/server/git/validators/TopicValidator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-31T14:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cf2bd0c_039339fc",
+      "revId": "e63576f5ad8a30aa1735cd09cfe80da7a02c11b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ea1a291_224c51c2",
@@ -99,6 +153,30 @@
       "writtenOn": "2023-07-31T13:25:12Z",
       "side": 1,
       "message": "[optional] Annotate this with @Nullable to signal that passing in null is fine",
+      "range": {
+        "startLine": 38,
+        "startChar": 27,
+        "endLine": 38,
+        "endChar": 39
+      },
+      "revId": "e63576f5ad8a30aa1735cd09cfe80da7a02c11b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2191010a_061086d0",
+        "filename": "java/com/google/gerrit/server/git/validators/TopicValidator.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-31T14:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ea1a291_224c51c2",
       "range": {
         "startLine": 38,
         "startChar": 27,

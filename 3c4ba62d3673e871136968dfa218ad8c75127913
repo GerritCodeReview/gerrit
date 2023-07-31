@@ -1,0 +1,64 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0158e8cc_de0ab65d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1421,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-31T14:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "875eb822_59f40ee8",
+      "revId": "3c4ba62d3673e871136968dfa218ad8c75127913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85784c24_cc304e71",
+        "filename": "java/com/google/gerrit/server/git/validators/TopicValidator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-31T14:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cf2bd0c_039339fc",
+      "revId": "3c4ba62d3673e871136968dfa218ad8c75127913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "727206f5_7e318713",
+        "filename": "java/com/google/gerrit/server/git/validators/TopicValidator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-31T14:48:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ea1a291_224c51c2",
+      "range": {
+        "startLine": 38,
+        "startChar": 27,
+        "endLine": 38,
+        "endChar": 39
+      },
+      "revId": "3c4ba62d3673e871136968dfa218ad8c75127913",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

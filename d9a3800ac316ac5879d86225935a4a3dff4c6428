@@ -1,6 +1,24 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fdbe9a7_71e2ee54",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-07-31T14:48:24Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "c891929c_eae532d5",
+      "revId": "d9a3800ac316ac5879d86225935a4a3dff4c6428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c891929c_eae532d5",

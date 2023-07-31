@@ -25,12 +25,8 @@ import static com.google.gerrit.server.project.SubmitRequirementResource.SUBMIT_
 import static com.google.gerrit.server.project.TagResource.TAG_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestApiModule;
-import com.google.gerrit.server.config.GerritConfigListener;
-import com.google.gerrit.server.project.RefValidationHelper;
 import com.google.gerrit.server.restapi.change.CherryPickCommit;
-import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 
 public class ProjectRestApiModule extends RestApiModule {
 
@@ -48,10 +44,6 @@ public class ProjectRestApiModule extends RestApiModule {
     DynamicMap.mapOf(binder(), PROJECT_KIND);
     DynamicMap.mapOf(binder(), SUBMIT_REQUIREMENT_KIND);
     DynamicMap.mapOf(binder(), TAG_KIND);
-
-    DynamicSet.bind(binder(), GerritConfigListener.class).to(SetParent.class);
-    DynamicSet.bind(binder(), ProjectCreationValidationListener.class)
-        .to(CreateProject.ValidBranchListener.class);
 
     create(PROJECT_KIND).to(CreateProject.class);
     get(PROJECT_KIND).to(GetProject.class);
@@ -129,9 +121,6 @@ public class ProjectRestApiModule extends RestApiModule {
     delete(TAG_KIND).to(DeleteTag.class);
 
     post(PROJECT_KIND, "tags:delete").to(DeleteTags.class);
-
-    factory(RefValidationHelper.Factory.class);
-    factory(ProjectNode.Factory.class);
   }
 
   /** Separately bind batch functionality. */

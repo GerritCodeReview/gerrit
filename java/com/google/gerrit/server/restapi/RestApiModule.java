@@ -24,6 +24,12 @@ import com.google.gerrit.server.restapi.group.GroupRestApiModule;
 import com.google.gerrit.server.restapi.project.ProjectRestApiModule;
 import com.google.inject.AbstractModule;
 
+/**
+ * Module to bind REST API endpoints.
+ *
+ * <p>Classes that are needed by the REST layer, but which are not REST API endpoints, should be
+ * bound in {@link RestModule}.
+ */
 public class RestApiModule extends AbstractModule {
   @Override
   protected void configure() {

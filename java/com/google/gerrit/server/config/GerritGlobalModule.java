@@ -202,6 +202,7 @@ import com.google.gerrit.server.query.change.ChangeIsVisibleToPredicate;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ConflictsCacheImpl;
 import com.google.gerrit.server.quota.QuotaEnforcer;
+import com.google.gerrit.server.restapi.RestModule;
 import com.google.gerrit.server.restapi.change.OnPostReview;
 import com.google.gerrit.server.restapi.change.SuggestReviewers;
 import com.google.gerrit.server.restapi.group.GroupModule;
@@ -289,6 +290,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new DefaultSubmitRuleModule());
     install(new IgnoreSelfApprovalRuleModule());
     install(new ReceiveCommitsModule());
+    install(new RestModule());
     install(new SshAddressesModule());
     install(new FileInfoJsonModule());
     install(ThreadLocalRequestContext.module());

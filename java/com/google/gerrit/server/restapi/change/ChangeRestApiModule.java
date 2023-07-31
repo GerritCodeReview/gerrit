@@ -29,29 +29,8 @@ import static com.google.gerrit.server.change.VoteResource.VOTE_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
-import com.google.gerrit.server.account.AccountLoader;
-import com.google.gerrit.server.change.AddReviewersOp;
-import com.google.gerrit.server.change.AddToAttentionSetOp;
-import com.google.gerrit.server.change.ChangeInserter;
-import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.change.DeleteChangeOp;
-import com.google.gerrit.server.change.DeleteReviewerByEmailOp;
-import com.google.gerrit.server.change.DeleteReviewerOp;
-import com.google.gerrit.server.change.EmailReviewComments;
-import com.google.gerrit.server.change.PatchSetInserter;
-import com.google.gerrit.server.change.RebaseChangeOp;
-import com.google.gerrit.server.change.RemoveFromAttentionSetOp;
-import com.google.gerrit.server.change.ReviewerResource;
-import com.google.gerrit.server.change.SetCherryPickOp;
-import com.google.gerrit.server.change.SetCustomKeyedValuesOp;
-import com.google.gerrit.server.change.SetHashtagsOp;
-import com.google.gerrit.server.change.SetPrivateOp;
-import com.google.gerrit.server.change.SetTopicOp;
-import com.google.gerrit.server.change.WorkInProgressOp;
-import com.google.gerrit.server.comment.CommentContextLoader;
 import com.google.gerrit.server.restapi.change.Reviewed.DeleteReviewed;
 import com.google.gerrit.server.restapi.change.Reviewed.PutReviewed;
-import com.google.gerrit.server.util.AttentionSetEmail;
 
 public class ChangeRestApiModule extends RestApiModule {
   @Override
@@ -211,30 +190,5 @@ public class ChangeRestApiModule extends RestApiModule {
     post(VOTE_KIND, "delete").to(DeleteVote.class);
 
     post(CHANGE_KIND, "wip").to(SetWorkInProgress.class);
-
-    factory(AccountLoader.Factory.class);
-    factory(AddReviewersOp.Factory.class);
-    factory(AddToAttentionSetOp.Factory.class);
-    factory(AttentionSetEmail.Factory.class);
-    factory(ChangeInserter.Factory.class);
-    factory(ChangeResource.Factory.class);
-    factory(CommentContextLoader.Factory.class);
-    factory(DeleteChangeOp.Factory.class);
-    factory(DeleteReviewerByEmailOp.Factory.class);
-    factory(DeleteReviewerOp.Factory.class);
-    factory(DeleteVoteOp.Factory.class);
-    factory(EmailReviewComments.Factory.class);
-    factory(PatchSetInserter.Factory.class);
-    factory(PostReviewOp.Factory.class);
-    factory(PreviewFix.Factory.class);
-    factory(RebaseChangeOp.Factory.class);
-    factory(RemoveFromAttentionSetOp.Factory.class);
-    factory(ReviewerResource.Factory.class);
-    factory(SetCherryPickOp.Factory.class);
-    factory(SetCustomKeyedValuesOp.Factory.class);
-    factory(SetHashtagsOp.Factory.class);
-    factory(SetPrivateOp.Factory.class);
-    factory(SetTopicOp.Factory.class);
-    factory(WorkInProgressOp.Factory.class);
   }
 }

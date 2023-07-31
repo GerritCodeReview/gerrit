@@ -149,7 +149,7 @@ public class AccountIndexerImpl implements AccountIndexer {
     indexedListener.runEach(l -> l.onAccountIndexed(id));
   }
 
-  private Collection<AccountIndex> getWriteIndexes() {
+  public Collection<AccountIndex> getWriteIndexes() {
     if (indexes != null) {
       return indexes.getWriteIndexes();
     }

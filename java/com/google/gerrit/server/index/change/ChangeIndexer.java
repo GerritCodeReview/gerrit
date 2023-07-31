@@ -353,7 +353,7 @@ public class ChangeIndexer {
     }
   }
 
-  private Collection<ChangeIndex> getWriteIndexes() {
+  public Collection<ChangeIndex> getWriteIndexes() {
     return indexes != null ? indexes.getWriteIndexes() : Collections.singleton(index);
   }
 

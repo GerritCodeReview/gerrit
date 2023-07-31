@@ -6,5 +6,6 @@ acceptance_tests(
     labels = ["rest"],
     deps = [
         "//java/com/google/gerrit/server/restapi",
+        "//lib/lucene:lucene-core",
     ],
 )

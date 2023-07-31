@@ -1488,6 +1488,69 @@ capability.
   }
 ----
 
+[[snapshot-index]]
+=== Create Index Snapshot
+
+This endpoint allows Gerrit admins to create a snapshot of an index.
+This snapshot can be used as a backup of the index.
+
+A snapshot of all versions of an index can be created by just using
+the name of the index, e.g. `changes`. Only snapshots of indexes that
+Gerrit currently writes to can be created. An index version can be
+selected by using e.g. `changes~84`. Snapshots of all indexes can be
+created by using `all` instead of an index name.
+
+Note, that the creation of multiple snapshots, e.g. of different index
+versions, is not atomic. If a consistent state over multiple indexes is
+required, the server has to be put into read-only mode before creating
+the snapshot.
+
+The snapshots will be stored on the server at `$SITE/index/snapshots/$ID`.
+The `$ID` can be optionally provided in link:#snapshot-index-input[SnapshotIndex.Input]
+or will default to the current local time in ISO8601 format.
+
+.Request
+----
+  PUT /config/server/indexes/all/snapshot HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "id": "snapshot-1"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "snapshot-1"
+  }
+----
+
+.Request
+----
+  PUT /config/server/indexes/accounts~13/snapshot HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "id": "snapshot-1"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "snapshot-1"
+  }
+----
+
 [[ids]]
 == IDs
 
@@ -2133,6 +2196,19 @@ The list of submit requirement names that should be displayed as separate
 columns in the dashboard. If empty, the default is to display all submit
 requirements that are applicable for changes appearing in the dashboard.
 |=======================================
+
+[[snapshot-index-input]]
+=== SnapshotIndex.Input
+The `SnapshotIndex.Input` entity contains the parameters used to create an
+index snapshot.
+
+[options="header",cols="1,^1,5"]
+|=======================
+|Field Name ||Description
+|`id` | optional |
+A string ID that will be used as the folder name containing the
+snapshots. Defaults to current timestamp.
+|=======================
 
 [[sshd-info]]
 === SshdInfo

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c891929c_eae532d5",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-07-31T13:25:12Z",
+      "side": 0,
+      "message": "I\u0027m not sure that we want to remove this assertion for all existing callers.\n\nIf you need this method for asserting a different status, maybe call\n\n  PushOneCommit.Result result \u003d\n        pushFactory.create(admin.newIdent(), repo, commitMsg, fileName, content).to(ref);\n        \ndirectly.",
+      "revId": "d9a3800ac316ac5879d86225935a4a3dff4c6428",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

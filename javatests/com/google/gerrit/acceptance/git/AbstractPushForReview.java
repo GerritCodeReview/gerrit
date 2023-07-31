@@ -535,6 +535,16 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "change.topicLimit", value = "3")
+  public void pushForMasterWithTopicExceedsSizeLimitFails() throws Exception {
+    pushTo("refs/for/master%topic=limited").assertOkStatus();
+    pushTo("refs/for/master%topic=limited").assertOkStatus();
+    pushTo("refs/for/master%topic=limited").assertOkStatus();
+    PushOneCommit.Result r = pushTo("refs/for/master%topic=limited");
+    r.assertErrorStatus("topicLimit");
+  }
+
+  @Test
   public void pushForMasterWithNotify() throws Exception {
     // create a user that watches the project
     TestAccount user3 = accountCreator.create("user3", "user3@example.com", "User3", null);

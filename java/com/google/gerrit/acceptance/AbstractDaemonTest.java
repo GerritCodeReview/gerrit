@@ -895,7 +895,6 @@ public abstract class AbstractDaemonTest {
       throws Exception {
     PushOneCommit.Result result =
         pushFactory.create(admin.newIdent(), repo, commitMsg, fileName, content).to(ref);
-    result.assertOkStatus();
     return result;
   }
 

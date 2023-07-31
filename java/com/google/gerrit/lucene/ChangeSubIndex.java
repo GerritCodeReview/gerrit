@@ -46,6 +46,7 @@ import org.apache.lucene.store.FSDirectory;
 
 public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
     implements ChangeIndex {
+
   ChangeSubIndex(
       Schema<ChangeData> schema,
       SitePaths sitePaths,

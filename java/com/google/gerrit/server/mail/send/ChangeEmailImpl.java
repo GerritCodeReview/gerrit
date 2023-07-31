@@ -75,22 +75,22 @@ import org.eclipse.jgit.util.TemporaryBuffer;
 
 /** Populates an email for change related notifications. */
 @AutoFactory
-public final class ChangeEmailImpl implements ChangeEmail {
+public class ChangeEmailImpl implements ChangeEmail {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   // Available after construction
-  private final EmailArguments args;
-  private final Set<Account.Id> currentAttentionSet;
-  private final Change change;
-  private final ChangeData changeData;
-  private final BranchNameKey branch;
-  private final ChangeEmailDecorator changeEmailDecorator;
+  protected final EmailArguments args;
+  protected final Set<Account.Id> currentAttentionSet;
+  protected final Change change;
+  protected final ChangeData changeData;
+  protected final BranchNameKey branch;
+  protected final ChangeEmailDecorator changeEmailDecorator;
 
   // Available after init or after being explicitly set.
-  private OutgoingEmail email;
+  protected OutgoingEmail email;
   private List<Account.Id> stars;
-  private PatchSet patchSet;
-  private PatchSetInfo patchSetInfo;
+  protected PatchSet patchSet;
+  protected PatchSetInfo patchSetInfo;
   private String changeMessage;
   private String changeMessageThreadId;
   private Instant timestamp;
@@ -248,11 +248,12 @@ public final class ChangeEmailImpl implements ChangeEmail {
     }
   }
 
-  private void setChangeSubjectHeader() {
+  protected void setChangeSubjectHeader() {
     email.setHeader(FieldName.SUBJECT, email.textTemplate("ChangeSubject"));
   }
 
-  private int getInsertionsCount() {
+  @Override
+  public int getInsertionsCount() {
     return listModifiedFiles().entrySet().stream()
         .filter(e -> !Patch.COMMIT_MSG.equals(e.getKey()))
         .map(Map.Entry::getValue)
@@ -260,7 +261,8 @@ public final class ChangeEmailImpl implements ChangeEmail {
         .reduce(0, Integer::sum);
   }
 
-  private int getDeletionsCount() {
+  @Override
+  public int getDeletionsCount() {
     return listModifiedFiles().values().stream()
         .map(FileDiffOutput::deletions)
         .reduce(0, Integer::sum);
@@ -272,7 +274,7 @@ public final class ChangeEmailImpl implements ChangeEmail {
    * clickthroughs where the link came from.
    */
   @Nullable
-  private String getChangeUrl() {
+  protected String getChangeUrl() {
     return args.urlFormatter
         .get()
         .getChangeViewUrl(change.getProject(), change.getId())
@@ -281,7 +283,7 @@ public final class ChangeEmailImpl implements ChangeEmail {
   }
 
   /** Sets headers for conversation grouping */
-  private void setThreadHeaders() {
+  protected void setThreadHeaders() {
     if (isThreadReply) {
       email.setHeader("In-Reply-To", changeMessageThreadId);
     }
@@ -298,7 +300,7 @@ public final class ChangeEmailImpl implements ChangeEmail {
   }
 
   /** Create the change message and the affected file list. */
-  private String getChangeDetail() {
+  protected String getChangeDetail() {
     try {
       StringBuilder detail = new StringBuilder();
 
@@ -514,7 +516,7 @@ public final class ChangeEmailImpl implements ChangeEmail {
       if (emailOnlyAttentionSetIfEnabled
           && accountState.isPresent()
           && accountState.get().generalPreferences().getEmailStrategy()
-              == EmailStrategy.ATTENTION_SET_ONLY
+          == EmailStrategy.ATTENTION_SET_ONLY
           && !currentAttentionSet.contains(to)) {
         return false;
       }
@@ -644,14 +646,14 @@ public final class ChangeEmailImpl implements ChangeEmail {
    * A shortened subject is the subject limited to 72 characters, with an ellipsis if it exceeds
    * that limit.
    */
-  private static String shortenSubject(String subject) {
+  protected static String shortenSubject(String subject) {
     if (subject.length() < 73) {
       return subject;
     }
     return subject.substring(0, 69) + "...";
   }
 
-  private Set<String> getEmailsByState(ReviewerStateInternal state) {
+  protected Set<String> getEmailsByState(ReviewerStateInternal state) {
     Set<String> reviewers = new TreeSet<>();
     try {
       for (Account.Id who : changeData.reviewers().byState(state)) {
@@ -676,7 +678,7 @@ public final class ChangeEmailImpl implements ChangeEmail {
     return attentionSet;
   }
 
-  private boolean getIncludeDiff() {
+  protected boolean getIncludeDiff() {
     return args.settings.includeDiff;
   }
 

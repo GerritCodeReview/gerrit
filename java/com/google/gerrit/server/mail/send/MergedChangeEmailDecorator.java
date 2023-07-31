@@ -25,6 +25,7 @@ import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.PatchSetApproval;
+import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -37,13 +38,14 @@ import java.util.Optional;
 public class MergedChangeEmailDecorator implements ChangeEmailDecorator {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private OutgoingEmail email;
-  private ChangeEmail changeEmail;
-  private LabelTypes labelTypes;
-  private final EmailArguments args;
-  private final Optional<String> stickyApprovalDiff;
+  protected OutgoingEmail email;
+  protected ChangeEmail changeEmail;
+  protected LabelTypes labelTypes;
+  protected final EmailArguments args;
+  protected final Optional<String> stickyApprovalDiff;
 
-  MergedChangeEmailDecorator(@Provided EmailArguments args, Optional<String> stickyApprovalDiff) {
+  public MergedChangeEmailDecorator(
+      @Provided EmailArguments args, Optional<String> stickyApprovalDiff) {
     this.args = args;
     this.stickyApprovalDiff = stickyApprovalDiff;
   }
@@ -68,7 +70,7 @@ public class MergedChangeEmailDecorator implements ChangeEmailDecorator {
     }
   }
 
-  private String getApprovals() {
+  protected String getApprovals() {
     try {
       Table<Account.Id, String, PatchSetApproval> pos = HashBasedTable.create();
       Table<Account.Id, String, PatchSetApproval> neg = HashBasedTable.create();
@@ -132,7 +134,7 @@ public class MergedChangeEmailDecorator implements ChangeEmailDecorator {
   }
 
   @Override
-  public void populateEmailContent() {
+  public void populateEmailContent() throws EmailException {
     email.addSoyEmailDataParam("approvals", getApprovals());
     if (stickyApprovalDiff.isPresent()) {
       email.addSoyEmailDataParam("stickyApprovalDiff", stickyApprovalDiff.get());

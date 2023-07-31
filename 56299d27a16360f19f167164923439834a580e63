@@ -16,6 +16,24 @@
       "message": "Sorry to resurrect a change that\u0027s now 6 years old 😳\n\nBut is anyone actually planning to do this? I often start typing an emoji in a Gerrit comment just like I would in Slack, and I get flustered because of course the one I\u0027m looking for is not in this _very limited_ list, and instead I have to switch to the OS unicode dialog (MacOS \u003d cmd+ctrl+space).\n\nSome of the emoji that I find myself having to backspace and revert back to the OS dialog:\n\n* 🤔 `:thinking:` \n* 🤯 `:exploding-head:` \n* 😳 `:flushed:`\n* 😬 `:grimacing:`\n* 🙄 `:rolling-eyes:`\n* 🤷‍♂️ `:[person-|woman-|man-]shrugging:`\n\nPlus some others where the Gerrit-imposed unicode emoji glyph is not what I have come to expect for the same name, such as \"smile\" \u003d 😊 when I usually expect 🙂, or \"tongue\" which I would expect to be 😛 as an analog to \":P\", but which Gerrit translates to 😋 for some reason (aka \"licking lips\" or \"yum\").\n\nIf we don\u0027t want to expand this list to the full Unicode block, maybe at least expose a way that we can add our own - whether through the UI or some kind of config file, or even a polygerrit plugin that a site can add to manually augment the `ALL_SUGGESTIONS` list? Right now we cannot augment this list because it\u0027s const and internal to the gr-textarea.ts file.\n\nFor reference, it appears that Slack\u0027s list allows searching for any named Unicode glyph, at least within the Unicode emoji block, which means we\u0027re able to get up to date glyphs as the standard expands (such as when 🌯 was added, or 🦩, and so on).",
       "revId": "56299d27a16360f19f167164923439834a580e63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d59afc16_eea8c9da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2023-07-31T20:36:19Z",
+      "side": 1,
+      "message": "Hi Joe-- I\u0027d recommend filing a bug for the Gerrit team, as all of us that were cc\u0027d on this change are either no longer at Google or on the Gerrit team 😊",
+      "parentUuid": "89f60e53_2ba18b94",
+      "revId": "56299d27a16360f19f167164923439834a580e63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

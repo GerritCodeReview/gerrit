@@ -14,57 +14,56 @@
 
 package com.google.gerrit.server.restapi.config;
 
-import java.util.TreeMap;
-import java.util.Locale;
-import java.util.Map;
-
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.server.restapi.config.IndexCollection.IndexType;
+import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class IndexInfo {
-    private String name;
-    private Map<Integer, IndexVersionInfo> versions = new TreeMap<>();
-    
-    public static IndexInfo fromIndexCollection(IndexType indexType, IndexCollection<?,?,?> indexCollection) {
-	IndexInfo indexInfo = new IndexInfo();
-	indexInfo.name = indexType.toString().toLowerCase(Locale.US);
-	Index<?,?> searchIndex = indexCollection.getSearchIndex();
-	for (Index<?,?> index : indexCollection.getWriteIndexes()) {
-	    indexInfo.versions.put(
-		    index.getSchema().getVersion(),
-		    new IndexVersionInfo(true, index.equals(searchIndex)));
-	}
-	int searchIndexVersion = searchIndex.getSchema().getVersion();
-	if (!indexInfo.versions.containsKey(searchIndexVersion)) {
-	    indexInfo.versions.put(searchIndexVersion, new IndexVersionInfo(false, true));
-	}
-	return indexInfo;
+  private String name;
+  private Map<Integer, IndexVersionInfo> versions = new TreeMap<>();
+
+  public static IndexInfo fromIndexCollection(
+      IndexType indexType, IndexCollection<?, ?, ?> indexCollection) {
+    IndexInfo indexInfo = new IndexInfo();
+    indexInfo.name = indexType.toString().toLowerCase(Locale.US);
+    Index<?, ?> searchIndex = indexCollection.getSearchIndex();
+    for (Index<?, ?> index : indexCollection.getWriteIndexes()) {
+      indexInfo.versions.put(
+          index.getSchema().getVersion(), new IndexVersionInfo(true, index.equals(searchIndex)));
+    }
+    int searchIndexVersion = searchIndex.getSchema().getVersion();
+    if (!indexInfo.versions.containsKey(searchIndexVersion)) {
+      indexInfo.versions.put(searchIndexVersion, new IndexVersionInfo(false, true));
+    }
+    return indexInfo;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public Map<Integer, IndexVersionInfo> getVersions() {
+    return versions;
+  }
+
+  public static class IndexVersionInfo {
+    private boolean write;
+    private boolean search;
+
+    public IndexVersionInfo(boolean write, boolean search) {
+      this.write = write;
+      this.search = search;
     }
 
-    public String getName() {
-        return name;
+    public boolean isWrite() {
+      return write;
     }
 
-    public Map<Integer, IndexVersionInfo> getVersions() {
-        return versions;
+    public boolean isSearch() {
+      return search;
     }
-
-    public static class IndexVersionInfo {
-	private boolean write;
-	private boolean search;
-	
-	public IndexVersionInfo(boolean write, boolean search) {
-	    this.write = write;
-	    this.search = search;
-	}
-
-	public boolean isWrite() {
-	    return write;
-	}
-
-	public boolean isSearch() {
-	    return search;
-	}
-    }
+  }
 }

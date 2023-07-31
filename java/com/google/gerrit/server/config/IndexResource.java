@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexCollection;
@@ -23,14 +26,24 @@ import java.util.Collection;
 public class IndexResource extends ConfigResource {
   public static final TypeLiteral<RestView<IndexResource>> INDEX_KIND = new TypeLiteral<>() {};
 
-  private final IndexCollection<?, ?, ?> indexes;
-
-  public IndexResource(IndexCollection<?, ?, ?> indexes) {
-    this.indexes = indexes;
-  }
+  private final Collection<Index<?, ?>> indexes;
 
   @SuppressWarnings("unchecked")
-  public Collection<Index<?, ?>> getWriteIndexes() {
-    return (Collection<Index<?, ?>>) indexes.getWriteIndexes();
+  public IndexResource(IndexCollection<?, ?, ?> indexes, @Nullable Integer version)
+      throws ResourceNotFoundException {
+    if (version == null) {
+      this.indexes = (Collection<Index<?, ?>>) indexes.getWriteIndexes();
+    } else {
+      Index<?, ?> index = indexes.getWriteIndex(version);
+      if (index == null) {
+        throw new ResourceNotFoundException(
+            String.format("Unknown index version requested: %d", version));
+      }
+      this.indexes = ImmutableList.of(index);
+    }
+  }
+
+  public Collection<Index<?, ?>> getIndexes() {
+    return indexes;
   }
 }

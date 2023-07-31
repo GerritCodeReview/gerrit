@@ -14,27 +14,13 @@
 
 package com.google.gerrit.server.restapi.config;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
-import static com.google.gerrit.common.data.GlobalCapability.VIEW_CACHES;
-import static com.google.gerrit.server.config.CacheResource.cacheNameOf;
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.stream.Collectors.joining;
 
-import com.google.common.cache.Cache;
-import com.google.common.collect.Streams;
-import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.registration.Extension;
-import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.index.project.ProjectIndexCollection;
-import com.google.gerrit.server.cache.CacheInfo;
 import com.google.gerrit.server.config.ConfigResource;
-import com.google.gerrit.server.config.IndexResource;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
@@ -42,10 +28,8 @@ import com.google.gerrit.server.restapi.config.IndexCollection.IndexType;
 import com.google.inject.Inject;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.stream.Stream;
-import org.kohsuke.args4j.Option;
 
-@RequiresCapability( MAINTAIN_SERVER)
+@RequiresCapability(MAINTAIN_SERVER)
 public class ListIndexes implements RestReadView<ConfigResource> {
   private final AccountIndexCollection accountIndexes;
   private final ChangeIndexCollection changeIndexes;
@@ -54,27 +38,30 @@ public class ListIndexes implements RestReadView<ConfigResource> {
 
   @Inject
   public ListIndexes(
-	  AccountIndexCollection accountIndexes,
-	      ChangeIndexCollection changeIndexes,
-	      GroupIndexCollection groupIndexes,
-	      ProjectIndexCollection projectIndexes) {
-	    this.accountIndexes = accountIndexes;
-	    this.changeIndexes = changeIndexes;
-	    this.groupIndexes = groupIndexes;
-	    this.projectIndexes = projectIndexes;
-	  }
+      AccountIndexCollection accountIndexes,
+      ChangeIndexCollection changeIndexes,
+      GroupIndexCollection groupIndexes,
+      ProjectIndexCollection projectIndexes) {
+    this.accountIndexes = accountIndexes;
+    this.changeIndexes = changeIndexes;
+    this.groupIndexes = groupIndexes;
+    this.projectIndexes = projectIndexes;
+  }
 
   private Map<IndexType, IndexInfo> getIndexInfos() {
     Map<IndexType, IndexInfo> indexInfos = new TreeMap<>();
-    indexInfos.put(IndexType.ACCOUNTS, IndexInfo.fromIndexCollection(IndexType.ACCOUNTS, accountIndexes));
-    indexInfos.put(IndexType.CHANGES, IndexInfo.fromIndexCollection(IndexType.CHANGES, changeIndexes));
+    indexInfos.put(
+        IndexType.ACCOUNTS, IndexInfo.fromIndexCollection(IndexType.ACCOUNTS, accountIndexes));
+    indexInfos.put(
+        IndexType.CHANGES, IndexInfo.fromIndexCollection(IndexType.CHANGES, changeIndexes));
     indexInfos.put(IndexType.GROUPS, IndexInfo.fromIndexCollection(IndexType.GROUPS, groupIndexes));
-    indexInfos.put(IndexType.PROJECTS, IndexInfo.fromIndexCollection(IndexType.PROJECTS, projectIndexes));
+    indexInfos.put(
+        IndexType.PROJECTS, IndexInfo.fromIndexCollection(IndexType.PROJECTS, projectIndexes));
     return indexInfos;
   }
 
   @Override
   public Response<Object> apply(ConfigResource rsrc) {
-      return Response.ok(getIndexInfos());
+    return Response.ok(getIndexInfos());
   }
 }

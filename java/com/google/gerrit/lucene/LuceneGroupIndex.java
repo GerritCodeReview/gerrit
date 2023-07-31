@@ -92,6 +92,7 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
     super(
         schema,
         sitePaths,
+        cfg,
         dir(schema, cfg, sitePaths),
         GROUPS,
         ImmutableSet.of(),

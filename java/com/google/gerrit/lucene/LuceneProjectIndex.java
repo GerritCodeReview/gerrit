@@ -92,6 +92,7 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
     super(
         schema,
         sitePaths,
+        cfg,
         dir(schema, cfg, sitePaths),
         PROJECTS,
         ImmutableSet.of(),

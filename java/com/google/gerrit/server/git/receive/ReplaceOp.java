@@ -64,6 +64,7 @@ import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.MergedByPushOp;
 import com.google.gerrit.server.git.receive.ReceiveCommits.MagicBranchInput;
+import com.google.gerrit.server.git.validators.TopicValidator;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -133,6 +134,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private final ProjectCache projectCache;
   private final ReviewerModifier reviewerModifier;
   private final ChangeUtil changeUtil;
+  private final TopicValidator topicValidator;
 
   private final ProjectState projectState;
   private final Change change;
@@ -178,6 +180,7 @@ public class ReplaceOp implements BatchUpdateOp {
       EmailNewPatchSet.Factory emailNewPatchSetFactory,
       ReviewerModifier reviewerModifier,
       ChangeUtil changeUtil,
+      TopicValidator topicValidator,
       @Assisted ProjectState projectState,
       @Assisted Change change,
       @Assisted boolean checkMergedInto,
@@ -206,6 +209,7 @@ public class ReplaceOp implements BatchUpdateOp {
     this.emailNewPatchSetFactory = emailNewPatchSetFactory;
     this.reviewerModifier = reviewerModifier;
     this.changeUtil = changeUtil;
+    this.topicValidator = topicValidator;
 
     this.projectState = projectState;
     this.change = change;
@@ -285,6 +289,7 @@ public class ReplaceOp implements BatchUpdateOp {
       }
       if (magicBranch.topic != null && !magicBranch.topic.equals(ctx.getChange().getTopic())) {
         try {
+          topicValidator.validateSize(magicBranch.topic);
           update.setTopic(magicBranch.topic);
         } catch (ValidationException ex) {
           throw new BadRequestException(ex.getMessage());

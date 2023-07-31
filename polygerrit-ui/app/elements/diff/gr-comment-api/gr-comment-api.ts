@@ -204,11 +204,11 @@ export class ChangeComments {
 
   /**
    * Get the comments (with drafts and robot comments) for a path and
-   * patch-range. Returns an object with left and right properties mapping to
-   * arrays of comments in on either side of the patch range for that path.
+   * patch-range. Returns an array containing comments from either side of the
+   * patch range for that path.
    *
-   * @param patchRange The patch-range object containing patchNum
-   * and basePatchNum properties to represent the range.
+   * @param patchRange The patch-range object containing patchNum and
+   * basePatchNum properties to represent the range.
    */
   getCommentsForPath(path: string, patchRange: PatchRange): Comment[] {
     let comments: Comment[] = [];

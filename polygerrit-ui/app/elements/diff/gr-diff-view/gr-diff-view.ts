@@ -47,6 +47,7 @@ import {
   PreferencesInfo,
   RepoName,
   RevisionPatchSetNum,
+  Comment,
   CommentMap,
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo, WebLinkInfo} from '../../../types/diff';
@@ -231,6 +232,9 @@ export class GrDiffView extends LitElement {
   /** Directly reflects the view model property `diffView.leftSide`. */
   @state()
   leftSide = false;
+
+  @state()
+  commentsForPath: Comment[] = [];
 
   // visible for testing
   reviewedFiles = new Set<string>();
@@ -766,6 +770,20 @@ export class GrDiffView extends LitElement {
         });
       }
     }
+    if (
+      changedProperties.has('change') ||
+      changedProperties.has('changeComments') ||
+      changedProperties.has('path') ||
+      changedProperties.has('patchRange')
+    ) {
+      assertIsDefined(this.path);
+      assertIsDefined(this.patchRange);
+      assertIsDefined(this.changeComments);
+      this.commentsForPath = this.changeComments.getCommentsForPath(
+        this.path,
+        this.patchRange
+      );
+    }
     this.updateSidebarHeight();
   }
 
@@ -944,6 +962,10 @@ export class GrDiffView extends LitElement {
                 <gr-endpoint-param
                   name="diff"
                   .value=${this.diffHost?.diffElement}
+                ></gr-endpoint-param>
+                <gr-endpoint-param
+                  name="comments"
+                  .value=${this.commentsForPath}
                 ></gr-endpoint-param>
               </gr-endpoint-decorator>
             </div>

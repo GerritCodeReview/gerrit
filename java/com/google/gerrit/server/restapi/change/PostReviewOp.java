@@ -97,7 +97,7 @@ import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Config;
 
 public class PostReviewOp implements BatchUpdateOp {
-  interface Factory {
+  public interface Factory {
     PostReviewOp create(
         ProjectState projectState, PatchSet.Id psId, ReviewInput in, Account.Id reviewerId);
   }

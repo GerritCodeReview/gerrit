@@ -20,17 +20,12 @@ import static com.google.gerrit.server.group.SubgroupResource.SUBGROUP_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
-import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.ServerInitiated;
-import com.google.gerrit.server.UserInitiated;
-import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.restapi.group.AddMembers.CreateMember;
 import com.google.gerrit.server.restapi.group.AddMembers.UpdateMember;
 import com.google.gerrit.server.restapi.group.AddSubgroups.CreateSubgroup;
 import com.google.gerrit.server.restapi.group.AddSubgroups.UpdateSubgroup;
 import com.google.gerrit.server.restapi.group.DeleteMembers.DeleteMember;
 import com.google.gerrit.server.restapi.group.DeleteSubgroups.DeleteSubgroup;
-import com.google.inject.Provides;
 
 public class GroupRestApiModule extends RestApiModule {
 
@@ -77,20 +72,5 @@ public class GroupRestApiModule extends RestApiModule {
     put(GROUP_KIND, "options").to(PutOptions.class);
     get(GROUP_KIND, "owner").to(GetOwner.class);
     put(GROUP_KIND, "owner").to(PutOwner.class);
-
-    factory(GroupsUpdate.Factory.class);
-  }
-
-  @Provides
-  @ServerInitiated
-  GroupsUpdate provideServerInitiatedGroupsUpdate(GroupsUpdate.Factory groupsUpdateFactory) {
-    return groupsUpdateFactory.createWithServerIdent();
-  }
-
-  @Provides
-  @UserInitiated
-  GroupsUpdate provideUserInitiatedGroupsUpdate(
-      GroupsUpdate.Factory groupsUpdateFactory, IdentifiedUser currentUser) {
-    return groupsUpdateFactory.create(currentUser);
   }
 }

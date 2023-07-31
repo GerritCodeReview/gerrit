@@ -227,7 +227,7 @@ public class CreateProject
     return branch;
   }
 
-  static class ValidBranchListener implements ProjectCreationValidationListener {
+  public static class ValidBranchListener implements ProjectCreationValidationListener {
     @Override
     public void validateNewProject(CreateProjectArgs args) throws ValidationException {
       for (String branch : args.branch) {

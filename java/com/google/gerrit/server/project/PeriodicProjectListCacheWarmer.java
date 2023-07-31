@@ -92,6 +92,11 @@ public class PeriodicProjectListCacheWarmer implements Runnable {
   }
 
   @Override
+  public String toString() {
+    return "Project List Cache Warmer";
+  }
+
+  @Override
   public void run() {
     logger.atFine().log("Loading project_list cache");
     cache.refreshProjectList();

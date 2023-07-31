@@ -109,6 +109,12 @@ public interface ChangeEmail extends OutgoingEmail.EmailDecorator {
   /** Get the patch list corresponding to this patch set. */
   Map<String, FileDiffOutput> listModifiedFiles();
 
+  /** Get the number of added lines in a change. */
+  int getInsertionsCount();
+
+  /** Get the number of deleted lines in a change. */
+  int getDeletionsCount();
+
   /** Get the project entity the change is in; null if its been deleted. */
   ProjectState getProjectState();
 

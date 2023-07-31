@@ -16,10 +16,12 @@ package com.google.gerrit.server.restapi.config;
 
 import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
 
+import com.google.common.base.Splitter;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.index.project.ProjectIndexCollection;
@@ -31,8 +33,8 @@ import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.util.List;
 import java.util.Locale;
-import org.apache.lucene.index.IndexNotFoundException;
 
 @RequiresCapability(MAINTAIN_SERVER)
 @Singleton
@@ -68,20 +70,43 @@ public class IndexCollection implements ChildCollection<ConfigResource, IndexRes
   }
 
   @Override
-  public IndexResource parse(ConfigResource parent, IdString id) throws IndexNotFoundException {
-    IndexType indexName = IndexType.valueOf(id.get().toUpperCase(Locale.US));
+  public IndexResource parse(ConfigResource parent, IdString id) throws ResourceNotFoundException {
+    if (id.toString().toLowerCase(Locale.US).equals("all")) {
+      return new IndexResource(
+          List.of(accountIndexes, changeIndexes, groupIndexes, projectIndexes));
+    }
+
+    List<String> indexAndVersion = Splitter.on('~').splitToList(id.toString());
+    String index;
+    Integer version;
+    if (indexAndVersion.size() == 1) {
+      index = indexAndVersion.get(0);
+      version = null;
+    } else if (indexAndVersion.size() == 2) {
+      index = indexAndVersion.get(0);
+      version = Integer.valueOf(indexAndVersion.get(1));
+    } else {
+      throw new ResourceNotFoundException(id);
+    }
+
+    IndexType indexName;
+    try {
+      indexName = IndexType.valueOf(index.toUpperCase(Locale.US));
+    } catch (IllegalArgumentException e) {
+      throw new ResourceNotFoundException("Unknown index requested.", e);
+    }
 
     switch (indexName) {
       case ACCOUNTS:
-        return new IndexResource(accountIndexes);
+        return new IndexResource(accountIndexes, version);
       case CHANGES:
-        return new IndexResource(changeIndexes);
+        return new IndexResource(changeIndexes, version);
       case GROUPS:
-        return new IndexResource(groupIndexes);
+        return new IndexResource(groupIndexes, version);
       case PROJECTS:
-        return new IndexResource(projectIndexes);
+        return new IndexResource(projectIndexes, version);
       default:
-        throw new IndexNotFoundException("Unknown index requested.");
+        throw new ResourceNotFoundException("Unknown index requested.");
     }
   }
 

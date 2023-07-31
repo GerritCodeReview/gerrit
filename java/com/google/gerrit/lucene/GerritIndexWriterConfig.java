@@ -22,6 +22,7 @@ import com.google.gerrit.server.config.ConfigUtil;
 import org.apache.lucene.analysis.CharArraySet;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.ConcurrentMergeScheduler;
+import org.apache.lucene.index.IndexDeletionPolicy;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.eclipse.jgit.lib.Config;
@@ -75,6 +76,14 @@ class GerritIndexWriterConfig {
     } catch (IllegalArgumentException e) {
       commitWithinMs = cfg.getLong("index", name, "commitWithin", 0);
     }
+  }
+
+  void setIndexDeletionPolicy(IndexDeletionPolicy indexDeletionPolicy) {
+    luceneConfig.setIndexDeletionPolicy(indexDeletionPolicy);
+  }
+
+  IndexDeletionPolicy getIndexDeletionPolicy() {
+    return luceneConfig.getIndexDeletionPolicy();
   }
 
   CustomMappingAnalyzer getAnalyzer() {

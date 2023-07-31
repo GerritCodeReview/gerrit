@@ -53,6 +53,8 @@ public class ConfigRestApiModule extends RestApiModule {
     get(CONFIG_KIND, "version").to(GetVersion.class);
 
     child(CONFIG_KIND, "indexes").to(IndexCollection.class);
+    put(INDEX_KIND, "snapshot").to(SnapshotIndex.class);
+
     // The caches and summary REST endpoints are bound via RestCacheAdminModule.
   }
 }

@@ -156,42 +156,50 @@ public class LuceneChangeIndex implements ChangeIndex {
           new ChangeSubIndex(
               schema,
               sitePaths,
+              cfg,
               new ByteBuffersDirectory(),
               "ramOpen",
               skipFields,
               openConfig,
               searcherFactory,
-              autoFlush);
+              autoFlush,
+              "changes_open");
       closedIndex =
           new ChangeSubIndex(
               schema,
               sitePaths,
+              cfg,
               new ByteBuffersDirectory(),
               "ramClosed",
               skipFields,
               closedConfig,
               searcherFactory,
-              autoFlush);
+              autoFlush,
+              "changes_closed");
     } else {
       Path dir = LuceneVersionManager.getDir(sitePaths, CHANGES, schema);
       openIndex =
           new ChangeSubIndex(
               schema,
               sitePaths,
+              cfg,
               dir.resolve(CHANGES_OPEN),
               skipFields,
               openConfig,
               searcherFactory,
-              autoFlush);
+              autoFlush,
+              "changes_open");
       closedIndex =
           new ChangeSubIndex(
               schema,
               sitePaths,
+              cfg,
               dir.resolve(CHANGES_CLOSED),
               skipFields,
               closedConfig,
               searcherFactory,
-              autoFlush);
+              autoFlush,
+              "changes_closed");
     }
   }
 
@@ -282,6 +290,11 @@ public class LuceneChangeIndex implements ChangeIndex {
     // Arbitrary done on open index, as ready bit is set
     // per index and not sub index
     openIndex.markReady(ready);
+  }
+
+  @Override
+  public boolean snapshot(String id) throws IOException {
+    return openIndex.snapshot(id) && closedIndex.snapshot(id);
   }
 
   private Sort getSort() {

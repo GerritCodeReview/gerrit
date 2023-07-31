@@ -3609,6 +3609,12 @@ Defaults to `5m`.
 link:#schedule-configuration-examples[Schedule examples] can be found
 in the link:#schedule-configuration[Schedule Configuration] section.
 
+[[index.allowSnapshots]]index.allowSnapshots::
++
+Allow server maintainers to create snapshots of indexes used by Gerrit.
++
+Defaults to `false`.
+
 ==== Lucene configuration
 
 Open and closed changes are indexed in separate indexes named

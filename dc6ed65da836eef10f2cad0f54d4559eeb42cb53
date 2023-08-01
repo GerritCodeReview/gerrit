@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "d5a0b336_341d4cfe",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,10 @@
         "endChar": 5
       },
       "revId": "dc6ed65da836eef10f2cad0f54d4559eeb42cb53",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "417a1b73_266938ef",
         "filename": "/COMMIT_MSG",
@@ -44,10 +45,10 @@
         "endChar": 5
       },
       "revId": "dc6ed65da836eef10f2cad0f54d4559eeb42cb53",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "654c7894_aa1f7dd1",
         "filename": "/COMMIT_MSG",
@@ -68,10 +69,34 @@
         "endChar": 5
       },
       "revId": "dc6ed65da836eef10f2cad0f54d4559eeb42cb53",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1cfc83c_3f224312",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-01T01:06:08Z",
+      "side": 1,
+      "message": "Han-Wen, did my explanation make sense? I also updated the comment on the `build()` method, so maybe that makes it more obvious too. Let me know if I can explain it better.\n\nI revived this change because even with the move to RoaringBitmaps, we\u0027re still seeing more memory used than we want/expect during ls-remote commands. With this change I can get back down to our 2.7 memory settings.",
+      "parentUuid": "654c7894_aa1f7dd1",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 5
+      },
+      "revId": "dc6ed65da836eef10f2cad0f54d4559eeb42cb53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "77537992_b5ef8c5a",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
@@ -91,10 +116,10 @@
         "endChar": 44
       },
       "revId": "dc6ed65da836eef10f2cad0f54d4559eeb42cb53",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "c675aa48_daf16fab",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
@@ -115,8 +140,31 @@
         "endChar": 44
       },
       "revId": "dc6ed65da836eef10f2cad0f54d4559eeb42cb53",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "966aa331_81634f82",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-01T01:06:08Z",
+      "side": 1,
+      "message": "I updated this with the null check and added in those other safety null checks above too; however, looking at this again, I don\u0027t think I should be creating a Tag object with a null `mine`, so I\u0027m keeping this unresolved.",
+      "parentUuid": "c675aa48_daf16fab",
+      "range": {
+        "startLine": 332,
+        "startChar": 36,
+        "endLine": 332,
+        "endChar": 44
+      },
+      "revId": "dc6ed65da836eef10f2cad0f54d4559eeb42cb53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

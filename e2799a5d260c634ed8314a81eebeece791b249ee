@@ -22,6 +22,30 @@
       },
       "revId": "e2799a5d260c634ed8314a81eebeece791b249ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7cae6bf_68ecbbb8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-01T13:27:44Z",
+      "side": 1,
+      "message": "I guess a disadvantage would be that you would need to verify the change in the plugin manually, since the CI is not smart enough to understand topics.",
+      "parentUuid": "48b3b181_ec69f849",
+      "range": {
+        "startLine": 11,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 50
+      },
+      "revId": "e2799a5d260c634ed8314a81eebeece791b249ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

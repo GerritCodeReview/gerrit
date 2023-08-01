@@ -165,6 +165,30 @@
       },
       "revId": "dc6ed65da836eef10f2cad0f54d4559eeb42cb53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "989341ad_b4ae8fea",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-01T02:56:48Z",
+      "side": 1,
+      "message": "\u003e however, looking at this again, I don\u0027t think I should be creating a Tag object with a null mine, so I\u0027m keeping this unresolved.\n\nOk, I decided to add null safety instead with a precondition check in the Tag constructor and then removed the other null checks that didn\u0027t make sense anymore. I think the code is cleaner and easier to follow this way. My 2019 response about why this is never null is still accurate.",
+      "parentUuid": "966aa331_81634f82",
+      "range": {
+        "startLine": 332,
+        "startChar": 36,
+        "endLine": 332,
+        "endChar": 44
+      },
+      "revId": "dc6ed65da836eef10f2cad0f54d4559eeb42cb53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

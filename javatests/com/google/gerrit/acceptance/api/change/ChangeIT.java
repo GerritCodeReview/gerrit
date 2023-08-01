@@ -2860,6 +2860,26 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "change.topicLimit", value = "3")
+  public void topicSizeLimit() throws Exception {
+    for (int i = 0; i < 3; i++) {
+      createChangeWithTopic(testRepo, "limitedTopic", "message", "a.txt", "content\n");
+    }
+    PushOneCommit.Result rLimited =
+        createCommitAndPush(
+            testRepo,
+            "refs/for/master%topic=" + name("limitedTopic"),
+            "message",
+            "a.txt",
+            "content\n");
+    rLimited.assertErrorStatus("topicLimit");
+
+    PushOneCommit.Result rOther =
+        createChangeWithTopic(testRepo, "otherTopic", "message", "a.txt", "content\n");
+    assertThat(gApi.changes().id(rOther.getChangeId()).topic()).contains("otherTopic");
+  }
+
+  @Test
   public void editTopicWithoutPermissionNotAllowed() throws Exception {
     PushOneCommit.Result r = createChange();
     assertThat(gApi.changes().id(r.getChangeId()).topic()).isEqualTo("");

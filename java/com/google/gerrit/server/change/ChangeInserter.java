@@ -64,6 +64,7 @@ import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.git.validators.TopicValidator;
 import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
@@ -117,6 +118,7 @@ public class ChangeInserter implements InsertChangeOp {
   private final EmailFactories emailFactories;
   private final ExecutorService sendEmailExecutor;
   private final CommitValidators.Factory commitValidatorsFactory;
+  private final TopicValidator topicValidator;
   private final RevisionCreated revisionCreated;
   private final CommentAdded commentAdded;
   private final ReviewerModifier reviewerModifier;
@@ -170,6 +172,7 @@ public class ChangeInserter implements InsertChangeOp {
       EmailFactories emailFactories,
       @SendEmailExecutor ExecutorService sendEmailExecutor,
       CommitValidators.Factory commitValidatorsFactory,
+      TopicValidator topicValidator,
       CommentAdded commentAdded,
       RevisionCreated revisionCreated,
       ReviewerModifier reviewerModifier,
@@ -188,6 +191,7 @@ public class ChangeInserter implements InsertChangeOp {
     this.emailFactories = emailFactories;
     this.sendEmailExecutor = sendEmailExecutor;
     this.commitValidatorsFactory = commitValidatorsFactory;
+    this.topicValidator = topicValidator;
     this.revisionCreated = revisionCreated;
     this.commentAdded = commentAdded;
     this.reviewerModifier = reviewerModifier;
@@ -469,6 +473,7 @@ public class ChangeInserter implements InsertChangeOp {
     update.setSubjectForCommit("Create change");
     update.setBranch(change.getDest().branch());
     try {
+      topicValidator.validateSize(change.getTopic());
       update.setTopic(change.getTopic());
     } catch (ValidationException ex) {
       throw new BadRequestException(ex.getMessage());

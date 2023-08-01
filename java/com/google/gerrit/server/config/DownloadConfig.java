@@ -19,7 +19,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.CoreDownloadSchemes;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DownloadCommand;
 import com.google.gerrit.server.change.ArchiveFormatInternal;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -135,4 +134,14 @@ public class DownloadConfig {
   public ImmutableSet<ArchiveFormatInternal> getArchiveFormats() {
     return archiveFormats;
   }
+
+    /** Preferred method to download a change. */
+    public enum DownloadCommand {
+      PULL,
+      CHECKOUT,
+      CHERRY_PICK,
+      FORMAT_PATCH,
+      BRANCH,
+      RESET,
+    }
 }

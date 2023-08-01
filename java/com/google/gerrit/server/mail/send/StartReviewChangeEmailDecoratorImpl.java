@@ -27,16 +27,16 @@ import java.util.Set;
 
 /** Sends an email alerting a user to a new change for them to review. */
 public class StartReviewChangeEmailDecoratorImpl implements StartReviewChangeEmailDecorator {
-  private OutgoingEmail email;
-  private ChangeEmail changeEmail;
+  protected OutgoingEmail email;
+  protected ChangeEmail changeEmail;
 
-  private final Set<Account.Id> reviewers = new HashSet<>();
-  private final Set<Address> reviewersByEmail = new HashSet<>();
-  private final Set<Account.Id> extraCC = new HashSet<>();
-  private final Set<Address> extraCCByEmail = new HashSet<>();
-  private final Set<Account.Id> removedReviewers = new HashSet<>();
-  private final Set<Address> removedByEmailReviewers = new HashSet<>();
-  private boolean isCreateChange = false;
+  protected final Set<Account.Id> reviewers = new HashSet<>();
+  protected final Set<Address> reviewersByEmail = new HashSet<>();
+  protected final Set<Account.Id> extraCC = new HashSet<>();
+  protected final Set<Address> extraCCByEmail = new HashSet<>();
+  protected final Set<Account.Id> removedReviewers = new HashSet<>();
+  protected final Set<Address> removedByEmailReviewers = new HashSet<>();
+  protected boolean isCreateChange = false;
 
   @Override
   public void addReviewers(Collection<Account.Id> cc) {
@@ -80,7 +80,7 @@ public class StartReviewChangeEmailDecoratorImpl implements StartReviewChangeEma
   }
 
   @Nullable
-  private List<String> getReviewerNames() {
+  protected List<String> getReviewerNames() {
     if (reviewers.isEmpty()) {
       return null;
     }
@@ -92,7 +92,7 @@ public class StartReviewChangeEmailDecoratorImpl implements StartReviewChangeEma
   }
 
   @Nullable
-  private List<String> getRemovedReviewerNames() {
+  protected List<String> getRemovedReviewerNames() {
     if (removedReviewers.isEmpty() && removedByEmailReviewers.isEmpty()) {
       return null;
     }

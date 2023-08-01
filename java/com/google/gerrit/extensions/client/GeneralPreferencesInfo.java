@@ -22,16 +22,6 @@ public class GeneralPreferencesInfo {
   /** Default number of items to display per page. */
   public static final int DEFAULT_PAGESIZE = 25;
 
-  /** Preferred method to download a change. */
-  public enum DownloadCommand {
-    PULL,
-    CHECKOUT,
-    CHERRY_PICK,
-    FORMAT_PATCH,
-    BRANCH,
-    RESET,
-  }
-
   public enum DateFormat {
     /** US style dates: Apr 27, Feb 14, 2010 */
     STD("MMM d", "MMM d, yyyy"),

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e000317_35d74ff5",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-08-01T21:32:48Z",
+      "side": 1,
+      "message": "I can\u0027t help but think that the Tag.commit refFlags should be encapsulated and private avoiding the need for null checks outside of it. This operation should instead be done with a commit.setReachableFromTip(int tipId) (where tipId in this case is what \"flag\" represents).",
+      "revId": "e3f24f62458cffca4ee1785954aa50fa9aa257fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

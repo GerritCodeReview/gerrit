@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08716739_ee77dd1d",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-08-01T21:32:48Z",
+      "side": 1,
+      "message": "Using encapsulation, perhaps the code below should just become:\n\n if (c.isReachableFromAnyTip()) {\n    c.propagateRachabilityToParents();\n    c.clearIfNotATag();\n }\n \n You could take it further and make all of that just:\n \n    c.propagateRachabilityToParents();",
+      "revId": "0062f0ed6e849ba5ba6fb36204cf8f8a6954f6fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dd445c1_dc38fe56",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-08-01T21:32:48Z",
+      "side": 1,
+      "message": "This can be improved to safe more space when pIdx \u003d\u003d 0 \u0026\u0026 pFlags !\u003d null by adding here:\n\nboolean boolean isMoved;\n\nAnd then changing line 251 to:\n\n  if (!isMoved \u0026\u0026 !isTag) {",
+      "revId": "0062f0ed6e849ba5ba6fb36204cf8f8a6954f6fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ec908f4_12dfb962",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-08-01T21:32:48Z",
+      "side": 1,
+      "message": "Add a new constructor Tag(Tag src) to Tag to do this?",
+      "revId": "0062f0ed6e849ba5ba6fb36204cf8f8a6954f6fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

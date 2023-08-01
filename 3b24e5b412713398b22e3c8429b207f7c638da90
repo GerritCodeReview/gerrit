@@ -16,6 +16,24 @@
       "message": "The build failure looks real, but otherwise this LGTM.",
       "revId": "3b24e5b412713398b22e3c8429b207f7c638da90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef7cb057_d316109b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-01T08:52:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a78cf22_9d33e938",
+      "revId": "3b24e5b412713398b22e3c8429b207f7c638da90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

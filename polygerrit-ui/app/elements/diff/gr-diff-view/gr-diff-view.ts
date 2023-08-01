@@ -948,6 +948,10 @@ export class GrDiffView extends LitElement {
                   .value=${this.path}
                 ></gr-endpoint-param>
                 <gr-endpoint-param
+                  name="basePatchNum"
+                  .value=${this.basePatchNum}
+                ></gr-endpoint-param>
+                <gr-endpoint-param
                   name="patchNum"
                   .value=${this.patchNum}
                 ></gr-endpoint-param>

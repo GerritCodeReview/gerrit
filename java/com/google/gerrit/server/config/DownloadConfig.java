@@ -19,7 +19,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.CoreDownloadSchemes;
-import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DownloadCommand;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.server.change.ArchiveFormatInternal;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -41,11 +41,21 @@ import org.eclipse.jgit.lib.Config;
  */
 @Singleton
 public class DownloadConfig {
+  /** Preferred method to download a change. */
+  public enum DownloadCommand {
+    PULL,
+    CHECKOUT,
+    CHERRY_PICK,
+    FORMAT_PATCH,
+    BRANCH,
+    RESET,
+  }
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ImmutableSet<String> downloadSchemes;
   private final ImmutableSet<String> hiddenSchemes;
-  private final ImmutableSet<DownloadCommand> downloadCommands;
+  private final ImmutableSet<GeneralPreferencesInfo.DownloadCommand> downloadCommands;
   private final ImmutableSet<ArchiveFormatInternal> archiveFormats;
 
   @Inject
@@ -74,8 +84,9 @@ public class DownloadConfig {
     hidden.retainAll(downloadSchemes);
     hiddenSchemes = ImmutableSet.copyOf(hidden);
 
-    DownloadCommand[] downloadCommandValues = DownloadCommand.values();
-    List<DownloadCommand> allCommands =
+    GeneralPreferencesInfo.DownloadCommand[] downloadCommandValues =
+        GeneralPreferencesInfo.DownloadCommand.values();
+    List<GeneralPreferencesInfo.DownloadCommand> allCommands =
         ConfigUtil.getEnumList(cfg, "download", null, "command", downloadCommandValues, null);
     if (isOnlyNull(allCommands)) {
       downloadCommands = ImmutableSet.copyOf(downloadCommandValues);
@@ -127,7 +138,7 @@ public class DownloadConfig {
   }
 
   /** Command used to download. */
-  public ImmutableSet<DownloadCommand> getDownloadCommands() {
+  public ImmutableSet<GeneralPreferencesInfo.DownloadCommand> getDownloadCommands() {
     return downloadCommands;
   }
 

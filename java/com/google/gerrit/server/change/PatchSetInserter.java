@@ -43,6 +43,7 @@ import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.extensions.events.WorkInProgressStateChanged;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.git.validators.TopicValidator;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.AutoMerger;
@@ -84,6 +85,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private final PatchSetUtil psUtil;
   private final WorkInProgressStateChanged wipStateChanged;
   private final AutoMerger autoMerger;
+  private final TopicValidator topicValidator;
 
   // Assisted-injected fields.
   private final PatchSet.Id psId;
@@ -132,6 +134,7 @@ public class PatchSetInserter implements BatchUpdateOp {
       ProjectCache projectCache,
       WorkInProgressStateChanged wipStateChanged,
       AutoMerger autoMerger,
+      TopicValidator topicValidator,
       @Assisted ChangeNotes notes,
       @Assisted PatchSet.Id psId,
       @Assisted ObjectId commitId) {
@@ -147,6 +150,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     this.projectCache = projectCache;
     this.wipStateChanged = wipStateChanged;
     this.autoMerger = autoMerger;
+    this.topicValidator = topicValidator;
 
     this.origNotes = notes;
     this.psId = psId;
@@ -307,6 +311,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     if (topic != null) {
       change.setTopic(topic);
       try {
+        topicValidator.validateSize(topic);
         update.setTopic(topic);
       } catch (ValidationException ex) {
         throw new BadRequestException(ex.getMessage());

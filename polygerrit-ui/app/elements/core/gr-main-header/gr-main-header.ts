@@ -116,6 +116,9 @@ export class GrMainHeader extends LitElement {
   @property({type: String})
   loginUrl = '/login';
 
+  @property({type: String})
+  loginText = 'Sign in';
+
   @property({type: Boolean})
   mobileSearchHidden = false;
 
@@ -446,7 +449,7 @@ export class GrMainHeader extends LitElement {
           ></gr-icon>
         </div>
         ${this.renderRegister()}
-        <a class="loginButton" href=${this.loginUrl}>Sign in</a>
+        <a class="loginButton" href=${this.loginUrl}>${this.loginText}</a>
         <a
           class="settingsButton"
           href="${getBaseUrl()}/settings/"

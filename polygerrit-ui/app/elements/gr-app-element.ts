@@ -32,7 +32,7 @@ import {getBaseUrl} from '../utils/url-util';
 import {navigationToken} from './core/gr-navigation/gr-navigation';
 import {getAppContext} from '../services/app-context';
 import {routerToken} from './core/gr-router/gr-router';
-import {AccountDetailInfo, NumericChangeId} from '../types/common';
+import {AccountDetailInfo, NumericChangeId, ServerInfo} from '../types/common';
 import {
   constructServerErrorMsg,
   GrErrorManager,
@@ -65,7 +65,7 @@ import {keyed} from 'lit/directives/keyed.js';
 import {assertIsDefined} from '../utils/common-util';
 import './gr-css-mixins';
 import {isDarkTheme, prefersDarkColorScheme} from '../utils/theme-util';
-import {AppTheme} from '../constants/constants';
+import {AppTheme, AuthType} from '../constants/constants';
 import {subscribe} from './lit/subscription-controller';
 import {PluginViewState} from '../models/views/plugin';
 import {createSearchUrl, SearchViewState} from '../models/views/search';
@@ -75,6 +75,7 @@ import {userModelToken} from '../models/user/user-model';
 import {modalStyles} from '../styles/gr-modal-styles';
 import {AdminChildView, createAdminUrl} from '../models/views/admin';
 import {ChangeChildView, changeViewModelToken} from '../models/views/change';
+import {configModelToken} from '../models/config/config-model';
 
 interface ErrorInfo {
   text: string;
@@ -137,6 +138,8 @@ export class GrAppElement extends LitElement {
 
   @state() private loginUrl = '/login';
 
+  @state() private loginText = 'Sign in';
+
   @state() private loadRegistrationDialog = false;
 
   @state() private loadKeyboardShortcutsDialog = false;
@@ -152,6 +155,9 @@ export class GrAppElement extends LitElement {
   @state() private mainAriaHidden = false;
 
   @state() private theme = AppTheme.AUTO;
+
+  @state()
+  serverConfig?: ServerInfo;
 
   readonly getRouter = resolve(this, routerToken);
 
@@ -170,6 +176,8 @@ export class GrAppElement extends LitElement {
   private readonly getRouterModel = resolve(this, routerModelToken);
 
   private readonly getChangeViewModel = resolve(this, changeViewModelToken);
+
+  private readonly getConfigModel = resolve(this, configModelToken);
 
   constructor() {
     super();
@@ -220,6 +228,14 @@ export class GrAppElement extends LitElement {
 
     subscribe(
       this,
+      () => this.getConfigModel().serverConfig$,
+      config => {
+        this.serverConfig = config;
+      }
+    );
+
+    subscribe(
+      this,
       () => this.getUserModel().preferenceTheme$,
       theme => {
         this.theme = theme;
@@ -259,7 +275,7 @@ export class GrAppElement extends LitElement {
     const resizeObserver = this.getBrowserModel().observeWidth();
     resizeObserver.observe(this);
 
-    this.updateLoginUrl();
+    this.updateLoginUrlAndText();
     this.reporting.appStarted();
     this.getRouter().start();
 
@@ -400,6 +416,7 @@ export class GrAppElement extends LitElement {
       <gr-error-manager
         id="errorManager"
         .loginUrl=${this.loginUrl}
+        .loginText=${this.loginText}
       ></gr-error-manager>
       <gr-plugin-host id="plugins"></gr-plugin-host>
     `;
@@ -415,6 +432,7 @@ export class GrAppElement extends LitElement {
         @show-keyboard-shortcuts=${this.showKeyboardShortcuts}
         .mobileSearchHidden=${!this.mobileSearch}
         .loginUrl=${this.loginUrl}
+        .loginText=${this.loginText}
         ?aria-hidden=${this.footerHeaderAriaHidden}
       >
       </gr-main-header>
@@ -691,31 +709,33 @@ export class GrAppElement extends LitElement {
   }
 
   private handleLocationChange() {
-    this.updateLoginUrl();
+    this.updateLoginUrlAndText();
   }
 
-  private updateLoginUrl() {
+  private updateLoginUrlAndText() {
     const baseUrl = getBaseUrl();
-    if (baseUrl) {
+    const customLoginUrl: string | undefined =
+      this.serverConfig?.auth.login_url;
+    const authType: AuthType | undefined = this.serverConfig?.auth.auth_type;
+    if (
+      customLoginUrl &&
+      authType &&
+      (authType === AuthType.HTTP || authType === AuthType.HTTP_LDAP)
+    ) {
+      this.loginUrl = customLoginUrl.startsWith('http')
+        ? customLoginUrl
+        : baseUrl + customLoginUrl;
+      if (this.serverConfig?.auth.login_text) {
+        this.loginText = this.serverConfig?.auth.login_text;
+      }
+    } else {
       // Strip the canonical path from the path since needing canonical in
       // the path is unneeded and breaks the url.
-      this.loginUrl =
-        baseUrl +
-        '/login/' +
-        encodeURIComponent(
-          '/' +
-            window.location.pathname.substring(baseUrl.length) +
-            window.location.search +
-            window.location.hash
-        );
-    } else {
-      this.loginUrl =
-        '/login/' +
-        encodeURIComponent(
-          window.location.pathname +
-            window.location.search +
-            window.location.hash
-        );
+      const defaultUrl = (getBaseUrl() || '') + '/login/';
+      const postFix = encodeURIComponent(
+        window.location.pathname + window.location.search + window.location.hash
+      );
+      this.loginUrl = defaultUrl + postFix;
     }
   }
 

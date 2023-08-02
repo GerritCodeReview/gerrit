@@ -3,20 +3,22 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {BasePatchSetNum, RevisionPatchSetNum} from '../api/rest-api';
+import {AuthType, BasePatchSetNum, RevisionPatchSetNum} from '../api/rest-api';
 import '../test/common-test-setup';
 import {
-  getBaseUrl,
   encodeURL,
+  getBaseUrl,
+  getPatchRangeExpression,
+  loginUrl,
+  PatchRangeParams,
+  sameOrigin,
   singleDecodeURL,
   toPath,
   toPathname,
   toSearchParams,
-  getPatchRangeExpression,
-  PatchRangeParams,
-  sameOrigin,
 } from './url-util';
 import {assert} from '@open-wc/testing';
+import {createAuth} from '../test/test-data-generators';
 
 suite('url-util tests', () => {
   suite('getBaseUrl tests', () => {
@@ -33,6 +35,53 @@ suite('url-util tests', () => {
 
     test('getBaseUrl', () => {
       assert.deepEqual(getBaseUrl(), '/r');
+    });
+  });
+
+  suite('loginUrl tests', () => {
+    const authConfig = createAuth();
+
+    test('default url if auth.loginUrl is not defined', () => {
+      const current = encodeURIComponent(
+        window.location.pathname + window.location.search + window.location.hash
+      );
+      assert.deepEqual(
+        loginUrl(undefined, window.location),
+        '/login/' + current
+      );
+      assert.deepEqual(
+        loginUrl(authConfig, window.location),
+        '/login/' + current
+      );
+    });
+
+    test('default url if auth type is not HTTP or HTTP_LDAP', () => {
+      const defaultUrl =
+        '/login/' +
+        encodeURIComponent(
+          window.location.pathname +
+            window.location.search +
+            window.location.hash
+        );
+      const customLoginUrl = '/custom';
+      authConfig.login_url = customLoginUrl;
+
+      authConfig.auth_type = AuthType.LDAP;
+      assert.deepEqual(loginUrl(authConfig, window.location), defaultUrl);
+      authConfig.auth_type = AuthType.OPENID_SSO;
+      assert.deepEqual(loginUrl(authConfig, window.location), defaultUrl);
+      authConfig.auth_type = AuthType.OAUTH;
+      assert.deepEqual(loginUrl(authConfig, window.location), defaultUrl);
+    });
+
+    test('use auth.loginUrl when defined', () => {
+      const customLoginUrl = '/custom';
+      authConfig.login_url = customLoginUrl;
+
+      authConfig.auth_type = AuthType.HTTP;
+      assert.deepEqual(loginUrl(authConfig, window.location), customLoginUrl);
+      authConfig.auth_type = AuthType.HTTP_LDAP;
+      assert.deepEqual(loginUrl(authConfig, window.location), customLoginUrl);
     });
   });
 

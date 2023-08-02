@@ -3,12 +3,51 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {BasePatchSetNum, PARENT, RevisionPatchSetNum} from '../types/common';
+import {
+  AuthInfo,
+  BasePatchSetNum,
+  PARENT,
+  RevisionPatchSetNum,
+} from '../types/common';
+import {AuthType} from '../api/rest-api';
 
 export function getBaseUrl(): string {
   // window is not defined in service worker, therefore no CANONICAL_PATH
   if (typeof window === 'undefined') return '';
   return self.CANONICAL_PATH || '';
+}
+
+/**
+ * Return the url to use for login. If the server configuration
+ * contains the `loginUrl` in the `auth` section than that custom url
+ * will be used, defaults to `/login` otherwise.
+ * @param authConfig the auth section of gerrit configuration if defined
+ * @param location the current page address
+ */
+export function loginUrl(
+  authConfig: AuthInfo | undefined,
+  location: Location
+): string {
+  const baseUrl = getBaseUrl();
+  const customLoginUrl: string | undefined = authConfig?.login_url;
+  const authType: AuthType | undefined = authConfig?.auth_type;
+  if (
+    customLoginUrl &&
+    authType &&
+    (authType === AuthType.HTTP || authType === AuthType.HTTP_LDAP)
+  ) {
+    return customLoginUrl.startsWith('http')
+      ? customLoginUrl
+      : baseUrl + customLoginUrl;
+  } else {
+    // Strip the canonical path from the path since needing canonical in
+    // the path is unneeded and breaks the url.
+    const defaultUrl = (getBaseUrl() || '') + '/login/';
+    const postFix = encodeURIComponent(
+      location.pathname + location.search + location.hash
+    );
+    return defaultUrl + postFix;
+  }
 }
 
 export interface PatchRangeParams {

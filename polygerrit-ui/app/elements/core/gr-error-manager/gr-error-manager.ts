@@ -113,6 +113,9 @@ export class GrErrorManager extends LitElement {
   @property({type: String})
   loginUrl = '/login';
 
+  @property({type: String})
+  loginText = 'Sign in';
+
   private readonly reporting = getAppContext().reportingService;
 
   private readonly getAuthService = resolve(this, authServiceToken);
@@ -164,6 +167,7 @@ export class GrErrorManager extends LitElement {
           id="errorDialog"
           @dismiss=${() => this.errorModal.close()}
           .loginUrl=${this.loginUrl}
+          .loginText=${this.loginText}
         ></gr-error-dialog>
       </dialog>
       <dialog

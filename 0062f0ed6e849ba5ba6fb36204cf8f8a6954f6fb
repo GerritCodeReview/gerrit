@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "60cb1020_b00f82a6",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-02T03:10:54Z",
+      "side": 1,
+      "message": "\u003e Using encapsulation, perhaps the code below should just become:\n\u003e \n\u003e  if (c.isReachableFromAnyTip()) {\n\u003e     c.propagateRachabilityToParents();\n\u003e     c.clearIfNotATag();\n\nI think since TagSet has the `ObjectIdOwnerMap\u003cTag\u003e tags` object, `clearIfNotATag()` doesn\u0027t make as much sense.\n\nI do like the idea of a `propagateReachabilityToParents()` on `TagCommit`, but I think I\u0027ll try that in a follow up change.\n\n\u003e  }\n\u003e  \n\u003e  You could take it further and make all of that just:\n\u003e  \n\u003e     c.propagateRachabilityToParents();",
+      "parentUuid": "08716739_ee77dd1d",
+      "revId": "0062f0ed6e849ba5ba6fb36204cf8f8a6954f6fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1dd445c1_dc38fe56",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
         "patchSetId": 5
@@ -31,6 +49,24 @@
       "writtenOn": "2023-08-01T21:32:48Z",
       "side": 1,
       "message": "This can be improved to safe more space when pIdx \u003d\u003d 0 \u0026\u0026 pFlags !\u003d null by adding here:\n\nboolean boolean isMoved;\n\nAnd then changing line 251 to:\n\n  if (!isMoved \u0026\u0026 !isTag) {",
+      "revId": "0062f0ed6e849ba5ba6fb36204cf8f8a6954f6fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "703d8bb2_df2dff8e",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-02T03:10:54Z",
+      "side": 1,
+      "message": "Done (I simplified further)",
+      "parentUuid": "1dd445c1_dc38fe56",
       "revId": "0062f0ed6e849ba5ba6fb36204cf8f8a6954f6fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -48,6 +84,24 @@
       "writtenOn": "2023-08-01T21:32:48Z",
       "side": 1,
       "message": "Add a new constructor Tag(Tag src) to Tag to do this?",
+      "revId": "0062f0ed6e849ba5ba6fb36204cf8f8a6954f6fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5a093e0_bb6cb739",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-02T03:10:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ec908f4_12dfb962",
       "revId": "0062f0ed6e849ba5ba6fb36204cf8f8a6954f6fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

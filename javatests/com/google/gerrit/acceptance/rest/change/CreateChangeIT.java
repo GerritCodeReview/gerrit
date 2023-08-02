@@ -194,7 +194,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
   @Test
   @GerritConfig(name = "change.topicLimit", value = "3")
-  public void createNewChange_ExceedsTopicLimit() throws Exception {
+  public void createNewChange_exceedsTopicLimit() throws Exception {
     assertCreateSucceeds(newChangeWithTopic("limited"));
     assertCreateSucceeds(newChangeWithTopic("limited"));
     assertCreateSucceeds(newChangeWithTopic("limited"));

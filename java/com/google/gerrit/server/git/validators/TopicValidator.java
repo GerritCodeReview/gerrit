@@ -32,7 +32,7 @@ public class TopicValidator {
   private final int topicLimit;
 
   @Inject
-  public TopicValidator(
+  TopicValidator(
       @GerritServerConfig Config serverConfig, Provider<InternalChangeQuery> queryProvider) {
     this.queryProvider = queryProvider;
     int configuredLimit = serverConfig.getInt("change", "topicLimit", 5_000);

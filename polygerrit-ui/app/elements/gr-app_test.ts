@@ -19,11 +19,12 @@ import {GrAppElement} from './gr-app-element';
 import {GrRouter, routerToken} from './core/gr-router/gr-router';
 import {resolve} from '../models/dependency';
 import {removeRequestDependencyListener} from '../test/common-test-setup';
+import {ReactiveElement} from 'lit';
 
 suite('gr-app callback tests', () => {
-  const handleLocationChangeSpy = sinon.spy(
-    GrAppElement.prototype,
-    <any>'handleLocationChange'
+  const requestUpdateStub = sinon.stub(
+    ReactiveElement.prototype,
+    'requestUpdate'
   );
   const dispatchLocationChangeEventSpy = sinon.spy(
     GrRouter.prototype,
@@ -34,9 +35,9 @@ suite('gr-app callback tests', () => {
     await fixture<GrApp>(html`<gr-app id="app"></gr-app>`);
   });
 
-  test("handleLocationChange in gr-app-element is called after dispatching 'location-change' event in gr-router", () => {
+  test("requestUpdate in reactive-element is called after dispatching 'location-change' event in gr-router", () => {
     dispatchLocationChangeEventSpy();
-    assert.isTrue(handleLocationChangeSpy.calledOnce);
+    assert.isTrue(requestUpdateStub.calledOnce);
   });
 });
 

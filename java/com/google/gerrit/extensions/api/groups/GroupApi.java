@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.api.groups;
 
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
@@ -175,6 +176,14 @@ public interface GroupApi {
   void index() throws RestApiException;
 
   /**
+   * Creates a change which updates or creates a named destination
+   *
+   * <p>Only supported for internal groups.
+   */
+  ChangeInfo createNamedDestinationChange(
+      String namedDestination, List<ProjectRefInfo> projectsAndRefs) throws RestApiException;
+
+  /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
    */
@@ -271,6 +280,12 @@ public interface GroupApi {
 
     @Override
     public void index() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ChangeInfo createNamedDestinationChange(
+        String namedDestination, List<ProjectRefInfo> projectsAndRefs) {
       throw new NotImplementedException();
     }
   }

@@ -18,7 +18,9 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.OwnerInput;
+import com.google.gerrit.extensions.api.groups.ProjectRefInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.DescriptionInput;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
@@ -27,8 +29,10 @@ import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.NameInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.group.GroupResource;
+import com.google.gerrit.server.group.NamedDestinationResource;
 import com.google.gerrit.server.restapi.group.AddMembers;
 import com.google.gerrit.server.restapi.group.AddSubgroups;
+import com.google.gerrit.server.restapi.group.CreateNamedDestinationChange;
 import com.google.gerrit.server.restapi.group.DeleteMembers;
 import com.google.gerrit.server.restapi.group.DeleteSubgroups;
 import com.google.gerrit.server.restapi.group.GetAuditLog;
@@ -73,6 +77,7 @@ class GroupApiImpl implements GroupApi {
   private final GetAuditLog getAuditLog;
   private final GroupResource rsrc;
   private final Index index;
+  private final CreateNamedDestinationChange createNamedDestinationChange;
 
   @Inject
   GroupApiImpl(
@@ -94,6 +99,7 @@ class GroupApiImpl implements GroupApi {
       DeleteSubgroups deleteSubgroups,
       GetAuditLog getAuditLog,
       Index index,
+      CreateNamedDestinationChange createNamedDestinationChange,
       @Assisted GroupResource rsrc) {
     this.getGroup = getGroup;
     this.getDetail = getDetail;
@@ -113,6 +119,7 @@ class GroupApiImpl implements GroupApi {
     this.deleteSubgroups = deleteSubgroups;
     this.getAuditLog = getAuditLog;
     this.index = index;
+    this.createNamedDestinationChange = createNamedDestinationChange;
     this.rsrc = rsrc;
   }
 
@@ -287,6 +294,20 @@ class GroupApiImpl implements GroupApi {
       index.apply(rsrc, new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot index group", e);
+    }
+  }
+
+  @Override
+  public ChangeInfo createNamedDestinationChange(
+      String namedDestination, List<ProjectRefInfo> projectsAndRefs) throws RestApiException {
+    try {
+      CreateNamedDestinationChange.Input input = new CreateNamedDestinationChange.Input();
+      input.projectsAndRefs = projectsAndRefs;
+      return createNamedDestinationChange
+          .apply(new NamedDestinationResource(rsrc, namedDestination), input)
+          .value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot update named destination", e);
     }
   }
 }

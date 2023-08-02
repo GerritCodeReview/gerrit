@@ -28,11 +28,11 @@ import './settings/gr-cla-view/gr-cla-view';
 import './settings/gr-registration-dialog/gr-registration-dialog';
 import './settings/gr-settings-view/gr-settings-view';
 import './core/gr-notifications-prompt/gr-notifications-prompt';
-import {getBaseUrl} from '../utils/url-util';
+import {loginUrl} from '../utils/url-util';
 import {navigationToken} from './core/gr-navigation/gr-navigation';
 import {getAppContext} from '../services/app-context';
 import {routerToken} from './core/gr-router/gr-router';
-import {AccountDetailInfo, NumericChangeId} from '../types/common';
+import {AccountDetailInfo, NumericChangeId, ServerInfo} from '../types/common';
 import {
   constructServerErrorMsg,
   GrErrorManager,
@@ -75,6 +75,7 @@ import {userModelToken} from '../models/user/user-model';
 import {modalStyles} from '../styles/gr-modal-styles';
 import {AdminChildView, createAdminUrl} from '../models/views/admin';
 import {ChangeChildView, changeViewModelToken} from '../models/views/change';
+import {configModelToken} from '../models/config/config-model';
 
 interface ErrorInfo {
   text: string;
@@ -135,8 +136,6 @@ export class GrAppElement extends LitElement {
 
   @state() private mobileSearch = false;
 
-  @state() private loginUrl = '/login';
-
   @state() private loadRegistrationDialog = false;
 
   @state() private loadKeyboardShortcutsDialog = false;
@@ -152,6 +151,9 @@ export class GrAppElement extends LitElement {
   @state() private mainAriaHidden = false;
 
   @state() private theme = AppTheme.AUTO;
+
+  @state()
+  serverConfig?: ServerInfo;
 
   readonly getRouter = resolve(this, routerToken);
 
@@ -171,6 +173,8 @@ export class GrAppElement extends LitElement {
 
   private readonly getChangeViewModel = resolve(this, changeViewModelToken);
 
+  private readonly getConfigModel = resolve(this, configModelToken);
+
   constructor() {
     super();
 
@@ -183,9 +187,7 @@ export class GrAppElement extends LitElement {
     this.addEventListener('dialog-change', e => {
       this.handleDialogChange(e as CustomEvent<DialogChangeEventDetail>);
     });
-    document.addEventListener('location-change', () =>
-      this.handleLocationChange()
-    );
+    document.addEventListener('location-change', () => this.requestUpdate());
     document.addEventListener('gr-rpc-log', e => this.handleRpcLog(e));
     this.shortcuts.addAbstract(Shortcut.OPEN_SHORTCUT_HELP_DIALOG, () =>
       this.showKeyboardShortcuts()
@@ -216,6 +218,14 @@ export class GrAppElement extends LitElement {
       this.getNavigation().setUrl(
         createAdminUrl({adminView: AdminChildView.GROUPS})
       )
+    );
+
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      config => {
+        this.serverConfig = config;
+      }
     );
 
     subscribe(
@@ -259,7 +269,6 @@ export class GrAppElement extends LitElement {
     const resizeObserver = this.getBrowserModel().observeWidth();
     resizeObserver.observe(this);
 
-    this.updateLoginUrl();
     this.reporting.appStarted();
     this.getRouter().start();
 
@@ -399,7 +408,8 @@ export class GrAppElement extends LitElement {
       <gr-endpoint-decorator name="plugin-overlay"></gr-endpoint-decorator>
       <gr-error-manager
         id="errorManager"
-        .loginUrl=${this.loginUrl}
+        .loginUrl=${loginUrl(this.serverConfig?.auth)}
+        .loginText=${this.serverConfig?.auth.login_text ?? 'Sign in'}
       ></gr-error-manager>
       <gr-plugin-host id="plugins"></gr-plugin-host>
     `;
@@ -414,7 +424,8 @@ export class GrAppElement extends LitElement {
         @mobile-search=${this.mobileSearchToggle}
         @show-keyboard-shortcuts=${this.showKeyboardShortcuts}
         .mobileSearchHidden=${!this.mobileSearch}
-        .loginUrl=${this.loginUrl}
+        .loginUrl=${loginUrl(this.serverConfig?.auth)}
+        .loginText=${this.serverConfig?.auth.login_text ?? 'Sign in'}
         ?aria-hidden=${this.footerHeaderAriaHidden}
       >
       </gr-main-header>
@@ -687,35 +698,6 @@ export class GrAppElement extends LitElement {
           this.lastError = err;
         });
       }
-    }
-  }
-
-  private handleLocationChange() {
-    this.updateLoginUrl();
-  }
-
-  private updateLoginUrl() {
-    const baseUrl = getBaseUrl();
-    if (baseUrl) {
-      // Strip the canonical path from the path since needing canonical in
-      // the path is unneeded and breaks the url.
-      this.loginUrl =
-        baseUrl +
-        '/login/' +
-        encodeURIComponent(
-          '/' +
-            window.location.pathname.substring(baseUrl.length) +
-            window.location.search +
-            window.location.hash
-        );
-    } else {
-      this.loginUrl =
-        '/login/' +
-        encodeURIComponent(
-          window.location.pathname +
-            window.location.search +
-            window.location.hash
-        );
     }
   }
 

@@ -65,7 +65,7 @@ import {keyed} from 'lit/directives/keyed.js';
 import {assertIsDefined} from '../utils/common-util';
 import './gr-css-mixins';
 import {isDarkTheme, prefersDarkColorScheme} from '../utils/theme-util';
-import {AppTheme} from '../constants/constants';
+import {AppTheme, AuthType} from '../constants/constants';
 import {subscribe} from './lit/subscription-controller';
 import {PluginViewState} from '../models/views/plugin';
 import {createSearchUrl, SearchViewState} from '../models/views/search';
@@ -136,6 +136,8 @@ export class GrAppElement extends LitElement {
   @state() private mobileSearch = false;
 
   @state() private loginUrl = '/login';
+
+  @state() private loginText = 'Sign in';
 
   @state() private loadRegistrationDialog = false;
 
@@ -259,7 +261,7 @@ export class GrAppElement extends LitElement {
     const resizeObserver = this.getBrowserModel().observeWidth();
     resizeObserver.observe(this);
 
-    this.updateLoginUrl();
+    this.updateLoginUrlAndText();
     this.reporting.appStarted();
     this.getRouter().start();
 
@@ -400,6 +402,7 @@ export class GrAppElement extends LitElement {
       <gr-error-manager
         id="errorManager"
         .loginUrl=${this.loginUrl}
+        .loginText=${this.loginText}
       ></gr-error-manager>
       <gr-plugin-host id="plugins"></gr-plugin-host>
     `;
@@ -415,6 +418,7 @@ export class GrAppElement extends LitElement {
         @show-keyboard-shortcuts=${this.showKeyboardShortcuts}
         .mobileSearchHidden=${!this.mobileSearch}
         .loginUrl=${this.loginUrl}
+        .loginText=${this.loginText}
         ?aria-hidden=${this.footerHeaderAriaHidden}
       >
       </gr-main-header>
@@ -691,32 +695,33 @@ export class GrAppElement extends LitElement {
   }
 
   private handleLocationChange() {
-    this.updateLoginUrl();
+    this.updateLoginUrlAndText();
   }
 
-  private updateLoginUrl() {
-    const baseUrl = getBaseUrl();
-    if (baseUrl) {
-      // Strip the canonical path from the path since needing canonical in
-      // the path is unneeded and breaks the url.
-      this.loginUrl =
-        baseUrl +
-        '/login/' +
-        encodeURIComponent(
-          '/' +
-            window.location.pathname.substring(baseUrl.length) +
+  private updateLoginUrlAndText() {
+    return this.restApiService.getConfig().then(serverConf => {
+      const baseUrl = getBaseUrl();
+      const customLoginUrl: string | undefined = serverConf?.auth.login_url;
+      const authType: AuthType | undefined = serverConf?.auth.auth_type;
+      if (customLoginUrl && authType && (authType == AuthType.HTTP || authType == AuthType.HTTP_LDAP)) {
+        this.loginUrl = (customLoginUrl.startsWith("http"))
+            ? customLoginUrl
+            : baseUrl + customLoginUrl;
+        if (serverConf?.auth.login_text) {
+          this.loginText = serverConf.auth.login_text;
+        }
+      } else {
+        // Strip the canonical path from the path since needing canonical in
+        // the path is unneeded and breaks the url.
+        const defaultUrl = (getBaseUrl() || '') + '/login/';
+        const postFix = encodeURIComponent(
+            window.location.pathname +
             window.location.search +
             window.location.hash
         );
-    } else {
-      this.loginUrl =
-        '/login/' +
-        encodeURIComponent(
-          window.location.pathname +
-            window.location.search +
-            window.location.hash
-        );
-    }
+        this.loginUrl = defaultUrl + postFix;
+      }
+    });
   }
 
   // private but used in test

@@ -70,7 +70,10 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.groups.Groups.ListRequest;
+import com.google.gerrit.extensions.api.groups.ProjectRefInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo.GroupMemberAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo.UserMemberAuditEventInfo;
@@ -82,9 +85,11 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.ServerInitiated;
+import com.google.gerrit.server.account.DestinationList;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.account.GroupsSnapshotReader;
@@ -111,8 +116,10 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -1568,6 +1575,59 @@ public class GroupsIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void createNamedDestinationChangeForEmptyInput() throws RestApiException {
+    GroupApi groupApi = gApi.groups().create(name("MyGroup"));
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> groupApi.createNamedDestinationChange("foo", Collections.emptyList()));
+    assertThat(thrown).hasMessageThat().isEqualTo("Input cannot be empty");
+  }
+
+  @Test
+  public void createNamedDestinationChange() throws RestApiException {
+    GroupApi groupApi = gApi.groups().create(name("MyGroup"));
+    List<ProjectRefInfo> projectsAndRefs = new ArrayList<>();
+    projectsAndRefs.add(new ProjectRefInfo("foo", "refs/heads/master"));
+
+    // Create a change which creates a new named destination
+    String namedDestination = "named_destination_sample";
+    ChangeInfo changeInfo =
+        groupApi.createNamedDestinationChange(namedDestination, projectsAndRefs);
+
+    assertThat(changeInfo).isNotNull();
+    assertThat(changeInfo.branch)
+        .isEqualTo(RefNames.refsGroups(AccountGroup.uuid(groupApi.get().id)));
+    assertThat(changeInfo.project).isEqualTo(allUsers.get());
+    Map<String, FileInfo> files = gApi.changes().id(changeInfo.changeId).current().files();
+    assertThat(files.size()).isEqualTo(2);
+    assertThat(files).containsKey(DestinationList.DIR_NAME + "/" + namedDestination);
+    assertThat(files.get(DestinationList.DIR_NAME + "/" + namedDestination).status).isEqualTo('A');
+
+    // Submit the named destination change
+    allowReviewAndSubmitOnGroupRefs(allUsers);
+    gApi.changes().id(changeInfo.changeId).current().review(ReviewInput.approve());
+    gApi.changes().id(changeInfo.changeId).current().submit();
+
+    // Create a change which updates existing named destination
+    projectsAndRefs.add(new ProjectRefInfo("bar", "refs/heads/master"));
+    changeInfo = groupApi.createNamedDestinationChange(namedDestination, projectsAndRefs);
+
+    assertThat(changeInfo).isNotNull();
+    files = gApi.changes().id(changeInfo.changeId).current().files();
+    assertThat(files.size()).isEqualTo(2);
+    assertThat(files).containsKey(DestinationList.DIR_NAME + "/" + namedDestination);
+    // File status is null for modified files
+    assertThat(files.get(DestinationList.DIR_NAME + "/" + namedDestination).status).isNull();
+
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> groupApi.createNamedDestinationChange(namedDestination, projectsAndRefs));
+    assertThat(thrown).hasMessageThat().isEqualTo("no change");
+  }
+
   private static Correspondence<AccountInfo, String> getAccountToUsernameCorrespondence() {
     return NullAwareCorrespondence.transforming(
         accountInfo -> accountInfo.username, "has username");
@@ -1583,9 +1643,7 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(stalenessChecker.check(groupUuid).isStale()).isFalse();
   }
 
-  private void pushToGroupBranchForReviewAndSubmit(
-      Project.NameKey project, String groupRef, String fileName, String expectedError)
-      throws Throwable {
+  private void allowReviewAndSubmitOnGroupRefs(Project.NameKey project) {
     projectOperations
         .project(project)
         .forUpdate()
@@ -1596,6 +1654,12 @@ public class GroupsIT extends AbstractDaemonTest {
                 .range(-2, 2))
         .add(allow(Permission.SUBMIT).ref(RefNames.REFS_GROUPS + "*").group(REGISTERED_USERS))
         .update();
+  }
+
+  private void pushToGroupBranchForReviewAndSubmit(
+      Project.NameKey project, String groupRef, String fileName, String expectedError)
+      throws Throwable {
+    allowReviewAndSubmitOnGroupRefs(project);
 
     TestRepository<InMemoryRepository> repo = cloneProject(project);
     fetch(repo, groupRef + ":groupRef");

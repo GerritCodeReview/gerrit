@@ -27,14 +27,15 @@ public class VersionedAccountDestinations extends VersionedMetaData {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static VersionedAccountDestinations forBranch(BranchNameKey branch) {
-    return new VersionedAccountDestinations(branch.branch());
+    return new VersionedAccountDestinations(branch);
   }
 
   private final String ref;
   private final DestinationList destinations = new DestinationList();
 
-  private VersionedAccountDestinations(String ref) {
-    this.ref = ref;
+  private VersionedAccountDestinations(BranchNameKey branch) {
+    projectName = branch.project();
+    ref = branch.branch();
   }
 
   @Override
@@ -69,6 +70,9 @@ public class VersionedAccountDestinations extends VersionedMetaData {
 
   @Override
   protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
-    throw new UnsupportedOperationException("Cannot yet save destinations");
+    for (String label : destinations.getUpdatedLabels()) {
+      saveUTF8(String.join("/", DestinationList.DIR_NAME, label), destinations.asText(label));
+    }
+    return true;
   }
 }

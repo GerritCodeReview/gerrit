@@ -21,6 +21,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.ValidationError;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -159,5 +160,16 @@ public class DestinationListTest {
 
     dl.parseLabel(LABEL2, asText, null);
     assertThat(text).isEqualTo(dl.asText(LABEL2));
+  }
+
+  @Test
+  public void testUpdateALabel() throws Exception {
+    DestinationList dl = new DestinationList();
+    dl.parseLabel(LABEL, "#" + L_FOO + L_BAR, null);
+
+    dl.updateLabel(LABEL, Collections.singleton(dest(P_MY, R_FOO)));
+    Set<BranchNameKey> branches = dl.getDestinations(LABEL);
+    assertThat(branches).containsExactly(B_FOO);
+    assertThat(dl.getUpdatedLabels()).containsExactly(LABEL);
   }
 }

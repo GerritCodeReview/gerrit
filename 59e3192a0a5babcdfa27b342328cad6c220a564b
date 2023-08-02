@@ -45,6 +45,30 @@
       },
       "revId": "59e3192a0a5babcdfa27b342328cad6c220a564b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46f8ad2d_04fa79a8",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-02T15:49:14Z",
+      "side": 1,
+      "message": "Done, linting and prettified.",
+      "parentUuid": "603624d7_3b31de89",
+      "range": {
+        "startLine": 702,
+        "startChar": 4,
+        "endLine": 702,
+        "endChar": 10
+      },
+      "revId": "59e3192a0a5babcdfa27b342328cad6c220a564b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

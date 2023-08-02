@@ -506,6 +506,21 @@ public class ApplyPatchIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void commitMessage_providedMessageWithWrongChangeId() throws Exception {
+    initDestBranch();
+    String originalChangeId =
+        gApi.changes()
+            .create(new ChangeInput(project.get(), DESTINATION_BRANCH, "Default commit message"))
+            .info()
+            .changeId;
+    ApplyPatchPatchSetInput in = buildInput(ADDED_FILE_DIFF);
+    in.commitMessage = "custom commit message\n\nChange-Id: " + "I1234567890" + "\n";
+
+    assertThrows(
+        ResourceConflictException.class, () -> gApi.changes().id(originalChangeId).applyPatch(in));
+  }
+
+  @Test
   public void commitMessage_defaultMessageAndPatchHeader() throws Exception {
     initDestBranch();
     ApplyPatchPatchSetInput in = buildInput("Patch header\n" + ADDED_FILE_DIFF);

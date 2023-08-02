@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d2b8791_0d5971b6",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-02T14:08:34Z",
+      "side": 1,
+      "message": "I am not sure about this. As I understand the polymer and lit framework, when the component is added to the document\u0027s DOM the connectedCallback() function is called, updating the state on the gr-app-elements. This state than is reflected in all the children that have the loginUrl and loginText properties. \n\nLooking at the child element gr-main-header though, the server configuration is already present in there, than passed to its childeren, for example for the smartSearch box. \n\nIn this approach though the restApi is called upon initialization of the app every time. Should then the code to fetch the serverConfig be moved to this class (the parent) instead of fetching it in the gr-main-header ?\n\nI am not sure I understand how the observable/subscribe works. I.e.\n\n```\n this.subscriptions.push(\n      this.getConfigModel().serverConfig$.subscribe(config \u003d\u003e {\n```\n\nCan someone point me in the right direction please?",
+      "range": {
+        "startLine": 702,
+        "startChar": 11,
+        "endLine": 702,
+        "endChar": 58
+      },
+      "revId": "59e3192a0a5babcdfa27b342328cad6c220a564b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "603624d7_3b31de89",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-02T14:08:34Z",
+      "side": 1,
+      "message": "no need for return",
+      "range": {
+        "startLine": 702,
+        "startChar": 4,
+        "endLine": 702,
+        "endChar": 10
+      },
+      "revId": "59e3192a0a5babcdfa27b342328cad6c220a564b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

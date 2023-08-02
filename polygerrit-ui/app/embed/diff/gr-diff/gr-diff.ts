@@ -162,6 +162,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
   @property({type: Boolean})
   lineWrapping = false;
 
+  // TODO: Migrate users to using the same property in render preferences.
   @property({type: String})
   viewMode = DiffViewMode.SIDE_BY_SIDE;
 
@@ -212,12 +213,15 @@ export class GrDiff extends LitElement implements GrDiffApi {
   @property({type: Array})
   blame: BlameInfo[] | null = null;
 
+  // TODO: Migrate users to using the same property in render preferences.
   @property({type: Boolean})
   showNewlineWarningLeft = false;
 
+  // TODO: Migrate users to using the same property in render preferences.
   @property({type: Boolean})
   showNewlineWarningRight = false;
 
+  // TODO: Migrate users to using the same property in render preferences.
   @property({type: Boolean})
   useNewImageDiffUi = false;
 
@@ -330,13 +334,30 @@ export class GrDiff extends LitElement implements GrDiffApi {
       changedProperties.has('path') ||
       changedProperties.has('renderPrefs') ||
       changedProperties.has('viewMode') ||
+      changedProperties.has('loggedIn') ||
+      changedProperties.has('useNewImageDiffUi') ||
+      changedProperties.has('showNewlineWarningLeft') ||
+      changedProperties.has('showNewlineWarningRight') ||
       changedProperties.has('prefs') ||
       changedProperties.has('lineOfInterest')
     ) {
       if (this.diff && this.prefs) {
         const renderPrefs = {...(this.renderPrefs ?? {})};
+        // TODO: Migrate users to using render preferences directly. Then removes these overrides.
         if (renderPrefs.view_mode === undefined) {
           renderPrefs.view_mode = this.viewMode;
+        }
+        if (renderPrefs.can_comment === undefined) {
+          renderPrefs.can_comment = this.loggedIn;
+        }
+        if (renderPrefs.use_new_image_diff_ui === undefined) {
+          renderPrefs.use_new_image_diff_ui = this.useNewImageDiffUi;
+        }
+        if (renderPrefs.show_newline_warning_left === undefined) {
+          renderPrefs.show_newline_warning_left = this.showNewlineWarningLeft;
+        }
+        if (renderPrefs.show_newline_warning_right === undefined) {
+          renderPrefs.show_newline_warning_right = this.showNewlineWarningRight;
         }
         this.diffModel.updateState({
           diff: this.diff,

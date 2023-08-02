@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.group;
 
 import static com.google.gerrit.server.group.GroupResource.GROUP_KIND;
 import static com.google.gerrit.server.group.MemberResource.MEMBER_KIND;
+import static com.google.gerrit.server.group.NamedDestinationResource.NAMED_DESTINATION_KIND;
 import static com.google.gerrit.server.group.SubgroupResource.SUBGROUP_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -36,6 +37,7 @@ public class GroupRestApiModule extends RestApiModule {
     DynamicMap.mapOf(binder(), GROUP_KIND);
     DynamicMap.mapOf(binder(), MEMBER_KIND);
     DynamicMap.mapOf(binder(), SUBGROUP_KIND);
+    DynamicMap.mapOf(binder(), NAMED_DESTINATION_KIND);
 
     create(GROUP_KIND).to(CreateGroup.class);
     get(GROUP_KIND).to(GetGroup.class);
@@ -63,6 +65,9 @@ public class GroupRestApiModule extends RestApiModule {
     get(MEMBER_KIND).to(GetMember.class);
     put(MEMBER_KIND).to(UpdateMember.class);
     delete(MEMBER_KIND).to(DeleteMember.class);
+
+    child(GROUP_KIND, "named_destinations").to(NamedDestinationsCollection.class);
+    put(NAMED_DESTINATION_KIND, "review").to(CreateNamedDestinationChange.class);
 
     post(GROUP_KIND, "members.add").to(AddMembers.class);
     post(GROUP_KIND, "members.delete").to(DeleteMembers.class);

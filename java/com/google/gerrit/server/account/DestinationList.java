@@ -24,6 +24,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.TabFile;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -31,9 +32,19 @@ public class DestinationList extends TabFile {
   public static final String DIR_NAME = "destinations";
   private SetMultimap<String, BranchNameKey> destinations =
       MultimapBuilder.hashKeys().hashSetValues().build();
+  private Set<String> updatedLabels = new HashSet<>();
 
   public Set<BranchNameKey> getDestinations(String label) {
     return destinations.get(label);
+  }
+
+  public void updateLabel(String label, Set<BranchNameKey> rows) throws IOException {
+    updatedLabels.add(label);
+    destinations.replaceValues(label, rows);
+  }
+
+  public Set<String> getUpdatedLabels() {
+    return updatedLabels;
   }
 
   void parseLabel(String label, String text, ValidationError.Sink errors) throws IOException {

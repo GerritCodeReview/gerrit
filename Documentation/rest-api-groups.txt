@@ -1479,6 +1479,88 @@ link:#groups-input[GroupsInput] entity.
   HTTP/1.1 204 No Content
 ----
 
+[[named-destinations-endpoints]]
+== Named Destinations Endpoints
+
+=== Create Named Destination Change for review
+--
+'PUT /groups/link:#group-id[\{group-id\}]/named_destinations/link:#named-destination[\{named-destination\}]/review'
+--
+
+Creates a change for review which adds or updates a named destination
+of a Gerrit internal group.
+
+The full list of projects and refs which are part of the named destination
+must be provided in the request body as a
+link:#named-destination-input[NamedDestinationInput] entity.
+
+.Request
+----
+  PUT /groups/MyGroup/named_destinations/sample_dest/review HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "projects_and_refs": [
+      {
+        "project": "test",
+        "ref": "refs/heads/master"
+      },
+      {
+        "project": "All-Projects",
+        "ref": "refs/meta/config1"
+      }
+    ]
+  }
+----
+
+As response a link:rest-api-changes.html#change-info[ChangeInfo] entity
+describing the resulting change is returned.
+
+.Response
+----
+  HTTP/1.1 201 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "All-Users~refs%2Fgroups%2F77%2F7786a7553d5cd5c1fb959a509edfa92ed4fbc82b~If7f4f56e5732f4e7845d37974ba62b0a43267f8e",
+    "triplet_id": "All-Users~refs%2Fgroups%2F77%2F7786a7553d5cd5c1fb959a509edfa92ed4fbc82b~If7f4f56e5732f4e7845d37974ba62b0a43267f8e",
+    "project": "All-Users",
+    "branch": "refs/groups/77/7786a7553d5cd5c1fb959a509edfa92ed4fbc82b",
+    "hashtags": [],
+    "change_id": "If7f4f56e5732f4e7845d37974ba62b0a43267f8e",
+    "subject": "Review named destination change",
+    "status": "NEW",
+    "created": "2023-08-04 12:25:18.430000000",
+    "updated": "2023-08-04 12:25:18.430000000",
+    "submit_type": "MERGE_IF_NECESSARY",
+    "insertions": 4,
+    "deletions": 0,
+    "total_comment_count": 0,
+    "unresolved_comment_count": 0,
+    "has_review_started": true,
+    "meta_rev_id": "d7cf91fcb8e6d404e80c74587b362203a541ced5",
+    "_number": 421,
+    "owner": {
+      "_account_id": 1000000
+    },
+    "requirements": [],
+    "submit_records": [
+      {
+        "rule_name": "gerrit~DefaultSubmitRule",
+        "status": "NOT_READY",
+        "labels": [
+          {
+            "label": "Code-Review",
+            "status": "NEED"
+          }
+        ]
+      }
+    ]
+  }
+----
+
 
 [[ids]]
 == IDs
@@ -1497,6 +1579,9 @@ This can be:
 === \{group-name\}
 Group name that uniquely identifies one group.
 
+[[named-destination]]
+=== \{named-destination\}
+The name of a Group named destination.
 
 [[json-entities]]
 == JSON Entities
@@ -1658,6 +1743,31 @@ A list of link:rest-api-accounts.html#account-id[account ids] that
 identify the accounts that should be added or deleted.
 |==========================
 
+[[project-ref-info]]
+=== ProjectRefInfo
+The `ProjectRefInfo` entity contains information about a project and a ref.
+
+[options="header",cols="1,^1,5"]
+|==========================
+|Field Name   ||Description
+|`project`||
+The project name
+|`ref`||
+A ref in the project
+|==========================
+
+[[named-destination-input]]
+=== NamedDestinationInput
+The `NamedDestinationInput` entity contains information about projects
+and refs that needs to be part of a group named destination.
+
+[options="header",cols="1,^1,5"]
+|==========================
+|Field Name   ||Description
+|`projects_and_refs`||
+A list of link:#project-ref-info[ProjectRefInfo] entities describing project
+and ref that are part of the named destination.
+|==========================
 
 GERRIT
 ------

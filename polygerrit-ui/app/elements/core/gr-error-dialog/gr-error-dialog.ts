@@ -33,6 +33,9 @@ export class GrErrorDialog extends LitElement {
   @property({type: String})
   loginUrl = '/login';
 
+  @property({type: String})
+  loginText = 'Sign in';
+
   @property({type: Boolean})
   showSignInButton = false;
 
@@ -82,7 +85,7 @@ export class GrErrorDialog extends LitElement {
 
     return html`
       <gr-button id="signIn" class="signInLink" link="" slot="footer">
-        <a class="signInLink" href=${this.loginUrl}>Sign in</a>
+        <a class="signInLink" href=${this.loginUrl}>${this.loginText}</a>
       </gr-button>
     `;
   }

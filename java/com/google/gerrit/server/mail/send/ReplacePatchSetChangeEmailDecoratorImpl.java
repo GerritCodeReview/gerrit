@@ -48,18 +48,19 @@ public class ReplacePatchSetChangeEmailDecoratorImpl
     implements ReplacePatchSetChangeEmailDecorator {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final EmailArguments args;
-  private OutgoingEmail email;
-  private ChangeEmail changeEmail;
-  private final Set<Account.Id> reviewers = new HashSet<>();
-  private final Set<Account.Id> extraCC = new HashSet<>();
-  private final ChangeKind changeKind;
-  private final Set<PatchSetApproval> outdatedApprovals = new HashSet<>();
-  private final Supplier<Map<SubmitRequirement, SubmitRequirementResult>>
+  protected final EmailArguments args;
+  protected OutgoingEmail email;
+  protected ChangeEmail changeEmail;
+  protected final Set<Account.Id> reviewers = new HashSet<>();
+  protected final Set<Account.Id> extraCC = new HashSet<>();
+  protected final ChangeKind changeKind;
+  protected final Set<PatchSetApproval> outdatedApprovals = new HashSet<>();
+  protected final Supplier<Map<SubmitRequirement, SubmitRequirementResult>>
       preUpdateSubmitRequirementResultsSupplier;
-  private final Map<SubmitRequirement, SubmitRequirementResult> postUpdateSubmitRequirementResults;
+  protected final Map<SubmitRequirement, SubmitRequirementResult>
+      postUpdateSubmitRequirementResults;
 
-  ReplacePatchSetChangeEmailDecoratorImpl(
+  public ReplacePatchSetChangeEmailDecoratorImpl(
       @Provided EmailArguments args,
       Project.NameKey project,
       Change.Id changeId,
@@ -123,7 +124,7 @@ public class ReplacePatchSetChangeEmailDecoratorImpl
   }
 
   @Nullable
-  private ImmutableList<String> getReviewerNames() {
+  protected ImmutableList<String> getReviewerNames() {
     List<String> names = new ArrayList<>();
     for (Account.Id id : reviewers) {
       if (id.equals(email.getFrom())) {
@@ -137,7 +138,7 @@ public class ReplacePatchSetChangeEmailDecoratorImpl
     return names.stream().sorted().collect(toImmutableList());
   }
 
-  private ImmutableList<String> formatOutdatedApprovals() {
+  protected ImmutableList<String> formatOutdatedApprovals() {
     return outdatedApprovals.stream()
         .map(
             outdatedApproval ->

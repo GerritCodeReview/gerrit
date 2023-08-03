@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9eec10ed_b2e12ac9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1455,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-03T13:05:11Z",
+      "side": 1,
+      "message": "[optional] maybe make these links to the sections in the REST API documentation that describe these REST endpoints",
+      "range": {
+        "startLine": 1455,
+        "startChar": 4,
+        "endLine": 1455,
+        "endChar": 38
+      },
+      "revId": "68dc27c99567cfe800972e8e63b8a8aff597c1ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e701173a_6ff183e9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1740,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-03T13:05:11Z",
+      "side": 1,
+      "message": "[optional] also assert the error message:\n\n  BadRequestException exception \u003d assertThrows(....);\n  assertThat(exception).hasMessageThat().isEqualTo(...);",
+      "revId": "68dc27c99567cfe800972e8e63b8a8aff597c1ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.client;
 
 import java.util.List;
+import java.util.Objects;
 
 /** Preferences about a single user. */
 public class GeneralPreferencesInfo {
@@ -174,6 +175,136 @@ public class GeneralPreferencesInfo {
       return EmailFormat.HTML_PLAINTEXT;
     }
     return emailFormat;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof GeneralPreferencesInfo)) {
+      return false;
+    }
+    GeneralPreferencesInfo other = (GeneralPreferencesInfo) obj;
+    return this.changesPerPage.equals(other.changesPerPage)
+        && this.downloadScheme.equals(other.downloadScheme)
+        && this.theme.equals(other.theme)
+        && this.dateFormat.equals(other.dateFormat)
+        && this.timeFormat.equals(other.timeFormat)
+        && this.expandInlineDiffs.equals(other.expandInlineDiffs)
+        && this.relativeDateInChangeTable.equals(other.relativeDateInChangeTable)
+        && this.diffView.equals(other.diffView)
+        && this.sizeBarInChangeTable.equals(other.sizeBarInChangeTable)
+        && this.legacycidInChangeTable.equals(other.legacycidInChangeTable)
+        && this.muteCommonPathPrefixes.equals(other.muteCommonPathPrefixes)
+        && this.signedOffBy.equals(other.signedOffBy)
+        && this.emailStrategy.equals(other.emailStrategy)
+        && this.emailFormat.equals(other.emailFormat)
+        && this.defaultBaseForMerges.equals(other.defaultBaseForMerges)
+        && this.publishCommentsOnPush.equals(other.publishCommentsOnPush)
+        && this.disableKeyboardShortcuts.equals(other.disableKeyboardShortcuts)
+        && this.disableTokenHighlighting.equals(other.disableTokenHighlighting)
+        && this.workInProgressByDefault.equals(other.workInProgressByDefault)
+        && this.my.equals(other.my)
+        && this.changeTable.equals(other.changeTable)
+        && this.allowBrowserNotifications.equals(other.allowBrowserNotifications);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        changesPerPage,
+        downloadScheme,
+        theme,
+        dateFormat,
+        timeFormat,
+        expandInlineDiffs,
+        relativeDateInChangeTable,
+        diffView,
+        sizeBarInChangeTable,
+        legacycidInChangeTable,
+        muteCommonPathPrefixes,
+        signedOffBy,
+        emailStrategy,
+        emailFormat,
+        defaultBaseForMerges,
+        publishCommentsOnPush,
+        disableKeyboardShortcuts,
+        disableTokenHighlighting,
+        workInProgressByDefault,
+        my,
+        changeTable,
+        allowBrowserNotifications);
+  }
+
+  @Override
+  public String toString() {
+    return new StringBuilder()
+        .append("GeneralPreferencesInfo{")
+        .append("changesPerPage=")
+        .append(changesPerPage)
+        .append(',')
+        .append("downloadScheme=")
+        .append(downloadScheme)
+        .append(',')
+        .append("theme=")
+        .append(theme)
+        .append(',')
+        .append("dateFormat=")
+        .append(dateFormat)
+        .append(',')
+        .append("timeFormat=")
+        .append(timeFormat)
+        .append(',')
+        .append("expandInlineDiffs=")
+        .append(expandInlineDiffs)
+        .append(',')
+        .append("relativeDateInChangeTable=")
+        .append(relativeDateInChangeTable)
+        .append(',')
+        .append("diffView=")
+        .append(diffView)
+        .append(',')
+        .append("sizeBarInChangeTable=")
+        .append(sizeBarInChangeTable)
+        .append(',')
+        .append("legacycidInChangeTable=")
+        .append(legacycidInChangeTable)
+        .append(',')
+        .append("muteCommonPathPrefixes=")
+        .append(muteCommonPathPrefixes)
+        .append(',')
+        .append("signedOffBy=")
+        .append(signedOffBy)
+        .append(',')
+        .append("emailStrategy=")
+        .append(emailStrategy)
+        .append(',')
+        .append("emailFormat=")
+        .append(emailFormat)
+        .append(',')
+        .append("defaultBaseForMerges=")
+        .append(defaultBaseForMerges)
+        .append(',')
+        .append("publishCommentsOnPush=")
+        .append(publishCommentsOnPush)
+        .append(',')
+        .append("disableKeyboardShortcuts=")
+        .append(disableKeyboardShortcuts)
+        .append(',')
+        .append("disableTokenHighlighting=")
+        .append(disableTokenHighlighting)
+        .append(',')
+        .append("workInProgressByDefault=")
+        .append(workInProgressByDefault)
+        .append(',')
+        .append("my=")
+        .append(my)
+        .append(',')
+        .append("changeTable=")
+        .append(changeTable)
+        .append(',')
+        .append("allowBrowserNotifications=")
+        .append(allowBrowserNotifications)
+        .append('}')
+        .toString();
   }
 
   public static GeneralPreferencesInfo defaults() {

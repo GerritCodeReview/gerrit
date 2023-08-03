@@ -1718,6 +1718,29 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "change.maxFileSizeDownload", value = "10")
+  public void content_maxFileSizeDownload() throws Exception {
+    Map<String, String> files =
+        ImmutableMap.of("dir/file1.txt", " 8 bytes x", "dir/file2.txt", "12 bytes xxxxx");
+    PushOneCommit.Result result =
+        pushFactory.create(admin.newIdent(), testRepo, SUBJECT, files).to("refs/for/master");
+    result.assertOkStatus();
+
+    // 8 bytes should be fine, because the limit is 10 bytes.
+    assertContent(result, "dir/file1.txt", " 8 bytes x");
+
+    // 12 bytes should throw, because the limit is 10 bytes.
+    assertThrows(
+        BadRequestException.class,
+        () ->
+            gApi.changes()
+                .id(result.getChangeId())
+                .revision(result.getCommit().name())
+                .file("dir/file2.txt")
+                .content());
+  }
+
+  @Test
   public void patchsetLevelContentDoesNotExist() throws Exception {
     PushOneCommit.Result change = createChange();
     assertThrows(

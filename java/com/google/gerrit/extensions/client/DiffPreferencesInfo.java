@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.client;
 
+import java.util.Objects;
+
 public class DiffPreferencesInfo {
 
   /** Default number of lines of context. */
@@ -59,6 +61,144 @@ public class DiffPreferencesInfo {
   public Boolean skipDeleted;
   public Boolean skipUnchanged;
   public Boolean skipUncommented;
+
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof DiffPreferencesInfo)) {
+      return false;
+    }
+    DiffPreferencesInfo other = (DiffPreferencesInfo) obj;
+    return Objects.equals(this.context, other.context)
+        && Objects.equals(this.tabSize, other.tabSize)
+        && Objects.equals(this.fontSize, other.fontSize)
+        && Objects.equals(this.lineLength, other.lineLength)
+        && Objects.equals(this.cursorBlinkRate, other.cursorBlinkRate)
+        && Objects.equals(this.expandAllComments, other.expandAllComments)
+        && Objects.equals(this.intralineDifference, other.intralineDifference)
+        && Objects.equals(this.manualReview, other.manualReview)
+        && Objects.equals(this.showLineEndings, other.showLineEndings)
+        && Objects.equals(this.showTabs, other.showTabs)
+        && Objects.equals(this.showWhitespaceErrors, other.showWhitespaceErrors)
+        && Objects.equals(this.syntaxHighlighting, other.syntaxHighlighting)
+        && Objects.equals(this.hideTopMenu, other.hideTopMenu)
+        && Objects.equals(this.autoHideDiffTableHeader, other.autoHideDiffTableHeader)
+        && Objects.equals(this.hideLineNumbers, other.hideLineNumbers)
+        && Objects.equals(this.renderEntireFile, other.renderEntireFile)
+        && Objects.equals(this.hideEmptyPane, other.hideEmptyPane)
+        && Objects.equals(this.matchBrackets, other.matchBrackets)
+        && Objects.equals(this.lineWrapping, other.lineWrapping)
+        && Objects.equals(this.ignoreWhitespace, other.ignoreWhitespace)
+        && Objects.equals(this.retainHeader, other.retainHeader)
+        && Objects.equals(this.skipDeleted, other.skipDeleted)
+        && Objects.equals(this.skipUnchanged, other.skipUnchanged)
+        && Objects.equals(this.skipUncommented, other.skipUncommented);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        context,
+        tabSize,
+        fontSize,
+        lineLength,
+        cursorBlinkRate,
+        expandAllComments,
+        intralineDifference,
+        manualReview,
+        showLineEndings,
+        showTabs,
+        showWhitespaceErrors,
+        syntaxHighlighting,
+        hideTopMenu,
+        autoHideDiffTableHeader,
+        hideLineNumbers,
+        renderEntireFile,
+        hideEmptyPane,
+        matchBrackets,
+        lineWrapping,
+        ignoreWhitespace,
+        retainHeader,
+        skipDeleted,
+        skipUnchanged,
+        skipUncommented);
+  }
+
+  @Override
+  public String toString() {
+    return "DiffPreferencesInfo{"
+        + "context="
+        + context
+        + ','
+        + "tabSize="
+        + tabSize
+        + ','
+        + "fontSize="
+        + fontSize
+        + ','
+        + "lineLength="
+        + lineLength
+        + ','
+        + "cursorBlinkRate="
+        + cursorBlinkRate
+        + ','
+        + "expandAllComments="
+        + expandAllComments
+        + ','
+        + "intralineDifference="
+        + intralineDifference
+        + ','
+        + "manualReview="
+        + manualReview
+        + ','
+        + "showLineEndings="
+        + showLineEndings
+        + ','
+        + "showTabs="
+        + showTabs
+        + ','
+        + "showWhitespaceErrors="
+        + showWhitespaceErrors
+        + ','
+        + "syntaxHighlighting="
+        + syntaxHighlighting
+        + ','
+        + "hideTopMenu="
+        + hideTopMenu
+        + ','
+        + "autoHideDiffTableHeader="
+        + autoHideDiffTableHeader
+        + ','
+        + "hideLineNumbers="
+        + hideLineNumbers
+        + ','
+        + "renderEntireFile="
+        + renderEntireFile
+        + ','
+        + "hideEmptyPane="
+        + hideEmptyPane
+        + ','
+        + "matchBrackets="
+        + matchBrackets
+        + ','
+        + "lineWrapping="
+        + lineWrapping
+        + ','
+        + "ignoreWhitespace="
+        + ignoreWhitespace
+        + ','
+        + "retainHeader="
+        + retainHeader
+        + ','
+        + "skipDeleted="
+        + skipDeleted
+        + ','
+        + "skipUnchanged="
+        + skipUnchanged
+        + ','
+        + "skipUncommented="
+        + skipUncommented
+        + '}';
+  }
 
   public static DiffPreferencesInfo defaults() {
     DiffPreferencesInfo i = new DiffPreferencesInfo();

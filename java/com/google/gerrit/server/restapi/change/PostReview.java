@@ -52,6 +52,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewerResult;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.client.ReviewerState;
@@ -113,6 +114,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
+import com.google.gerrit.server.change.ChangeJson;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -201,7 +203,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ProjectCache projectCache,
       PermissionBackend permissionBackend,
       ReplyAttentionSetUpdates replyAttentionSetUpdates,
-      ReviewerAdded reviewerAdded) {
+      ReviewerAdded reviewerAdded,
+      ChangeJson.Factory changeJson) {
     this.updateFactory = updateFactory;
     this.postReviewOpFactory = postReviewOpFactory;
     this.changeResourceFactory = changeResourceFactory;
@@ -222,6 +225,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.replyAttentionSetUpdates = replyAttentionSetUpdates;
     this.reviewerAdded = reviewerAdded;
     this.strictLabels = gerritConfig.getBoolean("change", "strictLabels", false);
+    this.changeJson = changeJson;
   }
 
   @Override
@@ -409,6 +413,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     batchEmailReviewers(revision.getUser(), revision.getChange(), reviewerResults, notify);
     batchReviewerEvents(revision.getUser(), cd, revision.getPatchSet(), reviewerResults, ts);
 
+    if (input.responseFormatOptions != null) {
+      output.change_info = changeJson.create(input.responseFormatOptions).format(cd);
+    }
     return Response.ok(output);
   }
 

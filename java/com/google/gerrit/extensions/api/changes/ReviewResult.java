@@ -38,4 +38,7 @@ public class ReviewResult {
 
   /** Error message for non-200 responses. */
   @Nullable public String error;
+  
+  /** Change after applying the update. */
+  @Nullable public ChangeInfo change_info;
 }

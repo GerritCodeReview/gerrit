@@ -176,6 +176,38 @@ public class GeneralPreferencesInfo {
     return emailFormat;
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof GeneralPreferencesInfo)) {
+      return false;
+    }
+    GeneralPreferencesInfo other = (GeneralPreferencesInfo) obj;
+    return this.changesPerPage.equals(other.changesPerPage)
+        && this.downloadScheme.equals(other.downloadScheme)
+        && this.theme.equals(other.theme)
+        && this.dateFormat.equals(other.dateFormat)
+        && this.timeFormat.equals(other.timeFormat)
+        && this.expandInlineDiffs.equals(other.expandInlineDiffs)
+        && this.relativeDateInChangeTable.equals(other.relativeDateInChangeTable)
+        && this.diffView.equals(other.diffView)
+        && this.sizeBarInChangeTable.equals(other.sizeBarInChangeTable)
+        && this.legacycidInChangeTable.equals(other.legacycidInChangeTable)
+        && this.muteCommonPathPrefixes.equals(other.muteCommonPathPrefixes)
+        && this.signedOffBy.equals(other.signedOffBy)
+        && this.emailStrategy.equals(other.emailStrategy)
+        && this.emailFormat.equals(other.emailFormat)
+        && this.defaultBaseForMerges.equals(other.defaultBaseForMerges)
+        && this.publishCommentsOnPush.equals(other.publishCommentsOnPush)
+        && this.disableKeyboardShortcuts.equals(other.disableKeyboardShortcuts)
+        && this.disableTokenHighlighting.equals(other.disableTokenHighlighting)
+        && this.workInProgressByDefault.equals(other.workInProgressByDefault)
+        && this.my.containsAll(other.my)
+        && other.my.containsAll(this.my)
+        && this.changeTable.containsAll(other.changeTable)
+        && other.changeTable.containsAll(this.changeTable)
+        && this.allowBrowserNotifications.equals(other.allowBrowserNotifications);
+  }
+
   public static GeneralPreferencesInfo defaults() {
     GeneralPreferencesInfo p = new GeneralPreferencesInfo();
     p.changesPerPage = DEFAULT_PAGESIZE;

@@ -31,6 +31,28 @@ public class EditPreferencesInfo {
   public Boolean autoCloseBrackets;
   public Boolean showBase;
 
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof EditPreferencesInfo)) {
+      return false;
+    }
+    EditPreferencesInfo other = (EditPreferencesInfo) obj;
+    return this.tabSize.equals(other.tabSize)
+        && this.lineLength.equals(other.lineLength)
+        && this.indentUnit.equals(other.indentUnit)
+        && this.cursorBlinkRate.equals(other.cursorBlinkRate)
+        && this.hideTopMenu.equals(other.hideTopMenu)
+        && this.showTabs.equals(other.showTabs)
+        && this.showWhitespaceErrors.equals(other.showWhitespaceErrors)
+        && this.syntaxHighlighting.equals(other.syntaxHighlighting)
+        && this.hideLineNumbers.equals(other.hideLineNumbers)
+        && this.matchBrackets.equals(other.matchBrackets)
+        && this.lineWrapping.equals(other.lineWrapping)
+        && this.indentWithTabs.equals(other.indentWithTabs)
+        && this.autoCloseBrackets.equals(other.autoCloseBrackets)
+        && this.showBase.equals(other.showBase);
+  }
+
   public static EditPreferencesInfo defaults() {
     EditPreferencesInfo i = new EditPreferencesInfo();
     i.tabSize = 8;

@@ -60,6 +60,38 @@ public class DiffPreferencesInfo {
   public Boolean skipUnchanged;
   public Boolean skipUncommented;
 
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof DiffPreferencesInfo)) {
+      return false;
+    }
+    DiffPreferencesInfo other = (DiffPreferencesInfo) obj;
+    return this.context.equals(other.context)
+        && this.tabSize.equals(other.tabSize)
+        && this.fontSize.equals(other.fontSize)
+        && this.lineLength.equals(other.lineLength)
+        && this.cursorBlinkRate.equals(other.cursorBlinkRate)
+        && this.expandAllComments.equals(other.expandAllComments)
+        && this.intralineDifference.equals(other.intralineDifference)
+        && this.manualReview.equals(other.manualReview)
+        && this.showLineEndings.equals(other.showLineEndings)
+        && this.showTabs.equals(other.showTabs)
+        && this.showWhitespaceErrors.equals(other.showWhitespaceErrors)
+        && this.syntaxHighlighting.equals(other.syntaxHighlighting)
+        && this.hideTopMenu.equals(other.hideTopMenu)
+        && this.autoHideDiffTableHeader.equals(other.autoHideDiffTableHeader)
+        && this.hideLineNumbers.equals(other.hideLineNumbers)
+        && this.renderEntireFile.equals(other.renderEntireFile)
+        && this.hideEmptyPane.equals(other.hideEmptyPane)
+        && this.matchBrackets.equals(other.matchBrackets)
+        && this.lineWrapping.equals(other.lineWrapping)
+        && this.ignoreWhitespace.equals(other.ignoreWhitespace)
+        && this.retainHeader.equals(other.retainHeader)
+        && this.skipDeleted.equals(other.skipDeleted)
+        && this.skipUnchanged.equals(other.skipUnchanged)
+        && this.skipUncommented.equals(other.skipUncommented);
+  }
+
   public static DiffPreferencesInfo defaults() {
     DiffPreferencesInfo i = new DiffPreferencesInfo();
     i.context = DEFAULT_CONTEXT;

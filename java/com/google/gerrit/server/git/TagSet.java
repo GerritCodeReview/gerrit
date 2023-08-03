@@ -233,37 +233,10 @@ class TagSet {
         }
       }
 
-      // Traverse the complete history. Copy any flags from a commit to all of its ancestors. Do not
-      // maintain a reference to the flags on non-tag commits after copying their flags to their
-      // ancestors. The flag copying automatically updates any Tag object as the TagCommit and the
-      // stored Tag object share the same underlying RoaringBitmap.
+      // Traverse the complete history and propagate reachability to parents.
       TagCommit c;
       while ((c = (TagCommit) rw.next()) != null) {
-        RoaringBitmap mine = c.refFlags;
-        if (mine != null) {
-          boolean canMoveBitmap = false;
-          if (!c.has(isTag)) {
-            c.refFlags = null;
-            canMoveBitmap = true;
-          }
-          int pCnt = c.getParentCount();
-          for (int pIdx = 0; pIdx < pCnt; pIdx++) {
-            TagCommit commit = (TagCommit) c.getParent(pIdx);
-            RoaringBitmap parentFlags = commit.refFlags;
-            if (parentFlags == null) {
-              if (canMoveBitmap) {
-                // Move non-tag commit's bitmap reference to their first parent with null refFlags
-                // in order to reduce cloning overhead
-                commit.refFlags = mine;
-                canMoveBitmap = false;
-              } else {
-                commit.refFlags = mine.clone();
-              }
-            } else {
-              parentFlags.or(mine);
-            }
-          }
-        }
+        c.propagateReachabilityToParents(isTag);
       }
     } catch (IOException e) {
       logger.atWarning().withCause(e).log("Error building tags for repository %s", projectName);
@@ -527,6 +500,43 @@ class TagSet {
 
     TagCommit(AnyObjectId id) {
       super(id);
+    }
+
+    /**
+     * Copy any flags from this commit to all of its ancestors.
+     *
+     * <p>Do not maintain a reference to the flags on non-tag commits after copying their flags to
+     * their ancestors. The flag copying automatically updates any Tag object as the TagCommit and
+     * the stored Tag object share the same underlying RoaringBitmap.
+     *
+     * @param isTag {@code RevFlag} indicating if this TagCommit is a tag
+     */
+    void propagateReachabilityToParents(RevFlag isTag) {
+      RoaringBitmap mine = refFlags;
+      if (mine != null) {
+        boolean canMoveBitmap = false;
+        if (!has(isTag)) {
+          refFlags = null;
+          canMoveBitmap = true;
+        }
+        int pCnt = getParentCount();
+        for (int pIdx = 0; pIdx < pCnt; pIdx++) {
+          TagCommit commit = (TagCommit) getParent(pIdx);
+          RoaringBitmap parentFlags = commit.refFlags;
+          if (parentFlags == null) {
+            if (canMoveBitmap) {
+              // This commit is not itself a Tag, so in order to reduce cloning overhead, migrate
+              // its refFlags object to its first parent with null refFlags
+              commit.refFlags = mine;
+              canMoveBitmap = false;
+            } else {
+              commit.refFlags = mine.clone();
+            }
+          } else {
+            parentFlags.or(mine);
+          }
+        }
+      }
     }
   }
 }

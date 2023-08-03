@@ -79,6 +79,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.approval.ApprovalsUtil;
+import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ModifyReviewersEmail;
 import com.google.gerrit.server.change.NotifyResolver;
@@ -179,6 +180,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final ReplyAttentionSetUpdates replyAttentionSetUpdates;
   private final ReviewerAdded reviewerAdded;
   private final boolean strictLabels;
+  private final ChangeJson.Factory changeJsonFactory;
 
   @Inject
   PostReview(
@@ -201,7 +203,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ProjectCache projectCache,
       PermissionBackend permissionBackend,
       ReplyAttentionSetUpdates replyAttentionSetUpdates,
-      ReviewerAdded reviewerAdded) {
+      ReviewerAdded reviewerAdded,
+      ChangeJson.Factory changeJsonFactory) {
     this.updateFactory = updateFactory;
     this.postReviewOpFactory = postReviewOpFactory;
     this.changeResourceFactory = changeResourceFactory;
@@ -222,6 +225,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.replyAttentionSetUpdates = replyAttentionSetUpdates;
     this.reviewerAdded = reviewerAdded;
     this.strictLabels = gerritConfig.getBoolean("change", "strictLabels", false);
+    this.changeJsonFactory = changeJsonFactory;
   }
 
   @Override
@@ -408,6 +412,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     // email/event here.
     batchEmailReviewers(revision.getUser(), revision.getChange(), reviewerResults, notify);
     batchReviewerEvents(revision.getUser(), cd, revision.getPatchSet(), reviewerResults, ts);
+
+    if (input.responseFormatOptions != null) {
+      output.changeInfo = changeJsonFactory.create(input.responseFormatOptions).format(cd);
+    }
 
     return Response.ok(output);
   }

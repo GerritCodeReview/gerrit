@@ -18,7 +18,9 @@ import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.Comment;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.restapi.DefaultInput;
@@ -95,6 +97,8 @@ public class ReviewInput {
    * and replying on changes.
    */
   public boolean ignoreAutomaticAttentionSetRules;
+
+  @Nullable public List<ListChangesOption> responseFormatOptions;
 
   public enum DraftHandling {
     /** Leave pending drafts alone. */

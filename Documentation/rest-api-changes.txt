@@ -8580,6 +8580,8 @@ from the link:#attention-set[attention set].
 If set to true, ignore all automatic attention set rules described in the
 link:#attention-set[attention set]. Updates in add_to_attention_set
 and remove_from_attention_set are not ignored.
+|`response_format_options`     |optional|
+List of link:#query-options[query options] to format the response.
 |============================
 
 [[review-result]]
@@ -8603,6 +8605,9 @@ If true, the change was moved from WIP to ready for review as a result of this
 action. Not set if false.
 |`error`                  |optional|
 Error message for non-200 responses.
+|`change_info`            |optional|
+Post-update change information. Only set if `response_format_options` were
+set.
 |============================
 
 [[reviewer-info]]

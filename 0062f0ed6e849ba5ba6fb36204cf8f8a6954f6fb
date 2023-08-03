@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe8abd77_e2863a3d",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-03T23:24:57Z",
+      "side": 1,
+      "message": "Done in change 381814.",
+      "parentUuid": "571677ea_785157af",
+      "revId": "0062f0ed6e849ba5ba6fb36204cf8f8a6954f6fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1dd445c1_dc38fe56",

@@ -94,6 +94,30 @@
       },
       "revId": "e2799a5d260c634ed8314a81eebeece791b249ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc1dad57_b02ff100",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-03T08:43:13Z",
+      "side": 1,
+      "message": "I\u0027ve uploaded a new patch set that updates the submodule pointer for the download-commands plugin, but I guess now someone else needs to approve this change.",
+      "parentUuid": "f9591ed6_15d12e15",
+      "range": {
+        "startLine": 11,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 50
+      },
+      "revId": "e2799a5d260c634ed8314a81eebeece791b249ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

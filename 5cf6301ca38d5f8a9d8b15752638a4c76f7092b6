@@ -22,6 +22,23 @@
       },
       "revId": "5cf6301ca38d5f8a9d8b15752638a4c76f7092b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a25abe6_f5389bdb",
+        "filename": "polygerrit-ui/app/utils/url-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-08-03T21:20:22Z",
+      "side": 1,
+      "message": "Should this also check for https?",
+      "revId": "5cf6301ca38d5f8a9d8b15752638a4c76f7092b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

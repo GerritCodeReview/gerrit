@@ -70,6 +70,30 @@
       },
       "revId": "e2799a5d260c634ed8314a81eebeece791b249ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9591ed6_15d12e15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-03T08:41:59Z",
+      "side": 1,
+      "message": "The Gerrit core change shouldn\u0027t need a manual verification.\n\nIf forgot to explain, that if the change is in a Gerrit core plugin, the submodule pointer for this plugin should be updated in the Gerrit core change. This way the CI can checkout the correct version of the submodule/plugin and do the verification. It\u0027s also important for anyone else to get the right plugin version when they checkout Gerrit.\n\nWhat I was expecting is that the plugin change needs a manual verification (because it only builds against Gerrit core if this change is included), but seems Zuul was able to verify it? Maybe it supports topics now and verified the plugin change against Gerrit core with this change included?",
+      "parentUuid": "8ab298db_72f00ed8",
+      "range": {
+        "startLine": 11,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 50
+      },
+      "revId": "e2799a5d260c634ed8314a81eebeece791b249ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

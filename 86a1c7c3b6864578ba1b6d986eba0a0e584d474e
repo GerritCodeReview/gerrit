@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "807671aa_e19d3dcf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-08-03T11:11:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "782faf7b_408f78f6",
+      "range": {
+        "startLine": 9,
+        "startChar": 20,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "86a1c7c3b6864578ba1b6d986eba0a0e584d474e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de206eea_1a778771",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaf9d85d_bc12023f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-08-03T11:11:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de206eea_1a778771",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 3
+      },
+      "revId": "86a1c7c3b6864578ba1b6d986eba0a0e584d474e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0250e76_aff4692e",
@@ -60,6 +108,24 @@
       "writtenOn": "2023-08-03T10:12:19Z",
       "side": 1,
       "message": "Please add a Release-Notes footer.",
+      "revId": "86a1c7c3b6864578ba1b6d986eba0a0e584d474e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbd801c0_d43aa811",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-08-03T11:11:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0250e76_aff4692e",
       "revId": "86a1c7c3b6864578ba1b6d986eba0a0e584d474e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

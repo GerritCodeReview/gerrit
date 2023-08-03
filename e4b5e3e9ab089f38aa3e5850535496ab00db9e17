@@ -16,6 +16,29 @@
       "message": "Would this be a breaking change? If someone is upgrading from the latest released v2.16.28 to the stable-2.16, would the ~/.gitconfig still be honoured?",
       "revId": "e4b5e3e9ab089f38aa3e5850535496ab00db9e17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96323c02_dbd94fcc",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 5387,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-03T07:59:49Z",
+      "side": 1,
+      "message": "Why do we provide a `trustFolderStat \u003d false` as a sample? That looks more a sample for a NFS configuration with multiple primary nodes, rather than a suggested default config.",
+      "range": {
+        "startLine": 5386,
+        "startChar": 0,
+        "endLine": 5387,
+        "endChar": 25
+      },
+      "revId": "e4b5e3e9ab089f38aa3e5850535496ab00db9e17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

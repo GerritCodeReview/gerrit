@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "782faf7b_408f78f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-08-03T10:12:19Z",
+      "side": 1,
+      "message": "protected*",
+      "range": {
+        "startLine": 9,
+        "startChar": 20,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "86a1c7c3b6864578ba1b6d986eba0a0e584d474e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de206eea_1a778771",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-08-03T10:12:19Z",
+      "side": 1,
+      "message": "Google-Bug-Id: 266904943?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 3
+      },
+      "revId": "86a1c7c3b6864578ba1b6d986eba0a0e584d474e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0250e76_aff4692e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-08-03T10:12:19Z",
+      "side": 1,
+      "message": "Please add a Release-Notes footer.",
+      "revId": "86a1c7c3b6864578ba1b6d986eba0a0e584d474e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cc22901_d902cbdc",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-03T14:13:44Z",
+      "side": 1,
+      "message": "Makes perfect sense. Thank you @brohlfs@google.com for explaining this.",
+      "parentUuid": "350e01ba_75418f10",
+      "revId": "2c4927b78ee57d47c08e376a77c7d193ab7d4657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63387951_909e0c84",
@@ -52,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "127af4dd_6e3f7e38",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-03T14:13:44Z",
+      "side": 1,
+      "message": "Makes sense. Only reason I added it in the `updateLoginUrlAndText` is because it was already behing the guard `if (authType \u003d\u003d\u003d AuthType.HTTP || authType \u003d\u003d\u003d AuthType.HTTP_LDAP)` but the loginText is only returned from the api if the `auth.type` is http or http_ldap (I also verified it manually).\n\nUpdated as your suggestion and is much simpler.",
+      "parentUuid": "63387951_909e0c84",
+      "revId": "2c4927b78ee57d47c08e376a77c7d193ab7d4657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae3cf278_7f633e05",
@@ -65,6 +101,24 @@
       "writtenOn": "2023-08-03T09:20:02Z",
       "side": 1,
       "message": "Move this code into `url-util.ts` and call it with all the input parameters it needs:\n\n`loginUrl(this.serverConfig?.auth, window.location);`\n\nThen add a couple of tests to `url-util_test.ts`.",
+      "revId": "2c4927b78ee57d47c08e376a77c7d193ab7d4657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5627bc8_a6799ef4",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-03T14:13:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae3cf278_7f633e05",
       "revId": "2c4927b78ee57d47c08e376a77c7d193ab7d4657",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

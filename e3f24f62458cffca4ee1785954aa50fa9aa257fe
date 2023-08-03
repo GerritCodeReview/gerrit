@@ -34,6 +34,24 @@
       "parentUuid": "3e000317_35d74ff5",
       "revId": "e3f24f62458cffca4ee1785954aa50fa9aa257fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e255701d_65cc681c",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-08-03T16:15:07Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9ed3653b_2b77fdc9",
+      "revId": "e3f24f62458cffca4ee1785954aa50fa9aa257fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

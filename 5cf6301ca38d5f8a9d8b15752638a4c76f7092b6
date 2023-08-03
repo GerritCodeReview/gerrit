@@ -39,6 +39,23 @@
       "message": "Should this also check for https?",
       "revId": "5cf6301ca38d5f8a9d8b15752638a4c76f7092b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5eae2f6b_eba4b423",
+        "filename": "polygerrit-ui/app/utils/url-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-08-03T21:23:35Z",
+      "side": 1,
+      "message": "getBaseUrl returns `\u0027\u0027` if it cannot get the base url already so this is redundent.\n\nCan make this `${getBaseUrl()}/login/` i think.",
+      "revId": "5cf6301ca38d5f8a9d8b15752638a4c76f7092b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

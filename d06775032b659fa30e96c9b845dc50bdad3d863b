@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8db84a17_09f15acc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-08-03T01:28:19Z",
+      "side": 1,
+      "message": "Verified that the new test fails without the update to `ChangeRebuilderImpl`\n\n```\n$ bazel test --cache_test_results\u003dNO //javatests/com/google/gerrit/acceptance/server/notedb:server_notedb --test_filter\u003dcom.google.gerrit.acceptance.server.notedb.ChangeRebuilderIT#rebuilderRespectsLabelVoteReset$\n\n[snip]...\n\nTime: 10.449\nThere was 1 failure:\n1) rebuilderRespectsLabelVoteReset(com.google.gerrit.acceptance.server.notedb.ChangeRebuilderIT)\nexpected: 0\nbut was : -2\n    at com.google.gerrit.acceptance.server.notedb.ChangeRebuilderIT.rebuilderRespectsLabelVoteReset(ChangeRebuilderIT.java:1228)\n\nFAILURES!!!\nTests run: 1,  Failures: 1\n```",
+      "revId": "d06775032b659fa30e96c9b845dc50bdad3d863b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

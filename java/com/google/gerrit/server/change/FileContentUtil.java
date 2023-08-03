@@ -25,6 +25,7 @@ import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.project.ProjectState;
@@ -39,6 +40,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
@@ -60,11 +62,15 @@ public class FileContentUtil {
 
   private final GitRepositoryManager repoManager;
   private final FileTypeRegistry registry;
+  private final long maxFileSizeBytes;
 
   @Inject
-  FileContentUtil(GitRepositoryManager repoManager, FileTypeRegistry ftr) {
+  FileContentUtil(
+      GitRepositoryManager repoManager, FileTypeRegistry ftr, @GerritServerConfig Config config) {
     this.repoManager = repoManager;
     this.registry = ftr;
+    long maxFileSizeDownload = config.getLong("change", null, "maxFileSizeDownload", 0);
+    this.maxFileSizeBytes = maxFileSizeDownload > 0 ? maxFileSizeDownload : Long.MAX_VALUE;
   }
 
   /**
@@ -117,6 +123,7 @@ public class FileContentUtil {
         }
 
         ObjectLoader obj = repo.open(id, OBJ_BLOB);
+        checkMaxFileSizeBytes(obj);
         byte[] raw;
         try {
           raw = obj.getCachedBytes(MAX_SIZE);
@@ -154,7 +161,7 @@ public class FileContentUtil {
 
   public BinaryResult downloadContent(
       ProjectState project, ObjectId revstr, String path, @Nullable Integer parent)
-      throws ResourceNotFoundException, IOException {
+      throws ResourceNotFoundException, IOException, BadRequestException {
     try (Repository repo = openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       String suffix = "new";
@@ -179,6 +186,8 @@ public class FileContentUtil {
 
         ObjectId id = tw.getObjectId(0);
         ObjectLoader obj = repo.open(id, OBJ_BLOB);
+        checkMaxFileSizeBytes(obj);
+
         byte[] raw;
         try {
           raw = obj.getCachedBytes(MAX_SIZE);
@@ -191,6 +200,16 @@ public class FileContentUtil {
             ? wrapBlob(path, obj, raw, contentType, suffix)
             : zipBlob(path, obj, commit, suffix);
       }
+    }
+  }
+
+  private void checkMaxFileSizeBytes(ObjectLoader obj) throws BadRequestException {
+    if (obj.getSize() > this.maxFileSizeBytes) {
+      throw new BadRequestException(
+          String.format(
+              "File too big. File size: %d bytes. Configured 'maxFileSizeDownload' limit: %d"
+                  + " bytes.",
+              obj.getSize(), this.maxFileSizeBytes));
     }
   }
 

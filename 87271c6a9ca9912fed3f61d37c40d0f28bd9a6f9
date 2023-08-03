@@ -46,6 +46,30 @@
       },
       "revId": "87271c6a9ca9912fed3f61d37c40d0f28bd9a6f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddad20dd_b8499eb5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-08-03T01:26:59Z",
+      "side": 1,
+      "message": "\u003e Good catch, can you also create an issue on the issue tracker?\n\nDone\n\n\u003e I believe the above case should also be covered by a test.\n\nDone\n\n\u003e \n\u003e We did not see the above problem, maybe just luck? Does that happen during the trial mode?\n\nWe found this during change data validation after an actual migration rehearsal",
+      "parentUuid": "61029d06_7578d2eb",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 68
+      },
+      "revId": "87271c6a9ca9912fed3f61d37c40d0f28bd9a6f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -506,6 +506,7 @@ public class ChangeIT extends AbstractDaemonTest {
             .reviewer("byemail3@example.com", CC, false)
             .reviewer("byemail4@example.com", CC, false);
     ReviewResult result = gApi.changes().id(changeId).current().review(in);
+    assertThat(result.changeInfo).isNull();
     assertThat(result.reviewers).isNotEmpty();
     ChangeInfo info = gApi.changes().id(changeId).get();
     Function<Collection<AccountInfo>, Collection<String>> toEmails =
@@ -4554,6 +4555,18 @@ public class ChangeIT extends AbstractDaemonTest {
     testEmailSubjectContainsChangeSizeBucket(250, "L");
     testEmailSubjectContainsChangeSizeBucket(999, "L");
     testEmailSubjectContainsChangeSizeBucket(1000, "XL");
+  }
+
+  @Test
+  public void requestFormattedChangeInReview() throws Exception {
+    PushOneCommit.Result r = createChange();
+    assertThat(r.getChange().change().isWorkInProgress()).isFalse();
+
+    ReviewInput in = ReviewInput.approve().reviewer(user.email()).label(LabelId.CODE_REVIEW, 1);
+    in.responseFormatOptions = ImmutableList.of(ListChangesOption.CURRENT_REVISION);
+    ReviewResult result = gApi.changes().id(r.getChangeId()).current().review(in);
+    assertThat(result.changeInfo).isNotNull();
+    assertThat(result.changeInfo.currentRevision).isNotNull();
   }
 
   private void testEmailSubjectContainsChangeSizeBucket(

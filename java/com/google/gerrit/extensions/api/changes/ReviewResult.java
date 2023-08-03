@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import java.util.Map;
 
 /** Result object representing the outcome of a review request. */
@@ -38,4 +39,7 @@ public class ReviewResult {
 
   /** Error message for non-200 responses. */
   @Nullable public String error;
+
+  /** Change after applying the update. */
+  @Nullable public ChangeInfo changeInfo;
 }

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.client;
 
+import java.util.Objects;
+
 /* This class is stored in Git config file. */
 public class EditPreferencesInfo {
   public Integer tabSize;
@@ -30,6 +32,94 @@ public class EditPreferencesInfo {
   public Boolean indentWithTabs;
   public Boolean autoCloseBrackets;
   public Boolean showBase;
+
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof EditPreferencesInfo)) {
+      return false;
+    }
+    EditPreferencesInfo other = (EditPreferencesInfo) obj;
+    return Objects.equals(this.tabSize, other.tabSize)
+        && Objects.equals(this.lineLength, other.lineLength)
+        && Objects.equals(this.indentUnit, other.indentUnit)
+        && Objects.equals(this.cursorBlinkRate, other.cursorBlinkRate)
+        && Objects.equals(this.hideTopMenu, other.hideTopMenu)
+        && Objects.equals(this.showTabs, other.showTabs)
+        && Objects.equals(this.showWhitespaceErrors, other.showWhitespaceErrors)
+        && Objects.equals(this.syntaxHighlighting, other.syntaxHighlighting)
+        && Objects.equals(this.hideLineNumbers, other.hideLineNumbers)
+        && Objects.equals(this.matchBrackets, other.matchBrackets)
+        && Objects.equals(this.lineWrapping, other.lineWrapping)
+        && Objects.equals(this.indentWithTabs, other.indentWithTabs)
+        && Objects.equals(this.autoCloseBrackets, other.autoCloseBrackets)
+        && Objects.equals(this.showBase, other.showBase);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        tabSize,
+        lineLength,
+        indentUnit,
+        cursorBlinkRate,
+        hideTopMenu,
+        showTabs,
+        showWhitespaceErrors,
+        syntaxHighlighting,
+        hideLineNumbers,
+        matchBrackets,
+        lineWrapping,
+        indentWithTabs,
+        autoCloseBrackets,
+        showBase);
+  }
+
+  @Override
+  public String toString() {
+    return "EditPreferencesInfo{"
+        + "tabSize="
+        + tabSize
+        + ','
+        + "lineLength="
+        + lineLength
+        + ','
+        + "indentUnit="
+        + indentUnit
+        + ','
+        + "cursorBlinkRate="
+        + cursorBlinkRate
+        + ','
+        + "hideTopMenu="
+        + hideTopMenu
+        + ','
+        + "showTabs="
+        + showTabs
+        + ','
+        + "showWhitespaceErrors="
+        + showWhitespaceErrors
+        + ','
+        + "syntaxHighlighting="
+        + syntaxHighlighting
+        + ','
+        + "hideLineNumbers="
+        + hideLineNumbers
+        + ','
+        + "matchBrackets="
+        + matchBrackets
+        + ','
+        + "lineWrapping="
+        + lineWrapping
+        + ','
+        + "indentWithTabs="
+        + indentWithTabs
+        + ','
+        + "autoCloseBrackets="
+        + autoCloseBrackets
+        + ','
+        + "showBase="
+        + showBase
+        + '}';
+  }
 
   public static EditPreferencesInfo defaults() {
     EditPreferencesInfo i = new EditPreferencesInfo();

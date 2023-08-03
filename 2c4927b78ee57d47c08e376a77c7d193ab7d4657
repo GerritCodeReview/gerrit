@@ -16,6 +16,57 @@
       "message": "be",
       "revId": "2c4927b78ee57d47c08e376a77c7d193ab7d4657",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "350e01ba_75418f10",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-03T09:20:02Z",
+      "side": 1,
+      "message": "Maybe instead of storing `loginUrl` as a @state prop we should store `window.location` as a @state prop. Then you can do\n\n`.loginUrl\u003d${loginUrl(this.serverConfig?.auth, this.location)}`\n\n```\n  private handleLocationChange() {\n    this.location \u003d window.location;\n  }\n```\n\nThe reason why I am suggesting that is that otherwise you have to call `updateLoginUrl()` when the config changes *and* when the location changes. It is easier to store the raw inputs as @state props and let Lit watch them for you. If any of them changes, then a render cycle is triggered, and everything that you compute on the fly is accurate.\n\nIn an ideal world, we would probably even go a bit further and move watching the location into a browser-model or at least into config-model, but let\u0027s not try to be perfect. :-)",
+      "revId": "2c4927b78ee57d47c08e376a77c7d193ab7d4657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63387951_909e0c84",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-03T09:20:02Z",
+      "side": 1,
+      "message": "Can we just pass `this.serverConfig?.auth.login_text ?? \u0027Sign in\u0027` directly here and below in line 435?\n\nThen we don\u0027t need a `loginText` property and `updateLoginUrlAndText()` will just deal with the URL, not the text, which is complex enough.",
+      "revId": "2c4927b78ee57d47c08e376a77c7d193ab7d4657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae3cf278_7f633e05",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-03T09:20:02Z",
+      "side": 1,
+      "message": "Move this code into `url-util.ts` and call it with all the input parameters it needs:\n\n`loginUrl(this.serverConfig?.auth, window.location);`\n\nThen add a couple of tests to `url-util_test.ts`.",
+      "revId": "2c4927b78ee57d47c08e376a77c7d193ab7d4657",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

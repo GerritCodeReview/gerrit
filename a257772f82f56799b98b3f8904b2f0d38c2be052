@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0a352e4_b51f6426",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-08-04T12:32:42Z",
+      "side": 1,
+      "message": "nit: line is too wide",
+      "revId": "a257772f82f56799b98b3f8904b2f0d38c2be052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "760a5004_ecfe74ef",

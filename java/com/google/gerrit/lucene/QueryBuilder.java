@@ -79,6 +79,8 @@ public class QueryBuilder<V> {
       return or(p);
     } else if (p instanceof NotPredicate) {
       return not(p);
+    } else if (p instanceof Predicate.Any) {
+      return any();
     } else if (p instanceof IndexPredicate) {
       return fieldQuery((IndexPredicate<V>) p);
     } else if (p instanceof PostFilterPredicate) {
@@ -137,6 +139,10 @@ public class QueryBuilder<V> {
         .add(new MatchAllDocsQuery(), MUST)
         .add(toQuery(n), MUST_NOT)
         .build();
+  }
+
+  private Query any() {
+    return new BooleanQuery.Builder().add(new MatchAllDocsQuery(), MUST).build();
   }
 
   private Query fieldQuery(IndexPredicate<V> p) throws QueryParseException {

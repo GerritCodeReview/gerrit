@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fbf65c4_a4fa682e",
+        "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-08-04T09:15:19Z",
+      "side": 1,
+      "message": ":)",
+      "range": {
+        "startLine": 429,
+        "startChar": 54,
+        "endLine": 429,
+        "endChar": 55
+      },
+      "revId": "d1fb0c44a94121fffc86e7a03d71f7aae92bc717",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

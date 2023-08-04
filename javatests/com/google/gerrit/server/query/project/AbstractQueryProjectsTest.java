@@ -23,7 +23,6 @@ import static org.junit.Assert.fail;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
@@ -69,13 +68,19 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
+/**
+ * Tests queries against the project index.
+ *
+ * <p>Note, returned projects are sorted by name. Projects that start with a capital letter are
+ * returned first. {@code InMemoryModule} sets that name for the All-Users project to {@code
+ * Test-Projects}, this is why it's returned after {@code Alll-Users}.
+ */
 @Ignore
 public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   @Rule public final GerritTestName testName = new GerritTestName();
@@ -112,6 +117,8 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   protected Injector injector;
   protected AccountInfo currentUserInfo;
   protected CurrentUser user;
+  protected ProjectInfo allProjectsInfo;
+  protected ProjectInfo allUsersInfo;
 
   protected abstract Injector createInjector();
 
@@ -141,6 +148,13 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
     user = userFactory.create(userId);
     requestContext.setContext(newRequestContext(userId));
     currentUserInfo = gApi.accounts().id(userId.get()).get();
+
+    // All-Projects and All-Users are not indexed, index them now.
+    gApi.projects().name(allProjects.get()).index(/* indexChildren= */ false);
+    gApi.projects().name(allUsers.get()).index(/* indexChildren= */ false);
+
+    allProjectsInfo = gApi.projects().name(allProjects.get()).get();
+    allUsersInfo = gApi.projects().name(allUsers.get()).get();
   }
 
   protected void initAfterLifecycleStart() throws Exception {}
@@ -170,6 +184,8 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
     ProjectInfo project = createProject(name("project"));
 
     assertQuery("name:" + project.name, project);
+    assertQuery("name:" + allProjects.get(), allProjectsInfo);
+    assertQuery("name:" + allUsers.get(), allUsersInfo);
 
     // only exact match
     ProjectInfo projectWithHyphen = createProject(name("project-with-hyphen"));
@@ -188,12 +204,15 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
 
   @Test
   public void byParentOfAllProjects() throws Exception {
-    Set<String> excludedProjects = ImmutableSet.of(allProjects.get(), allUsers.get());
-    ProjectInfo[] projects =
-        gApi.projects().list().get().stream()
-            .filter(p -> !excludedProjects.contains(p.name))
-            .toArray(s -> new ProjectInfo[s]);
-    assertQuery("parent:" + allProjects.get(), projects);
+    ProjectInfo parent1 = createProject(name("parent1"));
+    createProject(name("child"), parent1.name);
+
+    ProjectInfo parent2 = createProject(name("parent2"));
+    createProject(name("child2"), parent2.name);
+
+    // TODO: All-Users should be returned as well, since it's a direct child project under
+    // All-Projects
+    assertQuery("parent:" + allProjects.get(), parent1, parent2);
   }
 
   @Test
@@ -231,7 +250,7 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
 
     ProjectInfo project1 = createProjectWithState(name("project1"), ProjectState.ACTIVE);
     ProjectInfo project2 = createProjectWithState(name("project2"), ProjectState.READ_ONLY);
-    assertQuery("state:active", project1);
+    assertQuery("state:active", allUsersInfo, allProjectsInfo, project1);
     assertQuery("state:read-only", project2);
   }
 

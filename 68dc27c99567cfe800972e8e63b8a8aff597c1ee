@@ -39,6 +39,24 @@
       "message": "[optional] also assert the error message:\n\n  BadRequestException exception \u003d assertThrows(....);\n  assertThat(exception).hasMessageThat().isEqualTo(...);",
       "revId": "68dc27c99567cfe800972e8e63b8a8aff597c1ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fb2f69c_193ca5dc",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1740,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-04T08:48:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e701173a_6ff183e9",
+      "revId": "68dc27c99567cfe800972e8e63b8a8aff597c1ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

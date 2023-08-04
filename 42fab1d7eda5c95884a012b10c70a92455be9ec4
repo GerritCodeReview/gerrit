@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e9af35f_ae9af8f2",
+        "filename": "polygerrit-ui/app/constants/constants.ts",
+        "patchSetId": 30
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-04T13:21:38Z",
+      "side": 1,
+      "message": "range comment",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 55
+      },
+      "revId": "42fab1d7eda5c95884a012b10c70a92455be9ec4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19c4ad7c_64f62ce6",
+        "filename": "polygerrit-ui/app/constants/constants.ts",
+        "patchSetId": 30
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-04T13:21:38Z",
+      "side": 1,
+      "message": "line comment",
+      "revId": "42fab1d7eda5c95884a012b10c70a92455be9ec4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

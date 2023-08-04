@@ -51,7 +51,7 @@ import {
   CommentMap,
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo, WebLinkInfo} from '../../../types/diff';
-import {FileRange, ParsedChangeInfo} from '../../../types/types';
+import {ParsedChangeInfo} from '../../../types/types';
 import {
   FilesWebLinks,
   PatchRangeChangeEvent,
@@ -73,7 +73,11 @@ import {
   ShortcutSection,
   shortcutsServiceToken,
 } from '../../../services/shortcuts/shortcuts-service';
-import {DisplayLine, LineSelectedEventDetail} from '../../../api/diff';
+import {
+  DisplayLine,
+  FileRange,
+  LineSelectedEventDetail,
+} from '../../../api/diff';
 import {GrDownloadDialog} from '../../change/gr-download-dialog/gr-download-dialog';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';

@@ -3,7 +3,7 @@
  * Copyright 2019 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {DiffLayer as DiffLayerApi} from '../api/diff';
+import {DiffLayer as DiffLayerApi, FileRange} from '../api/diff';
 import {MessageTag, Side} from '../constants/constants';
 import {
   AccountInfo,
@@ -100,11 +100,6 @@ export function isPatchSetNumber(
     | null
 ): x is PatchSetNumber {
   return !!x && Number.isInteger(x) && (x as number) > 0;
-}
-
-export interface FileRange {
-  basePath?: string;
-  path: string;
 }
 
 export interface FetchRequest {

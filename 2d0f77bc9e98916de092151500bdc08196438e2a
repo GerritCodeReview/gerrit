@@ -22,6 +22,30 @@
       },
       "revId": "2d0f77bc9e98916de092151500bdc08196438e2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f437642_c2d14f07",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-08-04T10:06:55Z",
+      "side": 1,
+      "message": "I don\u0027t think I\u0027ll explain it very well but:\n\nthis element sets `position:sticky` which means it gets its own [stacking context](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_positioned_layout/Understanding_z-index/Stacking_context) for its children. Children are only ordered by z-index within a context. So, sidebar with z\u003d999 would not beat footer with z\u003d100 because only footer[z\u003d100] and header[z\u003d1] are the ones in the same context (root context, presumably)",
+      "parentUuid": "7f7540bd_8b2d821a",
+      "range": {
+        "startLine": 507,
+        "startChar": 10,
+        "endLine": 508,
+        "endChar": 23
+      },
+      "revId": "2d0f77bc9e98916de092151500bdc08196438e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

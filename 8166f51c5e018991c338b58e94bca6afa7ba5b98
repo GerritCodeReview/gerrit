@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc88cb39_93d217e7",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-04T11:28:19Z",
+      "side": 1,
+      "message": "Just call `this.requestUpdate()` directly and remove the `handleLocationChange()` method.",
+      "revId": "8166f51c5e018991c338b58e94bca6afa7ba5b98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

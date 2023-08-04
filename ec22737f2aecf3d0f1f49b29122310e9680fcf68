@@ -16,6 +16,24 @@
       "message": "This will affect V 7 and all older versions, too.\n\nI guess in this case it\u0027s fine because we are just populating additional information for children of All-Projects and our serving jobs will understand that.\n\nCan we document this extensively in the commit message?",
       "revId": "ec22737f2aecf3d0f1f49b29122310e9680fcf68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16a8e3ce_faf9ade7",
+        "filename": "java/com/google/gerrit/index/project/ProjectField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-04T09:59:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8172337e_abf8cf6f",
+      "revId": "ec22737f2aecf3d0f1f49b29122310e9680fcf68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

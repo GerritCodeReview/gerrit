@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "639b0262_4486c2bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-04T09:25:18Z",
+      "side": 1,
+      "message": "Please document the extension point in dev-plugins.txt.",
+      "revId": "b1c4d10c8cc4a74836e10dee0e1d5a70f6e5aebc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

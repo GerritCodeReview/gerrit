@@ -24,6 +24,126 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23f86b6a_06d526d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-04T07:52:01Z",
+      "side": 1,
+      "message": "Thanks! Just one more pass.",
+      "revId": "5cf6301ca38d5f8a9d8b15752638a4c76f7092b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77e4a448_dd0a43cc",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-04T07:52:01Z",
+      "side": 1,
+      "message": "Inline this call here.",
+      "revId": "5cf6301ca38d5f8a9d8b15752638a4c76f7092b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "672c1663_7cf0d78b",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-04T07:52:01Z",
+      "side": 1,
+      "message": "Sorry for not realizing this in the first review round, but it would be better to just call `this.requestUpdate()` here.\n\nIn line 415 and 431 you can just use `window.location` instead of `this.location`. And then you don\u0027t need a local @state prop at all for the location.\n\nhttps://lit.dev/docs/v3/components/lifecycle/\n\nIf you are not taking advantage of passing a different `location` object from tests, then you can even drop the parameter from the function signature and use `window.location` directly in the util function.",
+      "revId": "5cf6301ca38d5f8a9d8b15752638a4c76f7092b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e84ff1e_9af75470",
+        "filename": "polygerrit-ui/app/utils/url-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-04T07:52:01Z",
+      "side": 1,
+      "message": "then",
+      "range": {
+        "startLine": 22,
+        "startChar": 49,
+        "endLine": 22,
+        "endChar": 53
+      },
+      "revId": "5cf6301ca38d5f8a9d8b15752638a4c76f7092b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00c0d604_fca72b67",
+        "filename": "polygerrit-ui/app/utils/url-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-04T07:52:01Z",
+      "side": 1,
+      "message": "Optional: Spelling out the types here is unusual. Feel free to drop them.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 63
+      },
+      "revId": "5cf6301ca38d5f8a9d8b15752638a4c76f7092b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e437734_639a9935",
+        "filename": "polygerrit-ui/app/utils/url-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-04T07:52:01Z",
+      "side": 1,
+      "message": "You can drop this condition. Logic will be the same.",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 15
+      },
+      "revId": "5cf6301ca38d5f8a9d8b15752638a4c76f7092b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a25abe6_f5389bdb",
@@ -37,6 +157,24 @@
       "writtenOn": "2023-08-03T21:20:22Z",
       "side": 1,
       "message": "Should this also check for https?",
+      "revId": "5cf6301ca38d5f8a9d8b15752638a4c76f7092b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6df1cfea_6501bf2e",
+        "filename": "polygerrit-ui/app/utils/url-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-04T07:52:01Z",
+      "side": 1,
+      "message": "Isn\u0027t `startsWith` implicitly checking for `https`, as well?",
+      "parentUuid": "9a25abe6_f5389bdb",
       "revId": "5cf6301ca38d5f8a9d8b15752638a4c76f7092b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -1450,6 +1450,16 @@ be split up.
 +
 By default 100,000.
 
+[[change.maxFiles]]change.maxFileSizeDownload::
++
+The link:rest-api-changes.html#get-content[GetContent] and
+link:rest-api-changes.html#get-safe-content[DownloadContent] REST APIs will
+refuse to load files larger than this limit (in bytes). 0 or negative values
+mean "unlimited".
+
++
+By default 0 (unlimited).
+
 [[change.maxPatchSets]]change.maxPatchSets::
 +
 Maximum number of patch sets allowed per change. If this is insufficient,

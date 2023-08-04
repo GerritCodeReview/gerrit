@@ -669,6 +669,7 @@ export class GrDiffView extends LitElement {
         }
         .sidebarTriggerContainer {
           display: inline-block;
+          margin-right: var(--spacing-m);
         }
         .sidebarAnchor {
           height: 0;
@@ -915,9 +916,10 @@ export class GrDiffView extends LitElement {
               (this.shownSidebar =
                 this.shownSidebar === pluginName ? undefined : pluginName)}
           ></gr-endpoint-param>
+          <!-- params cannot start falsy, so the value must be wrapped -->
           <gr-endpoint-param
-            name="openSidebarName"
-            .value=${this.shownSidebar}
+            name="openSidebar"
+            .value=${{name: this.shownSidebar}}
           ></gr-endpoint-param>
         </gr-endpoint-decorator>
       </div>

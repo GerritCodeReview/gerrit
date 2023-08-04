@@ -23,6 +23,7 @@ import static org.junit.Assert.fail;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableMap;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
@@ -362,6 +363,7 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
     return gApi.projects().create(in).get();
   }
 
+  @CanIgnoreReturnValue
   protected ProjectInfo createProject(String name, String parent) throws Exception {
     ProjectInput in = new ProjectInput();
     in.name = name;

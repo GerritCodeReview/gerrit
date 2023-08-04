@@ -210,35 +210,19 @@ suite('gr-formatted-text tests', () => {
     });
 
     test('does default linking', async () => {
-      element.content = 'http://www.google.com';
-      await element.updateComplete;
-      assert.shadowDom.equal(
-        element,
-        /* HTML*/ `
-        <pre class="plaintext">
-          <a
-            href="http://www.google.com"
-            rel="noopener"
-            target="_blank"
-          >http://www.google.com</a>
-        </pre>
-      `
-      );
+      const checkLinking = async (url: string) => {
+        element.content = url;
+        await element.updateComplete;
+        const a = queryAndAssert<HTMLElement>(element, 'a');
+        assert.equal(a.getAttribute('href'), url);
+        assert.equal(a.innerText, url);
+      };
 
-      element.content = 'https://www.google.com';
-      await element.updateComplete;
-      assert.shadowDom.equal(
-        element,
-        /* HTML*/ `
-        <pre class="plaintext">
-          <a
-            href="https://www.google.com"
-            rel="noopener"
-            target="_blank"
-          >https://www.google.com</a>
-        </pre>
-        `
-      );
+      await checkLinking('http://www.google.com');
+      await checkLinking('https://www.google.com');
+      await checkLinking('https://www.google.com/');
+      await checkLinking('https://www.google.com/asdf~');
+      await checkLinking('https://www.google.com/asdf-');
     });
   });
 
@@ -649,43 +633,18 @@ suite('gr-formatted-text tests', () => {
     });
 
     test('does default linking', async () => {
-      element.content = 'http://www.google.com';
-      await element.updateComplete;
-      assert.shadowDom.equal(
-        element,
-        /* HTML*/ `
-        <marked-element>
-          <div slot="markdown-html" class="markdown-html">
-            <p>
-              <a
-                href="http://www.google.com"
-                rel="noopener"
-                target="_blank"
-              >http://www.google.com</a>
-            </p>
-          </div>
-        </marked-element>
-      `
-      );
+      const checkLinking = async (url: string) => {
+        element.content = url;
+        await element.updateComplete;
+        const a = queryAndAssert<HTMLElement>(element, 'a');
+        const p = queryAndAssert<HTMLElement>(element, 'p');
+        assert.equal(a.getAttribute('href'), url);
+        assert.equal(p.innerText, url);
+      };
 
-      element.content = 'https://www.google.com';
-      await element.updateComplete;
-      assert.shadowDom.equal(
-        element,
-        /* HTML*/ `
-        <marked-element>
-          <div slot="markdown-html" class="markdown-html">
-            <p>
-              <a
-                href="https://www.google.com"
-                rel="noopener"
-                target="_blank"
-              >https://www.google.com</a>
-            </p>
-          </div>
-        </marked-element>
-        `
-      );
+      await checkLinking('http://www.google.com');
+      await checkLinking('https://www.google.com');
+      await checkLinking('https://www.google.com/');
     });
 
     suite('user suggest fix', () => {

@@ -210,6 +210,7 @@ suite('gr-formatted-text tests', () => {
     });
 
     test('does default linking', async () => {
+<<<<<<< HEAD   (44e004 Fix nav links in <gr-list-view> with regards to base path)
       element.content = 'http://www.google.com';
       await element.updateComplete;
       assert.shadowDom.equal(
@@ -224,7 +225,17 @@ suite('gr-formatted-text tests', () => {
         </pre>
       `
       );
+=======
+      const checkLinking = async (url: string) => {
+        element.content = url;
+        await element.updateComplete;
+        const a = queryAndAssert<HTMLElement>(element, 'a');
+        assert.equal(a.getAttribute('href'), url);
+        assert.equal(a.innerText, url);
+      };
+>>>>>>> CHANGE (14b3b9 Fix linking pattern to allow trailing tilde and dash chars)
 
+<<<<<<< HEAD   (44e004 Fix nav links in <gr-list-view> with regards to base path)
       element.content = 'https://www.google.com';
       await element.updateComplete;
       assert.shadowDom.equal(
@@ -239,6 +250,13 @@ suite('gr-formatted-text tests', () => {
         </pre>
         `
       );
+=======
+      await checkLinking('http://www.google.com');
+      await checkLinking('https://www.google.com');
+      await checkLinking('https://www.google.com/');
+      await checkLinking('https://www.google.com/asdf~');
+      await checkLinking('https://www.google.com/asdf-');
+>>>>>>> CHANGE (14b3b9 Fix linking pattern to allow trailing tilde and dash chars)
     });
   });
 
@@ -649,6 +667,7 @@ suite('gr-formatted-text tests', () => {
     });
 
     test('does default linking', async () => {
+<<<<<<< HEAD   (44e004 Fix nav links in <gr-list-view> with regards to base path)
       element.content = 'http://www.google.com';
       await element.updateComplete;
       assert.shadowDom.equal(
@@ -667,7 +686,18 @@ suite('gr-formatted-text tests', () => {
         </marked-element>
       `
       );
+=======
+      const checkLinking = async (url: string) => {
+        element.content = url;
+        await element.updateComplete;
+        const a = queryAndAssert<HTMLElement>(element, 'a');
+        const p = queryAndAssert<HTMLElement>(element, 'p');
+        assert.equal(a.getAttribute('href'), url);
+        assert.equal(p.innerText, url);
+      };
+>>>>>>> CHANGE (14b3b9 Fix linking pattern to allow trailing tilde and dash chars)
 
+<<<<<<< HEAD   (44e004 Fix nav links in <gr-list-view> with regards to base path)
       element.content = 'https://www.google.com';
       await element.updateComplete;
       assert.shadowDom.equal(
@@ -686,6 +716,11 @@ suite('gr-formatted-text tests', () => {
         </marked-element>
         `
       );
+=======
+      await checkLinking('http://www.google.com');
+      await checkLinking('https://www.google.com');
+      await checkLinking('https://www.google.com/');
+>>>>>>> CHANGE (14b3b9 Fix linking pattern to allow trailing tilde and dash chars)
     });
 
     suite('user suggest fix', () => {

@@ -16,6 +16,24 @@
       "message": "Just call `this.requestUpdate()` directly and remove the `handleLocationChange()` method.",
       "revId": "8166f51c5e018991c338b58e94bca6afa7ba5b98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73eafa1f_fc619b8f",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-04T12:56:12Z",
+      "side": 1,
+      "message": "I like your suggestion and I tried it as you can see on patchset 6. The problem with this is the test on `gr-app_tests` that has a spy on: \n\n```\nconst handleLocationChangeSpy \u003d sinon.spy(\n    GrAppElement.prototype,\n    \u003cany\u003e\u0027handleLocationChange\u0027\n  );\n```\n\nWhen I try the `handleLocationChange` to `requestUpdate` the test fails, even if GrAppElement extends LitElement the spy does not work. \nI also tried adding the `requestUpdate` method to the LitElement and ReactiveElemen in the spy but with no luck.\n\nAny suggestion please ?",
+      "parentUuid": "bc88cb39_93d217e7",
+      "revId": "8166f51c5e018991c338b58e94bca6afa7ba5b98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

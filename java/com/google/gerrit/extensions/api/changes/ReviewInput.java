@@ -19,6 +19,7 @@ import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.client.Comment;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.restapi.DefaultInput;
@@ -95,6 +96,10 @@ public class ReviewInput {
    * and replying on changes.
    */
   public boolean ignoreAutomaticAttentionSetRules;
+  
+  /**
+   * The ListChangeOptions to use when fetching the change after cog
+   */
 
   public enum DraftHandling {
     /** Leave pending drafts alone. */

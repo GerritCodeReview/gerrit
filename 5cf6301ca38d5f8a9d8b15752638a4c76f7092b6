@@ -102,6 +102,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ee686f9_25f8bd0c",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-04T11:41:12Z",
+      "side": 1,
+      "message": "Not sure how to resolve the fact that in the gr_app_test.ts there is a test that adds a spy to the `handleLocationChange` method. \n\nFor some reason the test would fail to import `@lit/reactive-element/development/reactive-element` to change the spy (later used to check that is called)",
+      "parentUuid": "55bd1c22_507c9308",
+      "revId": "5cf6301ca38d5f8a9d8b15752638a4c76f7092b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "672c1663_7cf0d78b",
         "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
         "patchSetId": 5

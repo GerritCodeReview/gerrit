@@ -46,6 +46,30 @@
       },
       "revId": "a257772f82f56799b98b3f8904b2f0d38c2be052",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4c0e190_78874fd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-08-04T09:37:45Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/378543/7",
+      "parentUuid": "b66513d8_c6fc87a6",
+      "range": {
+        "startLine": 25,
+        "startChar": 33,
+        "endLine": 25,
+        "endChar": 64
+      },
+      "revId": "a257772f82f56799b98b3f8904b2f0d38c2be052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

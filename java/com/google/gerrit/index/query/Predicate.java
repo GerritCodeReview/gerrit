@@ -194,7 +194,7 @@ public abstract class Predicate<T> {
   @Override
   public abstract boolean equals(Object other);
 
-  private static class Any<T> extends Predicate<T> implements Matchable<T> {
+  public static class Any<T> extends Predicate<T> implements Matchable<T> {
     private static final Any<Object> INSTANCE = new Any<>();
 
     private Any() {}

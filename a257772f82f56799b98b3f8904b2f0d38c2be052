@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "760a5004_ecfe74ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-04T05:29:28Z",
+      "side": 1,
+      "message": "It would be best to add a test case related to the L13-L15, so that we make sure that it is covered and passing for the new fix.",
+      "range": {
+        "startLine": 25,
+        "startChar": 33,
+        "endLine": 25,
+        "endChar": 64
+      },
+      "revId": "a257772f82f56799b98b3f8904b2f0d38c2be052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

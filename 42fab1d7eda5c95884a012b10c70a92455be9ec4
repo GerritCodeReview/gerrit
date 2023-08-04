@@ -39,6 +39,29 @@
       "message": "line comment",
       "revId": "42fab1d7eda5c95884a012b10c70a92455be9ec4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d8ce60b_b6308c56",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 30
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-04T13:22:09Z",
+      "side": 1,
+      "message": "real range comment",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 36
+      },
+      "revId": "42fab1d7eda5c95884a012b10c70a92455be9ec4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

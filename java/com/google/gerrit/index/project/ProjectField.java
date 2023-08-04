@@ -54,7 +54,7 @@ public class ProjectField {
 
   public static final IndexedField<ProjectData, String> PARENT_NAME_FIELD =
       IndexedField.<ProjectData>stringBuilder("ParentName")
-          .build(p -> p.getProject().getParentName());
+          .build(p -> p.getParent().map(parent -> parent.getProject().getName()).orElse(null));
 
   public static final IndexedField<ProjectData, String>.SearchSpec PARENT_NAME_SPEC =
       PARENT_NAME_FIELD.exact("parent_name");

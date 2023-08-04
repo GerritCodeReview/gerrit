@@ -34,6 +34,24 @@
       "parentUuid": "bc88cb39_93d217e7",
       "revId": "8166f51c5e018991c338b58e94bca6afa7ba5b98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "861bc539_b0c381ba",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-04T13:53:28Z",
+      "side": 1,
+      "message": "Sorry for this, I managed to update the gr-app_tests and removed the handleLocationChange method. Thank you @brohlfs@google.com",
+      "parentUuid": "73eafa1f_fc619b8f",
+      "revId": "8166f51c5e018991c338b58e94bca6afa7ba5b98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

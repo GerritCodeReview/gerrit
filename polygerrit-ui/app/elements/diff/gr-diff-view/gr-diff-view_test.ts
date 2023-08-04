@@ -273,6 +273,8 @@ suite('gr-diff-view tests', () => {
                 <div class="sidebarTriggerContainer">
                   <gr-endpoint-decorator name="sidebarTrigger">
                     <gr-endpoint-param name="onTrigger"></gr-endpoint-param>
+                    <gr-endpoint-param name="openSidebarName">
+                    </gr-endpoint-param>
                   </gr-endpoint-decorator>
                 </div>
                 <span class="blameLoader show">

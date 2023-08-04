@@ -915,6 +915,10 @@ export class GrDiffView extends LitElement {
               (this.shownSidebar =
                 this.shownSidebar === pluginName ? undefined : pluginName)}
           ></gr-endpoint-param>
+          <gr-endpoint-param
+            name="openSidebarName"
+            .value=${this.shownSidebar}
+          ></gr-endpoint-param>
         </gr-endpoint-decorator>
       </div>
     `;
@@ -966,6 +970,15 @@ export class GrDiffView extends LitElement {
                   name="comments"
                   .value=${this.commentsForPath}
                 ></gr-endpoint-param>
+                <gr-endpoint-param
+                  name="onClose"
+                  .value=${(pluginName: string) =>
+                    (this.shownSidebar =
+                      this.shownSidebar === pluginName
+                        ? undefined
+                        : this.shownSidebar)}
+                >
+                </gr-endpoint-param>
               </gr-endpoint-decorator>
             </div>
           `

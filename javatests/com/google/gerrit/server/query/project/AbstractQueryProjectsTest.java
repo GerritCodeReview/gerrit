@@ -177,6 +177,13 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   }
 
   @Test
+  public void byEmptyQuery() throws Exception {
+    ProjectInfo project1 = createProject(name("project1"));
+    ProjectInfo project2 = createProject(name("project2"));
+    assertQuery("", allProjectsInfo, allUsersInfo, project1, project2);
+  }
+
+  @Test
   public void byName() throws Exception {
     assertQuery("name:project");
     assertQuery("name:non-existing");

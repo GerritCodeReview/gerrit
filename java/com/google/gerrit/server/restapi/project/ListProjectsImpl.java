@@ -265,9 +265,7 @@ public class ListProjectsImpl extends AbstractListProjects {
   }
 
   private String stateToQuery() {
-    return state != null
-        ? String.format("(state:%s)", state.name())
-        : "(state:active OR state:read-only)";
+    return state != null ? String.format("(state:%s)", state.name()) : "";
   }
 
   private SortedMap<String, ProjectInfo> applyAsQuery(String query) throws BadRequestException {

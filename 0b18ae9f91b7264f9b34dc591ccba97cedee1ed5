@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f035577a_01816926",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-08-04T09:36:23Z",
+      "side": 1,
+      "message": "The newly added test\n`submitTwoWithFastForwardWhereOneAlreadyAvailableInDifferentBranch` from the\npredecessor change shows that this fix is not good. That test will sporadically fail or succeed.\n\nIn this line we are adding `n` to the `sorted` list but we are not hitting `n` by the RevWalk which guarantees the sorting order. We are adding `n` manually here and, depending on the order of elements in the input parameter `toSort` the `n` may or may not end up in the proper place in the `sorted` list.\n\nI still believe that the fix for the Issue 289505276 has to be done in the `RebaseSorter` and that we shall proceed with first implementing a test suite that fully covers the desired behariour of the `RebaseSorter` and then proceed with fixing the issue.",
+      "revId": "0b18ae9f91b7264f9b34dc591ccba97cedee1ed5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

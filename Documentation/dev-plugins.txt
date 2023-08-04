@@ -3036,6 +3036,33 @@ execution times into a performance log for further analysis.
 `com.google.gerrit.server.RequestListener` is an extension point that is
 invoked each time the server executes a request from a user.
 
+[[custom-keyed-values]]
+== Custom Keyed values
+
+It is possible to associate custom keyed values with a change. This is a map 
+from string to string, allowing for the storage of small keys and values. An
+example would be for storing an associated workspace with the given change.
+
+As an example:
+```
+  private void setWorkspace(ChangeResource rsrc, String workspaceId)
+      throws RestApiException, UpdateException {
+    try (RefUpdateContext pluginCtx = RefUpdateContext.open(PLUGIN);
+        RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION);
+        BatchUpdate bu =
+            updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.now())) {
+      SetCustomKeyedValuesOp op =
+          customKeyedValuesFactory.create(
+              new CustomKeyedValuesInput(ImmutableMap.of("workspace", workspaceId)));
+      bu.addOp(rsrc.getId(), op);
+      bu.execute();
+    }
+  }
+```
+
+These custom-keyed-values can be fetched by passing the option `o=CUSTOM_KEYED_VALUES`
+to a change details fetch.
+
 == SEE ALSO
 
 * link:pg-plugin-dev.html[JavaScript Plugin API]

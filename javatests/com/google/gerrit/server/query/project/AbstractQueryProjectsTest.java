@@ -210,9 +210,7 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
     ProjectInfo parent2 = createProject(name("parent2"));
     createProject(name("child2"), parent2.name);
 
-    // TODO: All-Users should be returned as well, since it's a direct child project under
-    // All-Projects
-    assertQuery("parent:" + allProjects.get(), parent1, parent2);
+    assertQuery("parent:" + allProjects.get(), allUsersInfo, parent1, parent2);
   }
 
   @Test

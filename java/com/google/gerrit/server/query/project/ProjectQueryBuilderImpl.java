@@ -20,6 +20,9 @@ import com.google.common.primitives.Ints;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.index.project.ProjectData;
+import com.google.gerrit.index.project.ProjectField;
+import com.google.gerrit.index.project.ProjectIndex;
+import com.google.gerrit.index.project.ProjectIndexCollection;
 import com.google.gerrit.index.query.LimitPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
@@ -34,9 +37,12 @@ public class ProjectQueryBuilderImpl extends QueryBuilder<ProjectData, ProjectQu
   private static final QueryBuilder.Definition<ProjectData, ProjectQueryBuilderImpl> mydef =
       new QueryBuilder.Definition<>(ProjectQueryBuilderImpl.class);
 
+  private final ProjectIndex index;
+
   @Inject
-  ProjectQueryBuilderImpl() {
+  ProjectQueryBuilderImpl(ProjectIndexCollection indexes) {
     super(mydef, null);
+    this.index = indexes.getSearchIndex();
   }
 
   @Operator
@@ -46,7 +52,10 @@ public class ProjectQueryBuilderImpl extends QueryBuilder<ProjectData, ProjectQu
 
   @Operator
   public Predicate<ProjectData> parent(String parentName) {
-    return ProjectPredicates.parent(Project.nameKey(parentName));
+    if (!index.getSchema().hasField(ProjectField.PARENT_NAME_2_SPEC)) {
+      return ProjectPredicates.parent(Project.nameKey(parentName));
+    }
+    return ProjectPredicates.parent2(Project.nameKey(parentName));
   }
 
   @Operator

@@ -19,8 +19,8 @@ import com.google.gerrit.extensions.api.changes.RecipientType;
 
 /** Send notice about a change being abandoned by its owner. */
 public class AbandonedChangeEmailDecorator implements ChangeEmail.ChangeEmailDecorator {
-  private ChangeEmail changeEmail;
-  private OutgoingEmail email;
+  protected ChangeEmail changeEmail;
+  protected OutgoingEmail email;
 
   @Override
   public void init(OutgoingEmail email, ChangeEmail changeEmail) {

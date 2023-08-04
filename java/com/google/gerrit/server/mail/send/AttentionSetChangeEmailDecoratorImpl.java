@@ -18,14 +18,13 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 
 /** Base class for Attention Set email senders */
-public final class AttentionSetChangeEmailDecoratorImpl
-    implements AttentionSetChangeEmailDecorator {
-  private OutgoingEmail email;
-  private ChangeEmail changeEmail;
+public class AttentionSetChangeEmailDecoratorImpl implements AttentionSetChangeEmailDecorator {
+  protected OutgoingEmail email;
+  protected ChangeEmail changeEmail;
 
-  private Account.Id attentionSetUser;
-  private String reason;
-  private AttentionSetChange attentionSetChange;
+  protected Account.Id attentionSetUser;
+  protected String reason;
+  protected AttentionSetChange attentionSetChange;
 
   @Override
   public void setAttentionSetUser(Account.Id attentionSetUser) {

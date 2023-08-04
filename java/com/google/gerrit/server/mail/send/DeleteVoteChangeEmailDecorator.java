@@ -20,8 +20,8 @@ import com.google.gerrit.server.mail.send.ChangeEmail.ChangeEmailDecorator;
 
 /** Send notice about a vote that was removed from a change. */
 public class DeleteVoteChangeEmailDecorator implements ChangeEmailDecorator {
-  private OutgoingEmail email;
-  private ChangeEmail changeEmail;
+  protected OutgoingEmail email;
+  protected ChangeEmail changeEmail;
 
   @Override
   public void init(OutgoingEmail email, ChangeEmail changeEmail) {

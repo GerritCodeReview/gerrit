@@ -27,11 +27,11 @@ import java.util.Set;
 
 /** Let users know that a reviewer and possibly her review have been removed. */
 public class DeleteReviewerChangeEmailDecoratorImpl implements DeleteReviewerChangeEmailDecorator {
-  private OutgoingEmail email;
-  private ChangeEmail changeEmail;
+  protected OutgoingEmail email;
+  protected ChangeEmail changeEmail;
 
-  private final Set<Account.Id> reviewers = new HashSet<>();
-  private final Set<Address> reviewersByEmail = new HashSet<>();
+  protected final Set<Account.Id> reviewers = new HashSet<>();
+  protected final Set<Address> reviewersByEmail = new HashSet<>();
 
   @Override
   public void addReviewers(Collection<Account.Id> cc) {
@@ -44,7 +44,7 @@ public class DeleteReviewerChangeEmailDecoratorImpl implements DeleteReviewerCha
   }
 
   @Nullable
-  private List<String> getReviewerNames() {
+  protected List<String> getReviewerNames() {
     if (reviewers.isEmpty() && reviewersByEmail.isEmpty()) {
       return null;
     }

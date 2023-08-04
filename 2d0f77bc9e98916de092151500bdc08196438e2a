@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f7540bd_8b2d821a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-08-04T09:56:01Z",
+      "side": 1,
+      "message": "Why does this need to be set on a sticky header. Can this be a property of the sidebar?",
+      "range": {
+        "startLine": 507,
+        "startChar": 10,
+        "endLine": 508,
+        "endChar": 23
+      },
+      "revId": "2d0f77bc9e98916de092151500bdc08196438e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

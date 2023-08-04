@@ -306,6 +306,11 @@ export declare interface CoverageRange {
   code_range: LineRange;
 }
 
+export interface FileRange {
+  basePath?: string;
+  path: string;
+}
+
 /**
  * LOST LineNumber is for ported comments without a range, they have their own
  * line number and are added on top of the FILE row in <gr-diff>.

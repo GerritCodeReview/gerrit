@@ -680,6 +680,7 @@ export class GrDiffHost extends LitElement {
                 change: this.change!,
                 basePatchNum: this.patchRange!.basePatchNum,
                 patchNum: this.patchRange!.patchNum,
+                fileRange: this.file!,
                 path: this.path!,
               },
               highlight

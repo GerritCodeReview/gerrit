@@ -16,6 +16,23 @@
       "message": "convert these comments to javadoc for this method ?",
       "revId": "cf55646a81bfa3c2856098744c24caf0bf484aaf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaf04181_fbcf353a",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-08-04T15:44:52Z",
+      "side": 1,
+      "message": "This boolean does not represent the value which the caller would expect from the method name (I would expect it to contain whether to propagate or not).",
+      "revId": "cf55646a81bfa3c2856098744c24caf0bf484aaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

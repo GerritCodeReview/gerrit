@@ -227,11 +227,6 @@ suite('gr-diff-view tests', () => {
                   <gr-dropdown-list id="dropdown" show-copy-for-trigger-text="">
                   </gr-dropdown-list>
                 </div>
-                <div class="sidebarTriggerContainer">
-                  <gr-endpoint-decorator name="sidebarTrigger">
-                    <gr-endpoint-param name="onTrigger"></gr-endpoint-param>
-                  </gr-endpoint-decorator>
-                </div>
               </div>
               <div class="desktop navLinks">
                 <span class="fileNum show">
@@ -275,6 +270,11 @@ suite('gr-diff-view tests', () => {
                 </span>
               </div>
               <div class="rightControls">
+                <div class="sidebarTriggerContainer">
+                  <gr-endpoint-decorator name="sidebarTrigger">
+                    <gr-endpoint-param name="onTrigger"></gr-endpoint-param>
+                  </gr-endpoint-decorator>
+                </div>
                 <span class="blameLoader show">
                   <gr-button
                     aria-disabled="false"
@@ -356,7 +356,9 @@ suite('gr-diff-view tests', () => {
             <div class="sidebarAnchor"></div>
           </div>
           <h2 class="assistive-tech-only">Diff view</h2>
-          <gr-diff-host id="diffHost"> </gr-diff-host>
+          <div class="diffContainer">
+            <gr-diff-host id="diffHost"> </gr-diff-host>
+          </div>
           <gr-apply-fix-dialog id="applyFixDialog"> </gr-apply-fix-dialog>
           <gr-diff-preferences-dialog id="diffPreferencesDialog">
           </gr-diff-preferences-dialog>

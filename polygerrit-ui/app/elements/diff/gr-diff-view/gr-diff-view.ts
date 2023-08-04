@@ -489,6 +489,7 @@ export class GrDiffView extends LitElement {
         :host {
           display: block;
           background-color: var(--view-background-color);
+          --sidebar-width: 300px;
         }
         .hidden {
           display: none;
@@ -503,9 +504,8 @@ export class GrDiffView extends LitElement {
           background-color: var(--view-background-color);
           position: sticky;
           top: 0;
-          /* TODO(dhruvsri): This is required only because of 'position:relative' in
-            <gr-diff-highlight> (which could maybe be removed??). */
-          z-index: 1;
+          /* sidebar should outrank <footer> in GrAppElement */
+          z-index: 110;
           box-shadow: var(--elevation-level-1);
           /* This is just for giving the box-shadow some space. */
           margin-bottom: 2px;
@@ -664,6 +664,9 @@ export class GrDiffView extends LitElement {
         :host(.hideComments) {
           --gr-comment-thread-display: none;
         }
+        .diffContainer.sidebarOpen {
+          margin-left: var(--sidebar-width);
+        }
         .sidebarTriggerContainer {
           display: inline-block;
         }
@@ -674,20 +677,11 @@ export class GrDiffView extends LitElement {
         }
         .sidebarContents {
           background: var(--background-color-secondary);
-          width: max-content;
+          width: var(--sidebar-width);
           padding: var(--spacing-l);
           border: var(--spacing-xs) solid var(--border-color);
           border-left: 0;
-          overflow-y: auto;
-          animation: slide-in 50ms;
-        }
-        @keyframes slide-in {
-          0% {
-            transform: translateX(-100%);
-          }
-          100% {
-            transform: translateX(0);
-          }
+          overflow: auto;
         }
       `,
     ];
@@ -796,25 +790,27 @@ export class GrDiffView extends LitElement {
     return html`
       ${this.renderStickyHeader()}
       <h2 class="assistive-tech-only">Diff view</h2>
-      <gr-diff-host
-        id="diffHost"
-        .changeNum=${this.changeNum}
-        .change=${this.change}
-        .patchRange=${this.patchRange}
-        .file=${file}
-        .lineOfInterest=${this.getLineOfInterest()}
-        .path=${this.path}
-        .projectName=${this.change?.project}
-        @is-blame-loaded-changed=${this.onIsBlameLoadedChanged}
-        @comment-anchor-tap=${this.onCommentAnchorTap}
-        @line-selected=${this.onLineSelected}
-        @diff-changed=${this.onDiffChanged}
-        @edit-weblinks-changed=${this.onEditWeblinksChanged}
-        @files-weblinks-changed=${this.onFilesWeblinksChanged}
-        @is-image-diff-changed=${this.onIsImageDiffChanged}
-        @render=${this.reInitCursor}
-      >
-      </gr-diff-host>
+      <div class="diffContainer ${this.shownSidebar && 'sidebarOpen'}">
+        <gr-diff-host
+          id="diffHost"
+          .changeNum=${this.changeNum}
+          .change=${this.change}
+          .patchRange=${this.patchRange}
+          .file=${file}
+          .lineOfInterest=${this.getLineOfInterest()}
+          .path=${this.path}
+          .projectName=${this.change?.project}
+          @is-blame-loaded-changed=${this.onIsBlameLoadedChanged}
+          @comment-anchor-tap=${this.onCommentAnchorTap}
+          @line-selected=${this.onLineSelected}
+          @diff-changed=${this.onDiffChanged}
+          @edit-weblinks-changed=${this.onEditWeblinksChanged}
+          @files-weblinks-changed=${this.onFilesWeblinksChanged}
+          @is-image-diff-changed=${this.onIsImageDiffChanged}
+          @render=${this.reInitCursor}
+        >
+        </gr-diff-host>
+      </div>
       ${this.renderDialogs()}
     `;
   }
@@ -871,7 +867,6 @@ export class GrDiffView extends LitElement {
             @value-change=${this.handleFileChange}
           ></gr-dropdown-list>
         </div>
-        ${this.renderSidebarTriggers()}
       </div>
       <div class="navLinks desktop">
         <span class="fileNum ${ifDefined(fileNumClass)}">
@@ -1008,6 +1003,7 @@ export class GrDiffView extends LitElement {
       this.isBlameLoaded && !this.isBlameLoading ? 'Hide blame' : 'Show blame';
     const diffModeSelectorClass = !this.diff || this.diff.binary ? 'hide' : '';
     return html` <div class="rightControls">
+      ${this.renderSidebarTriggers()}
       <span class="blameLoader ${blameLoaderClass}">
         <gr-button
           link=""

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e831d6c9_587289ce",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SubmitByRebaseIfNecessaryIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-08-04T09:26:34Z",
+      "side": 1,
+      "message": "This is a new test added in PS-7. This test shows that the fix in the follow-up change is not good enough, it will fail sporadically.",
+      "revId": "9d28c29fe48f2b8014d652de7e4b6fb7b701e226",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

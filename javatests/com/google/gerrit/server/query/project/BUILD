@@ -21,6 +21,7 @@ java_library(
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
         "//lib:jgit",
+        "//lib/errorprone:annotations",
         "//lib/guice",
         "//lib/truth",
     ],

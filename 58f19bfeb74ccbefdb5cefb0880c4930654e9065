@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8239f158_33dbca90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-05T05:55:43Z",
+      "side": 1,
+      "message": "Add: \n\n```\n c566c039 Revert \"Set uninteresting branches based on project configuration\"\n 7166cfe1 Merge branch \u0027stable-3.5\u0027 into stable-3.6\n 32685ce9 Merge branch \u0027stable-3.4\u0027 into stable-3.5\n 4f883c88 Merge \"Add tests for BucketedCallback\" into stable-3.6\n b79ed753 Add configuration to disable internal indexes pagination\n 8409b9e4 Fix conflict resolution of merge done in I2442bf49\n 633c10e6 Hide Move Change from UI if change.move is set to false\n c81232ad Fix CreateAccessChange ignoring provided review message\n 57613ecd Add tests for BucketedCallback\n```",
+      "revId": "58f19bfeb74ccbefdb5cefb0880c4930654e9065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

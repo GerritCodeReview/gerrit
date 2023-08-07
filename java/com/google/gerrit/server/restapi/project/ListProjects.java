@@ -20,7 +20,6 @@ import static com.google.common.collect.Ordering.natural;
 import static com.google.gerrit.extensions.client.ProjectState.HIDDEN;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Iterables;
@@ -348,14 +347,9 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   }
 
   private String stateToQuery() {
-    List<String> queries = new ArrayList<>();
-    if (state == null) {
-      queries.add("(state:active OR state:read-only)");
-    } else {
-      queries.add(String.format("(state:%s)", state.name()));
-    }
-
-    return Joiner.on(" AND ").join(queries);
+    return state != null
+        ? String.format("(state:%s)", state.name())
+        : "(state:active OR state:read-only)";
   }
 
   private SortedMap<String, ProjectInfo> applyAsQuery(String query) throws BadRequestException {

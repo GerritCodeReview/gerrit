@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8355f0d9_8242ffa8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-07T18:08:57Z",
+      "side": 1,
+      "message": "Based on [1] I think this breaks that support. Looks like even the 3.1 release notes [2] don\u0027t quite capture the full breakage. We could try to modify this change to avoid that break, but I\u0027m not sure if that\u0027s possible. This change was included in the series because change 377815 introduces git protocol version and we needed the config available to be sure that default didn\u0027t change. Any recommendations for handling it?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/378655/5/java/com/google/gerrit/server/git/SystemReaderInstaller.java#69\n[2] https://www.gerritcodereview.com/3.1.html#jgit-configuration-is-no-longer-read-from-system-level-gitconfig",
+      "parentUuid": "e64c0417_92306430",
+      "revId": "e4b5e3e9ab089f38aa3e5850535496ab00db9e17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "96323c02_dbd94fcc",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 5
@@ -31,6 +49,30 @@
       "writtenOn": "2023-08-03T07:59:49Z",
       "side": 1,
       "message": "Why do we provide a `trustFolderStat \u003d false` as a sample? That looks more a sample for a NFS configuration with multiple primary nodes, rather than a suggested default config.",
+      "range": {
+        "startLine": 5386,
+        "startChar": 0,
+        "endLine": 5387,
+        "endChar": 25
+      },
+      "revId": "e4b5e3e9ab089f38aa3e5850535496ab00db9e17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07965270_393ef835",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 5387,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-07T18:08:57Z",
+      "side": 1,
+      "message": "I\u0027m guessing when Saša added this config in change 142932 he just picked that as an example of changing a default value.",
+      "parentUuid": "96323c02_dbd94fcc",
       "range": {
         "startLine": 5386,
         "startChar": 0,

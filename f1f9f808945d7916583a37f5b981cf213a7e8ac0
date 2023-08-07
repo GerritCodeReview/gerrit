@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a240ff5e_b95fb49f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-07T10:06:04Z",
+      "side": 1,
+      "message": "Changing the target branch to stable-3.8, for stable-3.6 and stable-3.7 will need a new change considering the codebase is quite different due to the lit migration.",
+      "revId": "f1f9f808945d7916583a37f5b981cf213a7e8ac0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

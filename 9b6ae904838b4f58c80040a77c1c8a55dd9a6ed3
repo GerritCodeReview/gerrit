@@ -173,6 +173,41 @@
       "parentUuid": "b9e7139c_3101a5bd",
       "revId": "9b6ae904838b4f58c80040a77c1c8a55dd9a6ed3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48215a22_233610af",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-07T09:15:26Z",
+      "side": 1,
+      "message": "If it\u0027s temporary, does it belong in this CL?\n\nIf it\u0027s not temporary, please rename to make it ML-agnostic.",
+      "parentUuid": "627142b6_a64efa49",
+      "revId": "9b6ae904838b4f58c80040a77c1c8a55dd9a6ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38f7cb8e_ee217c23",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 861,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-07T09:15:26Z",
+      "side": 1,
+      "message": "Same comment about making this ml-agnostic, the API is a suggestion-provider, ML is an implementation detail",
+      "revId": "9b6ae904838b4f58c80040a77c1c8a55dd9a6ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

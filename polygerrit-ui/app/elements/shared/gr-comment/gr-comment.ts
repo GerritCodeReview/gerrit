@@ -64,6 +64,8 @@ import {isBase64FileContent} from '../../../api/rest-api';
 import {createDiffUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
@@ -211,6 +213,10 @@ export class GrComment extends LitElement {
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly getUserModel = resolve(this, userModelToken);
+
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
+
+  private readonly flagsService = getAppContext().flagsService;
 
   private readonly shortcuts = new ShortcutController(this);
 
@@ -767,8 +773,8 @@ export class GrComment extends LitElement {
     return html`
       <div class="rightActions">
         ${this.renderDiscardButton()} ${this.renderEditButton()}
-        ${this.renderCancelButton()} ${this.renderSaveButton()}
-        ${this.renderCopyLinkIcon()}
+        ${this.renderMlSuggestEditButton()} ${this.renderCancelButton()}
+        ${this.renderSaveButton()} ${this.renderCopyLinkIcon()}
       </div>
     `;
   }
@@ -839,6 +845,36 @@ export class GrComment extends LitElement {
         >${this.permanentEditingMode ? 'Preview' : 'Save'}</gr-button
       >
     `;
+  }
+
+  // TODO(milutin): This is temporary solution for experimenting
+  private renderMlSuggestEditButton() {
+    if (!this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT)) {
+      return nothing;
+    }
+    return html`
+      <gr-button link class="action" @click=${this.mlSuggestEdit}>ML</gr-button>
+    `;
+  }
+
+  // TODO(milutin): This is temporary solution for experimenting
+  private async mlSuggestEdit() {
+    const suggestionsPlugins =
+      this.getPluginLoader().pluginsModel.getState().suggestionsPlugins;
+    if (suggestionsPlugins.length === 0) return;
+    if (!this.changeNum || !this.comment?.patch_set || !this.comments?.[0].path)
+      return;
+    const suggestion = await suggestionsPlugins[0].provider.suggestCode({
+      prompt: this.messageText,
+      changeNumber: this.changeNum,
+      patchsetNumber: this.comment?.patch_set,
+      filePath: this.comments?.[0].path,
+      range: this.comments?.[0].range,
+      lineNbr: this.comments?.[0].line,
+    });
+    const replacement = suggestion.suggestions?.[0].replacement;
+    if (!replacement) return;
+    this.messageText += `${USER_SUGGESTION_START_PATTERN}${suggestion}${'\n```'}`;
   }
 
   private renderRobotActions() {

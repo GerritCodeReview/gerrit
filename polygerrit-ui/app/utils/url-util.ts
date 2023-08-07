@@ -1,5 +1,6 @@
-import {ServerInfo} from '../types/common';
+import {AuthInfo, ServerInfo} from '../types/common';
 import {RestApiService} from '../services/gr-rest-api/gr-rest-api';
+import {AuthType} from '../api/rest-api';
 
 /**
  * @license
@@ -22,6 +23,37 @@ const DOCS_BASE_PATH = '/Documentation';
 
 export function getBaseUrl(): string {
   return window.CANONICAL_PATH || '';
+}
+
+/**
+ * Return the url to use for login. If the server configuration
+ * contains the `loginUrl` in the `auth` section then that custom url
+ * will be used, defaults to `/login` otherwise.
+ *
+ * @param authConfig the auth section of gerrit configuration if defined
+ */
+export function loginUrl(authConfig: AuthInfo | undefined): string {
+  const baseUrl = getBaseUrl();
+  const customLoginUrl = authConfig?.login_url;
+  const authType = authConfig?.auth_type;
+  if (
+    customLoginUrl &&
+    (authType === AuthType.HTTP || authType === AuthType.HTTP_LDAP)
+  ) {
+    return customLoginUrl.startsWith('http')
+      ? customLoginUrl
+      : baseUrl + customLoginUrl;
+  } else {
+    // Strip the canonical path from the path since needing canonical in
+    // the path is unneeded and breaks the url.
+    const defaultUrl = `${baseUrl}/login/`;
+    const postFix = encodeURIComponent(
+      window.location.pathname.substring(baseUrl.length) +
+        window.location.search +
+        window.location.hash
+    );
+    return defaultUrl + postFix;
+  }
 }
 
 export function prependOrigin(path: string): string {

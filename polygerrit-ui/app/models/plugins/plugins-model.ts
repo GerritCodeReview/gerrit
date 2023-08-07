@@ -13,6 +13,7 @@ import {
 import {Model} from '../model';
 import {select} from '../../utils/observable-util';
 import {CoverageProvider, TokenHoverListener} from '../../api/annotation';
+import {SuggestionsProvider} from '../../api/suggestions';
 
 export interface CoveragePlugin {
   pluginName: string;
@@ -23,6 +24,11 @@ export interface ChecksPlugin {
   pluginName: string;
   provider: ChecksProvider;
   config: ChecksApiConfig;
+}
+
+export interface SuggestionPlugin {
+  pluginName: string;
+  provider: SuggestionsProvider;
 }
 
 export interface TokenHoverListenerPlugin {
@@ -46,6 +52,11 @@ interface PluginsState {
    * List of plugins that have called checks().register().
    */
   checksPlugins: ChecksPlugin[];
+
+  /**
+   * List of plugins that have called suggestions().register().
+   */
+  suggestionsPlugins: SuggestionPlugin[];
 
   /**
    * List of plugins that have called
@@ -77,6 +88,7 @@ export class PluginsModel extends Model<PluginsState> {
     super({
       coveragePlugins: [],
       checksPlugins: [],
+      suggestionsPlugins: [],
       tokenHighlightPlugins: [],
     });
   }
@@ -110,6 +122,22 @@ export class PluginsModel extends Model<PluginsState> {
       return;
     }
     nextState.checksPlugins.push(plugin);
+    this.setState(nextState);
+  }
+
+  suggestionsRegister(plugin: SuggestionPlugin) {
+    const nextState = {...this.getState()};
+    nextState.suggestionsPlugins = [...nextState.suggestionsPlugins];
+    const alreadyRegistered = nextState.suggestionsPlugins.some(
+      p => p.pluginName === plugin.pluginName
+    );
+    if (alreadyRegistered) {
+      console.warn(
+        `${plugin.pluginName} tried to register twice as a suggestion provider. Ignored.`
+      );
+      return;
+    }
+    nextState.suggestionsPlugins.push(plugin);
     this.setState(nextState);
   }
 

@@ -307,7 +307,15 @@ def genasciidoc_zip(
     _genasciidoc_htmlonly_zip(
         name = name + SUFFIX if resources else name,
         srcs = srcs,
+<<<<<<< PATCH SET (5bcdc2 Fix documentation attributes bug)
+<<<<<<< HEAD   (82544a Use project and changeNum for listing files in a patch-set)
+        attributes = attributes,
+=======
+        attributes = attributes + ([] if webfonts else ["webfonts!"]),
+>>>>>>> CHANGE (6e1fc4 Fix documentation attributes bug)
+=======
         attributes = attributes + [] if webfonts else ["webfonts!"],
+>>>>>>> BASE      (dcd5bb Introduce Documentation:searchfree_safe with local-only font)
         backend = backend,
         searchbox = searchbox,
         **kwargs

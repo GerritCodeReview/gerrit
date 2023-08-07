@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "04ab6a31_91755e7c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-07T17:27:46Z",
+      "side": 1,
+      "message": "\u003e @NoHttpd only says HTTPD is not required, but it\u0027s OK if it\u0027s enabled anyway\n\nThat was the bit I didn\u0027t understand as that\u0027s not what the original change 54251 indicated. Thanks for clarifying!\n\nIf that\u0027s the usage now maybe we should rename `NoHttp` to something like `HttpNotRequired`?",
+      "parentUuid": "5873e12d_830f9e19",
+      "range": {
+        "startLine": 10,
+        "startChar": 38,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "b5fe3d89474d6e8715029415245f6fc94c81806e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9843386d_5d60698b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

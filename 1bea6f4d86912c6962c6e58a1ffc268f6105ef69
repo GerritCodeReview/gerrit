@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "589264c3_3129f3cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-07T18:22:39Z",
+      "side": 1,
+      "message": "It might be nice to also fix the NPE potential in the single-ref-delete case (when there\u0027s a race between two callers deleting the same ref).",
+      "revId": "1bea6f4d86912c6962c6e58a1ffc268f6105ef69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -306,7 +306,11 @@ def genasciidoc_zip(
     _genasciidoc_htmlonly_zip(
         name = name + SUFFIX if resources else name,
         srcs = srcs,
+<<<<<<< HEAD   (82544a Use project and changeNum for listing files in a patch-set)
         attributes = attributes,
+=======
+        attributes = attributes + ([] if webfonts else ["webfonts!"]),
+>>>>>>> CHANGE (6e1fc4 Fix documentation attributes bug)
         backend = backend,
         searchbox = searchbox,
         **kwargs

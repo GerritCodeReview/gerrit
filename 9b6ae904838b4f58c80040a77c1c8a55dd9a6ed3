@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7451c584_d3770fce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-08-07T09:12:28Z",
+      "side": 1,
+      "message": "Thanks for quick review.",
+      "revId": "9b6ae904838b4f58c80040a77c1c8a55dd9a6ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09c8bbe7_f9cbf726",
@@ -35,6 +52,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3716056e_3a9a223f",
+        "filename": "polygerrit-ui/app/api/suggestions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-08-07T09:12:28Z",
+      "side": 1,
+      "message": "FYI: lineNbr is used in backend, that\u0027s why I picked it.\n\nBut I agree that we don\u0027t need abbrevation so I changed it to `lineNumber`",
+      "parentUuid": "09c8bbe7_f9cbf726",
+      "revId": "9b6ae904838b4f58c80040a77c1c8a55dd9a6ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c30b5617_8f0f9800",
@@ -48,6 +83,24 @@
       "writtenOn": "2023-08-07T09:05:19Z",
       "side": 1,
       "message": "Why have this return an optional array? Optional array and empty array feel equivalent, why would you need to support both states?",
+      "revId": "9b6ae904838b4f58c80040a77c1c8a55dd9a6ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e5070f6_a59a8673",
+        "filename": "polygerrit-ui/app/api/suggestions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-08-07T09:12:28Z",
+      "side": 1,
+      "message": "I was following checks Provider which uses `runs?: CheckRun[]`\n\nBut sure, we can have empty array.",
+      "parentUuid": "c30b5617_8f0f9800",
       "revId": "9b6ae904838b4f58c80040a77c1c8a55dd9a6ed3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -82,6 +135,42 @@
       "writtenOn": "2023-08-07T09:05:19Z",
       "side": 1,
       "message": "Test?",
+      "revId": "9b6ae904838b4f58c80040a77c1c8a55dd9a6ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad223d49_160d615a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-08-07T09:12:28Z",
+      "side": 1,
+      "message": "This will be removed. It\u0027s just temporary here for experimenting and checking if front-end work.",
+      "parentUuid": "c9df4b94_ebc2b567",
+      "revId": "9b6ae904838b4f58c80040a77c1c8a55dd9a6ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "627142b6_a64efa49",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-08-07T09:12:28Z",
+      "side": 1,
+      "message": "This is just for experimenting. When this button is clicked, provider is called.\n\nIt will be removed and replaced by debouncer during typing. I have not finished that part yet. But it will be done soon.",
+      "parentUuid": "b9e7139c_3101a5bd",
       "revId": "9b6ae904838b4f58c80040a77c1c8a55dd9a6ed3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

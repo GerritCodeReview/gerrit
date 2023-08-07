@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ceffcf4_ed269419",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-07T09:05:19Z",
+      "side": 1,
+      "message": "r",
+      "revId": "9b6ae904838b4f58c80040a77c1c8a55dd9a6ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09c8bbe7_f9cbf726",
+        "filename": "polygerrit-ui/app/api/suggestions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-07T09:05:19Z",
+      "side": 1,
+      "message": "Simply rename this to `line` alternatively `lineNumber`. There\u0027s no good reason for abbreviation here\n\n```suggestion\n  line?: Number;\n```",
+      "revId": "9b6ae904838b4f58c80040a77c1c8a55dd9a6ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c30b5617_8f0f9800",
+        "filename": "polygerrit-ui/app/api/suggestions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-07T09:05:19Z",
+      "side": 1,
+      "message": "Why have this return an optional array? Optional array and empty array feel equivalent, why would you need to support both states?",
+      "revId": "9b6ae904838b4f58c80040a77c1c8a55dd9a6ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9e7139c_3101a5bd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-07T09:05:19Z",
+      "side": 1,
+      "message": "Why is this renderMLSuggestedEditButton?  This is not ML specific and supports any suggestion provider.",
+      "revId": "9b6ae904838b4f58c80040a77c1c8a55dd9a6ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9df4b94_ebc2b567",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-07T09:05:19Z",
+      "side": 1,
+      "message": "Test?",
+      "revId": "9b6ae904838b4f58c80040a77c1c8a55dd9a6ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

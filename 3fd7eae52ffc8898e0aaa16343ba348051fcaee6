@@ -16,6 +16,24 @@
       "message": "[optional] You may use MoreObjects.toStringHelper here.\n\nE.g.:\n\n  MoreObjects.toStringHelper(this)\n    .add(\"context\", context)\n    .add(\"tabSize\", tabSize)\n    ...\n    \nSame for the other classes.",
       "revId": "3fd7eae52ffc8898e0aaa16343ba348051fcaee6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20266c3c_344d8bcb",
+        "filename": "java/com/google/gerrit/extensions/client/DiffPreferencesInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-08-07T06:38:15Z",
+      "side": 1,
+      "message": "Thanks!\nDone.",
+      "parentUuid": "d477f0d1_b240dd56",
+      "revId": "3fd7eae52ffc8898e0aaa16343ba348051fcaee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

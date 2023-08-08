@@ -22,6 +22,30 @@
       },
       "revId": "06db9fe8191242c184e44e42571e58217e5c666e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a77ad0e3_9ad99dfb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-08-08T09:55:47Z",
+      "side": 1,
+      "message": "Thanks for the heads up.\n\nBased on your comment and also a recommendation from @ekempin@google.com we decided to punt on this change.\n\nAbandoning this change.",
+      "parentUuid": "d8287a8e_79b909d8",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 43
+      },
+      "revId": "06db9fe8191242c184e44e42571e58217e5c666e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

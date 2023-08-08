@@ -143,7 +143,6 @@ public class InMemoryModule extends FactoryModule {
     cfg.setString(
         "accountPatchReviewDb", null, "url", JdbcAccountPatchReviewStore.TEST_IN_MEMORY_URL);
     cfg.setEnum("auth", null, "type", AuthType.DEVELOPMENT_BECOME_ANY_ACCOUNT);
-    cfg.setString("gerrit", null, "allProjects", "Test-Projects");
     cfg.setString("gerrit", null, "basePath", "git");
     cfg.setString("gerrit", null, "canonicalWebUrl", "http://test/");
     cfg.setString("user", null, "name", "Gerrit Code Review");

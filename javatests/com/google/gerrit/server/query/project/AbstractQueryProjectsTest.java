@@ -79,8 +79,7 @@ import org.junit.Test;
  * Tests queries against the project index.
  *
  * <p>Note, returned projects are sorted by name. Projects that start with a capital letter are
- * returned first. {@code InMemoryModule} sets that name for the All-Users project to {@code
- * Test-Projects}, this is why it's returned after {@code Alll-Users}.
+ * returned first.
  */
 @Ignore
 public abstract class AbstractQueryProjectsTest extends GerritServerTests {
@@ -251,7 +250,7 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
 
     ProjectInfo project1 = createProjectWithState(name("project1"), ProjectState.ACTIVE);
     ProjectInfo project2 = createProjectWithState(name("project2"), ProjectState.READ_ONLY);
-    assertQuery("state:active", allUsersInfo, allProjectsInfo, project1);
+    assertQuery("state:active", allProjectsInfo, allUsersInfo, project1);
     assertQuery("state:read-only", project2);
   }
 

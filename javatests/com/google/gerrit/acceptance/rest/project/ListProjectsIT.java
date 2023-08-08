@@ -159,7 +159,8 @@ public class ListProjectsIT extends AbstractDaemonTest {
 
   @Test
   public void listProjectsAsJsonMultilineToOutputStream() throws Exception {
-    listProjectsAsJsonToOutputStream(OutputFormat.JSON);
+    String jsonOutput = listProjectsAsJsonToOutputStream(OutputFormat.JSON);
+    assertThat(jsonOutput).contains("\n");
   }
 
   @Test

@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67ce49df_b56ad1c7",
+        "filename": "java/com/google/gerrit/server/change/SetTopicOp.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-08-08T09:17:07Z",
+      "side": 1,
+      "message": "Can we move this code inside setTopic? (and pass topicValidator if we can\u0027t inject it).\nThe current solution requires to call topicValidator.validateSize in every place where update.setTopic is called - easy to forget.",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 78,
+        "endChar": 33
+      },
+      "revId": "04ac31f926242123a23593d7d34d82059e9d83d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -270,7 +270,8 @@ suite('related-changes-model tests', () => {
         messages: [
           {
             ...createChangeMessage(),
-            message: 'Created a revert of this change as 123',
+            message:
+              'Created a revert of this change as If02ca1cd494579d6bb92a157bf1819e3689cd6b1',
             tag: MessageTag.TAG_REVERT as ReviewInputTag,
           },
         ],

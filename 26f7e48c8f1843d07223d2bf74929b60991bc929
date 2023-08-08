@@ -22,6 +22,30 @@
       },
       "revId": "26f7e48c8f1843d07223d2bf74929b60991bc929",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc5a6c7a_aca00c69",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-08-08T22:43:06Z",
+      "side": 0,
+      "message": "I suppose thats one way to deal with it. However, we are attempting a migration without any data loss, so that is not an option.\n\nDo have any technical concerns with this change?",
+      "parentUuid": "bfc1674c_82693dac",
+      "range": {
+        "startLine": 1053,
+        "startChar": 14,
+        "endLine": 1054,
+        "endChar": 82
+      },
+      "revId": "26f7e48c8f1843d07223d2bf74929b60991bc929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

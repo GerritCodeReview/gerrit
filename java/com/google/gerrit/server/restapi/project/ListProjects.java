@@ -149,9 +149,10 @@ public class ListProjects implements RestReadView<TopLevelResource> {
   private final ProjectNode.Factory projectNodeFactory;
   private final WebLinks webLinks;
 
-  @Deprecated
   @Option(name = "--format", usage = "(deprecated) output format")
-  private OutputFormat format = OutputFormat.TEXT;
+  public void setFormat(OutputFormat fmt) {
+    format = fmt;
+  }
 
   @Option(
       name = "--show-branch",
@@ -246,6 +247,7 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     this.groupUuid = groupUuid;
   }
 
+  @Deprecated private OutputFormat format = OutputFormat.TEXT;
   private final List<String> showBranch = new ArrayList<>();
   private boolean showTree;
   private FilterType type = FilterType.ALL;
@@ -299,11 +301,6 @@ public class ListProjects implements RestReadView<TopLevelResource> {
 
   public OutputFormat getFormat() {
     return format;
-  }
-
-  public ListProjects setFormat(OutputFormat fmt) {
-    format = fmt;
-    return this;
   }
 
   @Override

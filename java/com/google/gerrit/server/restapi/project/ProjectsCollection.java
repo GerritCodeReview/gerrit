@@ -84,7 +84,10 @@ public class ProjectsCollection
     if (hasQuery) {
       return queryProjects.get();
     }
-    return list.get().setFormat(OutputFormat.JSON);
+
+    ListProjects listProjects = list.get();
+    listProjects.setFormat(OutputFormat.JSON);
+    return listProjects;
   }
 
   @Override

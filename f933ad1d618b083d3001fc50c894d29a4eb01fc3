@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06e8c3ac_2d9a74f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-08T09:49:33Z",
+      "side": 1,
+      "message": "I don\u0027t understand how the bug came to be.\n\nCan you explain the steps that let to that error change being created?\n\nDid we pass the wrong format ChangeId to the server resulting in this bug?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 20
+      },
+      "revId": "f933ad1d618b083d3001fc50c894d29a4eb01fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

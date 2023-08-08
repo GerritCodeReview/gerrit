@@ -16,7 +16,7 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
-import com.google.gerrit.server.restapi.project.ListProjects;
+import com.google.gerrit.server.restapi.project.ListProjectsImpl;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.util.cli.Options;
@@ -28,7 +28,7 @@ import java.util.List;
     description = "List projects visible to the caller",
     runsAt = MASTER_OR_SLAVE)
 public class ListProjectsCommand extends SshCommand {
-  @Inject @Options public ListProjects impl;
+  @Inject @Options public ListProjectsImpl impl;
 
   @Override
   public void run() throws Exception {

@@ -102,11 +102,6 @@ export function isPatchSetNumber(
   return !!x && Number.isInteger(x) && (x as number) > 0;
 }
 
-export interface FileRange {
-  basePath?: string;
-  path: string;
-}
-
 export interface FetchRequest {
   url: string;
   fetchOptions?: AuthRequestInit;

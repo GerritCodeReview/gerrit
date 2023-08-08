@@ -3,7 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {CoverageRange, TokenHighlightEventDetails} from './diff';
+import {CoverageRange, FileRange, TokenHighlightEventDetails} from './diff';
 import {BasePatchSetNum, ChangeInfo, RevisionPatchSetNum} from './rest-api';
 
 /**
@@ -23,6 +23,8 @@ export declare interface DiffDetails {
   change: ChangeInfo;
   basePatchNum: BasePatchSetNum;
   patchNum: RevisionPatchSetNum;
+  fileRange: FileRange;
+  /** @deprecated rely on fileRange.path */
   path: string;
 }
 

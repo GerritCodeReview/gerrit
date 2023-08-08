@@ -75,6 +75,7 @@ export class GrSelectionActionBox extends LitElement {
     const boxRect = this.tooltip.getBoundingClientRect();
     const parentRect = this.getParentBoundingClientRect();
     if (parentRect === null) {
+      console.log(`${Date.now() % 100000} asdf placeAbove parentRect === null`);
       return;
     }
     this.style.top = `${rect.top - parentRect.top - boxRect.height - 6}px`;
@@ -82,6 +83,11 @@ export class GrSelectionActionBox extends LitElement {
       rect.left - parentRect.left + (rect.width - boxRect.width) / 2
     }px`;
     this.invisible = false;
+    console.log(
+      `${Date.now() % 100000} asdf placeAbove ${this.style.top} ${
+        this.style.left
+      }`
+    );
   }
 
   async placeBelow(el: Text | Element | Range) {
@@ -91,12 +97,19 @@ export class GrSelectionActionBox extends LitElement {
     const boxRect = this.tooltip.getBoundingClientRect();
     const parentRect = this.getParentBoundingClientRect();
     if (parentRect === null) {
+      console.log(`${Date.now() % 100000} asdf placeBelow parentRect === null`);
       return;
     }
     this.style.top = `${rect.top - parentRect.top + boxRect.height - 6}px`;
     this.style.left = `${
       rect.left - parentRect.left + (rect.width - boxRect.width) / 2
     }px`;
+    console.log(
+      `${Date.now() % 100000} asdf placeBelow ${this.style.top} ${
+        this.style.left
+      }`
+    );
+
     this.invisible = false;
   }
 

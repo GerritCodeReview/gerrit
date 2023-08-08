@@ -952,6 +952,11 @@ export class GrDiffView extends LitElement {
                   name="path"
                   .value=${this.path}
                 ></gr-endpoint-param>
+                <!-- current diff path and, in case of rename, previous path -->
+                <gr-endpoint-param
+                  name="fileRange"
+                  .value=${this.getFileRange()}
+                ></gr-endpoint-param>
                 <gr-endpoint-param
                   name="basePatchNum"
                   .value=${this.basePatchNum}
@@ -1140,6 +1145,10 @@ export class GrDiffView extends LitElement {
     }
   }
 
+  /**
+   * Returns the current file path and, if it was renamed in this change, the
+   * previous file path.
+   */
   private getFileRange() {
     if (!this.files || !this.path) return;
     const fileInfo = this.files.changeFilesByPath[this.path];

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ddb3910_a092c0fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-08-08T00:18:25Z",
+      "side": 1,
+      "message": "\u003e I am good with this in principle, assuming that we:\n\u003e - mention some numbers in the commit message on the expected performance degradation\n\nDone\n\u003e - cover this case with one test\n\nDone",
+      "parentUuid": "e96fed46_731d49a6",
+      "revId": "71ecae7d631e8496542d76594e17407080585a66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb2e7143_381cdf0d",

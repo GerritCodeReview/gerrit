@@ -14,12 +14,8 @@ suite('message-util tests', () => {
     const messages = [
       {
         ...createChangeMessage(),
-        message: 'Created a revert of this change as 123',
-        tag: MessageTag.TAG_REVERT as ReviewInputTag,
-      },
-      {
-        ...createChangeMessage(),
-        message: 'Created a revert of this change as xyz',
+        message:
+          'Created a revert of this change as If02ca1cd494579d6bb92a157bf1819e3689cd6b1',
         tag: MessageTag.TAG_REVERT as ReviewInputTag,
       },
       {
@@ -30,8 +26,7 @@ suite('message-util tests', () => {
     ];
 
     assert.deepEqual(getRevertCreatedChangeIds(messages), [
-      '123' as ChangeId,
-      'xyz' as ChangeId,
+      'If02ca1cd494579d6bb92a157bf1819e3689cd6b1' as ChangeId,
     ]);
   });
 });

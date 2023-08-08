@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "183df3b1_bdb25a72",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-08-08T23:11:06Z",
+      "side": 1,
+      "message": "```\n\n$ time bazel build release \u0026\u0026 time bazel test --cache_test_results\u003dno --flaky_test_attempts 3 --test_timeout 3600 --test_tag_filters\u003d-flaky,-elastic //...\n[snip]\n//javatests/com/google/gerrit/util/http:http_tests                       PASSED in 2.0s\n//javatests/com/google/gwtexpui/safehtml:safehtml_tests                  PASSED in 1.7s\n//javatests/org/eclipse/jgit:jgit_patch_tests                            PASSED in 1.0s\n//lib:nongoogle_test                                                     PASSED in 0.6s\n//plugins/hooks:hooks_tests                                              PASSED in 17.1s\n//plugins/replication:replication_it                                     PASSED in 190.2s\n//plugins/replication:replication_tests                                  PASSED in 3.8s\n//plugins/singleusergroup:singleusergroup_tests                          PASSED in 16.1s\n//resources/com/google/gerrit/server:commit-msg_test                     PASSED in 7.8s\n//tools/bzl:always_pass_test                                             PASSED in 0.5s\n\nExecuted 86 out of 86 tests: 86 tests pass.\nINFO: Build completed successfully, 88 total actions\n```",
+      "revId": "be044c41ceb72a448c62d13c7bc7bf4ea90789fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

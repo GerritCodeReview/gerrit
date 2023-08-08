@@ -46,6 +46,30 @@
       },
       "revId": "04ac31f926242123a23593d7d34d82059e9d83d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bc69dde_c06f2352",
+        "filename": "java/com/google/gerrit/server/change/SetTopicOp.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-08T11:10:49Z",
+      "side": 1,
+      "message": "Hah, I was just going to write that I find this a good idea!",
+      "parentUuid": "45ccb924_93d02f08",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 78,
+        "endChar": 33
+      },
+      "revId": "04ac31f926242123a23593d7d34d82059e9d83d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

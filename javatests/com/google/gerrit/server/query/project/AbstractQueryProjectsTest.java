@@ -194,6 +194,23 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   }
 
   @Test
+  public void byPrefix() throws Exception {
+    assume().that(getSchemaVersion() >= 8).isTrue();
+
+    assertQuery("prefix:project");
+    assertQuery("prefix:non-existing");
+    assertQuery("prefix:All", allProjectsInfo, allUsersInfo);
+    assertQuery("prefix:All-", allProjectsInfo, allUsersInfo);
+
+    ProjectInfo project1 = createProject(name("project-1"));
+    ProjectInfo project2 = createProject(name("project-2"));
+    ProjectInfo testProject = createProject(name("test-project"));
+
+    assertQuery("prefix:project", project1, project2);
+    assertQuery("prefix:test", testProject);
+  }
+
+  @Test
   public void byParent() throws Exception {
     assertQuery("parent:project");
     ProjectInfo parent = createProject(name("parent"));

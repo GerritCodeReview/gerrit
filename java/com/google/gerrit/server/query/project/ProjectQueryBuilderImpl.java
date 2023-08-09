@@ -19,6 +19,7 @@ import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.ProjectState;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.index.project.ProjectField;
 import com.google.gerrit.index.project.ProjectIndex;
@@ -48,6 +49,12 @@ public class ProjectQueryBuilderImpl extends QueryBuilder<ProjectData, ProjectQu
   @Operator
   public Predicate<ProjectData> name(String name) {
     return ProjectPredicates.name(Project.nameKey(name));
+  }
+
+  @Operator
+  public Predicate<ProjectData> prefix(String prefix) throws QueryParseException {
+    checkOperatorAvailable(ProjectField.PREFIX_NAME_SPEC, "prefix");
+    return ProjectPredicates.prefix(prefix);
   }
 
   @Operator
@@ -111,5 +118,18 @@ public class ProjectQueryBuilderImpl extends QueryBuilder<ProjectData, ProjectQu
       throw error("Invalid limit: " + query);
     }
     return new LimitPredicate<>(FIELD_LIMIT, limit);
+  }
+
+  private void checkOperatorAvailable(SchemaField<ProjectData, ?> field, String operator)
+      throws QueryParseException {
+    checkFieldAvailable(
+        field, String.format("'%s' operator is not supported on this gerrit host", operator));
+  }
+
+  private void checkFieldAvailable(SchemaField<ProjectData, ?> field, String errorMessage)
+      throws QueryParseException {
+    if (!index.getSchema().hasField(field)) {
+      throw new QueryParseException(errorMessage);
+    }
   }
 }

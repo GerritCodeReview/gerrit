@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5ea52f8_196f41ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-09T06:11:03Z",
+      "side": 1,
+      "message": "Can you elaborate on how much is this degradation? 10%? 50%? 200%?",
+      "range": {
+        "startLine": 15,
+        "startChar": 27,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "9d65f7cfe5d3675b45e8d3b5a6a4b0fb35218ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6db41aa9_1e7487ad",
@@ -14,6 +37,52 @@
       "writtenOn": "2023-08-08T00:33:11Z",
       "side": 1,
       "message": "```\n$ time bazel build release \u0026\u0026 time bazel test --cache_test_results\u003dno --flaky_test_attempts 3 --test_timeout 3600 --test_tag_filters\u003d-flaky,-elastic //...\n...\n[snip]\n//javatests/com/google/gerrit/util/http:http_tests                       PASSED in 1.2s\n//javatests/com/google/gwtexpui/safehtml:safehtml_tests                  PASSED in 1.1s\n//javatests/org/eclipse/jgit:jgit_patch_tests                            PASSED in 1.0s\n//lib:nongoogle_test                                                     PASSED in 0.3s\n//plugins/hooks:hooks_tests                                              PASSED in 15.7s\n//plugins/replication:replication_it                                     PASSED in 207.0s\n//plugins/replication:replication_tests                                  PASSED in 3.5s\n//plugins/singleusergroup:singleusergroup_tests                          PASSED in 13.7s\n//resources/com/google/gerrit/server:commit-msg_test                     PASSED in 5.4s\n//tools/bzl:always_pass_test                                             PASSED in 0.3s\n\nExecuted 86 out of 86 tests: 86 tests pass.\nINFO: Build completed successfully, 763 total actions\n```",
+      "revId": "9d65f7cfe5d3675b45e8d3b5a6a4b0fb35218ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05e3740e_642bbe9e",
+        "filename": "javatests/com/google/gerrit/server/git/LocalDiskRepositoryManagerTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-09T06:11:03Z",
+      "side": 1,
+      "message": "What is the purpose of this line?",
+      "range": {
+        "startLine": 240,
+        "startChar": 4,
+        "endLine": 240,
+        "endChar": 66
+      },
+      "revId": "9d65f7cfe5d3675b45e8d3b5a6a4b0fb35218ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "176e6bf8_89d3be2d",
+        "filename": "javatests/com/google/gerrit/server/git/LocalDiskRepositoryManagerTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-09T06:11:03Z",
+      "side": 1,
+      "message": "You can just remove one file that makes the directory to be recognised as a Git project (e.g. HEAD)",
+      "range": {
+        "startLine": 242,
+        "startChar": 0,
+        "endLine": 250,
+        "endChar": 46
+      },
       "revId": "9d65f7cfe5d3675b45e8d3b5a6a4b0fb35218ef2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

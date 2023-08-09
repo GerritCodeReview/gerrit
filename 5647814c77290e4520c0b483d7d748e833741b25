@@ -34,6 +34,24 @@
       "parentUuid": "a7c47883_f598c1a4",
       "revId": "5647814c77290e4520c0b483d7d748e833741b25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0d3ef52_0006070f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-09T07:16:00Z",
+      "side": 1,
+      "message": "I\u0027ve uploaded another change that doesn\u0027t touch the old index version, PTAL: https://gerrit-review.googlesource.com/c/gerrit/+/382258",
+      "parentUuid": "f94b86fd_6b2f1805",
+      "revId": "5647814c77290e4520c0b483d7d748e833741b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

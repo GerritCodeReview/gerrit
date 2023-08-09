@@ -22,6 +22,30 @@
       },
       "revId": "e7c978bf323888d9cae865113b7482da84202fe2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1164ee20_4d2ac455",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 958,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-08-09T10:00:58Z",
+      "side": 1,
+      "message": "it\u0027s not public in the sense that nobody else can call it though. they receive the param data and the type, which was made public in Change 381897\n\nThe endpoint \u0026 params can be added [here](https://gerrit-review.googlesource.com/Documentation/pg-plugin-endpoints.html), but I will wait for it to settle. Now that fileRange is added we can remove `path` once the consumer is moved over it.",
+      "parentUuid": "2dab6678_ad9a50ce",
+      "range": {
+        "startLine": 955,
+        "startChar": 15,
+        "endLine": 958,
+        "endChar": 37
+      },
+      "revId": "e7c978bf323888d9cae865113b7482da84202fe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

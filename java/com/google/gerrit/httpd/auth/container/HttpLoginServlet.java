@@ -141,6 +141,8 @@ class HttpLoginServlet extends HttpServlet {
       }
     }
 
+    // TODO Currently here is build the redicrection to the home page when login is successful
+    // TODO here we could add the logic to build the url based on if "redirect" query parameter
     final StringBuilder rdr = new StringBuilder();
     if (arsp.isNew() && authConfig.getRegisterPageUrl() != null) {
       rdr.append(authConfig.getRegisterPageUrl());

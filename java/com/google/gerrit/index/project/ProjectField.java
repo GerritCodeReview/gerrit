@@ -44,6 +44,9 @@ public class ProjectField {
   public static final IndexedField<ProjectData, String>.SearchSpec NAME_SPEC =
       NAME_FIELD.exact("name");
 
+  public static final IndexedField<ProjectData, String>.SearchSpec PREFIX_NAME_SPEC =
+      NAME_FIELD.prefix("name2");
+
   public static final IndexedField<ProjectData, String> DESCRIPTION_FIELD =
       IndexedField.<ProjectData>stringBuilder("Description")
           .stored()

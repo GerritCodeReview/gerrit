@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86777951_672b4ac1",
+        "filename": "polygerrit-ui/app/utils/url-util.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-09T15:15:49Z",
+      "side": 1,
+      "message": "Sorry @brohlfs@google.com and @thomasmulhall410@yahoo.com was quickly reviewing it once more before submitting and realized that I missed the actual logic that the comment points to.",
+      "range": {
+        "startLine": 43,
+        "startChar": 31,
+        "endLine": 43,
+        "endChar": 56
+      },
+      "revId": "f121a8f19748b55a215c7f53b70dd1d80e3bac09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

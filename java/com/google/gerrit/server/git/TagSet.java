@@ -43,6 +43,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.roaringbitmap.RoaringBitmap;
@@ -211,6 +212,7 @@ class TagSet {
 
     try (TagWalk rw = new TagWalk(git)) {
       rw.setRetainBody(false);
+      RevFlag isTag = rw.newFlag("tag");
       for (Ref ref :
           git.getRefDatabase()
               .getRefsByPrefixWithExclusions(RefDatabase.ALL, SKIPPABLE_REF_PREFIXES)) {
@@ -220,9 +222,9 @@ class TagSet {
         } else if (isTag(ref)) {
           // For a tag, remember where it points to.
           try {
-            addTag(rw, git.getRefDatabase().peel(ref));
+            addTag(rw, git.getRefDatabase().peel(ref), isTag);
           } catch (IOException e) {
-            addTag(rw, ref);
+            addTag(rw, ref, isTag);
           }
 
         } else {
@@ -239,9 +241,8 @@ class TagSet {
       while ((c = (TagCommit) rw.next()) != null) {
         RoaringBitmap mine = c.refFlags;
         if (mine != null) {
-          boolean isTag = tags.contains(c);
           boolean canMoveBitmap = false;
-          if (!isTag) {
+          if (!c.has(isTag)) {
             c.refFlags = null;
             canMoveBitmap = true;
           }
@@ -390,7 +391,7 @@ class TagSet {
     }
   }
 
-  private void addTag(TagWalk rw, Ref ref) {
+  private void addTag(TagWalk rw, Ref ref, RevFlag isTag) {
     ObjectId id = ref.getPeeledObjectId();
     if (id == null) {
       id = ref.getObjectId();
@@ -400,6 +401,7 @@ class TagSet {
       RoaringBitmap flags;
       try {
         TagCommit commit = ((TagCommit) rw.parseCommit(id));
+        commit.add(isTag);
         if (commit.refFlags == null) {
           commit.refFlags = new RoaringBitmap();
         }

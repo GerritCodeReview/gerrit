@@ -1450,7 +1450,7 @@ be split up.
 +
 By default 100,000.
 
-[[change.maxFiles]]change.maxFileSizeDownload::
+[[change.maxFileSizeDownload]]change.maxFileSizeDownload::
 +
 The link:rest-api-changes.html#get-content[GetContent] and
 link:rest-api-changes.html#get-safe-content[DownloadContent] REST APIs will

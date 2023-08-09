@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupReference;
@@ -328,6 +329,7 @@ public class ListProjectsImpl extends AbstractListProjects {
     }
   }
 
+  @CanIgnoreReturnValue
   @Nullable
   public SortedMap<String, ProjectInfo> display(@Nullable PrintWriter stdout)
       throws BadRequestException, PermissionBackendException {

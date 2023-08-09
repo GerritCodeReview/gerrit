@@ -94,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d914551_f1c81b0f",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-09T22:57:42Z",
+      "side": 1,
+      "message": "Yeah, concurrency here is probably better unless we find an issue.",
+      "parentUuid": "691e45a2_04aef3c1",
+      "range": {
+        "startLine": 105,
+        "startChar": 23,
+        "endLine": 105,
+        "endChar": 54
+      },
+      "revId": "b302d4efafda3b6f5c0154eff137836ae7e3e160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85beb2d6_ced2e037",

@@ -317,7 +317,9 @@ the parent project.
 The submit section includes configuration of project-specific
 submit settings:
 
-[[content_merge]]submit.mergeContent::
+[[content_merge]]
+
+[[submit.mergeContent]]submit.mergeContent::
 +
 Defines whether Gerrit will try to do a content merge when a path conflict
 occurs while submitting a change.

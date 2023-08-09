@@ -40,11 +40,12 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
-import com.google.inject.util.Providers;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.lib.Repository;
 
 /**
  * Cache based on an index query of the most recent changes. The number of cached items depends on
@@ -54,35 +55,22 @@ import java.util.concurrent.ExecutionException;
  * fraction of all changes. These are the changes that were modified last.
  */
 @Singleton
-public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
+public class SearchingChangeCacheImpl
+    implements ChangesByProjectCache, GitReferenceUpdatedListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static final String ID_CACHE = "changes";
 
   public static class SearchingChangeCacheImplModule extends CacheModule {
-    private final boolean slave;
-
-    public SearchingChangeCacheImplModule() {
-      this(false);
-    }
-
-    public SearchingChangeCacheImplModule(boolean slave) {
-      this.slave = slave;
-    }
-
     @Override
     protected void configure() {
-      if (slave) {
-        bind(SearchingChangeCacheImpl.class).toProvider(Providers.of(null));
-      } else {
-        cache(ID_CACHE, Project.NameKey.class, new TypeLiteral<List<CachedChange>>() {})
-            .maximumWeight(0)
-            .loader(Loader.class);
+      cache(ID_CACHE, Project.NameKey.class, new TypeLiteral<List<CachedChange>>() {})
+          .maximumWeight(0)
+          .loader(Loader.class);
 
-        bind(SearchingChangeCacheImpl.class);
-        DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
-            .to(SearchingChangeCacheImpl.class);
-      }
+      bind(ChangesByProjectCache.class).to(SearchingChangeCacheImpl.class);
+      DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
+          .to(SearchingChangeCacheImpl.class);
     }
   }
 
@@ -116,9 +104,11 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
    * Additional stored fields are not loaded from the index.
    *
    * @param project project to read.
+   * @param repo repository for the project to read.
    * @return list of known changes; empty if no changes.
    */
-  public List<ChangeData> getChangeData(Project.NameKey project) {
+  @Override
+  public Collection<ChangeData> getChangeDatas(Project.NameKey project, Repository unusedrepo) {
     try {
       List<CachedChange> cached = cache.get(project);
       List<ChangeData> cds = new ArrayList<>(cached.size());

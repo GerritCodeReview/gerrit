@@ -16,6 +16,23 @@
       "message": "Documentation update?",
       "revId": "85c417945cb867fd7466d60fa80a0b4a67f5b94e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de08abaa_13e4583a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-09T06:18:49Z",
+      "side": 1,
+      "message": "I believe this new command should be covered by IT-tests.",
+      "revId": "85c417945cb867fd7466d60fa80a0b4a67f5b94e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2dab6678_ad9a50ce",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 958,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-08-09T08:09:13Z",
+      "side": 1,
+      "message": "Should we start documenting the endpoint params somewhere?\n\nI would also like to have a docstring either here, or on a getFileRange() method. It\u0027s a private method that\u0027s now is effectively public",
+      "range": {
+        "startLine": 955,
+        "startChar": 15,
+        "endLine": 958,
+        "endChar": 37
+      },
+      "revId": "e7c978bf323888d9cae865113b7482da84202fe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

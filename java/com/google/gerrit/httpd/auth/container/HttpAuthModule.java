@@ -30,6 +30,7 @@ public class HttpAuthModule extends ServletModule {
     if (authConfig.getLoginUrl() == null) {
       filter("/").through(HttpAuthFilter.class);
     }
+    // TODO /login&final=true&redirect=eclipse =>
     serve("/login", "/login/*").with(HttpLoginServlet.class);
   }
 }

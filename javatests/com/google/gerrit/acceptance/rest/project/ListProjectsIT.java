@@ -43,7 +43,7 @@ import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.project.ProjectCacheImpl;
-import com.google.gerrit.server.restapi.project.ListProjects;
+import com.google.gerrit.server.restapi.project.ListProjectsImpl;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
@@ -59,7 +59,7 @@ import org.junit.Test;
 public class ListProjectsIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
-  @Inject private ListProjects listProjects;
+  @Inject private ListProjectsImpl listProjects;
 
   @Test
   public void listProjects() throws Exception {

@@ -33,6 +33,7 @@ public class ProjectRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
     bind(ProjectsCollection.class);
+    bind(ListProjects.class).to(ListProjectsImpl.class);
     bind(DashboardsCollection.class);
 
     DynamicMap.mapOf(binder(), BRANCH_KIND);

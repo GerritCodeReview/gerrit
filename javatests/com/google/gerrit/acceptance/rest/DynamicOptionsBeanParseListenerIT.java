@@ -21,7 +21,7 @@ import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.DynamicOptions;
-import com.google.gerrit.server.restapi.project.ListProjects;
+import com.google.gerrit.server.restapi.project.ListProjectsImpl;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.AbstractModule;
@@ -48,7 +48,7 @@ public class DynamicOptionsBeanParseListenerIT extends AbstractDaemonTest {
   protected static class ListProjectsBeanListener implements DynamicOptions.BeanParseListener {
     @Override
     public void onBeanParseStart(String plugin, Object bean) {
-      ListProjects listProjects = (ListProjects) bean;
+      ListProjectsImpl listProjects = (ListProjectsImpl) bean;
       listProjects.setLimit(1);
     }
 
@@ -60,7 +60,7 @@ public class DynamicOptionsBeanParseListenerIT extends AbstractDaemonTest {
     @Override
     public void configure() {
       bind(DynamicOptions.DynamicBean.class)
-          .annotatedWith(Exports.named(ListProjects.class))
+          .annotatedWith(Exports.named(ListProjectsImpl.class))
           .to(ListProjectsBeanListener.class);
     }
   }

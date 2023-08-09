@@ -67,11 +67,18 @@ public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectData> {
   // Upgrade Lucene to 8.x requires reindexing.
   @Deprecated static final Schema<ProjectData> V6 = schema(V5);
 
+  @Deprecated
   static final Schema<ProjectData> V7 =
       new Schema.Builder<ProjectData>()
           .add(V6)
           .addIndexedFields(ProjectField.PARENT_NAME_2_FIELD)
           .addSearchSpecs(ProjectField.PARENT_NAME_2_SPEC)
+          .build();
+
+  static final Schema<ProjectData> V8 =
+      new Schema.Builder<ProjectData>()
+          .add(V7)
+          .addSearchSpecs(ProjectField.PREFIX_NAME_SPEC)
           .build();
 
   /**

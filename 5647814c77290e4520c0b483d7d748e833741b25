@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7c47883_f598c1a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-08-09T05:04:28Z",
+      "side": 1,
+      "message": "Given the current situation with non-safe db upgrades, I think we shouldn\u0027t proceed with this at the moment. Is it just a bug fix or do you need it for you other work?\n\nCan we brainstorm alternatives?",
+      "revId": "5647814c77290e4520c0b483d7d748e833741b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

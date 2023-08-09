@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ba8a926_56a04a1e",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-09T20:46:07Z",
+      "side": 1,
+      "message": "nit: we typically omit `\u003d\u003d true` with booleans. And I think we decided previously that it was better to use .equals() with enums even though it\u0027s not required.\n\n```suggestion\n      if (searchingCacheEnabled \u0026\u0026 UseIndex.TRUE.equals(useIndex)) {\n```",
+      "range": {
+        "startLine": 45,
+        "startChar": 10,
+        "endLine": 45,
+        "endChar": 39
+      },
+      "revId": "b302d4efafda3b6f5c0154eff137836ae7e3e160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65d0b2ca_7dc361bf",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-09T20:46:07Z",
+      "side": 1,
+      "message": "```suggestion\n    if (UseIndex.TRUE.equals(useIndex)) {\n```",
+      "range": {
+        "startLine": 94,
+        "startChar": 8,
+        "endLine": 94,
+        "endChar": 33
+      },
+      "revId": "b302d4efafda3b6f5c0154eff137836ae7e3e160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fbf6de9_c8fe6eb9",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-09T20:46:07Z",
+      "side": 1,
+      "message": "Uh, doesn\u0027t this mean other callers will get an empty ProjectChanges? And then they\u0027ll be calling `getUpdatedChangeDatas()` concurrently?\n\nI\u0027m thinking this should probably be using a LoadingCache now and you can implement `reload(K,V)` [1] as your \"updating\" logic. It also probably helps improve some of the obtuse flow in this method because you\u0027re trying to handle both the scanning and updating cases. And it means admins could use refreshAfterWrite() configuration to automatically keep this cache up to date.\n\n[1] https://guava.dev/releases/31.1-jre/api/docs/com/google/common/cache/CacheLoader.html#reload(K,V)",
+      "range": {
+        "startLine": 105,
+        "startChar": 23,
+        "endLine": 105,
+        "endChar": 54
+      },
+      "revId": "b302d4efafda3b6f5c0154eff137836ae7e3e160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85beb2d6_ced2e037",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-09T20:46:07Z",
+      "side": 1,
+      "message": "1) This should come earlier in the file (assuming you keep it public).\n2) Maybe rename to CachedProjectChanges or reduce the visibility (or both)?",
+      "range": {
+        "startLine": 134,
+        "startChar": 2,
+        "endLine": 134,
+        "endChar": 38
+      },
+      "revId": "b302d4efafda3b6f5c0154eff137836ae7e3e160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ded0cfb_6f4030d9",
+        "filename": "java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-09T20:46:07Z",
+      "side": 1,
+      "message": "nit: rename to `unusedRepo` so that errorprone doesn\u0027t flag this",
+      "range": {
+        "startLine": 111,
+        "startChar": 83,
+        "endLine": 111,
+        "endChar": 87
+      },
+      "revId": "b302d4efafda3b6f5c0154eff137836ae7e3e160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

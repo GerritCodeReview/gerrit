@@ -23,6 +23,8 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.SshSession;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
@@ -323,6 +325,33 @@ public class QueryIT extends AbstractDaemonTest {
           executeSuccessfulQuery("status:open " + CheapSource.FIELD + "_myplugin:foo");
       assertThat(changes).hasSize(0);
     }
+  }
+
+  @Test
+  public void allApprovalsAllPatchSetsOptionsWithCopyConditionJSON() throws Exception {
+    // Copy min Code-Review votes
+    try (ProjectConfigUpdate u = updateProject(Project.NameKey.parse("All-Projects"))) {
+      u.getConfig().updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyCondition("is:MIN"));
+      u.save();
+    }
+
+    // Create a change and add Code-Review -2 on first patch-set
+    String changeId = createChange().getChangeId();
+    gApi.changes().id(changeId).current().review(ReviewInput.reject());
+
+    // Create second patch-set
+    amendChange(changeId);
+
+    // Assert that second patch-set has Code-Review -2 vote
+    List<ChangeAttribute> changes =
+        executeSuccessfulQuery("--all-approvals --patch-sets " + changeId);
+    assertThat(changes).hasSize(1);
+    assertThat(changes.get(0).patchSets).hasSize(2);
+    assertThat(changes.get(0).patchSets.get(1).approvals).isNotNull();
+    assertThat(changes.get(0).patchSets.get(1).approvals).hasSize(1);
+    assertThat(changes.get(0).patchSets.get(1).approvals.get(0).type)
+        .isEqualTo(LabelId.CODE_REVIEW);
+    assertThat(changes.get(0).patchSets.get(1).approvals.get(0).value).isEqualTo("-2");
   }
 
   protected static class SamplePluginModule extends AbstractModule {

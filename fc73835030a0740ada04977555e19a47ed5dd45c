@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37dbe512_6272d7e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-10T09:22:53Z",
+      "side": 1,
+      "message": "I prepared a test import of this change which adapts our custom index backends: cl/555414177",
+      "range": {
+        "startLine": 28,
+        "startChar": 29,
+        "endLine": 29,
+        "endChar": 30
+      },
+      "revId": "fc73835030a0740ada04977555e19a47ed5dd45c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

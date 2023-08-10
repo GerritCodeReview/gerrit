@@ -16,6 +16,24 @@
       "message": "It might be nice to introduce a PROPAGATED NONCE here instead of null. It could be used to differnetiate for assertions at some point to ensure that we aren\u0027t assuming this commit hasn\u0027t been initialized yet",
       "revId": "e0d233ba3b3690e783015268062bfc7f3d267f9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06be1faa_36775121",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-08-10T18:28:03Z",
+      "side": 1,
+      "message": "This suggestion isn\u0027t really for this change, just an idea for more improvements.",
+      "parentUuid": "50fe91cb_415b7719",
+      "revId": "e0d233ba3b3690e783015268062bfc7f3d267f9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

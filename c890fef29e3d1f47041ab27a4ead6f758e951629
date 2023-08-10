@@ -39,6 +39,30 @@
       },
       "revId": "c890fef29e3d1f47041ab27a4ead6f758e951629",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d66accbb_aba6aa38",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-10T07:28:54Z",
+      "side": 1,
+      "message": "No longer necessary, this was used on the external index module but not in use any more after https://gerrit-review.googlesource.com/382034",
+      "parentUuid": "f905fc49_7f40b0f3",
+      "range": {
+        "startLine": 439,
+        "startChar": 0,
+        "endLine": 443,
+        "endChar": 40
+      },
+      "revId": "c890fef29e3d1f47041ab27a4ead6f758e951629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

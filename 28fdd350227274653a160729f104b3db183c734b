@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2204702b_2969a1d5",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-10T07:28:54Z",
+      "side": 1,
+      "message": "We could actually throw an exception if the index type is set to custom but no module implementing AbstractIndexModule is provided. In this case the test `com.google.gerrit.acceptance.ssh.CustomIndexIT` need to be amended to use \n\n```\n  @Override\n  public Module createModule() {\n    return FakeIndexModule.latestVersion(false);\n  }\n```",
+      "revId": "28fdd350227274653a160729f104b3db183c734b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

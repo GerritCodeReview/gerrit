@@ -346,6 +346,10 @@ public class ApprovalsUtil {
     return notes.load().getApprovals();
   }
 
+  public ListMultimap<PatchSet.Id, PatchSetApproval> byChangeWithCopied(ChangeNotes notes) {
+    return notes.load().getApprovalsWithCopied();
+  }
+
   public Iterable<PatchSetApproval> byPatchSet(
       ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig) {
     return approvalInference.forPatchSet(notes, psId, rw, repoConfig);

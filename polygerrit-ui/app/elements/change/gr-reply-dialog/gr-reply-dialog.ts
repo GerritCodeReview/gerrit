@@ -1408,7 +1408,10 @@ export class GrReplyDialog extends LitElement {
       reviewInput.remove_from_attention_set
     );
 
-    await this.patchsetLevelGrComment?.save();
+    if (this.patchsetLevelGrComment) {
+      this.patchsetLevelGrComment.pauseAutoSaving = true;
+      this.patchsetLevelGrComment.saveTo(reviewInput);
+    }
 
     assertIsDefined(this.change, 'change');
     reviewInput.reviewers = this.computeReviewers();
@@ -1439,6 +1442,11 @@ export class GrReplyDialog extends LitElement {
       .catch(err => {
         this.disabled = false;
         throw err;
+      })
+      .finally(() => {
+        if (this.patchsetLevelGrComment) {
+          this.patchsetLevelGrComment.pauseAutoSaving = false;
+        }
       });
   }
 

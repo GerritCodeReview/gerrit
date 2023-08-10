@@ -31,6 +31,7 @@ import {
   isError,
   isDraft,
   isNew,
+  ReviewInput,
 } from '../../../types/common';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {
@@ -166,6 +167,10 @@ export class GrComment extends LitElement {
   // editable.
   @property({type: Boolean, attribute: 'permanent-editing-mode'})
   permanentEditingMode = false;
+
+  // Whether to pause autosaving
+  @property({type: Boolean})
+  pauseAutoSaving = false;
 
   @state()
   autoSaving?: Promise<DraftInfo>;
@@ -1149,6 +1154,7 @@ export class GrComment extends LitElement {
   async autoSave() {
     if (isSaving(this.comment) || this.autoSaving) return;
     if (!this.editing || !this.comment) return;
+    if (this.pauseAutoSaving) return;
     assert(isDraft(this.comment), 'only drafts are editable');
     const messageToSave = this.messageText.trimEnd();
     if (messageToSave === '') return;
@@ -1165,6 +1171,25 @@ export class GrComment extends LitElement {
   async discard() {
     this.messageText = '';
     await this.save();
+  }
+
+  saveTo(reviewInput: ReviewInput) {
+    if (!this.comment || !this.comment.path) return;
+    if (this.messageText.trimEnd() === '') return;
+    reviewInput.comments ??= {};
+    reviewInput.comments[this.comment.path] ??= [];
+    reviewInput.comments[this.comment.path].push({
+      id: this.comment.id,
+      path: this.comment.path,
+      side: this.comment.side,
+      line: this.comment.line,
+      range: this.comment.range,
+      in_reply_to: this.comment.in_reply_to,
+      updated: this.comment.updated,
+      message: this.messageText.trimEnd(),
+      tag: this.comment.tag,
+      unresolved: this.unresolved,
+    });
   }
 
   async save() {

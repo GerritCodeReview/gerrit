@@ -308,11 +308,11 @@ export class GrAppElement extends LitElement {
           border-left: 0;
           border-top: 0;
           box-shadow: var(--header-box-shadow);
-          /* Make sure the header is above the main content, to preserve box-shadow
-            visibility. We need 2 here instead of 1, because dropdowns in the
+          /* Make sure the header is above the main content, to preserve
+            box-shadow visibility. We need 111 here 1, because dropdowns in the
             header should be shown on top of the sticky diff header, which has a
-            z-index of 1. */
-          z-index: 2;
+            z-index of 110. */
+          z-index: 111;
         }
         footer {
           background: var(

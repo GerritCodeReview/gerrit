@@ -37,9 +37,13 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.UseClockStep;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Patch;
@@ -112,6 +116,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private AccountOperations accountOperations;
+  @Inject private ChangeOperations changeOperations;
 
   private String changeId;
   private String changeId2;
@@ -265,6 +271,30 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void rebaseEditAfterUpdatingPreferredEmail() throws Exception {
+    String emailOne = "email1@example.com";
+    Account.Id testUser = accountOperations.newAccount().preferredEmail(emailOne).create();
+
+    // Create change to edit
+    Change.Id change = changeOperations.newChange().project(project).owner(testUser).create();
+
+    // Change preferred email for the user
+    String emailTwo = "email2@example.com";
+    accountOperations.account(testUser).forUpdate().preferredEmail(emailTwo).update();
+    requestScopeOperations.setApiUser(testUser);
+
+    // Create edit
+    createEmptyEditFor(project + "~" + change.get());
+    // Add new patch-set to change
+    changeOperations.change(change).newPatchset().create();
+    // Rebase Edit
+    gApi.changes().id(change.get()).edit().rebase();
+
+    EditInfo editInfo = gApi.changes().id(change.get()).edit().get().orElseThrow();
+    assertThat(editInfo.commit.committer.email).isEqualTo(emailTwo);
+  }
+
+  @Test
   public void rebaseEditRest() throws Exception {
     PatchSet previousPatchSet = getCurrentPatchSet(changeId2);
     createEmptyEditFor(changeId2);
@@ -309,6 +339,33 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(getEdit(changeId)).isPresent();
     ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_NEW);
     ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_NEW);
+  }
+
+  @Test
+  public void updateExistingFileAfterUpdatingPreferredEmail() throws Exception {
+    String emailOne = "email1@example.com";
+    Account.Id testUser = accountOperations.newAccount().preferredEmail(emailOne).create();
+
+    // Create change to edit
+    Change.Id change =
+        changeOperations
+            .newChange()
+            .project(project)
+            .file(FILE_NAME)
+            .content("content")
+            .owner(testUser)
+            .create();
+
+    // Change preferred email for the user
+    String emailTwo = "email2@example.com";
+    accountOperations.account(testUser).forUpdate().preferredEmail(emailTwo).update();
+    requestScopeOperations.setApiUser(testUser);
+
+    // Modify file
+    gApi.changes().id(change.get()).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
+
+    EditInfo editInfo = gApi.changes().id(change.get()).edit().get().orElseThrow();
+    assertThat(editInfo.commit.committer.email).isEqualTo(emailTwo);
   }
 
   @Test
@@ -452,6 +509,28 @@ public class ChangeEditIT extends AbstractDaemonTest {
             "Uploaded patch set 1.",
             "Uploaded patch set 2.",
             "Patch Set 3: Commit message was updated."));
+  }
+
+  @Test
+  public void updateMessageAfterUpdatingPreferredEmail() throws Exception {
+    String emailOne = "email1@example.com";
+    Account.Id testUser = accountOperations.newAccount().preferredEmail(emailOne).create();
+
+    // Create change to edit
+    Change.Id change = changeOperations.newChange().project(project).owner(testUser).create();
+
+    // Change preferred email for the user
+    String emailTwo = "email2@example.com";
+    accountOperations.account(testUser).forUpdate().preferredEmail(emailTwo).update();
+    requestScopeOperations.setApiUser(testUser);
+
+    // Update commit message
+    ChangeInfo changeInfo = gApi.changes().id(change.get()).get();
+    String msg = String.format("New commit message\n\nChange-Id: %s\n", changeInfo.changeId);
+    gApi.changes().id(change.get()).edit().modifyCommitMessage(msg);
+
+    EditInfo editInfo = gApi.changes().id(change.get()).edit().get().orElseThrow();
+    assertThat(editInfo.commit.committer.email).isEqualTo(emailTwo);
   }
 
   @Test
@@ -601,11 +680,65 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void deleteExistingFileAfterUpdatingPreferredEmail() throws Exception {
+    String emailOne = "email1@example.com";
+    Account.Id testUser = accountOperations.newAccount().preferredEmail(emailOne).create();
+
+    // Create change to edit
+    Change.Id change =
+        changeOperations
+            .newChange()
+            .project(project)
+            .file(FILE_NAME)
+            .content("content")
+            .owner(testUser)
+            .create();
+
+    // Change preferred email for the user
+    String emailTwo = "email2@example.com";
+    accountOperations.account(testUser).forUpdate().preferredEmail(emailTwo).update();
+    requestScopeOperations.setApiUser(testUser);
+
+    // Delete file
+    gApi.changes().id(change.get()).edit().deleteFile(FILE_NAME);
+
+    EditInfo editInfo = gApi.changes().id(change.get()).edit().get().orElseThrow();
+    assertThat(editInfo.commit.committer.email).isEqualTo(emailTwo);
+  }
+
+  @Test
   public void renameExistingFile() throws Exception {
     createEmptyEditFor(changeId);
     gApi.changes().id(changeId).edit().renameFile(FILE_NAME, FILE_NAME3);
     ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME3), CONTENT_OLD);
     assertThat(getFileContentOfEdit(changeId, FILE_NAME)).isAbsent();
+  }
+
+  @Test
+  public void renameExistingFileAfterUpdatingPreferredEmail() throws Exception {
+    String emailOne = "email1@example.com";
+    Account.Id testUser = accountOperations.newAccount().preferredEmail(emailOne).create();
+
+    // Create change to edit
+    Change.Id change =
+        changeOperations
+            .newChange()
+            .project(project)
+            .file(FILE_NAME)
+            .content("content")
+            .owner(testUser)
+            .create();
+
+    // Change preferred email for the user
+    String emailTwo = "email2@example.com";
+    accountOperations.account(testUser).forUpdate().preferredEmail(emailTwo).update();
+    requestScopeOperations.setApiUser(testUser);
+
+    // Rename file
+    gApi.changes().id(change.get()).edit().renameFile(FILE_NAME, FILE_NAME3);
+
+    EditInfo editInfo = gApi.changes().id(change.get()).edit().get().orElseThrow();
+    assertThat(editInfo.commit.committer.email).isEqualTo(emailTwo);
   }
 
   @Test
@@ -641,6 +774,33 @@ public class ChangeEditIT extends AbstractDaemonTest {
     createEmptyEditFor(changeId2);
     gApi.changes().id(changeId2).edit().restoreFile(FILE_NAME);
     ensureSameBytes(getFileContentOfEdit(changeId2, FILE_NAME), CONTENT_OLD);
+  }
+
+  @Test
+  public void restoreFileAfterUpdatingPreferredEmail() throws Exception {
+    String emailOne = "email1@example.com";
+    Account.Id testUser = accountOperations.newAccount().preferredEmail(emailOne).create();
+
+    // Create change to edit
+    Change.Id change =
+        changeOperations
+            .newChange()
+            .project(project)
+            .file(FILE_NAME)
+            .content("content")
+            .owner(testUser)
+            .create();
+
+    // Change preferred email for the user
+    String emailTwo = "email2@example.com";
+    accountOperations.account(testUser).forUpdate().preferredEmail(emailTwo).update();
+    requestScopeOperations.setApiUser(testUser);
+
+    // Restore file to the state in the parent of change
+    gApi.changes().id(change.get()).edit().restoreFile(FILE_NAME);
+
+    EditInfo editInfo = gApi.changes().id(change.get()).edit().get().orElseThrow();
+    assertThat(editInfo.commit.committer.email).isEqualTo(emailTwo);
   }
 
   @Test

@@ -209,6 +209,76 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void rebaseChainOnBehalfOfUploaderAfterUpdatingPreferredEmailForUploader()
+      throws Exception {
+    // Create a chain of changes for being rebased
+    String uploaderEmailOne = "uploader1@example.com";
+    Account.Id uploader = accountOperations.newAccount().preferredEmail(uploaderEmailOne).create();
+    Change.Id changeToBeRebased1 =
+        changeOperations.newChange().project(project).owner(uploader).create();
+
+    Change.Id changeToBeRebased2 =
+        changeOperations
+            .newChange()
+            .project(project)
+            .childOf()
+            .change(changeToBeRebased1)
+            .owner(uploader)
+            .create();
+
+    Change.Id changeToBeRebased3 =
+        changeOperations
+            .newChange()
+            .project(project)
+            .childOf()
+            .change(changeToBeRebased2)
+            .owner(uploader)
+            .create();
+
+    // Change preferred email for the uploader
+    String uploaderEmailTwo = "uploader2@example.com";
+    accountOperations.account(uploader).forUpdate().preferredEmail(uploaderEmailTwo).update();
+
+    // Create, approve and submit the change that will be the new base for the chain that will be
+    // rebased
+    Change.Id changeToBeTheNewBase = changeOperations.newChange().project(project).create();
+    gApi.changes().id(changeToBeTheNewBase.get()).current().review(ReviewInput.approve());
+    gApi.changes().id(changeToBeTheNewBase.get()).current().submit();
+
+    // Rebase the chain on behalf of the uploader through changeToBeRebased3
+    RebaseInput rebaseInput = new RebaseInput();
+    rebaseInput.onBehalfOfUploader = true;
+    gApi.changes().id(changeToBeRebased3.get()).rebaseChain(rebaseInput);
+    assertThat(
+            gApi.changes()
+                .id(changeToBeRebased1.get())
+                .get()
+                .getCurrentRevision()
+                .commit
+                .committer
+                .email)
+        .isEqualTo(uploaderEmailTwo);
+    assertThat(
+            gApi.changes()
+                .id(changeToBeRebased2.get())
+                .get()
+                .getCurrentRevision()
+                .commit
+                .committer
+                .email)
+        .isEqualTo(uploaderEmailTwo);
+    assertThat(
+            gApi.changes()
+                .id(changeToBeRebased3.get())
+                .get()
+                .getCurrentRevision()
+                .commit
+                .committer
+                .email)
+        .isEqualTo(uploaderEmailTwo);
+  }
+
+  @Test
   public void rebaseChainOnBehalfOfUploaderMultipleTimesInARow() throws Exception {
     allowPermissionToAllUsers(Permission.REBASE);
 

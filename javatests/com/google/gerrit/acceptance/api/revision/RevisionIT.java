@@ -49,6 +49,8 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Account;
@@ -133,6 +135,8 @@ public class RevisionIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private AccountOperations accountOperations;
+  @Inject private ChangeOperations changeOperations;
 
   @Test
   public void reviewTriplet() throws Exception {
@@ -348,6 +352,40 @@ public class RevisionIT extends AbstractDaemonTest {
 
     cherry.current().review(ReviewInput.approve());
     cherry.current().submit();
+  }
+
+  @Test
+  public void cherryPickAfterUpdatingPreferredEmail() throws Exception {
+    String emailOne = "email1@example.com";
+    Account.Id testUser = accountOperations.newAccount().preferredEmail(emailOne).create();
+
+    // Create target branch to cherry-pick to
+    String branch = "foo";
+    gApi.projects().name(project.get()).branch(branch).create(new BranchInput());
+
+    // Create change to cherry-pick
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .project(project)
+            .file("file")
+            .content("content")
+            .owner(testUser)
+            .create();
+
+    // Change preferred email for the user
+    String emailTwo = "email2@example.com";
+    accountOperations.account(testUser).forUpdate().preferredEmail(emailTwo).update();
+    requestScopeOperations.setApiUser(testUser);
+
+    // Cherry-pick the change
+    String commit = gApi.changes().id(changeId.get()).get().getCurrentRevision().commit.commit;
+    CherryPickInput input = new CherryPickInput();
+    input.destination = branch;
+    input.message = "cherry-pick to foo branch";
+    ChangeInfo changeInfo =
+        gApi.changes().id(changeId.get()).revision(commit).cherryPick(input).get();
+    assertThat(changeInfo.getCurrentRevision().commit.committer.email).isEqualTo(emailTwo);
   }
 
   @Test

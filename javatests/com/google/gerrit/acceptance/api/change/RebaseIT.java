@@ -36,10 +36,12 @@ import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestMetricMaker;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
@@ -97,6 +99,7 @@ public class RebaseIT {
     @Inject protected ProjectOperations projectOperations;
     @Inject protected ExtensionRegistry extensionRegistry;
     @Inject protected TestMetricMaker testMetricMaker;
+    @Inject protected AccountOperations accountOperations;
 
     @FunctionalInterface
     protected interface RebaseCall {
@@ -211,6 +214,30 @@ public class RebaseIT {
               ResourceConflictException.class,
               () -> rebaseCallWithInput.call(r1.getChangeId(), ri));
       assertThat(thrown).hasMessageThat().contains(expectedMessage);
+    }
+
+    @Test
+    public void rebaseChangeAfterUpdatingPreferredEmail() throws Exception {
+      String emailOne = "email1@example.com";
+      Account.Id testUser = accountOperations.newAccount().preferredEmail(emailOne).create();
+
+      // Create two changes both with the same parent
+      Change.Id c1 = changeOperations.newChange().project(project).owner(testUser).create();
+      Change.Id c2 = changeOperations.newChange().project(project).owner(testUser).create();
+
+      // Approve and submit the first change
+      gApi.changes().id(c1.get()).current().review(ReviewInput.approve());
+      gApi.changes().id(c1.get()).current().submit();
+
+      // Change preferred email for the user
+      String emailTwo = "email2@example.com";
+      accountOperations.account(testUser).forUpdate().preferredEmail(emailTwo).update();
+      requestScopeOperations.setApiUser(testUser);
+
+      // Rebase the second change
+      gApi.changes().id(c2.get()).rebase();
+      assertThat(gApi.changes().id(c2.get()).get().getCurrentRevision().commit.committer.email)
+          .isEqualTo(emailTwo);
     }
 
     @Test

@@ -25,7 +25,12 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
@@ -52,6 +57,9 @@ import org.junit.Test;
 
 public class ApplyProvidedFixIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
+  @Inject private AccountOperations accountOperations;
+  @Inject private ChangeOperations changeOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   private static final String FILE_NAME = "file_to_fix.txt";
   private static final String FILE_NAME2 = "another_file_to_fix.txt";
@@ -92,6 +100,35 @@ public class ApplyProvidedFixIT extends AbstractDaemonTest {
         .isEqualTo(
             "First line\nSecond line\nTModified contentrd line\nFourth line\nFifth line\n"
                 + "Sixth line\nSeventh line\nEighth line\nNinth line\nTenth line\n");
+  }
+
+  @Test
+  public void applyProvidedFixAfterUpdatingPreferredEmail() throws Exception {
+    String emailOne = "email1@example.com";
+    Account.Id testUser = accountOperations.newAccount().preferredEmail(emailOne).create();
+
+    // Create change
+    Change.Id change =
+        changeOperations
+            .newChange()
+            .project(project)
+            .file(FILE_NAME)
+            .content(FILE_CONTENT)
+            .owner(testUser)
+            .create();
+
+    // Change preferred email for the user
+    String emailTwo = "email2@example.com";
+    accountOperations.account(testUser).forUpdate().preferredEmail(emailTwo).update();
+    requestScopeOperations.setApiUser(testUser);
+
+    // Apply fix
+    ApplyProvidedFixInput applyProvidedFixInput =
+        createApplyProvidedFixInput(FILE_NAME, "Modified content", 3, 1, 3, 3);
+    gApi.changes().id(change.get()).current().applyFix(applyProvidedFixInput);
+
+    EditInfo editInfo = gApi.changes().id(change.get()).edit().get().orElseThrow();
+    assertThat(editInfo.commit.committer.email).isEqualTo(emailTwo);
   }
 
   @Test

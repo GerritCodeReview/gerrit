@@ -1,6 +1,75 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc183b2a_cdf2a201",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-10T04:53:39Z",
+      "side": 1,
+      "message": "This is hard to understand. Maybe: `Prefer creating new patch sets with previous patch set\u0027s committer email` ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 71
+      },
+      "revId": "ef53c96a7af93a3d4193296bdd1a43b0336dc9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab1369bc_cf086631",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-10T04:53:39Z",
+      "side": 1,
+      "message": "nit: These lines don\u0027t have the closing `\u0027`",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 47
+      },
+      "revId": "ef53c96a7af93a3d4193296bdd1a43b0336dc9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e80d551_c0a3a19f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-10T04:53:39Z",
+      "side": 1,
+      "message": "I would align this with my recommended subject:\n\n```\nRelease-Notes: New patch sets will prefer the previous patch set\u0027s committer email\n```",
+      "range": {
+        "startLine": 35,
+        "startChar": 15,
+        "endLine": 35,
+        "endChar": 86
+      },
+      "revId": "ef53c96a7af93a3d4193296bdd1a43b0336dc9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a66f92af_68a1878b",
@@ -14,6 +83,52 @@
       "writtenOn": "2023-08-07T06:18:47Z",
       "side": 1,
       "message": "Sorry, I have no time to review this.",
+      "revId": "ef53c96a7af93a3d4193296bdd1a43b0336dc9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efb12a8e_4c7b26c3",
+        "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-10T04:53:39Z",
+      "side": 1,
+      "message": "Please re-order the protected methods below the public ones. See https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#code-organization",
+      "range": {
+        "startLine": 469,
+        "startChar": 2,
+        "endLine": 469,
+        "endChar": 11
+      },
+      "revId": "ef53c96a7af93a3d4193296bdd1a43b0336dc9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e23de78d_30b1ee72",
+        "filename": "java/com/google/gerrit/server/update/Context.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-10T04:53:39Z",
+      "side": 1,
+      "message": "Is there a test that covers this case?",
+      "range": {
+        "startLine": 170,
+        "startChar": 55,
+        "endLine": 170,
+        "endChar": 92
+      },
       "revId": "ef53c96a7af93a3d4193296bdd1a43b0336dc9bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

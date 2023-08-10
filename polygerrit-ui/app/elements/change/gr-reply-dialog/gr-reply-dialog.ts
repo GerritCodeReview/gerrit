@@ -1408,7 +1408,16 @@ export class GrReplyDialog extends LitElement {
       reviewInput.remove_from_attention_set
     );
 
-    await this.patchsetLevelGrComment?.save();
+    if (this.patchsetLevelGrComment) {
+      this.patchsetLevelGrComment.pauseAutoSaving = true;
+      await this.patchsetLevelGrComment.waitForInflightAutoSave();
+      const comment = this.patchsetLevelGrComment.convertToCommentInput();
+      if (comment && comment.path && comment.message) {
+        reviewInput.comments ??= {};
+        reviewInput.comments[comment.path] ??= [];
+        reviewInput.comments[comment.path].push(comment);
+      }
+    }
 
     assertIsDefined(this.change, 'change');
     reviewInput.reviewers = this.computeReviewers();
@@ -1439,6 +1448,11 @@ export class GrReplyDialog extends LitElement {
       .catch(err => {
         this.disabled = false;
         throw err;
+      })
+      .finally(() => {
+        if (this.patchsetLevelGrComment) {
+          this.patchsetLevelGrComment.pauseAutoSaving = false;
+        }
       });
   }
 
@@ -1925,7 +1939,7 @@ export class GrReplyDialog extends LitElement {
     this.reviewerPendingConfirmation = e.detail.value;
   }
 
-  handleCcsConfirmationChanged(
+  handleCcsConfirmationChanged( 
     e: ValueChangedEvent<SuggestedReviewerGroupInfo | null>
   ) {
     this.ccPendingConfirmation = e.detail.value;

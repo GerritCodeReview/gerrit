@@ -27,7 +27,7 @@ import com.google.gerrit.extensions.restapi.RestApiModule;
 public class AccountRestApiModule extends RestApiModule {
   @Override
   protected void configure() {
-    bind(AccountsCollection.class);
+    bind(AccountsCollection.class).to(AccountsCollectionImpl.class);
     bind(Capabilities.class);
     bind(StarredChanges.Create.class);
 

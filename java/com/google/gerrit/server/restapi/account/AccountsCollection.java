@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2023 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,52 +21,19 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
 import com.google.gerrit.server.account.AccountResource;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
-@Singleton
-public class AccountsCollection implements RestCollection<TopLevelResource, AccountResource> {
-  private final AccountResolver accountResolver;
-  private final Provider<QueryAccounts> list;
-  private final DynamicMap<RestView<AccountResource>> views;
-
-  @Inject
-  public AccountsCollection(
-      AccountResolver accountResolver,
-      Provider<QueryAccounts> list,
-      DynamicMap<RestView<AccountResource>> views) {
-    this.accountResolver = accountResolver;
-    this.list = list;
-    this.views = views;
-  }
+/** A generic interface for parsing account IDs from URL resources. */
+public interface AccountsCollection extends RestCollection<TopLevelResource, AccountResource> {
+  @Override
+  AccountResource parse(TopLevelResource root, IdString id)
+      throws ResourceNotFoundException, AuthException, IOException, ConfigInvalidException;
 
   @Override
-  public AccountResource parse(TopLevelResource root, IdString id)
-      throws ResourceNotFoundException, AuthException, IOException, ConfigInvalidException {
-    try {
-      return new AccountResource(accountResolver.resolve(id.get()).asUniqueUser());
-    } catch (UnresolvableAccountException e) {
-      if (e.isSelf()) {
-        // Must be authenticated to use 'me' or 'self'.
-        throw new AuthException(e.getMessage(), e);
-      }
-      throw new ResourceNotFoundException(e.getMessage(), e);
-    }
-  }
+  RestView<TopLevelResource> list() throws ResourceNotFoundException;
 
   @Override
-  public RestView<TopLevelResource> list() throws ResourceNotFoundException {
-    return list.get();
-  }
-
-  @Override
-  public DynamicMap<RestView<AccountResource>> views() {
-    return views;
-  }
+  DynamicMap<RestView<AccountResource>> views();
 }

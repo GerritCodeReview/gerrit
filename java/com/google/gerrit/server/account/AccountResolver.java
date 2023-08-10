@@ -27,6 +27,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
+import com.google.gerrit.common.UsedAt;
+import com.google.gerrit.common.UsedAt.Project;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.index.Schema;
@@ -585,6 +587,13 @@ public class AccountResolver {
           .addAll(nameOrEmailSearchers)
           .build();
 
+  private final ImmutableList<Searcher<?>> exactSearchers =
+      ImmutableList.<Searcher<?>>builder()
+          .add(new BySelf())
+          .add(new ByExactAccountId())
+          .add(new ByEmail())
+          .build();
+
   private final AccountCache accountCache;
   private final AccountControl.Factory accountControlFactory;
   private final Emails emails;
@@ -648,6 +657,17 @@ public class AccountResolver {
   public Result resolve(String input) throws ConfigInvalidException, IOException {
     return searchImpl(
         input, searchers, self.get(), this::currentUserCanSeePredicate, AccountResolver::isActive);
+  }
+
+  /** Resolves accounts using exact searchers. Similar to the previous method. */
+  @UsedAt(Project.GOOGLE)
+  public Result resolveExact(String input) throws ConfigInvalidException, IOException {
+    return searchImpl(
+        input,
+        exactSearchers,
+        self.get(),
+        this::currentUserCanSeePredicate,
+        AccountResolver::isActive);
   }
 
   public Result resolve(String input, Predicate<AccountState> accountActivityPredicate)

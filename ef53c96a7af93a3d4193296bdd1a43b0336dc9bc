@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0dfe1ec_be953e0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-08-10T08:24:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc183b2a_cdf2a201",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 71
+      },
+      "revId": "ef53c96a7af93a3d4193296bdd1a43b0336dc9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab1369bc_cf086631",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b250e62d_af120ab7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-08-10T08:24:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab1369bc_cf086631",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 47
+      },
+      "revId": "ef53c96a7af93a3d4193296bdd1a43b0336dc9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e80d551_c0a3a19f",
@@ -77,6 +125,30 @@
       "writtenOn": "2023-08-10T04:53:39Z",
       "side": 1,
       "message": "I would align this with my recommended subject:\n\n```\nRelease-Notes: New patch sets will prefer the previous patch set\u0027s committer email\n```",
+      "range": {
+        "startLine": 35,
+        "startChar": 15,
+        "endLine": 35,
+        "endChar": 86
+      },
+      "revId": "ef53c96a7af93a3d4193296bdd1a43b0336dc9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24901ed3_1a4a3dd5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-08-10T08:24:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e80d551_c0a3a19f",
       "range": {
         "startLine": 35,
         "startChar": 15,
@@ -127,6 +199,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "349a3fec_a86110b6",
+        "filename": "java/com/google/gerrit/server/IdentifiedUser.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-08-10T08:24:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efb12a8e_4c7b26c3",
+      "range": {
+        "startLine": 469,
+        "startChar": 2,
+        "endLine": 469,
+        "endChar": 11
+      },
+      "revId": "ef53c96a7af93a3d4193296bdd1a43b0336dc9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e23de78d_30b1ee72",
@@ -140,6 +236,30 @@
       "writtenOn": "2023-08-10T04:53:39Z",
       "side": 1,
       "message": "Is there a test that covers this case?",
+      "range": {
+        "startLine": 170,
+        "startChar": 55,
+        "endLine": 170,
+        "endChar": 92
+      },
+      "revId": "ef53c96a7af93a3d4193296bdd1a43b0336dc9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f41c9d1a_3064b396",
+        "filename": "java/com/google/gerrit/server/update/Context.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-08-10T08:24:23Z",
+      "side": 1,
+      "message": "Rebase and Submit APIs internally uses this method, so the tests for them should cover this as well.",
+      "parentUuid": "e23de78d_30b1ee72",
       "range": {
         "startLine": 170,
         "startChar": 55,

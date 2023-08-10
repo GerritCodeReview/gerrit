@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a57b664a_59cd5b7f",
+        "filename": "java/com/google/gerrit/server/restapi/group/CreateNamedDestinationChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-08-10T05:27:41Z",
+      "side": 1,
+      "message": "nit: variables should be declared close to their usage",
+      "range": {
+        "startLine": 103,
+        "startChar": 13,
+        "endLine": 103,
+        "endChar": 26
+      },
+      "revId": "a9f2ce3d65028cc5f80d5546ff6dbed876255f75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0c8a99a8_fa762169",
         "filename": "javatests/com/google/gerrit/server/account/DestinationListTest.java",
         "patchSetId": 3

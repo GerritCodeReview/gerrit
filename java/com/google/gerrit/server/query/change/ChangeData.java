@@ -321,6 +321,8 @@ public class ChangeData {
   private PatchSet currentPatchSet;
   private Collection<PatchSet> patchSets;
   private ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals;
+
+  private ListMultimap<PatchSet.Id, PatchSetApproval> allApprovalsWithCopied;
   private List<PatchSetApproval> currentApprovals;
   private List<String> currentFiles;
   private Optional<DiffSummary> diffSummary;
@@ -773,6 +775,16 @@ public class ChangeData {
       allApprovals = approvalsUtil.byChange(notes());
     }
     return allApprovals;
+  }
+
+  public ListMultimap<PatchSet.Id, PatchSetApproval> approvalsWithCopiedNoLazy() {
+    if (allApprovalsWithCopied == null) {
+      if (!lazyload()) {
+        return ImmutableListMultimap.of();
+      }
+      allApprovalsWithCopied = approvalsUtil.byChangeWithCopied(notes());
+    }
+    return allApprovalsWithCopied;
   }
 
   /* @return legacy submit ('SUBM') approval label */

@@ -75,8 +75,7 @@ public class SetTopicOp implements BatchUpdateOp {
     }
     change.setTopic(Strings.emptyToNull(newTopicName));
     try {
-      topicValidator.validateSize(change.getTopic());
-      update.setTopic(change.getTopic());
+      update.setTopic(change.getTopic(), topicValidator);
     } catch (ValidationException ex) {
       throw new BadRequestException(ex.getMessage());
     }

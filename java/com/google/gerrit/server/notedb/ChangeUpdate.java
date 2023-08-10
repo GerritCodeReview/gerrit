@@ -81,6 +81,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.approval.PatchSetApprovalUuidGenerator;
+import com.google.gerrit.server.git.validators.TopicValidator;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.AttentionSetUtil;
@@ -446,8 +447,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
   }
 
-  public void setTopic(String topic) throws ValidationException {
-
+  public void setTopic(String topic, TopicValidator validator) throws ValidationException {
+    validator.validateSize(topic);
     if (isIllegalTopic(topic)) {
       throw new ValidationException("topic can't contain quotation marks.");
     }

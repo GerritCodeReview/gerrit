@@ -311,8 +311,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     if (topic != null) {
       change.setTopic(topic);
       try {
-        topicValidator.validateSize(topic);
-        update.setTopic(topic);
+        update.setTopic(topic, topicValidator);
       } catch (ValidationException ex) {
         throw new BadRequestException(ex.getMessage());
       }

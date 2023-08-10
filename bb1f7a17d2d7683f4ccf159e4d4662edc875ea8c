@@ -16,6 +16,24 @@
       "message": "Use has(isTag) here also? I guess that would require parsing the commit first, which would be cached, but with all the error handling.",
       "revId": "bb1f7a17d2d7683f4ccf159e4d4662edc875ea8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "497afd99_7e330e9e",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 400,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-10T19:55:15Z",
+      "side": 1,
+      "message": "I\u0027ll keep this in mind for future cleanups, but it\u0027s a little bigger than I want for this change.",
+      "parentUuid": "0640d09d_b1b47277",
+      "revId": "bb1f7a17d2d7683f4ccf159e4d4662edc875ea8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

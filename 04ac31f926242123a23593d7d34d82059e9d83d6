@@ -70,6 +70,30 @@
       },
       "revId": "04ac31f926242123a23593d7d34d82059e9d83d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7617889a_e10b85f2",
+        "filename": "java/com/google/gerrit/server/change/SetTopicOp.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-10T10:38:56Z",
+      "side": 1,
+      "message": "Sent https://gerrit-review.git.corp.google.com/c/gerrit/+/382414: Move topic validation into ChangeUpdate",
+      "parentUuid": "6bc69dde_c06f2352",
+      "range": {
+        "startLine": 78,
+        "startChar": 6,
+        "endLine": 78,
+        "endChar": 33
+      },
+      "revId": "04ac31f926242123a23593d7d34d82059e9d83d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -31,9 +31,11 @@ import {
   isError,
   isDraft,
   isNew,
+  CommentInput,
 } from '../../../types/common';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {
+  convertToCommentInput,
   createUserFixSuggestion,
   getContentInCommentRange,
   getUserSuggestion,
@@ -166,6 +168,10 @@ export class GrComment extends LitElement {
   // editable.
   @property({type: Boolean, attribute: 'permanent-editing-mode'})
   permanentEditingMode = false;
+
+  // Whether to disable autosaving
+  @property({type: Boolean})
+  disableAutoSaving = false;
 
   @state()
   autoSaving?: Promise<DraftInfo>;
@@ -1149,6 +1155,7 @@ export class GrComment extends LitElement {
   async autoSave() {
     if (isSaving(this.comment) || this.autoSaving) return;
     if (!this.editing || !this.comment) return;
+    if (this.disableAutoSaving) return;
     assert(isDraft(this.comment), 'only drafts are editable');
     const messageToSave = this.messageText.trimEnd();
     if (messageToSave === '') return;
@@ -1165,6 +1172,15 @@ export class GrComment extends LitElement {
   async discard() {
     this.messageText = '';
     await this.save();
+  }
+
+  convertToCommentInput(): CommentInput | undefined {
+    if (!this.somethingToSave() || !this.comment) return;
+    return convertToCommentInput({
+      ...this.comment,
+      message: this.messageText.trimEnd(),
+      unresolved: this.unresolved,
+    });
   }
 
   async save() {

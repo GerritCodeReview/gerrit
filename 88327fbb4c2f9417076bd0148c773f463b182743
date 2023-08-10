@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7008f9f2_79fca4ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-10T13:47:26Z",
+      "side": 1,
+      "message": "You\u0027ll want to add a `Release-Notes: skip` footer.",
+      "revId": "88327fbb4c2f9417076bd0148c773f463b182743",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

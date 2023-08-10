@@ -268,6 +268,30 @@
       },
       "revId": "ef53c96a7af93a3d4193296bdd1a43b0336dc9bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ab5e79d_2bc6f90b",
+        "filename": "java/com/google/gerrit/server/update/Context.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-10T19:59:28Z",
+      "side": 1,
+      "message": "But do their tests cover the case where the committer email is not an email the user is allowed to use?",
+      "parentUuid": "f41c9d1a_3064b396",
+      "range": {
+        "startLine": 170,
+        "startChar": 55,
+        "endLine": 170,
+        "endChar": 92
+      },
+      "revId": "ef53c96a7af93a3d4193296bdd1a43b0336dc9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -2490,6 +2490,7 @@ suite('gr-reply-dialog tests', () => {
       await waitUntil(
         () => element.patchsetLevelDraftMessage === 'hello world'
       );
+      await element.updateComplete;
 
       const saveReviewPromise = interceptSaveReview();
 
@@ -2499,7 +2500,7 @@ suite('gr-reply-dialog tests', () => {
 
       const review = await saveReviewPromise;
 
-      assert.deepEqual(autoSaveStub.callCount, 1);
+      assert.deepEqual(autoSaveStub.callCount, 0);
 
       assert.deepEqual(review, {
         drafts: DraftsAction.PUBLISH_ALL_REVISIONS,
@@ -2514,6 +2515,65 @@ suite('gr-reply-dialog tests', () => {
             user: 999 as UserId,
           },
         ],
+        comments: {
+          '/PATCHSET_LEVEL': [
+            {
+              message: 'hello world',
+              path: '/PATCHSET_LEVEL',
+              unresolved: false,
+            },
+          ],
+        },
+        remove_from_attention_set: [],
+        ignore_automatic_attention_set_rules: true,
+      });
+    });
+
+    test('sending waits for inflight autosave', async () => {
+      const patchsetLevelComment = queryAndAssert<GrComment>(
+        element,
+        '#patchsetLevelComment'
+      );
+
+      const waitForAutoSaveStub = sinon
+        .stub(patchsetLevelComment, 'waitForInflightAutoSave')
+        .returns(Promise.resolve());
+
+      patchsetLevelComment.messageText = 'hello world';
+      await waitUntil(
+        () => element.patchsetLevelDraftMessage === 'hello world'
+      );
+      await element.updateComplete;
+
+      const saveReviewPromise = interceptSaveReview();
+
+      queryAndAssert<GrButton>(element, '.send').click();
+
+      const review = await saveReviewPromise;
+      assert.deepEqual(waitForAutoSaveStub.callCount, 1);
+
+      assert.deepEqual(review, {
+        drafts: DraftsAction.PUBLISH_ALL_REVISIONS,
+        labels: {
+          'Code-Review': 0,
+          Verified: 0,
+        },
+        reviewers: [],
+        add_to_attention_set: [
+          {
+            reason: '<GERRIT_ACCOUNT_1> replied on the change',
+            user: 999 as UserId,
+          },
+        ],
+        comments: {
+          '/PATCHSET_LEVEL': [
+            {
+              message: 'hello world',
+              path: '/PATCHSET_LEVEL',
+              unresolved: false,
+            },
+          ],
+        },
         remove_from_attention_set: [],
         ignore_automatic_attention_set_rules: true,
       });

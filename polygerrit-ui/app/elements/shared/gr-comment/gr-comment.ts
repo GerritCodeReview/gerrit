@@ -31,6 +31,7 @@ import {
   isError,
   isDraft,
   isNew,
+  CommentInput,
 } from '../../../types/common';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {
@@ -166,6 +167,10 @@ export class GrComment extends LitElement {
   // editable.
   @property({type: Boolean, attribute: 'permanent-editing-mode'})
   permanentEditingMode = false;
+
+  // Whether to pause autosaving
+  @property({type: Boolean})
+  pauseAutoSaving = false;
 
   @state()
   autoSaving?: Promise<DraftInfo>;
@@ -1149,6 +1154,7 @@ export class GrComment extends LitElement {
   async autoSave() {
     if (isSaving(this.comment) || this.autoSaving) return;
     if (!this.editing || !this.comment) return;
+    if (this.pauseAutoSaving) return;
     assert(isDraft(this.comment), 'only drafts are editable');
     const messageToSave = this.messageText.trimEnd();
     if (messageToSave === '') return;
@@ -1165,6 +1171,48 @@ export class GrComment extends LitElement {
   async discard() {
     this.messageText = '';
     await this.save();
+  }
+
+  async waitForInflightAutoSave(): Promise<void> {
+    if (this.autoSaving) {
+      this.comment = await this.autoSaving;
+    }
+  }
+
+  convertToCommentInput(): CommentInput | undefined {
+    // If auto-saving had already started, wait for it to finish.
+
+    if (!this.comment) return;
+    const comment: CommentInput = {
+      message: this.messageText.trimEnd(),
+      unresolved: this.unresolved,
+    };
+
+    if (this.comment.id) {
+      comment.id = this.comment.id;
+    }
+    if (this.comment.path) {
+      comment.path = this.comment.path;
+    }
+    if (this.comment.side) {
+      comment.side = this.comment.side;
+    }
+    if (this.comment.line) {
+      comment.line = this.comment.line;
+    }
+    if (this.comment.range) {
+      comment.range = this.comment.range;
+    }
+    if (this.comment.in_reply_to) {
+      comment.in_reply_to = this.comment.in_reply_to;
+    }
+    if (this.comment.updated) {
+      comment.updated = this.comment.updated;
+    }
+    if (this.comment.tag) {
+      comment.tag = this.comment.tag;
+    }
+    return comment;
   }
 
   async save() {

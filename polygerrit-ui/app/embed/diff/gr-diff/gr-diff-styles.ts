@@ -661,7 +661,7 @@ export const grDiffStyles = css`
   gr-selection-action-box {
     /* Needs z-index to appear above wrapped content, since it's inserted
        into DOM before it. */
-    z-index: 10;
+    z-index: 120;
   }
 
   gr-diff-image-new,

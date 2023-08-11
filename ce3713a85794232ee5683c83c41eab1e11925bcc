@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8137300d_ab1bc64b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-11T05:32:55Z",
+      "side": 1,
+      "message": "LGTM but I\u0027m BED - will let @Paladox to approve it ;)",
+      "revId": "ce3713a85794232ee5683c83c41eab1e11925bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7b17615_bb2488eb",
+        "filename": "polygerrit-ui/app/utils/url-util_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-11T05:32:55Z",
+      "side": 1,
+      "message": "nit: how about empty lines between tests? otherwise it looks like a single test IOW is less readable and AFAICT the other sites are following it ;)",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 7
+      },
+      "revId": "ce3713a85794232ee5683c83c41eab1e11925bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

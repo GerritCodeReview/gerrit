@@ -215,6 +215,17 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
 
     assertQuery("prefix:project", project1, project2);
     assertQuery("prefix:test", testProject);
+    assertQuery("prefix:TEST");
+  }
+
+  @Test
+  public void byPrefixWithOtherCase() throws Exception {
+    assume().that(getSchemaVersion() >= 8).isTrue();
+
+    assertQuery("prefix:all");
+
+    createProject(name("test-project"));
+    assertQuery("prefix:TEST");
   }
 
   @Test

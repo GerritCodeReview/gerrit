@@ -4,28 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export enum LifeCycle {
-  PLUGIN_LIFE_CYCLE = 'Plugin life cycle',
-  STARTED_AS_USER = 'Started as user',
-  STARTED_AS_GUEST = 'Started as guest',
   VISIBILILITY_HIDDEN = 'Visibility changed to hidden',
-  VISIBILILITY_VISIBLE = 'Visibility changed to visible',
-  FOCUS = 'Focus changed',
-  EXTENSION_DETECTED = 'Extension detected',
-  PLUGINS_INSTALLED = 'Plugins installed',
-  PLUGINS_FAILED = 'Some plugins failed to load',
-  USER_REFERRED_FROM = 'User referred from',
   NOTIFICATION_PERMISSION = 'Notification Permission',
   SERVICE_WORKER_UPDATE = 'Service worker update',
 }
 
 export enum Execution {
-  PLUGIN_API = 'plugin-api',
-  REACHABLE_CODE = 'reachable code',
-  METHOD_USED = 'method used',
-  CHECKS_API_NOT_LOGGED_IN = 'checks-api not-logged-in',
-  CHECKS_API_ERROR = 'checks-api error',
-  USER_PREFERENCES_COLUMNS = 'user-preferences-columns',
   PREFER_MERGE_FIRST_PARENT = 'prefer-merge-first-parent',
 }
 

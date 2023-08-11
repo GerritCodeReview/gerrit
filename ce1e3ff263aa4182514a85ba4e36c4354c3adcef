@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b4788a4_ea2bbb22",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 8309,
+      "author": {
+        "id": 1156100
+      },
+      "writtenOn": "2023-08-11T13:06:23Z",
+      "side": 1,
+      "message": "We have 5 cases: this can be a ref, a SHA-1, a change number, the empty string, null/omitted.\n\nIs the null/omitted the only case that retains the structure of the chain?\n\nOr is the empty string the only case that breaks dependency towards a parent change?",
+      "range": {
+        "startLine": 8309,
+        "startChar": 16,
+        "endLine": 8309,
+        "endChar": 23
+      },
+      "revId": "ce1e3ff263aa4182514a85ba4e36c4354c3adcef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

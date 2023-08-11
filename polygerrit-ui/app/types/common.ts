@@ -121,7 +121,7 @@ import {
   CommentRange,
 } from '../api/rest-api';
 import {DiffInfo, IgnoreWhitespaceType} from './diff';
-import {LineNumber} from '../api/diff';
+import {PatchRange, LineNumber} from '../api/diff';
 
 export type {
   AccountId,
@@ -184,6 +184,7 @@ export type {
   MaxObjectSizeLimitInfo,
   NumericChangeId,
   ParentCommitInfo,
+  PatchRange,
   PatchSetNum,
   PatchSetNumber,
   PluginConfigInfo,
@@ -1102,15 +1103,6 @@ export interface CustomKeyedValuesInput {
 export interface HashtagsInput {
   add?: Hashtag[];
   remove?: Hashtag[];
-}
-
-/**
- * Defines a patch ranges. Used as input for gr-rest-api methods,
- * doesn't exist in Rest API
- */
-export interface PatchRange {
-  patchNum: RevisionPatchSetNum;
-  basePatchNum: BasePatchSetNum;
 }
 
 /**

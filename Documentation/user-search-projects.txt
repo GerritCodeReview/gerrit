@@ -15,7 +15,7 @@ Matches projects that have exactly the name 'NAME'.
 [[prefix]]
 prefix:'PREFIX'::
 +
-Matches projects that have a name that starts with 'PREFIX'.
+Matches projects that have a name that starts with 'PREFIX' (case-sensitive).
 
 [[parent]]
 parent:'PARENT'::

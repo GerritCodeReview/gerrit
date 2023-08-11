@@ -215,6 +215,7 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
 
     assertQuery("prefix:project", project1, project2);
     assertQuery("prefix:test", testProject);
+    assertQuery("prefix:TEST");
   }
 
   @Test

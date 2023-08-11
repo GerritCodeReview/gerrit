@@ -16,6 +16,52 @@
       "message": "Nice!!\n\nLGTM, but want an FE expert to have a look",
       "revId": "e22fe69b5bf5c78386ec8a662ba3715dfbb5ba19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fab3ca6_76c77b34",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1413,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-11T07:22:58Z",
+      "side": 1,
+      "message": "Does this run into a race condition:\n\n1. Autosave request is sent with Text \"Abcd\"\n2. User edits the text to \"Abc\" and presses reply\n\n3. pauseAutoSaving is set to false but Autosave request has already been sent\n\n4. SetReview request is processed by the BE\n5. Then the AutoSave request comes with text \"Abcd\"\n\nNot sure what happens then.\n\nCan you add a comment explaining why we are doing the `pauseAutoSaving \u003d true` and why that solves the problem of latency and how these race conditions are handled?",
+      "range": {
+        "startLine": 1413,
+        "startChar": 11,
+        "endLine": 1413,
+        "endChar": 52
+      },
+      "revId": "e22fe69b5bf5c78386ec8a662ba3715dfbb5ba19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84cebbeb_0fadfb89",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1176,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-11T07:22:58Z",
+      "side": 1,
+      "message": "GrComment should not be aware of or modifying the ReviewInput I think.\n\nPerhaps this method is better suited to be in ReplyDialog?",
+      "range": {
+        "startLine": 1176,
+        "startChar": 9,
+        "endLine": 1176,
+        "endChar": 33
+      },
+      "revId": "e22fe69b5bf5c78386ec8a662ba3715dfbb5ba19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

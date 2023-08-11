@@ -473,8 +473,7 @@ public class ChangeInserter implements InsertChangeOp {
     update.setSubjectForCommit("Create change");
     update.setBranch(change.getDest().branch());
     try {
-      topicValidator.validateSize(change.getTopic());
-      update.setTopic(change.getTopic());
+      update.setTopic(change.getTopic(), topicValidator);
     } catch (ValidationException ex) {
       throw new BadRequestException(ex.getMessage());
     }

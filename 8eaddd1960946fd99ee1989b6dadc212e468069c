@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0553864b_6075bf5c",
+        "filename": "java/com/google/gerrit/index/project/ProjectField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-08-11T06:55:21Z",
+      "side": 1,
+      "message": "nameprefix or prefixname?\n\nbummer that the other one is called name, not \"exactname\" :-)",
+      "range": {
+        "startLine": 48,
+        "startChar": 25,
+        "endLine": 48,
+        "endChar": 30
+      },
+      "revId": "8eaddd1960946fd99ee1989b6dadc212e468069c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

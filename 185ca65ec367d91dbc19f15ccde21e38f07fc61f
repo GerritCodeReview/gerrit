@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8922ddf3_4311bf64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-11T08:43:58Z",
+      "side": 1,
+      "message": "Can you add a Bug Id as well?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 19
+      },
+      "revId": "185ca65ec367d91dbc19f15ccde21e38f07fc61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "671ead4c_cc9eaa02",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -120,6 +143,30 @@
       "side": 1,
       "message": "If we do `comment.id \u003d this.comment.id` and it\u0027s undefined, you\u0027ll get a record that looks like:\n```\n{ \n  ...\n  id \u003d undefined\n}\n```",
       "parentUuid": "9de506cb_e0e4e2b3",
+      "range": {
+        "startLine": 1190,
+        "startChar": 4,
+        "endLine": 1190,
+        "endChar": 28
+      },
+      "revId": "185ca65ec367d91dbc19f15ccde21e38f07fc61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c310164e_7f21c6ad",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1190,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-11T08:43:58Z",
+      "side": 1,
+      "message": "When is `comment.id` not supposed to be defined?\nThis method is always called for PS level comments so when can it have an ID and when not?\n\n`if (this.comment.path)`\nWhen can path be defined or undefined?\n\n`if (this.comment.in_reply_to`\nWhen can this field be set for PS level comments?\n\nAnd so on\n\nI think the method can be cleaned up a bit\n\n`Should we be asserting things we expect to be there`\nThis part can still be done",
+      "parentUuid": "4dd553de_4eae2824",
       "range": {
         "startLine": 1190,
         "startChar": 4,

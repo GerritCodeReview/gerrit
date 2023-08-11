@@ -385,6 +385,14 @@ export class GrDiffHost extends LitElement {
   override connectedCallback() {
     super.connectedCallback();
     this.subscribeToChecks();
+    assertIsDefined(this.change, 'change');
+    assertIsDefined(this.file, 'file');
+    assertIsDefined(this.patchRange, 'patchRange');
+    this.getPluginLoader().jsApiService.handleShowDiff({
+      change: this.change,
+      fileRange: this.file,
+      patchRange: this.patchRange,
+    });
   }
 
   override disconnectedCallback() {

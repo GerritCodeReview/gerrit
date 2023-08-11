@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6df92070_c75d8445",
+        "filename": "polygerrit-ui/app/utils/url-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-08-11T05:53:15Z",
+      "side": 1,
+      "message": "is this always safe? what if `baseUrl` is defined, does not end with a slash, and `customLoginUrl` does not begin with slash?",
+      "revId": "ce3713a85794232ee5683c83c41eab1e11925bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f7b17615_bb2488eb",
         "filename": "polygerrit-ui/app/utils/url-util_test.ts",
         "patchSetId": 4

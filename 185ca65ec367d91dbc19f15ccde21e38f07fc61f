@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "671ead4c_cc9eaa02",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-11T07:56:11Z",
+      "side": 1,
+      "message": "Can we capture this scenario in a test?",
+      "revId": "185ca65ec367d91dbc19f15ccde21e38f07fc61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf0bc706_27c4c11a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1176,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-11T07:56:11Z",
+      "side": 1,
+      "message": "method name is confusing\n\nFirst part of the method is waiting for the Auto Save\n\nSecond half is converting to CommentInput\n\nMaybe let\u0027s split into two methods and add more descriptive names.",
+      "range": {
+        "startLine": 1176,
+        "startChar": 8,
+        "endLine": 1176,
+        "endChar": 14
+      },
+      "revId": "185ca65ec367d91dbc19f15ccde21e38f07fc61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9de506cb_e0e4e2b3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1190,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-11T07:56:11Z",
+      "side": 1,
+      "message": "can \n\n```\nif (this.comment.id) {\n      comment.id \u003d this.comment.id;\n    }\n```\n\nbe replaced with\n\n`comment.id \u003d this.comment.id` simply?\n\nWhat happens if the Id is not there? Should we be asserting things we expect to be there and add a undefined fallback for things that should be not be there?\n\n```\ncomment.side \u003d this.comment.side ?? undefined;\n```\n\nIt would be undefined before as well, so we are not gaining anything by only setting the property when defined?",
+      "range": {
+        "startLine": 1190,
+        "startChar": 4,
+        "endLine": 1190,
+        "endChar": 28
+      },
+      "revId": "185ca65ec367d91dbc19f15ccde21e38f07fc61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

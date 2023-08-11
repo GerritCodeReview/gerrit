@@ -210,7 +210,12 @@ export class TokenHighlightLayer implements DiffLayer {
       token: newHighlight,
       element,
     } = this.findTokenAncestor(e?.target);
-    if (!newHighlight || newHighlight === this.currentHighlight) return;
+    if (
+      !newHighlight ||
+      (this.currentHighlight === newHighlight &&
+        this.currentHighlightLineNumber === line)
+    )
+      return;
     this.hoveredElement = element;
     this.updateTokenTask = debounce(
       this.updateTokenTask,

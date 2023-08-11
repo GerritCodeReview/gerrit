@@ -289,8 +289,7 @@ public class ReplaceOp implements BatchUpdateOp {
       }
       if (magicBranch.topic != null && !magicBranch.topic.equals(ctx.getChange().getTopic())) {
         try {
-          topicValidator.validateSize(magicBranch.topic);
-          update.setTopic(magicBranch.topic);
+          update.setTopic(magicBranch.topic, topicValidator);
         } catch (ValidationException ex) {
           throw new BadRequestException(ex.getMessage());
         }

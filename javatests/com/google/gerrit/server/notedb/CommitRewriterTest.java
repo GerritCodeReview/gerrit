@@ -23,6 +23,7 @@ import static com.google.gerrit.server.notedb.ReviewerStateInternal.REMOVED;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static java.util.Objects.requireNonNull;
+import static org.mockito.Mockito.mock;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -40,6 +41,7 @@ import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerStatusUpdate;
+import com.google.gerrit.server.git.validators.TopicValidator;
 import com.google.gerrit.server.notedb.ChangeNoteUtil.AttentionStatusInNoteDb;
 import com.google.gerrit.server.notedb.CommitRewriter.BackfillResult;
 import com.google.gerrit.server.notedb.CommitRewriter.CommitDiff;
@@ -74,10 +76,14 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
   private @Inject CommitRewriter rewriter;
   @Inject private ChangeNoteUtil changeNoteUtil;
 
+  private TopicValidator topicValidator;
+
   private static final Gson gson = OutputFormat.JSON_COMPACT.newGson();
 
   @Before
-  public void setUp() throws Exception {}
+  public void setUp() throws Exception {
+    topicValidator = mock(TopicValidator.class);
+  }
 
   @After
   public void cleanUp() throws Exception {
@@ -1500,7 +1506,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     ChangeUpdate invalidMergedMessageUpdate = newUpdate(c, changeOwner);
     invalidMergedMessageUpdate.setChangeMessage(
         "Change has been successfully merged by " + changeOwner.getName());
-    invalidMergedMessageUpdate.setTopic("");
+    invalidMergedMessageUpdate.setTopic("", topicValidator);
 
     commitsToFix.add(invalidMergedMessageUpdate.commit());
     ChangeUpdate invalidCherryPickedMessageUpdate = newUpdate(c, changeOwner);

@@ -22,6 +22,30 @@
       },
       "revId": "8eaddd1960946fd99ee1989b6dadc212e468069c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18fd8384_e44a4849",
+        "filename": "java/com/google/gerrit/index/project/ProjectField.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-11T06:58:10Z",
+      "side": 1,
+      "message": "Makes sense!\n\nDone",
+      "parentUuid": "0553864b_6075bf5c",
+      "range": {
+        "startLine": 48,
+        "startChar": 25,
+        "endLine": 48,
+        "endChar": 30
+      },
+      "revId": "8eaddd1960946fd99ee1989b6dadc212e468069c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

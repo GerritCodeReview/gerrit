@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b503bc3c_dafe4d72",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1413,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-11T09:27:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a646d030_f8ff1003",
+      "revId": "71286b199a7d3e363c8811087e83684328feb817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee6515d9_1f3a3afb",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-08-11T09:12:42Z",
       "side": 1,
       "message": "The path is always `\u0027/PATCHSET_LEVEL\u0027` here, right?",
+      "range": {
+        "startLine": 1417,
+        "startChar": 29,
+        "endLine": 1417,
+        "endChar": 42
+      },
+      "revId": "71286b199a7d3e363c8811087e83684328feb817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c30ff2d_a4c8ec26",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1417,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-11T09:27:03Z",
+      "side": 1,
+      "message": "Yes, but I didn\u0027t want to hard-code that.",
+      "parentUuid": "ee6515d9_1f3a3afb",
       "range": {
         "startLine": 1417,
         "startChar": 29,
@@ -75,6 +117,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6305c799_71420db8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-11T09:27:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f996caf_22007b52",
+      "revId": "71286b199a7d3e363c8811087e83684328feb817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d22d4180_23eb1dd5",
@@ -88,6 +148,30 @@
       "writtenOn": "2023-08-11T09:12:42Z",
       "side": 1,
       "message": "Why do we need the assignment? It seems weird that a call from an outsider like the reply dialog would change the internal state of gr-comment.\n\nAnd if the autosave is not inflight anymore, then this assignment would not happen.",
+      "range": {
+        "startLine": 1178,
+        "startChar": 6,
+        "endLine": 1178,
+        "endChar": 20
+      },
+      "revId": "71286b199a7d3e363c8811087e83684328feb817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6ebde5e_2f962b15",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1178,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-11T09:27:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d22d4180_23eb1dd5",
       "range": {
         "startLine": 1178,
         "startChar": 6,
@@ -138,6 +222,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "be263f3b_c1d51873",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1183,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-11T09:27:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0daf4b1_41d3f850",
+      "revId": "71286b199a7d3e363c8811087e83684328feb817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8aee174c_0bf8ae56",
@@ -151,6 +253,30 @@
       "writtenOn": "2023-08-11T09:12:42Z",
       "side": 1,
       "message": "Move to utils/comment-util.ts.",
+      "range": {
+        "startLine": 1191,
+        "startChar": 4,
+        "endLine": 1214,
+        "endChar": 5
+      },
+      "revId": "71286b199a7d3e363c8811087e83684328feb817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2aef522_41841d3e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1214,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-11T09:27:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8aee174c_0bf8ae56",
       "range": {
         "startLine": 1191,
         "startChar": 4,

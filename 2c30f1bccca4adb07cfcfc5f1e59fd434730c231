@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d120ea7e_1e86c242",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-11T12:11:21Z",
+      "side": 1,
+      "message": "What if any of these fields are not set?",
+      "revId": "2c30f1bccca4adb07cfcfc5f1e59fd434730c231",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

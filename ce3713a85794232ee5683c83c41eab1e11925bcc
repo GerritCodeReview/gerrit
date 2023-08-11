@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89c6cc1e_bb995395",
+        "filename": "polygerrit-ui/app/utils/url-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-08-11T12:35:52Z",
+      "side": 1,
+      "message": "Nice one! I think it will need to be applied in the original change as well, but up to you how you want to manage it.",
+      "parentUuid": "54928c5f_99173774",
+      "revId": "ce3713a85794232ee5683c83c41eab1e11925bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f7b17615_bb2488eb",

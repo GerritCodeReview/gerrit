@@ -34,6 +34,24 @@
       "parentUuid": "2204702b_2969a1d5",
       "revId": "28fdd350227274653a160729f104b3db183c734b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a2b4274_7e28918d",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-11T10:16:31Z",
+      "side": 1,
+      "message": "Please see the new patchset (8).\n\nThis also implicitly answer the original question about setting a custom index type but not passing the module (FakeIndexModule is used in this case as before, no modification needed in `CustomIndexIT`.\n\n@geminica.programs@gmail.com one question though, should the new method `createIndexModule` stay private though? Tests extending AbstractDeamonTest won\u0027t have the ability to override it anyway, but maybe i am missing something?",
+      "parentUuid": "269333bd_0e9e483f",
+      "revId": "28fdd350227274653a160729f104b3db183c734b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de3fa2f5_f95b5e62",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-11T10:16:31Z",
+      "side": 1,
+      "message": "Actually this variable was set to not change the parameters of `startInMermoy` method to pass the `testSysModule` . Now following your approach is no longer needed.",
+      "parentUuid": "f975d153_5b375659",
+      "revId": "6acd4cd60cd84a90a661b0b0965f3af43c2f9b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33c71ec5_a2e4c9b0",

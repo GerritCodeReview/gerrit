@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f975d153_5b375659",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-11T09:09:52Z",
+      "side": 1,
+      "message": "True, that is what I wanted but as you mentioned in the next comment we make it overridable to than use the method `public AbstractIndexModule createIndexModule`",
+      "parentUuid": "5c43b394_5d2b7332",
+      "revId": "6acd4cd60cd84a90a661b0b0965f3af43c2f9b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "33c71ec5_a2e4c9b0",
         "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
         "patchSetId": 6
@@ -31,6 +49,24 @@
       "writtenOn": "2023-08-11T05:57:57Z",
       "side": 1,
       "message": "how about `startOnDisk`? do we need the same logic there?",
+      "revId": "6acd4cd60cd84a90a661b0b0965f3af43c2f9b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1be1ac6_e9798d47",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-11T09:09:52Z",
+      "side": 1,
+      "message": "No, on the startOnDisk I verified that we can use a custom index module, provided that the configuration is properly set with `gerrit.installIndexModule` . Will verify that again after your idea of createIndexModule is implemented.",
+      "parentUuid": "33c71ec5_a2e4c9b0",
       "revId": "6acd4cd60cd84a90a661b0b0965f3af43c2f9b17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

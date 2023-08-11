@@ -16,6 +16,24 @@
       "message": "`somethingToSave()` is about saving, not auto-saving. Can you check, if that matters?",
       "revId": "7722698142090789a78b4552273818bb6fa974bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da2f611e_bf5024b4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1178,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-11T09:37:44Z",
+      "side": 1,
+      "message": "AutoSAve effectively does the same check for message-difference. , except it doesn\u0027t check for changes to resolved.  So in my opinion this is actually a short-coming of autosave.",
+      "parentUuid": "7ae16e28_2dacca5e",
+      "revId": "7722698142090789a78b4552273818bb6fa974bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

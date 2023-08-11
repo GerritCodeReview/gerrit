@@ -219,6 +219,21 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   }
 
   @Test
+  public void bySubstring() throws Exception {
+    assertQuery("substring:non-existing");
+
+    ProjectInfo project1 = createProject(name("project-1"));
+    ProjectInfo project2 = createProject(name("project-2"));
+    ProjectInfo testProject = createProject(name("test-project"));
+    ProjectInfo myTests = createProject(name("MY-TESTS"));
+
+    assertQuery("substring:project", allProjectsInfo, project1, project2, testProject);
+    assertQuery("substring:PROJECT", allProjectsInfo, project1, project2, testProject);
+    assertQuery("substring:test", myTests, testProject);
+    assertQuery("substring:TEST", myTests, testProject);
+  }
+
+  @Test
   public void byParent() throws Exception {
     assertQuery("parent:project");
     ProjectInfo parent = createProject(name("parent"));

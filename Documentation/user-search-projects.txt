@@ -17,6 +17,11 @@ prefix:'PREFIX'::
 +
 Matches projects that have a name that starts with 'PREFIX' (case-sensitive).
 
+[[substring]]
+substring:'SUBSTRING'::
++
+Matches projects that have a name that contains 'SUBSTRING' (case-insensitive).
+
 [[parent]]
 parent:'PARENT'::
 +

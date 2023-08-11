@@ -16,6 +16,7 @@ import {
   JsApiService,
   EventCallback,
   ShowChangeDetail,
+  ShowDiffDetail,
   ShowRevisionActionsDetail,
 } from './gr-js-api-types';
 import {EventType, TargetElement} from '../../../api/plugin';
@@ -238,6 +239,21 @@ export class GrJsApiInterface implements JsApiService, Finalizable {
       }
     }
     return review;
+  }
+
+  async handleShowDiff(detail: ShowDiffDetail): Promise<void> {
+    await this.waitForPluginsToLoad();
+    for (const cb of this._getEventCallbacks(EventType.SHOW_DIFF)) {
+      try {
+        cb(detail.change, detail.patchRange, detail.fileRange);
+      } catch (err: unknown) {
+        this.reporting.error(
+          'GrJsApiInterface',
+          new Error('showDiff callback error'),
+          err
+        );
+      }
+    }
   }
 
   _getEventCallbacks(type: EventType) {

@@ -69,11 +69,13 @@ suite('gr-diff-host tests', () => {
 
   setup(async () => {
     stubRestApi('getAccount').callsFake(() => Promise.resolve(account));
-    element = await fixture(html`<gr-diff-host></gr-diff-host>`);
-    element.changeNum = 123 as NumericChangeId;
-    element.path = 'some/path';
-    element.change = createChange();
-    element.patchRange = createPatchRange();
+    element = await fixture(html`<gr-diff-host
+      .changeNum=${123 as NumericChangeId}
+      .path=${'some/path'}
+      .file=${{path: 'some/path'}}
+      .change=${createChange()}
+      .patchRange=${createPatchRange()}
+    ></gr-diff-host>`);
     getDiffRestApiStub = stubRestApi('getDiff');
     // Fall back in case a test forgets to set one up
     getDiffRestApiStub.returns(Promise.resolve(createDiff()));
@@ -606,82 +608,73 @@ suite('gr-diff-host tests', () => {
     assert.equal(stub.lastCall.args.length, 0);
   });
 
-  suite('blame', () => {
-    setup(async () => {
-      element = await fixture(html`<gr-diff-host></gr-diff-host>`);
-      element.changeNum = 123 as NumericChangeId;
-      element.path = 'some/path';
-      await element.updateComplete;
-    });
+  test('clearBlame', async () => {
+    element.blame = [];
+    await element.updateComplete;
+    assertIsDefined(element.diffElement);
+    const isBlameLoadedStub = sinon.stub();
+    element.addEventListener('is-blame-loaded-changed', isBlameLoadedStub);
+    element.clearBlame();
+    await element.updateComplete;
+    assert.isNull(element.blame);
+    assert.isTrue(isBlameLoadedStub.calledOnce);
+    assert.isFalse(isBlameLoadedStub.args[0][0].detail.value);
+  });
 
-    test('clearBlame', async () => {
-      element.blame = [];
-      await element.updateComplete;
-      assertIsDefined(element.diffElement);
-      const isBlameLoadedStub = sinon.stub();
-      element.addEventListener('is-blame-loaded-changed', isBlameLoadedStub);
-      element.clearBlame();
-      await element.updateComplete;
-      assert.isNull(element.blame);
-      assert.isTrue(isBlameLoadedStub.calledOnce);
-      assert.isFalse(isBlameLoadedStub.args[0][0].detail.value);
-    });
+  test('loadBlame', async () => {
+    const mockBlame: BlameInfo[] = [createBlame()];
+    const showAlertStub = sinon.stub();
+    element.addEventListener('show-alert', showAlertStub);
+    const getBlameStub = stubRestApi('getBlame').returns(
+      Promise.resolve(mockBlame)
+    );
+    const changeNum = 42 as NumericChangeId;
+    element.changeNum = changeNum;
+    element.patchRange = createPatchRange();
+    element.path = 'foo/bar.baz';
+    await element.updateComplete;
+    const isBlameLoadedStub = sinon.stub();
+    element.addEventListener('is-blame-loaded-changed', isBlameLoadedStub);
 
-    test('loadBlame', async () => {
-      const mockBlame: BlameInfo[] = [createBlame()];
-      const showAlertStub = sinon.stub();
-      element.addEventListener('show-alert', showAlertStub);
-      const getBlameStub = stubRestApi('getBlame').returns(
-        Promise.resolve(mockBlame)
+    return element.loadBlame().then(() => {
+      assert.isTrue(
+        getBlameStub.calledWithExactly(
+          changeNum,
+          1 as RevisionPatchSetNum,
+          'foo/bar.baz',
+          true
+        )
       );
-      const changeNum = 42 as NumericChangeId;
-      element.changeNum = changeNum;
-      element.patchRange = createPatchRange();
-      element.path = 'foo/bar.baz';
-      await element.updateComplete;
-      const isBlameLoadedStub = sinon.stub();
-      element.addEventListener('is-blame-loaded-changed', isBlameLoadedStub);
+      assert.isFalse(showAlertStub.called);
+      assert.equal(element.blame, mockBlame);
+      assert.isTrue(isBlameLoadedStub.calledOnce);
+      assert.isTrue(isBlameLoadedStub.args[0][0].detail.value);
+    });
+  });
 
-      return element.loadBlame().then(() => {
-        assert.isTrue(
-          getBlameStub.calledWithExactly(
-            changeNum,
-            1 as RevisionPatchSetNum,
-            'foo/bar.baz',
-            true
-          )
-        );
-        assert.isFalse(showAlertStub.called);
-        assert.equal(element.blame, mockBlame);
-        assert.isTrue(isBlameLoadedStub.calledOnce);
-        assert.isTrue(isBlameLoadedStub.args[0][0].detail.value);
+  test('loadBlame empty', async () => {
+    const mockBlame: BlameInfo[] = [];
+    const showAlertStub = sinon.stub();
+    const isBlameLoadedStub = sinon.stub();
+    element.addEventListener('show-alert', showAlertStub);
+    element.addEventListener('is-blame-loaded-changed', isBlameLoadedStub);
+    stubRestApi('getBlame').returns(Promise.resolve(mockBlame));
+    const changeNum = 42 as NumericChangeId;
+    element.changeNum = changeNum;
+    element.patchRange = createPatchRange();
+    element.path = 'foo/bar.baz';
+    await element.updateComplete;
+    return element
+      .loadBlame()
+      .then(() => {
+        assert.isTrue(false, 'Promise should not resolve');
+      })
+      .catch(() => {
+        assert.isTrue(showAlertStub.calledOnce);
+        assert.isNull(element.blame);
+        // We don't expect a call because
+        assert.isTrue(isBlameLoadedStub.notCalled);
       });
-    });
-
-    test('loadBlame empty', async () => {
-      const mockBlame: BlameInfo[] = [];
-      const showAlertStub = sinon.stub();
-      const isBlameLoadedStub = sinon.stub();
-      element.addEventListener('show-alert', showAlertStub);
-      element.addEventListener('is-blame-loaded-changed', isBlameLoadedStub);
-      stubRestApi('getBlame').returns(Promise.resolve(mockBlame));
-      const changeNum = 42 as NumericChangeId;
-      element.changeNum = changeNum;
-      element.patchRange = createPatchRange();
-      element.path = 'foo/bar.baz';
-      await element.updateComplete;
-      return element
-        .loadBlame()
-        .then(() => {
-          assert.isTrue(false, 'Promise should not resolve');
-        })
-        .catch(() => {
-          assert.isTrue(showAlertStub.calledOnce);
-          assert.isNull(element.blame);
-          // We don't expect a call because
-          assert.isTrue(isBlameLoadedStub.notCalled);
-        });
-    });
   });
 
   test('delegates clearDiffContent()', () => {
@@ -769,12 +762,9 @@ suite('gr-diff-host tests', () => {
     let reportStub: SinonStubbedMember<ReportingService['reportInteraction']>;
 
     setup(async () => {
-      element = await fixture(html`<gr-diff-host></gr-diff-host>`);
-      element.changeNum = 123 as NumericChangeId;
-      element.path = 'file.txt';
       element.patchRange = createPatchRange(1, 2);
-      reportStub = sinon.stub(element.reporting, 'reportInteraction');
       await element.updateComplete;
+      reportStub = sinon.stub(element.reporting, 'reportInteraction');
       reportStub.reset();
     });
 
@@ -1390,24 +1380,18 @@ suite('gr-diff-host tests', () => {
     ];
 
     setup(async () => {
-      coverageProviderStub = sinon
-        .stub()
-        .returns(Promise.resolve(exampleRanges));
-      element = await fixture(html`<gr-diff-host></gr-diff-host>`);
-      element.changeNum = 123 as NumericChangeId;
-      element.change = createChange();
-      element.path = 'some/path';
-      const prefs = {
+      element.prefs = {
         ...createDefaultDiffPrefs(),
         line_length: 10,
         show_tabs: true,
         tab_size: 4,
         context: -1,
       };
-      element.patchRange = createPatchRange();
-      element.prefs = prefs;
       await element.updateComplete;
 
+      coverageProviderStub = sinon
+        .stub()
+        .returns(Promise.resolve(exampleRanges));
       getDiffRestApiStub.returns(
         Promise.resolve({
           ...createDiff(),

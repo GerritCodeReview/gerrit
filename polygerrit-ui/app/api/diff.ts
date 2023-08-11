@@ -10,7 +10,7 @@
  */
 
 import {CursorMoveResult} from './core';
-import {CommentRange} from './rest-api';
+import {BasePatchSetNum, CommentRange, RevisionPatchSetNum} from './rest-api';
 
 /**
  * Diff type in preferences
@@ -309,6 +309,11 @@ export declare interface CoverageRange {
 export interface FileRange {
   basePath?: string;
   path: string;
+}
+
+export interface PatchRange {
+  patchNum: RevisionPatchSetNum;
+  basePatchNum: BasePatchSetNum;
 }
 
 /**

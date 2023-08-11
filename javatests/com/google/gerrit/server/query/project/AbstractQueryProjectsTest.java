@@ -201,6 +201,23 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   }
 
   @Test
+  public void byPrefix() throws Exception {
+    assume().that(getSchemaVersion() >= 8).isTrue();
+
+    assertQuery("prefix:project");
+    assertQuery("prefix:non-existing");
+    assertQuery("prefix:All", allProjectsInfo, allUsersInfo);
+    assertQuery("prefix:All-", allProjectsInfo, allUsersInfo);
+
+    ProjectInfo project1 = createProject(name("project-1"));
+    ProjectInfo project2 = createProject(name("project-2"));
+    ProjectInfo testProject = createProject(name("test-project"));
+
+    assertQuery("prefix:project", project1, project2);
+    assertQuery("prefix:test", testProject);
+  }
+
+  @Test
   public void byParent() throws Exception {
     assertQuery("parent:project");
     ProjectInfo parent = createProject(name("parent"));
@@ -210,16 +227,33 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   }
 
   @Test
-  public void byParentOfAllProjects() throws Exception {
+  public void byParentOfAllProjects1() throws Exception {
+    assume().that(getSchemaVersion() < 7).isTrue();
+
     ProjectInfo parent1 = createProject(name("parent1"));
     createProject(name("child"), parent1.name);
 
     ProjectInfo parent2 = createProject(name("parent2"));
     createProject(name("child2"), parent2.name);
 
-    // TODO: All-Users should be returned as well, since it's a direct child project under
-    // All-Projects
+    // All-Users should be returned as well, since it's a direct child project under
+    // All-Projects, but it's missing in the result since the parent1 field in the index is not set
+    // for projects that don't have 'access.inheritsFrom' set in project.config (which is the case
+    // for the All-Users project).
     assertQuery("parent:" + allProjects.get(), parent1, parent2);
+  }
+
+  @Test
+  public void byParentOfAllProjects2() throws Exception {
+    assume().that(getSchemaVersion() >= 7).isTrue();
+
+    ProjectInfo parent1 = createProject(name("parent1"));
+    createProject(name("child"), parent1.name);
+
+    ProjectInfo parent2 = createProject(name("parent2"));
+    createProject(name("child2"), parent2.name);
+
+    assertQuery("parent:" + allProjects.get(), allUsersInfo, parent1, parent2);
   }
 
   @Test

@@ -12,6 +12,11 @@ name:'NAME'::
 +
 Matches projects that have exactly the name 'NAME'.
 
+[[prefix]]
+prefix:'PREFIX'::
++
+Matches projects that have a name that starts with 'PREFIX'.
+
 [[parent]]
 parent:'PARENT'::
 +

@@ -28,8 +28,16 @@ public class ProjectPredicates {
     return new ProjectPredicate(ProjectField.NAME_SPEC, nameKey.get());
   }
 
+  public static Predicate<ProjectData> prefix(String prefix) {
+    return new ProjectPredicate(ProjectField.PREFIX_NAME_SPEC, prefix);
+  }
+
   public static Predicate<ProjectData> parent(Project.NameKey parentNameKey) {
     return new ProjectPredicate(ProjectField.PARENT_NAME_SPEC, parentNameKey.get());
+  }
+
+  public static Predicate<ProjectData> parent2(Project.NameKey parentNameKey) {
+    return new ProjectPredicate(ProjectField.PARENT_NAME_2_SPEC, parentNameKey.get());
   }
 
   public static Predicate<ProjectData> inname(String name) {

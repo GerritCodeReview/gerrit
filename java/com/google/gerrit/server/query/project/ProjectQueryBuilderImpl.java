@@ -19,7 +19,11 @@ import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.ProjectState;
+import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import com.google.gerrit.index.project.ProjectData;
+import com.google.gerrit.index.project.ProjectField;
+import com.google.gerrit.index.project.ProjectIndex;
+import com.google.gerrit.index.project.ProjectIndexCollection;
 import com.google.gerrit.index.query.LimitPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
@@ -34,9 +38,12 @@ public class ProjectQueryBuilderImpl extends QueryBuilder<ProjectData, ProjectQu
   private static final QueryBuilder.Definition<ProjectData, ProjectQueryBuilderImpl> mydef =
       new QueryBuilder.Definition<>(ProjectQueryBuilderImpl.class);
 
+  private final ProjectIndex index;
+
   @Inject
-  ProjectQueryBuilderImpl() {
+  ProjectQueryBuilderImpl(ProjectIndexCollection indexes) {
     super(mydef, null);
+    this.index = indexes.getSearchIndex();
   }
 
   @Operator
@@ -45,8 +52,17 @@ public class ProjectQueryBuilderImpl extends QueryBuilder<ProjectData, ProjectQu
   }
 
   @Operator
+  public Predicate<ProjectData> prefix(String prefix) throws QueryParseException {
+    checkOperatorAvailable(ProjectField.PREFIX_NAME_SPEC, "prefix");
+    return ProjectPredicates.prefix(prefix);
+  }
+
+  @Operator
   public Predicate<ProjectData> parent(String parentName) {
-    return ProjectPredicates.parent(Project.nameKey(parentName));
+    if (!index.getSchema().hasField(ProjectField.PARENT_NAME_2_SPEC)) {
+      return ProjectPredicates.parent(Project.nameKey(parentName));
+    }
+    return ProjectPredicates.parent2(Project.nameKey(parentName));
   }
 
   @Operator
@@ -102,5 +118,18 @@ public class ProjectQueryBuilderImpl extends QueryBuilder<ProjectData, ProjectQu
       throw error("Invalid limit: " + query);
     }
     return new LimitPredicate<>(FIELD_LIMIT, limit);
+  }
+
+  private void checkOperatorAvailable(SchemaField<ProjectData, ?> field, String operator)
+      throws QueryParseException {
+    checkFieldAvailable(
+        field, String.format("'%s' operator is not supported on this gerrit host", operator));
+  }
+
+  private void checkFieldAvailable(SchemaField<ProjectData, ?> field, String errorMessage)
+      throws QueryParseException {
+    if (!index.getSchema().hasField(field)) {
+      throw new QueryParseException(errorMessage);
+    }
   }
 }

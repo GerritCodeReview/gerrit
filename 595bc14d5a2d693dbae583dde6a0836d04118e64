@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c124a97_5ca60ea0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-11T18:57:00Z",
+      "side": 1,
+      "message": "I think this isn\u0027t accurate now and should be removed. You could note in the paragraph below that the new cache will use the index to do an initial load if it\u0027s available.",
+      "range": {
+        "startLine": 39,
+        "startChar": 52,
+        "endLine": 41,
+        "endChar": 46
+      },
+      "revId": "595bc14d5a2d693dbae583dde6a0836d04118e64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

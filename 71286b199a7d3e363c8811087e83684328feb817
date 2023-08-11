@@ -3,6 +3,103 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a646d030_f8ff1003",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1413,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-11T09:12:42Z",
+      "side": 1,
+      "message": "Would it make sense to somehow reconcile this with `awaitPendingDiffDrafts()` in the rest-api-impl?",
+      "revId": "71286b199a7d3e363c8811087e83684328feb817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee6515d9_1f3a3afb",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1417,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-11T09:12:42Z",
+      "side": 1,
+      "message": "The path is always `\u0027/PATCHSET_LEVEL\u0027` here, right?",
+      "range": {
+        "startLine": 1417,
+        "startChar": 29,
+        "endLine": 1417,
+        "endChar": 42
+      },
+      "revId": "71286b199a7d3e363c8811087e83684328feb817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54663e71_f80158d1",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1418,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-11T09:12:42Z",
+      "side": 1,
+      "message": "Can this lead to duplicates? Maybe the patchset-level comment was already auto-saved. Then the backend will already have it, and we send the `ReviewInput` with `drafts: DraftsAction.PUBLISH_ALL_REVISIONS`.",
+      "revId": "71286b199a7d3e363c8811087e83684328feb817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f996caf_22007b52",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-11T09:12:42Z",
+      "side": 1,
+      "message": "Maybe rename to `disableAutoSaving`. `pause` sounds a bit like pausing the ongoing save operation.",
+      "revId": "71286b199a7d3e363c8811087e83684328feb817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d22d4180_23eb1dd5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1178,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-11T09:12:42Z",
+      "side": 1,
+      "message": "Why do we need the assignment? It seems weird that a call from an outsider like the reply dialog would change the internal state of gr-comment.\n\nAnd if the autosave is not inflight anymore, then this assignment would not happen.",
+      "range": {
+        "startLine": 1178,
+        "startChar": 6,
+        "endLine": 1178,
+        "endChar": 20
+      },
+      "revId": "71286b199a7d3e363c8811087e83684328feb817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9cc2a381_0ada7244",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
         "patchSetId": 5
@@ -19,6 +116,46 @@
         "startChar": 6,
         "endLine": 1183,
         "endChar": 64
+      },
+      "revId": "71286b199a7d3e363c8811087e83684328feb817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0daf4b1_41d3f850",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1183,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-11T09:12:42Z",
+      "side": 1,
+      "message": "Remove this comment?",
+      "revId": "71286b199a7d3e363c8811087e83684328feb817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8aee174c_0bf8ae56",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1214,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-11T09:12:42Z",
+      "side": 1,
+      "message": "Move to utils/comment-util.ts.",
+      "range": {
+        "startLine": 1191,
+        "startChar": 4,
+        "endLine": 1214,
+        "endChar": 5
       },
       "revId": "71286b199a7d3e363c8811087e83684328feb817",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

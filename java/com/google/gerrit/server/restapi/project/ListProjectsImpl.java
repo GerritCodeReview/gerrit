@@ -20,6 +20,7 @@ import static com.google.common.collect.Ordering.natural;
 import static com.google.gerrit.extensions.client.ProjectState.HIDDEN;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Iterables;
@@ -256,17 +257,24 @@ public class ListProjectsImpl extends AbstractListProjects {
             && state != HIDDEN
             && isNullOrEmpty(matchPrefix)
             && isNullOrEmpty(matchRegex)
-            && isNullOrEmpty(
-                matchSubstring) // TODO: see https://issues.gerritcodereview.com/issues/40010295
             && type == FilterType.ALL
             && showBranch.isEmpty()
             && !showTree
-        ? Optional.of(stateToQuery())
+        ? Optional.of(toQuery())
         : Optional.empty();
   }
 
-  private String stateToQuery() {
-    return state != null ? String.format("(state:%s)", state.name()) : "";
+  private String toQuery() {
+    List<String> queries = new ArrayList<>();
+
+    if (state != null) {
+      queries.add(String.format("(state:%s)", state.name()));
+    }
+    if (!isNullOrEmpty(matchSubstring)) {
+      queries.add(String.format("substring:%s", matchSubstring));
+    }
+
+    return queries.isEmpty() ? "" : Joiner.on(" AND ").join(queries);
   }
 
   private SortedMap<String, ProjectInfo> applyAsQuery(String query) throws BadRequestException {

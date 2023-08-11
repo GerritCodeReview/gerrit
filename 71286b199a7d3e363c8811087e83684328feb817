@@ -120,6 +120,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5fc95cb0_4810bdce",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1418,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-11T09:28:45Z",
+      "side": 1,
+      "message": "Actually, you are right",
+      "parentUuid": "2b632a71_325fb325",
+      "revId": "71286b199a7d3e363c8811087e83684328feb817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2f996caf_22007b52",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
         "patchSetId": 5

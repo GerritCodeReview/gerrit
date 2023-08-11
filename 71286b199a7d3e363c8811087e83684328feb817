@@ -100,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b632a71_325fb325",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1418,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-11T09:27:54Z",
+      "side": 1,
+      "message": "I don\u0027t see how, if it was saved you should have a comment-id set which means it would write to that.",
+      "parentUuid": "54663e71_f80158d1",
+      "revId": "71286b199a7d3e363c8811087e83684328feb817",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f996caf_22007b52",

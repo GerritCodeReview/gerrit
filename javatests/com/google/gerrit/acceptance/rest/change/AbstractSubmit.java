@@ -1469,4 +1469,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo, subject, fileName, content);
     return push.to("refs/for/master%topic=" + name(topic));
   }
+
+  protected PushOneCommit.Result createChange(
+      String subject, String fileName, String content, String topic, RevCommit parent) throws Throwable {
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo, subject, fileName, content);
+    push.setParent(parent);
+    return push.to("refs/for/master%topic=" + name(topic));
+  }
 }

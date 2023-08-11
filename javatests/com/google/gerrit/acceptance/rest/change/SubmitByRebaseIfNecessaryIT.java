@@ -15,9 +15,11 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -87,5 +89,21 @@ public class SubmitByRebaseIfNecessaryIT extends AbstractSubmitByRebase {
         headAfterSecondSubmit.name(),
         change3.getChangeId(),
         headAfterThirdSubmit.name());
+  }
+
+  @Test
+  @GerritConfig(name = "change.submitWholeTopic", value = "true")
+  public void submitTopicChangesWithTheSameUnsubmittedParentChangeSameTopic() throws Throwable {
+    PushOneCommit.Result parentChange = createChange("Parent change", "a.txt", "aaa\nbbb\nccc\n", "topic");
+    PushOneCommit.Result change2 = createChange("Child change 1", "b.txt", "aaa\nbbb\nccc\n", "topic", parentChange.getCommit());
+    PushOneCommit.Result change3 = createChange("Child change 2", "c.txt", "aaa\nbbb\nccc\n", "topic", parentChange.getCommit());
+    approve(parentChange.getChangeId());
+    approve(change2.getChangeId());
+    approve(change3.getChangeId());
+    submit(parentChange.getChangeId());
+
+    assertSubmitter(parentChange.getChangeId(), 1);
+    assertSubmitter(change2.getChangeId(), 1);
+    assertSubmitter(change3.getChangeId(), 1);
   }
 }

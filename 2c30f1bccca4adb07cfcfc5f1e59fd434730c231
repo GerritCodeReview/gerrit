@@ -16,6 +16,24 @@
       "message": "What if any of these fields are not set?",
       "revId": "2c30f1bccca4adb07cfcfc5f1e59fd434730c231",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13b327f3_1a8b4a8a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-08-11T12:47:22Z",
+      "side": 1,
+      "message": "then the parent has made an error. Added asserts and fixed tests",
+      "parentUuid": "d120ea7e_1e86c242",
+      "revId": "2c30f1bccca4adb07cfcfc5f1e59fd434730c231",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

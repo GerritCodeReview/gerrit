@@ -227,7 +227,7 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   }
 
   @Test
-  public void byParentOfAllProjects1() throws Exception {
+  public void byParentOfAllProjects() throws Exception {
     assume().that(getSchemaVersion() < 7).isTrue();
 
     ProjectInfo parent1 = createProject(name("parent1"));

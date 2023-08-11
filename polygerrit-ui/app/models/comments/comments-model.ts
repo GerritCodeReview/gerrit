@@ -23,6 +23,7 @@ import {
 } from '../../types/common';
 import {
   addPath,
+  convertToCommentInput,
   createNew,
   createNewPatchsetLevel,
   id,
@@ -650,7 +651,7 @@ export class CommentsModel extends Model<CommentState> {
       const result = await this.restApiService.saveDiffDraft(
         changeNum,
         draft.patch_set,
-        draft
+        convertToCommentInput(draft)
       );
       if (changeNum !== this.changeNum) return draft;
       if (!result.ok) throw new Error('request failed');

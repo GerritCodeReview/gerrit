@@ -295,6 +295,30 @@
       },
       "revId": "185ca65ec367d91dbc19f15ccde21e38f07fc61f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bed999e0_f2dca39a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1190,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-11T09:11:44Z",
+      "side": 1,
+      "message": "Not sure I follow.\nWe already have another point where we are converting DraftInfo to CommentInput implicitly.\n\nNow you are adding another(better) way of doing this.\n\nShouldn\u0027t we be updating that usage as well?\n\nIf we add a method `convertToCommentInput(DraftInfo)` then we can use it in the Rest API directly as well?\n\nMaybe leave a TODO if you do not want to make it part of this change,",
+      "parentUuid": "cdf846f2_a9a02824",
+      "range": {
+        "startLine": 1190,
+        "startChar": 4,
+        "endLine": 1190,
+        "endChar": 28
+      },
+      "revId": "185ca65ec367d91dbc19f15ccde21e38f07fc61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

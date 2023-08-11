@@ -2658,13 +2658,15 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "index.defaultLimit", value = "2")
   public void queryChangesLimitDefault() throws Exception {
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 4; i++) {
       createChange();
     }
     List<ChangeInfo> resultsLimited = gApi.changes().query().withLimit(1).get();
     List<ChangeInfo> resultsUnlimited = gApi.changes().query().get();
+    List<ChangeInfo> resultsLimitedAboveDefault = gApi.changes().query().withLimit(3).get();
     assertThat(resultsLimited).hasSize(1);
     assertThat(resultsUnlimited).hasSize(2);
+    assertThat(resultsLimitedAboveDefault).hasSize(3);
   }
 
   @Test

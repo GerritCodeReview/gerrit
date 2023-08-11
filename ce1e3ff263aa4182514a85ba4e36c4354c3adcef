@@ -22,6 +22,30 @@
       },
       "revId": "ce1e3ff263aa4182514a85ba4e36c4354c3adcef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "828c5dc0_b296b45d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 8309,
+      "author": {
+        "id": 1156100
+      },
+      "writtenOn": "2023-08-11T14:24:43Z",
+      "side": 1,
+      "message": "Since I will be going OOO next week, I will write a non blocking comment.\n\nIt might be helpful to be descriptive. For example:\n\nThe new parent revision. It can be a ref, SHA-1, change number, the empty string, or null/omitted.\n\nIf this is a ref to a concrete patchset or a SHA-1, then rebases to the top of the specified patchset / commit.\n\nIf this is a change number, then rebases to the current patchset of the given change.\n\nIf this is the empty string, this rebases to the tip of the target branch _and_ breaks dependency towards a parent change.\n\nIf this is null (or omitted), this rebases to the tip the target branch and maintains the structure of the chain.",
+      "parentUuid": "5b4788a4_ea2bbb22",
+      "range": {
+        "startLine": 8309,
+        "startChar": 16,
+        "endLine": 8309,
+        "endChar": 23
+      },
+      "revId": "ce1e3ff263aa4182514a85ba4e36c4354c3adcef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

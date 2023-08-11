@@ -292,6 +292,30 @@
       },
       "revId": "ef53c96a7af93a3d4193296bdd1a43b0336dc9bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "266510d4_29a986a4",
+        "filename": "java/com/google/gerrit/server/update/Context.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-08-11T03:40:39Z",
+      "side": 1,
+      "message": "No, this case is not covered, added new assertions in an existing test in RebaseIT.java",
+      "parentUuid": "1ab5e79d_2bc6f90b",
+      "range": {
+        "startLine": 170,
+        "startChar": 55,
+        "endLine": 170,
+        "endChar": 92
+      },
+      "revId": "ef53c96a7af93a3d4193296bdd1a43b0336dc9bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1a9d7efe_bc6c7283",
+        "filename": "polygerrit-ui/app/utils/url-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-11T07:36:30Z",
+      "side": 1,
+      "message": "That is correct. Any preference between possible solutions:\n-) check in the code the scenario you just mentioned and add the slash if not present\n-) update documentation to explicitly say that the login_url needs to start with a slash if it is a relative url ?",
+      "parentUuid": "6df92070_c75d8445",
+      "revId": "ce3713a85794232ee5683c83c41eab1e11925bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f7b17615_bb2488eb",
         "filename": "polygerrit-ui/app/utils/url-util_test.ts",
         "patchSetId": 4

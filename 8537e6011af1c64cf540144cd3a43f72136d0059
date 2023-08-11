@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb974237_8948febc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-11T21:22:48Z",
+      "side": 1,
+      "message": "I was late to review change 380955, but I noticed this gap.",
+      "revId": "8537e6011af1c64cf540144cd3a43f72136d0059",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

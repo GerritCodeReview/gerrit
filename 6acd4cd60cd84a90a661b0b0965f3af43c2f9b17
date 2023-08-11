@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c43b394_5d2b7332",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-11T05:57:57Z",
+      "side": 1,
+      "message": "it is not visible to potential overriders if it is private...",
+      "revId": "6acd4cd60cd84a90a661b0b0965f3af43c2f9b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33c71ec5_a2e4c9b0",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-11T05:57:57Z",
+      "side": 1,
+      "message": "how about `startOnDisk`? do we need the same logic there?",
+      "revId": "6acd4cd60cd84a90a661b0b0965f3af43c2f9b17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

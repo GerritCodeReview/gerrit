@@ -29,6 +29,7 @@ import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.comparing;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static org.mockito.Mockito.mock;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
@@ -59,6 +60,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerSet;
+import com.google.gerrit.server.git.validators.TopicValidator;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -78,12 +80,20 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.junit.Before;
 import org.junit.Test;
 
 public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Inject private ChangeNoteJson changeNoteJson;
 
   @Inject private DraftCommentsReader draftCommentsReader;
+
+  private TopicValidator topicValidator;
+
+  @Before
+  public void setUp() throws Exception {
+    topicValidator = mock(TopicValidator.class);
+  }
 
   @Test
   public void tagChangeMessage() throws Exception {
@@ -1304,7 +1314,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeUpdate update = newUpdate(c, changeOwner);
     // Make sure unrelevent update does not set mergedOn.
-    update.setTopic("topic");
+    update.setTopic("topic", topicValidator);
     update.commit();
     assertThat(newNotes(c).getMergedOn()).isEmpty();
   }
@@ -1631,14 +1641,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     // set topic
     String topic = "myTopic";
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setTopic(topic);
+    update.setTopic(topic, topicValidator);
     update.commit();
     notes = newNotes(c);
     assertThat(notes.getChange().getTopic()).isEqualTo(topic);
 
     // clear topic by setting empty string
     update = newUpdate(c, changeOwner);
-    update.setTopic("");
+    update.setTopic("", topicValidator);
     update.commit();
     notes = newNotes(c);
     assertThat(notes.getChange().getTopic()).isNull();
@@ -1646,21 +1656,21 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     // set other topic
     topic = "otherTopic";
     update = newUpdate(c, changeOwner);
-    update.setTopic(topic);
+    update.setTopic(topic, topicValidator);
     update.commit();
     notes = newNotes(c);
     assertThat(notes.getChange().getTopic()).isEqualTo(topic);
 
     // clear topic by setting null
     update = newUpdate(c, changeOwner);
-    update.setTopic(null);
+    update.setTopic(null, topicValidator);
     update.commit();
     notes = newNotes(c);
     assertThat(notes.getChange().getTopic()).isNull();
 
     // check invalid topic
     ChangeUpdate failingUpdate = newUpdate(c, changeOwner);
-    assertThrows(ValidationException.class, () -> failingUpdate.setTopic("\""));
+    assertThrows(ValidationException.class, () -> failingUpdate.setTopic("\"", topicValidator));
   }
 
   @Test
@@ -1672,7 +1682,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     // An update doesn't affect the Change-Id
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setTopic("topic"); // Change something to get a new commit.
+    update.setTopic("topic", topicValidator); // Change something to get a new commit.
     update.commit();
     assertThat(notes.getChange().getKey()).isEqualTo(c.getKey());
 
@@ -1701,7 +1711,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     // An update doesn't affect the branch
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setTopic("topic"); // Change something to get a new commit.
+    update.setTopic("topic", topicValidator); // Change something to get a new commit.
     update.commit();
     assertThat(newNotes(c).getChange().getDest()).isEqualTo(expectedBranch);
 
@@ -1722,7 +1732,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     // An update doesn't affect the owner
     ChangeUpdate update = newUpdate(c, otherUser);
-    update.setTopic("topic"); // Change something to get a new commit.
+    update.setTopic("topic", topicValidator); // Change something to get a new commit.
     update.commit();
     assertThat(newNotes(c).getChange().getOwner()).isEqualTo(changeOwner.getAccountId());
   }
@@ -1736,7 +1746,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     // An update doesn't affect the createdOn timestamp.
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setTopic("topic"); // Change something to get a new commit.
+    update.setTopic("topic", topicValidator); // Change something to get a new commit.
     update.commit();
     assertThat(newNotes(c).getChange().getCreatedOn()).isEqualTo(createdOn);
   }
@@ -1751,7 +1761,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     // Various kinds of updates that update the timestamp.
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setTopic("topic"); // Change something to get a new commit.
+    update.setTopic("topic", topicValidator); // Change something to get a new commit.
     update.commit();
     Instant ts2 = newNotes(c).getChange().getLastUpdatedOn();
     assertThat(ts2).isGreaterThan(ts1);

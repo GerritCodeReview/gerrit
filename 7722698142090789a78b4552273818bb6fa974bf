@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ae16e28_2dacca5e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1178,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-11T09:35:20Z",
+      "side": 1,
+      "message": "`somethingToSave()` is about saving, not auto-saving. Can you check, if that matters?",
+      "revId": "7722698142090789a78b4552273818bb6fa974bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

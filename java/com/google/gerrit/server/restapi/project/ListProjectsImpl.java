@@ -20,6 +20,7 @@ import static com.google.common.collect.Ordering.natural;
 import static com.google.gerrit.extensions.client.ProjectState.HIDDEN;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.Iterables;
@@ -250,23 +251,42 @@ public class ListProjectsImpl extends AbstractListProjects {
     return display(null);
   }
 
-  private Optional<String> expressAsProjectsQuery() {
+  private Optional<String> expressAsProjectsQuery() throws BadRequestException {
     return listProjectsFromIndex
             && !all
             && state != HIDDEN
-            && isNullOrEmpty(matchPrefix)
             && isNullOrEmpty(matchRegex)
-            && isNullOrEmpty(
-                matchSubstring) // TODO: see https://issues.gerritcodereview.com/issues/40010295
             && type == FilterType.ALL
             && showBranch.isEmpty()
             && !showTree
-        ? Optional.of(stateToQuery())
+        ? Optional.of(toQuery())
         : Optional.empty();
   }
 
-  private String stateToQuery() {
-    return state != null ? String.format("(state:%s)", state.name()) : "";
+  private String toQuery() throws BadRequestException {
+    // QueryProjects supports specifying matchPrefix and matchSubstring at the same time, but to
+    // keep the behavior consistent regardless of whether 'gerrit.listProjectsFromIndex' is true or
+    // false, disallow specifying both at the same time here. This way
+    // 'gerrit.listProjectsFromIndex' can be troggled without breaking any caller.
+    if (matchPrefix != null) {
+      checkMatchOptions(matchSubstring == null);
+    } else if (matchSubstring != null) {
+      checkMatchOptions(matchPrefix == null);
+    }
+
+    List<String> queries = new ArrayList<>();
+
+    if (state != null) {
+      queries.add(String.format("(state:%s)", state.name()));
+    }
+    if (!isNullOrEmpty(matchPrefix)) {
+      queries.add(String.format("prefix:%s", matchPrefix));
+    }
+    if (!isNullOrEmpty(matchSubstring)) {
+      queries.add(String.format("substring:%s", matchSubstring));
+    }
+
+    return queries.isEmpty() ? "" : Joiner.on(" AND ").join(queries);
   }
 
   private SortedMap<String, ProjectInfo> applyAsQuery(String query) throws BadRequestException {

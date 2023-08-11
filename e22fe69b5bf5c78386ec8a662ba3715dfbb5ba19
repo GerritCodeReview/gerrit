@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44b19164_a8ff4426",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-08-11T06:53:19Z",
+      "side": 1,
+      "message": "Nice!!\n\nLGTM, but want an FE expert to have a look",
+      "revId": "e22fe69b5bf5c78386ec8a662ba3715dfbb5ba19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

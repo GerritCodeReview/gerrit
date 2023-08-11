@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f4faf8f_d2457c69",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 991,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-11T19:05:46Z",
+      "side": 1,
+      "message": "Specify where the email is being used (i.e. \"the new patch set\").\n\n```suggestion\ncommitter email in the current patch set, the same email will be used as the committer email\nin the new patch set; otherwise, the user\u0027s preferred email will be used.\n```\n\nSame comment for the edits below.",
+      "range": {
+        "startLine": 990,
+        "startChar": 65,
+        "endLine": 991,
+        "endChar": 10
+      },
+      "revId": "83163678891fe94328b549fa65ec5a5045b06bb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26d86b01_60c87bdb",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 2662,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-11T19:05:46Z",
+      "side": 1,
+      "message": "Since you haven\u0027t done the cherry-pick yet, it seems wrong to call the source commit \"the cherry-picked commit\". Maybe s/cherry-picked/input/ or \u0027original\u0027 or \u0027source\u0027?\n\nAnd same as the other file, add info on where the email will be used.",
+      "range": {
+        "startLine": 2662,
+        "startChar": 23,
+        "endLine": 2662,
+        "endChar": 36
+      },
+      "revId": "83163678891fe94328b549fa65ec5a5045b06bb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

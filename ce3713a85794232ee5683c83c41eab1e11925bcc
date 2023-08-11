@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "54928c5f_99173774",
+        "filename": "polygerrit-ui/app/utils/url-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-11T08:41:10Z",
+      "side": 1,
+      "message": "Done. Now relative custom loginUrl can be with or without slash, added a little test for it too.",
+      "parentUuid": "1a9d7efe_bc6c7283",
+      "revId": "ce3713a85794232ee5683c83c41eab1e11925bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f7b17615_bb2488eb",
@@ -66,6 +84,30 @@
       "writtenOn": "2023-08-11T05:32:55Z",
       "side": 1,
       "message": "nit: how about empty lines between tests? otherwise it looks like a single test IOW is less readable and AFAICT the other sites are following it ;)",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 7
+      },
+      "revId": "ce3713a85794232ee5683c83c41eab1e11925bcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7149d3da_248ed0f6",
+        "filename": "polygerrit-ui/app/utils/url-util_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-11T08:41:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7b17615_bb2488eb",
       "range": {
         "startLine": 61,
         "startChar": 0,

@@ -34,6 +34,24 @@
       "parentUuid": "d120ea7e_1e86c242",
       "revId": "2c30f1bccca4adb07cfcfc5f1e59fd434730c231",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98f9b1ac_806fb86c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-08-11T13:21:17Z",
+      "side": 1,
+      "message": "Sorry, gr-file-list_test.ts is impenetrable to fix to comply with real asserts. It does complex work to set it\u0027s @state() values directly at key times instead of supplying all the various Model\u0027s it actually depends on. It would take a lot to rewrite it to be realistic. In reality it supplies everything needed to gr-diff-host as I have verified manually. I changed the assertOrThrow stuff back to typescript `!` declarations.",
+      "parentUuid": "13b327f3_1a8b4a8a",
+      "revId": "2c30f1bccca4adb07cfcfc5f1e59fd434730c231",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

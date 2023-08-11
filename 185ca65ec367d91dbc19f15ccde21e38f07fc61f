@@ -247,6 +247,30 @@
       },
       "revId": "185ca65ec367d91dbc19f15ccde21e38f07fc61f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f44261b3_2bb0c61b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1190,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-11T08:54:55Z",
+      "side": 1,
+      "message": "If you want to keep it a generic `convertToCommentInput` then maybe move into a util?\n\nAlso I noticed on this method [1], the method takes DraftInfo as argument then calls the method `this.restApiService.saveDiffDraft(` passing draft which is then of the type `CommentInput`\n\nI downloaded your change and wrote this\n\n```\nconvertToCommentInput(): CommentInput | undefined {\n    assertIsDefined(isDraft(this.comment));\n    // If auto-saving had already started, wait for it to finish.\n    return this.comment;\n  }\n```\n\nThe TS compiler seems to be happy(?).\nIs there any way we can re-use the logic here?\n\n[1] https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/models/comments/comments-model.ts;l\u003d650?q\u003d%22const%20result%20%3D%20await%20this.restApiService.saveDiffDraft%22\u0026sq\u003d",
+      "parentUuid": "c310164e_7f21c6ad",
+      "range": {
+        "startLine": 1190,
+        "startChar": 4,
+        "endLine": 1190,
+        "endChar": 28
+      },
+      "revId": "185ca65ec367d91dbc19f15ccde21e38f07fc61f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

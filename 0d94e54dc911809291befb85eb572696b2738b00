@@ -52,6 +52,46 @@
       "parentUuid": "1c49c027_f2164a3e",
       "revId": "0d94e54dc911809291befb85eb572696b2738b00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "901df64d_407c41c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-14T17:19:36Z",
+      "side": 1,
+      "message": "The revert was incorrect. Possibly there is a different solution where:\n1. We add a test for this use-case\n2. We restrict to ISO_8859_1 only",
+      "revId": "0d94e54dc911809291befb85eb572696b2738b00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99d25329_03ad8bb9",
+        "filename": "java/com/google/gerrit/httpd/auth/container/HttpAuthFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-14T17:19:36Z",
+      "side": 1,
+      "message": "This is wrong in principle, because the HTTP header may come with non-printable chars and should be restricted to ISO_8859_1.",
+      "range": {
+        "startLine": 146,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 59
+      },
+      "revId": "0d94e54dc911809291befb85eb572696b2738b00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -27,7 +27,7 @@ export abstract class Model<T> implements Finalizable {
    * another `next()` call. So make sure that state updates complete before
    * starting another one.
    */
-  protected stateUpdateInProgress = false;
+  private stateUpdateInProgress = false;
 
   private subject$: BehaviorSubject<T>;
 

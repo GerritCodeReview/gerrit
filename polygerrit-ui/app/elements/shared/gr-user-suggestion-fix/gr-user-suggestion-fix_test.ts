@@ -45,7 +45,7 @@ suite('gr-user-suggestion-fix tests', () => {
             ></gr-copy-clipboard>
           </div>
           <div>
-            <gr-button class="action show-fix" secondary="" flatten=""
+            <gr-button aria-disabled="false" class="action show-fix" secondary="" role="button" tabindex="0" flatten=""
               >Show edit</gr-button
             >
           </div>

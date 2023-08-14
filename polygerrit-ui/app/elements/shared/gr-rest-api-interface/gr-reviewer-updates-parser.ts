@@ -82,8 +82,9 @@ export class GrReviewerUpdatesParser {
   /**
    * Removes messages that describe removed reviewers, since reviewer_updates
    * are used.
+   * Private but used in tests.
    */
-  private _filterRemovedMessages() {
+  _filterRemovedMessages() {
     this.result.messages = this.result.messages.filter(
       message => message.tag !== MessageTag.TAG_DELETE_REVIEWER
     );

@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "67b57ce7_de69822b",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-08-14T16:57:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ba8a926_56a04a1e",
+      "range": {
+        "startLine": 45,
+        "startChar": 10,
+        "endLine": 45,
+        "endChar": 39
+      },
+      "revId": "b302d4efafda3b6f5c0154eff137836ae7e3e160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "65d0b2ca_7dc361bf",
@@ -82,6 +106,30 @@
         "id": 1002666
       },
       "writtenOn": "2023-08-11T18:57:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65d0b2ca_7dc361bf",
+      "range": {
+        "startLine": 94,
+        "startChar": 8,
+        "endLine": 94,
+        "endChar": 33
+      },
+      "revId": "b302d4efafda3b6f5c0154eff137836ae7e3e160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c70b904_d6cab306",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-08-14T16:57:35Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "65d0b2ca_7dc361bf",
@@ -213,6 +261,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ff6cd6f_33767814",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-08-14T16:57:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85beb2d6_ced2e037",
+      "range": {
+        "startLine": 134,
+        "startChar": 2,
+        "endLine": 134,
+        "endChar": 38
+      },
+      "revId": "b302d4efafda3b6f5c0154eff137836ae7e3e160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ded0cfb_6f4030d9",
@@ -247,6 +319,30 @@
         "id": 1002666
       },
       "writtenOn": "2023-08-11T18:57:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ded0cfb_6f4030d9",
+      "range": {
+        "startLine": 111,
+        "startChar": 83,
+        "endLine": 111,
+        "endChar": 87
+      },
+      "revId": "b302d4efafda3b6f5c0154eff137836ae7e3e160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40530f82_c751f049",
+        "filename": "java/com/google/gerrit/server/git/SearchingChangeCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-08-14T16:57:35Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "0ded0cfb_6f4030d9",

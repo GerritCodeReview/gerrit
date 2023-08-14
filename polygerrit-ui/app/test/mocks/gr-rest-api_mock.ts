@@ -68,13 +68,13 @@ import {
   createCommit,
   createConfig,
   createMergeable,
-  createPreferences,
   createServerInfo,
   createSubmittedTogetherInfo,
 } from '../test-data-generators';
 import {
   createDefaultDiffPrefs,
   createDefaultEditPrefs,
+  createDefaultPreferences,
 } from '../../constants/constants';
 import {ParsedChangeInfo} from '../../types/types';
 import {getBaseUrl} from '../../utils/url-util';
@@ -381,8 +381,7 @@ export const grRestApiMock: RestApiService = {
     return Promise.resolve({});
   },
   getPreferences(): Promise<PreferencesInfo | undefined> {
-    // TODO: Use createDefaultPreferences() instead.
-    return Promise.resolve(createPreferences());
+    return Promise.resolve(createDefaultPreferences());
   },
   getProjectConfig(): Promise<ConfigInfo | undefined> {
     return Promise.resolve(createConfig());

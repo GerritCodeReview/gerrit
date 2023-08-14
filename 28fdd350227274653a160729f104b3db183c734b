@@ -52,6 +52,24 @@
       "parentUuid": "269333bd_0e9e483f",
       "revId": "28fdd350227274653a160729f104b3db183c734b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95749fac_b3a7f7bc",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-14T06:26:51Z",
+      "side": 1,
+      "message": "I see what you mean. It look reasonable but the best way to verify it would be to try to write the IT test that uses `AbstractDeamonTest` and installs different than `Fake...` module - if that is not yet done 😊",
+      "parentUuid": "9a2b4274_7e28918d",
+      "revId": "28fdd350227274653a160729f104b3db183c734b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1209,6 +1209,31 @@ public class ProjectIT extends AbstractDaemonTest {
         .isNull();
   }
 
+  @Test
+  public void queryProjectsLimit() throws Exception {
+    for (int i = 0; i < 3; i++) {
+      projectOperations.newProject().create();
+    }
+    List<ProjectInfo> resultsLimited = gApi.projects().query().withLimit(1).get();
+    List<ProjectInfo> resultsUnlimited = gApi.projects().query().get();
+    assertThat(resultsLimited).hasSize(1);
+    assertThat(resultsUnlimited.size()).isAtLeast(3);
+  }
+
+  @Test
+  @GerritConfig(name = "index.defaultLimit", value = "2")
+  public void queryProjectsLimitDefault() throws Exception {
+    for (int i = 0; i < 4; i++) {
+      projectOperations.newProject().create();
+    }
+    List<ProjectInfo> resultsLimited = gApi.projects().query().withLimit(1).get();
+    List<ProjectInfo> resultsUnlimited = gApi.projects().query().get();
+    List<ProjectInfo> resultsLimitedAboveDefault = gApi.projects().query().withLimit(3).get();
+    assertThat(resultsLimited).hasSize(1);
+    assertThat(resultsUnlimited).hasSize(2);
+    assertThat(resultsLimitedAboveDefault).hasSize(3);
+  }
+
   private CommentLinkInfo commentLinkInfo(String name, String match, String link) {
     CommentLinkInfo info = new CommentLinkInfo();
     info.name = name;

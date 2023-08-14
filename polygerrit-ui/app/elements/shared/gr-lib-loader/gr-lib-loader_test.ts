@@ -16,7 +16,7 @@ suite('gr-lib-loader tests', () => {
   let loadStub: sinon.SinonStub;
 
   setup(() => {
-    grLibLoader = new GrLibLoader();
+    grLibLoader = GrLibLoader.getInstance();
 
     loadStub = sinon.stub(grLibLoader, '_loadScript').callsFake(
       () =>

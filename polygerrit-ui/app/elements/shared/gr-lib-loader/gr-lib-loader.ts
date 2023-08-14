@@ -22,6 +22,16 @@ export interface LibraryConfig {
 }
 
 export class GrLibLoader {
+  private static instance?: GrLibLoader;
+
+  public static getInstance(): GrLibLoader {
+    if (!GrLibLoader.instance) {
+      GrLibLoader.instance = new GrLibLoader();
+    }
+    return GrLibLoader.instance;
+  }
+
+  private constructor() {} 
   /*
    * Pending library loads, keyed by library config, populated when getLibrary()
    * is first called for a given config. This retains the promise for each

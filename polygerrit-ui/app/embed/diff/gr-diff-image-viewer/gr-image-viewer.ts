@@ -147,8 +147,7 @@ export class GrImageViewer extends LitElement {
 
   private automaticBlinkTimer?: ReturnType<typeof setInterval>;
 
-  // TODO(hermannloose): Make GrLibLoader a singleton.
-  private static readonly libLoader = new GrLibLoader();
+  private static readonly libLoader = GrLibLoader.getInstance();
 
   static override get styles() {
     return [

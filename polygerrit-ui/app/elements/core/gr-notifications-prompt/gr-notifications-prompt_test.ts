@@ -33,10 +33,7 @@ suite('gr-notifications-prompt tests', () => {
       allow_browser_notifications: true,
     };
     userModel.setPreferences(prefs);
-    await waitUntilObserved(
-      userModel.preferences$,
-      pref => pref.allow_browser_notifications === true
-    );
+
     await waitUntilObserved(
       userModel.preferences$,
       pref => pref.allow_browser_notifications === true

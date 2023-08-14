@@ -740,9 +740,8 @@ export class GrMessage extends LitElement {
       .deleteChangeCommitMessage(this.changeNum, this.message.id)
       .then(() => {
         this.isDeletingChangeMsg = false;
-        // TODO: Fix the type casting. Might actually be a bug.
         fire(this, 'change-message-deleted', {
-          message: this.message as ChangeMessage,
+          message: this.message!,
         });
       });
   }

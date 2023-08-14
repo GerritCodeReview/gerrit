@@ -2855,14 +2855,14 @@ As response the change's hashtags are returned as a list of strings.
 [[get-custom-keyed-values]]
 === Get Custom Keyed Values
 --
-'GET /changes/link:#change-id[\{change-id\}]/custom-keyed-values'
+'GET /changes/link:#change-id[\{change-id\}]/custom_keyed_values'
 --
 
 Gets the custom keyed values associated with a change.
 
 .Request
 ----
-  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/custom-keyed-values HTTP/1.0
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/custom_keyed_values HTTP/1.0
 ----
 
 As response the change's custom keyed values are returned as a map of strings.
@@ -2883,7 +2883,7 @@ As response the change's custom keyed values are returned as a map of strings.
 [[set-custom-keyed-values]]
 === Set Custom Keyed Values
 --
-'POST /changes/link:#change-id[\{change-id\}]/custom-keyed-values'
+'POST /changes/link:#change-id[\{change-id\}]/custom_keyed_values'
 --
 
 Adds and/or removes custom keyed values from a change.
@@ -2893,7 +2893,7 @@ inside a link:#custom-keyed-values-input[CustomKeyedValuesInput] entity.
 
 .Request
 ----
-  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/custom-keyed-values HTTP/1.0
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/custom_keyed_values HTTP/1.0
   Content-Type: application/json; charset=UTF-8
 
   {

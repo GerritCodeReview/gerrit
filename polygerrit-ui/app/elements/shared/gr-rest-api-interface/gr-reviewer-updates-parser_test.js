@@ -9,8 +9,6 @@ import {parseDate} from '../../../utils/date-util';
 import {assert} from '@open-wc/testing';
 
 suite('gr-reviewer-updates-parser tests', () => {
-  let instance;
-
   test('ignores changes without messages', () => {
     const change = {};
     sinon.stub(
@@ -80,7 +78,7 @@ suite('gr-reviewer-updates-parser tests', () => {
         },
       ],
     };
-    instance = new GrReviewerUpdatesParser(change);
+    const instance = new GrReviewerUpdatesParser(change);
     instance._filterRemovedMessages();
     assert.deepEqual(instance.result, {
       messages: [{
@@ -122,7 +120,7 @@ suite('gr-reviewer-updates-parser tests', () => {
       ],
     };
 
-    instance = new GrReviewerUpdatesParser(change);
+    const instance = new GrReviewerUpdatesParser(change);
     instance._groupUpdates();
     change = instance.result;
 
@@ -202,7 +200,7 @@ suite('gr-reviewer-updates-parser tests', () => {
       ],
     };
 
-    instance = new GrReviewerUpdatesParser(change);
+    const instance = new GrReviewerUpdatesParser(change);
     instance._formatUpdates();
 
     assert.equal(change.reviewer_updates.length, 2);
@@ -264,7 +262,7 @@ suite('gr-reviewer-updates-parser tests', () => {
         message: 'Uploaded patch set 2.',
       }],
     };
-    instance = new GrReviewerUpdatesParser(change);
+    const instance = new GrReviewerUpdatesParser(change);
     instance._advanceUpdates();
     const updates = instance.result.reviewer_updates;
     assert.isBelow(parseDate(updates[0].date).getTime(), T0);

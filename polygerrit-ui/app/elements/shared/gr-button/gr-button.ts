@@ -3,6 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import '../gr-icon/gr-icon';
 import '@polymer/paper-button/paper-button';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {votingStyles} from '../../../styles/gr-voting-styles';

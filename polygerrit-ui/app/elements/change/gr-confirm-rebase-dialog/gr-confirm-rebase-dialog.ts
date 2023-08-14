@@ -320,7 +320,6 @@ export class GrConfirmRebaseDialog
               !this.allowConflicts ? ' the uploader:' : ''
             } <gr-account-chip
                 .account=${this.allowConflicts ? this.account : this.uploader}
-                .hideHovercard=${true}
               ></gr-account-chip
               ><span></div>`
           )}

@@ -3,6 +3,7 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import '../gr-icon/gr-icon';
 import {ChangeInfo} from '../../../types/common';
 import {
   Shortcut,

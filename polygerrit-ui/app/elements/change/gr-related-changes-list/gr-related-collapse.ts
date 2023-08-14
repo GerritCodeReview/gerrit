@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {LitElement, css, html, nothing, TemplateResult} from 'lit';
+import '../../shared/gr-button/gr-button';
 import '../../shared/gr-icon/gr-icon';
 import {customElement, property} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';

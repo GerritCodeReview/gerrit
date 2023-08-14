@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ffa0955_fd2729d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-14T19:53:21Z",
+      "side": 1,
+      "message": "```\nERROR: .../java/com/google/gerrit/testing/BUILD:3:13: Building java/com/google/gerrit/testing/libgerrit-test-util.jar (20 source files) and running annotation processors (AutoAnnotationProcessor, AutoValueProcessor, AutoOneOfProcessor) failed: (Exit 1): java failed: error executing command external/remotejdk11_linux/bin/java -XX:-CompactStrings \u0027--add-exports\u003djdk.compiler/com.sun.tools.javac.api\u003dALL-UNNAMED\u0027 \u0027--add-exports\u003djdk.compiler/com.sun.tools.javac.main\u003dALL-UNNAMED\u0027 ... (remaining 17 arguments skipped)\njava/com/google/gerrit/testing/InMemoryModule.java:195: error: constructor Module in class Module cannot be applied to given types;\n    install(new ChangesByProjectCache.Module(ChangesByProjectCache.UseIndex.TRUE), config);\n            ^\n  required: UseIndex,Config\n  found: UseIndex\n  reason: actual and formal argument lists differ in length\njava/com/google/gerrit/testing/InMemoryModule.java:195: error: cannot find symbol\n    install(new ChangesByProjectCache.Module(ChangesByProjectCache.UseIndex.TRUE), config);\n                                                                                   ^\n  symbol:   variable config\n  location: class InMemoryModule\nINFO: Elapsed time: 11.420s, Critical Path: 4.57s\nINFO: 122 processes: 16 disk cache hit, 68 internal, 19 linux-sandbox, 19 worker.\nFAILED: Build did NOT complete successfully\n```",
+      "revId": "c5182c7036713e95ef4b7372c7c6aec9fe9d85a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

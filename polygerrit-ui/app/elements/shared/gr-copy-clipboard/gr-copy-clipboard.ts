@@ -6,6 +6,7 @@
 import '@polymer/iron-input/iron-input';
 import '../gr-button/gr-button';
 import '../gr-icon/gr-icon';
+import '../gr-tooltip-content/gr-tooltip-content';
 import {
   assertIsDefined,
   copyToClipbard,

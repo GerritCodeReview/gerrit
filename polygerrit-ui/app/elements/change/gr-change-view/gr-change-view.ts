@@ -1436,7 +1436,6 @@ export class GrChangeView extends LitElement {
           id="fileListHeader"
           .account=${this.account}
           .change=${this.change}
-          .changeNum=${this.changeNum}
           .commitInfo=${this.revision?.commit}
           .changeUrl=${this.computeChangeUrl()}
           .editMode=${this.editMode}

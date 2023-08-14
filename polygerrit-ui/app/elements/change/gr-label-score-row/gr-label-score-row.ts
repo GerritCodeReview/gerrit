@@ -5,6 +5,7 @@
  */
 import '@polymer/iron-selector/iron-selector';
 import '../../shared/gr-button/gr-button';
+import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';

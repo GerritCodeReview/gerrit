@@ -563,8 +563,6 @@ export class GrEditControls extends LitElement {
       }
 
       const fr = new FileReader();
-      // TODO(TS): Do we need this line?
-      // fr.file = file;
       fr.onload = (fileLoadEvent: ProgressEvent<FileReader>) => {
         if (!fileLoadEvent) return;
         const fileData = fileLoadEvent.target!.result;

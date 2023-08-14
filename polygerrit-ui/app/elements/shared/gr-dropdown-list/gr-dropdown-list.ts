@@ -171,7 +171,7 @@ export class GrDropdownList extends LitElement {
         }
         @media only screen and (max-width: 50em) {
           gr-select {
-            display: var(--gr-select-style-display, inline);
+            display: var(--gr-select-style-display, inline-block);
             width: var(--gr-select-style-width);
           }
           gr-button,

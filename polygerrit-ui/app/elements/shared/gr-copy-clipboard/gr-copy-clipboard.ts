@@ -107,7 +107,6 @@ export class GrCopyClipboard extends LitElement {
               id="input"
               is="iron-input"
               class=${classMap({hideInput: this.hideInput})}
-              type="text"
               @click=${this._handleInputClick}
               readonly=""
               .value=${this.text ?? ''}

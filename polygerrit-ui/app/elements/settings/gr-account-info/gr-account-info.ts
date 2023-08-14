@@ -227,7 +227,7 @@ export class GrAccountInfo extends LitElement {
         <span class="value">
           <iron-autogrow-textarea
             id="statusInput"
-            .name=${'statusInput'}
+            .label=${'statusInput'}
             ?disabled=${this.saving}
             maxlength="140"
             .value=${this.account?.status}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f3b7ca8_e351f231",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-14T14:12:16Z",
+      "side": 1,
+      "message": "The change to gr-dropdown-list is because the var actually resolves to `block`. You can\u0027s set a width for a `inline` type so I changed the default to `inline-block`.",
+      "revId": "99a5d718838b030a3be93d8fa921b3ea242aefee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

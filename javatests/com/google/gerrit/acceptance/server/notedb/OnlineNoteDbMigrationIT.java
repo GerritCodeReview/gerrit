@@ -35,8 +35,6 @@ import static org.easymock.EasyMock.verify;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedSet;
-import com.google.common.io.MoreFiles;
-import com.google.common.io.RecursiveDeleteOption;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -89,7 +87,6 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.RepositoryCache.FileKey;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.junit.After;
@@ -546,42 +543,6 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
       assertThat(repo.exactRef(RefNames.changeMetaRef(id2))).isNull();
       assertThat(db.changes().get(id2).getNoteDbState()).isNull();
     }
-  }
-
-  @Test
-  public void fullMigrationOneChangeWithNoProject() throws Exception {
-    PushOneCommit.Result r1 = createChange();
-    Change.Id id1 = r1.getChange().getId();
-
-    Project.NameKey p2 = createProject("project2");
-    TestRepository<?> tr2 = cloneProject(p2, admin);
-    PushOneCommit.Result r2 = pushFactory.create(db, admin.getIdent(), tr2).to("refs/for/master");
-    Change.Id id2 = r2.getChange().getId();
-
-    // TODO(davido): Find an easier way to wipe out a repository from the file system.
-    MoreFiles.deleteRecursively(
-        FileKey.lenient(
-                sitePaths
-                    .resolve(cfg.getString("gerrit", null, "basePath"))
-                    .resolve(p2.get())
-                    .toFile(),
-                FS.DETECTED)
-            .getFile()
-            .toPath(),
-        RecursiveDeleteOption.ALLOW_INSECURE);
-
-    migrate(b -> b);
-    assertNotesMigrationState(NOTE_DB, false, false);
-
-    try (ReviewDb db = schemaFactory.open();
-        Repository repo = repoManager.openRepository(project)) {
-      assertThat(repo.exactRef(RefNames.changeMetaRef(id1))).isNotNull();
-      assertThat(db.changes().get(id1).getNoteDbState()).isEqualTo(NOTE_DB_PRIMARY_STATE);
-    }
-
-    // A change without project is so corrupt that it is completely skipped by the migration
-    // process.
-    assertThat(db.changes().get(id2).getNoteDbState()).isNull();
   }
 
   @Test

@@ -39,6 +39,7 @@ import com.google.gerrit.server.cancellation.RequestStateContext;
 import com.google.gerrit.server.cancellation.RequestStateContext.NonCancellableOperationContext;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
@@ -75,6 +76,7 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * {@link #stage()}.
  */
 public class NoteDbUpdateManager implements AutoCloseable {
+  private static final boolean DRAFT_EVENTS_ENABLED_DEFAULT = false;
   private static final int MAX_UPDATES_DEFAULT = 1000;
   /** Limits the number of patch sets that can be created. Can be overridden in the config. */
   private static final int MAX_PATCH_SETS_DEFAULT = 1000;
@@ -99,11 +101,15 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private OpenRepo changeRepo;
   private OpenRepo allUsersRepo;
   private AllUsersAsyncUpdate updateAllUsersAsync;
+
+  private boolean draftEventsEnabled;
   private boolean executed;
   private String refLogMessage;
   private PersonIdent refLogIdent;
   private PushCertificate pushCert;
   private ImmutableList<BatchUpdateListener> batchUpdateListeners;
+
+  private final GitReferenceUpdated gitRefUpdated;
 
   @Inject
   NoteDbUpdateManager(
@@ -113,6 +119,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
       AllUsersName allUsersName,
       NoteDbMetrics metrics,
       AllUsersAsyncUpdate updateAllUsersAsync,
+      GitReferenceUpdated gitRefUpdated,
       @Assisted Project.NameKey projectName) {
     this.serverIdent = serverIdent;
     this.repoManager = repoManager;
@@ -120,6 +127,9 @@ public class NoteDbUpdateManager implements AutoCloseable {
     this.metrics = metrics;
     this.updateAllUsersAsync = updateAllUsersAsync;
     this.projectName = projectName;
+    this.gitRefUpdated = gitRefUpdated;
+    draftEventsEnabled =
+        cfg.getBoolean("event", "stream-events", "enableDraftEvents", DRAFT_EVENTS_ENABLED_DEFAULT);
     maxUpdates = cfg.getInt("change", null, "maxUpdates", MAX_UPDATES_DEFAULT);
     maxPatchSets = cfg.getInt("change", null, "maxPatchSets", MAX_PATCH_SETS_DEFAULT);
     changeUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
@@ -342,7 +352,10 @@ public class NoteDbUpdateManager implements AutoCloseable {
       }
       try (TraceContext.TraceTimer ignored =
           newTimer("NoteDbUpdateManager#updateAllUsersSync", Metadata.empty())) {
-        execute(allUsersRepo, dryrun, null);
+        BatchRefUpdate bru = execute(allUsersRepo, dryrun, null);
+        if (draftEventsEnabled && bru != null) {
+          gitRefUpdated.fire(allUsersName, bru, null);
+        }
       }
       if (!dryrun) {
         // Only execute the asynchronous operation if we are not in dry-run mode: The dry run would

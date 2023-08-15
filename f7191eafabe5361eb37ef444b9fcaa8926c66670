@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bea218a_1352c3b0",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-15T21:28:54Z",
+      "side": 1,
+      "message": "Can this be configurable? (to avoid the 500% performance degradation)",
+      "range": {
+        "startLine": 138,
+        "startChar": 8,
+        "endLine": 138,
+        "endChar": 94
+      },
+      "revId": "f7191eafabe5361eb37ef444b9fcaa8926c66670",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

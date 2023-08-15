@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "375d9542_e233690a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-15T14:35:50Z",
+      "side": 1,
+      "message": "Just a small nit",
+      "revId": "11cbbb0f1ab1a855690c0d300650d88874e4a49a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "003cf8b2_cd1aeafc",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-15T14:35:50Z",
+      "side": 1,
+      "message": "`;`",
+      "range": {
+        "startLine": 131,
+        "startChar": 21,
+        "endLine": 131,
+        "endChar": 22
+      },
+      "revId": "11cbbb0f1ab1a855690c0d300650d88874e4a49a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

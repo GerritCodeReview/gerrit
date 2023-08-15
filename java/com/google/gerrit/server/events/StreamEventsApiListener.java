@@ -38,6 +38,7 @@ import com.google.gerrit.extensions.events.ChangeMergedListener;
 import com.google.gerrit.extensions.events.ChangeRestoredListener;
 import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.extensions.events.CustomKeyedValuesEditedListener;
+import com.google.gerrit.extensions.events.DraftCommentAddedListener;
 import com.google.gerrit.extensions.events.GitBatchRefUpdateListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.HashtagsEditedListener;
@@ -89,6 +90,7 @@ public class StreamEventsApiListener
         GitBatchRefUpdateListener,
         HashtagsEditedListener,
         CustomKeyedValuesEditedListener,
+        DraftCommentAddedListener,
         NewProjectCreatedListener,
         ReviewerAddedListener,
         ReviewerDeletedListener,
@@ -128,6 +130,7 @@ public class StreamEventsApiListener
       DynamicSet.bind(binder(), PrivateStateChangedListener.class)
           .to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), ReviewerAddedListener.class).to(StreamEventsApiListener.class);
+      DynamicSet.bind(binder(), DraftCommentAddedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), ReviewerDeletedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), RevisionCreatedListener.class).to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), TopicEditedListener.class).to(StreamEventsApiListener.class);
@@ -261,6 +264,19 @@ public class StreamEventsApiListener
       return Sets.newHashSet(collection).toArray(new String[collection.size()]);
     }
     return null;
+  }
+
+  @Override
+  public void onDraftCommentAdded(DraftCommentAddedListener.Event event) {
+    try {
+      ChangeNotes notes = getNotes(event.getChange());
+      Change change = notes.getChange();
+      DraftCommentAddedEvent draftCommentAddedEvent = new DraftCommentAddedEvent(change);
+
+      dispatcher.run(d -> d.postEvent(change, draftCommentAddedEvent));
+    } catch (StorageException e) {
+      logger.atSevere().withCause(e).log("Failed to dispatch event");
+    }
   }
 
   @Override

@@ -42,9 +42,11 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.extensions.events.DraftCommentAdded;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -68,6 +70,10 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
   private final ChangeNotes.Factory changeNotesFactory;
   private final PluginSetContext<CommentValidator> commentValidators;
 
+  private final DraftCommentAdded draftCommentAdded;
+
+  private final ChangeData.Factory changeDataFactory;
+
   @Inject
   CreateDraftComment(
       BatchUpdate.Factory updateFactory,
@@ -75,13 +81,17 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
       CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
       ChangeNotes.Factory changeNotesFactory,
-      PluginSetContext<CommentValidator> commentValidators) {
+      PluginSetContext<CommentValidator> commentValidators,
+      DraftCommentAdded draftCommentAdded,
+      ChangeData.Factory changeDataFactory) {
     this.updateFactory = updateFactory;
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
     this.changeNotesFactory = changeNotesFactory;
     this.commentValidators = commentValidators;
+    this.draftCommentAdded = draftCommentAdded;
+    this.changeDataFactory = changeDataFactory;
   }
 
   @Override
@@ -215,6 +225,9 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
 
       commentsUtil.putHumanComments(
           ctx.getUpdate(psId), HumanComment.Status.DRAFT, Collections.singleton(comment));
+
+      draftCommentAdded.fire(
+          changeDataFactory.create(ctx.getChange()), ctx.getAccount(), ctx.getWhen());
       return true;
     }
   }

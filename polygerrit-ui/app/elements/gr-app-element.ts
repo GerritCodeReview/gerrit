@@ -28,11 +28,11 @@ import './plugins/gr-plugin-host/gr-plugin-host';
 import './settings/gr-cla-view/gr-cla-view';
 import './settings/gr-registration-dialog/gr-registration-dialog';
 import './settings/gr-settings-view/gr-settings-view';
-import {getBaseUrl} from '../utils/url-util';
 import {navigationToken} from './core/gr-navigation/gr-navigation';
+import {loginUrl} from '../utils/url-util';
 import {getAppContext} from '../services/app-context';
 import {routerToken} from './core/gr-router/gr-router';
-import {AccountDetailInfo} from '../types/common';
+import {AccountDetailInfo, ServerInfo} from '../types/common';
 import {
   constructServerErrorMsg,
   GrErrorManager,
@@ -58,6 +58,7 @@ import {LifeCycle} from '../constants/reporting';
 import {fireIronAnnounce} from '../utils/event-util';
 import {resolve} from '../models/dependency';
 import {browserModelToken} from '../models/browser/browser-model';
+import {configModelToken} from '../models/config/config-model';
 import {sharedStyles} from '../styles/shared-styles';
 import {LitElement, PropertyValues, html, css, nothing} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
@@ -108,6 +109,8 @@ export class GrAppElement extends LitElement {
 
   @state() private account?: AccountDetailInfo;
 
+  @state() private serverConfig?: ServerInfo;
+
   @state() private version?: string;
 
   @state() private view?: GerritView;
@@ -120,8 +123,6 @@ export class GrAppElement extends LitElement {
   @state() private settingsUrl?: string;
 
   @state() private mobileSearch = false;
-
-  @state() private loginUrl = '/login';
 
   @state() private loadRegistrationDialog = false;
 
@@ -163,6 +164,8 @@ export class GrAppElement extends LitElement {
 
   private readonly routerModel = getAppContext().routerModel;
 
+  private readonly getConfigModel = resolve(this, configModelToken);
+
   constructor() {
     super();
 
@@ -176,7 +179,7 @@ export class GrAppElement extends LitElement {
       this.handleDialogChange(e as CustomEvent<DialogChangeEventDetail>);
     });
     document.addEventListener(EventType.LOCATION_CHANGE, () =>
-      this.handleLocationChange()
+      this.requestUpdate()
     );
     this.addEventListener(EventType.RECREATE_CHANGE_VIEW, () =>
       this.handleRecreateView()
@@ -208,6 +211,14 @@ export class GrAppElement extends LitElement {
 
     subscribe(
       this,
+      () => this.getConfigModel().serverConfig$,
+      config => {
+        this.serverConfig = config;
+      }
+    );
+
+    subscribe(
+      this,
       () => this.userModel.preferenceTheme$,
       theme => {
         this.theme = theme;
@@ -235,7 +246,6 @@ export class GrAppElement extends LitElement {
     const resizeObserver = this.getBrowserModel().observeWidth();
     resizeObserver.observe(this);
 
-    this.updateLoginUrl();
     this.reporting.appStarted();
     this.getRouter().start();
 
@@ -349,7 +359,8 @@ export class GrAppElement extends LitElement {
         @mobile-search=${this.mobileSearchToggle}
         @show-keyboard-shortcuts=${this.showKeyboardShortcuts}
         .mobileSearchHidden=${!this.mobileSearch}
-        .loginUrl=${this.loginUrl}
+        .loginUrl=${loginUrl(this.serverConfig?.auth)}
+        .loginText=${this.serverConfig?.auth.login_text ?? 'Sign in'}
         ?aria-hidden=${this.footerHeaderAriaHidden}
       >
       </gr-main-header>
@@ -387,7 +398,8 @@ export class GrAppElement extends LitElement {
       <gr-endpoint-decorator name="plugin-overlay"></gr-endpoint-decorator>
       <gr-error-manager
         id="errorManager"
-        .loginUrl=${this.loginUrl}
+        .loginUrl=${loginUrl(this.serverConfig?.auth)}
+        .loginText=${this.serverConfig?.auth.login_text ?? 'Sign in'}
       ></gr-error-manager>
       <gr-plugin-host id="plugins"></gr-plugin-host>
       <gr-external-style
@@ -633,35 +645,6 @@ export class GrAppElement extends LitElement {
           this.lastError = err;
         });
       }
-    }
-  }
-
-  private handleLocationChange() {
-    this.updateLoginUrl();
-  }
-
-  private updateLoginUrl() {
-    const baseUrl = getBaseUrl();
-    if (baseUrl) {
-      // Strip the canonical path from the path since needing canonical in
-      // the path is unneeded and breaks the url.
-      this.loginUrl =
-        baseUrl +
-        '/login/' +
-        encodeURIComponent(
-          '/' +
-            window.location.pathname.substring(baseUrl.length) +
-            window.location.search +
-            window.location.hash
-        );
-    } else {
-      this.loginUrl =
-        '/login/' +
-        encodeURIComponent(
-          window.location.pathname +
-            window.location.search +
-            window.location.hash
-        );
     }
   }
 

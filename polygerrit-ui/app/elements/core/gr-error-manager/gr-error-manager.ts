@@ -114,6 +114,9 @@ export class GrErrorManager extends LitElement {
   @property({type: String})
   loginUrl = '/login';
 
+  @property({type: String})
+  loginText = 'Sign in';
+
   private readonly reporting = getAppContext().reportingService;
 
   private readonly _authService = getAppContext().authService;
@@ -181,6 +184,7 @@ export class GrErrorManager extends LitElement {
           id="errorDialog"
           @dismiss=${() => this.errorOverlay.close()}
           .loginUrl=${this.loginUrl}
+          .loginText=${this.loginText}
         ></gr-error-dialog>
       </gr-overlay>
       <gr-overlay

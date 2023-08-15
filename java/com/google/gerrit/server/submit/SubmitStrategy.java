@@ -21,7 +21,6 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
-import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.SubmissionId;
@@ -215,18 +214,11 @@ public abstract class SubmitStrategy {
           projectCache.get(destBranch.project()).orElseThrow(illegalState(destBranch.project()));
       this.mergeSorter =
           new MergeSorter(caller, rw, alreadyAccepted, canMergeFlag, queryProvider, incoming);
-      Set<RevCommit> uninterestingBranchTips;
-      if (project.is(BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET)) {
-        RevCommit initialTip = mergeTip.getInitialTip();
-        uninterestingBranchTips = initialTip == null ? Set.of() : Set.of(initialTip);
-      } else {
-        uninterestingBranchTips = alreadyAccepted;
-      }
       this.rebaseSorter =
           new RebaseSorter(
               caller,
               rw,
-              uninterestingBranchTips,
+              mergeTip.getInitialTip(),
               alreadyAccepted,
               canMergeFlag,
               queryProvider,

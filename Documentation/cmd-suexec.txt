@@ -47,7 +47,7 @@ This command is intended to be used in scripts.
 
 == EXAMPLES
 
-Approve the change with commit c0ff33 as "Verified +1" as user bob@example.com
+Approve the change with commit c0ff33 as "Verified +1" as user \bob@example.com
 ----
 $ sudo -u gerrit ssh -p 29418 \
   -i site_path/etc/ssh_host_rsa_key \

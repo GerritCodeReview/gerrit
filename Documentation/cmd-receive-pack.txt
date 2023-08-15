@@ -41,7 +41,7 @@ Any user who has SSH access to Gerrit.
 
 == EXAMPLES
 
-Send a review for a change on the master branch to charlie@example.com:
+Send a review for a change on the master branch to \charlie@example.com:
 ----
 git push ssh://review.example.com:29418/project HEAD:refs/for/master%r=charlie@example.com
 ----

@@ -194,7 +194,7 @@ the seventh patch set will take a value of `7`.
 [[Gerrit-Owner]]Gerrit-Owner::
 
 The owner footer states the name and email address of the change's
-owner. For example, `Owner Name <owner@example.com>`.
+owner. For example, `Owner Name <\owner@example.com>`.
 
 [[Gerrit-Reviewer]]Gerrit-Reviewer::
 

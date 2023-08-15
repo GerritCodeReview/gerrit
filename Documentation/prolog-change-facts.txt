@@ -29,14 +29,14 @@ of them we must use a qualified name like `gerrit:change_branch(X)`.
 |`commit_author/1`    |`commit_author(user(100000)).`
     |Author of the commit as `user(ID)` term. ID is the numeric account ID
 
-|`commit_author/3`    |`commit_author(user(100000), 'John Doe', 'john.doe@example.com').`
+|`commit_author/3`    |`commit_author(user(100000), 'John Doe', '\john.doe@example.com').`
     |ID, full name and the email of the commit author.  The full name and the
     email are string atoms
 
 |`commit_committer/1` |`commit_committer(user(100000)).`
     |Committer of the commit as `user(ID)` term. ID is the numeric account ID
 
-|`commit_committer/3` |`commit_committer(user(100000), 'John Doe', 'john.doe@example.com').`
+|`commit_committer/3` |`commit_committer(user(100000), 'John Doe', '\john.doe@example.com').`
     |ID, full name and the email of the commit committer. The full name and the
     email are string atoms
 

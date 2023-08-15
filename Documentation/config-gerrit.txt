@@ -519,8 +519,8 @@ user login names.  Only used if `auth.type` is `HTTP`, `HTTP_LDAP`
 or `LDAP`.
 +
 This value can be set to a format string, where `{0}` is replaced
-with the login name.  E.g. "\{0\}+gerrit@example.com" with a user
-login name of "foo" will produce "foo+gerrit@example.com" during
+with the login name.  E.g. "\{0\}+\gerrit@example.com" with a user
+login name of "foo" will produce "\foo+gerrit@example.com" during
 the first time user "foo" registers.
 +
 If the site is using `HTTP_LDAP` or `LDAP`, using this option is
@@ -3445,7 +3445,7 @@ an expression.  For example, `${sAMAccountName.toLowerCase}` will
 force the value of sAMAccountName, if defined, to be all lowercase.
 The suffix `.toUpperCase` can be used for the other direction.
 The suffix `.localPart` can be used to split attribute values of
-the form 'user@example.com' and return only the left hand side, for
+the form '\user@example.com' and return only the left hand side, for
 example `${userPrincipalName.localPart}` would provide only 'user'.
 +
 If set, users will be unable to modify their SSH username field, as

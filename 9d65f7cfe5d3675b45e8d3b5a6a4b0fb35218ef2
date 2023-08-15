@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "83275615_5adfb468",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-08-15T19:35:54Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com WDYT about https://gerrit-review.googlesource.com/c/gerrit/+/382874 where I attempt to update the test? Adding the check to ensure cached location is still valid degrades openRepository by ~500% on NFS based repositories. The check is going to be racy anyways, so it might not be worth doing it to handle a corner case.",
+      "parentUuid": "f5ea52f8_196f41ca",
+      "range": {
+        "startLine": 15,
+        "startChar": 27,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "9d65f7cfe5d3675b45e8d3b5a6a4b0fb35218ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6db41aa9_1e7487ad",

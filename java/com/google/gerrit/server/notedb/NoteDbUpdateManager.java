@@ -35,10 +35,13 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.cancellation.RequestStateContext;
 import com.google.gerrit.server.cancellation.RequestStateContext.NonCancellableOperationContext;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
@@ -85,6 +88,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
   private final Provider<PersonIdent> serverIdent;
   private final GitRepositoryManager repoManager;
+  private final AccountResolver accountResolver;
   private final AllUsersName allUsersName;
   private final NoteDbMetrics metrics;
   private final Project.NameKey projectName;
@@ -105,23 +109,29 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private PushCertificate pushCert;
   private ImmutableList<BatchUpdateListener> batchUpdateListeners;
 
+  private final GitReferenceUpdated gitRefUpdated;
+
   @Inject
   NoteDbUpdateManager(
       @GerritServerConfig Config cfg,
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
       GitRepositoryManager repoManager,
+      AccountResolver accountResolver,
       AllUsersName allUsersName,
       NoteDbMetrics metrics,
       AllUsersAsyncUpdate updateAllUsersAsync,
+      GitReferenceUpdated gitRefUpdated,
       @Assisted Project.NameKey projectName) {
     this.serverIdent = serverIdent;
     this.repoManager = repoManager;
+    this.accountResolver = accountResolver;
     this.allUsersName = allUsersName;
     this.metrics = metrics;
     this.updateAllUsersAsync = updateAllUsersAsync;
     this.projectName = projectName;
     maxUpdates = cfg.getInt("change", null, "maxUpdates", MAX_UPDATES_DEFAULT);
     maxPatchSets = cfg.getInt("change", null, "maxPatchSets", MAX_PATCH_SETS_DEFAULT);
+    this.gitRefUpdated = gitRefUpdated;
     changeUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     draftUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     robotCommentUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
@@ -398,6 +408,15 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
     if (!dryrun) {
       RefUpdateUtil.executeChecked(bru, or.rw);
+      AccountState accountState = null;
+      try {
+        if (refLogIdent != null) {
+          accountState = accountResolver.resolve(refLogIdent.getEmailAddress()).asUnique();
+        }
+      } catch (ConfigInvalidException | AccountResolver.UnresolvableAccountException ignored) {
+        // Nothing to do
+      }
+      gitRefUpdated.fire(allUsersName, bru, accountState);
     }
     return bru;
   }

@@ -16,6 +16,23 @@
       "message": "this doc update is related to following thread on the mailing list:\n\n  https://groups.google.com/g/repo-discuss/c/qm9z3VihSrg/m/tK_iO4GogRYJ?hl\u003den",
       "revId": "ce09ebdbe9d1ada2cdb747b8fd7362669e460a97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24fd75aa_123cdbc5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146580
+      },
+      "writtenOn": "2023-08-15T16:28:47Z",
+      "side": 1,
+      "message": "thanks, Nasser.",
+      "revId": "ce09ebdbe9d1ada2cdb747b8fd7362669e460a97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

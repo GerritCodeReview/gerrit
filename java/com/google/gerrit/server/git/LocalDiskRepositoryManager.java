@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -244,6 +245,11 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     ProjectVisitor visitor = new ProjectVisitor(basePath);
     scanProjects(visitor);
     return Collections.unmodifiableSortedSet(visitor.found);
+  }
+
+  @VisibleForTesting
+  public void clearLocationCache() {
+    fileKeyByProject.clear();
   }
 
   protected void scanProjects(ProjectVisitor visitor) {

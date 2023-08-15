@@ -49,7 +49,9 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -311,17 +313,18 @@ public class NoteDbUpdateManager implements AutoCloseable {
     }
   }
 
-  @Nullable
-  public BatchRefUpdate execute() throws IOException {
+  public List<Map.Entry<Project.NameKey, BatchRefUpdate>> execute() throws IOException {
     return execute(false);
   }
 
-  @Nullable
-  public BatchRefUpdate execute(boolean dryrun) throws IOException {
+  public List<Map.Entry<Project.NameKey, BatchRefUpdate>> execute(boolean dryrun)
+      throws IOException {
     checkNotExecuted();
+    List<Map.Entry<Project.NameKey, BatchRefUpdate>> result =
+        new java.util.ArrayList<>(Collections.emptyList());
     if (isEmpty()) {
       executed = true;
-      return null;
+      return result;
     }
     try (Timer0.Context timer = metrics.updateLatency.start();
         NonCancellableOperationContext nonCancellableOperationContext =
@@ -335,14 +338,17 @@ public class NoteDbUpdateManager implements AutoCloseable {
       // we may have stale draft comments. Doing it in this order allows stale
       // comments to be filtered out by ChangeNotes, reflecting the fact that
       // comments can only go from DRAFT to PUBLISHED, not vice versa.
-      BatchRefUpdate result;
       try (TraceContext.TraceTimer ignored =
           newTimer("NoteDbUpdateManager#updateRepo", Metadata.empty())) {
-        result = execute(changeRepo, dryrun, pushCert);
+        execute(changeRepo, dryrun, pushCert)
+            .map(bru -> Map.entry(projectName, bru))
+            .ifPresent(result::add);
       }
       try (TraceContext.TraceTimer ignored =
           newTimer("NoteDbUpdateManager#updateAllUsersSync", Metadata.empty())) {
-        execute(allUsersRepo, dryrun, null);
+        execute(allUsersRepo, dryrun, null)
+            .map(bru -> Map.entry((Project.NameKey) allUsersName, bru))
+            .ifPresent(result::add);
       }
       if (!dryrun) {
         // Only execute the asynchronous operation if we are not in dry-run mode: The dry run would
@@ -366,11 +372,10 @@ public class NoteDbUpdateManager implements AutoCloseable {
                 cu -> cu.getAttentionSetUpdates().stream()));
   }
 
-  @Nullable
-  private BatchRefUpdate execute(OpenRepo or, boolean dryrun, @Nullable PushCertificate pushCert)
-      throws IOException {
+  private Optional<BatchRefUpdate> execute(
+      OpenRepo or, boolean dryrun, @Nullable PushCertificate pushCert) throws IOException {
     if (or == null || or.cmds.isEmpty()) {
-      return null;
+      return Optional.empty();
     }
     if (!dryrun) {
       or.flush();
@@ -399,7 +404,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     if (!dryrun) {
       RefUpdateUtil.executeChecked(bru, or.rw);
     }
-    return bru;
+    return Optional.of(bru);
   }
 
   private void addCommands() throws IOException {

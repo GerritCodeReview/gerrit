@@ -3924,11 +3924,12 @@ Attribute values may be concatenated with literal strings.  For
 example to join given name and surname together, use the pattern
 `${givenName} ${SN}`.
 +
-If set, users will be unable to modify their full name field, as
-Gerrit will populate it only from the LDAP data.
-+
 Default is `displayName` for FreeIPA and RFC 2307 servers,
 and `${givenName} ${sn}` for Active Directory.
++
+A non-empty or default value prevents users from modifying their full
+name field.  To allow edits to the full name field, set to the empty
+string.
 
 [[ldap.accountEmailAddress]]ldap.accountEmailAddress::
 +

@@ -22,6 +22,30 @@
       },
       "revId": "5e34d002c32909ed7757a91589cc4f357aa927ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a2a50b7_fc76a8c0",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-15T13:46:30Z",
+      "side": 0,
+      "message": "That is not needed anymore, in fact as per the original change it is called inline at line 181 as suggested by Ben: \n\n```\ndocument.addEventListener(EventType.LOCATION_CHANGE, () \u003d\u003e\n      this.requestUpdate()\n    );\n```\n\nThat is also the reason of the changes in the `polygerrit-ui/app/elements/gr-app_test.ts` because the sinon spy cannot check that the function is called, but actually calls requestUpdate().",
+      "parentUuid": "8e59d1d4_d23b9092",
+      "range": {
+        "startLine": 645,
+        "startChar": 0,
+        "endLine": 646,
+        "endChar": 26
+      },
+      "revId": "5e34d002c32909ed7757a91589cc4f357aa927ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

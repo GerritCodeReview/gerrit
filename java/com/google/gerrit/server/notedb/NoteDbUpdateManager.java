@@ -39,6 +39,7 @@ import com.google.gerrit.server.cancellation.RequestStateContext;
 import com.google.gerrit.server.cancellation.RequestStateContext.NonCancellableOperationContext;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
@@ -105,6 +106,8 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private PushCertificate pushCert;
   private ImmutableList<BatchUpdateListener> batchUpdateListeners;
 
+  private final GitReferenceUpdated gitRefUpdated;
+
   @Inject
   NoteDbUpdateManager(
       @GerritServerConfig Config cfg,
@@ -113,6 +116,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
       AllUsersName allUsersName,
       NoteDbMetrics metrics,
       AllUsersAsyncUpdate updateAllUsersAsync,
+      GitReferenceUpdated gitRefUpdated,
       @Assisted Project.NameKey projectName) {
     this.serverIdent = serverIdent;
     this.repoManager = repoManager;
@@ -120,6 +124,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     this.metrics = metrics;
     this.updateAllUsersAsync = updateAllUsersAsync;
     this.projectName = projectName;
+    this.gitRefUpdated = gitRefUpdated;
     maxUpdates = cfg.getInt("change", null, "maxUpdates", MAX_UPDATES_DEFAULT);
     maxPatchSets = cfg.getInt("change", null, "maxPatchSets", MAX_PATCH_SETS_DEFAULT);
     changeUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
@@ -342,7 +347,10 @@ public class NoteDbUpdateManager implements AutoCloseable {
       }
       try (TraceContext.TraceTimer ignored =
           newTimer("NoteDbUpdateManager#updateAllUsersSync", Metadata.empty())) {
-        execute(allUsersRepo, dryrun, null);
+        BatchRefUpdate bru = execute(allUsersRepo, dryrun, null);
+        if (bru != null) {
+          gitRefUpdated.fire(allUsersName, bru, null);
+        }
       }
       if (!dryrun) {
         // Only execute the asynchronous operation if we are not in dry-run mode: The dry run would

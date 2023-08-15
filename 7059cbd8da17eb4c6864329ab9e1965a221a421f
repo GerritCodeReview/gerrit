@@ -1,6 +1,24 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e8dd5e3_8bc42a76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-15T09:20:06Z",
+      "side": 1,
+      "message": "Post-merge -1 (or even -2):\n- This change did not have any tests\n- This change looks a hack to resolve a very specific encoding issue of a university\u0027s specific SSO proxy",
+      "revId": "7059cbd8da17eb4c6864329ab9e1965a221a421f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "a0c884db_84ea9c48",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpAuthFilter.java",
@@ -14,8 +32,25 @@
       "side": 1,
       "message": "It seems that this change broke some users of SAML plugin, see issue 13076.",
       "revId": "7059cbd8da17eb4c6864329ab9e1965a221a421f",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd79925d_a3241d21",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpAuthFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-15T09:20:06Z",
+      "side": 1,
+      "message": "This looks wrong anyway, regardless of the Issue 13076: you cannot encode a generic string as one charset and decode back using a different one.\n\nThis would work only if the source string is already garbled (or contains only a subset of chars contained in both with the same code), but it would break if the string is valid and contains UTF-8 characters.",
+      "parentUuid": "a0c884db_84ea9c48",
+      "revId": "7059cbd8da17eb4c6864329ab9e1965a221a421f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

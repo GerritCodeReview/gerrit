@@ -70,6 +70,24 @@
       "parentUuid": "9a2b4274_7e28918d",
       "revId": "28fdd350227274653a160729f104b3db183c734b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "042728de_23363b0d",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-15T09:08:14Z",
+      "side": 1,
+      "message": "No, it was not yet done. `CustomIndexIT` was setting a custom indexModule but without passing any custom module, so that gerrit used the default FakeIndexModule.\n\nI now added a `CustomIndexModule` (just a wrapper around `AbstractFakeIndex` but I believe it should be enough for the purpose of this test) and so now it can check that the test uses `AbstractDeamonTest` and installs a different module than `FakeIndexModule` or `LuceneIndexModule`.\n\n@luca.milanesio@gmail.com Do you know it there is a smarter way to do this?",
+      "parentUuid": "95749fac_b3a7f7bc",
+      "revId": "28fdd350227274653a160729f104b3db183c734b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

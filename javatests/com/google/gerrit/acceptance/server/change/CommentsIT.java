@@ -29,6 +29,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
@@ -54,6 +55,7 @@ import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -89,6 +91,8 @@ import org.junit.Test;
 @NoHttpd
 public class CommentsIT extends AbstractDaemonTest {
   @Inject private ChangeNoteUtil noteUtil;
+
+  @Inject private ExtensionRegistry extensionRegistry;
   @Inject private FakeEmailSender email;
   @Inject private ProjectOperations projectOperations;
   @Inject private Provider<ChangesCollection> changes;
@@ -96,6 +100,21 @@ public class CommentsIT extends AbstractDaemonTest {
   @Inject private ChangeOperations changeOperations;
   @Inject private AccountOperations accountOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+
+  private static class TestListener implements GitReferenceUpdatedListener {
+
+    private GitReferenceUpdatedListener.Event lastCommentAddedEvent;
+
+    @Override
+    public void onGitReferenceUpdated(Event event) {
+      lastCommentAddedEvent = event;
+    }
+
+    public GitReferenceUpdatedListener.Event getLastCommentAddedEvent() {
+      assertThat(lastCommentAddedEvent).isNotNull();
+      return lastCommentAddedEvent;
+    }
+  }
 
   private final Integer[] lines = {0, 1};
 
@@ -132,6 +151,49 @@ public class CommentsIT extends AbstractDaemonTest {
       assertThat(list).hasSize(1);
       actual = list.get(0);
       assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
+    }
+  }
+
+  @Test
+  public void fireEventsForOperationsOnDrafts() throws Exception {
+    TestListener listener = new TestListener();
+    try (ExtensionRegistry.Registration registration =
+        extensionRegistry.newRegistration().add(listener)) {
+      PushOneCommit.Result r = createChange();
+      String changeId = r.getChangeId();
+      String revId = r.getCommit().getName();
+      String path = "file1";
+      DraftInput comment =
+          CommentsUtil.newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment 1");
+      CommentInfo ci = addDraft(changeId, revId, comment);
+
+      List<CommentInfo> list = getDraftCommentsAsList(changeId);
+      assertThat(list).hasSize(1);
+
+      GitReferenceUpdatedListener.Event e = listener.getLastCommentAddedEvent();
+      assertThat(e.getRefName()).startsWith("refs/draft-comments/");
+      assertThat(e.getProjectName()).isEqualTo(allUsers.get());
+      assertThat(e.isCreate()).isTrue();
+
+      Map<String, List<CommentInfo>> results = getDraftComments(changeId, revId);
+      DraftInput update = CommentsUtil.newDraft(path, Side.REVISION, 1, "comment 2");
+      update.id = Iterables.getOnlyElement(results.get(PATCHSET_LEVEL)).id;
+      update.line = 1;
+
+      updateDraft(changeId, revId, update, ci.id);
+
+      GitReferenceUpdatedListener.Event e2 = listener.getLastCommentAddedEvent();
+      assertThat(e2.getRefName()).startsWith("refs/draft-comments/");
+      assertThat(e2.getProjectName()).isEqualTo(allUsers.get());
+      assertThat(e2.isCreate()).isFalse();
+      assertThat(e2.isDelete()).isFalse();
+
+      deleteDraft(changeId, revId, ci.id);
+
+      GitReferenceUpdatedListener.Event e1 = listener.getLastCommentAddedEvent();
+      assertThat(e1.getRefName()).startsWith("refs/draft-comments/");
+      assertThat(e1.getProjectName()).isEqualTo(allUsers.get());
+      assertThat(e1.isDelete()).isTrue();
     }
   }
 

@@ -32,6 +32,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multiset;
@@ -431,7 +432,7 @@ public class BatchUpdate implements AutoCloseable {
   private final Config gerritConfig;
 
   private RepoView repoView;
-  private BatchRefUpdate batchRefUpdate;
+  private ImmutableMultimap<Project.NameKey, BatchRefUpdate> batchRefUpdate;
   private ImmutableListMultimap<ProjectChangeKey, AttentionSetUpdate> attentionSetUpdates;
 
   private boolean executed;
@@ -678,9 +679,8 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   private void fireRefChangeEvent() {
-    if (batchRefUpdate != null) {
-      gitRefUpdated.fire(project, batchRefUpdate, getAccount().orElse(null));
-    }
+    batchRefUpdate.forEach(
+        (projectName, bru) -> gitRefUpdated.fire(projectName, bru, getAccount().orElse(null)));
   }
 
   private void fireAttentionSetUpdateEvents(Map<Change.Id, ChangeData> changeDatas) {
@@ -727,10 +727,11 @@ public class BatchUpdate implements AutoCloseable {
     boolean requiresReindex() {
       // We do not need to reindex changes if there are no ref updates, or if updated refs
       // are all draft comment refs (since draft fields are not stored in the change index).
-      BatchRefUpdate bru = BatchUpdate.this.batchRefUpdate;
-      return !(bru == null
-          || bru.getCommands().isEmpty()
-          || bru.getCommands().stream()
+      ImmutableMultimap<Project.NameKey, BatchRefUpdate> bru = BatchUpdate.this.batchRefUpdate;
+      return !(bru.isEmpty()
+          || bru.values().stream().allMatch(entry -> entry.getCommands().isEmpty())
+          || bru.values().stream()
+              .flatMap(batchRefUpdate -> batchRefUpdate.getCommands().stream())
               .allMatch(cmd -> RefNames.isRefsDraftsComments(cmd.getRefName())));
     }
 

@@ -225,6 +225,10 @@ public class ExtensionRegistry {
       return add(topicEditedListeners, topicEditedListener);
     }
 
+    public Registration add(CommentAddedListener commentAddedListener) {
+      return add(commentAddedListeners, commentAddedListener);
+    }
+
     public Registration add(ExceptionHook exceptionHook) {
       return add(exceptionHooks, exceptionHook);
     }
@@ -275,10 +279,6 @@ public class ExtensionRegistry {
 
     public Registration add(RefOperationValidationListener refOperationValidationListener) {
       return add(refOperationValidationListeners, refOperationValidationListener);
-    }
-
-    public Registration add(CommentAddedListener commentAddedListener) {
-      return add(commentAddedListeners, commentAddedListener);
     }
 
     public Registration add(GitReferenceUpdatedListener refUpdatedListener) {

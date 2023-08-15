@@ -39,6 +39,7 @@ import com.google.gerrit.server.cancellation.RequestStateContext;
 import com.google.gerrit.server.cancellation.RequestStateContext.NonCancellableOperationContext;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
@@ -105,6 +106,8 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private PushCertificate pushCert;
   private ImmutableList<BatchUpdateListener> batchUpdateListeners;
 
+  private final GitReferenceUpdated gitRefUpdated;
+
   @Inject
   NoteDbUpdateManager(
       @GerritServerConfig Config cfg,
@@ -113,7 +116,8 @@ public class NoteDbUpdateManager implements AutoCloseable {
       AllUsersName allUsersName,
       NoteDbMetrics metrics,
       AllUsersAsyncUpdate updateAllUsersAsync,
-      @Assisted Project.NameKey projectName) {
+      @Assisted Project.NameKey projectName,
+      GitReferenceUpdated gitRefUpdated) {
     this.serverIdent = serverIdent;
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
@@ -122,6 +126,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     this.projectName = projectName;
     maxUpdates = cfg.getInt("change", null, "maxUpdates", MAX_UPDATES_DEFAULT);
     maxPatchSets = cfg.getInt("change", null, "maxPatchSets", MAX_PATCH_SETS_DEFAULT);
+    this.gitRefUpdated = gitRefUpdated;
     changeUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     draftUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     robotCommentUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
@@ -398,6 +403,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
     if (!dryrun) {
       RefUpdateUtil.executeChecked(bru, or.rw);
+      gitRefUpdated.fire(allUsersName, bru, null);
     }
     return bru;
   }

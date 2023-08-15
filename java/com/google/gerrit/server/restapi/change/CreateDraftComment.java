@@ -215,6 +215,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
 
       commentsUtil.putHumanComments(
           ctx.getUpdate(psId), HumanComment.Status.DRAFT, Collections.singleton(comment));
+
       return true;
     }
   }

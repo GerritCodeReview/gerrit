@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.events.AccountIndexedListener;
 import com.google.gerrit.extensions.events.AttentionSetListener;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.events.CommentAddedListener;
+import com.google.gerrit.extensions.events.DraftCommentAddedListener;
 import com.google.gerrit.extensions.events.GitBatchRefUpdateListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.GroupIndexedListener;
@@ -83,6 +84,8 @@ public class ExtensionRegistry {
   private final DynamicMap<DownloadScheme> downloadSchemes;
   private final DynamicSet<RefOperationValidationListener> refOperationValidationListeners;
   private final DynamicSet<CommentAddedListener> commentAddedListeners;
+
+  private final DynamicSet<DraftCommentAddedListener> draftCommentAddedListeners;
   private final DynamicSet<GitReferenceUpdatedListener> refUpdatedListeners;
   private final DynamicSet<GitBatchRefUpdateListener> batchRefUpdateListeners;
   private final DynamicSet<FileHistoryWebLink> fileHistoryWebLinks;
@@ -128,6 +131,7 @@ public class ExtensionRegistry {
       DynamicMap<DownloadScheme> downloadSchemes,
       DynamicSet<RefOperationValidationListener> refOperationValidationListeners,
       DynamicSet<CommentAddedListener> commentAddedListeners,
+      DynamicSet <DraftCommentAddedListener> draftCommentAddedListeners,
       DynamicSet<GitReferenceUpdatedListener> refUpdatedListeners,
       DynamicSet<GitBatchRefUpdateListener> batchRefUpdateListeners,
       DynamicSet<FileHistoryWebLink> fileHistoryWebLinks,
@@ -168,6 +172,7 @@ public class ExtensionRegistry {
     this.downloadSchemes = downloadSchemes;
     this.refOperationValidationListeners = refOperationValidationListeners;
     this.commentAddedListeners = commentAddedListeners;
+    this.draftCommentAddedListeners = draftCommentAddedListeners;
     this.refUpdatedListeners = refUpdatedListeners;
     this.batchRefUpdateListeners = batchRefUpdateListeners;
     this.fileHistoryWebLinks = fileHistoryWebLinks;
@@ -225,6 +230,10 @@ public class ExtensionRegistry {
       return add(topicEditedListeners, topicEditedListener);
     }
 
+    public Registration add(CommentAddedListener commentAddedListener) {
+      return add(commentAddedListeners, commentAddedListener);
+    }
+
     public Registration add(ExceptionHook exceptionHook) {
       return add(exceptionHooks, exceptionHook);
     }
@@ -277,8 +286,8 @@ public class ExtensionRegistry {
       return add(refOperationValidationListeners, refOperationValidationListener);
     }
 
-    public Registration add(CommentAddedListener commentAddedListener) {
-      return add(commentAddedListeners, commentAddedListener);
+    public Registration add(DraftCommentAddedListener commentAddedListener) {
+      return add(draftCommentAddedListeners, commentAddedListener);
     }
 
     public Registration add(GitReferenceUpdatedListener refUpdatedListener) {

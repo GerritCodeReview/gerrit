@@ -3728,6 +3728,15 @@ events by setting <<event.stream-events.enableRefUpdatedEvents, event.stream-eve
 +
 By default, false.
 
+[[event.stream-events.enableDraftEvents]]event.stream-events.enableDraftEvents::
++
+Due to the nature of drafts, the amount of `ref-updated` events created on draft operations could be high.
+However, in some scenarios consuming those events can be important, for example in a multi-primary
+setup to make sure nodes are aligned.
+This allow to enable the production of `ref-updated` events on draft operations.
++
+By default, false.
+
 [[experiments]]
 === Section experiments
 

@@ -54,6 +54,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.git.LocalDiskRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
@@ -569,6 +570,10 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
             .getFile()
             .toPath(),
         RecursiveDeleteOption.ALLOW_INSECURE);
+
+    if (repoManager instanceof LocalDiskRepositoryManager) {
+      ((LocalDiskRepositoryManager) repoManager).clearLocationCache();
+    }
 
     migrate(b -> b);
     assertNotesMigrationState(NOTE_DB, false, false);

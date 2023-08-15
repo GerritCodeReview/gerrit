@@ -431,7 +431,7 @@ public class BatchUpdate implements AutoCloseable {
   private final Config gerritConfig;
 
   private RepoView repoView;
-  private BatchRefUpdate batchRefUpdate;
+  private HashMap<Project.NameKey, BatchRefUpdate> batchRefUpdate;
   private ImmutableListMultimap<ProjectChangeKey, AttentionSetUpdate> attentionSetUpdates;
 
   private boolean executed;
@@ -678,9 +678,8 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   private void fireRefChangeEvent() {
-    if (batchRefUpdate != null) {
-      gitRefUpdated.fire(project, batchRefUpdate, getAccount().orElse(null));
-    }
+    batchRefUpdate.forEach(
+        (key, value) -> gitRefUpdated.fire(key, value, getAccount().orElse(null)));
   }
 
   private void fireAttentionSetUpdateEvents(Map<Change.Id, ChangeData> changeDatas) {
@@ -727,10 +726,11 @@ public class BatchUpdate implements AutoCloseable {
     boolean requiresReindex() {
       // We do not need to reindex changes if there are no ref updates, or if updated refs
       // are all draft comment refs (since draft fields are not stored in the change index).
-      BatchRefUpdate bru = BatchUpdate.this.batchRefUpdate;
-      return !(bru == null
-          || bru.getCommands().isEmpty()
-          || bru.getCommands().stream()
+      HashMap<Project.NameKey, BatchRefUpdate> bru = BatchUpdate.this.batchRefUpdate;
+      return !(bru.isEmpty()
+          || bru.entrySet().stream().allMatch(entry -> entry.getValue().getCommands().isEmpty())
+          || bru.values().stream()
+              .flatMap(batchRefUpdate -> batchRefUpdate.getCommands().stream())
               .allMatch(cmd -> RefNames.isRefsDraftsComments(cmd.getRefName())));
     }
 

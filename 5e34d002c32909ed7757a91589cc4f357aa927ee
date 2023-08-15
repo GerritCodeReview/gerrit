@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e59d1d4_d23b9092",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-15T13:40:05Z",
+      "side": 0,
+      "message": "Where has this function gone?",
+      "range": {
+        "startLine": 645,
+        "startChar": 0,
+        "endLine": 646,
+        "endChar": 26
+      },
+      "revId": "5e34d002c32909ed7757a91589cc4f357aa927ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

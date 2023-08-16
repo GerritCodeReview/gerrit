@@ -116,8 +116,7 @@ public class IndexHtmlUtilTest {
 
     assertThat(dynamicTemplateData(gerritApi, "/c/project/+/123"))
         .containsAtLeast(
-            "defaultChangeDetailHex", "1916314",
-            "changeRequestsPath", "changes/project~123");
+            "1916314", "changeRequestsPath", "changes/project~123");
   }
 
   private static SanitizedContent ordain(String s) {

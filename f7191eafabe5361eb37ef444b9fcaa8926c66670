@@ -22,6 +22,30 @@
       },
       "revId": "f7191eafabe5361eb37ef444b9fcaa8926c66670",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d65a0b74_10f1894f",
+        "filename": "java/com/google/gerrit/server/git/LocalDiskRepositoryManager.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-08-16T15:54:02Z",
+      "side": 1,
+      "message": "We could, but do we think anyone would actually choose to configure it to do the check? I suspect not, and likely it would be code that just makes things harder to maintain?",
+      "parentUuid": "2bea218a_1352c3b0",
+      "range": {
+        "startLine": 138,
+        "startChar": 8,
+        "endLine": 138,
+        "endChar": 94
+      },
+      "revId": "f7191eafabe5361eb37ef444b9fcaa8926c66670",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

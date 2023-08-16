@@ -25,7 +25,6 @@ declare global {
     hljs?: HighlightJS;
 
     DEFAULT_DETAIL_HEXES?: {
-      diffPage?: string;
       changePage?: string;
       dashboardPage?: string;
     };

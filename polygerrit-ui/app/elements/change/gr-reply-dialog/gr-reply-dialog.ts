@@ -58,6 +58,7 @@ import {
   Suggestion,
   UserId,
   isDraft,
+  ChangeViewChangeInfo,
 } from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrLabelScores} from '../gr-label-scores/gr-label-scores';
@@ -130,6 +131,7 @@ import {accountsModelToken} from '../../../models/accounts-model/accounts-model'
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {ironAnnouncerRequestAvailability} from '../../polymer-util';
+import {GrReviewerUpdatesParser} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 
 export enum FocusTarget {
   ANY = 'any',
@@ -1422,21 +1424,20 @@ export class GrReplyDialog extends LitElement {
       }
     }
 
+    reviewInput.response_format_options =
+      await this.restApiService.getResponseFormatOptions();
+
     assertIsDefined(this.change, 'change');
     reviewInput.reviewers = this.computeReviewers();
 
     const errFn = (r?: Response | null) => this.handle400Error(r);
     return this.saveReview(reviewInput, errFn)
-      .then(response => {
-        if (!response) {
-          // Null or undefined response indicates that an error handler
-          // took responsibility, so just return.
-          return;
-        }
-        if (!response.ok) {
-          fireServerError(response);
-          return;
-        }
+      .then(result => {
+        this.getChangeModel().updateStateChange(
+          GrReviewerUpdatesParser.parse(
+            result?.change_info as ChangeViewChangeInfo
+          )
+        );
 
         this.patchsetLevelDraftMessage = '';
         this.includeComments = true;

@@ -29,6 +29,7 @@ import com.google.common.truth.MapSubject;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.changes.CustomKeyedValuesInput;
@@ -45,9 +46,19 @@ public class CustomKeyedValuesIT extends AbstractDaemonTest {
 
   @Test
   public void getNoCustomKeyedValues() throws Exception {
-    // Get on a change with no hashtags returns an empty list.
+    // Get on a change with no custom keyed values returns an empty list.
     PushOneCommit.Result r = createChange();
     assertThatGet(r).isEmpty();
+  }
+
+  @Test
+  public void parsesInputCorrectly() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String endpoint = "/changes/" + r.getChangeId() + "/custom_keyed_values";
+    RestResponse response = adminRestSession.put(endpoint, "{\"add\": {\"key\": \"value\"}}");
+
+    assertThatGet(r).containsExactly("key", "value");
+    response.assertOK();
   }
 
   @Test

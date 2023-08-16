@@ -14,21 +14,21 @@
 
 package com.google.gerrit.extensions.api.changes;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.restapi.DefaultInput;
+import java.util.Map;
+import java.util.Set;
 
 public class CustomKeyedValuesInput {
-  @DefaultInput public ImmutableMap<String, String> add;
-  public ImmutableSet<String> remove;
+  @DefaultInput public Map<String, String> add;
+  public Set<String> remove;
 
   public CustomKeyedValuesInput() {}
 
-  public CustomKeyedValuesInput(ImmutableMap<String, String> add) {
+  public CustomKeyedValuesInput(Map<String, String> add) {
     this.add = add;
   }
 
-  public CustomKeyedValuesInput(ImmutableMap<String, String> add, ImmutableSet<String> remove) {
+  public CustomKeyedValuesInput(Map<String, String> add, Set<String> remove) {
     this(add);
     this.remove = remove;
   }

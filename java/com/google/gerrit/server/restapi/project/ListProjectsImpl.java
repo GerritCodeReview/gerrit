@@ -41,6 +41,8 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.index.project.ProjectField;
+import com.google.gerrit.index.project.ProjectIndexCollection;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.WebLinks;
@@ -184,6 +186,7 @@ public class ListProjectsImpl extends AbstractListProjects {
   private AccountGroup.UUID groupUuid;
   private final Provider<QueryProjects> queryProjectsProvider;
   private final boolean listProjectsFromIndex;
+  private final ProjectIndexCollection projectIndexes;
 
   @Inject
   protected ListProjectsImpl(
@@ -196,7 +199,8 @@ public class ListProjectsImpl extends AbstractListProjects {
       ProjectNode.Factory projectNodeFactory,
       WebLinks webLinks,
       Provider<QueryProjects> queryProjectsProvider,
-      @GerritServerConfig Config config) {
+      @GerritServerConfig Config config,
+      ProjectIndexCollection projectIndexes) {
     this.currentUser = currentUser;
     this.projectCache = projectCache;
     this.groupResolver = groupResolver;
@@ -207,6 +211,7 @@ public class ListProjectsImpl extends AbstractListProjects {
     this.webLinks = webLinks;
     this.queryProjectsProvider = queryProjectsProvider;
     this.listProjectsFromIndex = config.getBoolean("gerrit", "listProjectsFromIndex", false);
+    this.projectIndexes = projectIndexes;
   }
 
   public List<String> getShowBranch() {
@@ -251,11 +256,15 @@ public class ListProjectsImpl extends AbstractListProjects {
     return display(null);
   }
 
-  private Optional<String> expressAsProjectsQuery() {
+  private Optional<String> expressAsProjectsQuery() throws BadRequestException {
     return listProjectsFromIndex
             && !all
             && state != HIDDEN
-            && isNullOrEmpty(matchPrefix)
+            && (isNullOrEmpty(matchPrefix)
+                || projectIndexes
+                    .getSearchIndex()
+                    .getSchema()
+                    .hasField(ProjectField.PREFIX_NAME_SPEC))
             && isNullOrEmpty(matchRegex)
             && type == FilterType.ALL
             && showBranch.isEmpty()
@@ -264,11 +273,24 @@ public class ListProjectsImpl extends AbstractListProjects {
         : Optional.empty();
   }
 
-  private String toQuery() {
+  private String toQuery() throws BadRequestException {
+    // QueryProjects supports specifying matchPrefix and matchSubstring at the same time, but to
+    // keep the behavior consistent regardless of whether 'gerrit.listProjectsFromIndex' is true or
+    // false, disallow specifying both at the same time here. This way
+    // 'gerrit.listProjectsFromIndex' can be troggled without breaking any caller.
+    if (matchPrefix != null) {
+      checkMatchOptions(matchSubstring == null);
+    } else if (matchSubstring != null) {
+      checkMatchOptions(matchPrefix == null);
+    }
+
     List<String> queries = new ArrayList<>();
 
     if (state != null) {
       queries.add(String.format("(state:%s)", state.name()));
+    }
+    if (!isNullOrEmpty(matchPrefix)) {
+      queries.add(String.format("prefix:%s", matchPrefix));
     }
     if (!isNullOrEmpty(matchSubstring)) {
       queries.add(String.format("substring:%s", matchSubstring));

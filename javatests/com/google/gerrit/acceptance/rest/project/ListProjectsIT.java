@@ -199,7 +199,18 @@ public class ListProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void listProjectsWithPrefix() throws Exception {
+  @GerritConfig(name = "gerrit.listProjectsFromIndex", value = "true")
+  public void listProjectsWithPrefix_indexEnabled() throws Exception {
+    testListProjectsWithPrefix();
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.listProjectsFromIndex", value = "false")
+  public void listProjectsWithPrefix_indexDisabled() throws Exception {
+    testListProjectsWithPrefix();
+  }
+
+  private void testListProjectsWithPrefix() throws Exception {
     Project.NameKey someProject = projectOperations.newProject().name("listtest-p1").create();
     Project.NameKey someOtherProject = projectOperations.newProject().name("listtest-p2").create();
     projectOperations.newProject().name("other-prefix-project").create();

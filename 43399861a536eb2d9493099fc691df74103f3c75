@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f77c86ba_b22b0f04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-08-16T11:58:28Z",
+      "side": 1,
+      "message": "I\u0027ve recently studied the JGit bitmap code, and I can\u0027t help but wonder if this cache is still necessary. The JGit reachability bitmap has the info to answer the question \"does commit C have a path to tags T1...TN\" without doing a revwalk (for recent commits C). I wonder if you could simplify things by using ObjectReader.createReachabilityChecker() (which uses bitmaps in the background) to compute TagSets instead?",
+      "revId": "43399861a536eb2d9493099fc691df74103f3c75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68291fd2_8dcde22d",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-08-16T11:58:28Z",
+      "side": 1,
+      "message": "you\u0027re not adding a test. Can you confirm that all these new codepaths are covered by the existing tests?",
+      "range": {
+        "startLine": 264,
+        "startChar": 0,
+        "endLine": 264,
+        "endChar": 10
+      },
+      "revId": "43399861a536eb2d9493099fc691df74103f3c75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

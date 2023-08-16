@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "37a7c9c8_fd184b56",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1162710
+      },
+      "writtenOn": "2023-08-16T17:35:20Z",
+      "side": 1,
+      "message": "We definitely want this enabled in Keystone, but I thought some people might find it too complicated.\nI thought we can go with default false and later we can change it to default true?",
+      "parentUuid": "3080d975_be41f737",
+      "revId": "b0a6913aa0eb592b7630d1b8cb6b5e7a627c776b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e0ffb7d8_3c96c8a7",
         "filename": "modules/jgit",
         "patchSetId": 1
@@ -31,6 +49,30 @@
       "writtenOn": "2023-08-16T09:10:56Z",
       "side": 1,
       "message": "I did this for you in https://gerrit-review.git.corp.google.com/c/gerrit/+/381356",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "b0a6913aa0eb592b7630d1b8cb6b5e7a627c776b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "286403e6_e2518373",
+        "filename": "modules/jgit",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1162710
+      },
+      "writtenOn": "2023-08-16T17:35:20Z",
+      "side": 1,
+      "message": "Thanks. Updated this patchset.",
+      "parentUuid": "e0ffb7d8_3c96c8a7",
       "range": {
         "startLine": 1,
         "startChar": 18,

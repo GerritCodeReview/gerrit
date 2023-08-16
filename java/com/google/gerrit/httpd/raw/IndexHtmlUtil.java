@@ -27,7 +27,6 @@ import com.google.gerrit.common.UsedAt.Project;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.config.Server;
-import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.json.OutputFormat;
@@ -95,8 +94,6 @@ public class IndexHtmlUtil {
       case CHANGE:
       case DIFF:
         data.put(
-            "defaultChangeDetailHex", ListOption.toHex(IndexPreloadingUtil.CHANGE_DETAIL_OPTIONS));
-        data.put(
             "changeRequestsPath",
             IndexPreloadingUtil.computeChangeRequestsPath(requestedPath, page).get());
         data.put("changeNum", IndexPreloadingUtil.computeChangeNum(requestedPath, page).get());
@@ -121,7 +118,6 @@ public class IndexHtmlUtil {
           serializeObject(GSON, accountApi.getEditPreferences()));
       data.put("userIsAuthenticated", true);
       if (page == RequestedPage.DASHBOARD) {
-        data.put("defaultDashboardHex", ListOption.toHex(IndexPreloadingUtil.DASHBOARD_OPTIONS));
         data.put("dashboardQuery", IndexPreloadingUtil.computeDashboardQueryList());
       }
     } catch (AuthException e) {

@@ -103,6 +103,14 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   @Inject private ExtensionRegistry extensionRegistry;
   @Inject private IndexOperations.Change changeIndexOperations;
 
+private static final ImmutableSet<ListChangesOption> DASHBOARD_OPTIONS =
+    ImmutableSet.of(
+        ListChangesOption.LABELS,
+        ListChangesOption.DETAILED_ACCOUNTS,
+        ListChangesOption.SUBMIT_REQUIREMENTS,
+        ListChangesOption.STAR);
+          
+
   @Test
   public void submitRecords() throws Exception {
     PushOneCommit.Result r = createChange();
@@ -2952,7 +2960,7 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
               .withQuery("project:{" + project.get() + "} (status:open OR status:closed)")
               .withOptions(
                   new ImmutableSet.Builder<ListChangesOption>()
-                      .addAll(IndexPreloadingUtil.DASHBOARD_OPTIONS)
+                      .addAll(DASHBOARD_OPTIONS)
                       .add(ListChangesOption.SUBMIT_REQUIREMENTS)
                       .build())
               .get();

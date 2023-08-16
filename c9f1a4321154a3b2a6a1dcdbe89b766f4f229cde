@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56c8e38a_188801ca",
+        "filename": "java/com/google/gerrit/index/project/ProjectSubstringPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-08-16T06:20:20Z",
+      "side": 1,
+      "message": "If this is the only predicate that is provided, it\u0027s going to boil down to a linear scan over all projects (i.e. not better than the current implementation judging from a runtime perspective).\n\nIs that expected or should we look into other options (maybe some index backends support ngrams)?",
+      "range": {
+        "startLine": 21,
+        "startChar": 47,
+        "endLine": 21,
+        "endChar": 66
+      },
+      "revId": "c9f1a4321154a3b2a6a1dcdbe89b766f4f229cde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

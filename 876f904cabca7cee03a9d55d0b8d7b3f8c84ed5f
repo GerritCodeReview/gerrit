@@ -22,6 +22,30 @@
       },
       "revId": "876f904cabca7cee03a9d55d0b8d7b3f8c84ed5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcc47b21_d20db092",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjectsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-16T08:20:48Z",
+      "side": 1,
+      "message": "Thanks! Good catch. I\u0027ve split this change into 2 changes now and have addressed this in change 382954 now.",
+      "parentUuid": "c5b87798_7b8da7e3",
+      "range": {
+        "startLine": 254,
+        "startChar": 27,
+        "endLine": 254,
+        "endChar": 49
+      },
+      "revId": "876f904cabca7cee03a9d55d0b8d7b3f8c84ed5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

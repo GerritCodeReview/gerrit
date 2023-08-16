@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "720965de_ce108c2a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-16T09:34:55Z",
+      "side": 1,
+      "message": "The bug is:\n```\njava.lang.IllegalArgumentException: Can not set com.google.common.collect.ImmutableMap field com.google.gerrit.extensions.api.changes.CustomKeyedValuesInput.add to com.google.gson.internal.LinkedTreeMap\n\tat java.base/jdk.internal.reflect.UnsafeFieldAccessorImpl.throwSetIllegalArgumentException(Unknown Source)\n\tat java.base/jdk.internal.reflect.UnsafeFieldAccessorImpl.throwSetIllegalArgumentException(Unknown Source)\n\tat java.base/jdk.internal.reflect.UnsafeObjectFieldAccessorImpl.set(Unknown Source)\n\tat java.base/java.lang.reflect.Field.set(Unknown Source)\n\tat com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$1.readIntoField(ReflectiveTypeAdapterFactory.java:230)\n\tat com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$FieldReflectionAdapter.readField(ReflectiveTypeAdapterFactory.java:442)\n\tat com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$Adapter.read(ReflectiveTypeAdapterFactory.java:402)\n\tat com.google.gson.Gson.fromJson(Gson.java:1284)\n\tat com.google.gson.Gson.fromJson(Gson.java:1234)\n\tat com.google.gerrit.httpd.restapi.RestApiServlet.parseRequest(RestApiServlet.java:1179)\n\tat com.google.gerrit.httpd.restapi.RestApiServlet.service(RestApiServlet.java:526)\n```",
+      "revId": "c331467677d08f162e3035a1558362ab8c9d86bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

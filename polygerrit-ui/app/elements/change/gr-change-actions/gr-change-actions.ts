@@ -25,7 +25,6 @@ import {
 import {
   changeIsOpen,
   isOwner,
-  ListChangesOption,
   listChangesOptionsToHex,
 } from '../../../utils/change-util';
 import {
@@ -48,6 +47,7 @@ import {
   isDetailedLabelInfo,
   isQuickLabelInfo,
   LabelInfo,
+  ListChangesOption,
   NumericChangeId,
   PatchSetNumber,
   RequestPayload,

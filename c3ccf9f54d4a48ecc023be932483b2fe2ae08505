@@ -33,6 +33,24 @@
       "message": "Ping Dani, are you still working on it?",
       "revId": "c3ccf9f54d4a48ecc023be932483b2fe2ae08505",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e27d761_e5642d08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-08-16T19:32:23Z",
+      "side": 1,
+      "message": "Started handing it over to Diego, need to finish that.",
+      "parentUuid": "1ef012b4_b1b48a02",
+      "revId": "c3ccf9f54d4a48ecc023be932483b2fe2ae08505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

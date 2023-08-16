@@ -22,6 +22,30 @@
       },
       "revId": "c9f1a4321154a3b2a6a1dcdbe89b766f4f229cde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35520882_709e6c6b",
+        "filename": "java/com/google/gerrit/index/project/ProjectSubstringPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-16T08:19:42Z",
+      "side": 1,
+      "message": "Yes, if projects are only filtered by substring we don\u0027t expect to see any performance improvement. I\u0027ve clarified this in the commit message.\n\nYou are right that we should look into other options, but I see this as out-of-scope for now, since we\u0027ve only planned 1w for improving ListProjects and that time is already spent. FWIW I don\u0027t think that the substring search is the biggest issue here and from a performance point of view we may just be fine with this, even long-term, but we\u0027ll see :)",
+      "parentUuid": "56c8e38a_188801ca",
+      "range": {
+        "startLine": 21,
+        "startChar": 47,
+        "endLine": 21,
+        "endChar": 66
+      },
+      "revId": "c9f1a4321154a3b2a6a1dcdbe89b766f4f229cde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

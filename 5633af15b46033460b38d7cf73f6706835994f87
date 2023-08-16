@@ -16,6 +16,24 @@
       "message": "Is this the case for all index backends?",
       "revId": "5633af15b46033460b38d7cf73f6706835994f87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6a9af56_544335e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-16T08:19:22Z",
+      "side": 1,
+      "message": "Thanks for asking. It\u0027s actually case-insensitive for our internal index backend. Updated the text in the documentation and in the commit message.",
+      "parentUuid": "afe95e9f_041380a2",
+      "revId": "5633af15b46033460b38d7cf73f6706835994f87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

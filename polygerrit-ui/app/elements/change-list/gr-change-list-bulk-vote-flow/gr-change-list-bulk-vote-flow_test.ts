@@ -37,6 +37,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {ProgressStatus} from '../../../constants/constants';
 import {StandardLabels} from '../../../utils/label-util';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
+import { ReviewResult } from '../../../types/common';
 
 const change1: ChangeInfo = {
   ...createChange(),
@@ -208,7 +209,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     );
     stubRestApi('saveChangeReview').callsFake(
       (_changeNum, _patchNum, _review, errFn) =>
-        Promise.resolve(new Response()).then(res => {
+        Promise.resolve(undefined).then(res => {
           errFn && errFn();
           return res;
         })
@@ -359,7 +360,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     );
     await selectChange(change);
     await element.updateComplete;
-    const saveChangeReview = mockPromise<Response>();
+    const saveChangeReview = mockPromise<ReviewResult>();
     stubRestApi('saveChangeReview').returns(saveChangeReview);
 
     queryAndAssert<GrButton>(element, '#voteFlowButton').click();
@@ -411,7 +412,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       ProgressStatus.RUNNING
     );
 
-    saveChangeReview.resolve({...new Response(), status: 200});
+    saveChangeReview.resolve({});
     await waitUntil(
       () =>
         element.progressByChange.get(1 as NumericChangeId) ===
@@ -445,7 +446,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
 
       stubRestApi('saveChangeReview').callsFake(
         (_changeNum, _patchNum, _review, errFn) =>
-          Promise.resolve(new Response()).then(res => {
+          Promise.resolve({}).then(res => {
             errFn && errFn();
             return res;
           })
@@ -503,7 +504,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
 
       stubRestApi('saveChangeReview').callsFake(
         (_changeNum, _patchNum, _review, errFn) =>
-          Promise.resolve(new Response()).then(res => {
+          Promise.resolve(undefined).then(res => {
             errFn && errFn();
             return res;
           })

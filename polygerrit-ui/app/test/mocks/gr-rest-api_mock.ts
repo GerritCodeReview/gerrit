@@ -481,7 +481,7 @@ export const grRestApiMock: RestApiService = {
     return Promise.resolve(new Response());
   },
   saveChangeReview() {
-    return Promise.resolve(new Response());
+    return Promise.resolve({});
   },
   saveChangeStarred(): Promise<Response> {
     return Promise.resolve(new Response());
@@ -566,4 +566,7 @@ export const grRestApiMock: RestApiService = {
   setRepoHead(): Promise<Response> {
     return Promise.resolve(new Response());
   },
+  getResponseFormatOptions(): Promise<string[]> {
+    return Promise.resolve([]);
+  }
 };

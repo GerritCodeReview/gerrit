@@ -23,7 +23,6 @@ import {getBaseUrl} from '../../utils/url-util';
 import {Finalizable} from '../registry';
 import {getParentIndex, isMergeParent} from '../../utils/patch-set-util';
 import {
-  ListChangesOption,
   listChangesOptionsToHex,
 } from '../../utils/change-util';
 import {assertNever, hasOwnProperty} from '../../utils/common-util';
@@ -119,6 +118,8 @@ import {
   UrlEncodedCommentId,
   FixReplacementInfo,
   DraftInfo,
+  ListChangesOption,
+  ReviewResult,
 } from '../../types/common';
 import {
   DiffInfo,
@@ -1189,7 +1190,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     cancelCondition?: CancelConditionCallback
   ): Promise<ParsedChangeInfo | undefined> {
     if (!changeNum) return;
-    const optionsHex = await this.getChangeOptionsHex();
+    const optionsHex =  listChangesOptionsToHex(...await this.getChangeOptions());
 
     return this._getChangeDetail(
       changeNum,
@@ -1218,7 +1219,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     return listChangesOptionsToHex(...options);
   }
 
-  async getChangeOptionsHex(): Promise<string> {
+  async getChangeOptions(): Promise<number[]> {
     const config = await this.getConfig(false);
 
     // This list MUST be kept in sync with
@@ -1227,6 +1228,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       ListChangesOption.ALL_COMMITS,
       ListChangesOption.ALL_REVISIONS,
       ListChangesOption.CHANGE_ACTIONS,
+      ListChangesOption.DETAILED_ACCOUNTS,
       ListChangesOption.DETAILED_LABELS,
       ListChangesOption.DOWNLOAD_COMMANDS,
       ListChangesOption.MESSAGES,
@@ -1238,9 +1240,32 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     if (config?.receive?.enable_signed_push) {
       options.push(ListChangesOption.PUSH_CERTIFICATES);
     }
-    return listChangesOptionsToHex(...options);
+    return options;
   }
 
+  async getResponseFormatOptions(): Promise<string[]> {
+    const config = await this.getConfig(false);
+
+    // This list MUST be kept in sync with
+    // ChangeIT#changeDetailsDoesNotRequireIndex
+    const options = [
+      "ALL_COMMITS",
+      "ALL_REVISIONS",
+      "CHANGE_ACTIONS",
+      "DETAILED_LABELS",
+      "DETAILED_ACCOUNTS",
+      "DOWNLOAD_COMMANDS",
+      "MESSAGES",
+      "SUBMITTABLE",
+      "WEB_LINKS",
+      "SKIP_DIFFSTAT",
+      "SUBMIT_REQUIREMENTS",
+    ];
+    if (config?.receive?.enable_signed_push) {
+      options.push("PUSH_CERTIFICATES");
+    }
+    return options;
+  }
   /**
    * @param optionsHex list changes options in hex
    */
@@ -1951,14 +1976,14 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     review: ReviewInput
-  ): Promise<Response>;
+  ): Promise<ReviewResult | undefined>;
 
   saveChangeReview(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     review: ReviewInput,
     errFn: ErrorCallback
-  ): Promise<Response | undefined>;
+  ): Promise<ReviewResult | undefined>;
 
   saveChangeReview(
     changeNum: NumericChangeId,
@@ -1977,7 +2002,25 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         body: review,
         errFn,
       })
-    );
+    ).then(response => {
+      if (response && !response.ok) {
+        if (errFn) {
+          errFn.call(null, response);
+        } else {
+          fireServerError(response);
+        }
+        return undefined
+      }
+      if (!response) {
+        return undefined;
+      }
+      return readResponsePayload(response).then(payload => {
+        if (!payload) {
+          return undefined;
+        }
+        return payload.parsed as unknown as ReviewResult;
+      })
+    });
   }
 
   getChangeEdit(changeNum?: NumericChangeId): Promise<EditInfo | undefined> {

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7177a928_b9e92e0e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-08-16T17:45:10Z",
+      "side": 1,
+      "message": "have to move the doc too.",
+      "revId": "0242f72d92f89ea49bf2a6e82da685a897c3af6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01e35b5b_c02960e0",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-08-16T17:45:10Z",
+      "side": 1,
+      "message": "should probably be \u0027change\u0027.\n\nmove the doc section too.",
+      "range": {
+        "startLine": 87,
+        "startChar": 27,
+        "endLine": 87,
+        "endChar": 31
+      },
+      "revId": "0242f72d92f89ea49bf2a6e82da685a897c3af6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

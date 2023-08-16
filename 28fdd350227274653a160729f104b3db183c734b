@@ -106,6 +106,24 @@
       "parentUuid": "042728de_23363b0d",
       "revId": "28fdd350227274653a160729f104b3db183c734b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab00ddef_cbdcdc16",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-16T12:02:34Z",
+      "side": 1,
+      "message": "Yes, seems like there about 300 tests that implicitly use this logic, of which about 10 of them are explicitly installing the lucene module while the rest use the fake index module.\n\nFor the `unknown index types` the `CustomIndexIT` test was the only one trying to install a module other than lucene or fake (not considering ElasticSearch).\n\nThat test though was working just by leveraging the logic of setting by default the fake index module. Now that is not the case anymore, and modules like ElasticSearch can leverage this fix. \n\nI believe that we could be explicit about passing the module to install for each test, moving the responsibility of choosing the index module to install from GerritServer to the test itself, but it would be a big refactoring and to be honest I don\u0027 see the added value. Also considering that we can do that already through the gerrit config.",
+      "parentUuid": "0cf36a43_3fffdc12",
+      "revId": "28fdd350227274653a160729f104b3db183c734b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -170,6 +170,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e89604be_cb123a0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-08-16T18:38:42Z",
+      "side": 1,
+      "message": "I disagree, I read the report and I do not agree that it was a bug! I strongly believe normally changes for a missing project are something that I would expect Gerrit migration to complain about and signal as a problem. While I can understand that there are situations such as the reporter\u0027s, where this may not be a problem, I don\u0027t think that it is OK to assume it isn\u0027t, and in this situation since the user knew they did something bad, the burden should have been on them to fix their data, or to propose a flag for Gerrit to ignore those specific changes. But as is, migration may now silently be missing stuff for users and that shouldn\u0027t be codified to do that in a test.",
+      "parentUuid": "b65cdb0d_494f9d3e",
+      "range": {
+        "startLine": 15,
+        "startChar": 27,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "9d65f7cfe5d3675b45e8d3b5a6a4b0fb35218ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "6db41aa9_1e7487ad",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 8

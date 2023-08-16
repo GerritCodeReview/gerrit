@@ -23,11 +23,6 @@ declare global {
     // it's defined because of limitations from typescript, which don't import .mjs
     page?: unknown;
     hljs?: HighlightJS;
-
-    DEFAULT_DETAIL_HEXES?: {
-      changePage?: string;
-      dashboardPage?: string;
-    };
     STATIC_RESOURCE_PATH?: string;
 
     PRELOADED_QUERIES?: {

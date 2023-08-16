@@ -39,6 +39,30 @@
       },
       "revId": "0242f72d92f89ea49bf2a6e82da685a897c3af6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2177d504_e9a92c00",
+        "filename": "java/com/google/gerrit/server/patch/AutoMerger.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1162710
+      },
+      "writtenOn": "2023-08-16T18:05:48Z",
+      "side": 1,
+      "message": "You mean `change.diff3ConflictView`?",
+      "parentUuid": "01e35b5b_c02960e0",
+      "range": {
+        "startLine": 87,
+        "startChar": 27,
+        "endLine": 87,
+        "endChar": 31
+      },
+      "revId": "0242f72d92f89ea49bf2a6e82da685a897c3af6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

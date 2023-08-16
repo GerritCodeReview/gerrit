@@ -286,7 +286,6 @@ public class MergeUtil {
     return commit;
   }
 
-  @SuppressWarnings("resource") // TemporaryBuffer requires calling close before reading.
   public static ObjectId mergeWithConflicts(
       RevWalk rw,
       ObjectInserter ins,
@@ -296,6 +295,21 @@ public class MergeUtil {
       String theirsName,
       RevCommit theirs,
       Map<String, MergeResult<? extends Sequence>> mergeResults)
+      throws IOException {
+    return mergeWithConflicts(rw, ins, dc, oursName, ours, theirsName, theirs, mergeResults, false);
+  }
+
+  @SuppressWarnings("resource") // TemporaryBuffer requires calling close before reading.
+  public static ObjectId mergeWithConflicts(
+      RevWalk rw,
+      ObjectInserter ins,
+      DirCache dc,
+      String oursName,
+      RevCommit ours,
+      String theirsName,
+      RevCommit theirs,
+      Map<String, MergeResult<? extends Sequence>> mergeResults,
+      boolean diff3Format)
       throws IOException {
     rw.parseBody(ours);
     rw.parseBody(theirs);
@@ -324,7 +338,11 @@ public class MergeUtil {
       try {
         // TODO(dborowitz): Respect inCoreLimit here.
         buf = new TemporaryBuffer.LocalFile(null, 10 * 1024 * 1024);
-        fmt.formatMerge(buf, p, "BASE", oursNameFormatted, theirsNameFormatted, UTF_8);
+        if (diff3Format) {
+          fmt.formatMergeDiff3(buf, p, "BASE", oursNameFormatted, theirsNameFormatted, UTF_8);
+        } else {
+          fmt.formatMerge(buf, p, "BASE", oursNameFormatted, theirsNameFormatted, UTF_8);
+        }
         buf.close(); // Flush file and close for writes, but leave available for reading.
 
         try (InputStream in = buf.openInputStream()) {

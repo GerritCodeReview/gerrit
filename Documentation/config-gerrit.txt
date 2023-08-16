@@ -2134,6 +2134,14 @@ the packed-refs file is outdated.
 +
 Default is true.
 
+[[core.diff3ConflictView]]core.diff3ConflictView::
++
+Use the diff3 formatter for merge commits with conflicts. With diff3 when
+the conflicts are shown in the "Auto Merge" view, the base section from the
+common parents will be shown as well.
++
+Default is false.
+
 [[dashboard]]
 === Section dashboard
 

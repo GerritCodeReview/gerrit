@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e09b6f4_597455dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-16T09:37:08Z",
+      "side": 1,
+      "message": "From the commit message it\u0027s unclear to me what the bug was and how it was triggered.\n\nCan we add a test covering the issue?",
+      "revId": "c331467677d08f162e3035a1558362ab8c9d86bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "720965de_ce108c2a",

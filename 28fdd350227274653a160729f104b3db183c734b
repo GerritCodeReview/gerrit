@@ -88,6 +88,24 @@
       "parentUuid": "95749fac_b3a7f7bc",
       "revId": "28fdd350227274653a160729f104b3db183c734b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cf36a43_3fffdc12",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-16T06:23:28Z",
+      "side": 1,
+      "message": "If `CustomIndexIT` passes the index module then do we still need that `isLucene` check that resolves the `FakeIndexModule`?",
+      "parentUuid": "042728de_23363b0d",
+      "revId": "28fdd350227274653a160729f104b3db183c734b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

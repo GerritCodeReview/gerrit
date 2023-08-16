@@ -16,6 +16,24 @@
       "message": "You need to split the change so that we make sure the FE rolls out before the BE part. The BE part removes inlining that the FE currently relies to be there, so it would break otherwise.",
       "revId": "acd07689e0bc442449dc226a862f24e9ad43a3a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6e52bfd_73f9f0af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-08-16T11:07:24Z",
+      "side": 1,
+      "message": "I actually removed the comment before I pressed \"send\". Bug in the recent autosave code?",
+      "parentUuid": "e20744b4_07000b03",
+      "revId": "acd07689e0bc442449dc226a862f24e9ad43a3a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

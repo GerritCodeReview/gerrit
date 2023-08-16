@@ -507,8 +507,8 @@ export class GrRouter implements Finalizable, NavigationService {
   /**  gr-page middleware that warms the REST API's logged-in cache line. */
   private loadUserMiddleware(_: PageContext, next: PageNextCallback) {
     this.restApiService.getLoggedIn().then(() => {
-      next();
     });
+    next();
   }
 
   /**

@@ -70,7 +70,6 @@ import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementResultInfo.Status;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.httpd.raw.IndexPreloadingUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.TestLabels;
@@ -102,6 +101,13 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
   @Inject private IndexOperations.Change changeIndexOperations;
+
+  private static final ImmutableSet<ListChangesOption> DASHBOARD_OPTIONS =
+      ImmutableSet.of(
+          ListChangesOption.LABELS,
+          ListChangesOption.DETAILED_ACCOUNTS,
+          ListChangesOption.SUBMIT_REQUIREMENTS,
+          ListChangesOption.STAR);
 
   @Test
   public void submitRecords() throws Exception {
@@ -2952,7 +2958,7 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
               .withQuery("project:{" + project.get() + "} (status:open OR status:closed)")
               .withOptions(
                   new ImmutableSet.Builder<ListChangesOption>()
-                      .addAll(IndexPreloadingUtil.DASHBOARD_OPTIONS)
+                      .addAll(DASHBOARD_OPTIONS)
                       .add(ListChangesOption.SUBMIT_REQUIREMENTS)
                       .build())
               .get();

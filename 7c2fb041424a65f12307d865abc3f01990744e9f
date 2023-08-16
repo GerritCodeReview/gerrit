@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79790bc5_79c4a51e",
+        "filename": "modules/jgit",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-16T11:03:19Z",
+      "side": 1,
+      "message": "unintended update of jgit?",
+      "revId": "7c2fb041424a65f12307d865abc3f01990744e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

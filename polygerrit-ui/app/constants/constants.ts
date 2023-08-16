@@ -1,6 +1,8 @@
 /**
  * @license
  * Copyright 2020 Google LLC
+<<<<<<< PATCH SET (5a4000 test change)
+=======
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -18,14 +20,9 @@ import {
   DefaultDisplayNameConfig,
   EditableAccountField,
   FileInfoStatus,
-  GpgKeyInfoStatus,
-  HttpMethod,
-  InheritedBooleanInfoConfiguredValue,
-  MergeabilityComputationBehavior,
-  ProblemInfoStatus,
-  RepoState,
-  RequirementStatus,
-  ReviewerState,
+>>>>>>> BASE      (86b1dc Merge "Support named destinations on group refs")
+<<<<<<< PATCH SET (892e42 new changes)
+=======
   RevisionKind,
   SubmitType,
 } from '../api/rest-api';
@@ -39,6 +36,7 @@ export {
   EditableAccountField,
   FileInfoStatus,
   GpgKeyInfoStatus,
+>>>>>>> BASE      (05738d Merge "ListProjects: Simplify stateToQuery method")
   HttpMethod,
   InheritedBooleanInfoConfiguredValue,
   MergeabilityComputationBehavior,
@@ -55,16 +53,6 @@ export enum AccountTag {
 }
 
 export enum Tab {
-  FILES = 'files',
-  /**
-   * When renaming 'comments' or 'findings', UrlFormatter.java must be updated.
-   */
-  COMMENT_THREADS = 'comments',
-  FINDINGS = 'findings',
-  CHECKS = 'checks',
-}
-
-/**
  * Tag names of change log messages.
  */
 export enum MessageTag {
@@ -90,12 +78,7 @@ export enum ProgressStatus {
   FAILED = 'FAILED',
   NOT_STARTED = 'NOT STARTED',
   SUCCESSFUL = 'SUCCESSFUL',
-}
-
-export enum ColumnNames {
-  SUBJECT = 'Subject',
-  // TODO(milutin) - remove once Submit Requirements are rolled out.
-  STATUS = 'Status',
+}x',
   OWNER = 'Owner',
   REVIEWERS = 'Reviewers',
   COMMENTS = 'Comments',

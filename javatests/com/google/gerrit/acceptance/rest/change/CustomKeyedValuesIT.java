@@ -27,9 +27,8 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.truth.MapSubject;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.UseClockStep;
+import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.changes.CustomKeyedValuesInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
@@ -38,16 +37,26 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.inject.Inject;
 import org.junit.Test;
 
-@NoHttpd
-@UseClockStep
 public class CustomKeyedValuesIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
   public void getNoCustomKeyedValues() throws Exception {
-    // Get on a change with no hashtags returns an empty list.
+    // Get on a change with no custom keyed values returns an empty list.
     PushOneCommit.Result r = createChange();
     assertThatGet(r).isEmpty();
+  }
+
+  @Test
+  public void parsesInputCorrectly() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String endpoint = "/changes/" + r.getChangeId() + "/custom_keyed_values";
+    CustomKeyedValuesInput input = new CustomKeyedValuesInput();
+    input.add = ImmutableMap.of("key", "value");
+    RestResponse response = adminRestSession.post(endpoint, input);
+    response.assertOK();
+
+    assertThatGet(r).containsExactly("key", "value");
   }
 
   @Test

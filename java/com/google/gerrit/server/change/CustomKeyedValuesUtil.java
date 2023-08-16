@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import java.util.Map;
+import java.util.Set;
 
 public class CustomKeyedValuesUtil {
   public static class InvalidCustomKeyedValueException extends Exception {
@@ -35,7 +36,7 @@ public class CustomKeyedValuesUtil {
     }
   }
 
-  static ImmutableMap<String, String> extractCustomKeyedValues(ImmutableMap<String, String> input)
+  static ImmutableMap<String, String> extractCustomKeyedValues(Map<String, String> input)
       throws InvalidCustomKeyedValueException {
     if (input == null) {
       return ImmutableMap.of();
@@ -57,7 +58,7 @@ public class CustomKeyedValuesUtil {
     return builder.build();
   }
 
-  static ImmutableSet<String> extractCustomKeys(ImmutableSet<String> input)
+  static ImmutableSet<String> extractCustomKeys(Set<String> input)
       throws InvalidCustomKeyedValueException {
     if (input == null) {
       return ImmutableSet.of();

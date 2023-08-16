@@ -146,6 +146,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b65cdb0d_494f9d3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-08-16T17:55:24Z",
+      "side": 1,
+      "message": "Digging into the history of the test, it is probably better to fix it (as I did in change 382874) rather than removing it as it was meant to cover a bug reported during notedb migration.",
+      "parentUuid": "215088ed_58efba08",
+      "range": {
+        "startLine": 15,
+        "startChar": 27,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "9d65f7cfe5d3675b45e8d3b5a6a4b0fb35218ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "6db41aa9_1e7487ad",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 8

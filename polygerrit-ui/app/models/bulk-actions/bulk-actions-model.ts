@@ -22,6 +22,7 @@ import {
   ReviewerInput,
   AttentionSetInput,
   RelatedChangeAndCommitInfo,
+  ReviewResult,
 } from '../../types/common';
 import {getUserId} from '../../utils/account-util';
 import {getChangeNumber} from '../../utils/change-util';
@@ -164,7 +165,7 @@ export class BulkActionsModel extends Model<BulkActionsState> {
   addReviewers(
     changedReviewers: Map<ReviewerState, (AccountInfo | GroupInfo)[]>,
     reason: string
-  ): Promise<Response>[] {
+  ): Promise<ReviewResult | undefined>[] {
     const current = this.getState();
     const changes = current.selectedChangeNums.map(
       changeNum => current.allChanges.get(changeNum)!
@@ -177,7 +178,7 @@ export class BulkActionsModel extends Model<BulkActionsState> {
         this.getNewReviewersToChange(change, state, changedReviewers)
       );
       if (reviewersNewToChange.length === 0) {
-        return Promise.resolve(new Response());
+        return Promise.resolve(undefined);
       }
       const attentionSetUpdates: AttentionSetInput[] = reviewersNewToChange
         .filter(reviewerInput => reviewerInput.state === ReviewerState.REVIEWER)

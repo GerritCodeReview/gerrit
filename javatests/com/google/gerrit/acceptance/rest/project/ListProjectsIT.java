@@ -140,6 +140,33 @@ public class ListProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "gerrit.listProjectsFromIndex", value = "true")
+  public void listProjectsSetsMoreProjectsIfLimited_indexEnabled() throws Exception {
+    testListProjectsSetsMoreProjectsIfLimited();
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.listProjectsFromIndex", value = "false")
+  public void listProjectsSetsMoreProjectsIfLimited_indexDisabled() throws Exception {
+    testListProjectsSetsMoreProjectsIfLimited();
+  }
+
+  private void testListProjectsSetsMoreProjectsIfLimited() throws Exception {
+    for (int i = 0; i < 3; i++) {
+      projectOperations.newProject().name("prefix-" + i).create();
+    }
+
+    List<ProjectInfo> result = gApi.projects().list().withPrefix("prefix").get();
+    assertThat(Iterables.getLast(result)._moreProjects).isNull();
+
+    result = gApi.projects().list().withPrefix("prefix").withLimit(Integer.MAX_VALUE).get();
+    assertThat(Iterables.getLast(result)._moreProjects).isNull();
+
+    result = gApi.projects().list().withPrefix("prefix").withLimit(2).get();
+    assertThat(Iterables.getLast(result)._moreProjects).isTrue();
+  }
+
+  @Test
   public void listProjectsToOutputStream() throws Exception {
     int numInitialProjects = gApi.projects().list().get().size();
     int numTestProjects = 5;

@@ -129,6 +129,9 @@ public class QueryProjects implements RestReadView<TopLevelResource> {
       for (ProjectData pd : pds) {
         projectInfos.add(json.format(pd.getProject()));
       }
+      if (!projectInfos.isEmpty() && result.more()) {
+        projectInfos.get(projectInfos.size() - 1)._moreProjects = true;
+      }
       return projectInfos;
     } catch (QueryParseException e) {
       throw new BadRequestException(e.getMessage(), e);

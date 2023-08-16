@@ -23,6 +23,7 @@ import static org.junit.Assert.fail;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -360,8 +361,10 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
     String query =
         "name:" + project1.name + " OR name:" + project2.name + " OR name:" + project3.name;
     List<ProjectInfo> result = assertQuery(query, project1, project2, project3);
+    assertThat(Iterables.getLast(result)._moreProjects).isNull();
 
-    assertQuery(newQuery(query).withLimit(2), result.subList(0, 2));
+    result = assertQuery(newQuery(query).withLimit(2), result.subList(0, 2));
+    assertThat(Iterables.getLast(result)._moreProjects).isTrue();
   }
 
   @Test

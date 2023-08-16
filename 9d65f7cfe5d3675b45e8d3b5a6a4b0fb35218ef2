@@ -122,6 +122,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "215088ed_58efba08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-08-16T16:17:43Z",
+      "side": 1,
+      "message": "\u003ePersonally I think it\u0027s a bad test that should be eliminated. Why would we want to allow a migration to be successful with missing projects?\n\nDone in 382874: Remove OnlineNoteDbMigrationIT.fullMigrationOneChangeWithNoProject test | https://gerrit-review.googlesource.com/c/gerrit/+/382874",
+      "parentUuid": "25b29916_7d3d38f5",
+      "range": {
+        "startLine": 15,
+        "startChar": 27,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "9d65f7cfe5d3675b45e8d3b5a6a4b0fb35218ef2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "6db41aa9_1e7487ad",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 8

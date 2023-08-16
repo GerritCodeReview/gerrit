@@ -438,7 +438,7 @@ export class GrHovercardAccountContents extends LitElement {
     this.restApiService
       .saveChangeReview(this.change._number, CURRENT, reviewInput)
       .then(response => {
-        if (!response || !response.ok) {
+        if (!response) {
           throw new Error(
             'something went wrong when toggling' +
               this.getReviewerState(this.change!)

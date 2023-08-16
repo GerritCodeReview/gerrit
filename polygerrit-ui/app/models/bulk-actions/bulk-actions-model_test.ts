@@ -261,9 +261,7 @@ suite('bulk actions model test', () => {
     let saveChangeReviewStub: sinon.SinonStub;
 
     setup(async () => {
-      saveChangeReviewStub = stubRestApi('saveChangeReview').resolves(
-        new Response()
-      );
+      saveChangeReviewStub = stubRestApi('saveChangeReview').resolves({});
       stubRestApi('getDetailedChangesWithActions').resolves([
         {...changes[0], actions: {abandon: {method: HttpMethod.POST}}},
         {...changes[1], status: ChangeStatus.ABANDONED},

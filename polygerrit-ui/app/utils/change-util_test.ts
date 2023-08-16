@@ -16,6 +16,7 @@ import {
   AccountId,
   ChangeStates,
   CommitId,
+  ListChangesOption,
   NumericChangeId,
   PatchSetNum,
 } from '../types/common';
@@ -27,7 +28,6 @@ import {
   changePath,
   changeStatuses,
   isRemovableReviewer,
-  ListChangesOption,
   listChangesOptionsToHex,
   hasHumanReviewer,
 } from './change-util';

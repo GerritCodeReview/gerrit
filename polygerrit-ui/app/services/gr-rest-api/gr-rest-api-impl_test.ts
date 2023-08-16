@@ -13,7 +13,6 @@ import {
 } from '../../test/test-utils';
 import {GrReviewerUpdatesParser} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {
-  ListChangesOption,
   listChangesOptionsToHex,
 } from '../../utils/change-util';
 import {
@@ -47,6 +46,7 @@ import {
   EditPreferencesInfo,
   Hashtag,
   HashtagsInput,
+  ListChangesOption,
   NumericChangeId,
   PARENT,
   ParsedJSON,

@@ -91,6 +91,7 @@ import {
   UrlEncodedCommentId,
   UserId,
   DraftInfo,
+  ReviewResult,
 } from '../../types/common';
 import {
   DiffInfo,
@@ -353,19 +354,19 @@ export interface RestApiService extends Finalizable {
     changeNum: ChangeId | NumericChangeId,
     patchNum: RevisionId,
     review: ReviewInput
-  ): Promise<Response>;
+  ): Promise<ReviewResult | undefined >;
   saveChangeReview(
     changeNum: ChangeId | NumericChangeId,
     patchNum: RevisionId,
     review: ReviewInput,
     errFn: ErrorCallback
-  ): Promise<Response | undefined>;
+  ): Promise<ReviewResult | undefined>;
   saveChangeReview(
     changeNum: ChangeId | NumericChangeId,
     patchNum: RevisionId,
     review: ReviewInput,
     errFn?: ErrorCallback
-  ): Promise<Response>;
+  ): Promise<ReviewResult | undefined>;
 
   getChangeEdit(changeNum?: NumericChangeId): Promise<EditInfo | undefined>;
 
@@ -828,4 +829,6 @@ export interface RestApiService extends Finalizable {
     changeNum: NumericChangeId,
     patchNum: PatchSetNum
   ): Promise<CommitInfo | undefined>;
+
+  getResponseFormatOptions(): Promise<string[]>;
 }

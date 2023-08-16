@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "142f549e_f8c5ae3e",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1213,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-08-16T11:06:57Z",
+      "side": 0,
+      "message": "The behavior here is changed if the html doesn\u0027t contain the options anymore (i.e. the backend rolls out before this change has). Will that be a problem?",
+      "range": {
+        "startLine": 1208,
+        "startChar": 1,
+        "endLine": 1213,
+        "endChar": 5
+      },
+      "revId": "348ed9bb3127f08340f5c5fda08e97f4f1d2448c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

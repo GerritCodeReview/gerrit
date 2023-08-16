@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcdd5cd6_c5eb6bc9",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateDraftComment.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-08-16T08:04:39Z",
+      "side": 1,
+      "message": "Here we should pass the HumanComment object.",
+      "range": {
+        "startLine": 229,
+        "startChar": 0,
+        "endLine": 230,
+        "endChar": 86
+      },
+      "revId": "b0db4aeb8f62bc495e62a4582fecff8b5370ee8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

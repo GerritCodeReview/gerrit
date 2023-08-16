@@ -52,6 +52,24 @@
       "parentUuid": "4c81f092_61af4b13",
       "revId": "7c2fb041424a65f12307d865abc3f01990744e9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "805df420_f1784fe8",
+        "filename": "modules/jgit",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-16T11:14:07Z",
+      "side": 1,
+      "message": "You can try this:\n\n$ git fetch https://gerrit.googlesource.com/gerrit refs/changes/57/382957/6 \u0026\u0026 git checkout FETCH_HEAD\n$ git checkout HEAD~1 modules/jgit\n$ git submodule update\n$ git add modules/jgit\n$ git commit --amend",
+      "parentUuid": "4c81f092_61af4b13",
+      "revId": "7c2fb041424a65f12307d865abc3f01990744e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

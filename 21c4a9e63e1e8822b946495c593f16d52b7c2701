@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de81f0ad_d0031fe2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-16T10:26:35Z",
+      "side": 1,
+      "message": "Verified this test fails with the old CustomKeyedValuesInput (i.o.w., despite me using that class, it does serialization and deserialization)",
+      "revId": "21c4a9e63e1e8822b946495c593f16d52b7c2701",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

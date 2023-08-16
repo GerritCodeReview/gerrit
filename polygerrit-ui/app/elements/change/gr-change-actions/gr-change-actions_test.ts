@@ -711,7 +711,7 @@ suite('gr-change-actions tests', () => {
         )
         .returns(review);
       const saveStub = stubRestApi('saveChangeReview').returns(
-        Promise.resolve(new Response())
+        Promise.resolve({})
       );
       const setReviewOnRevert = element.setReviewOnRevert(changeId) as Promise<
         undefined | Response

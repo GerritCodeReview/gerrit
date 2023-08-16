@@ -1874,7 +1874,7 @@ export class GrChangeView extends LitElement {
   handleReplySent() {
     assertIsDefined(this.replyModal);
     this.replyModal.close();
-    this.getChangeModel().navigateToChangeResetReload();
+    this.getCommentsModel().reloadAllComments();
   }
 
   private handleReplyCancel() {

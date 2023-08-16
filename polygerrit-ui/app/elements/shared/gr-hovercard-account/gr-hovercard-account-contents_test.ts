@@ -229,7 +229,7 @@ suite('gr-hovercard-account-contents tests', () => {
     };
     await element.updateComplete;
     const saveReviewStub = stubRestApi('saveChangeReview').returns(
-      Promise.resolve({...new Response(), ok: true})
+      Promise.resolve({})
     );
     stubRestApi('removeChangeReviewer').returns(
       Promise.resolve({...new Response(), ok: true})
@@ -257,7 +257,7 @@ suite('gr-hovercard-account-contents tests', () => {
     };
     await element.updateComplete;
     const saveReviewStub = stubRestApi('saveChangeReview').returns(
-      Promise.resolve({...new Response(), ok: true})
+      Promise.resolve({})
     );
     stubRestApi('removeChangeReviewer').returns(
       Promise.resolve({...new Response(), ok: true})

@@ -596,6 +596,11 @@ export class GrReplyDialog extends LitElement {
     );
     subscribe(
       this,
+      () => this.getUserModel().account$,
+      account => { this.account = account; }
+    );
+    subscribe(
+      this,
       () => this.getConfigModel().serverConfig$,
       config => {
         this.serverConfig = config;
@@ -647,6 +652,7 @@ export class GrReplyDialog extends LitElement {
           t => !(isDraft(getFirstComment(t)) && isPatchsetLevel(t))
         ))
     );
+
   }
 
   override connectedCallback() {
@@ -657,10 +663,6 @@ export class GrReplyDialog extends LitElement {
       TargetElement.REPLY_DIALOG,
       this
     );
-
-    this.restApiService.getAccount().then(account => {
-      if (account) this.account = account;
-    });
 
     this.addEventListener(
       'comment-editing-changed',

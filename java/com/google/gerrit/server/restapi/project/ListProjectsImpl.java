@@ -353,6 +353,7 @@ public class ListProjectsImpl extends AbstractListProjects {
     Map<Project.NameKey, Boolean> accessibleParents = new HashMap<>();
     PermissionBackend.WithUser perm = permissionBackend.user(currentUser);
     final TreeMap<Project.NameKey, ProjectNode> treeMap = new TreeMap<>();
+    ProjectInfo lastInfo = null;
     try {
       Iterator<ProjectState> projectStatesIt = filter(perm).iterator();
       while (projectStatesIt.hasNext()) {
@@ -384,10 +385,15 @@ public class ListProjectsImpl extends AbstractListProjects {
           continue;
         }
         if (limit > 0 && ++found > limit) {
+          if (lastInfo != null) {
+            lastInfo._moreProjects = true;
+          }
           break;
         }
 
         ProjectInfo info = new ProjectInfo();
+        lastInfo = info;
+
         info.name = projectName.get();
         if (showTree && format.isJson()) {
           addParentProjectInfo(hiddenNames, accessibleParents, perm, e, info);

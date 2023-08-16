@@ -139,10 +139,15 @@ Query the first project in the project list:
   )]}'
   {
     "some-project": {
-      "id": "some-project"
+      "id": "some-project",
+      _more_projects: true
     }
   }
 ----
+
+If the number of projects matching the query exceeds either the
+internal limit or a supplied `limit` query parameter, the last project
+object has a `_more_projects: true` JSON field set.
 
 
 [[suggest-projects]]
@@ -419,6 +424,10 @@ Query the first 25 projects in project list.
 ----
   GET /projects/?query=<query>&limit=25 HTTP/1.0
 ----
+
+If the number of projects matching the query exceeds either the
+internal limit or a supplied `limit` query parameter, the last project
+object has a `_more_projects: true` JSON field set.
 
 The `/projects/` URL also accepts a start integer in the `start`
 parameter. The results will skip `start` projects from project list.
@@ -4370,28 +4379,31 @@ branch.
 The `ProjectInfo` entity contains information about a project.
 
 [options="header",cols="1,^2,4"]
-|===========================
-|Field Name    ||Description
-|`id`          ||The URL encoded project name.
-|`name`        |
+|=============================
+|Field Name      ||Description
+|`id`            ||The URL encoded project name.
+|`name`          |
 not set if returned in a map where the project name is used as map key|
 The name of the project.
-|`parent`      |optional|
+|`parent`        |optional|
 The name of the parent project. +
 `?-<n>` if the parent project is not visible (`<n>` is a number which
 is increased for each non-visible project).
-|`description` |optional|The description of the project.
-|`state`       |optional|`ACTIVE`, `READ_ONLY` or `HIDDEN`.
-|`branches`    |optional|Map of branch names to HEAD revisions.
-|`labels`      |optional|
+|`description`   |optional|The description of the project.
+|`state`         |optional|`ACTIVE`, `READ_ONLY` or `HIDDEN`.
+|`branches`      |optional|Map of branch names to HEAD revisions.
+|`labels`        |optional|
 Map of label names to
 link:#label-type-info[LabelTypeInfo] entries.
 This field is filled for link:#create-project[Create Project] and
 link:#get-project[Get Project] calls.
-|`web_links`   |optional|
+|`web_links`     |optional|
 Links to the project in external sites as a list of
 link:rest-api-changes.html#web-link-info[WebLinkInfo] entries.
-|===========================
+|`_more_projects`|optional, not set if `false`|
+Whether the query would deliver more results if not limited. +
+Only set on the last project that is returned.
+|=============================
 
 [[project-input]]
 === ProjectInput

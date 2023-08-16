@@ -34,6 +34,24 @@
       "parentUuid": "c6217523_9683916e",
       "revId": "fa9522c97355f7e6fe2d3943001c1e627a53a842",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ab9db9e_9dfdcd4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1016342
+      },
+      "writtenOn": "2023-08-16T11:57:06Z",
+      "side": 1,
+      "message": "Does this make sense to you? Do you see any problems with this new behavior?",
+      "parentUuid": "1af7427c_54283a17",
+      "revId": "fa9522c97355f7e6fe2d3943001c1e627a53a842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

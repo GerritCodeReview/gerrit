@@ -16,6 +16,24 @@
       "message": "Missing `Release-Notes: skip` footer",
       "revId": "44812d2801d1eb3e4ad5002ec77763bb2e1ff9a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec32163a_a53e3038",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070962
+      },
+      "writtenOn": "2023-08-16T15:37:16Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "923d2830_602cba42",
+      "revId": "44812d2801d1eb3e4ad5002ec77763bb2e1ff9a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

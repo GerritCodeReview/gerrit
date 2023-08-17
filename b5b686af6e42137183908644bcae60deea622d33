@@ -161,6 +161,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f07e0cb3_08844695",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCache.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-08-17T10:10:29Z",
+      "side": 1,
+      "message": "Thanks, that works for us.",
+      "parentUuid": "8ae76be1_3395e211",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 76
+      },
+      "revId": "b5b686af6e42137183908644bcae60deea622d33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47a6c8d1_3ed25378",

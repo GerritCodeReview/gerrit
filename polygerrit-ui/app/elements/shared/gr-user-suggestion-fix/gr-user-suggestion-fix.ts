@@ -265,7 +265,7 @@ export class GrUserSuggestionsFix extends LitElement {
     if (!this.diffPrefs) return undefined;
     return {
       ...this.diffPrefs,
-      context: 1,
+      context: 0,
       line_length: Math.min(this.diffPrefs.line_length, 100),
       line_wrapping: true,
     };

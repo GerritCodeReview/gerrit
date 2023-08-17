@@ -196,6 +196,12 @@ suite('gr-diff-utils tests', () => {
       assert.equal(computeContext(1, FullContext.UNDECIDED, 2), 1);
     });
 
+    test('computeContext 0', () => {
+      assert.equal(computeContext(0, FullContext.YES, 2), FULL_CONTEXT);
+      assert.equal(computeContext(0, FullContext.NO, 2), 0);
+      assert.equal(computeContext(0, FullContext.UNDECIDED, 2), 0);
+    });
+
     test('computeContext FULL_CONTEXT', () => {
       assert.equal(
         computeContext(FULL_CONTEXT, FullContext.YES, 2),

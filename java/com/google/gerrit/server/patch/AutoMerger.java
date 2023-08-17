@@ -83,6 +83,10 @@ public class AutoMerger {
     return cfg.getBoolean("change", null, "cacheAutomerge", true);
   }
 
+  public static boolean diff3ConflictView(Config cfg) {
+    return cfg.getBoolean("change", null, "diff3ConflictView", false);
+  }
+
   private enum OperationType {
     CACHE_LOAD,
     IN_MEMORY_WRITE,
@@ -93,6 +97,7 @@ public class AutoMerger {
   private final Timer1<OperationType> latency;
   private final Provider<PersonIdent> gerritIdentProvider;
   private final boolean save;
+  private final boolean useDiff3;
   private final ThreeWayMergeStrategy configuredMergeStrategy;
 
   @Inject
@@ -117,6 +122,7 @@ public class AutoMerger {
                 .setUnit("milliseconds"),
             operationTypeField);
     this.save = cacheAutomerge(cfg);
+    this.useDiff3 = diff3ConflictView(cfg);
     this.gerritIdentProvider = gerritIdentProvider;
     this.configuredMergeStrategy = MergeUtil.getMergeStrategy(cfg);
   }
@@ -254,7 +260,8 @@ public class AutoMerger {
               merge.getParent(0),
               "BRANCH",
               merge.getParent(1),
-              m.getMergeResults());
+              m.getMergeResults(),
+              useDiff3);
     }
     logger.atFine().log("AutoMerge treeId=%s", treeId.name());
 

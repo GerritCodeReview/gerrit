@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f510e644_ebccf765",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-17T07:30:59Z",
+      "side": 1,
+      "message": "Nice! Love it. ❤️\n\nThe lack of unit testing makes me a bit uneasy, but I leave it up to you, if you want to do something about it.",
+      "revId": "73d796987725312a1bc43bacb585acacc258b11b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

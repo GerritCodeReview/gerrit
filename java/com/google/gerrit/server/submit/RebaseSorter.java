@@ -40,7 +40,7 @@ public class RebaseSorter {
   private final CurrentUser caller;
   private final CodeReviewRevWalk rw;
   private final RevFlag canMergeFlag;
-  private final Set<RevCommit> uninterestingBranchTips;
+  private final RevCommit initialTip;
   private final Set<RevCommit> alreadyAccepted;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Set<CodeReviewCommit> incoming;
@@ -48,7 +48,7 @@ public class RebaseSorter {
   public RebaseSorter(
       CurrentUser caller,
       CodeReviewRevWalk rw,
-      Set<RevCommit> uninterestingBranchTips,
+      RevCommit initialTip,
       Set<RevCommit> alreadyAccepted,
       RevFlag canMergeFlag,
       Provider<InternalChangeQuery> queryProvider,
@@ -56,7 +56,7 @@ public class RebaseSorter {
     this.caller = caller;
     this.rw = rw;
     this.canMergeFlag = canMergeFlag;
-    this.uninterestingBranchTips = uninterestingBranchTips;
+    this.initialTip = initialTip;
     this.alreadyAccepted = alreadyAccepted;
     this.queryProvider = queryProvider;
     this.incoming = incoming;
@@ -70,8 +70,8 @@ public class RebaseSorter {
 
       rw.resetRetain(canMergeFlag);
       rw.markStart(n);
-      for (RevCommit uninterestingBranchTip : uninterestingBranchTips) {
-        rw.markUninteresting(uninterestingBranchTip);
+      if (initialTip != null) {
+        rw.markUninteresting(initialTip);
       }
 
       CodeReviewCommit c;

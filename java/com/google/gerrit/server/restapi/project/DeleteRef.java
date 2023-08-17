@@ -252,7 +252,7 @@ public class DeleteRef {
 
     RefUpdate u = r.updateRef(refName);
     u.setForceUpdate(true);
-    u.setExpectedOldObjectId(r.exactRef(refName).getObjectId());
+    u.setExpectedOldObjectId(ref.getObjectId());
     u.setNewObjectId(ObjectId.zeroId());
     refDeletionValidator.validateRefOperation(
         projectState.getName(),

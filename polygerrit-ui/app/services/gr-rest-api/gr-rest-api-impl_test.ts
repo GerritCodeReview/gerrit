@@ -12,10 +12,7 @@ import {
   waitEventLoop,
 } from '../../test/test-utils';
 import {GrReviewerUpdatesParser} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
-import {
-  ListChangesOption,
-  listChangesOptionsToHex,
-} from '../../utils/change-util';
+import {listChangesOptionsToHex} from '../../utils/change-util';
 import {
   createAccountDetailWithId,
   createChange,
@@ -47,6 +44,7 @@ import {
   EditPreferencesInfo,
   Hashtag,
   HashtagsInput,
+  ListChangesOption,
   NumericChangeId,
   PARENT,
   ParsedJSON,

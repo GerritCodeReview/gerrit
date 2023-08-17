@@ -22,10 +22,7 @@ import {parseDate} from '../../utils/date-util';
 import {getBaseUrl} from '../../utils/url-util';
 import {Finalizable} from '../registry';
 import {getParentIndex, isMergeParent} from '../../utils/patch-set-util';
-import {
-  ListChangesOption,
-  listChangesOptionsToHex,
-} from '../../utils/change-util';
+import {listChangesOptionsToHex} from '../../utils/change-util';
 import {assertNever, hasOwnProperty} from '../../utils/common-util';
 import {AuthService} from '../gr-auth/gr-auth';
 import {
@@ -119,6 +116,8 @@ import {
   UrlEncodedCommentId,
   FixReplacementInfo,
   DraftInfo,
+  ListChangesOption,
+  ReviewResult,
 } from '../../types/common';
 import {
   DiffInfo,
@@ -1189,7 +1188,9 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     cancelCondition?: CancelConditionCallback
   ): Promise<ParsedChangeInfo | undefined> {
     if (!changeNum) return;
-    const optionsHex = await this.getChangeOptionsHex();
+    const optionsHex = listChangesOptionsToHex(
+      ...(await this.getChangeOptions())
+    );
 
     return this._getChangeDetail(
       changeNum,
@@ -1218,15 +1219,17 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     return listChangesOptionsToHex(...options);
   }
 
-  async getChangeOptionsHex(): Promise<string> {
+  async getChangeOptions(): Promise<number[]> {
     const config = await this.getConfig(false);
 
     // This list MUST be kept in sync with
     // ChangeIT#changeDetailsDoesNotRequireIndex
+    // This list MUST be kept in sync with getResponseFormatOptions
     const options = [
       ListChangesOption.ALL_COMMITS,
       ListChangesOption.ALL_REVISIONS,
       ListChangesOption.CHANGE_ACTIONS,
+      ListChangesOption.DETAILED_ACCOUNTS,
       ListChangesOption.DETAILED_LABELS,
       ListChangesOption.DOWNLOAD_COMMANDS,
       ListChangesOption.MESSAGES,
@@ -1238,7 +1241,32 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     if (config?.receive?.enable_signed_push) {
       options.push(ListChangesOption.PUSH_CERTIFICATES);
     }
-    return listChangesOptionsToHex(...options);
+    return options;
+  }
+
+  async getResponseFormatOptions(): Promise<string[]> {
+    const config = await this.getConfig(false);
+
+    // This list MUST be kept in sync with
+    // ChangeIT#changeDetailsDoesNotRequireIndex
+    // This list MUST be kept in sync with getChangeOptions
+    const options = [
+      'ALL_COMMITS',
+      'ALL_REVISIONS',
+      'CHANGE_ACTIONS',
+      'DETAILED_LABELS',
+      'DETAILED_ACCOUNTS',
+      'DOWNLOAD_COMMANDS',
+      'MESSAGES',
+      'SUBMITTABLE',
+      'WEB_LINKS',
+      'SKIP_DIFFSTAT',
+      'SUBMIT_REQUIREMENTS',
+    ];
+    if (config?.receive?.enable_signed_push) {
+      options.push('PUSH_CERTIFICATES');
+    }
+    return options;
   }
 
   /**
@@ -1947,37 +1975,36 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  saveChangeReview(
-    changeNum: NumericChangeId,
-    patchNum: PatchSetNum,
-    review: ReviewInput
-  ): Promise<Response>;
-
-  saveChangeReview(
+  async saveChangeReview(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     review: ReviewInput,
-    errFn: ErrorCallback
-  ): Promise<Response | undefined>;
-
-  saveChangeReview(
-    changeNum: NumericChangeId,
-    patchNum: PatchSetNum,
-    review: ReviewInput,
-    errFn?: ErrorCallback
+    errFn?: ErrorCallback,
+    fetchDetail?: boolean
   ) {
+    if (fetchDetail) {
+      review.response_format_options = await this.getResponseFormatOptions();
+    }
     const promises: [Promise<void>, Promise<string>] = [
       this.awaitPendingDiffDrafts(),
       this.getChangeActionURL(changeNum, patchNum, '/review'),
     ];
-    return Promise.all(promises).then(([, url]) =>
-      this._restApiHelper.send({
-        method: HttpMethod.POST,
-        url,
-        body: review,
-        errFn,
-      })
-    );
+    return Promise.all(promises)
+      .then(([, url]) =>
+        this._restApiHelper.send({
+          method: HttpMethod.POST,
+          url,
+          body: review,
+          errFn,
+          parseResponse: true,
+        })
+      )
+      .then(payload => {
+        if (!payload) {
+          return undefined;
+        }
+        return payload as unknown as ReviewResult;
+      });
   }
 
   getChangeEdit(changeNum?: NumericChangeId): Promise<EditInfo | undefined> {

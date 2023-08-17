@@ -21,7 +21,6 @@ import {
   DraftsAction,
   ReviewerState,
 } from '../../../constants/constants';
-import {JSON_PREFIX} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {StandardLabels} from '../../../utils/label-util';
 import {
   createAccountWithEmail,
@@ -170,14 +169,7 @@ suite('gr-reply-dialog tests', () => {
         new Promise((resolve, reject) => {
           try {
             const result = jsonResponseProducer(review) || {};
-            const resultStr = JSON_PREFIX + JSON.stringify(result);
-            resolve({
-              ...new Response(),
-              ok: true,
-              text() {
-                return Promise.resolve(resultStr);
-              },
-            });
+            resolve(result);
           } catch (err) {
             reject(err);
           }
@@ -1520,62 +1512,6 @@ suite('gr-reply-dialog tests', () => {
       new CustomEvent('account-text-changed', {bubbles: true, composed: true})
     );
     assert.isTrue(element.reviewersMutated);
-  });
-
-  test('400 converts to human-readable server-error', async () => {
-    stubRestApi('saveChangeReview').callsFake(
-      (_changeNum, _patchNum, _review, errFn) => {
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-        errFn!(
-          cloneableResponse(
-            400,
-            '....{"reviewers":{"id1":{"error":"human readable"}}}'
-          ) as Response
-        );
-        return Promise.resolve(new Response());
-      }
-    );
-
-    const promise = mockPromise();
-    const listener = (event: Event) => {
-      if (event.target !== document) return;
-      (event as CustomEvent).detail.response.text().then((body: string) => {
-        if (body === 'human readable') {
-          promise.resolve();
-        }
-      });
-    };
-    addListenerForTest(document, 'server-error', listener);
-
-    await element.updateComplete;
-    element.send(false, false);
-    await promise;
-  });
-
-  test('non-json 400 is treated as a normal server-error', async () => {
-    stubRestApi('saveChangeReview').callsFake(
-      (_changeNum, _patchNum, _review, errFn) => {
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-        errFn!(cloneableResponse(400, 'Comment validation error!') as Response);
-        return Promise.resolve(new Response());
-      }
-    );
-    const promise = mockPromise();
-    const listener = (event: Event) => {
-      if (event.target !== document) return;
-      (event as CustomEvent).detail.response.text().then((body: string) => {
-        if (body === 'Comment validation error!') {
-          promise.resolve();
-        }
-      });
-    };
-    addListenerForTest(document, 'server-error', listener);
-
-    // Async tick is needed because iron-selector content is distributed and
-    // distributed content requires an observer to be set up.
-    await element.updateComplete;
-    element.send(false, false);
-    await promise;
   });
 
   test('filterReviewerSuggestion', () => {

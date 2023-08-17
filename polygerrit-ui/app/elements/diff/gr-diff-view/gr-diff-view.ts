@@ -275,8 +275,10 @@ export class GrDiffView extends LitElement {
       files => {
         const filesByPath: FileNameToNormalizedFileInfoMap = {};
         for (const f of files) filesByPath[f.__path] = f;
+        const sortedPaths = files.map(f => f.__path);
+        sortedPaths.sort();
         this.files = {
-          sortedPaths: files.map(f => f.__path),
+          sortedPaths,
           changeFilesByPath: filesByPath,
         };
       }
@@ -1557,6 +1559,7 @@ export class GrDiffView extends LitElement {
   handleFileChange(e: ValueChangedEvent<string>) {
     const path: string = e.detail.value;
     if (path === this.path) return;
+    this.path = path;
     this.getChangeModel().navigateToDiff({path});
   }
 

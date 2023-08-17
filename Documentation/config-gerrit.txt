@@ -1672,6 +1672,14 @@ If 0 the update polling is disabled.
 +
 Default is 5 minutes.
 
+[[change.diff3ConflictView]]change.diff3ConflictView::
++
+Use the diff3 formatter for merge commits with conflicts. With diff3 when
+the conflicts are shown in the "Auto Merge" view, the base section from the
+common parents will be shown as well.
++
+Default is false.
+
 [[changeCleanup]]
 === Section changeCleanup
 

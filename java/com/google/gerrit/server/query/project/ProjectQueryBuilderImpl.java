@@ -24,6 +24,7 @@ import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.index.project.ProjectField;
 import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.index.project.ProjectIndexCollection;
+import com.google.gerrit.index.project.ProjectSubstringPredicate;
 import com.google.gerrit.index.query.LimitPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
@@ -55,6 +56,11 @@ public class ProjectQueryBuilderImpl extends QueryBuilder<ProjectData, ProjectQu
   public Predicate<ProjectData> prefix(String prefix) throws QueryParseException {
     checkOperatorAvailable(ProjectField.PREFIX_NAME_SPEC, "prefix");
     return ProjectPredicates.prefix(prefix);
+  }
+
+  @Operator
+  public Predicate<ProjectData> substring(String substring) {
+    return new ProjectSubstringPredicate(ProjectQueryBuilder.FIELD_SUBSTRING, substring);
   }
 
   @Operator

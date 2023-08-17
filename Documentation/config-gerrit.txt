@@ -2533,6 +2533,13 @@ Used to identify a specific instance within a group of Gerrit instances with the
 same `serverId` (i.e.: a Gerrit cluster).
 Unlike `instanceName` this value is not available in the email templates.
 
+The instance ID can be configured using an environment variable. This is useful
+in environments that are scaled automatically but use a read-only static configuration
+for all instances, e.g. Kubernetes. To do this, the value of this config option has
+to be set to the name of the corresponding environment variable starting with `$`. The
+environment variable is read once at startup. Later changes will only be reflected by
+restarting Gerrit.
+
 [[gerrit.instanceName]]gerrit.instanceName::
 +
 Short identifier for this Gerrit instance.

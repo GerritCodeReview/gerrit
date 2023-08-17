@@ -1,4 +1,4 @@
-// Copyright (C) 2020 The Android Open Source Project
+// Copyright (C) 2023 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,18 +14,11 @@
 
 package com.google.gerrit.server.config;
 
-import static com.google.inject.Scopes.SINGLETON;
+import com.google.inject.Singleton;
 
-import com.google.inject.AbstractModule;
-
-/** Supports binding the {@link GerritInstanceId} annotation. */
-public class GerritInstanceIdModule extends AbstractModule {
-  @Override
-  protected void configure() {
-    bind(EnvVarProvider.class);
-    bind(String.class)
-        .annotatedWith(GerritInstanceId.class)
-        .toProvider(GerritInstanceIdProvider.class)
-        .in(SINGLETON);
+@Singleton
+public class EnvVarProvider {
+  public String get(String name) {
+    return System.getenv(name);
   }
 }

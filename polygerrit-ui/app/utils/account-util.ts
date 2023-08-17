@@ -318,3 +318,7 @@ export function getSuggestedReviewerID(suggestion: Suggestion) {
   }
   return '';
 }
+
+export function isBareAccount(account: AccountInfo): boolean {
+  return !account.email && !account.name && !account.username;
+}

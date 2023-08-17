@@ -122,6 +122,7 @@ export interface RestApiService extends Finalizable {
   getAccountCapabilities(
     params?: string[]
   ): Promise<AccountCapabilityInfo | undefined>;
+  getAccountFor(accountId: AccountId): Promise<AccountDetailInfo | undefined>;
   getExternalIds(): Promise<AccountExternalIdInfo[] | undefined>;
   deleteAccountIdentity(id: string[]): Promise<unknown>;
   deleteAccount(): Promise<unknown>;

@@ -739,6 +739,20 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<AccountDetailInfo | undefined>;
   }
 
+
+  getAccountFor(accountId: AccountId): Promise<AccountDetailInfo | undefined> {
+    const url = `/accounts/${accountId}/detail`;
+    return this._fetchSharedCacheURL({
+      url,
+      reportUrlAsIs: true,
+      errFn: resp => {
+        if (!resp || resp.status === 403) {
+          this._cache.delete(url);
+        }
+      },
+    }) as Promise<AccountDetailInfo | undefined>;
+  }
+
   getAvatarChangeUrl() {
     return this._fetchSharedCacheURL({
       url: '/accounts/self/avatar.change.url',

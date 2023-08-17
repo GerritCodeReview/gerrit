@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3fc33fbf_1870fce2",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1427,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-17T08:28:17Z",
+      "side": 1,
+      "message": "Leaving this open in case you have thoughts.\n\nOne option is an extra parameter to saveReview.\n\nIt\u0027s a bit weird that the rest-api would further modify your request. What if someone sets `response_format_options` and then rest-api overrides it?",
+      "parentUuid": "161e705e_d995b0c4",
+      "revId": "514a7d784782e8d0174c4847792970e2a4d1eda5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "352e84c2_4dddd8f7",
         "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
         "patchSetId": 6

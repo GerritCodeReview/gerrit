@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9aed7724_713965f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-17T19:17:26Z",
+      "side": 1,
+      "message": "That might be an option and I can look at trying that in a later change. It obviously would require admins to maintain up to date git bitmaps to have a performant system and I don\u0027t yet know enough about that to know if there\u0027s a trade-off or other side-effects it would introduce. This change and the ones following it should make a refactor to use jgit reachability objects easier (as well as providing a memory use improvement), so I don\u0027t think we should block these changes from going in now. Any concerns with that?",
+      "parentUuid": "f77c86ba_b22b0f04",
+      "revId": "43399861a536eb2d9493099fc691df74103f3c75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "68291fd2_8dcde22d",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
         "patchSetId": 7
@@ -31,6 +49,30 @@
       "writtenOn": "2023-08-16T11:58:28Z",
       "side": 1,
       "message": "you\u0027re not adding a test. Can you confirm that all these new codepaths are covered by the existing tests?",
+      "range": {
+        "startLine": 264,
+        "startChar": 0,
+        "endLine": 264,
+        "endChar": 10
+      },
+      "revId": "43399861a536eb2d9493099fc691df74103f3c75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e986728a_4f3e9187",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-17T19:17:26Z",
+      "side": 1,
+      "message": "There was some existing coverage and I\u0027ve added more now in change 383274",
+      "parentUuid": "68291fd2_8dcde22d",
       "range": {
         "startLine": 264,
         "startChar": 0,

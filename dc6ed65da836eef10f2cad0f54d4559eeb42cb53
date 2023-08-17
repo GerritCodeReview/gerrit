@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "286e715e_31b93423",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-17T19:17:26Z",
+      "side": 1,
+      "message": "@hanwen@google.com I\u0027m assuming you\u0027re good on this thread since you didn\u0027t add to it. Feel free to un-resolve if that\u0027s not the case.",
+      "parentUuid": "e1cfc83c_3f224312",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 5
+      },
+      "revId": "dc6ed65da836eef10f2cad0f54d4559eeb42cb53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77537992_b5ef8c5a",
@@ -181,6 +205,30 @@
       "side": 1,
       "message": "\u003e however, looking at this again, I don\u0027t think I should be creating a Tag object with a null mine, so I\u0027m keeping this unresolved.\n\nOk, I decided to add null safety instead with a precondition check in the Tag constructor and then removed the other null checks that didn\u0027t make sense anymore. I think the code is cleaner and easier to follow this way. My 2019 response about why this is never null is still accurate.",
       "parentUuid": "966aa331_81634f82",
+      "range": {
+        "startLine": 332,
+        "startChar": 36,
+        "endLine": 332,
+        "endChar": 44
+      },
+      "revId": "dc6ed65da836eef10f2cad0f54d4559eeb42cb53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "436de1e7_7df35104",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-17T19:17:26Z",
+      "side": 1,
+      "message": "@hanwen@google.com I\u0027m assuming you\u0027re good on this thread since you didn\u0027t add to it. Feel free to un-resolve if that\u0027s not the case.",
+      "parentUuid": "989341ad_b4ae8fea",
       "range": {
         "startLine": 332,
         "startChar": 36,

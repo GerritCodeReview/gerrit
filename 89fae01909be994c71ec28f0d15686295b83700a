@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "779a8f6a_7bbf500a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-17T19:05:05Z",
+      "side": 1,
+      "message": "I quite like the environment variables expansion, similar to HOCON [1]; however, that would be atypical to the way we configure the rest of gerrit.config.\n\nWhy not just having a Jinja [2] templating in the Gerrit startup script instead?\n\n[1] https://github.com/lightbend/config/blob/main/HOCON.md\n[2] https://jinja.palletsprojects.com/en/3.1.x/",
+      "revId": "89fae01909be994c71ec28f0d15686295b83700a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9b81d6c_29ca0195",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2539,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-17T19:05:05Z",
+      "side": 1,
+      "message": "This is quite interesting, similar to the HOCON config files; however, that is very different from all the other ways that we configure Gerrit.",
+      "range": {
+        "startLine": 2539,
+        "startChar": 29,
+        "endLine": 2539,
+        "endChar": 81
+      },
+      "revId": "89fae01909be994c71ec28f0d15686295b83700a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -248,16 +248,10 @@ export class GrFileList extends LitElement {
   @state()
   diffPrefs?: DiffPreferencesInfo;
 
-  @state() numFilesShown = DEFAULT_NUM_FILES_SHOWN;
+  @state() numFilesShown = 0;
 
   @state()
   fileListIncrement: number = DEFAULT_NUM_FILES_SHOWN;
-
-  // Private but used in tests.
-  shownFiles: NormalizedFileInfo[] = [];
-
-  @state()
-  private reportinShownFilesIncrement = 0;
 
   // Private but used in tests.
   @state()
@@ -840,12 +834,7 @@ export class GrFileList extends LitElement {
     }
     if (changedProperties.has('files')) {
       this.filesChanged();
-    }
-    if (
-      changedProperties.has('files') ||
-      changedProperties.has('numFilesShown')
-    ) {
-      this.shownFiles = this.computeFilesShown();
+      this.numFilesShown = Math.min(this.files.length, DEFAULT_NUM_FILES_SHOWN);
     }
     if (changedProperties.has('expandedFiles')) {
       this.expandedFilesChanged(changedProperties.get('expandedFiles'));
@@ -1028,7 +1017,7 @@ export class GrFileList extends LitElement {
     const sizeBarLayout = this.computeSizeBarLayout();
 
     return incrementalRepeat({
-      values: this.shownFiles,
+      values: this.files,
       mapFn: (f, i) =>
         this.renderFileRow(
           f as NormalizedFileInfo,
@@ -1039,6 +1028,8 @@ export class GrFileList extends LitElement {
         ),
       initialCount: this.fileListIncrement,
       targetFrameRate: 1,
+      startAt: 0,
+      endAt: this.numFilesShown,
     });
   }
 
@@ -1049,8 +1040,7 @@ export class GrFileList extends LitElement {
     showDynamicColumns: boolean,
     showPrependedDynamicColumns: boolean
   ) {
-    this.reportRenderedRow(index);
-    const previousFileName = this.shownFiles[index - 1]?.__path;
+    const previousFileName = this.files[index - 1]?.__path;
     const patchSetFile = this.computePatchSetFile(file);
     return html` <div class="stickyArea">
       <div
@@ -1804,10 +1794,10 @@ export class GrFileList extends LitElement {
     // expanded list.
     const newFiles: PatchSetFile[] = [];
     let path: string;
-    for (let i = 0; i < this.shownFiles.length; i++) {
-      path = this.shownFiles[i].__path;
+    for (let i = 0; i < this.numFilesShown; i++) {
+      path = this.files[i].__path;
       if (!this.expandedFiles.some(f => f.path === path)) {
-        newFiles.push(this.computePatchSetFile(this.shownFiles[i]));
+        newFiles.push(this.computePatchSetFile(this.files[i]));
       }
     }
 
@@ -2230,26 +2220,6 @@ export class GrFileList extends LitElement {
     );
   }
 
-  private computeFilesShown(): NormalizedFileInfo[] {
-    const previousNumFilesShown = this.shownFiles ? this.shownFiles.length : 0;
-
-    const filesShown = this.files.slice(0, this.numFilesShown);
-    fire(this, 'files-shown-changed', {length: filesShown.length});
-
-    // Start the timer for the rendering work here because this is where the
-    // shownFiles property is being set, and shownFiles is used in the
-    // dom-repeat binding.
-    this.reporting.time(Timing.FILE_RENDER);
-
-    // How many more files are being shown (if it's an increase).
-    this.reportinShownFilesIncrement = Math.max(
-      0,
-      filesShown.length - previousNumFilesShown
-    );
-
-    return filesShown;
-  }
-
   // Private but used in tests.
   updateDiffCursor() {
     // Overwrite the cursor's list of diffs:
@@ -2269,6 +2239,9 @@ export class GrFileList extends LitElement {
 
   private incrementNumFilesShown() {
     this.numFilesShown += this.fileListIncrement;
+    if (this.numFilesShown > this.files.length) {
+      this.numFilesShown = this.files.length;
+    }
   }
 
   private computeFileListControlClass() {
@@ -2476,7 +2449,8 @@ export class GrFileList extends LitElement {
    */
   computeSizeBarLayout() {
     const stats: SizeBarLayout = createDefaultSizeBarLayout();
-    this.shownFiles
+    this.files
+      .slice(0, this.numFilesShown)
       .filter(f => !isMagicPath(f.__path))
       .forEach(f => {
         if (f.lines_inserted) {
@@ -2600,24 +2574,6 @@ export class GrFileList extends LitElement {
    */
   noDiffsExpanded() {
     return this.filesExpanded === FilesExpandedState.NONE;
-  }
-
-  /**
-   * Method to call via binding when each file list row is rendered. This
-   * allows approximate detection of when the dom-repeat has completed
-   * rendering.
-   *
-   * @param index The index of the row being rendered.
-   * Private but used in tests.
-   */
-  reportRenderedRow(index: number) {
-    if (index === this.shownFiles.length - 1) {
-      setTimeout(() => {
-        this.reporting.timeEnd(Timing.FILE_RENDER, {
-          count: this.reportinShownFilesIncrement,
-        });
-      }, 1);
-    }
   }
 
   private handleReloadingDiffPreference() {

@@ -14,11 +14,15 @@ import {wrapInProvider} from '../../../models/di-provider-element';
 import {getAppContext} from '../../../services/app-context';
 import './gr-formatted-text';
 import {GrFormattedText} from './gr-formatted-text';
-import {createConfig} from '../../../test/test-data-generators';
+import {createComment, createConfig} from '../../../test/test-data-generators';
 import {queryAndAssert, waitUntilObserved} from '../../../test/test-utils';
 import {CommentLinks, EmailAddress} from '../../../api/rest-api';
 import {testResolver} from '../../../test/common-test-setup';
 import {GrAccountChip} from '../gr-account-chip/gr-account-chip';
+import {
+  CommentModel,
+  commentModelToken,
+} from '../gr-comment-model/gr-comment-model';
 
 suite('gr-formatted-text tests', () => {
   let element: GrFormattedText;
@@ -37,6 +41,7 @@ suite('gr-formatted-text tests', () => {
       testResolver(changeModelToken),
       getAppContext().restApiService
     );
+    const commentModel = new CommentModel({comment: createComment()});
     await setCommentLinks({
       customLinkRewrite: {
         match: '(LinkRewriteMe)',
@@ -54,9 +59,13 @@ suite('gr-formatted-text tests', () => {
     element = (
       await fixture(
         wrapInProvider(
-          html`<gr-formatted-text></gr-formatted-text>`,
-          configModelToken,
-          configModel
+          wrapInProvider(
+            html`<gr-formatted-text></gr-formatted-text>`,
+            configModelToken,
+            configModel
+          ),
+          commentModelToken,
+          commentModel
         )
       )
     ).querySelector('gr-formatted-text')!;

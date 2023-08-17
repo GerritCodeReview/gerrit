@@ -17,7 +17,7 @@ import '../gr-account-label/gr-account-label';
 import {getAppContext} from '../../../services/app-context';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {resolve} from '../../../models/dependency';
+import {provide, resolve} from '../../../models/dependency';
 import {GrTextarea} from '../gr-textarea/gr-textarea';
 import {
   AccountDetailInfo,
@@ -68,6 +68,10 @@ import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {pluginLoaderToken} from '../gr-js-api-interface/gr-plugin-loader';
+import {
+  CommentModel,
+  commentModelToken,
+} from '../gr-comment-model/gr-comment-model';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
@@ -226,6 +230,8 @@ export class GrComment extends LitElement {
 
   private readonly shortcuts = new ShortcutController(this);
 
+  private commentModel = new CommentModel(undefined);
+
   /**
    * This is triggered when the user types into the editing textarea. We then
    * debounce it and call autoSave().
@@ -246,6 +252,7 @@ export class GrComment extends LitElement {
 
   constructor() {
     super();
+    provide(this, commentModelToken, () => this.commentModel);
     // Allow the shortcuts to bubble up so that GrReplyDialog can respond to
     // them as well.
     this.shortcuts.addLocal({key: Key.ESC}, () => this.handleEsc(), {
@@ -979,6 +986,22 @@ export class GrComment extends LitElement {
         whenVisible(this, () => this.textarea?.putCursorAtEnd());
       }
     }
+    if (changed.has('changeNum') || changed.has('comment')) {
+      if (
+        !this.flagsService.isEnabled(
+          KnownExperimentId.DIFF_FOR_USER_SUGGESTED_EDIT
+        ) ||
+        !this.changeNum ||
+        !this.comment
+      )
+        return;
+      (async () => {
+        const commentedText = await this.getCommentedCode();
+        this.commentModel.updateState({
+          commentedText,
+        });
+      })();
+    }
   }
 
   override willUpdate(changed: PropertyValues) {
@@ -986,6 +1009,11 @@ export class GrComment extends LitElement {
     if (changed.has('comment')) {
       if (isDraft(this.comment) && isError(this.comment)) {
         this.edit();
+      }
+      if (this.comment) {
+        this.commentModel.updateState({
+          comment: this.comment,
+        });
       }
     }
     if (changed.has('editing')) {

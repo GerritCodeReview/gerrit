@@ -16,6 +16,24 @@
       "message": "\"This setting takes effect when generating the automerge, which happens on upload. Changing the setting leaves existing changes unaffected\"",
       "revId": "4160796377f1f7f410fee245028bd1c31b9bc65b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1d91e8f_10116c59",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1679,
+      "author": {
+        "id": 1162710
+      },
+      "writtenOn": "2023-08-17T16:43:25Z",
+      "side": 1,
+      "message": "Added to the doc.",
+      "parentUuid": "6f4d6c7a_e27f916a",
+      "revId": "4160796377f1f7f410fee245028bd1c31b9bc65b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

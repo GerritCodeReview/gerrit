@@ -425,7 +425,6 @@ public class GerritServer implements AutoCloseable {
     if (testSshModule != null) {
       daemon.addAdditionalSshModuleForTesting(testSshModule);
     }
-    daemon.setEnableSshd(desc.useSsh());
     daemon.addAdditionalSysModuleForTesting(
         new AbstractModule() {
           @Override

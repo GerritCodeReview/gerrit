@@ -76,6 +76,12 @@ suite('url-util tests', () => {
       authConfig.auth_type = AuthType.HTTP_LDAP;
       assert.deepEqual(loginUrl(authConfig), customLoginUrl);
     });
+
+    test('auth.loginUrl is sanitized when defined as a relative url', () => {
+      authConfig.login_url = 'custom';
+      authConfig.auth_type = AuthType.HTTP;
+      assert.deepEqual(loginUrl(authConfig), '/custom');
+    });
   });
 
   suite('url encoding and decoding tests', () => {

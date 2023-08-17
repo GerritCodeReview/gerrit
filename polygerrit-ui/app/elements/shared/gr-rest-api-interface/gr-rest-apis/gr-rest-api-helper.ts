@@ -105,17 +105,15 @@ export class SiteBasedCache {
 
   get(key: '/accounts/self/detail'): AccountDetailInfo | null;
 
-  get(key: string): ParsedJSON | null;
+  get(key: string): AccountDetailInfo | ParsedJSON | null;
 
   get(key: string): unknown {
     return this._cache().get(key);
   }
 
   set(key: '/accounts/self/emails', value: EmailInfo[]): void;
-
   set(key: '/accounts/self/detail', value: AccountDetailInfo): void;
-
-  set(key: string, value: ParsedJSON | null): void;
+  set(key: string, value: AccountDetailInfo | ParsedJSON | null): void;
 
   set(key: string, value: unknown) {
     this._cache().set(key, value);
@@ -453,7 +451,7 @@ s   */
     return req;
   }
 
-  fetchCacheURL(req: FetchJSONRequest): Promise<ParsedJSON | undefined> {
+  fetchCacheURL(req: FetchJSONRequest): Promise<AccountDetailInfo | ParsedJSON | undefined> {
     if (this._fetchPromisesCache.has(req.url)) {
       return this._fetchPromisesCache.get(req.url)!;
     }

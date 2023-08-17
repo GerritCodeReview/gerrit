@@ -34,6 +34,7 @@ import {
   HttpMethod,
 } from '../../constants/constants';
 import {
+  AccountId,
   BasePatchSetNum,
   ChangeInfo,
   ChangeMessageId,
@@ -435,6 +436,57 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.isTrue(stub.called);
     assert.equal(element._cache.get(cacheKey), account);
   });
+
+  test('getAccountFor when resp is undefined clears cache', async () => {
+    const cacheKey = '/accounts/1/detail';
+    const account = createAccountDetailWithId(1);
+    element._cache.set(cacheKey, account);
+    const stub = sinon
+      .stub(element._restApiHelper, 'fetchCacheURL')
+      .callsFake(async req => {
+        req.errFn!(undefined);
+        return undefined;
+      });
+    assert.isTrue(element._cache.has(cacheKey));
+
+    await element.getAccountFor(1 as AccountId);
+    assert.isTrue(stub.called);
+    assert.isFalse(element._cache.has(cacheKey));
+  });
+
+  test('getAccountFor when status is 403 clears cache', async () => {
+    const cacheKey = '/accounts/1/detail';
+    const account = createAccountDetailWithId(1);
+    element._cache.set(cacheKey, account);
+    const stub = sinon
+      .stub(element._restApiHelper, 'fetchCacheURL')
+      .callsFake(async req => {
+        req.errFn!(new Response(undefined, {status: 403}));
+        return undefined;
+      });
+    assert.isTrue(element._cache.has(cacheKey));
+
+    await element.getAccountFor(1 as AccountId);
+    assert.isTrue(stub.called);
+    assert.isFalse(element._cache.has(cacheKey));
+  });
+
+  test('getAccountFor when resp is successful updates cache', async () => {
+    const cacheKey = '/accounts/1/detail';
+    const account = createAccountDetailWithId(1);
+    const stub = sinon
+      .stub(element._restApiHelper, 'fetchCacheURL')
+      .callsFake(async () => {
+        element._cache.set(cacheKey, account);
+        return undefined;
+      });
+    assert.isFalse(element._cache.has(cacheKey));
+
+    await element.getAccountFor(1 as AccountId);
+    assert.isTrue(stub.called);
+    assert.equal(element._cache.get(cacheKey), account);
+  });
+
 
   const preferenceSetup = function (testJSON: unknown, loggedIn: boolean) {
     sinon

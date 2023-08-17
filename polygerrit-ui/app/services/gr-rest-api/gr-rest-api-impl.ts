@@ -310,7 +310,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   finalize() {}
 
-  _fetchSharedCacheURL(req: FetchJSONRequest): Promise<ParsedJSON | undefined> {
+  _fetchSharedCacheURL(req: FetchJSONRequest): Promise<AccountDetailInfo | ParsedJSON | undefined> {
     // Cache is shared across instances
     return this._restApiHelper.fetchCacheURL(req);
   }
@@ -734,6 +734,20 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       errFn: resp => {
         if (!resp || resp.status === 403) {
           this._cache.delete('/accounts/self/detail');
+        }
+      },
+    }) as Promise<AccountDetailInfo | undefined>;
+  }
+
+
+  getAccountFor(accountId: AccountId): Promise<AccountDetailInfo | undefined> {
+    const url = `/accounts/${accountId}/detail`;
+    return this._fetchSharedCacheURL({
+      url,
+      reportUrlAsIs: true,
+      errFn: resp => {
+        if (!resp || resp.status === 403) {
+          this._cache.delete(url);
         }
       },
     }) as Promise<AccountDetailInfo | undefined>;

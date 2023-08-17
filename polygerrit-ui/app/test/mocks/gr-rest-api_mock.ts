@@ -176,6 +176,9 @@ export const grRestApiMock: RestApiService = {
   generateAccountHttpPassword(): Promise<Password> {
     return Promise.resolve('asdf');
   },
+  getAccountFor(): Promise<AccountDetailInfo | undefined> {
+    return Promise.resolve(createAccountDetailWithId(1));
+  },
   getAccount(): Promise<AccountDetailInfo | undefined> {
     return Promise.resolve(createAccountDetailWithId(1));
   },

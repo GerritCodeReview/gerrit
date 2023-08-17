@@ -4,10 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import './gr-avatar';
-import {AccountInfo, ServerInfo} from '../../../types/common';
-import {LitElement, css, html} from 'lit';
+import '../gr-hovercard-account/gr-hovercard-account';
+import {
+  AccountDetailInfo,
+  AccountInfo,
+  ServerInfo,
+} from '../../../types/common';
+import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {
+  isDetailedAccount,
   uniqueAccountId,
   uniqueDefinedAvatar,
 } from '../../../utils/account-util';
@@ -15,6 +21,7 @@ import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {subscribe} from '../../lit/subscription-controller';
 import {getDisplayName} from '../../../utils/display-name-util';
+import {accountsModelToken} from '../../../models/accounts-model/accounts-model';
 
 /**
  * This elements draws stack of avatars overlapped with each other.
@@ -46,10 +53,12 @@ export class GrAvatarStack extends LitElement {
    * In gr-app, gr-account-chip is in charge of loading a full account, so
    * avatars will be set. However, code-owners will create gr-avatars with a
    * bare account-id. To enable fetching of those avatars, a flag is added to
-   * gr-avatar that will disregard the absence of avatar urls.
+   * gr-avatar-stack that will fetch the accounts on demand
    */
   @property({type: Boolean})
   forceFetch = false;
+
+  private readonly getAccountsModel = resolve(this, accountsModelToken);
 
   @state() config?: ServerInfo;
 
@@ -81,6 +90,25 @@ export class GrAvatarStack extends LitElement {
     );
   }
 
+  override updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('accounts')) {
+      if (
+        this.forceFetch &&
+        this.accounts.length > 0 &&
+        !isDetailedAccount(this.accounts[0])
+      ) {
+        Promise.all(
+          this.accounts.map(account =>
+            this.getAccountsModel().fillDetails(account)
+          )
+        ).then(accounts => {
+          this.forceFetch = false;
+          this.accounts = accounts.filter(a => !!a) as AccountDetailInfo[];
+        });
+      }
+    }
+  }
+
   override render() {
     const uniqueAvatarAccounts = this.forceFetch
       ? this.accounts.filter(uniqueAccountId)
@@ -98,11 +126,11 @@ export class GrAvatarStack extends LitElement {
     return uniqueAvatarAccounts.map(
       account =>
         html`<gr-avatar
-          .forceFetch=${this.forceFetch}
           .account=${account}
           .imageSize=${this.imageSize}
           aria-label=${getDisplayName(this.config, account)}
         >
+          <gr-hovercard-account .account=${account}></gr-hovercard-account>
         </gr-avatar>`
     );
   }

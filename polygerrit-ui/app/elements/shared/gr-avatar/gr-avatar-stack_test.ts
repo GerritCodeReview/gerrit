@@ -12,6 +12,7 @@ import {
 import {fixture, html, assert} from '@open-wc/testing';
 import {stubRestApi} from '../../../test/test-utils';
 import {LitElement} from 'lit';
+import {Timestamp} from '../../../api/rest-api';
 
 suite('gr-avatar tests', () => {
   suite('config with avatars', () => {
@@ -63,11 +64,13 @@ suite('gr-avatar tests', () => {
             aria-label="0"
             style='background-image: url("https://a.b.c/photo0.jpg");'
           >
+            <gr-hovercard-account></gr-hovercard-account>
           </gr-avatar>
           <gr-avatar
             aria-label="1"
             style='background-image: url("https://a.b.c/photo1.jpg");'
           >
+            <gr-hovercard-account></gr-hovercard-account>
           </gr-avatar> `
       );
       // Verify that margins are set correctly.
@@ -80,6 +83,43 @@ suite('gr-avatar tests', () => {
           '-8px'
         );
       }
+    });
+
+    test('fetches account details. avatars', async () => {
+      const stub = stubRestApi('getAccountDetails').resolves({
+        ...createAccountWithId(1),
+        avatars: [
+          {
+            url: 'https://a.b.c/photo0.jpg',
+            height: 32,
+            width: 32,
+          },
+        ],
+        registered_on: '1234' as Timestamp,
+      });
+      const element: LitElement = await fixture(
+        html`<gr-avatar-stack
+          .accounts=${[{_account_id: 1}]}
+          .forceFetch=${true}
+          .imageSize=${32}
+        ></gr-avatar-stack>`
+      );
+      await element.updateComplete;
+
+      assert.equal(stub.called, true);
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `<gr-avatar
+          aria-label="1"
+          style='background-image: url("https://a.b.c/photo0.jpg");'
+        >
+          <gr-hovercard-account></gr-hovercard-account>
+        </gr-avatar>`
+      );
+      // Verify that margins are set correctly.
+      const avatars = element.shadowRoot!.querySelectorAll('gr-avatar');
+      assert.strictEqual(avatars.length, 1);
+      assert.strictEqual(window.getComputedStyle(avatars[0]).marginLeft, '0px');
     });
 
     test('renders many accounts fallback', async () => {

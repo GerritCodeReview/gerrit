@@ -16,6 +16,46 @@
       "message": "LGTM, @Luca WDYT?",
       "revId": "785b6232fb1491951ea3671465b140d52f25b54b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43b8f512_cf448433",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-17T19:21:48Z",
+      "side": 1,
+      "message": "Just a minor nit on typing.",
+      "revId": "785b6232fb1491951ea3671465b140d52f25b54b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d18e1150_8f60dfd8",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-17T19:21:48Z",
+      "side": 1,
+      "message": "The name is misleading here: it _looks like_ it would be a generic sys module but then at L495 is considered an AbstractIndexModule.\n\nWhy not passing an AbstractIndexModule here and avoid the instanceof check at L495?",
+      "range": {
+        "startLine": 474,
+        "startChar": 23,
+        "endLine": 474,
+        "endChar": 36
+      },
+      "revId": "785b6232fb1491951ea3671465b140d52f25b54b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc0c289f_1661d728",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1427,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-17T07:25:31Z",
+      "side": 1,
+      "message": "I would prefer this to be set in `saveChangeReview()` in `gr-rest-api-impl.ts`. As long as we don\u0027t have controllers or services I think it is best to keep such logic in RestApiImpl.",
+      "revId": "514a7d784782e8d0174c4847792970e2a4d1eda5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "352e84c2_4dddd8f7",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1252,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-17T07:25:31Z",
+      "side": 1,
+      "message": "Why not re-use `getChangeOptions()` (maybe with an additional parameter)?",
+      "revId": "514a7d784782e8d0174c4847792970e2a4d1eda5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc855049_2339b701",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1254,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-17T07:25:31Z",
+      "side": 1,
+      "message": "Why not use the enum here?",
+      "revId": "514a7d784782e8d0174c4847792970e2a4d1eda5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1f63cfc_a2d5bbc1",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 2007,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-17T07:25:31Z",
+      "side": 1,
+      "message": "Maybe adding `parseResponse: true` here would allow you to remove the lines 2009-2028 below.",
+      "revId": "514a7d784782e8d0174c4847792970e2a4d1eda5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f940f256_e67dc708",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-17T07:25:31Z",
+      "side": 1,
+      "message": "Maybe add a path for the other tow places that have to be kept in sync.",
+      "revId": "514a7d784782e8d0174c4847792970e2a4d1eda5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

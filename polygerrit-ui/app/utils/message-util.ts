@@ -7,7 +7,7 @@ import {MessageTag} from '../constants/constants';
 import {ChangeId, ChangeMessageInfo} from '../types/common';
 
 function getRevertChangeIdFromMessage(msg: ChangeMessageInfo): ChangeId {
-  const REVERT_REGEX = /^Created a revert of this change as (I[0-9a-f]{40})$/;
+  const REVERT_REGEX = /^Created a revert of this change as .*?(I[0-9a-f]{40})$/;
   const changeId = msg.message.match(REVERT_REGEX)?.[1];
   if (!changeId) throw new Error('revert changeId not found');
   return changeId as ChangeId;

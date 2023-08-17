@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4183439a_65c8b32d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-08-17T16:32:43Z",
+      "side": 1,
+      "message": "Is it enough to check just first account (this.accounts[0]) or do we need to call this.accounts.some(a \u003d\u003e !isDetailed(a))",
+      "range": {
+        "startLine": 98,
+        "startChar": 8,
+        "endLine": 98,
+        "endChar": 44
+      },
+      "revId": "7890f03b952b5a611386b5f6ca02b62f647c5e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8c335a7_d5376f63",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-08-17T16:32:43Z",
+      "side": 1,
+      "message": "I think we have utility isDefined in types.ts\n\n```suggestion\n          this.accounts \u003d accounts.filter(isDefined);\n```",
+      "range": {
+        "startLine": 105,
+        "startChar": 42,
+        "endLine": 105,
+        "endChar": 50
+      },
+      "revId": "7890f03b952b5a611386b5f6ca02b62f647c5e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd153fc5_b5186441",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-08-17T16:32:43Z",
+      "side": 1,
+      "message": "you can remove `as AccountDetailInfo[]` this.accounts is accountInfo (same as accounts)",
+      "range": {
+        "startLine": 105,
+        "startChar": 52,
+        "endLine": 105,
+        "endChar": 74
+      },
+      "revId": "7890f03b952b5a611386b5f6ca02b62f647c5e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a42dd1d4_3dd98a81",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-08-17T16:32:43Z",
+      "side": 1,
+      "message": "Is it ok that we show hovercard also in comments-summary? Or should there be a property about it?",
+      "range": {
+        "startLine": 132,
+        "startChar": 10,
+        "endLine": 132,
+        "endChar": 75
+      },
+      "revId": "7890f03b952b5a611386b5f6ca02b62f647c5e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88b2f622_9c8be2ac",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-08-17T16:32:43Z",
+      "side": 1,
+      "message": "I don\u0027t think it is good idea to add all possible types here.",
+      "range": {
+        "startLine": 108,
+        "startChar": 20,
+        "endLine": 108,
+        "endChar": 37
+      },
+      "revId": "7890f03b952b5a611386b5f6ca02b62f647c5e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c828e26_9fec9544",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-08-17T16:32:43Z",
+      "side": 1,
+      "message": "I don\u0027t think it is good idea to add all possible types here.",
+      "range": {
+        "startLine": 118,
+        "startChar": 26,
+        "endLine": 118,
+        "endChar": 43
+      },
+      "revId": "7890f03b952b5a611386b5f6ca02b62f647c5e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea6e6246_a0573114",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-08-17T16:32:43Z",
+      "side": 1,
+      "message": "I don\u0027t think it is good idea to add all possible types here. I also checked all changes here can be removed and typescript compiler will continue working.",
+      "range": {
+        "startLine": 458,
+        "startChar": 13,
+        "endLine": 458,
+        "endChar": 30
+      },
+      "revId": "7890f03b952b5a611386b5f6ca02b62f647c5e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c703435f_c41e97f4",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-08-17T16:32:43Z",
+      "side": 1,
+      "message": "Is this used somewhere? Can be removed.",
+      "range": {
+        "startLine": 322,
+        "startChar": 0,
+        "endLine": 324,
+        "endChar": 1
+      },
+      "revId": "7890f03b952b5a611386b5f6ca02b62f647c5e2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

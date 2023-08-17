@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "161e705e_d995b0c4",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1427,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-17T08:16:30Z",
+      "side": 1,
+      "message": "there are calls to saveReview that do not want this extra cost.",
+      "parentUuid": "bc0c289f_1661d728",
+      "revId": "514a7d784782e8d0174c4847792970e2a4d1eda5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "352e84c2_4dddd8f7",
         "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
         "patchSetId": 6
@@ -31,6 +49,24 @@
       "writtenOn": "2023-08-17T07:25:31Z",
       "side": 1,
       "message": "Why not re-use `getChangeOptions()` (maybe with an additional parameter)?",
+      "revId": "514a7d784782e8d0174c4847792970e2a4d1eda5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30267d57_36e4d023",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1252,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-17T08:16:30Z",
+      "side": 1,
+      "message": "Same reason as below, it wants strings not numbers.",
+      "parentUuid": "352e84c2_4dddd8f7",
       "revId": "514a7d784782e8d0174c4847792970e2a4d1eda5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fc12d9f_44cc6a79",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1254,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-17T08:16:30Z",
+      "side": 1,
+      "message": "The API requires strings.",
+      "parentUuid": "fc855049_2339b701",
+      "revId": "514a7d784782e8d0174c4847792970e2a4d1eda5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1f63cfc_a2d5bbc1",
@@ -69,6 +123,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d5fc8bd_d7b11e41",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 2007,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-17T08:16:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1f63cfc_a2d5bbc1",
+      "revId": "514a7d784782e8d0174c4847792970e2a4d1eda5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f940f256_e67dc708",
@@ -82,6 +154,24 @@
       "writtenOn": "2023-08-17T07:25:31Z",
       "side": 1,
       "message": "Maybe add a path for the other tow places that have to be kept in sync.",
+      "revId": "514a7d784782e8d0174c4847792970e2a4d1eda5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fb629d0_135b0198",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-17T08:16:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f940f256_e67dc708",
       "revId": "514a7d784782e8d0174c4847792970e2a4d1eda5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

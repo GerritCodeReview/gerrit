@@ -23,6 +23,7 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.collect.HashBasedTable;
@@ -35,6 +36,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.Files;
+import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import com.google.common.reflect.TypeToken;
 import com.google.gerrit.common.Nullable;
@@ -62,7 +64,6 @@ import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.proto.Entities;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
-import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.cache.proto.Cache;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.index.change.StalenessChecker.RefStatePattern;
@@ -1274,12 +1275,11 @@ public class ChangeField {
           .build(
               cd ->
                   Iterables.transform(
-                      cd.stars(),
-                      accountId -> StarredChangesUtil.StarField.create(accountId).toString()),
+                      cd.stars(), accountId -> StarField.create(accountId).toString()),
               (cd, field) ->
                   cd.setStars(
                       StreamSupport.stream(field.spliterator(), false)
-                          .map(f -> StarredChangesUtil.StarField.parse(f).accountId())
+                          .map(f -> StarField.parse(f).accountId())
                           .collect(toImmutableList())));
 
   public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec STAR_SPEC =
@@ -1814,5 +1814,46 @@ public class ChangeField {
       return new String(Arrays.copyOfRange(strBytes, 0, maxBytes), UTF_8);
     }
     return str;
+  }
+
+  @AutoValue
+  abstract static class StarField {
+    private static final String SEPARATOR = ":";
+
+    @Nullable
+    static StarField parse(String s) {
+      Integer id;
+      int p = s.indexOf(SEPARATOR);
+      if (p >= 0) {
+        id = Ints.tryParse(s.substring(0, p));
+      } else {
+        // NOTE: This code branch should not be removed. This code is used internally by Google and
+        // must not be changed without approval from a Google contributor. In
+        // 992877d06d3492f78a3b189eb5579ddb86b9f0da we accidentally changed index writing to write
+        // <account_id> instead of <account_id>:star. As some servers have picked that up and wrote
+        // index entries with the short format, we should keep support its parsing.
+        id = Ints.tryParse(s);
+      }
+      if (id == null) {
+        return null;
+      }
+      return create(Account.id(id));
+    }
+
+    static StarField create(Account.Id accountId) {
+      return new AutoValue_ChangeField_StarField(accountId);
+    }
+
+    public abstract Account.Id accountId();
+
+    @Override
+    public final String toString() {
+      // NOTE: The ":star" addition is used internally by Google and must not be removed without
+      // approval from a Google contributor. This method is used for writing change index data.
+      // Historically, we supported different kinds of labels, which were stored in this
+      // format, with "star" being the only label in use. This label addition stayed in order to
+      // keep the index format consistent while removing the star-label support.
+      return accountId() + SEPARATOR + "star";
+    }
   }
 }

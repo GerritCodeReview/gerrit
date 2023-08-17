@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aecfa477_96804b13",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1427,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-17T08:38:42Z",
+      "side": 1,
+      "message": "Understood. Yes, I think I would prefer a (boolean?) parameter to control that, because rest-api-impl deals with the options in all other places (consistency). But I don\u0027t feel strongly. Up to you. 🤗",
+      "parentUuid": "3fc33fbf_1870fce2",
+      "revId": "514a7d784782e8d0174c4847792970e2a4d1eda5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "352e84c2_4dddd8f7",
         "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
         "patchSetId": 6

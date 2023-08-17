@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86b9358c_4528a443",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-08-17T18:27:41Z",
+      "side": 1,
+      "message": "Nasser, Can you revisit this change ?",
+      "revId": "28bb35e7a1750312793a3cdd2f915a96b0ac777a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

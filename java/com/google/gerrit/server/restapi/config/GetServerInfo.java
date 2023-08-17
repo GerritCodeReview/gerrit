@@ -51,6 +51,7 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.config.GerritInstanceIdProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
@@ -94,6 +95,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final AgreementJson agreementJson;
   private final ChangeIndexCollection indexes;
   private final SitePaths sitePaths;
+  private final GerritInstanceIdProvider instanceIdProvider;
 
   @Inject
   public GetServerInfo(
@@ -116,7 +118,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       ProjectCache projectCache,
       AgreementJson agreementJson,
       ChangeIndexCollection indexes,
-      SitePaths sitePaths) {
+      SitePaths sitePaths,
+      GerritInstanceIdProvider instanceIdProvider) {
     this.config = config;
     this.accountVisibilityProvider = accountVisibilityProvider;
     this.accountDefaultDisplayName = accountDefaultDisplayName;
@@ -137,6 +140,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.agreementJson = agreementJson;
     this.indexes = indexes;
     this.sitePaths = sitePaths;
+    this.instanceIdProvider = instanceIdProvider;
   }
 
   @Override
@@ -301,7 +305,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.editGpgKeys =
         toBoolean(enableSignedPush && config.getBoolean("gerrit", null, "editGpgKeys", true));
     info.primaryWeblinkName = config.getString("gerrit", null, "primaryWeblinkName");
-    info.instanceId = config.getString("gerrit", null, "instanceId");
+    info.instanceId = instanceIdProvider.get();
     return info;
   }
 

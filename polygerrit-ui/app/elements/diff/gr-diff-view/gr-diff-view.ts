@@ -1557,6 +1557,7 @@ export class GrDiffView extends LitElement {
   handleFileChange(e: ValueChangedEvent<string>) {
     const path: string = e.detail.value;
     if (path === this.path) return;
+    this.path = path;
     this.getChangeModel().navigateToDiff({path});
   }
 

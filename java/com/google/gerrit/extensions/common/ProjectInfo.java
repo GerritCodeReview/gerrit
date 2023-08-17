@@ -27,4 +27,10 @@ public class ProjectInfo {
   public Map<String, String> branches;
   public List<WebLinkInfo> webLinks;
   public Map<String, LabelTypeInfo> labels;
+
+  /**
+   * Whether the query would deliver more results if not limited. Only set on the last project that
+   * is returned as a query result.
+   */
+  public Boolean _moreProjects;
 }

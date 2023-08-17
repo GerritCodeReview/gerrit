@@ -310,7 +310,9 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   finalize() {}
 
-  _fetchSharedCacheURL(req: FetchJSONRequest): Promise<ParsedJSON | undefined> {
+  _fetchSharedCacheURL(
+    req: FetchJSONRequest
+  ): Promise<AccountDetailInfo | ParsedJSON | undefined> {
     // Cache is shared across instances
     return this._restApiHelper.fetchCacheURL(req);
   }

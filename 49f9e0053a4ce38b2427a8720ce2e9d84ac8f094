@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3792df2f_d271f321",
+        "filename": "java/com/google/gerrit/server/submit/SubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-17T16:41:29Z",
+      "side": 1,
+      "message": "@dmfilippov@google.com this is the merge up that will bring the change you were reverting for change I2338c0a94304b7",
+      "range": {
+        "startLine": 224,
+        "startChar": 14,
+        "endLine": 224,
+        "endChar": 39
+      },
+      "revId": "49f9e0053a4ce38b2427a8720ce2e9d84ac8f094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "632ae779_8a93680b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-17T12:26:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9da729c_91e4bd72",
+      "revId": "a6a5cebadaa45d76adc4e06efa45591a01c7126d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a31263f6_173dc1aa",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-08-17T11:15:38Z",
       "side": 1,
       "message": "We already have `getAccountDetails`",
+      "range": {
+        "startLine": 743,
+        "startChar": 2,
+        "endLine": 743,
+        "endChar": 15
+      },
+      "revId": "a6a5cebadaa45d76adc4e06efa45591a01c7126d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33ffffc0_87752314",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-17T12:26:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a31263f6_173dc1aa",
       "range": {
         "startLine": 743,
         "startChar": 2,

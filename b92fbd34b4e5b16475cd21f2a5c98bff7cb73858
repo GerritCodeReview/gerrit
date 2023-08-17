@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fc44a1a_5c75cde4",
+        "filename": "polygerrit-ui/app/utils/url-util_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-17T19:10:21Z",
+      "side": 0,
+      "message": "This is the stable-3.8 code where the fix was done already: are you sure about removing it?",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 66
+      },
+      "revId": "b92fbd34b4e5b16475cd21f2a5c98bff7cb73858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

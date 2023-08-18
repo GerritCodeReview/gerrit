@@ -105,6 +105,24 @@
       "parentUuid": "0c8d710b_b789a96f",
       "revId": "d27eee8e26e97271b20646e449c0f92fb7e51816",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1e9261c_6a768a5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-08-18T22:58:11Z",
+      "side": 1,
+      "message": "\u003e It tests both. \n\nI think that is a miss-representation of the test.\n\n\u003e The test has this series of commits:\n\u003e ```\n\u003e rcMaster (c1 master master-tag) \u003c- rcBranch (c2 branch branch-tag) \u003c- rcBranch (c2 branch) \u003c- newcommit1 \u003c- newcommit2 (new-branch)\n\u003e ```\n\u003e \n\u003e `newcommit1` is not a ref tip and is not advertised, but is traversed to get to `master-tag` and `branch-tag` when starting from the advertised `new-branch` ref.\n\nAgreed, but that is not what your sentence is implying, it implies that it should be advertised if reachable from an unadvertised commit, which is not a condition for its advertisement. Your test is trying to ensure that it is advertised if indirectly (because there is an unadvertised commit in between) reachable from a leaf branch.",
+      "parentUuid": "168914a8_8d46b6dd",
+      "revId": "d27eee8e26e97271b20646e449c0f92fb7e51816",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

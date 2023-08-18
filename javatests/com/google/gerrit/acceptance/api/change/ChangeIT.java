@@ -448,7 +448,7 @@ public class ChangeIT extends AbstractDaemonTest {
     List<ChangeMessageInfo> sourceMessages =
         new ArrayList<>(gApi.changes().id(r.getChangeId()).get().messages);
     assertThat(sourceMessages).hasSize(4);
-    String expectedMessage = String.format("Created a revert of this change as I%s", changeId);
+    String expectedMessage = String.format("Created a revert of this change as %s", changeId);
     assertThat(sourceMessages.get(3).message).isEqualTo(expectedMessage);
   }
 

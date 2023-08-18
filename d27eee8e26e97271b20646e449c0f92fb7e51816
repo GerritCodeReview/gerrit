@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a2c3b26_c02c57da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-08-18T15:16:57Z",
+      "side": 1,
+      "message": "Too generic, imagine that your next change has to add another tag test case.",
+      "revId": "d27eee8e26e97271b20646e449c0f92fb7e51816",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a7fbafd_4ec76f46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-08-18T15:16:57Z",
+      "side": 1,
+      "message": "This sentence doesn\u0027t make sense to me, what does the \"unadvertised commits\" have to do with this test case?",
+      "revId": "d27eee8e26e97271b20646e449c0f92fb7e51816",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

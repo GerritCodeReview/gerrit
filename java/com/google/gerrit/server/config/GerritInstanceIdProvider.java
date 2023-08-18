@@ -22,11 +22,14 @@ import org.eclipse.jgit.lib.Config;
 /** Provides {@link GerritInstanceId} from {@code gerrit.instanceId}. */
 @Singleton
 public class GerritInstanceIdProvider implements Provider<String> {
+  public static final String INSTANCE_ID_SYSTEM_PROPERTY = "gerrit.instanceId";
   private final String instanceId;
 
   @Inject
   public GerritInstanceIdProvider(@GerritServerConfig Config cfg) {
-    instanceId = cfg.getString("gerrit", null, "instanceId");
+    instanceId =
+        System.getProperty(
+            INSTANCE_ID_SYSTEM_PROPERTY, cfg.getString("gerrit", null, "instanceId"));
   }
 
   @Override

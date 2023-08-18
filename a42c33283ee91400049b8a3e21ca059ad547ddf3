@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "788c9732_c12ed75e",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-18T09:49:21Z",
+      "side": 1,
+      "message": "This could also be written as:\n\n```\nreturn Objects.requireNonNullElseGet(testIndexModule, () -\u003e indexType.isLucene()\n        ? LuceneIndexModule.singleVersionAllLatest(\n            0, ReplicaUtil.isReplica(baseConfig), AutoFlush.ENABLED)\n        : FakeIndexModule.latestVersion(false));\n```\n\nMaybe more readable?",
+      "range": {
+        "startLine": 519,
+        "startChar": 6,
+        "endLine": 527,
+        "endChar": 5
+      },
+      "revId": "a42c33283ee91400049b8a3e21ca059ad547ddf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

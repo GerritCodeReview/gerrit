@@ -56,6 +56,30 @@
       },
       "revId": "785b6232fb1491951ea3671465b140d52f25b54b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0221b21b_fb0928d0",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-18T09:49:21Z",
+      "side": 1,
+      "message": "Makes sense. Now passing AbstractIndexModule as you suggested and also moved all the logic for installing the indexModule in the `createIndexModule`.\n\nI believe is now more readable, please let me me know your thoughts on patchset 11.\n\nNote: the `instanceof` check (now at L464) can\u0027t be completely removed because tests are passing also generic sys modules to the gerrit server start (and restart) for testing, that are not necessarily indices modules.",
+      "parentUuid": "d18e1150_8f60dfd8",
+      "range": {
+        "startLine": 474,
+        "startChar": 23,
+        "endLine": 474,
+        "endChar": 36
+      },
+      "revId": "785b6232fb1491951ea3671465b140d52f25b54b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

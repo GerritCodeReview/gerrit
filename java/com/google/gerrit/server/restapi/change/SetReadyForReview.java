@@ -77,7 +77,7 @@ public class SetReadyForReview
         bu.addOp(rsrc.getChange().getId(), opFactory.create(false, input));
         if (change.getRevertOf() != null) {
           commitUtil.addChangeRevertedNotificationOps(
-              bu, change.getRevertOf(), change.getId(), change.getKey().get());
+              bu, change.getRevertOf(), change.getId(), change.getKey().get().substring(1));
         }
         bu.execute();
         return Response.ok();

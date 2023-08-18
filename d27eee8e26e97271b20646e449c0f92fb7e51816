@@ -123,6 +123,24 @@
       "parentUuid": "168914a8_8d46b6dd",
       "revId": "d27eee8e26e97271b20646e449c0f92fb7e51816",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "669ac1b0_3532b1b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-18T23:04:26Z",
+      "side": 1,
+      "message": "Ok, I get what you mean. How about:\n\n```\nThis new test shows that tags on commits reachable only via a visible leaf branch\nare advertised. It also shows that these tags are advertised when traversal from\nthe leaf branch walks through unadvertised, non-ref-tip commits.\n```",
+      "parentUuid": "f1e9261c_6a768a5a",
+      "revId": "d27eee8e26e97271b20646e449c0f92fb7e51816",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

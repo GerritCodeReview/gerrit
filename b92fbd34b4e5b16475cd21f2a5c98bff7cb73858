@@ -22,6 +22,30 @@
       },
       "revId": "b92fbd34b4e5b16475cd21f2a5c98bff7cb73858",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "697d8622_9b416854",
+        "filename": "polygerrit-ui/app/utils/url-util_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-18T07:29:14Z",
+      "side": 0,
+      "message": "Not really removing it, I think it is just a matter of visualization, in fact the test is present at line 43 after resolving the conflicts.\n\nBasically I kept the same three tests that were previously added for the fix and the test (from the merge) for relative urls.\n\n`const customLoginUrl` is only used inside two tests, so made them local variable to the tests in the fix for 3.6 and this merge.",
+      "parentUuid": "8fc44a1a_5c75cde4",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 66
+      },
+      "revId": "b92fbd34b4e5b16475cd21f2a5c98bff7cb73858",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

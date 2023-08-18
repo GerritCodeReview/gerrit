@@ -39,6 +39,24 @@
       "message": "nit: unwanted change?",
       "revId": "49f9e0053a4ce38b2427a8720ce2e9d84ac8f094",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d28f5e8b_2d463177",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-18T07:29:14Z",
+      "side": 1,
+      "message": "Yes, thank you.",
+      "parentUuid": "034dd146_e883757c",
+      "revId": "49f9e0053a4ce38b2427a8720ce2e9d84ac8f094",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

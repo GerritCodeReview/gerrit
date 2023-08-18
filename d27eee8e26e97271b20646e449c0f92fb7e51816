@@ -141,6 +141,24 @@
       "parentUuid": "f1e9261c_6a768a5a",
       "revId": "d27eee8e26e97271b20646e449c0f92fb7e51816",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20ebd4af_865ec063",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-08-18T23:24:09Z",
+      "side": 1,
+      "message": "That\u0027s great!",
+      "parentUuid": "669ac1b0_3532b1b4",
+      "revId": "d27eee8e26e97271b20646e449c0f92fb7e51816",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

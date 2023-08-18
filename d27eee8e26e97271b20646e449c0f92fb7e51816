@@ -87,6 +87,24 @@
       "parentUuid": "6362db10_50627d34",
       "revId": "d27eee8e26e97271b20646e449c0f92fb7e51816",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "168914a8_8d46b6dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-18T22:48:09Z",
+      "side": 1,
+      "message": "\u003e \u003e They are commits traversed when reaching the advertised tags, but they are not ref tips themselves (thus unadvertised). Does that help?\n\u003e \n\u003e No because I would NOT expect unadvertised commits to cause a tag to be advertised, and because I am not seeing that in your test? It seems that in your test you are testing tags reachable from leaf refs, not unadvertised commits.\n\nIt tests both. The test has this series of commits:\n\n```\nrcMaster (c1 master master-tag) \u003c- rcBranch (c2 branch branch-tag) \u003c- rcBranch (c2 branch) \u003c- newcommit1 \u003c- newcommit2 (new-branch)\n```\n\n`newcommit1` is not a ref tip and is not advertised, but is traversed to get to `master-tag` and `branch-tag` when starting from the advertised `new-branch` ref.",
+      "parentUuid": "0c8d710b_b789a96f",
+      "revId": "d27eee8e26e97271b20646e449c0f92fb7e51816",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

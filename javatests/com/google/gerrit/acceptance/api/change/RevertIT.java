@@ -225,6 +225,12 @@ public class RevertIT extends AbstractDaemonTest {
     List<ChangeMessageInfo> sourceMessages =
         new ArrayList<>(gApi.changes().id(r.getChangeId()).get().messages);
     assertThat(sourceMessages).hasSize(3);
+    // Publishing creates a revert message
+    gApi.changes().id(revertChange.changeId).setReadyForReview();
+    sourceMessages = new ArrayList<>(gApi.changes().id(r.getChangeId()).get().messages);
+    assertThat(sourceMessages).hasSize(4);
+    assertThat(sourceMessages.get(3).message)
+        .isEqualTo("Created a revert of this change as " + revertChange.changeId);
   }
 
   @Test

@@ -226,7 +226,7 @@ export function computeContext(
     return FULL_CONTEXT;
   }
   if (
-    prefsContext &&
+    prefsContext !== undefined &&
     !(showFullContext === FullContext.NO && prefsContext === FULL_CONTEXT)
   ) {
     return prefsContext;

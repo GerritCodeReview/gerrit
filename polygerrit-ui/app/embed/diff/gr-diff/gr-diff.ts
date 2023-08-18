@@ -319,9 +319,14 @@ export class GrDiff extends LitElement implements GrDiffApi {
     if (this.diffElement) {
       this.highlights.init(this.diffElement, this);
     }
+    this.observeNodes();
   }
 
   override disconnectedCallback() {
+    if (this.nodeObserver) {
+      this.nodeObserver.disconnect();
+      this.nodeObserver = undefined;
+    }
     this.removeSelectionListeners();
     this.diffSelection.cleanup();
     this.highlights.cleanup();
@@ -422,7 +427,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
     if (changedProperties.has('groups')) {
       if (this.groups?.length > 0) {
         this.loading = false;
-        this.observeNodes();
       }
     }
   }

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.config;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.config.GerritInstanceIdProvider.INSTANCE_ID_SYSTEM_PROPERTY;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import org.junit.Test;
@@ -25,6 +26,13 @@ public class GerritInstanceIdIT extends AbstractDaemonTest {
   @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldReturnInstanceIdWhenDefined() {
     assertThat(instanceId).isEqualTo("testInstanceId");
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
+  @GerritSystemProperty(name = INSTANCE_ID_SYSTEM_PROPERTY, value = "sysPropInstanceId")
+  public void instanceIdSystemPropertyOverridesConfig() {
+    assertThat(instanceId).isEqualTo("sysPropInstanceId");
   }
 
   @Test

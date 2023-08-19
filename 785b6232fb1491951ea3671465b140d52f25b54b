@@ -80,6 +80,30 @@
       },
       "revId": "785b6232fb1491951ea3671465b140d52f25b54b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bec95e59_4f84ec7f",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-19T20:37:09Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "0221b21b_fb0928d0",
+      "range": {
+        "startLine": 474,
+        "startChar": 23,
+        "endLine": 474,
+        "endChar": 36
+      },
+      "revId": "785b6232fb1491951ea3671465b140d52f25b54b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

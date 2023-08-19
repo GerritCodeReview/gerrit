@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f6fa4c3_58d897bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2023-08-19T14:51:06Z",
+      "side": 1,
+      "message": "Need to update the test to include the new html and also add a Release-Notes: footer to the commit msg.",
+      "revId": "167bd750d2f72de69e9e572a943f05312e8099e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

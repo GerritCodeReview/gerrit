@@ -1187,7 +1187,10 @@ export class GrComment extends LitElement {
   async createSuggestEdit(e: MouseEvent) {
     e.stopPropagation();
     const line = await this.getCommentedCode();
-    this.messageText += `${USER_SUGGESTION_START_PATTERN}${line}${'\n```'}`;
+    const addNewLine = this.messageText.length !== 0;
+    this.messageText += `${
+      addNewLine ? '\n' : ''
+    }${USER_SUGGESTION_START_PATTERN}${line}${'\n```'}`;
   }
 
   async getCommentedCode() {

@@ -34,6 +34,24 @@
       "parentUuid": "7f514c9b_b62f800e",
       "revId": "56bd4b7b98a73f10e2d9e77554125a2b261c28ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f819d391_b9733a21",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-08-21T14:57:55Z",
+      "side": 1,
+      "message": "Ah, right. Frank even pointed me to your change earlier. Which I didn\u0027t understand at the time, so I didn\u0027t notice, that I reversed your change. I\u0027ll go read the commit message 😊",
+      "parentUuid": "caf35772_8bb9885d",
+      "revId": "56bd4b7b98a73f10e2d9e77554125a2b261c28ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

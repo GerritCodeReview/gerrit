@@ -187,7 +187,7 @@ export class GrDropdownList extends LitElement {
   }
 
   protected override willUpdate(changedProperties: PropertyValues): void {
-    if (changedProperties.has('value')) {
+    if (changedProperties.has('value') || changedProperties.has('items')) {
       this.handleValueChange();
     }
   }

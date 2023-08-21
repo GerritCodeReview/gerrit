@@ -146,20 +146,17 @@ suite('gr-change-actions-js-api-interface tests', () => {
     test('move action button to overflow', async () => {
       const key = changeActions.add(ActionType.REVISION, 'Bork!');
       await element.updateComplete;
-      assert.isTrue(queryAndAssert<GrDropdown>(element, '#moreActions').hidden);
-      assert.isOk(
-        queryAndAssert<GrButton>(element, `[data-action-key="${key}"]`)
-      );
+
+      let items = queryAndAssert<GrDropdown>(element, '#moreActions').items;
+      assert.isFalse(items?.some(item => item.name === 'Bork!'));
+      assert.isOk(query<GrButton>(element, `[data-action-key="${key}"]`));
+
       changeActions.setActionOverflow(ActionType.REVISION, key, true);
       await element.updateComplete;
+
+      items = queryAndAssert<GrDropdown>(element, '#moreActions').items;
+      assert.isTrue(items?.some(item => item.name === 'Bork!'));
       assert.isNotOk(query<GrButton>(element, `[data-action-key="${key}"]`));
-      assert.isFalse(
-        queryAndAssert<GrDropdown>(element, '#moreActions').hidden
-      );
-      assert.strictEqual(
-        queryAndAssert<GrDropdown>(element, '#moreActions').items![0].name,
-        'Bork!'
-      );
     });
 
     test('change actions priority', async () => {

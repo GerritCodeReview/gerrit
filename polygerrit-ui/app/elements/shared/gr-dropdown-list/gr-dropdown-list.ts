@@ -187,8 +187,8 @@ export class GrDropdownList extends LitElement {
   }
 
   protected override willUpdate(changedProperties: PropertyValues): void {
-    if (changedProperties.has('value')) {
-      this.handleValueChange();
+    if (changedProperties.has('value') || changedProperties.has('items')) {
+      this.handleDataChange(changedProperties.has('value'));
     }
   }
 
@@ -307,7 +307,7 @@ export class GrDropdownList extends LitElement {
     }, 1);
   }
 
-  private handleValueChange() {
+  private handleDataChange(valueChanged: boolean) {
     if (this.value === undefined || this.items === undefined) {
       return;
     }
@@ -318,7 +318,11 @@ export class GrDropdownList extends LitElement {
     this.text = selectedObj.triggerText
       ? selectedObj.triggerText
       : selectedObj.text;
-    fireNoBubble(this, 'value-change', {value: this.value});
+    // Only emit the event if the value actually changed and matches one of the
+    // items.
+    if (valueChanged) {
+      fireNoBubble(this, 'value-change', {value: this.value});
+    }
   }
 
   /**

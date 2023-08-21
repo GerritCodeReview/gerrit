@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "446316e0_92bf37ec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-21T10:57:02Z",
+      "side": 1,
+      "message": "Optional: Maybe add a comment.",
+      "revId": "9f75554987f0828bd4d962889b3a2c5d2aaf608a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23aaf40e_5479d496",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-21T10:57:02Z",
+      "side": 1,
+      "message": "Optional: Maybe add a comment.",
+      "revId": "9f75554987f0828bd4d962889b3a2c5d2aaf608a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b123391_cd35e159",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-21T10:57:02Z",
+      "side": 1,
+      "message": "Optional: Do we have to precompute this in `updated()`? Would it be sufficient to compute this on the fly whenever we need it?",
+      "revId": "9f75554987f0828bd4d962889b3a2c5d2aaf608a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

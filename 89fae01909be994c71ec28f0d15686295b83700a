@@ -67,6 +67,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "74f72ffa_9ae5ff19",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2539,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-21T09:37:16Z",
+      "side": 1,
+      "message": "Should have an prototype change on that direction for master? We can then evolve the concept during the hackathon.",
+      "parentUuid": "5dc8aa5d_3e5d6782",
+      "range": {
+        "startLine": 2539,
+        "startChar": 29,
+        "endLine": 2539,
+        "endChar": 81
+      },
+      "revId": "89fae01909be994c71ec28f0d15686295b83700a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4cd48e08_066df21a",
         "filename": "java/com/google/gerrit/server/config/GerritInstanceIdProvider.java",
         "patchSetId": 3

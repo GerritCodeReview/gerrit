@@ -835,9 +835,13 @@ export class GrFileList extends LitElement {
     if (changedProperties.has('files')) {
       this.filesChanged();
       this.numFilesShown = Math.min(this.files.length, DEFAULT_NUM_FILES_SHOWN);
+      fire(this, 'files-shown-changed', {length: this.numFilesShown});
     }
     if (changedProperties.has('expandedFiles')) {
       this.expandedFilesChanged(changedProperties.get('expandedFiles'));
+    }
+    if (changedProperties.has('numFilesShown')) {
+      fire(this, 'files-shown-changed', {length: this.numFilesShown});
     }
   }
 

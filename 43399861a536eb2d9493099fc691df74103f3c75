@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b735fa10_56d22144",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-08-21T08:34:06Z",
+      "side": 1,
+      "message": "I didn\u0027t mean to block this change.\n\nfyi. Bitmaps get generated on GC.",
+      "parentUuid": "9aed7724_713965f7",
+      "revId": "43399861a536eb2d9493099fc691df74103f3c75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68291fd2_8dcde22d",

@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "52a8ac2c_d9060df4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-08-21T13:17:35Z",
+      "side": 1,
+      "message": "\u003e I didn\u0027t mean to block this change.\n\nThanks for confirming!\n\n\u003e \n\u003e fyi. Bitmaps get generated on GC.\n\nOnly if you have that enabled/not-disabled 😊 We don\u0027t yet generate bitmaps because we use the git-exproll wrapper (we\u0027re looking at migrating to something like `git repack --geometric\u003d5` and removing that) and we haven\u0027t tested how well the bitmaps work when we almost always expect to have multiple pack files. Longer term, I\u0027m interested in adding multi-pack-index support to JGit along with the bitmap behaviors that come with that.",
+      "parentUuid": "b735fa10_56d22144",
+      "revId": "43399861a536eb2d9493099fc691df74103f3c75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68291fd2_8dcde22d",

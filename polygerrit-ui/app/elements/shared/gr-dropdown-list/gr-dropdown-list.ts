@@ -187,7 +187,8 @@ export class GrDropdownList extends LitElement {
   }
 
   protected override willUpdate(changedProperties: PropertyValues): void {
-    if (changedProperties.has('value')) {
+    if (changedProperties.has('value') ||
+        changedProperties.has('items')) {
       this.handleValueChange();
     }
   }
@@ -308,6 +309,7 @@ export class GrDropdownList extends LitElement {
   }
 
   private handleValueChange() {
+    // debugger;
     if (this.value === undefined || this.items === undefined) {
       return;
     }

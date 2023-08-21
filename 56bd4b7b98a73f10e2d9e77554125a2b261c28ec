@@ -52,6 +52,24 @@
       "parentUuid": "caf35772_8bb9885d",
       "revId": "56bd4b7b98a73f10e2d9e77554125a2b261c28ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "394cba87_bcaaec2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-08-21T15:08:01Z",
+      "side": 1,
+      "message": "Updated to only update `this.text` if value or items changed. And only issue the event if the value changed. PTAL",
+      "parentUuid": "f819d391_b9733a21",
+      "revId": "56bd4b7b98a73f10e2d9e77554125a2b261c28ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

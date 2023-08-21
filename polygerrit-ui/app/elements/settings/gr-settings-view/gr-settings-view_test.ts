@@ -148,7 +148,6 @@ suite('gr-settings-view tests', () => {
             <li><a href="#EmailAddresses"> Email Addresses </a></li>
             <li><a href="#Groups"> Groups </a></li>
             <li><a href="#Identities"> Identities </a></li>
-            <li><a href="#MailFilters"> Mail Filters </a></li>
             <gr-endpoint-decorator name="settings-menu-item">
             </gr-endpoint-decorator>
           </ul>
@@ -453,92 +452,6 @@ suite('gr-settings-view tests', () => {
           <h2 id="Identities">Identities</h2>
           <fieldset>
             <gr-identities id="identities"> </gr-identities>
-          </fieldset>
-          <h2 id="MailFilters">Mail Filters</h2>
-          <fieldset class="filters">
-            <p>
-              Gerrit emails include metadata about the change to support writing
-              mail filters.
-            </p>
-            <p>
-              Here are some example Gmail queries that can be used for filters
-              or for searching through archived messages. View the
-              <a
-                href="https://test.com/user-notify.html"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                Gerrit documentation
-              </a>
-              for the complete set of footers.
-            </p>
-            <table>
-              <tbody>
-                <tr>
-                  <th>Name</th>
-                  <th>Query</th>
-                </tr>
-                <tr>
-                  <td>Changes requesting my review</td>
-                  <td>
-                    <code class="queryExample">
-                      "Gerrit-Reviewer: <em> Your Name </em> <
-                      <em> your.email@example.com </em> >"
-                    </code>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Changes requesting my attention</td>
-                  <td>
-                    <code class="queryExample">
-                      "Gerrit-Attention: <em> Your Name </em> <
-                      <em> your.email@example.com </em> >"
-                    </code>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Changes from a specific owner</td>
-                  <td>
-                    <code class="queryExample">
-                      "Gerrit-Owner: <em> Owner name </em> <
-                      <em> owner.email@example.com </em> >"
-                    </code>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Changes targeting a specific branch</td>
-                  <td>
-                    <code class="queryExample">
-                      "Gerrit-Branch: <em> branch-name </em> "
-                    </code>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Changes in a specific project</td>
-                  <td>
-                    <code class="queryExample">
-                      "Gerrit-Project: <em> project-name </em> "
-                    </code>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Messages related to a specific Change ID</td>
-                  <td>
-                    <code class="queryExample">
-                      "Gerrit-Change-Id: <em> Change ID </em> "
-                    </code>
-                  </td>
-                </tr>
-                <tr>
-                  <td>Messages related to a specific change number</td>
-                  <td>
-                    <code class="queryExample">
-                      "Gerrit-Change-Number: <em> change number </em> "
-                    </code>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
           </fieldset>
           <gr-endpoint-decorator name="settings-screen">
           </gr-endpoint-decorator>

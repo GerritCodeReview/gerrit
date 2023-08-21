@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91332eed_0ef188b6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-21T11:02:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "446316e0_92bf37ec",
+      "revId": "9f75554987f0828bd4d962889b3a2c5d2aaf608a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "23aaf40e_5479d496",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-08-21T10:57:02Z",
       "side": 1,
       "message": "Optional: Maybe add a comment.",
+      "revId": "9f75554987f0828bd4d962889b3a2c5d2aaf608a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8eb9fb94_81ab80cf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-21T11:02:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23aaf40e_5479d496",
       "revId": "9f75554987f0828bd4d962889b3a2c5d2aaf608a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -66,6 +102,24 @@
       "side": 1,
       "message": "Computing this on the fly is non-trivial. The logic is state-ful in that we only set SpecialCharIndex if it\u0027s not already set (to avoid that two different but connected @\u0027s trigger a different popup).\n\nThe current-search-string could be computed on the fly but that\u0027s a larger change I\u0027d like to do separately.",
       "parentUuid": "7b123391_cd35e159",
+      "revId": "9f75554987f0828bd4d962889b3a2c5d2aaf608a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ef1812c_d81f59b3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-21T11:02:25Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "08271b99_1e0e4206",
       "revId": "9f75554987f0828bd4d962889b3a2c5d2aaf608a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

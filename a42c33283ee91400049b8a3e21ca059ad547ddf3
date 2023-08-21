@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24bc54d0_ff1c7581",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-21T09:18:57Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "2c78c13e_e30b5086",
+      "range": {
+        "startLine": 522,
+        "startChar": 6,
+        "endLine": 522,
+        "endChar": 12
+      },
+      "revId": "a42c33283ee91400049b8a3e21ca059ad547ddf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "788c9732_c12ed75e",
@@ -61,6 +85,30 @@
       "side": 1,
       "message": "Nope, I believe the current form is fine, just remove the `else` clause which is redundant.",
       "parentUuid": "788c9732_c12ed75e",
+      "range": {
+        "startLine": 519,
+        "startChar": 6,
+        "endLine": 527,
+        "endChar": 5
+      },
+      "revId": "a42c33283ee91400049b8a3e21ca059ad547ddf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0395a3b4_2741bb3f",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-21T09:18:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7dfef282_36c808dd",
       "range": {
         "startLine": 519,
         "startChar": 6,

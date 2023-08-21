@@ -187,8 +187,11 @@ export class GrDropdownList extends LitElement {
   }
 
   protected override willUpdate(changedProperties: PropertyValues): void {
+    if (changedProperties.has('value') || changedProperties.has('items')) {
+      this.updateText();
+    }
     if (changedProperties.has('value')) {
-      this.handleValueChange();
+      fireNoBubble(this, 'value-change', {value: this.value});
     }
   }
 
@@ -307,7 +310,7 @@ export class GrDropdownList extends LitElement {
     }, 1);
   }
 
-  private handleValueChange() {
+  private updateText() {
     if (this.value === undefined || this.items === undefined) {
       return;
     }
@@ -318,7 +321,6 @@ export class GrDropdownList extends LitElement {
     this.text = selectedObj.triggerText
       ? selectedObj.triggerText
       : selectedObj.text;
-    fireNoBubble(this, 'value-change', {value: this.value});
   }
 
   /**

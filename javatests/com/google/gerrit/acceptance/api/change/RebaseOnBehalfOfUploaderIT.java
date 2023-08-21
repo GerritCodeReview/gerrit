@@ -282,7 +282,7 @@ public class RebaseOnBehalfOfUploaderIT extends AbstractDaemonTest {
                 .commit
                 .committer
                 .email)
-        .isEqualTo(uploaderEmailTwo);
+        .isEqualTo(uploaderEmailOne);
   }
 
   @Test

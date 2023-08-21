@@ -257,7 +257,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
                 .commit
                 .committer
                 .email)
-        .isEqualTo(uploaderEmailTwo);
+        .isEqualTo(uploaderEmailOne);
     assertThat(
             gApi.changes()
                 .id(changeToBeRebased2.get())
@@ -266,7 +266,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
                 .commit
                 .committer
                 .email)
-        .isEqualTo(uploaderEmailTwo);
+        .isEqualTo(uploaderEmailOne);
     assertThat(
             gApi.changes()
                 .id(changeToBeRebased3.get())
@@ -275,7 +275,7 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
                 .commit
                 .committer
                 .email)
-        .isEqualTo(uploaderEmailTwo);
+        .isEqualTo(uploaderEmailOne);
   }
 
   @Test

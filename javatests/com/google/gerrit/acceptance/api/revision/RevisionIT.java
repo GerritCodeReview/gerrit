@@ -385,7 +385,7 @@ public class RevisionIT extends AbstractDaemonTest {
     input.message = "cherry-pick to foo branch";
     ChangeInfo changeInfo =
         gApi.changes().id(changeId.get()).revision(commit).cherryPick(input).get();
-    assertThat(changeInfo.getCurrentRevision().commit.committer.email).isEqualTo(emailTwo);
+    assertThat(changeInfo.getCurrentRevision().commit.committer.email).isEqualTo(emailOne);
   }
 
   @Test

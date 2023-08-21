@@ -839,6 +839,9 @@ export class GrFileList extends LitElement {
     if (changedProperties.has('expandedFiles')) {
       this.expandedFilesChanged(changedProperties.get('expandedFiles'));
     }
+    if (changedProperties.has('numFilesShown')) {
+      fire(this, 'files-shown-changed', {length: this.numFilesShown});
+    }
   }
 
   override connectedCallback() {

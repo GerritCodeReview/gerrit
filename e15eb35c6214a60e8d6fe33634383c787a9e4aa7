@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00bf6031_6fa895da",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-21T07:24:23Z",
+      "side": 1,
+      "message": "Please nest this in a separate `render...()` function as it\u0027s getting hard to read.",
+      "revId": "e15eb35c6214a60e8d6fe33634383c787a9e4aa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

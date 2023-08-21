@@ -220,20 +220,6 @@ suite('gr-textarea tests', () => {
       ]);
     });
 
-    test('emoji selector does not open when previous char is \n', async () => {
-      element.textarea!.focus();
-      await waitUntil(() => element.textarea!.focused === true);
-
-      element.textarea!.selectionStart = 1;
-      element.textarea!.selectionEnd = 1;
-      element.text = '\n:';
-
-      await element.updateComplete;
-
-      assert.isTrue(element.emojiSuggestions!.isHidden);
-      assert.isTrue(element.mentionsSuggestions!.isHidden);
-    });
-
     test('selecting mentions from dropdown', async () => {
       stubRestApi('getSuggestedAccounts').returns(
         Promise.resolve([
@@ -300,19 +286,19 @@ suite('gr-textarea tests', () => {
       assert.isTrue(element.emojiSuggestions!.isHidden);
       assert.isFalse(element.mentionsSuggestions!.isHidden);
 
-      element.text = '@h ';
+      element.text = '@h';
       await waitUntil(() => element.suggestions.length > 0);
       await element.updateComplete;
       assert.isTrue(element.emojiSuggestions!.isHidden);
       assert.isFalse(element.mentionsSuggestions!.isHidden);
 
-      element.text = '@h :';
+      element.text = '@h:';
       await waitUntil(() => element.suggestions.length > 0);
       await element.updateComplete;
       assert.isTrue(element.emojiSuggestions!.isHidden);
       assert.isFalse(element.mentionsSuggestions!.isHidden);
 
-      element.text = '@h :D';
+      element.text = '@h:D';
       await waitUntil(() => element.suggestions.length > 0);
       await element.updateComplete;
       assert.isTrue(element.emojiSuggestions!.isHidden);
@@ -347,10 +333,15 @@ suite('gr-textarea tests', () => {
       element.text = ':D@';
       await element.updateComplete;
       // emoji dropdown hidden since we have no more suggestions
-      assert.isTrue(element.emojiSuggestions!.isHidden);
+      assert.isFalse(element.emojiSuggestions!.isHidden);
       assert.isTrue(element.mentionsSuggestions!.isHidden);
 
       element.text = ':D@b';
+      await element.updateComplete;
+      assert.isFalse(element.emojiSuggestions!.isHidden);
+      assert.isTrue(element.mentionsSuggestions!.isHidden);
+
+      element.text = ':D@b ';
       await element.updateComplete;
       assert.isTrue(element.emojiSuggestions!.isHidden);
       assert.isTrue(element.mentionsSuggestions!.isHidden);

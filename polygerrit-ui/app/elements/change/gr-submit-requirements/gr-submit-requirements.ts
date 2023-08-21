@@ -137,7 +137,7 @@ export class GrSubmitRequirements extends LitElement {
     subscribe(
       this,
       () => this.getChecksModel().allRunsLatestPatchsetLatestAttempt$,
-      x => (this.runs = x)
+        x => (this.runs = x)
     );
   }
 

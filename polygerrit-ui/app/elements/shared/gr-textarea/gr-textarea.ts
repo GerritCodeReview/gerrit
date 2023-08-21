@@ -122,9 +122,11 @@ export class GrTextarea extends LitElement {
 
   private changeNum?: NumericChangeId;
 
+  // Represents the current location of the ':' or '@' that triggered a drop-down.
   // private but used in tests
   specialCharIndex = -1;
 
+  // Represents the current search string being used to query either emoji or mention suggestions.
   // private but used in tests
   currentSearchString?: string;
 

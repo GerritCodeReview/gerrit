@@ -175,7 +175,8 @@ public class CherryPickChange {
         null,
         null,
         null,
-        null);
+        null,
+        Optional.empty());
   }
 
   /**
@@ -206,7 +207,17 @@ public class CherryPickChange {
       throws IOException, InvalidChangeOperationException, UpdateException, RestApiException,
           ConfigInvalidException, NoSuchProjectException {
     return cherryPick(
-        sourceChange, project, sourceCommit, input, dest, TimeUtil.now(), null, null, null, null);
+        sourceChange,
+        project,
+        sourceCommit,
+        input,
+        dest,
+        TimeUtil.now(),
+        null,
+        null,
+        null,
+        null,
+        Optional.empty());
   }
 
   /**
@@ -248,7 +259,8 @@ public class CherryPickChange {
       @Nullable Change.Id revertedChange,
       @Nullable ObjectId changeIdForNewChange,
       @Nullable Change.Id idForNewChange,
-      @Nullable Boolean workInProgress)
+      @Nullable Boolean workInProgress,
+      Optional<RevCommit> verifiedBaseCommit)
       throws IOException, InvalidChangeOperationException, UpdateException, RestApiException,
           ConfigInvalidException, NoSuchProjectException {
     IdentifiedUser identifiedUser = user.get();
@@ -266,8 +278,9 @@ public class CherryPickChange {
       }
 
       RevCommit baseCommit =
-          CommitUtil.getBaseCommit(
-              project.get(), queryProvider.get(), revWalk, destRef, input.base);
+          verifiedBaseCommit.orElse(
+              CommitUtil.getBaseCommit(
+                  project.get(), queryProvider.get(), revWalk, destRef, input.base));
 
       CodeReviewCommit commitToCherryPick = revWalk.parseCommit(sourceCommit);
 

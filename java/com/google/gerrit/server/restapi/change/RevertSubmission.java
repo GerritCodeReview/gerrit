@@ -86,6 +86,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -310,6 +311,13 @@ public class RevertSubmission
     cherryPickInput.message = revertInput.message;
     ObjectId generatedChangeId = CommitMessageUtil.generateChangeId();
     Change.Id cherryPickRevertChangeId = Change.id(seq.nextChangeId());
+    RevCommit baseCommit = null;
+    if (cherryPickInput.base != null) {
+      try (Repository git = repoManager.openRepository(changeNotes.getProjectName());
+          RevWalk revWalk = new RevWalk(git.newObjectReader())) {
+        baseCommit = revWalk.parseCommit(ObjectId.fromString(cherryPickInput.base));
+      }
+    }
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
       try (BatchUpdate bu = updateFactory.create(project, user.get(), TimeUtil.now())) {
         bu.setNotify(
@@ -323,7 +331,8 @@ public class RevertSubmission
                 generatedChangeId,
                 cherryPickRevertChangeId,
                 timestamp,
-                revertInput.workInProgress));
+                revertInput.workInProgress,
+                baseCommit));
         if (!revertInput.workInProgress) {
           commitUtil.addChangeRevertedNotificationOps(
               bu, changeNotes.getChangeId(), cherryPickRevertChangeId, generatedChangeId.name());
@@ -548,18 +557,21 @@ public class RevertSubmission
     private final Change.Id cherryPickRevertChangeId;
     private final Instant timestamp;
     private final boolean workInProgress;
+    private final RevCommit baseCommit;
 
     CreateCherryPickOp(
         ObjectId revCommitId,
         ObjectId computedChangeId,
         Change.Id cherryPickRevertChangeId,
         Instant timestamp,
-        Boolean workInProgress) {
+        Boolean workInProgress,
+        RevCommit baseCommit) {
       this.revCommitId = revCommitId;
       this.computedChangeId = computedChangeId;
       this.cherryPickRevertChangeId = cherryPickRevertChangeId;
       this.timestamp = timestamp;
       this.workInProgress = workInProgress;
+      this.baseCommit = baseCommit;
     }
 
     @Override
@@ -577,7 +589,8 @@ public class RevertSubmission
               change.getId(),
               computedChangeId,
               cherryPickRevertChangeId,
-              workInProgress);
+              workInProgress,
+              Optional.ofNullable(baseCommit));
       // save the commit as base for next cherryPick of that branch
       cherryPickInput.base =
           changeNotesFactory

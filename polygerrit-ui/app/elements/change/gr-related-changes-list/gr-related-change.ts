@@ -87,10 +87,11 @@ export class GrRelatedChange extends LitElement {
         .submittableCheck {
           padding-left: var(--spacing-s);
           color: var(--positive-green-text-color);
-          display: none;
-        }
-        .submittableCheck.submittable {
           display: inline;
+          width: 20px;
+        }
+        .submittableCheck.submittable:after {
+          content: '✓';
         }
       `,
     ];
@@ -102,12 +103,6 @@ export class GrRelatedChange extends LitElement {
     const linkClass = this.computeLinkClass(change);
     return html`
       <div class="changeContainer">
-        <a
-          href=${ifDefined(this.href)}
-          aria-label=${ifDefined(this.label)}
-          class=${linkClass}
-          ><slot></slot
-        ></a>
         ${this.showSubmittableCheck
           ? html`<span
               tabindex="-1"
@@ -115,9 +110,15 @@ export class GrRelatedChange extends LitElement {
               class="submittableCheck ${linkClass}"
               role="img"
               aria-label="Submittable"
-              >✓</span
-            >`
+            ></span>`
           : ''}
+        <a
+          href=${ifDefined(this.href)}
+          aria-label=${ifDefined(this.label)}
+          class=${linkClass}
+          ><slot></slot
+        ></a>
+
         ${this.showChangeStatus
           ? html`<span class=${this.computeChangeStatusClass(change)}>
               (${this.computeChangeStatus(change)})

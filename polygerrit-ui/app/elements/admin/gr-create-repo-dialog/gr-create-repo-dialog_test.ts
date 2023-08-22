@@ -39,9 +39,9 @@ suite('gr-create-repo-dialog tests', () => {
             </section>
             <section>
               <span class="title"> Default Branch </span>
-              <iron-input>
-                <input autocomplete="off" id="defaultBranchNameInput" />
-              </iron-input>
+              <span class="value">
+                <gr-autocomplete id="defaultBranchNameInput"> </gr-autocomplete>
+              </span>
             </section>
             <section>
               <span class="title"> Rights inherit from </span>

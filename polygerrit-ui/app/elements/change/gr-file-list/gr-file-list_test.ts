@@ -76,7 +76,6 @@ function createFiles(
 
 suite('gr-file-list tests', () => {
   let element: GrFileList;
-
   let saveStub: sinon.SinonStub;
 
   suite('basic tests', async () => {
@@ -106,11 +105,9 @@ suite('gr-file-list tests', () => {
       element.numFilesShown = 200;
       element.basePatchNum = PARENT;
       element.patchNum = 2 as RevisionPatchSetNum;
-      saveStub = sinon
-        .stub(element, '_saveReviewedState')
-        .callsFake(() => Promise.resolve());
-      await element.updateComplete;
+      saveStub = sinon.stub(element, '_saveReviewedState').resolves();
       element.showSizeBars = true;
+      await element.updateComplete;
       // Wait for expandedFilesChanged to complete.
       await waitEventLoop();
     });
@@ -207,14 +204,16 @@ suite('gr-file-list tests', () => {
             </div>
           </div>
           <div class="desktop" role="gridcell">
-            <div aria-hidden="true" class="sizeBars"></div>
+            <div aria-hidden="true" class="sizeBars">
+              <svg><!-- contents asserted separately below --></svg>
+            </div>
           </div>
           <div class="stats" role="gridcell">
             <div>
-              <span aria-label="9 added" class="added" tabindex="0"> +9 </span>
               <span aria-label="0 removed" class="removed" tabindex="0">
                 -0
               </span>
+              <span aria-label="9 added" class="added" tabindex="0"> +9 </span>
               <span hidden=""> +/-0 B </span>
             </div>
           </div>
@@ -261,6 +260,31 @@ suite('gr-file-list tests', () => {
             </span>
           </div>
         </div>`
+      );
+      // <svg> and contents are ignored by assert.dom.equal() above, so we need
+      // a separate assert.lightDom.equal() for it here.
+      const sizeBarsSVG = queryAndAssert<SVGSVGElement>(
+        element,
+        '.sizeBars > svg'
+      );
+      assert.lightDom.equal(
+        sizeBarsSVG,
+        /* HTML */ `
+          <rect
+            height="8"
+            width="0"
+            x="0"
+            y="0"
+            fill="var(--negative-red-text-color)"
+          ></rect>
+          <rect
+            height="8"
+            width="60"
+            x="1"
+            y="0"
+            fill="var(--positive-green-text-color)"
+          ></rect>
+        `
       );
     });
 
@@ -1763,7 +1787,7 @@ suite('gr-file-list tests', () => {
         maxDeleted: 0,
         maxAdditionWidth: 0,
         maxDeletionWidth: 0,
-        deletionOffset: 0,
+        additionOffset: 0,
       };
 
       element.files = [];
@@ -1811,7 +1835,7 @@ suite('gr-file-list tests', () => {
         maxDeleted: 0,
         maxAdditionWidth: 60,
         maxDeletionWidth: 0,
-        deletionOffset: 60,
+        additionOffset: 60,
       };
 
       // Uses half the space when file is half the largest addition and there
@@ -1839,22 +1863,33 @@ suite('gr-file-list tests', () => {
       assert.equal(element.computeBarAdditionWidth(file, stats), 1.5);
     });
 
-    test('_computeBarAdditionX', () => {
+    test('computeBarDeletionX', () => {
       const file = {
         __path: 'foo/bar.baz',
-        lines_inserted: 5,
-        lines_deleted: 0,
+        lines_inserted: 0,
+        lines_deleted: 5,
         size: 0,
         size_delta: 0,
       };
+      const stats = {
+        maxInserted: 0,
+        maxDeleted: 10,
+        maxAdditionWidth: 0,
+        maxDeletionWidth: 60,
+        additionOffset: 60,
+      };
+      assert.equal(element.computeBarDeletionX(file, stats), 30);
+    });
+
+    test('computeBarAdditionX', () => {
       const stats = {
         maxInserted: 10,
         maxDeleted: 0,
         maxAdditionWidth: 60,
         maxDeletionWidth: 0,
-        deletionOffset: 60,
+        additionOffset: 60,
       };
-      assert.equal(element.computeBarAdditionX(file, stats), 30);
+      assert.equal(element.computeBarAdditionX(stats), 60);
     });
 
     test('computeBarDeletionWidth', () => {
@@ -1870,7 +1905,7 @@ suite('gr-file-list tests', () => {
         maxDeleted: 10,
         maxAdditionWidth: 30,
         maxDeletionWidth: 30,
-        deletionOffset: 31,
+        additionOffset: 31,
       };
 
       // Uses a quarter the space when file is half the largest deletions and
@@ -1898,7 +1933,7 @@ suite('gr-file-list tests', () => {
       assert.equal(element.computeBarDeletionWidth(file, stats), 1.5);
     });
 
-    test('_computeSizeBarsClass', () => {
+    test('computeSizeBarsClass', () => {
       element.showSizeBars = false;
       assert.equal(
         element.computeSizeBarsClass('foo/bar.baz'),

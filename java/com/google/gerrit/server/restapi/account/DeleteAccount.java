@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.gpg.PublicKeyStoreUtil;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -166,7 +167,7 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
     }
   }
 
-  private void deleteChangeEdits(Account.Id accountId) throws IOException {
+  private void deleteChangeEdits(Account.Id accountId) throws IOException, QueryParseException {
     // Note: in case of a stale index, the results of this query might be incomplete.
     List<ChangeData> changesWithEdits = queryProvider.get().byOpenEditByUser(accountId);
 

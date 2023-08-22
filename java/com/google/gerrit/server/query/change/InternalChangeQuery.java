@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.index.query.Predicate.and;
 import static com.google.gerrit.index.query.Predicate.not;
 import static com.google.gerrit.index.query.Predicate.or;
+import static com.google.gerrit.server.query.change.ChangePredicates.EditByPredicateProvider;
 import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -35,6 +36,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.InternalQuery;
 import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -75,8 +77,8 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     return ChangeStatusPredicate.forStatus(status);
   }
 
-  private static Predicate<ChangeData> editBy(Account.Id accountId) {
-    return ChangePredicates.editBy(accountId);
+  private Predicate<ChangeData> editBy(Account.Id accountId) throws QueryParseException {
+    return editByPredicateProvider.editBy(accountId);
   }
 
   private static Predicate<ChangeData> commit(String id) {
@@ -85,6 +87,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
 
   private final ChangeData.Factory changeDataFactory;
   private final ChangeNotes.Factory notesFactory;
+  private final EditByPredicateProvider editByPredicateProvider;
 
   @Inject
   InternalChangeQuery(
@@ -92,10 +95,12 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
       ChangeIndexCollection indexes,
       IndexConfig indexConfig,
       ChangeData.Factory changeDataFactory,
-      ChangeNotes.Factory notesFactory) {
+      ChangeNotes.Factory notesFactory,
+      EditByPredicateProvider editByPredicateProvider) {
     super(queryProcessor, indexes, indexConfig);
     this.changeDataFactory = changeDataFactory;
     this.notesFactory = notesFactory;
+    this.editByPredicateProvider = editByPredicateProvider;
   }
 
   public List<ChangeData> byKey(Change.Key key) {
@@ -221,7 +226,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     return query(and(ChangePredicates.exactTopic(topic), open()));
   }
 
-  public List<ChangeData> byOpenEditByUser(Account.Id accountId) {
+  public List<ChangeData> byOpenEditByUser(Account.Id accountId) throws QueryParseException {
     return query(editBy(accountId));
   }
 

@@ -175,7 +175,8 @@ public class CherryPickChange {
         null,
         null,
         null,
-        null);
+        null,
+        Optional.empty());
   }
 
   /**
@@ -206,7 +207,17 @@ public class CherryPickChange {
       throws IOException, InvalidChangeOperationException, UpdateException, RestApiException,
           ConfigInvalidException, NoSuchProjectException {
     return cherryPick(
-        sourceChange, project, sourceCommit, input, dest, TimeUtil.now(), null, null, null, null);
+        sourceChange,
+        project,
+        sourceCommit,
+        input,
+        dest,
+        TimeUtil.now(),
+        null,
+        null,
+        null,
+        null,
+        Optional.empty());
   }
 
   /**
@@ -228,6 +239,9 @@ public class CherryPickChange {
    * @param idForNewChange The ID that the new change of the cherry pick will have. If provided and
    *     the cherry-pick doesn't result in creating a new change, then
    *     InvalidChangeOperationException is thrown.
+   * @param verifiedBaseCommit - base commit for the cherry-pick, which is guaranteed to be
+   *     associated with exactly one change and belong to a {@code dest} branch. This is currently
+   *     only used when this base commit was created in the same API call.
    * @return Result object that describes the cherry pick.
    * @throws IOException Unable to open repository or read from the database.
    * @throws InvalidChangeOperationException Parent or branch don't exist, or two changes with same
@@ -248,7 +262,8 @@ public class CherryPickChange {
       @Nullable Change.Id revertedChange,
       @Nullable ObjectId changeIdForNewChange,
       @Nullable Change.Id idForNewChange,
-      @Nullable Boolean workInProgress)
+      @Nullable Boolean workInProgress,
+      Optional<RevCommit> verifiedBaseCommit)
       throws IOException, InvalidChangeOperationException, UpdateException, RestApiException,
           ConfigInvalidException, NoSuchProjectException {
     IdentifiedUser identifiedUser = user.get();
@@ -266,8 +281,9 @@ public class CherryPickChange {
       }
 
       RevCommit baseCommit =
-          CommitUtil.getBaseCommit(
-              project.get(), queryProvider.get(), revWalk, destRef, input.base);
+          verifiedBaseCommit.orElse(
+              CommitUtil.getBaseCommit(
+                  project.get(), queryProvider.get(), revWalk, destRef, input.base));
 
       CodeReviewCommit commitToCherryPick = revWalk.parseCommit(sourceCommit);
 

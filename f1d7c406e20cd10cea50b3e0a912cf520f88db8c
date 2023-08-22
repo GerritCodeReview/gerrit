@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "38a628cb_85801922",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-22T09:38:29Z",
+      "side": 1,
+      "message": "\u003e I tried to be less intrusive as possible in PaginatingSource\n\nWell, we are in master so we need to be as clean as possible.\nWould it make sense to split this change into two parts then?\n\n1. Make PaginatingSouce a subclass of AndSource\n2. Instantiate PaginatingSource instead of AndSource\n\nWDYT?",
+      "parentUuid": "045d8327_63974a37",
+      "range": {
+        "startLine": 72,
+        "startChar": 2,
+        "endLine": 79,
+        "endChar": 3
+      },
+      "revId": "f1d7c406e20cd10cea50b3e0a912cf520f88db8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "726cff88_f1067d75",
         "filename": "javatests/com/google/gerrit/index/query/AndSourceTest.java",
         "patchSetId": 3
@@ -37,6 +61,30 @@
       "writtenOn": "2023-08-22T09:15:16Z",
       "side": 1,
       "message": "Not sure if is worth running these tests for all pagination types.",
+      "range": {
+        "startLine": 33,
+        "startChar": 52,
+        "endLine": 33,
+        "endChar": 79
+      },
+      "revId": "f1d7c406e20cd10cea50b3e0a912cf520f88db8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b9a137b_569eac6d",
+        "filename": "javatests/com/google/gerrit/index/query/AndSourceTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-22T09:38:29Z",
+      "side": 1,
+      "message": "I believe it does, just to make sure that it would still work.",
+      "parentUuid": "726cff88_f1067d75",
       "range": {
         "startLine": 33,
         "startChar": 52,

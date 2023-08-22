@@ -330,6 +330,12 @@ export class GrReplyDialog extends LitElement {
   newAttentionSet: Set<UserId> = new Set();
 
   @state()
+  manuallyAddedAttentionSet: Set<UserId> = new Set();
+
+  @state()
+  manuallyDeletedAttentionSet: Set<UserId> = new Set();
+
+  @state()
   patchsetLevelDraftIsResolved = true;
 
   @state()
@@ -477,12 +483,14 @@ export class GrReplyDialog extends LitElement {
         #pluginMessage:empty {
           display: none;
         }
-        .attention .edit-attention-button {
+        .edit-attention-button {
           vertical-align: top;
           --gr-button-padding: 0px 4px;
         }
-        .attention .edit-attention-button gr-icon {
+        .edit-attention-button gr-icon {
           color: inherit;
+          
+        .attentionSummary .edit-attention-button gr-icon {
           /* The line-height:26px hack (see below) requires us to do this.
            Normally the gr-icon would account for a proper positioning
            within the standard line-height:20px context. */
@@ -999,30 +1007,9 @@ export class GrReplyDialog extends LitElement {
                 )}
               `
             )}
-            <gr-tooltip-content
-              has-tooltip
-              title=${this.computeAttentionButtonTitle()}
-            >
-              <gr-button
-                class="edit-attention-button"
-                @click=${this.handleAttentionModify}
-                ?disabled=${this.isSendDisabled()}
-                link
-                position-below
-                data-label="Edit"
-                data-action-type="change"
-                data-action-key="edit"
-                role="button"
-                tabindex="0"
-              >
-                <div>
-                  <gr-icon icon="edit" filled small></gr-icon>
-                  <span>Modify</span>
-                </div>
-              </gr-button>
-            </gr-tooltip-content>
           </div>
           <div>
+            ${this.renderModifyAttentionSetButton()}
             <a
               href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
               target="_blank"
@@ -1036,6 +1023,30 @@ export class GrReplyDialog extends LitElement {
     `;
   }
 
+  private renderModifyAttentionSetButton() {
+    return html` <gr-button
+      class="edit-attention-button"
+      @click=${this.toggleAttentionModify}
+      ?disabled=${this.isSendDisabled()}
+      link
+      position-below
+      data-label="Edit"
+      data-action-type="change"
+      data-action-key="edit"
+      role="button"
+      tabindex="0"
+    >
+      <div>
+        <gr-icon
+          icon=${this.attentionExpanded ? 'expand_circle_up' : 'edit'}
+          filled
+          small
+        ></gr-icon>
+        <span>${this.attentionExpanded ? 'Collapse' : 'Modify'}</span>
+      </div>
+    </gr-button>`;
+  }
+
   private renderAttentionDetailsSection() {
     if (!this.attentionExpanded) return;
     return html`
@@ -1044,8 +1055,10 @@ export class GrReplyDialog extends LitElement {
           <div>
             <span>Modify attention to</span>
           </div>
+
           <div></div>
           <div>
+            ${this.renderModifyAttentionSetButton()}
             <a
               href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
               target="_blank"
@@ -1137,7 +1150,7 @@ export class GrReplyDialog extends LitElement {
           `
         )}
         ${when(
-          this.computeShowAttentionTip(),
+          this.computeShowAttentionTip(3),
           () => html`
             <div class="attentionTip">
               <gr-icon icon="lightbulb"></gr-icon>
@@ -1533,21 +1546,14 @@ export class GrReplyDialog extends LitElement {
     this.reviewers = getAccounts(ReviewerState.REVIEWER);
   }
 
-  handleAttentionModify() {
-    this.attentionExpanded = true;
+  toggleAttentionModify() {
+    this.attentionExpanded = !this.attentionExpanded;
   }
 
   onAttentionExpandedChange() {
     // If the attention-detail section is expanded without dispatching this
     // event, then the dialog may expand beyond the screen's bottom border.
     fire(this, 'iron-resize', {});
-  }
-
-  computeAttentionButtonTitle() {
-    return this.isSendDisabled()
-      ? 'Modify the attention set by adding a comment or use the account ' +
-          'hovercard in the change page.'
-      : 'Edit attention set changes';
   }
 
   handleAttentionClick(e: Event) {
@@ -1561,11 +1567,15 @@ export class GrReplyDialog extends LitElement {
 
     if (this.newAttentionSet.has(id)) {
       this.newAttentionSet.delete(id);
+      this.manuallyAddedAttentionSet.delete(id);
+      this.manuallyDeletedAttentionSet.add(id);
       this.reporting.reportInteraction(Interaction.ATTENTION_SET_CHIP, {
         action: `REMOVE${self}${role}`,
       });
     } else {
       this.newAttentionSet.add(id);
+      this.manuallyAddedAttentionSet.add(id);
+      this.manuallyDeletedAttentionSet.delete(id);
       this.reporting.reportInteraction(Interaction.ATTENTION_SET_CHIP, {
         action: `ADD${self}${role}`,
       });
@@ -1655,18 +1665,24 @@ export class GrReplyDialog extends LitElement {
       .map(a => getUserId(a))
       .filter(id => !!id);
     this.newAttentionSet = new Set([
-      ...[...newAttention].filter(id => allAccountIds.includes(id)),
+      ...this.manuallyAddedAttentionSet,
+      ...[...newAttention].filter(
+        id =>
+          allAccountIds.includes(id) &&
+          !this.manuallyDeletedAttentionSet.has(id)
+      ),
     ]);
-
-    this.attentionExpanded = this.computeShowAttentionTip();
+    // Possibly expand if need be, never collapse as this is jarring to the user.
+    this.attentionExpanded =
+      this.attentionExpanded || this.computeShowAttentionTip(1);
   }
 
-  computeShowAttentionTip() {
+  computeShowAttentionTip(minimum: number) {
     if (!this.currentAttentionSet || !this.newAttentionSet) return false;
     const addedIds = [...this.newAttentionSet].filter(
       id => !this.currentAttentionSet.has(id)
     );
-    return this.isOwner && addedIds.length > 2;
+    return this.isOwner && addedIds.length >= minimum;
   }
 
   computeCommentAccounts(threads: CommentThread[]) {

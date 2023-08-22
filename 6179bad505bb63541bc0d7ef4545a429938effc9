@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad8d5d91_4cfacfa9",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 890,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-08-22T07:57:10Z",
+      "side": 1,
+      "message": "now you have both branchRc and rcBranch.  I suggest inlining r.getCommit()",
+      "range": {
+        "startLine": 890,
+        "startChar": 16,
+        "endLine": 890,
+        "endChar": 24
+      },
+      "revId": "6179bad505bb63541bc0d7ef4545a429938effc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

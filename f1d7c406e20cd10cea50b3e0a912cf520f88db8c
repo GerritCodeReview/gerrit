@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "045d8327_63974a37",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-22T09:15:16Z",
+      "side": 1,
+      "message": "I tried to be less intrusive as possible in PaginatingSource, the reason of moving the filter logic in https://gerrit-review.googlesource.com/c/gerrit/+/345634/9/java/com/google/gerrit/index/query/AndSource.java is because PaginatingSource hold a reference to the source, instead of extending AndSource. \n\nIn other words, PaginatingSource calls this read method (that actually calls source.read()), and then does its own filtering, setting last and pageResultSize, returning its own ResultSet.\n\nDatasource instead calls this method to do the read and filtering.",
+      "range": {
+        "startLine": 72,
+        "startChar": 2,
+        "endLine": 79,
+        "endChar": 3
+      },
+      "revId": "f1d7c406e20cd10cea50b3e0a912cf520f88db8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "726cff88_f1067d75",
+        "filename": "javatests/com/google/gerrit/index/query/AndSourceTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-22T09:15:16Z",
+      "side": 1,
+      "message": "Not sure if is worth running these tests for all pagination types.",
+      "range": {
+        "startLine": 33,
+        "startChar": 52,
+        "endLine": 33,
+        "endChar": 79
+      },
+      "revId": "f1d7c406e20cd10cea50b3e0a912cf520f88db8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

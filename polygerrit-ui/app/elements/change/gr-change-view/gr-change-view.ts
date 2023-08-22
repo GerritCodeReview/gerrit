@@ -114,7 +114,7 @@ import {
   until,
   waitUntil,
 } from '../../../utils/async-util';
-import {Interaction} from '../../../constants/reporting';
+import {Interaction, Timing} from '../../../constants/reporting';
 import {
   getAddedByReason,
   getRemovedByReason,
@@ -1875,6 +1875,7 @@ export class GrChangeView extends LitElement {
     assertIsDefined(this.replyModal);
     this.replyModal.close();
     this.getCommentsModel().reloadAllComments();
+
   }
 
   private handleReplyCancel() {

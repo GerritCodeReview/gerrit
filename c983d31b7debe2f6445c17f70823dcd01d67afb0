@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d07eacec_66b42dea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-22T10:43:13Z",
+      "side": 1,
+      "message": "Closing the reply button implies a \u0027Cancel\u0027 or a \u0027Send\u0027. \n\nCurrently we undo any manual attention-set modifications on cancel.",
+      "parentUuid": "907cc2a4_d0541a05",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 80
+      },
+      "revId": "c983d31b7debe2f6445c17f70823dcd01d67afb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f320146_62211562",
@@ -60,6 +84,30 @@
       "writtenOn": "2023-08-22T09:28:42Z",
       "side": 1,
       "message": "test for flow",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 170
+      },
+      "revId": "c983d31b7debe2f6445c17f70823dcd01d67afb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6855052e_d8e1fc9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-22T10:43:13Z",
+      "side": 1,
+      "message": "This is already tested in \u0027update attention section when reviewers and ccs change\u0027",
+      "parentUuid": "1f320146_62211562",
       "range": {
         "startLine": 11,
         "startChar": 0,
@@ -93,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ea70240_ccf57b30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-22T10:43:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7444d382_94f54049",
+      "range": {
+        "startLine": 17,
+        "startChar": 13,
+        "endLine": 17,
+        "endChar": 40
+      },
+      "revId": "c983d31b7debe2f6445c17f70823dcd01d67afb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0267366e_dc2f4955",
@@ -106,6 +178,30 @@
       "writtenOn": "2023-08-22T09:28:42Z",
       "side": 1,
       "message": "Can both be simplified to ternaries?\n\n`this.attentionExpanded ? \u0027foo\u0027 : \u0027bar\u0027`",
+      "range": {
+        "startLine": 1039,
+        "startChar": 9,
+        "endLine": 1051,
+        "endChar": 26
+      },
+      "revId": "c983d31b7debe2f6445c17f70823dcd01d67afb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bfeeb6c_9ba5e4ad",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-22T10:43:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0267366e_dc2f4955",
       "range": {
         "startLine": 1039,
         "startChar": 9,
@@ -139,6 +235,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6248e18c_370c1416",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1684,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-22T10:43:13Z",
+      "side": 1,
+      "message": "It\u0027s converting a set into a list.",
+      "parentUuid": "dc1821e9_bbcfbda4",
+      "range": {
+        "startLine": 1684,
+        "startChar": 9,
+        "endLine": 1684,
+        "endChar": 26
+      },
+      "revId": "c983d31b7debe2f6445c17f70823dcd01d67afb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "faf13ce7_008746db",
@@ -152,6 +272,30 @@
       "writtenOn": "2023-08-22T09:28:42Z",
       "side": 1,
       "message": "I am confused by this `minimum` stuff (why it\u0027s needed, why you use the values you do like the 3), and I though the commit message said you deleted the tip?",
+      "range": {
+        "startLine": 1695,
+        "startChar": 26,
+        "endLine": 1695,
+        "endChar": 41
+      },
+      "revId": "c983d31b7debe2f6445c17f70823dcd01d67afb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "539ab204_ee4bf23a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1695,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-22T10:43:13Z",
+      "side": 1,
+      "message": "This function is used in 2 places.\n\nTo determine whether to show a warning, to determine whether to expand the modify-section.\n\nWe warn the user when it\u0027s more than 2 (gte 3) added ids.\n\nThe tip I removed is `computeAttentionButtonTitle`",
+      "parentUuid": "faf13ce7_008746db",
       "range": {
         "startLine": 1695,
         "startChar": 26,

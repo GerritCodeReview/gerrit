@@ -211,10 +211,10 @@ suite('gr-file-list tests', () => {
           </div>
           <div class="stats" role="gridcell">
             <div>
-              <span aria-label="9 added" class="added" tabindex="0"> +9 </span>
               <span aria-label="0 removed" class="removed" tabindex="0">
                 -0
               </span>
+              <span aria-label="9 added" class="added" tabindex="0"> +9 </span>
               <span hidden=""> +/-0 B </span>
             </div>
           </div>
@@ -1763,7 +1763,7 @@ suite('gr-file-list tests', () => {
         maxDeleted: 0,
         maxAdditionWidth: 0,
         maxDeletionWidth: 0,
-        deletionOffset: 0,
+        additionOffset: 0,
       };
 
       element.files = [];
@@ -1811,7 +1811,7 @@ suite('gr-file-list tests', () => {
         maxDeleted: 0,
         maxAdditionWidth: 60,
         maxDeletionWidth: 0,
-        deletionOffset: 60,
+        additionOffset: 60,
       };
 
       // Uses half the space when file is half the largest addition and there
@@ -1839,22 +1839,34 @@ suite('gr-file-list tests', () => {
       assert.equal(element.computeBarAdditionWidth(file, stats), 1.5);
     });
 
-    test('_computeBarAdditionX', () => {
+    test('computeBarDeletionX', () => {
       const file = {
         __path: 'foo/bar.baz',
-        lines_inserted: 5,
-        lines_deleted: 0,
+        lines_inserted: 0,
+        lines_deleted: 5,
         size: 0,
         size_delta: 0,
       };
+      const stats = {
+        maxInserted: 0,
+        maxDeleted: 10,
+        maxAdditionWidth: 0,
+        maxDeletionWidth: 60,
+        additionOffset: 60,
+      };
+      assert.equal(element.computeBarDeletionX(file, stats), 30);
+
+    });
+
+    test('computeBarAdditionX', () => {
       const stats = {
         maxInserted: 10,
         maxDeleted: 0,
         maxAdditionWidth: 60,
         maxDeletionWidth: 0,
-        deletionOffset: 60,
+        additionOffset: 60,
       };
-      assert.equal(element.computeBarAdditionX(file, stats), 30);
+      assert.equal(element.computeBarAdditionX(stats), 60);
     });
 
     test('computeBarDeletionWidth', () => {
@@ -1870,7 +1882,7 @@ suite('gr-file-list tests', () => {
         maxDeleted: 10,
         maxAdditionWidth: 30,
         maxDeletionWidth: 30,
-        deletionOffset: 31,
+        additionOffset: 31,
       };
 
       // Uses a quarter the space when file is half the largest deletions and
@@ -1898,7 +1910,7 @@ suite('gr-file-list tests', () => {
       assert.equal(element.computeBarDeletionWidth(file, stats), 1.5);
     });
 
-    test('_computeSizeBarsClass', () => {
+    test('computeSizeBarsClass', () => {
       element.showSizeBars = false;
       assert.equal(
         element.computeSizeBarsClass('foo/bar.baz'),

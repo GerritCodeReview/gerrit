@@ -112,12 +112,15 @@ export class GrCreateRepoDialog extends LitElement {
           </section>
           <section>
             <span class="title">Default Branch</span>
-            <iron-input
-              .bindValue=${convertToString(this.defaultBranch)}
-              @bind-value-changed=${this.handleBranchNameBindValueChanged}
-            >
-              <input id="defaultBranchNameInput" autocomplete="off" />
-            </iron-input>
+            <span class="value">
+              <gr-autocomplete
+                id=""defaultBranchNameInput"
+                .text=${convertToString(this.defaultBranch)}
+                .placeholder=${"Optional, defaults to 'master'"}
+                @text-changed=${this.handleBranchNameBindValueChanged}
+              >
+              </gr-autocomplete>
+            </span>
           </section>
           <section>
             <span class="title">Rights inherit from</span>

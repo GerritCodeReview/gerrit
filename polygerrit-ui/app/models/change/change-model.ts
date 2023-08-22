@@ -369,7 +369,6 @@ export class ChangeModel extends Model<ChangeState> {
       this.setDiffTitle(),
       this.setEditTitle(),
       this.reportChangeReload(),
-      this.reportSendReply(),
       this.fireShowChange(),
       this.refuseEditForOpenChange(),
       this.refuseEditForClosedChange(),
@@ -382,16 +381,6 @@ export class ChangeModel extends Model<ChangeState> {
         latestPatchNum => (this.latestPatchNum = latestPatchNum)
       ),
     ];
-  }
-
-  private reportSendReply() {
-    return this.changeLoadingStatus$.subscribe(loadingStatus => {
-      // We are ending the timer on each change load, because ending a timer
-      // that was not started is a no-op. :-)
-      if (loadingStatus === LoadingStatus.LOADED) {
-        this.reporting.timeEnd(Timing.SEND_REPLY);
-      }
-    });
   }
 
   private reportChangeReload() {

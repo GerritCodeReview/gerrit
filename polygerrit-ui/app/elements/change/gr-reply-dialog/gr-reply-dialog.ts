@@ -1459,6 +1459,8 @@ export class GrReplyDialog extends LitElement {
         if (this.patchsetLevelGrComment) {
           this.patchsetLevelGrComment.disableAutoSaving = false;
         }
+        // By this point in time the change has loaded, we're only waiting for the comments.
+        this.reporting.timeEnd(Timing.SEND_REPLY);
       });
   }
 

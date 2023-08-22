@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03199206_55f26f51",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-change.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-08-22T14:16:25Z",
+      "side": 1,
+      "message": "is this a screen reader issue to always show this span and only differentiate with `class` that only changes ::after content to an icon? Having this title \u0026 aria-label when it\u0027s not submittable does not seem right.",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 38
+      },
+      "revId": "6a54d0756496b82d347d20ce369015bd0da166e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

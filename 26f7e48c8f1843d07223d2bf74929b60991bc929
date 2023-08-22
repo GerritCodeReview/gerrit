@@ -46,6 +46,30 @@
       },
       "revId": "26f7e48c8f1843d07223d2bf74929b60991bc929",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a9f6425_f063cf74",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-22T10:07:07Z",
+      "side": 0,
+      "message": "\u003e I suppose thats one way to deal with it. However, we are attempting a migration without any data loss, so that is not an option.\n\nAs a personal suggestion, feel free to disregard it altogether if you wish, every migration requires a _clean up_ and _fix up_ phase beforehand.\n\nThis is just _one_ example of _clean up_, but I am sure there will be many more.\n\n\u003e Do have any technical concerns with this change?\n\nGerrit stable-2.16 is EOL, therefore we should fix what is strictly needed.\nPerformance improvements _could be_ strictly needed also, if the current performance was so bad that made the migration unbearable.\n\nHave you checked if the _clean up_ resolves the performance issue?\n(e.g. removing all drafts that are older than 6 months, for example)",
+      "parentUuid": "fc5a6c7a_aca00c69",
+      "range": {
+        "startLine": 1053,
+        "startChar": 14,
+        "endLine": 1054,
+        "endChar": 82
+      },
+      "revId": "26f7e48c8f1843d07223d2bf74929b60991bc929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

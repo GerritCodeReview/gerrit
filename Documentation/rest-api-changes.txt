@@ -2916,6 +2916,10 @@ Adds and/or removes custom keyed values from a change.
 The custom keyed values to add or remove must be provided in the request body
 inside a link:#custom-keyed-values-input[CustomKeyedValuesInput] entity.
 
+Note that custom keyed values are expected to be small in both key and value.
+A typical use-case would be storing the ID to some external system, in which case
+the key would be something unique to that system and the value would be the ID.
+
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/custom_keyed_values HTTP/1.0

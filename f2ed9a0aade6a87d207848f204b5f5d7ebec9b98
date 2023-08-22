@@ -16,6 +16,24 @@
       "message": "Unrelated change. I think we call this method internally and need it to stay public?",
       "revId": "f2ed9a0aade6a87d207848f204b5f5d7ebec9b98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcad8409_4f749b10",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1858,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-08-22T07:47:00Z",
+      "side": 1,
+      "message": "I think this was used internally before, but now we don\u0027t need it to be public. (AccountId is a parameter in EditByPredicateProvider.editBy(...)",
+      "parentUuid": "77e99221_ed8583b1",
+      "revId": "f2ed9a0aade6a87d207848f204b5f5d7ebec9b98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

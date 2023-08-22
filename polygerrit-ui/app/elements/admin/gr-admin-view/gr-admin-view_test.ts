@@ -279,9 +279,12 @@ suite('gr-admin-view tests', () => {
     const groupId = '1' as GroupId;
     element.view = GerritView.GROUP;
     element.groupViewState = {groupId, view: GerritView.GROUP};
+    // Check for reload before update. This would normally be done as part of
+    // subscribe method that updates the view/viewState.
+    assert.isTrue(element.needsReload());
+    element.reload();
     await element.updateComplete;
 
-    assert.isTrue(element.needsReload());
     assert.equal(element.groupId, groupId);
   });
 

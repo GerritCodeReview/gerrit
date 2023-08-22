@@ -255,30 +255,25 @@ suite('gr-reply-dialog tests', () => {
                 <div class="attentionSummary">
                   <div>
                     <span> No changes to the attention set. </span>
-                    <gr-tooltip-content
-                      has-tooltip=""
-                      title="Modify the attention set by adding a comment or use the account hovercard in the change page."
-                    >
-                      <gr-button
-                        aria-disabled="true"
-                        disabled=""
-                        class="edit-attention-button"
-                        data-action-key="edit"
-                        data-action-type="change"
-                        data-label="Edit"
-                        link=""
-                        position-below=""
-                        role="button"
-                        tabindex="-1"
-                      >
-                        <div>
-                          <gr-icon icon="edit" filled small></gr-icon>
-                          <span>Modify</span>
-                        </div>
-                      </gr-button>
-                    </gr-tooltip-content>
                   </div>
                   <div>
+                    <gr-button
+                      aria-disabled="true"
+                      disabled=""
+                      class="edit-attention-button"
+                      data-action-key="edit"
+                      data-action-type="change"
+                      data-label="Edit"
+                      link=""
+                      position-below=""
+                      role="button"
+                      tabindex="-1"
+                    >
+                      <div>
+                        <gr-icon icon="edit" filled small></gr-icon>
+                        <span>Modify</span>
+                      </div>
+                    </gr-button>
                     <a
                       href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
                       target="_blank"
@@ -1732,18 +1727,15 @@ suite('gr-reply-dialog tests', () => {
     element._ccs = [...element.ccs, makeAccount()];
     await element.updateComplete;
 
-    // The 'attention modified' section collapses and resets when reviewers or
-    // ccs change.
-    assert.isFalse(element.attentionExpanded);
-
-    queryAndAssert<GrButton>(element, '.edit-attention-button').click();
-    await element.updateComplete;
-
     assert.isTrue(element.attentionExpanded);
     accountLabels = Array.from(
       queryAll(element, '.attention-detail gr-account-label')
     );
     assert.equal(accountLabels.length, 7);
+
+    queryAndAssert<GrButton>(element, '.edit-attention-button').click();
+    await element.updateComplete;
+    assert.isFalse(element.attentionExpanded);
 
     element.reviewers.pop();
     element.reviewers.pop();

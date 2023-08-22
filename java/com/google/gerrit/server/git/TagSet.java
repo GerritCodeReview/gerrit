@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableSet;
@@ -41,6 +43,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.roaringbitmap.RoaringBitmap;
@@ -209,6 +212,7 @@ class TagSet {
 
     try (TagWalk rw = new TagWalk(git)) {
       rw.setRetainBody(false);
+      RevFlag isTag = rw.newFlag("tag");
       for (Ref ref :
           git.getRefDatabase()
               .getRefsByPrefixWithExclusions(RefDatabase.ALL, SKIPPABLE_REF_PREFIXES)) {
@@ -218,9 +222,9 @@ class TagSet {
         } else if (isTag(ref)) {
           // For a tag, remember where it points to.
           try {
-            addTag(rw, git.getRefDatabase().peel(ref));
+            addTag(rw, git.getRefDatabase().peel(ref), isTag);
           } catch (IOException e) {
-            addTag(rw, ref);
+            addTag(rw, ref, isTag);
           }
 
         } else {
@@ -229,17 +233,10 @@ class TagSet {
         }
       }
 
-      // Traverse the complete history. Copy any flags from a commit to
-      // all of its ancestors. This automatically updates any Tag object
-      // as the TagCommit and the stored Tag object share the same
-      // underlying bit set.
+      // Traverse the complete history and propagate reachability to parents.
       TagCommit c;
       while ((c = (TagCommit) rw.next()) != null) {
-        RoaringBitmap mine = c.refFlags;
-        int pCnt = c.getParentCount();
-        for (int pIdx = 0; pIdx < pCnt; pIdx++) {
-          ((TagCommit) c.getParent(pIdx)).refFlags.or(mine);
-        }
+        c.propagateReachabilityToParents(isTag);
       }
     } catch (IOException e) {
       logger.atWarning().withCause(e).log("Error building tags for repository %s", projectName);
@@ -356,9 +353,7 @@ class TagSet {
     refs.putAll(old.refs);
 
     for (Tag srcTag : old.tags) {
-      RoaringBitmap mine = new RoaringBitmap();
-      mine.or(srcTag.refFlags);
-      tags.add(new Tag(srcTag, mine));
+      tags.add(new Tag(srcTag));
     }
 
     for (TagMatcher.LostRef lost : m.lostRefs) {
@@ -369,7 +364,7 @@ class TagSet {
     }
   }
 
-  private void addTag(TagWalk rw, Ref ref) {
+  private void addTag(TagWalk rw, Ref ref, RevFlag isTag) {
     ObjectId id = ref.getPeeledObjectId();
     if (id == null) {
       id = ref.getObjectId();
@@ -378,7 +373,12 @@ class TagSet {
     if (!tags.contains(id)) {
       RoaringBitmap flags;
       try {
-        flags = ((TagCommit) rw.parseCommit(id)).refFlags;
+        TagCommit commit = ((TagCommit) rw.parseCommit(id));
+        commit.add(isTag);
+        if (commit.refFlags == null) {
+          commit.refFlags = new RoaringBitmap();
+        }
+        flags = commit.refFlags;
       } catch (IncorrectObjectTypeException notCommit) {
         flags = new RoaringBitmap();
       } catch (IOException e) {
@@ -395,6 +395,9 @@ class TagSet {
       rw.markStart(commit);
 
       int flag = refs.size();
+      if (commit.refFlags == null) {
+        commit.refFlags = new RoaringBitmap();
+      }
       commit.refFlags.add(flag);
       refs.put(ref.getName(), new CachedRef(ref, flag));
     } catch (IncorrectObjectTypeException notCommit) {
@@ -432,8 +435,13 @@ class TagSet {
     // RoaringBitmap in TagCommit.refFlags.
     @VisibleForTesting final RoaringBitmap refFlags;
 
+    Tag(Tag src) {
+      this(src, src.refFlags.clone());
+    }
+
     Tag(AnyObjectId id, RoaringBitmap flags) {
       super(id);
+      checkNotNull(flags);
       this.refFlags = flags;
     }
 
@@ -485,13 +493,50 @@ class TagSet {
   }
 
   // TODO(hanwen): this would be better named as CommitWithReachability, as it also holds non-tags.
+  // However, non-tags will have a null refFlags field.
   private static final class TagCommit extends RevCommit {
     /** CachedRef.flag => isVisible, indicating if this commit is reachable from the ref. */
-    final RoaringBitmap refFlags;
+    RoaringBitmap refFlags;
 
     TagCommit(AnyObjectId id) {
       super(id);
-      refFlags = new RoaringBitmap();
+    }
+
+    /**
+     * Copy any flags from this commit to all of its ancestors.
+     *
+     * <p>Do not maintain a reference to the flags on non-tag commits after copying their flags to
+     * their ancestors. The flag copying automatically updates any Tag object as the TagCommit and
+     * the stored Tag object share the same underlying RoaringBitmap.
+     *
+     * @param isTag {@code RevFlag} indicating if this TagCommit is a tag
+     */
+    void propagateReachabilityToParents(RevFlag isTag) {
+      RoaringBitmap mine = refFlags;
+      if (mine != null) {
+        boolean canMoveBitmap = false;
+        if (!has(isTag)) {
+          refFlags = null;
+          canMoveBitmap = true;
+        }
+        int pCnt = getParentCount();
+        for (int pIdx = 0; pIdx < pCnt; pIdx++) {
+          TagCommit commit = (TagCommit) getParent(pIdx);
+          RoaringBitmap parentFlags = commit.refFlags;
+          if (parentFlags == null) {
+            if (canMoveBitmap) {
+              // This commit is not itself a Tag, so in order to reduce cloning overhead, migrate
+              // its refFlags object to its first parent with null refFlags
+              commit.refFlags = mine;
+              canMoveBitmap = false;
+            } else {
+              commit.refFlags = mine.clone();
+            }
+          } else {
+            parentFlags.or(mine);
+          }
+        }
+      }
     }
   }
 }

@@ -117,10 +117,12 @@ export class GrUserHeader extends LitElement {
       return;
     }
 
-    this.restApiService.getAccountDetails(userId).then(details => {
-      this._accountDetails = details ?? undefined;
-      this._status = details?.status ?? '';
-    });
+    this.restApiService
+      .getAccountDetails(userId, () => {})
+      .then(details => {
+        this._accountDetails = details ?? undefined;
+        this._status = details?.status ?? '';
+      });
   }
 
   _computeDetail(

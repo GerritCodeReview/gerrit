@@ -3,7 +3,7 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {LitElement, css, html} from 'lit';
+import {LitElement, css, html, nothing} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {
@@ -87,10 +87,11 @@ export class GrRelatedChange extends LitElement {
         .submittableCheck {
           padding-left: var(--spacing-s);
           color: var(--positive-green-text-color);
-          display: none;
-        }
-        .submittableCheck.submittable {
           display: inline;
+          width: 20px;
+        }
+        .submittableCheck.submittable:after {
+          content: '✓';
         }
       `,
     ];
@@ -102,22 +103,14 @@ export class GrRelatedChange extends LitElement {
     const linkClass = this.computeLinkClass(change);
     return html`
       <div class="changeContainer">
+        ${this.showSubmittableCheck ? this.renderSubmittableCheck() : nothing}
         <a
           href=${ifDefined(this.href)}
           aria-label=${ifDefined(this.label)}
           class=${linkClass}
           ><slot></slot
         ></a>
-        ${this.showSubmittableCheck
-          ? html`<span
-              tabindex="-1"
-              title="Submittable"
-              class="submittableCheck ${linkClass}"
-              role="img"
-              aria-label="Submittable"
-              >✓</span
-            >`
-          : ''}
+
         ${this.showChangeStatus
           ? html`<span class=${this.computeChangeStatusClass(change)}>
               (${this.computeChangeStatus(change)})
@@ -125,6 +118,25 @@ export class GrRelatedChange extends LitElement {
           : ''}
       </div>
     `;
+  }
+
+  private renderSubmittableCheck() {
+    if (this.change?.submittable) {
+      return html`<span
+        tabindex="-1"
+        title="Submittable"
+        class="submittableCheck submittable"
+        role="img"
+        aria-label="Submittable"
+      ></span>`;
+    } else {
+      // Empty place-holder to ensure that columns line up.
+      return html`<span
+        tabindex="-1"
+        class="submittableCheck"
+        role="img"
+      ></span>`;
+    }
   }
 
   private computeLinkClass(change: ChangeInfo | RelatedChangeAndCommitInfo) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cd5c70f_ab6f9438",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-22T09:13:28Z",
+      "side": 1,
+      "message": "Note this also requires: https://gerrit-review.git.corp.google.com/c/gerrit/+/383441",
+      "revId": "00daf1ce00f554584e71cddbd359565b80b8ff01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

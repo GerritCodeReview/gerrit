@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "840df068_93f80089",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-08-22T09:28:42Z",
+      "side": 1,
+      "message": "can you have a test for the bad behavior you are fixing?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 66
+      },
+      "revId": "c983d31b7debe2f6445c17f70823dcd01d67afb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "907cc2a4_d0541a05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-08-22T09:28:42Z",
+      "side": 1,
+      "message": "how do the explicit lists stay in sync with other changes the user makes such as closing the reply dialog or reviewers being added/removed?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 80
+      },
+      "revId": "c983d31b7debe2f6445c17f70823dcd01d67afb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f320146_62211562",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-08-22T09:28:42Z",
+      "side": 1,
+      "message": "test for flow",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 170
+      },
+      "revId": "c983d31b7debe2f6445c17f70823dcd01d67afb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7444d382_94f54049",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-08-22T09:28:42Z",
+      "side": 1,
+      "message": "collapse icon doesn\u0027t seem to color match the button like modify case and other buttons on our UI",
+      "range": {
+        "startLine": 17,
+        "startChar": 13,
+        "endLine": 17,
+        "endChar": 40
+      },
+      "revId": "c983d31b7debe2f6445c17f70823dcd01d67afb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0267366e_dc2f4955",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-08-22T09:28:42Z",
+      "side": 1,
+      "message": "Can both be simplified to ternaries?\n\n`this.attentionExpanded ? \u0027foo\u0027 : \u0027bar\u0027`",
+      "range": {
+        "startLine": 1039,
+        "startChar": 9,
+        "endLine": 1051,
+        "endChar": 26
+      },
+      "revId": "c983d31b7debe2f6445c17f70823dcd01d67afb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc1821e9_bbcfbda4",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1684,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-08-22T09:28:42Z",
+      "side": 1,
+      "message": "duplicating this array does not look needed, `.filter` will not modify the one it is called on.",
+      "range": {
+        "startLine": 1684,
+        "startChar": 9,
+        "endLine": 1684,
+        "endChar": 26
+      },
+      "revId": "c983d31b7debe2f6445c17f70823dcd01d67afb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "faf13ce7_008746db",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1695,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-08-22T09:28:42Z",
+      "side": 1,
+      "message": "I am confused by this `minimum` stuff (why it\u0027s needed, why you use the values you do like the 3), and I though the commit message said you deleted the tip?",
+      "range": {
+        "startLine": 1695,
+        "startChar": 26,
+        "endLine": 1695,
+        "endChar": 41
+      },
+      "revId": "c983d31b7debe2f6445c17f70823dcd01d67afb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

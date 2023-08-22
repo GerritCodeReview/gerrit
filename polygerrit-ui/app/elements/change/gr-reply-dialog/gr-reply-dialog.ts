@@ -1358,7 +1358,8 @@ export class GrReplyDialog extends LitElement {
 
   // visible for testing
   async send(includeComments: boolean, startReview: boolean) {
-    // The change model will end this timing when the change was reloaded.
+    // ChangeModel will be uploaded once the reply returns at which point the 
+    // timer will be ended.
     this.reporting.time(Timing.SEND_REPLY);
     const labels = this.getLabelScores().getLabelValues();
 

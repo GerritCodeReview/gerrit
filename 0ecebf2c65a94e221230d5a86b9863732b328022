@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a164fe3_003fd0aa",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1361,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-08-22T13:16:13Z",
+      "side": 1,
+      "message": "updated",
+      "range": {
+        "startLine": 1361,
+        "startChar": 27,
+        "endLine": 1361,
+        "endChar": 35
+      },
+      "revId": "0ecebf2c65a94e221230d5a86b9863732b328022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

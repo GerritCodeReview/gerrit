@@ -729,7 +729,6 @@ export class GrReplyDialog extends LitElement {
       changedProperties.has('mentionedUsersInUnresolvedDrafts') ||
       changedProperties.has('includeComments') ||
       changedProperties.has('labelsChanged') ||
-      changedProperties.has('patchsetLevelDraftMessage') ||
       changedProperties.has('mentionedCCs')
     ) {
       this.computeNewAttention();

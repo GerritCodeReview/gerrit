@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "98d1f06e_751ac200",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-22T13:29:38Z",
+      "side": 1,
+      "message": "Makes complete sense, doing it.",
+      "parentUuid": "38a628cb_85801922",
+      "range": {
+        "startLine": 72,
+        "startChar": 2,
+        "endLine": 79,
+        "endChar": 3
+      },
+      "revId": "f1d7c406e20cd10cea50b3e0a912cf520f88db8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "726cff88_f1067d75",
         "filename": "javatests/com/google/gerrit/index/query/AndSourceTest.java",
         "patchSetId": 3
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "I believe it does, just to make sure that it would still work.",
       "parentUuid": "726cff88_f1067d75",
+      "range": {
+        "startLine": 33,
+        "startChar": 52,
+        "endLine": 33,
+        "endChar": 79
+      },
+      "revId": "f1d7c406e20cd10cea50b3e0a912cf520f88db8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f28f23df_9b63e4fc",
+        "filename": "javatests/com/google/gerrit/index/query/AndSourceTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-22T13:29:38Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "0b9a137b_569eac6d",
       "range": {
         "startLine": 33,
         "startChar": 52,

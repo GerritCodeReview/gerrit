@@ -22,6 +22,30 @@
       },
       "revId": "6a54d0756496b82d347d20ce369015bd0da166e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "956f233f_eb7099d6",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-change.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-22T14:34:09Z",
+      "side": 1,
+      "message": "Good call, fixed.",
+      "parentUuid": "03199206_55f26f51",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 38
+      },
+      "revId": "6a54d0756496b82d347d20ce369015bd0da166e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

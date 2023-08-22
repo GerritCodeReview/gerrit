@@ -128,7 +128,7 @@ interface SizeBarLayout {
   maxDeleted: number;
   maxAdditionWidth: number;
   maxDeletionWidth: number;
-  deletionOffset: number;
+  additionOffset: number;
 }
 
 function createDefaultSizeBarLayout(): SizeBarLayout {
@@ -139,7 +139,7 @@ function createDefaultSizeBarLayout(): SizeBarLayout {
     maxDeleted: 0,
     maxAdditionWidth: 0,
     maxDeletionWidth: 0,
-    deletionOffset: 0,
+    additionOffset: 0,
   };
 }
 
@@ -463,12 +463,12 @@ export class GrFileList extends LitElement {
         }
         .added {
           color: var(--positive-green-text-color);
-        }
-        .removed {
-          color: var(--negative-red-text-color);
           text-align: left;
           min-width: 4em;
           padding-left: var(--spacing-s);
+        }
+        .removed {
+          color: var(--negative-red-text-color);
         }
         .drafts {
           color: var(--error-foreground);
@@ -789,6 +789,7 @@ export class GrFileList extends LitElement {
           prefs => !!prefs?.size_bar_in_change_table
         ),
       sizeBarInChangeTable => {
+        console.log('got preferences', sizeBarInChangeTable);
         this.showSizeBars = sizeBarInChangeTable;
       }
     );
@@ -1312,6 +1313,11 @@ export class GrFileList extends LitElement {
     file: NormalizedFileInfo,
     sizeBarLayout: SizeBarLayout
   ) {
+    console.log(
+      'renderSizeBar',
+      sizeBarLayout,
+      this.computeSizeBarsClass(file.__path)
+    );
     return html` <div class="desktop" role="gridcell">
       <!-- The content must be in a separate div. It guarantees, that
           gridcell always visible for screen readers.
@@ -1321,18 +1327,18 @@ export class GrFileList extends LitElement {
       <div class=${this.computeSizeBarsClass(file.__path)} aria-hidden="true">
         <svg width="61" height="8">
           <rect
-            x=${this.computeBarAdditionX(file, sizeBarLayout)}
-            y="0"
-            height="8"
-            fill="var(--positive-green-text-color)"
-            width=${this.computeBarAdditionWidth(file, sizeBarLayout)}
-          ></rect>
-          <rect
-            x=${this.computeBarDeletionX(sizeBarLayout)}
+            x=${this.computeBarDeletionX(file, sizeBarLayout)}
             y="0"
             height="8"
             fill="var(--negative-red-text-color)"
             width=${this.computeBarDeletionWidth(file, sizeBarLayout)}
+          ></rect>
+          <rect
+            x=${this.computeBarAdditionX(sizeBarLayout)}
+            y="0"
+            height="8"
+            fill="var(--positive-green-text-color)"
+            width=${this.computeBarAdditionWidth(file, sizeBarLayout)}
           ></rect>
         </svg>
       </div>
@@ -1348,20 +1354,20 @@ export class GrFileList extends LitElement {
         -->
       <div class=${this.computeClass('', file.__path)}>
         <span
-          class="added"
-          tabindex="0"
-          aria-label=${`${file.lines_inserted} added`}
-          ?hidden=${file.binary}
-        >
-          +${file.lines_inserted}
-        </span>
-        <span
           class="removed"
           tabindex="0"
           aria-label=${`${file.lines_deleted} removed`}
           ?hidden=${file.binary}
         >
           -${file.lines_deleted}
+        </span>
+        <span
+          class="added"
+          tabindex="0"
+          aria-label=${`${file.lines_inserted} added`}
+          ?hidden=${file.binary}
+        >
+          +${file.lines_inserted}
         </span>
         <span
           class=${ifDefined(this.computeBinaryClass(file.size_delta))}
@@ -1542,18 +1548,18 @@ export class GrFileList extends LitElement {
         <div class="total-stats">
           <div>
             <span
-              class="added"
-              tabindex="0"
-              aria-label="Total ${patchChange.inserted} lines added"
-            >
-              +${patchChange.inserted}
-            </span>
-            <span
               class="removed"
               tabindex="0"
               aria-label="Total ${patchChange.deleted} lines removed"
             >
               -${patchChange.deleted}
+            </span>
+            <span
+              class="added"
+              tabindex="0"
+              aria-label="Total ${patchChange.inserted} lines added"
+            >
+              +${patchChange.inserted}
             </span>
           </div>
         </div>
@@ -1586,16 +1592,6 @@ export class GrFileList extends LitElement {
       <div class="row totalChanges">
         <div class="total-stats">
           <span
-            class="added"
-            aria-label="Total bytes inserted: ${deltaInserted}"
-          >
-            ${deltaInserted}
-            ${this.formatPercentage(
-              patchChange.total_size,
-              patchChange.size_delta_inserted
-            )}
-          </span>
-          <span
             class="removed"
             aria-label="Total bytes removed: ${deltaDeleted}"
           >
@@ -1603,6 +1599,16 @@ export class GrFileList extends LitElement {
             ${this.formatPercentage(
               patchChange.total_size,
               patchChange.size_delta_deleted
+            )}
+          </span>
+          <span
+            class="added"
+            aria-label="Total bytes inserted: ${deltaInserted}"
+          >
+            ${deltaInserted}
+            ${this.formatPercentage(
+              patchChange.total_size,
+              patchChange.size_delta_inserted
             )}
           </span>
         </div>
@@ -2470,7 +2476,7 @@ export class GrFileList extends LitElement {
         (SIZE_BAR_MAX_WIDTH - SIZE_BAR_GAP_WIDTH) * ratio;
       stats.maxDeletionWidth =
         SIZE_BAR_MAX_WIDTH - SIZE_BAR_GAP_WIDTH - stats.maxAdditionWidth;
-      stats.deletionOffset = stats.maxAdditionWidth + SIZE_BAR_GAP_WIDTH;
+      stats.additionOffset = stats.maxDeletionWidth + SIZE_BAR_GAP_WIDTH;
     }
     return stats;
   }
@@ -2498,9 +2504,8 @@ export class GrFileList extends LitElement {
    * Get the x-offset of the addition bar for a file.
    * Private but used in tests.
    */
-  computeBarAdditionX(file?: NormalizedFileInfo, stats?: SizeBarLayout) {
-    if (!file || !stats) return;
-    return stats.maxAdditionWidth - this.computeBarAdditionWidth(file, stats);
+  computeBarAdditionX(stats: SizeBarLayout) {
+    return stats.additionOffset;
   }
 
   /**
@@ -2524,9 +2529,11 @@ export class GrFileList extends LitElement {
 
   /**
    * Get the x-offset of the deletion bar for a file.
+   * Private but used in tests.
    */
-  private computeBarDeletionX(stats: SizeBarLayout) {
-    return stats.deletionOffset;
+  computeBarDeletionX(file?: NormalizedFileInfo, stats?: SizeBarLayout) {
+    if (!file || !stats) return;
+    return stats.maxDeletionWidth - this.computeBarDeletionWidth(file, stats);
   }
 
   // Private but used in tests.

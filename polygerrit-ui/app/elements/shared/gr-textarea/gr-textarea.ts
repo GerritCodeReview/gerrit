@@ -132,6 +132,9 @@ export class GrTextarea extends LitElement {
 
   private readonly shortcuts = new ShortcutController(this);
 
+  // private but used in tests
+  lastMatchedSearchString?: string;
+
   constructor() {
     super();
     subscribe(
@@ -394,7 +397,10 @@ export class GrTextarea extends LitElement {
   }
 
   private async setValue(text: string) {
-    if (this.specialCharIndex === -1) {
+    if (
+      this.specialCharIndex === -1 ||
+      this.lastMatchedSearchString === undefined
+    ) {
       return;
     }
     const specialCharIndex = this.specialCharIndex;
@@ -419,11 +425,12 @@ export class GrTextarea extends LitElement {
 
   private addValueToText(value: string) {
     if (!this.text) return '';
-    return (
-      this.text.substring(0, this.specialCharIndex ?? 0) +
-      value +
-      this.text.substring(this.textarea!.selectionStart)
+    const specialCharIndex = this.specialCharIndex ?? 0;
+    const beforeSearchString = this.text.substring(0, specialCharIndex);
+    const afterSearchString = this.text.substring(
+      specialCharIndex + 1 + (this.lastMatchedSearchString?.length ?? 0)
     );
+    return beforeSearchString + value + afterSearchString;
   }
 
   /**
@@ -475,6 +482,9 @@ export class GrTextarea extends LitElement {
     }
     if (searchString === this.currentSearchString) {
       this.suggestions = suggestions;
+      this.lastMatchedSearchString = searchString;
+    } else {
+      this.lastMatchedSearchString = undefined;
     }
   }
 
@@ -605,6 +615,7 @@ export class GrTextarea extends LitElement {
     // hide and reset the autocomplete dropdown.
     this.requestUpdate();
     this.currentSearchString = '';
+    this.lastMatchedSearchString = undefined;
     this.closeDropdown();
     this.specialCharIndex = -1;
     this.focus();

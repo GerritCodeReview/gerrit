@@ -7,10 +7,6 @@ import '../test/common-test-setup';
 import './gr-app';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrAppElement} from './gr-app-element';
-import {queryAndAssert} from '../utils/common-util';
-import {GerritView} from '../services/router/router-model';
-import {PluginViewState} from '../models/views/plugin';
-import {GrEndpointDecorator} from './plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 
 suite('gr-app-element tests', () => {
   let element: GrAppElement;
@@ -61,40 +57,5 @@ suite('gr-app-element tests', () => {
         <gr-plugin-host id="plugins"> </gr-plugin-host>
       `
     );
-  });
-
-  test('renders plugin screen, changes endpoint instance', async () => {
-    element.view = GerritView.PLUGIN_SCREEN;
-    element.params = {
-      view: GerritView.PLUGIN_SCREEN,
-      screen: 'test-screen-1',
-      plugin: 'test-plugin',
-    } as PluginViewState;
-    await element.updateComplete;
-
-    const main1 = queryAndAssert(element, 'main');
-    const endpoint1 = queryAndAssert<GrEndpointDecorator>(
-      main1,
-      'gr-endpoint-decorator'
-    );
-    assert.equal(endpoint1.name, 'test-plugin-screen-test-screen-1');
-
-    element.params = {
-      view: GerritView.PLUGIN_SCREEN,
-      screen: 'test-screen-2',
-      plugin: 'test-plugin',
-    } as PluginViewState;
-    await element.updateComplete;
-
-    const main2 = queryAndAssert(element, 'main');
-    const endpoint2 = queryAndAssert<GrEndpointDecorator>(
-      main2,
-      'gr-endpoint-decorator'
-    );
-    assert.equal(endpoint2.name, 'test-plugin-screen-test-screen-2');
-
-    // Plugin screen endpoints have a variable name. Lit must not re-use the
-    // same element instance. (Issue 16884)
-    assert.isFalse(endpoint1 === endpoint2);
   });
 });

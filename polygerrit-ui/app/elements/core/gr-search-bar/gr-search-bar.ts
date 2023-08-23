@@ -164,9 +164,6 @@ export class GrSearchBar extends LitElement {
   @state()
   mergeabilityComputationBehavior?: MergeabilityComputationBehavior;
 
-  @property({type: String})
-  label = '';
-
   // private but used in test
   @state() inputVal = '';
 
@@ -224,7 +221,7 @@ export class GrSearchBar extends LitElement {
       <form>
         <gr-autocomplete
           id="searchInput"
-          .label=${this.label}
+          label="Search for changes"
           .text=${this.inputVal}
           .query=${this.query}
           allow-non-suggested-values

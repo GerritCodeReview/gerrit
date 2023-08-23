@@ -104,9 +104,6 @@ declare global {
 
 @customElement('gr-main-header')
 export class GrMainHeader extends LitElement {
-  @property({type: String})
-  searchQuery = '';
-
   @property({type: Boolean, reflect: true})
   loggedIn?: boolean;
 
@@ -143,8 +140,6 @@ export class GrMainHeader extends LitElement {
   // private but used in test
   @state() feedbackURL = '';
 
-  @state() private serverConfig?: ServerInfo;
-
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
@@ -172,7 +167,6 @@ export class GrMainHeader extends LitElement {
     this.subscriptions.push(
       this.getConfigModel().serverConfig$.subscribe(config => {
         if (!config) return;
-        this.serverConfig = config;
         this.retrieveFeedbackURL(config);
         this.retrieveRegisterURL(config);
         this.restApiService.getDocsBaseUrl(config).then(docBaseUrl => {
@@ -378,12 +372,7 @@ export class GrMainHeader extends LitElement {
         class="hideOnMobile"
         name="header-small-banner"
       ></gr-endpoint-decorator>
-      <gr-smart-search
-        id="search"
-        label="Search for changes"
-        .searchQuery=${this.searchQuery}
-        .serverConfig=${this.serverConfig}
-      ></gr-smart-search>
+      <gr-smart-search id="search"></gr-smart-search>
       <gr-endpoint-decorator
         class="hideOnMobile"
         name="header-top-right"

@@ -13,6 +13,7 @@ import {
   query,
   queryAll,
   queryAndAssert,
+  stubReporting,
   stubRestApi,
   waitUntilVisible,
 } from '../../../test/test-utils';
@@ -69,6 +70,7 @@ import {
 } from '../../../models/comments/comments-model';
 import {isOwner} from '../../../utils/change-util';
 import {createNewPatchsetLevel} from '../../../utils/comment-util';
+import {Timing} from '../../../constants/reporting';
 
 function cloneableResponse(status: number, text: string) {
   return {
@@ -435,6 +437,62 @@ suite('gr-reply-dialog tests', () => {
       </section>
     `
     );
+  });
+
+  test('save review firest sendReply metric', async () => {
+    const timeEndStub = stubReporting('timeEnd');
+
+    // Async tick is needed because iron-selector content is distributed and
+    // distributed content requires an observer to be set up.
+    await element.updateComplete;
+    element.patchsetLevelDraftMessage = 'I wholeheartedly disapprove';
+    element.draftCommentThreads = [createCommentThread([createComment()])];
+
+    element.includeComments = true;
+
+    // This is needed on non-Blink engines most likely due to the ways in
+    // which the dom-repeat elements are stamped.
+    await element.updateComplete;
+    queryAndAssert<GrButton>(element, '.send').click();
+
+    await interceptSaveReview();
+    await element.updateComplete;
+
+    await waitUntil(() => timeEndStub.calledWith(Timing.SEND_REPLY));
+  });
+
+  test('modified attention set', async () => {
+    await element.updateComplete;
+
+    // required so that "Send" button is enabled
+    element.canBeStarted = true;
+    await element.updateComplete;
+
+    element.account = {_account_id: 123 as AccountId};
+    element.newAttentionSet = new Set([314 as AccountId]);
+    element.uploader = createAccountWithId(314);
+    const saveReviewPromise = interceptSaveReview();
+
+    queryAndAssert<GrButton>(element, '.send').click();
+    const review = await saveReviewPromise;
+
+    assert.deepEqual(review, {
+      drafts: DraftsAction.PUBLISH_ALL_REVISIONS,
+      labels: {
+        'Code-Review': 0,
+        Verified: 0,
+      },
+      add_to_attention_set: [
+        {
+          reason: '<GERRIT_ACCOUNT_123> replied on the change',
+          user: 314 as UserId,
+        },
+      ],
+      reviewers: [],
+      ready: true,
+      remove_from_attention_set: [],
+      ignore_automatic_attention_set_rules: true,
+    });
   });
 
   test('default to publishing draft comments with reply', async () => {

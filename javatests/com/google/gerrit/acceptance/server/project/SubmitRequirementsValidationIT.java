@@ -19,12 +19,31 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.annotations.Exports;
+import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.SubmitRequirementResultInfo;
+import com.google.gerrit.index.query.Matchable;
+import com.google.gerrit.index.query.OperatorPredicate;
+import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import java.util.List;
 import java.util.Locale;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.transport.PushResult;
@@ -377,6 +396,210 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
             invalidValue));
   }
 
+<<<<<<< HEAD   (0bfed0 Merge "IndexType not honoured in AbstractDeamonTest" into st)
+=======
+  @Test
+  public void validSubmitRequirementCanBePushedForReview_optionalParametersNotSet()
+      throws Exception {
+    fetchRefsMetaConfig();
+
+    String submitRequirementName = "Code-Review";
+    RevCommit head = getHead(testRepo.getRepository(), RefNames.REFS_CONFIG);
+    Config projectConfig = readProjectConfig(head);
+    projectConfig.setString(
+        ProjectConfig.SUBMIT_REQUIREMENT,
+        /* subsection= */ submitRequirementName,
+        /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+        /* value= */ "label:\"Code-Review=+2\"");
+
+    PushOneCommit.Result r =
+        createChange(
+            testRepo,
+            RefNames.REFS_CONFIG,
+            "Add submit requirement",
+            ProjectConfig.PROJECT_CONFIG,
+            projectConfig.toText(),
+            /* topic= */ null);
+    r.assertOkStatus();
+  }
+
+  @Test
+  public void validSubmitRequirementCanBePushedForReview_allParametersSet() throws Exception {
+    fetchRefsMetaConfig();
+
+    String submitRequirementName = "Code-Review";
+    RevCommit head = getHead(testRepo.getRepository(), RefNames.REFS_CONFIG);
+    Config projectConfig = readProjectConfig(head);
+    projectConfig.setString(
+        ProjectConfig.SUBMIT_REQUIREMENT,
+        /* subsection= */ submitRequirementName,
+        /* name= */ ProjectConfig.KEY_SR_DESCRIPTION,
+        /* value= */ "foo bar description");
+    projectConfig.setString(
+        ProjectConfig.SUBMIT_REQUIREMENT,
+        /* subsection= */ submitRequirementName,
+        /* name= */ ProjectConfig.KEY_SR_APPLICABILITY_EXPRESSION,
+        /* value= */ "branch:refs/heads/master");
+    projectConfig.setString(
+        ProjectConfig.SUBMIT_REQUIREMENT,
+        /* subsection= */ submitRequirementName,
+        /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+        /* value= */ "label:\"Code-Review=+2\"");
+    projectConfig.setString(
+        ProjectConfig.SUBMIT_REQUIREMENT,
+        /* subsection= */ submitRequirementName,
+        /* name= */ ProjectConfig.KEY_SR_OVERRIDE_EXPRESSION,
+        /* value= */ "label:\"override=+1\"");
+    projectConfig.setBoolean(
+        ProjectConfig.SUBMIT_REQUIREMENT,
+        /* subsection= */ submitRequirementName,
+        /* name= */ ProjectConfig.KEY_SR_OVERRIDE_IN_CHILD_PROJECTS,
+        /* value= */ false);
+
+    PushOneCommit.Result r =
+        createChange(
+            testRepo,
+            RefNames.REFS_CONFIG,
+            "Add submit requirement",
+            ProjectConfig.PROJECT_CONFIG,
+            projectConfig.toText(),
+            /* topic= */ null);
+    r.assertOkStatus();
+  }
+
+  protected static class IsOperatorModule extends AbstractModule {
+    @Override
+    public void configure() {
+      bind(ChangeQueryBuilder.ChangeIsOperandFactory.class)
+          .annotatedWith(Exports.named("changeNumberEven"))
+          .to(SampleIsOperand.class);
+    }
+  }
+
+  private static class SampleIsOperand implements ChangeQueryBuilder.ChangeIsOperandFactory {
+    final Provider<CurrentUser> currentUserProvider;
+
+    @Inject
+    SampleIsOperand(Provider<CurrentUser> currentUserProvider) {
+      this.currentUserProvider = currentUserProvider;
+    }
+
+    @Override
+    public Predicate<ChangeData> create(ChangeQueryBuilder builder) throws QueryParseException {
+      return new IsSamplePredicate(currentUserProvider.get());
+    }
+  }
+
+  private static class IsSamplePredicate extends OperatorPredicate<ChangeData>
+      implements Matchable<ChangeData> {
+
+    CurrentUser currentUser;
+
+    public IsSamplePredicate(CurrentUser currentUser) {
+      super("is", "changeNumberEven");
+      this.currentUser = currentUser;
+      assertServerUser();
+    }
+
+    private void assertServerUser() {
+      try {
+        currentUser.asIdentifiedUser();
+        throw new IllegalStateException("is an identified user");
+      } catch (UnsupportedOperationException e) {
+        // as expected.
+      }
+    }
+
+    @Override
+    public boolean match(ChangeData changeData) {
+      assertServerUser();
+      return true;
+    }
+
+    @Override
+    public int getCost() {
+      return 0;
+    }
+  }
+
+  @Test
+  public void submitRequirementValidationRunsAsServer() throws Exception {
+    try (TestRepository<Repository> testRepo =
+        new TestRepository<>(repoManager.openRepository(project))) {
+      testRepo.delete(RefNames.REFS_CONFIG);
+    }
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    try (AutoCloseable ignored = installPlugin("myplugin", IsOperatorModule.class)) {
+      PushOneCommit push =
+          pushFactory
+              .create(
+                  admin.newIdent(),
+                  testRepo,
+                  "Test Change",
+                  ProjectConfig.PROJECT_CONFIG,
+                  "[submit-requirement \"SAMPLE\"]\n"
+                      + "  submittableIf = is:changeNumberEven_myplugin\n")
+              .setParents(ImmutableList.of());
+      PushOneCommit.Result cfgPush = push.to(RefNames.REFS_CONFIG);
+      cfgPush.assertOkStatus();
+
+      ChangeInfo info = gApi.changes().id(changeId).get(ListChangesOption.SUBMIT_REQUIREMENTS);
+      List<SubmitRequirementResultInfo> results =
+          info.submitRequirements.stream()
+              .filter(x -> x.name.equals("SAMPLE"))
+              .collect(Collectors.toList());
+      assertThat(results).hasSize(1);
+      assertThat(results.get(0).status).isNotEqualTo(SubmitRequirementResultInfo.Status.ERROR);
+    }
+
+    // TODO(hanwen): should return 500 ISE for
+    //  gApi.changes().id(changeId).get(ListChangesOption.SUBMIT_REQUIREMENTS);
+  }
+
+  @Test
+  public void invalidSubmitRequirementIsRejectedWhenPushingForReview() throws Exception {
+    fetchRefsMetaConfig();
+
+    String submitRequirementName = "Code-Review";
+    String invalidExpression = "invalid_field:invalid_value";
+
+    RevCommit head = getHead(testRepo.getRepository(), RefNames.REFS_CONFIG);
+    Config projectConfig = readProjectConfig(head);
+    projectConfig.setString(
+        ProjectConfig.SUBMIT_REQUIREMENT,
+        /* subsection= */ submitRequirementName,
+        /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+        /* value= */ invalidExpression);
+    PushOneCommit.Result r =
+        createChange(
+            testRepo,
+            RefNames.REFS_CONFIG,
+            "Add submit requirement",
+            ProjectConfig.PROJECT_CONFIG,
+            projectConfig.toText(),
+            /* topic= */ null);
+    r.assertErrorStatus(
+        String.format(
+            "invalid submit requirement expressions in project.config (revision = %s)",
+            r.getCommit().name()));
+    assertThat(r.getMessage()).contains("Invalid project configuration");
+    assertThat(r.getMessage())
+        .contains(
+            String.format(
+                "project.config: Expression '%s' of submit requirement '%s' (parameter %s.%s.%s) is"
+                    + " invalid: Unsupported operator %s",
+                invalidExpression,
+                submitRequirementName,
+                ProjectConfig.SUBMIT_REQUIREMENT,
+                submitRequirementName,
+                ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+                invalidExpression));
+  }
+
+>>>>>>> CHANGE (99ae78 Run submit requirement validation in ManualRequestContext)
   private void fetchRefsMetaConfig() throws Exception {
     fetch(testRepo, RefNames.REFS_CONFIG + ":" + RefNames.REFS_CONFIG);
     testRepo.reset(RefNames.REFS_CONFIG);

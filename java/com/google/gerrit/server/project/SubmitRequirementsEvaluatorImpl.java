@@ -77,7 +77,9 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   @Override
   public void validateExpression(SubmitRequirementExpression expression)
       throws QueryParseException {
-    queryBuilder.get().parse(expression.expressionString());
+    try (ManualRequestContext ignored = requestContext.open()) {
+      queryBuilder.get().parse(expression.expressionString());
+    }
   }
 
   @Override

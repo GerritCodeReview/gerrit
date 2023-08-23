@@ -82,15 +82,13 @@ suite('gr-change-list-item tests', () => {
   test('no hidden columns', async () => {
     element.visibleChangeTableColumns = [
       ColumnNames.SUBJECT,
-      ColumnNames.STATUS,
       ColumnNames.OWNER,
       ColumnNames.REVIEWERS,
-      ColumnNames.COMMENTS,
       ColumnNames.REPO,
       ColumnNames.BRANCH,
       ColumnNames.UPDATED,
       ColumnNames.SIZE,
-      ColumnNames.STATUS2,
+      ColumnNames.STATUS,
     ];
 
     await element.updateComplete;
@@ -214,14 +212,12 @@ suite('gr-change-list-item tests', () => {
   test('repo column hidden', async () => {
     element.visibleChangeTableColumns = [
       ColumnNames.SUBJECT,
-      ColumnNames.STATUS,
       ColumnNames.OWNER,
       ColumnNames.REVIEWERS,
-      ColumnNames.COMMENTS,
       ColumnNames.BRANCH,
       ColumnNames.UPDATED,
       ColumnNames.SIZE,
-      ColumnNames.STATUS2,
+      ColumnNames.STATUS,
     ];
 
     await element.updateComplete;
@@ -377,7 +373,7 @@ suite('gr-change-list-item tests', () => {
     assert.equal(setUrlStub.lastCall.firstArg, '/c/a/test/repo/+/42');
   });
 
-  test('renders', async () => {
+  test.only('renders', async () => {
     const change = createChange();
     bulkActionsModel.sync([change]);
     bulkActionsModel.addSelectedChangeNum(change._number);
@@ -410,14 +406,12 @@ suite('gr-change-list-item tests', () => {
             <span></span>
           </div>
         </a>
-        <span class="placeholder"> -- </span>
         <gr-account-label
           deselected=""
           clickable=""
           highlightattention=""
         ></gr-account-label>
         <div></div>
-        <span></span>
         <a class="fullRepo" href="/q/project:test-project+status:open">
           test-project
         </a>

@@ -8,7 +8,6 @@ import '../gr-change-list-item/gr-change-list-item';
 import '../gr-change-list-section/gr-change-list-section';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
-import {getAppContext} from '../../../services/app-context';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {
@@ -30,13 +29,15 @@ import {customElement, property, state} from 'lit/decorators.js';
 import {Shortcut, ShortcutController} from '../../lit/shortcut-controller';
 import {queryAll} from '../../../utils/common-util';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
-import {Execution} from '../../../constants/reporting';
 import {ValueChangedEvent} from '../../../types/events';
 import {resolve} from '../../../models/dependency';
 import {createChangeUrl} from '../../../models/views/change';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {subscribe} from '../../lit/subscription-controller';
-import {userModelToken} from '../../../models/user/user-model';
+import {
+  changeTablePrefs,
+  userModelToken,
+} from '../../../models/user/user-model';
 import {configModelToken} from '../../../models/config/config-model';
 
 export interface ChangeListSection {
@@ -130,10 +131,6 @@ export class GrChangeList extends LitElement {
 
   // private but used in test
   @state() config?: ServerInfo;
-
-  private readonly flagsService = getAppContext().flagsService;
-
-  private readonly reporting = getAppContext().reportingService;
 
   private readonly shortcuts = new ShortcutController(this);
 
@@ -345,44 +342,15 @@ export class GrChangeList extends LitElement {
 
     this.changeTableColumns = Object.values(ColumnNames);
     this.showNumber = false;
-    this.visibleChangeTableColumns = this.changeTableColumns.filter(col =>
-      this.isColumnEnabled(col, this.config)
-    );
+    this.visibleChangeTableColumns = Object.values(ColumnNames);
     if (this.loggedInUser && this.preferences) {
       this.showNumber = !!this.preferences?.legacycid_in_change_table;
-      if (
-        this.preferences?.change_table &&
-        this.preferences.change_table.length > 0
-      ) {
-        const prefColumns = this.preferences.change_table
-          .map(column => (column === 'Project' ? ColumnNames.REPO : column))
-          .map(column =>
-            column === ColumnNames.STATUS ? ColumnNames.STATUS2 : column
-          );
-        this.reporting.reportExecution(Execution.USER_PREFERENCES_COLUMNS, {
-          statusColumn: prefColumns.includes(ColumnNames.STATUS2),
-        });
-        // Order visible column names by columnNames, filter only one that
-        // are in prefColumns and enabled by config
-        this.visibleChangeTableColumns = Object.values(ColumnNames)
-          .filter(col => prefColumns.includes(col))
-          .filter(col => this.isColumnEnabled(col, this.config));
-      }
+      const prefColumns = changeTablePrefs(this.preferences);
+      // This is for sorting `prefColumns` as in `ColumnNames`:
+      this.visibleChangeTableColumns = Object.values(ColumnNames).filter(col =>
+        prefColumns.includes(col)
+      );
     }
-  }
-
-  /**
-   * Is the column disabled by a server config or experiment?
-   */
-  isColumnEnabled(column: string, config?: ServerInfo) {
-    if (!Object.values(ColumnNames).includes(column as unknown as ColumnNames))
-      return false;
-    if (!config || !config.change) return true;
-    if (column === 'Comments')
-      return this.flagsService.isEnabled('comments-column');
-    if (column === 'Status') return false;
-    if (column === ColumnNames.STATUS2) return true;
-    return true;
   }
 
   // private but used in test

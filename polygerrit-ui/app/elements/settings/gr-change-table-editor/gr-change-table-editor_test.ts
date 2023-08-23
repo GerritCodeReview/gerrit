@@ -22,13 +22,12 @@ suite('gr-change-table-editor tests', () => {
 
     columns = [
       'Subject',
-      'Status',
       'Owner',
       'Reviewers',
-      'Comments',
       'Repo',
       ColumnNames.BRANCH,
       ColumnNames.UPDATED,
+      'Status',
     ];
 
     element.displayedColumns = columns;
@@ -103,9 +102,9 @@ suite('gr-change-table-editor tests', () => {
               </td>
             </tr>
             <tr>
-              <td><label for=" Status "> Status </label></td>
+              <td><label for="Status"> Status </label></td>
               <td class="checkboxContainer">
-                <input id=" Status " name=" Status " type="checkbox" />
+                <input checked="" id="Status" name="Status" type="checkbox" />
               </td>
             </tr>
           </tbody>
@@ -170,9 +169,7 @@ suite('gr-change-table-editor tests', () => {
   });
 
   test('getDisplayedColumns', () => {
-    const enabledColumns = columns.filter(column =>
-      element.isColumnEnabled(column)
-    );
+    const enabledColumns = columns;
     assert.deepEqual(element.getDisplayedColumns(), enabledColumns);
     const input = queryAndAssert<HTMLInputElement>(
       element,

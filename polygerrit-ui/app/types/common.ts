@@ -1317,6 +1317,7 @@ export interface PreferencesInfo {
   mute_common_path_prefixes?: boolean;
   signed_off_by?: boolean;
   my: TopMenuItemInfo[];
+  // Do not use directly, but use changeTablePrefs() in user model to map/filter legacy columns.
   change_table: string[];
   email_strategy: EmailStrategy;
   default_base_for_merges: DefaultBase;

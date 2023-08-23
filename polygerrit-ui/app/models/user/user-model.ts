@@ -20,6 +20,7 @@ import {
   createDefaultDiffPrefs,
   createDefaultEditPrefs,
   AppTheme,
+  ColumnNames,
 } from '../../constants/constants';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {DiffPreferencesInfo} from '../../types/diff';
@@ -27,6 +28,14 @@ import {select} from '../../utils/observable-util';
 import {define} from '../dependency';
 import {Model} from '../model';
 import {isDefined} from '../../types/types';
+
+export function changeTablePrefs(prefs: Partial<PreferencesInfo>) {
+  const cols = prefs.change_table ?? [];
+  if (cols.length === 0) return Object.values(ColumnNames);
+  return cols
+    .map(column => (column === 'Project' ? ColumnNames.REPO : column))
+    .map(column => (column === ' Status ' ? ColumnNames.STATUS : column));
+}
 
 export interface UserState {
   /**

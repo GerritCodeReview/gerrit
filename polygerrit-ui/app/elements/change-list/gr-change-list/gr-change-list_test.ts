@@ -17,7 +17,6 @@ import {
 } from '../../../test/test-utils';
 import {Key} from '../../../utils/dom-util';
 import {
-  ColumnNames,
   createDefaultPreferences,
   TimeFormat,
 } from '../../../constants/constants';
@@ -456,12 +455,10 @@ suite('gr-change-list basic tests', () => {
           'Status',
           'Owner',
           'Reviewers',
-          'Comments',
           'Repo',
           'Branch',
           'Updated',
           'Size',
-          ColumnNames.STATUS2,
         ],
       };
       element.config = createServerInfo();
@@ -495,11 +492,9 @@ suite('gr-change-list basic tests', () => {
           'Status',
           'Owner',
           'Reviewers',
-          'Comments',
           'Branch',
           'Updated',
           'Size',
-          ColumnNames.STATUS2,
         ],
       };
       element.config = createServerInfo();
@@ -546,11 +541,9 @@ suite('gr-change-list basic tests', () => {
         'Status',
         'Owner',
         'Reviewers',
-        'Comments',
         'Branch',
         'Updated',
         'Size',
-        ColumnNames.STATUS2,
       ],
     };
     element.config = createServerInfo();
@@ -595,27 +588,5 @@ suite('gr-change-list basic tests', () => {
     await element.updateComplete;
 
     assert.isNotOk(query<HTMLElement>(element, '.bad'));
-  });
-
-  test('Show new status with feature flag', async () => {
-    stubFlags('isEnabled').returns(true);
-    const element: GrChangeList = await fixture(
-      html`<gr-change-list></gr-change-list>`
-    );
-    element.sections = [{results: [{...createChange()}]}];
-    element.loggedInUser = {_account_id: 1001 as AccountId};
-    element.preferences = {
-      change_table: [
-        'Status', // old status
-      ],
-    };
-    element.config = createServerInfo();
-    await element.updateComplete;
-    assert.isTrue(
-      element.visibleChangeTableColumns?.includes(ColumnNames.STATUS2),
-      'Show new status'
-    );
-    const section = queryAndAssert(element, 'gr-change-list-section');
-    queryAndAssert<HTMLElement>(section, '.status');
   });
 });

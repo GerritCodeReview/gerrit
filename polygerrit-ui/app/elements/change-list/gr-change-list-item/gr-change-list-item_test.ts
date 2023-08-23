@@ -85,12 +85,10 @@ suite('gr-change-list-item tests', () => {
       ColumnNames.STATUS,
       ColumnNames.OWNER,
       ColumnNames.REVIEWERS,
-      ColumnNames.COMMENTS,
       ColumnNames.REPO,
       ColumnNames.BRANCH,
       ColumnNames.UPDATED,
       ColumnNames.SIZE,
-      ColumnNames.STATUS2,
     ];
 
     await element.updateComplete;
@@ -217,11 +215,9 @@ suite('gr-change-list-item tests', () => {
       ColumnNames.STATUS,
       ColumnNames.OWNER,
       ColumnNames.REVIEWERS,
-      ColumnNames.COMMENTS,
       ColumnNames.BRANCH,
       ColumnNames.UPDATED,
       ColumnNames.SIZE,
-      ColumnNames.STATUS2,
     ];
 
     await element.updateComplete;

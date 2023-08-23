@@ -889,7 +889,10 @@ export class GrComment extends LitElement {
     });
     const replacement = suggestion.suggestions?.[0].replacement;
     if (!replacement) return;
-    this.messageText += `${USER_SUGGESTION_START_PATTERN}${suggestion}${'\n```'}`;
+    const addNewLine = this.messageText.length !== 0;
+    this.messageText += `${
+      addNewLine ? '\n' : ''
+    }${'```\n'}${replacement}${'\n```'}`;
   }
 
   private renderRobotActions() {

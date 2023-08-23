@@ -37,6 +37,7 @@ import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {PluginsModel} from '../../../models/plugins/plugins-model';
 import {GrPluginStyleApi} from './gr-plugin-style-api';
 import {StylePluginApi} from '../../../api/styles';
+import {GrSuggestionsApi} from '../../plugins/gr-suggestions-api/gr-suggestions-api';
 
 const PLUGIN_NAME_NOT_SET = 'NULL';
 
@@ -212,6 +213,10 @@ export class Plugin implements PluginApi {
 
   checks(): GrChecksApi {
     return new GrChecksApi(this.report, this.pluginsModel, this);
+  }
+
+  suggestions(): GrSuggestionsApi {
+    return new GrSuggestionsApi(this.report, this.pluginsModel, this);
   }
 
   reporting(): ReportingPluginApi {

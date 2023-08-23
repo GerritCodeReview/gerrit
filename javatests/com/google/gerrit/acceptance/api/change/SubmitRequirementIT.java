@@ -450,6 +450,29 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
     assertThat(result.status).isEqualTo(SubmitRequirementResultInfo.Status.SATISFIED);
   }
 
+  public void submitRequirementValidationRunsAsServer() throws Exception {
+    try (TestRepository<Repository> testRepo =
+        new TestRepository<>(repoManager.openRepository(project))) {
+      testRepo.delete(RefNames.REFS_CONFIG);
+    }
+
+    TestAccount anotherUser = accountCreator.createValid("anotherUser");
+    PushOneCommit push =
+        pushFactory
+            .create(
+                admin.newIdent(),
+                testRepo,
+                "Test Change",
+                ProjectConfig.PROJECT_CONFIG,
+                "[submit-requirement \"Code-Review\"]\n"
+                    + "  submittableIf = uploader:"
+                    + anotherUser.id()
+                    + "\n")
+            .setParents(ImmutableList.of());
+    PushOneCommit.Result cfgPush = push.to(RefNames.REFS_CONFIG);
+    cfgPush.assertOkStatus();
+  }
+
   @Test
   public void submitRequirement_withLabelEqualsMax() throws Exception {
     configSubmitRequirement(

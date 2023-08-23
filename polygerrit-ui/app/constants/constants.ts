@@ -94,16 +94,13 @@ export enum ProgressStatus {
 
 export enum ColumnNames {
   SUBJECT = 'Subject',
-  // TODO(milutin) - remove once Submit Requirements are rolled out.
-  STATUS = 'Status',
   OWNER = 'Owner',
   REVIEWERS = 'Reviewers',
-  COMMENTS = 'Comments',
   REPO = 'Repo',
   BRANCH = 'Branch',
   UPDATED = 'Updated',
   SIZE = 'Size',
-  STATUS2 = ' Status ', // spaces to differentiate from old 'Status'
+  STATUS = 'Status',
 }
 
 /**

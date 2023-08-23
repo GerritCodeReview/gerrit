@@ -19,13 +19,28 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.annotations.Exports;
+import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.index.query.Matchable;
+import com.google.gerrit.index.query.OperatorPredicate;
+import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.util.Locale;
 import java.util.function.Consumer;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.transport.PushResult;
@@ -445,6 +460,92 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
             projectConfig.toText(),
             /* topic= */ null);
     r.assertOkStatus();
+  }
+
+  protected static class IsOperatorModule extends AbstractModule {
+    @Override
+    public void configure() {
+      bind(ChangeQueryBuilder.ChangeIsOperandFactory.class)
+          .annotatedWith(Exports.named("changeNumberEven"))
+          .to(SampleIsOperand.class);
+    }
+  }
+
+  private static class SampleIsOperand implements ChangeQueryBuilder.ChangeIsOperandFactory {
+    final Provider<CurrentUser> currentUserProvider;
+
+    @Inject
+    SampleIsOperand(Provider<CurrentUser> currentUserProvider) {
+      this.currentUserProvider = currentUserProvider;
+    }
+
+    @Override
+    public Predicate<ChangeData> create(ChangeQueryBuilder builder) throws QueryParseException {
+      return new IsSamplePredicate(currentUserProvider.get());
+    }
+  }
+
+  private static class IsSamplePredicate extends OperatorPredicate<ChangeData>
+      implements Matchable<ChangeData> {
+
+    CurrentUser currentUser;
+
+    public IsSamplePredicate(CurrentUser currentUser) {
+      super("is", "changeNumberEven");
+      this.currentUser = currentUser;
+      assertServerUser();
+    }
+
+    private void assertServerUser() {
+      try {
+        currentUser.asIdentifiedUser();
+        throw new IllegalStateException("is an identified user");
+      } catch (UnsupportedOperationException e) {
+        // as expected.
+      }
+    }
+
+    @Override
+    public boolean match(ChangeData changeData) {
+      assertServerUser();
+      return true;
+    }
+
+    @Override
+    public int getCost() {
+      return 0;
+    }
+  }
+
+  @Test
+  public void submitRequirementValidationRunsAsServer() throws Exception {
+    try (TestRepository<Repository> testRepo =
+        new TestRepository<>(repoManager.openRepository(project))) {
+      testRepo.delete(RefNames.REFS_CONFIG);
+    }
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    try (AutoCloseable ignored = installPlugin("myplugin", IsOperatorModule.class)) {
+      PushOneCommit push =
+          pushFactory
+              .create(
+                  admin.newIdent(),
+                  testRepo,
+                  "Test Change",
+                  ProjectConfig.PROJECT_CONFIG,
+                  "[submit-requirement \"Code-Review\"]\n"
+                      + "  submittableIf = is:changeNumberEven_myplugin\n")
+              .setParents(ImmutableList.of());
+      PushOneCommit.Result cfgPush = push.to(RefNames.REFS_CONFIG);
+      cfgPush.assertOkStatus();
+
+      gApi.changes().id(changeId).get(ListChangesOption.SUBMIT_REQUIREMENTS);
+    }
+
+    // TODO(hanwen): should return 500 ISE for
+    //  gApi.changes().id(changeId).get(ListChangesOption.SUBMIT_REQUIREMENTS);
   }
 
   @Test

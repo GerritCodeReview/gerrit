@@ -68,7 +68,7 @@ import {isDarkTheme, prefersDarkColorScheme} from '../utils/theme-util';
 import {AppTheme} from '../constants/constants';
 import {subscribe} from './lit/subscription-controller';
 import {PluginViewState} from '../models/views/plugin';
-import {createSearchUrl, SearchViewState} from '../models/views/search';
+import {createSearchUrl} from '../models/views/search';
 import {createSettingsUrl} from '../models/views/settings';
 import {createDashboardUrl} from '../models/views/dashboard';
 import {userModelToken} from '../models/user/user-model';
@@ -420,7 +420,10 @@ export class GrAppElement extends LitElement {
     return html`
       <gr-main-header
         id="mainHeader"
+<<<<<<< PATCH SET (a3dc29 Remove property drilling for `gr-smart-search`)
+=======
         .searchQuery=${(this.params as SearchViewState)?.query}
+>>>>>>> BASE      (cc57d9 Merge branch 'stable-3.7' into stable-3.8)
         @mobile-search=${this.mobileSearchToggle}
         @show-keyboard-shortcuts=${this.showKeyboardShortcuts}
         .mobileSearchHidden=${!this.mobileSearch}
@@ -464,14 +467,7 @@ export class GrAppElement extends LitElement {
 
   private renderMobileSearch() {
     if (!this.mobileSearch) return nothing;
-    return html`
-      <gr-smart-search
-        id="search"
-        label="Search for changes"
-        .searchQuery=${(this.params as SearchViewState)?.query}
-      >
-      </gr-smart-search>
-    `;
+    return html`<gr-smart-search id="search"></gr-smart-search>`;
   }
 
   private renderChangeListView() {

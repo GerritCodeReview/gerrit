@@ -19,7 +19,7 @@ export declare interface SuggestCodeRequest {
   patchsetNumber: RevisionPatchSetNum;
   filePath: string;
   range?: CommentRange;
-  lineNumber?: Number;
+  lineNumber?: number;
 }
 
 export declare interface SuggestionsProvider {

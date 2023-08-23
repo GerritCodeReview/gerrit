@@ -13,6 +13,7 @@ import {
   query,
   queryAll,
   queryAndAssert,
+  stubReporting,
   stubRestApi,
   waitUntilVisible,
 } from '../../../test/test-utils';
@@ -69,6 +70,7 @@ import {
 } from '../../../models/comments/comments-model';
 import {isOwner} from '../../../utils/change-util';
 import {createNewPatchsetLevel} from '../../../utils/comment-util';
+import {Timing} from '../../../constants/reporting';
 
 function cloneableResponse(status: number, text: string) {
   return {
@@ -435,6 +437,28 @@ suite('gr-reply-dialog tests', () => {
       </section>
     `
     );
+  });
+
+  test('save review fires sendReply metric', async () => {
+    const timeEndStub = stubReporting('timeEnd');
+
+    // Async tick is needed because iron-selector content is distributed and
+    // distributed content requires an observer to be set up.
+    await element.updateComplete;
+    element.patchsetLevelDraftMessage = 'I wholeheartedly disapprove';
+    element.draftCommentThreads = [createCommentThread([createComment()])];
+
+    element.includeComments = true;
+
+    // This is needed on non-Blink engines most likely due to the ways in
+    // which the dom-repeat elements are stamped.
+    await element.updateComplete;
+    queryAndAssert<GrButton>(element, '.send').click();
+
+    await interceptSaveReview();
+    await element.updateComplete;
+
+    await waitUntil(() => timeEndStub.calledWith(Timing.SEND_REPLY));
   });
 
   test('default to publishing draft comments with reply', async () => {

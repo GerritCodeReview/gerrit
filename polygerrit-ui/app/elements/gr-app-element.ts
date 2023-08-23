@@ -420,7 +420,6 @@ export class GrAppElement extends LitElement {
     return html`
       <gr-main-header
         id="mainHeader"
-        .searchQuery=${(this.params as SearchViewState)?.query ?? ''}
         @mobile-search=${this.mobileSearchToggle}
         @show-keyboard-shortcuts=${this.showKeyboardShortcuts}
         .mobileSearchHidden=${!this.mobileSearch}
@@ -464,14 +463,7 @@ export class GrAppElement extends LitElement {
 
   private renderMobileSearch() {
     if (!this.mobileSearch) return nothing;
-    return html`
-      <gr-smart-search
-        id="search"
-        label="Search for changes"
-        .searchQuery=${(this.params as SearchViewState)?.query}
-      >
-      </gr-smart-search>
-    `;
+    return html`<gr-smart-search id="search"></gr-smart-search>`;
   }
 
   private renderChangeListView() {

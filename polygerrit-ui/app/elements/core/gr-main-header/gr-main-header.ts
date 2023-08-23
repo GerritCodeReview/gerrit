@@ -104,9 +104,6 @@ declare global {
 
 @customElement('gr-main-header')
 export class GrMainHeader extends LitElement {
-  @property({type: String})
-  searchQuery = '';
-
   @property({type: Boolean, reflect: true})
   loggedIn?: boolean;
 
@@ -378,12 +375,7 @@ export class GrMainHeader extends LitElement {
         class="hideOnMobile"
         name="header-small-banner"
       ></gr-endpoint-decorator>
-      <gr-smart-search
-        id="search"
-        label="Search for changes"
-        .searchQuery=${this.searchQuery}
-        .serverConfig=${this.serverConfig}
-      ></gr-smart-search>
+      <gr-smart-search id="search"></gr-smart-search>
       <gr-endpoint-decorator
         class="hideOnMobile"
         name="header-top-right"

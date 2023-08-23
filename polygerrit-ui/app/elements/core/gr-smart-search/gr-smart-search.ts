@@ -18,7 +18,10 @@ import {customElement, property, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
-import {createSearchUrl} from '../../../models/views/search';
+import {
+  createSearchUrl,
+  searchViewModelToken,
+} from '../../../models/views/search';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
@@ -36,14 +39,11 @@ declare global {
 
 @customElement('gr-smart-search')
 export class GrSmartSearch extends LitElement {
-  @property({type: String})
+  @state()
   searchQuery = '';
 
   @state()
   serverConfig?: ServerInfo;
-
-  @property({type: String})
-  label = '';
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -51,14 +51,19 @@ export class GrSmartSearch extends LitElement {
 
   private readonly getNavigation = resolve(this, navigationToken);
 
+  private readonly getSearchViewModel = resolve(this, searchViewModelToken);
+
   constructor() {
     super();
     subscribe(
       this,
       () => this.getConfigModel().serverConfig$,
-      config => {
-        this.serverConfig = config;
-      }
+      config => (this.serverConfig = config)
+    );
+    subscribe(
+      this,
+      () => this.getSearchViewModel().query$,
+      query => (this.searchQuery = query ?? '')
     );
   }
 
@@ -72,7 +77,6 @@ export class GrSmartSearch extends LitElement {
     return html`
       <gr-search-bar
         id="search"
-        .label=${this.label}
         .value=${this.searchQuery}
         .projectSuggestions=${projectSuggestions}
         .groupSuggestions=${groupSuggestions}

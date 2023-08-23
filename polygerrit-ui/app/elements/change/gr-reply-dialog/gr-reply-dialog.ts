@@ -489,7 +489,7 @@ export class GrReplyDialog extends LitElement {
         }
         .edit-attention-button gr-icon {
           color: inherit;
-          
+        }
         .attentionSummary .edit-attention-button gr-icon {
           /* The line-height:26px hack (see below) requires us to do this.
            Normally the gr-icon would account for a proper positioning

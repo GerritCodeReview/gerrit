@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afe596a5_eb10370e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-08-23T11:09:04Z",
+      "side": 1,
+      "message": "Thanks a lot to clean up this messy code. There were some issues in past with STATUS and \u0027 STATUS \u0027, but I think I think it is still very well handled. I don\u0027t have any comments.",
+      "revId": "f3f83a5f46fea102f554f85264359f6027100547",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

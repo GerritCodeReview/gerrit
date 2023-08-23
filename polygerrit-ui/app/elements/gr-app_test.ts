@@ -30,7 +30,6 @@ suite('gr-app callback tests', () => {
     GrRouter.prototype,
     <any>'dispatchLocationChangeEvent'
   );
-
   setup(async () => {
     await fixture<GrApp>(html`<gr-app id="app"></gr-app>`);
   });

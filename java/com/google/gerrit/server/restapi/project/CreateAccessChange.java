@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.project;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.AccessSection;
@@ -141,7 +142,15 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
         throw new IllegalStateException(e);
       }
 
-      md.setMessage("Review access change");
+      if (!Strings.isNullOrEmpty(input.message)) {
+        if (!input.message.endsWith("\n")) {
+          input.message += "\n";
+        }
+        md.setMessage(input.message);
+      } else {
+        md.setMessage("Review access change\n");
+      }
+
       md.setInsertChangeId(true);
       Change.Id changeId = Change.id(seq.nextChangeId());
       try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {

@@ -5,7 +5,6 @@
  */
 import '../../shared/gr-account-label/gr-account-label';
 import '../../shared/gr-change-star/gr-change-star';
-import '../../shared/gr-change-status/gr-change-status';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-limited-text/gr-limited-text';
@@ -19,7 +18,6 @@ import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {getAppContext} from '../../../services/app-context';
 import {truncatePath} from '../../../utils/path-list-util';
-import {changeStatuses} from '../../../utils/change-util';
 import {isSelf, isServiceUser} from '../../../utils/account-util';
 import {
   ChangeInfo,
@@ -59,7 +57,6 @@ export enum LabelCategory {
   APPROVED = 'APPROVED',
   POSITIVE = 'POSITIVE',
   NEUTRAL = 'NEUTRAL',
-  UNRESOLVED_COMMENTS = 'UNRESOLVED_COMMENTS',
   NEGATIVE = 'NEGATIVE',
   REJECTED = 'REJECTED',
 }
@@ -237,7 +234,6 @@ export class GrChangeListItem extends LitElement {
           white-space: nowrap;
           width: 100%;
         }
-        .comments,
         .reviewers,
         .requirements {
           white-space: nowrap;
@@ -248,17 +244,6 @@ export class GrChangeListItem extends LitElement {
         .spacer {
           height: 0;
           overflow: hidden;
-        }
-        .status {
-          align-items: center;
-          display: inline-flex;
-        }
-        .status .comma {
-          padding-right: var(--spacing-xs);
-        }
-        /* Used to hide the leading separator comma for statuses. */
-        .status .comma:first-of-type {
-          display: none;
         }
         .size gr-tooltip-content {
           margin: -0.4rem -0.6rem;
@@ -342,8 +327,7 @@ export class GrChangeListItem extends LitElement {
       <td aria-hidden="true" class="cell leftPadding"></td>
       ${this.renderCellSelectionBox()} ${this.renderCellStar()}
       ${this.renderCellNumber(changeUrl)} ${this.renderCellSubject(changeUrl)}
-      ${this.renderCellStatus()} ${this.renderCellOwner()}
-      ${this.renderCellReviewers()} ${this.renderCellComments()}
+      ${this.renderCellOwner()} ${this.renderCellReviewers()}
       ${this.renderCellRepo()} ${this.renderCellBranch()}
       ${this.renderCellUpdated()} ${this.renderCellSubmitted()}
       ${this.renderCellWaiting()} ${this.renderCellSize()}
@@ -398,13 +382,7 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellSubject(changeUrl: string) {
-    if (
-      this.computeIsColumnHidden(
-        ColumnNames.SUBJECT,
-        this.visibleChangeTableColumns
-      )
-    )
-      return;
+    if (this.computeIsColumnHidden(ColumnNames.SUBJECT)) return;
 
     return html`
       <td class="cell subject">
@@ -430,39 +408,8 @@ export class GrChangeListItem extends LitElement {
     `;
   }
 
-  private renderCellStatus() {
-    if (
-      this.computeIsColumnHidden(
-        ColumnNames.STATUS,
-        this.visibleChangeTableColumns
-      )
-    )
-      return;
-
-    return html` <td class="cell status">${this.renderChangeStatus()}</td> `;
-  }
-
-  private renderChangeStatus() {
-    if (!this.changeStatuses().length) {
-      return html`<span class="placeholder">--</span>`;
-    }
-
-    return this.changeStatuses().map(
-      status => html`
-        <div class="comma">,</div>
-        <gr-change-status flat .status=${status}></gr-change-status>
-      `
-    );
-  }
-
   private renderCellOwner() {
-    if (
-      this.computeIsColumnHidden(
-        ColumnNames.OWNER,
-        this.visibleChangeTableColumns
-      )
-    )
-      return;
+    if (this.computeIsColumnHidden(ColumnNames.OWNER)) return;
 
     return html`
       <td class="cell owner">
@@ -477,13 +424,7 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellReviewers() {
-    if (
-      this.computeIsColumnHidden(
-        ColumnNames.REVIEWERS,
-        this.visibleChangeTableColumns
-      )
-    )
-      return;
+    if (this.computeIsColumnHidden(ColumnNames.REVIEWERS)) return;
 
     return html`
       <td class="cell reviewers">
@@ -517,29 +458,8 @@ export class GrChangeListItem extends LitElement {
     `;
   }
 
-  private renderCellComments() {
-    if (this.computeIsColumnHidden('Comments', this.visibleChangeTableColumns))
-      return;
-
-    return html`
-      <td class="cell comments">
-        ${this.change?.unresolved_comment_count
-          ? html`<gr-icon icon="mode_comment" filled></gr-icon>`
-          : ''}
-        <span
-          >${this.computeComments(this.change?.unresolved_comment_count)}</span
-        >
-      </td>
-    `;
-  }
-
   private renderCellRepo() {
-    if (
-      this.computeIsColumnHidden(
-        ColumnNames.REPO,
-        this.visibleChangeTableColumns
-      )
-    ) {
+    if (this.computeIsColumnHidden(ColumnNames.REPO)) {
       return;
     }
 
@@ -555,13 +475,7 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellBranch() {
-    if (
-      this.computeIsColumnHidden(
-        ColumnNames.BRANCH,
-        this.visibleChangeTableColumns
-      )
-    )
-      return;
+    if (this.computeIsColumnHidden(ColumnNames.BRANCH)) return;
 
     return html`
       <td class="cell branch">
@@ -586,8 +500,7 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellUpdated() {
-    if (this.computeIsColumnHidden('Updated', this.visibleChangeTableColumns))
-      return;
+    if (this.computeIsColumnHidden(ColumnNames.UPDATED)) return;
 
     return html`
       <td class="cell updated">
@@ -600,8 +513,7 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellSubmitted() {
-    if (this.computeIsColumnHidden('Submitted', this.visibleChangeTableColumns))
-      return;
+    if (this.computeIsColumnHidden('Submitted')) return;
 
     return html`
       <td class="cell submitted">
@@ -614,8 +526,7 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellWaiting() {
-    if (this.computeIsColumnHidden(WAITING, this.visibleChangeTableColumns))
-      return;
+    if (this.computeIsColumnHidden(WAITING)) return;
 
     return html`
       <td class="cell waiting">
@@ -630,8 +541,7 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellSize() {
-    if (this.computeIsColumnHidden('Size', this.visibleChangeTableColumns))
-      return;
+    if (this.computeIsColumnHidden(ColumnNames.SIZE)) return;
 
     return html`
       <td class="cell size">
@@ -652,16 +562,10 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellRequirements() {
-    if (
-      this.computeIsColumnHidden(
-        ColumnNames.STATUS2,
-        this.visibleChangeTableColumns
-      )
-    )
-      return;
+    if (this.computeIsColumnHidden(ColumnNames.STATUS)) return;
 
     return html`
-      <td class="cell requirements">
+      <td class="cell status requirements">
         <gr-change-list-column-requirements-summary .change=${this.change}>
         </gr-change-list-column-requirements-summary>
       </td>
@@ -700,11 +604,6 @@ export class GrChangeListItem extends LitElement {
       this.getNavigation().setUrl(createChangeUrl({change: this.change}));
     }
   };
-
-  private changeStatuses() {
-    if (!this.change) return [];
-    return changeStatuses(this.change);
-  }
 
   private computeChangeURL() {
     if (!this.change) return '';
@@ -801,11 +700,6 @@ export class GrChangeListItem extends LitElement {
       .join(', ');
   }
 
-  private computeComments(unresolved_comment_count?: number) {
-    if (!unresolved_comment_count || unresolved_comment_count < 1) return '';
-    return `${unresolved_comment_count} unresolved`;
-  }
-
   /**
    * TShirt sizing is based on the following paper:
    * http://dirkriehle.com/wp-content/uploads/2008/09/hicss-42-csdistr-final-web.pdf
@@ -843,13 +737,9 @@ export class GrChangeListItem extends LitElement {
     return this.change?.attention_set[userId]?.last_update;
   }
 
-  private computeIsColumnHidden(
-    columnToCheck?: string,
-    columnsToDisplay?: string[]
-  ) {
-    if (!columnsToDisplay || !columnToCheck) {
-      return false;
-    }
+  private computeIsColumnHidden(columnToCheck?: string) {
+    if (!columnToCheck) return false;
+    const columnsToDisplay = this.visibleChangeTableColumns ?? [];
     return !columnsToDisplay.includes(columnToCheck);
   }
 

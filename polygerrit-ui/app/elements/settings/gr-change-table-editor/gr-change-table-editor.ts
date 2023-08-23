@@ -5,12 +5,10 @@
  */
 import '../../shared/gr-button/gr-button';
 import {ServerInfo} from '../../../types/common';
-import {getAppContext} from '../../../services/app-context';
 import {LitElement, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {formStyles} from '../../../styles/gr-form-styles';
-import {PropertyValues} from 'lit';
 import {fire} from '../../../utils/event-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {ColumnNames} from '../../../constants/constants';
@@ -27,12 +25,10 @@ export class GrChangeTableEditor extends LitElement {
   showNumber?: boolean;
 
   @property({type: Array})
-  defaultColumns: string[] = [];
+  defaultColumns: string[] = Object.values(ColumnNames);
 
   @state()
   serverConfig?: ServerInfo;
-
-  private readonly flagsService = getAppContext().flagsService;
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
@@ -116,34 +112,6 @@ export class GrChangeTableEditor extends LitElement {
         />
       </td>
     </tr>`;
-  }
-
-  override willUpdate(changedProperties: PropertyValues) {
-    if (changedProperties.has('serverConfig')) {
-      this.configChanged();
-    }
-  }
-
-  private configChanged() {
-    this.defaultColumns = Object.values(ColumnNames).filter(column =>
-      this.isColumnEnabled(column)
-    );
-    if (!this.displayedColumns) return;
-    this.displayedColumns = this.displayedColumns.filter(column =>
-      this.isColumnEnabled(column)
-    );
-  }
-
-  /**
-   * Is the column disabled by a server config or experiment?
-   * private but used in test
-   */
-  isColumnEnabled(column: string) {
-    if (!this.serverConfig?.change) return true;
-    if (column === ColumnNames.COMMENTS)
-      return this.flagsService.isEnabled('comments-column');
-    if (column === ColumnNames.STATUS) return false;
-    return true;
   }
 
   /**

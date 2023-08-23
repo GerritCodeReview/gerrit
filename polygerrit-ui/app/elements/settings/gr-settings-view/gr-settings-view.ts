@@ -40,7 +40,6 @@ import {GrEmailEditor} from '../gr-email-editor/gr-email-editor';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {
-  ColumnNames,
   DateFormat,
   DefaultBase,
   DiffViewMode,
@@ -64,7 +63,10 @@ import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {settingsViewModelToken} from '../../../models/views/settings';
 import {areNotificationsEnabled} from '../../../utils/worker-util';
-import {userModelToken} from '../../../models/user/user-model';
+import {
+  changeTablePrefs,
+  userModelToken,
+} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {rootUrl} from '../../../utils/url-util';
@@ -242,12 +244,7 @@ export class GrSettingsView extends LitElement {
         this.showNumber = !!prefs.legacycid_in_change_table;
         this.copyPrefs(CopyPrefsDirection.PrefsToLocalPrefs);
         this.prefsChanged = false;
-        this.localChangeTableColumns =
-          prefs.change_table.length === 0
-            ? Object.values(ColumnNames)
-            : prefs.change_table.map(column =>
-                column === 'Project' ? 'Repo' : column
-              );
+        this.localChangeTableColumns = changeTablePrefs(prefs);
       }
     );
   }

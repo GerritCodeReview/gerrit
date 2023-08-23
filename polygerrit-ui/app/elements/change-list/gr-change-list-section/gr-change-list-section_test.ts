@@ -75,7 +75,7 @@ suite('gr-change-list section', () => {
         <input class="selection-checkbox" type="checkbox"/>
       </td>
       #
-              SubjectStatusOwnerReviewersCommentsRepoBranchUpdatedSize Status
+              SubjectOwnerReviewersRepoBranchUpdatedSizeStatus
       <gr-change-list-item
         aria-label="Test subject, section: test"
         role="button"

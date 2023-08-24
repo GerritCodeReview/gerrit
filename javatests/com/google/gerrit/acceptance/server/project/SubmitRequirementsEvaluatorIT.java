@@ -45,7 +45,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.project.SubmitRequirementEvaluationException;
-import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
+import com.google.gerrit.server.project.SubmitRequirementsEvaluatorImpl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeIsOperandFactory;
@@ -60,7 +60,7 @@ import org.junit.Test;
 
 @NoHttpd
 public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
-  @Inject SubmitRequirementsEvaluator evaluator;
+  @Inject SubmitRequirementsEvaluatorImpl evaluator;
   @Inject private ProjectOperations projectOperations;
   @Inject private Provider<InternalChangeQuery> changeQueryProvider;
   @Inject private ExtensionRegistry extensionRegistry;

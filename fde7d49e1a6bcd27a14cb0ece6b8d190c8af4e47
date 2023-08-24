@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8324838e_411d4904",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1165554
+      },
+      "writtenOn": "2023-08-24T07:44:51Z",
+      "side": 1,
+      "message": "Comment removed by: Kamil Musin; Reason: spam",
+      "revId": "fde7d49e1a6bcd27a14cb0ece6b8d190c8af4e47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

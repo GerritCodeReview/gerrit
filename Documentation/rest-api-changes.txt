@@ -7374,9 +7374,10 @@ The link:rest-api.html#timestamp[timestamp] this message was posted.
 |`message`            ||
 The text left by the user or Gerrit system. Accounts are served as account IDs
 inlined in the text as `<GERRIT_ACCOUNT_18419>`.
-All accounts, used in message, can be found in `accountsInMessage`
+All accounts, used in message, can be found in `accounts_in_message`
 field.
-|`accountsInMessage`            ||Accounts, used in `message`.
+|`accounts_in_message` ||
+link:rest-api-accounts.html#account-info[AccountInfo] list, used in `message`.
 |`tag`                 |optional|
 Value of the `tag` field from link:#review-input[ReviewInput] set
 while posting the review. Votes/comments that contain `tag` with

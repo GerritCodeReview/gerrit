@@ -46,7 +46,7 @@ import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
+import com.google.gerrit.server.project.SubmitRequirementsEvaluatorImpl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -65,7 +65,7 @@ import org.junit.Test;
 public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
 
   @Inject private RequestScopeOperations requestScopeOperations;
-  @Inject private SubmitRequirementsEvaluator submitRequirementsEvaluator;
+  @Inject private SubmitRequirementsEvaluatorImpl submitRequirementsEvaluator;
   @Inject private ChangeOperations changeOperations;
   @Inject private ProjectOperations projectOperations;
   @Inject private AccountOperations accountOperations;

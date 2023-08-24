@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.SubmitRequirement;
@@ -49,6 +50,10 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   private final Provider<SubmitRequirementChangeQueryBuilder> queryBuilder;
   private final ProjectCache projectCache;
   private final PluginSetContext<SubmitRequirement> globalSubmitRequirements;
+
+  // Use a request context to execute predicates as an internal user with expanded visibility.
+  // This is so that the evaluation does not depend on who is running the current request (e.g.
+  // a "ownerin" predicate with group that is not visible to the person making this request).
   private final OneOffRequestContext requestContext;
 
   public static Module module() {
@@ -85,72 +90,20 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   @Override
   public ImmutableMap<SubmitRequirement, SubmitRequirementResult> evaluateAllRequirements(
       ChangeData cd) {
-    return getRequirements(cd);
+    try (ManualRequestContext ignored = requestContext.open()) {
+      return getRequirements(cd);
+    }
   }
 
   @Override
   public SubmitRequirementResult evaluateRequirement(SubmitRequirement sr, ChangeData cd) {
     try (ManualRequestContext ignored = requestContext.open()) {
-      // Use a request context to execute predicates as an internal user with expanded visibility.
-      // This is so that the evaluation does not depend on who is running the current request (e.g.
-      // a "ownerin" predicate with group that is not visible to the person making this request).
-
-      Optional<SubmitRequirementExpressionResult> applicabilityResult =
-          sr.applicabilityExpression().isPresent()
-              ? Optional.of(evaluateExpression(sr.applicabilityExpression().get(), cd))
-              : Optional.empty();
-      Optional<SubmitRequirementExpressionResult> submittabilityResult =
-          Optional.of(
-              SubmitRequirementExpressionResult.notEvaluated(sr.submittabilityExpression()));
-      Optional<SubmitRequirementExpressionResult> overrideResult =
-          sr.overrideExpression().isPresent()
-              ? Optional.of(
-                  SubmitRequirementExpressionResult.notEvaluated(sr.overrideExpression().get()))
-              : Optional.empty();
-      if (!sr.applicabilityExpression().isPresent()
-          || SubmitRequirementResult.assertPass(applicabilityResult)) {
-        submittabilityResult = Optional.of(evaluateExpression(sr.submittabilityExpression(), cd));
-        overrideResult =
-            sr.overrideExpression().isPresent()
-                ? Optional.of(evaluateExpression(sr.overrideExpression().get(), cd))
-                : Optional.empty();
-      }
-
-      if (applicabilityResult.isPresent()) {
-        logger.atFine().log(
-            "Applicability expression result for SR name '%s':"
-                + " passing atoms: %s, failing atoms: %s",
-            sr.name(),
-            applicabilityResult.get().passingAtoms(),
-            applicabilityResult.get().failingAtoms());
-      }
-      if (submittabilityResult.isPresent()) {
-        logger.atFine().log(
-            "Submittability expression result for SR name '%s':"
-                + " passing atoms: %s, failing atoms: %s",
-            sr.name(),
-            submittabilityResult.get().passingAtoms(),
-            submittabilityResult.get().failingAtoms());
-      }
-      if (overrideResult.isPresent()) {
-        logger.atFine().log(
-            "Override expression result for SR name '%s':"
-                + " passing atoms: %s, failing atoms: %s",
-            sr.name(), overrideResult.get().passingAtoms(), overrideResult.get().failingAtoms());
-      }
-
-      return SubmitRequirementResult.builder()
-          .legacy(Optional.of(false))
-          .submitRequirement(sr)
-          .patchSetCommitId(cd.currentPatchSet().commitId())
-          .submittabilityExpressionResult(submittabilityResult)
-          .applicabilityExpressionResult(applicabilityResult)
-          .overrideExpressionResult(overrideResult)
-          .build();
+      return evaluateRequirementInternal(sr, cd);
     }
   }
 
-  @Override
+  /** Evaluate a {@link SubmitRequirementExpression} using change data. */
+  @VisibleForTesting
   public SubmitRequirementExpressionResult evaluateExpression(
       SubmitRequirementExpression expression, ChangeData changeData) {
     try {
@@ -162,6 +115,59 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
           "Failed to evaluate submit requirement expression: %s", expression.expressionString());
       return SubmitRequirementExpressionResult.error(expression, e.getMessage());
     }
+  }
+
+  private SubmitRequirementResult evaluateRequirementInternal(SubmitRequirement sr, ChangeData cd) {
+    Optional<SubmitRequirementExpressionResult> applicabilityResult =
+        sr.applicabilityExpression().isPresent()
+            ? Optional.of(evaluateExpression(sr.applicabilityExpression().get(), cd))
+            : Optional.empty();
+    Optional<SubmitRequirementExpressionResult> submittabilityResult =
+        Optional.of(SubmitRequirementExpressionResult.notEvaluated(sr.submittabilityExpression()));
+    Optional<SubmitRequirementExpressionResult> overrideResult =
+        sr.overrideExpression().isPresent()
+            ? Optional.of(
+                SubmitRequirementExpressionResult.notEvaluated(sr.overrideExpression().get()))
+            : Optional.empty();
+    if (!sr.applicabilityExpression().isPresent()
+        || SubmitRequirementResult.assertPass(applicabilityResult)) {
+      submittabilityResult = Optional.of(evaluateExpression(sr.submittabilityExpression(), cd));
+      overrideResult =
+          sr.overrideExpression().isPresent()
+              ? Optional.of(evaluateExpression(sr.overrideExpression().get(), cd))
+              : Optional.empty();
+    }
+
+    if (applicabilityResult.isPresent()) {
+      logger.atFine().log(
+          "Applicability expression result for SR name '%s':"
+              + " passing atoms: %s, failing atoms: %s",
+          sr.name(),
+          applicabilityResult.get().passingAtoms(),
+          applicabilityResult.get().failingAtoms());
+    }
+    if (submittabilityResult.isPresent()) {
+      logger.atFine().log(
+          "Submittability expression result for SR name '%s':"
+              + " passing atoms: %s, failing atoms: %s",
+          sr.name(),
+          submittabilityResult.get().passingAtoms(),
+          submittabilityResult.get().failingAtoms());
+    }
+    if (overrideResult.isPresent()) {
+      logger.atFine().log(
+          "Override expression result for SR name '%s':" + " passing atoms: %s, failing atoms: %s",
+          sr.name(), overrideResult.get().passingAtoms(), overrideResult.get().failingAtoms());
+    }
+
+    return SubmitRequirementResult.builder()
+        .legacy(Optional.of(false))
+        .submitRequirement(sr)
+        .patchSetCommitId(cd.currentPatchSet().commitId())
+        .submittabilityExpressionResult(submittabilityResult)
+        .applicabilityExpressionResult(applicabilityResult)
+        .overrideExpressionResult(overrideResult)
+        .build();
   }
 
   /**
@@ -196,7 +202,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
     ImmutableMap.Builder<SubmitRequirement, SubmitRequirementResult> results =
         ImmutableMap.builder();
     for (SubmitRequirement requirement : requirements.values()) {
-      results.put(requirement, evaluateRequirement(requirement, cd));
+      results.put(requirement, evaluateRequirementInternal(requirement, cd));
     }
     return results.build();
   }

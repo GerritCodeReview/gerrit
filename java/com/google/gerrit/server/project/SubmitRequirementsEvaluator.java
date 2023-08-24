@@ -17,7 +17,6 @@ package com.google.gerrit.server.project;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
-import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -33,10 +32,6 @@ public interface SubmitRequirementsEvaluator {
 
   /** Evaluate a single {@link SubmitRequirement} using change data. */
   SubmitRequirementResult evaluateRequirement(SubmitRequirement sr, ChangeData cd);
-
-  /** Evaluate a {@link SubmitRequirementExpression} using change data. */
-  SubmitRequirementExpressionResult evaluateExpression(
-      SubmitRequirementExpression expression, ChangeData changeData);
 
   /**
    * Validate a {@link SubmitRequirementExpression}. Callers who wish to validate submit

@@ -100,11 +100,7 @@ import {
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
-import {
-  ConfigInfo,
-  LabelNameToValuesMap,
-  PatchSetNumber,
-} from '../../../api/rest-api';
+import {LabelNameToValuesMap, PatchSetNumber} from '../../../api/rest-api';
 import {css, html, PropertyValues, LitElement, nothing} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {when} from 'lit/directives/when.js';
@@ -190,9 +186,6 @@ export class GrReplyDialog extends LitElement {
 
   @property({type: Object})
   permittedLabels?: LabelNameToValuesMap;
-
-  @property({type: Object})
-  projectConfig?: ConfigInfo;
 
   @query('#patchsetLevelComment') patchsetLevelGrComment?: GrComment;
 

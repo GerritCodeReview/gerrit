@@ -60,7 +60,6 @@ import {
   BasePatchSetNum,
   ChangeInfo,
   CommentThread,
-  ConfigInfo,
   DetailedLabelInfo,
   EDIT,
   LabelNameToInfoMap,
@@ -321,9 +320,6 @@ export class GrChangeView extends LitElement {
   // Private but used in tests.
   @state()
   loading?: boolean;
-
-  @state()
-  private projectConfig?: ConfigInfo;
 
   @state()
   private shownFileCount?: number;
@@ -718,13 +714,6 @@ export class GrChangeView extends LitElement {
       config => {
         this.serverConfig = config;
         this.replyDisabled = false;
-      }
-    );
-    subscribe(
-      this,
-      () => this.getConfigModel().repoConfig$,
-      config => {
-        this.projectConfig = config;
       }
     );
     subscribe(
@@ -1155,7 +1144,6 @@ export class GrChangeView extends LitElement {
             <gr-reply-dialog
               id="replyDialog"
               .permittedLabels=${this.change?.permitted_labels}
-              .projectConfig=${this.projectConfig}
               .canBeStarted=${this.canStartReview()}
               @send=${this.handleReplySent}
               @cancel=${this.handleReplyCancel}

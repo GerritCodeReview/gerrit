@@ -892,7 +892,7 @@ export class GrComment extends LitElement {
     const addNewLine = this.messageText.length !== 0;
     this.messageText += `${
       addNewLine ? '\n' : ''
-    }${'```\n'}${replacement}${'\n```'}`;
+    }${USER_SUGGESTION_START_PATTERN}${replacement}${'\n```'}`;
   }
 
   private renderRobotActions() {

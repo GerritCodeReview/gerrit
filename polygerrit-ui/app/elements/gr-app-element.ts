@@ -27,7 +27,6 @@ import './settings/gr-cla-view/gr-cla-view';
 import './settings/gr-registration-dialog/gr-registration-dialog';
 import './settings/gr-settings-view/gr-settings-view';
 import './core/gr-notifications-prompt/gr-notifications-prompt';
-import {loginUrl} from '../utils/url-util';
 import {navigationToken} from './core/gr-navigation/gr-navigation';
 import {getAppContext} from '../services/app-context';
 import {routerToken} from './core/gr-router/gr-router';
@@ -73,7 +72,6 @@ import {userModelToken} from '../models/user/user-model';
 import {modalStyles} from '../styles/gr-modal-styles';
 import {AdminChildView, createAdminUrl} from '../models/views/admin';
 import {ChangeChildView, changeViewModelToken} from '../models/views/change';
-import {configModelToken} from '../models/config/config-model';
 import {
   WHITE_LISTED_FULL_SCREEN_PLUGINS,
   pluginViewModelToken,
@@ -172,8 +170,6 @@ export class GrAppElement extends LitElement {
 
   private readonly getPluginViewModel = resolve(this, pluginViewModelToken);
 
-  private readonly getConfigModel = resolve(this, configModelToken);
-
   constructor() {
     super();
 
@@ -217,14 +213,6 @@ export class GrAppElement extends LitElement {
       this.getNavigation().setUrl(
         createAdminUrl({adminView: AdminChildView.GROUPS})
       )
-    );
-
-    subscribe(
-      this,
-      () => this.getConfigModel().serverConfig$,
-      config => {
-        this.serverConfig = config;
-      }
     );
 
     subscribe(
@@ -410,11 +398,7 @@ export class GrAppElement extends LitElement {
       ${this.renderRegistrationDialog()}
       <gr-notifications-prompt></gr-notifications-prompt>
       <gr-endpoint-decorator name="plugin-overlay"></gr-endpoint-decorator>
-      <gr-error-manager
-        id="errorManager"
-        .loginUrl=${loginUrl(this.serverConfig?.auth)}
-        .loginText=${this.serverConfig?.auth.login_text ?? 'Sign in'}
-      ></gr-error-manager>
+      <gr-error-manager id="errorManager"></gr-error-manager>
       <gr-plugin-host id="plugins"></gr-plugin-host>
     `;
   }
@@ -427,8 +411,6 @@ export class GrAppElement extends LitElement {
         @mobile-search=${this.mobileSearchToggle}
         @show-keyboard-shortcuts=${this.showKeyboardShortcuts}
         .mobileSearchHidden=${!this.mobileSearch}
-        .loginUrl=${loginUrl(this.serverConfig?.auth)}
-        .loginText=${this.serverConfig?.auth.login_text ?? 'Sign in'}
         ?aria-hidden=${this.footerHeaderAriaHidden}
       >
       </gr-main-header>

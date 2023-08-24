@@ -6,8 +6,11 @@
 import '../../shared/gr-dialog/gr-dialog';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, html, css} from 'lit';
-import {customElement, property} from 'lit/decorators.js';
+import {customElement, property, state} from 'lit/decorators.js';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
+import {configModelToken} from '../../../models/config/config-model';
+import {resolve} from '../../../models/dependency';
+import {subscribe} from '../../lit/subscription-controller';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -30,14 +33,28 @@ export class GrErrorDialog extends LitElement {
   @property({type: String})
   text?: string;
 
-  @property({type: String})
-  loginUrl = '/login';
+  @state() loginUrl = '';
 
-  @property({type: String})
-  loginText = 'Sign in';
+  @state() loginText = '';
 
   @property({type: Boolean})
   showSignInButton = false;
+
+  private readonly getConfigModel = resolve(this, configModelToken);
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getConfigModel().loginUrl$,
+      url => (this.loginUrl = url)
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().loginText$,
+      text => (this.loginText = text)
+    );
+  }
 
   static override get styles() {
     return [

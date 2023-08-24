@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b5b8be9a_1da94bb2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-08-24T12:52:15Z",
+      "side": 1,
+      "message": "The reasoning why is https://gerrit-review.git.corp.google.com/c/plugins/code-owners/+/383896 . But I didn\u0027t include this here, because it seem to make sense on it\u0027s own as well",
+      "parentUuid": "1dd793c4_1fd42161",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "3869c208b36fd973ebfe18c9164a6d73dc645be2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "83dd0a7c_7a985673",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -54,6 +78,30 @@
       "writtenOn": "2023-08-24T12:50:32Z",
       "side": 1,
       "message": "NIT: I think, this could be just \u003cpre\u003e, but div is ok as well",
+      "range": {
+        "startLine": 88,
+        "startChar": 7,
+        "endLine": 88,
+        "endChar": 23
+      },
+      "revId": "3869c208b36fd973ebfe18c9164a6d73dc645be2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a65f9b3_56563863",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip/gr-tooltip.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-08-24T12:52:15Z",
+      "side": 1,
+      "message": "pre forces monospace, which I don\u0027t think we need",
+      "parentUuid": "fd413263_88520b52",
       "range": {
         "startLine": 88,
         "startChar": 7,

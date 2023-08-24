@@ -14,6 +14,7 @@ import {
   AccountDetailInfo,
   EditPreferencesInfo,
   PreferencesInfo,
+  TopMenuItemInfo,
 } from '../../types/common';
 import {
   createDefaultPreferences,
@@ -130,6 +131,11 @@ export class UserModel extends Model<UserState> {
   readonly preferenceTheme$: Observable<AppTheme> = select(
     this.preferences$,
     preference => preference.theme
+  );
+
+  readonly myMenuItems$: Observable<TopMenuItemInfo[]> = select(
+    this.preferences$,
+    preference => preference?.my ?? []
   );
 
   readonly preferenceChangesPerPage$: Observable<number> = select(

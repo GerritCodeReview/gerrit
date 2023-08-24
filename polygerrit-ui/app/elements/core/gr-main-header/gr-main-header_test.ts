@@ -31,6 +31,8 @@ suite('gr-main-header tests', () => {
       Promise.resolve()
     );
     element = await fixture(html`<gr-main-header></gr-main-header>`);
+    element.loginUrl = '/login';
+    await element.updateComplete;
   });
 
   test('renders', () => {

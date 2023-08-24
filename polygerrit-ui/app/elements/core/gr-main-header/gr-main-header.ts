@@ -164,14 +164,16 @@ export class GrMainHeader extends LitElement {
     );
     subscribe(
       this,
+      () => this.getConfigModel().docsBaseUrl$,
+      docsBaseUrl => (this.docBaseUrl = docsBaseUrl)
+    );
+    subscribe(
+      this,
       () => this.getConfigModel().serverConfig$,
       config => {
         if (!config) return;
         this.retrieveFeedbackURL(config);
         this.retrieveRegisterURL(config);
-        this.restApiService.getDocsBaseUrl(config).then(docBaseUrl => {
-          this.docBaseUrl = docBaseUrl;
-        });
       }
     );
   }

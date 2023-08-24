@@ -17,8 +17,11 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.common.collect.MoreCollectors.onlyElement;
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
@@ -28,6 +31,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.junit.Test;
@@ -62,6 +66,63 @@ public class ListChangeCommentsTest {
         comments.stream().map(c -> c.changeMessageId).collect(Collectors.toSet());
     assertThat(changeMessageIds)
         .doesNotContain(getChangeMessage(changeMessages, "cmAutoGenByGerrit").getKey().uuid());
+  }
+
+  @Test
+  public void commentsLinkedToCorrectAccounts() {
+
+    List<CommentInfo> comments =
+        createComments("c0", "10", "c1", "11", "c2", "11", "c3", "11", "c4", "11", "c5", "21");
+    int accountId1 = 12345;
+    int accountId2 = 12346;
+    int accountId3 = 12347;
+    linkAuthor(comments.get(0), accountId1);
+    // comments 1-4 have same timestamp
+    linkAuthor(comments.get(1), accountId2);
+    linkAuthor(comments.get(2), accountId1);
+    linkAuthor(comments.get(3), accountId1);
+    linkAuthor(comments.get(4), accountId2);
+
+    linkAuthor(comments.get(5), accountId1);
+
+    // Change massages have exactly same timestamps
+    List<ChangeMessage> changeMessages =
+        ImmutableList.of(
+            createChangeMessage("cm0", "10", Account.id(accountId1)),
+            createChangeMessage("cm1", "11", Account.id(accountId1)),
+            createChangeMessage("cm2", "11", Account.id(accountId2)),
+            // unrelated message by other account in-between
+            createChangeMessage("cm2.2", "15", Account.id(accountId3)),
+            createChangeMessage("cm3", "21", Account.id(accountId1)));
+
+    CommentsUtil.linkCommentsToChangeMessages(comments, changeMessages, true);
+
+    assertThat(getComment(comments, "c0").changeMessageId)
+        .isEqualTo(getChangeMessage(changeMessages, "cm0").getKey().uuid());
+
+    // belongs to account2 -assigned to account2
+    assertThat(getComment(comments, "c1").changeMessageId)
+        .isEqualTo(getChangeMessage(changeMessages, "cm2").getKey().uuid());
+
+    // belongs to account1 -assigned to account1
+    assertThat(getComment(comments, "c2").changeMessageId)
+        .isEqualTo(getChangeMessage(changeMessages, "cm1").getKey().uuid());
+    assertThat(getComment(comments, "c3").changeMessageId)
+        .isEqualTo(getChangeMessage(changeMessages, "cm1").getKey().uuid());
+
+    // belongs to account2 - assigned to account2
+    assertThat(getComment(comments, "c4").changeMessageId)
+        .isEqualTo(getChangeMessage(changeMessages, "cm2").getKey().uuid());
+
+    // different timestamp - assigned to a different message
+    assertThat(getComment(comments, "c5").changeMessageId)
+        .isEqualTo(getChangeMessage(changeMessages, "cm3").getKey().uuid());
+
+    // Make sure no comment is linked to the auto-gen message
+    Set<String> changeMessageIds =
+        comments.stream().map(c -> c.changeMessageId).collect(Collectors.toSet());
+    assertThat(changeMessageIds)
+        .doesNotContain(getChangeMessage(changeMessages, "cm2.2").getKey().uuid());
   }
 
   @Test
@@ -100,6 +161,10 @@ public class ListChangeCommentsTest {
     return comments;
   }
 
+  private void linkAuthor(CommentInfo commentInfo, int accountId) {
+    commentInfo.author = new AccountInfo(accountId);
+  }
+
   /**
    * Create a list of change messages from the specified args args should be passed as consecutive
    * pairs of messages and timestamps example: (m1, t1, m2, t2, ...). the tag parameter for the
@@ -108,12 +173,22 @@ public class ListChangeCommentsTest {
   private static List<ChangeMessage> createChangeMessages(String... args) {
     List<ChangeMessage> changeMessages = new ArrayList<>();
     for (int i = 0; i < args.length; i += 2) {
-      String key = args[i] + "Key";
       String message = args[i];
       String ts = args[i + 1];
-      changeMessages.add(newChangeMessage(key, message, ts, null));
+      changeMessages.add(createChangeMessage(message, ts, Optional.empty()));
     }
     return changeMessages;
+  }
+
+  /** Creates a ChangeMessages with the specified author. */
+  private static ChangeMessage createChangeMessage(String message, String ts, Account.Id author) {
+    return createChangeMessage(message, ts, Optional.of(author));
+  }
+
+  private static ChangeMessage createChangeMessage(
+      String message, String ts, Optional<Account.Id> author) {
+    String key = message + "Key";
+    return newChangeMessage(key, author, message, ts, null);
   }
 
   /** Create a new CommentInfo with a given message and timestamp */
@@ -126,12 +201,18 @@ public class ListChangeCommentsTest {
 
   /** Create a new change message with an id, message, timestamp and tag */
   private static ChangeMessage newChangeMessage(String id, String message, String ts, String tag) {
+    return newChangeMessage(id, Optional.empty(), message, ts, tag);
+  }
+
+  private static ChangeMessage newChangeMessage(
+      String id, Optional<Account.Id> accountId, String message, String ts, String tag) {
     ChangeMessage.Key key = ChangeMessage.key(Change.id(1), id);
     Instant timestamp =
         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
             .withZone(ZoneId.systemDefault())
             .parse("2000-01-01 00:00:" + ts, Instant::from);
-    ChangeMessage cm = ChangeMessage.create(key, null, timestamp, null, message, null, tag);
+    ChangeMessage cm =
+        ChangeMessage.create(key, accountId.orElse(null), timestamp, null, message, null, tag);
     return cm;
   }
 

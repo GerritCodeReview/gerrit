@@ -105,6 +105,30 @@
       },
       "revId": "d0b624a2db935ebc2bffd1b4a7034aaaace1d920",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "262f439c_bcf934a8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2536,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-08-24T13:29:49Z",
+      "side": 1,
+      "message": "Done here: https://gerrit-review.googlesource.com/c/gerrit/+/383334",
+      "parentUuid": "c2028038_07e64ee6",
+      "range": {
+        "startLine": 2536,
+        "startChar": 43,
+        "endLine": 2536,
+        "endChar": 63
+      },
+      "revId": "d0b624a2db935ebc2bffd1b4a7034aaaace1d920",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -27,7 +27,14 @@ image::images/user-suggest-edits-preview.png["Suggestion Preview", align="center
 == Author workflow
 
 You can apply one or more suggested fixes. When suggested fix is applied - it creates
-a change edit that you can modify. link:user-inline-edit.html#editing-change[More about editing mode.]
+a change edit that you can modify in gerrit. link:user-inline-edit.html#editing-change[More about editing mode.]
+
+FYI: Publishing a new patchset in gerrit will make gerrit change out of sync with
+your local git. You can checkout latest gerrit by using commands from download drop-down panel.
+link:user-review-ui.html#download[More about download drop-down panel]
+
+You can use copy to clipboard button to copy suggestion to clipboard and then you can paste it
+in your editor.
 
 GERRIT
 ------

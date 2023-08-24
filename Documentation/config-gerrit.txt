@@ -1561,6 +1561,21 @@ robot comments.
 +
 By default true.
 
+[[change.propagateSubmitRequirementErrors]]change.propagateSubmitRequirementErrors::
++
+If a SubmitRequirement evaluation for a given change results in an
+ERROR status, abort the REST response with an HTTP 500 error.
++
+The ERROR status can occur if a SubmitRequirement uses a
+plugin-provided predicate (and the plugin is not available), due to
+bugs, or due to bypassing the validation that normally happens when
+updating `refs/meta/config`.
++
+Enabling this flag  makes gerrit unusuable under such conditions, so
+it is generally not recommended. However, this makes the
+application-specific ERROR status into a generic HTTP error, and can
+thus be acted on by automated deployment and monitoring infrastructure.
+
 [[change.robotCommentSizeLimit]]change.robotCommentSizeLimit::
 +
 Maximum allowed size in characters of a robot comment. Robot comments which

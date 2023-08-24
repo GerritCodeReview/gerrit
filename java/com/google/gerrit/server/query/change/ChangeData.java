@@ -54,6 +54,7 @@ import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementResult;
+import com.google.gerrit.entities.SubmitRequirementResult.Status;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -74,6 +75,7 @@ import com.google.gerrit.server.change.CommentThreads;
 import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.change.PureRevert;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -110,6 +112,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -317,6 +320,7 @@ public class ChangeData {
             null,
             null,
             null,
+            null,
             serverId,
             virtualIdAlgo,
             project,
@@ -351,6 +355,8 @@ public class ChangeData {
   private final ProjectCache projectCache;
   private final TrackingFooters trackingFooters;
   private final PureRevert pureRevert;
+  private final boolean propagateSubmitRequirementErrors;
+
   private final SubmitRequirementsEvaluator submitRequirementsEvaluator;
   private final SubmitRequirementsUtil submitRequirementsUtil;
   private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
@@ -438,6 +444,7 @@ public class ChangeData {
       ProjectCache projectCache,
       TrackingFooters trackingFooters,
       PureRevert pureRevert,
+      @GerritServerConfig Config serverConfig,
       SubmitRequirementsEvaluator submitRequirementsEvaluator,
       SubmitRequirementsUtil submitRequirementsUtil,
       SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
@@ -462,6 +469,10 @@ public class ChangeData {
     this.starredChangesUtil = starredChangesUtil;
     this.trackingFooters = trackingFooters;
     this.pureRevert = pureRevert;
+    this.propagateSubmitRequirementErrors =
+        serverConfig != null
+            ? serverConfig.getBoolean("change", "propagateSubmitRequirementErrors", false)
+            : false;
     this.submitRequirementsEvaluator = submitRequirementsEvaluator;
     this.submitRequirementsUtil = submitRequirementsUtil;
     this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
@@ -1054,6 +1065,14 @@ public class ChangeData {
       if (c == null || !c.isClosed()) {
         // Open changes: Evaluate submit requirements online.
         submitRequirements = submitRequirementsEvaluator.evaluateAllRequirements(this);
+        if (propagateSubmitRequirementErrors) {
+          for (SubmitRequirementResult result : submitRequirements.values()) {
+            if (result.status() == Status.ERROR) {
+              throw new IllegalStateException(result.errorMessage().orElse("(no message)"));
+            }
+          }
+        }
+
         return submitRequirements;
       }
       // Closed changes: Load submit requirement results from NoteDb.

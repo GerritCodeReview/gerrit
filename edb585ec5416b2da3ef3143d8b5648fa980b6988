@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25940d1f_35d42f3e",
+        "filename": "Documentation/user-suggest-edits.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-08-24T12:23:27Z",
+      "side": 1,
+      "message": "nit: trailing space\n```suggestion\nyour local git. You can checkout latest gerrit by using commands from download drop-down panel.\n```",
+      "range": {
+        "startLine": 33,
+        "startChar": 95,
+        "endLine": 33,
+        "endChar": 96
+      },
+      "revId": "edb585ec5416b2da3ef3143d8b5648fa980b6988",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

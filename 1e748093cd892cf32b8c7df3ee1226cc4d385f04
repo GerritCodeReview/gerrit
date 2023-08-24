@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0050be9_34a3beeb",
+        "filename": "polygerrit-ui/app/models/views/plugin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-24T08:34:31Z",
+      "side": 1,
+      "message": "rename to ALLOW_LIST",
+      "range": {
+        "startLine": 16,
+        "startChar": 13,
+        "endLine": 16,
+        "endChar": 45
+      },
+      "revId": "1e748093cd892cf32b8c7df3ee1226cc4d385f04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

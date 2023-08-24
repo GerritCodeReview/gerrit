@@ -157,6 +157,7 @@ import {relatedChangesModelToken} from '../../../models/change/related-changes-m
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
 const REVIEWERS_REGEX = /^(R|CC)=/gm;
+
 const MIN_CHECK_INTERVAL_SECS = 0;
 
 const ACCIDENTAL_STARRING_LIMIT_MS = 10 * 1000;
@@ -165,6 +166,8 @@ const TRAILING_WHITESPACE_REGEX = /[ \t]+$/gm;
 
 const PREFIX = '#message-';
 
+const ROBOT_COMMENTS_LIMIT = 10;
+
 const ReloadToastMessage = {
   NEWER_REVISION: 'A newer patch set has been uploaded',
   RESTORED: 'This change has been restored',
@@ -172,9 +175,6 @@ const ReloadToastMessage = {
   MERGED: 'This change has been merged',
   NEW_MESSAGE: 'There are new messages on this change',
 };
-
-// Making the tab names more unique in case a plugin adds one with same name
-const ROBOT_COMMENTS_LIMIT = 10;
 
 @customElement('gr-change-view')
 export class GrChangeView extends LitElement {
@@ -263,12 +263,7 @@ export class GrChangeView extends LitElement {
   private account?: AccountDetailInfo;
 
   canStartReview() {
-    return !!(
-      this.change &&
-      this.change.actions &&
-      this.change.actions.ready &&
-      this.change.actions.ready.enabled
-    );
+    return !!this.change?.actions?.ready?.enabled;
   }
 
   // Use change getter/setter instead.
@@ -2293,14 +2288,8 @@ export class GrChangeView extends LitElement {
   }
 
   private startUpdateCheckTimer() {
-    if (
-      !this.serverConfig ||
-      !this.serverConfig.change ||
-      this.serverConfig.change.update_delay === undefined ||
-      this.serverConfig.change.update_delay <= MIN_CHECK_INTERVAL_SECS
-    ) {
-      return;
-    }
+    const delay = this.serverConfig?.change?.update_delay ?? 0;
+    if (delay <= MIN_CHECK_INTERVAL_SECS) return;
 
     this.updateCheckTimerHandle = window.setTimeout(() => {
       if (!this.isViewCurrent || !this.change) {
@@ -2352,7 +2341,7 @@ export class GrChangeView extends LitElement {
             callback: () => this.getChangeModel().navigateToChangeResetReload(),
           });
         });
-    }, this.serverConfig.change.update_delay * 1000);
+    }, delay * 1000);
   }
 
   private cancelUpdateCheckTimer() {

@@ -18,11 +18,14 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -554,8 +557,47 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
       assertThat(results.get(0).status).isNotEqualTo(SubmitRequirementResultInfo.Status.ERROR);
     }
 
-    // TODO(hanwen): should return 500 ISE for
-    //  gApi.changes().id(changeId).get(ListChangesOption.SUBMIT_REQUIREMENTS);
+    // Unloaded the plugin, the SR will fail now.
+
+    ChangeInfo info = gApi.changes().id(changeId).get(ListChangesOption.SUBMIT_REQUIREMENTS);
+    List<SubmitRequirementResultInfo> results =
+        info.submitRequirements.stream()
+            .filter(x -> x.name.equals("SAMPLE"))
+            .collect(Collectors.toList());
+    assertThat(results).hasSize(1);
+    assertThat(results.get(0).status).isEqualTo(SubmitRequirementResultInfo.Status.ERROR);
+  }
+
+  @GerritConfig(name = "change.propagateSubmitRequirementErrors", value = "true")
+  @Test
+  public void submitRequirementPropagateErrorFlag() throws Exception {
+    try (TestRepository<Repository> testRepo =
+        new TestRepository<>(repoManager.openRepository(project))) {
+      testRepo.delete(RefNames.REFS_CONFIG);
+    }
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    try (AutoCloseable ignored = installPlugin("myplugin", IsOperatorModule.class)) {
+      PushOneCommit push =
+          pushFactory
+              .create(
+                  admin.newIdent(),
+                  testRepo,
+                  "Test Change",
+                  ProjectConfig.PROJECT_CONFIG,
+                  "[submit-requirement \"SAMPLE\"]\n"
+                      + "  submittableIf = is:changeNumberEven_myplugin\n")
+              .setParents(ImmutableList.of());
+      PushOneCommit.Result cfgPush = push.to(RefNames.REFS_CONFIG);
+      cfgPush.assertOkStatus();
+    }
+    StorageException thrown =
+        assertThrows(
+            StorageException.class,
+            () -> gApi.changes().id(changeId).get(ListChangesOption.SUBMIT_REQUIREMENTS));
+    assertThat(thrown).hasMessageThat().contains("changeNumberEven_myplugin");
   }
 
   @Test

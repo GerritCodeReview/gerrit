@@ -102,7 +102,11 @@ suite('gr-submit-requirements tests', () => {
                 >
                   <gr-endpoint-param name="change"></gr-endpoint-param>
                   <gr-endpoint-param name="requirement"></gr-endpoint-param>
-                  <gr-vote-chip></gr-vote-chip>
+                  <div class="votes">
+                    <div class="votes-line">
+                      <gr-vote-chip> </gr-vote-chip>
+                    </div>
+                  </div>
                 </gr-endpoint-decorator>
               </td>
             </tr>
@@ -125,7 +129,11 @@ suite('gr-submit-requirements tests', () => {
         votesCell?.[0],
         /* HTML */ `
           <div class="votes-cell">
-            <gr-vote-chip> </gr-vote-chip>
+            <div class="votes">
+              <div class="votes-line">
+                <gr-vote-chip> </gr-vote-chip>
+              </div>
+            </div>
           </div>
         `
       );
@@ -174,8 +182,12 @@ suite('gr-submit-requirements tests', () => {
         votesCell?.[0],
         /* HTML */ `
           <div class="votes-cell">
-            <gr-vote-chip></gr-vote-chip>
-            <gr-checks-chip></gr-checks-chip>
+            <div class="votes">
+              <div class="votes-line">
+                <gr-vote-chip> </gr-vote-chip>
+                <gr-checks-chip> </gr-checks-chip>
+              </div>
+            </div>
           </div>
         `
       );
@@ -196,8 +208,12 @@ suite('gr-submit-requirements tests', () => {
         votesCell?.[0],
         /* HTML */ `
           <div class="votes-cell">
-            <gr-vote-chip></gr-vote-chip>
-            <gr-checks-chip></gr-checks-chip>
+            <div class="votes">
+              <div class="votes-line">
+                <gr-vote-chip> </gr-vote-chip>
+                <gr-checks-chip> </gr-checks-chip>
+              </div>
+            </div>
           </div>
         `
       );
@@ -231,8 +247,12 @@ suite('gr-submit-requirements tests', () => {
       assert.dom.equal(
         votesCell?.[0],
         /* HTML */ `<div class="votes-cell">
-          <gr-vote-chip> </gr-vote-chip>
-          <span class="overrideLabel"> Override </span>
+          <div class="votes">
+            <div class="votes-line">
+              <gr-vote-chip> </gr-vote-chip>
+              <span class="overrideLabel"> Override </span>
+            </div>
+          </div>
         </div>`
       );
     });
@@ -274,11 +294,16 @@ suite('gr-submit-requirements tests', () => {
       assert.dom.equal(
         votesCell?.[0],
         /* HTML */ `<div class="votes-cell">
-          <gr-vote-chip> </gr-vote-chip>
-          <span class="overrideLabel"> Override </span>
-          <span class="separator"></span>
-          <gr-vote-chip> </gr-vote-chip>
-          <span class="overrideLabel"> Override2 </span>
+          <div class="votes">
+            <div class="votes-line">
+              <gr-vote-chip> </gr-vote-chip>
+              <span class="overrideLabel"> Override </span>
+            </div>
+            <div class="votes-line">
+              <gr-vote-chip> </gr-vote-chip>
+              <span class="overrideLabel"> Override2 </span>
+            </div>
+          </div>
         </div>`
       );
     });

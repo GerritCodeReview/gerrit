@@ -42,7 +42,6 @@ import {Tab} from '../../../constants/constants';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {resolve} from '../../../models/dependency';
 import {checksModelToken} from '../../../models/checks/checks-model';
-import {join} from 'lit/directives/join.js';
 import {map} from 'lit/directives/map.js';
 
 /**
@@ -111,13 +110,14 @@ export class GrSubmitRequirements extends LitElement {
           white-space: nowrap;
           vertical-align: top;
         }
-        .votes-cell {
+        .votes {
+          display: flex;
+          flex-flow: column;
+          row-gap: var(--spacing-s);
+        }
+        .votes-line {
           display: flex;
           flex-flow: wrap;
-        }
-        .votes-cell .separator {
-          width: 100%;
-          margin-top: var(--spacing-s);
         }
         gr-vote-chip {
           margin-right: var(--spacing-s);
@@ -280,16 +280,21 @@ export class GrSubmitRequirements extends LitElement {
       hasVotes(allLabels[label])
     );
 
-    return html`${join(
-      map(
+    return html`<div class="votes">
+      ${map(
         associatedLabelsWithVotes,
         label =>
-          html`${this.renderLabelVote(label, allLabels)}
-          ${this.renderOverrideLabels(requirement, label)}`
-      ),
-      html`<span class="separator"></span>`
-    )}
-    ${this.renderChecks(requirement)}`;
+          html`<div class="votes-line">
+            ${this.renderLabelVote(label, allLabels)}
+            ${this.renderOverrideLabels(
+              requirement,
+              label,
+              associatedLabelsWithVotes.length > 1
+            )}
+            ${this.renderChecks(requirement, label)}
+          </div>`
+      )}
+    </div> `;
   }
 
   renderLabelVote(label: string, labels: LabelNameToInfoMap) {
@@ -317,12 +322,17 @@ export class GrSubmitRequirements extends LitElement {
 
   renderOverrideLabels(
     requirement: SubmitRequirementResultInfo,
-    forLabel: string
+    forLabel: string,
+    showForAllLabel: boolean
   ) {
-    if (requirement.status !== SubmitRequirementStatus.OVERRIDDEN) return;
+    if (
+      !showForAllLabel &&
+      requirement.status !== SubmitRequirementStatus.OVERRIDDEN
+    )
+      return;
     const requirementLabels = extractAssociatedLabels(
       requirement,
-      'onlyOverride'
+      showForAllLabel ? 'all' : 'onlyOverride'
     )
       .filter(label => label === forLabel)
       .filter(label => {
@@ -334,13 +344,17 @@ export class GrSubmitRequirements extends LitElement {
     );
   }
 
-  renderChecks(requirement: SubmitRequirementResultInfo) {
+  renderChecks(requirement: SubmitRequirementResultInfo, labelName?: string) {
     const requirementLabels = extractAssociatedLabels(requirement);
     const errorRuns = this.runs
       .filter(run => hasResultsOf(run, Category.ERROR))
-      .filter(
-        run => run.labelName && requirementLabels.includes(run.labelName)
-      );
+      .filter(run => {
+        if (labelName) {
+          return labelName === run.labelName;
+        } else {
+          return run.labelName && requirementLabels.includes(run.labelName);
+        }
+      });
     const errorRunsCount = errorRuns.reduce(
       (sum, run) => sum + getResultsOf(run, Category.ERROR).length,
       0
@@ -357,9 +371,13 @@ export class GrSubmitRequirements extends LitElement {
       .filter(
         r => r.status === RunStatus.RUNNING || r.status === RunStatus.SCHEDULED
       )
-      .filter(
-        run => run.labelName && requirementLabels.includes(run.labelName)
-      );
+      .filter(run => {
+        if (labelName) {
+          return labelName === run.labelName;
+        } else {
+          return run.labelName && requirementLabels.includes(run.labelName);
+        }
+      });
 
     const runningRunsCount = runningRuns.length;
     if (runningRunsCount > 0) {

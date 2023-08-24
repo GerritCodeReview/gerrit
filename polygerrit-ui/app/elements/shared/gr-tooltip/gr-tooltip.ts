@@ -70,6 +70,9 @@ export class GrTooltip extends LitElement {
             var(--tooltip-background-color);
           top: calc(-1 * var(--gr-tooltip-arrow-size));
         }
+        .text {
+          white-space: pre;
+        }
       `,
     ];
   }
@@ -82,7 +85,7 @@ export class GrTooltip extends LitElement {
         class="arrowPositionBelow arrow"
         style=${styleMap({marginLeft: this.arrowCenterOffset})}
       ></i>
-      ${this.text}
+      <div class="text">${this.text}</div>
       <i
         class="arrowPositionAbove arrow"
         style=${styleMap({marginLeft: this.arrowCenterOffset})}

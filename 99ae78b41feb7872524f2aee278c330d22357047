@@ -16,6 +16,24 @@
       "message": "fyi: this should probably be backported to some stable release.",
       "revId": "99ae78b41feb7872524f2aee278c330d22357047",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9079cb7f_f6a7ea87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-25T19:05:23Z",
+      "side": 1,
+      "message": "Would this be reasonably compatible with stable-3.6?",
+      "parentUuid": "fe90a8cb_6ada08ed",
+      "revId": "99ae78b41feb7872524f2aee278c330d22357047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

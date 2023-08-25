@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "689ec0f7_ac3424b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-25T14:15:34Z",
+      "side": 1,
+      "message": "where is this happening?\n\nCan you also write tests for this scenario?\n\nThen it\u0027s easier to understand where the error is coming from.",
+      "range": {
+        "startLine": 22,
+        "startChar": 28,
+        "endLine": 22,
+        "endChar": 68
+      },
+      "revId": "6f108f7dcca92c2d3a04b098679b88acfdc0fcf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a50d7e0a_29184305",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
         "patchSetId": 2
@@ -43,6 +66,29 @@
         "startChar": 8,
         "endLine": 1850,
         "endChar": 31
+      },
+      "revId": "6f108f7dcca92c2d3a04b098679b88acfdc0fcf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7113caf_dad6a220",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 3133,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-25T14:15:34Z",
+      "side": 1,
+      "message": "Where is \"project\" being used in this method?\nThe name is pretty confusing for me.\n\nWhat is the difference between this and a normal GetChange?",
+      "range": {
+        "startLine": 3133,
+        "startChar": 2,
+        "endLine": 3133,
+        "endChar": 28
       },
       "revId": "6f108f7dcca92c2d3a04b098679b88acfdc0fcf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

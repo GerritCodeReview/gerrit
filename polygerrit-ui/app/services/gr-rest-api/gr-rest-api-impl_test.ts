@@ -1165,17 +1165,17 @@ suite('gr-rest-api-service-impl tests', () => {
     const repo = 'test-repo' as RepoName;
 
     test('getChange fails to yield a project', async () => {
-      const promise = mockPromise<null>();
+      const promise = mockPromise<undefined>();
       sinon.stub(element, 'getChange').returns(promise);
 
       const projectLookup = element.getFromProjectLookup(changeNum);
-      promise.resolve(null);
+      promise.resolve(undefined);
 
       assert.isUndefined(await projectLookup);
     });
 
     test('getChange succeeds with project', async () => {
-      const promise = mockPromise<null | ChangeInfo>();
+      const promise = mockPromise<undefined | ChangeInfo>();
       sinon.stub(element, 'getChange').returns(promise);
 
       const projectLookup = element.getFromProjectLookup(changeNum);
@@ -1186,12 +1186,12 @@ suite('gr-rest-api-service-impl tests', () => {
     });
 
     test('getChange fails, but a setInProjectLookup() call is used as fallback', async () => {
-      const promise = mockPromise<null>();
+      const promise = mockPromise<undefined>();
       sinon.stub(element, 'getChange').returns(promise);
 
       const projectLookup = element.getFromProjectLookup(changeNum);
       element.setInProjectLookup(changeNum, repo);
-      promise.resolve(null);
+      promise.resolve(undefined);
 
       assert.equal(await projectLookup, repo);
     });

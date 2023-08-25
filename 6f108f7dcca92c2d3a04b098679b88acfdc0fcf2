@@ -140,6 +140,30 @@
       },
       "revId": "6f108f7dcca92c2d3a04b098679b88acfdc0fcf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15b02ff2_01d34ab2",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 3133,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-25T15:33:07Z",
+      "side": 1,
+      "message": "\u003e The original getChange exists for the cases where the projectLookup doesn\u0027t exist. It queries the index to get the info.\n\nSorry, the two methods are quite confusing to me. Can you use the same method and do the project check inside the method then?\n\nAs a caller I want to call one getChange.\ngetChange should then check if there is way to get the project info to hit the fresh API and if not then hit the stale API.\n\nWhy do we have 2 different methods for it? Is there a case where the project info is available but the caller explicitly does not want to use it?",
+      "parentUuid": "0deb4afd_8fdad133",
+      "range": {
+        "startLine": 3133,
+        "startChar": 2,
+        "endLine": 3133,
+        "endChar": 28
+      },
+      "revId": "6f108f7dcca92c2d3a04b098679b88acfdc0fcf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

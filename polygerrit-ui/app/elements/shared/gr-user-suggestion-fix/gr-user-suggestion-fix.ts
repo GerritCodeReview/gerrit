@@ -11,7 +11,7 @@ import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
 import {getAppContext} from '../../../services/app-context';
 import {Comment} from '../../../types/common';
-import {fire} from '../../../utils/event-util';
+import {fire, fireAlert} from '../../../utils/event-util';
 import {anyLineTooLong} from '../../../utils/diff-util';
 import {
   DiffLayer,
@@ -191,14 +191,28 @@ export class GrUserSuggestionsFix extends LitElement {
           ></gr-copy-clipboard>
         </div>
         <div>
-          <gr-button
-            secondary
-            flatten
-            class="action show-fix"
-            @click=${this.handleShowFix}
-          >
-            Show edit
-          </gr-button>
+          ${when(
+            this.flagsService.isEnabled(
+              KnownExperimentId.DIFF_FOR_USER_SUGGESTED_EDIT
+            ),
+            // TODO(milutin): Disable when patchset is different (logic in gr-apply-fix-dialog)
+            () => html` <gr-button
+              secondary
+              flatten
+              class="action show-fix"
+              @click=${this.handleApplyEdit}
+            >
+              Apply edit
+            </gr-button>`,
+            () => html` <gr-button
+              secondary
+              flatten
+              class="action show-fix"
+              @click=${this.handleShowFix}
+            >
+              Show edit
+            </gr-button>`
+          )}
         </div>
       </div>
       ${when(
@@ -211,6 +225,44 @@ export class GrUserSuggestionsFix extends LitElement {
   handleShowFix() {
     if (!this.textContent) return;
     fire(this, 'open-user-suggest-preview', {code: this.textContent});
+  }
+
+  async handleApplyEdit() {
+    if (
+      !this.textContent ||
+      !this.changeNum ||
+      !this.comment?.patch_set ||
+      !this.commentedText
+    )
+      return;
+    // this.reporting.time(Timing.APPLY_FIX_LOAD);
+    // this.isApplyFixLoading = false;
+    const fixSuggestion = createUserFixSuggestion(
+      this.comment,
+      this.commentedText,
+      this.textContent
+    );
+    const res = await this.restApiService.applyFixSuggestion(
+      this.changeNum,
+      this.comment?.patch_set,
+      fixSuggestion?.[0].replacements
+    );
+    if (res?.ok) {
+      fireAlert(this, 'User suggested edit applied');
+      // Todo(milutin): Decide if you want to navigate else, 
+      // but otherwise you don't see edit. We would need to make UI for it. 
+      // It's not visible without reload.
+      // this.getNavigation().setUrl(
+      //   createChangeUrl({
+      //     change,
+      //     patchNum: EDIT,
+      //     basePatchNum: patchNum as BasePatchSetNum,
+      //   })
+      // );
+    }
+    // }
+    // TODO(): add Comment Fix Applied.
+    // this.reporting.timeEnd(Timing.APPLY_FIX_LOAD);
   }
 
   private renderDiff() {

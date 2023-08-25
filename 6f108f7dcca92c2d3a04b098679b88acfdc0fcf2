@@ -22,6 +22,30 @@
       },
       "revId": "6f108f7dcca92c2d3a04b098679b88acfdc0fcf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6ff8380_a723026f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1850,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-08-25T14:13:36Z",
+      "side": 1,
+      "message": "Explained in commit message:\n\n\u003e Additionally the return of waitForChangeReachable used to be ignored, we\nfix that in this change as well, and don\u0027t naviagate to a change if it\nnever became \"reachable\". We also show error message if that happens.\n\nWe give up trying to do anything with it, and show the error. But this time the error would include the project name. But it would also probably never happen, since revert was able to return change-info so change/{change-id} should be able to as well (unless the server died in between)",
+      "parentUuid": "a50d7e0a_29184305",
+      "range": {
+        "startLine": 1850,
+        "startChar": 8,
+        "endLine": 1850,
+        "endChar": 31
+      },
+      "revId": "6f108f7dcca92c2d3a04b098679b88acfdc0fcf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

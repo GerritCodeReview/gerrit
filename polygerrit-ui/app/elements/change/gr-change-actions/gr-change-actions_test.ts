@@ -2362,7 +2362,7 @@ suite('gr-change-actions tests', () => {
             });
           } else {
             numTries--;
-            return Promise.resolve(null);
+            return Promise.resolve(undefined);
           }
         };
 
@@ -2374,7 +2374,7 @@ suite('gr-change-actions tests', () => {
         };
 
         test('succeed', async () => {
-          stubRestApi('getChange').callsFake(makeGetChange(5));
+          stubRestApi('getChangeWithProjectLookup').callsFake(makeGetChange(5));
           const promise = element.waitForChangeReachable(
             123 as NumericChangeId
           );
@@ -2384,7 +2384,7 @@ suite('gr-change-actions tests', () => {
         });
 
         test('fail', async () => {
-          stubRestApi('getChange').callsFake(makeGetChange(6));
+          stubRestApi('getChangeWithProjectLookup').callsFake(makeGetChange(6));
           const promise = element.waitForChangeReachable(
             123 as NumericChangeId
           );
@@ -2459,42 +2459,18 @@ suite('gr-change-actions tests', () => {
           );
         });
 
-        suite('show revert submission dialog', () => {
-          setup(async () => {
-            element.change!.submission_id = '199' as ChangeSubmissionId;
-            element.change!.current_revision = '2000' as CommitId;
-            stubRestApi('getChanges').returns(
-              Promise.resolve([
-                {
-                  ...createChangeViewChange(),
-                  change_id: '12345678901234' as ChangeId,
-                  topic: 'T' as TopicName,
-                  subject: 'random',
-                },
-                {
-                  ...createChangeViewChange(),
-                  change_id: '23456' as ChangeId,
-                  topic: 'T' as TopicName,
-                  subject: 'a'.repeat(100),
-                },
-              ])
-            );
-            await element.updateComplete;
-          });
-        });
-
         suite('single changes revert', () => {
           let setUrlStub: sinon.SinonStub;
           setup(() => {
+            setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
+          });
+
+          test('revert submission single change', async () => {
             getResponseObjectStub.returns(
               Promise.resolve({
                 revert_changes: [{change_id: 12345, topic: 'T'}],
               })
             );
-            setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
-          });
-
-          test('revert submission single change', async () => {
             await element.send(
               HttpMethod.POST,
               {message: 'Revert submission'},
@@ -2513,6 +2489,40 @@ suite('gr-change-actions tests', () => {
             );
             assert.isTrue(setUrlStub.called);
             assert.equal(setUrlStub.lastCall.args[0], '/q/topic:"T"');
+          });
+
+          test('revert single change', async () => {
+            getResponseObjectStub.returns(
+              Promise.resolve({
+                change_id: 12345,
+                project: 'projectId',
+                _number: 12345,
+              })
+            );
+            stubRestApi('getChangeWithProjectLookup').returns(
+              Promise.resolve({
+                ...createChangeViewChange(),
+                _number: 123 as NumericChangeId,
+              })
+            );
+            await element.send(
+              HttpMethod.POST,
+              {message: 'Revert'},
+              '/revert',
+              false,
+              cleanup,
+              {} as UIActionInfo
+            );
+            await element.handleResponse(
+              {
+                __key: 'revert',
+                __type: ActionType.CHANGE,
+                label: 'l',
+              },
+              new Response()
+            );
+            assert.isTrue(setUrlStub.called);
+            assert.equal(setUrlStub.lastCall.args[0], '/c/projectId/+/12345');
           });
         });
 
@@ -2636,6 +2646,62 @@ suite('gr-change-actions tests', () => {
               assert.isTrue(sendStub.calledOnce);
               assert.isTrue(handleErrorStub.called);
             });
+        });
+
+        test('revert single change change not reachable', async () => {
+          stubRestApi('getChangeDetail').returns(
+            Promise.resolve({
+              ...createChangeViewChange(),
+              // element has latest info
+              revisions: createRevisions(element.latestPatchNum as number),
+              messages: createChangeMessages(1),
+            })
+          );
+          getResponseObjectStub = stubRestApi('getResponseObject');
+          const setUrlStub = sinon.stub(
+            testResolver(navigationToken),
+            'setUrl'
+          );
+          const setReviewOnRevertStub = sinon.stub(
+            element,
+            'setReviewOnRevert'
+          );
+          getResponseObjectStub.returns(
+            Promise.resolve({
+              change_id: 12345,
+              project: 'projectId',
+              _number: 12345,
+            })
+          );
+          let errorFired = false;
+          // Mimics the behaviour of gr-rest-api-impl: If errFn is passed call it and return undefined, otherwise call fireNetworkError or fireServerError.
+          stubRestApi('getChangeWithProjectLookup').callsFake((_, errFn) => {
+            if (errFn) {
+              errFn.call(undefined);
+            } else {
+              errorFired = true;
+            }
+            return Promise.resolve(undefined);
+          });
+          await element.send(
+            HttpMethod.POST,
+            {message: 'Revert'},
+            '/revert',
+            false,
+            cleanup,
+            {} as UIActionInfo
+          );
+          await element.handleResponse(
+            {
+              __key: 'revert',
+              __type: ActionType.CHANGE,
+              label: 'l',
+            },
+            new Response()
+          );
+          assert.isTrue(errorFired);
+          assert.isFalse(setUrlStub.called);
+          assert.isFalse(setReviewOnRevertStub.called);
         });
       });
     });

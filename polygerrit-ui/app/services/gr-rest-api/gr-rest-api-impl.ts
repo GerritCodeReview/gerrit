@@ -3130,6 +3130,22 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       });
   }
 
+  getChangeWithProjectLookup(
+    changeNum: NumericChangeId,
+    errFn: ErrorCallback
+  ): Promise<ChangeInfo | undefined> {
+    return this._changeBaseURL(changeNum).then(url =>
+      this._restApiHelper.fetchJSON(
+        {
+          url,
+          errFn,
+          anonymizedUrl: '/changes/*~*',
+        },
+        /* noAcceptHeader */ true
+      )
+    ) as Promise<ChangeInfo | undefined>;
+  }
+
   /**
    * This can be called by the router, if the project can be determined from
    * the URL. Or when handling a dashabord or a search response.

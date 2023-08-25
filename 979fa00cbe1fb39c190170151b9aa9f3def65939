@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24f766c4_0fbb9f3d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-user-suggestion-fix/gr-user-suggestion-fix.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-08-25T20:00:19Z",
+      "side": 1,
+      "message": "```\nprivate handlePleaseFix() {\n    const message \u003d this.comment?.message;\n    assert(!!message, \u0027empty message\u0027);\n    const quoted \u003d message.replace(NEWLINE_PATTERN, \u0027\\n\u003e \u0027);\n    const eventDetail: ReplyToCommentEventDetail \u003d {\n      content: `\u003e ${quoted}\\n\\nPlease fix.`,\n      userWantsToEdit: false,\n      unresolved: true,\n    };\n    // Handled by \u003cgr-comment-thread\u003e.\n    fire(this, \u0027reply-to-comment\u0027, eventDetail);\n  }\n```",
+      "range": {
+        "startLine": 264,
+        "startChar": 7,
+        "endLine": 264,
+        "endChar": 39
+      },
+      "revId": "979fa00cbe1fb39c190170151b9aa9f3def65939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -214,6 +214,9 @@ export class GrComment extends LitElement {
   @state()
   isOwner = false;
 
+  @state()
+  commentedText?: string;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
@@ -990,18 +993,10 @@ export class GrComment extends LitElement {
       }
     }
     if (changed.has('changeNum') || changed.has('comment')) {
-      if (
-        !this.flagsService.isEnabled(
-          KnownExperimentId.DIFF_FOR_USER_SUGGESTED_EDIT
-        ) ||
-        !this.changeNum ||
-        !this.comment
-      )
-        return;
       (async () => {
-        const commentedText = await this.getCommentedCode();
+        this.commentedText = await this.getCommentedCode();
         this.commentModel.updateState({
-          commentedText,
+          commentedText: this.commentedText,
         });
       })();
     }
@@ -1063,16 +1058,15 @@ export class GrComment extends LitElement {
   }
 
   // private, but visible for testing
-  async createFixPreview(
-    replacement?: string
-  ): Promise<OpenFixPreviewEventDetail> {
+  createFixPreview(replacement?: string): OpenFixPreviewEventDetail {
     assertIsDefined(this.comment?.patch_set, 'comment.patch_set');
     assertIsDefined(this.comment?.path, 'comment.path');
 
     if (hasUserSuggestion(this.comment) || replacement) {
       replacement = replacement ?? getUserSuggestion(this.comment);
       assert(!!replacement, 'malformed user suggestion');
-      const line = await this.getCommentedCode();
+      assertIsDefined(this.commentedText, 'commentedText');
+      const line = this.commentedText;
 
       return {
         fixSuggestions: createUserFixSuggestion(
@@ -1182,14 +1176,14 @@ export class GrComment extends LitElement {
     fire(this, 'reply-to-comment', eventDetail);
   }
 
-  private async handleShowFix(replacement?: string) {
+  private handleShowFix(replacement?: string) {
     // Handled top-level in the diff and change view components.
-    fire(this, 'open-fix-preview', await this.createFixPreview(replacement));
+    fire(this, 'open-fix-preview', this.createFixPreview(replacement));
   }
 
-  async createSuggestEdit(e: MouseEvent) {
+  createSuggestEdit(e: MouseEvent) {
     e.stopPropagation();
-    const line = await this.getCommentedCode();
+    const line = this.commentedText;
     const addNewLine = this.messageText.length !== 0;
     this.messageText += `${
       addNewLine ? '\n' : ''

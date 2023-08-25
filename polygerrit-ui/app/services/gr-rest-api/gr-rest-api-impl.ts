@@ -166,6 +166,7 @@ let siteBasedCache = new SiteBasedCache(); // Shared across instances.
 let fetchPromisesCache = new FetchPromisesCache(); // Shared across instances.
 let pendingRequest: {[promiseName: string]: Array<Promise<unknown>>} = {}; // Shared across instances.
 let grEtagDecorator = new GrEtagDecorator(); // Shared across instances.
+// TODO: consider changing this to Map()
 let projectLookup: {[changeNum: string]: Promise<RepoName | undefined>} = {}; // Shared across instances.
 
 function suppress404s(res?: Response | null) {
@@ -3110,24 +3111,38 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   getChange(
     changeNum: ChangeId | NumericChangeId,
     errFn: ErrorCallback
-  ): Promise<ChangeInfo | null> {
-    // Cannot use _changeBaseURL, as this function is used by _projectLookup.
-    return this._restApiHelper
-      .fetchJSON(
-        {
-          url: `/changes/?q=change:${changeNum}`,
-          errFn,
-          anonymizedUrl: '/changes/?q=change:*',
-        },
-        /* noAcceptHeader */ true
-      )
-      .then(res => {
-        const changeInfos = res as ChangeInfo[] | undefined;
-        if (!changeInfos || !changeInfos.length) {
-          return null;
-        }
-        return changeInfos[0];
-      });
+  ): Promise<ChangeInfo | undefined> {
+    if (changeNum in this._projectLookup) {
+      // _projectLookup can only store NumericChangeId, so we are sure that
+      // changeNum is NumericChangeId in this case.
+      return this._changeBaseURL(changeNum as NumericChangeId).then(url =>
+        this._restApiHelper.fetchJSON(
+          {
+            url,
+            errFn,
+            anonymizedUrl: '/changes/*~*',
+          },
+          /* noAcceptHeader */ true
+        )
+      ) as Promise<ChangeInfo | undefined>;
+    } else {
+      return this._restApiHelper
+        .fetchJSON(
+          {
+            url: `/changes/?q=change:${changeNum}`,
+            errFn,
+            anonymizedUrl: '/changes/?q=change:*',
+          },
+          /* noAcceptHeader */ true
+        )
+        .then(res => {
+          const changeInfos = res as ChangeInfo[] | undefined;
+          if (!changeInfos || !changeInfos.length) {
+            return undefined;
+          }
+          return changeInfos[0];
+        });
+    }
   }
 
   /**

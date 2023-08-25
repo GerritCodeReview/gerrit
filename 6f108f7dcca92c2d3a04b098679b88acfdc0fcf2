@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a50d7e0a_29184305",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1850,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-08-25T14:07:06Z",
+      "side": 1,
+      "message": "what happens if the change is not reachable? Do we give up all subsequent calls?\nWhat we observed in the bug was that the UI retried the request 6 times, bu t then still sent a request to undefined~\u003cchange-id\u003e\n?",
+      "range": {
+        "startLine": 1850,
+        "startChar": 8,
+        "endLine": 1850,
+        "endChar": 31
+      },
+      "revId": "6f108f7dcca92c2d3a04b098679b88acfdc0fcf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

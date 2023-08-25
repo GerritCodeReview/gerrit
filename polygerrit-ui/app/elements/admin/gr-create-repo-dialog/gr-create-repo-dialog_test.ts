@@ -118,7 +118,7 @@ suite('gr-create-repo-dialog tests', () => {
 
     element.repoOwner = 'test';
     element.repoOwnerId = 'testId' as GroupId;
-    element.defaultBranch = 'main' as BranchName;
+    element.selectedDefaultBranch = 'main' as BranchName;
 
     const repoNameInput = queryAndAssert<HTMLInputElement>(
       element,

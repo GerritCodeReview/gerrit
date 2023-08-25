@@ -26,6 +26,8 @@ import {createRepoUrl} from '../../../models/views/repo';
 import {resolve} from '../../../models/dependency';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {ValueChangedEvent} from '../../../types/events';
+import {subscribe} from '../../lit/subscription-controller';
+import {configModelToken} from '../../../models/config/config-model';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -54,7 +56,7 @@ export class GrCreateRepoDialog extends LitElement {
   };
 
   /* private but used in test */
-  @state() defaultBranch?: BranchName;
+  @state() selectedDefaultBranch?: BranchName;
 
   /* private but used in test */
   @state() repoCreated = false;
@@ -65,6 +67,8 @@ export class GrCreateRepoDialog extends LitElement {
   /* private but used in test */
   @state() repoOwnerId?: GroupId;
 
+  @state() private defaultBranch = 'master';
+
   private readonly query: AutocompleteQuery;
 
   private readonly queryGroups: AutocompleteQuery;
@@ -73,10 +77,22 @@ export class GrCreateRepoDialog extends LitElement {
 
   private readonly getNavigation = resolve(this, navigationToken);
 
+  private readonly configModel = resolve(this, configModelToken);
+
   constructor() {
     super();
     this.query = (input: string) => this.getRepoSuggestions(input);
     this.queryGroups = (input: string) => this.getGroupSuggestions(input);
+    subscribe(
+      this,
+      () => this.configModel().serverConfig$,
+      config => {
+        this.defaultBranch = config?.gerrit?.default_branch ?? 'master';
+        if (this.defaultBranch.startsWith('refs/heads/')) {
+          this.defaultBranch = this.defaultBranch.slice('refs/heads/'.length);
+        }
+      }
+    );
   }
 
   static override get styles() {
@@ -115,8 +131,8 @@ export class GrCreateRepoDialog extends LitElement {
             <span class="value">
               <gr-autocomplete
                 id="defaultBranchNameInput"
-                .text=${convertToString(this.defaultBranch)}
-                .placeholder=${"Optional, defaults to 'master'"}
+                .text=${convertToString(this.selectedDefaultBranch)}
+                .placeholder=${`Optional, defaults to '${this.defaultBranch}'`}
                 @text-changed=${this.handleBranchNameBindValueChanged}
               >
               </gr-autocomplete>
@@ -193,7 +209,8 @@ export class GrCreateRepoDialog extends LitElement {
   }
 
   async handleCreateRepo() {
-    if (this.defaultBranch) this.repoConfig.branches = [this.defaultBranch];
+    if (this.selectedDefaultBranch)
+      this.repoConfig.branches = [this.selectedDefaultBranch];
     if (this.repoOwnerId) this.repoConfig.owners = [this.repoOwnerId];
     const repoRegistered = await this.restApiService.createRepo(
       this.repoConfig
@@ -258,7 +275,7 @@ export class GrCreateRepoDialog extends LitElement {
   }
 
   private handleBranchNameBindValueChanged(e: ValueChangedEvent) {
-    this.defaultBranch = e.detail.value as BranchName;
+    this.selectedDefaultBranch = e.detail.value as BranchName;
   }
 
   private handleCreateEmptyCommitBindValueChanged(

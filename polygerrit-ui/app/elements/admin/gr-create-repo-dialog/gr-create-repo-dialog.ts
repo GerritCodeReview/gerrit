@@ -54,7 +54,7 @@ export class GrCreateRepoDialog extends LitElement {
   };
 
   /* private but used in test */
-  @state() defaultBranch?: BranchName;
+  @state() selectedDefaultBranch?: BranchName;
 
   /* private but used in test */
   @state() repoCreated = false;
@@ -64,6 +64,8 @@ export class GrCreateRepoDialog extends LitElement {
 
   /* private but used in test */
   @state() repoOwnerId?: GroupId;
+
+  @state() defaultBranch = 'master';
 
   private readonly query: AutocompleteQuery;
 
@@ -98,6 +100,7 @@ export class GrCreateRepoDialog extends LitElement {
   }
 
   override render() {
+    this._retrieveDefaultBranch();
     return html`
       <div class="gr-form-styles">
         <div id="form">
@@ -115,8 +118,10 @@ export class GrCreateRepoDialog extends LitElement {
             <span class="value">
               <gr-autocomplete
                 id="defaultBranchNameInput"
-                .text=${convertToString(this.defaultBranch)}
-                .placeholder=${"Optional, defaults to 'master'"}
+                .text=${convertToString(this.selectedDefaultBranch)}
+                .placeholder=${"Optional, defaults to '" +
+                this.defaultBranch +
+                "'"}
                 @text-changed=${this.handleBranchNameBindValueChanged}
               >
               </gr-autocomplete>
@@ -192,8 +197,15 @@ export class GrCreateRepoDialog extends LitElement {
     this.input?.focus();
   }
 
+  async _retrieveDefaultBranch() {
+    const config = await this.restApiService.getConfig();
+    if (config && config.gerrit.default_branch)
+      this.defaultBranch = config.gerrit.default_branch;
+  }
+
   async handleCreateRepo() {
-    if (this.defaultBranch) this.repoConfig.branches = [this.defaultBranch];
+    if (this.selectedDefaultBranch)
+      this.repoConfig.branches = [this.selectedDefaultBranch];
     if (this.repoOwnerId) this.repoConfig.owners = [this.repoOwnerId];
     const repoRegistered = await this.restApiService.createRepo(
       this.repoConfig
@@ -258,7 +270,7 @@ export class GrCreateRepoDialog extends LitElement {
   }
 
   private handleBranchNameBindValueChanged(e: ValueChangedEvent) {
-    this.defaultBranch = e.detail.value as BranchName;
+    this.selectedDefaultBranch = e.detail.value as BranchName;
   }
 
   private handleCreateEmptyCommitBindValueChanged(

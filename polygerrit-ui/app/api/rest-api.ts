@@ -707,6 +707,7 @@ export declare interface GerritInfo {
   // The following property is missed in doc
   primary_weblink_name?: string;
   instance_id?: string;
+  default_branch?: string;
 }
 
 export type GitRef = BrandType<string, '_gitRef'>;

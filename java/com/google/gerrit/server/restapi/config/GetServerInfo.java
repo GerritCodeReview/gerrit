@@ -290,6 +290,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
         toBoolean(enableSignedPush && config.getBoolean("gerrit", null, "editGpgKeys", true));
     info.primaryWeblinkName = config.getString("gerrit", null, "primaryWeblinkName");
     info.instanceId = config.getString("gerrit", null, "instanceId");
+    info.defaultBranch = config.getString("gerrit", null, "defaultBranch");
     return info;
   }
 

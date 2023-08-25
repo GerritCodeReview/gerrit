@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "165bedf1_52fb54e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-25T18:57:53Z",
+      "side": 1,
+      "message": "+ _and introduce GerritSystemProperty / GerritSystemProperties in tests annotations",
+      "revId": "f5b00cdfd5a95003dd45cb307a1af5c1deebfbdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "1bb57233_10c27da0",

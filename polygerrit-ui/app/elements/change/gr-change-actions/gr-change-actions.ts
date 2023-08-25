@@ -1831,67 +1831,77 @@ export class GrChangeActions
   }
 
   // private but used in test
-  handleResponse(action: UIActionInfo, response?: Response) {
+  async handleResponse(action: UIActionInfo, response?: Response) {
     if (!response) {
       return;
     }
     // response is guaranteed to be ok (due to semantics of rest-api methods)
-    return this.restApiService.getResponseObject(response).then(obj => {
-      switch (action.__key) {
-        case ChangeActions.REVERT: {
-          const revertChangeInfo: ChangeInfo = obj as unknown as ChangeInfo;
-          this.waitForChangeReachable(revertChangeInfo._number)
-            .then(() => this.setReviewOnRevert(revertChangeInfo._number))
-            .then(() => {
-              this.getNavigation().setUrl(
-                createChangeUrl({change: revertChangeInfo})
-              );
-            });
-          break;
-        }
-        case RevisionActions.CHERRYPICK: {
-          const cherrypickChangeInfo: ChangeInfo = obj as unknown as ChangeInfo;
-          this.waitForChangeReachable(cherrypickChangeInfo._number).then(() => {
-            this.getNavigation().setUrl(
-              createChangeUrl({change: cherrypickChangeInfo})
-            );
-          });
-          break;
-        }
-        case ChangeActions.DELETE:
-          if (action.__type === ActionType.CHANGE) {
-            this.getNavigation().setUrl(rootUrl());
-          }
-          break;
-        case ChangeActions.WIP:
-        case ChangeActions.DELETE_EDIT:
-        case ChangeActions.PUBLISH_EDIT:
-        case ChangeActions.REBASE_EDIT:
-        case ChangeActions.REBASE:
-        case ChangeActions.SUBMIT:
-          // Hide rebase dialog only if the action succeeds
-          this.actionsModal?.close();
-          this.hideAllDialogs();
-          this.getChangeModel().navigateToChangeResetReload();
-          break;
-        case ChangeActions.REVERT_SUBMISSION: {
-          const revertSubmistionInfo = obj as unknown as RevertSubmissionInfo;
-          if (
-            !revertSubmistionInfo.revert_changes ||
-            !revertSubmistionInfo.revert_changes.length
-          )
-            return;
-          /* If there is only 1 change then gerrit will automatically
-            redirect to that change */
-          const topic = revertSubmistionInfo.revert_changes[0].topic;
-          this.getNavigation().setUrl(createSearchUrl({topic}));
-          break;
-        }
-        default:
-          this.getChangeModel().navigateToChangeResetReload();
-          break;
+    const obj = await this.restApiService.getResponseObject(response);
+    switch (action.__key) {
+      case ChangeActions.REVERT: {
+        const revertChangeInfo: ChangeInfo = obj as unknown as ChangeInfo;
+        this.restApiService.setInProjectLookup(
+          revertChangeInfo._number,
+          revertChangeInfo.project
+        );
+        const reachable = await this.waitForChangeReachable(
+          revertChangeInfo._number
+        );
+        if (!reachable) return;
+        await this.setReviewOnRevert(revertChangeInfo._number);
+        this.getNavigation().setUrl(
+          createChangeUrl({change: revertChangeInfo})
+        );
+        break;
       }
-    });
+      case RevisionActions.CHERRYPICK: {
+        const cherrypickChangeInfo: ChangeInfo = obj as unknown as ChangeInfo;
+        this.restApiService.setInProjectLookup(
+          cherrypickChangeInfo._number,
+          cherrypickChangeInfo.project
+        );
+        const reachable = this.waitForChangeReachable(
+          cherrypickChangeInfo._number
+        );
+        if (!reachable) return;
+        this.getNavigation().setUrl(
+          createChangeUrl({change: cherrypickChangeInfo})
+        );
+        break;
+      }
+      case ChangeActions.DELETE:
+        if (action.__type === ActionType.CHANGE) {
+          this.getNavigation().setUrl(rootUrl());
+        }
+        break;
+      case ChangeActions.WIP:
+      case ChangeActions.DELETE_EDIT:
+      case ChangeActions.PUBLISH_EDIT:
+      case ChangeActions.REBASE_EDIT:
+      case ChangeActions.REBASE:
+      case ChangeActions.SUBMIT:
+        // Hide rebase dialog only if the action succeeds
+        this.actionsModal?.close();
+        this.hideAllDialogs();
+        this.getChangeModel().navigateToChangeResetReload();
+        break;
+      case ChangeActions.REVERT_SUBMISSION: {
+        const revertSubmistionInfo = obj as unknown as RevertSubmissionInfo;
+        if (
+          !revertSubmistionInfo.revert_changes ||
+          !revertSubmistionInfo.revert_changes.length
+        )
+          return;
+        /* If there is only 1 change then gerrit will automatically
+          redirect to that change */
+        const topic = revertSubmistionInfo.revert_changes[0].topic;
+        this.getNavigation().setUrl(createSearchUrl({topic}));
+        break;
+      }
+      default:
+        this.getChangeModel().navigateToChangeResetReload();
+        break;
+    }
   }
 
   // private but used in test
@@ -2194,14 +2204,15 @@ export class GrChangeActions
    *
    * private but used in test
    */
-  waitForChangeReachable(changeNum: NumericChangeId) {
+  waitForChangeReachable(changeNum: NumericChangeId): Promise<boolean> {
     let attemptsRemaining = AWAIT_CHANGE_ATTEMPTS;
     return new Promise(resolve => {
       const check = () => {
         attemptsRemaining--;
-        // Pass a no-op error handler to avoid the "not found" error toast.
+        // Pass a no-op error handler to avoid the "not found" error toast,
+        // unless it's the last attempt
         this.restApiService
-          .getChange(changeNum, () => {})
+          .getChange(changeNum, attemptsRemaining !== 0 ? () => {} : undefined)
           .then(response => {
             // If the response is 404, the response will be undefined.
             if (response) {

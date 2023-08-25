@@ -206,11 +206,27 @@ export interface RestApiService extends Finalizable {
 
   /**
    * Given a changeNum, gets the change.
+   *
+   * If the project is known for the specified changeNum uses
+   * /changes/{project}~{change} api.
+   * Otherwise, calls /changes/q={changeNum}. In this case the result can be
+   * stale as this API uses index.
    */
   getChange(
     changeNum: ChangeId | NumericChangeId,
     errFn?: ErrorCallback
-  ): Promise<ChangeInfo | null>;
+  ): Promise<ChangeInfo | undefined>;
+
+  /**
+   * Same as getChange but use /changes/{change-id} api.
+   *
+   * Uses getChange to request project if not known. Use this if project lookup
+   * is already populated for the change.
+   */
+  getChangeWithProjectLookup(
+    changeNum: NumericChangeId,
+    errFn?: ErrorCallback
+  ): Promise<ChangeInfo | undefined>;
 
   savePreferences(
     prefs: PreferencesInput

@@ -212,7 +212,7 @@ export const grRestApiMock: RestApiService = {
   getCapabilities(): Promise<CapabilityInfoMap | undefined> {
     return Promise.resolve({});
   },
-  getChange(): Promise<ChangeInfo | null> {
+  getChange(): Promise<ChangeInfo | undefined> {
     throw new Error('getChange() not implemented by RestApiMock.');
   },
   getChangeActionURL(): Promise<string> {

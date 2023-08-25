@@ -24,4 +24,5 @@ public class GerritInfo {
   public String reportBugUrl;
   public String primaryWeblinkName;
   public String instanceId;
+  public String defaultBranch;
 }

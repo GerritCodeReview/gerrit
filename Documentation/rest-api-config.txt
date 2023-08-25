@@ -1866,6 +1866,8 @@ Whether to enable the web UI for editing GPG keys.
 link:config-gerrit.html#gerrit.reportBugUrl[URL to report bugs].
 |`instance_id`       |optional|
 link:config-gerrit.html#gerrit.instanceId[Short identifier for this Gerrit installation].
+|`default_branch`       |optional|
+link:config-gerrit.html#gerrit.defaultBranch[Name of the default branch to use on the project creation].
 |=================================
 
 [[index-config-info]]

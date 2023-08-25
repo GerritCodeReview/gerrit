@@ -215,6 +215,11 @@ export const grRestApiMock: RestApiService = {
   getChange(): Promise<ChangeInfo | null> {
     throw new Error('getChange() not implemented by RestApiMock.');
   },
+  getChangeWithProjectLookup(): Promise<ChangeInfo | undefined> {
+    throw new Error(
+      'getChangeWithProjectLookup() not implemented by RestApiMock.'
+    );
+  },
   getChangeActionURL(): Promise<string> {
     return Promise.resolve('');
   },

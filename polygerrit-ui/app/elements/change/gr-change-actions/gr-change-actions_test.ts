@@ -2362,7 +2362,7 @@ suite('gr-change-actions tests', () => {
             });
           } else {
             numTries--;
-            return Promise.resolve(null);
+            return Promise.resolve(undefined);
           }
         };
 
@@ -2374,7 +2374,7 @@ suite('gr-change-actions tests', () => {
         };
 
         test('succeed', async () => {
-          stubRestApi('getChange').callsFake(makeGetChange(5));
+          stubRestApi('getChangeWithProjectLookup').callsFake(makeGetChange(5));
           const promise = element.waitForChangeReachable(
             123 as NumericChangeId
           );
@@ -2384,7 +2384,7 @@ suite('gr-change-actions tests', () => {
         });
 
         test('fail', async () => {
-          stubRestApi('getChange').callsFake(makeGetChange(6));
+          stubRestApi('getChangeWithProjectLookup').callsFake(makeGetChange(6));
           const promise = element.waitForChangeReachable(
             123 as NumericChangeId
           );

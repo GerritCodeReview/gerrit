@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e067a95c_2e724fc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-08-25T15:05:05Z",
+      "side": 1,
+      "message": "Added a test for it and the one for a single change revert path that wasn\u0027t tested before.\n\nWe don\u0027t test for the error showing itself, because it\u0027s internals of gr-rest-api-impl.",
+      "parentUuid": "689ec0f7_ac3424b5",
+      "range": {
+        "startLine": 22,
+        "startChar": 28,
+        "endLine": 22,
+        "endChar": 68
+      },
+      "revId": "6f108f7dcca92c2d3a04b098679b88acfdc0fcf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a50d7e0a_29184305",
@@ -84,6 +108,30 @@
       "writtenOn": "2023-08-25T14:15:34Z",
       "side": 1,
       "message": "Where is \"project\" being used in this method?\nThe name is pretty confusing for me.\n\nWhat is the difference between this and a normal GetChange?",
+      "range": {
+        "startLine": 3133,
+        "startChar": 2,
+        "endLine": 3133,
+        "endChar": 28
+      },
+      "revId": "6f108f7dcca92c2d3a04b098679b88acfdc0fcf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0deb4afd_8fdad133",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 3133,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-08-25T15:05:05Z",
+      "side": 1,
+      "message": "The project is needed to construct this._changeBaseURL\n\nWe have a projectLookup table that is changeId-\u003eproject (See \"setInProjectLookup\" method). The original getChange exists for the cases where the projectLookup doesn\u0027t exist. It queries the index to get the info.\n\nThis one doesn\u0027t hit the index and is never stale\n\nThe name is a reference to the setInProjectLookup method.",
+      "parentUuid": "c7113caf_dad6a220",
       "range": {
         "startLine": 3133,
         "startChar": 2,

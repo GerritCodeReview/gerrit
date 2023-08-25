@@ -1032,6 +1032,7 @@ export class GrComment extends LitElement {
       // comment changes.
       fire(this, 'comment-text-changed', {value: this.messageText});
     }
+    // TODO(milutin): maybe fire update on range.
   }
 
   private handlePortedMessageClick() {
@@ -1290,6 +1291,8 @@ export class GrComment extends LitElement {
       isError(this.comment) ||
       this.messageText.trimEnd() !== this.comment?.message ||
       this.unresolved !== this.comment.unresolved
+      // || this.range !== this.comment.range
+      // maybe just this.rangeChangedBySuggestion
     );
   }
 
@@ -1302,6 +1305,7 @@ export class GrComment extends LitElement {
         ...this.comment,
         message: this.messageText.trimEnd(),
         unresolved: this.unresolved,
+        // range: this.range
       },
       options.showToast
     );

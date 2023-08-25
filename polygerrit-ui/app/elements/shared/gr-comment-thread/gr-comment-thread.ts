@@ -617,6 +617,7 @@ export class GrCommentThread extends LitElement {
 
     this.unresolved = this.getLastComment()?.unresolved ?? true;
     this.diff = this.computeDiff();
+    // TODO(milutin): Check how we calculate range
     this.highlightRange = this.computeHighlightRange();
   }
 
@@ -710,6 +711,7 @@ export class GrCommentThread extends LitElement {
     });
   }
 
+  // TODO(milutin): change range
   private computeHighlightRange() {
     const comment = this.getFirstComment();
     if (!comment) return undefined;

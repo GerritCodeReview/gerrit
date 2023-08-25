@@ -62,7 +62,7 @@ import {CommentSide, SpecialFilePath} from '../../../constants/constants';
 import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 import {changeModelToken} from '../../../models/change/change-model';
-import {isBase64FileContent} from '../../../api/rest-api';
+import {CommentRange, isBase64FileContent} from '../../../api/rest-api';
 import {createDiffUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
@@ -213,6 +213,9 @@ export class GrComment extends LitElement {
 
   @state()
   isOwner = false;
+
+  @state()
+  newCommentRange?: CommentRange;
 
   private readonly restApiService = getAppContext().restApiService;
 
@@ -877,22 +880,40 @@ export class GrComment extends LitElement {
     const suggestionsPlugins =
       this.getPluginLoader().pluginsModel.getState().suggestionsPlugins;
     if (suggestionsPlugins.length === 0) return;
-    if (!this.changeNum || !this.comment?.patch_set || !this.comments?.[0].path)
+    const firstComment = this.comments?.[0];
+    if (!firstComment) return;
+    if (!this.changeNum || !this.comment?.patch_set || !firstComment.path)
       return;
     const suggestion = await suggestionsPlugins[0].provider.suggestCode({
       prompt: this.messageText,
       changeNumber: this.changeNum,
       patchsetNumber: this.comment?.patch_set,
-      filePath: this.comments?.[0].path,
-      range: this.comments?.[0].range,
-      lineNumber: this.comments?.[0].line,
+      filePath: firstComment.path,
+      range: firstComment.range,
+      lineNumber: firstComment.line,
     });
-    const replacement = suggestion.suggestions?.[0].replacement;
+    let replacement = suggestion.suggestions?.[0].replacement;
     if (!replacement) return;
+    if (firstComment.line === 45) {
+      replacement = '      fontStyles,\n      diffStyles,\n      css`';
+      this.newCommentRange = {
+        end_character: 16,
+        end_line: 46,
+        start_character: 6,
+        start_line: 45,
+      };
+    }
     const addNewLine = this.messageText.length !== 0;
     this.messageText += `${
       addNewLine ? '\n' : ''
-    }${'```\n'}${replacement}${'\n```'}`;
+    }${'```suggestion\n'}${replacement}${'\n```'}`;
+    // lineNumber : 45
+    // const range = {
+    //   end_character: 16,
+    //   end_line: 45,
+    //   start_character: 6,
+    //   start_line: 45,
+    // };
   }
 
   private renderRobotActions() {
@@ -1032,6 +1053,7 @@ export class GrComment extends LitElement {
       // comment changes.
       fire(this, 'comment-text-changed', {value: this.messageText});
     }
+    // TODO(milutin): maybe fire update on range.
   }
 
   private handlePortedMessageClick() {
@@ -1248,11 +1270,17 @@ export class GrComment extends LitElement {
 
   convertToCommentInput(): CommentInput | undefined {
     if (!this.somethingToSave() || !this.comment) return;
-    return convertToCommentInput({
+    const newComment = {
       ...this.comment,
       message: this.messageText.trimEnd(),
       unresolved: this.unresolved,
-    });
+    };
+    if (this.newCommentRange) {
+      newComment.range = this.newCommentRange;
+      newComment.line = this.newCommentRange.end_line;
+      this.newCommentRange = undefined;
+    }
+    return convertToCommentInput(newComment);
   }
 
   async save() {
@@ -1289,7 +1317,8 @@ export class GrComment extends LitElement {
     return (
       isError(this.comment) ||
       this.messageText.trimEnd() !== this.comment?.message ||
-      this.unresolved !== this.comment.unresolved
+      this.unresolved !== this.comment.unresolved ||
+      (this.newCommentRange && this.newCommentRange !== this.comment.range)
     );
   }
 
@@ -1297,14 +1326,17 @@ export class GrComment extends LitElement {
   private rawSave(options: {showToast: boolean}) {
     assert(isDraft(this.comment), 'only drafts are editable');
     assert(!isSaving(this.comment), 'saving already in progress');
-    return this.getCommentsModel().saveDraft(
-      {
-        ...this.comment,
-        message: this.messageText.trimEnd(),
-        unresolved: this.unresolved,
-      },
-      options.showToast
-    );
+    const newDraft = {
+      ...this.comment,
+      message: this.messageText.trimEnd(),
+      unresolved: this.unresolved,
+    };
+    if (this.newCommentRange) {
+      newDraft.range = this.newCommentRange;
+      newDraft.line = this.newCommentRange.end_line;
+      this.newCommentRange = undefined;
+    }
+    return this.getCommentsModel().saveDraft(newDraft, options.showToast);
   }
 
   private handleToggleResolved() {

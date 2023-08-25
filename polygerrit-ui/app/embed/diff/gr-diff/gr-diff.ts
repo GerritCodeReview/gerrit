@@ -671,6 +671,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
     this.nodeObserver = new MutationObserver(() => this.processNodes());
     this.nodeObserver.observe(this, {childList: true});
     // Process existing comment widgets before the first observed change.
+    // TODO(milutin): Comment was not added but changed range. We need to trigger this
     this.processNodes();
   }
 

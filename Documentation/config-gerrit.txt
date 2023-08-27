@@ -1246,6 +1246,9 @@ is strongly recommended.
 +
 Session storage is relatively inexpensive. The average entry in
 this cache is approximately 346 bytes.
++
+The `maxAge` configuration is also used for as maximum lifetime
+of the HTTP servlet container session.
 
 See also link:cmd-flush-caches.html[gerrit flush-caches].
 

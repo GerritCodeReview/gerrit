@@ -244,6 +244,9 @@ public class JettyServer {
           }
         });
 
+    sessionHandler.setMaxInactiveInterval(
+        (int) cfg.getTimeUnit("cache", "web_sessions", "maxAge", 0, SECONDS));
+
     Handler app = makeContext(env, cfg, sessionHandler);
     if (cfg.getBoolean("httpd", "requestLog", !reverseProxy)) {
       RequestLogHandler handler = new RequestLogHandler();

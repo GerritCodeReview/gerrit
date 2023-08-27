@@ -14,7 +14,9 @@
 
 package com.google.gerrit.pgm.http.jetty;
 
+import static com.google.gerrit.httpd.CacheBasedWebSession.MAX_AGE_MINUTES;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -236,13 +238,24 @@ public class JettyServer {
           @Override
           public void sessionDestroyed(HttpSessionEvent se) {
             sessionsCounter.decrementAndGet();
+            System.out.println("Session destroyed: " + sessionsCounter.get() + " still active");
           }
 
           @Override
           public void sessionCreated(HttpSessionEvent se) {
             sessionsCounter.incrementAndGet();
+            System.out.println("Session created: " + sessionsCounter.get() + " active");
           }
         });
+
+    sessionHandler.setMaxInactiveInterval(
+        (int)
+            cfg.getTimeUnit(
+                "cache",
+                "web_sessions",
+                "maxAge",
+                SECONDS.convert(MAX_AGE_MINUTES, MINUTES),
+                SECONDS));
 
     Handler app = makeContext(env, cfg, sessionHandler);
     if (cfg.getBoolean("httpd", "requestLog", !reverseProxy)) {

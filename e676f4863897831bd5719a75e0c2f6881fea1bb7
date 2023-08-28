@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97b7428d_f23fb5c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2023-08-28T09:54:00Z",
+      "side": 1,
+      "message": "I found out that the default branch can be configured in the gerrit.config. So this placeholder does not really work for Gerrit instances that has configured their instance to use a default branch other than master. I have uploaded a fix https://gerrit-review.googlesource.com/c/gerrit/+/384097",
+      "revId": "e676f4863897831bd5719a75e0c2f6881fea1bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

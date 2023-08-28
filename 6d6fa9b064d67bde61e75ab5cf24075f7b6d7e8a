@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1b2ba1f_24fe9bcb",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-28T15:27:56Z",
+      "side": 1,
+      "message": "Should this config parameter be documented in config-gerrit.txt?",
+      "revId": "6d6fa9b064d67bde61e75ab5cf24075f7b6d7e8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

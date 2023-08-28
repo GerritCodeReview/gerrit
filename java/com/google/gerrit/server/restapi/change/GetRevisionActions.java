@@ -38,6 +38,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
@@ -91,7 +92,8 @@ public class GetRevisionActions implements ETagView<RevisionResource> {
 
   private void hashMergeabilityStatus(Hasher h, Change.Id changeId) throws OrmException {
     for (ChangeData changeFromIndex : queryProvider.get().byLegacyChangeId(changeId)) {
-      h.putBoolean(changeFromIndex.isMergeable());
+      Optional<Boolean> isMergeable = Optional.ofNullable(changeFromIndex.isMergeable());
+      isMergeable.ifPresent(h::putBoolean);
     }
   }
 }

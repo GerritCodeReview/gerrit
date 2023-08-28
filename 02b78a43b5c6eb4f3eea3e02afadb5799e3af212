@@ -22,6 +22,30 @@
       },
       "revId": "02b78a43b5c6eb4f3eea3e02afadb5799e3af212",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "201abfaa_79d7e72b",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetRevisionActions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-08-28T15:41:30Z",
+      "side": 1,
+      "message": "mmm, good shout.\n\nWIP changes\u0027 mergeability is (to my surprise), undefined, rather than being false, the same is true for Abandoned changes.\n\nIf a change was transitioning say, from WIP to non-mergeable, we might endup with a stale ETag, you\u0027re right.\n\nLet me fix this.",
+      "parentUuid": "d9a6d299_e7cde8e1",
+      "range": {
+        "startLine": 95,
+        "startChar": 6,
+        "endLine": 95,
+        "endChar": 85
+      },
+      "revId": "02b78a43b5c6eb4f3eea3e02afadb5799e3af212",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

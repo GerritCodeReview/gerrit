@@ -425,6 +425,14 @@ export class GrCommentThread extends LitElement {
     ];
   }
 
+  override connectedCallback(): void {
+    super.connectedCallback();
+    // Add a default click-handler so that clicks don't bubble from a comment to gr-diff-rows.
+    this.addEventListener('click', e => {
+      e.stopPropagation();
+    });
+  }
+
   override render() {
     if (!this.thread) return;
     const dynamicBoxClasses = {

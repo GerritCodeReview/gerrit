@@ -22,7 +22,7 @@ import {
   SubmittedTogetherInfo,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
-import {truncatePath} from '../../../utils/path-list-util';
+import {limitPath} from '../../../utils/path-list-util';
 import {pluralize} from '../../../utils/string-util';
 import {getChangeNumber, getRevisionKey} from '../../../utils/change-util';
 import {DEFALT_NUM_CHANGES_WHEN_COLLAPSED} from './gr-related-collapse';
@@ -328,7 +328,7 @@ export class GrRelatedChangesList extends LitElement {
   }
 
   private renderSubmittedTogetherLine(change: ChangeInfo) {
-    const truncatedRepo = truncatePath(change.project, 2);
+    const truncatedRepo = limitPath(change.project, 40);
     return html`
       <gr-related-change
         .label=${this.renderChangeTitle(change)}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffd2d07c_55f24b28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-08-28T21:48:33Z",
+      "side": 1,
+      "message": "This is not needed as on 3.5, as copied approvals are not persisted. So, removing the original approval will remove the copied one as well. In 3.6 however, this needs to be switched to get all copied approvals which was already done in 323897: Avoid computing votes on read: read from storage | https://gerrit-review.googlesource.com/c/gerrit/+/323897",
+      "range": {
+        "startLine": 16,
+        "startChar": 2,
+        "endLine": 16,
+        "endChar": 119
+      },
+      "revId": "d75bbc6bb6d5527cf9f484b19a8f0e90dc227682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

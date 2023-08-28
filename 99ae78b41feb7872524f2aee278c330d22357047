@@ -34,6 +34,24 @@
       "parentUuid": "fe90a8cb_6ada08ed",
       "revId": "99ae78b41feb7872524f2aee278c330d22357047",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb0533cf_3021211f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-08-28T08:51:22Z",
+      "side": 1,
+      "message": "the fix should be compatible with 3.6. There is a conflict in the tests, which make me suspect there are a few more bugfixes that weren\u0027t backported. (see",
+      "parentUuid": "9079cb7f_f6a7ea87",
+      "revId": "99ae78b41feb7872524f2aee278c330d22357047",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

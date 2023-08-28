@@ -61,8 +61,7 @@ import com.google.gerrit.server.RefLogIdentityProvider;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.NotifyResolver;
-import com.google.gerrit.server.experiments.ExperimentFeatures;
-import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.AttentionSetObserver;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -96,6 +95,7 @@ import java.util.Optional;
 import java.util.TreeMap;
 import java.util.function.Function;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -428,7 +428,7 @@ public class BatchUpdate implements AutoCloseable {
   private final Map<Change.Id, Change> newChanges = new HashMap<>();
   private final List<OpData<RepoOnlyOp>> repoOnlyOps = new ArrayList<>();
   private final Map<Change.Id, NotifyHandling> perChangeNotifyHandling = new HashMap<>();
-  private final ExperimentFeatures experimentFeatures;
+  private final Config gerritConfig;
 
   private RepoView repoView;
   private BatchRefUpdate batchRefUpdate;
@@ -455,10 +455,11 @@ public class BatchUpdate implements AutoCloseable {
       GitReferenceUpdated gitRefUpdated,
       RefLogIdentityProvider refLogIdentityProvider,
       AttentionSetObserver attentionSetObserver,
-      ExperimentFeatures experimentFeatures,
+      @GerritServerConfig Config gerritConfig,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
       @Assisted Instant when) {
+    this.gerritConfig = gerritConfig;
     this.repoManager = repoManager;
     this.accountCache = accountCache;
     this.changeDataFactory = changeDataFactory;
@@ -469,7 +470,6 @@ public class BatchUpdate implements AutoCloseable {
     this.gitRefUpdated = gitRefUpdated;
     this.refLogIdentityProvider = refLogIdentityProvider;
     this.attentionSetObserver = attentionSetObserver;
-    this.experimentFeatures = experimentFeatures;
     this.project = project;
     this.user = user;
     this.when = when;
@@ -674,9 +674,7 @@ public class BatchUpdate implements AutoCloseable {
   @UsedAt(GOOGLE)
   private boolean indexAsync() {
     return user.getAccessPath().equals(AccessPath.WEB_BROWSER)
-        && experimentFeatures.isFeatureEnabled(
-            ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_DO_NOT_AWAIT_CHANGE_INDEXING,
-            project);
+        && gerritConfig.getBoolean("index", "indexChangesAsync", false);
   }
 
   private void fireRefChangeEvent() {

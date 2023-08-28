@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f4e8b75_8cf19e8b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-28T09:10:17Z",
+      "side": 1,
+      "message": "TODO: update docs.",
+      "revId": "8f223665f1bd52f92120e8a49ed4327805369d07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7127e23b_bd26e27e",
@@ -31,6 +48,30 @@
       "writtenOn": "2023-08-28T08:55:01Z",
       "side": 1,
       "message": "How about using the `MAX_AGE_MINUTES` constant as default similarly to what is used in [WebSessionManager](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/httpd/WebSessionManager.java#65)\n\n```\n    sessionHandler.setMaxInactiveInterval(\n        (int) ConfigUtil.getTimeUnit(\n                cfg,\n                \"cache\",\n                \"web_sessions\",\n                \"maxAge\",\n                SECONDS.convert(MAX_AGE_MINUTES, MINUTES),\n                SECONDS));\n```\n\nWDYT?",
+      "range": {
+        "startLine": 247,
+        "startChar": 4,
+        "endLine": 248,
+        "endChar": 78
+      },
+      "revId": "8f223665f1bd52f92120e8a49ed4327805369d07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1823b76c_17ffd2f6",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-28T09:10:17Z",
+      "side": 1,
+      "message": "👍",
+      "parentUuid": "7127e23b_bd26e27e",
       "range": {
         "startLine": 247,
         "startChar": 4,

@@ -155,6 +155,15 @@ public class ActionsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void revisionActionsETagForWIPDoesNotThrow() throws Exception {
+    PushOneCommit.Result changeResult = createChange();
+    gApi.changes().id(changeResult.getChangeId()).setWorkInProgress();
+
+    String revisionActionsETag = getRevisionActionsETag(changeResult.getChangeId());
+    assertThat(revisionActionsETag).isNotNull();
+  }
+
+  @Test
   public void revisionActionsETag() throws Exception {
     String parent = createChange().getChangeId();
     String change = createChangeWithTopic().getChangeId();

@@ -25,6 +25,8 @@ import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.gerrit.server.config.GerritServerConfig;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Throwables;
@@ -103,6 +105,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.ReceiveCommand.Result;
+import org.eclipse.jgit.lib.Config;
 
 /**
  * Helper for a set of change updates that should be applied to the NoteDb database.
@@ -429,6 +432,7 @@ public class BatchUpdate implements AutoCloseable {
   private final List<OpData<RepoOnlyOp>> repoOnlyOps = new ArrayList<>();
   private final Map<Change.Id, NotifyHandling> perChangeNotifyHandling = new HashMap<>();
   private final ExperimentFeatures experimentFeatures;
+  private final Config gerritConfig;
 
   private RepoView repoView;
   private BatchRefUpdate batchRefUpdate;
@@ -455,10 +459,11 @@ public class BatchUpdate implements AutoCloseable {
       GitReferenceUpdated gitRefUpdated,
       RefLogIdentityProvider refLogIdentityProvider,
       AttentionSetObserver attentionSetObserver,
-      ExperimentFeatures experimentFeatures,
+      @GerritServerConfig Config gerritConfig,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
       @Assisted Instant when) {
+    this.gerritConfig = gerritConfig;
     this.repoManager = repoManager;
     this.accountCache = accountCache;
     this.changeDataFactory = changeDataFactory;
@@ -673,10 +678,7 @@ public class BatchUpdate implements AutoCloseable {
   // return false.
   @UsedAt(GOOGLE)
   private boolean indexAsync() {
-    return user.getAccessPath().equals(AccessPath.WEB_BROWSER)
-        && experimentFeatures.isFeatureEnabled(
-            ExperimentFeaturesConstants.GERRIT_BACKEND_REQUEST_FEATURE_DO_NOT_AWAIT_CHANGE_INDEXING,
-            project);
+    return user.getAccessPath().equals(AccessPath.WEB_BROWSER) && gerritConfig.getBoolean("index", "indexAsync", false);
   }
 
   private void fireRefChangeEvent() {

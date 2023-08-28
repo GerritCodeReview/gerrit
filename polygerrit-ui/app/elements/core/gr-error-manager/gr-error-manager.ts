@@ -22,7 +22,7 @@ import {windowLocationReload} from '../../../utils/dom-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
 import {fireIronAnnounce} from '../../../utils/event-util';
 import {LitElement, html} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators.js';
+import {customElement, query, state} from 'lit/decorators.js';
 import {authServiceToken} from '../../../services/gr-auth/gr-auth';
 import {resolve} from '../../../models/dependency';
 import {modalStyles} from '../../../styles/gr-modal-styles';
@@ -110,12 +110,6 @@ export class GrErrorManager extends LitElement {
    */
   @state() lastCredentialCheck: number = Date.now();
 
-  @property({type: String})
-  loginUrl = '/login';
-
-  @property({type: String})
-  loginText = 'Sign in';
-
   private readonly reporting = getAppContext().reportingService;
 
   private readonly getAuthService = resolve(this, authServiceToken);
@@ -166,8 +160,6 @@ export class GrErrorManager extends LitElement {
         <gr-error-dialog
           id="errorDialog"
           @dismiss=${() => this.errorModal.close()}
-          .loginUrl=${this.loginUrl}
-          .loginText=${this.loginText}
         ></gr-error-dialog>
       </dialog>
       <dialog

@@ -70,6 +70,7 @@ import {
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {rootUrl} from '../../../utils/url-util';
+import {configModelToken} from '../../../models/config/config-model';
 
 const GERRIT_DOCS_BASE_URL =
   'https://gerrit-review.googlesource.com/' + 'Documentation';
@@ -209,6 +210,8 @@ export class GrSettingsView extends LitElement {
 
   private readonly getUserModel = resolve(this, userModelToken);
 
+  private readonly getConfigModel = resolve(this, configModelToken);
+
   // private but used in test
   readonly flagsService = getAppContext().flagsService;
 
@@ -232,6 +235,11 @@ export class GrSettingsView extends LitElement {
       acc => {
         this.account = acc;
       }
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().docsBaseUrl$,
+      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
     );
     subscribe(
       this,
@@ -290,12 +298,6 @@ export class GrSettingsView extends LitElement {
             this.gpgEditorPromise.then(gpgEditor => gpgEditor.loadData())
           );
         }
-
-        configPromises.push(
-          this.restApiService.getDocsBaseUrl(config).then(baseUrl => {
-            this.docsBaseUrl = baseUrl;
-          })
-        );
 
         return Promise.all(configPromises);
       })

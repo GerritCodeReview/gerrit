@@ -21,14 +21,12 @@ import './core/gr-smart-search/gr-smart-search';
 import './diff/gr-diff-view/gr-diff-view';
 import './edit/gr-editor-view/gr-editor-view';
 import './plugins/gr-endpoint-decorator/gr-endpoint-decorator';
-import './plugins/gr-endpoint-param/gr-endpoint-param';
-import './plugins/gr-endpoint-slot/gr-endpoint-slot';
 import './plugins/gr-plugin-host/gr-plugin-host';
+import './plugins/gr-plugin-screen/gr-plugin-screen';
 import './settings/gr-cla-view/gr-cla-view';
 import './settings/gr-registration-dialog/gr-registration-dialog';
 import './settings/gr-settings-view/gr-settings-view';
 import './core/gr-notifications-prompt/gr-notifications-prompt';
-import {loginUrl} from '../utils/url-util';
 import {navigationToken} from './core/gr-navigation/gr-navigation';
 import {getAppContext} from '../services/app-context';
 import {routerToken} from './core/gr-router/gr-router';
@@ -67,7 +65,6 @@ import './gr-css-mixins';
 import {isDarkTheme, prefersDarkColorScheme} from '../utils/theme-util';
 import {AppTheme} from '../constants/constants';
 import {subscribe} from './lit/subscription-controller';
-import {PluginViewState} from '../models/views/plugin';
 import {createSearchUrl} from '../models/views/search';
 import {createSettingsUrl} from '../models/views/settings';
 import {createDashboardUrl} from '../models/views/dashboard';
@@ -75,19 +72,16 @@ import {userModelToken} from '../models/user/user-model';
 import {modalStyles} from '../styles/gr-modal-styles';
 import {AdminChildView, createAdminUrl} from '../models/views/admin';
 import {ChangeChildView, changeViewModelToken} from '../models/views/change';
-import {configModelToken} from '../models/config/config-model';
+import {
+  ALLOW_LISTED_FULL_SCREEN_PLUGINS,
+  pluginViewModelToken,
+} from '../models/views/plugin';
 
 interface ErrorInfo {
   text: string;
   emoji?: string;
   moreInfo?: string;
 }
-
-/**
- * This is simple hacky way for allowing certain plugin screens to hide the
- * header and the footer of the Gerrit page.
- */
-const WHITE_LISTED_FULL_SCREEN_PLUGINS = ['git_source_editor/screen/edit'];
 
 // TODO(TS): implement AppElement interface from gr-app-types.ts
 @customElement('gr-app-element')
@@ -152,8 +146,9 @@ export class GrAppElement extends LitElement {
 
   @state() private theme = AppTheme.AUTO;
 
-  @state()
-  serverConfig?: ServerInfo;
+  @state() private pluginScreenName = '';
+
+  @state() serverConfig?: ServerInfo;
 
   readonly getRouter = resolve(this, routerToken);
 
@@ -173,7 +168,7 @@ export class GrAppElement extends LitElement {
 
   private readonly getChangeViewModel = resolve(this, changeViewModelToken);
 
-  private readonly getConfigModel = resolve(this, configModelToken);
+  private readonly getPluginViewModel = resolve(this, pluginViewModelToken);
 
   constructor() {
     super();
@@ -222,14 +217,6 @@ export class GrAppElement extends LitElement {
 
     subscribe(
       this,
-      () => this.getConfigModel().serverConfig$,
-      config => {
-        this.serverConfig = config;
-      }
-    );
-
-    subscribe(
-      this,
       () => this.getUserModel().preferenceTheme$,
       theme => {
         this.theme = theme;
@@ -243,6 +230,11 @@ export class GrAppElement extends LitElement {
         this.view = view;
         if (view) this.errorView?.classList.remove('show');
       }
+    );
+    subscribe(
+      this,
+      () => this.getPluginViewModel().screenName$,
+      screenName => (this.pluginScreenName = screenName)
     );
     subscribe(
       this,
@@ -406,11 +398,7 @@ export class GrAppElement extends LitElement {
       ${this.renderRegistrationDialog()}
       <gr-notifications-prompt></gr-notifications-prompt>
       <gr-endpoint-decorator name="plugin-overlay"></gr-endpoint-decorator>
-      <gr-error-manager
-        id="errorManager"
-        .loginUrl=${loginUrl(this.serverConfig?.auth)}
-        .loginText=${this.serverConfig?.auth.login_text ?? 'Sign in'}
-      ></gr-error-manager>
+      <gr-error-manager id="errorManager"></gr-error-manager>
       <gr-plugin-host id="plugins"></gr-plugin-host>
     `;
   }
@@ -423,8 +411,6 @@ export class GrAppElement extends LitElement {
         @mobile-search=${this.mobileSearchToggle}
         @show-keyboard-shortcuts=${this.showKeyboardShortcuts}
         .mobileSearchHidden=${!this.mobileSearch}
-        .loginUrl=${loginUrl(this.serverConfig?.auth)}
-        .loginText=${this.serverConfig?.auth.login_text ?? 'Sign in'}
         ?aria-hidden=${this.footerHeaderAriaHidden}
       >
       </gr-main-header>
@@ -457,7 +443,7 @@ export class GrAppElement extends LitElement {
   private hideHeaderAndFooter() {
     return (
       this.view === GerritView.PLUGIN_SCREEN &&
-      WHITE_LISTED_FULL_SCREEN_PLUGINS.includes(this.computePluginScreenName())
+      ALLOW_LISTED_FULL_SCREEN_PLUGINS.includes(this.pluginScreenName)
     );
   }
 
@@ -552,21 +538,7 @@ export class GrAppElement extends LitElement {
 
   private renderPluginScreen() {
     if (this.view !== GerritView.PLUGIN_SCREEN) return nothing;
-    if (!this.params) return nothing;
-    const pluginViewState = this.params as PluginViewState;
-    const pluginScreenName = this.computePluginScreenName();
-
-    return keyed(
-      pluginScreenName,
-      html`
-        <gr-endpoint-decorator .name=${pluginScreenName}>
-          <gr-endpoint-param
-            name="token"
-            .value=${pluginViewState.screen}
-          ></gr-endpoint-param>
-        </gr-endpoint-decorator>
-      `
-    );
+    return html`<gr-plugin-screen></gr-plugin-screen>`;
   }
 
   private renderCLAView() {
@@ -752,14 +724,6 @@ export class GrAppElement extends LitElement {
     (this.params as AppElementJustRegisteredParams).justRegistered = false;
     assertIsDefined(this.registrationModal, 'registrationModal');
     this.registrationModal.close();
-  }
-
-  private computePluginScreenName() {
-    if (this.view !== GerritView.PLUGIN_SCREEN) return '';
-    if (this.params === undefined) return '';
-    const pluginViewState = this.params as PluginViewState;
-    if (!pluginViewState.plugin || !pluginViewState.screen) return '';
-    return `${pluginViewState.plugin}-screen-${pluginViewState.screen}`;
   }
 
   private logWelcome() {

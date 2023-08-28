@@ -11,6 +11,7 @@ import {ChangeModel} from '../change/change-model';
 import {select} from '../../utils/observable-util';
 import {Model} from '../model';
 import {define} from '../dependency';
+import {loginUrl} from '../../utils/url-util';
 
 export interface ConfigState {
   repoConfig?: ConfigInfo;
@@ -37,6 +38,15 @@ export class ConfigModel extends Model<ConfigState> {
   public download$ = select(
     this.serverConfig$,
     serverConfig => serverConfig?.download
+  );
+
+  public loginUrl$ = select(this.serverConfig$, serverConfig =>
+    loginUrl(serverConfig?.auth)
+  );
+
+  public loginText$ = select(
+    this.serverConfig$,
+    serverConfig => serverConfig?.auth.login_text ?? 'Sign in'
   );
 
   public mergeabilityComputationBehavior$ = select(

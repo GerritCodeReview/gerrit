@@ -3,8 +3,6 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {Subscription} from 'rxjs';
-import {map, distinctUntilChanged} from 'rxjs/operators';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../shared/gr-dropdown/gr-dropdown';
 import '../../shared/gr-icon/gr-icon';
@@ -30,6 +28,7 @@ import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {subscribe} from '../../lit/subscription-controller';
 
 type MainHeaderLink = RequireProperties<DropdownLink, 'url' | 'name'>;
 
@@ -110,11 +109,9 @@ export class GrMainHeader extends LitElement {
   @property({type: Boolean, reflect: true})
   loading?: boolean;
 
-  @property({type: String})
-  loginUrl = '/login';
+  @state() loginUrl = '';
 
-  @property({type: String})
-  loginText = 'Sign in';
+  @state() loginText = '';
 
   @property({type: Boolean})
   mobileSearchHidden = false;
@@ -148,40 +145,42 @@ export class GrMainHeader extends LitElement {
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
-  private subscriptions: Subscription[] = [];
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getUserModel().myMenuItems$,
+      items => (this.userLinks = items.map(this.createHeaderLink))
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().loginUrl$,
+      loginUrl => (this.loginUrl = loginUrl)
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().loginText$,
+      loginText => (this.loginText = loginText)
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().docsBaseUrl$,
+      docsBaseUrl => (this.docBaseUrl = docsBaseUrl)
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      config => {
+        if (!config) return;
+        this.retrieveFeedbackURL(config);
+        this.retrieveRegisterURL(config);
+      }
+    );
+  }
 
   override connectedCallback() {
     super.connectedCallback();
     this.loadAccount();
-
-    this.subscriptions.push(
-      this.getUserModel()
-        .preferences$.pipe(
-          map(preferences => preferences?.my ?? []),
-          distinctUntilChanged()
-        )
-        .subscribe(items => {
-          this.userLinks = items.map(this.createHeaderLink);
-        })
-    );
-    this.subscriptions.push(
-      this.getConfigModel().serverConfig$.subscribe(config => {
-        if (!config) return;
-        this.retrieveFeedbackURL(config);
-        this.retrieveRegisterURL(config);
-        this.restApiService.getDocsBaseUrl(config).then(docBaseUrl => {
-          this.docBaseUrl = docBaseUrl;
-        });
-      })
-    );
-  }
-
-  override disconnectedCallback() {
-    for (const s of this.subscriptions) {
-      s.unsubscribe();
-    }
-    this.subscriptions = [];
-    super.disconnectedCallback();
   }
 
   static override get styles() {

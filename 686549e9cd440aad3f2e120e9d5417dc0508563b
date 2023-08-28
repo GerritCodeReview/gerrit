@@ -16,6 +16,24 @@
       "message": "You want to add a `Release-Notes: skip` footer\n\nThanks!",
       "revId": "686549e9cd440aad3f2e120e9d5417dc0508563b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85e3d1cb_a00339cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1142566
+      },
+      "writtenOn": "2023-08-28T07:54:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9ab3510_41d1474f",
+      "revId": "686549e9cd440aad3f2e120e9d5417dc0508563b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

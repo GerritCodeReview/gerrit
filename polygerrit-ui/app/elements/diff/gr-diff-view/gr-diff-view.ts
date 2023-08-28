@@ -105,6 +105,7 @@ import {
   filesModelToken,
 } from '../../../models/change/files-model';
 import {isNewDiff} from '../../../embed/diff/gr-diff/gr-diff-utils';
+import {isImageDiff} from '../../../utils/diff-util';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
@@ -211,9 +212,6 @@ export class GrDiffView extends LitElement {
   // Private but used in tests.
   @state()
   userPrefs?: PreferencesInfo;
-
-  @state()
-  private isImageDiff?: boolean;
 
   @state()
   private editWeblinks?: WebLinkInfo[];
@@ -811,7 +809,6 @@ export class GrDiffView extends LitElement {
           @diff-changed=${this.onDiffChanged}
           @edit-weblinks-changed=${this.onEditWeblinksChanged}
           @files-weblinks-changed=${this.onFilesWeblinksChanged}
-          @is-image-diff-changed=${this.onIsImageDiffChanged}
           @render=${this.reInitCursor}
         >
         </gr-diff-host>
@@ -1026,7 +1023,7 @@ export class GrDiffView extends LitElement {
 
   private renderRightControls() {
     const blameLoaderClass =
-      !isMagicPath(this.path) && !this.isImageDiff ? 'show' : '';
+      !isMagicPath(this.path) && !isImageDiff(this.diff) ? 'show' : '';
     const blameToggleLabel =
       this.isBlameLoaded && !this.isBlameLoading ? 'Hide blame' : 'Show blame';
     const diffModeSelectorClass = !this.diff || this.diff.binary ? 'hide' : '';
@@ -1216,10 +1213,6 @@ export class GrDiffView extends LitElement {
     e: ValueChangedEvent<FilesWebLinks | undefined>
   ) {
     this.filesWeblinks = e.detail.value;
-  }
-
-  private onIsImageDiffChanged(e: ValueChangedEvent<boolean>) {
-    this.isImageDiff = e.detail.value;
   }
 
   private handleNextLine() {

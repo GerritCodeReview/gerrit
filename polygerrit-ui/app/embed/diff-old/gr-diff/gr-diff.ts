@@ -144,9 +144,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
   @property({type: Object})
   renderPrefs: RenderPreferences = {};
 
-  @property({type: Boolean})
-  isImageDiff?: boolean;
-
   @property({type: Boolean, reflect: true})
   override hidden = false;
 
@@ -906,7 +903,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
     this.diffBuilder.path = this.path;
     this.diffBuilder.viewMode = this.viewMode;
     this.diffBuilder.layers = this.layers ?? [];
-    this.diffBuilder.isImageDiff = this.isImageDiff;
     this.diffBuilder.baseImage = this.baseImage ?? null;
     this.diffBuilder.revisionImage = this.revisionImage ?? null;
     this.diffBuilder.useNewImageDiffUi = this.useNewImageDiffUi;

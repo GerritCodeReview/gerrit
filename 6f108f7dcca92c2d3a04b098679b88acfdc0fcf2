@@ -164,6 +164,30 @@
       },
       "revId": "6f108f7dcca92c2d3a04b098679b88acfdc0fcf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d80f97c_3d63f3e2",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 3133,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-08-28T09:06:44Z",
+      "side": 1,
+      "message": "Joined the two calls. Added a comment to explain that semantics can be different and result is sometimes stale and sometimes not.",
+      "parentUuid": "15b02ff2_01d34ab2",
+      "range": {
+        "startLine": 3133,
+        "startChar": 2,
+        "endLine": 3133,
+        "endChar": 28
+      },
+      "revId": "6f108f7dcca92c2d3a04b098679b88acfdc0fcf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

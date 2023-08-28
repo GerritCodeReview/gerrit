@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "871615db_7197f3f9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 2505,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-08-28T09:06:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0eff6bde_b650cb45",
+      "range": {
+        "startLine": 2505,
+        "startChar": 16,
+        "endLine": 2505,
+        "endChar": 28
+      },
+      "revId": "af9503ec16f234722d95f5fd7fe59a3904ef6b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7387282b_bb3dca20",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "022dae3f_c834ba9e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 2660,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-08-28T09:06:44Z",
+      "side": 1,
+      "message": "I will try, but not in this change. On the code side, I think this should be easy, but the tests do weird things, so I am worried this would require changing too many tests.",
+      "parentUuid": "7387282b_bb3dca20",
+      "range": {
+        "startLine": 2660,
+        "startChar": 34,
+        "endLine": 2660,
+        "endChar": 64
+      },
+      "revId": "af9503ec16f234722d95f5fd7fe59a3904ef6b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5870963b_0a4620ce",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-08-28T08:15:05Z",
       "side": 1,
       "message": "Another issue of stubbing getResponseObjectStub is that it\u0027s unclear what the return type is.\nI assume it\u0027s a ChangeInfo but no change object is being created here.",
+      "range": {
+        "startLine": 2671,
+        "startChar": 14,
+        "endLine": 2671,
+        "endChar": 31
+      },
+      "revId": "af9503ec16f234722d95f5fd7fe59a3904ef6b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98c7ce3e_f1d7f70f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 2671,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-08-28T09:06:44Z",
+      "side": 1,
+      "message": "I think the return type issue is unfixable. Not 100% sure how this works, but plugins register additional changeActions and we don\u0027t know which rest api endpoint is getting called and what the response will be. Only the corresponding response handler will know.",
+      "parentUuid": "5870963b_0a4620ce",
       "range": {
         "startLine": 2671,
         "startChar": 14,

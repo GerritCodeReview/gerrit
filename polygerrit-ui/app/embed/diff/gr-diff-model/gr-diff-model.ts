@@ -54,7 +54,6 @@ export interface DiffState {
   groups: GrDiffGroup[];
   /** how much context to show for large files */
   showFullContext: FullContext;
-  isImageDiff: boolean;
   errorMessage?: string;
   layers: DiffLayer[];
 }
@@ -165,7 +164,6 @@ export class DiffModel extends Model<DiffState> {
       comments: [],
       groups: [],
       showFullContext: FullContext.UNDECIDED,
-      isImageDiff: false,
       layers: [],
     });
     this.subscriptions = [this.processDiff()];

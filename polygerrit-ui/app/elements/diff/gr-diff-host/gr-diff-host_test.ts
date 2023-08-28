@@ -317,9 +317,6 @@ suite('gr-diff-host tests', () => {
       element.reload();
       await element.waitForReloadToRender();
 
-      // Recognizes that it should be an image diff.
-      assert.isTrue(element.isImageDiff);
-
       // Left image rendered with the parent commit's version of the file.
       assertIsDefined(element.diffElement);
       const leftImage = queryAndAssert(element.diffElement, 'td.left img');
@@ -385,8 +382,6 @@ suite('gr-diff-host tests', () => {
       element.reload();
       await element.waitForReloadToRender();
 
-      // Recognizes that it should be an image diff.
-      assert.isTrue(element.isImageDiff);
       assertIsDefined(element.diffElement);
 
       // Left image rendered with the parent commit's version of the file.
@@ -450,8 +445,6 @@ suite('gr-diff-host tests', () => {
       element.prefs = createDefaultDiffPrefs();
       element.reload();
       await element.waitForReloadToRender().then(() => {
-        // Recognizes that it should be an image diff.
-        assert.isTrue(element.isImageDiff);
         assertIsDefined(element.diffElement);
         const leftImage = query(element.diffElement, 'td.left img');
         const rightImage = queryAndAssert(element.diffElement, 'td.right img');
@@ -491,8 +484,6 @@ suite('gr-diff-host tests', () => {
       element.prefs = createDefaultDiffPrefs();
       element.reload();
       await element.waitForReloadToRender().then(() => {
-        // Recognizes that it should be an image diff.
-        assert.isTrue(element.isImageDiff);
         assertIsDefined(element.diffElement);
 
         const leftImage = queryAndAssert(element.diffElement, 'td.left img');
@@ -538,8 +529,6 @@ suite('gr-diff-host tests', () => {
 
       element.prefs = createDefaultDiffPrefs();
       element.updateComplete.then(() => {
-        // Recognizes that it should be an image diff.
-        assert.isTrue(element.isImageDiff);
         assertIsDefined(element.diffElement);
         const leftImage = query(element.diffElement, 'td.left img');
         assert.isNotOk(leftImage);

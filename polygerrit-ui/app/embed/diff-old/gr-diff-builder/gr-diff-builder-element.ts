@@ -38,6 +38,7 @@ import {
 import {getLineNumber, getSideByLineEl} from '../../diff/gr-diff/gr-diff-utils';
 import {fireAlert, fire} from '../../../utils/event-util';
 import {assertIsDefined} from '../../../utils/common-util';
+import {isImageDiff} from '../../../utils/diff-util';
 
 const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 const COMMIT_MSG_PATH = '/COMMIT_MSG';
@@ -90,8 +91,6 @@ export class GrDiffBuilderElement implements GroupConsumer {
   diffElement?: HTMLTableElement;
 
   viewMode?: string;
-
-  isImageDiff?: boolean;
 
   baseImage: ImageInfo | null = null;
 
@@ -191,7 +190,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
       getLineNumberCellWidth(this.prefs)
     );
 
-    const isBinary = !!(this.isImageDiff || this.diff.binary);
+    const isBinary = !!(isImageDiff(this.diff) || this.diff.binary);
 
     fire(this.diffElement, 'render-start', {});
     return (
@@ -402,7 +401,7 @@ export class GrDiffBuilderElement implements GroupConsumer {
     }
 
     let builder = null;
-    if (this.isImageDiff) {
+    if (isImageDiff(this.diff)) {
       builder = new GrDiffBuilderImage(
         this.diff,
         localPrefs,

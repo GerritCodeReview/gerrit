@@ -143,9 +143,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
   @property({type: Object})
   renderPrefs: RenderPreferences = {};
 
-  @property({type: Boolean})
-  isImageDiff?: boolean;
-
   @property({type: Boolean, reflect: true})
   override hidden = false;
 
@@ -370,7 +367,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
           renderPrefs,
           diffPrefs: this.prefs,
           lineOfInterest: this.lineOfInterest,
-          isImageDiff: this.isImageDiff,
         });
       }
     }

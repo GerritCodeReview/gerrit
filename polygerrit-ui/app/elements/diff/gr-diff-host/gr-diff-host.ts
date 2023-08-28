@@ -168,19 +168,6 @@ export class GrDiffHost extends LitElement {
   projectName?: RepoName;
 
   @state()
-  private _isImageDiff = false;
-
-  get isImageDiff() {
-    return this._isImageDiff;
-  }
-
-  set isImageDiff(isImageDiff: boolean) {
-    if (this._isImageDiff === isImageDiff) return;
-    this._isImageDiff = isImageDiff;
-    fire(this, 'is-image-diff-changed', {value: isImageDiff});
-  }
-
-  @state()
   private _editWeblinks?: WebLinkInfo[];
 
   get editWeblinks() {
@@ -257,7 +244,6 @@ export class GrDiffHost extends LitElement {
     if (this._diff === diff) return;
     const oldDiff = this._diff;
     this._diff = diff;
-    this.isImageDiff = isImageDiff(this._diff);
     fire(this, 'diff-changed', {value: this._diff});
     this.requestUpdate('diff', oldDiff);
   }
@@ -408,9 +394,6 @@ export class GrDiffHost extends LitElement {
   protected override willUpdate(changedProperties: PropertyValues) {
     // Important to call as this will call render, see LitElement.
     super.willUpdate(changedProperties);
-    if (changedProperties.has('diff')) {
-      this.isImageDiff = isImageDiff(this.diff);
-    }
     if (
       changedProperties.has('changeComments') ||
       changedProperties.has('patchRange') ||
@@ -495,7 +478,6 @@ export class GrDiffHost extends LitElement {
         .noAutoRender=${this.noAutoRender}
         .path=${this.path}
         .prefs=${this.prefs}
-        .isImageDiff=${this.isImageDiff}
         .noRenderOnPrefsChange=${this.noRenderOnPrefsChange}
         .renderPrefs=${this.renderPrefs}
         .lineWrapping=${this.lineWrapping}

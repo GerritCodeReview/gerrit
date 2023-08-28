@@ -11,6 +11,7 @@ import {
   isMagicPath,
   specialFilePathCompare,
   truncatePath,
+  limitPath,
 } from './path-list-util';
 import {hasOwnProperty} from './common-util';
 import {assert} from '@open-wc/testing';
@@ -161,5 +162,40 @@ suite('path-list-utl tests', () => {
     const expectedPath = 'file.js';
     const shortenedPath = truncatePath(path);
     assert.equal(shortenedPath, expectedPath);
+  });
+
+  // limitPath
+
+  test('limitPath with short path should not modify', () => {
+    assert.equal(limitPath('foo/bar', 40), 'foo/bar');
+  });
+
+  test('limitPath with no slashes should truncate at front', () => {
+    assert.equal(limitPath('abcdefg', 4), '…efg');
+  });
+
+  test('limitPath should truncate the end of each path component', () => {
+    assert.equal(limitPath('foo/bar/snap', 10), 'f…/b…/snap');
+  });
+
+  test('limitPath should not modify single-letter path components', () => {
+    assert.equal(limitPath('f/bar/pop', 8), 'f/b…/pop');
+  });
+
+  test('limitPath should truncate the front before the last component', () => {
+    assert.equal(limitPath('foo/bar/snap', 8), '…b…/snap');
+  });
+
+  // examples from b/297410789#comment2
+  test('limitPath should handle bug examples', () => {
+    const limit = 40;
+
+    let path = 'platform/external/rust/crates/foreign-types-macros';
+    let expectedPath = 'p…/ext…/rust/crates/foreign-types-macros';
+    assert.equal(limitPath(path, limit), expectedPath);
+
+    path = 'platform/external/rust/crates/long-example/foreign-types-macros';
+    expectedPath = 'p…/e…/r…/c…/long-e…/foreign-types-macros';
+    assert.equal(limitPath(path, limit), expectedPath);
   });
 });

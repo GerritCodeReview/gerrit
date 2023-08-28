@@ -71,7 +71,7 @@ export class GrTooltip extends LitElement {
           top: calc(-1 * var(--gr-tooltip-arrow-size));
         }
         .text {
-          white-space: pre;
+          white-space: pre-wrap;
         }
       `,
     ];

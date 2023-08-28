@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "492af1f8_8b8b0fb0",
+        "filename": "polygerrit-ui/app/embed/diff-old/gr-diff-builder/gr-diff-builder-element_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-08-28T14:47:00Z",
+      "side": 1,
+      "message": "lets call it diff or similar\n```suggestion\n      const diff \u003d {...createEmptyDiff(), content, binary: true};\n      diff.meta_a!.content_type \u003d \u0027image/png\u0027;\n      diff.meta_b!.content_type \u003d \u0027image/png\u0027;\n      element.diff \u003d diff;\n```",
+      "range": {
+        "startLine": 508,
+        "startChar": 12,
+        "endLine": 511,
+        "endChar": 22
+      },
+      "revId": "889bf05d27fa4e432d60fb1fd37e7ed600798334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

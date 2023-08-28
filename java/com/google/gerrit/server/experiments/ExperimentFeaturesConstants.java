@@ -26,10 +26,6 @@ public class ExperimentFeaturesConstants {
   /** Features, enabled by default in the current release. */
   public static final ImmutableSet<String> DEFAULT_ENABLED_FEATURES = ImmutableSet.of();
 
-  /** On BatchUpdate, do not await index completion before returning to the user */
-  public static String GERRIT_BACKEND_REQUEST_FEATURE_DO_NOT_AWAIT_CHANGE_INDEXING =
-      "GerritBackendRequestFeature__do_not_await_change_indexing";
-
   /**
    * Sets ChangeInfo.id to "'<project>~<_number>'", instead of "'<project>~<branch>~<Change-Id>'",
    * spearing an index lookup if the id is used in the follow-up API calls.

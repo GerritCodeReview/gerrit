@@ -22,6 +22,30 @@
       },
       "revId": "a203dc38a4a9b3d5ec2cde918f346416a49fa357",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28641176_7d7bd803",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-28T11:31:11Z",
+      "side": 1,
+      "message": "Reverted and reached out to UX",
+      "parentUuid": "bc723c43_c71d98b8",
+      "range": {
+        "startLine": 9,
+        "startChar": 39,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "a203dc38a4a9b3d5ec2cde918f346416a49fa357",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

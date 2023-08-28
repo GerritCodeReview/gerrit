@@ -69,6 +69,24 @@
       "parentUuid": "1ac51e57_84bb8840",
       "revId": "bdd87c63f49a6025505e68b33da26d1e883ed1b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "caa5def3_c469d72f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-28T12:16:51Z",
+      "side": 1,
+      "message": "Yes, exactly.",
+      "parentUuid": "f8d6b549_f6acdace",
+      "revId": "bdd87c63f49a6025505e68b33da26d1e883ed1b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

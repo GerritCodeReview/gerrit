@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d7190da_00617895",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-28T14:11:06Z",
+      "side": 1,
+      "message": "```suggestion\n        this.defaultBranch \u003d config?.gerrit?.default_branch ?? \u0027master\u0027;\n        if (this.defaultBranch.startsWith(\u0027refs/heads/\u0027)) {\n          this.defaultBranch \u003d this.defaultBranch.slice(\u0027refs/heads/\u0027.length);\n        }\n```",
+      "range": {
+        "startLine": 90,
+        "startChar": 8,
+        "endLine": 97,
+        "endChar": 9
+      },
+      "revId": "1d4b0540449661acf2059e92a1a4149dc37d1cf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06495e35_6283aa03",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-28T14:11:06Z",
+      "side": 1,
+      "message": "```suggestion\n                .placeholder\u003d${`Optional, defaults to \u0027${this.defaultBranch}\u0027`}\n```",
+      "range": {
+        "startLine": 139,
+        "startChar": 16,
+        "endLine": 141,
+        "endChar": 20
+      },
+      "revId": "1d4b0540449661acf2059e92a1a4149dc37d1cf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

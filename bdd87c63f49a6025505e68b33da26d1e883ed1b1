@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e96f833_b9783619",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2023-08-28T12:11:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85604b28_f0145600",
+      "revId": "bdd87c63f49a6025505e68b33da26d1e883ed1b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ac51e57_84bb8840",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-08-28T10:01:13Z",
       "side": 1,
       "message": "Rather than fetching here, rely on the config-model and expose a selector on the config-model you listen to.",
+      "revId": "bdd87c63f49a6025505e68b33da26d1e883ed1b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8d6b549_f6acdace",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2023-08-28T12:11:05Z",
+      "side": 1,
+      "message": "I added a subscribe in the constructor. Is that what you suggested/meant?",
+      "parentUuid": "1ac51e57_84bb8840",
       "revId": "bdd87c63f49a6025505e68b33da26d1e883ed1b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

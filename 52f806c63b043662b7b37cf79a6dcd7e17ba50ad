@@ -33,6 +33,24 @@
       "message": "FYI I checked some of our host configs, it turns out that branches will likely be something like `refs/heads/main` rather than simply `main`.\n\nDoes that change your implementation at all? (e.g. should we strip out `refs/heads`?)",
       "revId": "52f806c63b043662b7b37cf79a6dcd7e17ba50ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9c599f6_ffbb40c2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1135623
+      },
+      "writtenOn": "2023-08-28T13:06:12Z",
+      "side": 1,
+      "message": "Yes.\nI strip out the refs/heads/ if it exists so it is not shown in the placeholder.",
+      "parentUuid": "02fa0453_689d32b3",
+      "revId": "52f806c63b043662b7b37cf79a6dcd7e17ba50ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

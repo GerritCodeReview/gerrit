@@ -22,6 +22,30 @@
       },
       "revId": "889bf05d27fa4e432d60fb1fd37e7ed600798334",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3339b3bb_dce3450c",
+        "filename": "polygerrit-ui/app/embed/diff-old/gr-diff-builder/gr-diff-builder-element_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-28T19:25:15Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "492af1f8_8b8b0fb0",
+      "range": {
+        "startLine": 508,
+        "startChar": 12,
+        "endLine": 511,
+        "endChar": 22
+      },
+      "revId": "889bf05d27fa4e432d60fb1fd37e7ed600798334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

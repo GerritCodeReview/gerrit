@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69b1593b_5f6284fa",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-28T15:06:09Z",
+      "side": 0,
+      "message": "ig p",
+      "range": {
+        "startLine": 249,
+        "startChar": 6,
+        "endLine": 249,
+        "endChar": 31
+      },
+      "revId": "c250ec0264bfc702d12860f205d31ab905876b98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

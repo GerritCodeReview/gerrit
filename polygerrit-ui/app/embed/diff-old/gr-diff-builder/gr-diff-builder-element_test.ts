@@ -505,8 +505,10 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('image', async () => {
-      element.diff = {...createEmptyDiff(), content, binary: true};
-      element.isImageDiff = true;
+      const diff = {...createEmptyDiff(), content, binary: true};
+      diff.meta_a!.content_type = 'image/png';
+      diff.meta_b!.content_type = 'image/png';
+      element.diff = diff;
       element.render(keyLocations);
       await waitForEventOnce(diffTable, 'render-content');
       assert.equal(querySelectorAll(diffTable, 'tbody')?.length, 4);

@@ -3235,7 +3235,6 @@ suite('gr-diff tests', () => {
           type: 'image/bmp',
         };
 
-        element.isImageDiff = true;
         element.prefs = {
           context: 10,
           cursor_blink_rate: 0,

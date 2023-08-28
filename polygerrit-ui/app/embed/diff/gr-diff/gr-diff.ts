@@ -143,9 +143,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
   @property({type: Object})
   renderPrefs: RenderPreferences = {};
 
-  @property({type: Boolean})
-  isImageDiff?: boolean;
-
   @property({type: Boolean, reflect: true})
   override hidden = false;
 
@@ -370,7 +367,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
           renderPrefs,
           diffPrefs: this.prefs,
           lineOfInterest: this.lineOfInterest,
-          isImageDiff: this.isImageDiff,
         });
       }
     }
@@ -648,8 +644,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   private diffChanged() {
     this.loading = true;
-    if (this.diff) {
-      assertIsDefined(this.diffElement, 'diffElement');
+    if (this.diff && this.diffElement) {
       this.diffSelection.init(this.diff, this.diffElement);
       this.highlights.init(this.diffElement, this);
     }
@@ -903,7 +898,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   private getDiffRows() {
-    assertIsDefined(this.diffElement, 'diffElement');
+    if (!this.diffElement) return [];
     const sections = [...(this.diffElement.diffSections ?? [])];
     return sections.map(s => s.getDiffRows()).flat();
   }
@@ -930,7 +925,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   private findSection(group: GrDiffGroup): GrDiffSection | undefined {
-    assertIsDefined(this.diffElement, 'diffElement');
+    if (!this.diffElement) return undefined;
     const leftClass = `left-${group.startLine(Side.LEFT)}`;
     const rightClass = `right-${group.startLine(Side.RIGHT)}`;
     return (

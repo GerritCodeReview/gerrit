@@ -90,10 +90,8 @@ export function getDiffLength(diff?: DiffInfo): number {
 }
 
 export function isImageDiff(diff?: DiffInfo) {
-  if (!diff) return false;
-
-  const isA = diff.meta_a?.content_type.startsWith('image/');
-  const isB = diff.meta_b?.content_type.startsWith('image/');
-
-  return !!(diff.binary && (isA || isB));
+  return (
+    !!diff?.meta_a?.content_type.startsWith('image/') ||
+    !!diff?.meta_b?.content_type.startsWith('image/')
+  );
 }

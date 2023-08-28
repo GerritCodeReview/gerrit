@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0eff6bde_b650cb45",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 2505,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-28T08:15:05Z",
+      "side": 1,
+      "message": "nit: is there a reason to specify 123?\ncreateChangeViewChange already sets 42 as the Id.",
+      "range": {
+        "startLine": 2505,
+        "startChar": 16,
+        "endLine": 2505,
+        "endChar": 28
+      },
+      "revId": "af9503ec16f234722d95f5fd7fe59a3904ef6b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7387282b_bb3dca20",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 2660,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-28T08:15:05Z",
+      "side": 1,
+      "message": "is it possible to avoid stubbing this method?\nThis seems like an implementation detail of RestAPI that should ideally be private.\n\nI assume multiple methods call this, hence it\u0027s confusing why we stub it.\n\nNote: Feel free to resolve in a follow up change if possible but please do investigate if it possible to do this(how much work it would be if feasible 😊)",
+      "range": {
+        "startLine": 2660,
+        "startChar": 34,
+        "endLine": 2660,
+        "endChar": 64
+      },
+      "revId": "af9503ec16f234722d95f5fd7fe59a3904ef6b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5870963b_0a4620ce",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 2671,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-28T08:15:05Z",
+      "side": 1,
+      "message": "Another issue of stubbing getResponseObjectStub is that it\u0027s unclear what the return type is.\nI assume it\u0027s a ChangeInfo but no change object is being created here.",
+      "range": {
+        "startLine": 2671,
+        "startChar": 14,
+        "endLine": 2671,
+        "endChar": 31
+      },
+      "revId": "af9503ec16f234722d95f5fd7fe59a3904ef6b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

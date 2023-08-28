@@ -125,3 +125,46 @@ export function truncatePath(path: string, threshold = 1) {
   // Character is an ellipsis.
   return `\u2026/${pathPieces.slice(index).join('/')}`;
 }
+
+/**
+ * Truncates a path to a limited length, trying to always display the most
+ * relevant parts.
+ *
+ * First, the end of each path component is truncated, started with the first
+ * and excluding the last. If the path is still not short enough, it is
+ * hard-truncated at the front.
+ *
+ * Example:
+ *
+ * util.limitPath('platform/external/rust/crates/foreign-types-macros', 40);
+ * // Returns 'p…/ext…/rust/crates/foreign-types-macros'
+ */
+export function limitPath(path: string, limit: number) {
+  if (path.length <= limit) {
+    return path;
+  }
+
+  // First, try to truncate the end of each path component,
+  // starting with the first, and excluding the last.
+  let components = path.split("/");
+  for (var i = 0; i < components.length - 1; i++) {
+    let excess = path.length - limit;  // must be positive
+
+    // Truncate this path component
+    let comp = components[i];
+    if (comp.length > 1) {
+      let compNewLength = Math.max(comp.length - excess - 1, 1);
+      comp = comp.substring(0, 0 + compNewLength) + '…';
+    }
+    components[i] = comp;
+
+    // Reassemble and see if it is short enough
+    path = components.join("/");
+    if (path.length <= limit) {
+      return path;
+    }
+  }
+
+  // Still too long; hard truncate the front
+  return '…' + path.substr(-(limit - 1));
+}

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cd121c2_3894613a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1142566
+      },
+      "writtenOn": "2023-08-28T09:07:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfa2b9a6_25e1bb09",
+      "revId": "afb3f6fc387e67a91f8b198a9dae37da6b854d13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93b96525_f188970d",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc0c185f_32af587c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1142566
+      },
+      "writtenOn": "2023-08-28T09:07:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93b96525_f188970d",
+      "range": {
+        "startLine": 135,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 80
+      },
+      "revId": "afb3f6fc387e67a91f8b198a9dae37da6b854d13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "866cbd7e_093589d8",
@@ -54,6 +96,24 @@
       "writtenOn": "2023-08-28T08:10:06Z",
       "side": 1,
       "message": "Could you explain why it\u0027s either or?",
+      "revId": "afb3f6fc387e67a91f8b198a9dae37da6b854d13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0078796c_52c76f28",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1142566
+      },
+      "writtenOn": "2023-08-28T09:07:03Z",
+      "side": 1,
+      "message": "This is not required, removed. Thanks.",
+      "parentUuid": "866cbd7e_093589d8",
       "revId": "afb3f6fc387e67a91f8b198a9dae37da6b854d13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

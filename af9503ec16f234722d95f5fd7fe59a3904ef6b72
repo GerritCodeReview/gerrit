@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c45f300f_589d446a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 2660,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-08-28T13:22:54Z",
+      "side": 1,
+      "message": "I\u0027ve looked into this some more. We have `parseResponse` that gr-rest-api-helper can use to return Json instead of a Fetch Response. https://source.corp.google.com/piper///depot/google3/third_party/javascript/polygerrit/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts;rcl\u003d518535339;l\u003d543\n\nIdeally we should be using that one. But this does require a careful change and updating most tests in gr-change-actions_test and I\u0027ve already spent too much time here, so I am going to leave it for now. I\u0027ll file the bug, to take care of it maybe in the next fixit.",
+      "parentUuid": "022dae3f_c834ba9e",
+      "range": {
+        "startLine": 2660,
+        "startChar": 34,
+        "endLine": 2660,
+        "endChar": 64
+      },
+      "revId": "af9503ec16f234722d95f5fd7fe59a3904ef6b72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5870963b_0a4620ce",

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfa2b9a6_25e1bb09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-28T08:10:06Z",
+      "side": 1,
+      "message": "Could you explain this? Do you mean if the user typed more?",
+      "revId": "afb3f6fc387e67a91f8b198a9dae37da6b854d13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93b96525_f188970d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-28T08:10:06Z",
+      "side": 1,
+      "message": "```suggestion\n  // Represents a snapshot of current search string for which either emoji or mention suggestions are shown.\n```",
+      "range": {
+        "startLine": 135,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 80
+      },
+      "revId": "afb3f6fc387e67a91f8b198a9dae37da6b854d13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "866cbd7e_093589d8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-28T08:10:06Z",
+      "side": 1,
+      "message": "Could you explain why it\u0027s either or?",
+      "revId": "afb3f6fc387e67a91f8b198a9dae37da6b854d13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

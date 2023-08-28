@@ -7,7 +7,7 @@ import '../../../test/common-test-setup';
 import {query, queryAndAssert} from '../../../test/test-utils';
 import {GrTooltipContent} from '../gr-tooltip-content/gr-tooltip-content';
 import './gr-limited-text';
-import {GrLimitedText} from './gr-limited-text';
+import {GrLimitedText, GrLimitedPathText} from './gr-limited-text';
 import {fixture, html, assert} from '@open-wc/testing';
 
 suite('gr-limited-text tests', () => {
@@ -96,5 +96,22 @@ suite('gr-limited-text tests', () => {
     assert.equal(element.renderText(), 'foo…');
     element.limit = 0;
     assert.equal(element.renderText(), 'foo bar');
+  });
+});
+
+suite('gr-limited-path-text tests', () => {
+  let element: GrLimitedPathText;
+
+  setup(async () => {
+    element = await fixture<GrLimitedPathText>(
+      html`<gr-limited-path-text></gr-limited-path-text>`
+    );
+  });
+
+  test('_computeDisplayText', () => {
+    // see path-list-util_test.ts for more tests
+    element.limit = 40;
+    element.text = 'platform/external/rust/crates/foreign-types-macros';
+    assert.equal(element.renderText().length, element.limit);
   });
 });

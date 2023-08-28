@@ -5,11 +5,13 @@
  */
 import {customElement, property} from 'lit/decorators.js';
 import {css, html, LitElement} from 'lit';
+import {limitPath} from '../../../utils/path-list-util';
 import '../gr-tooltip-content/gr-tooltip-content';
 
 declare global {
   interface HTMLElementTagNameMap {
     'gr-limited-text': GrLimitedText;
+    'gr-limited-path-text': GrLimitedPathText;
   }
 }
 
@@ -55,7 +57,7 @@ export class GrLimitedText extends LitElement {
     }
   }
 
-  // Should be private but used in tests.
+  // Should be protected but used in tests.
   renderText() {
     if (this.tooLong()) {
       return this.text.substr(0, this.limit - 1) + '…';
@@ -73,9 +75,23 @@ export class GrLimitedText extends LitElement {
     }
   }
 
-  private tooLong() {
+  protected tooLong() {
     if (!this.limit) return false;
     if (!this.text) return false;
     return this.text.length > this.limit;
+  }
+}
+
+/**
+ * The gr-limited-path-text is similar to gr-limited-text but with different
+ * truncation behavior specialized for displaying slash-separated paths.
+ */
+@customElement('gr-limited-path-text')
+export class GrLimitedPathText extends GrLimitedText {
+  override renderText() {
+    if (!this.tooLong()) {
+      return this.text;
+    }
+    return limitPath(this.text, this.limit);
   }
 }

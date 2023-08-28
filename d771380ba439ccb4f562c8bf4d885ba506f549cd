@@ -16,6 +16,24 @@
       "message": "Document what this string represents?",
       "revId": "d771380ba439ccb4f562c8bf4d885ba506f549cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "333ae7b1_9261a13d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1142566
+      },
+      "writtenOn": "2023-08-28T08:02:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "987633b9_d8c0f794",
+      "revId": "d771380ba439ccb4f562c8bf4d885ba506f549cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99f98ae8_3236fa67",
+        "filename": "polygerrit-ui/app/models/user/user-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-08-28T12:06:55Z",
+      "side": 1,
+      "message": "Is there a risk of race-condition, with settings being changed twice in quick sequence. It\u0027s probably possible that request arrive to backend in the opposite order.",
+      "range": {
+        "startLine": 184,
+        "startChar": 2,
+        "endLine": 184,
+        "endChar": 54
+      },
+      "revId": "08894f3b011413735450800c8877156a8522dccb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7df0891d_f67a7f8e",
+        "filename": "polygerrit-ui/app/models/user/user-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-08-28T12:06:55Z",
+      "side": 1,
+      "message": "Do we still need to set it after response then?\n\n1) The request failed \u003d\u003e error message is shown \u003d\u003e newPrefs is empty \u003d\u003e setPreferences skipped\n2) The request returned a different prefs \u003d\u003e the view suddenly \"jumps\" as the request succeeds\n3) The request returned same prefs \u003d\u003e the set is a no-op, deepEqual time is wasted\n\nI think (2) can show an error message of some kind (console log, pop-up), but otherwise to me it seems like a repeat set can be skipped?",
+      "range": {
+        "startLine": 191,
+        "startChar": 6,
+        "endLine": 195,
+        "endChar": 9
+      },
+      "revId": "08894f3b011413735450800c8877156a8522dccb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

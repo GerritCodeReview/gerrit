@@ -241,12 +241,15 @@ public class CommentsUtil {
     ArrayList<ChangeMessage> sortedChangeMessages =
         changeMessages.stream()
             .sorted(
-                comparing(ChangeMessage::getWrittenOn).thenComparingInt(c -> c.getAuthor().get()))
+                comparing(ChangeMessage::getWrittenOn)
+                    .thenComparingInt(c -> c.getAuthor() == null ? 0 : c.getAuthor().get()))
             .collect(toCollection(ArrayList::new));
 
     ArrayList<CommentInfo> sortedCommentInfos =
         comments.stream()
-            .sorted(comparing(CommentInfo::getUpdated).thenComparingInt(c -> c.author._accountId))
+            .sorted(
+                comparing(CommentInfo::getUpdated)
+                    .thenComparingInt(c -> c.author == null ? 0 : c.author._accountId))
             .collect(toCollection(ArrayList::new));
 
     int cmItr = 0;

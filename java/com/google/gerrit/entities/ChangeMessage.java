@@ -95,6 +95,7 @@ public final class ChangeMessage {
   }
 
   /** If null, the message was written 'by the Gerrit system'. */
+  @Nullable
   public Account.Id getAuthor() {
     return author;
   }

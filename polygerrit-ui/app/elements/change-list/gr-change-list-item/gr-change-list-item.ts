@@ -17,7 +17,7 @@ import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {getAppContext} from '../../../services/app-context';
-import {truncatePath} from '../../../utils/path-list-util';
+import {limitPath} from '../../../utils/path-list-util';
 import {isSelf, isServiceUser} from '../../../utils/account-util';
 import {
   ChangeInfo,
@@ -468,7 +468,7 @@ export class GrChangeListItem extends LitElement {
       <td class="cell repo">
         <a class="fullRepo" href=${this.computeRepoUrl()}> ${repo} </a>
         <a class="truncatedRepo" href=${this.computeRepoUrl()} title=${repo}>
-          ${truncatePath(repo, 2)}
+          ${limitPath(repo, 40)}
         </a>
       </td>
     `;

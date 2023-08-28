@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9902ab38_a1f2ea8e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-28T08:55:01Z",
+      "side": 1,
+      "message": "I guess that we should target the `stable-3.6` version as problem is there for any auth realm that calls `getSession` on the incoming request regardless of the auth method being used.",
+      "revId": "8f223665f1bd52f92120e8a49ed4327805369d07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7127e23b_bd26e27e",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-08-28T08:55:01Z",
+      "side": 1,
+      "message": "How about using the `MAX_AGE_MINUTES` constant as default similarly to what is used in [WebSessionManager](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/httpd/WebSessionManager.java#65)\n\n```\n    sessionHandler.setMaxInactiveInterval(\n        (int) ConfigUtil.getTimeUnit(\n                cfg,\n                \"cache\",\n                \"web_sessions\",\n                \"maxAge\",\n                SECONDS.convert(MAX_AGE_MINUTES, MINUTES),\n                SECONDS));\n```\n\nWDYT?",
+      "range": {
+        "startLine": 247,
+        "startChar": 4,
+        "endLine": 248,
+        "endChar": 78
+      },
+      "revId": "8f223665f1bd52f92120e8a49ed4327805369d07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -540,10 +540,10 @@ export class GrChangeMetadata extends LitElement {
           </span>
           <span class="value">
             <a href=${this.computeProjectUrl(change.project)}>
-              <gr-limited-text
+              <gr-limited-path-text
                 limit="40"
                 .text=${change.project}
-              ></gr-limited-text>
+              ></gr-limited-path-text>
             </a>
           </span>
         </section>

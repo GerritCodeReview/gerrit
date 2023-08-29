@@ -52,6 +52,24 @@
       "parentUuid": "73559306_e2275f2b",
       "revId": "4cbd8d6e92c73bb0191c5a6b46471a8f19cfff77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86371a37_a7f5c89b",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-08-29T17:13:40Z",
+      "side": 1,
+      "message": "These sound fine, however we have a lot of methods in ChangeData which conditionally load. Should we change those too in future? else the naming is not going to be consistent.",
+      "parentUuid": "7ebe45de_0e8e6fad",
+      "revId": "4cbd8d6e92c73bb0191c5a6b46471a8f19cfff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

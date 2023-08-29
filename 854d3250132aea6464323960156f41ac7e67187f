@@ -16,6 +16,23 @@
       "message": "Could you explain what commented code means? Also do you happen to have any tests for this?",
       "revId": "854d3250132aea6464323960156f41ac7e67187f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "934f44ee_bb1d86b0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1006,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-29T13:05:48Z",
+      "side": 1,
+      "message": "Should this fetching live inside of the model?",
+      "revId": "854d3250132aea6464323960156f41ac7e67187f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

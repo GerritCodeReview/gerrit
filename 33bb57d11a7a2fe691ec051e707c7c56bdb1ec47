@@ -16,6 +16,24 @@
       "message": "https://gerrit-ci.gerritforge.com/job/Gerrit-codestyle/101924/console\n\n`lit_analysis` is complaining:\n```\n./polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts\n\n    This tag isn\u0027t closed. Custom elements cannot be self closing.\n    543:  \u003cgr-limited-path-text\n    no-unclosed-tag\n```\n\nbut the tag is clearly closed. I changed nothing here but the tag name.",
       "revId": "33bb57d11a7a2fe691ec051e707c7c56bdb1ec47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f17ed2c_4ae30dd5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-29T08:18:34Z",
+      "side": 1,
+      "message": "You didn\u0027t change the tag-name on the closing tag on line 546",
+      "parentUuid": "d32109f8_30317910",
+      "revId": "33bb57d11a7a2fe691ec051e707c7c56bdb1ec47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

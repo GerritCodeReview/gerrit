@@ -16,6 +16,24 @@
       "message": "I don\u0027t think it is a good idea to add to the pattern of returning empty sets when lazyload is not set without using a method name that helps indicate that. Maybe name this something like approvalsWithCopiedNoLazy()?",
       "revId": "4cbd8d6e92c73bb0191c5a6b46471a8f19cfff77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "73559306_e2275f2b",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-08-29T03:14:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fca88a35_b8b7fe55",
+      "revId": "4cbd8d6e92c73bb0191c5a6b46471a8f19cfff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

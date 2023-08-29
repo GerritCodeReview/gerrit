@@ -16,6 +16,46 @@
       "message": "Google-Bug-Id: b/295291114",
       "revId": "a3c9068d1f77b9aba2644c36df24a44e2232e58f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1a7abef_021ff25f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-08-29T13:59:05Z",
+      "side": 1,
+      "message": "Thanks for adding!",
+      "revId": "a3c9068d1f77b9aba2644c36df24a44e2232e58f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f231b13c_6028b20f",
+        "filename": "project.config",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-08-29T13:59:05Z",
+      "side": 1,
+      "message": "Instead of having four predicates for:\n  * java/com/google/gerrit/index/project/.*\\\\\\\\.java$\n  * java/com/google/gerrit/index/account/.*\\\\\\\\.java$\n  * java/com/google/gerrit/index/group/.*\\\\\\\\.java$\n  * java/com/google/gerrit/index/change/.*\\\\\\\\.java$\n  \nWe can substitute with:\n  * java/com/google/gerrit/index/.*\\\\\\\\.java$",
+      "range": {
+        "startLine": 141,
+        "startChar": 175,
+        "endLine": 141,
+        "endChar": 224
+      },
+      "revId": "a3c9068d1f77b9aba2644c36df24a44e2232e58f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

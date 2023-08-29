@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "34e4c7e6_f15a007b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-08-29T20:11:20Z",
+      "side": 1,
+      "message": "Would it suffice to mention it under breaking changes when the next 2.16.X version is released, similar to what was done for 3.1?",
+      "parentUuid": "8355f0d9_8242ffa8",
+      "revId": "e4b5e3e9ab089f38aa3e5850535496ab00db9e17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "96323c02_dbd94fcc",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 5

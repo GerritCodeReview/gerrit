@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec951b83_15a3cdb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-08-29T09:52:25Z",
+      "side": 1,
+      "message": "You need to add following line to fulfil a submit requirement. You can write short release notes, but it\u0027s not that needed for smaller improvements.\n\n```\nGoogle-Bug-Id: b/297410789\nRelease-Notes: skip\n```",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 26
+      },
+      "revId": "02ebeb60e1e23e0de28160d529da7d64b5610f13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "474127fb_6d3e7816",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-08-29T09:52:25Z",
+      "side": 1,
+      "message": "Hi Jonathon, thanks a lot for proposing this improvement and even contributing to Gerrit.\n\nWe are quickly discussing in Gerrit FE team, how we would like to short paths. We agree your approach is much better than our current approach.\n\nBut we are discussing that maybe we should short like:\n\"/a/b/c/d/e/f/g/h\" -\u003e /a/.../f/g/h\n\n\"platform/external/rust/crates/foreign-types-macros\" -\u003e \"platform/.../crates/foreign-types-macros\"\n\nWhat do you think about this approach?",
+      "revId": "02ebeb60e1e23e0de28160d529da7d64b5610f13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "44562a41_9ee2f2dd",
         "filename": "polygerrit-ui/app/utils/path-list-util.ts",
         "patchSetId": 2

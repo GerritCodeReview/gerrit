@@ -36,7 +36,6 @@ import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
@@ -626,7 +625,6 @@ public class ChangeData {
     change = c;
   }
 
-  @CanIgnoreReturnValue
   public Change reloadChange() {
     try {
       notes = notesFactory.createChecked(project, legacyId);

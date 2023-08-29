@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "595fbd0d_56e34308",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 768,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-29T14:19:05Z",
+      "side": 1,
+      "message": "nit: missing closing paranthesis",
+      "range": {
+        "startLine": 768,
+        "startChar": 60,
+        "endLine": 768,
+        "endChar": 61
+      },
+      "revId": "5a38cc02ef2b9669bf7aa8d606416407ca6f97aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b060b1b1_dbe205e3",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-29T14:19:05Z",
+      "side": 1,
+      "message": "would? \n\nSince now we are filtering them out already here, later they are already filtered out and cannot be filtered out again.",
+      "range": {
+        "startLine": 769,
+        "startChar": 32,
+        "endLine": 769,
+        "endChar": 36
+      },
+      "revId": "5a38cc02ef2b9669bf7aa8d606416407ca6f97aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

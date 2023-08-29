@@ -70,6 +70,24 @@
       "parentUuid": "7ebe45de_0e8e6fad",
       "revId": "4cbd8d6e92c73bb0191c5a6b46471a8f19cfff77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5fcc0c7_b818d86d",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2023-08-29T19:26:14Z",
+      "side": 1,
+      "message": "I am not suggesting that we need to change them all, but I do think they are a problem in that they basically pretend to be simple getters and devs generally don\u0027t expect getters to sometimes work, and sometimes not work, it an a big potential source of bugs.\n\nI introduced a new convention for the new methods I added which throw exceptions when they can\u0027t load things, and I think we also need a naming convention for this type of function that you are adding. Whether we \"back-churn\" the new convention to existing methods, that\u0027s a separate question, and I don\u0027t think we need to answer (and certainly not implement) that here, but I am not opposed to it.",
+      "parentUuid": "86371a37_a7f5c89b",
+      "revId": "4cbd8d6e92c73bb0191c5a6b46471a8f19cfff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

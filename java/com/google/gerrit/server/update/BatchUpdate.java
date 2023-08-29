@@ -765,7 +765,11 @@ public class BatchUpdate implements AutoCloseable {
         // Returning immediate futures for newly-created change data objects
         // while letting the actual futures go will make actual indexing
         // asynchronous.
-        return results.keySet().stream()
+        // Only return results for the change modifications (ChangeResult.DELETE and
+        // ChangeResult.SKIPPED are filtered out). For sync path, they are filtered out later on.
+        return results.entrySet().stream()
+            .filter(e -> e.getValue().equals(ChangeResult.UPSERTED))
+            .map(Map.Entry::getKey)
             .map(cId -> Futures.immediateFuture(changeDataFactory.create(project, cId)))
             .collect(toImmutableList());
       }

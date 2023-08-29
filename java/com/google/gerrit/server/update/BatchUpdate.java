@@ -768,15 +768,7 @@ public class BatchUpdate implements AutoCloseable {
         // while letting the actual futures go will make actual indexing
         // asynchronous.
         return results.keySet().stream()
-            .map(
-                cId -> {
-                  ChangeData changeData = changeDataFactory.create(project, cId);
-                  // On deletion, the change can be deleted in noteDb by the time postOps are
-                  // executed.
-                  // Load it here, before the update is actually performed
-                  changeData.reloadChange();
-                  return Futures.immediateFuture(changeData);
-                })
+            .map(cId -> Futures.immediateFuture(changeDataFactory.create(project, cId)))
             .collect(toImmutableList());
       }
       return indexFutures.build();

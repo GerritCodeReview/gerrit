@@ -70,6 +70,30 @@
       },
       "revId": "26f7e48c8f1843d07223d2bf74929b60991bc929",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce950a10_da85fa18",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1054,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-08-29T19:38:00Z",
+      "side": 0,
+      "message": "\u003e \u003e I suppose thats one way to deal with it. However, we are attempting a migration without any data loss, so that is not an option.\n\u003e \n\u003e As a personal suggestion, feel free to disregard it altogether if you wish, every migration requires a _clean up_ and _fix up_ phase beforehand.\n\u003e \n\u003e This is just _one_ example of _clean up_, but I am sure there will be many more.\n\u003e \n\u003e \u003e Do have any technical concerns with this change?\n\u003e \n\u003e Gerrit stable-2.16 is EOL, therefore we should fix what is strictly needed.\n\u003e Performance improvements _could be_ strictly needed also, if the current performance was so bad that made the migration unbearable.\n\u003e \n\u003e Have you checked if the _clean up_ resolves the performance issue?\n\u003e (e.g. removing all drafts that are older than 6 months, for example)\n\nWe have not tested explicitly by cleaning up older draft comments, however, based on our analysis it should help with the performance. \n\nHaving said that, we want to support Gerrit admins who expect to upgrade Gerrit without being required to remove user data.",
+      "parentUuid": "8a9f6425_f063cf74",
+      "range": {
+        "startLine": 1053,
+        "startChar": 14,
+        "endLine": 1054,
+        "endChar": 82
+      },
+      "revId": "26f7e48c8f1843d07223d2bf74929b60991bc929",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

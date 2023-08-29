@@ -41,7 +41,10 @@ suite('gr-formatted-text tests', () => {
       testResolver(changeModelToken),
       getAppContext().restApiService
     );
-    const commentModel = new CommentModel({comment: createComment()});
+    const commentModel = new CommentModel(getAppContext().restApiService);
+    commentModel.updateState({
+      comment: createComment(),
+    });
     await setCommentLinks({
       customLinkRewrite: {
         match: '(LinkRewriteMe)',

@@ -13,12 +13,16 @@ import {
 } from '../gr-comment-model/gr-comment-model';
 import {wrapInProvider} from '../../../models/di-provider-element';
 import {createComment} from '../../../test/test-data-generators';
+import {getAppContext} from '../../../services/app-context';
 
 suite('gr-user-suggestion-fix tests', () => {
   let element: GrUserSuggestionsFix;
 
   setup(async () => {
-    const commentModel = new CommentModel({comment: createComment()});
+    const commentModel = new CommentModel(getAppContext().restApiService);
+    commentModel.updateState({
+      comment: createComment(),
+    });
     element = (
       await fixture<GrUserSuggestionsFix>(
         wrapInProvider(

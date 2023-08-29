@@ -88,6 +88,7 @@ import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
+import {truncatePath} from '../../../utils/path-list-util';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -539,11 +540,11 @@ export class GrChangeMetadata extends LitElement {
             </gr-tooltip-content>
           </span>
           <span class="value">
-            <a href=${this.computeProjectUrl(change.project)}>
-              <gr-limited-text
-                limit="40"
-                .text=${change.project}
-              ></gr-limited-text>
+            <a
+              href=${this.computeProjectUrl(change.project)}
+              title=${change.project}
+            >
+              ${truncatePath(change.project, 2)}
             </a>
           </span>
         </section>

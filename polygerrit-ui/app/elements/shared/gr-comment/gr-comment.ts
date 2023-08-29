@@ -214,6 +214,9 @@ export class GrComment extends LitElement {
   @state()
   isOwner = false;
 
+  @state()
+  commentedText?: string;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
@@ -995,13 +998,14 @@ export class GrComment extends LitElement {
           KnownExperimentId.DIFF_FOR_USER_SUGGESTED_EDIT
         ) ||
         !this.changeNum ||
-        !this.comment
+        !this.comment ||
+        !hasUserSuggestion(this.comment)
       )
         return;
       (async () => {
-        const commentedText = await this.getCommentedCode();
+        this.commentedText = await this.getCommentedCode();
         this.commentModel.updateState({
-          commentedText,
+          commentedText: this.commentedText,
         });
       })();
     }
@@ -1072,12 +1076,15 @@ export class GrComment extends LitElement {
     if (hasUserSuggestion(this.comment) || replacement) {
       replacement = replacement ?? getUserSuggestion(this.comment);
       assert(!!replacement, 'malformed user suggestion');
-      const line = await this.getCommentedCode();
+      let commentedCode = this.commentedText;
+      if (!commentedCode) {
+        commentedCode = await this.getCommentedCode();
+      }
 
       return {
         fixSuggestions: createUserFixSuggestion(
           this.comment,
-          line,
+          commentedCode,
           replacement
         ),
         patchNum: this.comment.patch_set,

@@ -16,6 +16,24 @@
       "message": "Do you have to call `stopPropagation()` here to get the desired effect?",
       "revId": "0c49bcd0987d59e1b876e0b8621a8b4bf5244598",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d19c245d_fc7796ce",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-29T08:20:43Z",
+      "side": 1,
+      "message": "Good call.",
+      "parentUuid": "20d18afb_851662b8",
+      "revId": "0c49bcd0987d59e1b876e0b8621a8b4bf5244598",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

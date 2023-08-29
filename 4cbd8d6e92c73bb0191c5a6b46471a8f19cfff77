@@ -34,6 +34,24 @@
       "parentUuid": "fca88a35_b8b7fe55",
       "revId": "4cbd8d6e92c73bb0191c5a6b46471a8f19cfff77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ebe45de_0e8e6fad",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2023-08-29T04:23:23Z",
+      "side": 1,
+      "message": "I guess my suggestion wasn\u0027t very good, this is a hard one. It isn\u0027t true that this method has noLazyload, it is conditional. So maybe I should have suggested approvalsWithCopyConditionnalyLoad() or conditionnalyLoadApprovalsWithCopy()?",
+      "parentUuid": "73559306_e2275f2b",
+      "revId": "4cbd8d6e92c73bb0191c5a6b46471a8f19cfff77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

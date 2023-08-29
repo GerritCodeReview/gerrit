@@ -197,6 +197,10 @@ export class UserModel extends Model<UserState> {
   }
 
   updatePreferences(prefs: Partial<PreferencesInfo>) {
+    this.setPreferences({
+      ...(this.getState().preferences ?? createDefaultPreferences()),
+      ...prefs,
+    });
     return this.restApiService
       .savePreferences(prefs)
       .then((newPrefs: PreferencesInfo | undefined) => {

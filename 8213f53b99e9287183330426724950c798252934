@@ -16,6 +16,24 @@
       "message": "As discussed offline\n - There is a bug that makes gap between heading and table when there is many hidden changes\n - I think we should do redesign in one step - either 1 change or feature flag",
       "revId": "8213f53b99e9287183330426724950c798252934",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "39c4a0d9_acc38e08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-30T12:52:30Z",
+      "side": 1,
+      "message": "Agreed.",
+      "parentUuid": "324d522e_518b834c",
+      "revId": "8213f53b99e9287183330426724950c798252934",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -43,9 +43,6 @@ export class GrRelatedChange extends LitElement {
     return [
       sharedStyles,
       css`
-        a {
-          display: block;
-        }
         :host,
         .changeContainer,
         a {
@@ -53,9 +50,11 @@ export class GrRelatedChange extends LitElement {
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+          display: inline-flex;
+          width: 100%;
         }
-        .changeContainer {
-          display: flex;
+        a {
+          display: inline;
         }
         .strikethrough {
           color: var(--deemphasized-text-color);
@@ -65,6 +64,7 @@ export class GrRelatedChange extends LitElement {
           color: var(--deemphasized-text-color);
           font-weight: var(--font-weight-bold);
           margin-left: var(--spacing-xs);
+          margin-right: var(--spacing-m);
         }
         .notCurrent {
           color: var(--warning-foreground);
@@ -106,7 +106,7 @@ export class GrRelatedChange extends LitElement {
           href=${ifDefined(this.href)}
           aria-label=${ifDefined(this.label)}
           class=${linkClass}
-          ><slot></slot
+          ><slot name="name"></slot
         ></a>
         ${this.showSubmittableCheck
           ? html`<span
@@ -123,6 +123,7 @@ export class GrRelatedChange extends LitElement {
               (${this.computeChangeStatus(change)})
             </span>`
           : ''}
+        <slot name="extra"></slot>
       </div>
     `;
   }

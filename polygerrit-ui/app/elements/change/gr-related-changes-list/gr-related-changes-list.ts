@@ -132,6 +132,7 @@ export class GrRelatedChangesList extends LitElement {
         }
         .relatedChangeLine {
           display: flex;
+          width: 100%;
           visibility: visible;
           height: auto;
         }
@@ -153,6 +154,9 @@ export class GrRelatedChangesList extends LitElement {
         .repo,
         .branch {
           color: var(--primary-text-color);
+        }
+        .branch {
+          margin-right: var(--spacing-m);
         }
         @media screen and (max-width: 1400px) {
           .repo,
@@ -271,7 +275,9 @@ export class GrRelatedChangesList extends LitElement {
                   : ''}
                 show-change-status
                 show-submittable-check
-                >${change.commit.subject}</gr-related-change
+                ><span slot="name"
+                  >${change.commit.subject}</span
+                ></gr-related-change
               >
             </div>`
         )}
@@ -335,10 +341,12 @@ export class GrRelatedChangesList extends LitElement {
         .change=${change}
         .href=${createChangeUrl({change, usp: 'submitted-together'})}
         show-submittable-check
-        >${change.subject}</gr-related-change
+        ><span slot="name">${change.subject}</span
+        ><span slot="extra"
+          ><span class="repo" .title=${change.project}>${truncatedRepo}</span
+          ><span class="branch">&nbsp;|&nbsp;${change.branch}&nbsp;</span></span
+        ></gr-related-change
       >
-      <span class="repo" .title=${change.project}>${truncatedRepo}</span
-      ><span class="branch">&nbsp;|&nbsp;${change.branch}&nbsp;</span>
     `;
   }
 

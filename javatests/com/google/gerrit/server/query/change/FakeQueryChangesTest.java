@@ -119,7 +119,7 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
   @UseClockStep
   public void noLimitQueryDoesNotPaginatesWithNonePaginationType() throws Exception {
     assumeTrue(PaginationType.NONE == getCurrentPaginationType());
-    AbstractFakeIndex idx = setupRepoWithFourChanges();
+    AbstractFakeIndex<?, ?, ?> idx = setupRepoWithFourChanges();
     newQuery("status:new").withNoLimit().get();
     assertThatSearchQueryWasNotPaginated(idx.getQueryCount());
   }
@@ -128,7 +128,7 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
   @UseClockStep
   public void invisibleChangesNotPaginatedWithNonePaginationType() throws Exception {
     assumeTrue(PaginationType.NONE == getCurrentPaginationType());
-    AbstractFakeIndex idx = setupRepoWithFourChanges();
+    AbstractFakeIndex<?, ?, ?> idx = setupRepoWithFourChanges();
     final int LIMIT = 3;
 
     projectOperations
@@ -157,7 +157,7 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
   public void invisibleChangesPaginatedWithPagination() throws Exception {
     assumeFalse(PaginationType.NONE == getCurrentPaginationType());
 
-    AbstractFakeIndex idx = setupRepoWithFourChanges();
+    AbstractFakeIndex<?, ?, ?> idx = setupRepoWithFourChanges();
     final int LIMIT = 3;
 
     projectOperations
@@ -199,7 +199,8 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
         .forUpdate()
         .add(allowCapability(QUERY_LIMIT).group(REGISTERED_USERS).range(0, LIMIT))
         .update();
-    AbstractFakeIndex idx = (AbstractFakeIndex) changeIndexCollection.getSearchIndex();
+    AbstractFakeIndex<?, ?, ?> idx =
+        (AbstractFakeIndex<?, ?, ?>) changeIndexCollection.getSearchIndex();
     // 2 index searches are expected. The first index search will run with size 3 (i.e.
     // the configured query-limit+1), and then we will paginate to get the remaining
     // changes with the second index search.
@@ -209,11 +210,10 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
 
   @Test
   @UseClockStep
-  @SuppressWarnings("unchecked")
   public void internalQueriesDoNotPaginateWithNonePaginationType() throws Exception {
     assumeTrue(PaginationType.NONE == getCurrentPaginationType());
 
-    AbstractFakeIndex idx = setupRepoWithFourChanges();
+    AbstractFakeIndex<?, ?, ?> idx = setupRepoWithFourChanges();
     // 1 index search is expected since we are not paginating.
     executeQuery("status:new");
     assertThatSearchQueryWasNotPaginated(idx.getQueryCount());
@@ -232,7 +232,7 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
     assertThat(queryCount).isEqualTo(expectedPages);
   }
 
-  private AbstractFakeIndex setupRepoWithFourChanges() throws Exception {
+  private AbstractFakeIndex<?, ?, ?> setupRepoWithFourChanges() throws Exception {
     try (TestRepository<Repository> testRepo = createAndOpenProject("repo")) {
       insert("repo", newChange(testRepo));
       insert("repo", newChange(testRepo));
@@ -247,6 +247,6 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
         .add(allowCapability(QUERY_LIMIT).group(REGISTERED_USERS).range(0, 2))
         .update();
 
-    return (AbstractFakeIndex) changeIndexCollection.getSearchIndex();
+    return (AbstractFakeIndex<?, ?, ?>) changeIndexCollection.getSearchIndex();
   }
 }

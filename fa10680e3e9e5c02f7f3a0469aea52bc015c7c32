@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1cdb44c_5873caa6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-08-30T18:38:13Z",
+      "side": 1,
+      "message": "Do we really need this ? I think the operations are performed by admin by default.",
+      "range": {
+        "startLine": 698,
+        "startChar": 4,
+        "endLine": 698,
+        "endChar": 50
+      },
+      "revId": "fa10680e3e9e5c02f7f3a0469aea52bc015c7c32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12ee18d2_4dd21e8c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-08-30T18:38:13Z",
+      "side": 1,
+      "message": "Same as above",
+      "range": {
+        "startLine": 717,
+        "startChar": 4,
+        "endLine": 717,
+        "endChar": 50
+      },
+      "revId": "fa10680e3e9e5c02f7f3a0469aea52bc015c7c32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

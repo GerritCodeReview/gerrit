@@ -108,21 +108,23 @@ public class ExternalIDCacheLoaderTest {
 
     Repository repo = repoManager.openRepository(ALL_USERS);
     ObjectId newState = insertExternalId(key, account);
-    TreeWalk tw = new TreeWalk(repo);
-    tw.reset(new RevWalk(repo).parseCommit(newState).getTree());
-    tw.next();
+    try (TreeWalk tw = new TreeWalk(repo);
+        RevWalk rw = new RevWalk(repo)) {
+      tw.reset(rw.parseCommit(newState).getTree());
+      tw.next();
 
-    HashMap<ObjectId, ObjectId> additions = new HashMap<>();
-    additions.put(fileNameToObjectId(tw.getPathString()), tw.getObjectId(0));
-    AllExternalIds oldExternalIds =
-        AllExternalIds.create(Stream.<ExternalId>builder().add(externalId).build());
+      HashMap<ObjectId, ObjectId> additions = new HashMap<>();
+      additions.put(fileNameToObjectId(tw.getPathString()), tw.getObjectId(0));
+      AllExternalIds oldExternalIds =
+          AllExternalIds.create(Stream.<ExternalId>builder().add(externalId).build());
 
-    AllExternalIds allExternalIds =
-        loader.buildAllExternalIds(repo, oldExternalIds, additions, new HashSet<>());
+      AllExternalIds allExternalIds =
+          loader.buildAllExternalIds(repo, oldExternalIds, additions, new HashSet<>());
 
-    assertThat(allExternalIds).isNotNull();
-    assertThat(allExternalIds.byKey().containsKey(externalIdKey)).isTrue();
-    assertThat(allExternalIds.byKey().get(externalIdKey)).isEqualTo(externalId);
+      assertThat(allExternalIds).isNotNull();
+      assertThat(allExternalIds.byKey().containsKey(externalIdKey)).isTrue();
+      assertThat(allExternalIds.byKey().get(externalIdKey)).isEqualTo(externalId);
+    }
   }
 
   private static ObjectId fileNameToObjectId(String path) {

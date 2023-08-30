@@ -46,5 +46,5 @@ public final class StaticModuleConstants {
           "/settings/*",
           "/Documentation/q/*");
 
-  private StaticModuleConstants() {};
+  private StaticModuleConstants() {}
 }

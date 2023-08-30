@@ -85,7 +85,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
     this.indexName = indexName;
     this.indexedDocuments = new HashMap<>();
     this.queryCount = 0;
-    this.resultsSizes = new ArrayList<Integer>();
+    this.resultsSizes = new ArrayList<>();
   }
 
   @Override

@@ -106,7 +106,8 @@ export class GrAvatarStack extends LitElement {
             this.getAccountsModel().fillDetails(account)
           )
         ).then(accounts => {
-          this.accounts = accounts.filter(isDefined);
+          // Only keep the detailed accounts to avoid infinite looping.
+          this.accounts = accounts.filter(a => isDefined(a) && isDetailedAccount(a));
         });
       }
     }

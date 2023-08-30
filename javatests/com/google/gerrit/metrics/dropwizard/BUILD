@@ -8,6 +8,7 @@ junit_tests(
     deps = [
         "//java/com/google/gerrit/metrics",
         "//java/com/google/gerrit/metrics/dropwizard",
+        "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib/mockito",
         "//lib/truth",
         "@dropwizard-core//jar",

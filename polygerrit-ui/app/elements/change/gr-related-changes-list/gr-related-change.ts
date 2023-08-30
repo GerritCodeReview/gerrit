@@ -43,9 +43,6 @@ export class GrRelatedChange extends LitElement {
     return [
       sharedStyles,
       css`
-        a {
-          display: block;
-        }
         :host,
         .changeContainer,
         a {
@@ -53,9 +50,11 @@ export class GrRelatedChange extends LitElement {
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+          display: inline-flex;
+          width: 100%;
         }
-        .changeContainer {
-          display: flex;
+        a {
+          display: inline;
         }
         .strikethrough {
           color: var(--deemphasized-text-color);

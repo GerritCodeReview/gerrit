@@ -132,8 +132,10 @@ export class GrRelatedChangesList extends LitElement {
         }
         .relatedChangeLine {
           display: flex;
+          width: 100%;
           visibility: visible;
           height: auto;
+          border: 1px solid var(--border-color);
         }
         .marker.arrow {
           visibility: hidden;
@@ -175,6 +177,10 @@ export class GrRelatedChangesList extends LitElement {
         gr-related-collapse[collapsed] .relatedChangeLine {
           visibility: hidden;
           height: 0px;
+        }
+        .status {
+          position: relative;
+          right: 0px;
         }
       `,
     ];

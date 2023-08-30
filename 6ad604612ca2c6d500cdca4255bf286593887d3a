@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f7e481a_cb8102cf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-30T14:11:07Z",
+      "side": 1,
+      "message": "There is\n\n```\n{\n        ...createAccountWithId(1),\n        avatars: [\n          {\n            url: \u0027https://a.b.c/photo0.jpg\u0027,\n            height: 32,\n            width: 32,\n          },\n        ],\n        registered_on: \u00271234\u0027 as Timestamp,\n      })\n```\n\nspecified in the test above\nMaybe extract into a common TEST_ACCOUNT variable and then re-use to get a proper avatar in the DOM?",
+      "range": {
+        "startLine": 187,
+        "startChar": 8,
+        "endLine": 188,
+        "endChar": 42
+      },
+      "revId": "6ad604612ca2c6d500cdca4255bf286593887d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "260acfc8_b8d62f27",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-30T14:11:07Z",
+      "side": 1,
+      "message": "check call count for this perhaps?",
+      "range": {
+        "startLine": 199,
+        "startChar": 6,
+        "endLine": 199,
+        "endChar": 37
+      },
+      "revId": "6ad604612ca2c6d500cdca4255bf286593887d3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

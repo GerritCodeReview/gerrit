@@ -46,6 +46,30 @@
       },
       "revId": "18ba444ea589a8d5d366e9747ecea9d82718fe20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36aa8aa9_684eae16",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-30T14:11:07Z",
+      "side": 0,
+      "message": "Can you check why that is happening?\nWould be interesting to figure out. Then we can avoid the code for checking if it\u0027s a detailed account.",
+      "parentUuid": "90bf4551_f9b15740",
+      "range": {
+        "startLine": 109,
+        "startChar": 26,
+        "endLine": 109,
+        "endChar": 34
+      },
+      "revId": "18ba444ea589a8d5d366e9747ecea9d82718fe20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

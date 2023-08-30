@@ -694,6 +694,53 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void removeReviewerWithoutPermissionsOnChangePostReview_allowed() throws Exception {
+    PushOneCommit.Result r = createChange();
+    ReviewInput in = ReviewInput.approve().reviewer(user.email());
+    gApi.changes().id(r.getChangeId()).current().review(in);
+    AccountGroup.UUID restrictedGroup =
+        groupOperations.newGroup().name("restricted-group").addMember(user.id()).create();
+
+    // revoke permissions to see the change from the reviewer
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/*").group(restrictedGroup))
+        .update();
+
+    in = ReviewInput.noScore().reviewer(Integer.toString(user.id().get()), REMOVED, false);
+
+    requestScopeOperations.setApiUser(admin.id());
+    gApi.changes().id(r.getChangeId()).current().review(in);
+    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    assertThat(info.reviewers.get(REVIEWER).stream().map(ai -> ai._accountId).collect(toList()))
+        .containsExactly(admin.id().get());
+  }
+
+  @Test
+  public void removeReviewerWithoutPermissionsOnChange_allowed() throws Exception {
+
+    PushOneCommit.Result r = createChange();
+    ReviewInput in = ReviewInput.approve().reviewer(user.email());
+    gApi.changes().id(r.getChangeId()).current().review(in);
+    AccountGroup.UUID restrictedGroup =
+        groupOperations.newGroup().name("restricted-group").addMember(user.id()).create();
+
+    // revoke permissions to see the change from the reviewer
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/*").group(restrictedGroup))
+        .update();
+
+    requestScopeOperations.setApiUser(admin.id());
+    gApi.changes().id(r.getChangeId()).reviewer(user.id().toString()).remove();
+    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    assertThat(info.reviewers.get(REVIEWER).stream().map(ai -> ai._accountId).collect(toList()))
+        .containsExactly(admin.id().get());
+  }
+
+  @Test
   public void reviewWithWorkInProgressAndReadyReturnsError() throws Exception {
     PushOneCommit.Result r = createChange();
     ReviewInput in = ReviewInput.noScore();

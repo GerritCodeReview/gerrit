@@ -22,6 +22,30 @@
       },
       "revId": "47aac88cdb58361967f8c7ecfb627017eb3f6d28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8b1b948_376c95e2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-30T14:14:34Z",
+      "side": 1,
+      "message": "Because we trigger the fetch in the \u0027updated\u0027 call there\u0027s nothing really we can wait for becuase the detailedAccounts will be empty.",
+      "parentUuid": "8e7f50ed_d171dfb7",
+      "range": {
+        "startLine": 168,
+        "startChar": 6,
+        "endLine": 168,
+        "endChar": 35
+      },
+      "revId": "47aac88cdb58361967f8c7ecfb627017eb3f6d28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

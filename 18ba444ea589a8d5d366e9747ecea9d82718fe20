@@ -70,6 +70,30 @@
       },
       "revId": "18ba444ea589a8d5d366e9747ecea9d82718fe20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddaf44a2_dca3e9ca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-30T14:14:34Z",
+      "side": 0,
+      "message": "I checked, the account that comes back only has an account-id.",
+      "parentUuid": "36aa8aa9_684eae16",
+      "range": {
+        "startLine": 109,
+        "startChar": 26,
+        "endLine": 109,
+        "endChar": 34
+      },
+      "revId": "18ba444ea589a8d5d366e9747ecea9d82718fe20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

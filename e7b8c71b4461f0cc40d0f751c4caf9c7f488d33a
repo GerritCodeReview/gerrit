@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f47d22f9_dcc2a10b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-30T14:03:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f667c7e_77dda996",
+      "revId": "e7b8c71b4461f0cc40d0f751c4caf9c7f488d33a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff72a8d7_8767bc04",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-08-30T13:58:40Z",
       "side": 1,
       "message": "if changeProperties has accounts then we re-fetch accounts?\nThis code is quite confusing.\n\nAccounts is passed from the parent and then we refetch `detailedAccounts`.\n\nWDYT about creating 2 properties for this?\n`accounts` and `detailedAccounts`?\n\nIf not, then pass only AccountIds from the parents and not complete accounts otherwise it\u0027s confusing why we are filtering them out.",
+      "range": {
+        "startLine": 98,
+        "startChar": 8,
+        "endLine": 98,
+        "endChar": 39
+      },
+      "revId": "e7b8c71b4461f0cc40d0f751c4caf9c7f488d33a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "26cc825a_520f02f5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-30T14:03:19Z",
+      "side": 1,
+      "message": "I do like your idea of 2 different states.",
+      "parentUuid": "ff72a8d7_8767bc04",
       "range": {
         "startLine": 98,
         "startChar": 8,

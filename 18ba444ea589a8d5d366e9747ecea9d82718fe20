@@ -22,6 +22,30 @@
       },
       "revId": "18ba444ea589a8d5d366e9747ecea9d82718fe20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90bf4551_f9b15740",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-30T14:03:19Z",
+      "side": 0,
+      "message": "I don\u0027t know why we\u0027re getting an account back that has no details to be honest.\n\nMaybe someone doesn\u0027t have permission to fetch that account?",
+      "parentUuid": "67b34f22_70872a88",
+      "range": {
+        "startLine": 109,
+        "startChar": 26,
+        "endLine": 109,
+        "endChar": 34
+      },
+      "revId": "18ba444ea589a8d5d366e9747ecea9d82718fe20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

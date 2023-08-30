@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ca39a803_7c3d1d8d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-30T10:48:15Z",
+      "side": 1,
+      "message": "I\u0027m going to opt-out from a border for v1.",
+      "parentUuid": "3a70ad36_16f183b1",
+      "revId": "7a8432198ffde01d8d98f9e7cc1b9fede43acb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "856f1786_217e289b",
         "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
         "patchSetId": 2

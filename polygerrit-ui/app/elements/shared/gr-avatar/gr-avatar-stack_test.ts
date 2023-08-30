@@ -12,7 +12,7 @@ import {
 import {fixture, html, assert} from '@open-wc/testing';
 import {stubRestApi} from '../../../test/test-utils';
 import {LitElement} from 'lit';
-import {Timestamp} from '../../../api/rest-api';
+import {AccountId, Timestamp} from '../../../api/rest-api';
 
 suite('gr-avatar tests', () => {
   suite('config with avatars', () => {
@@ -165,6 +165,7 @@ suite('gr-avatar tests', () => {
         ></gr-avatar-stack>`
       );
       await element.updateComplete;
+      await element.updateComplete;
 
       assert.equal(stub.called, true);
       assert.shadowDom.equal(
@@ -179,6 +180,29 @@ suite('gr-avatar tests', () => {
       const avatars = element.shadowRoot!.querySelectorAll('gr-avatar');
       assert.strictEqual(avatars.length, 1);
       assert.strictEqual(window.getComputedStyle(avatars[0]).marginLeft, '0px');
+    });
+
+
+    test('fetches account details. does not infinite loop', async () => {
+      const stub = stubRestApi('getAccountDetails').resolves({
+        _account_id: 1 as AccountId,
+        registered_on: '1234' as Timestamp,
+      });
+      const element: LitElement = await fixture(
+        html`<gr-avatar-stack
+          .accounts=${[{_account_id: 1}]}
+          .forceFetch=${true}
+          .imageSize=${32}
+        ></gr-avatar-stack>`
+      );
+      await element.updateComplete;
+
+      assert.equal(stub.called, true);
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `<slot name="fallback"></slot>`
+      );
+
     });
 
     test('renders many accounts fallback', async () => {

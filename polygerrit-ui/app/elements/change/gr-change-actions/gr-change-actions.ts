@@ -1004,23 +1004,17 @@ export class GrChangeActions
   }
 
   private actionsChanged() {
-    this.hidden =
-      Object.keys(this.actions).length === 0 &&
-      Object.keys(this.revisionActions).length === 0 &&
-      this.additionalActions.length === 0;
     this.actionLoadingMessage = '';
     this.disabledMenuActions = [];
 
-    if (Object.keys(this.revisionActions).length !== 0) {
-      if (!this.revisionActions.download) {
-        this.revisionActions = {
-          ...this.revisionActions,
-          download: DOWNLOAD_ACTION,
-        };
-        fire(this, 'revision-actions-changed', {
-          value: this.revisionActions,
-        });
-      }
+    if (!this.revisionActions.download) {
+      this.revisionActions = {
+        ...this.revisionActions,
+        download: DOWNLOAD_ACTION,
+      };
+      fire(this, 'revision-actions-changed', {
+        value: this.revisionActions,
+      });
     }
     if (
       !this.actions.includedIn &&

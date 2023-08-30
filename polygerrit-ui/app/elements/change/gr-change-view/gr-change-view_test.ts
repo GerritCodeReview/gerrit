@@ -390,7 +390,7 @@ suite('gr-change-view tests', () => {
                 </gr-copy-clipboard>
               </div>
               <div class="commitActions">
-                <gr-change-actions hidden="" id="actions"> </gr-change-actions>
+                <gr-change-actions id="actions"> </gr-change-actions>
               </div>
             </div>
             <h2 class="assistive-tech-only">Change metadata</h2>

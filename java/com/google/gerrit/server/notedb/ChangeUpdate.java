@@ -663,7 +663,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       Map<ObjectId, RevisionNoteBuilder> toUpdate) {
     // Prohibit various kinds of illegal operations on comments.
     Set<Comment.Key> existing = new HashSet<>();
-    List<Comment> draftsToFix = new ArrayList();
+    List<Comment> draftsToFix = new ArrayList<>();
     for (ChangeRevisionNote rn : existingNotes.values()) {
       for (Comment c : rn.getEntities()) {
         existing.add(c.key);

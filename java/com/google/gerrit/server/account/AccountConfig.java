@@ -26,7 +26,6 @@ import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
-import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CachedPreferences;
 import com.google.gerrit.server.git.ValidationError;
@@ -125,7 +124,8 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    * Returns the revision of the {@code refs/meta/external-ids} branch.
    *
    * <p>This revision can be used to load the external IDs of the loaded account lazily via {@link
-   * ExternalIds#byAccount(com.google.gerrit.entities.Account.Id, ObjectId)}.
+   * com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdsNoteDbImpl#byAccount(com.google.gerrit.entities.Account.Id,
+   * ObjectId)}.
    *
    * @return revision of the {@code refs/meta/external-ids} branch, {@link Optional#empty()} if no
    *     {@code refs/meta/external-ids} branch exists

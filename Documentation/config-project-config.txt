@@ -129,9 +129,10 @@ project, while keeping the old project around for old references.
 
 - `Hidden`:
 +
-The project is hidden and only visible to project owners. Other users
-are not able to see the project even if they have read permissions
-granted on the project.
+The project is hidden; It will not appear in any searches and is only visible
+to project owners by going directly to the repository admin page. Other users
+are not able to see the project even if they have read permissions granted on
+the project.
 
 
 [[receive-section]]

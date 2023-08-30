@@ -34,7 +34,7 @@ export function loginUrl(authConfig: AuthInfo | undefined): string {
   ) {
     return customLoginUrl.startsWith('http')
       ? customLoginUrl
-      : baseUrl + customLoginUrl;
+      : baseUrl + sanitizeRelativeUrl(customLoginUrl);
   } else {
     // Strip the canonical path from the path since needing canonical in
     // the path is unneeded and breaks the url.
@@ -71,6 +71,10 @@ export function getPatchRangeExpression(params: PatchRangeParams) {
     range = `${params.basePatchNum}..${range}`;
   }
   return range;
+}
+
+function sanitizeRelativeUrl(relativeUrl: string): string {
+  return relativeUrl.startsWith('/') ? relativeUrl : `/${relativeUrl}`;
 }
 
 export function prependOrigin(path: string): string {

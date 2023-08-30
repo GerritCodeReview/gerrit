@@ -420,7 +420,7 @@ export class GrAppElement extends LitElement {
     return html`
       <gr-main-header
         id="mainHeader"
-        .searchQuery=${(this.params as SearchViewState)?.query ?? ''}
+        .searchQuery=${(this.params as SearchViewState)?.query}
         @mobile-search=${this.mobileSearchToggle}
         @show-keyboard-shortcuts=${this.showKeyboardShortcuts}
         .mobileSearchHidden=${!this.mobileSearch}

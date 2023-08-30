@@ -16,6 +16,24 @@
       "message": "How about moving it to `stable-3.6`?",
       "revId": "2529802fd53921a9785d7f65033f1cc83b575241",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b710d25_8fe8ab82",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-08-30T07:13:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "143d0d8a_47bab6c1",
+      "revId": "2529802fd53921a9785d7f65033f1cc83b575241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

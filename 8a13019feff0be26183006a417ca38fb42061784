@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddc14737_40487086",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-30T14:43:30Z",
+      "side": 1,
+      "message": "Ran locally and all tests pass.\nVoting Verified + 1 so that the fix can be submitted and cherry picked.",
+      "revId": "8a13019feff0be26183006a417ca38fb42061784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

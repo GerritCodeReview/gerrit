@@ -39,6 +39,9 @@ export class GrAvatarStack extends LitElement {
   @property({type: Array})
   accounts: AccountInfo[] = [];
 
+  @state()
+  detailedAccounts: AccountInfo[] = [];
+
   /**
    * The size of requested image in px.
    *
@@ -106,8 +109,11 @@ export class GrAvatarStack extends LitElement {
             this.getAccountsModel().fillDetails(account)
           )
         ).then(accounts => {
-          this.accounts = accounts.filter(isDefined);
+          // Only keep the detailed accounts to avoid infinite looping.
+          this.detailedAccounts = accounts.filter(a => isDefined(a) && isDetailedAccount(a));
         });
+      } else {
+        this.detailedAccounts = this.accounts;
       }
     }
   }

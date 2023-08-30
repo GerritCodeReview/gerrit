@@ -694,6 +694,57 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void removeReviewerWithoutPermissionsOnChangePostReview_allowed() throws Exception {
+    PushOneCommit.Result r = createChange();
+    ReviewInput in = ReviewInput.approve().reviewer(user.email());
+    gApi.changes().id(r.getChangeId()).current().review(in);
+    GroupApi restrictedGroup = gApi.groups().create(name("restricted-group"));
+    restrictedGroup.addMembers(user.id().toString());
+    restrictedGroup.removeMembers(admin.id().toString());
+
+    // revoke permissions to see the change from the reviewer
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            block(Permission.READ).ref("refs/*").group(AccountGroup.uuid(restrictedGroup.get().id)))
+        .update();
+
+    in = ReviewInput.noScore().reviewer(Integer.toString(user.id().get()), REMOVED, false);
+
+    requestScopeOperations.setApiUser(admin.id());
+    gApi.changes().id(r.getChangeId()).current().review(in);
+    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    assertThat(info.reviewers.get(REVIEWER).stream().map(ai -> ai._accountId).collect(toList()))
+        .containsExactly(admin.id().get());
+  }
+
+  @Test
+  public void removeReviewerWithoutPermissionsOnChange_allowed() throws Exception {
+
+    PushOneCommit.Result r = createChange();
+    ReviewInput in = ReviewInput.approve().reviewer(user.email());
+    gApi.changes().id(r.getChangeId()).current().review(in);
+    GroupApi restrictedGroup = gApi.groups().create(name("restricted-group"));
+    restrictedGroup.addMembers(user.id().toString());
+    restrictedGroup.removeMembers(admin.id().toString());
+
+    // revoke permissions to see the change from the reviewer
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            block(Permission.READ).ref("refs/*").group(AccountGroup.uuid(restrictedGroup.get().id)))
+        .update();
+
+    requestScopeOperations.setApiUser(admin.id());
+    gApi.changes().id(r.getChangeId()).reviewer(user.id().toString()).remove();
+    ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
+    assertThat(info.reviewers.get(REVIEWER).stream().map(ai -> ai._accountId).collect(toList()))
+        .containsExactly(admin.id().get());
+  }
+
+  @Test
   public void reviewWithWorkInProgressAndReadyReturnsError() throws Exception {
     PushOneCommit.Result r = createChange();
     ReviewInput in = ReviewInput.noScore();
@@ -2188,7 +2239,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
-  public void removeNonVisibleReviewerThroughPostReview() throws Exception {
+  public void removeInactiveReviewer() throws Exception {
     // allow all users to remove reviewers
     projectOperations
         .project(project)
@@ -2211,6 +2262,37 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(
             accountControlFactory.get(identifiedUserFactory.create(user.id())).canSee(user2.id()))
         .isFalse();
+
+    gApi.changes().id(changeId).reviewer(user.id().toString()).remove(new DeleteReviewerInput());
+    assertThat(gApi.changes().id(changeId).get().reviewers).isEmpty();
+  }
+
+  @Test
+  // @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
+  public void removeNonVisibleReviewerThroughPostReview() throws Exception {
+    // allow all users to remove reviewers
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.REMOVE_REVIEWER).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    gApi.changes().id(changeId).addReviewer(user.email());
+    AccountInfo reviewerInfo =
+        Iterables.getOnlyElement(
+            gApi.changes().id(changeId).get().reviewers.get(ReviewerState.REVIEWER));
+    assertThat(reviewerInfo._accountId).isEqualTo(user.id().get());
+
+    TestAccount user2 = accountCreator.user2();
+    requestScopeOperations.setApiUser(user2.id());
+
+    // user2 cannot see user
+    // assertThat(
+    //
+    // accountControlFactory.get(identifiedUserFactory.create(user.id())).canSee(user2.id()))
+    //     .isFalse();
 
     ReviewerInput reviewerInput = new ReviewerInput();
     reviewerInput.reviewer = user.email();

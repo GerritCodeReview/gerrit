@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1ab2fba_fb97e1ce",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-30T14:28:58Z",
+      "side": 1,
+      "message": "mention why we need to check for `isDefined(a)` after requesting `fillDetails`",
+      "range": {
+        "startLine": 112,
+        "startChar": 36,
+        "endLine": 112,
+        "endChar": 73
+      },
+      "revId": "6556323e6a595528ed5eeaa0991a75c8faaf9720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30b50ac7_ee8cf4c3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack_test.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-30T14:28:58Z",
+      "side": 1,
+      "message": "add the comment from above here as well",
+      "range": {
+        "startLine": 199,
+        "startChar": 6,
+        "endLine": 199,
+        "endChar": 34
+      },
+      "revId": "6556323e6a595528ed5eeaa0991a75c8faaf9720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96b4d2b1_eb079e40",
+        "filename": "polygerrit-ui/app/elements/shared/gr-avatar/gr-avatar-stack_test.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-08-30T14:28:58Z",
+      "side": 1,
+      "message": "remove?\ncallCount implicitly checks it.",
+      "range": {
+        "startLine": 202,
+        "startChar": 6,
+        "endLine": 202,
+        "endChar": 38
+      },
+      "revId": "6556323e6a595528ed5eeaa0991a75c8faaf9720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

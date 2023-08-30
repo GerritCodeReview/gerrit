@@ -39,6 +39,9 @@ export class GrAvatarStack extends LitElement {
   @property({type: Array})
   accounts: AccountInfo[] = [];
 
+  @state()
+  detailedAccounts: AccountInfo[] = [];
+
   /**
    * The size of requested image in px.
    *
@@ -106,16 +109,21 @@ export class GrAvatarStack extends LitElement {
             this.getAccountsModel().fillDetails(account)
           )
         ).then(accounts => {
-          this.accounts = accounts.filter(isDefined);
+          // Only keep the detailed accounts as only those will be shown.
+          this.detailedAccounts = accounts.filter(
+            a => isDefined(a) && isDetailedAccount(a)
+          );
         });
+      } else {
+        this.detailedAccounts = this.accounts;
       }
     }
   }
 
   override render() {
     const uniqueAvatarAccounts = this.forceFetch
-      ? this.accounts.filter(uniqueAccountId)
-      : this.accounts
+      ? this.detailedAccounts.filter(uniqueAccountId)
+      : this.detailedAccounts
           .filter(account => !!account?.avatars?.[0]?.url)
           .filter(uniqueDefinedAvatar);
     const hasAvatars = this.config?.plugin?.has_avatars ?? false;

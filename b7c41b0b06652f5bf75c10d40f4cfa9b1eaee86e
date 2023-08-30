@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89437fe3_60fb0b3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-30T13:13:36Z",
+      "side": 1,
+      "message": "Thanks, this is ready for review both from Arnab and from code-perspective.",
+      "revId": "b7c41b0b06652f5bf75c10d40f4cfa9b1eaee86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

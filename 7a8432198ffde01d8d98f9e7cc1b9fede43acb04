@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc65fb8b_f0afa893",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-30T13:13:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca39a803_7c3d1d8d",
+      "revId": "7a8432198ffde01d8d98f9e7cc1b9fede43acb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "856f1786_217e289b",
@@ -124,6 +142,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a26879a_5904afbe",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-30T13:13:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fac8a57_bd33373c",
+      "revId": "7a8432198ffde01d8d98f9e7cc1b9fede43acb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4118c53_497fabe5",
@@ -170,6 +206,24 @@
         "id": 1139611
       },
       "writtenOn": "2023-08-30T13:13:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ce41860_b0c1252d",
+      "revId": "7a8432198ffde01d8d98f9e7cc1b9fede43acb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf3c519a_84243210",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-30T13:13:36Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "7ce41860_b0c1252d",

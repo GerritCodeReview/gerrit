@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b91e9e15_35dddc34",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-08-30T10:35:22Z",
+      "side": 1,
+      "message": "I have downloaded and played around a bit.\n\nI think if we use a border, then we also have to use a white background.\n\nWe also need a tiny bit more vertical padding. I would go for 2px top and 2px bottom.\n\nThe section titles need to be left aligned with the tables.\n\nI think it would be good to have a border-radius on the table as in Arnab\u0027s mocks.",
+      "revId": "7a8432198ffde01d8d98f9e7cc1b9fede43acb04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "856f1786_217e289b",
         "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
         "patchSetId": 2

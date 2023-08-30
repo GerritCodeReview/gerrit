@@ -132,6 +132,7 @@ export class GrRelatedChangesList extends LitElement {
         }
         .relatedChangeLine {
           display: flex;
+          width: 100%;
           visibility: visible;
           height: auto;
         }

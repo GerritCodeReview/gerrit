@@ -13,7 +13,7 @@ import {Interaction} from '../../../constants/reporting';
 import {fontStyles} from '../../../styles/gr-font-styles';
 
 /** What is the maximum number of shown changes in collapsed list? */
-export const DEFALT_NUM_CHANGES_WHEN_COLLAPSED = 3;
+export const DEFAULT_NUM_CHANGES_WHEN_COLLAPSED = 3;
 
 @customElement('gr-related-collapse')
 export class GrRelatedCollapse extends LitElement {
@@ -30,7 +30,7 @@ export class GrRelatedCollapse extends LitElement {
   length = 0;
 
   @property({type: Number})
-  numChangesWhenCollapsed = DEFALT_NUM_CHANGES_WHEN_COLLAPSED;
+  numChangesWhenCollapsed = DEFAULT_NUM_CHANGES_WHEN_COLLAPSED;
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -43,7 +43,6 @@ export class GrRelatedCollapse extends LitElement {
           color: var(--deemphasized-text-color);
           display: flex;
           align-self: flex-end;
-          margin-left: 20px;
         }
         gr-button {
           display: flex;

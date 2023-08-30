@@ -207,14 +207,14 @@ suite('gr-related-changes-list', () => {
                     show-change-status=""
                     show-submittable-check=""
                   >
-                    Test commit subject
+                    <span slot="name">Test commit subject</span>
                   </gr-related-change>
                 </div>
               </gr-related-collapse>
             </section>
             <section id="submittedTogether">
               <gr-related-collapse title="Submitted together">
-                <div class="relatedChangeLine show-when-collapsed">
+                <div class="relatedChangeLine selected show-when-collapsed">
                   <span
                     aria-label="Arrow marking current change"
                     class="arrowToCurrentChange marker"
@@ -223,10 +223,14 @@ suite('gr-related-changes-list', () => {
                     ➔
                   </span>
                   <gr-related-change show-submittable-check="">
-                    Test subject
+                    <span slot="name">Test subject</span>
+                    <span slot="extra">
+                      <span class="repo" title="test-project"
+                        >test-project</span
+                      >
+                      <span class="branch">&nbsp;|&nbsp;test-branch&nbsp;</span>
+                    </span>
                   </gr-related-change>
-                  <span class="repo" title="test-project">test-project</span>
-                  <span class="branch">&nbsp;|&nbsp;test-branch&nbsp;</span>
                 </div>
               </gr-related-collapse>
               <div class="note" hidden="">(+ )</div>

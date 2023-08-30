@@ -295,7 +295,9 @@ public class ReviewerModifier {
       return fail(input, FailureType.NOT_FOUND, e.getMessage());
     }
 
-    if (isValidReviewer(notes.getChange().getDest(), reviewerUser.getAccount())) {
+    // If the reviewer is remove, we do not have to preform the visibility check on the change
+    if (ReviewerState.REMOVED.equals(input.state)
+        || isValidReviewer(notes.getChange().getDest(), reviewerUser.getAccount())) {
       return new ReviewerModification(
           input,
           notes,

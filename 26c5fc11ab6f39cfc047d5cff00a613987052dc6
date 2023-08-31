@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8b85f50_2fe1cc2e",
+        "filename": "java/com/google/gerrit/server/change/ReviewerModifier.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-31T08:00:32Z",
+      "side": 1,
+      "message": "nit: removed",
+      "range": {
+        "startLine": 298,
+        "startChar": 26,
+        "endLine": 298,
+        "endChar": 32
+      },
+      "revId": "26c5fc11ab6f39cfc047d5cff00a613987052dc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3167c474_8e94ff51",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-31T08:00:32Z",
+      "side": 1,
+      "message": "[optional] It might be easier to create the group via GroupOperations.\n\ngroupOperations.newGroup().name(\"restricted-group\").addMember(user.id()).create();",
+      "range": {
+        "startLine": 701,
+        "startChar": 4,
+        "endLine": 703,
+        "endChar": 57
+      },
+      "revId": "26c5fc11ab6f39cfc047d5cff00a613987052dc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fea734b6_5a738b1a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2242,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-31T08:00:32Z",
+      "side": 1,
+      "message": "NonVisible?\n\nAn inactive reviewer would be a reviewer that has the active flag in the account data set to false, but that\u0027s not the case here.",
+      "range": {
+        "startLine": 2242,
+        "startChar": 20,
+        "endLine": 2242,
+        "endChar": 28
+      },
+      "revId": "26c5fc11ab6f39cfc047d5cff00a613987052dc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cadba32_85afca0c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2295,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-31T08:00:32Z",
+      "side": 1,
+      "message": "why is this commented out?",
+      "range": {
+        "startLine": 2291,
+        "startChar": 4,
+        "endLine": 2295,
+        "endChar": 22
+      },
+      "revId": "26c5fc11ab6f39cfc047d5cff00a613987052dc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

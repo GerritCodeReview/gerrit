@@ -33,7 +33,8 @@ public class AndChangeSource extends AndSource<ChangeData> implements ChangeData
 
   @Override
   public boolean hasChange() {
-    return source instanceof ChangeDataSource && ((ChangeDataSource) source).hasChange();
+    return filteredSource instanceof ChangeDataSource
+        && ((ChangeDataSource) filteredSource).hasChange();
   }
 
   @Override

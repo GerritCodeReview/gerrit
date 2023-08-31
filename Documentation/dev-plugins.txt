@@ -3067,7 +3067,15 @@ As an example:
 These custom-keyed-values can be fetched by passing the option `o=CUSTOM_KEYED_VALUES`
 to a change details fetch.
 
+[[diff-validators]]
+== Diff Validators
 
+`com.google.gerrit.server.patch.DiffValidator` is an extension point that is
+invoked after the file diff is computed through the
+link:rest-api-changes.html#get-diff[Get Diff] REST endpoint.
+
+Implementors can write logic to validate the diff before it's returned on the
+API.
 
 == SEE ALSO
 

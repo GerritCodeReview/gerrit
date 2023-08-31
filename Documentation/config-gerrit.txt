@@ -1682,6 +1682,13 @@ Changing the setting leaves existing changes unaffected.
 +
 Default is false.
 
+[[change.diffFileSizeThreshold]]change.diffFileSizeThreshold::
++
+The threshold of file sizes in megabytes beyond which a
+link:rest-api-changes.html#get-diff[file diff] request will fail.
++
+If not set, no limits are applied on file sizes.
+
 [[changeCleanup]]
 === Section changeCleanup
 

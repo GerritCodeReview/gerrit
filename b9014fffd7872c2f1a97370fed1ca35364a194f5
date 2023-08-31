@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "030c70ee_8b521995",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1685,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-08-31T15:50:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17d4c4e5_9cad8ade",
+      "revId": "b9014fffd7872c2f1a97370fed1ca35364a194f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6745de55_7d91c490",
@@ -48,6 +66,24 @@
       "writtenOn": "2023-08-31T15:26:15Z",
       "side": 1,
       "message": "For consistency, maybe support \u00270\u0027 as \"no limit\" (same as it\u0027s done for \"change.maxFileSizeDownload\").",
+      "revId": "b9014fffd7872c2f1a97370fed1ca35364a194f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1a16112_ad3b7768",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1690,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-08-31T15:50:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6745de55_7d91c490",
       "revId": "b9014fffd7872c2f1a97370fed1ca35364a194f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -69,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c342df68_9c2c6fef",
+        "filename": "java/com/google/gerrit/server/patch/DiffFileSizeValidator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-08-31T15:50:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab0cd986_f73ae4cb",
+      "revId": "b9014fffd7872c2f1a97370fed1ca35364a194f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef5a494b_dbe8f02f",
@@ -82,6 +136,24 @@
       "writtenOn": "2023-08-31T15:26:15Z",
       "side": 1,
       "message": "This method shouldn\u0027t be needed, see comment on the test.",
+      "revId": "b9014fffd7872c2f1a97370fed1ca35364a194f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f8d7fb5_329e4824",
+        "filename": "java/com/google/gerrit/server/patch/DiffFileSizeValidator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-08-31T15:50:59Z",
+      "side": 1,
+      "message": "Replied to the other comment.",
+      "parentUuid": "ef5a494b_dbe8f02f",
       "revId": "b9014fffd7872c2f1a97370fed1ca35364a194f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -103,6 +175,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0d74a7c_c0c1a41d",
+        "filename": "java/com/google/gerrit/server/patch/DiffValidator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-08-31T15:50:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7edef874_904b7493",
+      "revId": "b9014fffd7872c2f1a97370fed1ca35364a194f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11205ec7_879778ef",
@@ -116,6 +206,24 @@
       "writtenOn": "2023-08-31T15:26:15Z",
       "side": 1,
       "message": "Maybe better use the @GerritConfig annotation to configure the limit.",
+      "revId": "b9014fffd7872c2f1a97370fed1ca35364a194f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bffe490_518c5673",
+        "filename": "javatests/com/google/gerrit/server/patch/DiffValidatorsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-08-31T15:50:59Z",
+      "side": 1,
+      "message": "I tried it out and it didn\u0027t work since this test class does not subclass AbstractDaemonTest I guess.\n\nI left as is.",
+      "parentUuid": "11205ec7_879778ef",
       "revId": "b9014fffd7872c2f1a97370fed1ca35364a194f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

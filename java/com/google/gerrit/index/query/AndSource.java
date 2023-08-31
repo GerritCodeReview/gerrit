@@ -17,11 +17,12 @@ package com.google.gerrit.index.query;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.PaginationType;
 import java.util.Collection;
 import java.util.List;
 
 public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
-  protected final DataSource<T> source;
+  protected final FilteredSource<T> filteredSource;
 
   private final int start;
   private final int cardinality;
@@ -58,18 +59,18 @@ public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
     if (selectedSource == null) {
       throw new IllegalArgumentException("No DataSource Found");
     }
-    this.source = toPaginatingSource(selectedSource);
+    this.filteredSource = toDataSource(selectedSource);
     this.cardinality = c;
   }
 
   @Override
   public ResultSet<T> read() {
-    return source.read();
+    return filteredSource.read();
   }
 
   @Override
   public ResultSet<FieldBundle> readRaw() {
-    return source.readRaw();
+    return filteredSource.readRaw();
   }
 
   @Override
@@ -88,6 +89,24 @@ public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
   @Override
   public int getCardinality() {
     return cardinality;
+  }
+
+  @SuppressWarnings("unchecked")
+  private FilteredSource<T> toDataSource(Predicate<T> pred) {
+    if (indexConfig.paginationType().equals(PaginationType.NONE)) {
+      return new FilteredSource<>((DataSource<T>) pred, start, indexConfig) {
+        @Override
+        protected boolean match(T object) {
+          return AndSource.this.match(object);
+        }
+
+        @Override
+        protected boolean isMatchable() {
+          return AndSource.this.isMatchable();
+        }
+      };
+    }
+    return toPaginatingSource(pred);
   }
 
   @SuppressWarnings("unchecked")

@@ -32,6 +32,7 @@ import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.IndexRewriter;
+import com.google.gerrit.index.PaginationType;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.metrics.Description;
@@ -287,7 +288,9 @@ public abstract class QueryProcessor<T> {
 
         @SuppressWarnings("unchecked")
         DataSource<T> s = (DataSource<T>) pred;
-        if (initialPageSize < limit && !(pred instanceof AndSource)) {
+        if (!indexConfig.paginationType().equals(PaginationType.NONE)
+            && initialPageSize < limit
+            && !(pred instanceof AndSource)) {
           s = new PaginatingSource<>(s, start, indexConfig);
         }
         sources.add(s);

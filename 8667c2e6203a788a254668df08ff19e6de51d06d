@@ -128,6 +128,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bdc249ac_11e0ef61",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-08-31T14:54:06Z",
+      "side": 1,
+      "message": "as in\n\n```\n  applicableIf \u003d foobar\n```\n\nwhich we reinterpret as something like\n\n```\n  applicableIf \u003d (message:foobar OR file:foobar OR owner:foobar)\n```",
+      "parentUuid": "549184fb_3121da3a",
+      "revId": "8667c2e6203a788a254668df08ff19e6de51d06d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "247424e4_11adc0f8",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 2

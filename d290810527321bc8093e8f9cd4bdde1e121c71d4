@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c818a637_32dd64b1",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-change.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-08-31T08:52:21Z",
+      "side": 1,
+      "message": "Fixed, but it needs to be inline-flex",
+      "parentUuid": "aabb9e97_b6f58a12",
+      "range": {
+        "startLine": 53,
+        "startChar": 10,
+        "endLine": 57,
+        "endChar": 26
+      },
+      "revId": "d290810527321bc8093e8f9cd4bdde1e121c71d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b0bd589_79e335c5",

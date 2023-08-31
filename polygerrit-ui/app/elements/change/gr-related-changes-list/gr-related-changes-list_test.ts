@@ -240,7 +240,7 @@ suite('gr-related-changes-list', () => {
                 <div class="relatedChangeLine show-when-collapsed">
                   <span class="marker space"> </span>
                   <gr-related-change show-change-status="">
-                    test-branch: Test subject
+                    <span slot="name"> test-branch: Test subject </span>
                   </gr-related-change>
                 </div>
               </gr-related-collapse>

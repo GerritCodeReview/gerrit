@@ -470,7 +470,7 @@ export class GrRelatedChangesList extends LitElement {
               )}<gr-related-change
                 .change=${change}
                 .href=${createChangeUrl({change, usp: 'merge-conflict'})}
-                >${change.subject}</gr-related-change
+                ><span slot="name">${change.subject}</span></gr-related-change
               >
             </div>`
         )}
@@ -512,7 +512,9 @@ export class GrRelatedChangesList extends LitElement {
                 .change=${change}
                 .href=${createChangeUrl({change, usp: 'cherry-pick'})}
                 show-change-status
-                >${change.branch}: ${change.subject}</gr-related-change
+                ><span slot="name">${change.branch}: ${
+              change.subject
+            }</slot></gr-related-change
               >
             </div>`
         )}

@@ -61,6 +61,7 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.experiments.ConfigExperimentFeatures.ConfigExperimentFeaturesModule;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits.AsyncReceiveCommitsModule;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
+import com.google.gerrit.server.index.AbstractIndexModule;
 import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.gerrit.server.ssh.NoSshModule;
@@ -425,7 +426,6 @@ public class GerritServer implements AutoCloseable {
     if (testSshModule != null) {
       daemon.addAdditionalSshModuleForTesting(testSshModule);
     }
-    daemon.setEnableSshd(desc.useSsh());
     daemon.addAdditionalSysModuleForTesting(
         new AbstractModule() {
           @Override
@@ -462,7 +462,11 @@ public class GerritServer implements AutoCloseable {
 
     if (desc.memory()) {
       checkArgument(additionalArgs.length == 0, "cannot pass args to in-memory server");
-      return startInMemory(desc, site, baseConfig, daemon, inMemoryRepoManager);
+      AbstractIndexModule testIndexModule =
+          (testSysModule instanceof AbstractIndexModule)
+              ? (AbstractIndexModule) testSysModule
+              : null;
+      return startInMemory(desc, site, baseConfig, daemon, inMemoryRepoManager, testIndexModule);
     }
     return startOnDisk(desc, site, daemon, serverStarted, additionalArgs);
   }
@@ -472,7 +476,8 @@ public class GerritServer implements AutoCloseable {
       Path site,
       Config baseConfig,
       Daemon daemon,
-      @Nullable InMemoryRepositoryManager inMemoryRepoManager)
+      @Nullable InMemoryRepositoryManager inMemoryRepoManager,
+      @Nullable AbstractIndexModule testIndexModule)
       throws Exception {
     Config cfg = desc.buildConfig(baseConfig);
     mergeTestConfig(cfg);
@@ -488,24 +493,11 @@ public class GerritServer implements AutoCloseable {
         "accountPatchReviewDb", null, "url", JdbcAccountPatchReviewStore.TEST_IN_MEMORY_URL);
 
     String configuredIndexBackend = cfg.getString("index", null, "type");
-    IndexType indexType;
-    if (configuredIndexBackend != null) {
-      // Explicitly configured index backend from gerrit.config trumps any other ways to configure
-      // index backends so that Reindex tests can be explicit about the backend they want to test
-      // against.
-      indexType = new IndexType(configuredIndexBackend);
-    } else {
-      // Allow configuring the index backend based on sys/env variables so that integration tests
-      // can be run against different index backends.
-      indexType = IndexType.fromEnvironment().orElse(new IndexType("fake"));
-    }
-    if (indexType.isLucene()) {
-      daemon.setIndexModule(
-          LuceneIndexModule.singleVersionAllLatest(
-              0, ReplicaUtil.isReplica(baseConfig), AutoFlush.ENABLED));
-    } else {
-      daemon.setIndexModule(FakeIndexModule.latestVersion(false));
-    }
+    IndexType indexType =
+        (configuredIndexBackend != null)
+            ? new IndexType(configuredIndexBackend)
+            : IndexType.fromEnvironment().orElse(new IndexType("fake"));
+    daemon.setIndexModule(createIndexModule(indexType, baseConfig, testIndexModule));
 
     daemon.setEnableHttpd(desc.httpd());
     daemon.setInMemory(true);
@@ -523,6 +515,17 @@ public class GerritServer implements AutoCloseable {
         new ReindexProjectsAtStartupModule(), new ReindexGroupsAtStartupModule());
     daemon.start();
     return new GerritServer(desc, null, createTestInjector(daemon), daemon, null);
+  }
+
+  private static AbstractIndexModule createIndexModule(
+      IndexType indexType, Config baseConfig, @Nullable AbstractIndexModule testIndexModule) {
+    if (testIndexModule != null) {
+      return testIndexModule;
+    }
+    return indexType.isLucene()
+        ? LuceneIndexModule.singleVersionAllLatest(
+            0, ReplicaUtil.isReplica(baseConfig), AutoFlush.ENABLED)
+        : FakeIndexModule.latestVersion(false);
   }
 
   private static GerritServer startOnDisk(

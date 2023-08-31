@@ -238,7 +238,8 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
     private final boolean skipMergable;
 
     @Inject
-    FakeChangeIndex(
+    @VisibleForTesting
+    protected FakeChangeIndex(
         SitePaths sitePaths,
         ChangeData.Factory changeDataFactory,
         @Assisted Schema<ChangeData> schema,

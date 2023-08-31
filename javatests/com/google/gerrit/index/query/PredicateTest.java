@@ -14,10 +14,32 @@
 
 package com.google.gerrit.index.query;
 
+import com.google.gerrit.testing.ConfigSuite;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Ignore;
 
 @Ignore
 public abstract class PredicateTest {
+
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    return com.google.gerrit.testing.IndexConfig.create();
+  }
+
+  @ConfigSuite.Config
+  public static Config searchAfterPaginationType() {
+    Config config = defaultConfig();
+    config.setString("index", null, "paginationType", "SEARCH_AFTER");
+    return config;
+  }
+
+  @ConfigSuite.Config
+  public static Config nonePaginationType() {
+    Config config = defaultConfig();
+    config.setString("index", null, "paginationType", "NONE");
+    return config;
+  }
+
   @SuppressWarnings("ProtectedMembersInFinalClass")
   protected static class TestDataSourcePredicate extends TestMatchablePredicate<String>
       implements DataSource<String> {

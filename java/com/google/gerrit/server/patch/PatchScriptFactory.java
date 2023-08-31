@@ -94,6 +94,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
   private final DiffOperations diffOperations;
+  private final DiffValidators diffValidators;
 
   private final Change.Id changeId;
 
@@ -109,6 +110,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       DiffOperations diffOperations,
+      DiffValidators diffValidators,
       @Assisted ChangeNotes notes,
       @Assisted String fileName,
       @Assisted("patchSetA") @Nullable PatchSet.Id patchSetA,
@@ -124,6 +126,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
     this.diffOperations = diffOperations;
+    this.diffValidators = diffValidators;
 
     this.fileName = fileName;
     this.psa = patchSetA;
@@ -144,6 +147,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       DiffOperations diffOperations,
+      DiffValidators diffValidators,
       @Assisted ChangeNotes notes,
       @Assisted String fileName,
       @Assisted int parentNum,
@@ -159,6 +163,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
     this.diffOperations = diffOperations;
+    this.diffValidators = diffValidators;
 
     this.fileName = fileName;
     this.psa = null;
@@ -220,13 +225,14 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   }
 
   private PatchScript getPatchScript(Repository git, ObjectId aId, ObjectId bId)
-      throws IOException, DiffNotAvailableException {
+      throws IOException, DiffNotAvailableException, LargeObjectException {
     FileDiffOutput fileDiffOutput =
         aId == null
             ? diffOperations.getModifiedFileAgainstParent(
                 notes.getProjectName(), bId, parentNum, fileName, diffPrefs.ignoreWhitespace)
             : diffOperations.getModifiedFile(
                 notes.getProjectName(), aId, bId, fileName, diffPrefs.ignoreWhitespace);
+    diffValidators.validate(fileDiffOutput);
     return newBuilder().toPatchScript(git, fileDiffOutput);
   }
 

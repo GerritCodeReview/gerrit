@@ -64,6 +64,10 @@ public abstract class FileDiffOutput implements Serializable {
    */
   public abstract Optional<String> newPath();
 
+  public String getDefaultPath() {
+    return oldPath().isPresent() ? oldPath().get() : newPath().get();
+  }
+
   /**
    * The file mode of the old file at the old git tree diff identified by {@link #oldCommitId()}
    * ()}.

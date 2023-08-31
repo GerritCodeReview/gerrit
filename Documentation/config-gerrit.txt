@@ -1655,6 +1655,13 @@ If 0 the update polling is disabled.
 +
 Default is 5 minutes.
 
+[[change.diffFileSizeThreshold]]change.diffFileSizeThreshold::
++
+The threshold of file sizes in megabytes beyond which a
+link:rest-api-changes.html#get-diff[file diff] request will fail.
++
+If not set, no limits are applied on file sizes.
+
 [[changeCleanup]]
 === Section changeCleanup
 

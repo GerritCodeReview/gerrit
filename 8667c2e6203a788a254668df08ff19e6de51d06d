@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6477e597_29d94606",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-08-31T14:43:55Z",
+      "side": 1,
+      "message": "Also, on a related note, we were thinking of disabling the default predicate for SRs. \n\nThat is hard to automatically migrate; by setting an ERROR state, we can punt on a migration, and on-prem users can tweak the SRs as needed.",
+      "parentUuid": "186304f8_cb01c034",
+      "revId": "8667c2e6203a788a254668df08ff19e6de51d06d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "247424e4_11adc0f8",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 2

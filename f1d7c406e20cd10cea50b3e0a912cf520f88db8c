@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "21f8fe6e_7ac2e9c5",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-08-31T13:58:25Z",
+      "side": 1,
+      "message": "Actually it made sense to extend DataSource and not AndSource in `PaginatingSource`.\n\n In fact AndSource can have as `source` either a DataSource or PaginatingSource (also instantiated by QueryProcessor). I added a superclass `FilteredSource` so that AndSource can still hold a reference to a FilteredDatasource (with the original filtering and no internal pagination), or be an instance of PaginatingSource. \n\nThis allows for PaginatingSource to be initialized by itself as an extension of Datasource, or to be \"extended\" in the AnsSource class with the method `toDataSource` as before.\n\nI believe this solution also avoid code duplication and allow us to have less checks for paginationType.",
+      "parentUuid": "98d1f06e_751ac200",
+      "range": {
+        "startLine": 72,
+        "startChar": 2,
+        "endLine": 79,
+        "endChar": 3
+      },
+      "revId": "f1d7c406e20cd10cea50b3e0a912cf520f88db8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "726cff88_f1067d75",

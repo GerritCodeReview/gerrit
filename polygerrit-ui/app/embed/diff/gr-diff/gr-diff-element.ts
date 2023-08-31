@@ -196,7 +196,7 @@ export class GrDiffElement extends LitElement {
       responsive: isResponsive(this.responsiveMode),
     };
     const isBinary = !!this.diff?.binary;
-    const imageDiff = isImageDiff(this.diff);
+    const isImage = isImageDiff(this.diff);
     return html`
       <div class=${classMap(cssClasses)}>
         <table
@@ -212,9 +212,8 @@ export class GrDiffElement extends LitElement {
               group => this.renderSectionElement(group)
             )
           )}
-          ${when(isBinary, () =>
-            imageDiff ? this.renderImageDiff() : this.renderBinaryDiff()
-          )}
+          ${when(isImage, () => this.renderImageDiff())}
+          ${when(!isImage && isBinary, () => this.renderBinaryDiff())}
         </table>
         ${when(
           this.showNoChangeMessage(),

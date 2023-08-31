@@ -143,6 +143,7 @@ export class GrDropdownList extends LitElement {
         iron-dropdown {
           max-width: none;
           pointer-events: none;
+          z-index: 120;
         }
         paper-listbox {
           pointer-events: auto;

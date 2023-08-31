@@ -136,6 +136,16 @@ export class GrRelatedChangesList extends LitElement {
           visibility: visible;
           height: auto;
           border: 1px solid var(--border-color);
+          border-width: 1px 1px 0 1px;
+          padding: 3px 8px 3px 0;
+          background-color: var(--background-color-primary);
+        }
+        .relatedChangeLine:first-child {
+          border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+        .relatedChangeLine:last-child {
+          border-width: 1px 1px 1px 1px;
+          border-radius: 0 0 var(--border-radius) var(--border-radius);
         }
         .marker.arrow {
           visibility: hidden;

@@ -43,7 +43,6 @@ export class GrRelatedCollapse extends LitElement {
           color: var(--deemphasized-text-color);
           display: flex;
           align-self: flex-end;
-          margin-left: 20px;
         }
         gr-button {
           display: flex;

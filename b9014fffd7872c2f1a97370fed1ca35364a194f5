@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9ea6163_662e579f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-08-31T14:58:01Z",
+      "side": 1,
+      "message": "Differences between this change and the original:\n  * I adjusted the validator to have the file size configurable. The config is mentioned in config-gerrit.txt.\n  * If the config is not set, defaults to no limits.\n  * Updated the tests accordingly.",
+      "revId": "b9014fffd7872c2f1a97370fed1ca35364a194f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

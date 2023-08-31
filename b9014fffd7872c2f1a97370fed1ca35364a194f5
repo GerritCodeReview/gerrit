@@ -226,6 +226,24 @@
       "parentUuid": "11205ec7_879778ef",
       "revId": "b9014fffd7872c2f1a97370fed1ca35364a194f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20d79115_41420d4b",
+        "filename": "javatests/com/google/gerrit/server/patch/DiffValidatorsTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-08-31T15:52:45Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "9bffe490_518c5673",
+      "revId": "b9014fffd7872c2f1a97370fed1ca35364a194f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

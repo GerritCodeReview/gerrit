@@ -17,6 +17,7 @@ package com.google.gerrit.server.permissions;
 import static com.google.gerrit.server.permissions.AbstractLabelPermission.ForUser.ON_BEHALF_OF;
 import static com.google.gerrit.server.permissions.DefaultPermissionMappings.labelPermissionName;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
@@ -139,7 +140,7 @@ class ChangeControl {
   /** Is this user a reviewer for the change? */
   private boolean isReviewer(ChangeData cd) {
     if (getUser().isIdentifiedUser()) {
-      Collection<Account.Id> results = cd.reviewers().all();
+      ImmutableSet<Account.Id> results = cd.reviewers().all();
       return results.contains(getUser().getAccountId());
     }
     return false;

@@ -376,8 +376,8 @@ public class ChangeData {
   private List<PatchSetApproval> currentApprovals;
   private List<String> currentFiles;
   private Optional<DiffSummary> diffSummary;
-  private Collection<HumanComment> publishedComments;
-  private Collection<RobotComment> robotComments;
+  private List<HumanComment> publishedComments;
+  private List<RobotComment> robotComments;
   private CurrentUser visibleTo;
   private List<ChangeMessage> messages;
   private Optional<ChangedLines> changedLines;

@@ -29,7 +29,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -134,7 +133,7 @@ public class DraftCommentsNotesReader implements DraftCommentsReader {
     return changes;
   }
 
-  private Collection<Ref> getDraftRefs(ChangeNotes notes) {
+  private List<Ref> getDraftRefs(ChangeNotes notes) {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       return repo.getRefDatabase()
           .getRefsByPrefix(RefNames.refsDraftCommentsPrefix(notes.getChangeId()));

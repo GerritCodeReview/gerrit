@@ -23,7 +23,6 @@ import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.exceptions.InvalidNameException;
 import dk.brics.automaton.RegExp;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -82,7 +81,7 @@ public class RefPattern {
     }
     ParameterizedString template = new ParameterizedString(refPattern);
     String replacement = "_PLACEHOLDER_";
-    Map<String, String> params =
+    ImmutableMap<String, String> params =
         ImmutableMap.of(
             RefPattern.USERID_SHARDED, replacement,
             RefPattern.USERNAME, replacement);

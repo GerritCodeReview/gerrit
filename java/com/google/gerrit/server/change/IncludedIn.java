@@ -82,8 +82,8 @@ public class IncludedIn {
       }
 
       RefDatabase refDb = r.getRefDatabase();
-      Collection<Ref> tags = refDb.getRefsByPrefix(Constants.R_TAGS);
-      Collection<Ref> branches = refDb.getRefsByPrefix(Constants.R_HEADS);
+      List<Ref> tags = refDb.getRefsByPrefix(Constants.R_TAGS);
+      List<Ref> branches = refDb.getRefsByPrefix(Constants.R_HEADS);
       List<Ref> allTagsAndBranches = Lists.newArrayListWithCapacity(tags.size() + branches.size());
       allTagsAndBranches.addAll(tags);
       allTagsAndBranches.addAll(branches);
@@ -123,7 +123,7 @@ public class IncludedIn {
    * @param project specific Gerrit project.
    * @param inputRefs a list of branches (in short name) as strings
    */
-  private Collection<String> filterReadableRefs(
+  private ImmutableList<String> filterReadableRefs(
       Project.NameKey project, ImmutableList<Ref> inputRefs)
       throws IOException, PermissionBackendException {
     PermissionBackend.ForProject perm = permissionBackend.currentUser().project(project);

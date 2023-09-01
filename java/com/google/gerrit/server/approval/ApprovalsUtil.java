@@ -288,7 +288,7 @@ public class ApprovalsUtil {
     return addCcs(update, wantCCs, notes.load().getReviewers(), keepExistingReviewers);
   }
 
-  private Collection<Account.Id> addCcs(
+  private Set<Account.Id> addCcs(
       ChangeUpdate update,
       Collection<Account.Id> wantCCs,
       ReviewerSet existingReviewers,

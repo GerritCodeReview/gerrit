@@ -42,6 +42,7 @@ public abstract class RequestConfig {
         requestConfig.requestTypes(parseRequestTypes(cfg, section, id));
         requestConfig.requestUriPatterns(parseRequestUriPatterns(cfg, section, id));
         requestConfig.excludedRequestUriPatterns(parseExcludedRequestUriPatterns(cfg, section, id));
+        requestConfig.requestQueryStringPatterns(parseRequestQueryStringPatterns(cfg, section, id));
         requestConfig.accountIds(parseAccounts(cfg, section, id));
         requestConfig.projectPatterns(parseProjectPatterns(cfg, section, id));
         requestConfigs.add(requestConfig.build());
@@ -65,6 +66,11 @@ public abstract class RequestConfig {
   private static ImmutableSet<Pattern> parseExcludedRequestUriPatterns(
       Config cfg, String section, String id) throws ConfigInvalidException {
     return parsePatterns(cfg, section, id, "excludedRequestUriPattern");
+  }
+
+  private static ImmutableSet<Pattern> parseRequestQueryStringPatterns(
+      Config cfg, String section, String id) throws ConfigInvalidException {
+    return parsePatterns(cfg, section, id, "requestQueryStringPattern");
   }
 
   private static ImmutableSet<Account.Id> parseAccounts(Config cfg, String section, String id)
@@ -124,6 +130,9 @@ public abstract class RequestConfig {
   /** pattern matching request URIs to be excluded */
   abstract ImmutableSet<Pattern> excludedRequestUriPatterns();
 
+  /** pattern matching request query strings */
+  abstract ImmutableSet<Pattern> requestQueryStringPatterns();
+
   /** accounts IDs matching calling user */
   abstract ImmutableSet<Account.Id> accountIds();
 
@@ -170,6 +179,21 @@ public abstract class RequestConfig {
       return false;
     }
 
+    // If in the request config request query string patterns are set and none of them matches,
+    // then the request is not matched.
+    if (!requestQueryStringPatterns().isEmpty()) {
+      if (!requestInfo.requestQueryString().isPresent()) {
+        // The request has no request query string, hence it cannot match a request query string
+        // pattern.
+        return false;
+      }
+
+      if (requestQueryStringPatterns().stream()
+          .noneMatch(p -> p.matcher(requestInfo.requestQueryString().get()).matches())) {
+        return false;
+      }
+    }
+
     // If in the request config accounts are set and none of them matches, then the request is not
     // matched.
     if (!accountIds().isEmpty()) {
@@ -198,9 +222,9 @@ public abstract class RequestConfig {
       }
     }
 
-    // For any match criteria (request type, request URI pattern, account, project pattern) that
-    // was specified in the request config, at least one of the configured value matched the
-    // request.
+    // For any match criteria (request type, request URI pattern, request query string pattern,
+    // account, project pattern) that was specified in the request config, at least one of the
+    // configured value matched the request.
     return true;
   }
 
@@ -217,6 +241,8 @@ public abstract class RequestConfig {
     abstract Builder requestUriPatterns(ImmutableSet<Pattern> requestUriPatterns);
 
     abstract Builder excludedRequestUriPatterns(ImmutableSet<Pattern> excludedRequestUriPatterns);
+
+    abstract Builder requestQueryStringPatterns(ImmutableSet<Pattern> requestQueryStringPatterns);
 
     abstract Builder accountIds(ImmutableSet<Account.Id> accountIds);
 

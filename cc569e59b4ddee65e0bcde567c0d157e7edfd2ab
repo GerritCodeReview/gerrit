@@ -93,6 +93,30 @@
       },
       "revId": "cc569e59b4ddee65e0bcde567c0d157e7edfd2ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4262de4b_a95c26ee",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5723,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-09-01T11:06:04Z",
+      "side": 1,
+      "message": "Yes, totally. My only concern was that one could just specify a queryPattern, but not a URi, resulting in too many requests being matched. But I am not worried about it too much",
+      "parentUuid": "f267a34a_c55e72df",
+      "range": {
+        "startLine": 5716,
+        "startChar": 0,
+        "endLine": 5723,
+        "endChar": 0
+      },
+      "revId": "cc569e59b4ddee65e0bcde567c0d157e7edfd2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

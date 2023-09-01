@@ -38,12 +38,16 @@ import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.httpd.restapi.ParameterParser;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.ExceptionHook;
+import com.google.gerrit.server.change.ReviewerSuggestion;
+import com.google.gerrit.server.change.SuggestedReviewer;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.validators.CommitValidationException;
@@ -801,6 +805,54 @@ public class TraceIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "tracing.issue123.requestQueryStringPattern", value = ".*limit=.*")
+  public void traceRequestQueryString() throws Exception {
+    String changeId = createChange().getChangeId();
+    TraceReviewerSuggestion reviewerSuggestion = new TraceReviewerSuggestion();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(reviewerSuggestion, /* exportName= */ "foo")) {
+      RestResponse response =
+          adminRestSession.get(String.format("/changes/%s/suggest_reviewers?limit=10", changeId));
+      assertThat(response.getStatusCode()).isEqualTo(SC_OK);
+      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(reviewerSuggestion.traceId).isEqualTo("issue123");
+      assertThat(reviewerSuggestion.isLoggingForced).isTrue();
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "tracing.issue123.requestQueryStringPattern", value = ".*query=.*")
+  public void traceRequestQueryStringNoMatch() throws Exception {
+    String changeId = createChange().getChangeId();
+    TraceReviewerSuggestion reviewerSuggestion = new TraceReviewerSuggestion();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(reviewerSuggestion, /* exportName= */ "foo")) {
+      RestResponse response =
+          adminRestSession.get(String.format("/changes/%s/suggest_reviewers?limit=10", changeId));
+      assertThat(response.getStatusCode()).isEqualTo(SC_OK);
+      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(reviewerSuggestion.traceId).isNull();
+      assertThat(reviewerSuggestion.isLoggingForced).isFalse();
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "tracing.issue123.requestQueryStringPattern", value = "][")
+  public void traceRequestQueryStringInvalidRegEx() throws Exception {
+    String changeId = createChange().getChangeId();
+    TraceReviewerSuggestion reviewerSuggestion = new TraceReviewerSuggestion();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(reviewerSuggestion, /* exportName= */ "foo")) {
+      RestResponse response =
+          adminRestSession.get(String.format("/changes/%s/suggest_reviewers?limit=10", changeId));
+      assertThat(response.getStatusCode()).isEqualTo(SC_OK);
+      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(reviewerSuggestion.traceId).isNull();
+      assertThat(reviewerSuggestion.isLoggingForced).isFalse();
+    }
+  }
+
+  @Test
   @GerritConfig(name = "retry.retryWithTraceOnFailure", value = "true")
   public void autoRetryWithTrace() throws Exception {
     String changeId = createChange().getChangeId();
@@ -895,6 +947,23 @@ public class TraceIT extends AbstractDaemonTest {
       this.isLoggingForced = LoggingContext.getInstance().shouldForceLogging(null, null, false);
       this.tags = LoggingContext.getInstance().getTagsAsMap();
       return ImmutableList.of();
+    }
+  }
+
+  private static class TraceReviewerSuggestion implements ReviewerSuggestion {
+    String traceId;
+    Boolean isLoggingForced;
+
+    @Override
+    public Set<SuggestedReviewer> suggestReviewers(
+        Project.NameKey project,
+        Change.Id changeId,
+        String query,
+        Set<com.google.gerrit.entities.Account.Id> candidates) {
+      this.traceId =
+          Iterables.getFirst(LoggingContext.getInstance().getTagsAsMap().get("TRACE_ID"), null);
+      this.isLoggingForced = LoggingContext.getInstance().shouldForceLogging(null, null, false);
+      return ImmutableSet.of();
     }
   }
 

@@ -328,7 +328,8 @@ public class RestApiServlet extends HttpServlet {
 
       try (PerThreadCache ignored = PerThreadCache.create()) {
         List<IdString> path = splitPath(req);
-        RequestInfo requestInfo = createRequestInfo(traceContext, requestUri, path);
+        RequestInfo requestInfo =
+            createRequestInfo(traceContext, requestUri, req.getQueryString(), path);
         globals.requestListeners.runEach(l -> l.onRequest(requestInfo));
 
         // It's important that the PerformanceLogContext is closed before the response is sent to
@@ -1668,10 +1669,17 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private RequestInfo createRequestInfo(
-      TraceContext traceContext, String requestUri, List<IdString> path) {
+      TraceContext traceContext,
+      String requestUri,
+      @Nullable String queryString,
+      List<IdString> path) {
     RequestInfo.Builder requestInfo =
         RequestInfo.builder(RequestInfo.RequestType.REST, globals.currentUser.get(), traceContext)
             .requestUri(requestUri);
+
+    if (queryString != null) {
+      requestInfo.requestQueryString(queryString);
+    }
 
     if (path.size() < 1) {
       return requestInfo.build();

@@ -187,6 +187,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2a7d076d_f8a79460",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-01T10:14:56Z",
+      "side": 1,
+      "message": "JFYI I went through the comments and made sure it has no objections against this change.",
+      "parentUuid": "ca3768a9_5f69268f",
+      "revId": "8667c2e6203a788a254668df08ff19e6de51d06d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ce09cac2_f7431fd8",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 2

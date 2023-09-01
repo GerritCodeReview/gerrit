@@ -93,9 +93,8 @@ public class BucketedCallbackTest {
     String name(Object key) {
       if (key.equals(COLLIDING_KEY_NAME1) || key.equals(COLLIDING_KEY_NAME2)) {
         return COLLIDING_SUBMETRIC_NAME;
-      } else {
-        return key.toString();
       }
+      return key.toString();
     }
   }
 }

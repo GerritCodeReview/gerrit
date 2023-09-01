@@ -153,7 +153,7 @@ public class Schema_119 extends SchemaVersion {
         ObjectInserter inserter = getPackInserterFirst(git);
         ObjectReader reader = inserter.newReader();
         RevWalk rw = new RevWalk(reader)) {
-      BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
+      BatchRefUpdate bru = newBatchUpdate(git, ui);
       ObjectId emptyTree = emptyTree(inserter);
       for (Map.Entry<Account.Id, GeneralPreferencesInfo> e : imports.entrySet()) {
         try (MetaDataUpdate md =

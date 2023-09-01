@@ -71,7 +71,7 @@ public class Schema_123 extends SchemaVersion {
 
     try (Repository git = repoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(git)) {
-      BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
+      BatchRefUpdate bru = newBatchUpdate(git, ui);
       ObjectId id = StarredChangesUtil.writeLabels(git, StarredChangesUtil.DEFAULT_LABELS);
       for (Map.Entry<Account.Id, Change.Id> e : imports.entries()) {
         bru.addCommand(

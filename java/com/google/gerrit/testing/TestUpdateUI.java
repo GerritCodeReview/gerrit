@@ -54,4 +54,9 @@ public class TestUpdateUI implements UpdateUI {
   public DraftWorkflowMigrationStrategy getDraftMigrationStrategy() {
     return DraftWorkflowMigrationStrategy.WORK_IN_PROGRESS;
   }
+
+  @Override
+  public boolean lockLooseRefs() {
+    return false;
+  }
 }

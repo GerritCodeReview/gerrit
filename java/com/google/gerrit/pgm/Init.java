@@ -97,6 +97,14 @@ public class Init extends BaseInit {
   private DraftWorkflowMigrationStrategy draftMigrationStrategy =
       DraftWorkflowMigrationStrategy.WORK_IN_PROGRESS;
 
+  @Option(
+      name = "--lock-loose-refs",
+      usage =
+          "Save refs non-atomically while locking loose refs."
+              + " If this option is not provided, then refs are saved"
+              + " atomically (i.e directly into packed-refs) without locking loose refs.")
+  private boolean lockLooseRefs;
+
   @Inject Browser browser;
 
   public Init() {
@@ -205,6 +213,11 @@ public class Init extends BaseInit {
   @Override
   protected DraftWorkflowMigrationStrategy getDraftMigrationStrategy() {
     return draftMigrationStrategy;
+  }
+
+  @Override
+  protected boolean lockLooseRefs() {
+    return lockLooseRefs;
   }
 
   @Override

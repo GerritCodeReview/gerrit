@@ -100,7 +100,7 @@ public class Schema_124 extends SchemaVersion {
         ObjectInserter inserter = getPackInserterFirst(git);
         ObjectReader reader = inserter.newReader();
         RevWalk rw = new RevWalk(reader)) {
-      BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
+      BatchRefUpdate bru = newBatchUpdate(git, ui);
       for (Map.Entry<Account.Id, Collection<AccountSshKey>> e : imports.asMap().entrySet()) {
         try (MetaDataUpdate md =
             new MetaDataUpdate(GitReferenceUpdated.DISABLED, allUsersName, git, bru)) {

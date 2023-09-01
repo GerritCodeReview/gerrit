@@ -89,7 +89,7 @@ public class Schema_144 extends SchemaVersion {
           ObjectInserter inserter = getPackInserterFirst(repo);
           ObjectReader reader = inserter.newReader();
           RevWalk rw = new RevWalk(reader)) {
-        BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
+        BatchRefUpdate bru = newBatchUpdate(repo, ui);
         ExternalIdNotes extIdNotes = ExternalIdNotes.loadNoCacheUpdate(allUsersName, repo);
         extIdNotes.upsert(toAdd);
         try (MetaDataUpdate metaDataUpdate =

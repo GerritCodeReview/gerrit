@@ -96,6 +96,11 @@ public class TimeUtil {
     }
 
     @Override
+    public FileBasedConfig openJGitConfig(Config parent, FS fs) {
+      return delegate.openJGitConfig(parent, fs);
+    }
+
+    @Override
     public long getCurrentTime() {
       return currentMillisSupplier.getAsLong();
     }

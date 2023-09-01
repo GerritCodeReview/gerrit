@@ -1561,6 +1561,10 @@ If not set, defaults to '$site_path/bin/gerrit.war', or to
 [[core]]
 === Section core
 
+[NOTE]
+The link:#jgitConfig[etc/jgit.config] file supports configuration of all JGit
+options.
+
 [[core.packedGitWindowSize]]core.packedGitWindowSize::
 +
 Number of bytes of a pack file to load into memory in a single
@@ -5369,6 +5373,36 @@ Files in this directory provide additional configuration.
 Other files support site customization.
 +
 * link:config-themes.html[Themes]
+
+[[jgitConfig]]
+== File `etc/jgit.config`
+
+Gerrit uses the `$site_path/etc/jgit.config` file instead of the
+system-wide and user-global Git configuration for its runtime JGit
+configuration.
+
+Sample `etc/jgit.config` file:
+----
+[core]
+  trustFolderStat = false
+----
+
+[[jgit-protocol]]
+=== Section protocol
+
+[[protocol.version]]protocol.version::
++
+If set, the server will accept requests from a client attempting to communicate
+using the specified protocol version. Default is `0`. If set in file
+`etc/jgit.config` this option will be used for all repositories of the site.
+It can be overridden for a given repository by configuring a different value in
+the repository's `config` file.
++
+Supported versions:
+0:: the original wire protocol.
+1:: the original wire protocol with the addition of a version string in the initial response from the server.
+2:: wire protocol version 2. Speeds up fetches from repositories with many refs by allowing the client
+    to specify which refs to list before the server lists them.
 
 GERRIT
 ------

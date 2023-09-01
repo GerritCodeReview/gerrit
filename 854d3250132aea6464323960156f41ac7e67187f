@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5f4d337_3c82428f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-01T08:20:44Z",
+      "side": 1,
+      "message": "Updated commit message with explanation what is commented code.\n\nWe do have test for getContentInCommentRange util function",
+      "parentUuid": "f17c75a3_bf2dd24a",
+      "revId": "854d3250132aea6464323960156f41ac7e67187f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "934f44ee_bb1d86b0",

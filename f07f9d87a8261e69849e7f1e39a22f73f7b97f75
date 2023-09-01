@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00164174_99f71ff3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-01T17:09:04Z",
+      "side": 1,
+      "message": "```\n\n└─ $ ▶ bazel build release \u0026\u0026 bazel test --cache_test_results\u003dno --flaky_test_attempts 3 --test_timeout 3600 --test_tag_filters\u003d-flaky,-elastic //...\n2023/09/01 09:48:31 WARN: Fallback to x86_64 because arm64 is not supported on Apple Silicon until 4.1.0\n2023/09/01 09:48:31 WARN: Fallback to x86_64 because arm64 is not supported on Apple Silicon until 4.1.0\nINFO: Invocation ID: 6a70ef93-6f42-409e-896d-4764d9372ec3\nINFO: Build options --cache_test_results and --test_timeout have changed, discarding analysis cache.\nINFO: Analyzed target //:release (0 packages loaded, 9536 targets configured).\nINFO: Found 1 target...\nINFO: From Building java/com/google/gerrit/pgm/init/api/libapi.jar (14 source files):\n[snip]\n//javatests/com/google/gerrit/server/group/db:db_tests                   PASSED in 3.9s\n//javatests/com/google/gerrit/server/ioutil:ioutil_tests                 PASSED in 1.3s\n//javatests/com/google/gerrit/server/query/account:lucene_query_test     PASSED in 44.8s\n//javatests/com/google/gerrit/server/query/change:lucene_query_test      PASSED in 136.9s\n//javatests/com/google/gerrit/server/query/change:small_tests            PASSED in 1.7s\n//javatests/com/google/gerrit/server/query/group:lucene_query_test       PASSED in 31.4s\n//javatests/com/google/gerrit/server/query/project:lucene_query_test     PASSED in 26.9s\n//javatests/com/google/gerrit/server/rules:prolog_tests                  PASSED in 3.1s\n//javatests/com/google/gerrit/server/update:medium_tests                 PASSED in 2.2s\n//javatests/com/google/gerrit/server/update:small_tests                  PASSED in 8.0s\n//javatests/com/google/gerrit/server/util/git:git_tests                  PASSED in 1.0s\n//javatests/com/google/gerrit/sshd:sshd_tests                            PASSED in 1.2s\n//javatests/com/google/gerrit/testing:testing_tests                      PASSED in 1.7s\n//javatests/com/google/gerrit/util/http:http_tests                       PASSED in 1.0s\n//javatests/com/google/gwtexpui/safehtml:safehtml_tests                  PASSED in 1.5s\n//javatests/org/eclipse/jgit:jgit_patch_tests                            PASSED in 1.1s\n//lib:nongoogle_test                                                     PASSED in 1.1s\n//plugins/hooks:hooks_tests                                              PASSED in 15.6s\n//plugins/replication:replication_it                                     PASSED in 211.1s\n//plugins/replication:replication_tests                                  PASSED in 3.5s\n//plugins/singleusergroup:singleusergroup_tests                          PASSED in 15.1s\n//resources/com/google/gerrit/server:commit-msg_test                     PASSED in 3.8s\n//tools/bzl:always_pass_test                                             PASSED in 0.3s\n\nExecuted 86 out of 86 tests: 86 tests pass.\nINFO: Build completed successfully, 186 total actions\n\n```",
+      "revId": "f07f9d87a8261e69849e7f1e39a22f73f7b97f75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

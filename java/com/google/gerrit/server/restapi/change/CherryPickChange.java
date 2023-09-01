@@ -280,10 +280,14 @@ public class CherryPickChange {
             String.format("Branch %s does not exist.", dest.branch()));
       }
 
-      RevCommit baseCommit =
-          verifiedBaseCommit.orElse(
-              CommitUtil.getBaseCommit(
-                  project.get(), queryProvider.get(), revWalk, destRef, input.base));
+      RevCommit baseCommit;
+      if (verifiedBaseCommit.isPresent()) {
+        baseCommit = verifiedBaseCommit.get();
+      } else {
+        baseCommit =
+            CommitUtil.getBaseCommit(
+                project.get(), queryProvider.get(), revWalk, destRef, input.base);
+      }
 
       CodeReviewCommit commitToCherryPick = revWalk.parseCommit(sourceCommit);
 

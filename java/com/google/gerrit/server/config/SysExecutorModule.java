@@ -34,6 +34,7 @@ import org.eclipse.jgit.lib.Config;
  * in {@code Daemon} or similar, not nested in another module. This ensures the module can be
  * swapped out for the googlesource.com implementation.
  */
+@SuppressWarnings("ProvidesMethodOutsideOfModule")
 public class SysExecutorModule extends AbstractModule {
   @Override
   protected void configure() {}

@@ -22,6 +22,7 @@ import eu.medsea.mimeutil.MimeUtil2;
 import eu.medsea.mimeutil.detector.ExtensionMimeDetector;
 import eu.medsea.mimeutil.detector.MagicMimeMimeDetector;
 
+@SuppressWarnings("ProvidesMethodOutsideOfModule")
 public class MimeUtil2Module extends AbstractModule {
   @Override
   protected void configure() {}

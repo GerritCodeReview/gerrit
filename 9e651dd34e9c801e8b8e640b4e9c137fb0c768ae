@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "020d3922_5f8aa7f6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-model/gr-comment-model.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-09-01T08:52:19Z",
+      "side": 1,
+      "message": "I thought this would break for patch-set comments?",
+      "revId": "9e651dd34e9c801e8b8e640b4e9c137fb0c768ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81391941_4c2bcc71",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1010,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-09-01T08:52:19Z",
+      "side": 1,
+      "message": "Rather than using await on the commentModel, which is just a proxy for awaiting for the rest-api proxy.\n\nWhat if you did this.commentModel.setComment(this.comment), and then have it do the fetch and have a subscription setting this.commentedText, that seems to be more like the pattern we use.",
+      "revId": "9e651dd34e9c801e8b8e640b4e9c137fb0c768ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9593d1d_292c675f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1207,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-09-01T08:52:19Z",
+      "side": 1,
+      "message": "Why can\u0027t we move to using the model right away?",
+      "revId": "9e651dd34e9c801e8b8e640b4e9c137fb0c768ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

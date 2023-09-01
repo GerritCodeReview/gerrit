@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fa81f4a_0ac0c5fb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5720,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-09-01T10:21:47Z",
+      "side": 1,
+      "message": "nit: an example of such string would be helpful",
+      "range": {
+        "startLine": 5720,
+        "startChar": 0,
+        "endLine": 5720,
+        "endChar": 22
+      },
+      "revId": "cc569e59b4ddee65e0bcde567c0d157e7edfd2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df3609db_7843e007",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5723,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-09-01T10:21:47Z",
+      "side": 1,
+      "message": "why can\u0027t we simply extend the existing tracing.traceid.excludedRequestUriPattern to also match query parameters?",
+      "range": {
+        "startLine": 5716,
+        "startChar": 0,
+        "endLine": 5723,
+        "endChar": 0
+      },
+      "revId": "cc569e59b4ddee65e0bcde567c0d157e7edfd2ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

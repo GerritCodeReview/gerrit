@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c203e40_659f5b1e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 897,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-01T10:24:12Z",
+      "side": 1,
+      "message": "For testing with experiment ?experiment\u003dUiFeature__ml_suggested_edit\n\nClicking SUGGESTION, on 1 line comment on line 45 will execute this code",
+      "revId": "11c05afae8e570d5a9093b2ef23d1aef0a536db2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

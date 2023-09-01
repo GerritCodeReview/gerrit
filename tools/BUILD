@@ -189,7 +189,7 @@ java_package_configuration(
         "-Xep:ImmutableAnnotationChecker:ERROR",
         "-Xep:ImmutableEnumChecker:ERROR",
         "-Xep:ImmutableModification:ERROR",
-        "-Xep:ImpossibleNullComparison:WARN",
+        "-Xep:ImpossibleNullComparison:ERROR",
         "-Xep:Incomparable:ERROR",
         "-Xep:IncompatibleArgumentType:ERROR",
         "-Xep:IncompatibleModifiers:ERROR",

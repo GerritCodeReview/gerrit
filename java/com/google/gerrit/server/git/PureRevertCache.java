@@ -38,6 +38,7 @@ import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.google.protobuf.ByteString;
+import com.google.protobuf.TextFormat;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -156,7 +157,10 @@ public class PureRevertCache {
       try (TraceContext.TraceTimer ignored =
           TraceContext.newTimer(
               "Loading pure revert",
-              Metadata.builder().cacheKey(key.toString()).projectName(key.getProject()).build())) {
+              Metadata.builder()
+                  .cacheKey(TextFormat.shortDebugString(key))
+                  .projectName(key.getProject())
+                  .build())) {
         ObjectId original = ObjectIdConverter.create().fromByteString(key.getClaimedOriginal());
         ObjectId revert = ObjectIdConverter.create().fromByteString(key.getClaimedRevert());
         Project.NameKey project = Project.nameKey(key.getProject());

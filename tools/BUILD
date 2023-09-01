@@ -258,7 +258,7 @@ java_package_configuration(
         "-Xep:JodaWithDurationAddedLong:ERROR",
         "-Xep:LiteByteStringUtf8:ERROR",
         "-Xep:LiteEnumValueOf:ERROR",
-        "-Xep:LiteProtoToString:WARN",
+        "-Xep:LiteProtoToString:ERROR",
         "-Xep:LocalDateTemporalAmount:ERROR",
         "-Xep:LockNotBeforeTry:ERROR",
         "-Xep:LockOnBoxedPrimitive:ERROR",

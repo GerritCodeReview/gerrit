@@ -5700,11 +5700,21 @@ Regular expression to match request URIs for which request tracing
 should not be enabled even if they match
 link:#tracing.traceid.requestUriPattern[requestUriPattern].
 Request URIs are only available for REST requests. Request URIs never include
-the '/a' prefix.
+the '/a' prefix and don't contain the query string with the request parameters.
 +
 May be specified multiple times.
 +
 By default, unset (no request URIs are excluded).
+
+[[tracing.traceid.requestQueryStringPattern]]tracing.<trace-id>.requestQueryStringPattern::
++
+Regular expression to match request query strings for which request tracing
+should be enabled. The query string is the portion of the URL that contains
+the request parameters.
++
+May be specified multiple times.
++
+By default, unset (all request query strings are matched).
 
 [[tracing.traceid.account]]tracing.<trace-id>.account::
 +

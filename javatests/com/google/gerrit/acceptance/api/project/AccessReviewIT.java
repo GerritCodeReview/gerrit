@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.truth.ConfigSubject.assertThat;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;

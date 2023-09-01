@@ -328,7 +328,7 @@ public class RestApiServlet extends HttpServlet {
 
       try (PerThreadCache ignored = PerThreadCache.create()) {
         List<IdString> path = splitPath(req);
-        RequestInfo requestInfo = createRequestInfo(traceContext, requestUri(req), path);
+        RequestInfo requestInfo = createRequestInfo(traceContext, requestUri, path);
         globals.requestListeners.runEach(l -> l.onRequest(requestInfo));
 
         // It's important that the PerformanceLogContext is closed before the response is sent to

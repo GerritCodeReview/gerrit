@@ -104,7 +104,7 @@ public class AbandonUtil {
 
   private Collection<ChangeData> getValidChanges(Collection<ChangeData> changes, String query)
       throws QueryParseException {
-    Collection<ChangeData> validChanges = new ArrayList<>();
+    List<ChangeData> validChanges = new ArrayList<>();
     for (ChangeData cd : changes) {
       String newQuery = query + " change:" + cd.getId();
       List<ChangeData> changesToAbandon =

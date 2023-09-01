@@ -175,7 +175,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String changeMessage;
   private String tag;
   private PatchSetState psState;
-  private Iterable<String> groups;
+  private List<String> groups;
   private String pushCert;
   private boolean isAllowWriteToNewtRef;
   private String psDescription;

@@ -168,7 +168,7 @@ public class IndexModule extends LifecycleModule {
       return ImmutableList.of(groups);
     }
 
-    Collection<IndexDefinition<?, ?, ?>> result =
+    ImmutableList<IndexDefinition<?, ?, ?>> result =
         ImmutableList.of(accounts, groups, changes, projects);
     Set<String> expected =
         FluentIterable.from(ALL_SCHEMA_DEFS).transform(SchemaDefinitions::getName).toSet();

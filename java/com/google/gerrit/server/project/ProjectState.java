@@ -423,7 +423,7 @@ public class ProjectState {
 
     List<LabelType> r = Lists.newArrayListWithCapacity(all.size());
     for (LabelType l : all) {
-      List<String> refs = l.getRefPatterns();
+      ImmutableList<String> refs = l.getRefPatterns();
       if (refs == null) {
         r.add(l);
       } else {
@@ -502,7 +502,7 @@ public class ProjectState {
   }
 
   public Collection<SubscribeSection> getSubscribeSections(BranchNameKey branch) {
-    Collection<SubscribeSection> ret = new ArrayList<>();
+    List<SubscribeSection> ret = new ArrayList<>();
     for (ProjectState s : tree()) {
       ret.addAll(s.getConfig().getSubscribeSections(branch));
     }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_ATTENTION;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CHANGE_ID;
@@ -46,6 +47,7 @@ import static java.util.stream.Collectors.joining;
 import com.google.common.base.Enums;
 import com.google.common.base.Splitter;
 import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedMap;
@@ -88,7 +90,6 @@ import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -409,10 +410,10 @@ class ChangeNotesParser {
         continue;
       }
       // Search for an approval for this label on the max previous patch-set and copy the approval.
-      Collection<PatchSetApproval> userApprovals =
+      ImmutableList<PatchSetApproval> userApprovals =
           approvalsByUser.get(appliedBy).stream()
               .filter(approval -> approval.label().equals(labelName))
-              .collect(Collectors.toList());
+              .collect(toImmutableList());
       if (userApprovals.isEmpty()) {
         continue;
       }

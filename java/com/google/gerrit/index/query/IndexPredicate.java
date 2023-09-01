@@ -25,7 +25,6 @@ import com.google.gerrit.index.FieldType;
 import com.google.gerrit.index.SchemaFieldDefs.SchemaField;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.StreamSupport;
 
 /** Predicate that is mapped to a field in the index. */
@@ -103,8 +102,8 @@ public abstract class IndexPredicate<I> extends OperatorPredicate<I> implements 
     } else if (fieldTypeName.equals(FieldType.PREFIX.getName())) {
       return String.valueOf(fieldValueFromObject).startsWith(value);
     } else if (fieldTypeName.equals(FieldType.FULL_TEXT.getName())) {
-      Set<String> tokenizedField = tokenizeString(String.valueOf(fieldValueFromObject));
-      Set<String> tokenizedValue = tokenizeString(value);
+      ImmutableSet<String> tokenizedField = tokenizeString(String.valueOf(fieldValueFromObject));
+      ImmutableSet<String> tokenizedValue = tokenizeString(value);
       return !tokenizedValue.isEmpty() && tokenizedField.containsAll(tokenizedValue);
     } else if (fieldTypeName.equals(FieldType.STORED_ONLY.getName())) {
       throw new IllegalStateException("can't filter for storedOnly field " + getField().getName());

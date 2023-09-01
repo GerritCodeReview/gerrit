@@ -175,7 +175,7 @@ public class RelatedChangesSorter {
                     .collect(toMap(e -> e.getKey().name(), e -> e.getValue().patchSet().id()))));
   }
 
-  private Collection<PatchSetData> walkAncestors(
+  private Set<PatchSetData> walkAncestors(
       ListMultimap<PatchSetData, PatchSetData> parents, PatchSetData start)
       throws PermissionBackendException {
     LinkedHashSet<PatchSetData> result = new LinkedHashSet<>();

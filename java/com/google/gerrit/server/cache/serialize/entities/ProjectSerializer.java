@@ -20,6 +20,7 @@ import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.common.base.Converter;
 import com.google.common.base.Enums;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -27,7 +28,6 @@ import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.server.cache.proto.Cache;
 import java.util.Arrays;
-import java.util.Set;
 
 /** Helper to (de)serialize values for caches. */
 public class ProjectSerializer {
@@ -48,7 +48,7 @@ public class ProjectSerializer {
             .setLocalDefaultDashboard(emptyToNull(proto.getLocalDefaultDashboard()))
             .setConfigRefState(emptyToNull(proto.getConfigRefState()));
 
-    Set<String> configs =
+    ImmutableSet<String> configs =
         Arrays.stream(BooleanProjectConfig.values())
             .map(BooleanProjectConfig::name)
             .collect(toImmutableSet());

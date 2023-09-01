@@ -289,7 +289,7 @@ public class Schema<T> {
    * @param skipFields set of field names to skip when indexing the document
    * @return all non-null field values from the object.
    */
-  public final Iterable<Values<T>> buildFields(T obj, ImmutableSet<String> skipFields) {
+  public final ImmutableList<Values<T>> buildFields(T obj, ImmutableSet<String> skipFields) {
     try {
       return schemaFields.values().stream()
           .map(f -> fieldValues(obj, f, skipFields))

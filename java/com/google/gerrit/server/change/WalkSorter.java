@@ -207,7 +207,7 @@ public class WalkSorter {
       return 0;
     }
     c.add(done);
-    Collection<PatchSetData> psds = byCommit.get(c);
+    List<PatchSetData> psds = byCommit.get(c);
     if (!psds.isEmpty()) {
       result.addAll(psds);
       return 1;

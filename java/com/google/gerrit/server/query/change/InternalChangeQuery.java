@@ -169,7 +169,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     return byCommitsOnBranchNotMergedFromIndex(branch, hashes);
   }
 
-  private Iterable<ChangeData> byCommitsOnBranchNotMergedFromDatabase(
+  private List<ChangeData> byCommitsOnBranchNotMergedFromDatabase(
       Repository repo, BranchNameKey branch, Collection<String> hashes) throws IOException {
     Set<Change.Id> changeIds = Sets.newHashSetWithExpectedSize(hashes.size());
     String lastPrefix = null;
@@ -200,7 +200,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     return Lists.transform(notes, n -> changeDataFactory.create(n));
   }
 
-  private Iterable<ChangeData> byCommitsOnBranchNotMergedFromIndex(
+  private List<ChangeData> byCommitsOnBranchNotMergedFromIndex(
       BranchNameKey branch, Collection<String> hashes) {
     return query(
         and(

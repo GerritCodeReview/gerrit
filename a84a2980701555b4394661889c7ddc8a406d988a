@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7293071f_b7da1838",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-01T10:14:25Z",
+      "side": 1,
+      "message": "[optional] I think this could be:\n\nRevCommit baseCommit \u003d\n          verifiedBaseCommit.orElseGet(() -\u003e\n              CommitUtil.getBaseCommit(\n                  project.get(), queryProvider.get(), revWalk, destRef, input.base));",
+      "range": {
+        "startLine": 283,
+        "startChar": 6,
+        "endLine": 290,
+        "endChar": 7
+      },
+      "revId": "a84a2980701555b4394661889c7ddc8a406d988a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

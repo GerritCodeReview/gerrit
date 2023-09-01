@@ -32,6 +32,7 @@ import org.eclipse.jgit.lib.Config;
  * Base class to establish implementation-independent index bindings. To be subclassed by concrete
  * index implementations, such as {@link com.google.gerrit.lucene.LuceneIndexModule}.
  */
+@SuppressWarnings("ProvidesMethodOutsideOfModule")
 public abstract class AbstractIndexModule extends AbstractModule {
   public static final String INDEX_MODULE = "index-module";
 

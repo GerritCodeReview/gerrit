@@ -35,6 +35,7 @@ import com.google.inject.name.Names;
 public class ThreadLocalRequestContext {
   private static final String FALLBACK = "FALLBACK";
 
+  @SuppressWarnings("ProvidesMethodOutsideOfModule")
   public static Module module() {
     return new AbstractModule() {
       @Override

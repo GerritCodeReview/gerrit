@@ -23,6 +23,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /** Module providing the {@link DiffExecutor}. */
+@SuppressWarnings("ProvidesMethodOutsideOfModule")
 public class DiffExecutorModule extends AbstractModule {
 
   @Override

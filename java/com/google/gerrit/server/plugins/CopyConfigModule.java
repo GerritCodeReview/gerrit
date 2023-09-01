@@ -41,6 +41,7 @@ import org.eclipse.jgit.lib.PersonIdent;
  * dbInjector that are not otherwise easily available, but that a plugin author might expect to
  * exist.
  */
+@SuppressWarnings("ProvidesMethodOutsideOfModule")
 @Singleton
 class CopyConfigModule extends AbstractModule {
   @Inject @SitePath private Path sitePath;

@@ -29,6 +29,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+@SuppressWarnings("ProvidesMethodOutsideOfModule")
 class ServerPluginInfoModule extends AbstractModule {
   private final ServerPlugin plugin;
   private final Path dataDir;

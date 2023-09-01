@@ -74,6 +74,7 @@ import org.eclipse.jgit.lib.Config;
  * <p>This module should not be used directly except by specific secondary indexer implementations
  * (e.g. Lucene).
  */
+@SuppressWarnings("ProvidesMethodOutsideOfModule")
 public class IndexModule extends LifecycleModule {
   public static final ImmutableCollection<SchemaDefinitions<?>> ALL_SCHEMA_DEFS =
       ImmutableList.of(

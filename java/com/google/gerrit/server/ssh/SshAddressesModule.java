@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
 
+@SuppressWarnings("ProvidesMethodOutsideOfModule")
 public class SshAddressesModule extends AbstractModule {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

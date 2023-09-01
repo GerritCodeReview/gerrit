@@ -57,8 +57,18 @@ public abstract class RequestInfo {
    * <p>Only set if request type is {@link RequestType#REST}.
    *
    * <p>Never includes the "/a" prefix.
+   *
+   * <p>Doesn't include the query string with the request parameters (see {@link
+   * #requestQueryString()}.
    */
   public abstract Optional<String> requestUri();
+
+  /**
+   * Request query string that contains the request parameters.
+   *
+   * <p>Only set if request type is {@link RequestType#REST}.
+   */
+  public abstract Optional<String> requestQueryString();
 
   /**
    * Redacted request URI.
@@ -163,6 +173,8 @@ public abstract class RequestInfo {
     }
 
     public abstract Builder requestUri(String requestUri);
+
+    public abstract Builder requestQueryString(String requestQueryString);
 
     public abstract Builder callingUser(CurrentUser callingUser);
 

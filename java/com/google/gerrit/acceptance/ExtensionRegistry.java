@@ -45,6 +45,7 @@ import com.google.gerrit.extensions.webui.ResolveConflictsWebLink;
 import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.change.ChangeETagComputation;
+import com.google.gerrit.server.change.ReviewerSuggestion;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.receive.PluginPushOption;
@@ -108,6 +109,7 @@ public class ExtensionRegistry {
 
   private final DynamicMap<ChangeHasOperandFactory> hasOperands;
   private final DynamicMap<ChangeIsOperandFactory> isOperands;
+  private final DynamicMap<ReviewerSuggestion> reviewerSuggestions;
 
   @Inject
   ExtensionRegistry(
@@ -150,7 +152,8 @@ public class ExtensionRegistry {
       DynamicSet<ReviewerDeletedListener> reviewerDeletedListeners,
       DynamicMap<ChangeHasOperandFactory> hasOperands,
       DynamicMap<ChangeIsOperandFactory> isOperands,
-      DynamicSet<AttentionSetListener> attentionSetListeners) {
+      DynamicSet<AttentionSetListener> attentionSetListeners,
+      DynamicMap<ReviewerSuggestion> reviewerSuggestions) {
     this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
     this.groupIndexedListeners = groupIndexedListeners;
@@ -191,6 +194,7 @@ public class ExtensionRegistry {
     this.hasOperands = hasOperands;
     this.isOperands = isOperands;
     this.attentionSetListeners = attentionSetListeners;
+    this.reviewerSuggestions = reviewerSuggestions;
   }
 
   public Registration newRegistration() {
@@ -365,6 +369,10 @@ public class ExtensionRegistry {
 
     public Registration add(ReviewerDeletedListener reviewerDeletedListener) {
       return add(reviewerDeletedListeners, reviewerDeletedListener);
+    }
+
+    public Registration add(ReviewerSuggestion reviewerSuggestion, String exportName) {
+      return add(reviewerSuggestions, reviewerSuggestion, exportName);
     }
 
     private <T> Registration add(DynamicSet<T> dynamicSet, T extension) {

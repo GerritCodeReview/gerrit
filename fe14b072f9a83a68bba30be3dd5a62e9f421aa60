@@ -1,5 +1,46 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f455bde6_6c5c409b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-09-02T15:38:14Z",
+      "side": 1,
+      "message": "Sorry for missing this in the review.",
+      "revId": "fe14b072f9a83a68bba30be3dd5a62e9f421aa60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a65e7839_c595b9d2",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-09-02T15:38:14Z",
+      "side": 1,
+      "message": "```suggestion\n          background-color: var(--background-color-primary);\n```",
+      "range": {
+        "startLine": 143,
+        "startChar": 28,
+        "endLine": 143,
+        "endChar": 33
+      },
+      "revId": "fe14b072f9a83a68bba30be3dd5a62e9f421aa60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -16,6 +16,23 @@
       "message": "```\n└─ $ ▶ bazel build release \u0026\u0026 bazel test --cache_test_results\u003dno --flaky_test_attempts 3 --test_timeout 3600 --test_tag_filters\u003d-flaky,-elastic //...\n2023/09/01 09:29:07 WARN: Fallback to x86_64 because arm64 is not supported on Apple Silicon until 4.1.0\n2023/09/01 09:29:07 WARN: Fallback to x86_64 because arm64 is not supported on Apple Silicon until 4.1.0\nINFO: Invocation ID: 792ac028-a545-4490-a1ef-eca660394af9\nINFO: Analyzed target //:release (411 packages loaded, 9408 targets configured).\nINFO: Found 1 target...\n[snip]\n//javatests/com/google/gerrit/server/util/git:git_tests                  PASSED in 1.4s\n//javatests/com/google/gerrit/sshd:sshd_tests                            PASSED in 1.2s\n//javatests/com/google/gerrit/testing:testing_tests                      PASSED in 2.1s\n//javatests/com/google/gerrit/util/http:http_tests                       PASSED in 1.1s\n//javatests/com/google/gwtexpui/safehtml:safehtml_tests                  PASSED in 1.6s\n//javatests/org/eclipse/jgit:jgit_patch_tests                            PASSED in 1.1s\n//lib:nongoogle_test                                                     PASSED in 0.4s\n//plugins/hooks:hooks_tests                                              PASSED in 13.3s\n//plugins/replication:replication_it                                     PASSED in 198.7s\n//plugins/replication:replication_tests                                  PASSED in 3.3s\n//plugins/singleusergroup:singleusergroup_tests                          PASSED in 14.9s\n//resources/com/google/gerrit/server:commit-msg_test                     PASSED in 3.3s\n//tools/bzl:always_pass_test                                             PASSED in 0.5s\n\nExecuted 86 out of 86 tests: 86 tests pass.\nINFO: Build completed successfully, 466 total actions\n\n```",
       "revId": "4d2acc2f9d4ee0de35affabe41b6d1fd5bc10338",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "909f81d7_44b11f2a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1166271
+      },
+      "writtenOn": "2023-09-03T14:13:28Z",
+      "side": 1,
+      "message": "F tu hhgyj",
+      "revId": "4d2acc2f9d4ee0de35affabe41b6d1fd5bc10338",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

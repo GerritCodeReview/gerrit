@@ -44,6 +44,8 @@ import org.eclipse.jgit.lib.ObjectId;
  *
  * <p>Note that this class does not override {@link Object#equals(Object)}. It relies on instances
  * being singletons so that the default (i.e. reference) comparison works.
+ *
+ * Test change
  */
 public class AccountField {
 

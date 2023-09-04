@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80f93c67_bf227aac",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-09-04T13:51:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97a778e0_22913a14",
+      "range": {
+        "startLine": 40,
+        "startChar": 54,
+        "endLine": 40,
+        "endChar": 66
+      },
+      "revId": "154f98d277c53d1b4fdbb08f5c3f2730d64abddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d7fe728_4f8f036d",
@@ -60,6 +84,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "68338114_cf8849f1",
+        "filename": "java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-09-04T13:51:51Z",
+      "side": 1,
+      "message": "It happened when I ran google-java-format -i. I can revert it though anyway if you think I should.",
+      "parentUuid": "e139169f_631e3784",
+      "revId": "154f98d277c53d1b4fdbb08f5c3f2730d64abddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0651d145_46a4a1d3",
         "filename": "java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
         "patchSetId": 1
@@ -71,6 +113,24 @@
       "writtenOn": "2023-09-04T13:45:06Z",
       "side": 1,
       "message": "- document this in section accountPatchReviewDb of Documentation/config-gerrit.txt\n- mention there where to find the JDBC driver",
+      "revId": "154f98d277c53d1b4fdbb08f5c3f2730d64abddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "376e9fef_c1265bab",
+        "filename": "java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-09-04T13:51:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0651d145_46a4a1d3",
       "revId": "154f98d277c53d1b4fdbb08f5c3f2730d64abddf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

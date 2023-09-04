@@ -1063,7 +1063,7 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  private static <R extends RestResource> void setCacheHeaders(
+  private static void setCacheHeaders(
       HttpServletRequest req, HttpServletResponse res, CacheControl cacheControl) {
     if (isRead(req)) {
       switch (cacheControl.getType()) {

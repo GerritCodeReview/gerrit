@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97a778e0_22913a14",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-04T13:45:06Z",
+      "side": 1,
+      "message": "move this to the end of this list since most users will use one of the other options ?",
+      "range": {
+        "startLine": 40,
+        "startChar": 54,
+        "endLine": 40,
+        "endChar": 66
+      },
+      "revId": "154f98d277c53d1b4fdbb08f5c3f2730d64abddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d7fe728_4f8f036d",
+        "filename": "java/com/google/gerrit/server/schema/CloudSpannerAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-04T13:45:06Z",
+      "side": 1,
+      "message": "reading [1] I am wondering if we should use file_name as the first field of the primary key definition to avoid hotspots which may occur if the first primary key field is a monotonously increasing value\n\n[1] https://cloud.google.com/spanner/docs/schema-design#primary-key-prevent-hotspots",
+      "revId": "154f98d277c53d1b4fdbb08f5c3f2730d64abddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e139169f_631e3784",
+        "filename": "java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-04T13:45:06Z",
+      "side": 1,
+      "message": "this reformatting seems unrelated",
+      "revId": "154f98d277c53d1b4fdbb08f5c3f2730d64abddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0651d145_46a4a1d3",
+        "filename": "java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-04T13:45:06Z",
+      "side": 1,
+      "message": "- document this in section accountPatchReviewDb of Documentation/config-gerrit.txt\n- mention there where to find the JDBC driver",
+      "revId": "154f98d277c53d1b4fdbb08f5c3f2730d64abddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

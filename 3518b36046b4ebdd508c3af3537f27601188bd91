@@ -16,6 +16,24 @@
       "message": "Bug to reference: https://issues.gerritcodereview.com/issues/298846017",
       "revId": "3518b36046b4ebdd508c3af3537f27601188bd91",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e48a0a1_c8509e4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-09-04T11:56:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f59af8f_7bd67447",
+      "revId": "3518b36046b4ebdd508c3af3537f27601188bd91",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

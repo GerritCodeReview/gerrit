@@ -106,6 +106,7 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
   private static final ImmutableList<RestCall> BRANCH_ENDPOINTS =
       ImmutableList.of(
           RestCall.get("/projects/%s/branches/%s"),
+          RestCall.get("/projects/%s/branches/%s/suggest_reviewers"),
           RestCall.put("/projects/%s/branches/%s"),
           // GET /projects/<project>/branches/<branch>/files is not implemented
           RestCall.builder(GET, "/projects/%s/branches/%s/files")

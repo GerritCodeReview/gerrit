@@ -94,13 +94,12 @@ public class ReviewerRecommender {
   public List<Account.Id> suggestReviewers(
       ReviewerState reviewerState,
       @Nullable ChangeNotes changeNotes,
-      SuggestReviewers suggestReviewers,
+      String query,
       ProjectState projectState,
       List<Account.Id> candidateList)
       throws IOException, ConfigInvalidException {
     logger.atFine().log("Candidates %s", candidateList);
 
-    String query = suggestReviewers.getQuery();
     logger.atFine().log("query: %s", query);
 
     double baseWeight = config.getInt("addReviewer", "baseWeight", 1);

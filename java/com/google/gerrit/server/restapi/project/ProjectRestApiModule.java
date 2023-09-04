@@ -26,6 +26,7 @@ import static com.google.gerrit.server.project.TagResource.TAG_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
+import com.google.gerrit.server.api.projects.SuggestProjectReviewers;
 import com.google.gerrit.server.restapi.change.CherryPickCommit;
 
 public class ProjectRestApiModule extends RestApiModule {
@@ -80,6 +81,8 @@ public class ProjectRestApiModule extends RestApiModule {
     get(COMMIT_KIND, "in").to(CommitIncludedIn.class);
 
     get(PROJECT_KIND, "commits:in").to(CommitsIncludedInRefs.class);
+
+    get(PROJECT_KIND, "suggest_reivweers").to(SuggestProjectReviewers.class);
 
     get(PROJECT_KIND, "config").to(GetConfig.class);
     put(PROJECT_KIND, "config").to(PutConfig.class);

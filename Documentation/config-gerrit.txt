@@ -38,8 +38,9 @@ flags.
 [[accountPatchReviewDb.url]]accountPatchReviewDb.url::
 +
 The url of accountPatchReviewDb. Supported types are `H2`, `POSTGRESQL`,
-`MARIADB`, and `MYSQL`. Drop the driver jar in the lib folder of the site path
-if the Jdbc driver of the corresponding Database is not yet in the class path.
+`MARIADB`, `MYSQL`, and `CLOUDSPANNER`. Drop the driver jar in the lib folder
+of the site path if the Jdbc driver of the corresponding Database is not yet
+in the class path.
 +
 Default is to create H2 database in the db folder of the site path.
 +
@@ -49,6 +50,9 @@ Migration cannot be done while the server is running.
 +
 Also note that the db_name has to be a new db and not reusing an old ReviewDb
 database from a former 2.x site, otherwise gerrit's init will remove the table.
++
+Information on how to acquire the `CLOUDSPANNER` Jdbc driver can be found
+[here](https://github.com/googleapis/java-spanner-jdbc/blob/main/README.md#jar-with-dependencies).
 
 ----
 [accountPatchReviewDb]

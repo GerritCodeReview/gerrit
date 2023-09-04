@@ -1020,7 +1020,6 @@ export class GrReplyDialog extends LitElement {
     return html` <gr-button
       class="edit-attention-button"
       @click=${this.toggleAttentionModify}
-      ?disabled=${this.isSendDisabled()}
       link
       position-below
       data-label="Edit"

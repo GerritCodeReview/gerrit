@@ -260,8 +260,7 @@ suite('gr-reply-dialog tests', () => {
                   </div>
                   <div>
                     <gr-button
-                      aria-disabled="true"
-                      disabled=""
+                      aria-disabled="false"
                       class="edit-attention-button"
                       data-action-key="edit"
                       data-action-type="change"
@@ -269,7 +268,7 @@ suite('gr-reply-dialog tests', () => {
                       link=""
                       position-below=""
                       role="button"
-                      tabindex="-1"
+                      tabindex="0"
                     >
                       <div>
                         <gr-icon icon="edit" filled small></gr-icon>
@@ -1727,15 +1726,6 @@ suite('gr-reply-dialog tests', () => {
       element,
       '.edit-attention-button'
     );
-    modifyButton.click();
-
-    await element.updateComplete;
-
-    assert.isFalse(element.attentionExpanded);
-
-    element.patchsetLevelDraftMessage = 'a test comment';
-    await element.updateComplete;
-
     modifyButton.click();
 
     await element.updateComplete;

@@ -14,15 +14,19 @@
 
 package com.google.gerrit.extensions.api.projects;
 
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
+import com.google.gerrit.extensions.api.changes.ChangeApi.SuggestedReviewersRequest;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.BatchLabelInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInfo;
+import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import java.util.Collection;
@@ -213,6 +217,63 @@ public interface ProjectApi {
   /** Reindexes all changes of the project. */
   void indexChanges() throws RestApiException;
 
+  abstract class SuggestedProjectReviewersRequest {
+    private String query;
+
+    private String branch;
+    private int limit;
+    private boolean excludeGroups;
+    private ReviewerState reviewerState = ReviewerState.REVIEWER;
+
+    public abstract List<SuggestedReviewerInfo> get() throws RestApiException;
+
+    public ProjectApi.SuggestedProjectReviewersRequest withQuery(String query) {
+      this.query = query;
+      return this;
+    }
+
+    public ProjectApi.SuggestedProjectReviewersRequest withLimit(int limit) {
+      this.limit = limit;
+      return this;
+    }
+
+    public ProjectApi.SuggestedProjectReviewersRequest excludeGroups(boolean excludeGroups) {
+      this.excludeGroups = excludeGroups;
+      return this;
+    }
+
+    public ProjectApi.SuggestedProjectReviewersRequest forCc() {
+      this.reviewerState = ReviewerState.CC;
+      return this;
+    }
+
+    public String getQuery() {
+      return query;
+    }
+
+    public BranchNameKey getBranch() {
+      return branch;
+    }
+
+    public int getLimit() {
+      return limit;
+    }
+
+    public boolean getExcludeGroups() {
+      return excludeGroups;
+    }
+
+    public ReviewerState getReviewerState() {
+      return reviewerState;
+    }
+  }
+
+  SuggestedProjectReviewersRequest suggestReviewers() throws RestApiException;
+
+  default SuggestedProjectReviewersRequest suggestReviewers(String query) throws RestApiException {
+    return suggestReviewers().withQuery(query);
+  }
+
   ListLabelsRequest labels() throws RestApiException;
 
   abstract class ListLabelsRequest {
@@ -297,6 +358,16 @@ public interface ProjectApi {
 
     @Override
     public CheckProjectResultInfo check(CheckProjectInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public SuggestedReviewersRequest suggestReviewers() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public SuggestedReviewersRequest suggestReviewers(String query) throws RestApiException {
       throw new NotImplementedException();
     }
 

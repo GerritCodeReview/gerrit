@@ -348,12 +348,13 @@ public class CommentsUtil {
   }
 
   public void setCommentCommitId(Comment c, Change change, PatchSet ps) {
-    checkArgument(
-        c.key.patchSetId == ps.id().get(),
-        "cannot set commit ID for patch set %s on comment %s",
-        ps.id(),
-        c);
     if (c.getCommitId() == null) {
+      checkArgument(
+          c.key.patchSetId == ps.id().get(),
+          "cannot set commit ID for patch set %s on comment %s",
+          ps.id(),
+          c);
+
       // This code is very much down into our stack and shouldn't be used for validation. Hence,
       // don't throw an exception here if we can't find a commit for the indicated side but
       // simply use the all-null ObjectId.

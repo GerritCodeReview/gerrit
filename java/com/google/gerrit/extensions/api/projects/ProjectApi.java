@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.api.projects;
 
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
+import com.google.gerrit.extensions.api.changes.ChangeApi.SuggestedReviewersRequest;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
 import com.google.gerrit.extensions.common.BatchLabelInput;
@@ -213,6 +214,12 @@ public interface ProjectApi {
   /** Reindexes all changes of the project. */
   void indexChanges() throws RestApiException;
 
+  SuggestedReviewersRequest suggestReviewers() throws RestApiException;
+
+  default SuggestedReviewersRequest suggestReviewers(String query) throws RestApiException {
+    return suggestReviewers().withQuery(query);
+  }
+
   ListLabelsRequest labels() throws RestApiException;
 
   abstract class ListLabelsRequest {
@@ -297,6 +304,16 @@ public interface ProjectApi {
 
     @Override
     public CheckProjectResultInfo check(CheckProjectInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public SuggestedReviewersRequest suggestReviewers() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public SuggestedReviewersRequest suggestReviewers(String query) throws RestApiException {
       throw new NotImplementedException();
     }
 

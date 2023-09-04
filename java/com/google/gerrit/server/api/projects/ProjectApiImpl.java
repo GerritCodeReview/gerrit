@@ -22,6 +22,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
+import com.google.gerrit.extensions.api.changes.ChangeApi.SuggestedReviewersRequest;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
 import com.google.gerrit.extensions.api.projects.BranchApi;
@@ -52,6 +53,7 @@ import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInfo;
+import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
@@ -124,6 +126,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final GetAccess getAccess;
   private final SetAccess setAccess;
   private final CreateAccessChange createAccessChange;
+  private final SuggestProjectReviewers suggestReviewers;
   private final GetConfig getConfig;
   private final PutConfig putConfig;
   private final CommitsIncludedInRefs commitsIncludedInRefs;
@@ -268,6 +271,7 @@ public class ProjectApiImpl implements ProjectApi {
       SetParent setParent,
       Index index,
       IndexChanges indexChanges,
+      SuggestProjectReviewers suggestReviewers,
       Provider<ListLabels> listLabels,
       Provider<ListSubmitRequirements> listSubmitRequirements,
       PostLabels postLabels,
@@ -309,6 +313,7 @@ public class ProjectApiImpl implements ProjectApi {
         setParent,
         index,
         indexChanges,
+        suggestReviewers
         listLabels,
         listSubmitRequirements,
         postLabels,
@@ -352,6 +357,7 @@ public class ProjectApiImpl implements ProjectApi {
       SetParent setParent,
       Index index,
       IndexChanges indexChanges,
+      SuggestProjectReviewers suggestReviewers,
       Provider<ListLabels> listLabels,
       Provider<ListSubmitRequirements> listSubmitRequirements,
       PostLabels postLabels,
@@ -393,6 +399,7 @@ public class ProjectApiImpl implements ProjectApi {
     this.name = name;
     this.index = index;
     this.indexChanges = indexChanges;
+    this.suggestReviewers = suggestReviewers;
     this.listLabels = listLabels;
     this.listSubmitRequirements = listSubmitRequirements;
     this.postLabels = postLabels;
@@ -736,6 +743,29 @@ public class ProjectApiImpl implements ProjectApi {
       indexChanges.apply(checkExists(), new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot index changes", e);
+    }
+  }
+
+  @Override
+  public SuggestedReviewersRequest suggestReviewers() throws RestApiException {
+    return new SuggestedReviewersRequest() {
+      @Override
+      public List<SuggestedReviewerInfo> get() throws RestApiException {
+        return ProjectApiImpl.this.suggestReviewers(this);
+      }
+    };
+  }
+
+  private List<SuggestedReviewerInfo> suggestReviewers(SuggestedReviewersRequest r)
+      throws RestApiException {
+    try {
+      suggestReviewers.setQuery(r.getQuery());
+      suggestReviewers.setLimit(r.getLimit());
+      suggestReviewers.setExcludeGroups(r.getExcludeGroups());
+      suggestReviewers.setReviewerState(r.getReviewerState());
+      return suggestReviewers.apply(project, branch).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve suggested reviewers", e);
     }
   }
 

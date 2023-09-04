@@ -118,6 +118,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a87d1e1_b7d6c090",
+        "filename": "java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-04T14:08:31Z",
+      "side": 1,
+      "message": "then this is fine",
+      "parentUuid": "68338114_cf8849f1",
+      "revId": "154f98d277c53d1b4fdbb08f5c3f2730d64abddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0651d145_46a4a1d3",

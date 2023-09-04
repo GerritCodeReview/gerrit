@@ -22,6 +22,23 @@
       },
       "revId": "eb803454ac3cc9ef0d30b751ae8d8fcc07831977",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "694610c6_17900623",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2023-09-04T12:08:05Z",
+      "side": 1,
+      "message": "This seems to resolve the issue on master.\nI can no longer reproduce this on 3.8.1-950-ge3f125c83f\n(which is this commit cherry-picked on top of feb77ad941 (https://gerrit-review.googlesource.com/c/gerrit/+/385074) which was master at the time of testing.",
+      "revId": "eb803454ac3cc9ef0d30b751ae8d8fcc07831977",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

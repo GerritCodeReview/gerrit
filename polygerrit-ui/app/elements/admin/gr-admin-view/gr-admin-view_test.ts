@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup';
 import './gr-admin-view';
 import {AdminSubsectionLink, GrAdminView} from './gr-admin-view';
-import {stubBaseUrl, stubElement, stubRestApi} from '../../../test/test-utils';
+import {stubElement, stubRestApi} from '../../../test/test-utils';
 import {GerritView} from '../../../services/router/router-model';
 import {query, queryAll, queryAndAssert} from '../../../test/test-utils';
 import {GrRepoList} from '../gr-repo-list/gr-repo-list';
@@ -47,29 +47,9 @@ suite('gr-admin-view tests', () => {
   });
 
   test('link URLs', () => {
-    assert.equal(
-      element.computeLinkURL({name: '', url: '/test', noBaseUrl: true}),
-      '//' + window.location.host + '/test'
-    );
-
-    stubBaseUrl('/foo');
-    assert.equal(
-      element.computeLinkURL({name: '', url: '/test', noBaseUrl: true}),
-      '//' + window.location.host + '/foo/test'
-    );
-    assert.equal(
-      element.computeLinkURL({name: '', url: '/test', noBaseUrl: false}),
-      '/test'
-    );
-    assert.equal(
-      element.computeLinkURL({
-        name: '',
-        url: '/test',
-        target: '_blank',
-        noBaseUrl: false,
-      }),
-      '/test'
-    );
+    assert.equal(element.computeLinkURL({name: '', url: '/test'}), '/test');
+    assert.equal(element.computeLinkURL({name: '', url: ''}), '');
+    assert.equal(element.computeLinkURL(undefined), '');
   });
 
   test('current page gets selected and is displayed', async () => {
@@ -78,7 +58,6 @@ suite('gr-admin-view tests', () => {
         name: 'Repositories',
         url: '/admin/repos',
         view: 'gr-repo-list' as GerritView,
-        noBaseUrl: false,
       },
     ];
 
@@ -154,7 +133,6 @@ suite('gr-admin-view tests', () => {
         capability: undefined,
         url: '/internal/link/url',
         name: 'internal link text',
-        noBaseUrl: true,
         view: undefined,
         viewableToAll: true,
         target: null,
@@ -163,7 +141,6 @@ suite('gr-admin-view tests', () => {
         capability: undefined,
         url: 'http://external/link/url',
         name: 'external link text',
-        noBaseUrl: false,
         view: undefined,
         viewableToAll: true,
         target: '_blank',
@@ -349,7 +326,6 @@ suite('gr-admin-view tests', () => {
     const expectedFilteredLinks = [
       {
         name: 'Repositories',
-        noBaseUrl: true,
         url: '/admin/repos',
         view: 'gr-repo-list' as GerritView,
         viewableToAll: true,
@@ -399,7 +375,6 @@ suite('gr-admin-view tests', () => {
       {
         name: 'Groups',
         section: 'Groups',
-        noBaseUrl: true,
         url: '/admin/groups',
         view: 'gr-admin-group-list' as GerritView,
       },
@@ -407,7 +382,6 @@ suite('gr-admin-view tests', () => {
         name: 'Plugins',
         capability: 'viewPlugins',
         section: 'Plugins',
-        noBaseUrl: true,
         url: '/admin/plugins',
         view: 'gr-plugin-list' as GerritView,
       },
@@ -544,29 +518,17 @@ suite('gr-admin-view tests', () => {
           <gr-page-nav class="navStyles">
             <ul class="sectionContent">
               <li class="sectionTitle selected">
-                <a
-                  class="title"
-                  href="//localhost:9876/admin/repos"
-                  rel="noopener"
-                >
+                <a class="title" href="/admin/repos" rel="noopener">
                   Repositories
                 </a>
               </li>
               <li class="sectionTitle">
-                <a
-                  class="title"
-                  href="//localhost:9876/admin/groups"
-                  rel="noopener"
-                >
+                <a class="title" href="/admin/groups" rel="noopener">
                   Groups
                 </a>
               </li>
               <li class="sectionTitle">
-                <a
-                  class="title"
-                  href="//localhost:9876/admin/plugins"
-                  rel="noopener"
-                >
+                <a class="title" href="/admin/plugins" rel="noopener">
                   Plugins
                 </a>
               </li>

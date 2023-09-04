@@ -140,7 +140,7 @@ export class GrRelatedChangesList extends LitElement {
           border-bottom: 1px solid var(--border-color);
         }
         .relatedChangeLine {
-          background-color: white;
+          background-color: var(--background-color-primary);
           display: flex;
           width: 100%;
           visibility: visible;

@@ -17,13 +17,16 @@ package com.google.gerrit.server.api.projects;
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.api.changes.ChangeApi.SuggestedReviewersRequest;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ReflogEntryInfo;
 import com.google.gerrit.extensions.common.Input;
+import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.BranchResource;
@@ -36,6 +39,7 @@ import com.google.gerrit.server.restapi.project.FilesCollection;
 import com.google.gerrit.server.restapi.project.GetBranch;
 import com.google.gerrit.server.restapi.project.GetContent;
 import com.google.gerrit.server.restapi.project.GetReflog;
+import com.google.gerrit.server.restapi.project.SuggestProjectReviewers;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -56,6 +60,8 @@ public class BranchApiImpl implements BranchApi {
   private final String ref;
   private final ProjectResource project;
 
+  private final SuggestProjectReviewers suggestReviewers;
+
   @Inject
   BranchApiImpl(
       BranchesCollection branches,
@@ -65,6 +71,7 @@ public class BranchApiImpl implements BranchApi {
       GetBranch getBranch,
       GetContent getContent,
       GetReflog getReflog,
+      SuggestProjectReviewers suggestReviewers,
       @Assisted ProjectResource project,
       @Assisted String ref) {
     this.branches = branches;
@@ -75,6 +82,7 @@ public class BranchApiImpl implements BranchApi {
     this.getContent = getContent;
     this.getReflog = getReflog;
     this.project = project;
+    this.suggestReviewers = suggestReviewers;
     this.ref = ref;
   }
 
@@ -103,6 +111,39 @@ public class BranchApiImpl implements BranchApi {
       deleteBranch.apply(resource(), new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot delete branch", e);
+    }
+  }
+
+  @Override
+  public SuggestedReviewersRequest suggestReviewers() throws RestApiException {
+    throw new NotImplementedException();
+  }
+
+  @Override
+  public SuggestedReviewersRequest suggestReviewers(String query) throws RestApiException {
+    throw new NotImplementedException();
+  }
+
+  @Override
+  public SuggestedReviewersRequest suggestReviewers() throws RestApiException {
+    return new SuggestedReviewersRequest() {
+      @Override
+      public List<SuggestedReviewerInfo> get() throws RestApiException {
+        return BranchApiImpl.this.suggestReviewers(this);
+      }
+    };
+  }
+
+  private List<SuggestedReviewerInfo> suggestReviewers(SuggestedReviewersRequest r)
+      throws RestApiException {
+    try {
+      suggestReviewers.setQuery(r.getQuery());
+      suggestReviewers.setLimit(r.getLimit());
+      suggestReviewers.setExcludeGroups(r.getExcludeGroups());
+      suggestReviewers.setReviewerState(r.getReviewerState());
+      return suggestReviewers.apply(resource()).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve suggested reviewers", e);
     }
   }
 

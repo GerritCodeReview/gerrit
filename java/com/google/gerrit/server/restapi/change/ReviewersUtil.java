@@ -342,7 +342,7 @@ public class ReviewersUtil {
       throws IOException, ConfigInvalidException {
     try (Timer0.Context ctx = metrics.recommendAccountsLatency.start()) {
       return reviewerRecommender.suggestReviewers(
-          reviewerState, changeNotes, suggestReviewers, projectState, candidateList);
+          reviewerState, changeNotes, suggestReviewers.getQuery(), projectState, candidateList);
     }
   }
 

@@ -17,6 +17,7 @@ package com.google.gerrit.server.events;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
@@ -174,7 +175,7 @@ public class EventFactory {
   /** Add allReviewers to an existing {@link ChangeAttribute}. */
   public void addAllReviewers(
       ChangeAttribute a, ChangeNotes notes, AccountAttributeLoader accountLoader) {
-    Collection<Account.Id> reviewers = approvalsUtil.getReviewers(notes).all();
+    ImmutableSet<Account.Id> reviewers = approvalsUtil.getReviewers(notes).all();
     if (!reviewers.isEmpty()) {
       a.allReviewers = Lists.newArrayListWithCapacity(reviewers.size());
       for (Account.Id id : reviewers) {

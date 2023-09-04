@@ -89,7 +89,7 @@ public class InternalQuery<T, Q extends InternalQuery<T, Q>> {
     return self();
   }
 
-  public final List<T> query(Predicate<T> p) {
+  public final ImmutableList<T> query(Predicate<T> p) {
     return queryResults(p).entities();
   }
 

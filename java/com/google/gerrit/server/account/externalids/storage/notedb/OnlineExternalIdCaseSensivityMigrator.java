@@ -26,7 +26,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Collection;
+import java.util.Set;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -81,7 +81,7 @@ public class OnlineExternalIdCaseSensivityMigrator {
     executor.execute(
         () -> {
           try {
-            Collection<ExternalId> todo = externalIds.all();
+            Set<ExternalId> todo = externalIds.all();
             try {
               monitor.beginTask("Converting external ID note names", todo.size());
               migratorFactory

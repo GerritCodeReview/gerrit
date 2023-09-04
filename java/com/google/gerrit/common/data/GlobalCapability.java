@@ -14,12 +14,12 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRange;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -172,8 +172,8 @@ public class GlobalCapability {
   }
 
   /** Returns all valid capability names. */
-  public static Collection<String> getAllNames() {
-    return Collections.unmodifiableList(NAMES_ALL);
+  public static ImmutableList<String> getAllNames() {
+    return ImmutableList.copyOf(NAMES_ALL);
   }
 
   /** Returns true if the name is recognized as a capability name. */

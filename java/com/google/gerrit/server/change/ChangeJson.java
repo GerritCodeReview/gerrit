@@ -378,8 +378,8 @@ public class ChangeJson {
     return format(cd, Optional.empty(), true, getPluginInfos(cd));
   }
 
-  private static Collection<LegacySubmitRequirementInfo> requirementsFor(ChangeData cd) {
-    Collection<LegacySubmitRequirementInfo> reqInfos = new ArrayList<>();
+  private static List<LegacySubmitRequirementInfo> requirementsFor(ChangeData cd) {
+    List<LegacySubmitRequirementInfo> reqInfos = new ArrayList<>();
     for (SubmitRecord submitRecord : cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT)) {
       if (submitRecord.requirements == null) {
         continue;
@@ -391,7 +391,7 @@ public class ChangeJson {
     return reqInfos;
   }
 
-  private Collection<SubmitRecordInfo> submitRecordsFor(ChangeData cd) {
+  private List<SubmitRecordInfo> submitRecordsFor(ChangeData cd) {
     List<SubmitRecordInfo> submitRecordInfos = new ArrayList<>();
     for (SubmitRecord record : cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT)) {
       submitRecordInfos.add(submitRecordToInfo(record));
@@ -399,8 +399,8 @@ public class ChangeJson {
     return submitRecordInfos;
   }
 
-  private Collection<SubmitRequirementResultInfo> submitRequirementsFor(ChangeData cd) {
-    Collection<SubmitRequirementResultInfo> reqInfos = new ArrayList<>();
+  private List<SubmitRequirementResultInfo> submitRequirementsFor(ChangeData cd) {
+    List<SubmitRequirementResultInfo> reqInfos = new ArrayList<>();
     cd.submitRequirementsIncludingLegacy().entrySet().stream()
         .filter(entry -> !entry.getValue().isHidden())
         .forEach(
@@ -805,7 +805,7 @@ public class ChangeJson {
     return reviewerMap;
   }
 
-  private Collection<ReviewerUpdateInfo> reviewerUpdates(ChangeData cd) {
+  private List<ReviewerUpdateInfo> reviewerUpdates(ChangeData cd) {
     List<ReviewerStatusUpdate> reviewerUpdates = cd.reviewerUpdates();
     List<ReviewerUpdateInfo> result = new ArrayList<>(reviewerUpdates.size());
     for (ReviewerStatusUpdate c : reviewerUpdates) {
@@ -846,7 +846,7 @@ public class ChangeJson {
     return ImmutableList.copyOf(result);
   }
 
-  private Collection<AccountInfo> removableReviewers(ChangeData cd, ChangeInfo out)
+  private List<AccountInfo> removableReviewers(ChangeData cd, ChangeInfo out)
       throws PermissionBackendException {
     // Although this is called removableReviewers, this method also determines
     // which CCs are removable.
@@ -929,14 +929,14 @@ public class ChangeJson {
     return result;
   }
 
-  private Collection<AccountInfo> toAccountInfo(Collection<Account.Id> accounts) {
+  private List<AccountInfo> toAccountInfo(Collection<Account.Id> accounts) {
     return accounts.stream()
         .map(accountLoader::get)
         .sorted(AccountInfoComparator.ORDER_NULLS_FIRST)
         .collect(toList());
   }
 
-  private Collection<AccountInfo> toAccountInfoByEmail(Collection<Address> addresses) {
+  private List<AccountInfo> toAccountInfoByEmail(Collection<Address> addresses) {
     return addresses.stream()
         .map(a -> new AccountInfo(a.name(), a.email()))
         .sorted(AccountInfoComparator.ORDER_NULLS_FIRST)

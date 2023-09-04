@@ -803,7 +803,7 @@ public class ChangeField {
   public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec LABEL_SPEC =
       LABEL_FIELD.exact("label2");
 
-  private static Iterable<String> getLabels(ChangeData cd) {
+  private static Set<String> getLabels(ChangeData cd) {
     Set<String> allApprovals = new HashSet<>();
     Set<String> distinctApprovals = new HashSet<>();
     Table<String, Short, Integer> voteCounts = HashBasedTable.create();
@@ -1538,7 +1538,7 @@ public class ChangeField {
     return Lists.transform(records, r -> GSON.toJson(new StoredSubmitRecord(r)).getBytes(UTF_8));
   }
 
-  private static Iterable<byte[]> storedSubmitRecords(ChangeData cd, SubmitRuleOptions opts) {
+  private static List<byte[]> storedSubmitRecords(ChangeData cd, SubmitRuleOptions opts) {
     return storedSubmitRecords(cd.submitRecords(opts));
   }
 

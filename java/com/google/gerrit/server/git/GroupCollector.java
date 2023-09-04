@@ -168,7 +168,7 @@ public class GroupCollector {
     Set<String> parentGroupsNewInThisPush =
         Sets.newLinkedHashSetWithExpectedSize(interestingParents.size());
     for (RevCommit p : interestingParents) {
-      Collection<String> parentGroups = groups.get(p);
+      List<String> parentGroups = groups.get(p);
       if (parentGroups.isEmpty()) {
         throw new IllegalStateException(
             String.format("no group assigned to parent %s of commit %s", p.name(), c.name()));
@@ -270,7 +270,7 @@ public class GroupCollector {
     }
   }
 
-  private Iterable<String> resolveGroup(ObjectId forCommit, String group) throws IOException {
+  private ImmutableList<String> resolveGroup(ObjectId forCommit, String group) throws IOException {
     ObjectId id = parseGroup(forCommit, group);
     if (id != null) {
       PatchSet.Id psId = Iterables.getFirst(receivePackRefCache.patchSetIdsFromObjectId(id), null);
@@ -279,7 +279,7 @@ public class GroupCollector {
         // Group for existing patch set may be missing, e.g. if group has not
         // been migrated yet.
         if (groups != null && !groups.isEmpty()) {
-          return groups;
+          return ImmutableList.copyOf(groups);
         }
       }
     }

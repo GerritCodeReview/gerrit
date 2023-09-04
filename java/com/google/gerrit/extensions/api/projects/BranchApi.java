@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.projects;
 
+import com.google.gerrit.extensions.api.changes.ChangeApi.SuggestedReviewersRequest;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -31,6 +32,16 @@ public interface BranchApi {
 
   List<ReflogEntryInfo> reflog() throws RestApiException;
 
+  SuggestedReviewersRequest suggestReviewers() throws RestApiException;
+
+  default SuggestedReviewersRequest suggestReviewers(String query) throws RestApiException {
+    return suggestReviewers().withQuery(query);
+  }
+
+  default SuggestedReviewersRequest suggestCcs(String query) throws RestApiException {
+    return suggestReviewers().forCc().withQuery(query);
+  }
+
   /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
@@ -38,6 +49,16 @@ public interface BranchApi {
   class NotImplemented implements BranchApi {
     @Override
     public BranchApi create(BranchInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public SuggestedReviewersRequest suggestReviewers() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public SuggestedReviewersRequest suggestReviewers(String query) throws RestApiException {
       throw new NotImplementedException();
     }
 

@@ -1891,6 +1891,69 @@ The content is returned as base64 encoded string.
   Ly8gQ29weXJpZ2h0IChDKSAyMDEwIFRoZSBBbmRyb2lkIE9wZW4gU291cmNlIFByb2plY...
 ----
 
+[[suggest-reviewers]]
+=== Suggest Reviewers
+--
+'GET /projects/link:#project-name[\{project-name\}]/branches/link:#branch-id[\{branch-id\}]/suggest_reviewers?q=J&n=5'
+--
+
+Suggest the reviewers for a given query `q` and result limit `n`. If result
+limit is not passed, then the default 10 is used.
+
+This REST endpoint only suggests accounts that
+
+* are active
+* can see the branch
+* are visible to the calling user
+* are not service users (unless
+  link:config.html#suggest.skipServiceUsers[skipServiceUsers] is set to `false`)
+
+Groups can be excluded from the results by specifying the 'exclude-groups'
+request parameter:
+
+--
+'GET /changes/link:#project-name[\{project-name\}]/branches/link:#branch-id[\{branch-id\}]/suggest_reviewers?q=J&n=5&exclude-groups'
+--
+
+As result a list of link:#suggested-reviewer-info[SuggestedReviewerInfo] entries is returned.
+
+.Request
+----
+  GET /projects/myProject/branches/myBranch/suggest_reviewers?q=J HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "account": {
+        "_account_id": 1000097,
+        "name": "Jane Roe",
+        "email": "jane.roe@example.com"
+      },
+      "count": 1
+    },
+    {
+      "group": {
+        "id": "4fd581c0657268f2bdcc26699fbf9ddb76e3a279",
+        "name": "Joiner"
+      },
+      "count": 5
+    }
+  ]
+----
+
+To suggest CCs `reviewer-state=CC` can be specified as additional URL
+parameter.
+--
+'GET /changes/link:#project-name[\{project-name\}]/branches/link:#branch-id[\{branch-id\}]/suggest_reviewers?q=J&reviewer-state=CC'
+--
+
 
 [[get-mergeable-info]]
 === Get Mergeable Information

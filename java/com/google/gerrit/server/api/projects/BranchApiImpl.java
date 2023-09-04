@@ -17,6 +17,7 @@ package com.google.gerrit.server.api.projects;
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.api.changes.ChangeApi.SuggestedReviewersRequest;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -24,6 +25,7 @@ import com.google.gerrit.extensions.api.projects.ReflogEntryInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.BranchResource;
@@ -103,6 +105,39 @@ public class BranchApiImpl implements BranchApi {
       deleteBranch.apply(resource(), new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot delete branch", e);
+    }
+  }
+
+  @Override
+  public SuggestedReviewersRequest suggestReviewers() throws RestApiException {
+    throw new NotImplementedException();
+  }
+
+  @Override
+  public SuggestedReviewersRequest suggestReviewers(String query) throws RestApiException {
+    throw new NotImplementedException();
+  }
+
+  @Override
+  public SuggestedReviewersRequest suggestReviewers() throws RestApiException {
+    return new SuggestedReviewersRequest() {
+      @Override
+      public List<SuggestedReviewerInfo> get() throws RestApiException {
+        return ProjectApiImpl.this.suggestReviewers(this);
+      }
+    };
+  }
+
+  private List<SuggestedReviewerInfo> suggestReviewers(SuggestedProjectReviewersRequest r)
+      throws RestApiException {
+    try {
+      suggestReviewers.setQuery(r.getQuery());
+      suggestReviewers.setLimit(r.getLimit());
+      suggestReviewers.setExcludeGroups(r.getExcludeGroups());
+      suggestReviewers.setReviewerState(r.getReviewerState());
+      return suggestReviewers.apply(project, r.getBranch()).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve suggested reviewers", e);
     }
   }
 

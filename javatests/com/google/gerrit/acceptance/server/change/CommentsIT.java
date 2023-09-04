@@ -632,6 +632,51 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void updateAndPublishDraftCommentOnOldPatchSet() throws Exception {
+    // create a change
+    String file = "file";
+    PushOneCommit push =
+        pushFactory.create(admin.newIdent(), testRepo, "first subject", "file", "l1\nl2\n");
+    String dest = "refs/for/master";
+    PushOneCommit.Result r1 = push.to(dest);
+    r1.assertOkStatus();
+    String changeId = r1.getChangeId();
+    String revId = r1.getCommit().getName();
+
+    // create a second patch set
+    PushOneCommit.Result r2 = amendChange(r1.getChangeId());
+    r2.assertOkStatus();
+
+    // create a draft comment on the first patch set
+    String draftRefName = RefNames.refsDraftComments(r1.getChange().getId(), admin.id());
+    DraftInput draft = CommentsUtil.newDraft(file, Side.REVISION, 1, "comment");
+    CommentInfo draftInfo = addDraft(changeId, "1", draft);
+
+    // update the draft comment and publish it at the same time via PUBLISH_ALL_REVISIONS
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.message = "bar";
+    CommentInput comment = CommentsUtil.newComment(file, Side.REVISION, 1, "comment", false);
+    comment.id = draftInfo.id;
+    reviewInput.comments = new HashMap<>();
+    reviewInput.comments.put(comment.path, ImmutableList.of(comment));
+    reviewInput.drafts = DraftHandling.PUBLISH_ALL_REVISIONS;
+    gApi.changes().id(r1.getChangeId()).revision(2).review(reviewInput);
+
+    // check that the draft comment is no longer present
+    Map<String, List<CommentInfo>> drafts = getDraftComments(changeId, revId);
+    assertThat(drafts.isEmpty()).isTrue();
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      Ref ref = repo.exactRef(draftRefName);
+      assertThat(ref).isNull();
+    }
+
+    // check that the draft comment is published on the old patch set now
+    CommentInfo publishedComment = Iterables.getOnlyElement(getPublishedCommentsAsList(changeId));
+    assertThat(publishedComment.id).isEqualTo(draftInfo.id);
+    assertThat(publishedComment.patchSet).isEqualTo(1);
+  }
+
+  @Test
   public void listComments() throws Exception {
     String file = "file";
     PushOneCommit push =

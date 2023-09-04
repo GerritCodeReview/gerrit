@@ -159,7 +159,6 @@ suite('gr-main-header tests', () => {
       {
         name: 'Repos',
         url: '/repos',
-        noBaseUrl: true,
         view: undefined,
       },
     ];
@@ -233,7 +232,6 @@ suite('gr-main-header tests', () => {
       {
         name: 'Repos',
         url: '/repos',
-        noBaseUrl: true,
         view: undefined,
       },
     ];
@@ -280,7 +278,6 @@ suite('gr-main-header tests', () => {
       {
         name: 'Repos',
         url: '/repos',
-        noBaseUrl: true,
         view: undefined,
       },
     ];
@@ -332,7 +329,6 @@ suite('gr-main-header tests', () => {
       {
         name: 'Repos',
         url: '/repos',
-        noBaseUrl: true,
         view: undefined,
       },
     ];
@@ -494,7 +490,6 @@ suite('gr-main-header tests', () => {
       {
         name: 'Repos',
         url: '/repos',
-        noBaseUrl: true,
         view: undefined,
       },
     ];

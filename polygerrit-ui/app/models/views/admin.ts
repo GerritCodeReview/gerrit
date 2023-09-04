@@ -38,7 +38,6 @@ export interface AdminNavLinksOption {
 
 export interface NavLink {
   name: string;
-  noBaseUrl: boolean;
   url: string;
   view?: GerritView | AdminChildView;
   viewableToAll?: boolean;
@@ -68,7 +67,6 @@ export enum AdminChildView {
 const ADMIN_LINKS: NavLink[] = [
   {
     name: 'Repositories',
-    noBaseUrl: true,
     url: createAdminUrl({adminView: AdminChildView.REPOS}),
     view: 'gr-repo-list' as GerritView,
     viewableToAll: true,
@@ -76,7 +74,6 @@ const ADMIN_LINKS: NavLink[] = [
   {
     name: 'Groups',
     section: 'Groups',
-    noBaseUrl: true,
     url: createAdminUrl({adminView: AdminChildView.GROUPS}),
     view: 'gr-admin-group-list' as GerritView,
   },
@@ -84,7 +81,6 @@ const ADMIN_LINKS: NavLink[] = [
     name: 'Plugins',
     capability: 'viewPlugins',
     section: 'Plugins',
-    noBaseUrl: true,
     url: createAdminUrl({adminView: AdminChildView.PLUGINS}),
     view: 'gr-plugin-list' as GerritView,
   },
@@ -94,7 +90,6 @@ export interface AdminLink {
   url: string;
   text: string;
   capability: string | null;
-  noBaseUrl: boolean;
   view: null;
   viewableToAll: boolean;
   target: '_blank' | null;
@@ -142,7 +137,6 @@ function filterLinks(
         url: link.url,
         name: link.text,
         capability: link.capability || undefined,
-        noBaseUrl: !isExternalLink(link),
         view: undefined,
         viewableToAll: !link.capability,
         target: isExternalLink(link) ? '_blank' : null,

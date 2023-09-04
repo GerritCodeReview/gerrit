@@ -17,7 +17,6 @@ import '../gr-repo-commands/gr-repo-commands';
 import '../gr-repo-dashboards/gr-repo-dashboards';
 import '../gr-repo-detail-list/gr-repo-detail-list';
 import '../gr-repo-list/gr-repo-list';
-import {getBaseUrl} from '../../../utils/url-util';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {
   AccountDetailInfo,
@@ -600,12 +599,7 @@ export class GrAdminView extends LitElement {
 
   // private but used in test
   computeLinkURL(link?: NavLink | SubsectionInterface) {
-    if (!link || typeof link.url === 'undefined') return '';
-
-    if ((link as NavLink).target || !(link as NavLink).noBaseUrl) {
-      return link.url;
-    }
-    return `//${window.location.host}${getBaseUrl()}${link.url}`;
+    return link?.url || '';
   }
 
   private computeSelectedClass(

@@ -60,6 +60,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Option;
 
+/** Lists the branches in a project. */
 public class ListBranches implements RestReadView<ProjectResource> {
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;

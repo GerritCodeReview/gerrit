@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d33a82d9_ce4bd4ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-05T13:32:53Z",
+      "side": 1,
+      "message": "Still need to make sending of events configurable",
+      "revId": "b4f466103aff578d7b0cb006895d38ee3dd145e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d333689_c14decb5",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-05T13:32:53Z",
+      "side": 1,
+      "message": "Make this configurable to avoid unwanted traffic.",
+      "revId": "b4f466103aff578d7b0cb006895d38ee3dd145e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

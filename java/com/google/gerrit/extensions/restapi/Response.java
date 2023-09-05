@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.restapi;
 
+import com.google.common.collect.ImmutableMultimap;
 import java.util.concurrent.TimeUnit;
 
 /** Special return value to mean specific HTTP status codes in a REST API. */
@@ -23,7 +24,11 @@ public abstract class Response<T> {
 
   /** HTTP 200 OK: pointless wrapper for type safety. */
   public static <T> Response<T> ok(T value) {
-    return new Impl<>(200, value);
+    return ok(value, ImmutableMultimap.of());
+  }
+
+  public static <T> Response<T> ok(T value, ImmutableMultimap<String, String> headers) {
+    return new Impl<>(200, value, headers);
   }
 
   /** HTTP 200 OK: with empty value. */
@@ -81,6 +86,8 @@ public abstract class Response<T> {
 
   public abstract T value();
 
+  public abstract ImmutableMultimap<String, String> headers();
+
   public abstract CacheControl caching();
 
   public abstract Response<T> caching(CacheControl c);
@@ -91,11 +98,17 @@ public abstract class Response<T> {
   private static final class Impl<T> extends Response<T> {
     private final int statusCode;
     private final T value;
+    private final ImmutableMultimap<String, String> headers;
     private CacheControl caching = CacheControl.NONE;
 
     private Impl(int sc, T val) {
+      this(sc, val, ImmutableMultimap.of());
+    }
+
+    private Impl(int sc, T val, ImmutableMultimap<String, String> hs) {
       statusCode = sc;
       value = val;
+      headers = hs;
     }
 
     @Override
@@ -111,6 +124,11 @@ public abstract class Response<T> {
     @Override
     public T value() {
       return value;
+    }
+
+    @Override
+    public ImmutableMultimap<String, String> headers() {
+      return headers;
     }
 
     @Override
@@ -146,6 +164,11 @@ public abstract class Response<T> {
     @Override
     public Object value() {
       throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ImmutableMultimap<String, String> headers() {
+      return ImmutableMultimap.of();
     }
 
     @Override
@@ -185,6 +208,11 @@ public abstract class Response<T> {
     @Override
     public Object value() {
       throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ImmutableMultimap<String, String> headers() {
+      return ImmutableMultimap.of();
     }
 
     @Override
@@ -238,6 +266,11 @@ public abstract class Response<T> {
     @Override
     public Object value() {
       throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ImmutableMultimap<String, String> headers() {
+      return ImmutableMultimap.of();
     }
 
     @Override

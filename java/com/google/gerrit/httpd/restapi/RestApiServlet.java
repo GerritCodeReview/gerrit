@@ -601,6 +601,7 @@ public class RestApiServlet extends HttpServlet {
             }
 
             statusCode = response.statusCode();
+            response.headers().forEach((k, v) -> res.setHeader(k, v));
             configureCaching(req, res, traceContext, rsrc, viewData, response.caching());
             res.setStatus(statusCode);
             logger.atFinest().log("REST call succeeded: %d", statusCode);

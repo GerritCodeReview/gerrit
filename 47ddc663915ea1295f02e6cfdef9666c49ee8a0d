@@ -16,6 +16,75 @@
       "message": "LGTM overall, @nasser.grainawi@linaro.org ?",
       "revId": "47ddc663915ea1295f02e6cfdef9666c49ee8a0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a871a70c_fb9ea5e0",
+        "filename": "java/com/google/gerrit/index/query/FilteredSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-05T09:03:10Z",
+      "side": 1,
+      "message": "Magic number. Can you add a constant for this?",
+      "range": {
+        "startLine": 73,
+        "startChar": 60,
+        "endLine": 73,
+        "endChar": 62
+      },
+      "revId": "47ddc663915ea1295f02e6cfdef9666c49ee8a0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f108d806_57dca119",
+        "filename": "java/com/google/gerrit/index/query/FilteredSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-05T09:03:10Z",
+      "side": 1,
+      "message": "Why is this method needed? It is not doing anything.",
+      "range": {
+        "startLine": 77,
+        "startChar": 20,
+        "endLine": 77,
+        "endChar": 35
+      },
+      "revId": "47ddc663915ea1295f02e6cfdef9666c49ee8a0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d634535d_986e6ce1",
+        "filename": "java/com/google/gerrit/index/query/FilteredSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-05T09:03:10Z",
+      "side": 1,
+      "message": "Why do we have javadoc only for this method?\nI think we can get rid of it, the method is trivial.\n\nAlso in this case we are always return `true`",
+      "range": {
+        "startLine": 86,
+        "startChar": 1,
+        "endLine": 91,
+        "endChar": 5
+      },
+      "revId": "47ddc663915ea1295f02e6cfdef9666c49ee8a0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

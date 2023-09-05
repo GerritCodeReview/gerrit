@@ -313,11 +313,17 @@ suite('gr-comment tests', () => {
                 <gr-formatted-text class="message"></gr-formatted-text>
                 <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>
                 <div class="actions">
-                  <div class="action resolve">
-                    <label>
-                      <input checked="" id="resolvedCheckbox" type="checkbox" />
-                      Resolved
-                    </label>
+                  <div class="leftActions">
+                    <div class="action resolve">
+                      <label>
+                        <input
+                          checked=""
+                          id="resolvedCheckbox"
+                          type="checkbox"
+                        />
+                        Resolved
+                      </label>
+                    </div>
                   </div>
                   <div class="rightActions">
                     <gr-button
@@ -413,11 +419,17 @@ suite('gr-comment tests', () => {
                 </gr-textarea>
                 <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>
                 <div class="actions">
-                  <div class="action resolve">
-                    <label>
-                      <input checked="" id="resolvedCheckbox" type="checkbox" />
-                      Resolved
-                    </label>
+                  <div class="leftActions">
+                    <div class="action resolve">
+                      <label>
+                        <input
+                          checked=""
+                          id="resolvedCheckbox"
+                          type="checkbox"
+                        />
+                        Resolved
+                      </label>
+                    </div>
                   </div>
                   <div class="rightActions">
                     <gr-button

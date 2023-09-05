@@ -596,6 +596,7 @@ public class RestApiServlet extends HttpServlet {
               CacheHeaders.setNotCacheable(res);
               res.setStatus(response.statusCode());
               res.setHeader(HttpHeaders.LOCATION, ((Response.Accepted) response).location());
+              response.headers().forEach((k, v) -> res.setHeader(k, v));
               logger.atFinest().log("REST call succeeded: %d", response.statusCode());
               return;
             }

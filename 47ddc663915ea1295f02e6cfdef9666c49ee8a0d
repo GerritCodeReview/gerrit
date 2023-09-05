@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c51d9a7_fcdd3baa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-05T07:49:03Z",
+      "side": 1,
+      "message": "LGTM overall, @nasser.grainawi@linaro.org ?",
+      "revId": "47ddc663915ea1295f02e6cfdef9666c49ee8a0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

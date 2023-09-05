@@ -150,6 +150,7 @@ export class GrRelatedChangesList extends LitElement {
           border-left: 1px solid var(--border-color);
           border-right: 1px solid var(--border-color);
           border-top: 1px solid var(--border-color);
+          padding-right: var(--spacing-m);
         }
         .relatedChangeLine.selected {
           background-color: var(--selection-background-color);
@@ -172,9 +173,6 @@ export class GrRelatedChangesList extends LitElement {
         .repo,
         .branch {
           color: var(--primary-text-color);
-        }
-        .branch {
-          margin-right: var(--spacing-m);
         }
         @media screen and (max-width: 1400px) {
           .repo,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ec753b3_d0831c8b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-05T20:37:12Z",
+      "side": 1,
+      "message": "Have you thought about introducing a separate GuiceModule, so that it can be completely swapped out if needed? Something similar to what we did with ElasticSearch.",
+      "revId": "9d292434e471b8261792f6dc44724d98ca2f2fa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

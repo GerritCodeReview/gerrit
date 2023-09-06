@@ -16,6 +16,7 @@ import {fireNoBubble} from '../../../utils/event-util';
 import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {subscribe} from '../../lit/subscription-controller';
+import {formStyles} from '../../../styles/form-styles';
 
 interface DisplayGroup {
   title: string;
@@ -44,6 +45,7 @@ export class GrIncludedInDialog extends LitElement {
 
   static override get styles() {
     return [
+      formStyles,
       fontStyles,
       sharedStyles,
       css`

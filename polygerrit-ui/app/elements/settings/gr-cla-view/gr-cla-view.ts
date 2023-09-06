@@ -14,7 +14,7 @@ import {
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {fontStyles} from '../../../styles/gr-font-styles';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, html, css} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
@@ -59,7 +59,7 @@ export class GrClaView extends LitElement {
   static override get styles() {
     return [
       fontStyles,
-      formStyles,
+      grFormStyles,
       sharedStyles,
       css`
         h1 {

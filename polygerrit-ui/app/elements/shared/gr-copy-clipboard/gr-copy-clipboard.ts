@@ -21,6 +21,7 @@ import {GrIcon} from '../gr-icon/gr-icon';
 import {getAppContext} from '../../../services/app-context';
 import {Timing} from '../../../constants/reporting';
 import {when} from 'lit/directives/when.js';
+import {formStyles} from '../../../styles/form-styles';
 
 const COPY_TIMEOUT_MS = 1000;
 
@@ -57,6 +58,7 @@ export class GrCopyClipboard extends LitElement {
 
   static override get styles() {
     return [
+      formStyles,
       css`
         .text {
           align-items: center;

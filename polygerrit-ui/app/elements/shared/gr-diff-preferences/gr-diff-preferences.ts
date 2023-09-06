@@ -9,7 +9,7 @@ import '../gr-button/gr-button';
 import '../gr-select/gr-select';
 import {DiffPreferencesInfo, IgnoreWhitespaceType} from '../../../types/diff';
 import {subscribe} from '../../lit/subscription-controller';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, html} from 'lit';
 import {customElement, query, state} from 'lit/decorators.js';
@@ -68,7 +68,7 @@ export class GrDiffPreferences extends LitElement {
   }
 
   static override get styles() {
-    return [sharedStyles, formStyles];
+    return [sharedStyles, grFormStyles];
   }
 
   override render() {

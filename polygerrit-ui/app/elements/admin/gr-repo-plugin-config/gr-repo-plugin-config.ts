@@ -5,7 +5,7 @@
  */
 import '@polymer/iron-input/iron-input';
 import '@polymer/paper-toggle-button/paper-toggle-button';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import '../../shared/gr-select/gr-select';
@@ -59,7 +59,7 @@ export class GrRepoPluginConfig extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
-      formStyles,
+      grFormStyles,
       paperStyles,
       subpageStyles,
       css`

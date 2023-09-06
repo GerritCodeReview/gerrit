@@ -5,7 +5,7 @@
  */
 import {css} from 'lit';
 
-export const formStyles = css`
+export const grFormStyles = css`
   .gr-form-styles input {
     background-color: var(--view-background-color);
     color: var(--primary-text-color);
@@ -107,7 +107,7 @@ const $_documentContainer = document.createElement('template');
 $_documentContainer.innerHTML = `<dom-module id="gr-form-styles">
   <template>
     <style>
-    ${formStyles.cssText}
+    ${grFormStyles.cssText}
     </style>
   </template>
 </dom-module>`;

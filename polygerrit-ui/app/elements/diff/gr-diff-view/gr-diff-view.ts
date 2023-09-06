@@ -106,6 +106,7 @@ import {
 } from '../../../models/change/files-model';
 import {isNewDiff} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {isImageDiff} from '../../../utils/diff-util';
+import {formStyles} from '../../../styles/form-styles';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
@@ -484,6 +485,7 @@ export class GrDiffView extends LitElement {
 
   static override get styles() {
     return [
+      formStyles,
       a11yStyles,
       sharedStyles,
       modalStyles,

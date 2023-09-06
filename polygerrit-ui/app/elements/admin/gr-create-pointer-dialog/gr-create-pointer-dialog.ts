@@ -8,7 +8,7 @@ import '../../shared/gr-button/gr-button';
 import '../../shared/gr-select/gr-select';
 import {BranchName, RepoName} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
@@ -49,7 +49,7 @@ export class GrCreatePointerDialog extends LitElement {
 
   static override get styles() {
     return [
-      formStyles,
+      grFormStyles,
       sharedStyles,
       css`
         :host {

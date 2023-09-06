@@ -128,6 +128,7 @@ import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-load
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {ironAnnouncerRequestAvailability} from '../../polymer-util';
 import {GrReviewerUpdatesParser} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
+import {formStyles} from '../../../styles/form-styles';
 
 export enum FocusTarget {
   ANY = 'any',
@@ -356,6 +357,7 @@ export class GrReplyDialog extends LitElement {
 
   static override get styles() {
     return [
+      formStyles,
       sharedStyles,
       modalStyles,
       css`

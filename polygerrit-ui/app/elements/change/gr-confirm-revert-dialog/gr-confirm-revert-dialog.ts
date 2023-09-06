@@ -16,6 +16,7 @@ import {resolve} from '../../../models/dependency';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {createSearchUrl} from '../../../models/views/search';
 import {ParsedChangeInfo} from '../../../types/types';
+import {formStyles} from '../../../styles/form-styles';
 
 const ERR_COMMIT_NOT_FOUND = 'Unable to find the commit hash of this change.';
 const INSERT_REASON_STRING = '<INSERT REASONING HERE>';
@@ -68,6 +69,7 @@ export class GrConfirmRevertDialog
 
   static override get styles() {
     return [
+      formStyles,
       sharedStyles,
       css`
         :host {

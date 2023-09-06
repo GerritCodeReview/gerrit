@@ -35,6 +35,7 @@ import {modalStyles} from '../../../styles/gr-modal-styles';
 import {whenVisible} from '../../../utils/dom-util';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {changeModelToken} from '../../../models/change/change-model';
+import {formStyles} from '../../../styles/form-styles';
 
 @customElement('gr-edit-controls')
 export class GrEditControls extends LitElement {
@@ -84,6 +85,7 @@ export class GrEditControls extends LitElement {
 
   static override get styles() {
     return [
+      formStyles,
       sharedStyles,
       modalStyles,
       css`

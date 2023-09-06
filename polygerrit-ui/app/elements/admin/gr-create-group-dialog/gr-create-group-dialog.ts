@@ -8,7 +8,7 @@ import '../../../styles/gr-form-styles';
 import '../../../styles/shared-styles';
 import {GroupName} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, query, property} from 'lit/decorators.js';
@@ -40,7 +40,7 @@ export class GrCreateGroupDialog extends LitElement {
 
   static override get styles() {
     return [
-      formStyles,
+      grFormStyles,
       sharedStyles,
       css`
         :host {

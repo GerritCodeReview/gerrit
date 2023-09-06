@@ -31,7 +31,7 @@ import {getAppContext} from '../../../services/app-context';
 import {WebLinkInfo} from '../../../types/diff';
 import {ErrorCallback} from '../../../api/rest';
 import {fontStyles} from '../../../styles/gr-font-styles';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {BindValueChangeEvent} from '../../../types/events';
@@ -140,7 +140,7 @@ export class GrRepo extends LitElement {
   static override get styles() {
     return [
       fontStyles,
-      formStyles,
+      grFormStyles,
       subpageStyles,
       sharedStyles,
       css`

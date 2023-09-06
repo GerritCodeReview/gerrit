@@ -17,7 +17,7 @@ import {ProjectWatchInfo, RepoName} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {css, html, LitElement} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {when} from 'lit/directives/when.js';
 import {fire} from '../../../utils/event-util';
 import {PropertiesOfType} from '../../../utils/type-util';
@@ -60,7 +60,7 @@ export class GrWatchedProjectsEditor extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
-      formStyles,
+      grFormStyles,
       css`
         #watchedProjects .notifType {
           text-align: center;

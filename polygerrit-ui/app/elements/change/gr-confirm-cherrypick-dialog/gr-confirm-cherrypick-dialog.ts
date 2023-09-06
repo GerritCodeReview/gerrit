@@ -41,6 +41,7 @@ import {createSearchUrl} from '../../../models/views/search';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {uuid} from '../../../utils/common-util';
 import {ParsedChangeInfo} from '../../../types/types';
+import {formStyles} from '../../../styles/form-styles';
 
 const SUGGESTIONS_LIMIT = 15;
 const CHANGE_SUBJECT_LIMIT = 50;
@@ -157,6 +158,7 @@ export class GrConfirmCherrypickDialog
 
   static override get styles() {
     return [
+      formStyles,
       sharedStyles,
       css`
         :host {

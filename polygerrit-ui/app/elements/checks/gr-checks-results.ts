@@ -79,6 +79,7 @@ import {when} from 'lit/directives/when.js';
 import {DropdownItem} from '../shared/gr-dropdown-list/gr-dropdown-list';
 import './gr-checks-attempt';
 import {createDiffUrl, changeViewModelToken} from '../../models/views/change';
+import {formStyles} from '../../styles/form-styles';
 
 /**
  * Firing this event sets the regular expression of the results filter.
@@ -868,6 +869,7 @@ export class GrChecksResults extends LitElement {
 
   static override get styles() {
     return [
+      formStyles,
       sharedStyles,
       spinnerStyles,
       fontStyles,

@@ -5,7 +5,7 @@
  */
 import {GroupInfo, GroupId} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
@@ -35,7 +35,7 @@ export class GrGroupList extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
-      formStyles,
+      grFormStyles,
       css`
         #groups .nameColumn {
           min-width: 11em;

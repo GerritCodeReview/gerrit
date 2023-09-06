@@ -10,7 +10,7 @@ import {getAppContext} from '../../../services/app-context';
 import {LitElement, css, html} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {ValueChangedEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
 
@@ -32,7 +32,7 @@ export class GrEmailEditor extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
-      formStyles,
+      grFormStyles,
       css`
         th {
           color: var(--deemphasized-text-color);

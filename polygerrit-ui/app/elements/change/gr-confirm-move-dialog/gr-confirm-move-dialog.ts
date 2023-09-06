@@ -16,6 +16,7 @@ import {ValueChangedEvent} from '../../../types/events';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {fireNoBubble} from '../../../utils/event-util';
+import {formStyles} from '../../../styles/form-styles';
 
 const SUGGESTIONS_LIMIT = 15;
 
@@ -71,6 +72,7 @@ export class GrConfirmMoveDialog
 
   static override get styles() {
     return [
+      formStyles,
       sharedStyles,
       css`
         :host {

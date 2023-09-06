@@ -15,6 +15,7 @@ import {BindValueChangeEvent} from '../../../types/events';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {ChangeActionDialog} from '../../../types/common';
 import {fireNoBubble} from '../../../utils/event-util';
+import {formStyles} from '../../../styles/form-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -61,6 +62,7 @@ export class GrConfirmAbandonDialog
 
   static override get styles() {
     return [
+      formStyles,
       sharedStyles,
       css`
         :host {

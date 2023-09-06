@@ -12,12 +12,13 @@ import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea';
 import {getAppContext} from '../../../services/app-context';
 import {css, html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {assertIsDefined} from '../../../utils/common-util';
 import {BindValueChangeEvent} from '../../../types/events';
 import {fire} from '../../../utils/event-util';
 import {modalStyles} from '../../../styles/gr-modal-styles';
+import {formStyles} from '../../../styles/form-styles';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -51,6 +52,7 @@ export class GrGpgEditor extends LitElement {
 
   static override get styles() {
     return [
+      grFormStyles,
       formStyles,
       sharedStyles,
       modalStyles,

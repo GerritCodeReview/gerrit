@@ -7,7 +7,7 @@ import '@polymer/iron-input/iron-input';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-select/gr-select';
 import {EditPreferencesInfo} from '../../../types/common';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, html, css} from 'lit';
@@ -65,7 +65,7 @@ export class GrEditPreferences extends LitElement {
     return [
       sharedStyles,
       menuPageStyles,
-      formStyles,
+      grFormStyles,
       css`
         :host {
           border: none;

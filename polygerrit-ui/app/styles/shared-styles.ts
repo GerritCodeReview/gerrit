@@ -103,34 +103,9 @@ export const sharedStyles = css`
   *::before {
     box-sizing: border-box;
   }
-  input {
-    background-color: var(--background-color-primary);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    box-sizing: border-box;
-    color: var(--primary-text-color);
-    margin: 0;
-    padding: var(--spacing-s);
-  }
-  /* prettier formatter removes semi-colons after css mixins. */
-  /* prettier-ignore */
-  iron-autogrow-textarea {
-    background-color: inherit;
-    color: var(--primary-text-color);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    padding: 0;
-    box-sizing: border-box;
-    /* iron-autogrow-textarea has a "-webkit-appearance: textarea" :host
-        css rule, which prevents overriding the border color. Clear that. */
-    -webkit-appearance: none;
-    --iron-autogrow-textarea_-_box-sizing: border-box;
-    --iron-autogrow-textarea_-_padding: var(--spacing-s);
-  }
   a {
     color: var(--link-color);
   }
-  input,
   textarea,
   select,
   button {

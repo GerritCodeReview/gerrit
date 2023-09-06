@@ -43,6 +43,7 @@ import {createChangeUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {configModelToken} from '../../../models/config/config-model';
+import {formStyles} from '../../../styles/form-styles';
 
 enum ChangeSize {
   XS = 10,
@@ -199,6 +200,7 @@ export class GrChangeListItem extends LitElement {
   static override get styles() {
     return [
       changeListStyles,
+      formStyles,
       sharedStyles,
       submitRequirementsStyles,
       css`

@@ -6,7 +6,7 @@
 import {getBaseUrl} from '../../../utils/url-util';
 import {ContributorAgreementInfo} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
@@ -41,7 +41,7 @@ export class GrAgreementsList extends LitElement {
           width: auto;
         }
       `,
-      formStyles,
+      grFormStyles,
     ];
   }
 

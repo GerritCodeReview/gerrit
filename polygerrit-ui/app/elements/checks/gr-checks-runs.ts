@@ -57,11 +57,13 @@ import {Interaction} from '../../constants/reporting';
 import {Deduping} from '../../api/reporting';
 import {when} from 'lit/directives/when.js';
 import {changeViewModelToken} from '../../models/views/change';
+import {formStyles} from '../../styles/form-styles';
 
 @customElement('gr-checks-run')
 export class GrChecksRun extends LitElement {
   static override get styles() {
     return [
+      formStyles,
       sharedStyles,
       css`
         :host {

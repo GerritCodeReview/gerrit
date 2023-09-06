@@ -31,6 +31,7 @@ import {changeModelToken} from '../../../models/change/change-model';
 import {userModelToken} from '../../../models/user/user-model';
 import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
 import {subscribe} from '../../lit/subscription-controller';
+import {formStyles} from '../../../styles/form-styles';
 
 export interface RebaseChange {
   name: string;
@@ -162,6 +163,7 @@ export class GrConfirmRebaseDialog
 
   static override get styles() {
     return [
+      formStyles,
       sharedStyles,
       css`
         :host {

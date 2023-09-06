@@ -16,7 +16,7 @@ import {
 import {AutocompleteQuery} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getAppContext} from '../../../services/app-context';
 import {convertToString} from '../../../utils/string-util';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, query, property, state} from 'lit/decorators.js';
@@ -97,7 +97,7 @@ export class GrCreateRepoDialog extends LitElement {
 
   static override get styles() {
     return [
-      formStyles,
+      grFormStyles,
       sharedStyles,
       css`
         :host {

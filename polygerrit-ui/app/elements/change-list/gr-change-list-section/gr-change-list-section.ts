@@ -24,6 +24,7 @@ import {createSearchUrl} from '../../../models/views/search';
 import {userModelToken} from '../../../models/user/user-model';
 import {subscribe} from '../../lit/subscription-controller';
 import {classMap} from 'lit/directives/class-map.js';
+import {formStyles} from '../../../styles/form-styles';
 
 const NUMBER_FIXED_COLUMNS = 4;
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
@@ -114,6 +115,7 @@ export class GrChangeListSection extends LitElement {
     return [
       changeListStyles,
       fontStyles,
+      formStyles,
       sharedStyles,
       css`
         :host {

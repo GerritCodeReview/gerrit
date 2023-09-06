@@ -197,15 +197,7 @@ export class GrChangeListColumnRequirement extends LitElement {
   }
 
   private getRequirement(labelName: string) {
-    const requirements = getRequirements(this.change).filter(
-      sr => sr.name === labelName
-    );
-    // TODO(milutin): Remove this after migration from legacy requirements.
-    if (requirements.length > 1) {
-      return requirements.filter(sr => !sr.is_legacy);
-    } else {
-      return requirements;
-    }
+    return getRequirements(this.change).filter(sr => sr.name === labelName);
   }
 
   private getSortedVotes(label: string) {

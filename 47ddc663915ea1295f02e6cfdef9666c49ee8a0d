@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "114458ef_48270502",
+        "filename": "java/com/google/gerrit/index/query/FilteredSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-09-06T08:54:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a871a70c_fb9ea5e0",
+      "range": {
+        "startLine": 73,
+        "startChar": 60,
+        "endLine": 73,
+        "endChar": 62
+      },
+      "revId": "47ddc663915ea1295f02e6cfdef9666c49ee8a0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f108d806_57dca119",
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "21adfd72_04e59934",
+        "filename": "java/com/google/gerrit/index/query/FilteredSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-09-06T08:54:56Z",
+      "side": 1,
+      "message": "This is because the method is overridden with a different logic in the AndChangeSource class.",
+      "parentUuid": "f108d806_57dca119",
+      "range": {
+        "startLine": 77,
+        "startChar": 20,
+        "endLine": 77,
+        "endChar": 35
+      },
+      "revId": "47ddc663915ea1295f02e6cfdef9666c49ee8a0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d634535d_986e6ce1",
@@ -77,6 +125,30 @@
       "writtenOn": "2023-09-05T09:03:10Z",
       "side": 1,
       "message": "Why do we have javadoc only for this method?\nI think we can get rid of it, the method is trivial.\n\nAlso in this case we are always return `true`",
+      "range": {
+        "startLine": 86,
+        "startChar": 1,
+        "endLine": 91,
+        "endChar": 5
+      },
+      "revId": "47ddc663915ea1295f02e6cfdef9666c49ee8a0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ca9ea96_db602fad",
+        "filename": "java/com/google/gerrit/index/query/FilteredSource.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-09-06T08:54:56Z",
+      "side": 1,
+      "message": "Javadoc removed, as for the comment on the transform buffer, returns always true but it can be overridden, in fact it when it is instantiated from the AndSource class.",
+      "parentUuid": "d634535d_986e6ce1",
       "range": {
         "startLine": 86,
         "startChar": 1,

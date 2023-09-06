@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8af7aaf_2b226801",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-06T17:31:23Z",
+      "side": 1,
+      "message": "Bazel tests were run using cmd:\n\n```\nbazel test --flaky_test_attempts 3 --test_timeout 3600 --test_tag_filters\u003d-flaky //javatests/...\n```",
+      "revId": "002afb0f0815aada066b6d3d7d98c522d5f2757f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

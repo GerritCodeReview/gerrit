@@ -16,6 +16,24 @@
       "message": "Thanks for cleaning this up!\n\nThough I think this might be be needed because we can still return legacy SRs from label functions. Those haven\u0027t been completely removed from all hosts.",
       "revId": "f70cfd67fce4a169bbf9a24423cb32700f5fb684",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59b59d81_81951ab5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-09-06T13:50:14Z",
+      "side": 1,
+      "message": "unresolving",
+      "parentUuid": "80083ddf_0f848616",
+      "revId": "f70cfd67fce4a169bbf9a24423cb32700f5fb684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

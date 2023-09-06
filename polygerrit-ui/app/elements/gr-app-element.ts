@@ -44,7 +44,6 @@ import {
 import {GrMainHeader} from './core/gr-main-header/gr-main-header';
 import {GrSettingsView} from './settings/gr-settings-view/gr-settings-view';
 import {
-  DialogChangeEventDetail,
   PageErrorEventDetail,
   RpcLogEvent,
   TitleChangeEventDetail,
@@ -134,16 +133,6 @@ export class GrAppElement extends LitElement {
 
   @state() private loadKeyboardShortcutsDialog = false;
 
-  // TODO(milutin) - remove once new gr-dialog will do it out of the box
-  // This removes footer, header from a11y tree, when a dialog on view
-  // (e.g. reply dialog) is open
-  @state() private footerHeaderAriaHidden = false;
-
-  // TODO(milutin) - remove once new gr-dialog will do it out of the box
-  // This removes main page from a11y tree, when a dialog on gr-app-element
-  // (e.g. shortcut dialog) is open
-  @state() private mainAriaHidden = false;
-
   @state() private theme = AppTheme.AUTO;
 
   @state() private pluginScreenName = '';
@@ -178,9 +167,6 @@ export class GrAppElement extends LitElement {
     });
     document.addEventListener('title-change', e => {
       this.handleTitleChange(e);
-    });
-    this.addEventListener('dialog-change', e => {
-      this.handleDialogChange(e as CustomEvent<DialogChangeEventDetail>);
     });
     document.addEventListener('location-change', () => this.requestUpdate());
     document.addEventListener('gr-rpc-log', e => this.handleRpcLog(e));
@@ -370,7 +356,7 @@ export class GrAppElement extends LitElement {
       <gr-css-mixins></gr-css-mixins>
       <gr-endpoint-decorator name="banner"></gr-endpoint-decorator>
       ${this.renderHeader()}
-      <main ?aria-hidden=${this.mainAriaHidden}>
+      <main>
         ${this.renderMobileSearch()} ${this.renderChangeListView()}
         ${this.renderDashboardView()}
         ${
@@ -411,7 +397,6 @@ export class GrAppElement extends LitElement {
         @mobile-search=${this.mobileSearchToggle}
         @show-keyboard-shortcuts=${this.showKeyboardShortcuts}
         .mobileSearchHidden=${!this.mobileSearch}
-        ?aria-hidden=${this.footerHeaderAriaHidden}
       >
       </gr-main-header>
     `;
@@ -420,7 +405,7 @@ export class GrAppElement extends LitElement {
   private renderFooter() {
     if (this.hideHeaderAndFooter()) return nothing;
     return html`
-      <footer ?aria-hidden=${this.footerHeaderAriaHidden}>
+      <footer>
         <div>
           Powered by
           <a
@@ -554,11 +539,7 @@ export class GrAppElement extends LitElement {
   private renderKeyboardShortcutsDialog() {
     if (!this.loadKeyboardShortcutsDialog) return nothing;
     return html`
-      <dialog
-        id="keyboardShortcuts"
-        tabindex="-1"
-        @close=${this.onModalCanceled}
-      >
+      <dialog id="keyboardShortcuts" tabindex="-1">
         <gr-keyboard-shortcuts-dialog
           @close=${this.handleKeyboardShortcutDialogClose}
         ></gr-keyboard-shortcuts-dialog>
@@ -681,14 +662,6 @@ export class GrAppElement extends LitElement {
     }
   }
 
-  private handleDialogChange(e: CustomEvent<DialogChangeEventDetail>) {
-    if (e.detail.canceled) {
-      this.footerHeaderAriaHidden = false;
-    } else if (e.detail.opened) {
-      this.footerHeaderAriaHidden = true;
-    }
-  }
-
   private async showKeyboardShortcuts() {
     this.loadKeyboardShortcutsDialog = true;
     await this.updateComplete;
@@ -698,19 +671,12 @@ export class GrAppElement extends LitElement {
       this.keyboardShortcuts.close();
       return;
     }
-    this.footerHeaderAriaHidden = true;
-    this.mainAriaHidden = true;
     this.keyboardShortcuts.showModal();
   }
 
   private handleKeyboardShortcutDialogClose() {
     assertIsDefined(this.keyboardShortcuts, 'keyboardShortcuts');
     this.keyboardShortcuts.close();
-  }
-
-  onModalCanceled() {
-    this.footerHeaderAriaHidden = false;
-    this.mainAriaHidden = false;
   }
 
   private handleAccountDetailUpdate() {

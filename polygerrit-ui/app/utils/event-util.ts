@@ -4,11 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {FetchRequest} from '../types/types';
-import {
-  DialogChangeEventDetail,
-  SwitchTabEventDetail,
-  TabState,
-} from '../types/events';
+import {SwitchTabEventDetail, TabState} from '../types/events';
 
 export type HTMLElementEventDetailType<K extends keyof HTMLElementEventMap> =
   HTMLElementEventMap[K] extends CustomEvent<infer DT> ? DT : never;
@@ -97,15 +93,6 @@ export function fireNetworkError(error: Error) {
 
 export function fireTitleChange(title: string) {
   fire(document, 'title-change', {title});
-}
-
-// TODO(milutin) - remove once new gr-dialog will do it out of the box
-// This informs gr-app-element to remove footer, header from a11y tree
-export function fireDialogChange(
-  target: EventTarget,
-  detail: DialogChangeEventDetail
-) {
-  fire(target, 'dialog-change', detail);
 }
 
 export function fireIronAnnounce(target: EventTarget, text: string) {

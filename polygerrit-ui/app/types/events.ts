@@ -37,7 +37,6 @@ declare global {
     /** Fired when a 'confirm' button in a dialog was pressed. */
     // prettier-ignore
     'confirm': CustomEvent<{}>;
-    'dialog-change': DialogChangeEvent;
     // prettier-ignore
     'drop': DropEvent;
     'hide-alert': CustomEvent<{}>;
@@ -114,14 +113,6 @@ export interface ChangeMessageDeletedEventDetail {
 }
 export type ChangeMessageDeletedEvent =
   CustomEvent<ChangeMessageDeletedEventDetail>;
-
-// TODO(milutin) - remove once new gr-dialog will do it out of the box
-// This informs gr-app-element to remove footer, header from a11y tree
-export interface DialogChangeEventDetail {
-  canceled?: boolean;
-  opened?: boolean;
-}
-export type DialogChangeEvent = CustomEvent<DialogChangeEventDetail>;
 
 export type DropEvent = DragEvent;
 

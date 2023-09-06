@@ -100,12 +100,7 @@ import {
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
-import {
-  fireAlert,
-  fireDialogChange,
-  fire,
-  fireReload,
-} from '../../../utils/event-util';
+import {fireAlert, fire, fireReload} from '../../../utils/event-util';
 import {
   debounce,
   DelayedTask,
@@ -362,11 +357,6 @@ export class GrChangeView extends LitElement {
 
   @state()
   private currentRobotCommentsPatchSet?: PatchSetNum;
-
-  // TODO(milutin) - remove once new gr-dialog will do it out of the box
-  // This removes rest of page from a11y tree, when reply dialog is open
-  @state()
-  private changeViewAriaHidden = false;
 
   /**
    * This can be a string only for plugin provided tabs.
@@ -1108,12 +1098,7 @@ export class GrChangeView extends LitElement {
 
   private renderMainContent() {
     return html`
-      <div
-        id="mainContent"
-        class="container"
-        ?hidden=${this.loading}
-        aria-hidden=${this.changeViewAriaHidden ? 'true' : 'false'}
-      >
+      <div id="mainContent" class="container" ?hidden=${this.loading}>
         ${this.renderChangeInfoSection()}
         <h2 class="assistive-tech-only">Files and Comments tabs</h2>
         ${this.renderTabHeaders()} ${this.renderTabContent()}
@@ -1802,8 +1787,6 @@ export class GrChangeView extends LitElement {
   }
 
   private onReplyModalCanceled() {
-    fireDialogChange(this, {canceled: true});
-    this.changeViewAriaHidden = false;
     this.replyModalOpened = false;
   }
 
@@ -2208,8 +2191,6 @@ export class GrChangeView extends LitElement {
       assertIsDefined(this.replyDialog, 'replyDialog');
       this.replyDialog.open(focusTarget);
     });
-    fireDialogChange(this, {opened: true});
-    this.changeViewAriaHidden = true;
   }
 
   // Private but used in tests.

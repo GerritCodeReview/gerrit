@@ -33,6 +33,24 @@
       "message": "Make this configurable to avoid unwanted traffic.",
       "revId": "b4f466103aff578d7b0cb006895d38ee3dd145e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a46b87f_06dda391",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-06T11:31:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d333689_c14decb5",
+      "revId": "b4f466103aff578d7b0cb006895d38ee3dd145e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

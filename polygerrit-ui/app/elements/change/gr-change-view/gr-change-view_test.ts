@@ -365,7 +365,7 @@ suite('gr-change-view tests', () => {
       element,
       /* HTML */ `
         <div class="container loading">Loading...</div>
-        <div aria-hidden="false" class="container" hidden="" id="mainContent">
+        <div class="container" hidden="" id="mainContent">
           <section class="changeInfoSection">
             <div class="header">
               <h1 class="assistive-tech-only">Change :</h1>

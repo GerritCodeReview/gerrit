@@ -32,6 +32,7 @@ import {when} from 'lit/directives/when.js';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 import {resolve} from '../../../models/dependency';
+import {formStyles} from '../../../styles/form-styles';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
@@ -109,6 +110,7 @@ export class GrEditableContent extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
+      formStyles,
       fontStyles,
       css`
         :host {

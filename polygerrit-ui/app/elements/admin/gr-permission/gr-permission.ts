@@ -36,7 +36,7 @@ import {getAppContext} from '../../../services/app-context';
 import {fire} from '../../../utils/event-util';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {paperStyles} from '../../../styles/gr-paper-styles';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {when} from 'lit/directives/when.js';
 import {
@@ -146,7 +146,7 @@ export class GrPermission extends LitElement {
     return [
       sharedStyles,
       paperStyles,
-      formStyles,
+      grFormStyles,
       menuPageStyles,
       css`
         :host {

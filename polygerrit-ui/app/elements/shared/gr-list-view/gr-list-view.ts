@@ -15,6 +15,7 @@ import {customElement, property} from 'lit/decorators.js';
 import {BindValueChangeEvent} from '../../../types/events';
 import {resolve} from '../../../models/dependency';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
+import {formStyles} from '../../../styles/form-styles';
 
 const REQUEST_DEBOUNCE_INTERVAL_MS = 200;
 
@@ -62,6 +63,7 @@ export class GrListView extends LitElement {
 
   static override get styles() {
     return [
+      formStyles,
       sharedStyles,
       css`
         #filter {

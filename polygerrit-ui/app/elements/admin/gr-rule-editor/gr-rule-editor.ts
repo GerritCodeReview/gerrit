@@ -9,7 +9,7 @@ import '../../shared/gr-select/gr-select';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {AccessPermissionId} from '../../../utils/access-util';
 import {fire} from '../../../utils/event-util';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
@@ -17,6 +17,7 @@ import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {EditablePermissionRuleInfo} from '../gr-repo-access/gr-repo-access-interfaces';
 import {PermissionAction} from '../../../constants/constants';
+import {formStyles} from '../../../styles/form-styles';
 
 const PRIORITY_OPTIONS = [PermissionAction.BATCH, PermissionAction.INTERACTIVE];
 
@@ -127,6 +128,7 @@ export class GrRuleEditor extends LitElement {
 
   static override get styles() {
     return [
+      grFormStyles,
       formStyles,
       sharedStyles,
       css`

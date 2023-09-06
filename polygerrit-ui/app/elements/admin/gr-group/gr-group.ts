@@ -19,7 +19,7 @@ import {ErrorCallback} from '../../../api/rest';
 import {convertToString} from '../../../utils/string-util';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {fontStyles} from '../../../styles/gr-font-styles';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
@@ -103,7 +103,7 @@ export class GrGroup extends LitElement {
   static override get styles() {
     return [
       fontStyles,
-      formStyles,
+      grFormStyles,
       sharedStyles,
       subpageStyles,
       css`

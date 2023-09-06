@@ -21,7 +21,7 @@ import {Finalizable} from '../../../services/registry';
 import {PluginsModel} from '../../../models/plugins/plugins-model';
 import {Gerrit} from '../../../api/gerrit';
 import {fontStyles} from '../../../styles/gr-font-styles';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
@@ -83,7 +83,7 @@ export const pluginLoaderToken = define<PluginLoader>('plugin-loader');
 export class PluginLoader implements Gerrit, Finalizable {
   public readonly styles = {
     font: fontStyles,
-    form: formStyles,
+    form: grFormStyles,
     icon: iconStyles,
     menuPage: menuPageStyles,
     spinner: spinnerStyles,

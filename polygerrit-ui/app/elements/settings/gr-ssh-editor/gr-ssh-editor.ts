@@ -12,7 +12,7 @@ import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-
 import {getAppContext} from '../../../services/app-context';
 import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {fire} from '../../../utils/event-util';
 import {BindValueChangeEvent} from '../../../types/events';
@@ -52,7 +52,7 @@ export class GrSshEditor extends LitElement {
 
   static override get styles() {
     return [
-      formStyles,
+      grFormStyles,
       sharedStyles,
       modalStyles,
       css`

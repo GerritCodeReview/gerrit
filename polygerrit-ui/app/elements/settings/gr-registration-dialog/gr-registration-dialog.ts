@@ -13,7 +13,7 @@ import {fire} from '../../../utils/event-util';
 import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {when} from 'lit/directives/when.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {BindValueChangeEvent} from '../../../types/events';
@@ -71,7 +71,7 @@ export class GrRegistrationDialog extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
-      formStyles,
+      grFormStyles,
       css`
         :host {
           display: block;

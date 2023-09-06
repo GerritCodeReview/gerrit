@@ -25,7 +25,7 @@ import {
 import {firePageError} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {ErrorCallback} from '../../../api/rest';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html, nothing} from 'lit';
@@ -84,7 +84,7 @@ export class GrRepoDetailList extends LitElement {
 
   static override get styles() {
     return [
-      formStyles,
+      grFormStyles,
       tableStyles,
       sharedStyles,
       modalStyles,

@@ -27,7 +27,7 @@ import {
 import {fire} from '../../../utils/event-util';
 import {IronInputElement} from '@polymer/iron-input/iron-input';
 import {fontStyles} from '../../../styles/gr-font-styles';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, html, css} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
@@ -87,7 +87,7 @@ export class GrAccessSection extends LitElement {
 
   static override get styles() {
     return [
-      formStyles,
+      grFormStyles,
       fontStyles,
       sharedStyles,
       css`

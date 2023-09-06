@@ -12,7 +12,7 @@ import {AuthType} from '../../../constants/constants';
 import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {classMap} from 'lit/directives/class-map.js';
 import {when} from 'lit/directives/when.js';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -39,7 +39,7 @@ export class GrIdentities extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
-      formStyles,
+      grFormStyles,
       modalStyles,
       css`
         tr th.emailAddressHeader,

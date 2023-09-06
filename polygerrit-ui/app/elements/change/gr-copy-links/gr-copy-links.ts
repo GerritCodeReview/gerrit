@@ -12,6 +12,7 @@ import {strToClassName} from '../../../utils/dom-util';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {copyToClipbard, queryAndAssert} from '../../../utils/common-util';
 import {ValueChangedEvent} from '../../../types/events';
+import {formStyles} from '../../../styles/form-styles';
 
 export interface CopyLink {
   label: string;
@@ -33,6 +34,7 @@ export class GrCopyLinks extends LitElement {
 
   static override get styles() {
     return [
+      formStyles,
       css`
         iron-dropdown {
           box-shadow: var(--elevation-level-2);
@@ -62,17 +64,6 @@ export class GrCopyLinks extends LitElement {
         }
         .copy-link-row gr-copy-clipboard {
           flex: 0 0 20px;
-        }
-        /* TODO(milutin): It's from shared styles, move it to input styles */
-        input {
-          background-color: var(--background-color-primary);
-          border: 1px solid var(--border-color);
-          border-radius: var(--border-radius);
-          box-sizing: border-box;
-          color: var(--primary-text-color);
-          margin: 0;
-          padding: var(--spacing-s);
-          font: inherit;
         }
       `,
     ];

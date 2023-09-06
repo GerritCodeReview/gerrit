@@ -57,7 +57,7 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 import {when} from 'lit/directives/when.js';
 import {pageNavStyles} from '../../../styles/gr-page-nav-styles';
 import {menuPageStyles} from '../../../styles/gr-menu-page-styles';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
@@ -318,7 +318,7 @@ export class GrSettingsView extends LitElement {
       sharedStyles,
       paperStyles,
       fontStyles,
-      formStyles,
+      grFormStyles,
       modalStyles,
       menuPageStyles,
       pageNavStyles,

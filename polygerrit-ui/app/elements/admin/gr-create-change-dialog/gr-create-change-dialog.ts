@@ -19,7 +19,7 @@ import {
 } from '../../../types/common';
 import {InheritedBooleanInfoConfiguredValue} from '../../../constants/constants';
 import {getAppContext} from '../../../services/app-context';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, PropertyValues, css, html} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
@@ -30,6 +30,7 @@ import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
 import {createChangeUrl} from '../../../models/views/change';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {formStyles} from '../../../styles/form-styles';
 
 const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';
@@ -94,6 +95,7 @@ export class GrCreateChangeDialog extends LitElement {
 
   static override get styles() {
     return [
+      grFormStyles,
       formStyles,
       sharedStyles,
       css`

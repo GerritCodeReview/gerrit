@@ -30,6 +30,7 @@ import {assert} from '../../../utils/common-util';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {getAccountDisplayName} from '../../../utils/display-name-util';
 import {configModelToken} from '../../../models/config/config-model';
+import {formStyles} from '../../../styles/form-styles';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
@@ -185,6 +186,7 @@ export class GrTextarea extends LitElement {
 
   static override get styles() {
     return [
+      formStyles,
       sharedStyles,
       css`
         :host {

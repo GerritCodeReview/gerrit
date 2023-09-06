@@ -72,6 +72,7 @@ import {
   CommentModel,
   commentModelToken,
 } from '../gr-comment-model/gr-comment-model';
+import {formStyles} from '../../../styles/form-styles';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
@@ -322,6 +323,7 @@ export class GrComment extends LitElement {
 
   static override get styles() {
     return [
+      formStyles,
       sharedStyles,
       modalStyles,
       css`

@@ -6,7 +6,7 @@
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import {getAppContext} from '../../../services/app-context';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, css, html} from 'lit';
 import {customElement, property, query} from 'lit/decorators.js';
@@ -66,7 +66,7 @@ export class GrHttpPassword extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
-      formStyles,
+      grFormStyles,
       modalStyles,
       css`
         .password {

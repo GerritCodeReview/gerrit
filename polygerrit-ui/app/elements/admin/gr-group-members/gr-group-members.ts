@@ -31,7 +31,7 @@ import {ErrorCallback} from '../../../api/rest';
 import {assertNever} from '../../../utils/common-util';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fontStyles} from '../../../styles/gr-font-styles';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
@@ -135,7 +135,7 @@ export class GrGroupMembers extends LitElement {
   static override get styles() {
     return [
       fontStyles,
-      formStyles,
+      grFormStyles,
       sharedStyles,
       subpageStyles,
       tableStyles,

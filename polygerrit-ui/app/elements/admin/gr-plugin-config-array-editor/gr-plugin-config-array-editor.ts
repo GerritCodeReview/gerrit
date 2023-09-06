@@ -10,7 +10,7 @@ import {
   PluginConfigOptionsChangedEventDetail,
   ArrayPluginOption,
 } from '../gr-repo-plugin-config/gr-repo-plugin-config-types';
-import {formStyles} from '../../../styles/gr-form-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {LitElement, html, css} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
@@ -42,7 +42,7 @@ export class GrPluginConfigArrayEditor extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
-      formStyles,
+      grFormStyles,
       css`
         .wrapper {
           width: 30em;

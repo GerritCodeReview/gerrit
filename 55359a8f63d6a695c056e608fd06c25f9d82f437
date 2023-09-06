@@ -20,6 +20,74 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2ec4aa3e_85994bfd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3733,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-06T16:04:30Z",
+      "side": 1,
+      "message": "It would be nice to give an indication of the number of events we expect to be generated, relative to the comments ofc. For example, does each draft comment generate one event? Can it generate multiple?",
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "232ce756_c037fdcc",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3735,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-06T16:04:30Z",
+      "side": 1,
+      "message": "```suggestion\nsetup to allow the user to progress with their code review by seeing their comments, irrespective of what gerrit node they work on.\n```",
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12c12be9_798d7f5f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3736,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-06T16:04:30Z",
+      "side": 1,
+      "message": "nit: `This allows`",
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88543913_b0be2923",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-06T16:04:30Z",
+      "side": 1,
+      "message": "nit: can be final",
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f44c9b24_22467574",
         "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 14
@@ -37,6 +105,41 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "222aa65e_786b950a",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-06T16:04:30Z",
+      "side": 1,
+      "message": "I agree, i dont understand why the new code needs to be after the `execute` call, yet I have a feeling (also judging by the long comment in L340-347) that the execution order is important here, and a comment can help clarify this.",
+      "parentUuid": "f44c9b24_22467574",
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4e15306_d6dd0044",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-06T16:04:30Z",
+      "side": 1,
+      "message": "The last argument, `AccountState`, is null here. Does it matter?",
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dc1fb493_b6b6456c",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 14
@@ -48,6 +151,23 @@
       "writtenOn": "2023-09-06T12:03:50Z",
       "side": 1,
       "message": "please, would you mind to use variable names more descriptive?\nr,e,e1,e2... I struggle to follow the code.",
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88d03c15_417ced41",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-06T16:04:30Z",
+      "side": 1,
+      "message": "you can also assert that the updater is null",
       "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

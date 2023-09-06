@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cebab449_c0928d4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-06T12:03:50Z",
+      "side": 1,
+      "message": "are we dealing here with 2 things. Should we have 2 changes?\n1. for the fact of sending events\n2. Creating a feature toggle",
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f44c9b24_22467574",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-06T12:03:50Z",
+      "side": 1,
+      "message": "can you add some comment explaining what you are trying to do? It looks that it is in the middle of a code that is not intended for that? am i right?",
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc1fb493_b6b6456c",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-06T12:03:50Z",
+      "side": 1,
+      "message": "please, would you mind to use variable names more descriptive?\nr,e,e1,e2... I struggle to follow the code.",
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

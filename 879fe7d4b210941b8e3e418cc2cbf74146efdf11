@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "170c8074_76d80173",
+        "filename": "java/com/google/gerrit/extensions/restapi/Response.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-09-07T13:16:18Z",
+      "side": 1,
+      "message": "headers can repeat, so this usually has the form of String \u003d\u003e []String. Is there an ImmutableMultimap you can use?",
+      "range": {
+        "startLine": 30,
+        "startChar": 65,
+        "endLine": 30,
+        "endChar": 71
+      },
+      "revId": "879fe7d4b210941b8e3e418cc2cbf74146efdf11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

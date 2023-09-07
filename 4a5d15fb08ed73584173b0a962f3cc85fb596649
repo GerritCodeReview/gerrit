@@ -45,6 +45,30 @@
       },
       "revId": "4a5d15fb08ed73584173b0a962f3cc85fb596649",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61c03707_a582e5a0",
+        "filename": "java/com/google/gerrit/server/schema/CloudSpannerAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-09-07T14:28:40Z",
+      "side": 1,
+      "message": "Looking at the other implementations [1-2] I was under the impression it was important to discriminate between types of errors (DuplicateKeyException vs StorageException) but if that isn\u0027t needed, I can avoid overriding the base convertError [3]. I think it\u0027s mainly to help with better error logging when running into any problems.\n\n[1] \nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/schema/MariaDBAccountPatchReviewStore.java#40\n[2] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/schema/MysqlAccountPatchReviewStore.java#40\n[3] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java#398",
+      "parentUuid": "ea9f3f42_5d92d2fe",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 9
+      },
+      "revId": "4a5d15fb08ed73584173b0a962f3cc85fb596649",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

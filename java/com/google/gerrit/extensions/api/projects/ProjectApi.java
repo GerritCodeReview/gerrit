@@ -71,6 +71,7 @@ public interface ProjectApi {
     protected int start;
     protected String substring;
     protected String regex;
+    protected String nextPageToken;
 
     public abstract List<T> get() throws RestApiException;
 
@@ -81,6 +82,11 @@ public interface ProjectApi {
 
     public ListRefsRequest<T> withStart(int start) {
       this.start = start;
+      return this;
+    }
+
+    public ListRefsRequest<T> withNextPageToken(String token) {
+      this.nextPageToken = token;
       return this;
     }
 
@@ -100,6 +106,10 @@ public interface ProjectApi {
 
     public int getStart() {
       return start;
+    }
+
+    public String getNextPageToken() {
+      return nextPageToken;
     }
 
     public String getSubstring() {

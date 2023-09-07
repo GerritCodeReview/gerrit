@@ -162,3 +162,9 @@ message ObjectId {
   // Hex string representation of the ID.
   optional string name = 1;
 }
+
+// Serialized form of a continuation token used for pagination.
+// Next ID: 2
+message PaginationToken {
+  optional string next_page_token = 1;
+}

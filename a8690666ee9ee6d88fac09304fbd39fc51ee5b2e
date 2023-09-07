@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1ab7164_edb467d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-09-07T13:12:51Z",
+      "side": 1,
+      "message": "mostly ok, but nits",
+      "revId": "a8690666ee9ee6d88fac09304fbd39fc51ee5b2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "492fe2ce_4103a990",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListBranches.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-09-07T13:12:51Z",
+      "side": 1,
+      "message": "this is a bit confusing, also on the caller side. \n\nMaybe just declare a `class { List\u003cBranchInfo\u003e list; boolean more; }`",
+      "range": {
+        "startLine": 253,
+        "startChar": 5,
+        "endLine": 254,
+        "endChar": 32
+      },
+      "revId": "a8690666ee9ee6d88fac09304fbd39fc51ee5b2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2d84412_22d914b6",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListBranches.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2023-09-07T13:12:51Z",
+      "side": 1,
+      "message": "this could trgger if a branch is deleted between calls. If you can assume the token was issued by us, you could just use \u003e\u003d instead of \u003d\u003d and proceed.",
+      "range": {
+        "startLine": 281,
+        "startChar": 5,
+        "endLine": 286,
+        "endChar": 5
+      },
+      "revId": "a8690666ee9ee6d88fac09304fbd39fc51ee5b2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

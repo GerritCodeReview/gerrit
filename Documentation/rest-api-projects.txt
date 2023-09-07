@@ -1605,6 +1605,11 @@ List the branches of a project.
 As result a list of link:#branch-info[BranchInfo] entries is
 returned.
 
+If the `limit` parameter was set and the number of branches is larger than the
+`limit`, the response header `X-GERRIT-NEXT-PAGE-TOKEN` will be set. Clients
+can pass this token with subsequent requests (using the `next-page-token`
+request parameter) for pagination to skip over previous results.
+
 .Request
 ----
   GET /projects/work%2Fmy-project/branches/ HTTP/1.0
@@ -1745,6 +1750,11 @@ List all branches that match regex `t.*1`:
     }
   ]
 ----
+
+Next-page-token(t)::
+Skips over previous results. Cannot be set simultaneously with the `Skip`
+parameter, and also must be set to an exact token received by the server in a
+previous call, otherwise the request would fail with `400 Bad Request`.
 
 [[get-branch]]
 === Get Branch

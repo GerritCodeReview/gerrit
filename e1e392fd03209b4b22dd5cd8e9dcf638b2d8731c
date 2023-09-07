@@ -22,6 +22,30 @@
       },
       "revId": "e1e392fd03209b4b22dd5cd8e9dcf638b2d8731c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f13a0dd1_d05cd098",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1201,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-07T14:19:10Z",
+      "side": 1,
+      "message": "You are right, the issue is with the `projects` cache but not the `persisted_projects`. Addressed with Change 385557.",
+      "parentUuid": "e8d9bd63_b6799da6",
+      "range": {
+        "startLine": 1200,
+        "startChar": 0,
+        "endLine": 1201,
+        "endChar": 68
+      },
+      "revId": "e1e392fd03209b4b22dd5cd8e9dcf638b2d8731c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

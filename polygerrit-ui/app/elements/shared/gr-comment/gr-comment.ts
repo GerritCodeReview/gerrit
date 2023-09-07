@@ -377,7 +377,7 @@ export class GrComment extends LitElement {
         .actions,
         .robotActions {
           display: flex;
-          justify-content: flex-end;
+          justify-content: space-between;
           padding-top: 0;
         }
         .robotActions {
@@ -389,10 +389,12 @@ export class GrComment extends LitElement {
         .action {
           margin-left: var(--spacing-l);
         }
+        .leftActions,
         .rightActions {
           display: flex;
           justify-content: flex-end;
         }
+        .leftActions gr-button,
         .rightActions gr-button {
           --gr-button-padding: 0 var(--spacing-s);
         }
@@ -767,16 +769,19 @@ export class GrComment extends LitElement {
     if (this.collapsed || !isDraft(this.comment)) return;
     return html`
       <div class="actions">
-        <div class="action resolve">
-          <label>
-            <input
-              type="checkbox"
-              id="resolvedCheckbox"
-              ?checked=${!this.unresolved}
-              @change=${this.handleToggleResolved}
-            />
-            Resolved
-          </label>
+        <div class="leftActions">
+          <div class="action resolve">
+            <label>
+              <input
+                type="checkbox"
+                id="resolvedCheckbox"
+                ?checked=${!this.unresolved}
+                @change=${this.handleToggleResolved}
+              />
+              Resolved
+            </label>
+          </div>
+          ${this.renderGenerateSuggestEditButton()}
         </div>
         ${this.renderDraftActions()}
       </div>
@@ -788,8 +793,8 @@ export class GrComment extends LitElement {
     return html`
       <div class="rightActions">
         ${this.renderDiscardButton()} ${this.renderEditButton()}
-        ${this.renderGenerateSuggestEditButton()} ${this.renderCancelButton()}
-        ${this.renderSaveButton()} ${this.renderCopyLinkIcon()}
+        ${this.renderCancelButton()} ${this.renderSaveButton()}
+        ${this.renderCopyLinkIcon()}
       </div>
     `;
   }
@@ -867,6 +872,15 @@ export class GrComment extends LitElement {
     if (!this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT)) {
       return nothing;
     }
+    if (
+      !this.editing ||
+      this.permanentEditingMode ||
+      this.comment?.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS ||
+      !this.comment ||
+      hasUserSuggestion(this.comment)
+    ) {
+      return nothing;
+    }
     return html`
       <gr-button link class="action" @click=${this.generateSuggestEdit}
         >Suggestion</gr-button
@@ -889,12 +903,12 @@ export class GrComment extends LitElement {
       range: this.comments?.[0].range,
       lineNumber: this.comments?.[0].line,
     });
-    const replacement = suggestion.suggestions?.[0].replacement;
+    const replacement = suggestion.suggestions?.[0]?.replacement;
     if (!replacement) return;
     const addNewLine = this.messageText.length !== 0;
     this.messageText += `${
       addNewLine ? '\n' : ''
-    }${'```\n'}${replacement}${'\n```'}`;
+    }${USER_SUGGESTION_START_PATTERN}${replacement}${'\n```'}`;
   }
 
   private renderRobotActions() {

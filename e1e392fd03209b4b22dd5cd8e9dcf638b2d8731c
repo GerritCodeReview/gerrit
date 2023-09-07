@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8d9bd63_b6799da6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1201,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-07T04:58:41Z",
+      "side": 1,
+      "message": "Are you sure this is an accurate warning for this cache? The key includes the object-id for refs/meta/config, so I would expect updates from other primaries to cause a fresh load.",
+      "range": {
+        "startLine": 1200,
+        "startChar": 0,
+        "endLine": 1201,
+        "endChar": 68
+      },
+      "revId": "e1e392fd03209b4b22dd5cd8e9dcf638b2d8731c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

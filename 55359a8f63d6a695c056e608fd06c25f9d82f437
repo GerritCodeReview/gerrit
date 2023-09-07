@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "42f21532_e3115939",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-07T14:43:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "214aae9d_501dcc68",
+      "range": {
+        "startLine": 7,
+        "startChar": 33,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "532b6940_41b51b6d",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c50224a_3d578fd9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-07T14:43:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "532b6940_41b51b6d",
+      "range": {
+        "startLine": 9,
+        "startChar": 9,
+        "endLine": 9,
+        "endChar": 10
+      },
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "acdff6c3_254cfc8c",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-09-07T07:44:35Z",
       "side": 1,
       "message": "The events could be consumed by any stream-event receiver, not just a multi-site setup.",
+      "range": {
+        "startLine": 10,
+        "startChar": 22,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77947ffd_0c2d6a4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-07T14:43:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "acdff6c3_254cfc8c",
       "range": {
         "startLine": 10,
         "startChar": 22,
@@ -105,6 +177,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9aaa8f1b_0f30cd09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-07T14:43:40Z",
+      "side": 1,
+      "message": "Splitted",
+      "parentUuid": "b858926a_1e02cb9a",
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf74ef6f_e2bcfa5c",
@@ -118,6 +208,30 @@
       "writtenOn": "2023-09-07T07:44:35Z",
       "side": 1,
       "message": "Can you quantify with an example? What is the % of increase?",
+      "range": {
+        "startLine": 17,
+        "startChar": 8,
+        "endLine": 17,
+        "endChar": 21
+      },
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "002ab8ae_a74b5be4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-07T14:43:40Z",
+      "side": 1,
+      "message": "Will do in the followup change",
+      "parentUuid": "cf74ef6f_e2bcfa5c",
       "range": {
         "startLine": 17,
         "startChar": 8,
@@ -151,6 +265,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5cc7c8d_da105052",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-07T14:43:40Z",
+      "side": 1,
+      "message": "Will amend in followup change",
+      "parentUuid": "0032a8f4_d0fd41c9",
+      "range": {
+        "startLine": 20,
+        "startChar": 11,
+        "endLine": 20,
+        "endChar": 20
+      },
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3a875517_f216d41c",
@@ -168,6 +306,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f17eb80b_73d2cbf7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-07T14:43:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a875517_f216d41c",
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64a9b84b_f0ce6d4d",
@@ -181,6 +337,30 @@
       "writtenOn": "2023-09-07T07:44:35Z",
       "side": 1,
       "message": "DraftComments",
+      "range": {
+        "startLine": 3731,
+        "startChar": 28,
+        "endLine": 3731,
+        "endChar": 33
+      },
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8402a9b6_b36c8c23",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3731,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-07T14:43:40Z",
+      "side": 1,
+      "message": "Will address in the followup. This part has been removed.",
+      "parentUuid": "64a9b84b_f0ce6d4d",
       "range": {
         "startLine": 3731,
         "startChar": 28,
@@ -226,6 +406,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83c0340f_7d161f16",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3733,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-07T14:43:40Z",
+      "side": 1,
+      "message": "Will address in the followup. This part has been removed.",
+      "parentUuid": "4e2779c8_15d4dad0",
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "232ce756_c037fdcc",
@@ -256,6 +454,48 @@
       "writtenOn": "2023-09-07T07:44:35Z",
       "side": 1,
       "message": "That is one of the use-cases, also we should not mention non-core plugins in the Gerrit documentation.\nYou should add a note to the multi-site plugin instead.",
+      "range": {
+        "startLine": 3734,
+        "startChar": 0,
+        "endLine": 3735,
+        "endChar": 37
+      },
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14810765_b46a226f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3735,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-07T14:43:40Z",
+      "side": 1,
+      "message": "Will address in the followup. This part has been removed.",
+      "parentUuid": "232ce756_c037fdcc",
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "905e79f5_d05bddb2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3735,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-07T14:43:40Z",
+      "side": 1,
+      "message": "Will address in the followup. This part has been removed.",
+      "parentUuid": "06c8d1a7_be1e00f7",
       "range": {
         "startLine": 3734,
         "startChar": 0,
@@ -306,6 +546,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8f81ddc_f2755420",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3736,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-07T14:43:40Z",
+      "side": 1,
+      "message": "Will address in the followup. This part has been removed.",
+      "parentUuid": "b7d3c3ce_d7d4541f",
+      "range": {
+        "startLine": 3736,
+        "startChar": 63,
+        "endLine": 3736,
+        "endChar": 79
+      },
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99647a5a_31baa49d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 3736,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-07T14:43:40Z",
+      "side": 1,
+      "message": "Will address in the followup. This part has been removed.",
+      "parentUuid": "12c12be9_798d7f5f",
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7318ea8_406ff6b5",
@@ -319,6 +601,30 @@
       "writtenOn": "2023-09-07T07:44:35Z",
       "side": 1,
       "message": "`DRAFT_COMMENTS`",
+      "range": {
+        "startLine": 79,
+        "startChar": 31,
+        "endLine": 79,
+        "endChar": 37
+      },
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c44f508_77a3a13a",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-07T14:43:40Z",
+      "side": 1,
+      "message": "Will address in the followup. This part has been removed.",
+      "parentUuid": "a7318ea8_406ff6b5",
       "range": {
         "startLine": 79,
         "startChar": 31,
@@ -346,6 +652,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d930058b_a7b01a58",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-07T14:43:40Z",
+      "side": 1,
+      "message": "Will address in the followup. This part has been removed.",
+      "parentUuid": "88543913_b0be2923",
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3c7ec64_beb1920a",
@@ -359,6 +683,30 @@
       "writtenOn": "2023-09-07T07:44:35Z",
       "side": 1,
       "message": "`DraftComments`",
+      "range": {
+        "startLine": 132,
+        "startChar": 56,
+        "endLine": 132,
+        "endChar": 61
+      },
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d2e165e_7d8254c2",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-07T14:43:40Z",
+      "side": 1,
+      "message": "Will address in the followup. This part has been removed.",
+      "parentUuid": "f3c7ec64_beb1920a",
       "range": {
         "startLine": 132,
         "startChar": 56,
@@ -404,6 +752,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "130c9604_61cb9554",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-07T14:43:40Z",
+      "side": 1,
+      "message": "This piece of code has been moved. Hopefully it should be clearer now .",
+      "parentUuid": "222aa65e_786b950a",
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4e15306_d6dd0044",
@@ -421,6 +787,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09b4350d_f8c491a5",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-07T14:43:40Z",
+      "side": 1,
+      "message": "Not applicable anymore, the code has been removed.",
+      "parentUuid": "a4e15306_d6dd0044",
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc1fb493_b6b6456c",
@@ -434,6 +818,24 @@
       "writtenOn": "2023-09-06T12:03:50Z",
       "side": 1,
       "message": "please, would you mind to use variable names more descriptive?\nr,e,e1,e2... I struggle to follow the code.",
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "728ef30c_9150b2f6",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-07T14:43:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc1fb493_b6b6456c",
       "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

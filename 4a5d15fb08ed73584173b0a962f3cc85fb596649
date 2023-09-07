@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c7d647b_55dc5b96",
+        "filename": "java/com/google/gerrit/server/schema/CloudSpannerAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-07T14:04:42Z",
+      "side": 1,
+      "message": "If you need a comment, that means you have a code smell :-)\n\nIn this case, you should not embed the magic numbers in the code but just rely on constants.\n\n\n```suggestion\n      case ER_DUP_KEY:\n      case ER_DUP_ENTRY:\n      case ER_DUP_UNIQUE:\n```",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 34
+      },
+      "revId": "4a5d15fb08ed73584173b0a962f3cc85fb596649",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea9f3f42_5d92d2fe",
+        "filename": "java/com/google/gerrit/server/schema/CloudSpannerAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-07T14:04:42Z",
+      "side": 1,
+      "message": "Can you elaborate on why is this needed?",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 9
+      },
+      "revId": "4a5d15fb08ed73584173b0a962f3cc85fb596649",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

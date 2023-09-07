@@ -16,8 +16,11 @@ package com.google.gerrit.server.restapi.project;
 
 import static com.google.gerrit.entities.RefNames.isConfigRef;
 
+import com.google.auto.value.AutoValue;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
@@ -27,12 +30,15 @@ import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.proto.Entities.PaginationToken;
+import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.extensions.webui.UiActions;
@@ -46,7 +52,10 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RefFilter;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -61,6 +70,10 @@ import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Option;
 
 public class ListBranches implements RestReadView<ProjectResource> {
+  public static final String NEXT_PAGE_TOKEN_HEADER = "X-GERRIT-NEXT-PAGE-TOKEN";
+  private static final String ENCODED_HEADER = encodeImpl(NEXT_PAGE_TOKEN_HEADER);
+  private static final RefNameComparator REF_NAME_COMPARATOR = new RefNameComparator();
+
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
   private final DynamicMap<RestView<BranchResource>> branchViews;
@@ -86,6 +99,15 @@ public class ListBranches implements RestReadView<ProjectResource> {
   }
 
   @Option(
+      name = "--next-page-token",
+      aliases = {"-t"},
+      metaVar = "CNT",
+      usage = "continuation token that can be used to skip some branches")
+  public void setNextPageToken(String token) {
+    this.nextPageToken = token;
+  }
+
+  @Option(
       name = "--match",
       aliases = {"-m"},
       metaVar = "MATCH",
@@ -105,6 +127,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
 
   private int limit;
   private int start;
+  private String nextPageToken;
   private String matchSubstring;
   private String matchRegex;
 
@@ -125,9 +148,23 @@ public class ListBranches implements RestReadView<ProjectResource> {
   public ListBranches request(ListRefsRequest<BranchInfo> request) {
     this.setLimit(request.getLimit());
     this.setStart(request.getStart());
+    this.setNextPageToken(request.getNextPageToken());
     this.setMatchSubstring(request.getSubstring());
     this.setMatchRegex(request.getRegex());
     return this;
+  }
+
+  @AutoValue
+  abstract static class ListBranchResult {
+    /** List of branches in the result set. */
+    abstract ImmutableList<BranchInfo> list();
+
+    /** Indicates if there are more results. */
+    abstract boolean hasMore();
+
+    static ListBranchResult create(ImmutableList<BranchInfo> list, boolean hasMore) {
+      return new AutoValue_ListBranches_ListBranchResult(list, hasMore);
+    }
   }
 
   @Override
@@ -135,19 +172,37 @@ public class ListBranches implements RestReadView<ProjectResource> {
       throws RestApiException, IOException, PermissionBackendException {
     rsrc.getProjectState().checkStatePermitsRead();
 
+    if (start > 0 && nextPageToken != null) {
+      throw new BadRequestException(
+          "'start' and 'next-page-token' parameters " + "cannot be used simultaneously.");
+    }
+
     // Filter on refs/heads/*, substring and regex without checking ref visibility
     List<Ref> allBranches = readAllBranches(rsrc);
     Set<String> targets = getTargets(allBranches);
     ImmutableList<Ref> filtered =
         new RefFilter<>(Constants.R_HEADS, (Ref r) -> r.getName())
-            .subString(matchSubstring)
-            .regex(matchRegex)
-            .filter(allBranches);
+            .subString(matchSubstring).regex(matchRegex).filter(allBranches).stream()
+                .sorted(new RefComparator())
+                .collect(ImmutableList.toImmutableList());
+
+    if (nextPageToken != null) {
+      if (!isValidToken(nextPageToken)) {
+        throw new BadRequestException(
+            "Invalid 'next-page-token'. This token was not created by the Gerrit server.");
+      }
+      filtered = filterUsingNextPageToken(filtered);
+    }
 
     // Filter for visibility, taking 'start' and 'limit' parameters into account
-    return Response.ok(
-        filterForVisibility(rsrc, filtered, targets).stream()
-            .collect(ImmutableList.toImmutableList()));
+    ListBranchResult result = filterForVisibility(rsrc, filtered, targets);
+    return result.hasMore()
+        ? Response.ok(
+            result.list(),
+            ImmutableMultimap.of(
+                NEXT_PAGE_TOKEN_HEADER,
+                encodeToken(result.list().get(result.list().size() - 1).ref)))
+        : Response.ok(result.list());
   }
 
   BranchInfo toBranchInfo(BranchResource rsrc)
@@ -197,10 +252,10 @@ public class ListBranches implements RestReadView<ProjectResource> {
    * ordinal is greater or equal {@link #start} and keep filling the output list until a {@link
    * #limit} number of refs is gotten.
    */
-  private List<BranchInfo> filterForVisibility(
+  private ListBranchResult filterForVisibility(
       ProjectResource rsrc, List<Ref> refs, Set<String> targets) throws PermissionBackendException {
-    refs = refs.stream().sorted(new RefComparator()).collect(Collectors.toUnmodifiableList());
     List<BranchInfo> branches = new ArrayList<>();
+    boolean hasMore = false;
     int matchingRefs = 0;
     for (Ref ref : refs) {
       Optional<BranchInfo> info =
@@ -210,14 +265,51 @@ public class ListBranches implements RestReadView<ProjectResource> {
         if (matchingRefs > start) {
           branches.add(info.get());
         }
-        if (limit > 0 && branches.size() == limit) {
+        if (limit > 0 && branches.size() == limit + 1) {
           // Break and return earlier if we've already found 'limit' refs. The processing of the
           // remaining refs for visibility is not needed anymore.
+          hasMore = true;
           break;
         }
       }
     }
-    return branches;
+    if (hasMore && branches.size() >= 1) {
+      branches = branches.subList(0, branches.size() - 1);
+    }
+    return ListBranchResult.create(
+        branches.stream().collect(ImmutableList.toImmutableList()), hasMore);
+  }
+
+  /**
+   * Filter input list by seeking directly to the first item after the ref identified by {@link
+   * #nextPageToken}. As a precondition, the {@code inputRefs} should be sorted using {@link
+   * #REF_NAME_COMPARATOR}.
+   */
+  private ImmutableList<Ref> filterUsingNextPageToken(List<Ref> inputRefs)
+      throws BadRequestException {
+    try {
+      nextPageToken = decodeToken(nextPageToken);
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestException("Invalid 'next-page-token'.", e);
+    }
+    List<String> refNames = inputRefs.stream().map(Ref::getName).collect(Collectors.toList());
+    // Seek to the next item after token
+    int nextItemIdx =
+        Arrays.binarySearch(
+            refNames.toArray(new String[refNames.size()]), nextPageToken, REF_NAME_COMPARATOR);
+    if (nextItemIdx == inputRefs.size()) {
+      return ImmutableList.of();
+    } else if (nextItemIdx < 0) {
+      // The item did not exist and binary search returned -(insertion point) - 1. Convert to
+      // the correct value.
+      nextItemIdx = -nextItemIdx - 1;
+    } else if (inputRefs.get(nextItemIdx).getName().equals(nextPageToken)) {
+      // Binary search returns the index of the element if it exists. If so, increase the index
+      // by 1 to point to the next element.
+      nextItemIdx += 1;
+    }
+    return inputRefs.subList(nextItemIdx, inputRefs.size()).stream()
+        .collect(ImmutableList.toImmutableList());
   }
 
   /**
@@ -286,19 +378,26 @@ public class ListBranches implements RestReadView<ProjectResource> {
   private static class RefComparator implements Comparator<Ref> {
     @Override
     public int compare(Ref a, Ref b) {
+      return REF_NAME_COMPARATOR.compare(a.getName(), b.getName());
+    }
+  }
+
+  private static class RefNameComparator implements Comparator<String> {
+    @Override
+    public int compare(String a, String b) {
       return ComparisonChain.start()
           .compareTrueFirst(isHead(a), isHead(b))
           .compareTrueFirst(isConfig(a), isConfig(b))
-          .compare(a.getName(), b.getName())
+          .compare(a, b)
           .result();
     }
 
-    private static boolean isHead(Ref r) {
-      return Constants.HEAD.equals(r.getName());
+    private static boolean isHead(String r) {
+      return Constants.HEAD.equals(r);
     }
 
-    private static boolean isConfig(Ref r) {
-      return RefNames.REFS_CONFIG.equals(r.getName());
+    private static boolean isConfig(String r) {
+      return RefNames.REFS_CONFIG.equals(r);
     }
   }
 
@@ -336,5 +435,36 @@ public class ListBranches implements RestReadView<ProjectResource> {
         webLinks.getBranchLinks(projectState.getName(), ref.getName());
     info.webLinks = links.isEmpty() ? null : links;
     return info;
+  }
+
+  /** Encodes the {@link #nextPageToken} using proto serialization followed by based64 encoding. */
+  @VisibleForTesting
+  public static String encodeToken(String token) {
+    // The encoding of the header is prepended as a method to validate that this token was generated
+    // by the Gerrit server.
+    return ENCODED_HEADER + encodeImpl(token);
+  }
+
+  private static String encodeImpl(String token) {
+    return new String(
+        Base64.getEncoder()
+            .encode(
+                Protos.toByteArray(PaginationToken.newBuilder().setNextPageToken(token).build())),
+        StandardCharsets.UTF_8);
+  }
+
+  /** Validates that the token was encoded by the Gerrit server. */
+  private static boolean isValidToken(String token) {
+    return token.startsWith(ENCODED_HEADER);
+  }
+
+  /**
+   * Decodes the {@link #nextPageToken}. Callers should validate the token with the {@link
+   * #isValidToken(String)} method first.
+   */
+  private static String decodeToken(String encoded) {
+    encoded = encoded.substring(ENCODED_HEADER.length());
+    return Protos.parseUnchecked(PaginationToken.parser(), Base64.getDecoder().decode(encoded))
+        .getNextPageToken();
   }
 }

@@ -215,6 +215,9 @@ export class GrComment extends LitElement {
   @state()
   isOwner = false;
 
+  @state()
+  commentedText?: string;
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
@@ -231,7 +234,7 @@ export class GrComment extends LitElement {
 
   private readonly shortcuts = new ShortcutController(this);
 
-  private commentModel = new CommentModel(undefined);
+  private commentModel = new CommentModel(this.restApiService);
 
   /**
    * This is triggered when the user types into the editing textarea. We then
@@ -1011,14 +1014,15 @@ export class GrComment extends LitElement {
           KnownExperimentId.DIFF_FOR_USER_SUGGESTED_EDIT
         ) ||
         !this.changeNum ||
-        !this.comment
+        !this.comment ||
+        !hasUserSuggestion(this.comment)
       )
         return;
       (async () => {
-        const commentedText = await this.getCommentedCode();
-        this.commentModel.updateState({
-          commentedText,
-        });
+        this.commentedText = await this.commentModel.getCommentedCode(
+          this.comment,
+          this.changeNum
+        );
       })();
     }
   }
@@ -1088,12 +1092,15 @@ export class GrComment extends LitElement {
     if (hasUserSuggestion(this.comment) || replacement) {
       replacement = replacement ?? getUserSuggestion(this.comment);
       assert(!!replacement, 'malformed user suggestion');
-      const line = await this.getCommentedCode();
+      let commentedCode = this.commentedText;
+      if (!commentedCode) {
+        commentedCode = await this.getCommentedCode();
+      }
 
       return {
         fixSuggestions: createUserFixSuggestion(
           this.comment,
-          line,
+          commentedCode,
           replacement
         ),
         patchNum: this.comment.patch_set,
@@ -1212,11 +1219,10 @@ export class GrComment extends LitElement {
     }${USER_SUGGESTION_START_PATTERN}${line}${'\n```'}`;
   }
 
+  // TODO(milutin): Remove once feature flag is rollout and use only model
   async getCommentedCode() {
     assertIsDefined(this.comment, 'comment');
     assertIsDefined(this.changeNum, 'changeNum');
-    // TODO(milutin): Show a toast while the file is being loaded.
-    // TODO(milutin): This should be moved into a service/model.
     const file = await this.restApiService.getFileContent(
       this.changeNum,
       this.comment.path!,

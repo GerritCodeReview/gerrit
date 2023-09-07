@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db4eebe9_44efbd91",
+        "filename": "java/com/google/gerrit/server/schema/CloudSpannerAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-09-07T14:31:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c7d647b_55dc5b96",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 34
+      },
+      "revId": "4a5d15fb08ed73584173b0a962f3cc85fb596649",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ea9f3f42_5d92d2fe",

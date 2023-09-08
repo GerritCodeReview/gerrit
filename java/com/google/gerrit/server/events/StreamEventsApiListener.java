@@ -27,6 +27,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -52,6 +53,7 @@ import com.google.gerrit.extensions.events.VoteDeletedListener;
 import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ApprovalAttribute;
 import com.google.gerrit.server.data.ChangeAttribute;
@@ -144,6 +146,7 @@ public class StreamEventsApiListener
   private final GitRepositoryManager repoManager;
   private final PatchSetUtil psUtil;
   private final ChangeNotes.Factory changeNotesFactory;
+  private final boolean enableDraftCommentEvents;
 
   @Inject
   StreamEventsApiListener(
@@ -152,13 +155,16 @@ public class StreamEventsApiListener
       ProjectCache projectCache,
       GitRepositoryManager repoManager,
       PatchSetUtil psUtil,
-      ChangeNotes.Factory changeNotesFactory) {
+      ChangeNotes.Factory changeNotesFactory,
+      @GerritServerConfig Config config) {
     this.dispatcher = dispatcher;
     this.eventFactory = eventFactory;
     this.projectCache = projectCache;
     this.repoManager = repoManager;
     this.psUtil = psUtil;
     this.changeNotesFactory = changeNotesFactory;
+    this.enableDraftCommentEvents =
+        config.getBoolean("event", "stream-events", "enableDraftCommentEvents", false);
   }
 
   private ChangeNotes getNotes(ChangeInfo info) {
@@ -408,7 +414,10 @@ public class StreamEventsApiListener
                     ObjectId.fromString(ev.getOldObjectId()),
                     ObjectId.fromString(ev.getNewObjectId()),
                     refName));
-    dispatcher.run(d -> d.postEvent(refName, event));
+
+    if (enableDraftCommentEvents || !RefNames.isRefsDraftsComments(event.getRefName())) {
+      dispatcher.run(d -> d.postEvent(refName, event));
+    }
   }
 
   @Override
@@ -418,6 +427,10 @@ public class StreamEventsApiListener
         Suppliers.memoize(
             () ->
                 ev.getUpdatedRefs().stream()
+                    .filter(refUpdate -> {
+                      boolean isDraftComment = RefNames.isRefsDraftsComments(refUpdate.getRefName());
+                      return enableDraftCommentEvents || !isDraftComment;
+                    })
                     .map(
                         ru ->
                             eventFactory.asRefUpdateAttribute(

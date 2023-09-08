@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83b69d73_db7be3f6",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-09-08T10:55:05Z",
+      "side": 1,
+      "message": "if both enableBatchRefUpdateEvents and enableDraftCommentsEvents and enableDraftCommentsEvents are set to true you will bind GitBatchRefUpdateListener twice",
+      "range": {
+        "startLine": 125,
+        "startChar": 55,
+        "endLine": 125,
+        "endChar": 80
+      },
+      "revId": "b3e3d19e14d9f617f57245576778bf426f8d421c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

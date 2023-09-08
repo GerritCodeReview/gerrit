@@ -3770,6 +3770,17 @@ events by setting <<event.stream-events.enableRefUpdatedEvents, event.stream-eve
 +
 By default, false.
 
+[[event.stream-events.enableDraftCommentEvents]]event.stream-events.enableDraftCommentEvents::
++
+Enable streaming of `ref-updated` events for `refs/draft-comments` refs.
+Enable this flag in case listeners in your system are supposed to react on draft operations.
++
+NOTE: Due to the nature of drafts, the amount of `ref-updated` events created on draft operations could be high.
+The extra amount of events depends on the usage pattern of the installation. It is worth evaluating
+the amount of extra events produced before enabling this flag by counting the calls to the draft APIs.
++
+By default, false.
+
 [[experiments]]
 === Section experiments
 

@@ -27,6 +27,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
@@ -145,6 +146,9 @@ public class StreamEventsApiListener
   private final PatchSetUtil psUtil;
   private final ChangeNotes.Factory changeNotesFactory;
 
+  private final Config config;
+  private final boolean enableDraftCommentEvents;
+
   @Inject
   StreamEventsApiListener(
       PluginItemContext<EventDispatcher> dispatcher,
@@ -152,13 +156,17 @@ public class StreamEventsApiListener
       ProjectCache projectCache,
       GitRepositoryManager repoManager,
       PatchSetUtil psUtil,
-      ChangeNotes.Factory changeNotesFactory) {
+      ChangeNotes.Factory changeNotesFactory,
+      Config config) {
     this.dispatcher = dispatcher;
     this.eventFactory = eventFactory;
     this.projectCache = projectCache;
     this.repoManager = repoManager;
     this.psUtil = psUtil;
     this.changeNotesFactory = changeNotesFactory;
+    this.config = config;
+    this.enableDraftCommentEvents =
+        config.getBoolean("event", "stream-events", "enableDraftCommentsEvents", false);
   }
 
   private ChangeNotes getNotes(ChangeInfo info) {
@@ -408,7 +416,10 @@ public class StreamEventsApiListener
                     ObjectId.fromString(ev.getOldObjectId()),
                     ObjectId.fromString(ev.getNewObjectId()),
                     refName));
-    dispatcher.run(d -> d.postEvent(refName, event));
+
+    if (enableDraftCommentEvents || RefNames.isRefsDraftsComments(event.getRefName())) {
+      dispatcher.run(d -> d.postEvent(refName, event));
+    }
   }
 
   @Override
@@ -428,7 +439,12 @@ public class StreamEventsApiListener
 
     Supplier<AccountAttribute> submitterSupplier = accountAttributeSupplier(ev.getUpdater());
     BatchRefUpdateEvent event = new BatchRefUpdateEvent(projectName, refUpdates, submitterSupplier);
-    dispatcher.run(d -> d.postEvent(projectName, event));
+    if (enableDraftCommentEvents
+        || refUpdates.get().stream()
+            .noneMatch(
+                refUpdateAttribute -> RefNames.isRefsDraftsComments(refUpdateAttribute.refName))) {
+      dispatcher.run(d -> d.postEvent(projectName, event));
+    }
   }
 
   @Override

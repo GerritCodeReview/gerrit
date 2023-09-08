@@ -21,7 +21,6 @@ import static com.google.gerrit.server.index.change.ChangeField.PROJECT_SPEC;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.index.IndexConfig;
@@ -52,10 +51,6 @@ import java.util.Set;
  */
 public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
     implements ChangeDataSource, Matchable<ChangeData> {
-  public static QueryOptions oneResult() {
-    IndexConfig config = IndexConfig.createDefault();
-    return createOptions(config, 0, 1, config.pageSizeMultiplier(), 1, ImmutableSet.of());
-  }
 
   public static QueryOptions createOptions(
       IndexConfig config, int start, int limit, Set<String> fields) {

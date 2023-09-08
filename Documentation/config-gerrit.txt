@@ -3770,6 +3770,17 @@ events by setting <<event.stream-events.enableRefUpdatedEvents, event.stream-eve
 +
 By default, false.
 
+[[event.stream-events.enableRefUpdatedEvents]]event.stream-events.enableDraftCommentEvents::
++
+Due to the nature of drafts, the amount of `ref-updated` events created on draft operations could be high.
+In a system like GerritHub.io, `refs/draft-comments/` can be up to the 5% of the overall amount of
+stream events produced.
+However, consuming those events will allow stream event listeners to act upon draft operations.
++
+Enable this flag in case listeners in your system are supposed to react on draft operations.
++
+By default, false.
+
 [[experiments]]
 === Section experiments
 

@@ -109,6 +109,56 @@ public class StreamEventsIT extends AbstractDaemonTest {
         () -> pollEventsContaining("batch-ref-updated", patchsetRefName, metaRefName).size() == 1);
   }
 
+  @Test
+  @GerritConfig(name = "event.stream-events.enableRefUpdatedEvents", value = "true")
+  @GerritConfig(name = "event.stream-events.enableBatchRefUpdatedEvents", value = "false")
+  @GerritConfig(name = "event.stream-events.enableDraftCommentsEvents", value = "true")
+  public void draftCommentRefsShowsInStreamEventsWithRefUpdated() throws Exception {
+    change = createChange().getChange();
+
+    draftReviewChange(PATCHSET_LEVEL, String.format("%s 1", TEST_REVIEW_DRAFT_COMMENT));
+
+    waitForEvent(() -> pollEventsContaining("ref-updated", "refs/draft-comments/").size() == 1);
+  }
+
+  @Test(expected = InterruptedException.class)
+  @GerritConfig(name = "event.stream-events.enableRefUpdatedEvents", value = "true")
+  @GerritConfig(name = "event.stream-events.enableBatchRefUpdatedEvents", value = "false")
+  @GerritConfig(name = "event.stream-events.enableDraftCommentsEvents", value = "false")
+  public void draftCommentRefsDontShowsInStreamEventsWithRefUpdated() throws Exception {
+    change = createChange().getChange();
+
+    draftReviewChange(PATCHSET_LEVEL, String.format("%s 1", TEST_REVIEW_DRAFT_COMMENT));
+
+    waitForEvent(() -> pollEventsContaining("ref-updated", "refs/draft-comments/").size() == 1);
+  }
+
+  @Test
+  @GerritConfig(name = "event.stream-events.enableBatchRefUpdatedEvents", value = "true")
+  @GerritConfig(name = "event.stream-events.enableRefUpdatedEvents", value = "false")
+  @GerritConfig(name = "event.stream-events.enableDraftCommentsEvents", value = "true")
+  public void draftCommentRefsShowsInStreamEventsWithBatchRefUpdated() throws Exception {
+    change = createChange().getChange();
+
+    draftReviewChange(PATCHSET_LEVEL, String.format("%s 1", TEST_REVIEW_DRAFT_COMMENT));
+
+    waitForEvent(
+        () -> pollEventsContaining("batch-ref-updated", "refs/draft-comments/").size() == 1);
+  }
+
+  @Test(expected = InterruptedException.class)
+  @GerritConfig(name = "event.stream-events.enableBatchRefUpdatedEvents", value = "false")
+  @GerritConfig(name = "event.stream-events.enableRefUpdatedEvents", value = "false")
+  @GerritConfig(name = "event.stream-events.enableDraftCommentsEvents", value = "false")
+  public void draftCommentRefsDontShowsInStreamEventsWithBatchRefUpdated() throws Exception {
+    change = createChange().getChange();
+
+    draftReviewChange(PATCHSET_LEVEL, String.format("%s 1", TEST_REVIEW_DRAFT_COMMENT));
+
+    waitForEvent(
+        () -> pollEventsContaining("batch-ref-updated", "refs/draft-comments/").size() == 1);
+  }
+
   private void waitForEvent(Supplier<Boolean> waitCondition) throws InterruptedException {
     waitUntil(() -> waitCondition.get(), MAX_DURATION_FOR_RECEIVING_EVENTS);
   }

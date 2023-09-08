@@ -46,7 +46,8 @@ export const grDiffStyles = css`
     border-collapse: collapse;
     table-layout: fixed;
   }
-  td.lineNum {
+  td.lineNum,
+  td.blankLineNum {
     /* Enforces background whenever lines wrap */
     background-color: var(--diff-blank-background-color);
   }

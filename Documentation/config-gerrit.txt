@@ -37,9 +37,10 @@ flags.
 
 [[accountPatchReviewDb.url]]accountPatchReviewDb.url::
 +
-The url of accountPatchReviewDb. Supported types are `H2`, `POSTGRESQL`,
-`MARIADB`, and `MYSQL`. Drop the driver jar in the lib folder of the site path
-if the Jdbc driver of the corresponding Database is not yet in the class path.
+The url of accountPatchReviewDb. Supported types are `CLOUDSPANNER`, `H2`,
+`POSTGRESQL`, `MARIADB`, and `MYSQL`. Drop the driver jar in the lib folder of
+the site path if the Jdbc driver of the corresponding Database is not yet in
+the class path.
 +
 Default is to create H2 database in the db folder of the site path.
 +

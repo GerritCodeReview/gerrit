@@ -19,12 +19,13 @@ suite('gr-diff-row test', () => {
     await element.updateComplete;
   });
 
-  test('both', async () => {
+  test.only('both', async () => {
     const line = new GrDiffLine(GrDiffLineType.BOTH, 1, 1);
     line.text = 'lorem ipsum';
     element.left = line;
     element.right = line;
     await element.updateComplete;
+    console.log(`${Date.now() % 100000} asdf some log`);
     assert.lightDom.equal(
       element,
       /* HTML */ `

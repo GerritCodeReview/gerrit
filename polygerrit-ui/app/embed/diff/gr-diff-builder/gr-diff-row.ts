@@ -207,6 +207,9 @@ export class GrDiffRow extends LitElement {
   }
 
   override render() {
+    console.log(
+      `${Date.now() % 100000} asdf render ${this.left} ${this.right}`
+    );
     if (!this.left || !this.right) return;
     const classes = this.unifiedDiff ? ['unified'] : ['side-by-side'];
     const unifiedType = this.unifiedType();
@@ -325,10 +328,9 @@ export class GrDiffRow extends LitElement {
     const lineNumber = this.lineNumber(side);
     const isBlank = line?.type === GrDiffLineType.BLANK;
     if (!line || !lineNumber || isBlank || this.layersApplied) {
-      const blankClass = isBlank && !this.unifiedDiff ? 'blankLineNum' : '';
       return html`<td
         ${ref(this.lineNumberRef(side))}
-        class=${diffClasses(side, blankClass)}
+        class=${diffClasses(side, 'lineNum')}
       ></td>`;
     }
 
@@ -577,6 +579,8 @@ export class GrDiffRow extends LitElement {
       : nothing;
   }
 }
+
+console.log(`${Date.now() % 100000} asdf isNewDiff ${isNewDiff()}`);
 
 // TODO(newdiff-cleanup): Remove once newdiff migration is completed.
 if (isNewDiff()) {

@@ -294,7 +294,7 @@ suite('gr-diff-element tests', () => {
                   tabindex="-1"
                 >
                   <td class="blame gr-diff" data-line-number="0"></td>
-                  <td class="gr-diff left"></td>
+                  <td class="blankLineNum gr-diff left"></td>
                   <td class="gr-diff lineNum right" data-value="5">
                     <button
                       aria-label="5 added"
@@ -320,7 +320,7 @@ suite('gr-diff-element tests', () => {
                   tabindex="-1"
                 >
                   <td class="blame gr-diff" data-line-number="0"></td>
-                  <td class="gr-diff left"></td>
+                  <td class="blankLineNum gr-diff left"></td>
                   <td class="gr-diff lineNum right" data-value="6">
                     <button
                       aria-label="6 added"
@@ -346,7 +346,7 @@ suite('gr-diff-element tests', () => {
                   tabindex="-1"
                 >
                   <td class="blame gr-diff" data-line-number="0"></td>
-                  <td class="gr-diff left"></td>
+                  <td class="blankLineNum gr-diff left"></td>
                   <td class="gr-diff lineNum right" data-value="7">
                     <button
                       aria-label="7 added"
@@ -567,7 +567,7 @@ suite('gr-diff-element tests', () => {
                       10
                     </button>
                   </td>
-                  <td class="gr-diff right"></td>
+                  <td class="blankLineNum gr-diff right"></td>
                   <td class="content gr-diff left no-intraline-info remove">
                     <div
                       class="contentText gr-diff"
@@ -593,7 +593,7 @@ suite('gr-diff-element tests', () => {
                       11
                     </button>
                   </td>
-                  <td class="gr-diff right"></td>
+                  <td class="blankLineNum gr-diff right"></td>
                   <td class="content gr-diff left no-intraline-info remove">
                     <div
                       class="contentText gr-diff"
@@ -619,7 +619,7 @@ suite('gr-diff-element tests', () => {
                       12
                     </button>
                   </td>
-                  <td class="gr-diff right"></td>
+                  <td class="blankLineNum gr-diff right"></td>
                   <td class="content gr-diff left no-intraline-info remove">
                     <div
                       class="contentText gr-diff"
@@ -645,7 +645,7 @@ suite('gr-diff-element tests', () => {
                       13
                     </button>
                   </td>
-                  <td class="gr-diff right"></td>
+                  <td class="blankLineNum gr-diff right"></td>
                   <td class="content gr-diff left no-intraline-info remove">
                     <div
                       class="contentText gr-diff"
@@ -662,7 +662,7 @@ suite('gr-diff-element tests', () => {
                   tabindex="-1"
                 >
                   <td class="blame gr-diff" data-line-number="0"></td>
-                  <td class="gr-diff left"></td>
+                  <td class="blankLineNum gr-diff left"></td>
                   <td class="gr-diff lineNum right" data-value="13">
                     <button
                       aria-label="13 added"
@@ -688,7 +688,7 @@ suite('gr-diff-element tests', () => {
                   tabindex="-1"
                 >
                   <td class="blame gr-diff" data-line-number="0"></td>
-                  <td class="gr-diff left"></td>
+                  <td class="blankLineNum gr-diff left"></td>
                   <td class="gr-diff lineNum right" data-value="14">
                     <button
                       aria-label="14 added"
@@ -727,7 +727,7 @@ suite('gr-diff-element tests', () => {
                       16
                     </button>
                   </td>
-                  <td class="gr-diff right"></td>
+                  <td class="blankLineNum gr-diff right"></td>
                   <td class="content gr-diff left remove">
                     <div
                       class="contentText gr-diff"
@@ -742,7 +742,7 @@ suite('gr-diff-element tests', () => {
                   tabindex="-1"
                 >
                   <td class="blame gr-diff" data-line-number="0"></td>
-                  <td class="gr-diff left"></td>
+                  <td class="blankLineNum gr-diff left"></td>
                   <td class="gr-diff lineNum right" data-value="15">
                     <button
                       aria-label="15 added"
@@ -1011,7 +1011,7 @@ suite('gr-diff-element tests', () => {
                   tabindex="-1"
                 >
                   <td class="blame gr-diff" data-line-number="0"></td>
-                  <td class="gr-diff left"></td>
+                  <td class="blankLineNum gr-diff left"></td>
                   <td class="gr-diff lineNum right" data-value="40">
                     <button
                       aria-label="40 added"
@@ -1037,7 +1037,7 @@ suite('gr-diff-element tests', () => {
                   tabindex="-1"
                 >
                   <td class="blame gr-diff" data-line-number="0"></td>
-                  <td class="gr-diff left"></td>
+                  <td class="blankLineNum gr-diff left"></td>
                   <td class="gr-diff lineNum right" data-value="41">
                     <button
                       aria-label="41 added"
@@ -1063,7 +1063,7 @@ suite('gr-diff-element tests', () => {
                   tabindex="-1"
                 >
                   <td class="blame gr-diff" data-line-number="0"></td>
-                  <td class="gr-diff left"></td>
+                  <td class="blankLineNum gr-diff left"></td>
                   <td class="gr-diff lineNum right" data-value="42">
                     <button
                       aria-label="42 added"
@@ -1089,7 +1089,7 @@ suite('gr-diff-element tests', () => {
                   tabindex="-1"
                 >
                   <td class="blame gr-diff" data-line-number="0"></td>
-                  <td class="gr-diff left"></td>
+                  <td class="blankLineNum gr-diff left"></td>
                   <td class="gr-diff lineNum right" data-value="43">
                     <button
                       aria-label="43 added"

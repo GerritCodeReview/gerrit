@@ -325,7 +325,7 @@ export class GrDiffRow extends LitElement {
     const lineNumber = this.lineNumber(side);
     const isBlank = line?.type === GrDiffLineType.BLANK;
     if (!line || !lineNumber || isBlank || this.layersApplied) {
-      const blankClass = isBlank && !this.unifiedDiff ? 'blankLineNum' : '';
+      const blankClass = isBlank ? 'blankLineNum' : '';
       return html`<td
         ${ref(this.lineNumberRef(side))}
         class=${diffClasses(side, blankClass)}

@@ -1194,7 +1194,7 @@ Abandons a change.
 The request body does not need to include a link:#abandon-input[
 AbandonInput] entity if no review comment is added.
 
-Abandoning a change also removes all users from the link:#attention-set[attention set].
+Abandoning a change also removes all users from the link:user-attention-set.html[attention set].
 
 .Request
 ----
@@ -1943,7 +1943,7 @@ email in the previous commit. Otherwise, the user's preferred email will be used
 The request body only needs to include a link:#submit-input[
 SubmitInput] entity if submitting on behalf of another user.
 
-Submitting a change also removes all users from the link:#attention-set[attention set].
+Submitting a change also removes all users from the link:user-attention-set.html[attention set].
 
 .Request
 ----
@@ -2693,7 +2693,7 @@ is added. Actions that create a new patch set in a WIP change default to
 notifying *OWNER* instead of *ALL*.
 
 Marking a change work in progress also removes all users from the
-link:#attention-set[attention set].
+link:user-attention-set.html[attention set].
 
 .Request
 ----
@@ -2724,7 +2724,7 @@ to include a link:#work-in-progress-input[WorkInProgressInput] entity
 if no review comment is added.
 
 Marking a change ready for review also adds all of the reviewers of the change
-to the link:#attention-set[attention set].
+to the link:user-attention-set.html[attention set].
 
 .Request
 ----
@@ -4457,32 +4457,8 @@ If the labels are set, the user sending the request will automatically be
 added as a reviewer, otherwise (if they only commented) they are added to
 the CC list.
 
-Some updates to the attention set occur here. If more than one update should
-occur, only the first update in the order of the below documentation occurs:
-
-If a user is part of remove_from_attention_set, the user will be explicitly
-removed from the attention set.
-
-If a user is part of add_to_attention_set, the user will be explicitly
-added to the attention set.
-
-If the boolean ignore_default_attention_set_rules is set to true, all
-other rules below will be ignored:
-
-The user who created the review is removed from the attention set.
-
-If the change is ready for review, the following also apply:
-
-When the uploader replies, the owner is added to the attention set.
-
-When the owner or uploader replies, all the reviewers are added to
-the attention set.
-
-When neither the owner nor the uploader replies, add the owner and the
-uploader to the attention set.
-
-Then, new reviewers are added to the attention set, and removed reviewers
-(by becoming CC) are removed from the attention set.
+Posting a review usually updates the link:user-attention-set.html[attention
+set].
 
 A review cannot be set on a change edit. Trying to post a review for a
 change edit fails with `409 Conflict`.
@@ -4810,7 +4786,7 @@ body.
 --
 
 Submits a revision.
-Submitting a change also removes all users from the link:#attention-set[attention set].
+Submitting a change also removes all users from the link:user-attention-set.html[attention set].
 
 .Request
 ----
@@ -6693,40 +6669,6 @@ the same user as in the request header.
   HTTP/1.1 204 No Content
 ----
 
-[[attention-set]]
-== Attention Set
-Attention Set is the set of users that should perform some action on the
-change. E.g, reviewers should review the change, owner/uploader should
-add a new patchset or respond to comments.
-
-Users are added to the attention set if one the following apply:
-
-* They are manually added in link:#review-input[ReviewInput] in
- add_to_attention_set.
-* They are added as reviewers.
-* The change is marked ready for review.
-* As an owner/uploader, when someone replies on your change.
-* As a reviewer, when the owner/uploader replies.
-* When the user's vote is deleted by another user.
-* The rules above (except manually adding to the attention set) don't apply
- for changes that are work in progress.
-
-Users are removed from the attention set if one the following apply:
-
-* They are manually removed in link:#review-input[ReviewInput] in
- remove_from_attention_set.
-* They are removed from reviewers.
-* The change is marked work in progress, abandoned, or submitted.
-* When the user replies on a change.
-
-If the ignore_default_attention_set_rules in link:#review-input[ReviewInput]
-is set to true, no other changes to the attention set will occur during the
-link:#set-review[set-review].
-Also, users specified in the list will occur instead of any of the implicit
-changes to the attention set. E.g, if a user is added by add_to_attention_set
-in link:#review-input[ReviewInput], but also the change is marked work in
-progress, the user will still be added.
-
 [[ids]]
 == IDs
 
@@ -6988,7 +6930,7 @@ If true, this vote was made after the change was submitted.
 [[attention-set-info]]
 === AttentionSetInfo
 The `AttentionSetInfo` entity contains details of users that are in
-the link:#attention-set[attention set].
+the link:user-attention-set.html[attention set].
 
 [options="header",cols="1,^1,5"]
 |===========================
@@ -7007,7 +6949,7 @@ link:rest-api-accounts.html#account-info[AccountInfo] of the user who caused the
 [[attention-set-input]]
 === AttentionSetInput
 The `AttentionSetInput` entity contains details for adding users to the
-link:#attention-set[attention set] and removing them from it.
+link:user-attention-set.html[attention set] and removing them from it.
 
 [options="header",cols="1,^1,5"]
 |===========================
@@ -7710,7 +7652,7 @@ of link:user-notify.html#recipient-types[recipient type] to
 link:#notify-info[NotifyInfo] entity.
 |`ignore_automatic_attention_set_rules`|optional|
 If set to true, ignore all automatic attention set rules described in the
-link:#attention-set[attention set]. When not set, the default is false.
+link:user-attention-set.html[attention set]. When not set, the default is false.
 |`reason`         |optional|
 The reason why this vote is deleted. Will +
 go into the change message.
@@ -8634,14 +8576,14 @@ If true, mark the change as work in progress. It is an error for both
 `ready` and `work_in_progress` to be true.
 |`add_to_attention_set`                |optional|
 list of link:#attention-set-input[AttentionSetInput] entities to add
-to the link:#attention-set[attention set]. Users that are not reviewers,
+to the link:user-attention-set.html[attention set]. Users that are not reviewers,
 ccs, owner, or uploader are silently ignored.
 |`remove_from_attention_set`           |optional|
 list of link:#attention-set-input[AttentionSetInput] entities to remove
-from the link:#attention-set[attention set].
+from the link:user-attention-set.html[attention set].
 |`ignore_automatic_attention_set_rules`|optional|
 If set to true, ignore all automatic attention set rules described in the
-link:#attention-set[attention set]. Updates in add_to_attention_set
+link:user-attention-set.html[attention set]. Updates in add_to_attention_set
 and remove_from_attention_set are not ignored.
 |`response_format_options`     |optional|
 List of link:#query-options[query options] to format the response.

@@ -52,10 +52,6 @@ import java.util.Set;
  */
 public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
     implements ChangeDataSource, Matchable<ChangeData> {
-  public static QueryOptions oneResult() {
-    IndexConfig config = IndexConfig.createDefault();
-    return createOptions(config, 0, 1, config.pageSizeMultiplier(), 1, ImmutableSet.of());
-  }
 
   public static QueryOptions createOptions(
       IndexConfig config, int start, int limit, Set<String> fields) {

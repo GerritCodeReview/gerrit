@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "818aadee_4552bb25",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListBranches.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-08T09:11:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "492fe2ce_4103a990",
+      "range": {
+        "startLine": 253,
+        "startChar": 5,
+        "endLine": 254,
+        "endChar": 32
+      },
+      "revId": "a8690666ee9ee6d88fac09304fbd39fc51ee5b2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e2d84412_22d914b6",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-09-07T13:12:51Z",
       "side": 1,
       "message": "this could trgger if a branch is deleted between calls. If you can assume the token was issued by us, you could just use \u003e\u003d instead of \u003d\u003d and proceed.",
+      "range": {
+        "startLine": 281,
+        "startChar": 5,
+        "endLine": 286,
+        "endChar": 5
+      },
+      "revId": "a8690666ee9ee6d88fac09304fbd39fc51ee5b2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed139b66_d897b547",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListBranches.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-08T09:11:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2d84412_22d914b6",
       "range": {
         "startLine": 281,
         "startChar": 5,

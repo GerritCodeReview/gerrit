@@ -1198,9 +1198,6 @@ branch of each project. This is the persisted variant of the
 `projects` cache. The intention is for this cache to have an in-memory
 size of 0.
 
-NOTE: This cache should be disabled or set with a low refreshAfterWrite
-in a cluster setup using multiple primary or multiple replica nodes.
-
 cache `"projects"`::
 +
 Caches the project description records, from the `refs/meta/config`

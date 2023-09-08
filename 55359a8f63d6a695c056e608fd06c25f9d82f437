@@ -855,6 +855,24 @@
       "message": "you can also assert that the updater is null",
       "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dbc948e_0bd48682",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-08T08:44:39Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "88d03c15_417ced41",
+      "revId": "55359a8f63d6a695c056e608fd06c25f9d82f437",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

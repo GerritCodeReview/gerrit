@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "625f3683_c42f2d65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-08T13:20:58Z",
+      "side": 1,
+      "message": "Aren\u0027t start and skip the same parameter?\nDid you mean \"start \u0026 limit\"?",
+      "range": {
+        "startLine": 11,
+        "startChar": 37,
+        "endLine": 11,
+        "endChar": 49
+      },
+      "revId": "9fef78e260e8babb9ac5a067179b0ff6194cd2df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8494f255_61efef8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-08T13:20:58Z",
+      "side": 1,
+      "message": "IIUC we do not filter the whole S, but only as many entries until we got start + limit matches [1].\n\n[1] https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/server/restapi/project/ListBranches.java#214",
+      "revId": "9fef78e260e8babb9ac5a067179b0ff6194cd2df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f98b808_68fca23d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-08T13:20:58Z",
+      "side": 1,
+      "message": "limit?",
+      "range": {
+        "startLine": 19,
+        "startChar": 23,
+        "endLine": 19,
+        "endChar": 27
+      },
+      "revId": "9fef78e260e8babb9ac5a067179b0ff6194cd2df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4059fa60_2c0e15d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-08T13:20:58Z",
+      "side": 1,
+      "message": "I think it needs be executed for all skipped branches + the branches that are returned, but not for all branches (also see my comment above).",
+      "range": {
+        "startLine": 21,
+        "startChar": 41,
+        "endLine": 22,
+        "endChar": 38
+      },
+      "revId": "9fef78e260e8babb9ac5a067179b0ff6194cd2df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13e427b2_54b58931",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-08T13:20:58Z",
+      "side": 1,
+      "message": "Here too we check the visibility not for the whole S\u0027 but only until we get enough visible matches to be returned, right?",
+      "range": {
+        "startLine": 30,
+        "startChar": 3,
+        "endLine": 30,
+        "endChar": 49
+      },
+      "revId": "9fef78e260e8babb9ac5a067179b0ff6194cd2df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ea03ac8_4b7dee57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-08T13:20:58Z",
+      "side": 1,
+      "message": "Isn\u0027t encoding it with base64 opaque enough?",
+      "range": {
+        "startLine": 41,
+        "startChar": 7,
+        "endLine": 41,
+        "endChar": 60
+      },
+      "revId": "9fef78e260e8babb9ac5a067179b0ff6194cd2df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "766bc5bc_f4c7375a",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListBranches.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-08T13:20:58Z",
+      "side": 1,
+      "message": "nit: I think in this case we always use this phrase \"foo and bar are mutually exclusive\", for consistency we should maybe use the same message here?",
+      "revId": "9fef78e260e8babb9ac5a067179b0ff6194cd2df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d2a7dbf_3daf4216",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListBranches.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-08T13:20:58Z",
+      "side": 1,
+      "message": "Can this be ImmutableList.copyOf(branches)?",
+      "range": {
+        "startLine": 280,
+        "startChar": 8,
+        "endLine": 280,
+        "endChar": 66
+      },
+      "revId": "9fef78e260e8babb9ac5a067179b0ff6194cd2df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d269e99_bb8c57a2",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListBranchesIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-08T13:20:58Z",
+      "side": 1,
+      "message": "Should we also test that listing branch with next page token works if the caller cannot see all branches?",
+      "revId": "9fef78e260e8babb9ac5a067179b0ff6194cd2df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

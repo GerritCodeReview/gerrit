@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca3c634e_fcc01ddf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-08T15:05:57Z",
+      "side": 1,
+      "message": "nit: what does this flag do?",
+      "revId": "625dd5adc1b8fce0b9e866133079d0dd39f4d037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbf42b6c_bc94557f",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-08T15:05:57Z",
+      "side": 1,
+      "message": "nit: do you need the `Collections.emptyList()`?",
+      "revId": "625dd5adc1b8fce0b9e866133079d0dd39f4d037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96b55573_0b1755f0",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-08T15:05:57Z",
+      "side": 1,
+      "message": "you can combine map and flatmap\n\n`bru.stream().flatMap(entry -\u003e entry.getValue().getCommands().stream()).allMatch(...)`",
+      "range": {
+        "startLine": 733,
+        "startChar": 14,
+        "endLine": 734,
+        "endChar": 42
+      },
+      "revId": "625dd5adc1b8fce0b9e866133079d0dd39f4d037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

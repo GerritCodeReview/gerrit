@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "237a5bb7_a093cf3d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-09-11T14:20:08Z",
+      "side": 1,
+      "message": "rename to threads since we\u0027re filtering from `threadEls`?",
+      "range": {
+        "startLine": 674,
+        "startChar": 10,
+        "endLine": 674,
+        "endChar": 18
+      },
+      "revId": "cf797f450fab791214f46af43a39709a003dd888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a201eb91_cc310a32",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-09-11T14:20:08Z",
+      "side": 1,
+      "message": "this looks quite strange to me that UpdateRanges is taking `comments` as arguments.\n\nCan we update this method to take Ranges as arguments? Otherwise the next argument `this.getHighlightRanges` is quite confusing to read.",
+      "range": {
+        "startLine": 679,
+        "startChar": 20,
+        "endLine": 679,
+        "endChar": 45
+      },
+      "revId": "cf797f450fab791214f46af43a39709a003dd888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14181c6c_4a68cffe",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-09-11T14:20:08Z",
+      "side": 1,
+      "message": "The property is defined as \n\n```\n  // explicitly highlight a range if it is not associated with any comment\n  @property({type: Object})\n  highlightRange?: CommentRange;\n``\n\nThe comment explains it\u0027s purpose but not the variable name itself. 😞\n\noptional: If you can maybe think of a better name then consider updating the name as well.",
+      "range": {
+        "startLine": 689,
+        "startChar": 38,
+        "endLine": 689,
+        "endChar": 57
+      },
+      "revId": "cf797f450fab791214f46af43a39709a003dd888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

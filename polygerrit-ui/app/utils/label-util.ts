@@ -294,7 +294,8 @@ export function getRequirements(change?: ParsedChangeInfo | ChangeInfo) {
   );
 }
 
-// TODO(milutin): This may be temporary for demo purposes
+// Gerrit is overriding order for standard requirements on change view.
+// Other requirements are ordered as defined in project configuration.
 export const PRIORITY_REQUIREMENTS_ORDER: string[] = [
   StandardLabels.CODE_REVIEW,
   StandardLabels.CODE_OWNERS,

@@ -48,7 +48,7 @@ export class GrSelectionActionBox extends LitElement {
           cursor: pointer;
           font-family: var(--font-family);
           position: absolute;
-          white-space: nowrap;
+          width: 100%;
         }
         gr-tooltip[invisible] {
           visibility: hidden;

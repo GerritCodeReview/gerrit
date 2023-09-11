@@ -34,6 +34,24 @@
       "parentUuid": "80083ddf_0f848616",
       "revId": "f70cfd67fce4a169bbf9a24423cb32700f5fb684",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "890f0b3d_a85a72a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-11T08:54:24Z",
+      "side": 1,
+      "message": "Thanks for update. I am changing just comment (from todo to simple comment)",
+      "parentUuid": "59b59d81_81951ab5",
+      "revId": "f70cfd67fce4a169bbf9a24423cb32700f5fb684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

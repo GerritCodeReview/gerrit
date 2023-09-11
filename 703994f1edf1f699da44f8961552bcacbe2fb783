@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a2de432_e7564819",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListBranchesIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-11T09:50:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d97846d2_2192b6cd",
+      "range": {
+        "startLine": 214,
+        "startChar": 12,
+        "endLine": 214,
+        "endChar": 18
+      },
+      "revId": "703994f1edf1f699da44f8961552bcacbe2fb783",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33afe60c_d1c86ac3",

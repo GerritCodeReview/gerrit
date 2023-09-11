@@ -45,6 +45,53 @@
       },
       "revId": "8b8e90f9622c1592bc62a8522e6e402a5964585c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25d8ba95_4a9e11d5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-11T16:37:02Z",
+      "side": 1,
+      "message": "I agree with nit. I renamed it to generateSuggestionTrigger.\n\ngenerateSuggestionTrigger is called also when user switch checkbox. Therefore I cannot use text changed.",
+      "parentUuid": "f065fdbd_514ceacf",
+      "range": {
+        "startLine": 328,
+        "startChar": 13,
+        "endLine": 328,
+        "endChar": 28
+      },
+      "revId": "8b8e90f9622c1592bc62a8522e6e402a5964585c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21d85f1b_8ee93cff",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-11T16:37:02Z",
+      "side": 1,
+      "message": "Rename to generateSuggestionTrigger",
+      "range": {
+        "startLine": 328,
+        "startChar": 13,
+        "endLine": 328,
+        "endChar": 28
+      },
+      "revId": "8b8e90f9622c1592bc62a8522e6e402a5964585c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

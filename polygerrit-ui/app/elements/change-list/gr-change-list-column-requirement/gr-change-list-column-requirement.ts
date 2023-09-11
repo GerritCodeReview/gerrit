@@ -200,7 +200,7 @@ export class GrChangeListColumnRequirement extends LitElement {
     const requirements = getRequirements(this.change).filter(
       sr => sr.name === labelName
     );
-    // TODO(milutin): Remove this after migration from legacy requirements.
+    // It can be removed in future when is_legacy is not used on any host.
     if (requirements.length > 1) {
       return requirements.filter(sr => !sr.is_legacy);
     } else {

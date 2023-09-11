@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78cbd70e_87687af1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-09-11T17:48:38Z",
+      "side": 1,
+      "message": "`gr-comment` is already too large. Did you try to move everything related to generating suggestions into its own file?\n\n(Have not looked at the actual change yet, so maybe my comment does not make sense.)",
+      "revId": "fc5ccca0d6171de0d6ded0172d6cdff2e9527efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

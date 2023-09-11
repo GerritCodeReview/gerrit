@@ -52,6 +52,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33a79d7a_000958d7",
+        "filename": "java/com/google/gerrit/server/restapi/project/ProjectRestApiModule.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-09-11T16:12:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07fba9ed_dc5e32d6",
+      "revId": "ab40cd99854337bad7063c5663ce03aaf71e5090",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1895316c_d86ddba8",
+        "filename": "java/com/google/gerrit/server/restapi/project/ProjectRestApiModule.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-09-11T16:12:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afe0ddc9_38461fcf",
+      "revId": "ab40cd99854337bad7063c5663ce03aaf71e5090",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01ed8e71_e5fb0bf5",
@@ -69,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "380e4a9c_0c9e0f96",
+        "filename": "java/com/google/gerrit/server/restapi/project/SuggestBranchReviewers.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-09-11T16:12:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01ed8e71_e5fb0bf5",
+      "revId": "ab40cd99854337bad7063c5663ce03aaf71e5090",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50fddb45_e3434ba6",
@@ -82,6 +136,24 @@
       "writtenOn": "2023-09-11T13:08:02Z",
       "side": 1,
       "message": "nit: remove this blank line",
+      "revId": "ab40cd99854337bad7063c5663ce03aaf71e5090",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72efab94_3a1039dc",
+        "filename": "java/com/google/gerrit/server/restapi/project/SuggestBranchReviewers.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-09-11T16:12:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50fddb45_e3434ba6",
       "revId": "ab40cd99854337bad7063c5663ce03aaf71e5090",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

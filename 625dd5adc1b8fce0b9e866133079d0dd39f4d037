@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8b3d45a7_63fa2a9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-11T13:57:04Z",
+      "side": 1,
+      "message": "It means that @ponch78@gmail.com has verified that this change hasn\u0027t modified the data structure in NoteDb.",
+      "parentUuid": "ca3c634e_fcc01ddf",
+      "revId": "625dd5adc1b8fce0b9e866133079d0dd39f4d037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bbf42b6c_bc94557f",
         "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 16

@@ -21,6 +21,7 @@ java_library(
         "//java/com/google/gerrit/index/project",
         "//java/com/google/gerrit/json",
         "//java/com/google/gerrit/metrics",
+        "//java/com/google/gerrit/proto",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/ioutil",
         "//java/com/google/gerrit/server/logging",
@@ -42,5 +43,7 @@ java_library(
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
+        "//proto:entities_java_proto",
+        "@bcprov//jar",
     ],
 )

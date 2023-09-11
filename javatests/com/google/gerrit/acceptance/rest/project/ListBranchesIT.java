@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.project.RefAssert.assertRefs;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -31,13 +32,20 @@ import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.server.restapi.project.ListBranches;
+import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
+import java.util.List;
 import org.junit.Test;
 
 @NoHttpd
 public class ListBranchesIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private Provider<ListBranches> listBranchesProvider;
+  @Inject private ProjectsCollection projects;
 
   @Test
   public void listBranchesOfNonExistingProject_NotFound() throws Exception {
@@ -151,6 +159,185 @@ public class ListBranchesIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void listBranches_withNextPageToken() throws Exception {
+    BranchInfo headBranch = branch("HEAD", "master", false);
+    BranchInfo refsConfig =
+        branch(
+            RefNames.REFS_CONFIG,
+            projectOperations.project(project).getHead(RefNames.REFS_CONFIG).name(),
+            false);
+    BranchInfo masterBranch = createBranch("refs/heads/master", false);
+    BranchInfo branch1 = createBranch("refs/heads/someBranch1", true);
+    BranchInfo branch2 = createBranch("refs/heads/someBranch2", true);
+    BranchInfo branch3 = createBranch("refs/heads/someBranch3", true);
+
+    // Listing all branches returns all 6 branches.
+    assertRefs(
+        ImmutableList.of(headBranch, refsConfig, masterBranch, branch1, branch2, branch3),
+        list().get());
+
+    // No continuation token and limit = 2 returns first two branches.
+    ListBranches listBranches = listBranchesProvider.get();
+    listBranches.setLimit(2);
+    Response<ImmutableList<BranchInfo>> response =
+        listBranches.apply(projects.parse(project.get()));
+    String continuationToken =
+        response.headers().get(ListBranches.NEXT_PAGE_TOKEN_HEADER).asList().get(0);
+    assertRefs(ImmutableList.of(headBranch, refsConfig), response.value());
+    assertThat(continuationToken).isEqualTo(ListBranches.encodeToken("refs/meta/config"));
+
+    // Using the previous continuation token returns the 3rd and 4th branches.
+    listBranches.setNextPageToken(continuationToken);
+    response = listBranches.apply(projects.parse(project.get()));
+    continuationToken = response.headers().get(ListBranches.NEXT_PAGE_TOKEN_HEADER).asList().get(0);
+    assertRefs(ImmutableList.of(masterBranch, branch1), response.value());
+    assertThat(continuationToken).isEqualTo(ListBranches.encodeToken("refs/heads/someBranch1"));
+
+    // Using the previous continuation token returns the 5th and 6th branches. No more continuation
+    // token.
+    listBranches.setNextPageToken(continuationToken);
+    response = listBranches.apply(projects.parse(project.get()));
+    assertRefs(ImmutableList.of(branch2, branch3), response.value());
+    assertThat(response.headers().get(ListBranches.NEXT_PAGE_TOKEN_HEADER)).isEmpty();
+  }
+
+  @Test
+  public void listBranches_withNextPageToken_someBranchesHidden() throws Exception {
+    BranchInfo headBranch = branch("HEAD", "master", false);
+    branch(
+        RefNames.REFS_CONFIG,
+        projectOperations.project(project).getHead(RefNames.REFS_CONFIG).name(),
+        false);
+    BranchInfo masterBranch = createBranch("refs/heads/master", false);
+    BranchInfo branch1 = createBranch("refs/heads/someBranch1", true);
+
+    // Hide refs/meta/config branch.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/meta/config").group(REGISTERED_USERS))
+        .update();
+    // refs/meta/config is not visible.
+    assertRefs(ImmutableList.of(headBranch, masterBranch, branch1), list().get());
+
+    // Try listing branches using the next-page-token
+    ListBranches listBranches = listBranchesProvider.get();
+    listBranches.setLimit(2);
+    Response<ImmutableList<BranchInfo>> response =
+        listBranches.apply(projects.parse(project.get()));
+    String continuationToken =
+        response.headers().get(ListBranches.NEXT_PAGE_TOKEN_HEADER).asList().get(0);
+    assertRefs(ImmutableList.of(headBranch, masterBranch), response.value());
+    assertThat(continuationToken).isEqualTo(ListBranches.encodeToken("refs/heads/master"));
+
+    // Using the previous continuation token returns branch1. The refs/meta/config branch is
+    // skipped.
+    listBranches.setNextPageToken(continuationToken);
+    response = listBranches.apply(projects.parse(project.get()));
+    assertRefs(ImmutableList.of(branch1), response.value());
+    assertThat(response.headers().get(ListBranches.NEXT_PAGE_TOKEN_HEADER)).isEmpty();
+  }
+
+  @Test
+  public void listBranches_withNextPageToken_branchesCreatedAfterFirstPage() throws Exception {
+    BranchInfo headBranch = branch("HEAD", "master", false);
+    BranchInfo refsConfig =
+        branch(
+            RefNames.REFS_CONFIG,
+            projectOperations.project(project).getHead(RefNames.REFS_CONFIG).name(),
+            false);
+    BranchInfo masterBranch = createBranch("refs/heads/master", false);
+    BranchInfo branch2 = createBranch("refs/heads/someBranch2", true);
+    BranchInfo branch3 = createBranch("refs/heads/someBranch3", true);
+    BranchInfo branch4 = createBranch("refs/heads/someBranch4", true);
+
+    // Listing all branches returns all 6 branches. Order is important.
+    assertRefs(
+        ImmutableList.of(headBranch, refsConfig, masterBranch, branch2, branch3, branch4),
+        list().get());
+    ListBranches listBranches = listBranchesProvider.get();
+    listBranches.setLimit(2);
+    Response<ImmutableList<BranchInfo>> response =
+        listBranches.apply(projects.parse(project.get()));
+    String continuationToken =
+        response.headers().get(ListBranches.NEXT_PAGE_TOKEN_HEADER).asList().get(0);
+    assertRefs(ImmutableList.of(headBranch, refsConfig), response.value());
+
+    listBranches.setNextPageToken(continuationToken);
+    response = listBranches.apply(projects.parse(project.get()));
+    continuationToken = response.headers().get(ListBranches.NEXT_PAGE_TOKEN_HEADER).asList().get(0);
+    assertRefs(ImmutableList.of(masterBranch, branch2), response.value());
+
+    // Create Branch1
+    createBranch("refs/heads/someBranch1", false);
+
+    // Using the previous continuation token, branch1 is not returned because the continuation token
+    // points at branch2 (last result of previous response) and will look for results past it.
+    listBranches.setNextPageToken(continuationToken);
+    response = listBranches.apply(projects.parse(project.get()));
+    assertRefs(ImmutableList.of(branch3, branch4), response.value());
+    assertThat(response.headers().get(ListBranches.NEXT_PAGE_TOKEN_HEADER).asList()).isEmpty();
+  }
+
+  @Test
+  public void listBranches_withNonExistentNextPageTokenBranch_startsFromNextGreaterBranch()
+      throws Exception {
+    BranchInfo branch2 = createBranch("refs/heads/someBranch2", true);
+
+    ListBranches listBranches = listBranchesProvider.get();
+    listBranches.setLimit(3);
+    // Set continuation token to a non-existent branch
+    listBranches.setNextPageToken(ListBranches.encodeToken("refs/heads/someBranch1"));
+    Response<ImmutableList<BranchInfo>> response =
+        listBranches.apply(projects.parse(project.get()));
+    List<String> continuationToken =
+        response.headers().get(ListBranches.NEXT_PAGE_TOKEN_HEADER).asList();
+    // Since branch1 does not exist, the server continues from branch2.
+    assertRefs(ImmutableList.of(branch2), response.value());
+    assertThat(continuationToken).isEmpty();
+  }
+
+  @Test
+  public void listBranches_withNextPageTokenGreaterThanAllBranches_returnsEmpty() throws Exception {
+    createBranch("refs/heads/someBranch2", true);
+
+    ListBranches listBranches = listBranchesProvider.get();
+    listBranches.setLimit(3);
+    // Set continuation token to a non-existent branch
+    listBranches.setNextPageToken(ListBranches.encodeToken("refs/heads/someBranch4"));
+    Response<ImmutableList<BranchInfo>> response =
+        listBranches.apply(projects.parse(project.get()));
+    List<String> continuationToken =
+        response.headers().get(ListBranches.NEXT_PAGE_TOKEN_HEADER).asList();
+    // Since branch1 does not exist, the server continues from branch2.
+    assertRefs(ImmutableList.of(), response.value());
+    assertThat(continuationToken).isEmpty();
+  }
+
+  @Test
+  public void listBranches_withBothStartAndNextPageTokenSet_isDisallowed() {
+    Exception exception =
+        assertThrows(
+            BadRequestException.class,
+            () -> list().withStart(2).withNextPageToken("refs/meta/config").get());
+
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo("'start' and 'next-page-token' parameters are mutually exclusive.");
+  }
+
+  @Test
+  public void listBranches_withInvalidNextPageToken_isDisallowed() {
+    Exception exception =
+        assertThrows(
+            BadRequestException.class, () -> list().withNextPageToken("invalidToken").get());
+
+    assertThat(exception)
+        .hasMessageThat()
+        .isEqualTo("Invalid 'next-page-token'. This token was not created by the Gerrit server.");
+  }
+
+  @Test
   public void listBranchesUsingFilter() throws Exception {
     BranchInfo master =
         branch("refs/heads/master", pushTo("refs/heads/master").getCommit().getName(), false);
@@ -182,6 +369,10 @@ public class ListBranchesIT extends AbstractDaemonTest {
 
   private ListRefsRequest<BranchInfo> list() throws Exception {
     return gApi.projects().name(project.get()).branches();
+  }
+
+  private BranchInfo createBranch(String name, boolean canDelete) throws Exception {
+    return branch(name, pushTo(name).getCommit().getName(), canDelete);
   }
 
   private static BranchInfo branch(String ref, String revision, boolean canDelete) {

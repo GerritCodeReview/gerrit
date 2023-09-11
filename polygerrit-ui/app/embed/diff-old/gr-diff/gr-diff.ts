@@ -496,7 +496,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
       const range = getRange(threadEl);
       if (!range) return undefined;
 
-      return {side, range, rootId: threadEl.rootId};
+      return {side, range, id: threadEl.rootId};
     }
 
     // TODO(brohlfs): Rewrite `.map().filter() as ...` with `.reduce()` instead.
@@ -522,7 +522,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
       this.commentRanges.push({
         side: Side.RIGHT,
         range: this.highlightRange,
-        rootId: '',
+        id: 'highlightRange',
       });
     }
 

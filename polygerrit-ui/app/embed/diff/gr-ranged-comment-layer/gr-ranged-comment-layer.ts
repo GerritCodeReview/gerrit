@@ -9,22 +9,13 @@ import {strToClassName} from '../../../utils/dom-util';
 import {Side} from '../../../constants/constants';
 import {CommentRange} from '../../../types/common';
 import {DiffLayer, DiffLayerListener} from '../../../types/types';
-import {
-  GrDiffCommentThread,
-  isLongCommentRange,
-} from '../gr-diff/gr-diff-utils';
+import {isLongCommentRange} from '../gr-diff/gr-diff-utils';
 import {GrDiffLineType} from '../../../api/diff';
 
-/** Force `range` to be set for the objects that we are working with. */
-export interface CommentRangeLayer extends Partial<GrDiffCommentThread> {
+export interface CommentRangeLayer {
+  id?: string;
   side: Side;
   range: CommentRange;
-}
-
-function isCommentRangeLayer<T extends Partial<GrDiffCommentThread>>(
-  x: T | CommentRangeLayer | undefined
-): x is CommentRangeLayer {
-  return !!x && !!(x as CommentRangeLayer).range;
 }
 
 /** Can be used for array functions like `some()`. */
@@ -33,7 +24,7 @@ function equals(a: CommentRangeLayer) {
 }
 
 function id(r: CommentRangeLayer): string {
-  if (r.rootId) return r.rootId;
+  if (r.id) return r.id;
   return `${r.side}-${r.range.start_line}-${r.range.start_character}-${r.range.end_line}-${r.range.end_character}`;
 }
 
@@ -126,9 +117,7 @@ export class GrRangedCommentLayer implements DiffLayer {
     }
   }
 
-  updateRanges(rawRanges: Partial<GrDiffCommentThread>[]) {
-    const newRanges: CommentRangeLayer[] =
-      rawRanges.filter(isCommentRangeLayer);
+  updateRanges(newRanges: CommentRangeLayer[]) {
     for (const newRange of newRanges) {
       if (this.knownRanges.some(equals(newRange))) continue;
       this.addRange(newRange);

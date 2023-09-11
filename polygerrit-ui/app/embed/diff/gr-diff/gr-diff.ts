@@ -32,7 +32,10 @@ import {BlameInfo, CommentRange, ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffHighlight} from '../gr-diff-highlight/gr-diff-highlight';
 import {CoverageRange, DiffLayer, isDefined} from '../../../types/types';
-import {GrRangedCommentLayer} from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
+import {
+  CommentRangeLayer,
+  GrRangedCommentLayer,
+} from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
 import {DiffViewMode, Side} from '../../../constants/constants';
 import {fire, fireAlert} from '../../../utils/event-util';
 import {MovedLinkClickedEvent, ValueChangedEvent} from '../../../types/events';
@@ -676,11 +679,23 @@ export class GrDiff extends LitElement implements GrDiffApi {
       .filter(isDefined)
       .sort(compareComments);
     this.diffModel.updateState({comments});
-    this.rangeLayer.updateRanges(comments);
+    this.updateRangeLayer(comments);
     for (const el of threadEls) {
       el.addEventListener('mouseenter', this.commentThreadEnterRedispatcher);
       el.addEventListener('mouseleave', this.commentThreadLeaveRedispatcher);
     }
+  }
+
+  private updateRangeLayer(threads: GrDiffCommentThread[]) {
+    const ranges: CommentRangeLayer[] = threads
+      .filter(t => !!t.range)
+      .map(t => {
+        return {range: t.range!, side: t.side, id: t.rootId};
+      });
+    if (this.highlightRange) {
+      ranges.push({side: Side.RIGHT, range: this.highlightRange, id: 'hl'});
+    }
+    this.rangeLayer.updateRanges(ranges);
   }
 
   /** TODO: Can be removed when diff-old is gone. */

@@ -18,7 +18,10 @@ import {
 } from '../../../types/common';
 import {fire, fireReload} from '../../../utils/event-util';
 import {ColumnNames, ScrollMode} from '../../../constants/constants';
-import {getRequirements} from '../../../utils/label-util';
+import {
+  getRequirements,
+  orderSubmitRequirements,
+} from '../../../utils/label-util';
 import {Key} from '../../../utils/dom-util';
 import {assertIsDefined, unique} from '../../../utils/common-util';
 import {changeListStyles} from '../../../styles/gr-change-list-styles';
@@ -361,7 +364,7 @@ export class GrChangeList extends LitElement {
     }
     const changes = sections.map(section => section.results).flat();
     const labels = (changes ?? [])
-      .map(change => getRequirements(change))
+      .map(change => orderSubmitRequirements(getRequirements(change)))
       .flat()
       .map(requirement => requirement.name)
       .filter(unique);

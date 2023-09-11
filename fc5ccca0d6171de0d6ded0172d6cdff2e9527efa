@@ -16,6 +16,24 @@
       "message": "`gr-comment` is already too large. Did you try to move everything related to generating suggestions into its own file?\n\n(Have not looked at the actual change yet, so maybe my comment does not make sense.)",
       "revId": "fc5ccca0d6171de0d6ded0172d6cdff2e9527efa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "776f0114_76d6dea3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-11T18:32:50Z",
+      "side": 1,
+      "message": "- Add Suggestion button and addGeneratedSuggestEdit are temporary (will be removed soon)\n- There will be diff element under comment - that will be in its own file\n\n- I will move generateSuggestEdit to gr-comment-model in future\n\n\nI will think how to move logic out of gr-comment.",
+      "parentUuid": "78cbd70e_87687af1",
+      "revId": "fc5ccca0d6171de0d6ded0172d6cdff2e9527efa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "408bf003_9df1645b",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-09-11T11:22:31Z",
+      "side": 1,
+      "message": "method name is quite confusing.\n\nWhat does it mean \"additionalRangeHighlight\"?\nIt\u0027s just returning `this.highlightRange`?\n\nCan you update the commit message and maybe add some comments to this method for why it\u0027s required?\n\nAlso since it\u0027s fixing a regression, can we add a test to capture it?\n\nThanks for the fix. 😊",
+      "range": {
+        "startLine": 689,
+        "startChar": 10,
+        "endLine": 689,
+        "endChar": 38
+      },
+      "revId": "69ff3ff5a725a51a7e8cd56b609c656d7b8f95dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

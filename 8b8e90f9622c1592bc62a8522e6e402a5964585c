@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e11b6f5f_ce392cee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-09-11T12:25:06Z",
+      "side": 1,
+      "message": "Consider adding a screenshot",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 8
+      },
+      "revId": "8b8e90f9622c1592bc62a8522e6e402a5964585c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f065fdbd_514ceacf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-09-11T12:25:06Z",
+      "side": 1,
+      "message": "autoSaveTrigger and generatedSuggestion are identical events. Can we rename to something like `TextChanged$` and use one for both subscriptions?\n\nAlso nit: generatedSuggestion is a confusing name, because it triggers not when the suggestion is generated, but before.",
+      "range": {
+        "startLine": 328,
+        "startChar": 13,
+        "endLine": 328,
+        "endChar": 28
+      },
+      "revId": "8b8e90f9622c1592bc62a8522e6e402a5964585c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

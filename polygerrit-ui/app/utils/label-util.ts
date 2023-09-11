@@ -294,7 +294,7 @@ export function getRequirements(change?: ParsedChangeInfo | ChangeInfo) {
   );
 }
 
-// TODO(milutin): This may be temporary for demo purposes
+// Gerrit prefers following order of standard labels
 export const PRIORITY_REQUIREMENTS_ORDER: string[] = [
   StandardLabels.CODE_REVIEW,
   StandardLabels.CODE_OWNERS,

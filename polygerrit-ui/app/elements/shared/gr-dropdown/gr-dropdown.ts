@@ -327,7 +327,6 @@ export class GrDropdown extends LitElement {
   private handleEnter() {
     assertIsDefined(this.dropdown);
     if (this.dropdown.opened) {
-      // TODO(milutin): This solution is not particularly robust in general.
       // Since gr-tooltip-content click on shadow dom is not propagated down,
       // we have to target `a` inside it.
       if (this.cursor.target !== null) {

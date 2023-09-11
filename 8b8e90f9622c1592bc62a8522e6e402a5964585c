@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90bcf6ac_574413bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-11T16:37:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e11b6f5f_ce392cee",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 8
+      },
+      "revId": "8b8e90f9622c1592bc62a8522e6e402a5964585c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f065fdbd_514ceacf",
@@ -84,6 +108,30 @@
       "writtenOn": "2023-09-11T16:37:02Z",
       "side": 1,
       "message": "Rename to generateSuggestionTrigger",
+      "range": {
+        "startLine": 328,
+        "startChar": 13,
+        "endLine": 328,
+        "endChar": 28
+      },
+      "revId": "8b8e90f9622c1592bc62a8522e6e402a5964585c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b46796b_6435d369",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 328,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-11T16:37:36Z",
+      "side": 1,
+      "message": "Sorry my mistake",
+      "parentUuid": "21d85f1b_8ee93cff",
       "range": {
         "startLine": 328,
         "startChar": 13,

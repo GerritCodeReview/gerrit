@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59f4a11c_60ed0b07",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-12T07:46:36Z",
+      "side": 1,
+      "message": "Just one small nit.",
+      "revId": "43fa310125fbee8d4dd5ed3611c8a1f890217edd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cb0b2c5_9b755063",
+        "filename": "java/com/google/gerrit/index/query/FilteredSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-12T07:46:36Z",
+      "side": 1,
+      "message": "It should be a `private static final int` at the beginning of the class definition.",
+      "revId": "43fa310125fbee8d4dd5ed3611c8a1f890217edd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

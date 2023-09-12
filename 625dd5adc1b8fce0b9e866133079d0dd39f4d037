@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82043ae5_a25e4a31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-12T12:22:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f43994c7_ead89e67",
+      "revId": "625dd5adc1b8fce0b9e866133079d0dd39f4d037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca3c634e_fcc01ddf",
@@ -53,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "81978deb_c3c697b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-12T12:22:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b3d45a7_63fa2a9d",
+      "revId": "625dd5adc1b8fce0b9e866133079d0dd39f4d037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a04316a_2f55ecc8",
@@ -66,6 +102,30 @@
       "writtenOn": "2023-09-11T14:10:04Z",
       "side": 1,
       "message": "The data-type nesting looks weird, why not simply a `LinkedHashMap` instead?",
+      "range": {
+        "startLine": 320,
+        "startChar": 9,
+        "endLine": 320,
+        "endChar": 57
+      },
+      "revId": "625dd5adc1b8fce0b9e866133079d0dd39f4d037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7099f32_6cd65d76",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-12T12:22:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a04316a_2f55ecc8",
       "range": {
         "startLine": 320,
         "startChar": 9,
@@ -93,6 +153,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c358b60b_a3fdb7bd",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-12T12:22:16Z",
+      "side": 1,
+      "message": "Changed collection in followup change.",
+      "parentUuid": "bbf42b6c_bc94557f",
+      "revId": "625dd5adc1b8fce0b9e866133079d0dd39f4d037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "96b55573_0b1755f0",
@@ -106,6 +184,30 @@
       "writtenOn": "2023-09-08T15:05:57Z",
       "side": 1,
       "message": "you can combine map and flatmap\n\n`bru.stream().flatMap(entry -\u003e entry.getValue().getCommands().stream()).allMatch(...)`",
+      "range": {
+        "startLine": 733,
+        "startChar": 14,
+        "endLine": 734,
+        "endChar": 42
+      },
+      "revId": "625dd5adc1b8fce0b9e866133079d0dd39f4d037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2ee71ac_21f90311",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-12T12:22:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96b55573_0b1755f0",
       "range": {
         "startLine": 733,
         "startChar": 14,

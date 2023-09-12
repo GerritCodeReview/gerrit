@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "357a4ffa_cebd8dad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-12T08:48:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8bbb484c_3b0766e4",
+      "revId": "7aec6c3d7a5ca8267f2a2c0cf4acf4b5f1764ccb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd013a3b_cb8ac886",
@@ -48,6 +66,24 @@
       "writtenOn": "2023-09-12T07:59:42Z",
       "side": 1,
       "message": "Maybe use `Ref`, see gr-diff-row for an example. Reaching into the DOM with query... is slightly ugly. :-)",
+      "revId": "7aec6c3d7a5ca8267f2a2c0cf4acf4b5f1764ccb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eea16dff_10c9fa6a",
+        "filename": "polygerrit-ui/app/elements/change/gr-copy-links/gr-copy-links.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-12T08:48:28Z",
+      "side": 1,
+      "message": "Thanks. I learned something new.",
+      "parentUuid": "fd013a3b_cb8ac886",
       "revId": "7aec6c3d7a5ca8267f2a2c0cf4acf4b5f1764ccb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

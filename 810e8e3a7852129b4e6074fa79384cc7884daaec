@@ -16,6 +16,23 @@
       "message": "I didn\u0027t like this implementation when I wrote, and it breaks tests. \n\nLet me see if I can lift this into a higher-level layer.",
       "revId": "810e8e3a7852129b4e6074fa79384cc7884daaec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "508207ff_a611b75b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1166775
+      },
+      "writtenOn": "2023-09-12T01:40:17Z",
+      "side": 1,
+      "message": "Comment removed by: Edwin Kempin; Reason: spam",
+      "revId": "810e8e3a7852129b4e6074fa79384cc7884daaec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

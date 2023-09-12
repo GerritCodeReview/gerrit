@@ -21,10 +21,9 @@ export interface CommentRangeLayer extends Partial<GrDiffCommentThread> {
   range: CommentRange;
 }
 
-function isCommentRangeLayer<T extends Partial<GrDiffCommentThread>>(
-  x: T | CommentRangeLayer | undefined
-): x is CommentRangeLayer {
-  return !!x && !!(x as CommentRangeLayer).range;
+export interface CommentLayerRange {
+  side: Side;
+  range: CommentRange;
 }
 
 /** Can be used for array functions like `some()`. */
@@ -67,7 +66,7 @@ const RANGE_HIGHLIGHT = 'gr-diff range rangeHighlight';
  * for rendering another diff. You should create a new layer then.
  */
 export class GrRangedCommentLayer implements DiffLayer {
-  private knownRanges: CommentRangeLayer[] = [];
+  private knownRanges: CommentLayerRange[] = [];
 
   private listeners: DiffLayerListener[] = [];
 
@@ -126,20 +125,18 @@ export class GrRangedCommentLayer implements DiffLayer {
     }
   }
 
-  updateRanges(rawRanges: Partial<GrDiffCommentThread>[]) {
-    const newRanges: CommentRangeLayer[] =
-      rawRanges.filter(isCommentRangeLayer);
-    for (const newRange of newRanges) {
+  updateRanges(rawRanges: CommentLayerRange[]) {
+    for (const newRange of rawRanges) {
       if (this.knownRanges.some(equals(newRange))) continue;
       this.addRange(newRange);
     }
 
     for (const knownRange of this.knownRanges) {
-      if (newRanges.some(equals(knownRange))) continue;
+      if (rawRanges.some(equals(knownRange))) continue;
       this.removeRange(knownRange);
     }
 
-    this.knownRanges = [...newRanges];
+    this.knownRanges = [...rawRanges];
   }
 
   private addRange(commentRange: CommentRangeLayer) {

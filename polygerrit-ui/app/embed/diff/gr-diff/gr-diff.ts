@@ -676,7 +676,12 @@ export class GrDiff extends LitElement implements GrDiffApi {
       .filter(isDefined)
       .sort(compareComments);
     this.diffModel.updateState({comments: threads});
-    this.rangeLayer.updateRanges([...threads, ...this.getHighlightRanges()]);
+    this.rangeLayer.updateRanges([
+      ...threads.map(t => {
+        return {range: t.range!, side: t.side};
+      }),
+      ...this.getHighlightRanges(),
+    ]);
     for (const el of threadEls) {
       el.addEventListener('mouseenter', this.commentThreadEnterRedispatcher);
       el.addEventListener('mouseleave', this.commentThreadLeaveRedispatcher);

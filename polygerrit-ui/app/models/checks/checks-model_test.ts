@@ -291,6 +291,39 @@ suite('checks-model tests', () => {
     assert.equal(current.runs[0].results![0].summary, 'new');
   });
 
+  test('allResults$', async () => {
+    let results: CheckResult[] | undefined = undefined;
+    model.allResults$.subscribe(allResults => (results = allResults));
+    testResolver(changeViewModelToken).updateState({
+      checksPatchset: 1 as PatchSetNumber,
+    });
+
+    model.updateStateSetProvider(PLUGIN_NAME, ChecksPatchset.SELECTED);
+    model.updateStateSetProvider(PLUGIN_NAME, ChecksPatchset.LATEST);
+    assert.equal(results!.length, 0);
+
+    model.updateStateSetResults(
+      PLUGIN_NAME,
+      RUNS,
+      [],
+      [],
+      undefined,
+      ChecksPatchset.LATEST
+    );
+    assert.equal(results!.length, 1);
+
+    model.updateStateSetResults(
+      PLUGIN_NAME,
+      RUNS,
+      [],
+      [],
+      undefined,
+      ChecksPatchset.SELECTED
+    );
+
+    assert.equal(results!.length, 1);
+  });
+
   test('polls for changes', async () => {
     const clock = sinon.useFakeTimers();
     let change: ParsedChangeInfo | undefined = undefined;

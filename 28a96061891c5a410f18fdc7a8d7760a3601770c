@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "698099fa_b756b465",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/binding/ProjectsRestApiBindingsIT.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-12T06:41:11Z",
+      "side": 1,
+      "message": "nit: Please also keep this sorted alphabetically here, i.e. move this after l. 120.",
+      "revId": "28a96061891c5a410f18fdc7a8d7760a3601770c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "747a458c_26a4363a",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/SuggestBranchReviewersIT.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-12T06:41:11Z",
+      "side": 1,
+      "message": "nit: looks like reviewerInput is not used and this could be dropped?",
+      "range": {
+        "startLine": 121,
+        "startChar": 4,
+        "endLine": 123,
+        "endChar": 49
+      },
+      "revId": "28a96061891c5a410f18fdc7a8d7760a3601770c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

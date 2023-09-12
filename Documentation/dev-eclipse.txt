@@ -81,6 +81,9 @@ the same way you would when
 link:dev-build-plugins.html#_bundle_custom_plugin_in_release_war[bundling in release.war]
 and run `tools/eclipse/project.py`.
 
+In order to run plugins tests directly from Eclipse, they must be added to
+`CUSTOM_PLUGINMS_TEST_DEPS` list in `tools/bzl/plugins.bzl`.
+
 == Java Versions
 
 Java 11 is supported as a default, but some adjustments must be done for other JDKs:

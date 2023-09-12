@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8bbb484c_3b0766e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-12T07:54:05Z",
+      "side": 1,
+      "message": "It looks like this: https://imgur.com/a/wwQfChk\n\nIt is almost same, instead of text font inside of input.\n\nI will fix test, if you are ok with changes.",
+      "revId": "7aec6c3d7a5ca8267f2a2c0cf4acf4b5f1764ccb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

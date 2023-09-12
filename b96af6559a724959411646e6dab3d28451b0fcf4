@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88519537_8e254270",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-12T18:44:25Z",
+      "side": 1,
+      "message": "Notes for reviewers:\n- I will fix tests after we agree on code structure\n- to review gr-suggestion-diff-preview I recommend to compare patchset2 to patchset3\n- UI is not final, but it should be good enough for dogfooding",
+      "revId": "b96af6559a724959411646e6dab3d28451b0fcf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

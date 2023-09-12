@@ -13,6 +13,7 @@ import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {copyToClipbard, queryAndAssert} from '../../../utils/common-util';
 import {ValueChangedEvent} from '../../../types/events';
 import {formStyles} from '../../../styles/form-styles';
+import {GrCopyClipboard} from '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 
 export interface CopyLink {
   label: string;
@@ -47,23 +48,9 @@ export class GrCopyLinks extends LitElement {
         }
         .copy-link-row {
           margin-bottom: var(--spacing-m);
-          display: flex;
-          align-items: center;
         }
-        .copy-link-row label {
-          flex: 0 0 120px;
-          color: var(--deemphasized-text-color);
-        }
-        .copy-link-row input {
+        gr-copy-clipboard::part(text-container-wrapper-style) {
           flex: 1 1 420px;
-        }
-        .copy-link-row .shortcut {
-          width: 27px;
-          margin: 0 var(--spacing-m);
-          color: var(--deemphasized-text-color);
-        }
-        .copy-link-row gr-copy-clipboard {
-          flex: 0 0 20px;
         }
       `,
     ];
@@ -92,16 +79,13 @@ export class GrCopyLinks extends LitElement {
   private renderCopyLinkRow(copyLink: CopyLink) {
     const {label, shortcut, value} = copyLink;
     const id = `${strToClassName(label, '')}-field`;
-    // TODO(milutin): Use input in gr-copy-clipboard instead of creating new
-    // one. Move shorcut to gr-copy-clipboard.
     return html`<div class="copy-link-row">
-      <label for=${id}>${label}</label
-      ><input type="text" readonly="" id=${id} class="input" .value=${value} />
-      <span class="shortcut">${`l - ${shortcut}`}</span>
       <gr-copy-clipboard
-        hideInput=""
         text=${value}
+        label=${label}
+        shortcut=${`l - ${shortcut}`}
         id=${`${id}-copy-clipboard`}
+        nowrap
       ></gr-copy-clipboard>
     </div>`;
   }
@@ -124,7 +108,13 @@ export class GrCopyLinks extends LitElement {
   openDropdown() {
     this.dropdown?.open();
     this.awaitOpen(() => {
-      queryAndAssert<HTMLInputElement>(this.dropdown, 'input')?.select();
+      const copyClipboard = queryAndAssert<GrCopyClipboard>(
+        this.dropdown,
+        'gr-copy-clipboard'
+      );
+      if (copyClipboard) {
+        queryAndAssert<HTMLInputElement>(copyClipboard, 'input')?.select();
+      }
     });
   }
 

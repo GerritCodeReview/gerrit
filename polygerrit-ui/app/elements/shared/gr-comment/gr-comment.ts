@@ -16,6 +16,7 @@ import '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import '../gr-account-label/gr-account-label';
 import {getAppContext} from '../../../services/app-context';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
+import {when} from 'lit/directives/when.js';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {provide, resolve} from '../../../models/dependency';
 import {GrTextarea} from '../gr-textarea/gr-textarea';
@@ -76,6 +77,7 @@ import {formStyles} from '../../../styles/form-styles';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
+export const GENERATE_SUGGESTION_DEBOUNCE_DELAY_MS = 1500;
 
 declare global {
   interface HTMLElementEventMap {
@@ -184,6 +186,9 @@ export class GrComment extends LitElement {
   autoSaving?: Promise<DraftInfo>;
 
   @state()
+  generatedReplacement?: string;
+
+  @state()
   changeNum?: NumericChangeId;
 
   @state()
@@ -199,6 +204,9 @@ export class GrComment extends LitElement {
   /* The 'dirty' state of !comment.unresolved, which will be saved on demand. */
   @state()
   unresolved = true;
+
+  @state()
+  generateSuggestion = true;
 
   @property({type: Boolean, attribute: 'show-patchset'})
   showPatchset = false;
@@ -241,6 +249,12 @@ export class GrComment extends LitElement {
    * debounce it and call autoSave().
    */
   private autoSaveTrigger$ = new Subject();
+
+  /**
+   * This is triggered when the user types into the editing textarea. We then
+   * debounce it and call generateSuggestEdit().
+   */
+  private generateSuggestionTrigger$ = new Subject();
 
   /**
    * Set to the content of DraftInfo when entering editing mode.
@@ -316,6 +330,20 @@ export class GrComment extends LitElement {
         this.autoSave();
       }
     );
+    if (this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT)) {
+      subscribe(
+        this,
+        () =>
+          this.generateSuggestionTrigger$.pipe(
+            debounceTime(GENERATE_SUGGESTION_DEBOUNCE_DELAY_MS)
+          ),
+        () => {
+          if (this.generateSuggestion) {
+            this.generateSuggestEdit();
+          }
+        }
+      );
+    }
   }
 
   override disconnectedCallback() {
@@ -733,6 +761,7 @@ export class GrComment extends LitElement {
           // of the textare instead of needing a dedicated property.
           this.messageText = e.detail.value;
           this.autoSaveTrigger$.next();
+          this.generateSuggestionTrigger$.next();
         }}
       ></gr-textarea>
     `;
@@ -870,7 +899,6 @@ export class GrComment extends LitElement {
     `;
   }
 
-  // TODO(milutin): This is temporary solution for experimenting
   private renderGenerateSuggestEditButton() {
     if (!this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT)) {
       return nothing;
@@ -884,14 +912,47 @@ export class GrComment extends LitElement {
     ) {
       return nothing;
     }
+    const numberOfSuggestions = !this.generatedReplacement ? '' : ' (1)';
     return html`
-      <gr-button link class="action" @click=${this.generateSuggestEdit}
-        >Suggestion</gr-button
-      >
+      <div class="action">
+        <label>
+          <input
+            type="checkbox"
+            id="generateSuggestCheckbox"
+            ?checked=${this.generateSuggestion}
+            @change=${() => {
+              this.generateSuggestion = !this.generateSuggestion;
+              if (!this.generateSuggestion) {
+                this.generatedReplacement = undefined;
+              } else {
+                this.generateSuggestionTrigger$.next();
+              }
+            }}
+          />
+          Generate Suggestion${numberOfSuggestions}
+        </label>
+      </div>
+      ${when(
+        this.generatedReplacement,
+        () => html`<gr-button
+          link
+          class="action"
+          @click=${this.addGeneratedSuggestEdit}
+          >Add Suggestion</gr-button
+        >`
+      )}
     `;
   }
 
   // TODO(milutin): This is temporary solution for experimenting
+  private addGeneratedSuggestEdit() {
+    if (!this.generatedReplacement) return;
+    const addNewLine = this.messageText.length !== 0;
+    this.messageText += `${
+      addNewLine ? '\n' : ''
+    }${USER_SUGGESTION_START_PATTERN}${this.generatedReplacement}${'\n```'}`;
+  }
+
   private async generateSuggestEdit() {
     const suggestionsPlugins =
       this.getPluginLoader().pluginsModel.getState().suggestionsPlugins;
@@ -908,10 +969,7 @@ export class GrComment extends LitElement {
     });
     const replacement = suggestion.suggestions?.[0]?.replacement;
     if (!replacement) return;
-    const addNewLine = this.messageText.length !== 0;
-    this.messageText += `${
-      addNewLine ? '\n' : ''
-    }${USER_SUGGESTION_START_PATTERN}${replacement}${'\n```'}`;
+    this.generatedReplacement = replacement;
   }
 
   private renderRobotActions() {

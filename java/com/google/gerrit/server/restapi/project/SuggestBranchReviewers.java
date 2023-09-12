@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.project;
 
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountVisibility;
@@ -56,6 +57,7 @@ public class SuggestBranchReviewers extends SuggestReviewers
       name = "--exclude-groups",
       aliases = {"-e"},
       usage = "exclude groups from query")
+  @CanIgnoreReturnValue
   public SuggestBranchReviewers setExcludeGroups(boolean excludeGroups) {
     this.excludeGroups = excludeGroups;
     return this;
@@ -66,6 +68,7 @@ public class SuggestBranchReviewers extends SuggestReviewers
       usage =
           "The type of reviewers that should be suggested"
               + " (can be 'REVIEWER' or 'CC', default is 'REVIEWER')")
+  @CanIgnoreReturnValue
   public SuggestBranchReviewers setReviewerState(ReviewerState reviewerState) {
     this.reviewerState = reviewerState;
     return this;

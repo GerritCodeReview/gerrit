@@ -33,6 +33,24 @@
       "message": "It should be a `private static final int` at the beginning of the class definition.",
       "revId": "43fa310125fbee8d4dd5ed3611c8a1f890217edd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dc4adb9_60764930",
+        "filename": "java/com/google/gerrit/index/query/FilteredSource.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-09-12T08:29:22Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "3cb0b2c5_9b755063",
+      "revId": "43fa310125fbee8d4dd5ed3611c8a1f890217edd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

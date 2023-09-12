@@ -410,11 +410,12 @@ export class ChecksModel extends Model<ChecksState> {
   public allResults$ = select(
     combineLatest([
       this.checksSelectedPatchsetNumber$,
+      this.changeModel.latestPatchNum$,
       this.allResultsSelected$,
       this.allResultsLatest$,
     ]),
-    ([selectedPs, selected, latest]) =>
-      selectedPs ? [...selected, ...latest] : latest
+    ([selectedPs, latestPs, selected, latest]) =>
+      selectedPs && selectedPs !== latestPs ? [...selected, ...latest] : latest
   );
 
   constructor(

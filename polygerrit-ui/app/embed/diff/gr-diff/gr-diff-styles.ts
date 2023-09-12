@@ -45,10 +45,13 @@ export const grDiffStyles = css`
   table {
     border-collapse: collapse;
     table-layout: fixed;
+<<<<<<< PATCH SET (70374e WIP)
+=======
   }
   td.lineNum,
   td.blankLineNum {
     /* Enforces background whenever lines wrap */
+>>>>>>> BASE      (88ff49 SuggestBranchReviewers: Annotate two methods with @CanIgnore)
     background-color: var(--diff-blank-background-color);
   }
 

@@ -25,6 +25,8 @@ import java.util.Queue;
 public class TestSubmitInput extends SubmitInput {
   public boolean failAfterRefUpdates;
 
+  public long numComputeMergeSupersetRetries;
+
   /**
    * For each change being submitted, an element is removed from this queue and, if the value is
    * true, a bogus ref update is added to the batch, in order to generate a lock failure during

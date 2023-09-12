@@ -25,6 +25,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.b
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
+import static com.google.gerrit.extensions.client.SubmitType.CHERRY_PICK;
 import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -66,6 +67,7 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -90,6 +92,7 @@ import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
+import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.restapi.change.Submit;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -139,6 +142,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private Submit submitHandler;
   @Inject private ExtensionRegistry extensionRegistry;
+
+  @Inject private ChangeIndexer changeIndex;
 
   protected abstract SubmitType getSubmitType();
 
@@ -455,7 +460,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     submit(change4.getChangeId());
     String expectedTopic1 = name(topic1);
     String expectedTopic2 = name(topic2);
-    if (getSubmitType() == SubmitType.CHERRY_PICK) {
+    if (getSubmitType() == CHERRY_PICK) {
       change1.assertChange(Change.Status.NEW, expectedTopic1, admin);
       change2.assertChange(Change.Status.NEW, expectedTopic1, admin);
 
@@ -468,7 +473,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertSubmitter(change4);
     // Also check submitters for changes submitted via the topic relationship.
     assertSubmitter(change3);
-    if (getSubmitType() != SubmitType.CHERRY_PICK) {
+    if (getSubmitType() != CHERRY_PICK) {
       assertSubmitter(change1);
       assertSubmitter(change2);
     }
@@ -498,7 +503,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     }
     assertThat(log).hasSize(expectedCommitCount);
 
-    if (getSubmitType() == SubmitType.CHERRY_PICK) {
+    if (getSubmitType() == CHERRY_PICK) {
       assertThat(commitsInRepo).containsAtLeast("Initial empty repository", "Change 3", "Change 4");
       assertThat(commitsInRepo).doesNotContain("Change 1");
       assertThat(commitsInRepo).doesNotContain("Change 2");
@@ -712,7 +717,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     PushOneCommit.Result change1 = createChange();
     PushOneCommit.Result change2 = createChange();
     approve(change1.getChangeId());
-    if (getSubmitType() == SubmitType.CHERRY_PICK) {
+    if (getSubmitType() == CHERRY_PICK) {
       submit(change1.getChangeId());
     }
     submit(change2.getChangeId());
@@ -922,6 +927,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Test
   public void retrySubmitSingleChangeOnLockFailure() throws Throwable {
+
     PushOneCommit.Result change = createChange();
     String id = change.getChangeId();
     approve(id);
@@ -943,6 +949,26 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(rw.isMergedInto(patchSet, master)).isTrue();
 
     assertThat(input.generateLockFailures).containsExactly(false);
+  }
+
+  @Test
+  public void submitChangeMissingInIndexComputeMergeSupersetRetried() throws Throwable {
+    // Cherry-pick strategy does not query from index
+    assertThat(getSubmitType()).isNotEqualTo(CHERRY_PICK);
+    // retry on index
+    PushOneCommit.Result change = createChange();
+
+    // Submit using full change Id to avoid using index.
+    String id = change.getChange().project() + "~" + change.getChange().getId().get();
+    approve(id);
+    changeIndex.delete(change.getChange().getId());
+
+    TestSubmitInput input = new TestSubmitInput();
+
+    Throwable thrown = assertThrows(StorageException.class, () -> submit(id, input));
+    assertThat(thrown).hasMessageThat().contains("Computing mergeSuperset has failed");
+    // We retried more than once before giving up
+    assertThat(input.numComputeMergeSupersetRetries).isGreaterThan(1);
   }
 
   @Test
@@ -1238,7 +1264,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(info.messages).isNotNull();
     Iterable<String> messages = Iterables.transform(info.messages, i -> i.message);
     String last = Iterables.getLast(messages);
-    if (getSubmitType() == SubmitType.CHERRY_PICK) {
+    if (getSubmitType() == CHERRY_PICK) {
       assertThat(last).startsWith("Change has been successfully cherry-picked as");
     } else if (getSubmitType() == SubmitType.REBASE_ALWAYS) {
       assertThat(last).startsWith("Change has been successfully rebased and submitted as");

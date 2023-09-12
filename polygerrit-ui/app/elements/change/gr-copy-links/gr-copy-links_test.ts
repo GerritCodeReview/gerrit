@@ -41,15 +41,8 @@ suite('gr-copy-links tests', () => {
       >
       <div slot="dropdown-content">
           <div class="copy-link-row">
-            <label for="Change_ID-field">Change ID</label>
-            <input
-              class="input"
-              id="Change_ID-field"
-              readonly=""
-              type="text"
-            >
-            <span class="shortcut">l - d</span>
-            <gr-copy-clipboard hideinput="" text="123456" id="Change_ID-field-copy-clipboard">
+            <gr-copy-clipboard label="Change ID" nowrap="" shortcut="l - d"
+                text="123456" id="Change_ID-field-copy-clipboard">
             </gr-copy-clipboard>
           </div>
       </iron-dropdown>`,

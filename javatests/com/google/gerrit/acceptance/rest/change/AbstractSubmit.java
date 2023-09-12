@@ -66,6 +66,7 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -90,6 +91,7 @@ import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
+import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.restapi.change.Submit;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -139,6 +141,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private Submit submitHandler;
   @Inject private ExtensionRegistry extensionRegistry;
+
+  @Inject private ChangeIndexer changeIndex;
 
   protected abstract SubmitType getSubmitType();
 
@@ -922,6 +926,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Test
   public void retrySubmitSingleChangeOnLockFailure() throws Throwable {
+
     PushOneCommit.Result change = createChange();
     String id = change.getChangeId();
     approve(id);
@@ -943,6 +948,24 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(rw.isMergedInto(patchSet, master)).isTrue();
 
     assertThat(input.generateLockFailures).containsExactly(false);
+  }
+
+  @Test
+  public void retrySubmitChangeMissingInIndex() throws Throwable {
+    // retry on index
+    PushOneCommit.Result change = createChange();
+
+    // Submit using full change Id to avoid using index.
+    String id = change.getChange().project() + "~" + change.getChange().getId().get();
+    approve(id);
+    changeIndex.delete(change.getChange().getId());
+
+    TestSubmitInput input = new TestSubmitInput();
+
+    Throwable thrown = assertThrows(StorageException.class, () -> submit(id, input));
+    assertThat(thrown).hasMessageThat().contains("Computing mergeSuperset has failed");
+    // We retried more than once before giving up
+    assertThat(input.numComputeMergeSupersetRetries).isGreaterThan(1);
   }
 
   @Test

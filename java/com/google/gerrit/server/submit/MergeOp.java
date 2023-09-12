@@ -16,6 +16,7 @@ package com.google.gerrit.server.submit;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.server.update.RetryableAction.ActionType.INDEX_QUERY;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.MERGE_CHANGE;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
@@ -34,6 +35,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Change.Status;
@@ -62,6 +64,7 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.change.NotifyResolver;
+import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.validators.MergeValidationException;
@@ -461,20 +464,8 @@ public class MergeOp implements AutoCloseable {
 
       logger.atFine().log("Beginning integration of %s", change);
       try {
-        ChangeSet indexBackedChangeSet =
-            mergeSuperSet
-                .setMergeOpRepoManager(orm)
-                .completeChangeSet(change, caller, /* includingTopicClosure= */ false);
-        if (!indexBackedChangeSet.ids().contains(change.getId())) {
-          // indexBackedChangeSet contains only open changes, if the change is missing in this set
-          // it might be that the change was concurrently submitted in the meantime.
-          change = changeDataFactory.create(change).reloadChange();
-          if (!change.isNew()) {
-            throw new ResourceConflictException("change is " + ChangeUtil.status(change));
-          }
-          throw new IllegalStateException(
-              String.format("change %s missing from %s", change.getId(), indexBackedChangeSet));
-        }
+
+        ChangeSet indexBackedChangeSet = completeMergeChangeSetWithRetry(submitInput, change);
 
         if (indexBackedChangeSet.furtherHiddenChanges()) {
           throw new AuthException(
@@ -559,6 +550,60 @@ public class MergeOp implements AutoCloseable {
         // Anything before the merge attempt is an error
         throw new StorageException(e);
       }
+    }
+  }
+
+  @UsedAt(UsedAt.Project.GOOGLE)
+  @SuppressWarnings("UnusedMethod")
+  private ChangeSet completeMergeChangeSetWithRetry(SubmitInput submitInput, Change change)
+      throws IOException {
+    try {
+      RetryTracker retryTracker = new RetryTracker();
+      // Index can be stale for O(seconds), so attempting to merge the change right after it is
+      // updated can result in an exception.
+      // Reattempt evaluating the change set with the standard INDEX_QUERY retry timeout
+      ChangeSet resultSet =
+          retryHelper
+              .action(
+                  INDEX_QUERY,
+                  "completeMergeChangeSet",
+                  () -> {
+                    Change reloadChange = change;
+                    long attempt = retryTracker.lastAttemptNumber + 1;
+                    boolean isRetry = attempt > 1;
+                    if (!isRetry) {
+                      mergeSuperSet.setMergeOpRepoManager(orm);
+                    }
+                    if (submitInput instanceof TestSubmitInput) {
+                      ((TestSubmitInput) submitInput).numComputeMergeSupersetRetries = attempt;
+                    }
+                    ChangeSet indexBackedMergeChangeSet =
+                        mergeSuperSet.completeChangeSet(
+                            reloadChange, caller, /* includingTopicClosure= */ false);
+                    if (!indexBackedMergeChangeSet.ids().contains(reloadChange.getId())) {
+                      // indexBackedChangeSet contains only open changes, if the change is missing
+                      // in
+                      // this
+                      // set
+                      // it might be that the change was concurrently submitted in the meantime.
+                      reloadChange = changeDataFactory.create(reloadChange).reloadChange();
+                      if (!reloadChange.isNew()) {
+                        throw new ResourceConflictException(
+                            "change is " + ChangeUtil.status(reloadChange));
+                      }
+                      throw new ResourceConflictException(
+                          String.format(
+                              "change %s missing from %s",
+                              reloadChange.getId(), indexBackedMergeChangeSet));
+                    }
+                    return indexBackedMergeChangeSet;
+                  })
+              .retryOn(ResourceConflictException.class::isInstance)
+              .listener(retryTracker)
+              .call();
+      return resultSet;
+    } catch (Exception e) {
+      throw new IOException("Computing mergeSuperset has failed", e);
     }
   }
 

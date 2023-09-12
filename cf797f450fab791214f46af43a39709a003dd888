@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4c0d842c_6a131e3d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-09-12T08:05:43Z",
+      "side": 1,
+      "message": "I would understand this if you weren\u0027t adding this line of code\n\n```\nthis.rangeLayer.updateRanges([...threads, ...this.getHighlightRanges\n```\n\nWhich is adding to the confusion and making it less readable.\n\nAny chance you can reconsider updating this method? Maybe I am not fully understanding the scope of it but it shouldn\u0027t be that bad? 😊",
+      "parentUuid": "8cbf6a97_76d41a9b",
+      "range": {
+        "startLine": 679,
+        "startChar": 20,
+        "endLine": 679,
+        "endChar": 45
+      },
+      "revId": "cf797f450fab791214f46af43a39709a003dd888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "14181c6c_4a68cffe",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
         "patchSetId": 2

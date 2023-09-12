@@ -14,6 +14,7 @@ import '../gr-textarea/gr-textarea';
 import '../gr-tooltip-content/gr-tooltip-content';
 import '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import '../gr-account-label/gr-account-label';
+import '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
 import {getAppContext} from '../../../services/app-context';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {when} from 'lit/directives/when.js';
@@ -295,6 +296,9 @@ export class GrComment extends LitElement {
     this.addEventListener('open-user-suggest-preview', e => {
       this.handleShowFix(e.detail.code);
     });
+    this.addEventListener('add-generated-suggestion', e => {
+      this.handleAddGeneratedSuggestion(e.detail.code);
+    });
     this.messagePlaceholder = 'Mention others with @';
     subscribe(
       this,
@@ -564,6 +568,15 @@ export class GrComment extends LitElement {
             <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>
             ${this.renderHumanActions()} ${this.renderRobotActions()}
           </div>
+          ${when(
+            this.showGeneratedSuggestion() &&
+              this.generateSuggestion &&
+              this.generatedReplacement,
+            () =>
+              html`<gr-suggestion-diff-preview .showAddSuggestionButton=${true}
+                >${this.generatedReplacement}</gr-suggestion-diff-preview
+              >`
+          )}
         </div>
       </gr-endpoint-decorator>
       ${this.renderConfirmDialog()}
@@ -899,17 +912,19 @@ export class GrComment extends LitElement {
     `;
   }
 
-  private renderGenerateSuggestEditButton() {
-    if (!this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT)) {
-      return nothing;
-    }
-    if (
+  private showGeneratedSuggestion() {
+    return !(
+      !this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT) ||
       !this.editing ||
       this.permanentEditingMode ||
       this.comment?.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS ||
       !this.comment ||
       hasUserSuggestion(this.comment)
-    ) {
+    );
+  }
+
+  private renderGenerateSuggestEditButton() {
+    if (!this.showGeneratedSuggestion()) {
       return nothing;
     }
     const numberOfSuggestions = !this.generatedReplacement ? '' : ' (1)';
@@ -932,25 +947,14 @@ export class GrComment extends LitElement {
           Generate Suggestion${numberOfSuggestions}
         </label>
       </div>
-      ${when(
-        this.generatedReplacement,
-        () => html`<gr-button
-          link
-          class="action"
-          @click=${this.addGeneratedSuggestEdit}
-          >Add Suggestion</gr-button
-        >`
-      )}
     `;
   }
 
-  // TODO(milutin): This is temporary solution for experimenting
-  private addGeneratedSuggestEdit() {
-    if (!this.generatedReplacement) return;
+  private handleAddGeneratedSuggestion(code: string) {
     const addNewLine = this.messageText.length !== 0;
     this.messageText += `${
       addNewLine ? '\n' : ''
-    }${USER_SUGGESTION_START_PATTERN}${this.generatedReplacement}${'\n```'}`;
+    }${USER_SUGGESTION_START_PATTERN}${code}${'\n```'}`;
   }
 
   private async generateSuggestEdit() {
@@ -1066,14 +1070,18 @@ export class GrComment extends LitElement {
         whenVisible(this, () => this.textarea?.putCursorAtEnd());
       }
     }
-    if (changed.has('changeNum') || changed.has('comment')) {
+    if (
+      changed.has('changeNum') ||
+      changed.has('comment') ||
+      changed.has('generatedReplacement')
+    ) {
       if (
         !this.flagsService.isEnabled(
           KnownExperimentId.DIFF_FOR_USER_SUGGESTED_EDIT
         ) ||
         !this.changeNum ||
         !this.comment ||
-        !hasUserSuggestion(this.comment)
+        (!hasUserSuggestion(this.comment) && !this.generatedReplacement)
       )
         return;
       (async () => {

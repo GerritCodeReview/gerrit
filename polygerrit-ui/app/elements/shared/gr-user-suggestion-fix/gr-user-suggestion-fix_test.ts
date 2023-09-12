@@ -70,7 +70,7 @@ suite('gr-user-suggestion-fix tests', () => {
             >
           </div>
         </div>
-        <code>Hello World</code>`
+        <gr-suggestion-diff-preview>Hello World</gr-suggestion-diff-preview>`
     );
   });
 });

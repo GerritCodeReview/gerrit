@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "190aa0d2_6251b42c",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-09-12T15:24:37Z",
+      "side": 1,
+      "message": "deepEqual?",
+      "revId": "f5fb53d26dddfdd509da6b3742fd19aa1c3148f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ce017eb_89033f66",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-12T15:09:55Z",
+      "side": 1,
+      "message": "Better to also reset the metric counters before the call that we expect to increase the metric:\n\n  testMetricMaker.reset()",
+      "revId": "52294091af93dc04ea4865fb4d849ac6eeb22a1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

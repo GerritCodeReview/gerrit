@@ -163,6 +163,30 @@
       },
       "revId": "606ae4975e29fec1d8782304cecf8cce437426d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c54a52d_cb3890da",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-12T15:09:55Z",
+      "side": 1,
+      "message": "If all retires fail because the change is still missing in the index, this should stay a 500 ISE. When I saw this throwing ResourceConflictException now I was first concerned that this changed the response code from 500 to 409, but it didn\u0027t. I think it\u0027s confusing if throwing ResourceConflictException doesn\u0027t result in a 409, hence I think we should throw another exception here.\n\n\u003e I seems like a natural choice to throw ResourceConflictException,\n\u003e same as in L#592.\n\nI missed that we throw ResourceConflictException there. This means we broke that case now. Throwing ResourceConflictException there shouldn\u0027t trigger a retry, but cause a 409 response to the caller. It seems now we are retrying and returning 500 ISE, which seems wrong. To fix this I think the catch block below needs to re-throw ResourceConflictException and we should not retry on ResourceConflictException. Consequently we need to throw another exception here to trigger retrying and causing an 500 ISE. Using IllegalStateException for this should be fine. If we are worryied that retrying on IllegalStateException may match other IllegalStateExceptions unintentionally, we could make the retryOn predicate more specific (e.g. also check the exception message).\n\nWDYT?",
+      "parentUuid": "7cf6bd28_5768a4f0",
+      "range": {
+        "startLine": 594,
+        "startChar": 32,
+        "endLine": 594,
+        "endChar": 57
+      },
+      "revId": "606ae4975e29fec1d8782304cecf8cce437426d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

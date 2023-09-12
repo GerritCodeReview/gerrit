@@ -16,6 +16,24 @@
       "message": "deepEqual?",
       "revId": "f5fb53d26dddfdd509da6b3742fd19aa1c3148f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "21efcdd9_0dedcf9c",
+        "filename": "polygerrit-ui/app/models/checks/checks-model.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-09-12T15:58:21Z",
+      "side": 1,
+      "message": "Never mind, this is a pod.",
+      "parentUuid": "190aa0d2_6251b42c",
+      "revId": "f5fb53d26dddfdd509da6b3742fd19aa1c3148f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

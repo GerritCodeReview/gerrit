@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9407b7eb_9426c571",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-12T14:04:24Z",
+      "side": 1,
+      "message": "Could this be done outside of the retry block (i.e. before line 565), so that we do not need the logic to check whether it\u0027s a retry?",
+      "revId": "606ae4975e29fec1d8782304cecf8cce437426d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "345a1cd3_6bca1696",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-12T14:04:24Z",
+      "side": 1,
+      "message": "Using the input object to returned a value to the test looks a bit hacky.\n\nCould you use TestMetricMaker to check the RetryHelper.Metrics.attemptCounts metric instead? See usage of testMetricMaker in RebaseIT for an example.",
+      "revId": "606ae4975e29fec1d8782304cecf8cce437426d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de2aa7c5_89031d4f",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-12T14:04:24Z",
+      "side": 1,
+      "message": "nit: bad formatting",
+      "range": {
+        "startLine": 584,
+        "startChar": 22,
+        "endLine": 588,
+        "endChar": 96
+      },
+      "revId": "606ae4975e29fec1d8782304cecf8cce437426d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba3323ce_9ae076d5",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 594,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-12T14:04:24Z",
+      "side": 1,
+      "message": "Why was this change from IllegalStateException to ResourceConflictException?\nResourceConflictException is used to trigger a 409 response, but it seems this exception is caught and wrapped in an IOException below (if all retries failed), so it\u0027s still a 500 ISE. So using ResourceConflictException is confusing.",
+      "range": {
+        "startLine": 594,
+        "startChar": 32,
+        "endLine": 594,
+        "endChar": 57
+      },
+      "revId": "606ae4975e29fec1d8782304cecf8cce437426d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

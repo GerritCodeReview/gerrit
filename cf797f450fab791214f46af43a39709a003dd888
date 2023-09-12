@@ -121,6 +121,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "970b5ac9_e321346f",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-09-12T08:12:21Z",
+      "side": 1,
+      "message": "I think I am not sure where the confusion is coming from.\n\n`updateRanges` receives an array of ranges. We are passing it the comment ranges and some explicit highlight ranges. This seems fine to me.\n\nMaybe explain in more detail or upload a proposed refactoring. :-)",
+      "parentUuid": "4c0d842c_6a131e3d",
+      "range": {
+        "startLine": 679,
+        "startChar": 20,
+        "endLine": 679,
+        "endChar": 45
+      },
+      "revId": "cf797f450fab791214f46af43a39709a003dd888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "14181c6c_4a68cffe",
         "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
         "patchSetId": 2

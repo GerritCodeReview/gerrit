@@ -30,7 +30,7 @@ suite('gr-copy-clipboard tests', () => {
       element,
       /* HTML */ `
         <div class="text">
-          <iron-input class="copyText">
+          <iron-input class="copyText" part="text-container-wrapper-style">
             <input
               id="input"
               is="iron-input"
@@ -39,6 +39,46 @@ suite('gr-copy-clipboard tests', () => {
               type="text"
             />
           </iron-input>
+          <gr-tooltip-content>
+            <gr-button
+              aria-disabled="false"
+              aria-label="copy"
+              aria-description="Click to copy to clipboard"
+              class="copyToClipboard"
+              id="copy-clipboard-button"
+              link=""
+              role="button"
+              tabindex="0"
+            >
+              <div>
+                <gr-icon icon="content_copy" id="icon" small></gr-icon>
+              </div>
+            </gr-button>
+          </gr-tooltip-content>
+        </div>
+      `
+    );
+  });
+
+  test('render with label and shortcut', async () => {
+    element.label = 'Label';
+    element.shortcut = 'l - l';
+    await element.updateComplete;
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="text">
+          <label for="input">Label</label>
+          <iron-input class="copyText" part="text-container-wrapper-style">
+            <input
+              id="input"
+              is="iron-input"
+              part="text-container-style"
+              readonly=""
+              type="text"
+            />
+          </iron-input>
+          <span class="shortcut">l - l</span>
           <gr-tooltip-content>
             <gr-button
               aria-disabled="false"

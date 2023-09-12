@@ -44,6 +44,12 @@ export class GrCopyClipboard extends LitElement {
   @property({type: Boolean})
   hideInput = false;
 
+  @property({type: String})
+  label?: string;
+
+  @property({type: String})
+  shortcut?: string;
+
   // Optional property for toast to announce correct name of target that was copied
   @property({type: String, reflect: true})
   copyTargetName?: string;
@@ -64,6 +70,18 @@ export class GrCopyClipboard extends LitElement {
           align-items: center;
           display: flex;
           flex-wrap: wrap;
+        }
+        :host([nowrap]) .text {
+          flex-wrap: nowrap;
+        }
+        .text label {
+          flex: 0 0 120px;
+          color: var(--deemphasized-text-color);
+        }
+        .text .shortcut {
+          width: 27px;
+          margin: 0 var(--spacing-m);
+          color: var(--deemphasized-text-color);
         }
         .copyText {
           flex-grow: 1;
@@ -98,10 +116,15 @@ export class GrCopyClipboard extends LitElement {
   override render() {
     return html`
       <div class="text">
+        ${when(
+          this.label,
+          () => html`<label for="input">${this.label}</label>`
+        )}
         <iron-input
           class="copyText"
           @click=${this._handleInputClick}
           .bindValue=${this.text ?? ''}
+          part="text-container-wrapper-style"
         >
           ${when(
             this.multiline,
@@ -127,6 +150,10 @@ export class GrCopyClipboard extends LitElement {
             />`
           )}
         </iron-input>
+        ${when(
+          this.shortcut,
+          () => html`<span class="shortcut">${this.shortcut}</span>`
+        )}
         <gr-tooltip-content
           ?has-tooltip=${this.hasTooltip}
           title=${ifDefined(this.buttonTitle)}

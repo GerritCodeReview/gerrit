@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "749fff60_62138dea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-12T16:38:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f7bb287_bfcc7f54",
+      "revId": "7c61012d4b004ff1246611474c5d9284af1bb770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8785b489_e500140d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -48,6 +66,30 @@
       "writtenOn": "2023-09-12T14:57:37Z",
       "side": 1,
       "message": "nit: that is only true when plugin requires additional test dependencies that are not available in the Gerrit\u0027s core - perhaps it could be rephrased to sth more like\n\n\u003e If plugin requires additional (not available in the Gerrit) test dependencies, then in order to execute tests directly from Eclipse, plugin must be also added to `CUSTOM_PLUGINMS_TEST_DEPS` list in `tools/bzl/plugins.bzl` (not that `tools/eclipse/project.py` has to be run again).\n\nWDYT?",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 60
+      },
+      "revId": "7c61012d4b004ff1246611474c5d9284af1bb770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f28d03f_4b3c1e99",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-12T16:38:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "555e0674_42eb565b",
       "range": {
         "startLine": 83,
         "startChar": 0,

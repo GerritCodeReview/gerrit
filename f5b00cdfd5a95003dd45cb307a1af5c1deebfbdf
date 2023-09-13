@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9030601d_6e388ad5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-13T12:11:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3116fed_cef70d24",
+      "revId": "f5b00cdfd5a95003dd45cb307a1af5c1deebfbdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "165bedf1_52fb54e0",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-08-25T18:57:53Z",
       "side": 1,
       "message": "+ _and introduce GerritSystemProperty / GerritSystemProperties in tests annotations",
+      "revId": "f5b00cdfd5a95003dd45cb307a1af5c1deebfbdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0061b487_d0d4a5e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-13T12:11:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "165bedf1_52fb54e0",
       "revId": "f5b00cdfd5a95003dd45cb307a1af5c1deebfbdf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -88,6 +124,54 @@
       "writtenOn": "2023-08-25T18:57:16Z",
       "side": 1,
       "message": "GerritSystemProperties",
+      "range": {
+        "startLine": 263,
+        "startChar": 25,
+        "endLine": 263,
+        "endChar": 41
+      },
+      "revId": "f5b00cdfd5a95003dd45cb307a1af5c1deebfbdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c210faf_47763ed9",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-13T12:11:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd3c8ce3_38755cca",
+      "range": {
+        "startLine": 263,
+        "startChar": 46,
+        "endLine": 263,
+        "endChar": 60
+      },
+      "revId": "f5b00cdfd5a95003dd45cb307a1af5c1deebfbdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8876332f_a0b0da74",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-13T12:11:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50690b1f_2323982c",
       "range": {
         "startLine": 263,
         "startChar": 25,

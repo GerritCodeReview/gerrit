@@ -46,6 +46,30 @@
       },
       "revId": "9e1b613d349d56edc1039e8688e1108626bf9997",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30eec561_2f65f63c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3776,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-13T16:56:32Z",
+      "side": 1,
+      "message": "Good point. It is kinda of in the way here.",
+      "parentUuid": "20798fe7_97e4b593",
+      "range": {
+        "startLine": 3776,
+        "startChar": 17,
+        "endLine": 3776,
+        "endChar": 26
+      },
+      "revId": "9e1b613d349d56edc1039e8688e1108626bf9997",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

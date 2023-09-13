@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a19911d_fb3a738b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-13T16:56:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19c9af15_45a82d40",
+      "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9aac9410_85a2db44",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5529be82_c067def9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-13T16:56:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9aac9410_85a2db44",
+      "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "851f6bbb_39afb175",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-09-13T09:01:13Z",
       "side": 1,
       "message": "typo: publishing",
+      "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc89bdf2_8eabc9b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-13T16:56:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "851f6bbb_39afb175",
       "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -104,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5de9b83c_db2b8d20",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3773,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-13T16:56:32Z",
+      "side": 1,
+      "message": "ouch! good catch",
+      "parentUuid": "58a4b46f_6ddb83b2",
+      "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08764bba_6b5a44c0",
@@ -117,6 +189,30 @@
       "writtenOn": "2023-09-13T12:36:29Z",
       "side": 1,
       "message": "Maybe we should change it to something like: \u0027Enable streaming of `ref-updated` events for `refs/draft-comments` refs.\u0027 We should also mention that for a single draft change we will get two events one for target projects and one for All-Users",
+      "range": {
+        "startLine": 3780,
+        "startChar": 0,
+        "endLine": 3780,
+        "endChar": 92
+      },
+      "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54b07843_3e08462d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3780,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-13T16:56:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08764bba_6b5a44c0",
       "range": {
         "startLine": 3780,
         "startChar": 0,
@@ -164,6 +260,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ff296a8d_8225efa6",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-13T16:56:32Z",
+      "side": 1,
+      "message": "\u003e Isn\u0027t that gonna block all batch ref updates that are not draft comments?\n\nNormally `BatchRefUpdate` are packed per repo. However in case of",
+      "parentUuid": "fd7f9222_49811b53",
+      "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f558749c_6da6ad20",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
         "patchSetId": 7
@@ -175,6 +289,24 @@
       "writtenOn": "2023-09-13T09:01:13Z",
       "side": 1,
       "message": "```suggestion\n  public void draftCommentRefsShowInStreamEventsWithRefUpdated() throws Exception {\n```",
+      "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd5ae0de_b7edce6b",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-13T16:56:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f558749c_6da6ad20",
       "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -196,6 +328,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a59c2990_9b57bdf1",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-13T16:56:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4be70d2d_93188979",
+      "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2eeb133a_f3b6156f",
@@ -213,6 +363,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0942309_7653f10f",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-13T16:56:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2eeb133a_f3b6156f",
+      "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22f7c52c_32c4a944",
@@ -226,6 +394,24 @@
       "writtenOn": "2023-09-13T09:01:13Z",
       "side": 1,
       "message": "this should be `true`.",
+      "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23bab530_266a36bf",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-13T16:56:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22f7c52c_32c4a944",
       "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "959f9dae_93ac0240",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-09-13T13:45:14Z",
+      "side": 1,
+      "message": "This is a comment",
+      "revId": "1c10764446e7deee42ec4abddded3dfb45827f17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

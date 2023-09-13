@@ -40,6 +40,9 @@ import java.util.Optional;
  */
 @AutoValue
 public abstract class AccountState {
+  private Optional<GeneralPreferencesInfo> computedGeneralPreferencesInfo;
+  private Optional<DiffPreferencesInfo> computedDiffPreferencesInfo;
+  private Optional<EditPreferencesInfo> computedEditPreferencesInfo;
 
   /**
    * Creates an AccountState for a given account with no external IDs, no project watches and
@@ -100,6 +103,21 @@ public abstract class AccountState {
         account, externalIds, userName, projectWatches, defaultPreferences, userPreferences);
   }
 
+  /** Creates an AccountState instance containing the given data. */
+  public static AccountState withState(
+      Account account,
+      ImmutableSet<ExternalId> externalIds,
+      Optional<String> userName,
+      ImmutableMap<ProjectWatches.ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches,
+      GeneralPreferencesInfo generalPreferencesInfo,
+      DiffPreferencesInfo diffPreferencesInfo,
+      EditPreferencesInfo editPreferencesInfo) {
+    return new AutoValue_AccountState(
+            account, externalIds, userName, projectWatches, Optional.empty(), Optional.empty())
+        .setComputedUserPreferences(
+            generalPreferencesInfo, diffPreferencesInfo, editPreferencesInfo);
+  }
+
   /** Get the cached account metadata. */
   public abstract Account account();
   /** The external identities that identify the account holder. */
@@ -119,20 +137,35 @@ public abstract class AccountState {
 
   /** The general preferences of the account. */
   public GeneralPreferencesInfo generalPreferences() {
-    return CachedPreferences.general(
-        defaultPreferences(), userPreferences().orElse(CachedPreferences.EMPTY));
+    if (computedGeneralPreferencesInfo.isEmpty()) {
+      computedGeneralPreferencesInfo =
+          Optional.of(
+              CachedPreferences.general(
+                  defaultPreferences(), userPreferences().orElse(CachedPreferences.EMPTY)));
+    }
+    return computedGeneralPreferencesInfo.get();
   }
 
   /** The diff preferences of the account. */
   public DiffPreferencesInfo diffPreferences() {
-    return CachedPreferences.diff(
-        defaultPreferences(), userPreferences().orElse(CachedPreferences.EMPTY));
+    if (computedDiffPreferencesInfo.isEmpty()) {
+      computedDiffPreferencesInfo =
+          Optional.of(
+              CachedPreferences.diff(
+                  defaultPreferences(), userPreferences().orElse(CachedPreferences.EMPTY)));
+    }
+    return computedDiffPreferencesInfo.get();
   }
 
   /** The edit preferences of the account. */
   public EditPreferencesInfo editPreferences() {
-    return CachedPreferences.edit(
-        defaultPreferences(), userPreferences().orElse(CachedPreferences.EMPTY));
+    if (computedEditPreferencesInfo.isEmpty()) {
+      computedEditPreferencesInfo =
+          Optional.of(
+              CachedPreferences.edit(
+                  defaultPreferences(), userPreferences().orElse(CachedPreferences.EMPTY)));
+    }
+    return computedEditPreferencesInfo.get();
   }
 
   @Override
@@ -147,4 +180,14 @@ public abstract class AccountState {
 
   /** User preferences as stored in {@code preferences.config}. */
   protected abstract Optional<CachedPreferences> userPreferences();
+
+  protected AccountState setComputedUserPreferences(
+      GeneralPreferencesInfo generalPreferencesInfo,
+      DiffPreferencesInfo diffPreferencesInfo,
+      EditPreferencesInfo editPreferencesInfo) {
+    computedGeneralPreferencesInfo = Optional.of(generalPreferencesInfo);
+    computedDiffPreferencesInfo = Optional.of(diffPreferencesInfo);
+    computedEditPreferencesInfo = Optional.of(editPreferencesInfo);
+    return this;
+  }
 }

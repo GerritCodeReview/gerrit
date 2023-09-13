@@ -33,6 +33,29 @@
       "message": "Verified locally that test passes with the change and fails when changes are reverted 👍",
       "revId": "9e8cd860a4994d8228e66ff5440fc5cf5e8eedd8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3b6a75d_72f9fd73",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-13T15:25:25Z",
+      "side": 1,
+      "message": "I just realised this might not work. If `changeRepo` is `All-Users` when building the map we would have a clash in the keys  :/",
+      "range": {
+        "startLine": 354,
+        "startChar": 27,
+        "endLine": 354,
+        "endChar": 32
+      },
+      "revId": "9e8cd860a4994d8228e66ff5440fc5cf5e8eedd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

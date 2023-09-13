@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28ae6ade_7246ae53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-09-13T09:52:46Z",
+      "side": 1,
+      "message": "Thanks for the cleanup, some suggestions",
+      "revId": "f130d982ad79256ea139f220de70b5832b9ac5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "caf14f3c_59901c01",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 925,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-09-13T09:52:46Z",
+      "side": 1,
+      "message": "This condition is hard to read.\n\nIt\u0027s !(!A || !B || C || !D).\n\nWould be easier to read as: A \u0026\u0026 B \u0026\u0026 !C \u0026\u0026 D\n```suggestion\n  private showGeneratedSuggestion() {\n    return this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT) \u0026\u0026\n      this.editing \u0026\u0026\n      !this.permanentEditingMode \u0026\u0026\n      this.comment?.path !\u003d\u003d SpecialFilePath.PATCHSET_LEVEL_COMMENTS \u0026\u0026\n      this.comment \u0026\u0026 !hasUserSuggestion(this.comment);\n\n  }\n\n  private renderGenerateSuggestEditButton() {\n```",
+      "range": {
+        "startLine": 915,
+        "startChar": 0,
+        "endLine": 925,
+        "endChar": 0
+      },
+      "revId": "f130d982ad79256ea139f220de70b5832b9ac5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60449f94_224d1fb6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-09-13T09:52:46Z",
+      "side": 1,
+      "message": "Rather than passing it in as textContent, pass it in as a parameter.\n\nIt\u0027s confusing to get your existing textContent and then modify it in this render function.\n\nSo you could instead have:\n\n`\u003cgr-suggestion-diff-preview .suggestion\u003d${whatTextContentShouldContain}\u003e\u003c/gr-suggestion-diff-preview\u003e`",
+      "revId": "f130d982ad79256ea139f220de70b5832b9ac5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95de559e_f5cc159c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-09-13T09:52:46Z",
+      "side": 1,
+      "message": "if (!res) return undefined\n```suggestion\n    if (!res) return;\n    const currentPreviews \u003d Object.keys(res).map(key \u003d\u003e {\n      return {filepath: key, preview: res[key]};\n    });\n    if (currentPreviews.length \u003e 0) {\n      this.preview \u003d currentPreviews[0];\n      this.previewLoadedFor \u003d this.textContent;\n    }\n\n    return res;\n  }\n```",
+      "range": {
+        "startLine": 221,
+        "startChar": 0,
+        "endLine": 231,
+        "endChar": 15
+      },
+      "revId": "f130d982ad79256ea139f220de70b5832b9ac5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

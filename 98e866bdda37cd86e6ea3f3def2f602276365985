@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51515857_96bba748",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-13T13:53:19Z",
+      "side": 1,
+      "message": "There are still some references to `HashMap` that can be removed",
+      "revId": "98e866bdda37cd86e6ea3f3def2f602276365985",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

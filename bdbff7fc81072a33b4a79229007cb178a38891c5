@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "055bb1fb_57277528",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-13T13:37:29Z",
+      "side": 1,
+      "message": "Looks good 👍 only small nit-picks about public API\u0027s and code styles.",
+      "revId": "bdbff7fc81072a33b4a79229007cb178a38891c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d132ba2d_cae9d91a",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-13T13:37:29Z",
+      "side": 1,
+      "message": "nit: It\u0027s a good practice to not expose collection implementation (unless it\u0027s really needed), so would be better to use `Map\u003cProject.NameKey, BranchRefUpdate\u003e`, or (after looking at the return type of `attentionSetUpdates()`) `ImmutableMap\u003cProject.NameKey, BatchRefUpdate\u003e`",
+      "range": {
+        "startLine": 315,
+        "startChar": 9,
+        "endLine": 315,
+        "endChar": 16
+      },
+      "revId": "bdbff7fc81072a33b4a79229007cb178a38891c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "257a02f2_f09af5b6",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-13T13:37:29Z",
+      "side": 1,
+      "message": "nit: this could be `ImmutableMap.of()`, if you decide to change the return type",
+      "range": {
+        "startLine": 324,
+        "startChar": 13,
+        "endLine": 324,
+        "endChar": 19
+      },
+      "revId": "bdbff7fc81072a33b4a79229007cb178a38891c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6619e732_65a4e007",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-13T13:37:29Z",
+      "side": 1,
+      "message": "nit: then here we could do\n```java\nImmutableMap.Builder\u003cProject.NameKey, BatchRefUdpate\u003e builder \u003d ImmutableMap.builder();\n```",
+      "revId": "bdbff7fc81072a33b4a79229007cb178a38891c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b933c05_40ad19f9",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-13T13:37:29Z",
+      "side": 1,
+      "message": "nit: private methods usually go at the end of file, so that first we can see all of the public tests and then (less interesting) things like utility/private methods are at the end.",
+      "revId": "bdbff7fc81072a33b4a79229007cb178a38891c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

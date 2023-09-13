@@ -303,6 +303,7 @@ export class GrCommentThread extends LitElement {
         };
       }
     );
+    this.addEventListener('update-range', this.onUpdateRange);
   }
 
   static override get styles() {
@@ -625,6 +626,10 @@ export class GrCommentThread extends LitElement {
 
     this.unresolved = this.getLastComment()?.unresolved ?? true;
     this.diff = this.computeDiff();
+    this.highlightRange = this.computeHighlightRange();
+  }
+
+  onUpdateRange = () => {
     this.highlightRange = this.computeHighlightRange();
   }
 

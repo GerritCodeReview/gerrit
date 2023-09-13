@@ -63,7 +63,7 @@ import {CommentSide, SpecialFilePath} from '../../../constants/constants';
 import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 import {changeModelToken} from '../../../models/change/change-model';
-import {isBase64FileContent} from '../../../api/rest-api';
+import {CommentRange, isBase64FileContent} from '../../../api/rest-api';
 import {createDiffUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
@@ -73,7 +73,12 @@ import {
   CommentModel,
   commentModelToken,
 } from '../gr-comment-model/gr-comment-model';
+<<<<<<< HEAD
 import {formStyles} from '../../../styles/form-styles';
+||||||| parent of 4139431970 (Hack-a-demo)
+=======
+import { deepEqual } from '../../../utils/deep-util';
+>>>>>>> 4139431970 (Hack-a-demo)
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
@@ -197,6 +202,9 @@ export class GrComment extends LitElement {
   @state()
   repoName?: RepoName;
 
+  @state()
+  dirty = false;
+
   /* The 'dirty' state of the comment.message, which will be saved on demand. */
   @state()
   messageText = '';
@@ -223,9 +231,23 @@ export class GrComment extends LitElement {
   @state()
   isOwner = false;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
   @state()
   commentedText?: string;
 
+||||||| parent of 11c05afae8 (Change Range by Suggestion)
+=======
+  @state()
+  newCommentRange?: CommentRange;
+
+>>>>>>> 11c05afae8 (Change Range by Suggestion)
+||||||| parent of 4139431970 (Hack-a-demo)
+  @state()
+  newCommentRange?: CommentRange;
+
+=======
+>>>>>>> 4139431970 (Hack-a-demo)
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
@@ -900,6 +922,7 @@ export class GrComment extends LitElement {
   }
 
   private renderGenerateSuggestEditButton() {
+<<<<<<< HEAD
     if (!this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT)) {
       return nothing;
     }
@@ -913,6 +936,12 @@ export class GrComment extends LitElement {
       return nothing;
     }
     const numberOfSuggestions = !this.generatedReplacement ? '' : ' (1)';
+||||||| parent of 4139431970 (Hack-a-demo)
+    if (!this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT)) {
+      return nothing;
+    }
+=======
+>>>>>>> 4139431970 (Hack-a-demo)
     return html`
       <div class="action">
         <label>
@@ -944,6 +973,18 @@ export class GrComment extends LitElement {
     `;
   }
 
+  private updateCommentRange(newRange: CommentRange) {
+    if (!this.comment) return;
+    if (deepEqual(this.comment.range, newRange)) return;
+    this.comment.range = newRange;
+    if (this.comment.line != this.comment.range.end_line) {
+      this.comment.line = this.comment.range.end_line;
+    }
+    this.dirty = true;
+    // Tell gr-diff to update the range.
+    fire(this, 'update-range', {});
+  }
+
   // TODO(milutin): This is temporary solution for experimenting
   private addGeneratedSuggestEdit() {
     if (!this.generatedReplacement) return;
@@ -954,22 +995,77 @@ export class GrComment extends LitElement {
   }
 
   private async generateSuggestEdit() {
-    const suggestionsPlugins =
-      this.getPluginLoader().pluginsModel.getState().suggestionsPlugins;
-    if (suggestionsPlugins.length === 0) return;
-    if (!this.changeNum || !this.comment?.patch_set || !this.comments?.[0].path)
-      return;
-    const suggestion = await suggestionsPlugins[0].provider.suggestCode({
-      prompt: this.messageText,
-      changeNumber: this.changeNum,
-      patchsetNumber: this.comment?.patch_set,
-      filePath: this.comments?.[0].path,
-      range: this.comments?.[0].range,
-      lineNumber: this.comments?.[0].line,
+    if (!this.comment) return;
+    let replacement = 'Some Suggestion';
+    this.updateCommentRange({
+      end_character: this.comment.range?.end_character ?? 0,
+      end_line: (this.comment.range?.end_line ?? this.comment.line ?? 1) + 1,
+      start_character: this.comment.range?.end_character ?? 0,
+      start_line: (this.comment.range?.start_line ?? this.comment.line ?? 1) - 1,
     });
+<<<<<<< HEAD
+<<<<<<< HEAD
     const replacement = suggestion.suggestions?.[0]?.replacement;
+||||||| parent of 11c05afae8 (Change Range by Suggestion)
+    const replacement = suggestion.suggestions?.[0].replacement;
+=======
+    let replacement = suggestion.suggestions?.[0].replacement;
+>>>>>>> 11c05afae8 (Change Range by Suggestion)
     if (!replacement) return;
+<<<<<<< HEAD
     this.generatedReplacement = replacement;
+||||||| parent of 11c05afae8 (Change Range by Suggestion)
+    const addNewLine = this.messageText.length !== 0;
+    this.messageText += `${
+      addNewLine ? '\n' : ''
+    }${'```\n'}${replacement}${'\n```'}`;
+=======
+    if (firstComment.line === 45) {
+      replacement = '      fontStyles,\n      diffStyles,\n      css`';
+      this.newCommentRange = {
+        end_character: 16,
+        end_line: 46,
+        start_character: 6,
+        start_line: 45,
+      };
+    }
+||||||| parent of 4139431970 (Hack-a-demo)
+    let replacement = suggestion.suggestions?.[0].replacement;
+    if (!replacement) return;
+    if (firstComment.line === 45) {
+      replacement = '      fontStyles,\n      diffStyles,\n      css`';
+      this.newCommentRange = {
+        end_character: 16,
+        end_line: 46,
+        start_character: 6,
+        start_line: 45,
+      };
+    }
+=======
+>>>>>>> 4139431970 (Hack-a-demo)
+    const addNewLine = this.messageText.length !== 0;
+    this.messageText += `${
+      addNewLine ? '\n' : ''
+    }${'```suggestion\n'}${replacement}${'\n```'}`;
+<<<<<<< HEAD
+    // lineNumber : 45
+    // const range = {
+    //   end_character: 16,
+    //   end_line: 45,
+    //   start_character: 6,
+    //   start_line: 45,
+    // };
+>>>>>>> 11c05afae8 (Change Range by Suggestion)
+||||||| parent of 4139431970 (Hack-a-demo)
+    // lineNumber : 45
+    // const range = {
+    //   end_character: 16,
+    //   end_line: 45,
+    //   start_character: 6,
+    //   start_line: 45,
+    // };
+=======
+>>>>>>> 4139431970 (Hack-a-demo)
   }
 
   private renderRobotActions() {
@@ -1110,6 +1206,7 @@ export class GrComment extends LitElement {
       // comment changes.
       fire(this, 'comment-text-changed', {value: this.messageText});
     }
+    // TODO(milutin): maybe fire update on range.
   }
 
   private handlePortedMessageClick() {
@@ -1328,11 +1425,12 @@ export class GrComment extends LitElement {
 
   convertToCommentInput(): CommentInput | undefined {
     if (!this.somethingToSave() || !this.comment) return;
-    return convertToCommentInput({
+    const newComment = {
       ...this.comment,
       message: this.messageText.trimEnd(),
       unresolved: this.unresolved,
-    });
+    };
+    return convertToCommentInput(newComment);
   }
 
   async save() {
@@ -1369,7 +1467,8 @@ export class GrComment extends LitElement {
     return (
       isError(this.comment) ||
       this.messageText.trimEnd() !== this.comment?.message ||
-      this.unresolved !== this.comment.unresolved
+      this.unresolved !== this.comment.unresolved ||
+      this.dirty
     );
   }
 
@@ -1377,14 +1476,13 @@ export class GrComment extends LitElement {
   private rawSave(options: {showToast: boolean}) {
     assert(isDraft(this.comment), 'only drafts are editable');
     assert(!isSaving(this.comment), 'saving already in progress');
-    return this.getCommentsModel().saveDraft(
-      {
-        ...this.comment,
-        message: this.messageText.trimEnd(),
-        unresolved: this.unresolved,
-      },
-      options.showToast
-    );
+    const newDraft = {
+      ...this.comment,
+      message: this.messageText.trimEnd(),
+      unresolved: this.unresolved,
+    };
+    this.dirty = false
+    return this.getCommentsModel().saveDraft(newDraft, options.showToast);
   }
 
   private handleToggleResolved() {
@@ -1437,5 +1535,6 @@ declare global {
   }
   interface HTMLElementEventMap {
     'copy-comment-link': CustomEvent<{}>;
+    'update-range': CustomEvent<{}>,
   }
 }

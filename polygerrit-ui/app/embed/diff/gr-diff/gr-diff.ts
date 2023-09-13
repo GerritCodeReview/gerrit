@@ -297,6 +297,10 @@ export class GrDiff extends LitElement implements GrDiffApi {
       'diff-context-expanded-internal-new',
       this.onDiffContextExpanded
     );
+    this.addEventListener(
+      'update-range',
+      this.onUpdateRange
+    )
     this.layerUpdateListener = (
       start: LineNumber,
       end: LineNumber,
@@ -666,6 +670,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
     this.nodeObserver = new MutationObserver(() => this.processNodes());
     this.nodeObserver.observe(this, {childList: true});
     // Process existing comment widgets before the first observed change.
+    // TODO(milutin): Comment was not added but changed range. We need to trigger this
     this.processNodes();
   }
 
@@ -707,6 +712,13 @@ export class GrDiff extends LitElement implements GrDiffApi {
     // resizing.
     this.diffModel.replaceGroup(e.detail.contextGroup, e.detail.groups);
   };
+
+  private onUpdateRange = (
+    e: CustomEvent<{}>
+  ) => {
+    this.processNodes();
+  };
+
 
   private layersChanged() {
     const layers = [...this.layersInternal, ...this.layers];

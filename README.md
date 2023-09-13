@@ -1,6 +1,10 @@
 # Gerrit Code Review
 
+<<<<<<< PATCH SET (0ce273 change 2)
+test change 2
+=======
 test change 1
+>>>>>>> BASE      (b6e418 change 1)
 
 [Gerrit](https://www.gerritcodereview.com) is a code review and project
 management tool for Git based projects.
@@ -8,12 +12,15 @@ management tool for Git based projects.
 [![Build Status](https://gerrit-ci.gerritforge.com/view/Gerrit/job/Gerrit-bazel-master/badge/icon)](https://gerrit-ci.gerritforge.com/view/Gerrit/job/Gerrit-bazel-master/)
 ![Maven Central](https://img.shields.io/maven-central/v/com.google.gerrit/gerrit-war)
 
+<<<<<<< PATCH SET (0ce273 change 2)
+=======
 ## Objective
 
 test change 2
 
 Gerrit makes reviews easier by showing changes in a side-by-side display,
 and allowing inline comments to be added by any reviewer.
+>>>>>>> BASE      (b6e418 change 1)
 
 Gerrit simplifies Git based project maintainership by permitting any
 authorized user to submit changes to the master Git repository, rather

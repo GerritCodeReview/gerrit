@@ -1,5 +1,7 @@
 # Gerrit Code Review
 
+test change 1
+
 [Gerrit](https://www.gerritcodereview.com) is a code review and project
 management tool for Git based projects.
 
@@ -7,6 +9,8 @@ management tool for Git based projects.
 ![Maven Central](https://img.shields.io/maven-central/v/com.google.gerrit/gerrit-war)
 
 ## Objective
+
+test change 2
 
 Gerrit makes reviews easier by showing changes in a side-by-side display,
 and allowing inline comments to be added by any reviewer.

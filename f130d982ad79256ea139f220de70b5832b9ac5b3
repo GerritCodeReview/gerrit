@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "030984bc_cc7d5120",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 925,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-13T10:04:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "caf14f3c_59901c01",
+      "range": {
+        "startLine": 915,
+        "startChar": 0,
+        "endLine": 925,
+        "endChar": 0
+      },
+      "revId": "f130d982ad79256ea139f220de70b5832b9ac5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60449f94_224d1fb6",
@@ -58,6 +82,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3596184a_167a64e4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-13T10:04:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60449f94_224d1fb6",
+      "revId": "f130d982ad79256ea139f220de70b5832b9ac5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "95de559e_f5cc159c",
@@ -71,6 +113,30 @@
       "writtenOn": "2023-09-13T09:52:46Z",
       "side": 1,
       "message": "if (!res) return undefined\n```suggestion\n    if (!res) return;\n    const currentPreviews \u003d Object.keys(res).map(key \u003d\u003e {\n      return {filepath: key, preview: res[key]};\n    });\n    if (currentPreviews.length \u003e 0) {\n      this.preview \u003d currentPreviews[0];\n      this.previewLoadedFor \u003d this.textContent;\n    }\n\n    return res;\n  }\n```",
+      "range": {
+        "startLine": 221,
+        "startChar": 0,
+        "endLine": 231,
+        "endChar": 15
+      },
+      "revId": "f130d982ad79256ea139f220de70b5832b9ac5b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db3c3870_77a02505",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-13T10:04:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95de559e_f5cc159c",
       "range": {
         "startLine": 221,
         "startChar": 0,

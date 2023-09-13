@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19c9af15_45a82d40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-13T09:01:13Z",
+      "side": 1,
+      "message": "typo: publishing",
+      "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9aac9410_85a2db44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-13T09:01:13Z",
+      "side": 1,
+      "message": "typo: stream",
+      "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "851f6bbb_39afb175",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-13T09:01:13Z",
+      "side": 1,
+      "message": "typo: publishing",
+      "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91d52658_bdb09667",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-13T09:01:13Z",
+      "side": 1,
+      "message": "Some minor things, however I have some doubts about the batch ref update logic which would be good to look into.",
+      "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1900dd9b_4df9a3f3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3773,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-13T09:01:13Z",
+      "side": 1,
+      "message": "```suggestion\n[[event.stream-events.enableDraftCommentEvents]]event.stream-events.enableDraftCommentEvents::\n```",
+      "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bd1bea0_877553ca",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-13T09:01:13Z",
+      "side": 1,
+      "message": "It would be good to understand what other refs might be included in the batch ref update, besides the draft comments ref. Can we replicate such a scenario in a test env perhaps? I wonder if filtering out the draft refs and then post the event is a better alternative to not posting the event at all.\n\nOn a separate note, I see this logic (ie the \"OR\" part of the if statement) is not unit tested (eg. by using a list of 2 or more refs, one of which is a draft ref).",
+      "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f558749c_6da6ad20",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-13T09:01:13Z",
+      "side": 1,
+      "message": "```suggestion\n  public void draftCommentRefsShowInStreamEventsWithRefUpdated() throws Exception {\n```",
+      "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4be70d2d_93188979",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-13T09:01:13Z",
+      "side": 1,
+      "message": "```suggestion\n  public void draftCommentRefsDontShowInStreamEventsWithRefUpdated() throws Exception {\n```",
+      "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2eeb133a_f3b6156f",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-13T09:01:13Z",
+      "side": 1,
+      "message": "```suggestion\n  public void draftCommentRefsShowInStreamEventsWithBatchRefUpdated() throws Exception {\n```",
+      "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22f7c52c_32c4a944",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-09-13T09:01:13Z",
+      "side": 1,
+      "message": "this should be `true`.",
+      "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

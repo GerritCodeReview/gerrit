@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5ba72a9_7971e831",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-09-14T09:21:15Z",
+      "side": 1,
+      "message": "java system property",
+      "revId": "cac115498f5e3fc6936041001e59c96d385cfba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

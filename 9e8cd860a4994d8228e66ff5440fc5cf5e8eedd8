@@ -80,6 +80,30 @@
       },
       "revId": "9e8cd860a4994d8228e66ff5440fc5cf5e8eedd8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f783b765_0ac0e2d8",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-14T10:48:52Z",
+      "side": 1,
+      "message": "Let\u0027s keep it as `ImmutableMultimap` then ;)",
+      "parentUuid": "3309b7b7_be737706",
+      "range": {
+        "startLine": 354,
+        "startChar": 27,
+        "endLine": 354,
+        "endChar": 32
+      },
+      "revId": "9e8cd860a4994d8228e66ff5440fc5cf5e8eedd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

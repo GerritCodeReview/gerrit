@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -85,6 +86,7 @@ public class MergeSuperSet {
     return config.getBoolean("change", null, "submitWholeTopic", false);
   }
 
+  @CanIgnoreReturnValue
   public MergeSuperSet setMergeOpRepoManager(MergeOpRepoManager orm) {
     checkState(this.orm == null);
     this.orm = requireNonNull(orm);

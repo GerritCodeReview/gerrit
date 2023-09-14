@@ -213,7 +213,7 @@ export class GrDiffCheckResult extends LitElement {
   private renderActions() {
     if (!this.isExpanded) return nothing;
     return html`<div class="actions">
-      ${this.renderPleaseFixButton()}${this.renderShowFixButton()}
+      ${this.renderShowFixButton()}${this.renderPleaseFixButton()}
     </div>`;
   }
 

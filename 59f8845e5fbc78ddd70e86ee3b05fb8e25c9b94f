@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6571dcd2_f22b5a7e",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-09-14T12:41:49Z",
+      "side": 1,
+      "message": "rename comments to threads?\n```suggestion\n    const threads \u003d threadEls\n      .map(getDataFromCommentThreadEl)\n      .filter(isDefined)\n      .sort(compareComments);\n    this.diffModel.updateState({comments});\n    this.updateRangeLayer(threads);\n```",
+      "range": {
+        "startLine": 677,
+        "startChar": 4,
+        "endLine": 682,
+        "endChar": 36
+      },
+      "revId": "59f8845e5fbc78ddd70e86ee3b05fb8e25c9b94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

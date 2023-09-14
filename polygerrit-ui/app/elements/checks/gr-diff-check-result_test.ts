@@ -72,11 +72,11 @@ suite('gr-diff-check-result tests', () => {
           <gr-result-expanded hidecodepointers=""></gr-result-expanded>
           <div class="actions">
             <gr-checks-action
-              id="please-fix"
+              id="show-fix"
               context="diff-fix"
             ></gr-checks-action>
             <gr-checks-action
-              id="show-fix"
+              id="please-fix"
               context="diff-fix"
             ></gr-checks-action>
           </div>

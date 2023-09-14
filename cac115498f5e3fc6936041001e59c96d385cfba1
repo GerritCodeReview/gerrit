@@ -16,6 +16,24 @@
       "message": "java system property",
       "revId": "cac115498f5e3fc6936041001e59c96d385cfba1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ccab44e_4a75725a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-14T13:45:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5ba72a9_7971e831",
+      "revId": "cac115498f5e3fc6936041001e59c96d385cfba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

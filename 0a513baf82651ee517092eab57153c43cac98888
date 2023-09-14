@@ -3,6 +3,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "57ac635d_49d9c604",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-09-14T13:30:05Z",
+      "side": 1,
+      "message": "nit: consumer?",
+      "range": {
+        "startLine": 10,
+        "startChar": 32,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "0a513baf82651ee517092eab57153c43cac98888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02fe076b_58be727a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-09-14T13:30:05Z",
+      "side": 1,
+      "message": "I find this a bit confusing:\nWhat do you mean by \"consumed by gerrit\"? isn\u0027t gerrit \"producing\" these events?",
+      "range": {
+        "startLine": 15,
+        "startChar": 13,
+        "endLine": 15,
+        "endChar": 31
+      },
+      "revId": "0a513baf82651ee517092eab57153c43cac98888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71c6b474_bc890825",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-09-14T13:30:05Z",
+      "side": 1,
+      "message": "Place this just before the Change-Id at L20.\nThis needs to belong to the footer in order to be indexed.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 20
+      },
+      "revId": "0a513baf82651ee517092eab57153c43cac98888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b9a285a1_cb20ec40",
         "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 21
@@ -85,6 +154,24 @@
       "side": 1,
       "message": "I am confused, it looks to me that the previous signature was:\n```\npublic BatchRefUpdate execute() throws IOException \n```\n\nand now is:\n```\npublic ImmutableMultimap\u003cProject.NameKey, BatchRefUpdate\u003e execute() throws IOException\n```\n\nam I right?\n\nIf the answer is yes, this code is no used in the rest of the change.",
       "parentUuid": "5bdf1c1b_5a7aad8d",
+      "revId": "0a513baf82651ee517092eab57153c43cac98888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4beec45d_8ded1888",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-09-14T13:30:05Z",
+      "side": 1,
+      "message": "@alvaro.vilaplana@gmail.com, AFAICT this is used at java/com/google/gerrit/server/update/BatchUpdate.javaL682\n\nWhere we loop through the immutable map to fire the events.\n\nIs that not the case?",
+      "parentUuid": "7e9832ef_b26d8638",
       "revId": "0a513baf82651ee517092eab57153c43cac98888",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

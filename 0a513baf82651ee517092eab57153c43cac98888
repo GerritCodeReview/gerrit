@@ -286,6 +286,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b548dce5_e31e6903",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-14T13:50:31Z",
+      "side": 1,
+      "message": "But\n```\nBatchUpdate.this.batchRefUpdate \u003d manager.execute(dryrun);\n\n```\n\nis returning a type `BatchRefUpdate` and the new signature is:\n```\npublic ImmutableMultimap\u003cProject.NameKey, BatchRefUpdate\u003e execute(boolean dryrun) throws IOException\n\n```\n\nam I right?",
+      "parentUuid": "fb9f9560_2a01c6eb",
+      "revId": "0a513baf82651ee517092eab57153c43cac98888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c3370713_a32f0183",
         "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 21

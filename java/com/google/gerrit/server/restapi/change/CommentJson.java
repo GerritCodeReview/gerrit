@@ -69,32 +69,32 @@ public class CommentJson {
     this.commentContextCache = commentContextCache;
   }
 
-  CommentJson setFillAccounts(boolean fillAccounts) {
+  public CommentJson setFillAccounts(boolean fillAccounts) {
     this.fillAccounts = fillAccounts;
     return this;
   }
 
-  CommentJson setFillPatchSet(boolean fillPatchSet) {
+  public CommentJson setFillPatchSet(boolean fillPatchSet) {
     this.fillPatchSet = fillPatchSet;
     return this;
   }
 
-  CommentJson setFillCommentContext(boolean fillCommentContext) {
+  public CommentJson setFillCommentContext(boolean fillCommentContext) {
     this.fillCommentContext = fillCommentContext;
     return this;
   }
 
-  CommentJson setContextPadding(int contextPadding) {
+  public CommentJson setContextPadding(int contextPadding) {
     this.contextPadding = contextPadding;
     return this;
   }
 
-  CommentJson setProjectKey(Project.NameKey project) {
+  public CommentJson setProjectKey(Project.NameKey project) {
     this.project = project;
     return this;
   }
 
-  CommentJson setChangeId(Change.Id changeId) {
+  public CommentJson setChangeId(Change.Id changeId) {
     this.changeId = changeId;
     return this;
   }

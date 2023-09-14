@@ -56,6 +56,30 @@
       },
       "revId": "9e8cd860a4994d8228e66ff5440fc5cf5e8eedd8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3309b7b7_be737706",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-14T10:30:08Z",
+      "side": 1,
+      "message": "True, if could this be a multi-map it would work:\nhttps://guava.dev/releases/23.0/api/docs/com/google/common/collect/Multimap.html",
+      "parentUuid": "f3b6a75d_72f9fd73",
+      "range": {
+        "startLine": 354,
+        "startChar": 27,
+        "endLine": 354,
+        "endChar": 32
+      },
+      "revId": "9e8cd860a4994d8228e66ff5440fc5cf5e8eedd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

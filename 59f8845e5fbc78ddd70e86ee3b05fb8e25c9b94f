@@ -22,6 +22,30 @@
       },
       "revId": "59f8845e5fbc78ddd70e86ee3b05fb8e25c9b94f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1ef39c3_20a06cbb",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-09-14T12:46:09Z",
+      "side": 1,
+      "message": "I would prefer no to. Then I would also have to rename comments in the diff model.",
+      "parentUuid": "6571dcd2_f22b5a7e",
+      "range": {
+        "startLine": 677,
+        "startChar": 4,
+        "endLine": 682,
+        "endChar": 36
+      },
+      "revId": "59f8845e5fbc78ddd70e86ee3b05fb8e25c9b94f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

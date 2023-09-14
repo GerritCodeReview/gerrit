@@ -53,8 +53,9 @@ public abstract class JdbcAccountPatchReviewStore
     implements AccountPatchReviewStore, LifecycleListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  // DB_CLOSE_DELAY=-1: By default the content of an in-memory H2 database is lost at the moment the
-  // last connection is closed. This option keeps the content as long as the VM lives.
+  // DB_CLOSE_DELAY=-1: By default the content of an in-memory H2 database is lost
+  // at the moment the last connection is closed. This option keeps the content as
+  // long as the VM lives.
   @VisibleForTesting
   public static final String TEST_IN_MEMORY_URL =
       "jdbc:h2:mem:account_patch_reviews;DB_CLOSE_DELAY=-1";
@@ -64,6 +65,7 @@ public abstract class JdbcAccountPatchReviewStore
   private static final String MARIADB = "mariadb";
   private static final String MYSQL = "mysql";
   private static final String POSTGRESQL = "postgresql";
+  private static final String CLOUDSPANNER = "cloudspanner";
   private static final String URL = "url";
 
   public static class JdbcAccountPatchReviewStoreModule extends LifecycleModule {
@@ -85,6 +87,8 @@ public abstract class JdbcAccountPatchReviewStore
         impl = MysqlAccountPatchReviewStore.class;
       } else if (url.contains(MARIADB)) {
         impl = MariaDBAccountPatchReviewStore.class;
+      } else if (url.contains(CLOUDSPANNER)) {
+        impl = CloudSpannerAccountPatchReviewStore.class;
       } else {
         throw new IllegalArgumentException(
             "unsupported driver type for account patch reviews db: " + url);
@@ -110,6 +114,9 @@ public abstract class JdbcAccountPatchReviewStore
     }
     if (url.contains(MARIADB)) {
       return new MariaDBAccountPatchReviewStore(cfg, sitePaths, threadSettingsConfig);
+    }
+    if (url.contains(CLOUDSPANNER)) {
+      return new CloudSpannerAccountPatchReviewStore(cfg, sitePaths, threadSettingsConfig);
     }
     throw new IllegalArgumentException(
         "unsupported driver type for account patch reviews db: " + url);
@@ -163,6 +170,9 @@ public abstract class JdbcAccountPatchReviewStore
     }
     if (url.contains(MARIADB)) {
       return "org.mariadb.jdbc.Driver";
+    }
+    if (url.contains(CLOUDSPANNER)) {
+      return "com.google.cloud.spanner.jdbc.JdbcDriver";
     }
     return "org.h2.Driver";
   }

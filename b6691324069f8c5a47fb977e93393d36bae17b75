@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f2274ce_fe179f4a",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-09-14T14:35:12Z",
+      "side": 1,
+      "message": "```suggestion\n  private final String instanceId;\n```\n\nSee the next comment for more details",
+      "revId": "b6691324069f8c5a47fb977e93393d36bae17b75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f897b0a7_6bd8830d",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-09-14T14:35:12Z",
+      "side": 1,
+      "message": "Do not inject provider, inject directly the object we need:\n\n```suggestion\n      @GerritInstanceId String instanceId) {\n```",
+      "revId": "b6691324069f8c5a47fb977e93393d36bae17b75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

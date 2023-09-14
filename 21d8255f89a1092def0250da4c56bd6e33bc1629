@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "743fdb66_ad901abe",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-14T07:55:07Z",
+      "side": 1,
+      "message": "Do we have dom test for this?",
+      "range": {
+        "startLine": 215,
+        "startChar": 17,
+        "endLine": 215,
+        "endChar": 37
+      },
+      "revId": "21d8255f89a1092def0250da4c56bd6e33bc1629",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

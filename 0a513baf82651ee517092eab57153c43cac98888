@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ff0ff6a_abbc6222",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-14T13:39:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57ac635d_49d9c604",
+      "range": {
+        "startLine": 10,
+        "startChar": 32,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "0a513baf82651ee517092eab57153c43cac98888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "02fe076b_58be727a",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3828ecb8_9da6e76f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-14T13:39:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02fe076b_58be727a",
+      "range": {
+        "startLine": 15,
+        "startChar": 13,
+        "endLine": 15,
+        "endChar": 31
+      },
+      "revId": "0a513baf82651ee517092eab57153c43cac98888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "71c6b474_bc890825",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-09-14T13:30:05Z",
       "side": 1,
       "message": "Place this just before the Change-Id at L20.\nThis needs to belong to the footer in order to be indexed.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 20
+      },
+      "revId": "0a513baf82651ee517092eab57153c43cac98888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f94b3aae_0f9b2712",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-14T13:39:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71c6b474_bc890825",
       "range": {
         "startLine": 17,
         "startChar": 0,
@@ -101,6 +173,24 @@
       "side": 1,
       "message": "Correct. `NoteDbUpdateManager` is used when accessing the repository.",
       "parentUuid": "b9a285a1_cb20ec40",
+      "revId": "0a513baf82651ee517092eab57153c43cac98888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d54376e5_2025630c",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-14T13:39:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4a7de68_f4ab15cb",
       "revId": "0a513baf82651ee517092eab57153c43cac98888",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -171,6 +261,24 @@
       "writtenOn": "2023-09-14T13:30:05Z",
       "side": 1,
       "message": "@alvaro.vilaplana@gmail.com, AFAICT this is used at java/com/google/gerrit/server/update/BatchUpdate.javaL682\n\nWhere we loop through the immutable map to fire the events.\n\nIs that not the case?",
+      "parentUuid": "7e9832ef_b26d8638",
+      "revId": "0a513baf82651ee517092eab57153c43cac98888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb9f9560_2a01c6eb",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-14T13:39:35Z",
+      "side": 1,
+      "message": "I see what you mean. The code is a bit convoluted 😊\n\n`execute()` is called by this [1] method which populates `batchRefUpdate` which is then used to populate the second parameter of this [2] method.\n\n[1]: https://gerrit.googlesource.com/gerrit/+/f2dc31547a1ec3d64bf032c280f87cc37d44ea48/java/com/google/gerrit/server/update/BatchUpdate.java#722\n[2]: https://gerrit.googlesource.com/gerrit/+/f2dc31547a1ec3d64bf032c280f87cc37d44ea48/java/com/google/gerrit/server/update/BatchUpdate.java#144",
       "parentUuid": "7e9832ef_b26d8638",
       "revId": "0a513baf82651ee517092eab57153c43cac98888",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

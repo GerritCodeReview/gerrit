@@ -46,6 +46,30 @@
       },
       "revId": "10f17a7d10d535118f76e199a5873e3012b4318a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edf59033_4514bcfb",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-14T21:43:26Z",
+      "side": 1,
+      "message": "Let\u0027s try doing it in the current change as defaulting to an appropriate email in the dropdown is valuable and less error prone for the users.",
+      "parentUuid": "b0ca6869_10a97ffd",
+      "range": {
+        "startLine": 676,
+        "startChar": 13,
+        "endLine": 676,
+        "endChar": 27
+      },
+      "revId": "10f17a7d10d535118f76e199a5873e3012b4318a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

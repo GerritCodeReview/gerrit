@@ -46,6 +46,8 @@ is configured, the password can be obtained by clicking on `Obtain Password`
 and then following the site-specific instructions.  On sites where this URL is
 not configured, the password can be obtained by clicking on `Generate Password`.
 
+An alternative to generating a password manually is to use Git credential helper link:https://github.com/hickford/git-credential-oauth[git-credential-oauth].
+
 [[ssh]]
 == SSH
 

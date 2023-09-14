@@ -278,6 +278,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ca10e4f0_ac359a48",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-14T11:16:00Z",
+      "side": 1,
+      "message": "\u003e Isn\u0027t that gonna block all batch ref updates which are not draft comments?\n\nOps.. I published an unfinished comment 😊 However I was saying that draft comments are batched into a different `BatchRefUpdate` from the other.",
+      "parentUuid": "ff296a8d_8225efa6",
+      "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f558749c_6da6ad20",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
         "patchSetId": 7

@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a4a7de68_f4ab15cb",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-14T12:17:57Z",
+      "side": 1,
+      "message": "Correct. `NoteDbUpdateManager` is used when accessing the repository.",
+      "parentUuid": "b9a285a1_cb20ec40",
+      "revId": "0a513baf82651ee517092eab57153c43cac98888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e82941c7_eb1bdf83",
         "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 21
@@ -31,6 +49,24 @@
       "writtenOn": "2023-09-14T12:08:20Z",
       "side": 1,
       "message": "this method\u0027s signature has changed but I dont see any use in the rest of the classes of this change.",
+      "revId": "0a513baf82651ee517092eab57153c43cac98888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bdf1c1b_5a7aad8d",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-14T12:17:57Z",
+      "side": 1,
+      "message": "The APIs of  `ImmutableMultimap` and `ImmutableMap` are the same",
+      "parentUuid": "e82941c7_eb1bdf83",
       "revId": "0a513baf82651ee517092eab57153c43cac98888",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -48,6 +84,24 @@
       "writtenOn": "2023-09-14T12:08:20Z",
       "side": 1,
       "message": "the same as above",
+      "revId": "0a513baf82651ee517092eab57153c43cac98888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9051e46e_0c38c646",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-14T12:17:57Z",
+      "side": 1,
+      "message": "The APIs of `ImmutableMultimap` and `ImmutableMap` are the same",
+      "parentUuid": "c3370713_a32f0183",
       "revId": "0a513baf82651ee517092eab57153c43cac98888",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

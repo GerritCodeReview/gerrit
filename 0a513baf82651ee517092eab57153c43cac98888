@@ -302,6 +302,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04c2497f_7107627e",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-14T14:15:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b548dce5_e31e6903",
+      "revId": "0a513baf82651ee517092eab57153c43cac98888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c3370713_a32f0183",
@@ -351,6 +369,24 @@
       "side": 1,
       "message": "the same as above, before:\n```\npublic BatchRefUpdate execute(boolean dryrun) throws IOException {\n```\nand now:\n\n```\npublic ImmutableMultimap\u003cProject.NameKey, BatchRefUpdate\u003e execute(boolean dryrun) throws IOException\n```",
       "parentUuid": "9051e46e_0c38c646",
+      "revId": "0a513baf82651ee517092eab57153c43cac98888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8997874_94ee90f2",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-14T14:15:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b3fcc2b_16929c7e",
       "revId": "0a513baf82651ee517092eab57153c43cac98888",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

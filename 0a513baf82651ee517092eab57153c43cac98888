@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9a285a1_cb20ec40",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-14T12:08:20Z",
+      "side": 1,
+      "message": "is this class implicitly tested as a part of `CommentsIT.java`",
+      "revId": "0a513baf82651ee517092eab57153c43cac98888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e82941c7_eb1bdf83",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-14T12:08:20Z",
+      "side": 1,
+      "message": "this method\u0027s signature has changed but I dont see any use in the rest of the classes of this change.",
+      "revId": "0a513baf82651ee517092eab57153c43cac98888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3370713_a32f0183",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-09-14T12:08:20Z",
+      "side": 1,
+      "message": "the same as above",
+      "revId": "0a513baf82651ee517092eab57153c43cac98888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

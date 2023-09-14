@@ -37,9 +37,10 @@ flags.
 
 [[accountPatchReviewDb.url]]accountPatchReviewDb.url::
 +
-The url of accountPatchReviewDb. Supported types are `H2`, `POSTGRESQL`,
-`MARIADB`, and `MYSQL`. Drop the driver jar in the lib folder of the site path
-if the Jdbc driver of the corresponding Database is not yet in the class path.
+The url of accountPatchReviewDb. Supported types are `CLOUDSPANNER`, `H2`,
+`POSTGRESQL`, `MARIADB`, and `MYSQL`. Drop the driver jar in the lib folder of
+the site path if the Jdbc driver of the corresponding Database is not yet in
+the class path.
 +
 Default is to create H2 database in the db folder of the site path.
 +
@@ -1205,6 +1206,9 @@ branch of each project. If a project record is updated or deleted, this
 cache should be flushed.  Newly inserted projects do not require
 a cache flush, as they will be read upon first reference.
 
+NOTE: This cache should be disabled or set with a low refreshAfterWrite
+in a cluster setup using multiple primary or multiple replica nodes.
+
 cache `"prolog_rules"`::
 +
 Caches parsed `rules.pl` contents for each project. This cache uses the same
@@ -1231,6 +1235,9 @@ is per-user, so 1024 items translates to 1024 unique user accounts.
 As each individual user account may configure multiple SSH keys,
 the total number of keys may be larger than the item count.
 
+NOTE: This cache should be disabled or set with a low refreshAfterWrite
+in a cluster setup using multiple primary or multiple replica nodes.
+
 cache `"web_sessions"`::
 +
 Tracks the live user sessions coming in over HTTP.  Flushing this
@@ -1247,6 +1254,9 @@ is strongly recommended.
 +
 Session storage is relatively inexpensive. The average entry in
 this cache is approximately 346 bytes.
++
+The `maxAge` configuration is also used for as maximum lifetime
+of the HTTP servlet container session.
 
 See also link:cmd-flush-caches.html[gerrit flush-caches].
 

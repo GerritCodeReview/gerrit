@@ -15,6 +15,8 @@ import {
   RevisionPatchSetNum,
   PatchSetNumber,
   CommitId,
+  CommitInfo,
+  RevisionInfo,
 } from '../../types/common';
 import {ChangeStatus, DefaultBase} from '../../constants/constants';
 import {combineLatest, from, Observable, forkJoin, of} from 'rxjs';
@@ -324,12 +326,12 @@ export class ChangeModel extends Model<ChangeState> {
     );
 
   private selectRevision(
-    revisionNum$: Observable<RevisionPatchSetNum | undefined>
+    revisionNum$: Observable<RevisionPatchSetNum | BasePatchSetNum | undefined>
   ) {
     return select(
       combineLatest([this.revisions$, revisionNum$]),
       ([revisions, patchNum]) => {
-        if (!revisions || !patchNum) return undefined;
+        if (!revisions || !patchNum || patchNum === PARENT) return undefined;
         return Object.values(revisions).find(
           revision => revision._number === patchNum
         );
@@ -338,6 +340,10 @@ export class ChangeModel extends Model<ChangeState> {
   }
 
   public readonly revision$ = this.selectRevision(this.patchNum$);
+
+  public readonly baseRevision$ = this.selectRevision(
+    this.basePatchNum$
+  ) as Observable<RevisionInfo | undefined>;
 
   public readonly latestRevision$ = this.selectRevision(this.latestPatchNum$);
 
@@ -372,6 +378,7 @@ export class ChangeModel extends Model<ChangeState> {
       this.fireShowChange(),
       this.refuseEditForOpenChange(),
       this.refuseEditForClosedChange(),
+      this.loadCommmit(),
       this.change$.subscribe(change => (this.change = change)),
       this.patchNum$.subscribe(patchNum => (this.patchNum = patchNum)),
       this.basePatchNum$.subscribe(
@@ -381,6 +388,21 @@ export class ChangeModel extends Model<ChangeState> {
         latestPatchNum => (this.latestPatchNum = latestPatchNum)
       ),
     ];
+  }
+
+  private loadCommmit() {
+    console.log(`${Date.now() % 100000} asdf sub`);
+    return combineLatest([this.change$, this.latestPatchNum$]).subscribe(
+      async ([c, p]) => {
+        if (!p || !c) {
+          console.log(`${Date.now() % 100000} asdf ${c} ${p}`);
+          return;
+        }
+        const commit: CommitInfo | undefined =
+          await this.restApiService.getChangeCommitInfo(c._number, p);
+        console.log(`${Date.now() % 100000} asdf ${JSON.stringify(commit)}`);
+      }
+    );
   }
 
   private reportChangeReload() {

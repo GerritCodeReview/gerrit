@@ -159,7 +159,7 @@ suite('gr-diff-section test', () => {
                   data-side="left"
                   id="left-content-1"
                 >
-                  <gr-diff-text>asdf</gr-diff-text>
+                  <gr-diff-text data-side="left">asdf</gr-diff-text>
                 </div>
               </td>
               <td class="gr-diff lineNum right" data-value="1">
@@ -180,7 +180,7 @@ suite('gr-diff-section test', () => {
                   data-side="right"
                   id="right-content-1"
                 >
-                  <gr-diff-text>asdf </gr-diff-text>
+                  <gr-diff-text data-side="right">asdf </gr-diff-text>
                 </div>
               </td>
             </tr>
@@ -210,7 +210,7 @@ suite('gr-diff-section test', () => {
                   data-side="left"
                   id="left-content-1"
                 >
-                  <gr-diff-text> qwer</gr-diff-text>
+                  <gr-diff-text data-side="left"> qwer</gr-diff-text>
                 </div>
               </td>
               <td class="gr-diff lineNum right" data-value="1">
@@ -231,7 +231,7 @@ suite('gr-diff-section test', () => {
                   data-side="right"
                   id="right-content-1"
                 >
-                  <gr-diff-text>qwer </gr-diff-text>
+                  <gr-diff-text data-side="right">qwer </gr-diff-text>
                 </div>
               </td>
             </tr>
@@ -261,7 +261,7 @@ suite('gr-diff-section test', () => {
                   data-side="left"
                   id="left-content-1"
                 >
-                  <gr-diff-text>zxcv </gr-diff-text>
+                  <gr-diff-text data-side="left">zxcv </gr-diff-text>
                 </div>
               </td>
               <td class="gr-diff lineNum right" data-value="1">
@@ -282,7 +282,7 @@ suite('gr-diff-section test', () => {
                   data-side="right"
                   id="right-content-1"
                 >
-                  <gr-diff-text>zxcv </gr-diff-text>
+                  <gr-diff-text data-side="right">zxcv </gr-diff-text>
                 </div>
               </td>
             </tr>

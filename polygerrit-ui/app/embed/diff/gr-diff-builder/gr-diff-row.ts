@@ -556,6 +556,7 @@ export class GrDiffRow extends LitElement {
     const textElement = line?.text && !this.layersApplied
       ? html`<gr-diff-text
           ${ref(this.contentRef(side))}
+          data-side=${ifDefined(side)}
           .text=${line?.text}
           .tabSize=${this.tabSize}
           .lineLimit=${this.lineLength}

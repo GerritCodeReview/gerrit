@@ -15,12 +15,14 @@
 package com.google.gerrit.acceptance.rest.config;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.config.GerritInstanceIdProvider.INSTANCE_ID_SYSTEM_PROPERTY;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.config.GerritSystemProperty;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.plugins.InstallPluginInput;
 import com.google.gerrit.extensions.client.AccountFieldName;
@@ -224,5 +226,12 @@ public class ServerInfoIT extends AbstractDaemonTest {
   public void misconfiguredDownloadCommands() throws Exception {
     ServerInfo i = gApi.config().server().getInfo();
     assertThat(i.download.schemes).isEmpty();
+  }
+
+  @Test
+  @GerritSystemProperty(name = INSTANCE_ID_SYSTEM_PROPERTY, value = "sysPropInstanceId")
+  public void instanceIdFromSystemProperty() throws Exception {
+    ServerInfo i = gApi.config().server().getInfo();
+    assertThat(i.gerrit.instanceId).isEqualTo("sysPropInstanceId");
   }
 }

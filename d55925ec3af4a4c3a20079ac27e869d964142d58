@@ -330,6 +330,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "63e596bd_a2465e70",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-09-15T12:57:22Z",
+      "side": 1,
+      "message": "Ok, sorry I had another look at the code and now I understand :)",
+      "parentUuid": "d90a0ff5_bb4be991",
+      "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f558749c_6da6ad20",

@@ -47,6 +47,16 @@ public class ConfigAnnotationParser {
     return cfg;
   }
 
+  public static void parse(GerritSystemProperties annotation) {
+    for (GerritSystemProperty prop : annotation.value()) {
+      parse(prop);
+    }
+  }
+
+  public static void parse(GerritSystemProperty annotation) {
+    System.setProperty(annotation.name(), annotation.value());
+  }
+
   @Nullable
   public static Map<String, Config> parse(GlobalPluginConfigs annotation) {
     if (annotation == null || annotation.value().length < 1) {

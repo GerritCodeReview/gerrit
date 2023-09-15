@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f9c0e39_9a66bac2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-15T19:02:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68d535e4_ef414776",
+      "range": {
+        "startLine": 10,
+        "startChar": 9,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "9657bd6bbe0a256154ede9704d869687a9d9d523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edcb87af_637970a8",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-09-15T10:57:14Z",
       "side": 1,
       "message": "Typo: `Release`",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 6
+      },
+      "revId": "9657bd6bbe0a256154ede9704d869687a9d9d523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf47a888_248e5bf5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-15T19:02:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edcb87af_637970a8",
       "range": {
         "startLine": 17,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9756ce34_d9cf274e",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-15T19:02:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56c6fdd2_10dda052",
+      "range": {
+        "startLine": 681,
+        "startChar": 15,
+        "endLine": 681,
+        "endChar": 33
+      },
+      "revId": "9657bd6bbe0a256154ede9704d869687a9d9d523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3c1ff6ff_3cf2ddb1",
@@ -83,6 +155,24 @@
       "writtenOn": "2023-09-15T10:57:14Z",
       "side": 1,
       "message": "As a performance optimisation, can we do the second `allMatch` as an or inside the `allMatch` on L732?",
+      "revId": "9657bd6bbe0a256154ede9704d869687a9d9d523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "749adee1_035cdbee",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 735,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-15T19:02:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c1ff6ff_3cf2ddb1",
       "revId": "9657bd6bbe0a256154ede9704d869687a9d9d523",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcd02cc2_ce1e52f6",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-15T19:02:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc811530_74c78a83",
+      "range": {
+        "startLine": 104,
+        "startChar": 23,
+        "endLine": 104,
+        "endChar": 35
+      },
+      "revId": "9657bd6bbe0a256154ede9704d869687a9d9d523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c541921a_eaf8d074",
@@ -123,6 +237,30 @@
       "writtenOn": "2023-09-15T06:57:22Z",
       "side": 1,
       "message": "This is not necessarily true. There should be some check, whether it is really an event regarding comments. Otherwise, the scope of this class and with it the naming should be broadened to reflect that all GitReferenceUpdated events are accepted.\n\nAlso, the events we are interested in are not only about comments being added, but also updates and deletes.",
+      "range": {
+        "startLine": 110,
+        "startChar": 6,
+        "endLine": 110,
+        "endChar": 27
+      },
+      "revId": "9657bd6bbe0a256154ede9704d869687a9d9d523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10a68d39_445b80ed",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-15T19:02:36Z",
+      "side": 1,
+      "message": "You are right. I have just broadened the name to reflect we are actually listening to all the ref updated events.",
+      "parentUuid": "c541921a_eaf8d074",
       "range": {
         "startLine": 110,
         "startChar": 6,

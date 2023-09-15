@@ -56,7 +56,7 @@ suite('gr-diff-row test', () => {
                   data-side="left"
                   id="left-content-1"
                 >
-                  <gr-diff-text> lorem ipsum </gr-diff-text>
+                  <gr-diff-text data-side="left"> lorem ipsum </gr-diff-text>
                 </div>
                 </div>
               </td>
@@ -78,7 +78,7 @@ suite('gr-diff-row test', () => {
                   data-side="right"
                   id="right-content-1"
                 >
-                  <gr-diff-text> lorem ipsum </gr-diff-text>
+                  <gr-diff-text data-side="right"> lorem ipsum </gr-diff-text>
                 </div>
               </td>
             </tr>
@@ -136,7 +136,7 @@ suite('gr-diff-row test', () => {
                   data-side="right"
                   id="right-content-1"
                 >
-                  <gr-diff-text> lorem ipsum </gr-diff-text>
+                  <gr-diff-text data-side="right"> lorem ipsum </gr-diff-text>
                 </div>
               </td>
             </tr>
@@ -190,7 +190,7 @@ suite('gr-diff-row test', () => {
                   data-side="right"
                   id="right-content-1"
                 >
-                  <gr-diff-text> lorem ipsum </gr-diff-text>
+                  <gr-diff-text data-side="right"> lorem ipsum </gr-diff-text>
                 </div>
               </td>
               <slot name="post-right-line-1"></slot>
@@ -238,7 +238,7 @@ suite('gr-diff-row test', () => {
                   data-side="left"
                   id="left-content-1"
                 >
-                  <gr-diff-text> lorem ipsum </gr-diff-text>
+                  <gr-diff-text data-side="left"> lorem ipsum </gr-diff-text>
                 </div>
               </td>
               <td class="blankLineNum gr-diff right"></td>

@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "edcb87af_637970a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-09-15T10:57:14Z",
+      "side": 1,
+      "message": "Typo: `Release`",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 6
+      },
+      "revId": "9657bd6bbe0a256154ede9704d869687a9d9d523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "56c6fdd2_10dda052",
         "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
         "patchSetId": 22
@@ -43,6 +66,23 @@
         "endLine": 681,
         "endChar": 33
       },
+      "revId": "9657bd6bbe0a256154ede9704d869687a9d9d523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c1ff6ff_3cf2ddb1",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 735,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-09-15T10:57:14Z",
+      "side": 1,
+      "message": "As a performance optimisation, can we do the second `allMatch` as an or inside the `allMatch` on L732?",
       "revId": "9657bd6bbe0a256154ede9704d869687a9d9d523",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

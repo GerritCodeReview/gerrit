@@ -168,3 +168,145 @@ message ObjectId {
 message PaginationToken {
   optional string next_page_token = 1;
 }
+
+// Proto representation of the User preferences classes
+// Next ID: 4
+message UserPreferences {
+  // Next ID: 23
+  message GeneralPreferencesInfo {
+    // Number of changes to show in a screen.
+    optional int32 changes_per_page = 1 [default = 25];
+
+    // Type of download URL the user prefers to use. */
+    optional string download_scheme = 2;
+
+    enum Theme {
+      AUTO = 0;
+      DARK = 1;
+      LIGHT = 2;
+    }
+    optional Theme theme = 3;
+
+    enum DateFormat {
+      STD = 0;
+      US = 1;
+      ISO = 2;
+      EURO = 3;
+      UK = 4;
+    }
+    optional DateFormat date_format = 4;
+
+    enum TimeFormat {
+      HHMM_12 = 0;
+      HHMM_24 = 1;
+    }
+    optional TimeFormat time_format = 5;
+
+    optional bool expand_inline_diffs = 6;
+    optional bool relative_date_in_change_table = 20;
+
+    enum DiffView {
+      SIDE_BY_SIDE = 0;
+      UNIFIED_DIFF = 1;
+    }
+    optional DiffView diff_view = 21;
+
+    optional bool size_bar_in_change_table = 22 [default = true];
+    optional bool legacycid_in_change_table = 7;
+    optional bool mute_common_path_prefixes = 8 [default = true];
+    optional bool signed_off_by = 9;
+
+    enum EmailStrategy {
+      ENABLED = 0;
+      CC_ON_OWN_COMMENTS = 1;
+      ATTENTION_SET_ONLY = 2;
+      DISABLED = 3;
+    }
+    optional EmailStrategy email_strategy = 10;
+
+    enum EmailFormat {
+      PLAINTEXT = 0;
+      HTML_PLAINTEXT = 1;
+    }
+    optional EmailFormat email_format = 11 [default = HTML_PLAINTEXT];
+
+    enum DefaultBase {
+      AUTO_MERGE = 0;
+      FIRST_PARENT = 1;
+    }
+    optional DefaultBase default_base_for_merges = 12 [default = FIRST_PARENT];
+
+    optional bool publish_comments_on_push = 13;
+    optional bool disable_keyboard_shortcuts = 14;
+    optional bool disable_token_highlighting = 15;
+    optional bool work_in_progress_by_default = 16;
+
+    message MenuItem {
+      optional string url = 1;
+      optional string name = 2;
+      optional string target = 3;
+      optional string id = 4;
+    }
+    repeated MenuItem my_menu_items = 17;
+
+    repeated string change_table = 18;
+    optional bool allow_browser_notifications = 19 [default = true];
+  }
+  optional GeneralPreferencesInfo general_preferences_info = 1;
+
+  // Next ID: 25
+  message DiffPreferencesInfo {
+    optional int32 context = 1 [default = 10];
+    optional int32 tab_size = 2 [default = 8];
+    optional int32 font_size = 3 [default = 12];
+    optional int32 line_length = 4 [default = 100];
+    optional int32 cursor_blink_rate = 5;
+    optional bool expand_all_comments = 6;
+    optional bool intraline_difference = 7 [default = true];
+    optional bool manual_review = 8;
+    optional bool show_line_endings = 9 [default = true];
+    optional bool show_tabs = 10 [default = true];
+    optional bool show_whitespace_errors = 11 [default = true];
+    optional bool syntax_highlighting = 12 [default = true];
+    optional bool hide_top_menu = 13;
+    optional bool auto_hide_diff_table_header = 14 [default = true];
+    optional bool hide_line_numbers = 15;
+    optional bool render_entire_file = 16;
+    optional bool hide_empty_pane = 17;
+    optional bool match_brackets = 18;
+    optional bool line_wrapping = 19;
+
+    enum Whitespace {
+      IGNORE_NONE = 0;
+      IGNORE_TRAILING = 1;
+      IGNORE_LEADING_AND_TRAILING = 2;
+      IGNORE_ALL = 3;
+    }
+    optional Whitespace ignore_whitespace = 20;
+
+    optional bool retain_header = 21;
+    optional bool skip_deleted = 22;
+    optional bool skip_unchanged = 23;
+    optional bool skip_uncommented = 24;
+  }
+  optional DiffPreferencesInfo diff_preferences_info = 2;
+
+  // Next ID: 15
+  message EditPreferencesInfo {
+    optional int32 tab_size = 1 [default = 8];
+    optional int32 line_length = 2 [default = 100];
+    optional int32 indent_unit = 3 [default = 2];
+    optional int32 cursor_blink_rate = 4;
+    optional bool hide_top_menu = 5;
+    optional bool show_tabs = 6 [default = true];
+    optional bool show_whitespace_errors = 7;
+    optional bool syntax_highlighting = 8 [default = true];
+    optional bool hide_line_numbers = 9;
+    optional bool match_brackets = 10 [default = true];
+    optional bool line_wrapping = 11;
+    optional bool indent_with_tabs = 12;
+    optional bool auto_close_brackets = 13;
+    optional bool show_base = 14;
+  }
+  optional EditPreferencesInfo edit_preferences_info = 3;
+}

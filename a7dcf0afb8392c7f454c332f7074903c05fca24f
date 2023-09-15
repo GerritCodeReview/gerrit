@@ -22,6 +22,30 @@
       },
       "revId": "a7dcf0afb8392c7f454c332f7074903c05fca24f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99a97475_3ed34d24",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-09-15T16:29:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14f534b4_805a024d",
+      "range": {
+        "startLine": 342,
+        "startChar": 6,
+        "endLine": 342,
+        "endChar": 41
+      },
+      "revId": "a7dcf0afb8392c7f454c332f7074903c05fca24f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -31,6 +31,8 @@ import com.google.gerrit.acceptance.ReindexProjectsAtStartup.ReindexProjectsAtSt
 import com.google.gerrit.acceptance.config.ConfigAnnotationParser;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.config.GerritConfigs;
+import com.google.gerrit.acceptance.config.GerritSystemProperties;
+import com.google.gerrit.acceptance.config.GerritSystemProperty;
 import com.google.gerrit.acceptance.config.GlobalPluginConfig;
 import com.google.gerrit.acceptance.config.GlobalPluginConfigs;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
@@ -136,6 +138,8 @@ public class GerritServer implements AutoCloseable {
           false, // @UseSystemTime is only valid on methods.
           get(UseClockStep.class, testDesc.getTestClass()),
           get(UseTimezone.class, testDesc.getTestClass()),
+          null, // @GerritSystemProperty is only valid on methods.
+          null, // @GerritSystemProperties is only valid on methods.
           null, // @GerritConfig is only valid on methods.
           null, // @GerritConfigs is only valid on methods.
           null, // @GlobalPluginConfig is only valid on methods.
@@ -178,6 +182,8 @@ public class GerritServer implements AutoCloseable {
           testDesc.getAnnotation(UseTimezone.class) != null
               ? testDesc.getAnnotation(UseTimezone.class)
               : get(UseTimezone.class, testDesc.getTestClass()),
+          testDesc.getAnnotation(GerritSystemProperty.class),
+          testDesc.getAnnotation(GerritSystemProperties.class),
           testDesc.getAnnotation(GerritConfig.class),
           testDesc.getAnnotation(GerritConfigs.class),
           testDesc.getAnnotation(GlobalPluginConfig.class),
@@ -233,6 +239,12 @@ public class GerritServer implements AutoCloseable {
     abstract UseTimezone useTimezone();
 
     @Nullable
+    abstract GerritSystemProperty systemProperty();
+
+    @Nullable
+    abstract GerritSystemProperties systemProperties();
+
+    @Nullable
     abstract GerritConfig config();
 
     @Nullable
@@ -247,6 +259,10 @@ public class GerritServer implements AutoCloseable {
     private void checkValidAnnotations() {
       if (useClockStep() != null && useSystemTime()) {
         throw new IllegalStateException("Use either @UseClockStep or @UseSystemTime, not both");
+      }
+      if (systemProperties() != null && systemProperty() != null) {
+        throw new IllegalStateException(
+            "Use either @GerritSystemProperties or @GerritSystemProperty, not both");
       }
       if (configs() != null && config() != null) {
         throw new IllegalStateException("Use either @GerritConfigs or @GerritConfig, not both");

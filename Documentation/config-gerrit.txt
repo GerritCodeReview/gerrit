@@ -2519,6 +2519,10 @@ Used to identify a specific instance within a group of Gerrit instances with the
 same `serverId` (i.e.: a Gerrit cluster).
 Unlike `instanceName` this value is not available in the email templates.
 
+The instance ID can also be configured by setting the Java system property
+`gerrit.instanceId` on startup. This will override the configuration in the
+gerrit.config.
+
 [[gerrit.instanceName]]gerrit.instanceName::
 +
 Short identifier for this Gerrit instance.

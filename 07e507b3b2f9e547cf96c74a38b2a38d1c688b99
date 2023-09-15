@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "992126d1_76e81e49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-09-15T13:44:08Z",
+      "side": 1,
+      "message": "Typo: `paginated`.",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 9,
+        "endChar": 55
+      },
+      "revId": "07e507b3b2f9e547cf96c74a38b2a38d1c688b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84c7ad1f_6ab1484b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-09-15T13:44:08Z",
+      "side": 1,
+      "message": "We can remove this footnote, Gerrit creates the link inline.",
+      "revId": "07e507b3b2f9e547cf96c74a38b2a38d1c688b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "875406fb_6eea0f0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-09-15T13:44:08Z",
+      "side": 1,
+      "message": "This fixes a bug, shouldn\u0027t we have something in the release notes?",
+      "revId": "07e507b3b2f9e547cf96c74a38b2a38d1c688b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "255709d2_6467f4cc",
+        "filename": "java/com/google/gerrit/index/query/FilteredSource.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-09-15T13:44:08Z",
+      "side": 1,
+      "message": "Given this is a constructor argument, wouldn\u0027t it be better to check it at construction time instead of here?",
+      "revId": "07e507b3b2f9e547cf96c74a38b2a38d1c688b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53b2f398_97eadf13",
+        "filename": "java/com/google/gerrit/index/query/FilteredSource.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-09-15T13:44:08Z",
+      "side": 1,
+      "message": "The two code paths in this block seem inefficient - we\u0027re populating `r` with data that we then filter or even just throw away. Wouldn\u0027t we be better off populating `r` only with the data we require, and then displaying that?",
+      "revId": "07e507b3b2f9e547cf96c74a38b2a38d1c688b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,7 @@ import '../gr-commit-info/gr-commit-info';
 import '../gr-download-dialog/gr-download-dialog';
 import '../gr-file-list-header/gr-file-list-header';
 import '../gr-file-list/gr-file-list';
+import '../gr-revision-parents/gr-revision-parents';
 import '../gr-included-in-dialog/gr-included-in-dialog';
 import '../gr-messages-list/gr-messages-list';
 import '../gr-related-changes-list/gr-related-changes-list';
@@ -148,6 +149,7 @@ import {userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -407,6 +409,8 @@ export class GrChangeView extends LitElement {
   readonly reporting = getAppContext().reportingService;
 
   private readonly getChecksModel = resolve(this, checksModelToken);
+
+  readonly flagService = getAppContext().flagsService;
 
   readonly restApiService = getAppContext().restApiService;
 
@@ -1416,6 +1420,10 @@ export class GrChangeView extends LitElement {
           @collapse-diffs=${this.collapseAllDiffs}
         >
         </gr-file-list-header>
+        ${when(
+          this.flagService.isEnabled(KnownExperimentId.REVISION_PARENTS_DATA),
+          () => html`<gr-revision-parents></gr-revision-parents>`
+        )}
         <gr-file-list
           id="fileList"
           .change=${this.change}

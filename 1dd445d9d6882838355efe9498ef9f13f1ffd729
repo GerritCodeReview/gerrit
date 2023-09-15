@@ -16,6 +16,24 @@
       "message": "I think this is causing an endless loop. Fixed in master by change 386575. You may want to cherry-pick this fix.",
       "revId": "1dd445d9d6882838355efe9498ef9f13f1ffd729",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91aeb5ad_91982e57",
+        "filename": "java/com/google/gerrit/server/schema/CloudSpannerAccountPatchReviewStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2023-09-15T13:37:29Z",
+      "side": 1,
+      "message": "Oops. Done here: https://gerrit-review.googlesource.com/c/gerrit/+/386594",
+      "parentUuid": "944fc379_cc40ee32",
+      "revId": "1dd445d9d6882838355efe9498ef9f13f1ffd729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

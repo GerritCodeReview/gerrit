@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68d535e4_ef414776",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-15T06:57:22Z",
+      "side": 1,
+      "message": "nit: draft comments",
+      "range": {
+        "startLine": 10,
+        "startChar": 9,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "9657bd6bbe0a256154ede9704d869687a9d9d523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56c6fdd2_10dda052",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-15T06:57:22Z",
+      "side": 1,
+      "message": "nit:\n```suggestion\n  private void fireRefChangeEvents() {\n```",
+      "range": {
+        "startLine": 681,
+        "startChar": 15,
+        "endLine": 681,
+        "endChar": 33
+      },
+      "revId": "9657bd6bbe0a256154ede9704d869687a9d9d523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc811530_74c78a83",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-15T06:57:22Z",
+      "side": 1,
+      "message": "```suggestion\n  private static class TestDraftCommentEventListener implements GitReferenceUpdatedListener {\n```",
+      "range": {
+        "startLine": 104,
+        "startChar": 23,
+        "endLine": 104,
+        "endChar": 35
+      },
+      "revId": "9657bd6bbe0a256154ede9704d869687a9d9d523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c541921a_eaf8d074",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-15T06:57:22Z",
+      "side": 1,
+      "message": "This is not necessarily true. There should be some check, whether it is really an event regarding comments. Otherwise, the scope of this class and with it the naming should be broadened to reflect that all GitReferenceUpdated events are accepted.\n\nAlso, the events we are interested in are not only about comments being added, but also updates and deletes.",
+      "range": {
+        "startLine": 110,
+        "startChar": 6,
+        "endLine": 110,
+        "endChar": 27
+      },
+      "revId": "9657bd6bbe0a256154ede9704d869687a9d9d523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5f8f140_288c816a",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-15T06:57:22Z",
+      "side": 1,
+      "message": "What happens, if the comment is published? In principle the draft comment is deleted at that point IIRC. However, firing a draft deleted event might be confusing in that case.",
+      "revId": "9657bd6bbe0a256154ede9704d869687a9d9d523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

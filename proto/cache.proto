@@ -323,6 +323,15 @@ message ProjectWatchProto {
   repeated string notify_type = 3;
 }
 
+// Serialized user preferences.
+// Next ID: 3
+message CachedPreferencesProto {
+  oneof Preferences {
+    devtools.gerritcodereview.UserPreferences user_preferences = 1;
+    string legacy_git_config = 2;
+  }
+}
+
 // Serialized form of
 // com.google.gerrit.entities.Account.
 // Next ID: 9
@@ -349,6 +358,7 @@ message AccountKeyProto {
 message AccountDetailsProto {
   AccountProto account = 1;
   repeated ProjectWatchProto project_watch_proto = 2;
+  // TODO(nitzan): We should use CachedPreferencesProto instead.
   string user_preferences = 3;
 }
 

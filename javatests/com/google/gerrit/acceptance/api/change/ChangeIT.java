@@ -4460,7 +4460,9 @@ public class ChangeIT extends AbstractDaemonTest {
             ListChangesOption.MESSAGES,
             ListChangesOption.SUBMITTABLE,
             ListChangesOption.WEB_LINKS,
-            ListChangesOption.SKIP_DIFFSTAT);
+            ListChangesOption.SKIP_DIFFSTAT,
+            ListChangesOption.SUBMIT_REQUIREMENTS,
+            ListChangesOption.PARENTS);
 
     PushOneCommit.Result change = createChange();
     // Populate change with a reasonable set of fields. We can't exhaustively

@@ -1025,7 +1025,6 @@ export type ReviewInputTag = BrandType<string, '_reviewInputTag'>;
  * fields are returned by default.  Additional fields can be obtained by
  * adding o parameters as described in Query Changes.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#revision-info
- * basePatchNum is present in case RevisionInfo is of type 'edit'
  */
 export declare interface RevisionInfo {
   kind: RevisionKind;
@@ -1040,7 +1039,22 @@ export declare interface RevisionInfo {
   commit_with_footers?: boolean;
   push_certificate?: PushCertificateInfo;
   description?: string;
-  basePatchNum?: BasePatchSetNum;
+  parents_data?: ParentInfo[];
+}
+
+/**
+ * The ParentInfo entity contains detailed information the parent commit of a revision.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#parent-info
+ * basePatchNum is present in case RevisionInfo is of type 'edit'
+ */
+export declare interface ParentInfo {
+  branch_name?: string;
+  commit_id?: string;
+  is_merged_in_target_branch?: boolean;
+  change_id?: ChangeId;
+  change_number?: NumericChangeId;
+  patch_set_number?: PatchSetNumber;
+  change_status?: ChangeStatus;
 }
 
 export type SchemesInfoMap = {[name: string]: DownloadSchemeInfo};

@@ -296,6 +296,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "928aa512_77cd1769",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-09-15T11:11:48Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be safer to filter them out rather than exclude the event altogether?\n\nIt may currently be impossible (by design perhaps, even) to batch different events into the same event, but I don\u0027t think there are any guarantees of that in this part of the code of that. We\u0027re relying on knowledge of how the system works when we don\u0027t need to.\n\nHaving said that I don\u0027t know if posting an event without its full set of ref updates would have repercussions elsewhere.",
+      "parentUuid": "ca10e4f0_ac359a48",
+      "revId": "d55925ec3af4a4c3a20079ac27e869d964142d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f558749c_6da6ad20",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
         "patchSetId": 7

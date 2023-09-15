@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da16b801_842a2bc6",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-15T07:04:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f2274ce_fe179f4a",
+      "revId": "b6691324069f8c5a47fb977e93393d36bae17b75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f897b0a7_6bd8830d",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-09-14T14:35:12Z",
       "side": 1,
       "message": "Do not inject provider, inject directly the object we need:\n\n```suggestion\n      @GerritInstanceId String instanceId) {\n```",
+      "revId": "b6691324069f8c5a47fb977e93393d36bae17b75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "535eea71_d7fae02b",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-15T07:04:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f897b0a7_6bd8830d",
       "revId": "b6691324069f8c5a47fb977e93393d36bae17b75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

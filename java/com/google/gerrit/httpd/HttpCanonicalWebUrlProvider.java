@@ -30,7 +30,7 @@ public class HttpCanonicalWebUrlProvider extends CanonicalWebUrlProvider {
   private Provider<HttpServletRequest> requestProvider;
 
   @Inject
-  HttpCanonicalWebUrlProvider(@GerritServerConfig Config config) {
+  protected HttpCanonicalWebUrlProvider(@GerritServerConfig Config config) {
     super(config);
   }
 

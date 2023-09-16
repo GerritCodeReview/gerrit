@@ -14,6 +14,8 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.gerrit.common.UsedAt;
+import com.google.gerrit.common.UsedAt.Project;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -30,7 +32,8 @@ public class HttpCanonicalWebUrlProvider extends CanonicalWebUrlProvider {
   private Provider<HttpServletRequest> requestProvider;
 
   @Inject
-  HttpCanonicalWebUrlProvider(@GerritServerConfig Config config) {
+  @UsedAt(Project.MODULE_VIRTUALHOST)
+  protected HttpCanonicalWebUrlProvider(@GerritServerConfig Config config) {
     super(config);
   }
 

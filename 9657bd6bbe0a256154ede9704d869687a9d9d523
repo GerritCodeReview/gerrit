@@ -271,6 +271,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f5798d5_86dc36e2",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-16T12:21:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10a68d39_445b80ed",
+      "range": {
+        "startLine": 110,
+        "startChar": 6,
+        "endLine": 110,
+        "endChar": 27
+      },
+      "revId": "9657bd6bbe0a256154ede9704d869687a9d9d523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5f8f140_288c816a",
@@ -302,6 +326,24 @@
       "side": 1,
       "message": "At the moment, it is not happening. However, it wasn\u0027t intentional, I just didn\u0027t think about that 😊\n\nMy 2c: If we had an explicit \"draft-added\" event probably it would have made sense not to send it, since it could have been confusing.\n\nHowever the draft deletion is represented by a \"lower level\" `(batch-)ref-updated` like this one:\n\n```\n{\"submitter\":{\"name\":\"Administrator\",\"email\":\"admin@example.com\",\"username\":\"admin\"},\"refUpdates\":[{\"oldRev\":\"45e2e26e7fcb801c42b922ef320434e0a7ddb51e\",\"newRev\":\"0000000000000000000000000000000000000000\",\"refName\":\"refs/draft-comments/01/1/1000000\",\"project\":\"All-Users\"}],\"projectName\":\"All-Users\",\"type\":\"batch-ref-updated\",\"eventCreatedOn\":1694807342}\n```\n\nIn the same way as we send a \"low-level\" `(batch-)ref-updated` for the `refs/changes/XX/XXXXX/meta` when posting a review, I think it makes sense to send the draft ref update.\n\nThis will also allow to follow the full cycle of draft events to listeners of `(batch-)ref-updated` events, which otherwise would have to rely on `comment-added` to try finding out if a draft has been deleted.\n\nWDYT?",
       "parentUuid": "b5f8f140_288c816a",
+      "revId": "9657bd6bbe0a256154ede9704d869687a9d9d523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "913acb87_4c2fba31",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-16T12:21:55Z",
+      "side": 1,
+      "message": "Good catch @thomas.draebing@sap.com, should that be addressed as a separate change?",
+      "parentUuid": "0467c4ff_5131b7d8",
       "revId": "9657bd6bbe0a256154ede9704d869687a9d9d523",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

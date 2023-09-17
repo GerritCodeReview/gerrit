@@ -16,6 +16,24 @@
       "message": "LGTM, however, I\u0027d ask you to also upload the follow-ups to show how this is going to be injected and replaced with a different subclass for providing an enhanced version of the canonical web url implementation.",
       "revId": "14b430cbf4624234bed6a9b1f4af3309f7e6f465",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bacb8b2_bcb928dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-17T11:40:11Z",
+      "side": 1,
+      "message": "\u003e show how this is going to be injected and replaced with a different subclass for providing an enhanced version of the canonical web url implementation.\n\nCould you please explain what you mean? There\u0027s another change (I641a7c7d) for the `virtualhost` libModule that demonstrates how this could be used, would it be enough to mention it in the commit message?",
+      "parentUuid": "ab24fd01_12a4b8c5",
+      "revId": "14b430cbf4624234bed6a9b1f4af3309f7e6f465",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

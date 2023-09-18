@@ -22,9 +22,9 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
 import {BindValueChangeEvent} from '../../../types/events';
 import {throwingErrorCallback} from '../gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {branchName} from '../../../utils/patch-set-util';
 
 const SUGGESTIONS_LIMIT = 15;
-const REF_PREFIX = 'refs/heads/';
 
 @customElement('gr-repo-branch-picker')
 export class GrRepoBranchPicker extends LitElement {
@@ -118,12 +118,9 @@ export class GrRepoBranchPicker extends LitElement {
     if (!this.repo) {
       return Promise.resolve([]);
     }
-    if (input.startsWith(REF_PREFIX)) {
-      input = input.substring(REF_PREFIX.length);
-    }
     return this.restApiService
       .getRepoBranches(
-        input,
+        branchName(input),
         this.repo,
         SUGGESTIONS_LIMIT,
         /* offset=*/ undefined,
@@ -137,12 +134,7 @@ export class GrRepoBranchPicker extends LitElement {
     return res
       .filter(branchInfo => branchInfo.ref !== 'HEAD')
       .map(branchInfo => {
-        let branch;
-        if (branchInfo.ref.startsWith(REF_PREFIX)) {
-          branch = branchInfo.ref.substring(REF_PREFIX.length);
-        } else {
-          branch = branchInfo.ref;
-        }
+        const branch = branchName(branchInfo.ref);
         return {name: branch, value: branch};
       });
   }

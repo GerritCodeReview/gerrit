@@ -19,6 +19,7 @@ import {
   ReviewInputTag,
   PARENT,
   RevisionInfo,
+  CommitId,
 } from '../types/common';
 import {
   _testOnly_computeWipForPatchSets,
@@ -75,7 +76,7 @@ suite('gr-patch-set-util tests', () => {
         }
       }
       const patchSets = Array.from(tagsByRevision.keys()).map(rev => {
-        return {num: rev, desc: 'test', sha: `rev${rev}`};
+        return {num: rev, desc: 'test', sha: `rev${rev}` as CommitId};
       });
       const patchNums = _testOnly_computeWipForPatchSets(change, patchSets);
       const verifier = {
@@ -235,10 +236,10 @@ suite('gr-patch-set-util tests', () => {
 
   test('computeAllPatchSets', () => {
     const expected = [
-      {num: 4 as PatchSetNumber, desc: 'test', sha: 'rev4'},
-      {num: 3 as PatchSetNumber, desc: 'test', sha: 'rev3'},
-      {num: 2 as PatchSetNumber, desc: 'test', sha: 'rev2'},
-      {num: 1 as PatchSetNumber, desc: 'test', sha: 'rev1'},
+      {num: 4 as PatchSetNumber, desc: 'test', sha: 'rev4' as CommitId},
+      {num: 3 as PatchSetNumber, desc: 'test', sha: 'rev3' as CommitId},
+      {num: 2 as PatchSetNumber, desc: 'test', sha: 'rev2' as CommitId},
+      {num: 1 as PatchSetNumber, desc: 'test', sha: 'rev1' as CommitId},
     ];
     const patchNums = computeAllPatchSets({
       ...createChange(),

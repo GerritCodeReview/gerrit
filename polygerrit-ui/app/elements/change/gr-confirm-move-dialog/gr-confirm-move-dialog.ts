@@ -17,6 +17,7 @@ import {ShortcutController} from '../../lit/shortcut-controller';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {fireNoBubble} from '../../../utils/event-util';
 import {formStyles} from '../../../styles/form-styles';
+import {branchName} from '../../../utils/patch-set-util';
 
 const SUGGESTIONS_LIMIT = 15;
 
@@ -156,12 +157,9 @@ export class GrConfirmMoveDialog
 
   private getProjectBranchesSuggestions(input: string) {
     if (!this.project) return Promise.reject(new Error('Missing project'));
-    if (input.startsWith('refs/heads/')) {
-      input = input.substring('refs/heads/'.length);
-    }
     return this.restApiService
       .getRepoBranches(
-        input,
+        branchName(input),
         this.project,
         SUGGESTIONS_LIMIT,
         /* offest=*/ undefined,
@@ -171,11 +169,7 @@ export class GrConfirmMoveDialog
         if (!response) return [];
         const branches: Array<{name: BranchName}> = [];
         for (const branchInfo of response) {
-          let name: string = branchInfo.ref;
-          if (name.startsWith('refs/heads/')) {
-            name = name.substring('refs/heads/'.length);
-          }
-          branches.push({name: name as BranchName});
+          branches.push({name: branchName(branchInfo.ref)});
         }
         return branches;
       });

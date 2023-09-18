@@ -19,6 +19,7 @@ import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
 import {createSearchUrl} from '../../../models/views/search';
 import {getBrowseCommitWeblink} from '../../../utils/weblink-util';
+import {shorten} from '../../../utils/patch-set-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -79,7 +80,7 @@ export class GrCommitInfo extends LitElement {
    */
   getWeblink(commit: CommitId): WebLinkInfo | undefined {
     if (!commit) return undefined;
-    const name = commit.slice(0, 7);
+    const name = shorten(commit)!;
     const primaryLink = getBrowseCommitWeblink(
       this.commitInfo?.web_links,
       this.serverConfig

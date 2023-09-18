@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0da06ec5_e84e5ba3",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-18T12:46:38Z",
+      "side": 1,
+      "message": "Yes, considering we produce really few events in this test, 2 secs is more than enough to produce them all. The annoyance is that we need to wait 2 secs per test.\n\nNot sure how else to test it to be honest :/",
+      "parentUuid": "6e1863a9_c0021a38",
+      "revId": "b3ae5211fb2d98122afe8d40193d256fc997ff3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4935262a_3133fad5",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
         "patchSetId": 12

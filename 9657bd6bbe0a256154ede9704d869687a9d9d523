@@ -346,6 +346,24 @@
       "parentUuid": "0467c4ff_5131b7d8",
       "revId": "9657bd6bbe0a256154ede9704d869687a9d9d523",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a027fd3_3826ff86",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-09-18T06:30:00Z",
+      "side": 1,
+      "message": "I didn\u0027t even think about the `comment-added` event, which would be the respective higher level event, and since this change is mostly about replication, we of course need to replicate the deletion of the draft on publishing.",
+      "parentUuid": "913acb87_4c2fba31",
+      "revId": "9657bd6bbe0a256154ede9704d869687a9d9d523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

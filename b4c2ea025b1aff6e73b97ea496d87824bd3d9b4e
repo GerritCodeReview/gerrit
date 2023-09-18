@@ -39,6 +39,23 @@
       "message": "Good stuff @dariusz.luksza@gmail.com",
       "revId": "b4c2ea025b1aff6e73b97ea496d87824bd3d9b4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b4ef007_9dbae15e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-18T11:18:17Z",
+      "side": 1,
+      "message": "Feel free to merge once the nit is addressed.",
+      "revId": "b4c2ea025b1aff6e73b97ea496d87824bd3d9b4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

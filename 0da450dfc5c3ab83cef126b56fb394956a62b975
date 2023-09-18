@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3002263f_de7fb000",
+        "filename": "java/com/google/gerrit/server/config/CachedPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-09-18T14:42:11Z",
+      "side": 1,
+      "message": "Converted the OneOf to proto. Some notes below.\n\nI did not want to-\n1. Replace the `CachedPreferences` interface, as this is touching a lot of files with a very small benefit.\n2. Change the way we store the preferences in cache, as this is error prone. Added a TODO for that which I will try to address in a followup change, but I don\u0027t want to couple the proto wiring with that.\n\nOther notes-\n* The legacy string is a combined string for all preferences.\n* `CachedPreferences#config` and `CachedPreferences#fromString` must be kept for handling default configs.\n* I kept the `UserPreferences` proto as this is it encapsulates what we will move around and store internally. This also allows us to use a proto `oneof`.",
+      "parentUuid": "fab8b68a_476361dd",
+      "revId": "0da450dfc5c3ab83cef126b56fb394956a62b975",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14e44d42_6b51fc59",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-09-18T08:54:36Z",
       "side": 1,
       "message": "Why does this have to be a string? Can you just use a byte array instead? The proto natively serializes to bytes and the Git config is just a string, so you can also get it as byte array easily.\n\nPlease see my other comment on if we can throw the whole class away.",
+      "range": {
+        "startLine": 67,
+        "startChar": 11,
+        "endLine": 67,
+        "endChar": 24
+      },
+      "revId": "0da450dfc5c3ab83cef126b56fb394956a62b975",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e707b68_45248c44",
+        "filename": "java/com/google/gerrit/server/config/CachedPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-09-18T14:42:11Z",
+      "side": 1,
+      "message": "The current serialization flow is expecting a string. I don\u0027t want to change the API as part of this change.",
+      "parentUuid": "14e44d42_6b51fc59",
       "range": {
         "startLine": 67,
         "startChar": 11,
@@ -66,6 +108,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "16ed2b2e_7d94bbaa",
+        "filename": "java/com/google/gerrit/server/config/CachedPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-09-18T14:42:11Z",
+      "side": 1,
+      "message": "\u003e ByteString\n\nWill make more sense as part of the change that modifies the stored `AccountDetailsProto` format.\n\n\u003e PreferenceFormat enum\n\nAdding the type as a field means that `fromString` must have a way of decoding it. Given the proto-oneof format, I think it doesn\u0027t worth the extra boilerplate.",
+      "parentUuid": "b87019ad_7ab58e1f",
+      "range": {
+        "startLine": 197,
+        "startChar": 18,
+        "endLine": 197,
+        "endChar": 24
+      },
+      "revId": "0da450dfc5c3ab83cef126b56fb394956a62b975",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c1f8592c_2dc754b7",
         "filename": "java/com/google/gerrit/server/config/UserPreferencesConverter.java",
         "patchSetId": 2
@@ -77,6 +143,30 @@
       "writtenOn": "2023-09-18T08:54:36Z",
       "side": 1,
       "message": "Would it make sense to use existing converters?\n\nGeneralPrefInfo info;\nGSON.toJson(proto).fromGson(info);\n\nI think the answer depends on of there are fields that don\u0027t serlialize or deserialze the same way in both worlds. But it would remove quite some boilerplate.",
+      "range": {
+        "startLine": 34,
+        "startChar": 12,
+        "endLine": 34,
+        "endChar": 36
+      },
+      "revId": "0da450dfc5c3ab83cef126b56fb394956a62b975",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e27bf6d_7b0907eb",
+        "filename": "java/com/google/gerrit/server/config/UserPreferencesConverter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-09-18T14:42:11Z",
+      "side": 1,
+      "message": "Unfortunately, Gson doesn\u0027t play nice with protos. It cannot infer the class, even whrn passed directly.\n\nI\u0027ve also tried the internal AutoConverter, but it\u0027s adding A LOT of boilerplate, with a low benefit.",
+      "parentUuid": "c1f8592c_2dc754b7",
       "range": {
         "startLine": 34,
         "startChar": 12,

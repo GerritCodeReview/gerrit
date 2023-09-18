@@ -182,6 +182,7 @@ suite('gr-patch-range-select tests', () => {
       {
         text: 'Base',
         value: PARENT,
+        bottomText: undefined,
       } as DropdownItem,
     ];
     element.patchNum = 1 as PatchSetNumber;

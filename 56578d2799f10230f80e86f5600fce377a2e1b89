@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b277cfad_df55a60c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-09-18T16:13:23Z",
+      "side": 1,
+      "message": "If the intent is to specifically verify that you can use the non preferred email, then this test name should reflect that.",
+      "revId": "56578d2799f10230f80e86f5600fce377a2e1b89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

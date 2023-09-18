@@ -136,4 +136,9 @@ export enum Interaction {
   LINK_CLICK = 'link-click',
   USER_ACTIVE = 'user-active',
   USER_PASSIVE = 'user-passive',
+  GENERATE_SUGGESTION_ADDED = 'generate_suggestion_added',
+  GENERATE_SUGGESTION_REQUEST = 'generate_suggestion_request',
+  GENERATE_SUGGESTION_RESPONSE = 'generate_suggestion_response',
+  GENERATE_SUGGESTION_ENABLED = 'generate_suggestion_enabled',
+  GENERATE_SUGGESTION_DISABLED = 'generate_suggestion_disabled',
 }

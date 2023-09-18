@@ -129,6 +129,7 @@ import {modalStyles} from '../../../styles/gr-modal-styles';
 import {ironAnnouncerRequestAvailability} from '../../polymer-util';
 import {GrReviewerUpdatesParser} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {formStyles} from '../../../styles/form-styles';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 
 export enum FocusTarget {
   ANY = 'any',
@@ -348,6 +349,8 @@ export class GrReplyDialog extends LitElement {
   private readonly getAccountsModel = resolve(this, accountsModelToken);
 
   private readonly getUserModel = resolve(this, userModelToken);
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   storeTask?: DelayedTask;
 
@@ -1436,6 +1439,7 @@ export class GrReplyDialog extends LitElement {
     reviewInput.reviewers = this.computeReviewers();
 
     const errFn = (r?: Response | null) => this.handle400Error(r);
+    this.getNavigation().blockNavigation('sending review');
     return this.saveReview(reviewInput, errFn)
       .then(result => {
         this.getChangeModel().updateStateChange(
@@ -1450,6 +1454,7 @@ export class GrReplyDialog extends LitElement {
         fireIronAnnounce(this, 'Reply sent');
       })
       .finally(() => {
+        this.getNavigation().releaseNavigation('sending review');
         this.disabled = false;
         if (this.patchsetLevelGrComment) {
           this.patchsetLevelGrComment.disableAutoSaving = false;

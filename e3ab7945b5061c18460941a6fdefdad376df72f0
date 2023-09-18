@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51a923d8_e5ca3639",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-09-18T09:25:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb70cc5e_fdee598a",
+      "range": {
+        "startLine": 43,
+        "startChar": 6,
+        "endLine": 43,
+        "endChar": 18
+      },
+      "revId": "e3ab7945b5061c18460941a6fdefdad376df72f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30147d52_4c46c615",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4b5ac51_b55781b3",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-09-18T09:25:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30147d52_4c46c615",
+      "range": {
+        "startLine": 67,
+        "startChar": 7,
+        "endLine": 67,
+        "endChar": 11
+      },
+      "revId": "e3ab7945b5061c18460941a6fdefdad376df72f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e2e6aa09_8de2a804",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-09-18T07:42:17Z",
       "side": 1,
       "message": "Nit: you could extract this to function",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 14
+      },
+      "revId": "e3ab7945b5061c18460941a6fdefdad376df72f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0714344c_5b640e0a",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-09-18T09:25:33Z",
+      "side": 1,
+      "message": "I won\u0027t bother, because this will be changed/removed anyway this week.",
+      "parentUuid": "e2e6aa09_8de2a804",
       "range": {
         "startLine": 75,
         "startChar": 0,

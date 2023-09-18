@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "00f55f36_2351ab77",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-09-18T17:39:31Z",
+      "side": 1,
+      "message": "See if the latest patchset makes more sense.",
+      "parentUuid": "f98bdf60_7bb153e7",
+      "revId": "b3ae5211fb2d98122afe8d40193d256fc997ff3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6e1863a9_c0021a38",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/StreamEventsIT.java",
         "patchSetId": 12

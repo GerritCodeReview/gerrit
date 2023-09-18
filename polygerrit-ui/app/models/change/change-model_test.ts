@@ -30,7 +30,7 @@ import {
   PatchSetNum,
   PatchSetNumber,
 } from '../../types/common';
-import {ParsedChangeInfo} from '../../types/types';
+import {EditRevisionInfo, ParsedChangeInfo} from '../../types/types';
 import {getAppContext} from '../../services/app-context';
 import {
   ChangeState,
@@ -75,7 +75,9 @@ suite('updateChangeWithEdit() tests', () => {
     let change: ParsedChangeInfo | undefined = createParsedChange();
     const edit = createEditInfo();
     change = updateChangeWithEdit(change, edit);
-    const editRev = change?.revisions[`${edit.commit.commit}`];
+    const editRev = change?.revisions[
+      `${edit.commit.commit}`
+    ] as EditRevisionInfo;
     assert.isDefined(editRev);
     assert.equal(editRev?._number, EDIT);
     assert.equal(editRev?.basePatchNum, edit.base_patch_set_number);

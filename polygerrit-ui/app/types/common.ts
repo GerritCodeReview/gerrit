@@ -326,6 +326,10 @@ export const ListChangesOption = {
   // Include the 'starred' field, that is if the change is starred by the
   // current user.
   STAR: 26,
+
+  // Include the `parents_data` field in each revision, e.g. if it's merged in the target branch and
+  // whether it points to a patch-set of another change.
+  PARENTS: 27,
 };
 
 // https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#contributor-agreement-input

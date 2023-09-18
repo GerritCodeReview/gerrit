@@ -116,8 +116,12 @@ export interface FormattedReviewerUpdateInfo {
   updates: {message: string; reviewers: AccountInfo[]}[];
 }
 
+/**
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#edit-info
+ */
 export interface EditRevisionInfo extends Partial<RevisionInfo> {
   // EditRevisionInfo has less required properties then RevisionInfo
+  // TODO: Explicitly list which props are required and optional here.
   _number: EditPatchSet;
   basePatchNum: BasePatchSetNum;
   commit: CommitInfo;

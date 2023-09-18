@@ -1240,6 +1240,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       ListChangesOption.WEB_LINKS,
       ListChangesOption.SKIP_DIFFSTAT,
       ListChangesOption.SUBMIT_REQUIREMENTS,
+      ListChangesOption.PARENTS,
     ];
     if (config?.receive?.enable_signed_push) {
       options.push(ListChangesOption.PUSH_CERTIFICATES);
@@ -1265,6 +1266,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       'WEB_LINKS',
       'SKIP_DIFFSTAT',
       'SUBMIT_REQUIREMENTS',
+      'PARENTS',
     ];
     if (config?.receive?.enable_signed_push) {
       options.push('PUSH_CERTIFICATES');

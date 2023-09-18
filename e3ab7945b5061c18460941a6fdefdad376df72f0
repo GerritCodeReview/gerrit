@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb70cc5e_fdee598a",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-18T07:42:17Z",
+      "side": 1,
+      "message": "Nit: do You need sharedStyles?",
+      "range": {
+        "startLine": 43,
+        "startChar": 6,
+        "endLine": 43,
+        "endChar": 18
+      },
+      "revId": "e3ab7945b5061c18460941a6fdefdad376df72f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30147d52_4c46c615",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-18T07:42:17Z",
+      "side": 1,
+      "message": "nit: Maybe use todo with name of project (revision_parents)",
+      "range": {
+        "startLine": 67,
+        "startChar": 7,
+        "endLine": 67,
+        "endChar": 11
+      },
+      "revId": "e3ab7945b5061c18460941a6fdefdad376df72f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2e6aa09_8de2a804",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-18T07:42:17Z",
+      "side": 1,
+      "message": "Nit: you could extract this to function",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 94,
+        "endChar": 14
+      },
+      "revId": "e3ab7945b5061c18460941a6fdefdad376df72f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02b31705_dff83aa0",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1242,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-18T07:42:17Z",
+      "side": 1,
+      "message": "So it looks like this list wasn\u0027t sync before this change 😊",
+      "range": {
+        "startLine": 1242,
+        "startChar": 6,
+        "endLine": 1242,
+        "endChar": 44
+      },
+      "revId": "e3ab7945b5061c18460941a6fdefdad376df72f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

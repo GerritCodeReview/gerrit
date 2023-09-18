@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6750f6b8_a80a1053",
+        "filename": "polygerrit-ui/app/types/types.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-09-18T10:54:02Z",
+      "side": 1,
+      "message": "Can you add a TODO to list these explicitly somehow?",
+      "revId": "66593e3b11005b23e7ecb23cc23ea37f5ceae022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

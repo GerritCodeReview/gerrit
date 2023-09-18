@@ -42,6 +42,7 @@ import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-
 import {uuid} from '../../../utils/common-util';
 import {ParsedChangeInfo} from '../../../types/types';
 import {formStyles} from '../../../styles/form-styles';
+import {branchName} from '../../../utils/patch-set-util';
 
 const SUGGESTIONS_LIMIT = 15;
 const CHANGE_SUBJECT_LIMIT = 50;
@@ -636,12 +637,9 @@ export class GrConfirmCherrypickDialog
     input: string
   ): Promise<AutocompleteSuggestion[]> {
     if (!this.project) return Promise.reject(new Error('Missing project'));
-    if (input.startsWith('refs/heads/')) {
-      input = input.substring('refs/heads/'.length);
-    }
     return this.restApiService
       .getRepoBranches(
-        input,
+        branchName(input),
         this.project,
         SUGGESTIONS_LIMIT,
         /* offset=*/ undefined,
@@ -651,11 +649,7 @@ export class GrConfirmCherrypickDialog
         if (!response) return [];
         const branches: Array<{name: BranchName}> = [];
         for (const branchInfo of response) {
-          let name: string = branchInfo.ref;
-          if (name.startsWith('refs/heads/')) {
-            name = name.substring('refs/heads/'.length);
-          }
-          branches.push({name: name as BranchName});
+          branches.push({name: branchName(branchInfo.ref)});
         }
         return branches;
       });

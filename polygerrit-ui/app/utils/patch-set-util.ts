@@ -7,6 +7,7 @@ import {
   PatchSetNumber,
   BasePatchSetNum,
   RevisionPatchSetNum,
+  BranchName,
 } from '../types/common';
 import {EditRevisionInfo, ParsedChangeInfo} from '../types/types';
 import {assert} from './common-util';
@@ -307,9 +308,37 @@ export function findSortedIndex(
 /**
  * Convert parent indexes from patch range expressions to numbers.
  * For example, in a patch range expression `"-3"` becomes `3`.
- *
  */
-
 export function getParentIndex(rangeBase: PatchSetNum) {
   return -Number(`${rangeBase}`);
+}
+
+export function branchName(branch?: string | BranchName): BranchName {
+  if (!branch) return '' as BranchName;
+  if (branch.startsWith('refs/heads/')) {
+    return branch.substring('refs/heads/'.length) as BranchName;
+  }
+  return branch as BranchName;
+}
+
+export function getParentInfoString(
+  rev?: RevisionInfo | EditRevisionInfo,
+  index?: number
+) {
+  const parents = rev?.parents_data ?? [];
+  const parent = parents[index ?? 0];
+  if (!parent) return '';
+
+  let info = '';
+  if (parent.change_number) {
+    info = `${info}Change ${parent.change_number} at patchset ${parent.patch_set_number}\n`;
+  }
+
+  if (parent.branch_name) {
+    const commit = parent.commit_id?.substring(0, 7) ?? 'unknown';
+    info = `${info}Branch ${branchName(
+      parent.branch_name
+    )} at commmit ${commit} `;
+  }
+  return info;
 }

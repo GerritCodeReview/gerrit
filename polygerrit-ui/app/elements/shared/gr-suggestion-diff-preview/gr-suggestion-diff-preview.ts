@@ -28,6 +28,7 @@ import {createUserFixSuggestion} from '../../../utils/comment-util';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {commentModelToken} from '../gr-comment-model/gr-comment-model';
 import {fire} from '../../../utils/event-util';
+import {Interaction, Timing} from '../../../constants/reporting';
 
 declare global {
   interface HTMLElementEventMap {
@@ -48,6 +49,9 @@ export class GrSuggestionDiffPreview extends LitElement {
 
   @property({type: Boolean})
   showAddSuggestionButton = false;
+
+  @property({type: String})
+  uuid?: string;
 
   @state()
   comment?: Comment;
@@ -76,6 +80,8 @@ export class GrSuggestionDiffPreview extends LitElement {
     show_file_comment_button: false,
     hide_line_length_indicator: true,
   };
+
+  private readonly reporting = getAppContext().reportingService;
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
@@ -210,12 +216,12 @@ export class GrSuggestionDiffPreview extends LitElement {
       !this.commentedText
     )
       return;
-
     const fixSuggestions = createUserFixSuggestion(
       this.comment,
       this.commentedText,
       this.suggestion
     );
+    this.reporting.time(Timing.PREVIEW_FIX_LOAD);
     const res = await this.restApiService.getFixPreview(
       this.changeNum,
       this.comment?.patch_set,
@@ -224,6 +230,9 @@ export class GrSuggestionDiffPreview extends LitElement {
     if (!res) return;
     const currentPreviews = Object.keys(res).map(key => {
       return {filepath: key, preview: res[key]};
+    });
+    this.reporting.timeEnd(Timing.PREVIEW_FIX_LOAD, {
+      uuid: this.uuid,
     });
     if (currentPreviews.length > 0) {
       this.preview = currentPreviews[0];
@@ -245,6 +254,9 @@ export class GrSuggestionDiffPreview extends LitElement {
 
   handleAddGeneratedSuggestion() {
     if (!this.suggestion) return;
+    this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_ADDED, {
+      uuid: this.uuid,
+    });
     fire(this, 'add-generated-suggestion', {code: this.suggestion});
   }
 }

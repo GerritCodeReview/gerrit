@@ -52,7 +52,7 @@ import {
   ValueChangedEvent,
 } from '../../../types/events';
 import {fire} from '../../../utils/event-util';
-import {assertIsDefined, assert} from '../../../utils/common-util';
+import {assertIsDefined, assert, uuid} from '../../../utils/common-util';
 import {Key, Modifier, whenVisible} from '../../../utils/dom-util';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -75,6 +75,7 @@ import {
   commentModelToken,
 } from '../gr-comment-model/gr-comment-model';
 import {formStyles} from '../../../styles/form-styles';
+import {Interaction} from '../../../constants/reporting';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
@@ -187,9 +188,6 @@ export class GrComment extends LitElement {
   autoSaving?: Promise<DraftInfo>;
 
   @state()
-  generatedReplacement?: string;
-
-  @state()
   changeNum?: NumericChangeId;
 
   @state()
@@ -208,6 +206,12 @@ export class GrComment extends LitElement {
 
   @state()
   generateSuggestion = true;
+
+  @state()
+  generatedReplacement?: string;
+
+  @state()
+  generatedReplacementId?: string;
 
   @property({type: Boolean, attribute: 'show-patchset'})
   showPatchset = false;
@@ -576,6 +580,7 @@ export class GrComment extends LitElement {
               html`<gr-suggestion-diff-preview
                 .showAddSuggestionButton=${true}
                 .suggestion=${this.generatedReplacement}
+                .uuid=${this.generatedReplacementId}
               ></gr-suggestion-diff-preview>`
           )}
         </div>
@@ -943,6 +948,11 @@ export class GrComment extends LitElement {
               } else {
                 this.generateSuggestionTrigger$.next();
               }
+              this.reporting.reportInteraction(
+                this.generateSuggestion
+                  ? Interaction.GENERATE_SUGGESTION_ENABLED
+                  : Interaction.GENERATE_SUGGESTION_DISABLED
+              );
             }}
           />
           Generate Suggestion${numberOfSuggestions}
@@ -964,6 +974,10 @@ export class GrComment extends LitElement {
     if (suggestionsPlugins.length === 0) return;
     if (!this.changeNum || !this.comment?.patch_set || !this.comments?.[0].path)
       return;
+    this.generatedReplacementId = uuid();
+    this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_REQUEST, {
+      uuid: this.generatedReplacementId,
+    });
     const suggestion = await suggestionsPlugins[0].provider.suggestCode({
       prompt: this.messageText,
       changeNumber: this.changeNum,
@@ -971,6 +985,10 @@ export class GrComment extends LitElement {
       filePath: this.comments?.[0].path,
       range: this.comments?.[0].range,
       lineNumber: this.comments?.[0].line,
+    });
+    this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_RESPONSE, {
+      uuid: this.generatedReplacementId,
+      response: suggestion.responseCode,
     });
     const replacement = suggestion.suggestions?.[0]?.replacement;
     if (!replacement) return;

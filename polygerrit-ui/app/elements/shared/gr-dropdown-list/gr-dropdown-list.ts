@@ -116,6 +116,7 @@ export class GrDropdownList extends LitElement {
         }
         .bottomContent {
           color: var(--deemphasized-text-color);
+          white-space: pre-wrap;
         }
         .bottomContent,
         .topContent {

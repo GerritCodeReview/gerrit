@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2e36095_891e4b71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-18T11:17:54Z",
+      "side": 1,
+      "message": "I believe this should be mentioned. What about _Allow modules to extend the logic behind the canonicalWebUrl_ ?",
+      "range": {
+        "startLine": 24,
+        "startChar": 15,
+        "endLine": 24,
+        "endChar": 19
+      },
+      "revId": "b4c2ea025b1aff6e73b97ea496d87824bd3d9b4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97c4f2af_0761cd1b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-18T11:17:54Z",
+      "side": 1,
+      "message": "Good stuff @dariusz.luksza@gmail.com",
+      "revId": "b4c2ea025b1aff6e73b97ea496d87824bd3d9b4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

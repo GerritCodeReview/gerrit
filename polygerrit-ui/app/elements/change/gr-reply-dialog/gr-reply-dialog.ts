@@ -349,6 +349,8 @@ export class GrReplyDialog extends LitElement {
 
   private readonly getUserModel = resolve(this, userModelToken);
 
+  private readonly getNavigation = resolve(this, navigationToken);
+
   storeTask?: DelayedTask;
 
   private isLoggedIn = false;
@@ -1436,6 +1438,7 @@ export class GrReplyDialog extends LitElement {
     reviewInput.reviewers = this.computeReviewers();
 
     const errFn = (r?: Response | null) => this.handle400Error(r);
+    this.getNavigation().blockNavigation('sending review');
     return this.saveReview(reviewInput, errFn)
       .then(result => {
         this.getChangeModel().updateStateChange(
@@ -1450,6 +1453,7 @@ export class GrReplyDialog extends LitElement {
         fireIronAnnounce(this, 'Reply sent');
       })
       .finally(() => {
+        this.getNavigation().releaseNavigation('sending review');
         this.disabled = false;
         if (this.patchsetLevelGrComment) {
           this.patchsetLevelGrComment.disableAutoSaving = false;

@@ -46,7 +46,8 @@ public @interface UsedAt {
     PLUGIN_PULL_REPLICATION,
     PLUGIN_SERVICEUSER,
     PLUGIN_WEBSESSION_FLATFILE,
-    MODULE_GIT_REFS_FILTER
+    MODULE_GIT_REFS_FILTER,
+    MODULE_VIRTUALHOST
   }
 
   /** Reference to the project that uses the method annotated with this annotation. */

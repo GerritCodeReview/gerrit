@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fab8b68a_476361dd",
+        "filename": "java/com/google/gerrit/server/config/CachedPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-09-18T08:54:36Z",
+      "side": 1,
+      "message": "I suggest doing this a bit differently but following the spirit of what you already have:\n\n\ncache.proto:\n\n```\nmessage CachedPreferences {\n  GeneralPrefs gp;\n  EditPrefs ep;\n  DiffPrefs dp;\n  \n  // LEGACY:\n  string git_cfg_general_prefs\n  string git_cfg_edit_prefs\n  string git_cfg_diff_prefs\n}\n```\n\nRemove the Java object CachedPreferences. Keep #general, #edit, #diff and move to a util. These produce *Info objects given CachedPreferences as they do today. They either just convert the proto using your converters or just use the config string and existing methods.\n\nUse this object directly in CachedPreferences to generate the respective info objects:\n\n- CachedPreferences#fromString can be dropped since it is only used to serialize the cached value. We can use Proto standard serialization (producing a byte array).\n- CachedPreferences#config can also be dropped\n\nPlease let me know if this makes sense to you. Happy to chat also in person.",
+      "revId": "0da450dfc5c3ab83cef126b56fb394956a62b975",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14e44d42_6b51fc59",
+        "filename": "java/com/google/gerrit/server/config/CachedPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-09-18T08:54:36Z",
+      "side": 1,
+      "message": "Why does this have to be a string? Can you just use a byte array instead? The proto natively serializes to bytes and the Git config is just a string, so you can also get it as byte array easily.\n\nPlease see my other comment on if we can throw the whole class away.",
+      "range": {
+        "startLine": 67,
+        "startChar": 11,
+        "endLine": 67,
+        "endChar": 24
+      },
+      "revId": "0da450dfc5c3ab83cef126b56fb394956a62b975",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b87019ad_7ab58e1f",
+        "filename": "java/com/google/gerrit/server/config/CachedPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-09-18T08:54:36Z",
+      "side": 1,
+      "message": "```\nPreferenceFormat format; GIT_CONFIG, PROTO\nByteString config();\n\nenum PreferenceFormat {\n  GIT_CONFIG,\n  PROTO;\n}\n```",
+      "range": {
+        "startLine": 197,
+        "startChar": 18,
+        "endLine": 197,
+        "endChar": 24
+      },
+      "revId": "0da450dfc5c3ab83cef126b56fb394956a62b975",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1f8592c_2dc754b7",
+        "filename": "java/com/google/gerrit/server/config/UserPreferencesConverter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-09-18T08:54:36Z",
+      "side": 1,
+      "message": "Would it make sense to use existing converters?\n\nGeneralPrefInfo info;\nGSON.toJson(proto).fromGson(info);\n\nI think the answer depends on of there are fields that don\u0027t serlialize or deserialze the same way in both worlds. But it would remove quite some boilerplate.",
+      "range": {
+        "startLine": 34,
+        "startChar": 12,
+        "endLine": 34,
+        "endChar": 36
+      },
+      "revId": "0da450dfc5c3ab83cef126b56fb394956a62b975",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

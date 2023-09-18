@@ -136,4 +136,14 @@ export enum Interaction {
   LINK_CLICK = 'link-click',
   USER_ACTIVE = 'user-active',
   USER_PASSIVE = 'user-passive',
+  // User added generated suggestion to comment
+  GENERATE_SUGGESTION_ADDED = 'generate_suggestion_added',
+  // Request for generating suggestion (usually after user typed draft comment)
+  GENERATE_SUGGESTION_REQUEST = 'generate_suggestion_request',
+  // Response with suggestions
+  GENERATE_SUGGESTION_RESPONSE = 'generate_suggestion_response',
+  // User enabled generating suggestions (enabled is default)
+  GENERATE_SUGGESTION_ENABLED = 'generate_suggestion_enabled',
+  // User disabled generating suggestions
+  GENERATE_SUGGESTION_DISABLED = 'generate_suggestion_disabled',
 }

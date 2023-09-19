@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5839b46b_fbf3a778",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-19T07:19:10Z",
+      "side": 1,
+      "message": "It would be great to have a comment why 7.",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 35
+      },
+      "revId": "0e3df2d6c919b0e1a1650e43d8de2e2aa31056d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07587c0e_f500a1e7",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-19T07:19:10Z",
+      "side": 1,
+      "message": "Nice refactoring. Thanks!",
+      "range": {
+        "startLine": 316,
+        "startChar": 0,
+        "endLine": 322,
+        "endChar": 1
+      },
+      "revId": "0e3df2d6c919b0e1a1650e43d8de2e2aa31056d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "884de511_d09a388e",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-19T07:19:10Z",
+      "side": 1,
+      "message": "Is there util for this 7?\n```suggestion\n    const commit \u003d commitShort(parent.commit_id) ?? \u0027unknown\u0027;\n```",
+      "range": {
+        "startLine": 338,
+        "startChar": 26,
+        "endLine": 338,
+        "endChar": 52
+      },
+      "revId": "0e3df2d6c919b0e1a1650e43d8de2e2aa31056d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

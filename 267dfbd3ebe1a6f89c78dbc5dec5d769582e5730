@@ -16,6 +16,29 @@
       "message": "Nice! ❤️",
       "revId": "267dfbd3ebe1a6f89c78dbc5dec5d769582e5730",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6378471c_3d381abd",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1442,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-19T09:59:16Z",
+      "side": 1,
+      "message": "Add todo to improve navigation\n```suggestion\n    const errFn \u003d (r?: Response | null) \u003d\u003e this.handle400Error(r);\n    // TODO(b/236386699): Improve navigation blocking\n```",
+      "range": {
+        "startLine": 1441,
+        "startChar": 0,
+        "endLine": 1442,
+        "endChar": 59
+      },
+      "revId": "267dfbd3ebe1a6f89c78dbc5dec5d769582e5730",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

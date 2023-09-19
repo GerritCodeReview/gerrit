@@ -32,6 +32,7 @@ import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.config.CachedPreferences;
 import java.time.Instant;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Details of an account that are cached persistently in {@link AccountCache}. */
@@ -131,7 +132,11 @@ public abstract class CachedAccountDetails {
         serialized.addProjectWatchProto(proto);
       }
 
-      serialized.setUserPreferences(cachedAccountDetails.preferences().config());
+      Optional<Cache.CachedPreferencesProto> cachedPreferencesProto =
+          cachedAccountDetails.preferences().nonEmptyConfig();
+      if (cachedPreferencesProto.isPresent()) {
+        serialized.setUserPreferences(cachedPreferencesProto.get());
+      }
       return Protos.toByteArray(serialized.build());
     }
 
@@ -166,7 +171,7 @@ public abstract class CachedAccountDetails {
       return CachedAccountDetails.create(
           account,
           projectWatches.build(),
-          CachedPreferences.fromString(proto.getUserPreferences()));
+          CachedPreferences.fromCachedPreferencesProto(proto.getUserPreferences()));
     }
   }
 }

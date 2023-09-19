@@ -207,7 +207,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
    */
   public CachedPreferences asCachedPreferences() {
     checkLoaded();
-    return CachedPreferences.fromConfig(preferences.getRaw());
+    return CachedPreferences.fromLegacyConfig(preferences.getRaw());
   }
 
   @Override

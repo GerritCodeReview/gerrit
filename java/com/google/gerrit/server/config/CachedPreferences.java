@@ -23,40 +23,42 @@ import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.proto.Entities.UserPreferences;
 import com.google.gerrit.server.cache.proto.Cache.CachedPreferencesProto;
-import com.google.protobuf.TextFormat;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 /**
  * Container class for preferences serialized as Git-style config files. Keeps the values as {@link
- * String}s as they are immutable and thread-safe.
+ * CachedPreferencesProto}s as they are immutable and thread-safe.
  *
  * <p>The config string wrapped by this class might represent different structures. See {@link
  * CachedPreferencesProto} for more details.
  */
 @AutoValue
 public abstract class CachedPreferences {
-  public static final CachedPreferences EMPTY = fromString("");
+  public static final CachedPreferences EMPTY = fromEmptyLegacyConfig();
 
-  public abstract String config();
+  public abstract CachedPreferencesProto config();
 
   /** Returns a cache-able representation of the git config. */
-  public static CachedPreferences fromConfig(Config cfg) {
-    return fromProto(CachedPreferencesProto.newBuilder().setLegacyGitConfig(cfg.toText()).build());
+  public static CachedPreferences fromLegacyConfig(Config cfg) {
+    return fromCachedPreferencesProto(
+        CachedPreferencesProto.newBuilder().setLegacyGitConfig(cfg.toText()).build());
   }
 
   /** Returns a cache-able representation of the preferences proto. */
   public static CachedPreferences fromUserPreferencesProto(UserPreferences proto) {
-    return fromProto(CachedPreferencesProto.newBuilder().setUserPreferences(proto).build());
+    return fromCachedPreferencesProto(
+        CachedPreferencesProto.newBuilder().setUserPreferences(proto).build());
   }
 
   /**
    * Returns a cache-able representation of the config. To be used only when constructing a {@link
    * CachedPreferences} from a serialized, cached value.
    */
-  public static CachedPreferences fromString(String cfg) {
-    return new AutoValue_CachedPreferences(cfg);
+  public static CachedPreferences fromEmptyLegacyConfig() {
+    return new AutoValue_CachedPreferences(
+        CachedPreferencesProto.newBuilder().setLegacyGitConfig("").build());
   }
 
   public static GeneralPreferencesInfo general(
@@ -97,10 +99,9 @@ public abstract class CachedPreferences {
 
   public Config asConfig() {
     try {
-      CachedPreferencesProto proto = asProto();
-      if (proto.hasLegacyGitConfig()) {
+      if (config().hasLegacyGitConfig()) {
         Config cfg = new Config();
-        cfg.fromText(proto.getLegacyGitConfig());
+        cfg.fromText(config().getLegacyGitConfig());
         return cfg;
       }
     } catch (ConfigInvalidException e) {
@@ -112,32 +113,16 @@ public abstract class CachedPreferences {
   }
 
   public UserPreferences asUserPreferencesProto() {
-    CachedPreferencesProto proto = asProto();
-    if (proto.hasUserPreferences()) {
-      return proto.getUserPreferences();
+    if (config().hasUserPreferences()) {
+      return config().getUserPreferences();
     }
     throw new StorageException(
-        String.format("Cannot parse the given config as a UserPreferences proto. Got [%s]", proto));
+        String.format(
+            "Cannot parse the given config as a UserPreferences proto. Got [%s]", config()));
   }
 
-  private static CachedPreferences fromProto(CachedPreferencesProto proto) {
-    return new AutoValue_CachedPreferences(proto.toString());
-  }
-
-  private CachedPreferencesProto asProto() {
-    try {
-      CachedPreferencesProto.Builder builder = CachedPreferencesProto.newBuilder();
-      TextFormat.merge(config(), builder);
-      if (builder
-          .getPreferencesCase()
-          .equals(CachedPreferencesProto.PreferencesCase.PREFERENCES_NOT_SET)) {
-        // In case of an empty config, TextFormat will create an empty proto instead of throwing.
-        builder.setLegacyGitConfig(config());
-      }
-      return builder.build();
-    } catch (TextFormat.ParseException e) {
-      return CachedPreferencesProto.newBuilder().setLegacyGitConfig(config()).build();
-    }
+  public static CachedPreferences fromCachedPreferencesProto(CachedPreferencesProto proto) {
+    return new AutoValue_CachedPreferences(proto);
   }
 
   @Nullable
@@ -158,7 +143,7 @@ public abstract class CachedPreferences {
       Function<UserPreferences, PreferencesT> fromUserPreferencesFn,
       PreferencesT javaDefaults) {
     try {
-      CachedPreferencesProto userPreferencesProto = userPreferences.asProto();
+      CachedPreferencesProto userPreferencesProto = userPreferences.config();
       switch (userPreferencesProto.getPreferencesCase()) {
         case USER_PREFERENCES:
           PreferencesT pref =

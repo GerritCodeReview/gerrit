@@ -175,6 +175,30 @@
       },
       "revId": "0da450dfc5c3ab83cef126b56fb394956a62b975",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "babf5945_106abde8",
+        "filename": "java/com/google/gerrit/server/config/UserPreferencesConverter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-09-19T13:43:32Z",
+      "side": 1,
+      "message": "We had an offline discussion about using GSon\u0027s `ProtoTypeAdapter`.\n\nApparently, it\u0027s not available in Maven. I\u0027m not aware of another way to add dependency on that.\n\nhttps://github.com/google/gson/tree/main/proto#:~:text\u003dThe%20artifacts%20created%20by%20this%20module%20are%20currently%20not%20deployed%20to%20Maven%20Central.",
+      "parentUuid": "6e27bf6d_7b0907eb",
+      "range": {
+        "startLine": 34,
+        "startChar": 12,
+        "endLine": 34,
+        "endChar": 36
+      },
+      "revId": "0da450dfc5c3ab83cef126b56fb394956a62b975",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

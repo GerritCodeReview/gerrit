@@ -43,6 +43,7 @@ import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -66,6 +67,14 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   private final Sequences sequences;
   private final IndexConfig indexConfig;
 
+  @Singleton
+  protected static class ChangeQueryMetrics extends QueryProcessor.Metrics {
+    @Inject
+    ChangeQueryMetrics(MetricMaker metricMaker) {
+      super(metricMaker);
+    }
+  }
+
   static {
     // It is assumed that basic rewrites do not touch visibleto predicates.
     checkState(
@@ -77,7 +86,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   ChangeQueryProcessor(
       Provider<CurrentUser> userProvider,
       AccountLimits.Factory limitsFactory,
-      MetricMaker metricMaker,
+      ChangeQueryMetrics changeQueryMetrics,
       IndexConfig indexConfig,
       ChangeIndexCollection indexes,
       ChangeIndexRewriter rewriter,
@@ -85,7 +94,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
       ChangeIsVisibleToPredicate.Factory changeIsVisibleToPredicateFactory,
       DynamicSet<ChangePluginDefinedInfoFactory> changePluginDefinedInfoFactories) {
     super(
-        metricMaker,
+        changeQueryMetrics,
         ChangeSchemaDefinitions.INSTANCE,
         indexConfig,
         indexes,

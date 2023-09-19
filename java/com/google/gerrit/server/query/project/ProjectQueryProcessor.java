@@ -34,6 +34,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 /**
  * Query processor for the project index.
@@ -49,6 +50,14 @@ public class ProjectQueryProcessor extends QueryProcessor<ProjectData> {
   private final ProjectCache projectCache;
   private final IndexConfig indexConfig;
 
+  @Singleton
+  protected static class ProjectQueryMetrics extends QueryProcessor.Metrics {
+    @Inject
+    ProjectQueryMetrics(MetricMaker metricMaker) {
+      super(metricMaker);
+    }
+  }
+
   static {
     // It is assumed that basic rewrites do not touch visibleto predicates.
     checkState(
@@ -60,14 +69,14 @@ public class ProjectQueryProcessor extends QueryProcessor<ProjectData> {
   protected ProjectQueryProcessor(
       Provider<CurrentUser> userProvider,
       AccountLimits.Factory limitsFactory,
-      MetricMaker metricMaker,
+      ProjectQueryMetrics projectQueryMetrics,
       IndexConfig indexConfig,
       ProjectIndexCollection indexes,
       ProjectIndexRewriter rewriter,
       PermissionBackend permissionBackend,
       ProjectCache projectCache) {
     super(
-        metricMaker,
+        projectQueryMetrics,
         ProjectSchemaDefinitions.INSTANCE,
         indexConfig,
         indexes,

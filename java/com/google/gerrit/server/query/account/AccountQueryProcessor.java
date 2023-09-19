@@ -34,6 +34,7 @@ import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 
 /**
  * Query processor for the account index.
@@ -46,6 +47,14 @@ public class AccountQueryProcessor extends QueryProcessor<AccountState> {
   private final Sequences sequences;
   private final IndexConfig indexConfig;
 
+  @Singleton
+  protected static class AccountQueryMetrics extends QueryProcessor.Metrics {
+    @Inject
+    AccountQueryMetrics(MetricMaker metricMaker) {
+      super(metricMaker);
+    }
+  }
+
   static {
     // It is assumed that basic rewrites do not touch visibleto predicates.
     checkState(
@@ -57,14 +66,14 @@ public class AccountQueryProcessor extends QueryProcessor<AccountState> {
   protected AccountQueryProcessor(
       Provider<CurrentUser> userProvider,
       AccountLimits.Factory limitsFactory,
-      MetricMaker metricMaker,
+      AccountQueryMetrics accountQueryMetrics,
       IndexConfig indexConfig,
       AccountIndexCollection indexes,
       AccountIndexRewriter rewriter,
       AccountControl.Factory accountControlFactory,
       Sequences sequences) {
     super(
-        metricMaker,
+        accountQueryMetrics,
         AccountSchemaDefinitions.INSTANCE,
         indexConfig,
         indexes,

@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ac608f5_da973ede",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-09-19T09:43:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00f55f36_2351ab77",
+      "revId": "b3ae5211fb2d98122afe8d40193d256fc997ff3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e1863a9_c0021a38",

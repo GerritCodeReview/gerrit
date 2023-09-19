@@ -26,6 +26,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
@@ -337,6 +338,14 @@ public class ApprovalsUtil {
   public ListMultimap<PatchSet.Id, PatchSetApproval> byChangeExcludingCopiedApprovals(
       ChangeNotes notes) {
     return notes.load().getApprovals();
+  }
+
+  public ListMultimap<PatchSet.Id, PatchSetApproval> byChangeWithCopied(ChangeNotes notes) {
+    return notes.load().getApprovalsWithCopied();
+  }
+
+  public Iterable<PatchSetApproval> byPatchSet(ChangeNotes notes, PatchSet patchSet) {
+    return approvalInference.forPatchSet(notes, patchSet, /* rw= */ null, /* repoConfig= */ null);
   }
 
   /**

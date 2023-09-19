@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a817e51_1d31e1c9",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-19T07:57:02Z",
+      "side": 1,
+      "message": "This can be inlined at L434",
+      "range": {
+        "startLine": 432,
+        "startChar": 26,
+        "endLine": 432,
+        "endChar": 50
+      },
+      "revId": "f70150a3f0dad905c66330d15014b7be51363471",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

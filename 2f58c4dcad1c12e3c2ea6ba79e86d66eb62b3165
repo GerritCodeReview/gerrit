@@ -16,6 +16,24 @@
       "message": "Seems you might be able to use the java10+ \u0027var\u0027 type to do this:\n\n var error \u003d new Object(){ String value; }\n\n if (error.value \u003d\u003d null) {...\n \nI\u0027m not sure it\u0027s better than an array, it seems like it captures the intent a bit better?\n\nI suspect either way you don\u0027t actually need the \"final\" keyword here?",
       "revId": "2f58c4dcad1c12e3c2ea6ba79e86d66eb62b3165",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b3a94b2_bf33dd67",
+        "filename": "java/com/google/gerrit/sshd/commands/SetReviewersCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-19T23:24:13Z",
+      "side": 1,
+      "message": "Done. Thanks!",
+      "parentUuid": "8406d354_60fd42b4",
+      "revId": "2f58c4dcad1c12e3c2ea6ba79e86d66eb62b3165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

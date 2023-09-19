@@ -61,8 +61,7 @@ suite('gr-main-header tests', () => {
               name="header-small-banner"
             >
             </gr-endpoint-decorator>
-            <gr-smart-search id="search" label="Search for changes">
-            </gr-smart-search>
+            <gr-smart-search id="search"> </gr-smart-search>
             <gr-endpoint-decorator class="hideOnMobile" name="header-top-right">
             </gr-endpoint-decorator>
             <gr-endpoint-decorator

@@ -70,6 +70,7 @@ suite('gr-search-bar tests', () => {
           <gr-autocomplete
             allow-non-suggested-values=""
             id="searchInput"
+            label="Search for changes"
             multi=""
             tab-complete=""
           >

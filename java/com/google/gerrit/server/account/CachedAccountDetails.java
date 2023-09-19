@@ -166,7 +166,7 @@ public abstract class CachedAccountDetails {
       return CachedAccountDetails.create(
           account,
           projectWatches.build(),
-          CachedPreferences.fromString(proto.getUserPreferences()));
+          CachedPreferences.fromCachedPreferencesProto(proto.getUserPreferences()));
     }
   }
 }

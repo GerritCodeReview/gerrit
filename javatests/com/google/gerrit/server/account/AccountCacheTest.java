@@ -24,6 +24,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.cache.proto.Cache;
 import com.google.gerrit.server.config.CachedPreferences;
 import java.time.Instant;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 /**
@@ -49,7 +50,8 @@ public class AccountCacheTest {
             .setPreferredEmail("foo@bar.tld")
             .build();
     CachedAccountDetails original =
-        CachedAccountDetails.create(account, ImmutableMap.of(), CachedPreferences.fromString(""));
+        CachedAccountDetails.create(
+            account, ImmutableMap.of(), CachedPreferences.fromEmptyLegacyConfig());
     byte[] serialized = SERIALIZER.serialize(original);
     Cache.AccountDetailsProto expected =
         Cache.AccountDetailsProto.newBuilder()
@@ -71,7 +73,8 @@ public class AccountCacheTest {
   @Test
   public void account_roundTripNullFields() throws Exception {
     CachedAccountDetails original =
-        CachedAccountDetails.create(ACCOUNT, ImmutableMap.of(), CachedPreferences.fromString(""));
+        CachedAccountDetails.create(
+            ACCOUNT, ImmutableMap.of(), CachedPreferences.fromEmptyLegacyConfig());
     byte[] serialized = SERIALIZER.serialize(original);
     Cache.AccountDetailsProto expected =
         Cache.AccountDetailsProto.newBuilder().setAccount(ACCOUNT_PROTO).build();
@@ -81,15 +84,19 @@ public class AccountCacheTest {
 
   @Test
   public void config_roundTrip() throws Exception {
+    Config cfg = new Config();
+    cfg.fromText("[general]\n\tfoo = bar");
     CachedAccountDetails original =
         CachedAccountDetails.create(
-            ACCOUNT, ImmutableMap.of(), CachedPreferences.fromString("[general]\n\tfoo = bar"));
+            ACCOUNT, ImmutableMap.of(), CachedPreferences.fromLegacyConfig(cfg));
 
     byte[] serialized = SERIALIZER.serialize(original);
     Cache.AccountDetailsProto expected =
         Cache.AccountDetailsProto.newBuilder()
             .setAccount(ACCOUNT_PROTO)
-            .setUserPreferences("[general]\n\tfoo = bar")
+            .setUserPreferences(
+                Cache.CachedPreferencesProto.newBuilder()
+                    .setLegacyGitConfig("[general]\n\tfoo = bar"))
             .build();
     ProtoTruth.assertThat(Cache.AccountDetailsProto.parseFrom(serialized)).isEqualTo(expected);
     Truth.assertThat(SERIALIZER.deserialize(serialized)).isEqualTo(original);
@@ -103,7 +110,7 @@ public class AccountCacheTest {
         CachedAccountDetails.create(
             ACCOUNT,
             ImmutableMap.of(key, ImmutableSet.of(NotifyConfig.NotifyType.ALL_COMMENTS)),
-            CachedPreferences.fromString(""));
+            CachedPreferences.fromEmptyLegacyConfig());
 
     byte[] serialized = SERIALIZER.serialize(original);
     Cache.AccountDetailsProto expected =
@@ -127,7 +134,7 @@ public class AccountCacheTest {
         CachedAccountDetails.create(
             ACCOUNT,
             ImmutableMap.of(key, ImmutableSet.of(NotifyConfig.NotifyType.ALL_COMMENTS)),
-            CachedPreferences.fromString(""));
+            CachedPreferences.fromEmptyLegacyConfig());
 
     byte[] serialized = SERIALIZER.serialize(original);
     Cache.AccountDetailsProto expected =

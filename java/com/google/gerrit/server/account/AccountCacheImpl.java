@@ -61,7 +61,7 @@ public class AccountCacheImpl implements AccountCache {
       @Override
       protected void configure() {
         persist(BYID_AND_REV_NAME, CachedAccountDetails.Key.class, CachedAccountDetails.class)
-            .version(1)
+            .version(2)
             .keySerializer(CachedAccountDetails.Key.Serializer.INSTANCE)
             .valueSerializer(CachedAccountDetails.Serializer.INSTANCE)
             .loader(Loader.class);

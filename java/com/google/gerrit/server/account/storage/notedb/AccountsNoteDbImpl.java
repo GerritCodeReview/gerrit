@@ -214,7 +214,7 @@ public class AccountsNoteDbImpl implements Accounts {
     try (Timer0.Context ignored = readSingleLatency.start()) {
       cfg = new AccountConfig(accountId, allUsersName, allUsersRepository).load();
       defaultPreferences =
-          CachedPreferences.fromConfig(
+          CachedPreferences.fromLegacyConfig(
               VersionedDefaultPreferences.get(allUsersRepository, allUsersName));
     }
 

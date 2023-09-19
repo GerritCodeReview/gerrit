@@ -22,6 +22,7 @@ import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {ParsedChangeInfo} from '../../../types/types';
 import {configModelToken} from '../../../models/config/config-model';
+import {shorten} from '../../../utils/patch-set-util';
 
 @customElement('gr-download-dialog')
 export class GrDownloadDialog extends LitElement {
@@ -296,9 +297,7 @@ export class GrDownloadDialog extends LitElement {
     }
 
     const rev = getRevisionKey(this.change, this.patchNum) ?? '';
-    const shortRev = rev.substr(0, 7);
-
-    return shortRev + '.diff.' + (zip ? 'zip' : 'base64');
+    return shorten(rev)! + '.diff.' + (zip ? 'zip' : 'base64');
   }
 
   // private but used in test

@@ -28,6 +28,7 @@ import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {ValueChangedEvent} from '../../../types/events';
 import {subscribe} from '../../lit/subscription-controller';
 import {configModelToken} from '../../../models/config/config-model';
+import {branchName} from '../../../utils/patch-set-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -87,10 +88,9 @@ export class GrCreateRepoDialog extends LitElement {
       this,
       () => this.configModel().serverConfig$,
       config => {
-        this.defaultBranch = config?.gerrit?.default_branch ?? 'master';
-        if (this.defaultBranch.startsWith('refs/heads/')) {
-          this.defaultBranch = this.defaultBranch.slice('refs/heads/'.length);
-        }
+        this.defaultBranch = branchName(
+          config?.gerrit?.default_branch ?? 'master'
+        );
       }
     );
   }

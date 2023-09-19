@@ -463,6 +463,7 @@ export declare interface CommentLinks {
   [name: string]: CommentLinkInfo;
 }
 
+/** 40 char string, see shorten() util, if you want 7 chars. */
 export type CommitId = BrandType<string, '_commitId'>;
 
 /**
@@ -1049,7 +1050,7 @@ export declare interface RevisionInfo {
  */
 export declare interface ParentInfo {
   branch_name?: string;
-  commit_id?: string;
+  commit_id?: CommitId;
   is_merged_in_target_branch?: boolean;
   change_id?: ChangeId;
   change_number?: NumericChangeId;

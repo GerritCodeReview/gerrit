@@ -31,9 +31,9 @@ import {resolve} from '../../../models/dependency';
 import {createChangeUrl} from '../../../models/views/change';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {formStyles} from '../../../styles/form-styles';
+import {branchName} from '../../../utils/patch-set-util';
 
 const SUGGESTIONS_LIMIT = 15;
-const REF_PREFIX = 'refs/heads/';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -243,12 +243,9 @@ export class GrCreateChangeDialog extends LitElement {
     if (!this.repoName) {
       return Promise.reject(new Error('missing repo name'));
     }
-    if (input.startsWith(REF_PREFIX)) {
-      input = input.substring(REF_PREFIX.length);
-    }
     return this.restApiService
       .getRepoBranches(
-        input,
+        branchName(input),
         this.repoName,
         SUGGESTIONS_LIMIT,
         /* offset=*/ undefined,
@@ -258,11 +255,7 @@ export class GrCreateChangeDialog extends LitElement {
         if (!response) return [];
         const branches: Array<{name: BranchName}> = [];
         for (const branchInfo of response) {
-          let name: string = branchInfo.ref;
-          if (name.startsWith('refs/heads/')) {
-            name = name.substring('refs/heads/'.length);
-          }
-          branches.push({name: name as BranchName});
+          branches.push({name: branchName(branchInfo.ref)});
         }
         return branches;
       });

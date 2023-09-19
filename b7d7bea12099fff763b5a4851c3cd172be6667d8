@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d54ffb6d_5b8d94d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-19T14:18:44Z",
+      "side": 1,
+      "message": "Follow up change: https://gerrit-review.googlesource.com/c/gerrit/+/386914 R",
+      "revId": "b7d7bea12099fff763b5a4851c3cd172be6667d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6d34630b_0b6b457c",
@@ -14,6 +31,30 @@
       "writtenOn": "2023-09-19T14:01:24Z",
       "side": 1,
       "message": "nit: wrap long line",
+      "range": {
+        "startLine": 84,
+        "startChar": 80,
+        "endLine": 84,
+        "endChar": 97
+      },
+      "revId": "b7d7bea12099fff763b5a4851c3cd172be6667d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9adbc080_dad38e11",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-19T14:18:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d34630b_0b6b457c",
       "range": {
         "startLine": 84,
         "startChar": 80,
@@ -47,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e41b3d53_ab63673c",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-19T14:18:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a323aeb5_4ebbfce8",
+      "range": {
+        "startLine": 85,
+        "startChar": 71,
+        "endLine": 85,
+        "endChar": 97
+      },
+      "revId": "b7d7bea12099fff763b5a4851c3cd172be6667d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1128fbc_b95aef3f",
@@ -60,6 +125,30 @@
       "writtenOn": "2023-09-19T14:01:24Z",
       "side": 1,
       "message": "```suggestion\nlist in `tools/bzl/plugins.bzl` and run `tools/eclipse/project.py`.\n```",
+      "range": {
+        "startLine": 86,
+        "startChar": 32,
+        "endLine": 86,
+        "endChar": 91
+      },
+      "revId": "b7d7bea12099fff763b5a4851c3cd172be6667d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f35773d3_ad16b683",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-19T14:18:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1128fbc_b95aef3f",
       "range": {
         "startLine": 86,
         "startChar": 32,

@@ -36,7 +36,7 @@ public class CachedPreferencesTest {
     Config originalCfg = new Config();
     originalCfg.fromText("[general]\n\tfoo = bar");
 
-    CachedPreferences pref = CachedPreferences.fromConfig(originalCfg);
+    CachedPreferences pref = CachedPreferences.fromLegacyConfig(originalCfg);
     Config res = pref.asConfig();
 
     assertThat(res.toText()).isEqualTo(originalCfg.toText());
@@ -47,7 +47,7 @@ public class CachedPreferencesTest {
     Config originalCfg = new Config();
     originalCfg.fromText("[general]\n\tchangesPerPage = 2");
 
-    CachedPreferences pref = CachedPreferences.fromConfig(originalCfg);
+    CachedPreferences pref = CachedPreferences.fromLegacyConfig(originalCfg);
     GeneralPreferencesInfo general = CachedPreferences.general(Optional.empty(), pref);
 
     assertThat(general.changesPerPage).isEqualTo(2);
@@ -58,7 +58,7 @@ public class CachedPreferencesTest {
     Config originalCfg = new Config();
     originalCfg.fromText("[diff]\n\tcontext = 3");
 
-    CachedPreferences pref = CachedPreferences.fromConfig(originalCfg);
+    CachedPreferences pref = CachedPreferences.fromLegacyConfig(originalCfg);
     DiffPreferencesInfo diff = CachedPreferences.diff(Optional.empty(), pref);
 
     assertThat(diff.context).isEqualTo(3);
@@ -69,7 +69,7 @@ public class CachedPreferencesTest {
     Config originalCfg = new Config();
     originalCfg.fromText("[edit]\n\ttabSize = 5");
 
-    CachedPreferences pref = CachedPreferences.fromConfig(originalCfg);
+    CachedPreferences pref = CachedPreferences.fromLegacyConfig(originalCfg);
     EditPreferencesInfo edit = CachedPreferences.edit(Optional.empty(), pref);
 
     assertThat(edit.tabSize).isEqualTo(5);
@@ -133,7 +133,7 @@ public class CachedPreferencesTest {
   public void defaultPreferences_acceptingGitConfig() throws Exception {
     Config cfg = new Config();
     cfg.fromText("[general]\n\tchangesPerPage = 19");
-    CachedPreferences defaults = CachedPreferences.fromConfig(cfg);
+    CachedPreferences defaults = CachedPreferences.fromLegacyConfig(cfg);
     CachedPreferences userPreferences =
         CachedPreferences.fromUserPreferencesProto(UserPreferences.getDefaultInstance());
 

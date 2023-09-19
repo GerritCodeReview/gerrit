@@ -22,7 +22,7 @@ public interface DefaultPreferencesCache {
    * Static member to be returned when there is no default config. This prevents re-instantiating
    * many {@link CachedPreferences} in this case.
    */
-  CachedPreferences EMPTY = CachedPreferences.fromString("");
+  CachedPreferences EMPTY = CachedPreferences.EMPTY;
 
   /** Returns a cached instance of {@link CachedPreferences}. */
   CachedPreferences get();

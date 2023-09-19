@@ -39,7 +39,9 @@ public class InactiveAccountDisconnector implements AccountActivationListener {
           sshDaemon,
           (sshId, sshSession, abstractSession, ioSession) -> {
             CurrentUser sessionUser = sshSession.getUser();
-            if (sessionUser.isIdentifiedUser() && sessionUser.getAccountId().get() == id) {
+            if (sessionUser != null
+                && sessionUser.isIdentifiedUser()
+                && sessionUser.getAccountId().get() == id) {
               logger.atInfo().log(
                   "Disconnecting SSH session %s because user %s(%d) got deactivated",
                   abstractSession, sessionUser.getLoggableName(), id);

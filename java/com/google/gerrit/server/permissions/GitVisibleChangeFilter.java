@@ -19,12 +19,10 @@ import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.server.git.SearchingChangeCacheImpl;
-import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.git.ChangesByProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import java.io.IOException;
 import java.util.Objects;
@@ -42,11 +40,7 @@ import org.eclipse.jgit.lib.Repository;
  *
  * <ul>
  *   <li>For a low number of expected checks, we check visibility one-by-one.
- *   <li>For a high number of expected checks and settings where the change index is available, we
- *       load the N most recent changes from the index and filter them by visibility. This is fast,
- *       but comes with the caveat that older changes are pretended to be invisible.
- *   <li>For a high number of expected checks and settings where the change index is unavailable, we
- *       scan the repo and determine visibility one-by-one. This is *very* expensive.
+ *   <li>For a high number of expected checks we use the ChangesByProjectCache.
  * </ul>
  *
  * <p>Changes that fail to load are pretended to be invisible. This is important on the Git paths as
@@ -63,8 +57,7 @@ public class GitVisibleChangeFilter {
 
   /** Returns a map of all visible changes. Might pretend old changes are invisible. */
   static ImmutableMap<Change.Id, ChangeData> getVisibleChanges(
-      @Nullable SearchingChangeCacheImpl searchingChangeCache,
-      ChangeNotes.Factory changeNotesFactory,
+      ChangesByProjectCache changesByProjectCache,
       ChangeData.Factory changeDataFactory,
       Project.NameKey projectName,
       PermissionBackend.ForProject forProject,
@@ -73,11 +66,12 @@ public class GitVisibleChangeFilter {
     Stream<ChangeData> changeDatas;
     if (changes.size() < CHANGE_LIMIT_FOR_DIRECT_FILTERING) {
       changeDatas = loadChangeDatasOneByOne(changes, changeDataFactory, projectName);
-    } else if (searchingChangeCache != null) {
-      changeDatas = searchingChangeCache.getChangeData(projectName);
     } else {
-      changeDatas =
-          scanRepoForChangeDatas(changeNotesFactory, changeDataFactory, repository, projectName);
+      try {
+        changeDatas = changesByProjectCache.streamChangeDatas(projectName, repository);
+      } catch (IOException e) {
+        throw new StorageException(e);
+      }
     }
 
     return changeDatas
@@ -113,33 +107,5 @@ public class GitVisibleChangeFilter {
               }
             })
         .filter(Objects::nonNull);
-  }
-
-  /** Get a stream of all changes by scanning the repo. This is extremely slow. */
-  private static Stream<ChangeData> scanRepoForChangeDatas(
-      ChangeNotes.Factory changeNotesFactory,
-      ChangeData.Factory changeDataFactory,
-      Repository repository,
-      Project.NameKey projectName) {
-    Stream<ChangeData> cds;
-    try {
-      cds =
-          changeNotesFactory
-              .scan(repository, projectName)
-              .map(
-                  notesResult -> {
-                    if (!notesResult.error().isPresent()) {
-                      return changeDataFactory.create(notesResult.notes());
-                    } else {
-                      logger.atWarning().withCause(notesResult.error().get()).log(
-                          "Unable to load ChangeNotes for %s", notesResult.id());
-                      return null;
-                    }
-                  })
-              .filter(Objects::nonNull);
-    } catch (IOException e) {
-      throw new StorageException(e);
-    }
-    return cds;
   }
 }

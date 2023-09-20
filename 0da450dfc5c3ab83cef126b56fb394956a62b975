@@ -130,6 +130,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fbef8c1_eac5680e",
+        "filename": "java/com/google/gerrit/server/config/CachedPreferences.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-09-20T11:51:17Z",
+      "side": 1,
+      "message": "As discussed addressed by caching protos in the subsequent change.",
+      "parentUuid": "16ed2b2e_7d94bbaa",
+      "range": {
+        "startLine": 197,
+        "startChar": 18,
+        "endLine": 197,
+        "endChar": 24
+      },
+      "revId": "0da450dfc5c3ab83cef126b56fb394956a62b975",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1f8592c_2dc754b7",

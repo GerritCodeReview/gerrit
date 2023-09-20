@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13869734_7bcb0a07",
+        "filename": "java/com/google/gerrit/server/config/UserPreferencesConverter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-09-20T11:51:17Z",
+      "side": 1,
+      "message": "Did you check if we can use GSON and ProtoAdapter?",
+      "range": {
+        "startLine": 34,
+        "startChar": 12,
+        "endLine": 34,
+        "endChar": 36
+      },
+      "revId": "0513ae4e595bbb2169d1168e12ebb9cc1997e199",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

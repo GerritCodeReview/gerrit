@@ -421,7 +421,7 @@ export const htmlTemplate = html`
             placeholder="[[_computeTopicPlaceholder(_topicReadOnly)]]"
             read-only="[[_topicReadOnly]]"
             on-changed="_handleTopicChanged"
-            show-as-edit-pencil="true"
+            show-as-edit-pencil="[[!_topicReadOnly]]"
             autocomplete="true"
             query="[[queryTopic]]"
           ></gr-editable-label>

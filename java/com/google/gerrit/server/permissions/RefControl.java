@@ -161,8 +161,8 @@ class RefControl {
   }
 
   /** Returns true if this user can force edit topic names. */
-  boolean canForceEditTopicName() {
-    return canPerform(Permission.EDIT_TOPIC_NAME, false, true);
+  boolean canForceEditTopicName(boolean isChangeOwner) {
+    return canPerform(Permission.EDIT_TOPIC_NAME, isChangeOwner, true);
   }
 
   /** Returns true if this user can delete changes. */

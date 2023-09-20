@@ -174,7 +174,6 @@ public abstract class ExternalId implements Serializable {
      *
      * @return the parsed external ID key
      */
-    @VisibleForTesting
     public static Key parse(String externalId, boolean isCaseInsensitive) {
       int c = externalId.indexOf(':');
       if (c < 1 || c >= externalId.length() - 1) {
@@ -253,7 +252,6 @@ public abstract class ExternalId implements Serializable {
     }
   }
 
-  @VisibleForTesting
   public static ExternalId create(
       Key key,
       Account.Id accountId,

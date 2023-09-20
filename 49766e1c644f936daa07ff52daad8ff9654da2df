@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a577f322_908aadca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-20T20:38:39Z",
+      "side": 1,
+      "message": "We use the imperative form in commit message.\n\n_\"Fix a NullPointerException thrown when\"_",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "49766e1c644f936daa07ff52daad8ff9654da2df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2aaaa188_ac86a2a3",
@@ -14,6 +37,46 @@
       "writtenOn": "2023-09-20T13:59:44Z",
       "side": 1,
       "message": "LGTM",
+      "revId": "49766e1c644f936daa07ff52daad8ff9654da2df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfb5525b_94401f36",
+        "filename": "java/com/google/gerrit/httpd/auth/container/HttpAuthFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-20T20:38:39Z",
+      "side": 1,
+      "message": "This looks weird: we first convert null to empty and then empty to null?\n\nIMHO we should mimic what the other methods do, for the sake of consistency.\n\nExample:\n```\nString raw \u003d emptyToNull(req.getHeader(displaynameHeader));\nif (raw !\u003d null) {\n   return new String(raw.getBytes(ISO_8859_1), UTF_8);\n}\nreturn null;\n```",
+      "range": {
+        "startLine": 149,
+        "startChar": 19,
+        "endLine": 149,
+        "endChar": 30
+      },
+      "revId": "49766e1c644f936daa07ff52daad8ff9654da2df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5a28377_c11380a6",
+        "filename": "javatests/com/google/gerrit/httpd/auth/container/HttpAuthFilterTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-20T20:38:39Z",
+      "side": 1,
+      "message": "We should also test that is returning `null` when the header is set but empty",
       "revId": "49766e1c644f936daa07ff52daad8ff9654da2df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

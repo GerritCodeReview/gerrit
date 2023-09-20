@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cf39783_e73c3125",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-20T08:41:50Z",
+      "side": 1,
+      "message": "Post-merge -1",
+      "revId": "7059cbd8da17eb4c6864329ab9e1965a221a421f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0c884db_84ea9c48",
@@ -49,6 +66,29 @@
       "side": 1,
       "message": "This looks wrong anyway, regardless of the Issue 13076: you cannot encode a generic string as one charset and decode back using a different one.\n\nThis would work only if the source string is already garbled (or contains only a subset of chars contained in both with the same code), but it would break if the string is valid and contains UTF-8 characters.",
       "parentUuid": "a0c884db_84ea9c48",
+      "revId": "7059cbd8da17eb4c6864329ab9e1965a221a421f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b68fc33_be6d8fd6",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpAuthFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-20T08:41:50Z",
+      "side": 1,
+      "message": "This has caused Issue 300976121, it should have checked for null if the header is not present.",
+      "range": {
+        "startLine": 149,
+        "startChar": 36,
+        "endLine": 149,
+        "endChar": 48
+      },
       "revId": "7059cbd8da17eb4c6864329ab9e1965a221a421f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

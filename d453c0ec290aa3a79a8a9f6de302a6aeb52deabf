@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4838eaae_9c27049c",
+        "filename": "java/com/google/gerrit/server/query/group/GroupQueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-09-20T20:57:37Z",
+      "side": 1,
+      "message": "If these classes are protected, then I suspect you want these constructors to also be at least protected.",
+      "revId": "d453c0ec290aa3a79a8a9f6de302a6aeb52deabf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

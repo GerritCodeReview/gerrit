@@ -27,6 +27,8 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.change.DeleteReviewer;
 import com.google.gerrit.server.restapi.change.PostReviewers;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryableAction;
 import com.google.gerrit.sshd.ChangeArgumentParser;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -89,6 +91,8 @@ public class SetReviewersCommand extends SshCommand {
 
   @Inject private ChangeArgumentParser changeArgumentParser;
 
+  @Inject private RetryHelper retryHelper;
+
   private Set<Account.Id> toRemove = new HashSet<>();
 
   private Map<Change.Id, ChangeResource> changes = new LinkedHashMap<>();
@@ -121,7 +125,15 @@ public class SetReviewersCommand extends SshCommand {
       ReviewerResource rsrc = reviewerFactory.create(changeRsrc, reviewer);
       String error = null;
       try {
-        deleteReviewer.apply(rsrc, new DeleteReviewerInput());
+        retryHelper
+            .action(
+                RetryableAction.ActionType.CHANGE_UPDATE,
+                "removeReviewers",
+                () -> {
+                  deleteReviewer.apply(rsrc, new DeleteReviewerInput());
+                  return null;
+                })
+            .call();
       } catch (ResourceNotFoundException e) {
         error = String.format("could not remove %s: not found", reviewer);
       } catch (Exception e) {
@@ -139,15 +151,26 @@ public class SetReviewersCommand extends SshCommand {
       ReviewerInput input = new ReviewerInput();
       input.reviewer = reviewer;
       input.confirmed = true;
-      String error;
+      var error =
+          new Object() {
+            String value;
+          };
       try {
-        error = postReviewers.apply(changeRsrc, input).value().error;
+        retryHelper
+            .action(
+                RetryableAction.ActionType.CHANGE_UPDATE,
+                "applyReview",
+                () -> {
+                  error.value = postReviewers.apply(changeRsrc, input).value().error;
+                  return null;
+                })
+            .call();
       } catch (Exception e) {
-        error = String.format("could not add %s: %s", reviewer, e.getMessage());
+        error.value = String.format("could not add %s: %s", reviewer, e.getMessage());
       }
-      if (error != null) {
+      if (error.value != null) {
         ok = false;
-        writeError("error", error);
+        writeError("error", error.value);
       }
     }
 

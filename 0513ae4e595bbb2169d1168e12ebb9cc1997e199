@@ -22,6 +22,30 @@
       },
       "revId": "0513ae4e595bbb2169d1168e12ebb9cc1997e199",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db040ecf_f6d0c57c",
+        "filename": "java/com/google/gerrit/server/config/UserPreferencesConverter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-09-20T13:23:27Z",
+      "side": 1,
+      "message": "Yes, please see my last comment here.\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/386534/comment/c1f8592c_2dc754b7/",
+      "parentUuid": "13869734_7bcb0a07",
+      "range": {
+        "startLine": 34,
+        "startChar": 12,
+        "endLine": 34,
+        "endChar": 36
+      },
+      "revId": "0513ae4e595bbb2169d1168e12ebb9cc1997e199",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

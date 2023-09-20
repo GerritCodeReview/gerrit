@@ -16,13 +16,13 @@ package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.api.changes.TopicInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.change.SetTopicOp;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.util.time.TimeUtil;
+import com.google.gerrit.server.restapi.change.PutTopic;
 import com.google.gerrit.sshd.ChangeArgumentParser;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -34,9 +34,8 @@ import org.kohsuke.args4j.Option;
 
 @CommandMetaData(name = "set-topic", description = "Set the topic for one or more changes")
 public class SetTopicCommand extends SshCommand {
-  private final BatchUpdate.Factory updateFactory;
   private final ChangeArgumentParser changeArgumentParser;
-  private final SetTopicOp.Factory topicOpFactory;
+  private final PutTopic putTopic;
 
   private Map<Change.Id, ChangeResource> changes = new LinkedHashMap<>();
 
@@ -62,17 +61,14 @@ public class SetTopicCommand extends SshCommand {
   private String topic;
 
   @Inject
-  SetTopicCommand(
-      BatchUpdate.Factory updateFactory,
-      ChangeArgumentParser changeArgumentParser,
-      SetTopicOp.Factory topicOpFactory) {
-    this.updateFactory = updateFactory;
+  SetTopicCommand(ChangeArgumentParser changeArgumentParser, PutTopic putTopic) {
     this.changeArgumentParser = changeArgumentParser;
-    this.topicOpFactory = topicOpFactory;
+    this.putTopic = putTopic;
   }
 
   @Override
   public void run() throws Exception {
+    boolean ok = true;
     if (topic != null) {
       topic = topic.trim();
     }
@@ -83,12 +79,28 @@ public class SetTopicCommand extends SshCommand {
     }
 
     for (ChangeResource r : changes.values()) {
-      SetTopicOp op = topicOpFactory.create(topic);
-      try (BatchUpdate u =
-          updateFactory.create(r.getChange().getProject(), user, TimeUtil.nowTs())) {
-        u.addOp(r.getId(), op);
-        u.execute();
+      TopicInput input = new TopicInput();
+      input.topic = topic;
+      try {
+        putTopic.apply(r, input);
+      } catch (ResourceNotFoundException e) {
+        ok = false;
+        writeError(
+            "error",
+            String.format(
+                "could not add topic to change %d: not found", r.getChange().getChangeId()));
+      } catch (Exception e) {
+        ok = false;
+        writeError(
+            "error",
+            String.format(
+                "could not add topic to change %d: %s",
+                r.getChange().getChangeId(), e.getMessage()));
       }
+    }
+
+    if (!ok) {
+      throw die("one or more updates failed");
     }
   }
 }

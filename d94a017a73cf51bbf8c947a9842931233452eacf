@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58281354_c3aee905",
+        "filename": "java/com/google/gerrit/server/account/CachedAccountDetails.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-09-20T11:46:54Z",
+      "side": 1,
+      "message": "this could be unset/null but the method seems to not handle that?",
+      "range": {
+        "startLine": 174,
+        "startChar": 61,
+        "endLine": 174,
+        "endChar": 79
+      },
+      "revId": "d94a017a73cf51bbf8c947a9842931233452eacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6dc107d_6246cbfa",
+        "filename": "javatests/com/google/gerrit/server/account/AccountCacheTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-09-20T11:46:54Z",
+      "side": 1,
+      "message": "Can we add a roundtrip test for a proto-first user preference just to be sure?",
+      "revId": "d94a017a73cf51bbf8c947a9842931233452eacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

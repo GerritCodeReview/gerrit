@@ -16,6 +16,24 @@
       "message": "I don\u0027t think using a timer across threads to time different concurrent operations is going to work.",
       "revId": "d957c32625b333089ba6243e1f903885555a60d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7bda7a9b_2166337e",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-21T18:35:12Z",
+      "side": 1,
+      "message": "I think it works fine. start() returns a new Context instance and that tracks the time for that instance, then at completion it uses the shared singleton Timer instance to record the metric.",
+      "parentUuid": "ddb07468_f2fd0121",
+      "revId": "d957c32625b333089ba6243e1f903885555a60d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

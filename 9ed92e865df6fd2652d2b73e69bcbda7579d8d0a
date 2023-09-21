@@ -1,0 +1,291 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f1bfaa0_dd6a4157",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-21T20:43:44Z",
+      "side": 1,
+      "message": "nits:\ns/Add email/Add an email/\ns/to cherrypick/to the cherrypick/",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 9
+      },
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5904d2b_9f68dec1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-21T20:43:44Z",
+      "side": 1,
+      "message": "I would reword to be:\n\n```\none of their secondary emails to become the committer email in the new\ncherry-picked patchset.\n```",
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "258208ca_7c338369",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-21T20:43:44Z",
+      "side": 1,
+      "message": "nit: \"a registered secondary email\"",
+      "range": {
+        "startLine": 14,
+        "startChar": 45,
+        "endLine": 14,
+        "endChar": 47
+      },
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5ae76f0_16b3c3df",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-21T20:43:44Z",
+      "side": 1,
+      "message": "s/user has/you have/\n\nThis doc is presented as if the reader is doing it, so keep that consistent.",
+      "range": {
+        "startLine": 228,
+        "startChar": 57,
+        "endLine": 228,
+        "endChar": 61
+      },
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd8b0075_10f4ba86",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-21T20:43:44Z",
+      "side": 1,
+      "message": "s/the/your/",
+      "range": {
+        "startLine": 229,
+        "startChar": 29,
+        "endLine": 229,
+        "endChar": 32
+      },
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba9db2af_1008351e",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-21T20:43:44Z",
+      "side": 1,
+      "message": "s/the/your/",
+      "range": {
+        "startLine": 230,
+        "startChar": 17,
+        "endLine": 230,
+        "endChar": 20
+      },
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21f4512b_f3c8ea8c",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-21T20:43:44Z",
+      "side": 1,
+      "message": "s/as/as the/",
+      "range": {
+        "startLine": 231,
+        "startChar": 21,
+        "endLine": 231,
+        "endChar": 24
+      },
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a838341d_61512ba8",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-21T20:43:44Z",
+      "side": 1,
+      "message": "s/If user/If the user/",
+      "range": {
+        "startLine": 284,
+        "startChar": 38,
+        "endLine": 284,
+        "endChar": 45
+      },
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92b7a8e6_2b387eb1",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-21T20:43:44Z",
+      "side": 1,
+      "message": "s/the/their/",
+      "range": {
+        "startLine": 285,
+        "startChar": 14,
+        "endLine": 285,
+        "endChar": 17
+      },
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e042c7e_ffdca228",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-21T20:43:44Z",
+      "side": 1,
+      "message": "s/the/the user\u0027s/",
+      "range": {
+        "startLine": 286,
+        "startChar": 0,
+        "endLine": 286,
+        "endChar": 4
+      },
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63af0f42_f6306c16",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-21T20:43:44Z",
+      "side": 1,
+      "message": "s/as/as the/",
+      "range": {
+        "startLine": 287,
+        "startChar": 8,
+        "endLine": 287,
+        "endChar": 11
+      },
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9903b207_f9360309",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-21T20:43:44Z",
+      "side": 1,
+      "message": "follow-up in a new change: This should also mention how you can cherry-pick a change to a branch where an open change with the same change-id exists and how that will create a new patchset on that destination change.",
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7696036_b8760853",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-21T20:43:44Z",
+      "side": 1,
+      "message": "I think you can combine this with 701 using a `.then()` like `gr-email-editor.ts` does and then `s/emails?/emails/` in this method (because now it\u0027s the empty list and not potentially null).\n```suggestion\n    await this.restApiService.getAccountEmails().then(emails \u003d\u003e {\n      this.emails \u003d emails ?? [];\n    });\n```",
+      "range": {
+        "startLine": 692,
+        "startChar": 4,
+        "endLine": 692,
+        "endChar": 64
+      },
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

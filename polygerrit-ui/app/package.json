@@ -39,7 +39,7 @@
     "highlightjs-structured-text": "https://github.com/highlightjs/highlightjs-structured-text",
     "immer": "^9.0.21",
     "lit": "^2.7.5",
-    "polymer-bridges": "file:../../polymer-bridges/",
+    "polymer-bridges": "file:../../polymer-bridges",
     "polymer-resin": "^2.0.1",
     "resemblejs": "^5.0.0",
     "rxjs": "^6.6.7",

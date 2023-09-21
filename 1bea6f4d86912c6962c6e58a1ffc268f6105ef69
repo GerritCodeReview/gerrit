@@ -34,6 +34,24 @@
       "parentUuid": "589264c3_3129f3cc",
       "revId": "1bea6f4d86912c6962c6e58a1ffc268f6105ef69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99425f81_f404cb0d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-09-21T18:36:05Z",
+      "side": 1,
+      "message": "@nasser.grainawi@linaro.org, @maczech@gmail.com, we were bitten exactly by this issue today:\n\n```\n2023-09-21T14:58:32.107Z java.lang.NullPointerException\n        at com.google.gerrit.server.restapi.project.DeleteRef.deleteSingleRef(DeleteRef.java:119)\n        at com.google.gerrit.server.restapi.project.DeleteRef.deleteMultipleRefs(DeleteRef.java:174)\n        at com.google.gerrit.server.restapi.project.DeleteTags.apply(DeleteTags.java:50)\n        at com.google.gerrit.server.restapi.project.DeleteTags.apply(DeleteTags.java:31)\n```\n\naddressed here: https://gerrit-review.googlesource.com/c/gerrit/+/387103",
+      "parentUuid": "853ff264_fd427392",
+      "revId": "1bea6f4d86912c6962c6e58a1ffc268f6105ef69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

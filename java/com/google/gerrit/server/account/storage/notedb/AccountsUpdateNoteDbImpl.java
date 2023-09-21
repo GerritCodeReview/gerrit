@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.account.storage.notedb;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.ACCOUNTS_UPDATE;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
@@ -27,10 +27,8 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.RefUpdateUtil;
@@ -127,8 +125,8 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * read-modify-write sequence is atomic. Retrying is limited by a timeout. If the timeout is
  * exceeded the account update can still fail with {@link LockFailureException}.
  */
-public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
-  private static class AbstractFactory extends AccountsUpdateLoader {
+public class AccountsUpdateNoteDbImpl extends AccountsUpdate {
+  private static class AbstractFactory implements AccountsUpdateLoader {
     private final GitRepositoryManager repoManager;
     private final GitReferenceUpdated gitRefUpdated;
     private final AllUsersName allUsersName;
@@ -170,7 +168,6 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
           metaDataUpdateInternalFactory,
           retryHelper,
           serverIdent,
-          createPersonIdent(serverIdent, Optional.of(currentUser)),
           AccountsUpdateNoteDbImpl::doNothing,
           AccountsUpdateNoteDbImpl::doNothing);
     }
@@ -188,7 +185,6 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
           metaDataUpdateInternalFactory,
           retryHelper,
           serverIdent,
-          createPersonIdent(serverIdent, Optional.empty()),
           AccountsUpdateNoteDbImpl::doNothing,
           AccountsUpdateNoteDbImpl::doNothing);
     }
@@ -251,8 +247,6 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
   private final ExternalIdNotes.ExternalIdNotesLoader extIdNotesFactory;
   private final Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
   private final RetryHelper retryHelper;
-  private final PersonIdent committerIdent;
-  private final PersonIdent authorIdent;
 
   /** Invoked after reading the account config. */
   private final Runnable afterReadRevision;
@@ -274,9 +268,9 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
       Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory,
       RetryHelper retryHelper,
       PersonIdent committerIdent,
-      PersonIdent authorIdent,
       Runnable afterReadRevision,
       Runnable beforeCommit) {
+    super(committerIdent, currentUser);
     this.repoManager = requireNonNull(repoManager, "repoManager");
     this.gitRefUpdated = requireNonNull(gitRefUpdated, "gitRefUpdated");
     this.currentUser = currentUser;
@@ -286,26 +280,8 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
     this.metaDataUpdateInternalFactory =
         requireNonNull(metaDataUpdateInternalFactory, "metaDataUpdateInternalFactory");
     this.retryHelper = requireNonNull(retryHelper, "retryHelper");
-    this.committerIdent = requireNonNull(committerIdent, "committerIdent");
-    this.authorIdent = requireNonNull(authorIdent, "authorIdent");
     this.afterReadRevision = requireNonNull(afterReadRevision, "afterReadRevision");
     this.beforeCommit = requireNonNull(beforeCommit, "beforeCommit");
-  }
-
-  private static ConfigureDeltaFromState fromConsumer(Consumer<AccountDelta.Builder> consumer) {
-    return (a, u) -> consumer.accept(u);
-  }
-
-  private static PersonIdent createPersonIdent(
-      PersonIdent serverIdent, Optional<IdentifiedUser> user) {
-    return user.isPresent() ? user.get().newCommitterIdent(serverIdent) : serverIdent;
-  }
-
-  @Override
-  public AccountState insert(
-      String message, Account.Id accountId, Consumer<AccountDelta.Builder> init)
-      throws IOException, ConfigInvalidException {
-    return insert(message, accountId, fromConsumer(init));
   }
 
   @Override
@@ -322,9 +298,8 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
 
                   AccountDelta accountDelta = deltaBuilder.build();
                   accountConfig.setAccountDelta(accountDelta);
-                  externalIdNotes =
-                      createExternalIdNotes(
-                          repo, accountConfig.getExternalIdsRev(), accountId, accountDelta);
+                  updateExternalIdNotes(
+                      repo, accountConfig.getExternalIdsRev(), accountId, accountDelta);
                   CachedPreferences defaultPreferences =
                       CachedPreferences.fromConfig(
                           VersionedDefaultPreferences.get(repo, allUsersName));
@@ -333,24 +308,6 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
                 }))
         .get(0)
         .get();
-  }
-
-  @Override
-  @CanIgnoreReturnValue
-  public Optional<AccountState> update(
-      String message, Account.Id accountId, Consumer<AccountDelta.Builder> update)
-      throws IOException, ConfigInvalidException {
-    return update(message, accountId, fromConsumer(update));
-  }
-
-  @Override
-  @CanIgnoreReturnValue
-  public Optional<AccountState> update(
-      String message, Account.Id accountId, ConfigureDeltaFromState configureDeltaFromState)
-      throws LockFailureException, IOException, ConfigInvalidException {
-    return updateBatch(
-            ImmutableList.of(new UpdateArguments(message, accountId, configureDeltaFromState)))
-        .get(0);
   }
 
   @Override
@@ -377,24 +334,8 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
       updateArguments.configureDeltaFromState.configure(accountState.get(), deltaBuilder);
 
       AccountDelta delta = deltaBuilder.build();
-      ExternalIdNotes.checkSameAccount(
-          Iterables.concat(
-              delta.getCreatedExternalIds(),
-              delta.getUpdatedExternalIds(),
-              delta.getDeletedExternalIds()),
-          updateArguments.accountId);
-
-      if (delta.hasExternalIdUpdates()) {
-        // Only load the externalIds if they are going to be updated
-        // This makes e.g. preferences updates faster.
-        if (externalIdNotes == null) {
-          externalIdNotes =
-              extIdNotesFactory.load(
-                  repo, accountConfig.getExternalIdsRev().orElse(ObjectId.zeroId()));
-        }
-        externalIdNotes.replace(delta.getDeletedExternalIds(), delta.getCreatedExternalIds());
-        externalIdNotes.upsert(delta.getUpdatedExternalIds());
-      }
+      updateExternalIdNotes(
+          repo, accountConfig.getExternalIdsRev(), updateArguments.accountId, delta);
 
       if (delta.getShouldDeleteAccount().orElse(false)) {
         return new DeletedAccount(updateArguments.message, accountConfig.getRefName());
@@ -408,14 +349,26 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
     };
   }
 
-  @Override
-  @CanIgnoreReturnValue
-  public ImmutableList<Optional<AccountState>> updateBatch(List<UpdateArguments> updates)
+  private void updateExternalIdNotes(
+      Repository allUsersRepo, Optional<ObjectId> rev, Account.Id accountId, AccountDelta update)
       throws IOException, ConfigInvalidException {
-    checkArgument(
-        updates.stream().map(u -> u.accountId.get()).distinct().count() == updates.size(),
-        "updates must all be for different accounts");
-    return execute(updates.stream().map(this::createExecutableUpdate).collect(toList()));
+
+    if (update.hasExternalIdUpdates()) {
+
+      // Only load the externalIds if they are going to be updated
+      // This makes e.g. preferences updates faster.
+      ExternalIdNotes.checkSameAccount(
+          Iterables.concat(
+              update.getCreatedExternalIds(),
+              update.getUpdatedExternalIds(),
+              update.getDeletedExternalIds()),
+          accountId);
+      if (externalIdNotes == null) {
+        externalIdNotes = extIdNotesFactory.load(allUsersRepo, rev.orElse(ObjectId.zeroId()));
+      }
+      externalIdNotes.replace(update.getDeletedExternalIds(), update.getCreatedExternalIds());
+      externalIdNotes.upsert(update.getUpdatedExternalIds());
+    }
   }
 
   private AccountConfig read(Repository allUsersRepo, Account.Id accountId)
@@ -423,6 +376,12 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
     AccountConfig accountConfig = new AccountConfig(accountId, allUsersName, allUsersRepo).load();
     afterReadRevision.run();
     return accountConfig;
+  }
+
+  @Override
+  protected ImmutableList<Optional<AccountState>> executeUpdates(List<UpdateArguments> updates)
+      throws ConfigInvalidException, IOException {
+    return execute(updates.stream().map(this::createExecutableUpdate).collect(toImmutableList()));
   }
 
   private ImmutableList<Optional<AccountState>> execute(List<ExecutableUpdate> executableUpdates)
@@ -465,23 +424,6 @@ public class AccountsUpdateNoteDbImpl implements AccountsUpdate {
       Throwables.throwIfInstanceOf(e, ConfigInvalidException.class);
       throw new StorageException(e);
     }
-  }
-
-  private ExternalIdNotes createExternalIdNotes(
-      Repository allUsersRepo, Optional<ObjectId> rev, Account.Id accountId, AccountDelta update)
-      throws IOException, ConfigInvalidException, DuplicateKeyException {
-    ExternalIdNotes.checkSameAccount(
-        Iterables.concat(
-            update.getCreatedExternalIds(),
-            update.getUpdatedExternalIds(),
-            update.getDeletedExternalIds()),
-        accountId);
-
-    ExternalIdNotes extIdNotes =
-        extIdNotesFactory.load(allUsersRepo, rev.orElse(ObjectId.zeroId()));
-    extIdNotes.replace(update.getDeletedExternalIds(), update.getCreatedExternalIds());
-    extIdNotes.upsert(update.getUpdatedExternalIds());
-    return extIdNotes;
   }
 
   private void commit(Repository allUsersRepo, List<UpdatedAccount> updatedAccounts)

@@ -30,7 +30,7 @@ export declare interface SuggestionsProvider {
   suggestCode(commentData: SuggestCodeRequest): Promise<SuggestCodeResponse>;
 }
 
-declare interface SuggestCodeResponse {
+export declare interface SuggestCodeResponse {
   responseCode: ResponseCode;
   suggestions: Suggestion[];
 }
@@ -42,5 +42,7 @@ export declare interface Suggestion {
 
 export enum ResponseCode {
   OK = 'OK',
+  NO_SUGGESTION = 'NO_SUGGESTION',
+  OUT_OF_RANGE = 'OUT_OF_RANGE',
   ERROR = 'ERROR',
 }

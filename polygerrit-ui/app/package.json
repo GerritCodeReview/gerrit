@@ -38,13 +38,13 @@
     "highlightjs-closure-templates": "https://github.com/highlightjs/highlightjs-closure-templates",
     "highlightjs-structured-text": "https://github.com/highlightjs/highlightjs-structured-text",
     "immer": "^9.0.21",
-    "lit": "^2.7.5",
-    "polymer-bridges": "file:../../polymer-bridges/",
+    "lit": "^2.8.0",
+    "polymer-bridges": "file:../../polymer-bridges",
     "polymer-resin": "^2.0.1",
     "resemblejs": "^5.0.0",
     "rxjs": "^6.6.7",
     "safevalues": "0.3.1",
-    "web-vitals": "^3.3.2"
+    "web-vitals": "^3.4.0"
   },
   "dependencies // comments": {
     "safevalues": [

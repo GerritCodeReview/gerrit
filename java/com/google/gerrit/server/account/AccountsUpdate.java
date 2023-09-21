@@ -14,12 +14,14 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.git.LockFailureException;
@@ -33,6 +35,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.PersonIdent;
 
 /**
  * Creates and updates accounts.
@@ -45,8 +48,8 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
  *
  * <p>See the implementing classes for more information.
  */
-public interface AccountsUpdate {
-  abstract class AccountsUpdateLoader {
+public abstract class AccountsUpdate {
+  public interface AccountsUpdateLoader {
     /**
      * Creates an {@code AccountsUpdate} which uses the identity of the specified user as author for
      * all commits related to accounts. The server identity will be used as committer.
@@ -57,7 +60,7 @@ public interface AccountsUpdate {
      *
      * @param currentUser the user to which modifications should be attributed
      */
-    public abstract AccountsUpdate create(IdentifiedUser currentUser);
+    AccountsUpdate create(IdentifiedUser currentUser);
 
     /**
      * Creates an {@code AccountsUpdate} which uses the server identity as author and committer for
@@ -67,21 +70,21 @@ public interface AccountsUpdate {
      * com.google.gerrit.server.ServerInitiated} annotation on the provider of an {@code
      * AccountsUpdate} instead.
      */
-    public abstract AccountsUpdate createWithServerIdent();
+    AccountsUpdate createWithServerIdent();
 
     @BindingAnnotation
     @Target({FIELD, PARAMETER, METHOD})
     @Retention(RUNTIME)
-    public @interface WithReindex {}
+    @interface WithReindex {}
 
     @BindingAnnotation
     @Target({FIELD, PARAMETER, METHOD})
     @Retention(RUNTIME)
-    public @interface NoReindex {}
+    @interface NoReindex {}
   }
 
   /** Data holder for the set of arguments required to update an account. Used for batch updates. */
-  class UpdateArguments {
+  public static class UpdateArguments {
     public final String message;
     public final Account.Id accountId;
     public final AccountsUpdate.ConfigureDeltaFromState configureDeltaFromState;
@@ -104,7 +107,7 @@ public interface AccountsUpdate {
    * com.google.gerrit.server.account.AccountDelta.Builder} instead.
    */
   @FunctionalInterface
-  interface ConfigureDeltaFromState {
+  public interface ConfigureDeltaFromState {
     /**
      * Receives the current {@link AccountState} (which is immutable) and configures an {@link
      * com.google.gerrit.server.account.AccountDelta.Builder} with changes to the account.
@@ -116,8 +119,21 @@ public interface AccountsUpdate {
   }
 
   /** Returns an instance that runs all specified consumers. */
-  static ConfigureDeltaFromState joinConsumers(List<Consumer<AccountDelta.Builder>> consumers) {
+  public static ConfigureDeltaFromState joinConsumers(
+      List<Consumer<AccountDelta.Builder>> consumers) {
     return (accountStateIgnored, update) -> consumers.forEach(c -> c.accept(update));
+  }
+
+  static ConfigureDeltaFromState fromConsumer(Consumer<AccountDelta.Builder> consumer) {
+    return (a, u) -> consumer.accept(u);
+  }
+
+  protected final PersonIdent committerIdent;
+  protected final PersonIdent authorIdent;
+
+  protected AccountsUpdate(PersonIdent serverIdent, Optional<IdentifiedUser> user) {
+    this.committerIdent = serverIdent;
+    this.authorIdent = createPersonIdent(serverIdent, user);
   }
 
   /**
@@ -125,8 +141,11 @@ public interface AccountsUpdate {
    * instead, i.e. the update does not depend on the current account state (which, for insertion,
    * would only contain the account ID).
    */
-  AccountState insert(String message, Account.Id accountId, Consumer<AccountDelta.Builder> init)
-      throws IOException, ConfigInvalidException;
+  public AccountState insert(
+      String message, Account.Id accountId, Consumer<AccountDelta.Builder> init)
+      throws IOException, ConfigInvalidException {
+    return insert(message, accountId, AccountsUpdate.fromConsumer(init));
+  }
 
   /**
    * Inserts a new account.
@@ -139,16 +158,20 @@ public interface AccountsUpdate {
    * @throws IOException if creating the user branch fails due to an IO error
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  AccountState insert(String message, Account.Id accountId, ConfigureDeltaFromState init)
+  public abstract AccountState insert(
+      String message, Account.Id accountId, ConfigureDeltaFromState init)
       throws IOException, ConfigInvalidException;
 
   /**
    * Like {@link #update(String, Account.Id, ConfigureDeltaFromState)}, but using a {@link Consumer}
    * instead, i.e. the update does not depend on the current account state.
    */
-  Optional<AccountState> update(
+  @CanIgnoreReturnValue
+  public Optional<AccountState> update(
       String message, Account.Id accountId, Consumer<AccountDelta.Builder> update)
-      throws IOException, ConfigInvalidException;
+      throws IOException, ConfigInvalidException {
+    return update(message, accountId, AccountsUpdate.fromConsumer(update));
+  }
 
   /**
    * Gets the account and updates it atomically.
@@ -165,9 +188,14 @@ public interface AccountsUpdate {
    *     after the retry timeout exceeded
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  Optional<AccountState> update(
+  @CanIgnoreReturnValue
+  public Optional<AccountState> update(
       String message, Account.Id accountId, ConfigureDeltaFromState configureDeltaFromState)
-      throws LockFailureException, IOException, ConfigInvalidException;
+      throws IOException, ConfigInvalidException {
+    return updateBatch(
+            ImmutableList.of(new UpdateArguments(message, accountId, configureDeltaFromState)))
+        .get(0);
+  }
 
   /**
    * Updates multiple different accounts atomically. This will only store a single new value (aka
@@ -179,8 +207,13 @@ public interface AccountsUpdate {
    * the error. Callers should be aware that a single "update of death" (or a set of updates that
    * together have this property) will always prevent the entire batch from being executed.
    */
-  ImmutableList<Optional<AccountState>> updateBatch(List<UpdateArguments> updates)
-      throws IOException, ConfigInvalidException;
+  public ImmutableList<Optional<AccountState>> updateBatch(List<UpdateArguments> updates)
+      throws IOException, ConfigInvalidException {
+    checkArgument(
+        updates.stream().map(u -> u.accountId.get()).distinct().count() == updates.size(),
+        "updates must all be for different accounts");
+    return executeUpdates(updates);
+  }
 
   /**
    * Deletes all the account state data.
@@ -190,5 +223,14 @@ public interface AccountsUpdate {
    * @throws IOException if updating the user branch fails due to an IO error
    * @throws ConfigInvalidException if any of the account fields has an invalid value
    */
-  void delete(String message, Account.Id accountId) throws IOException, ConfigInvalidException;
+  public abstract void delete(String message, Account.Id accountId)
+      throws IOException, ConfigInvalidException;
+
+  protected abstract ImmutableList<Optional<AccountState>> executeUpdates(
+      List<UpdateArguments> updates) throws ConfigInvalidException, IOException;
+
+  private static PersonIdent createPersonIdent(
+      PersonIdent serverIdent, Optional<IdentifiedUser> user) {
+    return user.isPresent() ? user.get().newCommitterIdent(serverIdent) : serverIdent;
+  }
 }

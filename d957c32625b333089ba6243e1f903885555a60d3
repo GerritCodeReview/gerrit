@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2246035_6b6efdb7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-21T20:46:35Z",
+      "side": 1,
+      "message": "No gjf diff.\n\n```\n$ bazel build release \u0026\u0026 bazel test --flaky_test_attempts 3 --test_timeout 3600 --test_tag_filters\u003d-flaky //...\n[snip]\nExecuted 188 out of 200 tests: 200 tests pass.\nINFO: Build completed successfully, 474 total actions\n```",
+      "revId": "d957c32625b333089ba6243e1f903885555a60d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ddb07468_f2fd0121",
@@ -50,6 +67,24 @@
       "side": 1,
       "message": "Ah right, gotcha.",
       "parentUuid": "7bda7a9b_2166337e",
+      "revId": "d957c32625b333089ba6243e1f903885555a60d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c591aaf_c386c85c",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-21T20:46:35Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "2da82bec_da57a6c3",
       "revId": "d957c32625b333089ba6243e1f903885555a60d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

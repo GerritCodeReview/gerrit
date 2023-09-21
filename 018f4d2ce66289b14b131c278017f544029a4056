@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4366106_cf11b741",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-09-21T13:41:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c85b29e_67f8def0",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 24
+      },
+      "revId": "018f4d2ce66289b14b131c278017f544029a4056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7389cb79_97d8aca2",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-09-21T13:18:53Z",
       "side": 1,
       "message": "Maybe also mention why things were changed to be to public? Making things public looks unrelated, but I assume it\u0027s intentional?",
+      "revId": "018f4d2ce66289b14b131c278017f544029a4056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd0551e8_e5e8a3e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-09-21T13:41:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7389cb79_97d8aca2",
       "revId": "018f4d2ce66289b14b131c278017f544029a4056",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7744e8a_fda6f574",
+        "filename": "java/com/google/gerrit/server/account/AccountsUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-09-21T13:41:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b12cef0c_99278bcf",
+      "range": {
+        "startLine": 134,
+        "startChar": 2,
+        "endLine": 134,
+        "endChar": 8
+      },
+      "revId": "018f4d2ce66289b14b131c278017f544029a4056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58a98085_528b87c4",
@@ -77,6 +143,30 @@
       "writtenOn": "2023-09-21T13:18:53Z",
       "side": 1,
       "message": "Should this method be removed since it\u0027s present in AccountsUpdate now?",
+      "range": {
+        "startLine": 376,
+        "startChar": 2,
+        "endLine": 384,
+        "endChar": 3
+      },
+      "revId": "018f4d2ce66289b14b131c278017f544029a4056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b809e264_a490f9a3",
+        "filename": "java/com/google/gerrit/server/account/storage/notedb/AccountsUpdateNoteDbImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-09-21T13:41:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58a98085_528b87c4",
       "range": {
         "startLine": 376,
         "startChar": 2,

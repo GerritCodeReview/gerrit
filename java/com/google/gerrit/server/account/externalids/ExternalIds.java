@@ -31,7 +31,12 @@ public interface ExternalIds {
   /** Returns the external IDs of the specified account. */
   ImmutableSet<ExternalId> byAccount(Account.Id accountId) throws IOException;
 
-  /** Returns the external IDs of the specified account that have the given scheme. */
+  /**
+   * Returns the external IDs of the specified account that have the given scheme.
+   *
+   * <p>Callers to this method should care about accuracy rather than latency. For better latency
+   * performance, call {@link ExternalIdCache#byAccount} directly.
+   */
   ImmutableSet<ExternalId> byAccount(Account.Id accountId, String scheme) throws IOException;
 
   /** Returns all external IDs by account. */
@@ -43,12 +48,8 @@ public interface ExternalIds {
    * <p>Each email should belong to a single external ID only. This means if more than one external
    * ID is returned there is an inconsistency in the external IDs.
    *
-   * <p>The external IDs are retrieved from the external ID cache. Each access to the external ID
-   * cache requires reading the SHA1 of the refs/meta/external-ids branch. If external IDs for
-   * multiple emails are needed it is more efficient to use {@link #byEmails(String...)} as this
-   * method reads the SHA1 of the refs/meta/external-ids branch only once (and not once per email).
-   *
-   * @see #byEmails(String...)
+   * <p>Callers to this method should care about accuracy rather than latency. For better latency
+   * performance, call {@link ExternalIdCache#byEmail(String)} directly.
    */
   ImmutableSet<ExternalId> byEmail(String email) throws IOException;
 
@@ -58,11 +59,8 @@ public interface ExternalIds {
    * <p>Each email should belong to a single external ID only. This means if more than one external
    * ID for an email is returned there is an inconsistency in the external IDs.
    *
-   * <p>The external IDs are retrieved from the external ID cache. Each access to the external ID
-   * cache requires reading the SHA1 of the refs/meta/external-ids branch. If external IDs for
-   * multiple emails are needed it is more efficient to use this method instead of {@link
-   * #byEmail(String)} as this method reads the SHA1 of the refs/meta/external-ids branch only once
-   * (and not once per email).
+   * <p>Callers to this method should care about accuracy rather than latency. For better latency
+   * performance, call {@link ExternalIdCache#byEmails(String...)} directly.
    *
    * @see #byEmail(String)
    */

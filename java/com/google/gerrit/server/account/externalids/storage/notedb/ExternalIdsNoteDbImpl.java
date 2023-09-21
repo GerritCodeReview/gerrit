@@ -59,7 +59,8 @@ public class ExternalIdsNoteDbImpl implements ExternalIds {
       this.externalIdCache = null;
     } else {
       throw new IllegalStateException(
-          "The cache provided in ExternalIdsNoteDbImpl should be either ExternalIdCacheImpl or DisabledExternalIdCache");
+          "The cache provided in ExternalIdsNoteDbImpl should be either ExternalIdCacheImpl or"
+              + " DisabledExternalIdCache");
     }
     this.externalIdKeyFactory = externalIdKeyFactory;
     this.authConfig = authConfig;
@@ -111,11 +112,32 @@ public class ExternalIdsNoteDbImpl implements ExternalIds {
     return externalIdCache.allByAccount();
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * <p>The external IDs are retrieved from the external ID cache. Each access to the external ID *
+   * cache requires reading the SHA1 of the refs/meta/external-ids branch. If external IDs for *
+   * multiple emails are needed it is more efficient to use {@link #byEmails(String...)} as this *
+   * method reads the SHA1 of the refs/meta/external-ids branch only once (and not once per email).
+   *
+   * @see #byEmails(String...)
+   */
   @Override
   public ImmutableSet<ExternalId> byEmail(String email) throws IOException {
     return externalIdCache.byEmail(email);
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * <p>The external IDs are retrieved from the external ID cache. Each access to the external ID
+   * cache requires reading the SHA1 of the refs/meta/external-ids branch. If external IDs for
+   * multiple emails are needed it is more efficient to use this method instead of {@link
+   * #byEmail(String)} as this method reads the SHA1 of the refs/meta/external-ids branch only once
+   * (and not once per email).
+   *
+   * @see #byEmail(String)
+   */
   @Override
   public ImmutableSetMultimap<String, ExternalId> byEmails(String... emails) throws IOException {
     return externalIdCache.byEmails(emails);

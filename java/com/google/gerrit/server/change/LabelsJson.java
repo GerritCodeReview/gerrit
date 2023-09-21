@@ -214,7 +214,8 @@ public class LabelsJson {
       boolean standard,
       boolean detailed)
       throws PermissionBackendException {
-    Map<String, LabelWithStatus> labels = initLabels(accountLoader, cd, labelTypes, standard);
+    Map<String, LabelWithStatus> labels =
+        initLabels(accountLoader, cd, labelTypes, /*includeAccountInfo=*/ standard || detailed);
     setAllApprovals(accountLoader, cd, labels, detailed);
 
     for (Map.Entry<String, LabelWithStatus> e : labels.entrySet()) {
@@ -373,7 +374,10 @@ public class LabelsJson {
   }
 
   private Map<String, LabelWithStatus> initLabels(
-      AccountLoader accountLoader, ChangeData cd, LabelTypes labelTypes, boolean standard) {
+      AccountLoader accountLoader,
+      ChangeData cd,
+      LabelTypes labelTypes,
+      boolean includeAccountInfo) {
     Map<String, LabelWithStatus> labels = new TreeMap<>(labelTypes.nameComparator());
     for (SubmitRecord rec : submitRecords(cd)) {
       if (rec.labels == null) {
@@ -383,7 +387,7 @@ public class LabelsJson {
         LabelWithStatus p = labels.get(r.label);
         if (p == null || p.status().compareTo(r.status) < 0) {
           LabelInfo n = new LabelInfo();
-          if (standard) {
+          if (includeAccountInfo) {
             switch (r.status) {
               case OK:
                 n.approved = accountLoader.get(r.appliedBy);

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a8d6744_9c1d9a45",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-09-21T13:32:04Z",
+      "side": 1,
+      "message": "Will do this in 1 week",
+      "revId": "a7f766fca65a1ee22a3f3170eed20b2e03f65d32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "754e4b22_b04eda49",
@@ -14,6 +31,30 @@
       "writtenOn": "2023-09-21T13:30:08Z",
       "side": 1,
       "message": "leave a TODO to remove this once Change 387097 is live.",
+      "range": {
+        "startLine": 1238,
+        "startChar": 6,
+        "endLine": 1238,
+        "endChar": 30
+      },
+      "revId": "a7f766fca65a1ee22a3f3170eed20b2e03f65d32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01fd2839_d3f69318",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1238,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-09-21T13:32:04Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "754e4b22_b04eda49",
       "range": {
         "startLine": 1238,
         "startChar": 6,

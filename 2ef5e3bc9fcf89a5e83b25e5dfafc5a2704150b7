@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9816429_cff08a7d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-21T20:10:14Z",
+      "side": 1,
+      "message": "nit: match the case of the line above: REST API",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "2ef5e3bc9fcf89a5e83b25e5dfafc5a2704150b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9f4ccd4_9bbe2b06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-21T20:10:14Z",
+      "side": 1,
+      "message": "Maybe: \"using a registered secondary email\"?",
+      "range": {
+        "startLine": 15,
+        "startChar": 51,
+        "endLine": 15,
+        "endChar": 53
+      },
+      "revId": "2ef5e3bc9fcf89a5e83b25e5dfafc5a2704150b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7e86f6c_9b341503",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 7380,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-21T20:10:14Z",
+      "side": 1,
+      "message": "Note that this defaults to your preferred email address?\n```suggestion\n|`committer_email`|optional, defaults to preferred email|\n```",
+      "range": {
+        "startLine": 7380,
+        "startChar": 19,
+        "endLine": 7380,
+        "endChar": 27
+      },
+      "revId": "2ef5e3bc9fcf89a5e83b25e5dfafc5a2704150b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72c9d76e_54bdd29c",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-21T20:10:14Z",
+      "side": 1,
+      "message": "nit: Should this match the camelCase of the java code and refer to input? `input.committerEmail`\n\nand s/not/is not/\n\n```suggestion\n   * @throws RestApiException Error such as invalid SHA1, or input.committerEmail is not among the\n```",
+      "range": {
+        "startLine": 251,
+        "startChar": 61,
+        "endLine": 251,
+        "endChar": 76
+      },
+      "revId": "2ef5e3bc9fcf89a5e83b25e5dfafc5a2704150b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

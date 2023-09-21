@@ -48,6 +48,11 @@ import java.util.Optional;
 public class SubmitRuleEvaluator {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  public interface Factory {
+    /** Returns a new {@link SubmitRuleEvaluator} with the specified options */
+    SubmitRuleEvaluator create(SubmitRuleOptions options);
+  }
+
   private final ProjectCache projectCache;
   private final PrologRule prologRule;
   private final PluginSetContext<SubmitRule> submitRules;
@@ -55,11 +60,6 @@ public class SubmitRuleEvaluator {
   private final Timer0 submitTypeEvaluationLatency;
   private final SubmitRuleOptions opts;
   private final CallerFinder callerFinder;
-
-  public interface Factory {
-    /** Returns a new {@link SubmitRuleEvaluator} with the specified options */
-    SubmitRuleEvaluator create(SubmitRuleOptions options);
-  }
 
   @Inject
   private SubmitRuleEvaluator(

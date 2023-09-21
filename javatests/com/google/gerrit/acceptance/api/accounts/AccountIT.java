@@ -3640,7 +3640,6 @@ public class AccountIT extends AbstractDaemonTest {
         metaDataUpdateInternalFactory,
         retryHelper,
         serverIdent.get(),
-        serverIdent.get(),
         afterReadRevision,
         beforeCommit);
   }

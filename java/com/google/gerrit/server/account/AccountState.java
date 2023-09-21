@@ -143,8 +143,8 @@ public abstract class AccountState {
   }
 
   /** Gerrit's default preferences as stored in {@code preferences.config}. */
-  protected abstract Optional<CachedPreferences> defaultPreferences();
+  public abstract Optional<CachedPreferences> defaultPreferences();
 
   /** User preferences as stored in {@code preferences.config}. */
-  protected abstract Optional<CachedPreferences> userPreferences();
+  public abstract Optional<CachedPreferences> userPreferences();
 }

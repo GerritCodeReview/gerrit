@@ -31,7 +31,6 @@ import com.google.gerrit.server.config.CachedPreferences;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
-import com.google.gerrit.server.util.time.TimeUtil;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -168,16 +167,6 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
                 .setStatus(account.status())
                 .build());
     return this;
-  }
-
-  /**
-   * Creates a new account.
-   *
-   * @return the new account
-   * @throws DuplicateKeyException if the user branch already exists
-   */
-  public Account getNewAccount() throws DuplicateKeyException {
-    return getNewAccount(TimeUtil.now());
   }
 
   /**

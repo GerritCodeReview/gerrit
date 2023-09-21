@@ -339,6 +339,10 @@ public class ApprovalsUtil {
     return notes.load().getApprovals();
   }
 
+  public ListMultimap<PatchSet.Id, PatchSetApproval> byChangeWithCopied(ChangeNotes notes) {
+    return notes.load().getApprovalsWithCopied();
+  }
+
   /**
    * This method should only be used when we want to dynamically compute the approvals. Generally,
    * the copied approvals are available in {@link ChangeNotes}. However, if the patch-set is just

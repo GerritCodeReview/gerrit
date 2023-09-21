@@ -58,6 +58,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -601,6 +602,27 @@ public class PostReviewIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void onPostReviewApprovedIsReturnedForLabelsAndDetailedLabels() throws Exception {
+    PushOneCommit.Result r = createChange();
+    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    input = new ReviewInput();
+    input.message = "first message";
+    input.responseFormatOptions = ImmutableList.of(ListChangesOption.DETAILED_LABELS);
+    ReviewResult reviewResult = gApi.changes().id(r.getChangeId()).current().review(input);
+    assertThat(reviewResult.changeInfo.labels).containsKey(LabelId.CODE_REVIEW);
+    assertThat(reviewResult.changeInfo.labels.get(LabelId.CODE_REVIEW).approved).isNotNull();
+
+    input = new ReviewInput();
+    input.message = "second message";
+    input.responseFormatOptions = ImmutableList.of(ListChangesOption.LABELS);
+    reviewResult = gApi.changes().id(r.getChangeId()).current().review(input);
+    assertThat(reviewResult.changeInfo.labels).containsKey(LabelId.CODE_REVIEW);
+    assertThat(reviewResult.changeInfo.labels.get(LabelId.CODE_REVIEW).approved).isNotNull();
+  }
+
+  @Test
   public void onPostReviewCallbackGetsCorrectApprovals() throws Exception {
     PushOneCommit.Result r = createChange();
 
@@ -614,9 +636,13 @@ public class PostReviewIT extends AbstractDaemonTest {
 
       // Update an existing vote.
       input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
-      gApi.changes().id(r.getChangeId()).current().review(input);
+      input.responseFormatOptions =
+          ImmutableList.of(ListChangesOption.DETAILED_LABELS, ListChangesOption.LABELS);
+      ReviewResult rr = gApi.changes().id(r.getChangeId()).current().review(input);
       testOnPostReview.assertApproval(
           LabelId.CODE_REVIEW, /* expectedOldValue= */ 1, /* expectedNewValue= */ 2);
+      assertThat(rr.changeInfo.labels.get(LabelId.CODE_REVIEW)).isNotNull();
+      assertThat(rr.changeInfo.labels.get(LabelId.CODE_REVIEW).approved).isNotNull();
 
       // Post without changing the vote.
       input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);

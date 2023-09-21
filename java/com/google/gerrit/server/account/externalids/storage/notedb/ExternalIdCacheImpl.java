@@ -70,6 +70,14 @@ class ExternalIdCacheImpl implements ExternalIdCache {
     return get().byAccount();
   }
 
+  /**
+   * Each access to the external ID cache requires reading the SHA1 of the refs/meta/external-ids
+   * branch. If external IDs for multiple emails are needed it is more efficient to use {@link
+   * #byEmails(String...)} as this method reads the SHA1 of the refs/meta/external-ids branch only
+   * once (and not once per email).
+   *
+   * @see #byEmails(String...)
+   */
   @Override
   public ImmutableSetMultimap<String, ExternalId> byEmails(String... emails) throws IOException {
     AllExternalIds allExternalIds = get();

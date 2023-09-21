@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69941684_6e1302d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-21T19:56:00Z",
+      "side": 1,
+      "message": "No gfj diff.\n\n```\n$ bazel build release \u0026\u0026 bazel test --flaky_test_attempts 3 --test_timeout 3600 --test_tag_filters\u003d-flaky //...\n[snip]\nExecuted 3 out of 200 tests: 200 tests pass.\nINFO: Build completed successfully, 31 total actions\n```",
+      "revId": "62963fb2d2c59ffae7fb57a8763a5192d67b0380",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,6 +1,12 @@
 # Gerrit Code Review
 
+<<<<<<< PATCH SET (ec3d75 change 2)
+test change 2
+
+test change 1
+=======
 test change 1 new patchset
+>>>>>>> BASE      (ec7412 change 1)
 
 [Gerrit](https://www.gerritcodereview.com) is a code review and project
 management tool for Git based projects.

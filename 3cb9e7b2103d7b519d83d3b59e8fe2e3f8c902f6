@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ce0827d_a52a491e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-21T19:47:20Z",
+      "side": 1,
+      "message": "No diff with gjf.\n\n```\n$ bazel build release \u0026\u0026 bazel test --flaky_test_attempts 3 --test_timeout 3600 --test_tag_filters\u003d-flaky //...\nExecuted 188 out of 200 tests: 200 tests pass.\nINFO: Build completed successfully, 474 total actions\n```",
+      "revId": "3cb9e7b2103d7b519d83d3b59e8fe2e3f8c902f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

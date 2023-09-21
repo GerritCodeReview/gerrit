@@ -3,7 +3,7 @@
   "description": "Gerrit Code Review - Polygerrit dev dependencies",
   "browser": true,
   "dependencies": {
-    "@types/sinon": "^10.0.15"
+    "@types/sinon": "^10.0.16"
   },
   "devDependencies": {
     "@open-wc/karma-esm": "^3.0.9",

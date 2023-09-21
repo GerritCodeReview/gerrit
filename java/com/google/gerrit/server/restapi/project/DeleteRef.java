@@ -116,7 +116,11 @@ public class DeleteRef {
     try (Repository repository = repoManager.openRepository(projectState.getNameKey())) {
       RefUpdate.Result result;
       RefUpdate u = repository.updateRef(ref);
-      u.setExpectedOldObjectId(repository.exactRef(ref).getObjectId());
+      Ref refObj = repository.exactRef(ref);
+      if (refObj == null) {
+        throw new ResourceConflictException(String.format("ref %s doesn't exist", ref));
+      }
+      u.setExpectedOldObjectId(refObj.getObjectId());
       u.setNewObjectId(ObjectId.zeroId());
       u.setForceUpdate(true);
       refDeletionValidator.validateRefOperation(

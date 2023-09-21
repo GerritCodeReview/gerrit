@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0e877a72_6af75173",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-09-21T12:12:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a577f322_908aadca",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "49766e1c644f936daa07ff52daad8ff9654da2df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "2aaaa188_ac86a2a3",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -64,6 +88,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3384b521_d79c62f6",
+        "filename": "java/com/google/gerrit/httpd/auth/container/HttpAuthFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-09-21T12:12:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfb5525b_94401f36",
+      "range": {
+        "startLine": 149,
+        "startChar": 19,
+        "endLine": 149,
+        "endChar": 30
+      },
+      "revId": "49766e1c644f936daa07ff52daad8ff9654da2df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5a28377_c11380a6",
@@ -77,6 +125,24 @@
       "writtenOn": "2023-09-20T20:38:39Z",
       "side": 1,
       "message": "We should also test that is returning `null` when the header is set but empty",
+      "revId": "49766e1c644f936daa07ff52daad8ff9654da2df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d3e63ef_434a21a6",
+        "filename": "javatests/com/google/gerrit/httpd/auth/container/HttpAuthFilterTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-09-21T12:12:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5a28377_c11380a6",
       "revId": "49766e1c644f936daa07ff52daad8ff9654da2df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

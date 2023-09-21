@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fb95575_a5b10bdf",
+        "filename": "java/com/google/gerrit/server/restapi/project/DeleteRef.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-21T18:43:02Z",
+      "side": 1,
+      "message": "Move these below the null check? (and combine the first with line 131?)",
+      "range": {
+        "startLine": 117,
+        "startChar": 0,
+        "endLine": 118,
+        "endChar": 46
+      },
+      "revId": "7176bd38e1fbfe3edc115ea94511e9d3b9d1607a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

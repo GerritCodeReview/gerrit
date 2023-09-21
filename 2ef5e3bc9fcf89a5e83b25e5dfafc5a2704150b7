@@ -72,6 +72,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6eebf935_937397c0",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 7380,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-21T20:26:56Z",
+      "side": 1,
+      "message": "Oh, or is the default the source commit\u0027s committer email address when that\u0027s one of your registered email addresses? (because of change I77c7350c07)",
+      "parentUuid": "a7e86f6c_9b341503",
+      "range": {
+        "startLine": 7380,
+        "startChar": 19,
+        "endLine": 7380,
+        "endChar": 27
+      },
+      "revId": "2ef5e3bc9fcf89a5e83b25e5dfafc5a2704150b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "72c9d76e_54bdd29c",
         "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
         "patchSetId": 8

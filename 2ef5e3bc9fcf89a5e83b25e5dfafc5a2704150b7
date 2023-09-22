@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d01f3e1_76dd54bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-22T00:13:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9816429_cff08a7d",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "2ef5e3bc9fcf89a5e83b25e5dfafc5a2704150b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c9f4ccd4_9bbe2b06",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-09-21T20:10:14Z",
       "side": 1,
       "message": "Maybe: \"using a registered secondary email\"?",
+      "range": {
+        "startLine": 15,
+        "startChar": 51,
+        "endLine": 15,
+        "endChar": 53
+      },
+      "revId": "2ef5e3bc9fcf89a5e83b25e5dfafc5a2704150b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "907216a5_b6cbbe7b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-22T00:13:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9f4ccd4_9bbe2b06",
       "range": {
         "startLine": 15,
         "startChar": 51,
@@ -94,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f58165fa_91f02605",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 7380,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-22T00:13:32Z",
+      "side": 1,
+      "message": "Yea, the default is a bit complicated, so I have added it under description.",
+      "parentUuid": "6eebf935_937397c0",
+      "range": {
+        "startLine": 7380,
+        "startChar": 19,
+        "endLine": 7380,
+        "endChar": 27
+      },
+      "revId": "2ef5e3bc9fcf89a5e83b25e5dfafc5a2704150b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "72c9d76e_54bdd29c",
@@ -107,6 +179,30 @@
       "writtenOn": "2023-09-21T20:10:14Z",
       "side": 1,
       "message": "nit: Should this match the camelCase of the java code and refer to input? `input.committerEmail`\n\nand s/not/is not/\n\n```suggestion\n   * @throws RestApiException Error such as invalid SHA1, or input.committerEmail is not among the\n```",
+      "range": {
+        "startLine": 251,
+        "startChar": 61,
+        "endLine": 251,
+        "endChar": 76
+      },
+      "revId": "2ef5e3bc9fcf89a5e83b25e5dfafc5a2704150b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3189c570_9cd2b8aa",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-22T00:13:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72c9d76e_54bdd29c",
       "range": {
         "startLine": 251,
         "startChar": 61,

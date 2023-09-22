@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "667842fc_2a5d89cb",
+        "filename": "java/com/google/gerrit/server/permissions/GitVisibleChangeFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-09-22T22:31:52Z",
+      "side": 1,
+      "message": "This atFinest() seems inconsistent with the atWarning() from line 137. It seems to me that they all should actually be atSevere()s.",
+      "revId": "172e1713d4dee0ca7328696f0d707aabb5157ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

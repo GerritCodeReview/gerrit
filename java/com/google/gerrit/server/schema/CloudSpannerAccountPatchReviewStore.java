@@ -49,7 +49,6 @@ public class CloudSpannerAccountPatchReviewStore extends JdbcAccountPatchReviewS
         return new DuplicateKeyException("ACCOUNT_PATCH_REVIEWS", err);
 
       default:
-        convertError(op, err);
         return new StorageException(op + " failure on ACCOUNT_PATCH_REVIEWS", err);
     }
   }

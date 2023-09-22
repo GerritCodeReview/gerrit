@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "911f9345_7bd23f1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-09-22T14:49:09Z",
+      "side": 1,
+      "message": "https://github.com/bazelbuild/rules_nodejs/blob/5.x/nodejs/private/node_versions.bzl",
+      "range": {
+        "startLine": 10,
+        "startChar": 17,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "8669bdb80192e0321e112fefd7f645ddab8fc279",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

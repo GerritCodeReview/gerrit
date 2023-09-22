@@ -327,6 +327,16 @@ export function branchName(branch?: string | BranchName): BranchName {
   return branch as BranchName;
 }
 
+export function getParentCommit(
+  rev?: RevisionInfo | EditRevisionInfo,
+  index?: number
+) {
+  const parents = rev?.parents_data ?? [];
+  const parent = parents[index ?? 0];
+  if (!parent) return '';
+  return shorten(parent.commit_id) ?? '';
+}
+
 export function getParentInfoString(
   rev?: RevisionInfo | EditRevisionInfo,
   index?: number
@@ -337,14 +347,18 @@ export function getParentInfoString(
 
   let info = '';
   if (parent.change_number) {
-    info = `${info}Change ${parent.change_number} at patchset ${parent.patch_set_number}\n`;
+    info = `${info}Patchset ${parent.patch_set_number} of Change ${parent.change_number}\n`;
   }
-
-  if (parent.branch_name) {
-    const commit = shorten(parent.commit_id) ?? 'unknown';
-    info = `${info}Branch ${branchName(
-      parent.branch_name
-    )} at commit ${commit} `;
+  if (!parent.is_merged_in_target_branch) {
+    if (index === 0) {
+      if (parent.change_number) {
+        info = `${info}not yet merged into target branch`;
+      } else {
+        info = `${info}not in target branch`;
+      }
+    } else {
+      info = `${info}from another branch`;
+    }
   }
   return info;
 }

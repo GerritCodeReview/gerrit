@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2a6fe42_17324ed0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-22T00:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f1bfaa0_dd6a4157",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 9
+      },
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5904d2b_9f68dec1",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef8b18f0_d6e9f3e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-22T00:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5904d2b_9f68dec1",
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "258208ca_7c338369",
@@ -54,6 +96,30 @@
       "writtenOn": "2023-09-21T20:43:44Z",
       "side": 1,
       "message": "nit: \"a registered secondary email\"",
+      "range": {
+        "startLine": 14,
+        "startChar": 45,
+        "endLine": 14,
+        "endChar": 47
+      },
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a6b01db_c0097a92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-22T00:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "258208ca_7c338369",
       "range": {
         "startLine": 14,
         "startChar": 45,
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "56b44caa_7635ef75",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-22T00:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5ae76f0_16b3c3df",
+      "range": {
+        "startLine": 228,
+        "startChar": 57,
+        "endLine": 228,
+        "endChar": 61
+      },
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd8b0075_10f4ba86",
@@ -100,6 +190,30 @@
       "writtenOn": "2023-09-21T20:43:44Z",
       "side": 1,
       "message": "s/the/your/",
+      "range": {
+        "startLine": 229,
+        "startChar": 29,
+        "endLine": 229,
+        "endChar": 32
+      },
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "290402c1_0e783a29",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-22T00:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd8b0075_10f4ba86",
       "range": {
         "startLine": 229,
         "startChar": 29,
@@ -133,6 +247,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "32ff4374_6f061e60",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-22T00:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba9db2af_1008351e",
+      "range": {
+        "startLine": 230,
+        "startChar": 17,
+        "endLine": 230,
+        "endChar": 20
+      },
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21f4512b_f3c8ea8c",
@@ -146,6 +284,30 @@
       "writtenOn": "2023-09-21T20:43:44Z",
       "side": 1,
       "message": "s/as/as the/",
+      "range": {
+        "startLine": 231,
+        "startChar": 21,
+        "endLine": 231,
+        "endChar": 24
+      },
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb7e1f54_99829c60",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-22T00:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21f4512b_f3c8ea8c",
       "range": {
         "startLine": 231,
         "startChar": 21,
@@ -179,6 +341,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d754e389_d2e9314c",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-22T00:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a838341d_61512ba8",
+      "range": {
+        "startLine": 284,
+        "startChar": 38,
+        "endLine": 284,
+        "endChar": 45
+      },
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92b7a8e6_2b387eb1",
@@ -192,6 +378,30 @@
       "writtenOn": "2023-09-21T20:43:44Z",
       "side": 1,
       "message": "s/the/their/",
+      "range": {
+        "startLine": 285,
+        "startChar": 14,
+        "endLine": 285,
+        "endChar": 17
+      },
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3ef4973_f54b1ad2",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-22T00:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92b7a8e6_2b387eb1",
       "range": {
         "startLine": 285,
         "startChar": 14,
@@ -225,6 +435,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "950e5fa0_314d178b",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-22T00:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e042c7e_ffdca228",
+      "range": {
+        "startLine": 286,
+        "startChar": 0,
+        "endLine": 286,
+        "endChar": 4
+      },
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63af0f42_f6306c16",
@@ -238,6 +472,30 @@
       "writtenOn": "2023-09-21T20:43:44Z",
       "side": 1,
       "message": "s/as/as the/",
+      "range": {
+        "startLine": 287,
+        "startChar": 8,
+        "endLine": 287,
+        "endChar": 11
+      },
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "682857df_4a73751f",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-22T00:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63af0f42_f6306c16",
       "range": {
         "startLine": 287,
         "startChar": 8,
@@ -265,6 +523,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f033f16_935d2a2b",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-22T00:13:38Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9903b207_f9360309",
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7696036_b8760853",
@@ -278,6 +554,30 @@
       "writtenOn": "2023-09-21T20:43:44Z",
       "side": 1,
       "message": "I think you can combine this with 701 using a `.then()` like `gr-email-editor.ts` does and then `s/emails?/emails/` in this method (because now it\u0027s the empty list and not potentially null).\n```suggestion\n    await this.restApiService.getAccountEmails().then(emails \u003d\u003e {\n      this.emails \u003d emails ?? [];\n    });\n```",
+      "range": {
+        "startLine": 692,
+        "startChar": 4,
+        "endLine": 692,
+        "endChar": 64
+      },
+      "revId": "9ed92e865df6fd2652d2b73e69bcbda7579d8d0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "018b5ab3_c5ee401c",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-22T00:13:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7696036_b8760853",
       "range": {
         "startLine": 692,
         "startChar": 4,

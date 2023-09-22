@@ -41,21 +41,21 @@ import org.eclipse.jgit.lib.ObjectId;
 public abstract class CachedAccountDetails {
   @AutoValue
   public abstract static class Key {
-    static Key create(Account.Id accountId, ObjectId id) {
+    public static Key create(Account.Id accountId, ObjectId id) {
       return new AutoValue_CachedAccountDetails_Key(accountId, id.copy());
     }
 
     /** Identifier of the account. */
-    abstract Account.Id accountId();
+    public abstract Account.Id accountId();
 
     /**
      * Git revision at which the account was loaded. Corresponds to a revision on the account ref
      * ({@code refs/users/<sharded-id>}).
      */
-    abstract ObjectId id();
+    public abstract ObjectId id();
 
     /** Serializer used to read this entity from and write it to a persistent storage. */
-    enum Serializer implements CacheSerializer<Key> {
+    public enum Serializer implements CacheSerializer<Key> {
       INSTANCE;
 
       @Override
@@ -78,16 +78,17 @@ public abstract class CachedAccountDetails {
   }
 
   /** Essential attributes of the account, such as name or registration time. */
-  abstract Account account();
+  public abstract Account account();
 
   /** Projects that the user has configured to watch. */
-  abstract ImmutableMap<ProjectWatches.ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>>
+  public abstract ImmutableMap<
+          ProjectWatches.ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>>
       projectWatches();
 
   /** Preferences that this user has. Serialized as Git-config style string. */
-  abstract CachedPreferences preferences();
+  public abstract CachedPreferences preferences();
 
-  static CachedAccountDetails create(
+  public static CachedAccountDetails create(
       Account account,
       ImmutableMap<ProjectWatches.ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>>
           projectWatches,
@@ -96,7 +97,7 @@ public abstract class CachedAccountDetails {
   }
 
   /** Serializer used to read this entity from and write it to a persistent storage. */
-  enum Serializer implements CacheSerializer<CachedAccountDetails> {
+  public enum Serializer implements CacheSerializer<CachedAccountDetails> {
     INSTANCE;
 
     @Override

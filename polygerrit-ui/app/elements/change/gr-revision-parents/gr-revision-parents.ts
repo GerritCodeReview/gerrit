@@ -19,6 +19,8 @@ export class GrRevisionParents extends LitElement {
 
   @state() baseRevision?: RevisionInfo;
 
+  @state() showDetails = false;
+
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   constructor() {
@@ -63,51 +65,149 @@ export class GrRevisionParents extends LitElement {
         .title {
           font-weight: var(--font-weight-bold);
         }
+        .messageContainer {
+          display: flex;
+          padding: var(--spacing-m) var(--spacing-l);
+          border-top: 1px solid var(--border-color);
+        }
+        .messageContainer.info {
+          background-color: var(--info-background);
+        }
+        .messageContainer.warning {
+          background-color: var(--warning-background);
+        }
+        .messageContainer gr-icon {
+          margin-right: var(--spacing-m);
+        }
+        .messageContainer.info gr-icon {
+          color: var(--info-foreground);
+        }
+        .messageContainer.warning gr-icon {
+          color: var(--warning-foreground);
+        }
+        .messageContainer .text {
+          max-width: 600px;
+        }
+        .messageContainer .text p {
+          margin: 0;
+        }
+        .messageContainer .text gr-button {
+          margin-left: -4px;
+        }
       `,
     ];
   }
 
-  override render() {
-    // TODO(revision-parents): Figure out what to do about multiple parents.
-    const baseParent = this.baseRevision?.parents_data?.[0];
-    const parent = this.revision?.parents_data?.[0];
-    if (!parent || !baseParent) return;
-    // TODO(revision-parents): Design something nicer for the various cases.
+  private renderWarning(icon: string, messages: string[]) {
     return html`
-      <div class="container">
-        <div class="flex">
-          <div class="section">
-            <h4 class="heading-4">Patchset ${this.baseRevision?._number}</h4>
-            <div>Branch: ${branchName(parent.branch_name)}</div>
-            <div>Commit: ${shorten(parent.commit_id)}</div>
-            <div>Is Merged: ${parent.is_merged_in_target_branch}</div>
-            ${when(
-              !!parent.change_number,
-              () => html` <div>
-                  Change ID: ${parent.change_id?.substring(0, 10)}
-                </div>
-                <div>Change Number: ${parent.change_number}</div>
-                <div>Patchset Number: ${parent.patch_set_number}</div>
-                <div>Change Status: ${parent.change_status}</div>`
-            )}
-          </div>
-          <div class="section">
-            <h4 class="heading-4">Patchset ${this.revision?._number}</h4>
-            <div>Branch: ${branchName(baseParent.branch_name)}</div>
-            <div>Commit: ${shorten(baseParent.commit_id)}</div>
-            <div>Is Merged: ${baseParent.is_merged_in_target_branch}</div>
-            ${when(
-              !!baseParent.change_number,
-              () => html`<div>
-                  Change ID: ${baseParent.change_id?.substring(0, 10)}
-                </div>
-                <div>Change Number: ${baseParent.change_number}</div>
-                <div>Patchset Number: ${baseParent.patch_set_number}</div>
-                <div>Change Status: ${baseParent.change_status}</div>`
-            )}
-          </div>
+      <div class="messageContainer ${icon}">
+        <div class="icon">
+          <gr-icon icon=${icon}></gr-icon>
+        </div>
+        <div class="text">
+          ${messages.map(msg => html`<p>${msg}</p>`)}
+          <p>
+            <gr-button
+              link
+              @click=${() => (this.showDetails = !this.showDetails)}
+              >${this.showDetails ? 'Hide' : 'Show'} details</gr-button
+            >
+          </p>
         </div>
       </div>
+    `;
+  }
+
+  override render() {
+    // TODO(revision-parents): Figure out what to do about multiple parents.
+    const parentLeft = this.baseRevision?.parents_data?.[0];
+    const parentRight = this.revision?.parents_data?.[0];
+    const psLeft = this.baseRevision?._number;
+    const psRight = this.revision?._number;
+    const commitLeft = shorten(parentLeft?.commit_id);
+    const commitRight = shorten(parentRight?.commit_id);
+    const branchLeft = branchName(parentLeft?.branch_name);
+    const branchRight = branchName(parentRight?.branch_name);
+    const changeNumLeft = parentLeft?.change_number;
+    const changeNumRight = parentRight?.change_number;
+    const changePsLeft = parentLeft?.patch_set_number;
+    const changePsRight = parentRight?.patch_set_number;
+    const changeStatusLeft = parentLeft?.change_status;
+    const changeStatusRight = parentRight?.change_status;
+
+    if (!parentRight || !parentLeft) return;
+    // TODO(revision-parents): Design something nicer for the various cases.
+    return html`
+      ${this.renderWarning('warning', [
+        `Patchset ${psLeft} and ${psRight} are based on commits in different branches.`,
+        `Patchset ${psLeft} is based on commit ${commitLeft} in branch ${branchLeft}.`,
+        `Patchset ${psRight} is based on commit ${commitRight} in branch ${branchRight}.`,
+        'The diff below may not be meaningful and may even be hiding relevant changes.',
+      ])}
+      ${this.renderWarning('info', [
+        `The change was rebased from ${commitLeft} onto ${commitRight} ` +
+          `between patchset ${psLeft} and patchset ${psRight}.`,
+      ])}
+      ${this.renderWarning('info', [
+        `This change is based on another change ${changeNumLeft} and was rebased ` +
+          `from patchset ${changePsLeft} (${changeStatusLeft}) ` +
+          `onto patchset ${changePsRight} (${changeStatusRight}) ` +
+          `between patchset ${psLeft} and ${psRight}.`,
+      ])}
+      ${this.renderWarning('warning', [
+        `Patchset ${psLeft} and ${psRight} are based on different changes.`,
+        `Patchset ${psLeft} is based on change ${changeNumLeft} (patchset ${changePsLeft}).`,
+        `Patchset ${psRight} is based on change ${changeNumRight} (patchset ${changePsRight}).`,
+        'The diff below may not be meaningful and may even be hiding relevant changes.',
+      ])}
+      ${this.renderWarning('warning', [
+        `Patchset ${psLeft} is based on change ${changeNumLeft} (patchset ${changePsLeft}).`,
+        `Patchset ${psRight} is based on commit ${commitRight} in the target branch (${branchRight}).`,
+        'The diff below may not be meaningful and may even be hiding relevant changes.',
+      ])}
+      ${when(
+        this.showDetails,
+        () => html`
+          <div class="container">
+            <div class="flex">
+              <div class="section">
+                <h4 class="heading-4">
+                  Base of Patchset ${this.baseRevision?._number}
+                </h4>
+                <div>Branch: ${branchName(parentRight.branch_name)}</div>
+                <div>Commit: ${shorten(parentRight.commit_id)}</div>
+                <div>Is Merged: ${parentRight.is_merged_in_target_branch}</div>
+                ${when(
+                  !!parentRight.change_number,
+                  () => html` <div>
+                      Change ID: ${parentRight.change_id?.substring(0, 10)}
+                    </div>
+                    <div>Change Number: ${parentRight.change_number}</div>
+                    <div>Patchset Number: ${parentRight.patch_set_number}</div>
+                    <div>Change Status: ${parentRight.change_status}</div>`
+                )}
+              </div>
+              <div class="section">
+                <h4 class="heading-4">
+                  Base of Patchset ${this.revision?._number}
+                </h4>
+                <div>Branch: ${branchName(parentLeft.branch_name)}</div>
+                <div>Commit: ${shorten(parentLeft.commit_id)}</div>
+                <div>Is Merged: ${parentLeft.is_merged_in_target_branch}</div>
+                ${when(
+                  !!parentLeft.change_number,
+                  () => html`<div>
+                      Change ID: ${parentLeft.change_id?.substring(0, 10)}
+                    </div>
+                    <div>Change Number: ${parentLeft.change_number}</div>
+                    <div>Patchset Number: ${parentLeft.patch_set_number}</div>
+                    <div>Change Status: ${parentLeft.change_status}</div>`
+                )}
+              </div>
+            </div>
+          </div>
+        `
+      )}
     `;
   }
 }

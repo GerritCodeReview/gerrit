@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69487b43_a3f233ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-22T16:20:57Z",
+      "side": 1,
+      "message": "\u0027yarn test\u0027 and \u0027yarn eslint\u0027 were run.",
+      "revId": "fa0f61087dc2affee30a31dc07cedbefec5ea108",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

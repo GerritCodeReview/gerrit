@@ -642,6 +642,8 @@ suite('gr-change-actions tests', () => {
     });
 
     test('rebase change fires reload event', async () => {
+      stubRestApi('getResponseObject');
+
       await element.handleResponse(
         {__key: 'rebase', __type: ActionType.CHANGE, label: 'l'},
         new Response()

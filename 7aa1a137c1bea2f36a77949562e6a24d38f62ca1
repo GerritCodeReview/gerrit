@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "357783de_313ed397",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-22T11:44:23Z",
+      "side": 1,
+      "message": "Should the documentation of this parameter [1] be updated to explain better how the file count is computed for merge commits?\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#change.maxFiles",
+      "revId": "7aa1a137c1bea2f36a77949562e6a24d38f62ca1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

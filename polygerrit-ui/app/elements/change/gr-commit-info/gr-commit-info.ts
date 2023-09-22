@@ -31,7 +31,7 @@ declare global {
 export class GrCommitInfo extends LitElement {
   // TODO(TS): Maybe limit to StandaloneCommitInfo.
   @property({type: Object})
-  commitInfo?: CommitInfo;
+  commitInfo?: Partial<CommitInfo>;
 
   @state() serverConfig?: ServerInfo;
 

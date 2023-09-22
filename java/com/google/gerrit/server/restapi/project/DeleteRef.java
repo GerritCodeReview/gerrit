@@ -117,7 +117,10 @@ public class DeleteRef {
           .check(RefPermission.DELETE);
 
       try (Repository repository = repoManager.openRepository(projectState.getNameKey())) {
-        RefUpdate.Result result;
+        Ref refObj = repository.exactRef(ref);
+        if (refObj == null) {
+          throw new ResourceConflictException(String.format("ref %s doesn't exist", ref));
+        }
         RefUpdate u = repository.updateRef(ref);
         u.setExpectedOldObjectId(repository.exactRef(ref).getObjectId());
         u.setNewObjectId(ObjectId.zeroId());
@@ -127,7 +130,7 @@ public class DeleteRef {
             identifiedUser.get(),
             u,
             /* pushOptions */ ImmutableListMultimap.of());
-        result = u.delete();
+        RefUpdate.Result result = u.delete();
 
         switch (result) {
           case NEW:

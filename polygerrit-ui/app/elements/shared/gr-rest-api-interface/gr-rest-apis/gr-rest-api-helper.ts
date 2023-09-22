@@ -27,32 +27,16 @@ import {RetryError} from '../../../../services/scheduler/retry-scheduler';
 export const JSON_PREFIX = ")]}'";
 
 export interface ResponsePayload {
-  // TODO(TS): readResponsePayload can assign null to the parsed property if
-  // it can't parse input data. However polygerrit assumes in many places
-  // that the parsed property can't be null. We should update
-  // readResponsePayload method and reject a promise instead of assigning
-  // null to the parsed property
-  parsed: ParsedJSON; // Can be null!!! See comment above
+  parsed: ParsedJSON;
   raw: string;
 }
 
-export function readResponsePayload(
+export async function readResponsePayload(
   response: Response
 ): Promise<ResponsePayload> {
-  return response.text().then(text => {
-    let result;
-    try {
-      result = parsePrefixedJSON(text);
-    } catch (_) {
-      result = null;
-    }
-    // TODO(TS): readResponsePayload can assign null to the parsed property if
-    // it can't parse input data. However polygerrit assumes in many places
-    // that the parsed property can't be null. We should update
-    // readResponsePayload method and reject a promise instead of assigning
-    // null to the parsed property
-    return {parsed: result!, raw: text};
-  });
+  const text = await response.text();
+  const result = parsePrefixedJSON(text);
+  return {parsed: result, raw: text};
 }
 
 export function parsePrefixedJSON(jsonWithPrefix: string): ParsedJSON {

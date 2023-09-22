@@ -1063,19 +1063,32 @@ suite('gr-rest-api-service-impl tests', () => {
           parseInt(options, 16) & (1 << ListChangesOption.PUSH_CERTIFICATES)
         );
       });
-    });
 
-    test('GrReviewerUpdatesParser.parse is used', async () => {
-      const changeInfo = createParsedChange();
-      const parseStub = sinon
-        .stub(GrReviewerUpdatesParser, 'parse')
-        .resolves(changeInfo);
-      const result = await element.getChangeDetail(42 as NumericChangeId);
-      assert.isTrue(parseStub.calledOnce);
-      assert.equal(result, changeInfo);
+      test('GrReviewerUpdatesParser.parse is used', async () => {
+        sinon
+          .stub(element, 'getFromProjectLookup')
+          .resolves('test' as RepoName);
+        sinon.stub(element, 'getConfig').resolves({
+          ...createServerInfo(),
+        });
+
+        const changeInfo = createParsedChange();
+        const parseStub = sinon
+          .stub(GrReviewerUpdatesParser, 'parse')
+          .resolves(changeInfo);
+        const result = await element.getChangeDetail(42 as NumericChangeId);
+        assert.isTrue(parseStub.calledOnce);
+        assert.equal(result, changeInfo);
+      });
     });
 
     test('_getChangeDetail passes params to ETags decorator', async () => {
+      sinon.stub(element._restApiHelper, 'fetchRawJSON').resolves(
+        new Response(JSON_PREFIX + JSON.stringify(createChange()), {
+          status: 200,
+        })
+      );
+
       const changeNum = 4321 as NumericChangeId;
       element._projectLookup[changeNum] = Promise.resolve('test' as RepoName);
       const expectedUrl = `${window.CANONICAL_PATH}/changes/test~4321/detail?O=516714`;
@@ -1310,6 +1323,9 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('setChangeTopic', async () => {
+    sinon.stub(element, 'getFromProjectLookup').resolves('test' as RepoName);
+    sinon.stub(element._restApiHelper, 'send').resolves();
+
     const sendSpy = sinon.spy(element, '_getChangeURLAndSend');
     await element.setChangeTopic(123 as NumericChangeId, 'foo-bar');
     assert.isTrue(sendSpy.calledOnce);
@@ -1317,6 +1333,9 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('setChangeHashtag', async () => {
+    sinon.stub(element, 'getFromProjectLookup').resolves('test' as RepoName);
+    sinon.stub(element._restApiHelper, 'send').resolves();
+
     const sendSpy = sinon.spy(element, '_getChangeURLAndSend');
     await element.setChangeHashtag(123 as NumericChangeId, {
       add: ['foo-bar' as Hashtag],
@@ -1329,7 +1348,7 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('generateAccountHttpPassword', async () => {
-    const sendSpy = sinon.spy(element._restApiHelper, 'send');
+    const sendSpy = sinon.stub(element._restApiHelper, 'send').resolves();
     await element.generateAccountHttpPassword();
     assert.isTrue(sendSpy.calledOnce);
     assert.deepEqual(sendSpy.lastCall.args[0].body, {generate: true});

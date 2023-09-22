@@ -257,7 +257,6 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(IdGenerator.class);
     bind(BlameCache.class).to(BlameCacheImpl.class);
-    install(AccountCacheImpl.module());
     install(BatchUpdate.module());
     install(ChangeKindCacheImpl.module());
     install(ChangeFinder.module());

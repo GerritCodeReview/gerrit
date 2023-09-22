@@ -51,7 +51,7 @@ export function readResponsePayload(
     // that the parsed property can't be null. We should update
     // readResponsePayload method and reject a promise instead of assigning
     // null to the parsed property
-    return {parsed: result!, raw: text};
+    return {parsed: result, raw: text};
   });
 }
 

@@ -31,7 +31,7 @@
     "rollup": "^2.79.1",
     "terser": "~5.8.0",
     "ts-lit-plugin": "^1.2.1",
-    "typescript": "^4.9.5"
+    "typescript": "5.1.x"
   },
   "scripts": {
     "setup": "yarn && yarn --cwd=polygerrit-ui && yarn --cwd=polygerrit-ui/app",
@@ -60,8 +60,8 @@
   },
   "resolutions": {
     "eslint": "^8.49.0",
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "@typescript-eslint/parser": "^5.62.0"
+    "@typescript-eslint/eslint-plugin": "^6.7.2",
+    "@typescript-eslint/parser": "^6.7.2"
   },
   "author": "",
   "license": "Apache-2.0"

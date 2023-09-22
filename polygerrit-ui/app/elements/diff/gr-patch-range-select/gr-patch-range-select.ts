@@ -18,6 +18,7 @@ import {
   convertToPatchSetNum,
   getParentInfoString,
   shorten,
+  getParentCommit,
 } from '../../../utils/patch-set-util';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {
@@ -276,7 +277,8 @@ export class GrPatchRangeSelect extends LitElement {
       KnownExperimentId.REVISION_PARENTS_DATA
     );
     dropdownContent.push({
-      text: isMerge ? 'Auto Merge' : 'Base',
+      triggerText: isMerge ? 'Auto Merge' : 'Base',
+      text: isMerge ? 'Auto Merge' : `Base | ${getParentCommit(rev, 0)}`,
       bottomText:
         showParentsData && !isMerge ? getParentInfoString(rev, 0) : undefined,
       value: PARENT,
@@ -286,7 +288,7 @@ export class GrPatchRangeSelect extends LitElement {
       dropdownContent.push({
         disabled: idx >= parentCount,
         triggerText: `Parent ${idx + 1}`,
-        text: `Parent ${idx + 1}`,
+        text: `Parent ${idx + 1} | ${getParentCommit(rev, idx)}`,
         bottomText: showParentsData ? getParentInfoString(rev, idx) : undefined,
         mobileText: `Parent ${idx + 1}`,
         value: -(idx + 1),

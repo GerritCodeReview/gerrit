@@ -83,27 +83,18 @@ public class ReceiveCommitsLimitsIT extends AbstractDaemonTest {
             .create();
     testRepo.reset(commitFoo);
 
-    // By convention we diff against the first parent.
-
-    // commitFoo is first -> 1 file changed -> OK
+    // compared to AUTO_MERGE only one file is changed -> OK
     pushFactory
         .create(
-            admin.newIdent(),
-            testRepo,
-            "blah",
-            ImmutableMap.of("foo.txt", "same old, same old", "bar.txt", "changed file"))
+            admin.newIdent(), testRepo, "blah", ImmutableMap.of("foo.txt", "same old, same old"))
         .setParents(ImmutableList.of(commitFoo, commitBar))
         .to("refs/for/master")
         .assertOkStatus();
 
-    // commitBar is first -> 2 files changed -> rejected
+    // compared to AUTO_MERGE two files are changed -> rejected
     pushFactory
-        .create(
-            admin.newIdent(),
-            testRepo,
-            "blah",
-            ImmutableMap.of("foo.txt", "same old, same old", "bar.txt", "changed file"))
-        .setParents(ImmutableList.of(commitBar, commitFoo))
+        .create(admin.newIdent(), testRepo, "blah", ImmutableMap.of("foo.txt", "changed"))
+        .setParents(ImmutableList.of(commitFoo, commitBar))
         .to("refs/for/master")
         .assertErrorStatus("Exceeding maximum number of files per change (2 > 1)");
   }

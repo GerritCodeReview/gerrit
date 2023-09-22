@@ -1456,7 +1456,8 @@ By default 5,000.
 [[change.maxFiles]]change.maxFiles::
 +
 Maximum number of files allowed per change. Larger changes are rejected and must
-be split up.
+be split up. For merge changes we are comparing against the auto-merge commit,
+so we allow large merges, if they merge cleanly.
 +
 By default 100,000.
 

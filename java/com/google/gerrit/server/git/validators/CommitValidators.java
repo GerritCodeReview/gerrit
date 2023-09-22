@@ -31,6 +31,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -50,7 +51,10 @@ import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
+import com.google.gerrit.server.patch.DiffOptions;
+import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
@@ -70,10 +74,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
-import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.diff.DiffFormatter;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -84,7 +88,6 @@ import org.eclipse.jgit.revwalk.FooterLine;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.SystemReader;
-import org.eclipse.jgit.util.io.DisabledOutputStream;
 
 /**
  * Represents a list of {@link CommitValidationListener}s to run for a push to one branch of one
@@ -163,7 +166,7 @@ public class CommitValidators {
           .add(new ProjectStateValidationListener(projectState))
           .add(new AmendedGerritMergeCommitValidationListener(perm, gerritIdent))
           .add(new AuthorUploaderValidator(user, perm, urlFormatter.get()))
-          .add(new FileCountValidator(repoManager, config, urlFormatter.get()))
+          .add(new FileCountValidator(config, urlFormatter.get(), diffOperations))
           .add(new CommitterUploaderValidator(user, perm, urlFormatter.get()))
           .add(new SignedOffByValidator(user, perm, projectState))
           .add(
@@ -195,7 +198,7 @@ public class CommitValidators {
           .add(new ProjectStateValidationListener(projectState))
           .add(new AmendedGerritMergeCommitValidationListener(perm, gerritIdent))
           .add(new AuthorUploaderValidator(user, perm, urlFormatter.get()))
-          .add(new FileCountValidator(repoManager, config, urlFormatter.get()))
+          .add(new FileCountValidator(config, urlFormatter.get(), diffOperations))
           .add(new SignedOffByValidator(user, perm, projectState))
           .add(
               new ChangeIdValidator(
@@ -392,7 +395,8 @@ public class CommitValidators {
 
       String httpHook =
           String.format(
-              "f=\"$(git rev-parse --git-dir)/hooks/commit-msg\"; curl -o \"$f\" %stools/hooks/commit-msg ; chmod +x \"$f\"",
+              "f=\"$(git rev-parse --git-dir)/hooks/commit-msg\"; curl -o \"$f\""
+                  + " %stools/hooks/commit-msg ; chmod +x \"$f\"",
               webUrl.get());
 
       if (hostKeys.isEmpty()) {
@@ -426,7 +430,8 @@ public class CommitValidators {
 
       String sshHook =
           String.format(
-              "gitdir=$(git rev-parse --git-dir); scp -p -P %d %s@%s:hooks/commit-msg ${gitdir}/hooks/",
+              "gitdir=$(git rev-parse --git-dir); scp -p -P %d %s@%s:hooks/commit-msg"
+                  + " ${gitdir}/hooks/",
               sshPort, user.getUserName().orElse("<USERNAME>"), sshHost);
       return String.format("  %s\n%s\nor, for http(s):\n  %s", sshHook, scpFlagHint, httpHook);
     }
@@ -437,13 +442,13 @@ public class CommitValidators {
 
     private static final int FILE_COUNT_WARNING_THRESHOLD = 10_000;
 
-    private final GitRepositoryManager repoManager;
     private final int maxFileCount;
     private final UrlFormatter urlFormatter;
+    private final DiffOperations diffOperations;
 
-    FileCountValidator(GitRepositoryManager repoManager, Config config, UrlFormatter urlFormatter) {
-      this.repoManager = repoManager;
+    FileCountValidator(Config config, UrlFormatter urlFormatter, DiffOperations diffOperations) {
       this.urlFormatter = urlFormatter;
+      this.diffOperations = diffOperations;
       maxFileCount = config.getInt("change", null, "maxFiles", 100_000);
     }
 
@@ -478,7 +483,7 @@ public class CommitValidators {
               "Warning: Change with %d files on host %s, project %s, ref %s",
               changedFiles, host, project, refName);
         }
-      } catch (IOException e) {
+      } catch (DiffNotAvailableException e) {
         // This happens e.g. for cherrypicks.
         if (!receiveEvent.command.getRefName().startsWith(REFS_CHANGES)) {
           logger.atWarning().withCause(e).log(
@@ -488,20 +493,18 @@ public class CommitValidators {
       return Collections.emptyList();
     }
 
-    private long countChangedFiles(CommitReceivedEvent receiveEvent) throws IOException {
-      try (Repository repository = repoManager.openRepository(receiveEvent.project.getNameKey());
-          DiffFormatter diffFormatter = new DiffFormatter(DisabledOutputStream.INSTANCE)) {
-        diffFormatter.setRepository(repository);
-        // Do not detect renames; that would require reading file contents, which is slow for large
-        // files.
-        diffFormatter.setDetectRenames(false);
-        // For merge commits, i.e. >1 parents, we use parent #0 by convention.
-        List<DiffEntry> diffEntries =
-            diffFormatter.scan(
-                receiveEvent.commit.getParentCount() > 0 ? receiveEvent.commit.getParent(0) : null,
-                receiveEvent.commit);
-        return diffEntries.stream().map(DiffEntry::getNewPath).distinct().count();
-      }
+    private int countChangedFiles(CommitReceivedEvent receiveEvent)
+        throws DiffNotAvailableException {
+      // For merge commits this will compare against auto-merge.
+      Map<String, FileDiffOutput> modifiedFiles =
+          diffOperations.listModifiedFilesAgainstParent(
+              receiveEvent.getProjectNameKey(), receiveEvent.commit, 0, DiffOptions.DEFAULTS);
+      // We don't want to count the COMMIT_MSG and MERGE_LIST files.
+      List<FileDiffOutput> modifiedFilesList =
+          modifiedFiles.values().stream()
+              .filter(p -> !Patch.isMagic(p.newPath().orElse("")))
+              .collect(Collectors.toList());
+      return modifiedFilesList.size();
     }
   }
 

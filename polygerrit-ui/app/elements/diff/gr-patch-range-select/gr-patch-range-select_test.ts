@@ -180,7 +180,8 @@ suite('gr-patch-range-select tests', () => {
         commentThreads: [],
       } as DropdownItem,
       {
-        text: 'Base',
+        text: 'Base | ',
+        triggerText: 'Base',
         value: PARENT,
         bottomText: undefined,
       } as DropdownItem,

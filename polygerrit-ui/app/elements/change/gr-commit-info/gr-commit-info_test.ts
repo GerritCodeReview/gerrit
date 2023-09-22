@@ -79,7 +79,11 @@ suite('gr-commit-info tests', () => {
     assert.shadowDom.equal(
       weblink,
       /* HTML */ `
-        <a href="/q/sha4567" rel="noopener noreferrer" target="_blank">
+        <a
+          href="/q/sha45678901234567890"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
           <gr-tooltip-content>
             <span> sha4567 </span>
           </gr-tooltip-content>

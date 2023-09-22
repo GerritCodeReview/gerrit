@@ -20,6 +20,7 @@ import {configModelToken} from '../../../models/config/config-model';
 import {createSearchUrl} from '../../../models/views/search';
 import {getBrowseCommitWeblink} from '../../../utils/weblink-util';
 import {shorten} from '../../../utils/patch-set-util';
+import {when} from 'lit/directives/when.js';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -31,7 +32,10 @@ declare global {
 export class GrCommitInfo extends LitElement {
   // TODO(TS): Maybe limit to StandaloneCommitInfo.
   @property({type: Object})
-  commitInfo?: CommitInfo;
+  commitInfo?: Partial<CommitInfo>;
+
+  @property({type: Boolean})
+  showCopyButton = true;
 
   @state() serverConfig?: ServerInfo;
 
@@ -44,6 +48,9 @@ export class GrCommitInfo extends LitElement {
         .container {
           align-items: center;
           display: flex;
+        }
+        gr-weblink {
+          margin-right: 0;
         }
       `,
     ];
@@ -63,13 +70,18 @@ export class GrCommitInfo extends LitElement {
     if (!commit) return nothing;
     return html` <div class="container">
       <gr-weblink imageAndText .info=${this.getWeblink(commit)}></gr-weblink>
-      <gr-copy-clipboard
-        hastooltip
-        .buttonTitle=${'Copy full SHA to clipboard'}
-        hideinput
-        .text=${commit}
-      >
-      </gr-copy-clipboard>
+      ${when(
+        this.showCopyButton,
+        () => html`
+          <gr-copy-clipboard
+            hastooltip
+            .buttonTitle=${'Copy full SHA to clipboard'}
+            hideinput
+            .text=${commit}
+          >
+          </gr-copy-clipboard>
+        `
+      )}
     </div>`;
   }
 
@@ -86,6 +98,6 @@ export class GrCommitInfo extends LitElement {
       this.serverConfig
     );
     if (primaryLink) return {...primaryLink, name};
-    return {name, url: createSearchUrl({query: name})};
+    return {name, url: createSearchUrl({query: commit})};
   }
 }

@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "acfc6349_ed0a019a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-22T22:17:58Z",
+      "side": 1,
+      "message": "\u003e Here is the 3.6 merge: https://gerrit-review.googlesource.com/c/gerrit/+/386978\n\u003e \n\u003e I think 3.6 might have a regression in GitVisibleChangeFilter.getVisibleChanges() compared to 3.5. The return loop iterates over the cds and does not catch StorageExceptions (in fact it actually throws some). Instead, I think it should be catching those and skipping that cd, that is what GitVisibleChangeFilter.loadChangeDatasOneByOne() does and it comments about how important it is to do.\n\u003e \n\u003e ​The 3.5 code ignores \"broken\" changes in VisibleChangesCache.visibleChangesByScan()\n\u003e so it feels like a 3.6 regression, and that regression gets worse with my change because I lazily delay more loads until the permission check in the final loop compared to the current approach in 3.6. We may want to fix that regression first?\n\nDone in https://gerrit-review.googlesource.com/c/gerrit/+/387217 GitVisibleChangeFilter: Avoid throwing exceptions",
+      "parentUuid": "954024b5_a96de3b6",
+      "revId": "c5182c7036713e95ef4b7372c7c6aec9fe9d85a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a9f4a4df_523522fd",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 8

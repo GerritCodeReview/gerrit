@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.gerrit.server.account.AccountCacheImpl.AccountCacheModule.ACCOUNT_CACHE_MODULE;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
 import com.google.common.cache.CacheLoader;
@@ -24,6 +25,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.server.ModuleImpl;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.cache.CacheModule;
@@ -31,6 +33,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CachedPreferences;
 import com.google.gerrit.server.config.DefaultPreferencesCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.GitRepositoryManagerModule;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
@@ -52,24 +55,29 @@ import org.eclipse.jgit.lib.Repository;
 /** Caches important (but small) account state to avoid database hits. */
 @Singleton
 public class AccountCacheImpl implements AccountCache {
+  @ModuleImpl(name = ACCOUNT_CACHE_MODULE)
+  public static class AccountCacheModule extends CacheModule {
+    public static final String ACCOUNT_CACHE_MODULE = "account-cache-module";
+
+    @Override
+    protected void configure() {
+      persist(BYID_AND_REV_NAME, CachedAccountDetails.Key.class, CachedAccountDetails.class)
+          .version(1)
+          .keySerializer(CachedAccountDetails.Key.Serializer.INSTANCE)
+          .valueSerializer(CachedAccountDetails.Serializer.INSTANCE)
+          .loader(Loader.class);
+
+      bind(AccountCacheImpl.class);
+      bind(AccountCache.class).to(AccountCacheImpl.class);
+    }
+  }
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String BYID_AND_REV_NAME = "accounts";
 
   public static Module module() {
-    return new CacheModule() {
-      @Override
-      protected void configure() {
-        persist(BYID_AND_REV_NAME, CachedAccountDetails.Key.class, CachedAccountDetails.class)
-            .version(1)
-            .keySerializer(CachedAccountDetails.Key.Serializer.INSTANCE)
-            .valueSerializer(CachedAccountDetails.Serializer.INSTANCE)
-            .loader(Loader.class);
-
-        bind(AccountCacheImpl.class);
-        bind(AccountCache.class).to(AccountCacheImpl.class);
-      }
-    };
+    return new AccountCacheModule();
   }
 
   private final ExternalIds externalIds;

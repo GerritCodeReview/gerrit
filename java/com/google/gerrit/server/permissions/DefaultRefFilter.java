@@ -46,6 +46,7 @@ import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,6 +66,27 @@ class DefaultRefFilter {
     DefaultRefFilter create(ProjectControl projectControl);
   }
 
+  @Singleton
+  private static class Metrics {
+    final Counter0 fullFilterCount;
+    final Counter0 skipFilterCount;
+
+    @Inject
+    Metrics(MetricMaker metricMaker) {
+      fullFilterCount =
+          metricMaker.newCounter(
+              "permissions/ref_filter/full_filter_count",
+              new Description("Rate of full ref filter operations").setRate());
+      skipFilterCount =
+          metricMaker.newCounter(
+              "permissions/ref_filter/skip_filter_count",
+              new Description(
+                      "Rate of ref filter operations where we skip full evaluation"
+                          + " because the user can read all refs")
+                  .setRate());
+    }
+  }
+
   private final TagCache tagCache;
   private final PermissionBackend permissionBackend;
   private final RefVisibilityControl refVisibilityControl;
@@ -75,8 +97,7 @@ class DefaultRefFilter {
   private final @Nullable SearchingChangeCacheImpl searchingChangeDataProvider;
   private final ChangeData.Factory changeDataFactory;
   private final ChangeNotes.Factory changeNotesFactory;
-  private final Counter0 fullFilterCount;
-  private final Counter0 skipFilterCount;
+  private final Metrics metrics;
   private final boolean skipFullRefEvaluationIfAllRefsAreVisible;
 
   @Inject
@@ -85,7 +106,7 @@ class DefaultRefFilter {
       PermissionBackend permissionBackend,
       RefVisibilityControl refVisibilityControl,
       @GerritServerConfig Config config,
-      MetricMaker metricMaker,
+      Metrics metrics,
       @Nullable SearchingChangeCacheImpl searchingChangeDataProvider,
       ChangeData.Factory changeDataFactory,
       ChangeNotes.Factory changeNotesFactory,
@@ -104,17 +125,7 @@ class DefaultRefFilter {
     this.projectState = projectControl.getProjectState();
     this.permissionBackendForProject =
         permissionBackend.user(user).project(projectState.getNameKey());
-    this.fullFilterCount =
-        metricMaker.newCounter(
-            "permissions/ref_filter/full_filter_count",
-            new Description("Rate of full ref filter operations").setRate());
-    this.skipFilterCount =
-        metricMaker.newCounter(
-            "permissions/ref_filter/skip_filter_count",
-            new Description(
-                    "Rate of ref filter operations where we skip full evaluation"
-                        + " because the user can read all refs")
-                .setRate());
+    this.metrics = metrics;
   }
 
   /** Filters given refs and tags by visibility. */
@@ -202,13 +213,13 @@ class DefaultRefFilter {
     logger.atFinest().log("User has READ on refs/* = %s", hasReadOnRefsStar);
     if (skipFullRefEvaluationIfAllRefsAreVisible && !projectState.isAllUsers()) {
       if (hasReadOnRefsStar) {
-        skipFilterCount.increment();
+        metrics.skipFilterCount.increment();
         logger.atFinest().log(
             "Fast path, all refs are visible because user has READ on refs/*: %s", refs);
         return new AutoValue_DefaultRefFilter_Result(
             ImmutableList.copyOf(refs), ImmutableList.of());
       } else if (projectControl.allRefsAreVisible(ImmutableSet.of(RefNames.REFS_CONFIG))) {
-        skipFilterCount.increment();
+        metrics.skipFilterCount.increment();
         refs = fastHideRefsMetaConfig(refs);
         logger.atFinest().log(
             "Fast path, all refs except %s are visible: %s", RefNames.REFS_CONFIG, refs);
@@ -217,7 +228,7 @@ class DefaultRefFilter {
       }
     }
     logger.atFinest().log("Doing full ref filtering");
-    fullFilterCount.increment();
+    metrics.fullFilterCount.increment();
 
     boolean hasAccessDatabase =
         permissionBackend

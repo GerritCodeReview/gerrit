@@ -364,6 +364,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     private final AtomicLong missCount = new AtomicLong();
     private volatile BloomFilter<K> bloomFilter;
     private int estimatedSize;
+    private boolean buildBloomFilter;
 
     SqlStore(
         String jdbcUrl,
@@ -373,7 +374,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         int version,
         long maxSize,
         @Nullable Duration expireAfterWrite,
-        @Nullable Duration refreshAfterWrite) {
+        @Nullable Duration refreshAfterWrite,
+        boolean buildBloomFilter) {
       this.url = jdbcUrl;
       this.keyType = createKeyType(keyType, keySerializer);
       this.valueSerializer = valueSerializer;
@@ -381,6 +383,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       this.maxSize = maxSize;
       this.expireAfterWrite = expireAfterWrite;
       this.refreshAfterWrite = refreshAfterWrite;
+      this.buildBloomFilter = buildBloomFilter;
 
       int cores = Runtime.getRuntime().availableProcessors();
       int keep = Math.min(cores, 16);
@@ -397,7 +400,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     synchronized void open() {
-      if (bloomFilter == null) {
+      if (buildBloomFilter && bloomFilter == null) {
         bloomFilter = buildBloomFilter();
       }
     }
@@ -411,7 +414,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
     boolean mightContain(K key) {
       BloomFilter<K> b = bloomFilter;
-      if (b == null) {
+      if (buildBloomFilter && b == null) {
         synchronized (this) {
           b = bloomFilter;
           if (b == null) {

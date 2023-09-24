@@ -51,6 +51,29 @@
       "parentUuid": "1ef012b4_b1b48a02",
       "revId": "c3ccf9f54d4a48ecc023be932483b2fe2ae08505",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1db438d_244c8eb0",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-24T09:17:24Z",
+      "side": 1,
+      "message": "nit: in line 69 we throw `BadRequestException` which should also result in 400 response. IMO we should be using the same mechanism in both places, so either throw here, or return `Response.withStatusCode()` in L#69",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 75,
+        "endChar": 36
+      },
+      "revId": "c3ccf9f54d4a48ecc023be932483b2fe2ae08505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -981,6 +981,20 @@ public class RefControlTest {
   }
 
   @Test
+  public void changeOwnerEditTopicName() throws Exception {
+    projectOperations
+        .project(localKey)
+        .forUpdate()
+        .add(allow(EDIT_TOPIC_NAME).ref("refs/heads/*").group(CHANGE_OWNER).force(true))
+        .update();
+
+    ProjectControl u = user(localKey, DEVS);
+    assertWithMessage("u can edit topic name")
+        .that(u.controlForRef("refs/heads/master").canForceEditTopicName(true))
+        .isTrue();
+  }
+
+  @Test
   public void unblockForceEditTopicName() throws Exception {
     projectOperations
         .project(localKey)
@@ -991,7 +1005,7 @@ public class RefControlTest {
 
     ProjectControl u = user(localKey, DEVS);
     assertWithMessage("u can edit topic name")
-        .that(u.controlForRef("refs/heads/master").canForceEditTopicName())
+        .that(u.controlForRef("refs/heads/master").canForceEditTopicName(false))
         .isTrue();
   }
 
@@ -1010,7 +1024,7 @@ public class RefControlTest {
 
     ProjectControl u = user(localKey, REGISTERED_USERS);
     assertWithMessage("u can't edit topic name")
-        .that(u.controlForRef("refs/heads/master").canForceEditTopicName())
+        .that(u.controlForRef("refs/heads/master").canForceEditTopicName(false))
         .isFalse();
   }
 

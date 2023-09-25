@@ -3386,7 +3386,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   public void byCommitsOnBranchNotMergedSkipsMissingChanges() throws Exception {
     repo = createAndOpenProject("repo");
     ObjectId missing =
-        repo.branch(PatchSet.id(Change.id(987654), 1).toRefName())
+        repo.branch(PatchSet.id(Change.id(987654, "repo"), 1).toRefName())
             .commit()
             .message("No change for this commit")
             .insertChangeId()
@@ -3528,7 +3528,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     gApi.changes().id(changeToRevert.id).current().submit();
 
     ChangeInfo changeThatReverts = gApi.changes().id(changeToRevert.id).revert().get();
-    assertQueryByIds("revertof:" + changeToRevert._number, Change.id(changeThatReverts._number));
+    assertQueryByIds(
+        "revertof:" + changeToRevert._number, Change.id(changeThatReverts._number, "repo"));
   }
 
   @Test
@@ -4108,7 +4109,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     gApi.changes().id(changeToRevert.id).current().submit();
 
     ChangeInfo changeThatReverts = gApi.changes().id(changeToRevert.id).revert().get();
-    Change.Id changeThatRevertsId = Change.id(changeThatReverts._number);
+    Change.Id changeThatRevertsId = Change.id(changeThatReverts._number, "repo");
     assertQueryByIds("is:pure-revert", changeThatRevertsId);
 
     // Update the change that reverts such that it's not a pure revert
@@ -4315,7 +4316,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       branch = "refs/heads/" + branch;
     }
 
-    Change.Id id = Change.id(seq.nextChangeId());
+    // TODO: use project level sequence
+    Change.Id id = Change.id(seq.nextChangeId(), "repo");
     return changeFactory
         .create(id, commit, branch)
         .setValidate(false)
@@ -4522,7 +4524,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   protected static Iterable<Change.Id> ids(Iterable<ChangeInfo> changes) {
-    return Streams.stream(changes).map(c -> Change.id(c._number)).collect(toList());
+    return Streams.stream(changes).map(c -> Change.id(c._number, c.project)).collect(toList());
   }
 
   protected static long lastUpdatedMs(Change c) {

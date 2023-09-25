@@ -29,6 +29,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+// This makes no sense in a world where the change id is modeled at project level
+// We should make the entire endpoint deprecated and always ensure that
+// the project is used.
 /** Redirects {@code domain.tld/123} to {@code domain.tld/c/project/+/123}. */
 @Singleton
 public class NumericChangeIdRedirectServlet extends HttpServlet {
@@ -47,7 +50,7 @@ public class NumericChangeIdRedirectServlet extends HttpServlet {
     if (idString.endsWith("/")) {
       idString = idString.substring(0, idString.length() - 1);
     }
-    Optional<Change.Id> id = Change.Id.tryParse(idString);
+    Optional<Change.Id> id = Change.Id.tryParse(idString, "FOO");
     if (!id.isPresent()) {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;

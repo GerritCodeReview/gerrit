@@ -183,7 +183,7 @@ public class WorkInProgressByDefaultIT extends AbstractDaemonTest {
     // Clone the repo again. The test connection keeps an AccountState internally, so we need to
     // create a new connection after changing account properties.
     PatchSet.Id ps1OfChange1 =
-        PatchSet.id(Change.id(gApi.changes().id(changeId1).get()._number), 1);
+        PatchSet.id(Change.id(gApi.changes().id(changeId1).get()._number, project.get()), 1);
     testRepo = cloneProject(project);
     testRepo.git().fetch().setRefSpecs(RefNames.patchSetRef(ps1OfChange1) + ":c1").call();
     testRepo.reset("c1");

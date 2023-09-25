@@ -90,7 +90,8 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
   public void changeKindPredicate_noCodeChange() throws Exception {
     String change = changeKindCreator.createChange(ChangeKind.NO_CODE_CHANGE, testRepo, admin);
     changeKindCreator.updateChange(change, ChangeKind.NO_CODE_CHANGE, testRepo, admin, project);
-    PatchSet.Id ps1 = PatchSet.id(Change.id(gApi.changes().id(change).get()._number), /* id= */ 1);
+    PatchSet.Id ps1 =
+        PatchSet.id(Change.id(gApi.changes().id(change).get()._number, project.get()), /* id= */ 1);
     assertTrue(
         queryBuilder
             .parse("changekind:no-code-change")
@@ -98,7 +99,8 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
             .match(contextForCodeReviewLabel(/* value= */ -2, ps1, admin.id())));
 
     changeKindCreator.updateChange(change, ChangeKind.TRIVIAL_REBASE, testRepo, admin, project);
-    PatchSet.Id ps2 = PatchSet.id(Change.id(gApi.changes().id(change).get()._number), /* id= */ 2);
+    PatchSet.Id ps2 =
+        PatchSet.id(Change.id(gApi.changes().id(change).get()._number, project.get()), /* id= */ 2);
     assertFalse(
         queryBuilder
             .parse("changekind:no-code-change")
@@ -110,7 +112,8 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
   public void changeKindPredicate_trivialRebase() throws Exception {
     String change = changeKindCreator.createChange(ChangeKind.TRIVIAL_REBASE, testRepo, admin);
     changeKindCreator.updateChange(change, ChangeKind.TRIVIAL_REBASE, testRepo, admin, project);
-    PatchSet.Id ps1 = PatchSet.id(Change.id(gApi.changes().id(change).get()._number), /* id= */ 1);
+    PatchSet.Id ps1 =
+        PatchSet.id(Change.id(gApi.changes().id(change).get()._number, project.get()), /* id= */ 1);
     assertTrue(
         queryBuilder
             .parse("changekind:trivial-rebase")
@@ -118,7 +121,8 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
             .match(contextForCodeReviewLabel(/* value= */ -2, ps1, admin.id())));
 
     changeKindCreator.updateChange(change, ChangeKind.REWORK, testRepo, admin, project);
-    PatchSet.Id ps2 = PatchSet.id(Change.id(gApi.changes().id(change).get()._number), /* id= */ 2);
+    PatchSet.Id ps2 =
+        PatchSet.id(Change.id(gApi.changes().id(change).get()._number, project.get()), /* id= */ 2);
     assertFalse(
         queryBuilder
             .parse("changekind:trivial-rebase")
@@ -130,7 +134,8 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
   public void changeKindPredicate_reworkAndNotRework() throws Exception {
     String change = changeKindCreator.createChange(ChangeKind.REWORK, testRepo, admin);
     changeKindCreator.updateChange(change, ChangeKind.REWORK, testRepo, admin, project);
-    PatchSet.Id ps1 = PatchSet.id(Change.id(gApi.changes().id(change).get()._number), /* id= */ 1);
+    PatchSet.Id ps1 =
+        PatchSet.id(Change.id(gApi.changes().id(change).get()._number, project.get()), /* id= */ 1);
     assertTrue(
         queryBuilder
             .parse("changekind:rework")
@@ -138,7 +143,8 @@ public class ApprovalQueryIT extends AbstractDaemonTest {
             .match(contextForCodeReviewLabel(/* value= */ -2, ps1, admin.id())));
 
     changeKindCreator.updateChange(change, ChangeKind.REWORK, testRepo, admin, project);
-    PatchSet.Id ps2 = PatchSet.id(Change.id(gApi.changes().id(change).get()._number), /* id= */ 2);
+    PatchSet.Id ps2 =
+        PatchSet.id(Change.id(gApi.changes().id(change).get()._number, project.get()), /* id= */ 2);
     assertFalse(
         queryBuilder
             .parse("-changekind:rework")

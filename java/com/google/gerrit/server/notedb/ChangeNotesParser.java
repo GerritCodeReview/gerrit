@@ -1286,6 +1286,8 @@ class ChangeNotesParser {
     throw invalidFooter(FOOTER_WORK_IN_PROGRESS, raw);
   }
 
+  // Why getting the rever-of from the commit footer? Could it not come from notedb?
+
   @Nullable
   private Change.Id parseRevertOf(ChangeNotesCommit commit) throws ConfigInvalidException {
     String footer = parseOneFooter(commit, FOOTER_REVERT_OF);
@@ -1296,7 +1298,7 @@ class ChangeNotesParser {
     if (revertOf == null) {
       throw invalidFooter(FOOTER_REVERT_OF, footer);
     }
-    return Change.id(revertOf);
+    return Change.id(revertOf, "foo");
   }
 
   /**

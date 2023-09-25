@@ -24,7 +24,7 @@ public final class IoUtil {
       // We cannot propagate the exception since this code is running in a background thread.
       // Printing the stacktrace is the best we can do. Hence ignoring the exception after printing
       // the stacktrace is OK and it's fine to suppress the warning for the CatchAndPrintStackTrace
-      // bug pattern here.
+      // bug pattern here.java/com/google/gerrit/entities/Change.java
       @SuppressWarnings("CatchAndPrintStackTrace")
       @Override
       public void run() {

@@ -174,7 +174,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     Map<String, ObjectId> refs = ctx.getRepoView().getRefs(refPrefix);
     List<CodeReviewCommit> commits = new ArrayList<>(refs.size());
     for (Map.Entry<String, ObjectId> e : refs.entrySet()) {
-      PatchSet.Id psId = PatchSet.Id.fromRef(refPrefix + e.getKey());
+      PatchSet.Id psId = PatchSet.Id.fromRef(refPrefix + e.getKey(), id.getProjectName());
       if (psId == null) {
         continue;
       }

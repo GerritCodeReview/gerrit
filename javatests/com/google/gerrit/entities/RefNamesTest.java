@@ -29,7 +29,7 @@ public class RefNamesTest {
   private static final String TEST_SHARDED_GROUP_UUID =
       TEST_GROUP_UUID.substring(0, 2) + "/" + TEST_GROUP_UUID;
   private final Account.Id accountId = Account.id(1011123);
-  private final Change.Id changeId = Change.id(67473);
+  private final Change.Id changeId = Change.id(67473, "project");
   private final PatchSet.Id psId = PatchSet.id(changeId, 42);
 
   @Test

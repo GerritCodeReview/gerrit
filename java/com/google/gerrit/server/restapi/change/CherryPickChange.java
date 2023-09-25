@@ -475,7 +475,8 @@ public class CherryPickChange {
       @Nullable Change.Id idForNewChange,
       @Nullable Boolean workInProgress)
       throws IOException, InvalidChangeOperationException {
-    Change.Id changeId = idForNewChange != null ? idForNewChange : Change.id(seq.nextChangeId());
+    Change.Id changeId =
+        idForNewChange != null ? idForNewChange : Change.id(seq.nextChangeId(), project.get());
     ChangeInserter ins = changeInserterFactory.create(changeId, cherryPickCommit, refName);
     ins.setRevertOf(revertOf);
     if (workInProgress != null) {

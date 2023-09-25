@@ -99,7 +99,7 @@ public class PatchSetParser {
     if (token.matches("^[1-9][0-9]*,[1-9][0-9]*$")) {
       PatchSet.Id patchSetId;
       try {
-        patchSetId = PatchSet.Id.parse(token);
+        patchSetId = PatchSet.Id.parse(token, projectState.getName());
       } catch (IllegalArgumentException e) {
         throw error("\"" + token + "\" is not a valid patch set", e);
       }

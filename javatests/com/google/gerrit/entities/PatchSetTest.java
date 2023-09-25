@@ -88,17 +88,19 @@ public class PatchSetTest {
 
   @Test
   public void toRefName() {
-    assertThat(PatchSet.id(Change.id(1), 23).toRefName()).isEqualTo("refs/changes/01/1/23");
-    assertThat(PatchSet.id(Change.id(1234), 5).toRefName()).isEqualTo("refs/changes/34/1234/5");
+    assertThat(PatchSet.id(Change.id(1, "foo"), 23).toRefName()).isEqualTo("refs/changes/01/1/23");
+    assertThat(PatchSet.id(Change.id(1234, "foo"), 5).toRefName())
+        .isEqualTo("refs/changes/34/1234/5");
   }
 
   @Test
   public void parseId() {
-    assertThat(PatchSet.Id.parse("1,2")).isEqualTo(PatchSet.id(Change.id(1), 2));
-    assertThat(PatchSet.Id.parse("01,02")).isEqualTo(PatchSet.id(Change.id(1), 2));
-    Change.Id cId = Change.id(321);
+    assertThat(PatchSet.Id.parse("foo~1,2")).isEqualTo(PatchSet.id(Change.id(1, "foo"), 2));
+    assertThat(PatchSet.Id.parse("foo~01,02")).isEqualTo(PatchSet.id(Change.id(1, "foo"), 2));
+    Change.Id cId = Change.id(321, "foo");
     assertThat(
-            PatchSet.Id.fromEditRef(RefNames.refsEdit(Account.id(123), cId, PatchSet.id(cId, 6))))
+            PatchSet.Id.fromEditRef(
+                RefNames.refsEdit(Account.id(123), cId, PatchSet.id(cId, 6)), "foo"))
         .isEqualTo(PatchSet.id(cId, 6));
     assertInvalidId(null);
     assertInvalidId("");
@@ -112,17 +114,18 @@ public class PatchSetTest {
 
   @Test
   public void idToString() {
-    assertThat(PatchSet.id(Change.id(2), 3).toString()).isEqualTo("2,3");
+    assertThat(PatchSet.id(Change.id(2, "foo"), 3).toString()).isEqualTo("foo~2,3");
   }
 
   private static void assertRef(int changeId, int psId, String refName) {
     assertThat(PatchSet.isChangeRef(refName)).isTrue();
-    assertThat(PatchSet.Id.fromRef(refName)).isEqualTo(PatchSet.id(Change.id(changeId), psId));
+    assertThat(PatchSet.Id.fromRef(refName, "foo"))
+        .isEqualTo(PatchSet.id(Change.id(changeId, "foo"), psId));
   }
 
   private static void assertNotRef(String refName) {
     assertThat(PatchSet.isChangeRef(refName)).isFalse();
-    assertThat(PatchSet.Id.fromRef(refName)).isNull();
+    assertThat(PatchSet.Id.fromRef(refName, "foo")).isNull();
   }
 
   private static void assertInvalidId(String str) {

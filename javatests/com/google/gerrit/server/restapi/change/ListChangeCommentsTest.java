@@ -206,7 +206,7 @@ public class ListChangeCommentsTest {
 
   private static ChangeMessage newChangeMessage(
       String id, Optional<Account.Id> accountId, String message, String ts, String tag) {
-    ChangeMessage.Key key = ChangeMessage.key(Change.id(1), id);
+    ChangeMessage.Key key = ChangeMessage.key(Change.id(1, "foo"), id);
     Instant timestamp =
         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
             .withZone(ZoneId.systemDefault())

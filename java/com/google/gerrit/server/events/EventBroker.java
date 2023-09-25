@@ -204,7 +204,7 @@ public class EventBroker implements EventDispatcher {
       RefEvent refEvent = (RefEvent) event;
       String ref = refEvent.getRefName();
       if (PatchSet.isChangeRef(ref)) {
-        Change.Id cid = PatchSet.Id.fromRef(ref).changeId();
+        Change.Id cid = PatchSet.Id.fromRef(ref, refEvent.getProjectNameKey().get()).changeId();
         try {
           Change change = notesFactory.createChecked(refEvent.getProjectNameKey(), cid).getChange();
           return isVisibleTo(change, user);

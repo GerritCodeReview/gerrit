@@ -143,15 +143,6 @@ public class ChangeFinder {
       }
     }
 
-    if (y < 0 && z < 0) {
-      // Try numeric changeId
-      Integer n = Ints.tryParse(id);
-      if (n != null) {
-        changeIdCounter.increment(ChangeIdType.NUMERIC_ID);
-        return find(Change.id(n));
-      }
-    }
-
     // Use the index to search for changes, but don't return any stored fields,
     // to force rereading in case the index is stale.
     InternalChangeQuery query = queryProvider.get().noFields();
@@ -184,7 +175,7 @@ public class ChangeFinder {
   }
 
   private List<ChangeNotes> fromProjectNumber(String project, int changeNumber) {
-    Change.Id cId = Change.id(changeNumber);
+    Change.Id cId = Change.id(changeNumber, project);
     try {
       return ImmutableList.of(
           changeNotesFactory.createChecked(Project.NameKey.parse(project), cId));

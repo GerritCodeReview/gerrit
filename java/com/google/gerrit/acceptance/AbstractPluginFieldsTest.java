@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
@@ -315,7 +316,8 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
   protected static Map<Change.Id, List<PluginDefinedInfo>> pluginInfosFromChangeInfos(
       List<ChangeInfo> changeInfos) {
     Map<Change.Id, List<PluginDefinedInfo>> out = new HashMap<>();
-    changeInfos.forEach(ci -> out.put(Change.id(ci._number), pluginInfoFromChangeInfo(ci)));
+    changeInfos.forEach(
+        ci -> out.put(Change.id(ci._number, ci.project), pluginInfoFromChangeInfo(ci)));
     return out;
   }
 
@@ -343,7 +345,7 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
   }
 
   protected static Map<Change.Id, List<PluginDefinedInfo>> getPluginInfosFromChangeInfos(
-      Gson gson, List<Map<String, Object>> changeInfos) {
+      Gson gson, List<Map<String, Object>> changeInfos, Project.NameKey project) {
     Map<Change.Id, List<PluginDefinedInfo>> out = new HashMap<>();
     changeInfos.forEach(
         change -> {
@@ -351,7 +353,8 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
               (Double)
                   (change.get("number") != null ? change.get("number") : change.get("_number"));
           out.put(
-              Change.id(changeId.intValue()), decodeRawPluginsList(gson, change.get("plugins")));
+              Change.id(changeId.intValue(), project.get()),
+              decodeRawPluginsList(gson, change.get("plugins")));
         });
     return out;
   }

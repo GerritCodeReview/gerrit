@@ -272,7 +272,7 @@ public class GroupCollectorTest {
   // TODO(dborowitz): Tests for octopus merges.
 
   private static PatchSet.Id psId(int c, int p) {
-    return PatchSet.id(Change.id(c), p);
+    return PatchSet.id(Change.id(c, "foo"), p);
   }
 
   private static void createRef(PatchSet.Id psId, ObjectId id, TestRepository<?> tr)
@@ -297,7 +297,9 @@ public class GroupCollectorTest {
     ImmutableListMultimap<PatchSet.Id, String> groups = groupLookup.build();
     GroupCollector gc =
         new GroupCollector(
-            ReceivePackRefCache.noCache(tr.getRepository().getRefDatabase()), (s) -> groups.get(s));
+            ReceivePackRefCache.noCache(tr.getRepository().getRefDatabase()),
+            "foo",
+            (s) -> groups.get(s));
     RevCommit c;
     while ((c = rw.next()) != null) {
       gc.visit(c);

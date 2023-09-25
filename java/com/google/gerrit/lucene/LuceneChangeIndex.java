@@ -117,7 +117,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   }
 
   static Term idTerm(Change.Id id) {
-    return QueryBuilder.stringTerm(NUMERIC_ID_STR_SPEC.getName(), Integer.toString(id.get()));
+    return QueryBuilder.stringTerm(NUMERIC_ID_STR_SPEC.getName(), id.toString());
   }
 
   private final ListeningExecutorService executor;
@@ -548,7 +548,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     } else {
       IndexableField f = Iterables.getFirst(doc.get(idFieldName), null);
 
-      Change.Id id = Change.id(Integer.valueOf(f.stringValue()));
+      Change.Id id = Change.Id.fromProjectAndIdString(f.stringValue());
       // IndexUtils#changeFields ensures either CHANGE or PROJECT is always present.
       IndexableField project = doc.get(PROJECT_SPEC.getName()).iterator().next();
       cd = changeDataFactory.create(Project.nameKey(project.stringValue()), id);

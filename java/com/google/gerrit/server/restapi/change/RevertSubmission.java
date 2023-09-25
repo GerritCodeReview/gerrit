@@ -310,7 +310,7 @@ public class RevertSubmission
     // target rather than just creating a commit and then cherry-picking it.
     cherryPickInput.message = revertInput.message;
     ObjectId generatedChangeId = CommitMessageUtil.generateChangeId();
-    Change.Id cherryPickRevertChangeId = Change.id(seq.nextChangeId());
+    Change.Id cherryPickRevertChangeId = Change.id(seq.nextChangeId(), project.get());
     RevCommit baseCommit = null;
     if (cherryPickInput.base != null) {
       try (Repository git = repoManager.openRepository(changeNotes.getProjectName());

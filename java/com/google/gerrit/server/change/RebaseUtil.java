@@ -16,7 +16,6 @@ package com.google.gerrit.server.change;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.flogger.FluentLogger;
-import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
@@ -48,6 +47,7 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
+import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
@@ -330,7 +330,7 @@ public class RebaseUtil {
 
   public Base parseBase(RevisionResource rsrc, String base) {
     // Try parsing the base as a ref string.
-    PatchSet.Id basePatchSetId = PatchSet.Id.fromRef(base);
+    PatchSet.Id basePatchSetId = PatchSet.Id.fromRef(base, rsrc.getProject().get());
     if (basePatchSetId != null) {
       Change.Id baseChangeId = basePatchSetId.changeId();
       ChangeNotes baseNotes = notesFor(rsrc, baseChangeId);
@@ -341,9 +341,9 @@ public class RebaseUtil {
     }
 
     // Try parsing base as a change number (assume current patch set).
-    Integer baseChangeId = Ints.tryParse(base);
-    if (baseChangeId != null) {
-      ChangeNotes baseNotes = notesFor(rsrc, Change.id(baseChangeId));
+    Optional<Change.Id> baseChangeId = Change.Id.tryFromProjectAndIdString(base);
+    if (baseChangeId.isPresent()) {
+      ChangeNotes baseNotes = notesFor(rsrc, baseChangeId.get());
       if (baseNotes != null) {
         return Base.create(baseNotes, psUtil.current(baseNotes));
       }

@@ -74,6 +74,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
  */
 public class GroupCollector {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private final String projectName;
 
   public static List<String> getDefaultGroups(ObjectId commit) {
     return ImmutableList.of(commit.name());
@@ -111,6 +112,7 @@ public class GroupCollector {
       Project.NameKey project) {
     return new GroupCollector(
         receivePackRefCache,
+        project.get(),
         psId -> {
           // TODO(dborowitz): Reuse open repository from caller.
           ChangeNotes notes = notesFactory.createChecked(project, psId.changeId());
@@ -130,9 +132,10 @@ public class GroupCollector {
    * @see GroupCollector for what this class does.
    */
   @VisibleForTesting
-  GroupCollector(ReceivePackRefCache receivePackRefCache, Lookup groupLookup) {
+  GroupCollector(ReceivePackRefCache receivePackRefCache, String projectName, Lookup groupLookup) {
     this.receivePackRefCache = receivePackRefCache;
     this.groupLookup = groupLookup;
+    this.projectName = projectName;
     groups = MultimapBuilder.hashKeys().arrayListValues().build();
     groupAliases = MultimapBuilder.hashKeys().hashSetValues().build();
   }
@@ -230,7 +233,7 @@ public class GroupCollector {
 
   private boolean isGroupFromExistingPatchSet(RevCommit commit, String group) throws IOException {
     ObjectId id = parseGroup(commit, group);
-    return id != null && !receivePackRefCache.patchSetIdsFromObjectId(id).isEmpty();
+    return id != null && !receivePackRefCache.patchSetIdsFromObjectId(id, projectName).isEmpty();
   }
 
   private Set<String> resolveGroups(ObjectId forCommit, Collection<String> candidates)
@@ -273,7 +276,8 @@ public class GroupCollector {
   private ImmutableList<String> resolveGroup(ObjectId forCommit, String group) throws IOException {
     ObjectId id = parseGroup(forCommit, group);
     if (id != null) {
-      PatchSet.Id psId = Iterables.getFirst(receivePackRefCache.patchSetIdsFromObjectId(id), null);
+      PatchSet.Id psId =
+          Iterables.getFirst(receivePackRefCache.patchSetIdsFromObjectId(id, projectName), null);
       if (psId != null) {
         List<String> groups = groupLookup.lookup(psId);
         // Group for existing patch set may be missing, e.g. if group has not

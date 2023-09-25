@@ -41,7 +41,7 @@ public class PatchSetApprovalUuidTest {
     PatchSetApprovalUuidGeneratorImpl patchSetApprovalUuidGenerator =
         new PatchSetApprovalUuidGeneratorImpl();
     for (short value = -2; value <= 2; value++) {
-      PatchSet.Id patchSetId = PatchSet.id(Change.id(1), 1);
+      PatchSet.Id patchSetId = PatchSet.id(Change.id(1, "project"), 1);
       Account.Id accountId = Account.id(1);
       String label = LabelId.CODE_REVIEW;
       Instant granted = TimeUtil.now();

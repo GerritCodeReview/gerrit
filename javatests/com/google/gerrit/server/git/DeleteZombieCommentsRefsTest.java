@@ -161,8 +161,8 @@ public class DeleteZombieCommentsRefsTest {
     }
   }
 
-  private static List<String> createNRefsOnCommit(
-      Repository usersRepo, ObjectId commitId, int n, int uuid) throws IOException {
+  private List<String> createNRefsOnCommit(Repository usersRepo, ObjectId commitId, int n, int uuid)
+      throws IOException {
     List<String> refNames = new ArrayList<>();
     BatchRefUpdate bru = usersRepo.getRefDatabase().newBatchUpdate();
     bru.setAtomic(true);
@@ -176,13 +176,13 @@ public class DeleteZombieCommentsRefsTest {
     return refNames;
   }
 
-  private static String getRefName(int changeId, int userId) {
-    Change.Id cId = Change.id(changeId);
+  private String getRefName(int changeId, int userId) {
+    Change.Id cId = Change.id(changeId, allUsersProject.get());
     Account.Id aId = Account.id(userId);
     return RefNames.refsDraftComments(cId, aId);
   }
 
-  private static Ref createRefWithNonEmptyTreeCommit(Repository usersRepo, int changeId, int userId)
+  private Ref createRefWithNonEmptyTreeCommit(Repository usersRepo, int changeId, int userId)
       throws IOException {
     try (RevWalk rw = new RevWalk(usersRepo)) {
       ObjectId fileObj = createBlob(usersRepo, String.format("file %d content", changeId));
@@ -194,7 +194,7 @@ public class DeleteZombieCommentsRefsTest {
     }
   }
 
-  private static Ref createRefWithEmptyTreeCommit(Repository usersRepo, int changeId, int userId)
+  private Ref createRefWithEmptyTreeCommit(Repository usersRepo, int changeId, int userId)
       throws IOException {
     ObjectId treeEmpty = createTree(usersRepo, null, "");
     ObjectId commitObj = createCommit(usersRepo, treeEmpty, null);

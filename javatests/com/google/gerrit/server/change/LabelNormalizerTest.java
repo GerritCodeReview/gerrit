@@ -122,7 +122,7 @@ public class LabelNormalizerTest {
     input.newBranch = true;
     input.subject = "Test change";
     ChangeInfo info = gApi.changes().create(input).get();
-    notes = changeNotesFactory.createChecked(allProjects, Change.id(info._number));
+    notes = changeNotesFactory.createChecked(allProjects, Change.id(info._number, input.project));
     change = notes.getChange();
   }
 

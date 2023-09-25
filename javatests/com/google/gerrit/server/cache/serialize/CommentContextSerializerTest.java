@@ -39,7 +39,7 @@ public class CommentContextSerializerTest {
   @Test
   public void roundTripKey() {
     Project.NameKey proj = Project.NameKey.parse("project");
-    Change.Id changeId = Change.Id.tryParse("1234").get();
+    Change.Id changeId = Change.Id.tryParse("1234", "project").get();
 
     CommentContextKey k =
         CommentContextKey.builder()

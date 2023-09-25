@@ -724,7 +724,8 @@ public abstract class AbstractDaemonTest {
     for (ChangeInfo change : allChanges) {
       try (Repository repo = repoManager.openRepository(Project.nameKey(change.project))) {
         String metaRefName =
-            RefNames.changeMetaRef(Change.Id.tryParse(change._number.toString()).get());
+            RefNames.changeMetaRef(
+                Change.Id.tryParse(change._number.toString(), change.project).get());
         ObjectId metaTip = repo.getRefDatabase().exactRef(metaRefName).getObjectId();
         ChangeNotesRevWalk revWalk = ChangeNotesCommit.newRevWalk(repo);
         revWalk.reset();

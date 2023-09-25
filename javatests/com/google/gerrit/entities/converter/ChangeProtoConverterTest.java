@@ -32,32 +32,33 @@ import org.junit.Test;
 
 public class ChangeProtoConverterTest {
   private final ChangeProtoConverter changeProtoConverter = ChangeProtoConverter.INSTANCE;
+  private final Project.NameKey project = Project.nameKey("project 67");
 
   @Test
   public void allValuesConvertedToProto() {
     Change change =
         new Change(
             Change.key("change 1"),
-            Change.id(14),
+            Change.id(14, project.get()),
             Account.id(35),
-            BranchNameKey.create(Project.nameKey("project 67"), "branch 74"),
+            BranchNameKey.create(project.get(), "branch 74"),
             Instant.ofEpochMilli(987654L));
     change.setLastUpdatedOn(Instant.ofEpochMilli(1234567L));
     change.setStatus(Change.Status.MERGED);
     change.setCurrentPatchSet(
-        PatchSet.id(Change.id(14), 23), "subject XYZ", "original subject ABC");
+        PatchSet.id(Change.id(14, project.get()), 23), "subject XYZ", "original subject ABC");
     change.setTopic("my topic");
     change.setSubmissionId("submission ID 234");
     change.setPrivate(true);
     change.setWorkInProgress(true);
     change.setReviewStarted(true);
-    change.setRevertOf(Change.id(180));
+    change.setRevertOf(Change.id(180, project.get()));
 
     Entities.Change proto = changeProtoConverter.toProto(change);
 
     Entities.Change expectedProto =
         Entities.Change.newBuilder()
-            .setChangeId(Entities.Change_Id.newBuilder().setId(14))
+            .setChangeId(Entities.Change_Id.newBuilder().setId(14).setProjectName(project.get()))
             .setChangeKey(Entities.Change_Key.newBuilder().setId("change 1"))
             .setCreatedOn(987654L)
             .setLastUpdatedOn(1234567L)
@@ -75,7 +76,7 @@ public class ChangeProtoConverterTest {
             .setIsPrivate(true)
             .setWorkInProgress(true)
             .setReviewStarted(true)
-            .setRevertOf(Entities.Change_Id.newBuilder().setId(180))
+            .setRevertOf(Entities.Change_Id.newBuilder().setId(180).setProjectName(project.get()))
             .build();
     assertThat(proto).isEqualTo(expectedProto);
   }
@@ -85,16 +86,16 @@ public class ChangeProtoConverterTest {
     Change change =
         new Change(
             Change.key("change 1"),
-            Change.id(14),
+            Change.id(14, project.get()),
             Account.id(35),
-            BranchNameKey.create(Project.nameKey("project 67"), "branch-74"),
+            BranchNameKey.create(project, "branch-74"),
             Instant.ofEpochMilli(987654L));
 
     Entities.Change proto = changeProtoConverter.toProto(change);
 
     Entities.Change expectedProto =
         Entities.Change.newBuilder()
-            .setChangeId(Entities.Change_Id.newBuilder().setId(14))
+            .setChangeId(Entities.Change_Id.newBuilder().setId(14).setProjectName(project.get()))
             .setChangeKey(Entities.Change_Key.newBuilder().setId("change 1"))
             .setCreatedOn(987654L)
             // Defaults to createdOn if not set.
@@ -120,18 +121,18 @@ public class ChangeProtoConverterTest {
     Change change =
         new Change(
             Change.key("change 1"),
-            Change.id(14),
+            Change.id(14, project.get()),
             Account.id(35),
-            BranchNameKey.create(Project.nameKey("project 67"), "branch-74"),
+            BranchNameKey.create(project, "branch-74"),
             Instant.ofEpochMilli(987654L));
     // O as ID actually means that no current patch set is present.
-    change.setCurrentPatchSet(PatchSet.id(Change.id(14), 0), null, null);
+    change.setCurrentPatchSet(PatchSet.id(Change.id(14, project.get()), 0), null, null);
 
     Entities.Change proto = changeProtoConverter.toProto(change);
 
     Entities.Change expectedProto =
         Entities.Change.newBuilder()
-            .setChangeId(Entities.Change_Id.newBuilder().setId(14))
+            .setChangeId(Entities.Change_Id.newBuilder().setId(14).setProjectName(project.get()))
             .setChangeKey(Entities.Change_Key.newBuilder().setId("change 1"))
             .setCreatedOn(987654L)
             // Defaults to createdOn if not set.
@@ -157,17 +158,17 @@ public class ChangeProtoConverterTest {
     Change change =
         new Change(
             Change.key("change 1"),
-            Change.id(14),
+            Change.id(14, project.get()),
             Account.id(35),
-            BranchNameKey.create(Project.nameKey("project 67"), "branch-74"),
+            BranchNameKey.create(project, "branch-74"),
             Instant.ofEpochMilli(987654L));
-    change.setCurrentPatchSet(PatchSet.id(Change.id(14), 23), "subject ABC", null);
+    change.setCurrentPatchSet(PatchSet.id(Change.id(14, project.get()), 23), "subject ABC", null);
 
     Entities.Change proto = changeProtoConverter.toProto(change);
 
     Entities.Change expectedProto =
         Entities.Change.newBuilder()
-            .setChangeId(Entities.Change_Id.newBuilder().setId(14))
+            .setChangeId(Entities.Change_Id.newBuilder().setId(14).setProjectName(project.get()))
             .setChangeKey(Entities.Change_Key.newBuilder().setId("change 1"))
             .setCreatedOn(987654L)
             // Defaults to createdOn if not set.
@@ -193,20 +194,20 @@ public class ChangeProtoConverterTest {
     Change change =
         new Change(
             Change.key("change 1"),
-            Change.id(14),
+            Change.id(14, project.get()),
             Account.id(35),
-            BranchNameKey.create(Project.nameKey("project 67"), "branch-74"),
+            BranchNameKey.create(project, "branch-74"),
             Instant.ofEpochMilli(987654L));
     change.setLastUpdatedOn(Instant.ofEpochMilli(1234567L));
     change.setStatus(Change.Status.MERGED);
     change.setCurrentPatchSet(
-        PatchSet.id(Change.id(14), 23), "subject XYZ", "original subject ABC");
+        PatchSet.id(Change.id(14, project.get()), 23), "subject XYZ", "original subject ABC");
     change.setTopic("my topic");
     change.setSubmissionId("submission ID 234");
     change.setPrivate(true);
     change.setWorkInProgress(true);
     change.setReviewStarted(true);
-    change.setRevertOf(Change.id(180));
+    change.setRevertOf(Change.id(180, project.get()));
 
     Change convertedChange = changeProtoConverter.fromProto(changeProtoConverter.toProto(change));
     assertEqualChange(convertedChange, change);
@@ -217,9 +218,9 @@ public class ChangeProtoConverterTest {
     Change change =
         new Change(
             Change.key("change 1"),
-            Change.id(14),
+            Change.id(14, project.get()),
             Account.id(35),
-            BranchNameKey.create(Project.nameKey("project 67"), "branch-74"),
+            BranchNameKey.create(project, "branch-74"),
             Instant.ofEpochMilli(987654L));
 
     Change convertedChange = changeProtoConverter.fromProto(changeProtoConverter.toProto(change));
@@ -231,7 +232,9 @@ public class ChangeProtoConverterTest {
   @Test
   public void protoWithOnlyRequiredValuesCanBeConvertedBack() {
     Entities.Change proto =
-        Entities.Change.newBuilder().setChangeId(Entities.Change_Id.newBuilder().setId(14)).build();
+        Entities.Change.newBuilder()
+            .setChangeId(Entities.Change_Id.newBuilder().setId(14).setProjectName(project.get()))
+            .build();
     Change change = changeProtoConverter.fromProto(proto);
 
     assertThat(change.getChangeId()).isEqualTo(14);
@@ -254,7 +257,7 @@ public class ChangeProtoConverterTest {
   public void unsetLastUpdatedOnIsAutomaticallySetToCreatedOnWhenConvertedBack() {
     Entities.Change proto =
         Entities.Change.newBuilder()
-            .setChangeId(Entities.Change_Id.newBuilder().setId(14))
+            .setChangeId(Entities.Change_Id.newBuilder().setId(14).setProjectName(project.get()))
             .setChangeKey(Entities.Change_Key.newBuilder().setId("change 1"))
             .setCreatedOn(987654L)
             .setOwnerAccountId(Entities.Account_Id.newBuilder().setId(35))

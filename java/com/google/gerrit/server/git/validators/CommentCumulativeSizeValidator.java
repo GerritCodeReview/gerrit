@@ -53,7 +53,8 @@ public class CommentCumulativeSizeValidator implements CommentValidator {
   public ImmutableList<CommentValidationFailure> validateComments(
       CommentValidationContext ctx, ImmutableList<CommentForValidation> comments) {
     ChangeNotes notes =
-        notesFactory.createChecked(Project.nameKey(ctx.getProject()), Change.id(ctx.getChangeId()));
+        notesFactory.createChecked(
+            Project.nameKey(ctx.getProject()), Change.id(ctx.getChangeId(), ctx.getProject()));
     int existingCumulativeSize =
         Stream.concat(
                     notes.getHumanComments().values().stream(),

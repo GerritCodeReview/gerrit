@@ -106,7 +106,7 @@ class ChangesImpl implements Changes {
       return api.create(
           changes.parse(
               Project.nameKey(out.project),
-              Change.id(out._number),
+              Change.id(out._number, out.project),
               ObjectId.fromString(out.metaRevId)));
     } catch (Exception e) {
       throw asRestApiException("Cannot create change", e);

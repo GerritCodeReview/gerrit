@@ -61,13 +61,14 @@ public final class Patch {
   public abstract static class Key {
     /** Parse a Patch.Key out of a string representation. */
     public static Key parse(String str) {
-      List<String> parts = Splitter.on(',').limit(3).splitToList(str);
-      checkKeyFormat(parts.size() == 3, str);
-      Integer changeId = Ints.tryParse(parts.get(0));
+      List<String> parts = Splitter.on(',').limit(4).splitToList(str);
+      checkKeyFormat(parts.size() == 4, str);
+      String projectName = parts.get(0);
+      Integer changeId = Ints.tryParse(parts.get(1));
       checkKeyFormat(changeId != null, str);
-      Integer patchSetNum = Ints.tryParse(parts.get(1));
+      Integer patchSetNum = Ints.tryParse(parts.get(2));
       checkKeyFormat(patchSetNum != null, str);
-      return key(PatchSet.id(Change.id(changeId), patchSetNum), parts.get(2));
+      return key(PatchSet.id(Change.id(changeId, projectName), patchSetNum), parts.get(3));
     }
 
     private static void checkKeyFormat(boolean test, String input) {

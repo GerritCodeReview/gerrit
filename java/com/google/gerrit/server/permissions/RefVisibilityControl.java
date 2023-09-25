@@ -86,7 +86,7 @@ class RefVisibilityControl {
 
     // Change and change edit visibility
     Change.Id changeId;
-    if ((changeId = Change.Id.fromRef(refName)) != null) {
+    if ((changeId = Change.Id.fromRef(refName, projectControl.getProject().getName())) != null) {
       // Change ref is visible only if the change is visible.
       ChangeData cd;
       try {
@@ -152,7 +152,7 @@ class RefVisibilityControl {
 
   private boolean visibleEdit(String refName, ProjectControl projectControl, ChangeData cd)
       throws PermissionBackendException {
-    Change.Id id = Change.Id.fromEditRefPart(refName);
+    Change.Id id = Change.Id.fromEditRefPart(refName, projectControl.getProject().getName());
     if (id == null) {
       throw new IllegalStateException("unable to parse change id from edit ref " + refName);
     }

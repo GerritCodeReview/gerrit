@@ -321,7 +321,8 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     List<ChangeMessageInfo> messagesBeforeDeletion = gApi.changes().id(changeNum).messages();
 
     List<CommentInfo> commentsBefore = getChangeSortedComments(changeNum);
-    List<RevCommit> commitsBefore = getChangeMetaCommitsInReverseOrder(Change.id(changeNum));
+    List<RevCommit> commitsBefore =
+        getChangeMetaCommitsInReverseOrder(Change.id(changeNum, project.get()));
 
     String id = messagesBeforeDeletion.get(deletedMessageIndex).id;
     DeleteChangeMessageInput input = new DeleteChangeMessageInput(reason);
@@ -384,7 +385,8 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
       TestAccount deletedBy,
       String deleteReason)
       throws Exception {
-    List<RevCommit> commitsAfterDeletion = getChangeMetaCommitsInReverseOrder(Change.id(changeNum));
+    List<RevCommit> commitsAfterDeletion =
+        getChangeMetaCommitsInReverseOrder(Change.id(changeNum, project.get()));
     assertThat(commitsAfterDeletion).hasSize(commitsBeforeDeletion.size());
 
     for (int i = 0; i < commitsBeforeDeletion.size(); i++) {

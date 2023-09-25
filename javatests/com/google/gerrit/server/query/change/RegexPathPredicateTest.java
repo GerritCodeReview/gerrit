@@ -84,7 +84,8 @@ public class RegexPathPredicateTest {
   private static ChangeData change(String... files) {
     Arrays.sort(files);
     ChangeData cd =
-        ChangeData.createForTest(Project.nameKey("project"), Change.id(1), 1, ObjectId.zeroId());
+        ChangeData.createForTest(
+            Project.nameKey("project"), Change.id(1, "project"), 1, ObjectId.zeroId());
     cd.setCurrentFilePaths(Arrays.asList(files));
     return cd;
   }

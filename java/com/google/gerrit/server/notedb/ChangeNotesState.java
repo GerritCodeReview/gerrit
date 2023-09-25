@@ -629,13 +629,13 @@ public abstract class ChangeNotesState {
     @Override
     public ChangeNotesState deserialize(byte[] in) {
       ChangeNotesStateProto proto = Protos.parseUnchecked(ChangeNotesStateProto.parser(), in);
-      Change.Id changeId = Change.id(proto.getChangeId());
+      Change.Id changeId = Change.id(proto.getChangeId(), proto.getProjectName());
 
       ChangeNotesState.Builder b =
           builder()
               .metaId(ObjectIdConverter.create().fromByteString(proto.getMetaId()))
               .changeId(changeId)
-              .columns(toChangeColumns(changeId, proto.getColumns()))
+              .columns(toChangeColumns(changeId, proto.getColumns(), proto.getProjectName()))
               .serverId(proto.getHasServerId() ? proto.getServerId() : null)
               .hashtags(proto.getHashtagList())
               .customKeyedValues(proto.getCustomKeyedValuesMap().entrySet())
@@ -681,7 +681,8 @@ public abstract class ChangeNotesState {
       return b.build();
     }
 
-    private static ChangeColumns toChangeColumns(Change.Id changeId, ChangeColumnsProto proto) {
+    private static ChangeColumns toChangeColumns(
+        Change.Id changeId, ChangeColumnsProto proto, String projectName) {
       ChangeColumns.Builder b =
           ChangeColumns.builder()
               .changeKey(Change.key(proto.getChangeKey()))
@@ -709,7 +710,7 @@ public abstract class ChangeNotesState {
           .workInProgress(proto.getWorkInProgress())
           .reviewStarted(proto.getReviewStarted());
       if (proto.getHasRevertOf()) {
-        b.revertOf(Change.id(proto.getRevertOf()));
+        b.revertOf(Change.id(proto.getRevertOf(), projectName));
       }
       if (proto.getHasCherryPickOf()) {
         b.cherryPickOf(PatchSet.Id.parse(proto.getCherryPickOf()));

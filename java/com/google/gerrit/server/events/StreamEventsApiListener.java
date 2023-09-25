@@ -170,14 +170,14 @@ public class StreamEventsApiListener
   private ChangeNotes getNotes(ChangeInfo info) {
     try {
       return changeNotesFactory.createChecked(
-          Project.nameKey(info.project), Change.id(info._number));
+          Project.nameKey(info.project), Change.id(info._number, info.project));
     } catch (NoSuchChangeException e) {
       throw new StorageException(e);
     }
   }
 
   private PatchSet getPatchSet(ChangeNotes notes, RevisionInfo info) {
-    return psUtil.get(notes, PatchSet.Id.fromRef(info.ref));
+    return psUtil.get(notes, PatchSet.Id.fromRef(info.ref, notes.getProjectName().get()));
   }
 
   private Supplier<ChangeAttribute> changeAttributeSupplier(Change change, ChangeNotes notes) {

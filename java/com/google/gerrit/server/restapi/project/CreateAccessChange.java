@@ -37,7 +37,7 @@ import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
-import com.google.gerrit.server.notedb.Sequences;
+import com.google.gerrit.server.notedb.ProjectChangeSequence;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
@@ -63,7 +63,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 @Singleton
 public class CreateAccessChange implements RestModifyView<ProjectResource, ProjectAccessInput> {
   private final PermissionBackend permissionBackend;
-  private final Sequences seq;
   private final ChangeInserter.Factory changeInserterFactory;
   private final BatchUpdate.Factory updateFactory;
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
@@ -71,20 +70,20 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
   private final ChangeJson.Factory jsonFactory;
   private final ProjectCache projectCache;
   private final ProjectConfig.Factory projectConfigFactory;
+  private final ProjectChangeSequence.Factory projectChangeSequenceFactory;
 
   @Inject
   CreateAccessChange(
       PermissionBackend permissionBackend,
       ChangeInserter.Factory changeInserterFactory,
       BatchUpdate.Factory updateFactory,
-      Sequences seq,
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       SetAccessUtil accessUtil,
       ChangeJson.Factory jsonFactory,
       ProjectCache projectCache,
-      ProjectConfig.Factory projectConfigFactory) {
+      ProjectConfig.Factory projectConfigFactory,
+      ProjectChangeSequence.Factory projectChangeSequenceFactory) {
     this.permissionBackend = permissionBackend;
-    this.seq = seq;
     this.changeInserterFactory = changeInserterFactory;
     this.updateFactory = updateFactory;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
@@ -92,6 +91,7 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
     this.jsonFactory = jsonFactory;
     this.projectCache = projectCache;
     this.projectConfigFactory = projectConfigFactory;
+    this.projectChangeSequenceFactory = projectChangeSequenceFactory;
   }
 
   @Override
@@ -152,7 +152,14 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
       }
 
       md.setInsertChangeId(true);
-      Change.Id changeId = Change.id(seq.nextChangeId());
+
+      // TODO: we shouldn't get 20 new change numbers, take 1 and then throw them away
+      // the sequence should be provided by a central cache where the lifespan is longer
+      // than this single request.
+      Change.Id changeId =
+          Change.id(
+              projectChangeSequenceFactory.create(rsrc.getNameKey()).nextChangeId(),
+              rsrc.getName());
       try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
         RevCommit commit =
             config.commitToNewRef(

@@ -68,7 +68,7 @@ public class CommentPorterTest {
   @Test
   public void commentsAreNotDroppedWhenDiffNotAvailable() throws Exception {
     Project.NameKey project = Project.nameKey("myProject");
-    Change.Id changeId = Change.id(1);
+    Change.Id changeId = Change.id(1, project.get());
     Change change = createChange(project, changeId);
     PatchSet patchset1 = createPatchset(PatchSet.id(changeId, 1));
     PatchSet patchset2 = createPatchset(PatchSet.id(changeId, 2));
@@ -94,7 +94,7 @@ public class CommentPorterTest {
   @Test
   public void commentsAreNotDroppedWhenDiffHasUnexpectedError() throws Exception {
     Project.NameKey project = Project.nameKey("myProject");
-    Change.Id changeId = Change.id(1);
+    Change.Id changeId = Change.id(1, project.get());
     Change change = createChange(project, changeId);
     PatchSet patchset1 = createPatchset(PatchSet.id(changeId, 1));
     PatchSet patchset2 = createPatchset(PatchSet.id(changeId, 2));
@@ -120,7 +120,7 @@ public class CommentPorterTest {
   @Test
   public void commentsAreNotDroppedWhenRetrievingCommitSha1sHasUnexpectedError() {
     Project.NameKey project = Project.nameKey("myProject");
-    Change.Id changeId = Change.id(1);
+    Change.Id changeId = Change.id(1, project.get());
     Change change = createChange(project, changeId);
     PatchSet patchset1 = createPatchset(PatchSet.id(changeId, 1));
     PatchSet patchset2 = createPatchset(PatchSet.id(changeId, 2));
@@ -140,7 +140,7 @@ public class CommentPorterTest {
   @Test
   public void commentsAreMappedToPatchsetLevelOnDiffError() throws Exception {
     Project.NameKey project = Project.nameKey("myProject");
-    Change.Id changeId = Change.id(1);
+    Change.Id changeId = Change.id(1, project.get());
     Change change = createChange(project, changeId);
     PatchSet patchset1 = createPatchset(PatchSet.id(changeId, 1));
     PatchSet patchset2 = createPatchset(PatchSet.id(changeId, 2));
@@ -168,7 +168,7 @@ public class CommentPorterTest {
   @Test
   public void commentsAreStillPortedWhenDiffOfOtherCommentsHasError() throws Exception {
     Project.NameKey project = Project.nameKey("myProject");
-    Change.Id changeId = Change.id(1);
+    Change.Id changeId = Change.id(1, project.get());
     Change change = createChange(project, changeId);
     PatchSet patchset1 = createPatchset(PatchSet.id(changeId, 1));
     PatchSet patchset2 = createPatchset(PatchSet.id(changeId, 2));
@@ -201,7 +201,7 @@ public class CommentPorterTest {
   @Test
   public void commentsWithInvalidPatchsetsAreIgnored() throws Exception {
     Project.NameKey project = Project.nameKey("myProject");
-    Change.Id changeId = Change.id(1);
+    Change.Id changeId = Change.id(1, project.get());
     Change change = createChange(project, changeId);
     PatchSet patchset1 = createPatchset(PatchSet.id(changeId, 1));
     PatchSet patchset2 = createPatchset(PatchSet.id(changeId, 2));

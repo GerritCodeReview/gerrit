@@ -610,7 +610,7 @@ public class ChangeData {
       return legacyId;
     }
 
-    return Change.id(virtualIdFunc.apply(changeServerId, legacyId.get()));
+    return Change.id(virtualIdFunc.apply(changeServerId, legacyId.get()), project.get());
   }
 
   public Project.NameKey project() {
@@ -1207,7 +1207,7 @@ public class ChangeData {
           if (!RefNames.isRefsEdit(ref.getName())) {
             continue;
           }
-          PatchSet.Id ps = PatchSet.Id.fromEditRef(ref.getName());
+          PatchSet.Id ps = PatchSet.Id.fromEditRef(ref.getName(), project.get());
           if (id.equals(ps.changeId())) {
             Account.Id accountId = Account.Id.fromRef(ref.getName());
             if (accountId != null) {

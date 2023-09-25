@@ -285,7 +285,7 @@ public class CommitRewriter {
         if (result.fixedRefDiff.size() >= options.maxRefsToUpdate) {
           return result;
         }
-        Change.Id changeId = Change.Id.fromRef(ref.getName());
+        Change.Id changeId = Change.Id.fromRef(ref.getName(), project.get());
         if (changeId == null || !ref.getName().equals(RefNames.changeMetaRef(changeId))) {
           continue;
         }

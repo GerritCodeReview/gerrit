@@ -611,7 +611,7 @@ public class EventJsonTest {
   private Change newChange() {
     return new Change(
         Change.key(CHANGE_ID),
-        Change.id(CHANGE_NUM),
+        Change.id(CHANGE_NUM, PROJECT),
         Account.id(9999),
         BranchNameKey.create(Project.nameKey(PROJECT), BRANCH),
         TimeUtil.now());

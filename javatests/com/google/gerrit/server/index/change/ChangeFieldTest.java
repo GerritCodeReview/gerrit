@@ -76,7 +76,8 @@ public class ChangeFieldTest {
         .containsExactly(
             "REVIEWER,1", "REVIEWER,1," + t1.toEpochMilli(), "CC,2", "CC,2," + t2.toEpochMilli());
 
-    assertThat(ChangeField.parseReviewerFieldValues(Change.id(1), values)).isEqualTo(reviewers);
+    assertThat(ChangeField.parseReviewerFieldValues(Change.id(1, "project"), values))
+        .isEqualTo(reviewers);
   }
 
   @Test
@@ -158,7 +159,8 @@ public class ChangeFieldTest {
   public void tolerateNullValuesForInsertion() {
     Project.NameKey project = Project.nameKey("project");
     ChangeData cd =
-        ChangeData.createForTest(project, Change.id(1), 1, ObjectId.zeroId(), null, null, null);
+        ChangeData.createForTest(
+            project, Change.id(1, project.get()), 1, ObjectId.zeroId(), null, null, null);
     assertThat(ChangeField.ADDED_LINES_SPEC.setIfPossible(cd, new FakeStoredValue(null))).isTrue();
   }
 
@@ -166,7 +168,8 @@ public class ChangeFieldTest {
   public void tolerateNullValuesForDeletion() {
     Project.NameKey project = Project.nameKey("project");
     ChangeData cd =
-        ChangeData.createForTest(project, Change.id(1), 1, ObjectId.zeroId(), null, null, null);
+        ChangeData.createForTest(
+            project, Change.id(1, project.get()), 1, ObjectId.zeroId(), null, null, null);
     assertThat(ChangeField.DELETED_LINES_SPEC.setIfPossible(cd, new FakeStoredValue(null)))
         .isTrue();
   }

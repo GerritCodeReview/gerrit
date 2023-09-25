@@ -26,7 +26,7 @@ public class ChangeEditTest {
   @Test
   public void changeEditRef() throws Exception {
     Account.Id accountId = Account.id(1000042);
-    Change.Id changeId = Change.id(56414);
+    Change.Id changeId = Change.id(56414, "foo");
     PatchSet.Id psId = PatchSet.id(changeId, 50);
     String refName = RefNames.refsEdit(accountId, changeId, psId);
     assertEquals("refs/users/42/1000042/edit-56414/50", refName);

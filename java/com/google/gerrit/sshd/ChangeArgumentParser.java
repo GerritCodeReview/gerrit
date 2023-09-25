@@ -64,6 +64,8 @@ public class ChangeArgumentParser {
     addChange(id, changes, projectState, true);
   }
 
+  // TODO: The assumption here is that the id is always provided in the form
+  //  project~id. failing this the find from index will fail, as well as the retrieval from NoteDB
   public void addChange(
       String id,
       Map<Change.Id, ChangeResource> changes,
@@ -121,7 +123,7 @@ public class ChangeArgumentParser {
 
   private List<Change.Id> parseId(String id) throws UnloggedFailure {
     try {
-      return Arrays.asList(Change.id(Integer.parseInt(id)));
+      return Arrays.asList(Change.Id.fromProjectAndIdString(id));
     } catch (NumberFormatException e) {
       throw new UnloggedFailure(2, "Invalid change ID " + id, e);
     }

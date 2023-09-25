@@ -567,7 +567,8 @@ public class BatchUpdateTest {
   }
 
   private Change.Id createChange() throws Exception {
-    Change.Id id = Change.id(sequences.nextChangeId());
+    // TODO: Use project levvel sequence
+    Change.Id id = Change.id(sequences.nextChangeId(), project.get());
     try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
       bu.insertChange(
           changeInserterFactory.create(
@@ -580,7 +581,7 @@ public class BatchUpdateTest {
   private Change.Id createChangeWithUpdates(int totalUpdates) throws Exception {
     checkArgument(totalUpdates > 0);
     checkArgument(totalUpdates <= MAX_UPDATES);
-    Change.Id id = Change.id(sequences.nextChangeId());
+    Change.Id id = Change.id(sequences.nextChangeId(), project.get());
     try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
       bu.insertChange(
           changeInserterFactory.create(

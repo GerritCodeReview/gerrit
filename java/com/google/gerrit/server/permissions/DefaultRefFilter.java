@@ -145,7 +145,7 @@ class DefaultRefFilter {
                     projectState.getNameKey(),
                     permissionBackendForProject,
                     repo,
-                    changes(refs)));
+                    changes(refs, projectState.getName())));
     Result initialRefFilter = filterRefs(new ArrayList<>(refs), opts, visibleChanges);
     ImmutableList.Builder<Ref> visibleRefs = ImmutableList.builder();
     visibleRefs.addAll(initialRefFilter.visibleRefs());
@@ -253,7 +253,7 @@ class DefaultRefFilter {
             logger.atFinest().log("Filter out tag ref %s that is not a tag", refName);
           }
         }
-      } else if ((changeId = Change.Id.fromRef(refName)) != null) {
+      } else if ((changeId = Change.Id.fromRef(refName, projectState.getName())) != null) {
         // This is a mere performance optimization. RefVisibilityControl could determine the
         // visibility of these refs just fine. But instead, we use highly-optimized logic that
         // looks only on the available changes in the change index and cache (which are the
@@ -305,10 +305,10 @@ class DefaultRefFilter {
    * patch set refs. We count over the meta refs to make sure we get the number of unique changes in
    * the provided refs.
    */
-  private static ImmutableSet<Change.Id> changes(Collection<Ref> refs) {
+  private static ImmutableSet<Change.Id> changes(Collection<Ref> refs, String projectName) {
     return refs.stream()
         .map(Ref::getName)
-        .map(Change.Id::fromRef)
+        .map((String ref) -> Change.Id.fromRef(ref, projectName))
         .filter(Objects::nonNull)
         .collect(toImmutableSet());
   }
@@ -324,7 +324,7 @@ class DefaultRefFilter {
 
   private boolean visibleEdit(String name, ImmutableMap<Change.Id, ChangeData> visibleChanges)
       throws PermissionBackendException {
-    Change.Id id = Change.Id.fromEditRefPart(name);
+    Change.Id id = Change.Id.fromEditRefPart(name, projectState.getName());
     if (id == null) {
       logger.atWarning().log("Couldn't extract change ID from edit ref %s", name);
       return false;
@@ -347,7 +347,7 @@ class DefaultRefFilter {
       return canRead;
     }
 
-    logger.atFinest().log("Change %d of change edit ref %s is not visible", id.get(), name);
+    logger.atFinest().log("Change %d of change edit ref %s is not visible", id, name);
     return false;
   }
 

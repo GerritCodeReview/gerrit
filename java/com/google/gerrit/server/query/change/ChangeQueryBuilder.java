@@ -592,7 +592,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     if (PAT_LEGACY_ID.matcher(query).matches()) {
       Integer id = Ints.tryParse(query);
       if (id != null) {
-        return ChangePredicates.idStr(Change.id(id));
+        return ChangePredicates.idStr(id.toString());
       }
     } else if (PAT_CHANGE_ID.matcher(query).matches()) {
       return ChangePredicates.idPrefix(parseChangeId(query));
@@ -1626,7 +1626,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     if (value == null || Ints.tryParse(value) == null) {
       throw new QueryParseException("'revertof' must be an integer");
     }
-    return ChangePredicates.revertOf(Change.id(Ints.tryParse(value)));
+    return ChangePredicates.revertOf(Change.Id.fromProjectAndIdString(value));
   }
 
   @Operator
@@ -1638,8 +1638,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public Predicate<ChangeData> cherryPickOf(String value) throws QueryParseException {
     checkOperatorAvailable(ChangeField.CHERRY_PICK_OF_CHANGE, "cherryPickOf");
     checkOperatorAvailable(ChangeField.CHERRY_PICK_OF_PATCHSET, "cherryPickOf");
-    if (Ints.tryParse(value) != null) {
-      return ChangePredicates.cherryPickOf(Change.id(Ints.tryParse(value)));
+    final Optional<Change.Id> maybeChangeId = Change.Id.tryFromProjectAndIdString(value);
+    if (maybeChangeId.isPresent()) {
+      return ChangePredicates.cherryPickOf(Change.Id.fromProjectAndIdString(value));
     }
     try {
       PatchSet.Id patchSetId = PatchSet.Id.parse(value);
@@ -1648,7 +1649,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       throw new QueryParseException(
           "'"
               + value
-              + "' is not a valid input. It must be in the 'ChangeNumber[,PatchsetNumber]' format.",
+              + "' is not a valid input. It must be in the 'ProjectName~ChangeNumber[,PatchsetNumber]' format.",
           e);
     }
   }
@@ -1831,7 +1832,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   private List<ChangeData> parseChangeData(String value) throws QueryParseException {
     if (PAT_LEGACY_ID.matcher(value).matches()) {
-      Optional<Change.Id> id = Change.Id.tryParse(value);
+      // TODO: hot to get project here
+      Optional<Change.Id> id = Change.Id.tryParse(value, "FOO");
       if (!id.isPresent()) {
         throw error("Invalid change id " + value);
       }

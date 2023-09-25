@@ -57,6 +57,7 @@ public class PageLinks {
     return toChangeNoSlash(project, c) + ",edit/";
   }
 
+  // TODO: Change.Id already has the project, all these interfaces can be changed
   public static String toChange(@Nullable Project.NameKey project, Change.Id c) {
     return toChangeNoSlash(project, c) + "/";
   }

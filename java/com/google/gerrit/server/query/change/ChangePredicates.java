@@ -129,6 +129,8 @@ public class ChangePredicates {
         new ChangeIndexPredicate(ChangeField.REVIEWEDBY_SPEC, ChangeField.NOT_REVIEWED.toString()));
   }
 
+  // TODO: Should we split on '~' and look for project AND change number?
+
   /**
    * Returns a predicate that matches the change with the provided {@link
    * com.google.gerrit.entities.Change.Id}.

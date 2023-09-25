@@ -50,7 +50,9 @@ public class ChangeMetaIT extends AbstractDaemonTest {
       try (Repository repo = repoManager.openRepository(project)) {
         assertThat(change.metaRevId)
             .isEqualTo(
-                repo.exactRef(changeMetaRef(Change.id(change._number))).getObjectId().getName());
+                repo.exactRef(changeMetaRef(Change.id(change._number, project.get())))
+                    .getObjectId()
+                    .getName());
       }
     }
   }
@@ -63,7 +65,9 @@ public class ChangeMetaIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(project)) {
       assertThat(before.metaRevId)
           .isEqualTo(
-              repo.exactRef(changeMetaRef(Change.id(before._number))).getObjectId().getName());
+              repo.exactRef(changeMetaRef(Change.id(before._number, project.get())))
+                  .getObjectId()
+                  .getName());
     }
   }
 

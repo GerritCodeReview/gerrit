@@ -145,7 +145,7 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
     res.assertOK();
     Map<String, Object> changeInfo =
         GSON.fromJson(res.getReader(), new TypeToken<Map<String, Object>>() {}.getType());
-    return getPluginInfosFromChangeInfos(GSON, Arrays.asList(changeInfo));
+    return getPluginInfosFromChangeInfos(GSON, Arrays.asList(changeInfo), project);
   }
 
   @Nullable
@@ -154,6 +154,6 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
     res.assertOK();
     List<Map<String, Object>> changeInfos =
         GSON.fromJson(res.getReader(), new TypeToken<List<Map<String, Object>>>() {}.getType());
-    return getPluginInfosFromChangeInfos(GSON, changeInfos);
+    return getPluginInfosFromChangeInfos(GSON, changeInfos, project);
   }
 }

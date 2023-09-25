@@ -53,6 +53,7 @@ public class ChangeNotesCache {
 
   @VisibleForTesting static final String CACHE_NAME = "change_notes";
 
+  // TODO: Any cache using directly or indirectly Change.Id will need to bump up version
   public static Module module() {
     return new CacheModule() {
       @Override
@@ -62,7 +63,7 @@ public class ChangeNotesCache {
             .weigher(Weigher.class)
             .maximumWeight(10 << 20)
             .diskLimit(-1)
-            .version(7)
+            .version(8)
             .keySerializer(Key.Serializer.INSTANCE)
             .valueSerializer(ChangeNotesState.Serializer.INSTANCE);
       }
@@ -100,7 +101,7 @@ public class ChangeNotesCache {
         ChangeNotesKeyProto proto = Protos.parseUnchecked(ChangeNotesKeyProto.parser(), in);
         return Key.create(
             Project.nameKey(proto.getProject()),
-            Change.id(proto.getChangeId()),
+            Change.id(proto.getChangeId(), proto.getProject()),
             ObjectIdConverter.create().fromByteString(proto.getId()));
       }
     }

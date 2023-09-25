@@ -799,14 +799,16 @@ public class AccountIT extends AbstractDaemonTest {
       assertThat(change.starred).isTrue();
       refUpdateCounter.assertRefUpdateFor(
           RefUpdateCounter.projectRef(
-              allUsers, RefNames.refsStarredChanges(Change.id(change._number), admin.id())));
+              allUsers,
+              RefNames.refsStarredChanges(Change.id(change._number, project.get()), admin.id())));
 
       gApi.accounts().self().unstarChange(triplet);
       change = info(triplet);
       assertThat(change.starred).isNull();
       refUpdateCounter.assertRefUpdateFor(
           RefUpdateCounter.projectRef(
-              allUsers, RefNames.refsStarredChanges(Change.id(change._number), admin.id())));
+              allUsers,
+              RefNames.refsStarredChanges(Change.id(change._number, project.get()), admin.id())));
 
       accountIndexedCounter.assertNoReindex();
     }

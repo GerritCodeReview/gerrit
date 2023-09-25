@@ -185,7 +185,7 @@ public class PrivateChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result result = createChange();
     String changeId = result.getChangeId();
     merge(result);
-    markMergedChangePrivate(Change.id(gApi.changes().id(changeId).get()._number));
+    markMergedChangePrivate(Change.id(gApi.changes().id(changeId).get()._number, project.get()));
 
     gApi.changes().id(changeId).setPrivate(false, null);
     assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
@@ -230,7 +230,7 @@ public class PrivateChangeIT extends AbstractDaemonTest {
     String changeId = result.getChangeId();
     gApi.changes().id(changeId).addReviewer(admin.id().toString());
     merge(result);
-    markMergedChangePrivate(Change.id(gApi.changes().id(changeId).get()._number));
+    markMergedChangePrivate(Change.id(gApi.changes().id(changeId).get()._number, project.get()));
 
     requestScopeOperations.setApiUser(user.id());
     gApi.changes().id(changeId).setPrivate(false, null);

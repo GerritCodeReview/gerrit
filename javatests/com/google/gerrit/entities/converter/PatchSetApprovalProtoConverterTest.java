@@ -42,7 +42,9 @@ public class PatchSetApprovalProtoConverterTest {
         PatchSetApproval.builder()
             .key(
                 PatchSetApproval.key(
-                    PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8")))
+                    PatchSet.id(Change.id(42, "project"), 14),
+                    Account.id(100013),
+                    LabelId.create("label-8")))
             .uuid(Optional.of(PatchSetApproval.uuid("577fb248e474018276351785930358ec0450e9f7")))
             .value(456)
             .granted(Instant.ofEpochMilli(987654L))
@@ -60,7 +62,8 @@ public class PatchSetApprovalProtoConverterTest {
                 Entities.PatchSetApproval_Key.newBuilder()
                     .setPatchSetId(
                         Entities.PatchSet_Id.newBuilder()
-                            .setChangeId(Entities.Change_Id.newBuilder().setId(42))
+                            .setChangeId(
+                                Entities.Change_Id.newBuilder().setId(42).setProjectName("project"))
                             .setId(14))
                     .setAccountId(Entities.Account_Id.newBuilder().setId(100013))
                     .setLabelId(Entities.LabelId.newBuilder().setId("label-8")))
@@ -81,7 +84,9 @@ public class PatchSetApprovalProtoConverterTest {
         PatchSetApproval.builder()
             .key(
                 PatchSetApproval.key(
-                    PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8")))
+                    PatchSet.id(Change.id(42, "project"), 14),
+                    Account.id(100013),
+                    LabelId.create("label-8")))
             .value(456)
             .granted(Instant.ofEpochMilli(987654L))
             .build();
@@ -94,7 +99,8 @@ public class PatchSetApprovalProtoConverterTest {
                 Entities.PatchSetApproval_Key.newBuilder()
                     .setPatchSetId(
                         Entities.PatchSet_Id.newBuilder()
-                            .setChangeId(Entities.Change_Id.newBuilder().setId(42))
+                            .setChangeId(
+                                Entities.Change_Id.newBuilder().setId(42).setProjectName("project"))
                             .setId(14))
                     .setAccountId(Entities.Account_Id.newBuilder().setId(100013))
                     .setLabelId(Entities.LabelId.newBuilder().setId("label-8")))
@@ -113,7 +119,9 @@ public class PatchSetApprovalProtoConverterTest {
         PatchSetApproval.builder()
             .key(
                 PatchSetApproval.key(
-                    PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8")))
+                    PatchSet.id(Change.id(42, "project"), 14),
+                    Account.id(100013),
+                    LabelId.create("label-8")))
             .uuid(Optional.of(PatchSetApproval.uuid("577fb248e474018276351785930358ec0450e9f7")))
             .value(456)
             .granted(Instant.ofEpochMilli(987654L))
@@ -134,7 +142,9 @@ public class PatchSetApprovalProtoConverterTest {
         PatchSetApproval.builder()
             .key(
                 PatchSetApproval.key(
-                    PatchSet.id(Change.id(42), 14), Account.id(100013), LabelId.create("label-8")))
+                    PatchSet.id(Change.id(42, "project"), 14),
+                    Account.id(100013),
+                    LabelId.create("label-8")))
             .value(456)
             .granted(Instant.ofEpochMilli(987654L))
             .build();
@@ -154,14 +164,15 @@ public class PatchSetApprovalProtoConverterTest {
                 Entities.PatchSetApproval_Key.newBuilder()
                     .setPatchSetId(
                         Entities.PatchSet_Id.newBuilder()
-                            .setChangeId(Entities.Change_Id.newBuilder().setId(42))
+                            .setChangeId(
+                                Entities.Change_Id.newBuilder().setId(42).setProjectName("project"))
                             .setId(14))
                     .setAccountId(Entities.Account_Id.newBuilder().setId(100013))
                     .setLabelId(Entities.LabelId.newBuilder().setId("label-8")))
             .build();
     PatchSetApproval patchSetApproval = protoConverter.fromProto(proto);
 
-    assertThat(patchSetApproval.patchSetId()).isEqualTo(PatchSet.id(Change.id(42), 14));
+    assertThat(patchSetApproval.patchSetId()).isEqualTo(PatchSet.id(Change.id(42, "project"), 14));
     assertThat(patchSetApproval.accountId()).isEqualTo(Account.id(100013));
     assertThat(patchSetApproval.labelId()).isEqualTo(LabelId.create("label-8"));
     // Default values for unset protobuf fields which can't be unset in the entity object.

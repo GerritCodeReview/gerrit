@@ -953,7 +953,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
       assertThat(query(changeId)).isEmpty();
 
-      String ref = Change.id(id).toRefPrefix() + "1";
+      String ref = Change.id(id, projectName.get()).toRefPrefix() + "1";
       eventRecorder.assertRefUpdatedEvents(projectName.get(), ref, null, commit, commit, null);
       eventRecorder.assertChangeDeletedEvents(changeId, deleteAs.email());
     } finally {
@@ -3301,7 +3301,8 @@ public class ChangeIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       RevCommit commitPatchSetCreation =
-          rw.parseCommit(repo.exactRef(changeMetaRef(Change.id(c._number))).getObjectId());
+          rw.parseCommit(
+              repo.exactRef(changeMetaRef(Change.id(c._number, project.get()))).getObjectId());
 
       assertThat(commitPatchSetCreation.getShortMessage()).isEqualTo("Create patch set 2");
       PersonIdent expectedAuthor =

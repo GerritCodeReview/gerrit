@@ -40,6 +40,7 @@ import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -244,8 +245,9 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       ChangeInput visibleChangeIn =
           new ChangeInput(allRefsVisibleProject.get(), "master", "Test public change");
       visibleChangeIn.newBranch = true;
-      int visibleChangeNumber = gApi.changes().create(visibleChangeIn).info()._number;
-      Change.Id changeId = Change.id(visibleChangeNumber);
+      ChangeInfo changeInfo = gApi.changes().create(visibleChangeIn).info();
+      int visibleChangeNumber = changeInfo._number;
+      Change.Id changeId = Change.id(visibleChangeNumber, changeInfo.project);
       String visibleChangeNumberRef = RefNames.patchSetRef(PatchSet.id(changeId, 1));
       String visibleChangeNumberMetaRef = RefNames.changeMetaRef(changeId);
 
@@ -298,8 +300,9 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       ChangeInput visibleChangeIn =
           new ChangeInput(privateProject.get(), "master", "Test private change");
       visibleChangeIn.newBranch = true;
-      int visibleChangeNumber = gApi.changes().create(visibleChangeIn).info()._number;
-      Change.Id changeId = Change.id(visibleChangeNumber);
+      ChangeInfo changeInfo = gApi.changes().create(visibleChangeIn).info();
+      int visibleChangeNumber = changeInfo._number;
+      Change.Id changeId = Change.id(visibleChangeNumber, changeInfo.project);
       String visibleChangeNumberRef = RefNames.patchSetRef(PatchSet.id(changeId, 1));
 
       // Create new change and retrieve refs for the created patch set. We'll use this to make sure
@@ -307,8 +310,10 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       ChangeInput changeWeDidNotAskForIn =
           new ChangeInput(privateProject.get(), "stable", "Test private change 2");
       changeWeDidNotAskForIn.newBranch = true;
-      int changeWeDidNotAskForNumber = gApi.changes().create(changeWeDidNotAskForIn).info()._number;
-      Change.Id changeWeDidNotAskFor = Change.id(changeWeDidNotAskForNumber);
+
+      changeInfo = gApi.changes().create(changeWeDidNotAskForIn).info();
+      int changeWeDidNotAskForNumber = changeInfo._number;
+      Change.Id changeWeDidNotAskFor = Change.id(changeWeDidNotAskForNumber, changeInfo.project);
       String changeWeDidNotAskForRef = RefNames.patchSetRef(PatchSet.id(changeWeDidNotAskFor, 1));
 
       // Fetch a single ref using git wire protocol v2 over HTTP with authentication
@@ -363,8 +368,9 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       ChangeInput visibleChangeIn =
           new ChangeInput(privateProject.get(), "master", "Test private change");
       visibleChangeIn.newBranch = true;
-      int visibleChangeNumber = gApi.changes().create(visibleChangeIn).info()._number;
-      Change.Id changeId = Change.id(visibleChangeNumber);
+      ChangeInfo changeInfo = gApi.changes().create(visibleChangeIn).info();
+      int visibleChangeNumber = changeInfo._number;
+      Change.Id changeId = Change.id(visibleChangeNumber, changeInfo.project);
       String visibleChangeNumberRef = RefNames.patchSetRef(PatchSet.id(changeId, 1));
 
       // Create new change and retrieve refs for the created patch set. We'll use this to make sure
@@ -372,8 +378,9 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       ChangeInput changeWeDidNotAskForIn =
           new ChangeInput(privateProject.get(), "stable", "Test private change 2");
       changeWeDidNotAskForIn.newBranch = true;
+      changeInfo = gApi.changes().create(visibleChangeIn).info();
       int changeWeDidNotAskForNumber = gApi.changes().create(changeWeDidNotAskForIn).info()._number;
-      Change.Id changeWeDidNotAskFor = Change.id(changeWeDidNotAskForNumber);
+      Change.Id changeWeDidNotAskFor = Change.id(changeWeDidNotAskForNumber, changeInfo.project);
       String changeWeDidNotAskForRef = RefNames.patchSetRef(PatchSet.id(changeWeDidNotAskFor, 1));
 
       // Fetch a single ref using git wire protocol v2 over HTTP with authentication
@@ -444,8 +451,9 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
         ChangeInput visibleChangeIn =
             new ChangeInput(privateProject.get(), "master", "Test private change");
         visibleChangeIn.newBranch = true;
-        int visibleChangeNumber = gApi.changes().create(visibleChangeIn).info()._number;
-        Change.Id changeId = Change.id(visibleChangeNumber);
+        ChangeInfo changeInfo = gApi.changes().create(visibleChangeIn).info();
+        int visibleChangeNumber = changeInfo._number;
+        Change.Id changeId = Change.id(visibleChangeNumber, changeInfo.project);
         changeRefs.add(RefNames.patchSetRef(PatchSet.id(changeId, 1)));
       }
 
@@ -514,16 +522,18 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       // Create new change and retrieve refs for the created patch set
       ChangeInput visibleChangeIn = new ChangeInput(privateProject.get(), "master", "Visible");
       visibleChangeIn.newBranch = true;
-      int visibleChangeNumber = gApi.changes().create(visibleChangeIn).info()._number;
-      Change.Id changeId = Change.id(visibleChangeNumber);
+      ChangeInfo changeInfo = gApi.changes().create(visibleChangeIn).info();
+      int visibleChangeNumber = changeInfo._number;
+      Change.Id changeId = Change.id(visibleChangeNumber, changeInfo.project);
       String visibleChangeNumberRef = RefNames.patchSetRef(PatchSet.id(changeId, 1));
 
       // Create new change and retrieve refs for the created patch set. We'll use this to make sure
       // refs-in-wants only sends us changes we asked for.
       ChangeInput invisibleChangeIn = new ChangeInput(privateProject.get(), "stable", "Invisible");
       invisibleChangeIn.newBranch = true;
-      int invisibleChangeNumber = gApi.changes().create(invisibleChangeIn).info()._number;
-      Change.Id invisibleChange = Change.id(invisibleChangeNumber);
+      changeInfo = gApi.changes().create(visibleChangeIn).info();
+      int invisibleChangeNumber = changeInfo._number;
+      Change.Id invisibleChange = Change.id(invisibleChangeNumber, changeInfo.project);
       String invisibleChangeRef = RefNames.patchSetRef(PatchSet.id(invisibleChange, 1));
 
       // Fetch a single ref using git wire protocol v2 over HTTP with authentication

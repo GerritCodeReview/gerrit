@@ -2019,7 +2019,8 @@ public class CommentsIT extends AbstractDaemonTest {
   public void commentsOnRootCommitsAreIncludedInEmails() throws Exception {
     // Create a change in a new branch, making the patch-set commit a root commit.
     ChangeInfo changeInfo = createChangeInNewBranch("newBranch");
-    Change.Id changeId = Change.Id.tryParse(Integer.toString(changeInfo._number)).get();
+    Change.Id changeId =
+        Change.Id.tryParse(Integer.toString(changeInfo._number), project.get()).get();
 
     // Add a file.
     gApi.changes().id(changeId.get()).edit().modifyFile("f1.txt", RawInputUtil.create("content"));

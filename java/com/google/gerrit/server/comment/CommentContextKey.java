@@ -91,7 +91,7 @@ public abstract class CommentContextKey {
           Protos.parseUnchecked(Cache.CommentContextKeyProto.parser(), in);
       return CommentContextKey.builder()
           .project(Project.NameKey.parse(proto.getProject()))
-          .changeId(Change.Id.tryParse(proto.getChangeId()).get())
+          .changeId(Change.Id.tryParse(proto.getChangeId(), proto.getProject()).get())
           .patchset(proto.getPatchset())
           .id(proto.getCommentId())
           .path(proto.getPathHash())

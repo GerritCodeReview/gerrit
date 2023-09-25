@@ -683,6 +683,6 @@ public class QueryChangesIT extends AbstractDaemonTest {
 
   private static Correspondence<ChangeInfo, Change.Id> hasChangeId() {
     return NullAwareCorrespondence.transforming(
-        changeInfo -> Change.id(changeInfo._number), "hasChangeId");
+        changeInfo -> Change.id(changeInfo._number, changeInfo.project), "hasChangeId");
   }
 }

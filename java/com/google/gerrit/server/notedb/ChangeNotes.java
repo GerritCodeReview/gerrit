@@ -109,12 +109,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       this.projectCache = projectCache;
     }
 
-    public static ImmutableMap<Change.Id, ObjectId> scanChangeIds(Repository repo)
-        throws IOException {
+    public static ImmutableMap<Change.Id, ObjectId> scanChangeIds(
+        Repository repo, String projectName) throws IOException {
       ImmutableMap.Builder<Change.Id, ObjectId> metaIdByChange = ImmutableMap.builder();
       for (Ref r : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_CHANGES)) {
         if (r.getName().endsWith(RefNames.META_SUFFIX)) {
-          Change.Id id = Change.Id.fromRef(r.getName());
+          Change.Id id = Change.Id.fromRef(r.getName(), projectName);
           if (id != null) {
             metaIdByChange.put(id, r.getObjectId());
           }
@@ -292,7 +292,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     public Stream<ChangeNotesResult> scan(
         Repository repo, Project.NameKey project, Predicate<Change.Id> changeIdPredicate)
         throws IOException {
-      return scan(scanChangeIds(repo), project, changeIdPredicate);
+      return scan(scanChangeIds(repo, project.get()), project, changeIdPredicate);
     }
 
     public Stream<ChangeNotesResult> scan(

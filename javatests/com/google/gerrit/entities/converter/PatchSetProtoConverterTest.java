@@ -39,7 +39,7 @@ public class PatchSetProtoConverterTest {
   public void allValuesConvertedToProto() {
     PatchSet patchSet =
         PatchSet.builder()
-            .id(PatchSet.id(Change.id(103), 73))
+            .id(PatchSet.id(Change.id(103, "project"), 73))
             .commitId(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"))
             .uploader(Account.id(452))
             .realUploader(Account.id(687))
@@ -56,7 +56,8 @@ public class PatchSetProtoConverterTest {
         Entities.PatchSet.newBuilder()
             .setId(
                 Entities.PatchSet_Id.newBuilder()
-                    .setChangeId(Entities.Change_Id.newBuilder().setId(103))
+                    .setChangeId(
+                        Entities.Change_Id.newBuilder().setId(103).setProjectName("project"))
                     .setId(73))
             .setCommitId(
                 Entities.ObjectId.newBuilder().setName("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"))
@@ -75,7 +76,7 @@ public class PatchSetProtoConverterTest {
   public void mandatoryValuesConvertedToProto() {
     PatchSet patchSet =
         PatchSet.builder()
-            .id(PatchSet.id(Change.id(103), 73))
+            .id(PatchSet.id(Change.id(103, "project"), 73))
             .commitId(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"))
             .uploader(Account.id(452))
             .realUploader(Account.id(687))
@@ -88,7 +89,8 @@ public class PatchSetProtoConverterTest {
         Entities.PatchSet.newBuilder()
             .setId(
                 Entities.PatchSet_Id.newBuilder()
-                    .setChangeId(Entities.Change_Id.newBuilder().setId(103))
+                    .setChangeId(
+                        Entities.Change_Id.newBuilder().setId(103).setProjectName("project"))
                     .setId(73))
             .setCommitId(
                 Entities.ObjectId.newBuilder().setName("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"))
@@ -103,7 +105,7 @@ public class PatchSetProtoConverterTest {
   public void allValuesConvertedToProtoAndBackAgain() {
     PatchSet patchSet =
         PatchSet.builder()
-            .id(PatchSet.id(Change.id(103), 73))
+            .id(PatchSet.id(Change.id(103, "project"), 73))
             .commitId(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"))
             .uploader(Account.id(452))
             .realUploader(Account.id(687))
@@ -123,7 +125,7 @@ public class PatchSetProtoConverterTest {
   public void mandatoryValuesConvertedToProtoAndBackAgain() {
     PatchSet patchSet =
         PatchSet.builder()
-            .id(PatchSet.id(Change.id(103), 73))
+            .id(PatchSet.id(Change.id(103, "project"), 73))
             .commitId(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"))
             .uploader(Account.id(452))
             .realUploader(Account.id(687))
@@ -141,7 +143,7 @@ public class PatchSetProtoConverterTest {
         Entities.PatchSet.newBuilder()
             .setId(
                 Entities.PatchSet_Id.newBuilder()
-                    .setChangeId(Entities.Change_Id.newBuilder().setId(103))
+                    .setChangeId(Entities.Change_Id.newBuilder().setId(103).setProjectName("foo"))
                     .setId(73))
             .build();
 
@@ -149,7 +151,7 @@ public class PatchSetProtoConverterTest {
     Truth.assertThat(convertedPatchSet)
         .isEqualTo(
             PatchSet.builder()
-                .id(PatchSet.id(Change.id(103), 73))
+                .id(PatchSet.id(Change.id(103, "project"), 73))
                 .commitId(ObjectId.fromString("0000000000000000000000000000000000000000"))
                 .uploader(Account.id(0))
                 .realUploader(Account.id(0))
@@ -158,12 +160,12 @@ public class PatchSetProtoConverterTest {
   }
 
   @Test
-  public void realUploaderIsSetToUploaderIfMissingFromProto() {
+  public void javarealUploaderIsSetToUploaderIfMissingFromProto() {
     Entities.PatchSet proto =
         Entities.PatchSet.newBuilder()
             .setId(
                 Entities.PatchSet_Id.newBuilder()
-                    .setChangeId(Entities.Change_Id.newBuilder().setId(103))
+                    .setChangeId(Entities.Change_Id.newBuilder().setId(103).setProjectName("foo"))
                     .setId(73))
             .setUploaderAccountId(Entities.Account_Id.newBuilder().setId(452))
             .build();
@@ -172,7 +174,7 @@ public class PatchSetProtoConverterTest {
     Truth.assertThat(convertedPatchSet)
         .isEqualTo(
             PatchSet.builder()
-                .id(PatchSet.id(Change.id(103), 73))
+                .id(PatchSet.id(Change.id(103, "project"), 73))
                 .commitId(ObjectId.fromString("0000000000000000000000000000000000000000"))
                 .uploader(Account.id(452))
                 .realUploader(Account.id(452))

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.entities;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.entities.RefNames.REFS_CHANGES;
 
 import com.google.auto.value.AutoValue;
@@ -98,29 +99,44 @@ import java.util.Optional;
  */
 public final class Change {
 
-  public static Id id(int id) {
-    return new AutoValue_Change_Id(id);
+  public static Id id(int id, String projectName) {
+    return new AutoValue_Change_Id(id, projectName);
   }
 
-  /** The numeric change ID */
+  /** The compound project and numeric change ID */
   @AutoValue
   public abstract static class Id {
     /**
      * Parse a Change.Id out of a string representation.
      *
      * @param str the string to parse
+     * @param str the projectName the numeric change ID is for
      * @return Optional containing the Change.Id, or {@code Optional.empty()} if str does not
      *     represent a valid Change.Id.
      */
-    public static Optional<Id> tryParse(String str) {
+    public static Optional<Id> tryParse(String str, String projectName) {
       Integer id = Ints.tryParse(str);
-      return id != null ? Optional.of(Change.id(id)) : Optional.empty();
+      return id != null ? Optional.of(Change.id(id, projectName)) : Optional.empty();
+    }
+
+    public static Id fromProjectAndIdString(String projectAndId) {
+      String[] parts = projectAndId.split("~", 2);
+      checkArgument(parts.length == 2, "invalid change id: %s", (Object[]) parts);
+      return Change.id(Integer.parseInt(parts[1]), parts[0]);
+    }
+
+    public static Optional<Id> tryFromProjectAndIdString(String projectAndId) {
+      try {
+        return Optional.of(fromProjectAndIdString(projectAndId));
+      } catch (IllegalArgumentException e) {
+        return Optional.empty();
+      }
     }
 
     @Nullable
-    public static Id fromRef(String ref) {
+    public static Id fromRef(String ref, String projectName) {
       if (RefNames.isRefsEdit(ref)) {
-        return fromEditRefPart(ref);
+        return fromEditRefPart(ref, projectName);
       }
       int cs = startIndex(ref);
       if (cs < 0) {
@@ -130,7 +146,7 @@ public final class Change {
       if (ref.substring(ce).equals(RefNames.META_SUFFIX)
           || ref.substring(ce).equals(RefNames.ROBOT_COMMENTS_SUFFIX)
           || PatchSet.Id.fromRef(ref, ce) >= 0) {
-        return Change.id(Integer.parseInt(ref.substring(cs, ce)));
+        return Change.id(Integer.parseInt(ref.substring(cs, ce)), projectName);
       }
       return null;
     }
@@ -154,7 +170,11 @@ public final class Change {
       }
       int ce = nextNonDigit(ref, cs);
       if (ce < ref.length() && ref.charAt(ce) == '/' && isNumeric(ref, ce + 1)) {
-        return Change.id(Integer.parseInt(ref.substring(cs, ce)));
+        // TODO: This is broken and cannot be fixed until draft-comments and starred-changes
+        //  are either:
+        //  - moved to project level
+        //  - prefixed with project
+        return Change.id(Integer.parseInt(ref.substring(cs, ce)), "foo");
       }
       return null;
     }
@@ -172,20 +192,20 @@ public final class Change {
     }
 
     @Nullable
-    public static Id fromEditRefPart(String ref) {
+    public static Id fromEditRefPart(String ref, String projectName) {
       int startChangeId = ref.indexOf(RefNames.EDIT_PREFIX) + RefNames.EDIT_PREFIX.length();
       int endChangeId = nextNonDigit(ref, startChangeId);
       String id = ref.substring(startChangeId, endChangeId);
       if (id != null && !id.isEmpty()) {
-        return Change.id(Integer.parseInt(id));
+        return Change.id(Integer.parseInt(id), projectName);
       }
       return null;
     }
 
     @Nullable
-    public static Id fromRefPart(String ref) {
+    public static Id fromRefPart(String ref, String projectName) {
       Integer id = RefNames.parseShardedRefPart(ref);
-      return id != null ? Change.id(id) : null;
+      return id != null ? Change.id(id, projectName) : null;
     }
 
     static int startIndex(String ref) {
@@ -239,8 +259,14 @@ public final class Change {
 
     abstract int id();
 
+    abstract String projectName();
+
     public int get() {
       return id();
+    }
+
+    public String getProjectName() {
+      return projectName();
     }
 
     public String toRefPrefix() {
@@ -258,7 +284,7 @@ public final class Change {
 
     @Override
     public final String toString() {
-      return Integer.toString(get());
+      return String.format("%s~%s", getProjectName(), get());
     }
   }
 

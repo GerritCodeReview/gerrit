@@ -34,7 +34,8 @@ import org.eclipse.jgit.lib.ObjectId;
 public abstract class PatchSet {
   /** Is the reference name a change reference? */
   public static boolean isChangeRef(String name) {
-    return Id.fromRef(name) != null;
+    // TODO: remove this dummy value
+    return Id.fromRef(name, "dummy") != null;
   }
 
   /**
@@ -72,11 +73,20 @@ public abstract class PatchSet {
     public static Id parse(String str) {
       List<String> parts = Splitter.on(',').splitToList(str);
       checkIdFormat(parts.size() == 2, str);
+      Change.Id changeId = Change.Id.fromProjectAndIdString(parts.get(0));
+      Integer id = Ints.tryParse(parts.get(1));
+      checkIdFormat(id != null, str);
+      return PatchSet.id(changeId, id);
+    }
+
+    public static Id parse(String str, String projectName) {
+      List<String> parts = Splitter.on(',').splitToList(str);
+      checkIdFormat(parts.size() == 2, str);
       Integer changeId = Ints.tryParse(parts.get(0));
       checkIdFormat(changeId != null, str);
       Integer id = Ints.tryParse(parts.get(1));
       checkIdFormat(id != null, str);
-      return PatchSet.id(Change.id(changeId), id);
+      return PatchSet.id(Change.id(changeId, projectName), id);
     }
 
     private static void checkIdFormat(boolean test, String input) {
@@ -85,7 +95,7 @@ public abstract class PatchSet {
 
     /** Parse a PatchSet.Id from a {@link #refName()} result. */
     @Nullable
-    public static Id fromRef(String ref) {
+    public static Id fromRef(String ref, String projectName) {
       int cs = Change.Id.startIndex(ref);
       if (cs < 0) {
         return null;
@@ -96,12 +106,12 @@ public abstract class PatchSet {
         return null;
       }
       int changeId = Integer.parseInt(ref.substring(cs, ce));
-      return PatchSet.id(Change.id(changeId), patchSetId);
+      return PatchSet.id(Change.id(changeId, projectName), patchSetId);
     }
 
     /** Parse a PatchSet.Id from an edit ref. */
-    public static PatchSet.Id fromEditRef(String ref) {
-      Change.Id changeId = Change.Id.fromEditRefPart(ref);
+    public static PatchSet.Id fromEditRef(String ref, String projectName) {
+      Change.Id changeId = Change.Id.fromEditRefPart(ref, projectName);
       return PatchSet.id(changeId, Ints.tryParse(ref.substring(ref.lastIndexOf('/') + 1)));
     }
 

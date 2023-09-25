@@ -60,13 +60,15 @@ public class IndexChanges implements RestModifyView<ConfigResource, Input> {
       return Response.ok("Nothing to index");
     }
 
+    // TODO: the assumption here is that input.changes is provided in the form
+    // project~id.
     for (String id : input.changes) {
       List<ChangeNotes> notes = changeFinder.find(id);
 
       if (notes.isEmpty()) {
         logger.atWarning().log("Change %s missing in NoteDb", id);
         if (input.deleteMissing) {
-          Optional<Change.Id> changeId = Change.Id.tryParse(id);
+          Optional<Change.Id> changeId = Change.Id.tryFromProjectAndIdString(id);
           if (changeId.isPresent()) {
             logger.atWarning().log("Deleting change %s from index", changeId.get());
             indexer.delete(changeId.get());

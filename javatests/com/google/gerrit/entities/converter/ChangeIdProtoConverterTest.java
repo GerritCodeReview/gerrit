@@ -29,17 +29,18 @@ public class ChangeIdProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProto() {
-    Change.Id changeId = Change.id(94);
+    Change.Id changeId = Change.id(94, "foo");
 
     Entities.Change_Id proto = changeIdProtoConverter.toProto(changeId);
 
-    Entities.Change_Id expectedProto = Entities.Change_Id.newBuilder().setId(94).build();
+    Entities.Change_Id expectedProto =
+        Entities.Change_Id.newBuilder().setId(94).setProjectName("foo").build();
     assertThat(proto).isEqualTo(expectedProto);
   }
 
   @Test
   public void allValuesConvertedToProtoAndBackAgain() {
-    Change.Id changeId = Change.id(2903482);
+    Change.Id changeId = Change.id(2903482, "foo");
 
     Change.Id convertedChangeId =
         changeIdProtoConverter.fromProto(changeIdProtoConverter.toProto(changeId));

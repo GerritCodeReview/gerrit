@@ -454,7 +454,10 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     ChangeInfo changeInfo = gApi.changes().id(changeId).revert().get();
     String revertId = Integer.toString(changeInfo._number);
     ChangeData revertChangeData =
-        changeQueryProvider.get().byLegacyChangeId(Change.Id.tryParse(revertId).get()).get(0);
+        changeQueryProvider
+            .get()
+            .byLegacyChangeId(Change.Id.tryParse(revertId, project.get()).get())
+            .get(0);
     result = evaluator.evaluateRequirement(sr, revertChangeData);
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
   }
@@ -469,7 +472,8 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     ChangeData cd =
         changeQueryProvider
             .get()
-            .byLegacyChangeId(Change.Id.tryParse(Integer.toString(info._number)).get())
+            .byLegacyChangeId(
+                Change.Id.tryParse(Integer.toString(info._number), project.get()).get())
             .get(0);
 
     // Match by email works
@@ -503,7 +507,8 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     ChangeData cd =
         changeQueryProvider
             .get()
-            .byLegacyChangeId(Change.Id.tryParse(Integer.toString(info._number)).get())
+            .byLegacyChangeId(
+                Change.Id.tryParse(Integer.toString(info._number), project.get()).get())
             .get(0);
 
     // Match by email works
@@ -537,7 +542,8 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     ChangeData cd =
         changeQueryProvider
             .get()
-            .byLegacyChangeId(Change.Id.tryParse(Integer.toString(info._number)).get())
+            .byLegacyChangeId(
+                Change.Id.tryParse(Integer.toString(info._number), project.get()).get())
             .get(0);
 
     // Match by email works

@@ -33,20 +33,21 @@ public class PatchTest {
 
   @Test
   public void parseKey() {
-    assertThat(Patch.Key.parse("1,2,foo.txt"))
-        .isEqualTo(Patch.key(PatchSet.id(Change.id(1), 2), "foo.txt"));
-    assertThat(Patch.Key.parse("01,02,foo.txt"))
-        .isEqualTo(Patch.key(PatchSet.id(Change.id(1), 2), "foo.txt"));
+    assertThat(Patch.Key.parse("foo,1,2,foo.txt"))
+        .isEqualTo(Patch.key(PatchSet.id(Change.id(1, "foo"), 2), "foo.txt"));
+    assertThat(Patch.Key.parse("foo,01,02,foo.txt"))
+        .isEqualTo(Patch.key(PatchSet.id(Change.id(1, "foo"), 2), "foo.txt"));
     assertInvalidKey(null);
     assertInvalidKey("");
     assertInvalidKey("1,2");
-    assertInvalidKey("1, 2, foo.txt");
-    assertInvalidKey("1,foo.txt");
-    assertInvalidKey("1,foo.txt,2");
-    assertInvalidKey("foo.txt,1,2");
+    assertInvalidKey("foo,1,2");
+    assertInvalidKey("foo,1, 2, foo.txt");
+    assertInvalidKey("foo,1,foo.txt");
+    assertInvalidKey("foo,1,foo.txt,2");
+    assertInvalidKey("foo,foo.txt,1,2");
 
     String hexComma = "%" + String.format("%02x", (int) ',');
-    assertInvalidKey("1" + hexComma + "2" + hexComma + "foo.txt");
+    assertInvalidKey("foo" + hexComma + "1" + hexComma + "2" + hexComma + "foo.txt");
   }
 
   private static void assertInvalidKey(String str) {

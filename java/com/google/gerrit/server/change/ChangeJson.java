@@ -541,7 +541,7 @@ public class ChangeJson {
           info = format(cd, Optional.empty(), false, pluginInfosByChange.get(cd.getId()));
           changeInfos.add(info);
           if (isCacheable) {
-            cache.put(Change.id(info._number), info);
+            cache.put(Change.id(info._number, info.project), info);
           }
         } catch (RuntimeException e) {
           Optional<RequestCancelledException> requestCancelledException =
@@ -977,14 +977,17 @@ public class ChangeJson {
     // repository only once
     try (Repository allUsersRepo = repoManager.openRepository(allUsers)) {
       List<Change.Id> changeIds =
-          changeInfos.stream().map(c -> Change.id(c._number)).collect(Collectors.toList());
+          changeInfos.stream()
+              .map(c -> Change.id(c._number, c.project))
+              .collect(Collectors.toList());
       Set<Change.Id> starredChanges =
           starredChangesUtil.areStarred(
               allUsersRepo, changeIds, userProvider.get().asIdentifiedUser().getAccountId());
       if (starredChanges.isEmpty()) {
         return;
       }
-      changeInfos.stream().forEach(c -> c.starred = starredChanges.contains(Change.id(c._number)));
+      changeInfos.stream()
+          .forEach(c -> c.starred = starredChanges.contains(Change.id(c._number, c.project)));
     } catch (IOException e) {
       logger.atWarning().withCause(e).log("Failed to open All-Users repo.");
     }

@@ -58,6 +58,9 @@ public class CatServlet extends HttpServlet {
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
 
+  // TODO: Who is calling the /cat/* endpoint?
+  //  check for UI calls to this, since now it wants the projectName
+
   @Inject
   CatServlet(
       ChangeEditUtil ceu,

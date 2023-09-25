@@ -435,7 +435,7 @@ public class CreateChange
         // Flush inserter so that commit becomes visible to validators
         oi.flush();
 
-        Change.Id changeId = Change.id(seq.nextChangeId());
+        Change.Id changeId = Change.id(seq.nextChangeId(), input.project);
         ChangeInserter ins = changeInserterFactory.create(changeId, c, input.branch);
         ins.setMessage(messageForNewChange(ins.getPatchSetId(), c));
         ins.setTopic(input.topic);

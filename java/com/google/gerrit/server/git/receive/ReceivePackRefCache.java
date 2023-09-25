@@ -61,10 +61,11 @@ public interface ReceivePackRefCache {
   }
 
   /** Returns a list of {@link com.google.gerrit.entities.PatchSet.Id}s that point to {@code id}. */
-  ImmutableList<PatchSet.Id> patchSetIdsFromObjectId(ObjectId id) throws IOException;
+  ImmutableList<PatchSet.Id> patchSetIdsFromObjectId(ObjectId id, String projectName)
+      throws IOException;
 
   /** Returns all refs whose name starts with {@code prefix}. */
-  ImmutableList<Ref> byPrefix(String prefix) throws IOException;
+  ImmutableList<Ref> byPrefix(String prefix, String project) throws IOException;
 
   /** Returns a ref whose name matches {@code ref} or {@code null} if such a ref does not exist. */
   @Nullable
@@ -78,15 +79,16 @@ public interface ReceivePackRefCache {
     }
 
     @Override
-    public ImmutableList<PatchSet.Id> patchSetIdsFromObjectId(ObjectId id) throws IOException {
+    public ImmutableList<PatchSet.Id> patchSetIdsFromObjectId(ObjectId id, String projectName)
+        throws IOException {
       return delegate.getTipsWithSha1(id).stream()
-          .map(r -> PatchSet.Id.fromRef(r.getName()))
+          .map(r -> PatchSet.Id.fromRef(r.getName(), projectName))
           .filter(Objects::nonNull)
           .collect(toImmutableList());
     }
 
     @Override
-    public ImmutableList<Ref> byPrefix(String prefix) throws IOException {
+    public ImmutableList<Ref> byPrefix(String prefix, String project) throws IOException {
       return delegate.getRefsByPrefix(prefix).stream().collect(toImmutableList());
     }
 
@@ -115,19 +117,19 @@ public interface ReceivePackRefCache {
     }
 
     @Override
-    public ImmutableList<PatchSet.Id> patchSetIdsFromObjectId(ObjectId id) {
-      lazilyInitRefMaps();
+    public ImmutableList<PatchSet.Id> patchSetIdsFromObjectId(ObjectId id, String projectName) {
+      lazilyInitRefMaps(projectName);
       return refsByObjectId.get(id).stream()
-          .map(r -> PatchSet.Id.fromRef(r.getName()))
+          .map(r -> PatchSet.Id.fromRef(r.getName(), projectName))
           .filter(Objects::nonNull)
           .collect(toImmutableList());
     }
 
     @Override
-    public ImmutableList<Ref> byPrefix(String prefix) {
-      lazilyInitRefMaps();
+    public ImmutableList<Ref> byPrefix(String prefix, String projectName) {
+      lazilyInitRefMaps(projectName);
       if (RefNames.isRefsChanges(prefix)) {
-        Change.Id cId = Change.Id.fromRefPart(prefix);
+        Change.Id cId = Change.Id.fromRefPart(prefix, projectName);
         if (cId != null) {
           return refsByChange.get(cId).stream()
               .filter(r -> r.getName().startsWith(prefix))
@@ -152,7 +154,7 @@ public interface ReceivePackRefCache {
       return allRefs;
     }
 
-    private void lazilyInitRefMaps() {
+    private void lazilyInitRefMaps(String projectName) {
       if (refsByChange != null) {
         return;
       }
@@ -165,8 +167,7 @@ public interface ReceivePackRefCache {
       for (Ref ref : allRefs().values()) {
         ObjectId objectId = ref.getObjectId();
         if (objectId != null) {
-          refsByObjectId.put(objectId, ref);
-          Change.Id changeId = Change.Id.fromRef(ref.getName());
+          Change.Id changeId = Change.Id.fromRef(ref.getName(), projectName);
           if (changeId != null) {
             refsByChange.put(changeId, ref);
           }

@@ -25,12 +25,15 @@ public enum ChangeIdProtoConverter implements ProtoConverter<Entities.Change_Id,
 
   @Override
   public Entities.Change_Id toProto(Change.Id changeId) {
-    return Entities.Change_Id.newBuilder().setId(changeId.get()).build();
+    return Entities.Change_Id.newBuilder()
+        .setId(changeId.get())
+        .setProjectName(changeId.getProjectName())
+        .build();
   }
 
   @Override
   public Change.Id fromProto(Entities.Change_Id proto) {
-    return Change.id(proto.getId());
+    return Change.id(proto.getId(), proto.getProjectName());
   }
 
   @Override

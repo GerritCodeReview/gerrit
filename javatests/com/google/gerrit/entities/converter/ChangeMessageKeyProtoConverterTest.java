@@ -32,13 +32,13 @@ public class ChangeMessageKeyProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProto() {
-    ChangeMessage.Key messageKey = ChangeMessage.key(Change.id(704), "aabbcc");
+    ChangeMessage.Key messageKey = ChangeMessage.key(Change.id(704, "project"), "aabbcc");
 
     Entities.ChangeMessage_Key proto = messageKeyProtoConverter.toProto(messageKey);
 
     Entities.ChangeMessage_Key expectedProto =
         Entities.ChangeMessage_Key.newBuilder()
-            .setChangeId(Entities.Change_Id.newBuilder().setId(704))
+            .setChangeId(Entities.Change_Id.newBuilder().setId(704).setProjectName("project"))
             .setUuid("aabbcc")
             .build();
     assertThat(proto).isEqualTo(expectedProto);
@@ -46,7 +46,7 @@ public class ChangeMessageKeyProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProtoAndBackAgain() {
-    ChangeMessage.Key messageKey = ChangeMessage.key(Change.id(704), "aabbcc");
+    ChangeMessage.Key messageKey = ChangeMessage.key(Change.id(704, "project"), "aabbcc");
 
     ChangeMessage.Key convertedMessageKey =
         messageKeyProtoConverter.fromProto(messageKeyProtoConverter.toProto(messageKey));

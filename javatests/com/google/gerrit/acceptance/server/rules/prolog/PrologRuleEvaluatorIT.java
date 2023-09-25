@@ -143,7 +143,8 @@ public class PrologRuleEvaluatorIT extends AbstractDaemonTest {
   }
 
   private ChangeData makeChangeData() {
-    ChangeData cd = ChangeData.createForTest(project, Change.id(1), 1, ObjectId.zeroId());
+    ChangeData cd =
+        ChangeData.createForTest(project, Change.id(1, project.get()), 1, ObjectId.zeroId());
     cd.setChange(TestChanges.newChange(project, admin.id()));
     return cd;
   }

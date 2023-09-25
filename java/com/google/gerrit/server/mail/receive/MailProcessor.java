@@ -241,6 +241,8 @@ public class MailProcessor {
     }
   }
 
+  // TODO: in order to identify the change we need the project as well
+  // Mail Metatada and Mail Header Parser need to model project as well.
   private void persistComments(
       BatchUpdate.Factory buf, MailMessage message, MailMetadata metadata, Account.Id sender)
       throws UpdateException, RestApiException {
@@ -249,7 +251,7 @@ public class MailProcessor {
           queryProvider
               .get()
               .enforceVisibility(true)
-              .byLegacyChangeId(Change.id(metadata.changeNumber));
+              .byLegacyChangeId(Change.id(metadata.changeNumber, "foo"));
       if (changeDataList.isEmpty()) {
         sendRejectionEmail(message, InboundEmailError.CHANGE_NOT_FOUND);
         return;

@@ -41,7 +41,8 @@ public class ChangeDataTest {
   @Test
   public void setPatchSetsClearsCurrentPatchSet() throws Exception {
     Project.NameKey project = Project.nameKey("project");
-    ChangeData cd = ChangeData.createForTest(project, Change.id(1), 1, ObjectId.zeroId());
+    ChangeData cd =
+        ChangeData.createForTest(project, Change.id(1, project.get()), 1, ObjectId.zeroId());
     cd.setChange(TestChanges.newChange(project, Account.id(1000)));
     PatchSet curr1 = cd.currentPatchSet();
     int currId = curr1.id().get();
@@ -62,7 +63,7 @@ public class ChangeDataTest {
     ChangeData cd =
         ChangeData.createForTest(
             project,
-            Change.id(1),
+            Change.id(1, project.get()),
             1,
             ObjectId.zeroId(),
             GERRIT_SERVER_ID,

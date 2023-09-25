@@ -441,7 +441,7 @@ public class ConsistencyChecker {
         if (!ref.getObjectId().equals(commit)) {
           continue;
         }
-        PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
+        PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName(), change().getDest().project().get());
         if (psId == null) {
           continue;
         }

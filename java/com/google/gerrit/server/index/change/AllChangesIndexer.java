@@ -192,7 +192,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     try (Repository repo = repoManager.openRepository(project)) {
       return reindexProjectSlice(
           indexer,
-          ProjectSlice.oneSlice(project, ChangeNotes.Factory.scanChangeIds(repo)),
+          ProjectSlice.oneSlice(project, ChangeNotes.Factory.scanChangeIds(repo, project.get())),
           done,
           failed);
     } catch (IOException e) {
@@ -346,7 +346,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       public Void call() throws IOException {
         try (Repository repo = repoManager.openRepository(name)) {
           ImmutableMap<Change.Id, ObjectId> metaIdByChange =
-              ChangeNotes.Factory.scanChangeIds(repo);
+              ChangeNotes.Factory.scanChangeIds(repo, name.get());
           int size = metaIdByChange.size();
           if (size > 0) {
             changeCount.addAndGet(size);

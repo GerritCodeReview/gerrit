@@ -659,7 +659,7 @@ public class MergeOp implements AutoCloseable {
       for (BranchNameKey branch : branches) {
         OpenRepo or = openRepo(branch.project());
         if (or != null) {
-          toSubmit.put(branch, validateChangeList(or, cbb.get(branch)));
+          toSubmit.put(branch, validateChangeList(or, cbb.get(branch), branch.project().get()));
         }
       }
 
@@ -827,10 +827,11 @@ public class MergeOp implements AutoCloseable {
     abstract ImmutableSet<CodeReviewCommit> commits();
   }
 
-  private BranchBatch validateChangeList(OpenRepo or, Collection<ChangeData> submitted) {
+  private BranchBatch validateChangeList(
+      OpenRepo or, Collection<ChangeData> submitted, String projectName) {
     logger.atFine().log("Validating %d changes", submitted.size());
     Set<CodeReviewCommit> toSubmit = new LinkedHashSet<>(submitted.size());
-    SetMultimap<ObjectId, PatchSet.Id> revisions = getRevisions(or, submitted);
+    SetMultimap<ObjectId, PatchSet.Id> revisions = getRevisions(or, submitted, projectName);
 
     SubmitType submitType = null;
     ChangeData choseSubmitTypeFrom = null;
@@ -943,7 +944,8 @@ public class MergeOp implements AutoCloseable {
     return new AutoValue_MergeOp_BranchBatch(submitType, ImmutableSet.copyOf(toSubmit));
   }
 
-  private SetMultimap<ObjectId, PatchSet.Id> getRevisions(OpenRepo or, Collection<ChangeData> cds) {
+  private SetMultimap<ObjectId, PatchSet.Id> getRevisions(
+      OpenRepo or, Collection<ChangeData> cds, String projectName) {
     try {
       List<String> refNames = new ArrayList<>(cds.size());
       for (ChangeData cd : cds) {
@@ -959,7 +961,7 @@ public class MergeOp implements AutoCloseable {
               .getRefDatabase()
               .exactRef(refNames.toArray(new String[refNames.size()]))
               .entrySet()) {
-        revisions.put(e.getValue().getObjectId(), PatchSet.Id.fromRef(e.getKey()));
+        revisions.put(e.getValue().getObjectId(), PatchSet.Id.fromRef(e.getKey(), projectName));
       }
       return revisions;
     } catch (IOException | StorageException e) {

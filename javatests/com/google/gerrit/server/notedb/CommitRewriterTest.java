@@ -90,7 +90,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
     bru.setAllowNonFastForwards(true);
     for (Ref ref : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_CHANGES)) {
-      Change.Id changeId = Change.Id.fromRef(ref.getName());
+      Change.Id changeId = Change.Id.fromRef(ref.getName(), project.get());
       if (changeId == null || !ref.getName().equals(RefNames.changeMetaRef(changeId))) {
         continue;
       }

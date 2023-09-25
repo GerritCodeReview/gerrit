@@ -128,6 +128,7 @@ public class Sequences {
     }
   }
 
+  // TODO: Remove this method and see what breaks
   public int nextChangeId() {
     try (Timer2.Context<SequenceType, Boolean> timer =
         nextIdLatency.start(SequenceType.CHANGES, false)) {

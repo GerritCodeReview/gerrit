@@ -280,7 +280,7 @@ public class EventDeserializerTest {
     Change change =
         new Change(
             Change.key("Ideadbeefdeadbeefdeadbeefdeadbeefdeadbeef"),
-            Change.id(1000),
+            Change.id(1000, "myproject"),
             Account.id(1000),
             BranchNameKey.create(Project.nameKey("myproject"), "mybranch"),
             TimeUtil.now());

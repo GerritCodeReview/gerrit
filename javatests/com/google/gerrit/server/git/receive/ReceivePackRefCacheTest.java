@@ -43,7 +43,7 @@ public class ReceivePackRefCacheTest {
     ReceivePackRefCache cache = ReceivePackRefCache.noCache(mockRefDb);
     when(mockRefDb.getRefsByPrefix(RefNames.REFS_HEADS)).thenReturn(ImmutableList.of(ref));
 
-    assertThat(cache.byPrefix(RefNames.REFS_HEADS)).containsExactly(ref);
+    assertThat(cache.byPrefix(RefNames.REFS_HEADS, "foo")).containsExactly(ref);
     verify(mockRefDb).getRefsByPrefix(RefNames.REFS_HEADS);
     verifyNoMoreInteractions(mockRefDb);
   }
@@ -71,8 +71,8 @@ public class ReceivePackRefCacheTest {
     when(mockRefDb.getTipsWithSha1(ObjectId.zeroId()))
         .thenReturn(ImmutableSet.of(refBla, patchSet));
 
-    assertThat(cache.patchSetIdsFromObjectId(ObjectId.zeroId()))
-        .containsExactly(PatchSet.Id.fromRef(patchSetRef));
+    assertThat(cache.patchSetIdsFromObjectId(ObjectId.zeroId(), "foo"))
+        .containsExactly(PatchSet.Id.fromRef(patchSetRef, "foo"));
     verify(mockRefDb).getTipsWithSha1(ObjectId.zeroId());
     verifyNoMoreInteractions(mockRefDb);
   }
@@ -88,7 +88,7 @@ public class ReceivePackRefCacheTest {
     ReceivePackRefCache cache =
         ReceivePackRefCache.withAdvertisedRefs(() -> ImmutableMap.of(refBla.getName(), refBla));
 
-    assertThat(cache.byPrefix("refs/bla")).containsExactly(refBla);
+    assertThat(cache.byPrefix("refs/bla", "foo")).containsExactly(refBla);
   }
 
   @Test
@@ -96,7 +96,7 @@ public class ReceivePackRefCacheTest {
     Map<String, Ref> refs = setupTwoChanges();
     ReceivePackRefCache cache = ReceivePackRefCache.withAdvertisedRefs(() -> refs);
 
-    assertThat(cache.byPrefix(RefNames.changeRefPrefix(Change.id(1))))
+    assertThat(cache.byPrefix(RefNames.changeRefPrefix(Change.id(1, "foo")), "foo"))
         .containsExactly(refs.get("refs/changes/01/1/1"));
   }
 
@@ -115,8 +115,8 @@ public class ReceivePackRefCacheTest {
 
     assertThat(
             cache.patchSetIdsFromObjectId(
-                ObjectId.fromString("badc0feebadc0feebadc0feebadc0feebadc0fee")))
-        .containsExactly(PatchSet.Id.fromRef("refs/changes/01/1/1"));
+                ObjectId.fromString("badc0feebadc0feebadc0feebadc0feebadc0fee"), "foo"))
+        .containsExactly(PatchSet.Id.fromRef("refs/changes/01/1/1", "foo"));
   }
 
   private static Ref newRef(String name, String sha1) {

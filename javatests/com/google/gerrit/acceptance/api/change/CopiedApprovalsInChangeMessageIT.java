@@ -1341,7 +1341,9 @@ public class CopiedApprovalsInChangeMessageIT extends AbstractDaemonTest {
     return PatchSetApproval.builder()
         .key(
             PatchSetApproval.key(
-                PatchSet.id(Change.id(1), 1), testAccount.id(), LabelId.create(label)))
+                PatchSet.id(Change.id(1, project.get()), 1),
+                testAccount.id(),
+                LabelId.create(label)))
         .value(value)
         .granted(TimeUtil.now())
         .build();

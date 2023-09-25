@@ -280,7 +280,7 @@ public class ActionsIT extends AbstractDaemonTest {
     String id = createChange().getChangeId();
     amendChange(id);
     ChangeInfo origChange = gApi.changes().id(id).get(CHANGE_ACTIONS);
-    Change.Id changeId = Change.id(origChange._number);
+    Change.Id changeId = Change.id(origChange._number, project.get());
 
     class Visitor implements ActionVisitor {
       @Override

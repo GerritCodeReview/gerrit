@@ -748,7 +748,8 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
   }
 
   private ChangeNotes insertChange(TestAccount owner, String dest) throws Exception {
-    Change.Id id = Change.id(sequences.nextChangeId());
+    // TODO: needs to use project specific sequence
+    Change.Id id = Change.id(sequences.nextChangeId(), project.get());
     return testRefAction(
         () -> {
           ChangeInserter ins;

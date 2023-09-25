@@ -50,8 +50,8 @@ import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ProjectChangeSequence;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
-import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -94,7 +94,6 @@ public class CommitUtil {
 
   private final GitRepositoryManager repoManager;
   private final Provider<PersonIdent> serverIdent;
-  private final Sequences seq;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeInserter.Factory changeInserterFactory;
   private final NotifyResolver notifyResolver;
@@ -104,12 +103,12 @@ public class CommitUtil {
   private final ChangeReverted changeReverted;
   private final BatchUpdate.Factory updateFactory;
   private final MessageIdGenerator messageIdGenerator;
+  private final ProjectChangeSequence.Factory projectChangeSequenceFactory;
 
   @Inject
   CommitUtil(
       GitRepositoryManager repoManager,
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
-      Sequences seq,
       ApprovalsUtil approvalsUtil,
       ChangeInserter.Factory changeInserterFactory,
       NotifyResolver notifyResolver,
@@ -118,10 +117,10 @@ public class CommitUtil {
       ChangeNotes.Factory changeNotesFactory,
       ChangeReverted changeReverted,
       BatchUpdate.Factory updateFactory,
-      MessageIdGenerator messageIdGenerator) {
+      MessageIdGenerator messageIdGenerator,
+      ProjectChangeSequence.Factory projectChangeSequenceFactory) {
     this.repoManager = repoManager;
     this.serverIdent = serverIdent;
-    this.seq = seq;
     this.approvalsUtil = approvalsUtil;
     this.changeInserterFactory = changeInserterFactory;
     this.notifyResolver = notifyResolver;
@@ -131,6 +130,7 @@ public class CommitUtil {
     this.changeReverted = changeReverted;
     this.updateFactory = updateFactory;
     this.messageIdGenerator = messageIdGenerator;
+    this.projectChangeSequenceFactory = projectChangeSequenceFactory;
   }
 
   public static CommitInfo toCommitInfo(RevCommit commit) throws IOException {
@@ -314,7 +314,11 @@ public class CommitUtil {
       Repository git)
       throws IOException, RestApiException, UpdateException, ConfigInvalidException {
     RevCommit revertCommit = revWalk.parseCommit(revertCommitId);
-    Change.Id changeId = Change.id(seq.nextChangeId());
+
+    Change.Id changeId =
+        Change.id(
+            projectChangeSequenceFactory.create(notes.getProjectName()).nextChangeId(),
+            notes.getProjectName().get());
     if (input.workInProgress) {
       input.notify = firstNonNull(input.notify, NotifyHandling.NONE);
     }

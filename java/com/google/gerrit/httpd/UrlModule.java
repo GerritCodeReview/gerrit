@@ -72,6 +72,7 @@ class UrlModule extends ServletModule {
     serveRegex("^/settings/?$").with(screen(PageLinks.SETTINGS));
     serveRegex("^/register$").with(registerScreen(false));
     serveRegex("^/register/(.+)$").with(registerScreen(true));
+    // TODO: Check which UI is calling this
     serveRegex("^/([1-9][0-9]*)/?$").with(NumericChangeIdRedirectServlet.class);
     serveRegex("^/p/(.*)$").with(queryProjectNew());
     serveRegex("^/r/(.+)/?$").with(DirectChangeByCommit.class);

@@ -32,13 +32,13 @@ public class PatchSetIdProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProto() {
-    PatchSet.Id patchSetId = PatchSet.id(Change.id(103), 73);
+    PatchSet.Id patchSetId = PatchSet.id(Change.id(103, "foo"), 73);
 
     Entities.PatchSet_Id proto = patchSetIdProtoConverter.toProto(patchSetId);
 
     Entities.PatchSet_Id expectedProto =
         Entities.PatchSet_Id.newBuilder()
-            .setChangeId(Entities.Change_Id.newBuilder().setId(103))
+            .setChangeId(Entities.Change_Id.newBuilder().setId(103).setProjectName("foo"))
             .setId(73)
             .build();
     assertThat(proto).isEqualTo(expectedProto);
@@ -46,7 +46,7 @@ public class PatchSetIdProtoConverterTest {
 
   @Test
   public void allValuesConvertedToProtoAndBackAgain() {
-    PatchSet.Id patchSetId = PatchSet.id(Change.id(20), 13);
+    PatchSet.Id patchSetId = PatchSet.id(Change.id(20, "foo"), 13);
 
     PatchSet.Id convertedPatchSetId =
         patchSetIdProtoConverter.fromProto(patchSetIdProtoConverter.toProto(patchSetId));

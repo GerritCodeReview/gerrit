@@ -159,7 +159,7 @@ import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.notedb.Sequences;
+import com.google.gerrit.server.notedb.ProjectChangeSequence;
 import com.google.gerrit.server.patch.AutoMerger;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -400,7 +400,6 @@ class ReceiveCommits {
   private final PublishCommentsOp.Factory publishCommentsOp;
   private final RetryHelper retryHelper;
   private final RequestScopePropagator requestScopePropagator;
-  private final Sequences seq;
   private final SetHashtagsOp.Factory hashtagsFactory;
   private final SetTopicOp.Factory setTopicFactory;
   private final ImmutableList<SubmissionListener> superprojectUpdateSubmissionListeners;
@@ -418,6 +417,7 @@ class ReceiveCommits {
   // Immutable fields derived from constructor arguments.
   private final boolean allowProjectOwnersToChangeParent;
   private final LabelTypes labelTypes;
+  private final ProjectChangeSequence.Factory projectChangeSequenceFactory;
   private final NoteMap rejectCommits;
   private final PermissionBackend.ForProject permissions;
   private final Project project;
@@ -488,7 +488,6 @@ class ReceiveCommits {
       PluginSetContext<RequestListener> requestListeners,
       RetryHelper retryHelper,
       RequestScopePropagator requestScopePropagator,
-      Sequences seq,
       SetHashtagsOp.Factory hashtagsFactory,
       SetTopicOp.Factory setTopicFactory,
       @SuperprojectUpdateOnSubmission
@@ -502,7 +501,8 @@ class ReceiveCommits {
       @Assisted ReceivePack rp,
       @Assisted Repository repository,
       @Assisted AllRefsWatcher allRefsWatcher,
-      @Nullable @Assisted MessageSender messageSender)
+      @Nullable @Assisted MessageSender messageSender,
+      ProjectChangeSequence.Factory projectChangeSequenceFactory)
       throws IOException {
     // Injected fields.
     this.accountResolver = accountResolver;
@@ -545,13 +545,13 @@ class ReceiveCommits {
     this.requestListeners = requestListeners;
     this.retryHelper = retryHelper;
     this.requestScopePropagator = requestScopePropagator;
-    this.seq = seq;
     this.superprojectUpdateSubmissionListeners = superprojectUpdateSubmissionListeners;
     this.tagCache = tagCache;
     this.projectConfigFactory = projectConfigFactory;
     this.setPrivateOpFactory = setPrivateOpFactory;
     this.replyAttentionSetUpdates = replyAttentionSetUpdates;
     this.autoMerger = autoMerger;
+    this.projectChangeSequenceFactory = projectChangeSequenceFactory;
 
     // Assisted injected fields.
     this.projectState = projectState;
@@ -2354,7 +2354,7 @@ class ReceiveCommits {
           String name = c.name();
           groupCollector.visit(c);
           Collection<PatchSet.Id> existingPatchSets =
-              receivePackRefCache.patchSetIdsFromObjectId(c);
+              receivePackRefCache.patchSetIdsFromObjectId(c, project.getName());
 
           if (rejectImplicitMerges) {
             Collections.addAll(mergedParents, c.getParents());
@@ -2504,7 +2504,8 @@ class ReceiveCommits {
 
             // In case the change look up from the index failed,
             // double check against the existing refs
-            if (foundInExistingPatchSets(receivePackRefCache.patchSetIdsFromObjectId(p.commit))) {
+            if (foundInExistingPatchSets(
+                receivePackRefCache.patchSetIdsFromObjectId(p.commit, project.getName()))) {
               if (pending.size() == 1) {
                 reject(magicBranch.cmd, "commit(s) already exists (as current patchset)");
                 return ImmutableList.of();
@@ -2535,7 +2536,15 @@ class ReceiveCommits {
       }
 
       SortedSetMultimap<ObjectId, String> groups = groupCollector.getGroups();
-      List<Integer> newIds = seq.nextChangeIds(newChanges.size());
+
+      // TODO: we don't want to throw away the projectChangeSequence every time
+      //  we get a new batch of id let's inject instead a Loading cache
+
+      ProjectChangeSequence.initSequences(repo, repo.getRefDatabase().newBatchUpdate(), 1);
+      ProjectChangeSequence projectChangeSequence =
+          projectChangeSequenceFactory.create(project.getNameKey());
+      List<Integer> newIds = projectChangeSequence.nextChangeIds(newChanges.size());
+
       for (int i = 0; i < newChanges.size(); i++) {
         CreateRequest create = newChanges.get(i);
         create.setChangeId(newIds.get(i));
@@ -2651,7 +2660,7 @@ class ReceiveCommits {
       int i = 0;
       for (Ref ref :
           Iterables.concat(
-              receivePackRefCache.byPrefix(R_HEADS),
+              receivePackRefCache.byPrefix(R_HEADS, project.getName()),
               Collections.singletonList(receivePackRefCache.exactRef(forRef)))) {
         if (ref != null && ref.getObjectId() != null) {
           try {
@@ -2722,7 +2731,7 @@ class ReceiveCommits {
 
     private void setChangeId(int id) {
       try (TraceTimer traceTimer = newTimer(CreateRequest.class, "setChangeId")) {
-        changeId = Change.id(id);
+        changeId = Change.id(id, project.getName());
         ins =
             changeInserterFactory
                 .create(changeId, commit, refName)
@@ -2923,9 +2932,10 @@ class ReceiveCommits {
         revCommit = null;
       }
       revisions = HashBiMap.create();
-      for (Ref ref : receivePackRefCache.byPrefix(RefNames.changeRefPrefix(toChange))) {
+      for (Ref ref :
+          receivePackRefCache.byPrefix(RefNames.changeRefPrefix(toChange), project.getName())) {
         try {
-          PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
+          PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName(), project.getName());
           if (psId != null) {
             revisions.forcePut(receivePack.getRevWalk().parseCommit(ref.getObjectId()), psId);
           }
@@ -3029,7 +3039,7 @@ class ReceiveCommits {
         }
 
         List<PatchSet.Id> existingPatchSetsWithSameCommit =
-            receivePackRefCache.patchSetIdsFromObjectId(newCommit);
+            receivePackRefCache.patchSetIdsFromObjectId(newCommit, project.getName());
         if (!existingPatchSetsWithSameCommit.isEmpty()) {
           // TODO(hiesel, hanwen): Remove this check entirely when Gerrit requires change IDs
           //  without the option to turn that off.
@@ -3393,7 +3403,7 @@ class ReceiveCommits {
                     "more than %d commits, and %s not set", limit, PUSH_OPTION_SKIP_VALIDATION));
             return;
           }
-          if (!receivePackRefCache.patchSetIdsFromObjectId(c).isEmpty()) {
+          if (!receivePackRefCache.patchSetIdsFromObjectId(c, project.getName()).isEmpty()) {
             continue;
           }
 
@@ -3471,7 +3481,8 @@ class ReceiveCommits {
                       // Check if change refs point to this commit. Usually there are 0-1 change
                       // refs pointing to this commit.
                       for (PatchSet.Id psId :
-                          receivePackRefCache.patchSetIdsFromObjectId(c.copy())) {
+                          receivePackRefCache.patchSetIdsFromObjectId(
+                              c.copy(), project.getName())) {
                         Optional<ChangeNotes> notes = getChangeNotes(psId.changeId());
                         if (notes.isPresent() && notes.get().getChange().getDest().equals(branch)) {
                           if (submissionId == null) {

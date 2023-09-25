@@ -353,7 +353,12 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     IllegalStateException exception =
         assertThrows(
             IllegalStateException.class,
-            () -> changeOperations.newChange().childOf().change(Change.id(987654321)).create());
+            () ->
+                changeOperations
+                    .newChange()
+                    .childOf()
+                    .change(Change.id(987654321, project.get()))
+                    .create());
     assertThat(exception).hasMessageThat().ignoringCase().contains("parent");
   }
 
@@ -383,7 +388,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
                 changeOperations
                     .newChange()
                     .childOf()
-                    .patchset(PatchSet.id(Change.id(987654321), 1))
+                    .patchset(PatchSet.id(Change.id(987654321, project.get()), 1))
                     .create());
     assertThat(exception).hasMessageThat().ignoringCase().contains("parent");
   }
@@ -980,7 +985,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void notExistingChangeCanBeCheckedForExistence() {
-    Change.Id changeId = Change.id(123456789);
+    Change.Id changeId = Change.id(123456789, project.get());
 
     boolean exists = changeOperations.change(changeId).exists();
 
@@ -989,7 +994,7 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void retrievingNotExistingChangeFails() {
-    Change.Id changeId = Change.id(123456789);
+    Change.Id changeId = Change.id(123456789, project.get());
     assertThrows(IllegalStateException.class, () -> changeOperations.change(changeId).get());
   }
 

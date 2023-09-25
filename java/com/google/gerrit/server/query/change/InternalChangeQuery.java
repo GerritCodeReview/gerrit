@@ -179,7 +179,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
           || !hashes.contains(ref.getObjectId().name())) {
         continue;
       }
-      Change.Id id = Change.Id.fromRef(r);
+      Change.Id id = Change.Id.fromRef(r, branch.project().get());
       if (id == null) {
         continue;
       }

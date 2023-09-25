@@ -128,7 +128,7 @@ public class RestApiQuotaIT extends AbstractDaemonTest {
     // use REST API so that repository size quota doesn't have to be stubbed
     ChangeInfo changeInfo =
         gApi.changes().create(new ChangeInput(project.get(), "master", "test")).get();
-    return Change.id(changeInfo._number);
+    return Change.id(changeInfo._number, project.get());
   }
 
   private static QuotaResponse.Aggregated singletonAggregation(QuotaResponse response) {

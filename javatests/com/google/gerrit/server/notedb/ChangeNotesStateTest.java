@@ -76,7 +76,7 @@ import org.junit.Test;
 
 public class ChangeNotesStateTest {
 
-  private static final Change.Id ID = Change.id(123);
+  private static final Change.Id ID = Change.id(123, "foo");
   private static final ObjectId SHA =
       ObjectId.fromString("1234567812345678123456781234567812345678");
   private static final ByteString SHA_BYTES = ObjectIdConverter.create().toByteString(SHA);
@@ -313,7 +313,7 @@ public class ChangeNotesStateTest {
   @Test
   public void serializeRevertOf() throws Exception {
     assertRoundTrip(
-        newBuilder().columns(cols.toBuilder().revertOf(Change.id(999)).build()).build(),
+        newBuilder().columns(cols.toBuilder().revertOf(Change.id(999, "foo")).build()).build(),
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
             .setChangeId(ID.get())

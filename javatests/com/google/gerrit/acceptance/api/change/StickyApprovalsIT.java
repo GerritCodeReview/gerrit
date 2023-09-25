@@ -1269,7 +1269,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
       // Upload patch-set 2. Change user's "Verified" vote on PS2.
       changeOperations
-          .change(Change.id(r.getChange().getId().get()))
+          .change(Change.id(r.getChange().getId().get(), project.get()))
           .newPatchset()
           .file("new_file")
           .content("content")
@@ -1280,7 +1280,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
 
       // Upload patch-set 3
       changeOperations
-          .change(Change.id(r.getChange().getId().get()))
+          .change(Change.id(r.getChange().getId().get(), project.get()))
           .newPatchset()
           .file("another_file")
           .content("content")

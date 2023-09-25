@@ -193,7 +193,7 @@ public class PatchSetUtil {
     if (!refUpdates.isEmpty()) {
       Optional<PatchSet.Id> latestPendingPatchSet =
           refUpdates.keySet().stream()
-              .map(r -> PatchSet.Id.fromRef(changeId.toRefPrefix() + r))
+              .map(r -> PatchSet.Id.fromRef(changeId.toRefPrefix() + r, changeId.getProjectName()))
               .filter(Objects::nonNull)
               .max(PatchSet.Id::compareTo);
       if (latestPendingPatchSet.isPresent()) {

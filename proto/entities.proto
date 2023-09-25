@@ -19,9 +19,10 @@ package devtools.gerritcodereview;
 option java_package = "com.google.gerrit.proto";
 
 // Serialized form of com.google.gerrit.entities.Change.Id.
-// Next ID: 2
+// Next ID: 3
 message Change_Id {
   required int32 id = 1;
+  required string projectName = 2;
 }
 
 // Serialized form of com.google.gerrit.entities.Change.Key.

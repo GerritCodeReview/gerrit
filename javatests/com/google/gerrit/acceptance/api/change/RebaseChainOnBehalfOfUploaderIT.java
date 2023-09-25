@@ -1465,7 +1465,8 @@ public class RebaseChainOnBehalfOfUploaderIT extends AbstractDaemonTest {
 
     @Override
     public void onRevisionCreated(RevisionCreatedListener.Event event) {
-      revisionInfos.put(Change.id(event.getChange()._number), event.getRevision());
+      revisionInfos.put(
+          Change.id(event.getChange()._number, event.getChange().project), event.getRevision());
     }
   }
 }

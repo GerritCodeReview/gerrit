@@ -92,7 +92,7 @@ public class ChangeUtil {
       Stream<String> changeRefNames, PatchSet.Id id) {
     Set<PatchSet.Id> existing =
         changeRefNames
-            .map(PatchSet.Id::fromRef)
+            .map((String ref) -> PatchSet.Id.fromRef(ref, id.changeId().getProjectName()))
             .filter(psId -> psId != null && psId.changeId().equals(id.changeId()))
             .collect(toSet());
     PatchSet.Id next = nextPatchSetId(id);

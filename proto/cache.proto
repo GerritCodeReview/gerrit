@@ -78,7 +78,7 @@ message ChangeNotesKeyProto {
 // Instead, we just take the tedious yet simple approach of having a "has_foo"
 // field for each nullable field "foo", indicating whether or not foo is null.
 //
-// Next ID: 29
+// Next ID: 30
 message ChangeNotesStateProto {
   // Effectively required, even though the corresponding ChangeNotesState field
   // is optional, since the field is only absent when NoteDb is disabled, in
@@ -86,6 +86,8 @@ message ChangeNotesStateProto {
   bytes meta_id = 1;
 
   int32 change_id = 2;
+
+  string project_name = 29;
 
   // Next ID: 26
   message ChangeColumnsProto {
@@ -223,6 +225,8 @@ message ChangeNotesStateProto {
   bool has_merged_on = 26;
 
   repeated SubmitRequirementResultProto submit_requirement_result = 27;
+
+
 }
 
 // Serialized form of com.google.gerrit.server.query.change.ConflictKey

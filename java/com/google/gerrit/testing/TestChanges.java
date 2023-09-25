@@ -52,7 +52,7 @@ public class TestChanges {
   }
 
   public static Change newChange(Project.NameKey project, Account.Id userId, int id) {
-    Change.Id changeId = Change.id(id);
+    Change.Id changeId = Change.id(id, project.get());
     Change c =
         new Change(
             Change.key("Iabcd1234abcd1234abcd1234abcd1234abcd1234"),

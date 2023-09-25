@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.cache.h2;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
+import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -28,6 +31,7 @@ import com.google.gerrit.server.cache.PersistentCacheBaseFactory;
 import com.google.gerrit.server.cache.PersistentCacheDef;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
+import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.options.BuildBloomFilter;
@@ -38,6 +42,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.LinkedList;
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -208,6 +213,22 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
     if (h2AutoServer) {
       url.append(";AUTO_SERVER=TRUE");
     }
+    Duration refreshAfterWrite = def.refreshAfterWrite();
+    if (has(def.configKey(), "refreshAfterWrite")) {
+      long refreshAfterWriteInSec =
+          ConfigUtil.getTimeUnit(config, "cache", def.configKey(), "refreshAfterWrite", 0, SECONDS);
+      if (refreshAfterWriteInSec != 0) {
+        refreshAfterWrite = Duration.ofSeconds(refreshAfterWriteInSec);
+      }
+    }
+    Duration expireAfterWrite = def.expireAfterWrite();
+    if (has(def.configKey(), "maxAge")) {
+      long expireAfterWriteInsec =
+          ConfigUtil.getTimeUnit(config, "cache", def.configKey(), "maxAge", 0, SECONDS);
+      if (expireAfterWriteInsec != 0) {
+        expireAfterWrite = Duration.ofSeconds(expireAfterWriteInsec);
+      }
+    }
     return new SqlStore<>(
         url.toString(),
         def.keyType(),
@@ -215,8 +236,12 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
         def.valueSerializer(),
         def.version(),
         maxSize,
-        def.expireAfterWrite(),
-        def.refreshAfterWrite(),
+        expireAfterWrite,
+        refreshAfterWrite,
         buildBloomFilter);
+  }
+
+  private boolean has(String name, String var) {
+    return !Strings.isNullOrEmpty(config.getString("cache", name, var));
   }
 }

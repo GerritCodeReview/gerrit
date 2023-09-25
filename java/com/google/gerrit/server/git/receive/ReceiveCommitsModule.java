@@ -15,11 +15,13 @@
 package com.google.gerrit.server.git.receive;
 
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.server.notedb.ProjectChangeSequence;
 
 public class ReceiveCommitsModule extends FactoryModule {
   @Override
   protected void configure() {
     bind(ReceiveConfig.class);
     factory(ReplaceOp.Factory.class);
+    factory(ProjectChangeSequence.Factory.class);
   }
 }

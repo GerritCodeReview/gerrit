@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8e1fe4b_663736a3",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-25T07:58:10Z",
+      "side": 0,
+      "message": "Small note: this is a change in behaviour since DiffOperations always sets rename detection to true.\n\nAlso, in L503 we used to count new paths only, i.e. all removed files would count as one (because new path \u003d null, distinct \u003d 1), but the new code will return all removed files count.\n\nBut both changes look OK.",
+      "range": {
+        "startLine": 495,
+        "startChar": 8,
+        "endLine": 496,
+        "endChar": 17
+      },
+      "revId": "764a295fc990395e9cc1277755b4ed52f34bfd24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

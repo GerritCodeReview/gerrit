@@ -34,6 +34,24 @@
       "parentUuid": "e750ea9c_242d5298",
       "revId": "2e7708787075dcfe06423c9d8559029f6e6ad7c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2aa744a_f2b71a00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-25T07:58:10Z",
+      "side": 1,
+      "message": "But the auto-merge is written in Gerrit, i.e. after we get the receive event? \n\nThe code in LHS always diffed against parent 0 (for single or multi-parent commits). The new code diffs against the auto-merge if commit has \u003e 1 parent.\n\nIn L484 we handle this gracefully by logging a warning, so we should be able to detect if validation fails.",
+      "parentUuid": "1fc5e28a_375b8451",
+      "revId": "2e7708787075dcfe06423c9d8559029f6e6ad7c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

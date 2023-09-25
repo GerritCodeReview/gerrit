@@ -419,7 +419,6 @@ export class GrFileList extends LitElement {
           text-align: center;
         }
         .path {
-          cursor: pointer;
           flex: 1;
           /* Wrap it into multiple lines if too long. */
           white-space: normal;

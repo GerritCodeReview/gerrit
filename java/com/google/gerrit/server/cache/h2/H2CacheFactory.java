@@ -216,7 +216,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
         def.version(),
         maxSize,
         def.expireAfterWrite(),
-        def.expireFromMemoryAfterAccess(),
+        def.refreshAfterWrite(),
         buildBloomFilter);
   }
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "499c292d_946e70f1",
+        "filename": "Documentation/cross-repository-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-09-25T16:00:27Z",
+      "side": 1,
+      "message": "Update docs about the drop-down being enabled for only single change cherry-picks",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 234,
+        "endChar": 37
+      },
+      "revId": "d5356066e24e9fff565a47e7739585ef97997f8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17d9409f_f08a12ee",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-09-25T16:00:27Z",
+      "side": 1,
+      "message": "Add info about the default.",
+      "range": {
+        "startLine": 283,
+        "startChar": 0,
+        "endLine": 288,
+        "endChar": 68
+      },
+      "revId": "d5356066e24e9fff565a47e7739585ef97997f8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

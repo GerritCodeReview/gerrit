@@ -16,6 +16,24 @@
       "message": "This atFinest() seems inconsistent with the atWarning() from line 137. It seems to me that they all should actually be atSevere()s.",
       "revId": "172e1713d4dee0ca7328696f0d707aabb5157ccd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc174fdb_32249e48",
+        "filename": "java/com/google/gerrit/server/permissions/GitVisibleChangeFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-25T17:08:46Z",
+      "side": 1,
+      "message": "\u003e This atFinest() seems inconsistent with the atWarning() from line 137. It seems to me that they all should actually be atSevere()s.\n\nI think the rationale for this atFinest() comes from the comment line above it: \"The repositories contain \u0027dead\u0027 change refs...\". Depending on what \u0027dead\u0027 really means, if we expect a lot of noise from that, we would want to hide it. The path leading to the exception logged on line 137 likely doesn\u0027t see this noise because scan() starts with looking for change meta refs and ignores any change refs that don\u0027t have a meta ref. Based on that, I think \u0027dead\u0027 means a patchset ref without a corresponding change meta ref, but I don\u0027t know for sure.\n\nThat said, it would probably be a more consistent approach to handle the exception here differently depending on if we found a change meta ref for this id. If there\u0027s no meta ref, keep the logging atFinest() (and improve the message), but if there is a meta ref, use atWarning() like 137.\n\nI actually was going to use atSevere() for the new logs I added in this change until I saw the existing atWarning() level used in this class and in SearchingChangeCacheImpl for what seemed equivalent problems. I would suggest we stick with atWarning() in this change and follow up with a change to modify them consistently to a different level if we think they should be different.",
+      "parentUuid": "667842fc_2a5d89cb",
+      "revId": "172e1713d4dee0ca7328696f0d707aabb5157ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

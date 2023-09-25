@@ -16,6 +16,24 @@
       "message": "Since this was introduced as far back as 3.3, this probably should get move to at least the oldest non EOL stable release (3.6), and likely even 3.5 so we can benefit from it.",
       "revId": "26d4679be7e643623cc43f380b967f80bbd97583",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "613989da_e11fd860",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-09-25T18:52:00Z",
+      "side": 1,
+      "message": "Acknowledged. Done",
+      "parentUuid": "b053028e_aa743a1e",
+      "revId": "26d4679be7e643623cc43f380b967f80bbd97583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

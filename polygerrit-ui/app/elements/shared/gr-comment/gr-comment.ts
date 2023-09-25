@@ -923,8 +923,11 @@ export class GrComment extends LitElement {
       this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT) &&
       this.editing &&
       !this.permanentEditingMode &&
-      this.comment?.path !== SpecialFilePath.PATCHSET_LEVEL_COMMENTS &&
       this.comment &&
+      this.comment.path !== SpecialFilePath.PATCHSET_LEVEL_COMMENTS &&
+      this.comment.path !== SpecialFilePath.COMMIT_MESSAGE &&
+      this.comment === this.comments?.[0] && // Is first comment
+      (this.comment.range || this.comment.line) && // Disabled for File comments
       !hasUserSuggestion(this.comment)
     );
   }
@@ -972,7 +975,14 @@ export class GrComment extends LitElement {
     const suggestionsPlugins =
       this.getPluginLoader().pluginsModel.getState().suggestionsPlugins;
     if (suggestionsPlugins.length === 0) return;
-    if (!this.changeNum || !this.comment?.patch_set || !this.comments?.[0].path)
+    if (
+      !this.showGeneratedSuggestion() ||
+      !this.changeNum ||
+      !this.comment ||
+      !this.comment.patch_set ||
+      !this.comment.path ||
+      this.messageText.length === 0
+    )
       return;
     this.generatedReplacementId = uuid();
     this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_REQUEST, {
@@ -982,9 +992,9 @@ export class GrComment extends LitElement {
       prompt: this.messageText,
       changeNumber: this.changeNum,
       patchsetNumber: this.comment?.patch_set,
-      filePath: this.comments?.[0].path,
-      range: this.comments?.[0].range,
-      lineNumber: this.comments?.[0].line,
+      filePath: this.comment.path,
+      range: this.comment.range,
+      lineNumber: this.comment.line,
     });
     this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_RESPONSE, {
       uuid: this.generatedReplacementId,

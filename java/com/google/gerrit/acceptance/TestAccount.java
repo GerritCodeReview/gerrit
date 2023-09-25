@@ -42,7 +42,7 @@ public abstract class TestAccount {
     return names(Arrays.asList(accounts));
   }
 
-  static TestAccount create(
+  public static TestAccount create(
       Account.Id id,
       @Nullable String username,
       @Nullable String email,

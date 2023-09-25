@@ -681,8 +681,7 @@ export class GrDiffView extends LitElement {
         .sidebarContents {
           background: var(--background-color-secondary);
           width: var(--sidebar-width);
-          padding: var(--spacing-l);
-          border: var(--spacing-xs) solid var(--border-color);
+          border: var(--spacing-xxs) solid var(--border-color);
           border-left: 0;
           overflow: auto;
         }

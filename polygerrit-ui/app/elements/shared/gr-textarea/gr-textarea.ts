@@ -430,8 +430,7 @@ export class GrTextarea extends LitElement {
     const specialCharIndex = this.specialCharIndex ?? 0;
     const beforeSearchString = this.text.substring(0, specialCharIndex);
     const afterSearchString = this.text.substring(
-      specialCharIndex + 1 + (this.lastMatchedSearchString?.length ?? 0)
-    );
+      specialCharIndex + 1 + (this.lastMatchedSearchString?.length ?? 0));
     return beforeSearchString + value + afterSearchString;
   }
 

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc1bc3b1_27886406",
+        "filename": "java/com/google/gerrit/server/config/CachedPreferences.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-09-25T11:24:20Z",
+      "side": 1,
+      "message": "`GetDiffPreferences` and alike only call this method for parsing the default preferences. \n\nWe agreed that we have no intention to convert default preferences to protos as part of the upcoming efforts.",
+      "parentUuid": "4b4c9610_46a9e09a",
+      "range": {
+        "startLine": 104,
+        "startChar": 10,
+        "endLine": 104,
+        "endChar": 28
+      },
+      "revId": "022606cba9ee49373a9a23821ca1c689794cca3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8718d6c7_e842f0d7",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-09-25T07:54:43Z",
       "side": 1,
       "message": "for that to be true, you\u0027d have to add a\n\nbreak;",
+      "range": {
+        "startLine": 114,
+        "startChar": 14,
+        "endLine": 114,
+        "endChar": 21
+      },
+      "revId": "022606cba9ee49373a9a23821ca1c689794cca3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c05b1d55_707e26a8",
+        "filename": "java/com/google/gerrit/server/config/CachedPreferences.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-09-25T11:24:20Z",
+      "side": 1,
+      "message": "It\u0027s the last case, but added anyway.",
+      "parentUuid": "8718d6c7_e842f0d7",
       "range": {
         "startLine": 114,
         "startChar": 14,

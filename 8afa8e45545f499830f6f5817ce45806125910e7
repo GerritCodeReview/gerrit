@@ -16,6 +16,24 @@
       "message": "Why disable on file comments?",
       "revId": "8afa8e45545f499830f6f5817ce45806125910e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee12b581_fdd8276a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-09-25T07:13:09Z",
+      "side": 1,
+      "message": "Currently it is not supported by plugin. I also think we should limit size of suggestion inside comment. We can enable it later if we agree to have it. You can file bug for me, that I should introduce file comments.",
+      "parentUuid": "7443c006_5116770b",
+      "revId": "8afa8e45545f499830f6f5817ce45806125910e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

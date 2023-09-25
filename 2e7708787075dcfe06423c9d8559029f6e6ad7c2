@@ -16,6 +16,24 @@
       "message": "LGTM, I prefer if Patrick also has a look.",
       "revId": "2e7708787075dcfe06423c9d8559029f6e6ad7c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fc5e28a_375b8451",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-09-25T07:33:21Z",
+      "side": 1,
+      "message": "This should work IMO. We\u0027ve had trouble in the past in cases where the commit was not yet flushed to the storage, then DiffOps can\u0027t read it back. Here, we only look at a receive event which writes the commit to the storage even before we start processing in Gerrit.\n\nThe automerge commit should be created if it was not already there.",
+      "parentUuid": "e750ea9c_242d5298",
+      "revId": "2e7708787075dcfe06423c9d8559029f6e6ad7c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

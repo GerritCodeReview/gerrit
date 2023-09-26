@@ -301,7 +301,7 @@ public class AccountsUpdateNoteDbImpl extends AccountsUpdate {
                   updateExternalIdNotes(
                       repo, accountConfig.getExternalIdsRev(), accountId, accountDelta);
                   CachedPreferences defaultPreferences =
-                      CachedPreferences.fromConfig(
+                      CachedPreferences.fromLegacyConfig(
                           VersionedDefaultPreferences.get(repo, allUsersName));
 
                   return new UpdatedAccount(message, accountConfig, defaultPreferences, true);
@@ -323,7 +323,7 @@ public class AccountsUpdateNoteDbImpl extends AccountsUpdate {
     return repo -> {
       AccountConfig accountConfig = read(repo, updateArguments.accountId);
       CachedPreferences defaultPreferences =
-          CachedPreferences.fromConfig(VersionedDefaultPreferences.get(repo, allUsersName));
+          CachedPreferences.fromLegacyConfig(VersionedDefaultPreferences.get(repo, allUsersName));
       Optional<AccountState> accountState =
           AccountsNoteDbImpl.getFromAccountConfig(externalIds, accountConfig, defaultPreferences);
       if (!accountState.isPresent()) {
@@ -343,7 +343,7 @@ public class AccountsUpdateNoteDbImpl extends AccountsUpdate {
 
       accountConfig.setAccountDelta(delta);
       CachedPreferences cachedDefaultPreferences =
-          CachedPreferences.fromConfig(VersionedDefaultPreferences.get(repo, allUsersName));
+          CachedPreferences.fromLegacyConfig(VersionedDefaultPreferences.get(repo, allUsersName));
       return new UpdatedAccount(
           updateArguments.message, accountConfig, cachedDefaultPreferences, false);
     };

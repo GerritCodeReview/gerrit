@@ -15,82 +15,154 @@
 package com.google.gerrit.server.config;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.Function;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.proto.Entities.UserPreferences;
+import com.google.gerrit.server.cache.proto.Cache.CachedPreferencesProto;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 /**
  * Container class for preferences serialized as Git-style config files. Keeps the values as {@link
- * String}s as they are immutable and thread-safe.
+ * CachedPreferencesProto}s as they are immutable and thread-safe.
+ *
+ * <p>The config string wrapped by this class might represent different structures. See {@link
+ * CachedPreferencesProto} for more details.
  */
 @AutoValue
 public abstract class CachedPreferences {
+  public static final CachedPreferences EMPTY =
+      fromCachedPreferencesProto(CachedPreferencesProto.getDefaultInstance());
 
-  public static CachedPreferences EMPTY = fromString("");
+  protected abstract CachedPreferencesProto config();
 
-  public abstract String config();
-
-  /** Returns a cache-able representation of the config. */
-  public static CachedPreferences fromConfig(Config cfg) {
-    return new AutoValue_CachedPreferences(cfg.toText());
+  public Optional<CachedPreferencesProto> nonEmptyConfig() {
+    return config().equals(EMPTY.config()) ? Optional.empty() : Optional.of(config());
+  }
+  /** Returns a cache-able representation of the preferences proto. */
+  public static CachedPreferences fromUserPreferencesProto(UserPreferences proto) {
+    return fromCachedPreferencesProto(
+        CachedPreferencesProto.newBuilder().setUserPreferences(proto).build());
   }
 
-  /**
-   * Returns a cache-able representation of the config. To be used only when constructing a {@link
-   * CachedPreferences} from a serialized, cached value.
-   */
-  public static CachedPreferences fromString(String cfg) {
-    return new AutoValue_CachedPreferences(cfg);
+  /** Returns a cache-able representation of the git config. */
+  public static CachedPreferences fromLegacyConfig(Config cfg) {
+    return fromCachedPreferencesProto(
+        CachedPreferencesProto.newBuilder().setLegacyGitConfig(cfg.toText()).build());
+  }
+
+  /** Returns a cache-able representation of the preferences proto. */
+  public static CachedPreferences fromCachedPreferencesProto(
+      @Nullable CachedPreferencesProto proto) {
+    if (proto != null) {
+      return new AutoValue_CachedPreferences(proto);
+    }
+    return EMPTY;
   }
 
   public static GeneralPreferencesInfo general(
       Optional<CachedPreferences> defaultPreferences, CachedPreferences userPreferences) {
-    try {
-      return PreferencesParserUtil.parseGeneralPreferences(
-          userPreferences.asConfig(), configOrNull(defaultPreferences), null);
-    } catch (ConfigInvalidException e) {
-      return GeneralPreferencesInfo.defaults();
-    }
-  }
-
-  public static EditPreferencesInfo edit(
-      Optional<CachedPreferences> defaultPreferences, CachedPreferences userPreferences) {
-    try {
-      return PreferencesParserUtil.parseEditPreferences(
-          userPreferences.asConfig(), configOrNull(defaultPreferences), null);
-    } catch (ConfigInvalidException e) {
-      return EditPreferencesInfo.defaults();
-    }
+    return getPreferences(
+        defaultPreferences,
+        userPreferences,
+        PreferencesParserUtil::parseGeneralPreferences,
+        p ->
+            UserPreferencesConverter.GeneralPreferencesInfoConverter.fromProto(
+                p.getGeneralPreferencesInfo()),
+        GeneralPreferencesInfo.defaults());
   }
 
   public static DiffPreferencesInfo diff(
       Optional<CachedPreferences> defaultPreferences, CachedPreferences userPreferences) {
-    try {
-      return PreferencesParserUtil.parseDiffPreferences(
-          userPreferences.asConfig(), configOrNull(defaultPreferences), null);
-    } catch (ConfigInvalidException e) {
-      return DiffPreferencesInfo.defaults();
-    }
+    return getPreferences(
+        defaultPreferences,
+        userPreferences,
+        PreferencesParserUtil::parseDiffPreferences,
+        p ->
+            UserPreferencesConverter.DiffPreferencesInfoConverter.fromProto(
+                p.getDiffPreferencesInfo()),
+        DiffPreferencesInfo.defaults());
+  }
+
+  public static EditPreferencesInfo edit(
+      Optional<CachedPreferences> defaultPreferences, CachedPreferences userPreferences) {
+    return getPreferences(
+        defaultPreferences,
+        userPreferences,
+        PreferencesParserUtil::parseEditPreferences,
+        p ->
+            UserPreferencesConverter.EditPreferencesInfoConverter.fromProto(
+                p.getEditPreferencesInfo()),
+        EditPreferencesInfo.defaults());
   }
 
   public Config asConfig() {
-    Config cfg = new Config();
     try {
-      cfg.fromText(config());
+      switch (config().getPreferencesCase()) {
+        case LEGACY_GIT_CONFIG:
+          // continue below
+        case PREFERENCES_NOT_SET:
+          Config cfg = new Config();
+          cfg.fromText(config().getLegacyGitConfig());
+          return cfg;
+        case USER_PREFERENCES:
+          break;
+      }
     } catch (ConfigInvalidException e) {
-      // Programmer error: We have parsed this config before and are unable to parse it now.
       throw new StorageException(e);
     }
-    return cfg;
+    throw new StorageException(
+        String.format(
+            "Cannot parse the given config as a CachedPreferencesProto proto. Got [%s]", config()));
+  }
+
+  public UserPreferences asUserPreferencesProto() {
+    if (config().hasUserPreferences()) {
+      return config().getUserPreferences();
+    }
+    throw new StorageException(
+        String.format(
+            "Cannot parse the given config as a UserPreferences proto. Got [%s]", config()));
   }
 
   @Nullable
   private static Config configOrNull(Optional<CachedPreferences> cachedPreferences) {
     return cachedPreferences.map(CachedPreferences::asConfig).orElse(null);
+  }
+
+  @FunctionalInterface
+  private interface ComputePreferencesFn<PreferencesT> {
+    PreferencesT apply(Config cfg, @Nullable Config defaultCfg, @Nullable PreferencesT input)
+        throws ConfigInvalidException;
+  }
+
+  private static <PreferencesT> PreferencesT getPreferences(
+      Optional<CachedPreferences> defaultPreferences,
+      CachedPreferences userPreferences,
+      ComputePreferencesFn<PreferencesT> computePreferencesFn,
+      Function<UserPreferences, PreferencesT> fromUserPreferencesFn,
+      PreferencesT javaDefaults) {
+    try {
+      CachedPreferencesProto userPreferencesProto = userPreferences.config();
+      switch (userPreferencesProto.getPreferencesCase()) {
+        case USER_PREFERENCES:
+          PreferencesT pref =
+              fromUserPreferencesFn.apply(userPreferencesProto.getUserPreferences());
+          return computePreferencesFn.apply(new Config(), configOrNull(defaultPreferences), pref);
+        case LEGACY_GIT_CONFIG:
+          return computePreferencesFn.apply(
+              userPreferences.asConfig(), configOrNull(defaultPreferences), null);
+        case PREFERENCES_NOT_SET:
+          throw new ConfigInvalidException("Invalid config " + userPreferences);
+      }
+    } catch (ConfigInvalidException e) {
+      return javaDefaults;
+    }
+    return javaDefaults;
   }
 }

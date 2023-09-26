@@ -323,6 +323,15 @@ message ProjectWatchProto {
   repeated string notify_type = 3;
 }
 
+// Serialized user preferences.
+// Next ID: 3
+message CachedPreferencesProto {
+  oneof Preferences {
+    devtools.gerritcodereview.UserPreferences user_preferences = 1;
+    string legacy_git_config = 2;
+  }
+}
+
 // Serialized form of
 // com.google.gerrit.entities.Account.
 // Next ID: 9
@@ -345,11 +354,12 @@ message AccountKeyProto {
 }
 
 // Serialized form of com.google.gerrit.server.account.CachedAccountDetails.
-// Next ID: 4
+// Next ID: 5
 message AccountDetailsProto {
   AccountProto account = 1;
   repeated ProjectWatchProto project_watch_proto = 2;
-  string user_preferences = 3;
+  CachedPreferencesProto user_preferences = 4;
+  reserved 3;
 }
 
 // Serialized form of com.google.gerrit.entities.Project.

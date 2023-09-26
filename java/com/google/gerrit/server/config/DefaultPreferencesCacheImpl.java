@@ -99,7 +99,7 @@ public class DefaultPreferencesCacheImpl implements DefaultPreferencesCache {
       try (Repository allUsersRepo = repositoryManager.openRepository(allUsersName)) {
         VersionedDefaultPreferences versionedDefaultPreferences = new VersionedDefaultPreferences();
         versionedDefaultPreferences.load(allUsersName, allUsersRepo, key);
-        return CachedPreferences.fromConfig(versionedDefaultPreferences.getConfig());
+        return CachedPreferences.fromLegacyConfig(versionedDefaultPreferences.getConfig());
       }
     }
   }

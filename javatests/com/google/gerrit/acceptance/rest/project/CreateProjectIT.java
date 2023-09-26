@@ -39,6 +39,7 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BooleanProjectConfig;
+import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
@@ -271,13 +272,11 @@ public class CreateProjectIT extends AbstractDaemonTest {
     in.owners = Lists.newArrayListWithCapacity(3);
     in.owners.add("Anonymous Users"); // by name
     in.owners.add(SystemGroupBackend.REGISTERED_USERS.get()); // by UUID
-    in.owners.add(
-        Integer.toString(
-            groupCache
-                .get(AccountGroup.nameKey("Administrators"))
-                .orElse(null)
-                .getId()
-                .get())); // by ID
+    Optional<InternalGroup> group = groupCache.get(AccountGroup.nameKey("Administrators"));
+    if (group.isPresent()) {
+      in.owners.add(Integer.toString(group.get().getId().get())); // by ID
+    }
+
     gApi.projects().create(in);
     Optional<ProjectState> projectState = projectCache.get(Project.nameKey(newProjectName));
     Set<AccountGroup.UUID> expectedOwnerIds = Sets.newHashSetWithExpectedSize(3);

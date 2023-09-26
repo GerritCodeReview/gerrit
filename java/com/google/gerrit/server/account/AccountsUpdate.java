@@ -131,7 +131,10 @@ public abstract class AccountsUpdate {
   protected final PersonIdent committerIdent;
   protected final PersonIdent authorIdent;
 
+  protected final Optional<IdentifiedUser> currentUser;
+
   protected AccountsUpdate(PersonIdent serverIdent, Optional<IdentifiedUser> user) {
+    this.currentUser = user;
     this.committerIdent = serverIdent;
     this.authorIdent = createPersonIdent(serverIdent, user);
   }

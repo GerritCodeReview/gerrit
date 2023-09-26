@@ -89,6 +89,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6afe1baf_fcc7760d",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-26T07:03:38Z",
+      "side": 1,
+      "message": "Why do these need to be overridden, is it because they read annotation on the test?",
+      "range": {
+        "startLine": 593,
+        "startChar": 2,
+        "endLine": 599,
+        "endChar": 64
+      },
+      "revId": "68ace7789058043f97ff49b06da5ea6f982ba4fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acd1c629_c7c13da0",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1043,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-26T07:03:38Z",
+      "side": 1,
+      "message": "Why do we need to override this?\n\nI believe lots of tests do \u0027requestScopeOperations.setApiUser(...);\u0027 without going through this method. Will it be a problem?",
+      "revId": "68ace7789058043f97ff49b06da5ea6f982ba4fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5d76ec69_6c7ea766",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
         "patchSetId": 2

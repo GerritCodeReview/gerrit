@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.auto.value.AutoValue;
@@ -42,7 +43,7 @@ public abstract class TestAccount {
     return names(Arrays.asList(accounts));
   }
 
-  static TestAccount create(
+  public static TestAccount create(
       Account.Id id,
       @Nullable String username,
       @Nullable String email,
@@ -78,7 +79,8 @@ public abstract class TestAccount {
   }
 
   public String getHttpUrl(GerritServer server) {
-    InetSocketAddress addr = server.getHttpAddress();
+    checkState(server.getHttpAddress().isPresent(), "GerritServer must have httpAddress");
+    InetSocketAddress addr = server.getHttpAddress().get();
     return new URIBuilder()
         .setScheme("http")
         .setUserInfo(username(), httpPassword())

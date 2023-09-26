@@ -303,7 +303,7 @@ public class OutputStreamQuery {
           rw,
           c,
           d.patchSets(),
-          includeApprovals ? d.approvals().asMap() : null,
+          includeApprovals ? d.conditionallyLoadApprovalsWithCopied().asMap() : null,
           includeFiles,
           d.change(),
           labelTypes,

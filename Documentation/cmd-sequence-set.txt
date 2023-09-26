@@ -6,15 +6,15 @@ gerrit sequence set - Set new sequence value.
 == SYNOPSIS
 [verse]
 --
-_ssh_ -p <port> <host> _gerrit sequence set_ <NAME> <VALUE>
+_ssh_ -p <port> <host> _gerrit sequence set_ <NAME> <PROJECT> <VALUE>
 --
 
 == DESCRIPTION
 Gerrit maintains the generation of the next available sequence numbers for
 account, group and change entities. The sequences are stored as UTF-8 text in
 a blob pointed to by the `refs/sequences/accounts`, `refs/sequences/groups`
-and `refs/sequences/changes` refs. Those refs are stored in `All-Users` and
-`All-Projects` git repositories correspondingly.
+and `refs/sequences/changes` refs. Those first two refs are stored in `All-Users` git repository and
+ the last one is kept within the respective project.
 
 This command allows to set a new sequence value for those sequences.
 
@@ -35,15 +35,19 @@ This command is intended to be used in scripts.
     * groups
     * changes
 
+<PROJECT>::
+   Project name to which the sequence change will be applied
+
 <VALUE>::
   New value for the sequence.
+
 
 == EXAMPLES
 Set a new value for the 'changes' sequence:
 
 ----
-$ ssh -p 29418 review.example.com gerrit sequence set changes 42
-The value for the changes sequence was set to 42.
+$ ssh -p 29418 review.example.com gerrit sequence set changes this/project 42
+The value for the changes sequence on project this/project was set to 42.
 ----
 
 GERRIT

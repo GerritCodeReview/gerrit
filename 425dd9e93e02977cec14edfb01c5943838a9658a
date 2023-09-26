@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ebeaddb_3ba19e1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-09-26T13:06:35Z",
+      "side": 1,
+      "message": "PS 5 is a rebase",
+      "revId": "425dd9e93e02977cec14edfb01c5943838a9658a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -33,6 +33,24 @@
       "message": "Why is this being bumped?",
       "revId": "425dd9e93e02977cec14edfb01c5943838a9658a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaee3524_316d4efd",
+        "filename": "java/com/google/gerrit/server/account/AccountCacheImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-09-26T15:13:16Z",
+      "side": 1,
+      "message": "It was being bumped here Ic6674e67a737d1268f24d19194fb35466a174ea4. I actually rebased this changes onto tip.",
+      "parentUuid": "fa042fcb_9437ebd7",
+      "revId": "425dd9e93e02977cec14edfb01c5943838a9658a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

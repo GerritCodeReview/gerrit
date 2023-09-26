@@ -16,6 +16,24 @@
       "message": "Now this annotation can be removed again, right?",
       "revId": "ff9990276b974f067e071cc0b86164d7cd3e0ea7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e632a0dd_00bf2968",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 3465,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-09-26T10:41:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d97cc799_c89f9ab5",
+      "revId": "ff9990276b974f067e071cc0b86164d7cd3e0ea7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

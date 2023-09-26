@@ -154,6 +154,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3f965e8_8eb393eb",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3280,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-09-26T10:41:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b785d7d2_d9da22c5",
+      "range": {
+        "startLine": 3279,
+        "startChar": 4,
+        "endLine": 3280,
+        "endChar": 66
+      },
+      "revId": "4a118dd2852457fc0360696eee1b00462d3e412a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9d196cf5_42b57cff",
@@ -250,6 +274,30 @@
       "side": 1,
       "message": "OK, can you then please annotate the \u0027unused\u0027 var with @SuppressWarnings(\"unused\") to prevent warning in the IDE (e.g. in Eclipse)?",
       "parentUuid": "c33a8568_617cdea3",
+      "range": {
+        "startLine": 3358,
+        "startChar": 1,
+        "endLine": 3359,
+        "endChar": 45
+      },
+      "revId": "4a118dd2852457fc0360696eee1b00462d3e412a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d988d8c_60c16c1c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3359,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-09-26T10:41:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23c81fb9_665b3d7f",
       "range": {
         "startLine": 3358,
         "startChar": 1,

@@ -167,6 +167,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f0f2e4f_a0c3ac89",
+        "filename": "polygerrit-ui/app/yarn.lock",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-26T08:32:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e243627_007aeb6e",
+      "revId": "4a118dd2852457fc0360696eee1b00462d3e412a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3dec6e36_bd411f21",
@@ -180,6 +198,24 @@
       "writtenOn": "2023-09-26T08:31:38Z",
       "side": 1,
       "message": "unintended changes?",
+      "revId": "4a118dd2852457fc0360696eee1b00462d3e412a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25486cf0_995e906c",
+        "filename": "polygerrit-ui/yarn.lock",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-26T08:32:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dec6e36_bd411f21",
       "revId": "4a118dd2852457fc0360696eee1b00462d3e412a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

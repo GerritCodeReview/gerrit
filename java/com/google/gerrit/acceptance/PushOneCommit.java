@@ -31,6 +31,7 @@ import com.google.gerrit.common.UsedAt.Project;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
@@ -80,6 +81,15 @@ public class PushOneCommit {
           + "---\n"
           + "\n"
           + PATCH_FILE_ONLY;
+
+  public static class Module extends FactoryModule {
+    @Override
+    protected void configure() {
+      factory(PushOneCommit.Factory.class);
+
+      factory(PushOneCommit.Result.Factory.class);
+    }
+  }
 
   public interface Factory {
     PushOneCommit create(PersonIdent i, TestRepository<?> testRepo);
@@ -148,10 +158,9 @@ public class PushOneCommit {
     return String.format("%040x", CHANGE_ID_COUNTER.incrementAndGet());
   }
 
-  private final ChangeNotes.Factory notesFactory;
-  private final ApprovalsUtil approvalsUtil;
-  private final Provider<InternalChangeQuery> queryProvider;
   private final TestRepository<?> testRepo;
+
+  private final Result.Factory pushResultFactory;
 
   private final String subject;
   private final Map<String, String> files;
@@ -164,68 +173,49 @@ public class PushOneCommit {
 
   @AssistedInject
   PushOneCommit(
-      ChangeNotes.Factory notesFactory,
-      ApprovalsUtil approvalsUtil,
-      Provider<InternalChangeQuery> queryProvider,
+      Result.Factory pushResultFactory,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo)
       throws Exception {
-    this(notesFactory, approvalsUtil, queryProvider, i, testRepo, SUBJECT, FILE_NAME, FILE_CONTENT);
+    this(pushResultFactory, i, testRepo, SUBJECT, FILE_NAME, FILE_CONTENT);
   }
 
   @AssistedInject
   PushOneCommit(
-      ChangeNotes.Factory notesFactory,
-      ApprovalsUtil approvalsUtil,
-      Provider<InternalChangeQuery> queryProvider,
+      Result.Factory pushResultFactory,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
       @Assisted("changeId") String changeId)
       throws Exception {
-    this(
-        notesFactory,
-        approvalsUtil,
-        queryProvider,
-        i,
-        testRepo,
-        SUBJECT,
-        FILE_NAME,
-        FILE_CONTENT,
-        changeId);
+    this(pushResultFactory, i, testRepo, SUBJECT, FILE_NAME, FILE_CONTENT, changeId);
   }
 
   @AssistedInject
   PushOneCommit(
-      ChangeNotes.Factory notesFactory,
-      ApprovalsUtil approvalsUtil,
-      Provider<InternalChangeQuery> queryProvider,
+      Result.Factory pushResultFactory,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
       @Assisted("subject") String subject,
       @Assisted("fileName") String fileName,
       @Assisted("content") String content)
       throws Exception {
-    this(notesFactory, approvalsUtil, queryProvider, i, testRepo, subject, fileName, content, null);
+    this(pushResultFactory, i, testRepo, subject, fileName, content, null);
   }
 
   @AssistedInject
   PushOneCommit(
-      ChangeNotes.Factory notesFactory,
-      ApprovalsUtil approvalsUtil,
-      Provider<InternalChangeQuery> queryProvider,
+      Result.Factory pushResultFactory,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
       @Assisted String subject,
       @Assisted Map<String, String> files)
       throws Exception {
-    this(notesFactory, approvalsUtil, queryProvider, i, testRepo, subject, files, null);
+    this(pushResultFactory, i, testRepo, subject, files, null);
   }
 
   @AssistedInject
   PushOneCommit(
-      ChangeNotes.Factory notesFactory,
-      ApprovalsUtil approvalsUtil,
-      Provider<InternalChangeQuery> queryProvider,
+      Result.Factory pushResultFactory,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
       @Assisted("subject") String subject,
@@ -233,22 +223,12 @@ public class PushOneCommit {
       @Assisted("content") String content,
       @Nullable @Assisted("changeId") String changeId)
       throws Exception {
-    this(
-        notesFactory,
-        approvalsUtil,
-        queryProvider,
-        i,
-        testRepo,
-        subject,
-        ImmutableMap.of(fileName, content),
-        changeId);
+    this(pushResultFactory, i, testRepo, subject, ImmutableMap.of(fileName, content), changeId);
   }
 
   @AssistedInject
   PushOneCommit(
-      ChangeNotes.Factory notesFactory,
-      ApprovalsUtil approvalsUtil,
-      Provider<InternalChangeQuery> queryProvider,
+      Result.Factory pushResultFactory,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
       @Assisted("subject") String subject,
@@ -256,12 +236,10 @@ public class PushOneCommit {
       @Nullable @Assisted("changeId") String changeId)
       throws Exception {
     this.testRepo = testRepo;
-    this.notesFactory = notesFactory;
-    this.approvalsUtil = approvalsUtil;
-    this.queryProvider = queryProvider;
     this.subject = subject;
     this.files = files;
     this.changeId = changeId;
+    this.pushResultFactory = pushResultFactory;
     if (changeId != null) {
       commitBuilder = testRepo.amendRef("HEAD").insertChangeId(changeId.substring(1));
     } else {
@@ -283,7 +261,7 @@ public class PushOneCommit {
   }
 
   @CanIgnoreReturnValue
-  public PushOneCommit setTopLevelTreeId(ObjectId treeId) throws Exception {
+  public PushOneCommit setTopLevelTreeId(ObjectId treeId) {
     commitBuilder.setTopLevelTree(treeId);
     return this;
   }
@@ -294,7 +272,7 @@ public class PushOneCommit {
     return this;
   }
 
-  public PushOneCommit noParent() throws Exception {
+  public PushOneCommit noParent() {
     commitBuilder.noParents();
     return this;
   }
@@ -374,7 +352,13 @@ public class PushOneCommit {
       }
       tagCommand.call();
     }
-    return new Result(ref, pushHead(testRepo, ref, tag != null, force, pushOptions), c, subject);
+    return pushResultFactory.create(
+        ref,
+        subject,
+        changeId,
+        pushHead(testRepo, ref, tag != null, force, pushOptions),
+        c,
+        pushOptions);
   }
 
   public void setTag(Tag tag) {
@@ -397,17 +381,51 @@ public class PushOneCommit {
     commitBuilder.noParents();
   }
 
-  public class Result {
+  public static class Result {
+
+    public interface Factory {
+      Result create(
+          @Assisted("ref") String ref,
+          @Assisted("subject") String subject,
+          @Assisted("changeId") String changeId,
+          @Nullable PushResult resSubj,
+          @Nullable RevCommit commit,
+          @Nullable List<String> pushOptions);
+    }
+
     private final String ref;
     private final PushResult result;
     private final RevCommit commit;
     private final String resSubj;
 
-    private Result(String ref, PushResult resSubj, RevCommit commit, String subject) {
+    private final String changeId;
+
+    private final ChangeNotes.Factory notesFactory;
+    private final ApprovalsUtil approvalsUtil;
+    private final Provider<InternalChangeQuery> queryProvider;
+
+    private final List<String> pushOptions;
+
+    @AssistedInject
+    public Result(
+        ChangeNotes.Factory notesFactory,
+        ApprovalsUtil approvalsUtil,
+        Provider<InternalChangeQuery> queryProvider,
+        @Assisted("ref") String ref,
+        @Assisted("subject") String subject,
+        @Assisted("changeId") String changeId,
+        @Assisted @Nullable PushResult resSubj,
+        @Assisted @Nullable RevCommit commit,
+        @Assisted @Nullable List<String> pushOptions) {
       this.ref = ref;
       this.result = resSubj;
       this.commit = commit;
       this.resSubj = subject;
+      this.changeId = changeId;
+      this.notesFactory = notesFactory;
+      this.approvalsUtil = approvalsUtil;
+      this.queryProvider = queryProvider;
+      this.pushOptions = pushOptions;
     }
 
     public ChangeData getChange() {
@@ -431,7 +449,7 @@ public class PushOneCommit {
     }
 
     public void assertPushOptions(List<String> pushOptions) {
-      assertEquals(pushOptions, getPushOptions());
+      assertEquals(pushOptions, this.pushOptions);
     }
 
     public void assertChange(

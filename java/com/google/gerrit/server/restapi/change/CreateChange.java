@@ -555,7 +555,8 @@ public class CreateChange
           }
           parentCommit = null;
         } else {
-          throw new BadRequestException("Destination branch does not exist");
+          throw new BadRequestException(
+              String.format("Destination branch does not exist %s", inputBranch));
         }
       }
     }

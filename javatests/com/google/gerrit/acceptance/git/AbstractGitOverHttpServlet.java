@@ -43,7 +43,7 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
 
   @Before
   public void beforeEach() throws Exception {
-    jettyServer = server.getHttpdInjector().getInstance(JettyServer.class);
+    jettyServer = server.getHttpdInjector().get().getInstance(JettyServer.class);
     CredentialsProvider.setDefault(
         new UsernamePasswordCredentialsProvider(admin.username(), admin.httpPassword()));
     selectProtocol(AbstractPushForReview.Protocol.HTTP);

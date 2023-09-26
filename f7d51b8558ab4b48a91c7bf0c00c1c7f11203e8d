@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "8155893c_dad895b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-26T08:31:23Z",
+      "side": 1,
+      "message": "The bug was also impacting Gerrit v3.7, I\u0027ve cherry-picked this fix to stable-3.7 \u003d\u003e https://gerrit-review.googlesource.com/c/gerrit/+/387135",
+      "range": {
+        "startLine": 9,
+        "startChar": 29,
+        "endLine": 9,
+        "endChar": 56
+      },
+      "revId": "f7d51b8558ab4b48a91c7bf0c00c1c7f11203e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9ed9810c_2941af18",

@@ -15,7 +15,9 @@
 package com.google.gerrit.sshd.commands;
 
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.server.notedb.ProjectChangeSequence;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -29,16 +31,33 @@ final class SequenceSetCommand extends SshCommand {
   @Argument(index = 0, metaVar = "NAME", required = true, usage = "sequence name")
   private String name;
 
-  @Argument(index = 1, metaVar = "VALUE", required = true, usage = "sequence value")
+  @Argument(index = 1, metaVar = "PROJECT", required = true, usage = "project name")
+  private String projectName;
+
+  @Argument(index = 2, metaVar = "VALUE", required = true, usage = "sequence value")
   private int value;
 
   @Inject Sequences sequences;
 
+  @Inject private ProjectChangeSequence.Factory projectChangeSequenceFactory;
+
   @Override
   public void run() throws Exception {
+    if (name == null) {
+      throw die("Sequence name is required.");
+    }
+
     switch (name) {
       case "changes":
-        sequences.setChangeIdValue(value);
+        if (projectName == null) {
+          throw die("Project name is required.");
+        }
+
+        Project.NameKey project = Project.NameKey.parse(projectName);
+
+        ProjectChangeSequence projectSequence = projectChangeSequenceFactory.create(project);
+
+        projectSequence.setChangeIdValue(value);
         break;
       case "accounts":
         sequences.setAccountIdValue(value);

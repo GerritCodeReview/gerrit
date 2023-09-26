@@ -447,26 +447,22 @@ public abstract class AbstractDaemonTest {
 
     baseConfig.setInt("index", null, "batchThreads", -1);
 
-    Module module = createModule();
-    Module auditModule = createAuditModule();
-    Module sshModule = createSshModule();
-    if (classDesc.equals(methodDesc) && !classDesc.sandboxed() && !methodDesc.sandboxed()) {
-      if (commonServer == null) {
-        commonServer =
-            GerritServer.initAndStart(
-                temporaryFolder, classDesc, baseConfig, module, auditModule, sshModule);
-      }
-      server = commonServer;
-    } else {
-      server =
-          GerritServer.initAndStart(
-              temporaryFolder, methodDesc, baseConfig, module, auditModule, sshModule);
-    }
+    initServer(classDesc, methodDesc);
 
     server.getTestInjector().injectMembers(this);
     Transport.register(inProcessProtocol);
     toClose = Collections.synchronizedList(new ArrayList<>());
 
+    setUpDatabase(classDesc);
+
+    // Set the clock step last, so that the test setup isn't consuming any timestamps after the
+    // clock has been set.
+    setTimeSettings(classDesc.useSystemTime(), classDesc.useClockStep(), classDesc.useTimezone());
+    setTimeSettings(
+        methodDesc.useSystemTime(), methodDesc.useClockStep(), methodDesc.useTimezone());
+  }
+
+  protected void setUpDatabase(GerritServer.Description classDesc) throws Exception {
     admin = accountCreator.admin();
     user = accountCreator.user1();
 
@@ -494,12 +490,25 @@ public abstract class AbstractDaemonTest {
     if (!classDesc.skipProjectClone()) {
       testRepo = cloneProject(project, getCloneAsAccount(description));
     }
+  }
 
-    // Set the clock step last, so that the test setup isn't consuming any timestamps after the
-    // clock has been set.
-    setTimeSettings(classDesc.useSystemTime(), classDesc.useClockStep(), classDesc.useTimezone());
-    setTimeSettings(
-        methodDesc.useSystemTime(), methodDesc.useClockStep(), methodDesc.useTimezone());
+  protected void initServer(GerritServer.Description classDesc, GerritServer.Description methodDesc)
+      throws Exception {
+    Module module = createModule();
+    Module auditModule = createAuditModule();
+    Module sshModule = createSshModule();
+    if (classDesc.equals(methodDesc) && !classDesc.sandboxed() && !methodDesc.sandboxed()) {
+      if (commonServer == null) {
+        commonServer =
+            GerritServer.initAndStart(
+                temporaryFolder, classDesc, baseConfig, module, auditModule, sshModule);
+      }
+      server = commonServer;
+    } else {
+      server =
+          GerritServer.initAndStart(
+              temporaryFolder, methodDesc, baseConfig, module, auditModule, sshModule);
+    }
   }
 
   private static SystemReader setFakeSystemReader(File tempDir) {
@@ -581,13 +590,13 @@ public abstract class AbstractDaemonTest {
     }
   }
 
-  private TestAccount getCloneAsAccount(Description description) {
+  protected TestAccount getCloneAsAccount(Description description) {
     TestProjectInput ann = description.getAnnotation(TestProjectInput.class);
     return accountCreator.get(ann != null ? ann.cloneAs() : "admin");
   }
 
   /** Generate default project properties based on test description */
-  private ProjectInput projectInput(Description description) {
+  protected ProjectInput projectInput(Description description) {
     ProjectInput in = new ProjectInput();
     TestProjectInput ann = description.getAnnotation(TestProjectInput.class);
     in.name = name("project");
@@ -620,7 +629,7 @@ public abstract class AbstractDaemonTest {
     // Default implementation does nothing.
   }
 
-  private static final Pattern UNSAFE_PROJECT_NAME = Pattern.compile("[^a-zA-Z0-9._/-]+");
+  protected static final Pattern UNSAFE_PROJECT_NAME = Pattern.compile("[^a-zA-Z0-9._/-]+");
 
   protected Git git() {
     return testRepo.git();
@@ -1031,7 +1040,7 @@ public abstract class AbstractDaemonTest {
     return gApi.changes().query(q).get();
   }
 
-  private Context newRequestContext(TestAccount account) {
+  protected Context newRequestContext(TestAccount account) {
     requestScopeOperations.setApiUser(account.id());
     return atrScope.get();
   }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da6635e9_47f62506",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-09-26T04:07:30Z",
+      "side": 1,
+      "message": "nit:s/of accounts NoteDB/of NoteDB/",
+      "range": {
+        "startLine": 11,
+        "startChar": 31,
+        "endLine": 11,
+        "endChar": 49
+      },
+      "revId": "fbe2c23310ac66569976f5a4fbf3949929e65cbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

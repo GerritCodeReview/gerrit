@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2112bc98_6ee7a7dd",
+        "filename": "java/com/google/gerrit/server/notedb/ProjectChangeSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-09-26T08:10:24Z",
+      "side": 1,
+      "message": "Aren\u0027t these change _numbers_? Change ids are the SHA1s, AIUI.",
+      "range": {
+        "startLine": 33,
+        "startChar": 26,
+        "endLine": 33,
+        "endChar": 41
+      },
+      "revId": "15a42375cbff1af4a064aa2db8f892a97ab734e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

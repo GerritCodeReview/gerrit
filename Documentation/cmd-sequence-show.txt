@@ -13,8 +13,9 @@ _ssh_ -p <port> <host> _gerrit sequence show_ <NAME>
 Gerrit maintains the generation of the next available sequence numbers for
 account, group and change entities. The sequences are stored as UTF-8 text in
 a blob pointed to by the `refs/sequences/accounts`, `refs/sequences/groups`
-and `refs/sequences/changes` refs. Those refs are stored in `All-Users` and
-`All-Projects` git repositories correspondingly.
+and `refs/sequences/changes` refs. The `accounts` and the `groups` sequence refs
+are stored in the `All-Users` git repository, whilst the `changes`
+sequence exist for each project repo.
 
 This command allows to display the current sequence value for those sequences.
 
@@ -36,10 +37,10 @@ This command is intended to be used in scripts.
     * changes
 
 == EXAMPLES
-Display the current value for the 'changes' sequence:
+Display the current value for the 'changes' sequence for the project foo:
 
 ----
-$ ssh -p 29418 review.example.com gerrit sequence show changes
+$ ssh -p 29418 review.example.com gerrit sequence show changes foo
 42
 ----
 

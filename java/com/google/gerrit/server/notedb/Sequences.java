@@ -161,10 +161,6 @@ public class Sequences {
     return accountBatchSize;
   }
 
-  public int currentChangeId() {
-    return changeSeq.current();
-  }
-
   public int currentAccountId() {
     return accountSeq.current();
   }

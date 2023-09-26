@@ -14,8 +14,11 @@
 
 package com.google.gerrit.sshd.commands;
 
+import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.server.notedb.ProjectChangeSequence;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
@@ -29,14 +32,22 @@ final class SequenceShowCommand extends SshCommand {
   @Argument(index = 0, metaVar = "NAME", required = true, usage = "sequence name")
   private String name;
 
+  @Argument(index = 1, metaVar = "PROJECT", usage = "project name")
+  private String projectName;
+
   @Inject Sequences sequences;
+  @Inject ProjectChangeSequence.Factory projectChangeSequenceFactory;
 
   @Override
   public void run() throws Exception {
     int current;
     switch (name) {
       case "changes":
-        current = sequences.currentChangeId();
+        if (Strings.isNullOrEmpty(projectName)) {
+          throw die("Project name is required.");
+        }
+        current =
+            projectChangeSequenceFactory.create(Project.nameKey(projectName)).currentChangeId();
         break;
       case "accounts":
         current = sequences.currentAccountId();

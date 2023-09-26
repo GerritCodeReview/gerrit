@@ -208,6 +208,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "706d7b03_ecc1cdec",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-09-26T08:31:38Z",
+      "side": 1,
+      "message": "Ah OK, could you maybe clarify in the commit message, which of the methods that are made protected will be overridden and which ones are only made protected to be callable?",
+      "parentUuid": "b44b2422_5117ecb2",
+      "range": {
+        "startLine": 593,
+        "startChar": 2,
+        "endLine": 599,
+        "endChar": 64
+      },
+      "revId": "68ace7789058043f97ff49b06da5ea6f982ba4fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "acd1c629_c7c13da0",
         "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 2

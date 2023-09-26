@@ -47,6 +47,29 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "493ef1fa_75cd1991",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-09-26T04:34:07Z",
+      "side": 1,
+      "message": "nit:s/protacted/protected/",
+      "range": {
+        "startLine": 11,
+        "startChar": 60,
+        "endLine": 11,
+        "endChar": 69
+      },
+      "revId": "68ace7789058043f97ff49b06da5ea6f982ba4fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "cc53320d_4f3bc9a6",

@@ -240,7 +240,6 @@ public class AccountsUpdateNoteDbImpl extends AccountsUpdate {
 
   private final GitRepositoryManager repoManager;
   private final GitReferenceUpdated gitRefUpdated;
-  private final Optional<IdentifiedUser> currentUser;
   private final AllUsersName allUsersName;
   private final ExternalIdsNoteDbImpl externalIds;
 
@@ -273,7 +272,6 @@ public class AccountsUpdateNoteDbImpl extends AccountsUpdate {
     super(committerIdent, currentUser);
     this.repoManager = requireNonNull(repoManager, "repoManager");
     this.gitRefUpdated = requireNonNull(gitRefUpdated, "gitRefUpdated");
-    this.currentUser = currentUser;
     this.allUsersName = requireNonNull(allUsersName, "allUsersName");
     this.externalIds = requireNonNull(externalIds, "externalIds");
     this.extIdNotesFactory = extIdNotesFactory;

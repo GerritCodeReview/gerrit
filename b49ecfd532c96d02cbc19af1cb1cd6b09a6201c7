@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddce3a85_6d9ec0b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-09-26T16:05:51Z",
+      "side": 1,
+      "message": "We cannot merge it, since we have to wait until stable-3.9 branch is created.",
+      "revId": "b49ecfd532c96d02cbc19af1cb1cd6b09a6201c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

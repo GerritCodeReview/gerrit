@@ -92,7 +92,6 @@ import com.google.gerrit.server.ExternalUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.TraceRequestListener;
-import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountDeactivator;
 import com.google.gerrit.server.account.AccountExternalIdCreator;
@@ -257,7 +256,6 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(IdGenerator.class);
     bind(BlameCache.class).to(BlameCacheImpl.class);
-    install(AccountCacheImpl.module());
     install(BatchUpdate.module());
     install(ChangeKindCacheImpl.module());
     install(ChangeFinder.module());

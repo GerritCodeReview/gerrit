@@ -182,6 +182,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b44b2422_5117ecb2",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-09-26T07:56:42Z",
+      "side": 1,
+      "message": "It does not need to be overridden but I need to call it from internal implementation.",
+      "parentUuid": "6afe1baf_fcc7760d",
+      "range": {
+        "startLine": 593,
+        "startChar": 2,
+        "endLine": 599,
+        "endChar": 64
+      },
+      "revId": "68ace7789058043f97ff49b06da5ea6f982ba4fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "acd1c629_c7c13da0",
@@ -199,6 +223,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1ff00fd_deb8a822",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1043,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-09-26T07:56:42Z",
+      "side": 1,
+      "message": "Same - I need to call it from internal implementation",
+      "parentUuid": "acd1c629_c7c13da0",
+      "revId": "68ace7789058043f97ff49b06da5ea6f982ba4fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d76ec69_6c7ea766",
@@ -212,6 +254,30 @@
       "writtenOn": "2023-09-25T16:08:27Z",
       "side": 1,
       "message": "nit: how about renaming it to `AbstractAccountTests` so that it doesn\u0027t have to be `@Ignore`\u0027ed?",
+      "range": {
+        "startLine": 225,
+        "startChar": 22,
+        "endLine": 225,
+        "endChar": 31
+      },
+      "revId": "68ace7789058043f97ff49b06da5ea6f982ba4fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80562dcd_159a8767",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-09-26T07:56:42Z",
+      "side": 1,
+      "message": "You are right, thanks for catching.\n\nIt should not be \u0027Ignorred\u0027",
+      "parentUuid": "5d76ec69_6c7ea766",
       "range": {
         "startLine": 225,
         "startChar": 22,
@@ -245,6 +311,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27de453f_bf953384",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-09-26T07:56:42Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "13b95c7e_1fb2b941",
+      "range": {
+        "startLine": 591,
+        "startChar": 0,
+        "endLine": 611,
+        "endChar": 75
+      },
+      "revId": "68ace7789058043f97ff49b06da5ea6f982ba4fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0073f6be_0de9c5f1",
@@ -258,6 +348,30 @@
       "writtenOn": "2023-09-25T16:08:27Z",
       "side": 1,
       "message": "nit: change not related",
+      "range": {
+        "startLine": 781,
+        "startChar": 4,
+        "endLine": 783,
+        "endChar": 57
+      },
+      "revId": "68ace7789058043f97ff49b06da5ea6f982ba4fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02cc6f75_c7cda430",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-09-26T07:56:42Z",
+      "side": 1,
+      "message": "Needed, because user might not be called \u0027users\u0027.\nAlso, this is a hard coded value from AccountCreator.",
+      "parentUuid": "0073f6be_0de9c5f1",
       "range": {
         "startLine": 781,
         "startChar": 4,
@@ -285,6 +399,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e33dfc3_98c4e219",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1198,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-09-26T07:56:42Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9c7a03a6_8a626142",
+      "revId": "68ace7789058043f97ff49b06da5ea6f982ba4fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90825423_d1093781",
@@ -298,6 +430,30 @@
       "writtenOn": "2023-09-25T16:08:27Z",
       "side": 1,
       "message": "nit: change not related",
+      "range": {
+        "startLine": 1301,
+        "startChar": 4,
+        "endLine": 1305,
+        "endChar": 34
+      },
+      "revId": "68ace7789058043f97ff49b06da5ea6f982ba4fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "837447d9_c0ad9991",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1305,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-09-26T07:56:42Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "90825423_d1093781",
       "range": {
         "startLine": 1301,
         "startChar": 4,
@@ -325,6 +481,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "baabcd11_7ea45975",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1310,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-09-26T07:56:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc1b8239_87988fab",
+      "revId": "68ace7789058043f97ff49b06da5ea6f982ba4fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41f4c23d_756b730f",
@@ -338,6 +512,30 @@
       "writtenOn": "2023-09-25T16:08:27Z",
       "side": 1,
       "message": "nit: change not related",
+      "range": {
+        "startLine": 2993,
+        "startChar": 4,
+        "endLine": 3006,
+        "endChar": 33
+      },
+      "revId": "68ace7789058043f97ff49b06da5ea6f982ba4fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c6ced4c_9c94eec8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3006,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-09-26T07:56:42Z",
+      "side": 1,
+      "message": "Change is related. in internal implementation, admin might not be called \u0027admin\u0027.\n\nUsing a hard-coded value from another class (TestAccountCreator), is wrong anyway.",
+      "parentUuid": "41f4c23d_756b730f",
       "range": {
         "startLine": 2993,
         "startChar": 4,
@@ -371,6 +569,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f089da5b_03ea777e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3110,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-09-26T07:56:42Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0203267b_d8516c97",
+      "range": {
+        "startLine": 3110,
+        "startChar": 4,
+        "endLine": 3110,
+        "endChar": 97
+      },
+      "revId": "68ace7789058043f97ff49b06da5ea6f982ba4fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8d798fea_a9e3d8f7",
@@ -388,6 +610,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "895f626c_dbb32e06",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3149,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-09-26T07:56:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d798fea_a9e3d8f7",
+      "revId": "68ace7789058043f97ff49b06da5ea6f982ba4fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09e82df0_ce138d8f",
@@ -401,6 +641,30 @@
       "writtenOn": "2023-09-25T16:08:27Z",
       "side": 1,
       "message": "nit: change not related",
+      "range": {
+        "startLine": 3167,
+        "startChar": 4,
+        "endLine": 3167,
+        "endChar": 97
+      },
+      "revId": "68ace7789058043f97ff49b06da5ea6f982ba4fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "659c6ade_f6bf9390",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3167,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-09-26T07:56:42Z",
+      "side": 1,
+      "message": "Leaving code in a better state - static import is recommended.",
+      "parentUuid": "09e82df0_ce138d8f",
       "range": {
         "startLine": 3167,
         "startChar": 4,
@@ -434,6 +698,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27cb6361_49cf367d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3348,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-09-26T07:56:42Z",
+      "side": 1,
+      "message": "This is necessary. If you don\u0027t reopen the repo, then the changes in RefDb are not reflected (depending on the implementation)",
+      "parentUuid": "8c38a0c9_53f0dc17",
+      "range": {
+        "startLine": 3323,
+        "startChar": 2,
+        "endLine": 3348,
+        "endChar": 3
+      },
+      "revId": "68ace7789058043f97ff49b06da5ea6f982ba4fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b28dfc9f_d6cf2f64",
@@ -447,6 +735,30 @@
       "writtenOn": "2023-09-25T16:08:27Z",
       "side": 1,
       "message": "nit: is this related?",
+      "range": {
+        "startLine": 3612,
+        "startChar": 10,
+        "endLine": 3612,
+        "endChar": 22
+      },
+      "revId": "68ace7789058043f97ff49b06da5ea6f982ba4fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6994047f_536508d8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3612,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-09-26T07:56:42Z",
+      "side": 1,
+      "message": "It it related. I think it makes sense to leave the code in a better state than it was (i.e. use Immutable collections).",
+      "parentUuid": "b28dfc9f_d6cf2f64",
       "range": {
         "startLine": 3612,
         "startChar": 10,

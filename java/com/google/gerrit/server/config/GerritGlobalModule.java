@@ -108,7 +108,6 @@ import com.google.gerrit.server.account.ServiceUserClassifierImpl;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalIdModule;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdCacheModule;
-import com.google.gerrit.server.account.storage.notedb.AccountNoteDbStorageModule;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.UniversalAuthBackend;
@@ -277,7 +276,6 @@ public class GerritGlobalModule extends FactoryModule {
 
     install(new AccessControlModule());
     install(new AccountModule());
-    install(new AccountNoteDbStorageModule());
     install(new CmdLineParserModule());
     install(new ExternalIdCacheModule());
     install(new ExternalIdModule());

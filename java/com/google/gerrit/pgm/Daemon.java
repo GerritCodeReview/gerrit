@@ -64,6 +64,8 @@ import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountDeactivator.AccountDeactivatorModule;
 import com.google.gerrit.server.account.InternalAccountDirectory.InternalAccountDirectoryModule;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdCaseSensitivityMigrator;
+import com.google.gerrit.server.account.storage.notedb.AccountNoteDbStorageModule;
+import com.google.gerrit.server.account.storage.notedb.AccountNoteDbWriteStorageModule;
 import com.google.gerrit.server.api.GerritApiModule;
 import com.google.gerrit.server.api.PluginApiModule;
 import com.google.gerrit.server.api.projects.ProjectQueryBuilderModule;
@@ -465,6 +467,9 @@ public class Daemon extends SiteProgram {
     modules.add(new DiffExecutorModule());
     modules.add(new MimeUtil2Module());
     modules.add(cfgInjector.getInstance(AccountCacheImpl.AccountCacheModule.class));
+
+    modules.add(new AccountNoteDbWriteStorageModule());
+    modules.add(new AccountNoteDbStorageModule());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new GerritApiModule());
     modules.add(new ProjectQueryBuilderModule());

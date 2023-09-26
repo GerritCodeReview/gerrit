@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e80746a3_263fdbff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-26T12:52:48Z",
+      "side": 1,
+      "message": "How do we know when to update platform version ?",
+      "revId": "6ca6c7f34745702c40079bf62ee1fba903e27192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

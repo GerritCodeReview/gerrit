@@ -16,6 +16,24 @@
       "message": "How do we know when to update platform version ?",
       "revId": "6ca6c7f34745702c40079bf62ee1fba903e27192",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b807c5f9_46383807",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-09-26T13:32:25Z",
+      "side": 1,
+      "message": "Bazel would tell you. I just bumped locally the Bazel version [1].\nBy putting this in `.bazelversion`:\n\n.bazelversion\n```\n7.0.0-pre.20230917.3\n```\n\nand try running the tests:\n\n\n```\n$ bazelisk test javatests/...\nERROR: /home/davido/.cache/bazel/_bazel_davido/5c01f4f713b675540b8b424c5c647f63/external/platforms/os/BUILD: no such target \u0027@platforms//os:visionos\u0027: target \u0027visionos\u0027 not declared in package \u0027os\u0027 defined by /home/davido/.cache/bazel/_bazel_davido/5c01f4f713b675540b8b424c5c647f63/external/platforms/os/BUILD (Tip: use `query \"@platforms//os:*\"` to see all the targets in that package)\nERROR: /home/davido/projects/gerrit2/javatests/com/google/gerrit/acceptance/api/change/BUILD:3:18: every rule of type java_test implicitly depends upon the target \u0027@platforms//os:visionos\u0027, but this target could not be found because of: no such target \u0027@platforms//os:visionos\u0027: target \u0027visionos\u0027 not declared in package \u0027os\u0027 defined by /home/davido/.cache/bazel/_bazel_davido/5c01f4f713b675540b8b424c5c647f63/external/platforms/os/BUILD (Tip: use `query \"@platforms//os:*\"` to see all the targets in that package)\nERROR: Analysis of target \u0027//javatests/com/google/gerrit/acceptance/api/change:DisablePrivateChangesIT\u0027 failed; build aborted: Analysis failed\nINFO: Elapsed time: 10.640s\nINFO: 0 processes.\nERROR: Build did NOT complete successfully\nERROR: Couldn\u0027t start the build. Unable to run tests\n```\n\nBumping the `platforms` version fixed the issue with the missing `visionos` platform.\n\n[1]: https://github.com/bazelbuild/bazel/releases/tag/7.0.0-pre.20230917.3",
+      "parentUuid": "e80746a3_263fdbff",
+      "revId": "6ca6c7f34745702c40079bf62ee1fba903e27192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

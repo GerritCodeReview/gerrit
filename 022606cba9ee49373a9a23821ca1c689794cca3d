@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0721ab8a_784d39d7",
+        "filename": "java/com/google/gerrit/server/config/CachedPreferences.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-09-26T08:14:46Z",
+      "side": 1,
+      "message": "Apologies, I didn\u0027t realize these were the rest endpoints for the default prefs only.",
+      "parentUuid": "cc1bc3b1_27886406",
+      "range": {
+        "startLine": 104,
+        "startChar": 10,
+        "endLine": 104,
+        "endChar": 28
+      },
+      "revId": "022606cba9ee49373a9a23821ca1c689794cca3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8718d6c7_e842f0d7",

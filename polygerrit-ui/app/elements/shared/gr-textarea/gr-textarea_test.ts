@@ -84,14 +84,11 @@ suite('gr-textarea tests', () => {
       assert.equal(element.specialCharIndex, 0);
       assert.isFalse(element.mentionsSuggestions!.isHidden);
       assert.equal(element.currentSearchString, '');
-      assert.equal(element.lastMatchedSearchString, '');
 
       element.text = '@abc@google.com';
-      await waitUntil(() => element.lastMatchedSearchString !== '');
       await element.updateComplete;
 
       assert.equal(element.currentSearchString, 'abc@google.com');
-      assert.equal(element.lastMatchedSearchString, 'abc@google.com');
       assert.equal(element.specialCharIndex, 0);
     });
 
@@ -422,7 +419,6 @@ suite('gr-textarea tests', () => {
     assert.equal(element.specialCharIndex, 0);
     assert.isTrue(!element.emojiSuggestions!.isHidden);
     assert.equal(element.currentSearchString, '');
-    assert.equal(element.lastMatchedSearchString, '');
   });
 
   test('emoji selector opens when a colon is typed after space', async () => {
@@ -438,7 +434,6 @@ suite('gr-textarea tests', () => {
     assert.equal(element.specialCharIndex, 1);
     assert.isTrue(!element.emojiSuggestions!.isHidden);
     assert.equal(element.currentSearchString, '');
-    assert.equal(element.lastMatchedSearchString, '');
   });
 
   test('emoji selector doesn`t open when a colon is typed after character', async () => {
@@ -471,7 +466,6 @@ suite('gr-textarea tests', () => {
     assert.equal(element.specialCharIndex, 0);
     assert.isTrue(!element.emojiSuggestions!.isHidden);
     assert.equal(element.currentSearchString, 't');
-    assert.equal(element.lastMatchedSearchString, 't');
   });
 
   test('emoji selector opens when a colon is typed in middle of text', async () => {
@@ -497,7 +491,6 @@ suite('gr-textarea tests', () => {
     assert.equal(element.specialCharIndex, 0);
     assert.isTrue(!element.emojiSuggestions!.isHidden);
     assert.equal(element.currentSearchString, '');
-    assert.equal(element.lastMatchedSearchString, '');
   });
 
   test('emoji selector closes when text changes before the colon', async () => {
@@ -523,7 +516,6 @@ suite('gr-textarea tests', () => {
     await element.updateComplete;
 
     assert.equal(element.currentSearchString, 'smi');
-    assert.equal(element.lastMatchedSearchString, 'smi');
     assert.isFalse(element.emojiSuggestions!.isHidden);
 
     element.text = 'test test test :smi';
@@ -536,7 +528,6 @@ suite('gr-textarea tests', () => {
     const closeSpy = sinon.spy(element, 'closeDropdown');
     element.resetDropdown();
     assert.equal(element.currentSearchString, '');
-    assert.equal(element.lastMatchedSearchString, undefined);
     assert.isTrue(element.emojiSuggestions!.isHidden);
     assert.equal(element.specialCharIndex, -1);
 

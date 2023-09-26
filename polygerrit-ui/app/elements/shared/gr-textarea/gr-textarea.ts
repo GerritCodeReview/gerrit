@@ -133,12 +133,6 @@ export class GrTextarea extends LitElement {
 
   private readonly shortcuts = new ShortcutController(this);
 
-  // Represents a snapshot of current search string for which either emoji or mention suggestions are shown.
-  // Differs from currentSearchString when user moves the cursor (without typing) while dropdown is open because
-  // the currentSearchString is calculated based on specialCharIndex and selectionStart.
-  // private but used in tests
-  lastMatchedSearchString?: string;
-
   constructor() {
     super();
     subscribe(
@@ -430,7 +424,7 @@ export class GrTextarea extends LitElement {
     const specialCharIndex = this.specialCharIndex ?? 0;
     const beforeSearchString = this.text.substring(0, specialCharIndex);
     const afterSearchString = this.text.substring(
-      specialCharIndex + 1 + (this.lastMatchedSearchString?.length ?? 0)
+      specialCharIndex + 1 + (this.currentSearchString?.length ?? 0)
     );
     return beforeSearchString + value + afterSearchString;
   }
@@ -484,9 +478,6 @@ export class GrTextarea extends LitElement {
     }
     if (searchString === this.currentSearchString) {
       this.suggestions = suggestions;
-      this.lastMatchedSearchString = searchString;
-    } else {
-      this.lastMatchedSearchString = undefined;
     }
   }
 
@@ -617,7 +608,6 @@ export class GrTextarea extends LitElement {
     // hide and reset the autocomplete dropdown.
     this.requestUpdate();
     this.currentSearchString = '';
-    this.lastMatchedSearchString = undefined;
     this.closeDropdown();
     this.specialCharIndex = -1;
     this.focus();

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d03bf05b_5dab2e27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-09-27T08:59:03Z",
+      "side": 1,
+      "message": "@ghareeb@google.com, @hiesel@google.com This CL is removing the code parts that have this commented:\n\n```\n[...] is used internally by Google and must not be removed without\napproval from a Google contributor.\n```\n\nCan you check if it\u0027s safe now to remove that code, of whether the code is still needed?",
+      "revId": "695649304da91fc7151fc46a78bd900db4a00e1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

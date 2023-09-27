@@ -62,7 +62,6 @@ import com.google.gerrit.index.RefState;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
@@ -319,7 +318,6 @@ public class ChangeData {
             null,
             null,
             null,
-            null,
             serverId,
             virtualIdAlgo,
             project,
@@ -345,7 +343,6 @@ public class ChangeData {
   private final ChangeNotes.Factory notesFactory;
   private final CommentsUtil commentsUtil;
 
-  private final DraftCommentsReader draftCommentsReader;
   private final GitRepositoryManager repoManager;
   private final MergeUtilFactory mergeUtilFactory;
   private final MergeabilityCache mergeabilityCache;
@@ -434,7 +431,6 @@ public class ChangeData {
       ChangeMessagesUtil cmUtil,
       ChangeNotes.Factory notesFactory,
       CommentsUtil commentsUtil,
-      DraftCommentsReader draftCommentsReader,
       GitRepositoryManager repoManager,
       MergeUtilFactory mergeUtilFactory,
       MergeabilityCache mergeabilityCache,
@@ -458,7 +454,6 @@ public class ChangeData {
     this.cmUtil = cmUtil;
     this.notesFactory = notesFactory;
     this.commentsUtil = commentsUtil;
-    this.draftCommentsReader = draftCommentsReader;
     this.repoManager = repoManager;
     this.mergeUtilFactory = mergeUtilFactory;
     this.mergeabilityCache = mergeabilityCache;
@@ -1220,20 +1215,6 @@ public class ChangeData {
       }
     }
     return editRefsByUser;
-  }
-
-  public Set<Account.Id> draftsByUser() {
-    if (usersWithDrafts == null) {
-      if (!lazyload()) {
-        return Collections.emptySet();
-      }
-      Change c = change();
-      if (c == null) {
-        return Collections.emptySet();
-      }
-      usersWithDrafts = draftCommentsReader.getUsersWithDrafts(notes());
-    }
-    return usersWithDrafts;
   }
 
   public boolean isReviewedBy(Account.Id accountId) {

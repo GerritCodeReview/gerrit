@@ -95,25 +95,6 @@ public class DraftCommentsNotesReader implements DraftCommentsReader {
   }
 
   @Override
-  public Set<Account.Id> getUsersWithDrafts(ChangeNotes changeNotes) {
-    Set<Account.Id> res = new HashSet<>();
-    for (Ref ref : getDraftRefs(changeNotes)) {
-      Account.Id account = Account.Id.fromRefSuffix(ref.getName());
-      if (account != null
-          // Double-check that any drafts exist for this user after
-          // filtering out zombies. If some but not all drafts in the ref
-          // were zombies, the returned Ref still includes those zombies;
-          // this is suboptimal, but is ok for the purposes of
-          // draftsByUser(), and easier than trying to rebuild the change at
-          // this point.
-          && !changeNotes.getDraftComments(account, ref).isEmpty()) {
-        res.add(account);
-      }
-    }
-    return res;
-  }
-
-  @Override
   public Set<Change.Id> getChangesWithDrafts(Account.Id author) {
     Set<Change.Id> changes = new HashSet<>();
     try (Repository repo = repoManager.openRepository(allUsers)) {

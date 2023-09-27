@@ -16,6 +16,23 @@
       "message": "@ghareeb@google.com, @hiesel@google.com This CL is removing the code parts that have this commented:\n\n```\n[...] is used internally by Google and must not be removed without\napproval from a Google contributor.\n```\n\nCan you check if it\u0027s safe now to remove that code, of whether the code is still needed?",
       "revId": "695649304da91fc7151fc46a78bd900db4a00e1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "451a689f_53f57ca0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-09-27T10:09:33Z",
+      "side": 1,
+      "message": "Please leave v84 in as this is what we are currently using. We won\u0027t upgrade to 85 since it\u0027s a no-op for us.\n\n@nitzan@google.com can you please review this for the star field changes?",
+      "revId": "695649304da91fc7151fc46a78bd900db4a00e1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

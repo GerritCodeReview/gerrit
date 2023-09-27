@@ -152,7 +152,7 @@ class ChangeControl {
               Permission.EDIT_TOPIC_NAME) // user can edit topic on a specific ref
           || getProjectControl().isAdmin();
     }
-    return refControl.canForceEditTopicName();
+    return refControl.canForceEditTopicName(isOwner());
   }
 
   /** Can this user toggle WorkInProgress state? */

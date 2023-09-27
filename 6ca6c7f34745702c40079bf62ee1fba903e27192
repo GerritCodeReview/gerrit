@@ -88,6 +88,24 @@
       "parentUuid": "ffc5b3f5_dfc7918e",
       "revId": "6ca6c7f34745702c40079bf62ee1fba903e27192",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0abdbedf_fa8a6e37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-09-27T11:43:24Z",
+      "side": 1,
+      "message": "Done: [1].\n\n[1]: https://github.com/bazelbuild/bazel/issues/19647",
+      "parentUuid": "e8518f69_0ae2291c",
+      "revId": "6ca6c7f34745702c40079bf62ee1fba903e27192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

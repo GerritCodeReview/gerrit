@@ -248,8 +248,7 @@ public class CherryPickChange {
    *     key exist in the branch. Also thrown when idForNewChange is not null but cherry-pick only
    *     creates a new patchset rather than a new change.
    * @throws UpdateException Problem updating the database using batchUpdateFactory.
-   * @throws RestApiException Error such as invalid SHA1, or {@code input.committerEmail} is not
-   *     among the registered emails of the current user.
+   * @throws RestApiException Error such as invalid SHA1
    * @throws ConfigInvalidException Can't find account to notify.
    * @throws NoSuchProjectException Can't find project state.
    */
@@ -328,31 +327,15 @@ public class CherryPickChange {
       CodeReviewCommit cherryPickCommit;
       ProjectState projectState =
           projectCache.get(dest.project()).orElseThrow(noSuchProject(dest.project()));
-
-      PersonIdent committerIdent;
-      if (input.committerEmail == null) {
-        committerIdent =
-            Optional.ofNullable(commitToCherryPick.getCommitterIdent())
-                .map(
-                    ident ->
-                        identifiedUser
-                            .newCommitterIdent(ident.getEmailAddress(), timestamp, serverZoneId)
-                            .orElseGet(
-                                () -> identifiedUser.newCommitterIdent(timestamp, serverZoneId)))
-                .orElseGet(() -> identifiedUser.newCommitterIdent(timestamp, serverZoneId));
-      } else {
-        committerIdent =
-            identifiedUser
-                .newCommitterIdent(input.committerEmail, timestamp, serverZoneId)
-                .orElseThrow(
-                    () ->
-                        new BadRequestException(
-                            String.format(
-                                "Cannot cherry-pick using committer email %s, "
-                                    + "as it is not among the registered emails of account %s",
-                                input.committerEmail, identifiedUser.getAccountId().get())));
-      }
-
+      PersonIdent committerIdent =
+          Optional.ofNullable(commitToCherryPick.getCommitterIdent())
+              .map(
+                  ident ->
+                      identifiedUser
+                          .newCommitterIdent(ident.getEmailAddress(), timestamp, serverZoneId)
+                          .orElseGet(
+                              () -> identifiedUser.newCommitterIdent(timestamp, serverZoneId)))
+              .orElseGet(() -> identifiedUser.newCommitterIdent(timestamp, serverZoneId));
       try {
         MergeUtil mergeUtil;
         if (input.allowConflicts) {

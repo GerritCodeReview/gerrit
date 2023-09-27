@@ -442,62 +442,6 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void cherryPickWithUnRegisteredCommitterEmail() throws Exception {
-    // Create change to cherry-pick
-    PushOneCommit.Result r = pushTo("refs/for/master");
-
-    // Create target branch to cherry-pick to
-    String destination = "foo";
-    gApi.projects().name(project.get()).branch(destination).create(new BranchInput());
-
-    // Cherry-pick the change
-    CherryPickInput in = new CherryPickInput();
-    in.destination = destination;
-    in.message = "it goes to foo branch";
-    in.committerEmail = "secondary@example.org";
-    BadRequestException thrown =
-        assertThrows(
-            BadRequestException.class,
-            () -> gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).cherryPick(in));
-    assertThat(thrown)
-        .hasMessageThat()
-        .contains(
-            "Cannot cherry-pick using committer email "
-                + in.committerEmail
-                + ", as it is not among the registered emails of account "
-                + admin.id().get());
-  }
-
-  @Test
-  public void cherryPickWithNonPreferredCommitterEmail() throws Exception {
-    // Create change to cherry-pick
-    PushOneCommit.Result r = pushTo("refs/for/master");
-
-    // Create target branch to cherry-pick to
-    String destination = "foo";
-    gApi.projects().name(project.get()).branch(destination).create(new BranchInput());
-
-    // Create a user with secondary email
-    Account.Id userWithSecondaryEmail =
-        accountOperations
-            .newAccount()
-            .preferredEmail("preferred@example.org")
-            .addSecondaryEmail("secondary@example.org")
-            .create();
-    requestScopeOperations.setApiUser(userWithSecondaryEmail);
-
-    // Cherry-pick the change
-    CherryPickInput in = new CherryPickInput();
-    in.destination = destination;
-    in.message = "it goes to foo branch";
-    in.committerEmail = "secondary@example.org";
-    ChangeApi cherry =
-        gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).cherryPick(in);
-    assertThat(cherry.get().getCurrentRevision().commit.committer.email)
-        .isEqualTo(in.committerEmail);
-  }
-
-  @Test
   public void cherryPickWithNoTopic() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master");
     CherryPickInput in = new CherryPickInput();

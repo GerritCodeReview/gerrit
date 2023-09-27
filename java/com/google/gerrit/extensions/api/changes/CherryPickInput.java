@@ -32,5 +32,4 @@ public class CherryPickInput {
   public String topic;
   public boolean allowEmpty;
   public Map<String, String> validationOptions;
-  public String committerEmail;
 }

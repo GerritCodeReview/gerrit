@@ -33,6 +33,10 @@ build:remote --tool_java_language_version=17
 build:remote --tool_java_runtime_version=remotejdk_17
 build:remote --config=remote_shared
 
+# Enable modern C++ features
+build --cxxopt=-std=c++17
+build --host_cxxopt=-std=c++17
+
 # Enable strict_action_env flag to. For more information on this feature see
 # https://groups.google.com/forum/#!topic/bazel-discuss/_VmRfMyyHBk.
 # This will be the new default behavior at some point (and the flag was flipped

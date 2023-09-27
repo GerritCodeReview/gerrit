@@ -21,7 +21,7 @@ default_java_toolchain(
 default_java_toolchain(
     name = "error_prone_warnings_toolchain_java17",
     configuration = dict(),
-    java_runtime = "@bazel_tools//tools/jdk:remotejdk_17",
+    java_runtime = "@rules_java_builtin//toolchains:remotejdk_17",
     package_configuration = [
         ":error_prone",
     ],
@@ -49,8 +49,9 @@ java_package_configuration(
         # AutoValue; such files always start AutoValue_..., $AutoValue_...,
         # $$AutoValue_... or AutoValueGson_...
         # XepExcludedPaths is a regexp. If you need more paths - use | as
-        # separator.
-        "-XepExcludedPaths:.*/\\\\$$?\\\\$$?AutoValue(Gson)?_.*\\.java",
+        # separator. This issue is related to the number of escapes of $ char:
+        # https://github.com/bazelbuild/bazel/issues/19647
+        "-XepExcludedPaths:.*/\\\\\\\\$$?\\\\\\\\$$?AutoValue(Gson)?_.*\\.java",
         "-Xep:AlmostJavadoc:ERROR",
         "-Xep:AlreadyChecked:ERROR",
         "-Xep:AlwaysThrows:ERROR",

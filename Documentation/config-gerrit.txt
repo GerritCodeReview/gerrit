@@ -828,8 +828,7 @@ Default is 0.
 
 [[cache.name.maxAge]]cache.<name>.maxAge::
 +
-Maximum age to keep an entry in the cache. Entries are removed from
-the cache and refreshed from source data every maxAge interval.
+Maximum age to keep an entry in the cache.
 Values should use common unit suffixes to express their setting:
 +
 * s, sec, second, seconds
@@ -923,20 +922,6 @@ Default is 128 MiB per cache, except:
 
 +
 If 0 or negative, disk storage for the cache is disabled.
-
-[[cache.name.expireAfterWrite]]cache.<name>.expireAfterWrite::
-+
-Duration after which a cached value will be evicted and not
-read anymore.
-+
-Values should use common unit suffixes to express their setting:
-+
-* ms, milliseconds
-* s, sec, second, seconds
-* m, min, minute, minutes
-* h, hr, hour, hours
-+
-Disabled by default.
 
 [[cache.name.refreshAfterWrite]]cache.<name>.refreshAfterWrite::
 +
@@ -2617,6 +2602,10 @@ Optional identifier for this Gerrit instance.
 Used to identify a specific instance within a group of Gerrit instances with the
 same `serverId` (i.e.: a Gerrit cluster).
 Unlike `instanceName` this value is not available in the email templates.
+
+The instance ID can also be configured by setting the Java system property
+`gerrit.instanceId` on startup. This will override the configuration in the
+gerrit.config.
 
 [[gerrit.instanceName]]gerrit.instanceName::
 +

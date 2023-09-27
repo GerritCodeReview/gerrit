@@ -20,7 +20,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -88,7 +87,11 @@ public class GitVisibleChangeFilter {
               try {
                 return forProject.change(cd).test(ChangePermission.READ);
               } catch (PermissionBackendException e) {
-                throw new StorageException(e);
+                // This is almost the same as the message .testOrFalse() would log, but with the
+                // added context of the change and coming from this class
+                logger.atWarning().withCause(e).log(
+                    "Cannot test read permission for %s; assuming not visible", cd);
+                return false;
               }
             })
         .forEach(
@@ -147,7 +150,8 @@ public class GitVisibleChangeFilter {
                   })
               .filter(Objects::nonNull);
     } catch (IOException e) {
-      throw new StorageException(e);
+      logger.atWarning().withCause(e).log("Unable to scanChangeIds for %s", projectName);
+      return Stream.empty();
     }
     return cds;
   }

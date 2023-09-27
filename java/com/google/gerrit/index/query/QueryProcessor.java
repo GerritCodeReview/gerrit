@@ -61,7 +61,7 @@ public abstract class QueryProcessor<T> {
   protected static class Metrics {
     final Timer1<String> executionTime;
 
-    Metrics(MetricMaker metricMaker) {
+    protected Metrics(MetricMaker metricMaker) {
       executionTime =
           metricMaker.newTimer(
               "query/query_latency",
@@ -95,14 +95,14 @@ public abstract class QueryProcessor<T> {
   private Set<String> requestedFields;
 
   protected QueryProcessor(
-      MetricMaker metricMaker,
+      Metrics metrics,
       SchemaDefinitions<T> schemaDef,
       IndexConfig indexConfig,
       IndexCollection<?, T, ? extends Index<?, T>> indexes,
       IndexRewriter<T> rewriter,
       String limitField,
       IntSupplier userQueryLimit) {
-    this.metrics = new Metrics(metricMaker);
+    this.metrics = metrics;
     this.schemaDef = schemaDef;
     this.indexConfig = indexConfig;
     this.indexes = indexes;

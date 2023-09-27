@@ -82,9 +82,10 @@ the same way you would when
 link:dev-build-plugins.html#_bundle_custom_plugin_in_release_war[bundling in release.war]
 and run `tools/eclipse/project.py`.
 
-If a plugin requires additional test dependencies (not available in the Gerrit), then in order to
-execute tests directly from Eclipse, that plugin must be also added to `CUSTOM_PLUGINS_TEST_DEPS`
-list in `tools/bzl/plugins.bzl` (note that `tools/eclipse/project.py` has to be run again).
+If a plugin requires additional test dependencies (not available in the Gerrit),
+then in order to execute tests directly from Eclipse, that plugin must be also
+added to `CUSTOM_PLUGINS_TEST_DEPS` list in `tools/bzl/plugins.bzl` and Eclipse
+project configuration needs to be updated by running `tools/eclipse/project.py`.
 
 == Java Versions
 

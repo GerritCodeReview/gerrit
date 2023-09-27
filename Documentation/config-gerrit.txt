@@ -921,20 +921,6 @@ Default is 128 MiB per cache, except:
 +
 If 0 or negative, disk storage for the cache is disabled.
 
-[[cache.name.expireAfterWrite]]cache.<name>.expireAfterWrite::
-+
-Duration after which a cached value will be evicted and not
-read anymore.
-+
-Values should use common unit suffixes to express their setting:
-+
-* ms, milliseconds
-* s, sec, second, seconds
-* m, min, minute, minutes
-* h, hr, hour, hours
-+
-Disabled by default.
-
 [[cache.name.refreshAfterWrite]]cache.<name>.refreshAfterWrite::
 +
 Duration after which we asynchronously refresh the cached value.

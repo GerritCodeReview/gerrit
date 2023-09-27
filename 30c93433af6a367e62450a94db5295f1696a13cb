@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6599db68_4ebf8ee6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-09-27T06:30:49Z",
+      "side": 1,
+      "message": "Maybe use singular \u0027doc\u0027 instead of \u0027docs\u0027 everywhere in commit message ?\nnit:s/docs are accurate/doc is not misleading/ ?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 17
+      },
+      "revId": "30c93433af6a367e62450a94db5295f1696a13cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

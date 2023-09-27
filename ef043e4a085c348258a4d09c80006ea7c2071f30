@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11812941_e54c0262",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-09-27T06:41:48Z",
+      "side": 1,
+      "message": "Settings apply to both persistent and in-mem, updated the message.",
+      "parentUuid": "0efd1a7a_d116a323",
+      "revId": "ef043e4a085c348258a4d09c80006ea7c2071f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e94df5e4_9b44d9d1",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-09-26T18:37:58Z",
       "side": 1,
       "message": "We shouldn\u0027t ever be reading `expireAfterWrite` from the config file. We use `maxAge` for that. The change that added `expireAfterWrite` to the docs did that by mistake and the docs should be fixed (by removing the expireAfterWrite section).",
+      "range": {
+        "startLine": 202,
+        "startChar": 10,
+        "endLine": 202,
+        "endChar": 99
+      },
+      "revId": "ef043e4a085c348258a4d09c80006ea7c2071f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "421cca74_f7239f7e",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-09-27T06:41:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e94df5e4_9b44d9d1",
       "range": {
         "startLine": 202,
         "startChar": 10,

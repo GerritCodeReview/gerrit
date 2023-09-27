@@ -46,6 +46,8 @@ import com.google.gerrit.server.LibModuleType;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.storage.notedb.AccountNoteDbStorageModule;
+import com.google.gerrit.server.account.storage.notedb.AccountNoteDbWriteStorageModule;
 import com.google.gerrit.server.api.GerritApiModule;
 import com.google.gerrit.server.api.PluginApiModule;
 import com.google.gerrit.server.api.projects.ProjectQueryBuilderModule;
@@ -191,8 +193,11 @@ public class InMemoryModule extends FactoryModule {
             });
     bind(GerritRuntime.class).toInstance(GerritRuntime.DAEMON);
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
+
     install(cfgInjector.getInstance(AccountCacheImpl.AccountCacheModule.class));
     install(cfgInjector.getInstance(GerritGlobalModule.class));
+    install(new AccountNoteDbWriteStorageModule());
+    install(new AccountNoteDbStorageModule());
 
     AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
     install(new AuthModule(authConfig));

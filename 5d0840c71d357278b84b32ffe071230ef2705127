@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "683522ef_63c8d617",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-27T15:26:15Z",
+      "side": 0,
+      "message": "can we also remove reference to this field from ChangeField.java?",
+      "range": {
+        "startLine": 40,
+        "startChar": 26,
+        "endLine": 40,
+        "endChar": 40
+      },
+      "revId": "5d0840c71d357278b84b32ffe071230ef2705127",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

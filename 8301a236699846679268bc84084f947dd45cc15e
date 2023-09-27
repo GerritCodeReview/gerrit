@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "852419c4_057ed243",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-09-27T12:43:08Z",
+      "side": 1,
+      "message": "nit: Can we have an extra sentence, that explains that this is about the warning messages when diff might be bad",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "8301a236699846679268bc84084f947dd45cc15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c744bc5d_f3674330",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-09-27T12:43:08Z",
+      "side": 1,
+      "message": "Could you add a screenshot, it would make the change easier to understand",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 19
+      },
+      "revId": "8301a236699846679268bc84084f947dd45cc15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16f10bec_cd51f228",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-09-27T12:43:08Z",
+      "side": 1,
+      "message": "When we compare PS to it\u0027s base, ie. the default diff. The commitLeft !\u003d\u003d commitRight, but no message should be shown. Is this filtered somewhere else?",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 43
+      },
+      "revId": "8301a236699846679268bc84084f947dd45cc15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "288949a2_8f6caa52",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-09-27T12:43:08Z",
+      "side": 1,
+      "message": "Patchsets are targeting different branches, or Patchset parents are targeting different branches?",
+      "range": {
+        "startLine": 147,
+        "startChar": 11,
+        "endLine": 147,
+        "endChar": 44
+      },
+      "revId": "8301a236699846679268bc84084f947dd45cc15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e907ebe0_30f602cb",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-09-27T12:43:08Z",
+      "side": 1,
+      "message": "How is this even possible?",
+      "range": {
+        "startLine": 155,
+        "startChar": 4,
+        "endLine": 162,
+        "endChar": 5
+      },
+      "revId": "8301a236699846679268bc84084f947dd45cc15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fac2cb0d_902942c8",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-09-27T12:43:08Z",
+      "side": 1,
+      "message": "I am confused, why does the fact that parents do not have associated changes, means there was a rebase?",
+      "range": {
+        "startLine": 175,
+        "startChar": 6,
+        "endLine": 179,
+        "endChar": 11
+      },
+      "revId": "8301a236699846679268bc84084f947dd45cc15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9789ee1a_58ce696f",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-09-27T12:43:08Z",
+      "side": 1,
+      "message": "I think it will be clearer, if you construct the messages separately and then concatenate them\n\n1) Description of first patchset\n2) Description of second patchset\n3) Extra message if changes are different\n4) Final message that diff might not be meaningful",
+      "range": {
+        "startLine": 173,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 5
+      },
+      "revId": "8301a236699846679268bc84084f947dd45cc15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc27d4e9_a2809f10",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-09-27T12:43:08Z",
+      "side": 1,
+      "message": "nit: the new line, here breaks the sentence. Is this expected? Why do we need that?\n\nAlso it\u0027s apparently possible to have the 2nd message without the first, which also seems wrong (at least because it would lead to a confusing strings like \"from another branch\" with nothing else)",
+      "range": {
+        "startLine": 349,
+        "startChar": 2,
+        "endLine": 361,
+        "endChar": 5
+      },
+      "revId": "8301a236699846679268bc84084f947dd45cc15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

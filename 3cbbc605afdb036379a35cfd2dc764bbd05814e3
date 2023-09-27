@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d5f570f_b822d3d0",
+        "filename": "java/com/google/gerrit/server/account/externalids/storage/notedb/ExternalIdCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-27T15:59:28Z",
+      "side": 1,
+      "message": "Was this intended to be added to `byEmail()`? It seems to be referring to `byEmails()` as if it\u0027s a different method, but I think it is this method.",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 30
+      },
+      "revId": "3cbbc605afdb036379a35cfd2dc764bbd05814e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

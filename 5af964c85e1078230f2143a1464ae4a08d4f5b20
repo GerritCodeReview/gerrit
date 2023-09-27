@@ -72,6 +72,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b2030fc8_825d2e13",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-09-27T11:58:59Z",
+      "side": 1,
+      "message": "-2 temporarily while issue is sorted out. Similar Change 387634 broke the UI for logged out users.",
+      "revId": "5af964c85e1078230f2143a1464ae4a08d4f5b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "64405740_ca5b9412",
         "filename": "polygerrit-ui/app/models/change/change-model.ts",
         "patchSetId": 7

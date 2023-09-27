@@ -377,6 +377,11 @@ public class ApprovalsUtil {
     return notes.load().getApprovals().onlyNonCopied();
   }
 
+  public ListMultimap<PatchSet.Id, PatchSetApproval> byChangeIncludingCopiedApprovals(
+      ChangeNotes notes) {
+    return notes.load().getApprovals().all();
+  }
+
   /**
    * Copies approvals to a new patch set.
    *

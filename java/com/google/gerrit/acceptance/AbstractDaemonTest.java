@@ -51,6 +51,8 @@ import com.google.common.primitives.Chars;
 import com.google.common.testing.FakeTicker;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
+import com.google.gerrit.acceptance.config.ConfigAnnotationParser;
+import com.google.gerrit.acceptance.config.GerritSystemProperty;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -437,6 +439,14 @@ public abstract class AbstractDaemonTest {
         GerritServer.Description.forTestMethod(description, configName);
     testMethodDescription = methodDesc;
 
+    if (methodDesc.systemProperties() != null) {
+      ConfigAnnotationParser.parse(methodDesc.systemProperties());
+    }
+
+    if (methodDesc.systemProperty() != null) {
+      ConfigAnnotationParser.parse(methodDesc.systemProperty());
+    }
+
     testRequiresSsh = classDesc.useSshAnnotation() || methodDesc.useSshAnnotation();
     if (!testRequiresSsh) {
       baseConfig.setString("sshd", null, "listenAddress", "off");
@@ -701,6 +711,19 @@ public abstract class AbstractDaemonTest {
       server.close();
       server = null;
     }
+
+    GerritServer.Description methodDesc =
+        GerritServer.Description.forTestMethod(description, configName);
+    if (methodDesc.systemProperties() != null) {
+      for (GerritSystemProperty sysProp : methodDesc.systemProperties().value()) {
+        System.clearProperty(sysProp.name());
+      }
+    }
+
+    if (methodDesc.systemProperty() != null) {
+      System.clearProperty(methodDesc.systemProperty().name());
+    }
+
     SystemReader.setInstance(oldSystemReader);
     oldSystemReader = null;
     // Set useDefaultTicker in afterTest, so the next beforeTest will use the default ticker

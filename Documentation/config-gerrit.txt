@@ -826,8 +826,7 @@ Default is 0.
 
 [[cache.name.maxAge]]cache.<name>.maxAge::
 +
-Maximum age to keep an entry in the cache. Entries are removed from
-the cache and refreshed from source data every maxAge interval.
+Maximum age to keep an entry in the cache.
 Values should use common unit suffixes to express their setting:
 +
 * s, sec, second, seconds

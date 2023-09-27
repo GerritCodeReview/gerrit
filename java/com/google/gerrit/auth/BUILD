@@ -7,11 +7,13 @@ load("//tools/bzl:javadoc.bzl", "java_doc")
 # tangled dependencies (and Guice unfortunately makes it quite easy to get into
 # this state). Which means if you see an opportunity to split something off, you
 # should seize it.
+# See https://github.com/bazelbuild/bazel/issues/19889, why javacopts is needed.
 java_library(
     name = "auth",
     srcs = glob(
         ["**/*.java"],
     ),
+    javacopts = ["-Xep:BanJNDI:WARN"],
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/common:annotations",

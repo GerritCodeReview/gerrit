@@ -25,7 +25,6 @@ import {subscribe} from '../../lit/subscription-controller';
 import {FilePreview} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {userModelToken} from '../../../models/user/user-model';
 import {createUserFixSuggestion} from '../../../utils/comment-util';
-import {KnownExperimentId} from '../../../services/flags/flags';
 import {commentModelToken} from '../gr-comment-model/gr-comment-model';
 import {fire} from '../../../utils/event-util';
 import {Interaction, Timing} from '../../../constants/reporting';
@@ -91,8 +90,6 @@ export class GrSuggestionDiffPreview extends LitElement {
 
   private readonly getCommentModel = resolve(this, commentModelToken);
 
-  private readonly flagsService = getAppContext().flagsService;
-
   private readonly syntaxLayer = new GrSyntaxLayerWorker(
     resolve(this, highlightServiceToken),
     () => getAppContext().reportingService
@@ -155,14 +152,8 @@ export class GrSuggestionDiffPreview extends LitElement {
 
   override updated(changed: PropertyValues) {
     if (changed.has('commentedText') || changed.has('comment')) {
-      if (
-        this.flagsService.isEnabled(
-          KnownExperimentId.DIFF_FOR_USER_SUGGESTED_EDIT
-        )
-      ) {
-        if (this.previewLoadedFor !== this.suggestion) {
-          this.fetchFixPreview();
-        }
+      if (this.previewLoadedFor !== this.suggestion) {
+        this.fetchFixPreview();
       }
     }
   }

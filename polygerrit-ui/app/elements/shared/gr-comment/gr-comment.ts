@@ -1105,9 +1105,6 @@ export class GrComment extends LitElement {
       changed.has('generatedReplacement')
     ) {
       if (
-        !this.flagsService.isEnabled(
-          KnownExperimentId.DIFF_FOR_USER_SUGGESTED_EDIT
-        ) ||
         !this.changeNum ||
         !this.comment ||
         (!hasUserSuggestion(this.comment) && !this.generatedReplacement)

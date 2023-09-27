@@ -124,6 +124,7 @@ public class AccountProperties {
    * @param key the key
    * @return the value, {@code null} if key was not set or key was set to empty string
    */
+  @Nullable
   private static String get(Config cfg, String key) {
     return Strings.emptyToNull(cfg.getString(ACCOUNT, null, key));
   }

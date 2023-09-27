@@ -36,6 +36,7 @@ public class RemoteUserUtil {
    * @param loginHeader name of header which is used for extracting username.
    * @return the extracted username or null.
    */
+  @Nullable
   public static String getRemoteUser(HttpServletRequest req, String loginHeader) {
     if (AUTHORIZATION.equals(loginHeader)) {
       String user = emptyToNull(req.getRemoteUser());

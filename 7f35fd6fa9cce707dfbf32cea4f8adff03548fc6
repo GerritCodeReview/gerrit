@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04e96008_b8573e65",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-09-27T08:47:50Z",
+      "side": 1,
+      "message": "The wildcard patterns for draft comment and starred changes refs should be removed as well, in REF_STATE_PATTERN_FIELD field right?\n\nI did it here: [1], but could probably move it in a previous change on the series, where the Lucene version was upgraded and re-index is needed anyway.\n\n[1]: https://gerrit-review.googlesource.com/c/gerrit/+/387595/2/java/com/google/gerrit/server/index/change/ChangeField.java#b1699",
+      "range": {
+        "startLine": 138,
+        "startChar": 10,
+        "endLine": 138,
+        "endChar": 76
+      },
+      "revId": "7f35fd6fa9cce707dfbf32cea4f8adff03548fc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

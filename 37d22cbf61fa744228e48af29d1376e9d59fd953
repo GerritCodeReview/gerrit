@@ -16,6 +16,23 @@
       "message": "LC is needed.",
       "revId": "37d22cbf61fa744228e48af29d1376e9d59fd953",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8670b4c_e78d3163",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-09-27T08:50:15Z",
+      "side": 1,
+      "message": "@poucet@google.com Could you please also add LC+1 vote? Thanks.",
+      "revId": "37d22cbf61fa744228e48af29d1376e9d59fd953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

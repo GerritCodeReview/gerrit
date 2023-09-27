@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c276fcd_9aa2b470",
+        "filename": "java/com/google/gerrit/sshd/commands/SequenceShowCommand.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-27T14:27:44Z",
+      "side": 1,
+      "message": "we should gracefully handle case when project does not exist. Right now it result in the server side error:\n```\n$ ssh -p 29418 admin@localhost gerrit sequence show changes asdf                                                                                                                                                                          \nfatal: internal server error\n```\nlogs:\n```\n[2023-09-27T15:26:33.154+01:00] [SSH gerrit sequence show changes asdf (admin)] ERROR com.google.gerrit.sshd.BaseCommand : Internal server error (user admin account 1000000) during gerrit sequence show changes asdf\ncom.google.gerrit.exceptions.StorageException: org.eclipse.jgit.errors.RepositoryNotFoundException: repository not found: Cannot open repository asdf\n\tat com.google.gerrit.server.notedb.RepoSequence.current(RepoSequence.java:342)\n\tat com.google.gerrit.server.notedb.ProjectChangeSequence.currentChangeId(ProjectChangeSequence.java:84)\n\tat com.google.gerrit.sshd.commands.SequenceShowCommand.run(SequenceShowCommand.java:50)\n\tat com.google.gerrit.sshd.SshCommand.lambda$start$1(SshCommand.java:81)\n\tat com.google.gerrit.sshd.BaseCommand$TaskThunk.run(BaseCommand.java:495)\n\tat com.google.gerrit.server.logging.LoggingContextAwareRunnable.run(LoggingContextAwareRunnable.java:113)\n\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304)\n\tat com.google.gerrit.server.git.WorkQueue$Task.run(WorkQueue.java:675)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\nCaused by: org.eclipse.jgit.errors.RepositoryNotFoundException: repository not found: Cannot open repository asdf\n\tat com.google.gerrit.server.git.LocalDiskRepositoryManager.openRepository(LocalDiskRepositoryManager.java:186)\n\tat com.google.gerrit.server.notedb.RepoSequence.current(RepoSequence.java:331)\n\t... 12 more\nCaused by: org.eclipse.jgit.errors.RepositoryNotFoundException: repository not found: gerrit_testsite/git/asdf\n\tat com.google.gerrit.server.git.DynamicRefDbRepository$FileKey.open(DynamicRefDbRepository.java:55)\n\tat org.eclipse.jgit.lib.RepositoryCache.openRepository(RepositoryCache.java:245)\n\tat org.eclipse.jgit.lib.RepositoryCache.open(RepositoryCache.java:88)\n\tat org.eclipse.jgit.lib.RepositoryCache.open(RepositoryCache.java:61)\n\tat com.google.gerrit.server.git.LocalDiskRepositoryManager.openRepository(LocalDiskRepositoryManager.java:182)\n\t... 13 more\n\n```",
+      "revId": "aa26154781765d765a2c6d34543c35fd278eeead",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

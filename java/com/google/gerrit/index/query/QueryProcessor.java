@@ -269,7 +269,7 @@ public abstract class QueryProcessor<T> {
                 // max for this user. The only way to see if there are more entities is to
                 // ask for one more result from the query.
                 // NOTE: This is consistent to the behaviour before the introduction of pagination.`
-                Ints.saturatedCast((long) limit + 1),
+                limit == getBackendSupportedLimit() ? limit : Ints.saturatedCast((long) limit + 1),
                 getRequestedFields());
         logger.atFine().log("Query options: " + opts);
         Predicate<T> pred = rewriter.rewrite(q, opts);

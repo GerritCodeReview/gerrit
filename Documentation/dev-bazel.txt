@@ -35,8 +35,14 @@ link:https://github.com/bazelbuild/bazelisk[Bazelisk,role=external,window=_blank
 link:https://github.com/bazelbuild/bazelisk[Bazelisk,role=external,window=_blank] is a version
 manager for link:https://bazel.build/[Bazel,role=external,window=_blank], similar to how `nvm`
 manages `npm` versions. It takes care of downloading and installing Bazel itself, so you don't have
-to worry about using the correct version of Bazel. Bazelisk can be installed in different
-ways: link:https://docs.bazel.build/install-bazelisk.html[Install,role=external,window=_blank]
+to worry about using the correct version of Bazel. One particular advantage to
+using Bazelisk is that you can jump between different versions of Gerrit and not
+worry about which version of Bazel you need.
+
+Bazelisk can be installed in different ways:
+link:https://docs.bazel.build/install-bazelisk.html[Bazelisk Installation,role=external,window=_blank].
+To execute the correct version of Bazel using Bazelisk you simply replace
+the `bazel` command with `bazelisk`.
 
 [[java]]
 === Java
@@ -54,7 +60,7 @@ To check the installed version of Java, open a terminal window and run:
 To build Gerrit with Java 11 language level, run:
 
 ```
-  $ bazel build --java_toolchain=//tools:error_prone_warnings_toolchain_java11 :release
+  $ bazelisk build --java_toolchain=//tools:error_prone_warnings_toolchain_java11 :release
 ```
 
 [[java-17]]
@@ -63,13 +69,13 @@ To build Gerrit with Java 11 language level, run:
 Java 17 is supported. To build Gerrit with Java 17, run:
 
 ```
-  $ bazel build --config=java17 :release
+  $ bazelisk build --config=java17 :release
 ```
 
 To run the tests with Java 17, run:
 
 ```
-  $ bazel test --config=java17 //...
+  $ bazelisk test --config=java17 //...
 ```
 
 === Node.js and npm packages
@@ -83,7 +89,7 @@ See link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/README.md
 To build the Gerrit web application:
 
 ----
-  bazel build gerrit
+  bazelisk build gerrit
 ----
 
 The output executable WAR will be placed in:
@@ -99,7 +105,7 @@ To build the Gerrit web application that includes the Gerrit UI,
 core plugins and documentation:
 
 ----
-  bazel build release
+  bazelisk build release
 ----
 
 The output executable WAR will be placed in:
@@ -113,7 +119,7 @@ The output executable WAR will be placed in:
 To build Gerrit in headless mode, i.e. without the Gerrit UI:
 
 ----
-  bazel build headless
+  bazelisk build headless
 ----
 
 The output executable WAR will be placed in:
@@ -127,7 +133,7 @@ The output executable WAR will be placed in:
 To build the extension, plugin and acceptance-framework JAR files:
 
 ----
-  bazel build api
+  bazelisk build api
 ----
 
 The output archive that contains Java binaries, Java sources and
@@ -153,7 +159,7 @@ Install gerrit.war to the local maven repository:
 === Plugins
 
 ----
-  bazel build plugins:core
+  bazelisk build plugins:core
 ----
 
 The output JAR files for individual plugins will be placed in:
@@ -171,7 +177,7 @@ The JAR files will also be packaged in:
 To build a specific plugin:
 
 ----
-  bazel build plugins/<name>
+  bazelisk build plugins/<name>
 ----
 
 The output JAR file will be be placed in:
@@ -216,7 +222,7 @@ with BUILD Files` button of link:https://ij.bazel.build[Bazel plugin,role=extern
 To build only the documentation for testing or static hosting:
 
 ----
-  bazel build Documentation:searchfree
+  bazelisk build Documentation:searchfree
 ----
 
 The html files will be bundled into `searchfree.zip` in this location:
@@ -228,7 +234,7 @@ The html files will be bundled into `searchfree.zip` in this location:
 To generate HTML files skipping the zip archiving:
 
 ----
-  bazel build Documentation
+  bazelisk build Documentation
 ----
 
 And open `bazel-bin/Documentation/index.html`.
@@ -236,7 +242,7 @@ And open `bazel-bin/Documentation/index.html`.
 To build the Gerrit executable WAR with the documentation included:
 
 ----
-  bazel build withdocs
+  bazelisk build withdocs
 ----
 
 The WAR file will be placed in:
@@ -248,7 +254,7 @@ The WAR file will be placed in:
 Alternatively, one can generate the documentation as flat files:
 
 ----
-  bazel build Documentation:Documentation
+  bazelisk build Documentation:Documentation
 ----
 
 The html, css, js files are placed in:
@@ -260,64 +266,23 @@ The html, css, js files are placed in:
 [[tests]]
 == Running Unit Tests
 
-----
-  bazel test --build_tests_only //...
-----
-
-Debugging tests:
+Bazel BUILD files define test targets for Gerrit. You can run all declared
+test targets with:
 
 ----
-  bazel test --test_output=streamed --test_filter=com.gerrit.TestClass.testMethod testTarget
+  bazelisk test --build_tests_only //...
 ----
 
-Debug test example:
+[[testgroups]]
+=== Running Test Groups
+
+To run one or more specific labeled groups of tests:
 
 ----
-  bazel test --test_output=streamed --test_filter=com.google.gerrit.acceptance.api.change.ChangeIT.getAmbiguous //javatests/com/google/gerrit/acceptance/api/change:api_change
+  bazelisk test --test_tag_filters=api,git //...
 ----
 
-To run a specific test group, e.g. the rest-account test group:
-
-----
-  bazel test //javatests/com/google/gerrit/acceptance/rest/account:rest_account
-----
-
-To run only tests that do not use SSH:
-
-----
-  bazel test --test_env=GERRIT_USE_SSH=NO //...
-----
-
-To exclude tests that have been marked as flaky:
-
-----
-  bazel test --test_tag_filters=-flaky //...
-----
-
-To exclude tests that require very recent git client version:
-
-----
-  bazel test --test_tag_filters=-git-protocol-v2 //...
-----
-
-To ignore cached test results:
-
-----
-  bazel test --cache_test_results=NO //...
-----
-
-To run one or more specific groups of tests:
-
-----
-  bazel test --test_tag_filters=api,git //...
-----
-
-To run the tests against a specific index backend (LUCENE, FAKE):
-----
-  bazel test --test_env=GERRIT_INDEX_TYPE=LUCENE //...
-----
-
-The following values are currently supported for the group name:
+The following label values are currently supported for the group name:
 
 * annotation
 * api
@@ -331,10 +296,89 @@ The following values are currently supported for the group name:
 * server
 * ssh
 
+We can also select tests within a specific BUILD target group. For example
+`javatests/com/google/gerrit/acceptance/rest/account/BUILD` declares a
+rest_account test target group:
+
+----
+  bazelisk test //javatests/com/google/gerrit/acceptance/rest/account:rest_account
+----
+
+[[debugtests]]
+=== Debugging Tests
+
+To debug specific tests you will need to select the test target containing
+that test then use `--test_filter` to select the specific test you want.
+This `--test_filter` is a regex and can be used to select multiple tests
+out of the target:
+
+----
+  bazelisk test --test_output=streamed --test_filter=com.gerrit.TestClass.testMethod testTarget
+----
+
+For example `javatests/com/google/gerrit/acceptance/api/change/BUILD`
+defines a test target group for every `*IT.java` file in the directory.
+We can execute the single `getAmbiguous()` test found in ChangeIT.java using
+this `--test_filter` and target:
+
+----
+  bazelisk test --test_output=streamed \
+    --test_filter=com.google.gerrit.acceptance.api.change.ChangeIT.getAmbiguous \
+    //javatests/com/google/gerrit/acceptance/api/change:ChangeIT
+----
+
+[[additionaltestfiltering]]
+=== Additional Test Filtering
+
+To run only tests that do not use SSH:
+
+----
+  bazelisk test --test_env=GERRIT_USE_SSH=NO //...
+----
+
+To exclude tests that have been marked as flaky:
+
+----
+  bazelisk test --test_tag_filters=-flaky //...
+----
+
+To exclude tests that require very recent git client version:
+
+----
+  bazelisk test --test_tag_filters=-git-protocol-v2 //...
+----
+
+To run the tests against a specific index backend (LUCENE, FAKE):
+----
+  bazelisk test --test_env=GERRIT_INDEX_TYPE=LUCENE //...
+----
+
 Bazel itself supports a multitude of ways to
-link:https://docs.bazel.build/versions/master/guide.html#specifying-targets-to-build[specify targets,role=external,window=_blank]
+link:https://bazel.build/run/build#specifying-build-targets[specify targets,role=external,window=_blank]
 for fine-grained test selection that can be combined with many of the examples
 above.
+
+[[testcaching]]
+=== Test Caching
+
+By default Bazel caches test results and will not reexecute tests unless they
+or their dependencies have been modified. To ignore cached test results and
+force the tests to rerun:
+
+----
+  bazelisk test --cache_test_results=NO //...
+----
+
+[[plugintests]]
+=== Running Plugin Tests
+
+Running tests for Gerrit plugins follows the process above. From within the
+Gerrit project root with the desired plugins checked out into `plugins/` we
+execute Bazel with the appropriate target:
+
+----
+  bazelisk test //plugins/replication/...
+----
 
 [[debugging-tests]]
 == Debugging Unit Tests
@@ -345,7 +389,7 @@ JVM in debug mode and await for a remote debugger to attach.
 Example:
 [source,bash]
 ----
-  bazel test --java_debug --test_tag_filters=delete-project //...
+  bazelisk test --java_debug --test_tag_filters=delete-project //...
   ...
   Listening for transport dt_socket at address: 5005
   ...
@@ -364,9 +408,9 @@ In IDE, set `-Dgerrit.logLevel=debug` as a VM argument. With `bazel`, pass
 `GERRIT_LOG_LEVEL=debug` environment variable:
 
 ----
-  bazel test --test_filter=com.google.gerrit.server.notedb.ChangeNotesTest \
-  --test_env=GERRIT_LOG_LEVEL=debug \
-  javatests/com/google/gerrit/server:server_tests
+  bazelisk test --test_filter=com.google.gerrit.server.notedb.ChangeNotesTest \
+    --test_env=GERRIT_LOG_LEVEL=debug \
+    javatests/com/google/gerrit/server:server_tests
 ----
 
 The log results can be found in:
@@ -380,7 +424,7 @@ download everything upfront.  This is useful to enable
 subsequent builds to run without network access:
 
 ----
-  bazel fetch //...
+  bazelisk fetch //...
 ----
 
 When downloading from behind a proxy (which is common in some corporate
@@ -485,7 +529,7 @@ To accelerate builds, several caches are activated per default:
 
 The `downloaded-artifacts` cache can be relocated by setting the
 `GERRIT_CACHE_HOME` environment variable. The other two can be adjusted with
-`bazel build` options `--repository_cache` and `--disk_cache` respectively.
+`bazelisk build` options `--repository_cache` and `--disk_cache` respectively.
 
 Currently none of these caches have a maximum size limit. See
 link:https://github.com/bazelbuild/bazel/issues/5139[this bazel issue,role=external,window=_blank] for
@@ -547,7 +591,7 @@ If everything looks good, install the package with the following command:
 ----
 # Add to ui_npm. Other packages.json can be updated in the same way
 cd $gerrit_repo/polygerrit-ui/app
-bazel run @nodejs//:yarn add $package
+bazelisk run @nodejs//:yarn add $package
 ----
 
 Update the `polygerrit-ui/app/node_modules_licenses/licenses.ts` file. You should add licenses
@@ -577,7 +621,7 @@ update postinstall script, `Documentation:check_licenses` test will fail.)
 === Update NPM Binaries
 To update a NPM binary the same actions as for a new one must be done (check licenses,
 update `licenses.ts` file, etc...). The only difference is a command to install a package: instead
-of `bazel run @nodejs//:yarn add $package` you should run the `bazel run @nodejs//:yarn upgrade ...`
+of `bazelisk run @nodejs//:yarn add $package` you should run the `bazelisk run @nodejs//:yarn upgrade ...`
 command with correct arguments. You can find the list of arguments in the
 link:https://classic.yarnpkg.com/en/docs/cli/upgrade/[yarn upgrade doc,role=external,window=_blank].
 
@@ -644,7 +688,7 @@ https://cloud.google.com/remote-build-execution/docs.
 To use RBE, execute
 
 ```
-bazel test --config=remote \
+bazelisk test --config=remote \
     --remote_instance_name=projects/${PROJECT}/instances/default_instance \
     javatests/...
 ```

@@ -27,7 +27,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.RefNames;
@@ -36,12 +35,11 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.SearchingChangeCacheImpl;
+import com.google.gerrit.server.git.ChangesByProjectCache;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TagMatcher;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -94,9 +92,8 @@ class DefaultRefFilter {
   private final CurrentUser user;
   private final ProjectState projectState;
   private final PermissionBackend.ForProject permissionBackendForProject;
-  private final @Nullable SearchingChangeCacheImpl searchingChangeDataProvider;
+  private final ChangesByProjectCache changesByProjectCache;
   private final ChangeData.Factory changeDataFactory;
-  private final ChangeNotes.Factory changeNotesFactory;
   private final Metrics metrics;
   private final boolean skipFullRefEvaluationIfAllRefsAreVisible;
 
@@ -107,16 +104,14 @@ class DefaultRefFilter {
       RefVisibilityControl refVisibilityControl,
       @GerritServerConfig Config config,
       Metrics metrics,
-      @Nullable SearchingChangeCacheImpl searchingChangeDataProvider,
+      ChangesByProjectCache changesByProjectCache,
       ChangeData.Factory changeDataFactory,
-      ChangeNotes.Factory changeNotesFactory,
       @Assisted ProjectControl projectControl) {
     this.tagCache = tagCache;
     this.permissionBackend = permissionBackend;
     this.refVisibilityControl = refVisibilityControl;
-    this.searchingChangeDataProvider = searchingChangeDataProvider;
+    this.changesByProjectCache = changesByProjectCache;
     this.changeDataFactory = changeDataFactory;
-    this.changeNotesFactory = changeNotesFactory;
     this.skipFullRefEvaluationIfAllRefsAreVisible =
         config.getBoolean("auth", "skipFullRefEvaluationIfAllRefsAreVisible", true);
     this.projectControl = projectControl;
@@ -150,8 +145,7 @@ class DefaultRefFilter {
         Suppliers.memoize(
             () ->
                 GitVisibleChangeFilter.getVisibleChanges(
-                    searchingChangeDataProvider,
-                    changeNotesFactory,
+                    changesByProjectCache,
                     changeDataFactory,
                     projectState.getNameKey(),
                     permissionBackendForProject,

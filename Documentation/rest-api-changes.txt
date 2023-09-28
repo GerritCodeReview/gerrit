@@ -7017,9 +7017,7 @@ The `ChangeInfo` entity contains information about a change.
 |==================================
 |Field Name           ||Description
 |`id`                 ||
-The ID of the change. Subject to a 'GerritBackendFeature__return_new_change_info_id'
- experiment, the format is either "'<project>\~<_number>'" (new format),
-or `triplet_id`. The experiment is needed to allow callers to migrate.
+The ID of the change. The format is "'<project>\~<_number>'".
 'project' and '_number' are URL encoded. The callers must not rely on the format.
 |`triplet_id`         ||
 The ID of the change in the format "'<project>\~<branch>~<Change-Id>'",

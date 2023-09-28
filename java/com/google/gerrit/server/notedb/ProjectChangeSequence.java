@@ -24,6 +24,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.util.OptionalInt;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -84,12 +85,20 @@ public class ProjectChangeSequence {
     return projectChangeSeq.current();
   }
 
+  public OptionalInt currentChangeIdIfExists() {
+    return projectChangeSeq.currentIfExists();
+  }
+
   public int lastChangeId() {
     return projectChangeSeq.last();
   }
 
   public void setChangeIdValue(int value) {
     projectChangeSeq.storeNew(value);
+  }
+
+  public void setChangeIdValue(Repository repo, int value) {
+    projectChangeSeq.storeNew(repo, value);
   }
 
   public static void initSequences(Repository git, BatchRefUpdate bru, int firstChangeId)

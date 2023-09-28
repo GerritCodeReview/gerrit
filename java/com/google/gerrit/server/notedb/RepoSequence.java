@@ -45,6 +45,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
@@ -326,6 +327,30 @@ public class RepoSequence {
     }
   }
 
+  public void storeNew(Repository repo, int value) {
+    counterLock.lock();
+    try (RevWalk rw = new RevWalk(repo)) {
+      Optional<IntBlob> blob = IntBlob.parse(repo, refName, rw);
+      afterReadRef.run();
+      ObjectId oldId;
+      if (!blob.isPresent()) {
+        oldId = ObjectId.zeroId();
+      } else {
+        oldId = blob.get().id();
+      }
+      RefUpdate refUpdate =
+          IntBlob.tryStore(repo, rw, projectName, refName, oldId, value, gitRefUpdated);
+      RefUpdateUtil.checkResult(refUpdate);
+      counter = value;
+      limit = counter + batchSize;
+      acquireCount++;
+    } catch (IOException e) {
+      throw new StorageException(e);
+    } finally {
+      counterLock.unlock();
+    }
+  }
+
   public int current() {
     counterLock.lock();
     try (Repository repo = repoManager.openRepository(projectName);
@@ -338,6 +363,24 @@ public class RepoSequence {
         current = blob.get().value();
       }
       return current;
+    } catch (IOException e) {
+      throw new StorageException(e);
+    } finally {
+      counterLock.unlock();
+    }
+  }
+
+  public OptionalInt currentIfExists() {
+    counterLock.lock();
+    try (Repository repo = repoManager.openRepository(projectName);
+        RevWalk rw = new RevWalk(repo)) {
+      Optional<IntBlob> blob = IntBlob.parse(repo, refName, rw);
+
+      if (!blob.isPresent()) {
+        return OptionalInt.empty();
+      }
+
+      return OptionalInt.of(blob.get().value());
     } catch (IOException e) {
       throw new StorageException(e);
     } finally {

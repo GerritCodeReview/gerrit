@@ -74,6 +74,7 @@ import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.notedb.ChangeDraftNotesUpdate;
 import com.google.gerrit.server.notedb.NoteDbModule;
+import com.google.gerrit.server.notedb.ProjectChangeSequence;
 import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.patch.DiffOperationsImpl;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
@@ -205,6 +206,7 @@ public class BatchProgramModule extends FactoryModule {
     factory(DistinctVotersPredicate.Factory.class);
     factory(HasSubmoduleUpdatePredicate.Factory.class);
     factory(ProjectState.Factory.class);
+    factory(ProjectChangeSequence.Factory.class);
     bind(ChangeDraftUpdate.ChangeDraftUpdateFactory.class).to(ChangeDraftNotesUpdate.Factory.class);
 
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeOperatorFactory.class);

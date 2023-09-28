@@ -5,7 +5,7 @@
  */
 
 // Init app context before any other imports
-import {create, Registry, Finalizable} from '../services/registry';
+import {create, Registry} from '../services/registry';
 import {AppContext} from '../services/app-context';
 import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock';
 import {grRestApiMock} from './mocks/gr-rest-api_mock';
@@ -22,6 +22,7 @@ import {
   diffModelToken,
   DiffModel,
 } from '../embed/diff/gr-diff-model/gr-diff-model';
+import {Finalizable} from '../types/types';
 
 export function createTestAppContext(): AppContext & Finalizable {
   const appRegistry: Registry<AppContext> = {

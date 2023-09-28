@@ -116,6 +116,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a9ac9b3_28653fe5",
+        "filename": "java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-28T22:37:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc7ad86c_85890673",
+      "range": {
+        "startLine": 277,
+        "startChar": 6,
+        "endLine": 279,
+        "endChar": 7
+      },
+      "revId": "7987f94c5a8192864289d2d8d97d2c96635323f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fff4947d_fcc6a46d",
@@ -129,6 +153,24 @@
       "writtenOn": "2023-05-12T16:42:43Z",
       "side": 1,
       "message": "We could move all this `if` logic after L273, as at that point we know the `apiInjector` is not null.",
+      "revId": "7987f94c5a8192864289d2d8d97d2c96635323f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2de4709_35ffd6b3",
+        "filename": "java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-28T22:37:06Z",
+      "side": 1,
+      "message": "L273 has been modified with `Optional` therefore it won\u0027t be useful to move this anymore.",
+      "parentUuid": "fff4947d_fcc6a46d",
       "revId": "7987f94c5a8192864289d2d8d97d2c96635323f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -173,6 +215,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "810955b7_6074ecb0",
+        "filename": "java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-28T22:37:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "939961ba_cd57ab8f",
+      "revId": "7987f94c5a8192864289d2d8d97d2c96635323f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1234169d_01a77541",
@@ -186,6 +246,24 @@
       "writtenOn": "2023-05-12T16:42:43Z",
       "side": 1,
       "message": "do we want to return a reference of the `apiModules` here, which would allow mutating the list, or perhaps return a view?",
+      "revId": "7987f94c5a8192864289d2d8d97d2c96635323f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "debfe45b_224e9f12",
+        "filename": "java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 699,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-28T22:37:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1234169d_01a77541",
       "revId": "7987f94c5a8192864289d2d8d97d2c96635323f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

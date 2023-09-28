@@ -130,6 +130,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d5024db_01c98667",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-28T22:37:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c34033e7_a7e64015",
+      "range": {
+        "startLine": 478,
+        "startChar": 14,
+        "endLine": 480,
+        "endChar": 15
+      },
+      "revId": "e1c2e2350309cf81215f4044cad8c3d23ba72b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40dcf1f1_7223692b",
@@ -143,6 +167,30 @@
       "writtenOn": "2023-09-23T21:23:21Z",
       "side": 1,
       "message": "nit: `.orElseGet(() -\u003e Guice.createInjector(modules));`, so that we won\u0027t create guice injectors when they are not needed.",
+      "range": {
+        "startLine": 284,
+        "startChar": 9,
+        "endLine": 284,
+        "endChar": 46
+      },
+      "revId": "e1c2e2350309cf81215f4044cad8c3d23ba72b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e674335_1c3cfa33",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-28T22:37:06Z",
+      "side": 1,
+      "message": "Good catch 👍",
+      "parentUuid": "40dcf1f1_7223692b",
       "range": {
         "startLine": 284,
         "startChar": 9,

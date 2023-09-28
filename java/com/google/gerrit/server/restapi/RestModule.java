@@ -25,6 +25,7 @@ import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.change.AddReviewersOp;
 import com.google.gerrit.server.change.AddToAttentionSetOp;
+import com.google.gerrit.server.change.BlockUserOp;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.DeleteChangeOp;
@@ -74,6 +75,7 @@ public class RestModule extends FactoryModule {
     factory(DeleteChangeOp.Factory.class);
     factory(DeleteReviewerByEmailOp.Factory.class);
     factory(DeleteReviewerOp.Factory.class);
+    factory(BlockUserOp.Factory.class);
     factory(DeleteVoteOp.Factory.class);
     factory(EmailReviewComments.Factory.class);
     factory(GroupsUpdate.Factory.class);

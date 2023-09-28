@@ -110,6 +110,7 @@ public class ChangeInfo {
   public Map<String, Collection<String>> permittedLabels;
   public Map<String, Map<String, List<AccountInfo>>> removableLabels;
   public Collection<AccountInfo> removableReviewers;
+  public Collection<AccountInfo> blockableReviewers;
   public Map<ReviewerState, Collection<AccountInfo>> reviewers;
   public Map<ReviewerState, Collection<AccountInfo>> pendingReviewers;
   public Collection<ReviewerUpdateInfo> reviewerUpdates;

@@ -100,6 +100,7 @@ import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountInfoComparator;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.account.BlockUsers;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -110,6 +111,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.RemoveReviewerControl;
@@ -132,6 +134,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -245,6 +248,7 @@ public class ChangeJson {
   private final boolean includeMergeable;
   private final boolean lazyLoad;
   private final boolean cacheQueryResultsByChangeNum;
+  private final boolean blockUsersEnabled;
 
   private AccountLoader accountLoader;
   private FixInput fix;
@@ -268,6 +272,7 @@ public class ChangeJson {
       Metrics metrics,
       RevisionJson.Factory revisionJsonFactory,
       @GerritServerConfig Config cfg,
+      BlockUsers.BlockedUsersEnabled blockUsersEnabled,
       @Assisted Iterable<ListChangesOption> options,
       @Assisted Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory) {
     this.repoManager = repoManager;
@@ -292,6 +297,7 @@ public class ChangeJson {
     this.pluginDefinedInfosFactory = pluginDefinedInfosFactory;
     this.cacheQueryResultsByChangeNum =
         cfg.getBoolean("index", "cacheQueryResultsByChangeNum", true);
+    this.blockUsersEnabled = blockUsersEnabled.get();
 
     logger.atFine().log("options = %s", options);
   }
@@ -722,6 +728,7 @@ public class ChangeJson {
       out.reviewers = reviewerMap(cd.reviewers(), cd.reviewersByEmail(), false);
       out.pendingReviewers = reviewerMap(cd.pendingReviewers(), cd.pendingReviewersByEmail(), true);
       out.removableReviewers = removableReviewers(cd, out);
+      out.blockableReviewers = blockableReviewers(out);
     }
 
     setSubmitter(cd, out);
@@ -923,6 +930,25 @@ public class ChangeJson {
       }
     }
     return result;
+  }
+
+  private Set<AccountInfo> blockableReviewers(ChangeInfo out) throws PermissionBackendException {
+    if (blockUsersEnabled
+        && permissionBackend.user(userProvider.get()).test(GlobalPermission.ADMINISTRATE_SERVER)) {
+      // select all reviewers that have an account but make sure that neither owner nor committer
+      // could be blocked
+      return Stream.concat(
+              out.reviewers.getOrDefault(ReviewerState.REVIEWER, Collections.emptySet()).stream(),
+              out.reviewers.getOrDefault(ReviewerState.CC, Collections.emptySet()).stream())
+          .filter(
+              a ->
+                  a._accountId != null
+                      && !a._accountId.equals(out.owner._accountId)
+                      && !a.email.equals(out.getCurrentRevision().commit.committer.email))
+          .map(a -> accountLoader.get(Account.id(a._accountId)))
+          .collect(Collectors.toSet());
+    }
+    return Collections.emptySet();
   }
 
   private List<AccountInfo> toAccountInfo(Collection<Account.Id> accounts) {

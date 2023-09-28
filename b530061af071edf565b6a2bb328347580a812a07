@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d287bd9f_8115a6f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2023-09-28T18:16:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11ea14ec_a4f4d502",
+      "revId": "b530061af071edf565b6a2bb328347580a812a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8289a0a4_9a16b3b7",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-09-28T09:33:56Z",
       "side": 1,
       "message": "Alternativ, just add a new section for basilisk, similarly it\u0027s done for other standalone tools.",
+      "revId": "b530061af071edf565b6a2bb328347580a812a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fbe6278_d5def133",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2023-09-28T18:16:53Z",
+      "side": 1,
+      "message": "My preference would be to keep Bazelisk and Bazel together in the same section because it helps explain the relationship between the two. Ultimately Bazelisk is running Bazel which is why we end up with artifacts in bazel-bin/. We edit Bazel BUILD files as well. I think the key is for people to understand Bazel is the underlying tool but we execute it with Bazelisk.",
+      "parentUuid": "8289a0a4_9a16b3b7",
       "revId": "b530061af071edf565b6a2bb328347580a812a07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -82,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e8099df_9f04945a",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2023-09-28T18:16:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a6e1d17_e837e6b1",
+      "range": {
+        "startLine": 46,
+        "startChar": 37,
+        "endLine": 47,
+        "endChar": 56
+      },
+      "revId": "b530061af071edf565b6a2bb328347580a812a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d9b8450_dcbdf10e",
@@ -95,6 +155,24 @@
       "writtenOn": "2023-09-28T08:26:07Z",
       "side": 1,
       "message": "While the added prose will help beginners to understand, the longer text is harder to parse when trying to find the exact syntax for a task at hand. Maybe add some subtitles to help navigating this page.",
+      "revId": "b530061af071edf565b6a2bb328347580a812a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7192f2a6_1d477fee",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2023-09-28T18:16:53Z",
+      "side": 1,
+      "message": "I\u0027ve made an attempt at adding subsections. In doing so I noticed that the existing order of the entries was a bit disjoint which led me to changing the order. I think it flows well now roughly: run all tests -\u003e run some tests -\u003e run a specific test -\u003e additional helpful filters.",
+      "parentUuid": "7d9b8450_dcbdf10e",
       "revId": "b530061af071edf565b6a2bb328347580a812a07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

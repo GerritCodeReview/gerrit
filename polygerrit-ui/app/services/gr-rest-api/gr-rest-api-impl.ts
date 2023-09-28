@@ -1803,6 +1803,20 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     );
   }
 
+  blockChangeReviewer(
+    changeNum: NumericChangeId,
+    reviewerID: AccountId | EmailAddress | GroupId
+  ) {
+    return this.getChangeActionURL(changeNum, undefined, '/reviewers').then(
+      url => {
+        let body;
+        url += '/' + encodeURIComponent(reviewerID) + '/block';
+
+        return this._restApiHelper.send({method: HttpMethod.POST, url, body});
+      }
+    );
+  }
+
   _sendChangeReviewerRequest(
     method: HttpMethod.POST | HttpMethod.DELETE,
     changeNum: NumericChangeId,

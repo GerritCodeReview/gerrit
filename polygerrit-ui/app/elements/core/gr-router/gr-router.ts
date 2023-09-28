@@ -98,7 +98,7 @@ import {
 } from '../../../utils/comment-util';
 import {isFileUnchanged} from '../../../utils/diff-util';
 import {Route, ViewState} from '../../../models/views/base';
-import {Model} from '../../../models/model';
+import {Model} from '../../../models/base/model';
 import {
   InteractivePromise,
   interactivePromise,

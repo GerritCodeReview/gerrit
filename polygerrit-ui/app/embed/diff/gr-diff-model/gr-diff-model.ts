@@ -19,7 +19,7 @@ import {
   Side,
 } from '../../../api/diff';
 import {define} from '../../../models/dependency';
-import {Model} from '../../../models/model';
+import {Model} from '../../../models/base/model';
 import {select} from '../../../utils/observable-util';
 import {
   FullContext,

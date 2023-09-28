@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {Observable} from 'rxjs';
-import {Model} from '../../models/model';
+import {Model} from '../../models/base/model';
 import {select} from '../../utils/observable-util';
 import {define} from '../../models/dependency';
 

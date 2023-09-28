@@ -21,7 +21,7 @@ import {select} from '../../utils/observable-util';
 import {escapeAndWrapSearchOperatorValue} from '../../utils/string-util';
 import {encodeURL, getBaseUrl} from '../../utils/url-util';
 import {define, Provider} from '../dependency';
-import {Model} from '../model';
+import {Model} from '../base/model';
 import {UserModel} from '../user/user-model';
 import {ViewState} from './base';
 import {createChangeUrl} from './change';

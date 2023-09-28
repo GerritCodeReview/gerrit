@@ -10,7 +10,7 @@ import {
 } from '../../types/common';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {select} from '../../utils/observable-util';
-import {Model} from '../model';
+import {Model} from '../base/model';
 import {define} from '../dependency';
 import {ChangeModel} from './change-model';
 import {combineLatest, forkJoin, from, of} from 'rxjs';

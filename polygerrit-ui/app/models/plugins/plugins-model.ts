@@ -10,7 +10,7 @@ import {
   ChecksApiConfig,
   ChecksProvider,
 } from '../../api/checks';
-import {Model} from '../model';
+import {Model} from '../base/model';
 import {select} from '../../utils/observable-util';
 import {CoverageProvider, TokenHoverListener} from '../../api/annotation';
 import {SuggestionsProvider} from '../../api/suggestions';

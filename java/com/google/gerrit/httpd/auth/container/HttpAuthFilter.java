@@ -147,8 +147,10 @@ class HttpAuthFilter implements Filter {
   @Nullable
   String getRemoteDisplayname(HttpServletRequest req) {
     if (displaynameHeader != null) {
-      String raw = req.getHeader(displaynameHeader);
-      return emptyToNull(new String(raw.getBytes(ISO_8859_1), UTF_8));
+      String raw = emptyToNull(req.getHeader(displaynameHeader));
+      if (raw != null) {
+        return new String(raw.getBytes(ISO_8859_1), UTF_8);
+      }
     }
     return null;
   }

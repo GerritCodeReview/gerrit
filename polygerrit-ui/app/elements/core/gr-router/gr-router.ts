@@ -79,7 +79,6 @@ import {
   SettingsViewState,
 } from '../../../models/views/settings';
 import {define} from '../../../models/dependency';
-import {Finalizable} from '../../../services/registry';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {
@@ -105,6 +104,7 @@ import {
   noAwait,
   timeoutPromise,
 } from '../../../utils/async-util';
+import {Finalizable} from '../../../types/types';
 
 // TODO: Move all patterns to view model files and use the `Route` interface,
 // which will enforce using `RegExp` in its `urlPattern` property.

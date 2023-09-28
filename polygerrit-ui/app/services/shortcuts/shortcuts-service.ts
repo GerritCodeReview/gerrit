@@ -22,10 +22,10 @@ import {
   ShortcutOptions,
 } from '../../utils/dom-util';
 import {ReportingService} from '../gr-reporting/gr-reporting';
-import {Finalizable} from '../registry';
 import {UserModel} from '../../models/user/user-model';
 import {define} from '../../models/dependency';
 import {isCharacterLetter, isUpperCase} from '../../utils/string-util';
+import {Finalizable} from '../../types/types';
 
 export {Shortcut, ShortcutSection};
 

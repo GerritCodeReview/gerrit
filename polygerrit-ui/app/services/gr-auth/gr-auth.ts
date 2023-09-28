@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {define} from '../../models/dependency';
-import {AuthRequestInit} from '../../types/types';
-import {Finalizable} from '../registry';
+import {AuthRequestInit, Finalizable} from '../../types/types';
 export enum AuthType {
   XSRF_TOKEN = 'xsrf_token',
   ACCESS_TOKEN = 'access_token',

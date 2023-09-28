@@ -22,6 +22,30 @@
       },
       "revId": "7f35fd6fa9cce707dfbf32cea4f8adff03548fc6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91269057_79917cdb",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-28T08:29:18Z",
+      "side": 1,
+      "message": "Right. The REF_STATE_PATTERN_FIELD is used to build ChangeData#refStatePatterns, which is only used in StalenessChecker [1]: it checks the change meta ref state and the ref patterns. But it\u0027s indeed not needed (i.e. we don\u0027t need to reindex a change if \"stars\" or \"drafts\" are updated).\n\nThanks for cleaning this up.\n\n[1] https://gerrit.googlesource.com/gerrit/+/6fc02a1fc7905cac7e5aee4d568ea45df0725ed7/java/com/google/gerrit/server/index/change/StalenessChecker.java#96",
+      "parentUuid": "04e96008_b8573e65",
+      "range": {
+        "startLine": 138,
+        "startChar": 10,
+        "endLine": 138,
+        "endChar": 76
+      },
+      "revId": "7f35fd6fa9cce707dfbf32cea4f8adff03548fc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

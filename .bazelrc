@@ -10,10 +10,16 @@ build:java11 --tool_java_language_version=11
 build:java11 --tool_java_runtime_version=remotejdk_11
 
 # Builds using remotejdk_17, executes using remotejdk_17 or local_jdk
-build --java_language_version=17
-build --java_runtime_version=remotejdk_17
-build --tool_java_language_version=17
-build --tool_java_runtime_version=remotejdk_17
+build:java17 --java_language_version=17
+build:java17 --java_runtime_version=remotejdk_17
+build:java17 --tool_java_language_version=17
+build:java17 --tool_java_runtime_version=remotejdk_17
+
+# Builds using remotejdk_20, executes using remotejdk_20 or local_jdk
+build --java_language_version=20
+build --java_runtime_version=remotejdk_20
+build --tool_java_language_version=20
+build --tool_java_runtime_version=remotejdk_20
 
 # Builds and executes on RBE using remotejdk_11
 build:remote11 --java_language_version=11
@@ -23,10 +29,17 @@ build:remote11 --tool_java_runtime_version=remotejdk_11
 build:remote11 --config=remote_shared
 
 # Builds and executes on RBE using remotejdk_17
-build:remote --java_language_version=17
-build:remote --java_runtime_version=remotejdk_17
-build:remote --tool_java_language_version=17
-build:remote --tool_java_runtime_version=remotejdk_17
+build:remote17 --java_language_version=17
+build:remote17 --java_runtime_version=remotejdk_17
+build:remote17 --tool_java_language_version=17
+build:remote17 --tool_java_runtime_version=remotejdk_17
+build:remote17 --config=remote_shared
+
+# Builds and executes on RBE using remotejdk_20
+build:remote --java_language_version=20
+build:remote --java_runtime_version=remotejdk_20
+build:remote --tool_java_language_version=20
+build:remote --tool_java_runtime_version=remotejdk_20
 build:remote --config=remote_shared
 
 # Enable strict_action_env flag to. For more information on this feature see

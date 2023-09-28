@@ -30,6 +30,18 @@ default_java_toolchain(
     visibility = ["//visibility:public"],
 )
 
+default_java_toolchain(
+    name = "error_prone_warnings_toolchain_java21",
+    configuration = dict(),
+    java_runtime = "@rules_java_builtin//toolchains:remotejdk_21",
+    package_configuration = [
+        ":error_prone",
+    ],
+    source_version = "21",
+    target_version = "21",
+    visibility = ["//visibility:public"],
+)
+
 # Error Prone errors enabled by default; see ../.bazelrc for how this is
 # enabled. This warnings list is originally based on:
 # https://github.com/bazelbuild/BUILD_file_generator/blob/master/tools/bazel_defs/java.bzl
@@ -51,7 +63,7 @@ java_package_configuration(
         # XepExcludedPaths is a regexp. If you need more paths - use | as
         # separator. This issue is related to the number of escapes of $ char:
         # https://github.com/bazelbuild/bazel/issues/19647
-        "-XepExcludedPaths:.*/\\\\\\\\$$?\\\\\\\\$$?AutoValue(Gson)?_.*\\.java",
+        "-XepExcludedPaths:.*/\\\\$?\\\\$?AutoValue(Gson)?_.*\\.java",
         "-Xep:AlmostJavadoc:ERROR",
         "-Xep:AlreadyChecked:ERROR",
         "-Xep:AlwaysThrows:ERROR",

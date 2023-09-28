@@ -5,9 +5,9 @@
  */
 import '../test/common-test-setup';
 import {AppContext} from './app-context';
-import {Finalizable} from './registry';
 import {createTestAppContext} from '../test/test-app-context-init';
 import {assert} from '@open-wc/testing';
+import {Finalizable} from '../types/types';
 
 suite('app context initializer tests', () => {
   let appContext: AppContext & Finalizable;

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {NumericChangeId} from '../../types/common';
-import {Finalizable} from '../registry';
+import {Finalizable} from '../../types/types';
 
 export interface StorageObject {
   message?: string;

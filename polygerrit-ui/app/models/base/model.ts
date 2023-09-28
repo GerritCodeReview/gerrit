@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {BehaviorSubject, Observable, Subscription} from 'rxjs';
-import {Finalizable} from '../../services/registry';
 import {deepEqual} from '../../utils/deep-util';
+import {Finalizable} from '../../types/types';
 
 /**
  * A Model stores a value <T> and controls changes to that value via `subject$`

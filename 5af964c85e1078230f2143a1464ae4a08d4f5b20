@@ -182,6 +182,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4d330b0_4997897d",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1156394
+      },
+      "writtenOn": "2023-09-28T16:09:34Z",
+      "side": 1,
+      "message": "Rebased the change on master",
+      "parentUuid": "64405740_ca5b9412",
+      "range": {
+        "startLine": 257,
+        "startChar": 18,
+        "endLine": 257,
+        "endChar": 33
+      },
+      "revId": "5af964c85e1078230f2143a1464ae4a08d4f5b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "11ff5e4f_48b72c8a",
@@ -195,6 +219,30 @@
       "writtenOn": "2023-09-27T10:00:45Z",
       "side": 1,
       "message": "return undefined; instead of return; in all places\n```suggestion\n      } else return undefined;\n    });\n  }\n\n  getAccountEmailsFor(email: string) {\n    return this.getLoggedIn()\n      .then(isLoggedIn \u003d\u003e {\n        if (isLoggedIn) {\n          return this.getAccountCapabilities();\n        } else {\n          return undefined;\n        }\n      })\n      .then((capabilities: AccountCapabilityInfo | undefined) \u003d\u003e {\n        if (capabilities \u0026\u0026 capabilities.viewSecondaryEmails) {\n          return this._fetchSharedCacheURL({\n            url: \u0027/accounts/\u0027 + email + \u0027/emails\u0027,\n            reportUrlAsIs: true,\n          }) as Promise\u003cEmailInfo[] | undefined\u003e;\n        }\n        return undefined;\n```",
+      "range": {
+        "startLine": 800,
+        "startChar": 13,
+        "endLine": 820,
+        "endChar": 15
+      },
+      "revId": "5af964c85e1078230f2143a1464ae4a08d4f5b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3585e9a5_80633443",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 1156394
+      },
+      "writtenOn": "2023-09-28T16:09:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11ff5e4f_48b72c8a",
       "range": {
         "startLine": 800,
         "startChar": 13,

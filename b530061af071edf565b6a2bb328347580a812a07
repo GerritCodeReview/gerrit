@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "11ea14ec_a4f4d502",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-09-28T09:33:56Z",
+      "side": 1,
+      "message": "replacement",
+      "revId": "b530061af071edf565b6a2bb328347580a812a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8289a0a4_9a16b3b7",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-09-28T09:33:56Z",
+      "side": 1,
+      "message": "Alternativ, just add a new section for basilisk, similarly it\u0027s done for other standalone tools.",
+      "revId": "b530061af071edf565b6a2bb328347580a812a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "40135600_a0e028bb",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 1
@@ -14,6 +48,30 @@
       "writtenOn": "2023-09-28T08:26:07Z",
       "side": 1,
       "message": "I\u0027d remove this sentence",
+      "range": {
+        "startLine": 46,
+        "startChar": 37,
+        "endLine": 47,
+        "endChar": 56
+      },
+      "revId": "b530061af071edf565b6a2bb328347580a812a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a6e1d17_e837e6b1",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-09-28T09:33:56Z",
+      "side": 1,
+      "message": "+1.",
+      "parentUuid": "40135600_a0e028bb",
       "range": {
         "startLine": 46,
         "startChar": 37,

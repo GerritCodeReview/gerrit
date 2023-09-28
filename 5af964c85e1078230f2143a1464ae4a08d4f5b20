@@ -177,6 +177,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5d846e2_7476c760",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-09-28T16:35:10Z",
+      "side": 1,
+      "message": "I don\u0027t think it is a good practice to put non permanent links in a CM since they will live forever in the git history. Better to put such things as comments on the change. Better yet would be for Gerrit to start supporting such a thing, or for the screenshot to come in via git notes!",
+      "parentUuid": "1106cc74_9351045e",
+      "revId": "5af964c85e1078230f2143a1464ae4a08d4f5b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "64405740_ca5b9412",

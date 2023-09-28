@@ -123,6 +123,23 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return metaIdByChange.build();
     }
 
+    public static Optional<Change.Id> getMaxChangeId(ImmutableMap<Change.Id, ObjectId> list) {
+      if (list == null) {
+        return Optional.empty();
+      }
+
+      int max = -1;
+
+      for (Change.Id changeId : list.keySet()) {
+        int key = changeId.get();
+        if (key > max) {
+          max = key;
+        }
+      }
+
+      return (max > -1) ? Change.Id.tryParse(String.valueOf(max)) : Optional.empty();
+    }
+
     public ChangeNotes createChecked(Change c) {
       return createChecked(c.getProject(), c.getId());
     }

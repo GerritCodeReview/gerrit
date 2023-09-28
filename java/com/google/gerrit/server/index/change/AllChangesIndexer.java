@@ -40,12 +40,15 @@ import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.OnlineReindexMode;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeNotes.Factory.ChangeNotesResult;
+import com.google.gerrit.server.notedb.ProjectChangeSequence;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.concurrent.Callable;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -67,6 +70,8 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
   private static final int PROJECT_SLICE_MAX_REFS = 1000;
 
   private final MultiProgressMonitor.Factory multiProgressMonitorFactory;
+
+  @Inject private ProjectChangeSequence.Factory projectChangeFactory;
 
   private static class ProjectsCollectionFailure extends Exception {
     private static final long serialVersionUID = 1L;
@@ -190,14 +195,43 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
   public Callable<Void> reindexProject(
       ChangeIndexer indexer, Project.NameKey project, Task done, Task failed) {
     try (Repository repo = repoManager.openRepository(project)) {
+      ImmutableMap<Change.Id, ObjectId> listOfChanges = ChangeNotes.Factory.scanChangeIds(repo);
+
+      // Since we are doing the reindexing, taking one more step to validate the sequence
+      updateChangeIdSequenceInProject(project, repo, listOfChanges);
+
       return reindexProjectSlice(
-          indexer,
-          ProjectSlice.oneSlice(project, ChangeNotes.Factory.scanChangeIds(repo)),
-          done,
-          failed);
+          indexer, ProjectSlice.oneSlice(project, listOfChanges), done, failed);
     } catch (IOException e) {
       logger.atSevere().log("%s", e.getMessage());
       return null;
+    }
+  }
+
+  private void updateChangeIdSequenceInProject(
+      Project.NameKey project, Repository repo, ImmutableMap<Change.Id, ObjectId> listOfChanges) {
+    ProjectChangeSequence projectChangeSequence = projectChangeFactory.create(project);
+
+    logger.atInfo().log(
+        "Calling updateChangeIdSequenceInProject for project %s, with %s changes",
+        project, listOfChanges.size());
+
+    Optional<Change.Id> maxChangeNumber = ChangeNotes.Factory.getMaxChangeId(listOfChanges);
+
+    // logger.atSevere().log("Current maxChangeNumber in list : %s", maxChangeNumber);
+
+    if (maxChangeNumber.isPresent()) {
+      OptionalInt currentChangeid = projectChangeSequence.currentChangeIdIfExists();
+
+      // logger.atSevere().log("Current currentChangeid : %s", currentChangeid);
+
+      if (currentChangeid.isEmpty()) {
+        projectChangeSequence.setChangeIdValue(repo, maxChangeNumber.get().get());
+      } else if (currentChangeid.getAsInt() > projectChangeSequence.currentChangeId()) {
+        // If the current value on the sequence than the max of the change, let it be. Just fix if
+        // it is lower
+        projectChangeSequence.setChangeIdValue(repo, maxChangeNumber.get().get());
+      }
     }
   }
 
@@ -347,6 +381,10 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         try (Repository repo = repoManager.openRepository(name)) {
           ImmutableMap<Change.Id, ObjectId> metaIdByChange =
               ChangeNotes.Factory.scanChangeIds(repo);
+
+          // Since we are doing the reindexing, taking one more step to validate the sequence
+          updateChangeIdSequenceInProject(name, repo, metaIdByChange);
+
           int size = metaIdByChange.size();
           if (size > 0) {
             changeCount.addAndGet(size);

@@ -107,6 +107,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "48532405_92679183",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-09-28T07:50:52Z",
+      "side": 1,
+      "message": "I see, sorry for my confusion. I initially thought Change 377155 caused errors on our release due to the simultaneous FE + BE changes, and that the same problem would happen here.\n\nIt looks like actually the real issue on Change 377155 was [here](https://gerrit-review.googlesource.com/c/gerrit/+/377155/7/polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts#697) where `getAccountEmails` gets a 403 error for logged out users and we show it to the user in a popup.\n\nThis Change 376934 does the same kind of `getAccountEmails` call, but has added protections [here](https://gerrit-review.git.corp.google.com/c/gerrit/+/376934/7/polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts#794) to prevent the request from going out when the user is logged out.\n\nTherefore this Change 376934 seems okay but Change 377155 needs this check added in `getAccountEmails` before it can be un-reverted.\n\nLet me know if you don\u0027t think this is correct.",
+      "parentUuid": "0b28c2cc_9512e0d0",
+      "revId": "5af964c85e1078230f2143a1464ae4a08d4f5b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "64405740_ca5b9412",
         "filename": "polygerrit-ui/app/models/change/change-model.ts",
         "patchSetId": 7

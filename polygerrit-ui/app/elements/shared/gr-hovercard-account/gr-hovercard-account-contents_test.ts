@@ -219,6 +219,28 @@ suite('gr-hovercard-account-contents tests', () => {
     assert.isTrue(reloadListener.called);
   });
 
+  test('block user', async () => {
+    element.change = {
+      ...createChange(),
+      blockable_reviewers: [ACCOUNT],
+      reviewers: {
+        [ReviewerState.REVIEWER]: [ACCOUNT],
+      },
+    };
+    await element.updateComplete;
+    stubRestApi('blockChangeReviewer').returns(
+      Promise.resolve({...new Response(), ok: true})
+    );
+    const reloadListener = sinon.spy();
+    element.addEventListener('reload', reloadListener);
+    const button = queryAndAssert<GrButton>(element, '.blockReviewerOrCC');
+    assert.isOk(button);
+    assert.equal(button.innerText, 'Block Reviewer');
+    button.click();
+    await element.updateComplete;
+    assert.isTrue(reloadListener.called);
+  });
+
   test('move reviewer to cc', async () => {
     element.change = {
       ...createChange(),

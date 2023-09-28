@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a90f5218_e0bc2627",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-09-28T10:43:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "852419c4_057ed243",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "8301a236699846679268bc84084f947dd45cc15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c744bc5d_f3674330",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff6a9399_033d7694",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-09-28T10:43:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c744bc5d_f3674330",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 19
+      },
+      "revId": "8301a236699846679268bc84084f947dd45cc15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c147ae16_c7bf554c",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-09-28T09:17:55Z",
       "side": 1,
       "message": "nit: rename to parentLeft (or parentCommitLeft)\n\nalso same for commitRight",
+      "range": {
+        "startLine": 129,
+        "startChar": 10,
+        "endLine": 129,
+        "endChar": 20
+      },
+      "revId": "8301a236699846679268bc84084f947dd45cc15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2be2ce3a_6c3bb516",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-09-28T10:43:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c147ae16_c7bf554c",
       "range": {
         "startLine": 129,
         "startChar": 10,
@@ -117,6 +189,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a5054af_4f12ef85",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-09-28T10:43:15Z",
+      "side": 1,
+      "message": "If you compare to \"base\", then `basePatchNum` will be `PARENT` and `baseRevision$` will produce `undefined`, so `this.baseRevision` and thus `parrentLeft` will be undefined. This line guards against that:\n```\nif (!parentLeft || !parentRight) return;\n```",
+      "parentUuid": "16f10bec_cd51f228",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 43
+      },
+      "revId": "8301a236699846679268bc84084f947dd45cc15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "288949a2_8f6caa52",
@@ -153,6 +249,30 @@
       "writtenOn": "2023-09-28T09:17:55Z",
       "side": 1,
       "message": "Ben is correct. Patch-sets are targeting different branches.\n\nThis is the case where user pushed PS2 to refs/for/master, then pushed PS3 to refs/for/stable-3.8",
+      "parentUuid": "288949a2_8f6caa52",
+      "range": {
+        "startLine": 147,
+        "startChar": 11,
+        "endLine": 147,
+        "endChar": 44
+      },
+      "revId": "8301a236699846679268bc84084f947dd45cc15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38f93583_fdf6785d",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-09-28T10:43:15Z",
+      "side": 1,
+      "message": "Patchsets are targeting a branch. Parents may be \"from\" a branch or \"reachable\" from the tip of a branch or \"merged\" into a branch. But they don\u0027t \"target\" anything. :-)",
       "parentUuid": "288949a2_8f6caa52",
       "range": {
         "startLine": 147,
@@ -258,6 +378,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "52135a13_31ae1ea9",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-09-28T10:43:15Z",
+      "side": 1,
+      "message": "Because we have already compared the commitId and the branch. The branch is the same, the commitId is different. Otherwise there is no additional information. So this is a normal rebase.\n\nAdded a comment.",
+      "parentUuid": "fac2cb0d_902942c8",
+      "range": {
+        "startLine": 175,
+        "startChar": 6,
+        "endLine": 179,
+        "endChar": 11
+      },
+      "revId": "8301a236699846679268bc84084f947dd45cc15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9789ee1a_58ce696f",
@@ -281,6 +425,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ec6ac10_de3561be",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-09-28T10:43:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9789ee1a_58ce696f",
+      "range": {
+        "startLine": 173,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 5
+      },
+      "revId": "8301a236699846679268bc84084f947dd45cc15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc27d4e9_a2809f10",
@@ -294,6 +462,30 @@
       "writtenOn": "2023-09-27T12:43:08Z",
       "side": 1,
       "message": "nit: the new line, here breaks the sentence. Is this expected? Why do we need that?\n\nAlso it\u0027s apparently possible to have the 2nd message without the first, which also seems wrong (at least because it would lead to a confusing strings like \"from another branch\" with nothing else)",
+      "range": {
+        "startLine": 349,
+        "startChar": 2,
+        "endLine": 361,
+        "endChar": 5
+      },
+      "revId": "8301a236699846679268bc84084f947dd45cc15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98a6b588_97b8f064",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-09-28T10:43:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc27d4e9_a2809f10",
       "range": {
         "startLine": 349,
         "startChar": 2,

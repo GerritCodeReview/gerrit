@@ -25,11 +25,4 @@ public class ExperimentFeaturesConstants {
 
   /** Features, enabled by default in the current release. */
   public static final ImmutableSet<String> DEFAULT_ENABLED_FEATURES = ImmutableSet.of();
-
-  /**
-   * Sets ChangeInfo.id to "'<project>~<_number>'", instead of "'<project>~<branch>~<Change-Id>'",
-   * spearing an index lookup if the id is used in the follow-up API calls.
-   */
-  public static String GERRIT_BACKEND_FEATURE_RETURN_NEW_CHANGE_INFO_ID =
-      "GerritBackendFeature__return_new_change_info_id";
 }

@@ -24,6 +24,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4038220_49fda233",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-28T12:26:01Z",
+      "side": 1,
+      "message": "I\u0027ve tried testing this E2E with simple _provider-consumer_ plugins and couldn\u0027t make it work.\n\nI\u0027ve created two new plugins `api-provider` and `api-consumer`. The first one has `Gerrit-ApiModule` set to `ApiProviderModule` in `MANIFEST.MF`. It\u0027s also providing a simple _greeting_ service with a default implementation. The `GreetingService` interface is bound to `DefaultGreetingService` class in `ApiProviderModule`.\n\nThe second plugin, has just a `Greet` class that depends on `GreetingService` (through constructor injection). The consumer plugin sets `Gerrit-Module` in its `MANIFEST.MF` to `ConsumerModule` where `Greet` is bound as _eager singleton_.\n\nThe `api-provider.api.jar` file is in `$gerrit_testsite/lib` and `api-consumer.jar` in `$gerrit_testsite/plugins`.\n\nSo far so good. But when Gerrit starts it\u0027s complaining `No implementation for GreetingsService was bound`.\n\nDid I miss anything in the setup?",
+      "revId": "e1c2e2350309cf81215f4044cad8c3d23ba72b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cebd305f_462ed195",

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3401a6b2_9d955e26",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-09-28T15:21:59Z",
+      "side": 1,
+      "message": "I don\u0027t think so.",
+      "parentUuid": "b660b025_fcdd2ded",
+      "range": {
+        "startLine": 168,
+        "startChar": 40,
+        "endLine": 168,
+        "endChar": 41
+      },
+      "revId": "d542a1dc188a148bf00dd32fed2cf2fc0157011c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0fc34356_c8a7afe8",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-09-28T11:46:24Z",
       "side": 1,
       "message": "can we add (merged in target branch)?\n\nAlso same for parentCommitRight.",
+      "range": {
+        "startLine": 211,
+        "startChar": 61,
+        "endLine": 211,
+        "endChar": 62
+      },
+      "revId": "d542a1dc188a148bf00dd32fed2cf2fc0157011c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fb7a496_cc194ff3",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-09-28T15:21:59Z",
+      "side": 1,
+      "message": "I would prefer not to, because the users will likely be more confused than it helps them.\n\nIf the parent commit is not merged in the target branch, then this can only happen, if it is a patchset from another change (otherwise the \"weird\" case applies). And if it has a change/ps parent, then it will get different treatment anyway.\n\nWDYT?",
+      "parentUuid": "0fc34356_c8a7afe8",
       "range": {
         "startLine": 211,
         "startChar": 61,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ef6242b0_9922da8e",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-09-28T15:21:59Z",
+      "side": 1,
+      "message": "The current messaging contains \"may\" in both parts, so I don\u0027t feel we are overstating. :-) I would actually prefer to be vague rather than specific, because I don\u0027t feel confident to enumerate all the possibilities how the diff could be misinterpreted. But again, just my personal opinion, not a strong one. We can choose either way.\n\nMaybe we need a 3rd party (Edwin?) to bring in another perspective?\n\nWDYT?",
+      "parentUuid": "1f5ce2cc_bc0735cd",
+      "range": {
+        "startLine": 259,
+        "startChar": 16,
+        "endLine": 259,
+        "endChar": 52
+      },
+      "revId": "d542a1dc188a148bf00dd32fed2cf2fc0157011c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0b91065_7ac885cd",
         "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents_test.ts",
         "patchSetId": 11
@@ -83,6 +155,30 @@
       "writtenOn": "2023-09-28T11:46:24Z",
       "side": 1,
       "message": "Can we add tests to cover all other use cases? (not sure if I missed locating other tests)",
+      "range": {
+        "startLine": 102,
+        "startChar": 2,
+        "endLine": 102,
+        "endChar": 6
+      },
+      "revId": "d542a1dc188a148bf00dd32fed2cf2fc0157011c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46d35e73_5dae6fe3",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-09-28T15:21:59Z",
+      "side": 1,
+      "message": "Added.",
+      "parentUuid": "c0b91065_7ac885cd",
       "range": {
         "startLine": 102,
         "startChar": 2,

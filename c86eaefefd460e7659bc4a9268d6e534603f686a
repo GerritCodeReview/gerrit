@@ -229,6 +229,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9738fae3_5209a9ca",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-28T15:38:04Z",
+      "side": 1,
+      "message": "Ah OK, right that should be a warning signal too. Thanks for explaining!",
+      "parentUuid": "4bc23060_fa5dd0e2",
+      "revId": "c86eaefefd460e7659bc4a9268d6e534603f686a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "305f3dd5_4ba8ee9e",

@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "356215f4_ca4f6822",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-28T15:38:04Z",
+      "side": 1,
+      "message": "Sure, SGTM.",
+      "parentUuid": "0fb7a496_cc194ff3",
+      "range": {
+        "startLine": 211,
+        "startChar": 61,
+        "endLine": 211,
+        "endChar": 62
+      },
+      "revId": "d542a1dc188a148bf00dd32fed2cf2fc0157011c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f5ce2cc_bc0735cd",
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "The current messaging contains \"may\" in both parts, so I don\u0027t feel we are overstating. :-) I would actually prefer to be vague rather than specific, because I don\u0027t feel confident to enumerate all the possibilities how the diff could be misinterpreted. But again, just my personal opinion, not a strong one. We can choose either way.\n\nMaybe we need a 3rd party (Edwin?) to bring in another perspective?\n\nWDYT?",
       "parentUuid": "1f5ce2cc_bc0735cd",
+      "range": {
+        "startLine": 259,
+        "startChar": 16,
+        "endLine": 259,
+        "endChar": 52
+      },
+      "revId": "d542a1dc188a148bf00dd32fed2cf2fc0157011c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ed8c300_32c297d1",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-28T15:38:04Z",
+      "side": 1,
+      "message": "I agree. After team rollout we might also get opinions from others, then from customers, and this can be easily adapted then.",
+      "parentUuid": "ef6242b0_9922da8e",
       "range": {
         "startLine": 259,
         "startChar": 16,

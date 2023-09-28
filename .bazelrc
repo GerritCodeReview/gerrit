@@ -20,12 +20,14 @@ build:remote --java_language_version=11
 build:remote --java_runtime_version=remotejdk_11
 build:remote --tool_java_language_version=11
 build:remote --tool_java_runtime_version=remotejdk_11
+build:remote --config=remote_shared
 
 # Builds and executes on RBE using remotejdk_17
 build:remote17 --java_language_version=17
 build:remote17 --java_runtime_version=remotejdk_17
 build:remote17 --tool_java_language_version=17
 build:remote17 --tool_java_runtime_version=remotejdk_17
+build:remote17 --config=remote_shared
 
 # Enable strict_action_env flag to. For more information on this feature see
 # https://groups.google.com/forum/#!topic/bazel-discuss/_VmRfMyyHBk.

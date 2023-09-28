@@ -327,24 +327,32 @@ export function branchName(branch?: string | BranchName): BranchName {
   return branch as BranchName;
 }
 
-export function getParentInfoString(
+export function getParentCommit(
   rev?: RevisionInfo | EditRevisionInfo,
   index?: number
 ) {
   const parents = rev?.parents_data ?? [];
   const parent = parents[index ?? 0];
   if (!parent) return '';
+  return shorten(parent.commit_id) ?? '';
+}
 
-  let info = '';
-  if (parent.change_number) {
-    info = `${info}Change ${parent.change_number} at patchset ${parent.patch_set_number}\n`;
-  }
+export function getParentInfoString(
+  rev?: RevisionInfo | EditRevisionInfo,
+  index?: number
+) {
+  const parents = rev?.parents_data ?? [];
+  const parent = parents[index ?? 0];
+  if (!parent || parent.is_merged_in_target_branch) return '';
 
-  if (parent.branch_name) {
-    const commit = shorten(parent.commit_id) ?? 'unknown';
-    info = `${info}Branch ${branchName(
-      parent.branch_name
-    )} at commit ${commit} `;
+  if (index === 0) {
+    if (parent.change_number) {
+      return `Patchset ${parent.patch_set_number} of Change ${parent.change_number}`;
+    } else {
+      return 'Warning: The base commit is not known (aka reachable) in the target branch.';
+    }
+  } else {
+    // For merge changes the parents with index > 0 are expected to be from a different branch.
+    return 'Other branch';
   }
-  return info;
 }

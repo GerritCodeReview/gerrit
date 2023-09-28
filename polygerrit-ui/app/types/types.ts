@@ -19,6 +19,12 @@ import {
   Timestamp,
 } from './common';
 
+// A finalizable object has a single method `finalize` that is called when
+// the object is no longer needed and should clean itself up.
+export interface Finalizable {
+  finalize(): void;
+}
+
 export function isDefined<T>(x: T): x is NonNullable<T> {
   return x !== undefined && x !== null;
 }

@@ -195,9 +195,9 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
       assert.equal(args[0], 1);
       assert.equal(args[1], 'POST' as HttpMethod);
       assert.equal(args[2], '/cherrypick');
-      assert.equal((args[4] as any).destination, 'master');
-      assert.isTrue((args[4] as any).allow_conflicts);
-      assert.isTrue((args[4] as any).allow_empty);
+      assert.equal(args[4].destination, 'master');
+      assert.isTrue(args[4].allow_conflicts);
+      assert.isTrue(args[4].allow_empty);
     });
 
     test('deselecting a change removes it from being cherry picked', async () => {

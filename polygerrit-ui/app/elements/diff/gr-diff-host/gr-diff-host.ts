@@ -906,7 +906,7 @@ export class GrDiffHost extends LitElement {
           this.getIgnoreWhitespace(),
           reject
         )
-        .then(diff => resolve(diff!)); // reject is called in case of error, so we can't get undefined here
+        .then(diff => resolve(diff)); // reject is called in case of error, so we can't get undefined here
     });
   }
 

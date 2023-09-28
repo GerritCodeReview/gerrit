@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69d1fd65_97bc6d04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-09-28T05:56:22Z",
+      "side": 1,
+      "message": "Insert a space here? so that the bug link appears on the UI?",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "1f544609952ca63a7e1b366d13290000441e82e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8dad5bf7_3dac2abf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-09-28T05:56:22Z",
+      "side": 1,
+      "message": "space here as well?",
+      "range": {
+        "startLine": 11,
+        "startChar": 13,
+        "endLine": 11,
+        "endChar": 14
+      },
+      "revId": "1f544609952ca63a7e1b366d13290000441e82e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

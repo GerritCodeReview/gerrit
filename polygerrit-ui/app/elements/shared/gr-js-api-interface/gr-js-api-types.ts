@@ -11,9 +11,8 @@ import {
   ReviewInput,
   RevisionInfo,
 } from '../../../types/common';
-import {Finalizable} from '../../../services/registry';
 import {EventType, TargetElement} from '../../../api/plugin';
-import {ParsedChangeInfo} from '../../../types/types';
+import {Finalizable, ParsedChangeInfo} from '../../../types/types';
 import {MenuLink} from '../../../api/admin';
 import {FileRange, PatchRange} from '../../../api/diff';
 

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {HttpMethod} from '../../constants/constants';
-import {Finalizable} from '../registry';
 import {
   AccountCapabilityInfo,
   AccountDetailInfo,
@@ -98,7 +97,7 @@ import {
   DiffPreferencesInfo,
   IgnoreWhitespaceType,
 } from '../../types/diff';
-import {ParsedChangeInfo} from '../../types/types';
+import {Finalizable, ParsedChangeInfo} from '../../types/types';
 import {ErrorCallback} from '../../api/rest';
 
 export type CancelConditionCallback = () => boolean;

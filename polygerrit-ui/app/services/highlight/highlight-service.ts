@@ -11,10 +11,10 @@ import {
   SyntaxWorkerMessageType,
   SyntaxLayerLine,
 } from '../../types/syntax-worker-api';
+import {Finalizable} from '../../types/types';
 import {prependOrigin} from '../../utils/url-util';
 import {createWorker} from '../../utils/worker-util';
 import {ReportingService} from '../gr-reporting/gr-reporting';
-import {Finalizable} from '../registry';
 
 const hljsLibUrl = `${
   window.STATIC_RESOURCE_PATH ?? ''

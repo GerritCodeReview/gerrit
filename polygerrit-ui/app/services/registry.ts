@@ -4,11 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-// A finalizable object has a single method `finalize` that is called when
-// the object is no longer needed and should clean itself up.
-export interface Finalizable {
-  finalize(): void;
-}
+import {Finalizable} from '../types/types';
 
 // A factory can take a partially created TContext and generate a property
 // for a given key on that TContext.

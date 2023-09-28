@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19010506_90f1aff4",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-28T09:11:44Z",
+      "side": 1,
+      "message": "Optional: thinking about this again, what about we continue to show info message in this case? Two reasons:\n1) UI consistency across all cases\n2) Would still be nice to highlight the fact that the parent is identical\n\n(this could also be a little too noisy, so feel free to ignore for now and we can -optionally - polish it later)",
+      "range": {
+        "startLine": 143,
+        "startChar": 36,
+        "endLine": 143,
+        "endChar": 42
+      },
+      "revId": "c86eaefefd460e7659bc4a9268d6e534603f686a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85d5c4f6_70a17c6a",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-28T09:11:44Z",
+      "side": 1,
+      "message": "Nice! Thanks for adding comments for keeping the flow clear.",
+      "revId": "c86eaefefd460e7659bc4a9268d6e534603f686a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "42db3707_9332da7d",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-28T09:11:44Z",
+      "side": 1,
+      "message": "Optional: also discern the case where both isWeird* are true.",
+      "revId": "c86eaefefd460e7659bc4a9268d6e534603f686a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdfdeb87_a4dc5f22",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-28T09:11:44Z",
+      "side": 1,
+      "message": "Right. But I\u0027d keep the check and the comment. I like that it\u0027s also informative.",
+      "range": {
+        "startLine": 197,
+        "startChar": 6,
+        "endLine": 197,
+        "endChar": 98
+      },
+      "revId": "c86eaefefd460e7659bc4a9268d6e534603f686a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b7ab2f0_0d026a51",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-28T09:11:44Z",
+      "side": 1,
+      "message": "Can we make this (and changeNumRight) hyperlinks to the parent change?",
+      "range": {
+        "startLine": 205,
+        "startChar": 12,
+        "endLine": 205,
+        "endChar": 28
+      },
+      "revId": "c86eaefefd460e7659bc4a9268d6e534603f686a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4533bb1e_5eec5723",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-28T09:11:44Z",
+      "side": 1,
+      "message": "We also need to explicitly cover the case when both change numbers are different. For easier readability, can we do:\n\n```\nchangeNumLeft \u0026\u0026 changeNumRight:\n  if changeNumLeft \u003d\u003d changeNumRight:\n    ..\n  else:\n    ..\nelse if changeNumLeft || changeNumRight:\n  ..\n```",
+      "revId": "c86eaefefd460e7659bc4a9268d6e534603f686a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "305f3dd5_4ba8ee9e",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-28T09:11:44Z",
+      "side": 1,
+      "message": "Can you also add a comment of what state we\u0027ve reached here?\n\nSuggestion: also convert the inlined to condition to if/else, because the \u0026\u0026 condition is also a bit confusing.",
+      "revId": "c86eaefefd460e7659bc4a9268d6e534603f686a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

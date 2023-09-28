@@ -13,7 +13,7 @@ import {
   GroupInfo,
   Hashtag,
 } from '../../api/rest-api';
-import {Model} from '../model';
+import {Model} from '../base/model';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {define} from '../dependency';
 import {select} from '../../utils/observable-util';

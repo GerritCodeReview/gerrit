@@ -18,7 +18,7 @@ import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {select} from '../../utils/observable-util';
 import {FileInfoStatus, SpecialFilePath} from '../../constants/constants';
 import {specialFilePathCompare} from '../../utils/path-list-util';
-import {Model} from '../model';
+import {Model} from '../base/model';
 import {define} from '../dependency';
 import {ChangeModel} from './change-model';
 import {CommentsModel} from '../comments/comments-model';

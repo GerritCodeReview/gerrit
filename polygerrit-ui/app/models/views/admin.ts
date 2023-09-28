@@ -6,7 +6,7 @@
 import {GerritView} from '../../services/router/router-model';
 import {getBaseUrl} from '../../utils/url-util';
 import {define} from '../dependency';
-import {Model} from '../model';
+import {Model} from '../base/model';
 import {Route, ViewState} from './base';
 import {
   RepoName,

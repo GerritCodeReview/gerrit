@@ -27,7 +27,7 @@ import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {DiffPreferencesInfo} from '../../types/diff';
 import {select} from '../../utils/observable-util';
 import {define} from '../dependency';
-import {Model} from '../model';
+import {Model} from '../base/model';
 import {isDefined} from '../../types/types';
 
 export function changeTablePrefs(prefs: Partial<PreferencesInfo>) {

@@ -7,7 +7,7 @@ import {GerritView} from '../../services/router/router-model';
 import {GroupId} from '../../types/common';
 import {encodeURL, getBaseUrl} from '../../utils/url-util';
 import {define} from '../dependency';
-import {Model} from '../model';
+import {Model} from '../base/model';
 import {ViewState} from './base';
 
 export enum GroupDetailView {

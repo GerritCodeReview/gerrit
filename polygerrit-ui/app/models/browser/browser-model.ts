@@ -7,7 +7,7 @@ import {Observable, combineLatest} from 'rxjs';
 import {define} from '../dependency';
 import {DiffViewMode} from '../../api/diff';
 import {UserModel} from '../user/user-model';
-import {Model} from '../model';
+import {Model} from '../base/model';
 import {select} from '../../utils/observable-util';
 
 // This value is somewhat arbitrary and not based on research or calculations.

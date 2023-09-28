@@ -53,7 +53,7 @@ import {getShaByPatchNum} from '../../utils/patch-set-util';
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {Execution, Interaction, Timing} from '../../constants/reporting';
 import {fireAlert, fire} from '../../utils/event-util';
-import {Model} from '../model';
+import {Model} from '../base/model';
 import {define} from '../dependency';
 import {
   ChecksPlugin,

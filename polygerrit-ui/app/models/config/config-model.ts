@@ -9,7 +9,7 @@ import {switchMap} from 'rxjs/operators';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {ChangeModel} from '../change/change-model';
 import {select} from '../../utils/observable-util';
-import {Model} from '../model';
+import {Model} from '../base/model';
 import {define} from '../dependency';
 import {loginUrl} from '../../utils/url-util';
 

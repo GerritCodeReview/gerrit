@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {assert, waitUntil} from '@open-wc/testing';
-import '../test/common-test-setup';
+import '../../test/common-test-setup';
 import {Model} from './model';
 
 interface TestModelState {

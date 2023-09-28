@@ -32,6 +32,19 @@ load("//tools:nongoogle.bzl", "declare_nongoogle_deps")
 load("//tools:deps.bzl", "CAFFEINE_VERS", "java_dependencies")
 
 http_archive(
+    name = "rules_java",
+    sha256 = "07a8785349bdaa63bf42654d0d6cde189a250b2ca59d120c3a96376c30bf6b8b",
+    strip_prefix = "rules_java-6.5.2",
+    urls = [
+        "https://github.com/davido/rules_java/archive/refs/tags/6.5.2.tar.gz",
+    ],
+)
+
+load("@rules_java//java:repositories.bzl", "rules_java_dependencies", "rules_java_toolchains")
+
+rules_java_dependencies()
+
+http_archive(
     name = "platforms",
     sha256 = "3a561c99e7bdbe9173aa653fd579fe849f1d8d67395780ab4770b1f381431d51",
     urls = [
@@ -102,6 +115,14 @@ browser_repositories(
 register_toolchains("//tools:error_prone_warnings_toolchain_java11_definition")
 
 register_toolchains("//tools:error_prone_warnings_toolchain_java17_definition")
+
+register_toolchains("//tools:error_prone_warnings_toolchain_java21_definition")
+
+# Order of registering toolchains matters. rules_java toolchains take precedence
+# over the custom toolchains, so the default jdk21 toolchain gets picked
+# (one without custom package_config). That's why the `rules_java_toolchains()`
+# must be called after the `register_toolchain()` invocation
+rules_java_toolchains()
 
 # Java-Prettify external repository consumed from git submodule
 local_repository(

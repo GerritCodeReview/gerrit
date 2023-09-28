@@ -3923,6 +3923,30 @@ reviewer will also receive a notification (unless notify=NONE).
 |Work in progress|notify=NONE: deleted reviewer (if voted)
 |=============================
 
+[[block-reviewer]]
+=== Block Reviewer
+--
+'POST /changes/link:#change-id[\{change-id\}]/reviewers/link:rest-api-accounts.html#account-id[\{account-id\}]/block'
+--
+
+It performs the `Delete Reviewer` actions plus it adds a reviewer to the
+blocked users group (configured through
+link:config-gerrit.html#groups[groups.blockedUsersGroup]) group.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers/John%20Doe/block HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+.Notifications
+
+TODO: handle options (similarly to Delete Reviewer above), implement and add description of notifications
+
 [[list-votes]]
 === List Votes
 --

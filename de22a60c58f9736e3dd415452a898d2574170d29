@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1affb95_5db00f15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-28T12:17:38Z",
+      "side": 1,
+      "message": "Was the timeline discussed in the ESC ?",
+      "revId": "de22a60c58f9736e3dd415452a898d2574170d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8298e9f5_ab138efc",
+        "filename": "java/Main.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-28T12:17:38Z",
+      "side": 1,
+      "message": "why 17.0.1 and not 17.0.8 or 17.0.0 ?",
+      "range": {
+        "startLine": 19,
+        "startChar": 81,
+        "endLine": 19,
+        "endChar": 87
+      },
+      "revId": "de22a60c58f9736e3dd415452a898d2574170d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

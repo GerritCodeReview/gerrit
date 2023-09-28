@@ -32,6 +32,14 @@ load("//tools:nongoogle.bzl", "declare_nongoogle_deps")
 load("//tools:deps.bzl", "CAFFEINE_VERS", "java_dependencies")
 
 http_archive(
+    name = "rules_java",
+    sha256 = "e81e9deaae0d9d99ef3dd5f6c1b32338447fe16d5564155531ea4eb7ef38854b",
+    urls = [
+        "https://github.com/bazelbuild/rules_java/releases/download/7.0.6/rules_java-7.0.6.tar.gz",
+    ],
+)
+
+http_archive(
     name = "platforms",
     sha256 = "3a561c99e7bdbe9173aa653fd579fe849f1d8d67395780ab4770b1f381431d51",
     urls = [
@@ -102,6 +110,8 @@ browser_repositories(
 register_toolchains("//tools:error_prone_warnings_toolchain_java11_definition")
 
 register_toolchains("//tools:error_prone_warnings_toolchain_java17_definition")
+
+register_toolchains("//tools:error_prone_warnings_toolchain_java21_definition")
 
 # Java-Prettify external repository consumed from git submodule
 local_repository(

@@ -104,8 +104,6 @@ import com.google.gerrit.server.cancellation.RequestCancelledException;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
-import com.google.gerrit.server.experiments.ExperimentFeatures;
-import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -250,13 +248,11 @@ public class ChangeJson {
 
   private AccountLoader accountLoader;
   private FixInput fix;
-  private ExperimentFeatures experimentFeatures;
 
   @Inject
   ChangeJson(
       GitRepositoryManager repoManager,
       AllUsersName allUsers,
-      ExperimentFeatures experimentFeatures,
       Provider<CurrentUser> user,
       PermissionBackend permissionBackend,
       ChangeData.Factory cdf,
@@ -276,7 +272,6 @@ public class ChangeJson {
       @Assisted Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory) {
     this.repoManager = repoManager;
     this.allUsers = allUsers;
-    this.experimentFeatures = experimentFeatures;
     this.userProvider = user;
     this.changeDataFactory = cdf;
     this.permissionBackend = permissionBackend;
@@ -441,18 +436,12 @@ public class ChangeJson {
     return info;
   }
 
-  private static void finish(ChangeInfo info, ExperimentFeatures experimentFeatures) {
+  private static void finish(ChangeInfo info) {
     info.tripletId =
         Joiner.on('~')
             .join(Url.encode(info.project), Url.encode(info.branch), Url.encode(info.changeId));
-    if (experimentFeatures.isFeatureEnabled(
-        ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_RETURN_NEW_CHANGE_INFO_ID,
-        Project.nameKey(info.project))) {
-      info.id =
-          Joiner.on('~').join(Url.encode(info.project), Url.encode(String.valueOf(info._number)));
-    } else {
-      info.id = info.tripletId;
-    }
+    info.id =
+        Joiner.on('~').join(Url.encode(info.project), Url.encode(String.valueOf(info._number)));
   }
 
   private static boolean containsAnyOf(
@@ -593,7 +582,7 @@ public class ChangeJson {
       info.isPrivate = c.isPrivate() ? true : null;
       info.workInProgress = c.isWorkInProgress() ? true : null;
       info.hasReviewStarted = c.hasReviewStarted();
-      finish(info, experimentFeatures);
+      finish(info);
     } else {
       info._number = result.id().get();
       info.problems = result.problems();
@@ -758,7 +747,7 @@ public class ChangeJson {
     if (needMessages) {
       out.messages = messages(cd);
     }
-    finish(out, experimentFeatures);
+    finish(out);
 
     // This block must come after the ChangeInfo is mostly populated, since
     // it will be passed to ActionVisitors as-is.

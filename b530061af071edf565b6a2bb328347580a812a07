@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40135600_a0e028bb",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-28T08:26:07Z",
+      "side": 1,
+      "message": "I\u0027d remove this sentence",
+      "range": {
+        "startLine": 46,
+        "startChar": 37,
+        "endLine": 47,
+        "endChar": 56
+      },
+      "revId": "b530061af071edf565b6a2bb328347580a812a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d9b8450_dcbdf10e",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-28T08:26:07Z",
+      "side": 1,
+      "message": "While the added prose will help beginners to understand, the longer text is harder to parse when trying to find the exact syntax for a task at hand. Maybe add some subtitles to help navigating this page.",
+      "revId": "b530061af071edf565b6a2bb328347580a812a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -21,12 +21,24 @@ default_java_toolchain(
 default_java_toolchain(
     name = "error_prone_warnings_toolchain_java17",
     configuration = dict(),
-    java_runtime = "@bazel_tools//tools/jdk:remotejdk_17",
+    java_runtime = "@rules_java//toolchains:remotejdk_17",
     package_configuration = [
         ":error_prone",
     ],
     source_version = "17",
     target_version = "17",
+    visibility = ["//visibility:public"],
+)
+
+default_java_toolchain(
+    name = "error_prone_warnings_toolchain_java21",
+    configuration = dict(),
+    java_runtime = "@rules_java//toolchains:remotejdk_21",
+    package_configuration = [
+        ":error_prone",
+    ],
+    source_version = "21",
+    target_version = "21",
     visibility = ["//visibility:public"],
 )
 

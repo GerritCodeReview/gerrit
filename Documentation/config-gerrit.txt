@@ -2901,6 +2901,18 @@ group backends that are added by plugins.
 This parameter may be added multiple times to specify multiple relevant
 groups.
 
+[[groups.blockedUsersGroup]]groups.blockedUsersGroup::
++
+Name of the Gerrit's group that should be used as a destination of the
+`Block User` operation. By default empty which implicitly means that
+blocking users operation is disabled.
++
+[NOTE]
+The configured group has to exist before it is provided. Otherwise
+Gerrit will not start and fail with the following error: `The configured
+blocked users group name ({group name}) doesn't exist. Please create it
+prior configuring it.`
+
 [[has-operand-alias]]
 === Section has operand alias
 

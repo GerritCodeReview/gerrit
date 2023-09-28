@@ -123,6 +123,7 @@ public class ChangeRestApiModule extends RestApiModule {
     delete(REVIEWER_KIND).to(DeleteReviewer.class);
     get(REVIEWER_KIND).to(GetReviewer.class);
     post(REVIEWER_KIND, "delete").to(DeleteReviewer.class);
+    post(REVIEWER_KIND, "block").toProvider(BlockUser.BlockUserProvider.class);
     child(REVIEWER_KIND, "votes").to(Votes.class);
 
     child(CHANGE_KIND, "revisions").to(Revisions.class);

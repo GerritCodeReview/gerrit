@@ -16,6 +16,24 @@
       "message": "likely can be restored after some google-internal release untangling",
       "revId": "1f9226d9bbc28eb4af9686bc4d6cda71a2c26736",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c962fc9c_4810c43f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-09-28T07:52:03Z",
+      "side": 1,
+      "message": "Comment removed by: Frank Borden; Reason: internal link exposed",
+      "parentUuid": "a99b3f8e_b6c2e24a",
+      "revId": "1f9226d9bbc28eb4af9686bc4d6cda71a2c26736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "84bc0ef6_7c9ece48",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-28T11:46:24Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "67ba5eb5_74b1d731",
+      "range": {
+        "startLine": 143,
+        "startChar": 36,
+        "endLine": 143,
+        "endChar": 42
+      },
+      "revId": "c86eaefefd460e7659bc4a9268d6e534603f686a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "85d5c4f6_70a17c6a",
         "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
         "patchSetId": 6

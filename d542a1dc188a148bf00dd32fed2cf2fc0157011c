@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b660b025_fcdd2ded",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-28T11:46:24Z",
+      "side": 1,
+      "message": "do you need to leave a space after \u0027are\u0027?\n```suggestion\n          ? `${psLeft} and ${psRight} are `\n```",
+      "range": {
+        "startLine": 168,
+        "startChar": 40,
+        "endLine": 168,
+        "endChar": 41
+      },
+      "revId": "d542a1dc188a148bf00dd32fed2cf2fc0157011c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0fc34356_c8a7afe8",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-28T11:46:24Z",
+      "side": 1,
+      "message": "can we add (merged in target branch)?\n\nAlso same for parentCommitRight.",
+      "range": {
+        "startLine": 211,
+        "startChar": 61,
+        "endLine": 211,
+        "endChar": 62
+      },
+      "revId": "d542a1dc188a148bf00dd32fed2cf2fc0157011c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f5ce2cc_bc0735cd",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-28T11:46:24Z",
+      "side": 1,
+      "message": "Not sure if we\u0027re overstating. The diff is always still meaningful, but some content could\u0027ve potentially be hidden due to the rebase.\n\nI\u0027d suggest rephrasing to: \"Some content could\u0027ve potentially been implicitly merged (included) in the tree due to the rebase\"",
+      "range": {
+        "startLine": 259,
+        "startChar": 16,
+        "endLine": 259,
+        "endChar": 52
+      },
+      "revId": "d542a1dc188a148bf00dd32fed2cf2fc0157011c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0b91065_7ac885cd",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents_test.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-28T11:46:24Z",
+      "side": 1,
+      "message": "Can we add tests to cover all other use cases? (not sure if I missed locating other tests)",
+      "range": {
+        "startLine": 102,
+        "startChar": 2,
+        "endLine": 102,
+        "endChar": 6
+      },
+      "revId": "d542a1dc188a148bf00dd32fed2cf2fc0157011c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

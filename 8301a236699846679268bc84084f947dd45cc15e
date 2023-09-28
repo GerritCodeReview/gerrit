@@ -215,6 +215,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d74bd778_8df43928",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-28T11:46:24Z",
+      "side": 1,
+      "message": "OK. Thanks for explaining. Can we add a comment above L126 with this fact for clarity?",
+      "parentUuid": "2a5054af_4f12ef85",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 43
+      },
+      "revId": "8301a236699846679268bc84084f947dd45cc15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "288949a2_8f6caa52",
         "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
         "patchSetId": 4

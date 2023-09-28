@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0a5b70a2_08f82987",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-28T21:55:01Z",
+      "side": 1,
+      "message": "True, but for the clean-up of the resources and the lifecycle management we already have a solution in Gerrit that works: the lifecycle listener.",
+      "parentUuid": "01906cb8_43acff5a",
+      "range": {
+        "startLine": 108,
+        "startChar": 6,
+        "endLine": 108,
+        "endChar": 58
+      },
+      "revId": "e1c2e2350309cf81215f4044cad8c3d23ba72b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a4038220_49fda233",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 24
@@ -72,6 +96,30 @@
       "writtenOn": "2023-09-26T15:50:11Z",
       "side": 1,
       "message": "This is a quick and dirty way of checking if the JAR file has `Gerrit-ApiModule` in its `MNIFEST.MF`. We should probably refactor logic here and use _some kind of a _wrapper_ around `Path` that knows what kind of plugin it is dealing with. But this would be probably a bigger refactoring in this area.\n\n```suggestion\n              private boolean isApi(Path pluginPath) {\n                if (!isJar(pluginPath)) {\n                  return false;\n                }\n\n                try (JarFile jarFile \u003d new JarFile(pluginPath.toString())) {\n                  String apiModule \u003d\n                      Strings.emptyToNull(\n                          jarFile.getManifest().getMainAttributes().getValue(\"Gerrit-ApiModule\"));\n\n                  return Optional.ofNullable(apiModule).isPresent();\n                } catch (IOException e) {\n                  logger.atWarning().withCause(e).log(\"cannot load plugin JAR file\");\n\n                  return false;\n                }\n              }\n```",
+      "range": {
+        "startLine": 478,
+        "startChar": 14,
+        "endLine": 480,
+        "endChar": 15
+      },
+      "revId": "e1c2e2350309cf81215f4044cad8c3d23ba72b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c34033e7_a7e64015",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-28T21:55:01Z",
+      "side": 1,
+      "message": "I agree, your version looks better and avoids the _hacky_ trick of calling it `.api.jar`.\n\nAlso, opening and checking inside each jar isn\u0027t too expensive in real-life, as nobody is planning to implement tens of thousands of plugins isn\u0027t it?",
+      "parentUuid": "cebd305f_462ed195",
       "range": {
         "startLine": 478,
         "startChar": 14,

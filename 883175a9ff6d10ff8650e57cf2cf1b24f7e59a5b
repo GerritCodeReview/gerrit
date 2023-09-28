@@ -141,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "09acb7c7_5228fa63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-28T21:55:01Z",
+      "side": 1,
+      "message": "Well, OSGi is *way more complex* and we don\u0027t want to get there. The only purpose of this change is to avoid the _hacky_ symlinks between `/plugins` and `/lib` directory, just to allow plugins to access a common interface.\n\nBut I agree that we can leave the topological sorting to a follow-up future change.",
+      "parentUuid": "3eb19763_d92f268d",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 20
+      },
+      "revId": "883175a9ff6d10ff8650e57cf2cf1b24f7e59a5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1f7145f3_34e492d2",

@@ -20,7 +20,6 @@ import {
 import {GrReviewerUpdatesParser} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {parseDate} from '../../utils/date-util';
 import {getBaseUrl} from '../../utils/url-util';
-import {Finalizable} from '../registry';
 import {getParentIndex, isMergeParent} from '../../utils/patch-set-util';
 import {listChangesOptionsToHex} from '../../utils/change-util';
 import {assertNever, hasOwnProperty} from '../../utils/common-util';
@@ -139,7 +138,11 @@ import {
   ReviewerState,
 } from '../../constants/constants';
 import {firePageError, fireServerError} from '../../utils/event-util';
-import {AuthRequestInit, ParsedChangeInfo} from '../../types/types';
+import {
+  AuthRequestInit,
+  Finalizable,
+  ParsedChangeInfo,
+} from '../../types/types';
 import {ErrorCallback} from '../../api/rest';
 import {addDraftProp} from '../../utils/comment-util';
 import {BaseScheduler, Scheduler} from '../scheduler/scheduler';

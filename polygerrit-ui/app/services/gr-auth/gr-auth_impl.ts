@@ -3,10 +3,9 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {AuthRequestInit} from '../../types/types';
+import {AuthRequestInit, Finalizable} from '../../types/types';
 import {fire} from '../../utils/event-util';
 import {getBaseUrl} from '../../utils/url-util';
-import {Finalizable} from '../registry';
 import {
   AuthService,
   AuthStatus,

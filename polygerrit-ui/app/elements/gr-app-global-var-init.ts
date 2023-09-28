@@ -22,7 +22,7 @@ import {
   initClickReporter,
   initInteractionReporter,
 } from '../services/gr-reporting/gr-reporting_impl';
-import {Finalizable} from '../services/registry';
+import {Finalizable} from '../types/types';
 
 export function initGlobalVariables(
   appContext: AppContext & Finalizable,

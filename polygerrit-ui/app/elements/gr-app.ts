@@ -24,7 +24,6 @@ setPassiveTouchGestures(true);
 
 import {initGerrit, initGlobalVariables} from './gr-app-global-var-init';
 import './gr-app-element';
-import {Finalizable} from '../services/registry';
 import {
   DependencyError,
   DependencyToken,
@@ -46,6 +45,7 @@ import {
 } from '../services/service-worker-installer';
 import {pluginLoaderToken} from './shared/gr-js-api-interface/gr-plugin-loader';
 import {getAppContext} from '../services/app-context';
+import {Finalizable} from '../types/types';
 
 initGlobalVariables(createAppContext(), true);
 

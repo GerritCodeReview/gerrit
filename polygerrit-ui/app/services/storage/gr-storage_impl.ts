@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {StorageObject, StorageService} from './gr-storage';
-import {Finalizable} from '../registry';
 import {NumericChangeId} from '../../types/common';
 import {define} from '../../models/dependency';
+import {Finalizable} from '../../types/types';
 
 export const DURATION_DAY = 24 * 60 * 60 * 1000;
 

@@ -7,7 +7,6 @@
 // https://github.com/Polymer/polymer-resin/issues/9 is resolved.
 import '../scripts/bundled-polymer';
 import {getAppContext} from '../services/app-context';
-import {Finalizable} from '../services/registry';
 import {
   createTestAppContext,
   createTestDependencies,
@@ -40,6 +39,7 @@ import * as sinon from 'sinon';
 import '../styles/themes/app-theme';
 import {Creator} from '../services/app-context-init';
 import {pluginLoaderToken} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
+import {Finalizable} from '../types/types';
 
 declare global {
   interface Window {

@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43fe943f_45458833",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 8342,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-09-28T17:02:44Z",
+      "side": 1,
+      "message": "not: needs a space before the paren \"(\"",
+      "range": {
+        "startLine": 8342,
+        "startChar": 31,
+        "endLine": 8342,
+        "endChar": 32
+      },
+      "revId": "04989faa3b2fb7382e4691a33b9eb5f747a6e9a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecb672f0_0abd1fae",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 8343,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-09-28T17:02:44Z",
+      "side": 1,
+      "message": "nit: s/The/this/",
+      "range": {
+        "startLine": 8343,
+        "startChar": 18,
+        "endLine": 8343,
+        "endChar": 22
+      },
+      "revId": "04989faa3b2fb7382e4691a33b9eb5f747a6e9a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6f0f775_e4dc20a7",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-09-28T17:02:44Z",
+      "side": 1,
+      "message": "\u0027user\u0027 is too vague, especially since you are dealing with multiple users. What does this user represent?",
+      "revId": "04989faa3b2fb7382e4691a33b9eb5f747a6e9a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fccfaa13_8bcc7689",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-09-28T17:02:44Z",
+      "side": 1,
+      "message": "What if the email was set to the primary email, I don\u0027t see that being checked here, will it throw an exception then? I think it should be supported, shouldn\u0027t it? Also, what if the email is set to the same email as the commit already had, should that throw an exception even if it is a secondary email? I am wondering if we need this check at all, the user isn\u0027t requesting to see it, they are supplying it afterall? Is the intent of that perm to prevent users from confirming another\u0027s secondary email, or just to prevent the emails from being \"scraped\" for spam reasons?",
+      "revId": "04989faa3b2fb7382e4691a33b9eb5f747a6e9a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99c2629f_7d20385a",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-09-28T17:02:44Z",
+      "side": 1,
+      "message": "Should this check just be \u0027if (self.get().hasSameAccountId(user))\u0027 ? (you relied on that check above anyway)",
+      "revId": "04989faa3b2fb7382e4691a33b9eb5f747a6e9a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e93b0890_77b21ed4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-09-28T17:02:44Z",
+      "side": 1,
+      "message": "Needs a test for primary email also?",
+      "revId": "04989faa3b2fb7382e4691a33b9eb5f747a6e9a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

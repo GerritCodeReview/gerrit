@@ -34,6 +34,24 @@
       "parentUuid": "a99b3f8e_b6c2e24a",
       "revId": "1f9226d9bbc28eb4af9686bc4d6cda71a2c26736",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a98e9551_04b6d959",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-09-28T07:54:05Z",
+      "side": 1,
+      "message": "I now believe it is not related to the releases. See comment https://gerrit-review.googlesource.com/c/gerrit/+/376934/comments/b2030fc8_825d2e13 what is needed for the change to roll forward.",
+      "parentUuid": "c962fc9c_4810c43f",
+      "revId": "1f9226d9bbc28eb4af9686bc4d6cda71a2c26736",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

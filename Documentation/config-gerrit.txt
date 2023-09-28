@@ -989,6 +989,13 @@ or multiple replica nodes.
 The cache should be flushed whenever NoteDb change metadata in a repository is
 modified outside of Gerrit.
 
+cache `"changes_by_project"`::
++
+Ideally, the memorylimit of this cache is large enough to cover all projects.
+This should significantly speed up change ref advertisements and git pushes,
+especially for projects with lots of changes, and particularly on replicas
+where there is no index.
+
 cache `"git_modified_files"`::
 +
 Each item caches the list of git modified files between two git trees

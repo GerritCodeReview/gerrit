@@ -1,4 +1,7 @@
 build --noenable_bzlmod
+build --noreuse_sandbox_directories
+build --experimental_sandbox_async_tree_delete_idle_threads=0
+build --experimental_remote_cache_eviction_retries=1
 
 build --workspace_status_command="python3 ./tools/workspace_status.py"
 build --repository_cache=~/.gerritcodereview/bazel-cache/repository
@@ -12,10 +15,16 @@ build:java11 --tool_java_language_version=11
 build:java11 --tool_java_runtime_version=remotejdk_11
 
 # Builds using remotejdk_17, executes using remotejdk_17 or local_jdk
-build --java_language_version=17
-build --java_runtime_version=remotejdk_17
-build --tool_java_language_version=17
-build --tool_java_runtime_version=remotejdk_17
+build:java17 --java_language_version=17
+build:java17 --java_runtime_version=remotejdk_17
+build:java17 --tool_java_language_version=17
+build:java17 --tool_java_runtime_version=remotejdk_17
+
+# Builds using remotejdk_21, executes using remotejdk_21 or local_jdk
+build --java_language_version=21
+build --java_runtime_version=remotejdk_21
+build --tool_java_language_version=21
+build --tool_java_runtime_version=remotejdk_21
 
 # Builds using remotejdk_21, executes using remotejdk_21 or local_jdk
 build:java21 --java_language_version=21
@@ -31,10 +40,17 @@ build:remote11 --tool_java_runtime_version=remotejdk_11
 build:remote11 --config=remote_shared
 
 # Builds and executes on RBE using remotejdk_17
-build:remote --java_language_version=17
-build:remote --java_runtime_version=remotejdk_17
-build:remote --tool_java_language_version=17
-build:remote --tool_java_runtime_version=remotejdk_17
+build:remote17 --java_language_version=17
+build:remote17 --java_runtime_version=remotejdk_17
+build:remote17 --tool_java_language_version=17
+build:remote17 --tool_java_runtime_version=remotejdk_17
+build:remote17 --config=remote_shared
+
+# Builds and executes on RBE using remotejdk_21
+build:remote --java_language_version=21
+build:remote --java_runtime_version=remotejdk_21
+build:remote --tool_java_language_version=21
+build:remote --tool_java_runtime_version=remotejdk_21
 build:remote --config=remote_shared
 
 # Builds and executes on RBE using remotejdk_21

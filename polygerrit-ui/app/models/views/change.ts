@@ -24,7 +24,7 @@ import {
 } from '../../utils/url-util';
 import {AttemptChoice} from '../checks/checks-util';
 import {define} from '../dependency';
-import {Model} from '../model';
+import {Model} from '../base/model';
 import {ViewState} from './base';
 
 export enum ChangeChildView {

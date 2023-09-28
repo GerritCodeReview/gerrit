@@ -10,7 +10,7 @@ import {UserId} from '../../types/common';
 import {getUserId, isDetailedAccount} from '../../utils/account-util';
 import {hasOwnProperty} from '../../utils/common-util';
 import {define} from '../dependency';
-import {Model} from '../model';
+import {Model} from '../base/model';
 
 export interface AccountsState {
   accounts: {

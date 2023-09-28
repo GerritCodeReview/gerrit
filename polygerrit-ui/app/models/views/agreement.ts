@@ -5,7 +5,7 @@
  */
 import {GerritView} from '../../services/router/router-model';
 import {define} from '../dependency';
-import {Model} from '../model';
+import {Model} from '../base/model';
 import {ViewState} from './base';
 
 export interface AgreementViewState extends ViewState {

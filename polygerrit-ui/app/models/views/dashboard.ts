@@ -9,7 +9,7 @@ import {DashboardId} from '../../types/common';
 import {DashboardSection} from '../../utils/dashboard-util';
 import {encodeURL, getBaseUrl} from '../../utils/url-util';
 import {define} from '../dependency';
-import {Model} from '../model';
+import {Model} from '../base/model';
 import {Route, ViewState} from './base';
 
 export const PROJECT_DASHBOARD_ROUTE: Route<DashboardViewState> = {

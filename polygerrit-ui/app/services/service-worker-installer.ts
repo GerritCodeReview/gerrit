@@ -15,7 +15,7 @@ import {until} from '../utils/async-util';
 import {LifeCycle} from '../constants/reporting';
 import {ReportingService} from './gr-reporting/gr-reporting';
 import {define} from '../models/dependency';
-import {Model} from '../models/model';
+import {Model} from '../models/base/model';
 import {Observable} from 'rxjs';
 import {select} from '../utils/observable-util';
 

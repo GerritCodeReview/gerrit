@@ -32,7 +32,7 @@ import {fireAlert, fireTitleChange} from '../../utils/event-util';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {select} from '../../utils/observable-util';
 import {assertIsDefined} from '../../utils/common-util';
-import {Model} from '../model';
+import {Model} from '../base/model';
 import {UserModel} from '../user/user-model';
 import {define} from '../dependency';
 import {isOwner} from '../../utils/change-util';

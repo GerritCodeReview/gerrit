@@ -43,7 +43,7 @@ import {Interaction, Timing} from '../../constants/reporting';
 import {assert, assertIsDefined} from '../../utils/common-util';
 import {debounce, DelayedTask} from '../../utils/async-util';
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
-import {Model} from '../model';
+import {Model} from '../base/model';
 import {Deduping} from '../../api/reporting';
 import {extractMentionedUsers, getUserId} from '../../utils/account-util';
 import {SpecialFilePath} from '../../constants/constants';

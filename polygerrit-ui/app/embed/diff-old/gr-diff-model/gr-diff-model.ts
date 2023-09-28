@@ -11,7 +11,7 @@ import {
   RenderPreferences,
 } from '../../../api/diff';
 import {define} from '../../../models/dependency';
-import {Model} from '../../../models/model';
+import {Model} from '../../../models/base/model';
 import {isDefined} from '../../../types/types';
 import {select} from '../../../utils/observable-util';
 

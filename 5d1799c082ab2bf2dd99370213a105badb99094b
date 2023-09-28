@@ -16,6 +16,24 @@
       "message": "See comment https://gerrit-review.googlesource.com/c/gerrit/+/376934/comments/b2030fc8_825d2e13 for what is needed for the change to roll forward.",
       "revId": "5d1799c082ab2bf2dd99370213a105badb99094b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d758001a_38a78042",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-09-28T09:44:46Z",
+      "side": 1,
+      "message": "Acknowledged, Raised the updated change here 387814: Revert \"Revert \"Add support to cherry-pick using secondary email in UI\"\" | https://gerrit-review.googlesource.com/c/gerrit/+/387814",
+      "parentUuid": "ae3a5709_c2189b19",
+      "revId": "5d1799c082ab2bf2dd99370213a105badb99094b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

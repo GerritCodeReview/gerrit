@@ -2204,6 +2204,55 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void shouldFailToBlockUserIfDisabled() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes().id(changeId).revision(r.getCommit().name()).review(ReviewInput.recommend());
+
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () ->
+                gApi.changes()
+                    .id(changeId)
+                    .reviewer(user.id().toString())
+                    .block(new DeleteReviewerInput()));
+    assertThat(thrown).hasMessageThat().contains("Blocking users functionality is not enabled");
+  }
+
+  @Test
+  @GerritConfig(name = "groups.blockedUsersGroup", value = "Administrators")
+  public void blockUser() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    gApi.changes().id(changeId).revision(r.getCommit().name()).review(ReviewInput.approve());
+
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes().id(changeId).revision(r.getCommit().name()).review(ReviewInput.recommend());
+
+    Collection<AccountInfo> reviewers = gApi.changes().id(changeId).get().reviewers.get(REVIEWER);
+
+    assertThat(reviewers).hasSize(2);
+    Iterator<AccountInfo> reviewerIt = reviewers.iterator();
+    assertThat(reviewerIt.next()._accountId).isEqualTo(admin.id().get());
+    assertThat(reviewerIt.next()._accountId).isEqualTo(user.id().get());
+
+    sender.clear();
+    requestScopeOperations.setApiUser(admin.id());
+    DeleteReviewerInput input = new DeleteReviewerInput();
+    gApi.changes().id(changeId).reviewer(user.id().toString()).block(input);
+
+    reviewers = gApi.changes().id(changeId).get().reviewers.get(REVIEWER);
+    assertThat(reviewers).hasSize(1);
+    reviewerIt = reviewers.iterator();
+    assertThat(reviewerIt.next()._accountId).isEqualTo(admin.id().get());
+
+    eventRecorder.assertReviewerDeletedEvents(changeId, user.email());
+  }
+
+  @Test
   @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
   public void removeNonVisibleReviewer() throws Exception {
     // allow all users to remove reviewers

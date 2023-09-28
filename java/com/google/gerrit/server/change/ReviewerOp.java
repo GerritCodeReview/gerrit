@@ -70,6 +70,8 @@ public class ReviewerOp implements BatchUpdateOp {
 
     public abstract Optional<Address> deletedReviewerByEmail();
 
+    public abstract Optional<Account.Id> blockedReviewer();
+
     static Builder builder() {
       return new AutoValue_ReviewerOp_Result.Builder()
           .setAddedReviewers(ImmutableList.of())
@@ -91,6 +93,8 @@ public class ReviewerOp implements BatchUpdateOp {
       abstract Builder setDeletedReviewerByEmail(Address deletedReviewerByEmail);
 
       abstract Builder setDeletedReviewer(Account.Id deletedReviewer);
+
+      abstract Builder setBlockedReviewer(Account.Id blockedReviewer);
 
       abstract Result build();
     }

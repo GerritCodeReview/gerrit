@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.api.changes.ReviewerApi;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.VoteResource;
+import com.google.gerrit.server.restapi.change.BlockUser;
 import com.google.gerrit.server.restapi.change.DeleteReviewer;
 import com.google.gerrit.server.restapi.change.DeleteVote;
 import com.google.gerrit.server.restapi.change.Votes;
@@ -38,16 +39,19 @@ public class ReviewerApiImpl implements ReviewerApi {
   private final Votes.List listVotes;
   private final DeleteVote deleteVote;
   private final DeleteReviewer deleteReviewer;
+  private final BlockUser.BlockUserProvider blockUser;
 
   @Inject
   ReviewerApiImpl(
       Votes.List listVotes,
       DeleteVote deleteVote,
       DeleteReviewer deleteReviewer,
+      BlockUser.BlockUserProvider blockUser,
       @Assisted ReviewerResource reviewer) {
     this.listVotes = listVotes;
     this.deleteVote = deleteVote;
     this.deleteReviewer = deleteReviewer;
+    this.blockUser = blockUser;
     this.reviewer = reviewer;
   }
 
@@ -89,6 +93,20 @@ public class ReviewerApiImpl implements ReviewerApi {
       deleteReviewer.apply(reviewer, input);
     } catch (Exception e) {
       throw asRestApiException("Cannot remove reviewer", e);
+    }
+  }
+
+  @Override
+  public void block() throws RestApiException {
+    block(new DeleteReviewerInput());
+  }
+
+  @Override
+  public void block(DeleteReviewerInput input) throws RestApiException {
+    try {
+      blockUser.get().apply(reviewer, input);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot block reviewer", e);
     }
   }
 }

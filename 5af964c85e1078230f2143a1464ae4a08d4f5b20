@@ -125,6 +125,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a3727d75_f210e9d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1156394
+      },
+      "writtenOn": "2023-09-28T09:24:29Z",
+      "side": 1,
+      "message": "\u003e Therefore this Change 376934 seems okay but Change 377155 needs this check added \n in getAccountEmails before it can be un-reverted.\n * I acknowledge this.\n\n\u003e Let me know if you don\u0027t think this is correct.\n * your catch is absolutely correct.",
+      "parentUuid": "48532405_92679183",
+      "revId": "5af964c85e1078230f2143a1464ae4a08d4f5b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "64405740_ca5b9412",
         "filename": "polygerrit-ui/app/models/change/change-model.ts",
         "patchSetId": 7

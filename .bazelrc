@@ -8,31 +8,116 @@ build --repository_cache=~/.gerritcodereview/bazel-cache/repository
 build --action_env=PATH
 build --disk_cache=~/.gerritcodereview/bazel-cache/cas
 
-# Define configuration using remotejdk_17, executes using remotejdk_17 or local_jdk
-build:build_shared --java_language_version=17
-build:build_shared --java_runtime_version=remotejdk_17
-build:build_shared --tool_java_language_version=17
-build:build_shared --tool_java_runtime_version=remotejdk_17
+# Define configuration using remotejdk_21, executes using remotejdk_21 or local_jdk
+build:build_shared --java_language_version=21
+build:build_shared --java_runtime_version=remotejdk_21
+build:build_shared --tool_java_language_version=21
+build:build_shared --tool_java_runtime_version=remotejdk_21
 
-# Builds using remotejdk_17, executes using remotejdk_17 or local_jdk
+# Builds using remotejdk_21, executes using remotejdk_21 or local_jdk
 # Avoid warnings for non default configurations:
 # build --config=build_shared
-build --java_language_version=17
-build --java_runtime_version=remotejdk_17
-build --tool_java_language_version=17
-build --tool_java_runtime_version=remotejdk_17
+build --java_language_version=21
+build --java_runtime_version=remotejdk_21
+build --tool_java_language_version=21
+build --tool_java_runtime_version=remotejdk_21
 
-# Builds and executes on Google GCP RBE using remotejdk_17
+# Builds and executes on RBE using remotejdk_21
 build:remote --config=config_gcp
 build:remote --config=build_shared
 
-# Define remote configuration alias
+# Define remote21 configuration alias
 build:remote_gcp --config=remote
 
-# Builds and executes on BuildBuddy RBE using remotejdk_17
+# Builds and executes on BuildBuddy RBE using remotejdk_21
 build:remote_bb --config=config_bb
 build:remote_bb --config=build_shared
 
+<<<<<<< PATCH SET (ff3f97 Bump Java language level to Java 21 per default)
+# Define configuration using remotejdk_17, executes using remotejdk_17 or local_jdk
+build:build_java17_shared --java_language_version=17
+build:build_java17_shared --java_runtime_version=remotejdk_17
+build:build_java17_shared --tool_java_language_version=17
+build:build_java17_shared --tool_java_runtime_version=remotejdk_17
+
+build:java17 --config=build_java17_shared
+
+# Builds and executes on Google GCP RBE using remotejdk_17
+build:remote17 --config=config_gcp
+build:remote17 --config=build_java17_shared
+
+# Define remote configuration alias
+build:remote17_gcp --config=remote17
+
+# Builds and executes on BuildBuddy RBE using remotejdk_17
+build:remote17_bb --config=config_bb
+build:remote17_bb --config=build_java17_shared
+
+# Define configuration using remotejdk_11, executes using remotejdk_11 or local_jdk
+build:build_java11_shared --java_language_version=11
+build:build_java11_shared --java_runtime_version=remotejdk_11
+build:build_java11_shared --tool_java_language_version=11
+build:build_java11_shared --tool_java_runtime_version=remotejdk_11
+
+build:java11 --config=build_java11_shared
+
+# Builds and executes on Google GCP RBE using remotejdk_11
+build:remote11 --config=config_gcp
+build:remote11 --config=build_java11_shared
+
+# Define remote11 configuration alias
+build:remote11_gcp --config=remote11
+
+# Builds and executes on BuildBuddy RBE using remotejdk_11
+build:remote11_bb --config=config_bb
+build:remote11_bb --config=build_java11_shared
+
+# Enable modern C++ features
+build --cxxopt=-std=c++17
+build --host_cxxopt=-std=c++17
+||||||| BASE
+# Define configuration using remotejdk_11, executes using remotejdk_11 or local_jdk
+build:build_java11_shared --java_language_version=11
+build:build_java11_shared --java_runtime_version=remotejdk_11
+build:build_java11_shared --tool_java_language_version=11
+build:build_java11_shared --tool_java_runtime_version=remotejdk_11
+
+build:java11 --config=build_java11_shared
+
+# Builds and executes on Google GCP RBE using remotejdk_11
+build:remote11 --config=config_gcp
+build:remote11 --config=build_java11_shared
+
+# Define remote11 configuration alias
+build:remote11_gcp --config=remote11
+
+# Builds and executes on BuildBuddy RBE using remotejdk_11
+build:remote11_bb --config=config_bb
+build:remote11_bb --config=build_java11_shared
+
+# Builds using remotejdk_21, executes using remotejdk_21 or local_jdk
+build:build_java21_shared --java_language_version=21
+build:build_java21_shared --java_runtime_version=remotejdk_21
+build:build_java21_shared --tool_java_language_version=21
+build:build_java21_shared --tool_java_runtime_version=remotejdk_21
+
+build:java21 --config=build_java21_shared
+
+# Builds and executes on RBE using remotejdk_21
+build:remote21 --config=config_gcp
+build:remote21 --config=build_java21_shared
+
+# Define remote21 configuration alias
+build:remote21_gcp --config=remote21
+
+# Builds and executes on BuildBuddy RBE using remotejdk_11
+build:remote21_bb --config=config_bb
+build:remote21_bb --config=build_java21_shared
+
+# Enable modern C++ features
+build --cxxopt=-std=c++17
+build --host_cxxopt=-std=c++17
+=======
 # Builds using remotejdk_21, executes using remotejdk_21 or local_jdk
 build:build_java21_shared --java_language_version=21
 build:build_java21_shared --java_runtime_version=remotejdk_21
@@ -51,6 +136,7 @@ build:remote21_gcp --config=remote21
 # Builds and executes on BuildBuddy RBE using remotejdk_21
 build:remote21_bb --config=config_bb
 build:remote21_bb --config=build_java21_shared
+>>>>>>> BASE      (9f7c88 Merge changes I8907fed5,I452da357,I5dc6d4b1,I4360ebdd)
 
 # Enable strict_action_env flag to. For more information on this feature see
 # https://groups.google.com/forum/#!topic/bazel-discuss/_VmRfMyyHBk.

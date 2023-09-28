@@ -49,6 +49,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c147ae16_c7bf554c",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-28T09:17:55Z",
+      "side": 1,
+      "message": "nit: rename to parentLeft (or parentCommitLeft)\n\nalso same for commitRight",
+      "range": {
+        "startLine": 129,
+        "startChar": 10,
+        "endLine": 129,
+        "endChar": 20
+      },
+      "revId": "8301a236699846679268bc84084f947dd45cc15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "16f10bec_cd51f228",
         "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
         "patchSetId": 4
@@ -60,6 +83,30 @@
       "writtenOn": "2023-09-27T12:43:08Z",
       "side": 1,
       "message": "When we compare PS to it\u0027s base, ie. the default diff. The commitLeft !\u003d\u003d commitRight, but no message should be shown. Is this filtered somewhere else?",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 43
+      },
+      "revId": "8301a236699846679268bc84084f947dd45cc15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25bcae1f_6fa77f1c",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-28T09:17:55Z",
+      "side": 1,
+      "message": "+1,\n\n@brohlfs@google.com this whole logic should only apply if the user is doing **patchset** diffs.\n\nvs. base diffs should be excluded.",
+      "parentUuid": "16f10bec_cd51f228",
       "range": {
         "startLine": 140,
         "startChar": 4,
@@ -93,6 +140,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "edf91174_4fdba9dc",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-28T09:17:55Z",
+      "side": 1,
+      "message": "Ben is correct. Patch-sets are targeting different branches.\n\nThis is the case where user pushed PS2 to refs/for/master, then pushed PS3 to refs/for/stable-3.8",
+      "parentUuid": "288949a2_8f6caa52",
+      "range": {
+        "startLine": 147,
+        "startChar": 11,
+        "endLine": 147,
+        "endChar": 44
+      },
+      "revId": "8301a236699846679268bc84084f947dd45cc15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "e907ebe0_30f602cb",
@@ -116,6 +187,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2344f7f1_99ced8bb",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-28T09:17:55Z",
+      "side": 1,
+      "message": "https://docs.google.com/document/d/1kEYRZnLADgS1WWvCChJE7B1FRDytdZmNs_wnx303y70/edit?resourcekey\u003d0-MMNnG-3ZK3SZpI33wguVow\u0026disco\u003dAAAA6uJaWGc",
+      "parentUuid": "e907ebe0_30f602cb",
+      "range": {
+        "startLine": 155,
+        "startChar": 4,
+        "endLine": 162,
+        "endChar": 5
+      },
+      "revId": "8301a236699846679268bc84084f947dd45cc15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fac2cb0d_902942c8",
@@ -129,6 +224,30 @@
       "writtenOn": "2023-09-27T12:43:08Z",
       "side": 1,
       "message": "I am confused, why does the fact that parents do not have associated changes, means there was a rebase?",
+      "range": {
+        "startLine": 175,
+        "startChar": 6,
+        "endLine": 179,
+        "endChar": 11
+      },
+      "revId": "8301a236699846679268bc84084f947dd45cc15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edab1132_4dacaebf",
+        "filename": "polygerrit-ui/app/elements/change/gr-revision-parents/gr-revision-parents.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-09-28T09:17:55Z",
+      "side": 1,
+      "message": "It\u0027s because L140 is false. So at this point, parent commits are different.\n\nI\u0027ll also leave for Ben to resolve.",
+      "parentUuid": "fac2cb0d_902942c8",
       "range": {
         "startLine": 175,
         "startChar": 6,

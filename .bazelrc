@@ -19,6 +19,12 @@ build --java_runtime_version=remotejdk_17
 build --tool_java_language_version=17
 build --tool_java_runtime_version=remotejdk_17
 
+# Builds using remotejdk_21, executes using remotejdk_21 or local_jdk
+build:java21 --java_language_version=21
+build:java21 --java_runtime_version=remotejdk_21
+build:java21 --tool_java_language_version=21
+build:java21 --tool_java_runtime_version=remotejdk_21
+
 # Builds and executes on RBE using remotejdk_11
 build:remote11 --java_language_version=11
 build:remote11 --java_runtime_version=remotejdk_11
@@ -36,6 +42,13 @@ build:remote --config=remote_shared
 # Enable modern C++ features
 build --cxxopt=-std=c++17
 build --host_cxxopt=-std=c++17
+
+# Builds and executes on RBE using remotejdk_21
+build:remote21 --java_language_version=21
+build:remote21 --java_runtime_version=remotejdk_21
+build:remote21 --tool_java_language_version=21
+build:remote21 --tool_java_runtime_version=remotejdk_21
+build:remote21 --config=remote_shared
 
 # Enable strict_action_env flag to. For more information on this feature see
 # https://groups.google.com/forum/#!topic/bazel-discuss/_VmRfMyyHBk.

@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae3a5709_c2189b19",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-09-28T07:52:53Z",
+      "side": 1,
+      "message": "See comment https://gerrit-review.googlesource.com/c/gerrit/+/376934/comments/b2030fc8_825d2e13 for what is needed for the change to roll forward.",
+      "revId": "5d1799c082ab2bf2dd99370213a105badb99094b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

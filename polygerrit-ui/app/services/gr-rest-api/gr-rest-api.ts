@@ -573,6 +573,11 @@ export interface RestApiService extends Finalizable {
     reviewerID: AccountId | EmailAddress | GroupId
   ): Promise<Response | undefined>;
 
+  blockChangeReviewer(
+    changeNum: NumericChangeId,
+    reviewerID: AccountId | EmailAddress | GroupId
+  ): Promise<Response | undefined>;
+
   getGroupAuditLog(
     group: EncodedGroupId,
     errFn?: ErrorCallback

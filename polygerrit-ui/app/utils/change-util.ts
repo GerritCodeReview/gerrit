@@ -227,6 +227,19 @@ export function isRemovableReviewer(
   );
 }
 
+export function isBlockableReviewer(
+  change?: ChangeInfo,
+  reviewer?: AccountInfo
+): boolean {
+  if (!reviewer || !change) return false;
+  if (!change.blockable_reviewers) return false;
+  return change.blockable_reviewers.some(
+    account =>
+      account._account_id === reviewer._account_id ||
+      (!reviewer._account_id && account.email === reviewer.email)
+  );
+}
+
 export function isChangeInfo(
   x: ChangeInfo | RelatedChangeAndCommitInfo | ParsedChangeInfo
 ): x is ChangeInfo | ParsedChangeInfo {

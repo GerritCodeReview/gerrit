@@ -390,6 +390,7 @@ export declare interface ChangeInfo {
   labels?: LabelNameToInfoMap;
   permitted_labels?: LabelNameToValuesMap;
   removable_reviewers?: AccountInfo[];
+  blockable_reviewers?: AccountInfo[];
   // This is documented as optional, but actually always set.
   reviewers: Reviewers;
   pending_reviewers?: AccountInfo[];

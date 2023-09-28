@@ -32,7 +32,7 @@ import {
 } from '../../../utils/attention-set-util';
 import {ReviewerState} from '../../../constants/constants';
 import {CURRENT} from '../../../utils/patch-set-util';
-import {isInvolved, isRemovableReviewer} from '../../../utils/change-util';
+import {isBlockableReviewer, isInvolved, isRemovableReviewer} from '../../../utils/change-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -201,6 +201,7 @@ export class GrHovercardAccountContents extends LitElement {
         : ''}
       ${this.renderNeedsAttention()} ${this.renderAddToAttention()}
       ${this.renderRemoveFromAttention()} ${this.renderReviewerOrCcActions()}
+      ${this.renderBlockReviewerAction()}
     `;
   }
 
@@ -227,6 +228,24 @@ export class GrHovercardAccountContents extends LitElement {
           @click=${this.handleChangeReviewerOrCCStatus}
         >
           ${this.computeChangeReviewerOrCCText()}
+        </gr-button>
+      </div>
+    `;
+  }
+
+  private renderBlockReviewerAction() {
+    // `selfAccount` is required so that logged out users can't perform actions.
+    if (!this.selfAccount || !isBlockableReviewer(this.change, this.account))
+      return nothing;
+    return html`
+      <div class="action">
+        <gr-button
+          class="blockReviewerOrCC"
+          link
+          no-uppercase
+          @click=${this.handleBlockReviewerOrCC}
+        >
+          Block ${this.computeReviewerOrCCText()}
         </gr-button>
       </div>
     `;
@@ -462,6 +481,26 @@ export class GrHovercardAccountContents extends LitElement {
       .then((response: Response | undefined) => {
         if (!response || !response.ok) {
           throw new Error('something went wrong when removing user');
+        }
+        fireReload(this);
+        return response;
+      });
+  }
+
+  private handleBlockReviewerOrCC() {
+    if (!this.change || !(this.account?._account_id || this.account?.email))
+      throw new Error('Missing change or account.');
+    fire(this, 'show-alert', {
+      message: 'Reloading page...',
+    });
+    this.restApiService
+      .blockChangeReviewer(
+        this.change._number,
+        (this.account?._account_id || this.account?.email)!
+      )
+      .then((response: Response | undefined) => {
+        if (!response || !response.ok) {
+          throw new Error('something went wrong when blocking user');
         }
         fireReload(this);
         return response;

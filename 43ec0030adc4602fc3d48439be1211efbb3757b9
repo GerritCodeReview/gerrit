@@ -22,6 +22,30 @@
       },
       "revId": "43ec0030adc4602fc3d48439be1211efbb3757b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "539b398f_0934a5c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-09-28T08:03:20Z",
+      "side": 1,
+      "message": "IN the follow-up change we also swap between remote \u003d\u003e remote11 and Bump language level to Java 17 for remote configuration. That way we wouldn\u0027t touch CI, and even better, cdouls still preserve building with older Java language level.",
+      "parentUuid": "4e630eca_6b08904a",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 15
+      },
+      "revId": "43ec0030adc4602fc3d48439be1211efbb3757b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

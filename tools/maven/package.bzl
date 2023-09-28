@@ -40,7 +40,7 @@ def maven_package(
         src = {},
         doc = {},
         war = {}):
-    build_cmd = ["bazel_cmd", "build", "--java_toolchain=//tools:error_prone_warnings_toolchain_java11"]
+    build_cmd = ["bazel_cmd", "build"]
     mvn_cmd = ["python", "tools/maven/mvn.py", "-v", version]
     api_cmd = mvn_cmd[:]
     api_targets = []

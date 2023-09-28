@@ -89,6 +89,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0b28c2cc_9512e0d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1156394
+      },
+      "writtenOn": "2023-09-28T06:43:16Z",
+      "side": 1,
+      "message": "\u003e Similar Change 387634 broke the UI for logged out users.\n* This change is completely different from Change 387634. However, it also handles the case for logged out user and doesn\u0027t break the UI for logged out user as well.",
+      "parentUuid": "b2030fc8_825d2e13",
+      "revId": "5af964c85e1078230f2143a1464ae4a08d4f5b20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "64405740_ca5b9412",
         "filename": "polygerrit-ui/app/models/change/change-model.ts",
         "patchSetId": 7

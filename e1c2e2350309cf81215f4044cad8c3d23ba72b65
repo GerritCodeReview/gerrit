@@ -41,6 +41,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f4577ee_6054b489",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-28T16:57:56Z",
+      "side": 1,
+      "message": "Have you checked @syntonyze@gmail.com example with the healthcheck plugin?",
+      "parentUuid": "a4038220_49fda233",
+      "revId": "e1c2e2350309cf81215f4044cad8c3d23ba72b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cebd305f_462ed195",

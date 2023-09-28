@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7af427ca_ec3c8c56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-09-28T12:28:14Z",
+      "side": 1,
+      "message": "I would defer to @luca.milanesio@gmail.com for ESC discussion.\n\nIn 2 days the official support for Java 11 is discontinued, though. If some gerrit stockholders are still relying on Java 11, we could apply the same pattern we did with Java 8 \u003d\u003e Java 11 transition: We bump java language level to Java 17 per default, but would still ensure Java 11 language level compatibility (by providing a dedicated CI build job). That way anyone would be able to build gerrit version with Java 11 byte code compatibility. Ideas?",
+      "parentUuid": "b1affb95_5db00f15",
+      "revId": "de22a60c58f9736e3dd415452a898d2574170d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8298e9f5_ab138efc",
         "filename": "java/Main.java",
         "patchSetId": 21
@@ -31,6 +49,30 @@
       "writtenOn": "2023-09-28T12:17:38Z",
       "side": 1,
       "message": "why 17.0.1 and not 17.0.8 or 17.0.0 ?",
+      "range": {
+        "startLine": 19,
+        "startChar": 81,
+        "endLine": 19,
+        "endChar": 87
+      },
+      "revId": "de22a60c58f9736e3dd415452a898d2574170d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "310518a8_fac72a2d",
+        "filename": "java/Main.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-09-28T12:28:14Z",
+      "side": 1,
+      "message": "Good point, 17.0.0 is failing to parse. 17.0.8 seems to work and I have it locally installed. Done.",
+      "parentUuid": "8298e9f5_ab138efc",
       "range": {
         "startLine": 19,
         "startChar": 81,

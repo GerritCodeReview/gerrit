@@ -9,7 +9,6 @@ import {hasOwnProperty} from '../../utils/common-util';
 import {NumericChangeId} from '../../types/common';
 import {Deduping, EventDetails, ReportingOptions} from '../../api/reporting';
 import {PluginApi} from '../../api/plugin';
-import {Finalizable} from '../registry';
 import {
   Execution,
   Interaction,
@@ -18,6 +17,7 @@ import {
 } from '../../constants/reporting';
 import {onCLS, onFID, onLCP, Metric, onINP} from 'web-vitals';
 import {getEventPath, isElementTarget} from '../../utils/dom-util';
+import {Finalizable} from '../../types/types';
 
 // Latency reporting constants.
 

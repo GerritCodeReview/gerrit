@@ -460,7 +460,7 @@ export class GrDashboardView extends LitElement {
           // Last query ('owner:self limit:1') is only for evaluation if
           // the user is "New" ie. haven't created any changes yet.
           const lastResultSet = changes.pop();
-          this.showNewUserHelp = lastResultSet!.length === 0;
+          this.showNewUserHelp = lastResultSet.length === 0;
         }
         this.results = changes
           .map((results, i) => {

@@ -3,11 +3,11 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {Finalizable} from './registry';
 import {FlagsService} from './flags/flags';
 import {ReportingService} from './gr-reporting/gr-reporting';
 import {AuthService} from './gr-auth/gr-auth';
 import {RestApiService} from './gr-rest-api/gr-rest-api';
+import {Finalizable} from '../types/types';
 
 export interface AppContext {
   flagsService: FlagsService;

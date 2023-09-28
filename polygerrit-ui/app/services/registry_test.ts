@@ -3,9 +3,10 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {create, Finalizable, Registry} from './registry';
+import {create, Registry} from './registry';
 import '../test/common-test-setup';
 import {assert} from '@open-wc/testing';
+import {Finalizable} from '../types/types';
 
 class Foo implements Finalizable {
   constructor(private readonly final: string[]) {}

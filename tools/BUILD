@@ -30,6 +30,18 @@ default_java_toolchain(
     visibility = ["//visibility:public"],
 )
 
+default_java_toolchain(
+    name = "error_prone_warnings_toolchain_java20",
+    configuration = dict(),
+    java_runtime = "@rules_java_builtin//toolchains:remotejdk_20",
+    package_configuration = [
+        ":error_prone",
+    ],
+    source_version = "20",
+    target_version = "20",
+    visibility = ["//visibility:public"],
+)
+
 # Error Prone errors enabled by default; see ../.bazelrc for how this is
 # enabled. This warnings list is originally based on:
 # https://github.com/bazelbuild/BUILD_file_generator/blob/master/tools/bazel_defs/java.bzl

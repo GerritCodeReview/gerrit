@@ -169,6 +169,12 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       return new ChangeNotes(args, newChange(project, changeId), true, null).load();
     }
 
+    public ChangeNotes create(
+        Project.NameKey project, Change.Id changeId, @Nullable ObjectId metaRevId) {
+      checkArgument(project != null, "project is required");
+      return new ChangeNotes(args, newChange(project, changeId), true, null, metaRevId).load();
+    }
+
     public ChangeNotes create(Repository repository, Project.NameKey project, Change.Id changeId) {
       checkArgument(project != null, "project is required");
       return new ChangeNotes(args, newChange(project, changeId), true, null).load(repository);

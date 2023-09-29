@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5186ffe0_de55bb35",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 8342,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-29T21:31:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43fe943f_45458833",
+      "range": {
+        "startLine": 8342,
+        "startChar": 31,
+        "endLine": 8342,
+        "endChar": 32
+      },
+      "revId": "04989faa3b2fb7382e4691a33b9eb5f747a6e9a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ecb672f0_0abd1fae",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-09-28T17:02:44Z",
       "side": 1,
       "message": "nit: s/The/this/",
+      "range": {
+        "startLine": 8343,
+        "startChar": 18,
+        "endLine": 8343,
+        "endChar": 22
+      },
+      "revId": "04989faa3b2fb7382e4691a33b9eb5f747a6e9a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a146dfb_9af70e56",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 8343,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-29T21:31:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecb672f0_0abd1fae",
       "range": {
         "startLine": 8343,
         "startChar": 18,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f761e73_6915568d",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 565,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-29T21:31:48Z",
+      "side": 1,
+      "message": "It represents the user on whose behalf the rebase will be done. Renamed it now.",
+      "parentUuid": "d6f0f775_e4dc20a7",
+      "revId": "04989faa3b2fb7382e4691a33b9eb5f747a6e9a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fccfaa13_8bcc7689",
@@ -77,6 +143,24 @@
       "writtenOn": "2023-09-28T17:02:44Z",
       "side": 1,
       "message": "What if the email was set to the primary email, I don\u0027t see that being checked here, will it throw an exception then? I think it should be supported, shouldn\u0027t it? Also, what if the email is set to the same email as the commit already had, should that throw an exception even if it is a secondary email? I am wondering if we need this check at all, the user isn\u0027t requesting to see it, they are supplying it afterall? Is the intent of that perm to prevent users from confirming another\u0027s secondary email, or just to prevent the emails from being \"scraped\" for spam reasons?",
+      "revId": "04989faa3b2fb7382e4691a33b9eb5f747a6e9a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23d2b7bb_840fafb7",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 578,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-29T21:31:48Z",
+      "side": 1,
+      "message": "\u003e What if the email was set to the primary email, I don\u0027t see that being checked here, will it throw an exception then? I think it should be supported, shouldn\u0027t it?\n \nYes, if the provided email is the preferred email of the on-behalf-of user, we should be allowing it. Done.\n\nAlso, what if the email is set to the same email as the commit already had, should that throw an exception even if it is a secondary email?\n\nAgreed, this will be a good value add as well. I am now allowing the email if it is used in the previous patch-set. Ideally, we should be allowing an email if it is used in any patch-set of any change that the current user can see, but that might be difficult to accomplish.\n\n I am wondering if we need this check at all, the user isn\u0027t requesting to see it, they are supplying it afterall? Is the intent of that perm to prevent users from confirming another\u0027s secondary email, or just to prevent the emails from being \"scraped\" for spam reasons?\n \nYeah, the intent here is to not confirm on-behalf-of user\u0027s secondary emails if current user does not have permission to view them. Maybe the intent of that capability does not match what we are doing here, but, Edwin suggested it : https://gerrit-review.googlesource.com/c/gerrit/+/368335/comment/3bd2714f_f815ff6f/",
+      "parentUuid": "fccfaa13_8bcc7689",
       "revId": "04989faa3b2fb7382e4691a33b9eb5f747a6e9a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -98,6 +182,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "042faf49_8db8ada1",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-29T21:31:48Z",
+      "side": 1,
+      "message": "I think no, as we should only allow registered emails even when rebase is being performed on behalf of another user.",
+      "parentUuid": "99c2629f_7d20385a",
+      "revId": "04989faa3b2fb7382e4691a33b9eb5f747a6e9a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e93b0890_77b21ed4",
@@ -111,6 +213,24 @@
       "writtenOn": "2023-09-28T17:02:44Z",
       "side": 1,
       "message": "Needs a test for primary email also?",
+      "revId": "04989faa3b2fb7382e4691a33b9eb5f747a6e9a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9f52956_f19da678",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RebaseIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-09-29T21:31:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e93b0890_77b21ed4",
       "revId": "04989faa3b2fb7382e4691a33b9eb5f747a6e9a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

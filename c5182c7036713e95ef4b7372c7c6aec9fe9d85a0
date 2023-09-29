@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "354d5b38_eafa4022",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-09-29T00:20:39Z",
+      "side": 1,
+      "message": "388014: Merge branch \u0027stable-3.6\u0027 into stable-3.7 | https://gerrit-review.googlesource.com/c/gerrit/+/388014\n387938: Merge branch \u0027stable-3.7\u0027 into stable-3.8 | https://gerrit-review.googlesource.com/c/gerrit/+/387938\n388015: Merge branch \u0027stable-3.8\u0027 | https://gerrit-review.googlesource.com/c/gerrit/+/388015\n\nGlad those are finally done, definitely a good call to do that first.",
+      "parentUuid": "acfc6349_ed0a019a",
+      "revId": "c5182c7036713e95ef4b7372c7c6aec9fe9d85a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9f4a4df_523522fd",

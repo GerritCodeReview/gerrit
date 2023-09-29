@@ -52,7 +52,6 @@ java_library(
 
 java_library(
     name = "prettify",
-    data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@prettify//jar"],
+    exports = ["@java-prettify"],
 )

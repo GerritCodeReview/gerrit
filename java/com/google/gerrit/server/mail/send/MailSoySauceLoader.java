@@ -50,6 +50,8 @@ class MailSoySauceLoader {
     "AddKeyHtml.soy",
     "AddToAttentionSet.soy",
     "AddToAttentionSetHtml.soy",
+    "BlockUser.soy",
+    "BlockUserHtml.soy",
     "ChangeFooter.soy",
     "ChangeFooterHtml.soy",
     "ChangeHeader.soy",

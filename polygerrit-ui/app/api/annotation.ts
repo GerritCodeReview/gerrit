@@ -3,7 +3,12 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {CoverageRange, FileRange, TokenHighlightEventDetails} from './diff';
+import {
+  CoverageRange,
+  FileRange,
+  GrDiff,
+  TokenHighlightEventDetails,
+} from './diff';
 import {BasePatchSetNum, ChangeInfo, RevisionPatchSetNum} from './rest-api';
 
 /**
@@ -26,6 +31,7 @@ export declare interface DiffDetails {
   fileRange: FileRange;
   /** @deprecated rely on fileRange.path */
   path: string;
+  diffElement: GrDiff;
 }
 
 export declare type TokenHoverListener = (

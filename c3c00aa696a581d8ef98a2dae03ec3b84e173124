@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b81ff00b_baa54121",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-09-29T09:11:04Z",
+      "side": 1,
+      "message": "Couple of years ago I wrote these POC plugins for that feature:\n\n* https://github.com/davido/gerrit-random-api\n* https://github.com/davido/gerrit-random\n* https://github.com/davido/gerrit-random-impl\n\nThey should still work, right?",
+      "revId": "c3c00aa696a581d8ef98a2dae03ec3b84e173124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

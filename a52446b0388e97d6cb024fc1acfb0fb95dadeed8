@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac6c2b83_c7c8debc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-29T23:24:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61eb73d4_33dbc044",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 11
+      },
+      "revId": "a52446b0388e97d6cb024fc1acfb0fb95dadeed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00f5006e_d5beedb9",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-07-21T06:52:26Z",
       "side": 1,
       "message": "nit: how about\n\u003e All other plugins could include Gerrit-ApiModules as no-link libraries in their BUILD file, so that...",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 46,
+        "endChar": 21
+      },
+      "revId": "a52446b0388e97d6cb024fc1acfb0fb95dadeed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53fc9c6b_bc2b1079",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-29T23:24:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00f5006e_d5beedb9",
       "range": {
         "startLine": 44,
         "startChar": 2,

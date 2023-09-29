@@ -16,6 +16,52 @@
       "message": "Note to the reviewers: I also noticed that JGit is already using this version.",
       "revId": "4f5258143658d00c564b04ea2c7d34d6e3af5fcc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e555a8c7_8eccd89f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-29T12:45:37Z",
+      "side": 1,
+      "message": "version",
+      "range": {
+        "startLine": 9,
+        "startChar": 5,
+        "endLine": 9,
+        "endChar": 11
+      },
+      "revId": "4f5258143658d00c564b04ea2c7d34d6e3af5fcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79fdd9d8_653970f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-29T12:45:37Z",
+      "side": 1,
+      "message": "version",
+      "range": {
+        "startLine": 13,
+        "startChar": 27,
+        "endLine": 13,
+        "endChar": 33
+      },
+      "revId": "4f5258143658d00c564b04ea2c7d34d6e3af5fcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

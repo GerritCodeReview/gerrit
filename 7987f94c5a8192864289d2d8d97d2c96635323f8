@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "448ac391_91e07304",
+        "filename": "java/com/google/gerrit/server/plugins/JarPluginProvider.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-29T23:17:55Z",
+      "side": 1,
+      "message": "The same can be said for all the other `Gerrit-*Module` strings. I agree but that should be done consistently and separate from this change.",
+      "parentUuid": "c34efd72_83ee1946",
+      "revId": "7987f94c5a8192864289d2d8d97d2c96635323f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d6d16ee0_774a93f7",
@@ -52,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7eaa5158_eb651183",
+        "filename": "java/com/google/gerrit/server/plugins/Plugin.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-29T23:17:55Z",
+      "side": 1,
+      "message": "It returns now an Optional\u003cModule\u003e therefore isn\u0027t nullable anymore 😊",
+      "parentUuid": "d6d16ee0_774a93f7",
+      "revId": "7987f94c5a8192864289d2d8d97d2c96635323f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dafe05c5_767f3754",
@@ -65,6 +101,24 @@
       "writtenOn": "2023-05-12T16:42:43Z",
       "side": 1,
       "message": "make this final?",
+      "revId": "7987f94c5a8192864289d2d8d97d2c96635323f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef22e57f_cc645f8e",
+        "filename": "java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-29T23:17:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dafe05c5_767f3754",
       "revId": "7987f94c5a8192864289d2d8d97d2c96635323f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

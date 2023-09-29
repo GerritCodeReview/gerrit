@@ -173,6 +173,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfb3ed6f_dadb42f6",
+        "filename": "java/com/google/gerrit/server/plugins/ServerPlugin.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-29T23:17:55Z",
+      "side": 1,
+      "message": "True, but that\u0027s a separate change IMHO.",
+      "parentUuid": "b02b54a2_c26661aa",
+      "revId": "a52446b0388e97d6cb024fc1acfb0fb95dadeed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab296b7e_0043faa8",

@@ -19,7 +19,7 @@ import {
   GroupInfo,
   Hashtag,
 } from '../../api/rest-api';
-import {BulkActionsModel, LoadingState} from './bulk-actions-model';
+import {BulkActionsModel} from './bulk-actions-model';
 import {getAppContext} from '../../services/app-context';
 import '../../test/common-test-setup';
 import {
@@ -32,6 +32,7 @@ import {SinonStubbedMember} from 'sinon';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {ReviewInput} from '../../types/common';
 import {assert} from '@open-wc/testing';
+import {LoadingStatus} from '../../types/types';
 
 suite('bulk actions model test', () => {
   let bulkActionsModel: BulkActionsModel;
@@ -462,18 +463,18 @@ suite('bulk actions model test', () => {
 
     assert.equal(
       bulkActionsModel.getState().loadingState,
-      LoadingState.NOT_SYNCED
+      LoadingStatus.NOT_LOADED
     );
 
     bulkActionsModel.sync([c1, c2]);
     await waitUntilObserved(
       bulkActionsModel.loadingState$,
-      s => s === LoadingState.LOADING
+      s => s === LoadingStatus.LOADING
     );
 
     await waitUntilObserved(
       bulkActionsModel.loadingState$,
-      s => s === LoadingState.LOADED
+      s => s === LoadingStatus.LOADED
     );
     const model = bulkActionsModel.getState();
 
@@ -502,7 +503,7 @@ suite('bulk actions model test', () => {
     assert.strictEqual(getChangesStub.callCount, 1);
     await waitUntilObserved(
       bulkActionsModel.loadingState$,
-      s => s === LoadingState.LOADING
+      s => s === LoadingStatus.LOADING
     );
     const responsePromise2 = mockPromise<ChangeInfo[]>();
 
@@ -517,7 +518,7 @@ suite('bulk actions model test', () => {
 
     await waitUntilObserved(
       bulkActionsModel.loadingState$,
-      s => s === LoadingState.LOADED
+      s => s === LoadingStatus.LOADED
     );
     const model = bulkActionsModel.getState();
     assert.strictEqual(

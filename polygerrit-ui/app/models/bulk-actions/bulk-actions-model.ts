@@ -27,24 +27,20 @@ import {
 import {getUserId} from '../../utils/account-util';
 import {getChangeNumber} from '../../utils/change-util';
 import {deepEqual} from '../../utils/deep-util';
+import {LoadingStatus} from '../../types/types';
 
 export const bulkActionsModelToken =
   define<BulkActionsModel>('bulk-actions-model');
 
-export enum LoadingState {
-  NOT_SYNCED = 'NOT_SYNCED',
-  LOADING = 'LOADING',
-  LOADED = 'LOADED',
-}
 export interface BulkActionsState {
-  loadingState: LoadingState;
+  loadingState: LoadingStatus;
   selectableChangeNums: NumericChangeId[];
   selectedChangeNums: NumericChangeId[];
   allChanges: Map<NumericChangeId, ChangeInfo>;
 }
 
 const initialState: BulkActionsState = {
-  loadingState: LoadingState.NOT_SYNCED,
+  loadingState: LoadingStatus.NOT_LOADED,
   selectedChangeNums: [],
   selectableChangeNums: [],
   allChanges: new Map(),
@@ -241,7 +237,7 @@ export class BulkActionsModel extends Model<BulkActionsState> {
     );
     const selectableChangeNums = changes.map(c => getChangeNumber(c));
     this.updateState({
-      loadingState: LoadingState.LOADING,
+      loadingState: LoadingStatus.LOADING,
       selectedChangeNums,
       selectableChangeNums,
       allChanges: new Map(),
@@ -265,7 +261,7 @@ export class BulkActionsModel extends Model<BulkActionsState> {
     }
     this.setState({
       ...currentState,
-      loadingState: LoadingState.LOADED,
+      loadingState: LoadingStatus.LOADED,
       allChanges: allDetailedChanges,
     });
   }

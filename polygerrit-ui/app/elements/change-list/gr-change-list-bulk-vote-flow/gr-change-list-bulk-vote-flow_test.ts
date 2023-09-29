@@ -8,7 +8,6 @@ import {GrChangeListBulkVoteFlow} from './gr-change-list-bulk-vote-flow';
 import {
   BulkActionsModel,
   bulkActionsModelToken,
-  LoadingState,
 } from '../../../models/bulk-actions/bulk-actions-model';
 import {
   waitUntilObserved,
@@ -38,6 +37,7 @@ import {ProgressStatus} from '../../../constants/constants';
 import {StandardLabels} from '../../../utils/label-util';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {ReviewResult} from '../../../types/common';
+import {LoadingStatus} from '../../../types/types';
 
 const change1: ChangeInfo = {
   ...createChange(),
@@ -133,7 +133,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     model.sync(changes);
     await waitUntilObserved(
       model.loadingState$,
-      state => state === LoadingState.LOADED
+      state => state === LoadingStatus.LOADED
     );
     await selectChange(change1);
     await element.updateComplete;
@@ -205,7 +205,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     model.sync(changes);
     await waitUntilObserved(
       model.loadingState$,
-      state => state === LoadingState.LOADED
+      state => state === LoadingStatus.LOADED
     );
     stubRestApi('saveChangeReview').callsFake(
       (_changeNum, _patchNum, _review, errFn) =>
@@ -297,7 +297,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     model.sync(changes);
     await waitUntilObserved(
       model.loadingState$,
-      state => state === LoadingState.LOADED
+      state => state === LoadingStatus.LOADED
     );
     await selectChange(change1);
     await element.updateComplete;
@@ -325,7 +325,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     model.sync(changes);
     await waitUntilObserved(
       model.loadingState$,
-      state => state === LoadingState.LOADED
+      state => state === LoadingStatus.LOADED
     );
     await selectChange(change2);
     await element.updateComplete;
@@ -356,7 +356,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     model.sync(changes);
     await waitUntilObserved(
       model.loadingState$,
-      state => state === LoadingState.LOADED
+      state => state === LoadingStatus.LOADED
     );
     await selectChange(change);
     await element.updateComplete;
@@ -455,7 +455,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       model.sync(changes);
       await waitUntilObserved(
         model.loadingState$,
-        state => state === LoadingState.LOADED
+        state => state === LoadingStatus.LOADED
       );
       await selectChange(change1);
       await selectChange(change2);
@@ -513,7 +513,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       model.sync(changes);
       await waitUntilObserved(
         model.loadingState$,
-        state => state === LoadingState.LOADED
+        state => state === LoadingStatus.LOADED
       );
       await selectChange(change1);
       await selectChange(c2);
@@ -532,7 +532,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
       model.sync(changes);
       await waitUntilObserved(
         model.loadingState$,
-        state => state === LoadingState.LOADED
+        state => state === LoadingStatus.LOADED
       );
       await selectChange(change1);
       await selectChange(change2);
@@ -553,7 +553,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     model.sync(changes);
     await waitUntilObserved(
       model.loadingState$,
-      state => state === LoadingState.LOADED
+      state => state === LoadingStatus.LOADED
     );
     await selectChange(change1);
     await element.updateComplete;
@@ -571,7 +571,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
     model.sync(changes);
     await waitUntilObserved(
       model.loadingState$,
-      state => state === LoadingState.LOADED
+      state => state === LoadingStatus.LOADED
     );
     await selectChange(change2);
     await element.updateComplete;
@@ -626,7 +626,7 @@ suite('gr-change-list-bulk-vote-flow tests', () => {
 
     await waitUntilObserved(
       model.loadingState$,
-      state => state === LoadingState.LOADED
+      state => state === LoadingStatus.LOADED
     );
     await selectChange(
       createChangeWithLabels(1 as NumericChangeId, ['a', 'triggerLabelB', 'c'])

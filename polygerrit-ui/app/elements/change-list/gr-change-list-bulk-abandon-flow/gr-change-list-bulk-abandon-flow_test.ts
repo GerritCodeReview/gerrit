@@ -16,7 +16,6 @@ import '../../../test/common-test-setup';
 import {
   BulkActionsModel,
   bulkActionsModelToken,
-  LoadingState,
 } from '../../../models/bulk-actions/bulk-actions-model';
 import './gr-change-list-bulk-abandon-flow';
 import {fixture, waitUntil, assert} from '@open-wc/testing';
@@ -34,6 +33,7 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {ProgressStatus} from '../../../constants/constants';
 import {RequestPayload} from '../../../types/common';
 import {ErrorCallback} from '../../../api/rest';
+import {LoadingStatus} from '../../../types/types';
 
 const change1: ChangeInfo = {...createChange(), _number: 1 as NumericChangeId};
 const change2: ChangeInfo = {...createChange(), _number: 2 as NumericChangeId};
@@ -73,7 +73,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
     model.sync(changes);
     await waitUntilObserved(
       model.loadingState$,
-      state => state === LoadingState.LOADED
+      state => state === LoadingStatus.LOADED
     );
     await selectChange(change1);
     await element.updateComplete;
@@ -121,7 +121,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
     model.sync(changes);
     await waitUntilObserved(
       model.loadingState$,
-      state => state === LoadingState.LOADED
+      state => state === LoadingStatus.LOADED
     );
     await selectChange(change1);
     await element.updateComplete;
@@ -134,7 +134,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
     model.sync(changes);
     await waitUntilObserved(
       model.loadingState$,
-      state => state === LoadingState.LOADED
+      state => state === LoadingStatus.LOADED
     );
     await selectChange(change2);
     await element.updateComplete;
@@ -150,7 +150,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
     model.sync(changes);
     await waitUntilObserved(
       model.loadingState$,
-      state => state === LoadingState.LOADED
+      state => state === LoadingStatus.LOADED
     );
     await selectChange(change1);
     await element.updateComplete;
@@ -174,7 +174,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
     model.sync(changes);
     await waitUntilObserved(
       model.loadingState$,
-      state => state === LoadingState.LOADED
+      state => state === LoadingStatus.LOADED
     );
     await selectChange(change1);
     await element.updateComplete;
@@ -243,7 +243,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
     model.sync(changes);
     await waitUntilObserved(
       model.loadingState$,
-      state => state === LoadingState.LOADED
+      state => state === LoadingStatus.LOADED
     );
     await selectChange(change1);
     await element.updateComplete;
@@ -322,7 +322,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
     model.sync(changes);
     await waitUntilObserved(
       model.loadingState$,
-      state => state === LoadingState.LOADED
+      state => state === LoadingStatus.LOADED
     );
     await selectChange(change1);
     await selectChange(change2);

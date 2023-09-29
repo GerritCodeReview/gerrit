@@ -115,7 +115,7 @@ class ProjectControl {
   }
 
   ChangeControl controlFor(ChangeData cd) {
-    return new ChangeControl(controlForRef(cd.change().getDest()), cd);
+    return new ChangeControl(controlForRef(cd.branchOrThrow()), cd);
   }
 
   RefControl controlForRef(BranchNameKey ref) {
@@ -366,7 +366,7 @@ class ProjectControl {
     @Override
     public ForChange change(ChangeData cd) {
       try {
-        checkProject(cd.change());
+        checkProject(cd);
         return super.change(cd);
       } catch (StorageException e) {
         return FailedPermissionBackend.change("unavailable", e);
@@ -379,13 +379,21 @@ class ProjectControl {
       return super.change(notes);
     }
 
+    private void checkProject(ChangeData cd) {
+      checkProject(cd.project());
+    }
+
     private void checkProject(Change change) {
+      checkProject(change.getProject());
+    }
+
+    private void checkProject(Project.NameKey changeProject) {
       Project.NameKey project = getProject().getNameKey();
       checkArgument(
-          project.equals(change.getProject()),
+          project.equals(changeProject),
           "expected change in project %s, not %s",
           project,
-          change.getProject());
+          changeProject);
     }
 
     @Override

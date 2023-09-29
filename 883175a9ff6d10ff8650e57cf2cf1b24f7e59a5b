@@ -71,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfad8ce8_5839b828",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-29T23:22:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a501aab_2615eb21",
+      "range": {
+        "startLine": 27,
+        "startChar": 15,
+        "endLine": 27,
+        "endChar": 22
+      },
+      "revId": "883175a9ff6d10ff8650e57cf2cf1b24f7e59a5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e9d9001_a00601a0",
@@ -84,6 +108,30 @@
       "writtenOn": "2021-03-11T09:41:16Z",
       "side": 1,
       "message": "Ones that expose an ApiModule",
+      "range": {
+        "startLine": 29,
+        "startChar": 52,
+        "endLine": 30,
+        "endChar": 24
+      },
+      "revId": "883175a9ff6d10ff8650e57cf2cf1b24f7e59a5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2865997_1a236684",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-29T23:22:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e9d9001_a00601a0",
       "range": {
         "startLine": 29,
         "startChar": 52,

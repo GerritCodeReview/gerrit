@@ -66,7 +66,7 @@ class ChangeControl {
 
   /** Can this user see this change? */
   boolean isVisible() {
-    if (getChange().isPrivate() && !isPrivateVisible(changeData)) {
+    if (changeData.isPrivateOrThrow() && !isPrivateVisible(changeData)) {
       return false;
     }
     // Does the user have READ permission on the destination?

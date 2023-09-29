@@ -16,7 +16,9 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -26,6 +28,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.account.BlockUsers.BlockedUsersEnabled;
 import com.google.gerrit.server.change.BlockUserOp;
 import com.google.gerrit.server.change.DeleteReviewerOp;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.context.RefUpdateContext;
@@ -67,16 +70,28 @@ public class BlockUser implements RestModifyView<ReviewerResource, DeleteReviewe
               rsrc.getChangeResource().getProject(),
               rsrc.getChangeResource().getUser(),
               TimeUtil.now())) {
+        bu.setNotify(getNotify(rsrc.getChange(), input));
         DeleteReviewerOp byReviewerOp =
             deleteReviewerOpFactory.create(rsrc.getReviewerUser().getAccount(), input);
         byReviewerOp.suppressEmail();
         bu.addOp(rsrc.getChangeId(), byReviewerOp);
-        bu.addOp(rsrc.getChangeId(), blockUserFactory.create(rsrc.getReviewerUser().getAccount()));
+        bu.addOp(
+            rsrc.getChangeId(),
+            blockUserFactory.create(rsrc.getReviewerUser().getAccount(), input));
         bu.execute();
       }
     }
 
     return Response.none();
+  }
+
+  private static NotifyResolver.Result getNotify(Change change, DeleteReviewerInput input) {
+    NotifyHandling notifyHandling = input.notify;
+    if (notifyHandling == null) {
+      notifyHandling = change.isWorkInProgress() ? NotifyHandling.NONE : NotifyHandling.ALL;
+    }
+
+    return NotifyResolver.Result.create(notifyHandling);
   }
 
   @Singleton

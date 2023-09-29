@@ -3932,8 +3932,8 @@ reviewer will also receive a notification (unless notify=NONE).
 |Work in progress|notify=NONE: deleted reviewer (if voted)
 |=============================
 
-[[block-reviewer]]
-=== Block Reviewer
+[[block-user]]
+=== Block User
 --
 'POST /changes/link:#change-id[\{change-id\}]/reviewers/link:rest-api-accounts.html#account-id[\{account-id\}]/block'
 --
@@ -3947,6 +3947,19 @@ link:config-gerrit.html#groups[groups.blockedUsersGroup]) group.
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers/John%20Doe/block HTTP/1.0
 ----
 
+Options can be provided in the request body as a
+link:#delete-reviewer-input[DeleteReviewerInput] entity.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers/John%20Doe/block HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "notify": "NONE"
+  }
+----
+
 .Response
 ----
   HTTP/1.1 204 No Content
@@ -3954,7 +3967,15 @@ link:config-gerrit.html#groups[groups.blockedUsersGroup]) group.
 
 .Notifications
 
-TODO: handle options (similarly to Delete Reviewer above), implement and add description of notifications
+An email will be sent using the "blockUser" template.
+Note that blocked user will not receive this notification.
+
+[options="header",cols="1,5"]
+|=============================
+|WIP State       |Default Recipients
+|Ready for review|notify=ALL: reviewers, CCs, stars, ALL_COMMENTS watchers
+|Work in progress|notify=NONE: owner (if it wasn't the one who blocked user)
+|=============================
 
 [[list-votes]]
 === List Votes

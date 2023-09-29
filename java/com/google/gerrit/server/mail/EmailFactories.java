@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.mail.send.AttentionSetChangeEmailDecorator;
+import com.google.gerrit.server.mail.send.BlockUserChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.ChangeEmail;
 import com.google.gerrit.server.mail.send.ChangeEmail.ChangeEmailDecorator;
 import com.google.gerrit.server.mail.send.CommentChangeEmailDecorator;
@@ -54,6 +55,7 @@ public interface EmailFactories {
   String ATTENTION_SET_REMOVED = "removeFromAttentionSet";
   String COMMENTS_ADDED = "comment";
   String REVIEWER_DELETED = "deleteReviewer";
+  String USER_BLOCKED = "blockUser";
   String VOTE_DELETED = "deleteVote";
   String CHANGE_MERGED = "merged";
   String NEW_PATCHSET_ADDED = "newpatchset";
@@ -81,6 +83,9 @@ public interface EmailFactories {
 
   /** ChangeEmail decorator that adds information about deleted reviewer to the email. */
   DeleteReviewerChangeEmailDecorator createDeleteReviewerChangeEmail();
+
+  /** ChangeEmail decorator that adds information about blocked user to the email. */
+  BlockUserChangeEmailDecorator createBlockUserChangeEmail();
 
   /** ChangeEmail decorator that adds information about deleted vote to the email. */
   ChangeEmailDecorator createDeleteVoteChangeEmail();

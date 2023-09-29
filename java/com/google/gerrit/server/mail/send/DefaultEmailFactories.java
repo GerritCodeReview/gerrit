@@ -94,6 +94,11 @@ public class DefaultEmailFactories implements EmailFactories {
   }
 
   @Override
+  public BlockUserChangeEmailDecorator createBlockUserChangeEmail() {
+    return new BlockUserChangeEmailDecoratorImpl();
+  }
+
+  @Override
   public ChangeEmailDecorator createDeleteVoteChangeEmail() {
     return new DeleteVoteChangeEmailDecorator();
   }

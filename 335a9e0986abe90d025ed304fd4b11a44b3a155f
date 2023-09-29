@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3b1b143_39a268f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-09-29T15:37:46Z",
+      "side": 1,
+      "message": "nit: `s/people/users`",
+      "range": {
+        "startLine": 19,
+        "startChar": 30,
+        "endLine": 19,
+        "endChar": 36
+      },
+      "revId": "335a9e0986abe90d025ed304fd4b11a44b3a155f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9e16537_40e2bc94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-09-29T15:37:46Z",
+      "side": 1,
+      "message": "nit: redundant",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 6
+      },
+      "revId": "335a9e0986abe90d025ed304fd4b11a44b3a155f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "170cf5e6_254e5435",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-09-29T15:37:46Z",
+      "side": 1,
+      "message": "nit: simplify statement",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 67
+      },
+      "revId": "335a9e0986abe90d025ed304fd4b11a44b3a155f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6c90e2a_5c92ed8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-09-29T15:37:46Z",
+      "side": 1,
+      "message": "add note about startup check",
+      "revId": "335a9e0986abe90d025ed304fd4b11a44b3a155f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "337d8126_a541d8f7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3932,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-09-29T15:37:46Z",
+      "side": 1,
+      "message": "replace it with group name placeholder and link to configuration",
+      "range": {
+        "startLine": 3932,
+        "startChar": 73,
+        "endLine": 3932,
+        "endChar": 88
+      },
+      "revId": "335a9e0986abe90d025ed304fd4b11a44b3a155f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87805fab_9812fedf",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-09-29T15:37:46Z",
+      "side": 1,
+      "message": "remove change `owner` and `committer` from the set so that people are not self-blocking themselves by mistake 😊",
+      "range": {
+        "startLine": 931,
+        "startChar": 6,
+        "endLine": 936,
+        "endChar": 39
+      },
+      "revId": "335a9e0986abe90d025ed304fd4b11a44b3a155f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "682dad14_5e42ec2d",
+        "filename": "java/com/google/gerrit/server/restapi/change/BlockUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-09-29T15:37:46Z",
+      "side": 1,
+      "message": "we shouldn\u0027t offer `Block User` by email",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 73,
+        "endChar": 10
+      },
+      "revId": "335a9e0986abe90d025ed304fd4b11a44b3a155f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

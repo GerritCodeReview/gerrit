@@ -3,6 +3,98 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4ab5d0dc_ce7d12fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-29T16:03:26Z",
+      "side": 1,
+      "message": "This was confusing to me when I first read it and I had to look at the code to understand what you meant. Maybe reword as: \"Fix this by skipping the warning if those bindings are found.\"",
+      "range": {
+        "startLine": 12,
+        "startChar": 62,
+        "endLine": 13,
+        "endChar": 49
+      },
+      "revId": "c26a1569427c7f6e0156473d7180e131b7fbe9ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "374e6d2b_7929e5e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-29T16:03:26Z",
+      "side": 1,
+      "message": "It\u0027s minor, but you could add a note here: \"Fixed startup warning for plugins whose SshModule only provides Ssh*CommandInterceptors\"",
+      "range": {
+        "startLine": 27,
+        "startChar": 15,
+        "endLine": 27,
+        "endChar": 19
+      },
+      "revId": "c26a1569427c7f6e0156473d7180e131b7fbe9ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "315cc9f5_01a25d8d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-29T16:03:26Z",
+      "side": 1,
+      "message": "This is the wrong syntax. Google uses this for their internal bugs. To reference the public issue tracker use `Bug: Issue 302408544`",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 26
+      },
+      "revId": "c26a1569427c7f6e0156473d7180e131b7fbe9ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3753911_0976f4a5",
+        "filename": "java/com/google/gerrit/sshd/SshPluginStarterCallback.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-29T16:03:26Z",
+      "side": 1,
+      "message": "Update this message too.\n```suggestion\n              \"Plugin %s did not define its top-level command, any DynamicOptions, nor any Ssh*CommandInterceptors\",\n```",
+      "range": {
+        "startLine": 74,
+        "startChar": 15,
+        "endLine": 74,
+        "endChar": 84
+      },
+      "revId": "c26a1569427c7f6e0156473d7180e131b7fbe9ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8a3e40bb_9456d6aa",
         "filename": "java/com/google/gerrit/sshd/SshPluginStarterCallback.java",
         "patchSetId": 1
@@ -14,6 +106,30 @@
       "writtenOn": "2023-09-29T11:31:23Z",
       "side": 1,
       "message": "can you name it better? maybe providesCreateCommandInterceptor and providesExecuteCommandInterceptor ?",
+      "range": {
+        "startLine": 86,
+        "startChar": 18,
+        "endLine": 86,
+        "endChar": 39
+      },
+      "revId": "c26a1569427c7f6e0156473d7180e131b7fbe9ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a70cdb07_a139bdca",
+        "filename": "java/com/google/gerrit/sshd/SshPluginStarterCallback.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-29T16:03:26Z",
+      "side": 1,
+      "message": "Or cover both with `providesCommandInterceptor()`?",
+      "parentUuid": "8a3e40bb_9456d6aa",
       "range": {
         "startLine": 86,
         "startChar": 18,

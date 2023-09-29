@@ -70,6 +70,30 @@
       },
       "revId": "15a42375cbff1af4a064aa2db8f892a97ab734e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a367c0bf_a3264f76",
+        "filename": "java/com/google/gerrit/server/notedb/ProjectChangeSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-09-29T09:30:02Z",
+      "side": 1,
+      "message": "@dariusjokilehto@gmail.com if you are referring to the fact that change ids are different than change numbers that is true. \nIt is quite misleading in my opinion the terminoly used in Change.Id . Also even more misleading considering that in this change the Id contains bothe the id (number) and project.",
+      "parentUuid": "950ba8ba_9db0fbeb",
+      "range": {
+        "startLine": 33,
+        "startChar": 26,
+        "endLine": 33,
+        "endChar": 41
+      },
+      "revId": "15a42375cbff1af4a064aa2db8f892a97ab734e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -83,6 +83,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f799dd7_769496e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-29T08:02:54Z",
+      "side": 1,
+      "message": "No, I haven\u0027t. I wanted to do it all from scratch and experience how it would be for the API adopters.\n\nThis way I found that I was missing `gerrit.installModule` with the name of the API module in my `gerrit.config`.\n\nSo, we need the API Module to be mentioned twice, once in the pluing\u0027s Jar `MANIFEST.MF` file as `Gerrit-ApiModule` and then in the `gerrit.config` in `gerrit.installModule` configuration option. Is this by design?",
+      "parentUuid": "6f4577ee_6054b489",
+      "revId": "e1c2e2350309cf81215f4044cad8c3d23ba72b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cebd305f_462ed195",

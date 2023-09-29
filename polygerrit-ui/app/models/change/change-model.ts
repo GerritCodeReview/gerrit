@@ -27,7 +27,7 @@ import {
   findEdit,
   sortRevisions,
 } from '../../utils/patch-set-util';
-import {isDefined, ParsedChangeInfo} from '../../types/types';
+import {isDefined, LoadingStatus, ParsedChangeInfo} from '../../types/types';
 import {fireAlert, fireTitleChange} from '../../utils/event-util';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {select} from '../../utils/observable-util';
@@ -49,13 +49,6 @@ import {computeTruncatedPath} from '../../utils/path-list-util';
 import {PluginLoader} from '../../elements/shared/gr-js-api-interface/gr-plugin-loader';
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {Timing} from '../../constants/reporting';
-
-export enum LoadingStatus {
-  NOT_LOADED = 'NOT_LOADED',
-  LOADING = 'LOADING',
-  RELOADING = 'RELOADING',
-  LOADED = 'LOADED',
-}
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 

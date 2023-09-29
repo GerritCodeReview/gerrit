@@ -30,11 +30,14 @@ import {
   PatchSetNum,
   PatchSetNumber,
 } from '../../types/common';
-import {EditRevisionInfo, ParsedChangeInfo} from '../../types/types';
+import {
+  EditRevisionInfo,
+  LoadingStatus,
+  ParsedChangeInfo,
+} from '../../types/types';
 import {getAppContext} from '../../services/app-context';
 import {
   ChangeState,
-  LoadingStatus,
   updateChangeWithEdit,
   updateRevisionsWithCommitShas,
 } from './change-model';

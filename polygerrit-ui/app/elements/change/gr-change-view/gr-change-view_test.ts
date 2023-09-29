@@ -59,11 +59,10 @@ import {
 import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {SinonFakeTimers} from 'sinon';
 import {GerritView} from '../../../services/router/router-model';
-import {ParsedChangeInfo} from '../../../types/types';
+import {LoadingStatus, ParsedChangeInfo} from '../../../types/types';
 import {
   ChangeModel,
   changeModelToken,
-  LoadingStatus,
 } from '../../../models/change/change-model';
 import {FocusTarget} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrChangeStar} from '../../shared/gr-change-star/gr-change-star';

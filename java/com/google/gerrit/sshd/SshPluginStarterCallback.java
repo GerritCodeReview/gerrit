@@ -24,6 +24,10 @@ import com.google.inject.Inject;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
+import com.google.inject.internal.MoreTypes;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.sshd.server.command.Command;
 
 @Singleton
@@ -63,9 +67,10 @@ class SshPluginStarterCallback implements StartPluginListener, ReloadPluginListe
       try {
         return plugin.getSshInjector().getProvider(key);
       } catch (RuntimeException err) {
-        if (!providesDynamicOptions(plugin)) {
+        if (!providesDynamicOptions(plugin) && !providesCommandInterceptor(plugin)) {
           logger.atWarning().withCause(err).log(
-              "Plugin %s did not define its top-level command nor any DynamicOptions",
+              "Plugin %s did not define its top-level command, any DynamicOptions, nor"
+                  + "any Ssh*CommandInterceptors",
               plugin.getName());
         }
       }
@@ -75,5 +80,17 @@ class SshPluginStarterCallback implements StartPluginListener, ReloadPluginListe
 
   private boolean providesDynamicOptions(Plugin plugin) {
     return dynamicBeans.plugins().contains(plugin.getName());
+  }
+
+  private boolean providesCommandInterceptor(Plugin plugin) {
+    List<TypeLiteral<?>> typeLiterals = new ArrayList<>(2);
+    typeLiterals.add(
+        MoreTypes.canonicalizeForKey(
+            (TypeLiteral<?>) TypeLiteral.get(SshExecuteCommandInterceptor.class)));
+    typeLiterals.add(
+        MoreTypes.canonicalizeForKey(
+            (TypeLiteral<?>) TypeLiteral.get(SshCreateCommandInterceptor.class)));
+    return plugin.getSshInjector().getAllBindings().keySet().stream()
+        .anyMatch(key -> typeLiterals.contains(key.getTypeLiteral()));
   }
 }

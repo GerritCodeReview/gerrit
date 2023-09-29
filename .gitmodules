@@ -1,3 +1,7 @@
+[submodule "modules/java-prettify"]
+	path = modules/java-prettify
+	url = ../java-prettify
+
 [submodule "modules/jgit"]
 	path = modules/jgit
 	url = ../jgit

@@ -103,6 +103,12 @@ register_toolchains("//tools:error_prone_warnings_toolchain_java11_definition")
 
 register_toolchains("//tools:error_prone_warnings_toolchain_java17_definition")
 
+# Java-Prettify external repository consumed from git submodule
+local_repository(
+    name = "java-prettify",
+    path = "modules/java-prettify",
+)
+
 # JGit external repository consumed from git submodule
 local_repository(
     name = "jgit",

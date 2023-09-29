@@ -564,13 +564,6 @@ def java_dependencies():
         sha1 = "b4ce5bc26e6a2674728d0d3c72c21e0b3443666d",
     )
 
-    # prettify must match the version used in Gitiles
-    maven_jar(
-        name = "prettify",
-        artifact = "com.github.twalcari:java-prettify:1.2.2",
-        sha1 = "b8ba1c1eb8b2e45cfd465d01218c6060e887572e",
-    )
-
     maven_jar(
         name = "html-types",
         artifact = "com.google.common.html.types:types:1.0.8",

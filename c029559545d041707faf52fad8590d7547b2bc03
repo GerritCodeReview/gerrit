@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0deba8c0_708fa52f",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-29T12:39:06Z",
+      "side": 1,
+      "message": "remove \"server\" ?",
+      "range": {
+        "startLine": 681,
+        "startChar": 0,
+        "endLine": 681,
+        "endChar": 6
+      },
+      "revId": "c029559545d041707faf52fad8590d7547b2bc03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "815f988c_d8deecb3",
+        "filename": "Documentation/user-review-ui.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-09-29T12:39:06Z",
+      "side": 1,
+      "message": "hiding",
+      "range": {
+        "startLine": 696,
+        "startChar": 9,
+        "endLine": 696,
+        "endChar": 15
+      },
+      "revId": "c029559545d041707faf52fad8590d7547b2bc03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

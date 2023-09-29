@@ -16,6 +16,23 @@
       "message": "LC is needed.",
       "revId": "ec239cf8e285edd899bdd81601fb8973ac4b5bb1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd98e9ea_bc7e6e0f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-09-29T14:10:03Z",
+      "side": 1,
+      "message": "Library-Compliance label is not needed for Guice dependency. In this specific case, it\u0027s required though, because it depends now on `jakarta.inject` library. But given that new Guice version was released by Google Guice team, this dependency should already present at Google? @jrn@google.com could you please check?",
+      "revId": "ec239cf8e285edd899bdd81601fb8973ac4b5bb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

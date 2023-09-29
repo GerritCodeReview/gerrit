@@ -39,6 +39,30 @@
       },
       "revId": "9bfeb0ea79e874bbadeb583492c0e5e91601f463",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "219f559b_118fef86",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCacheImpl.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-09-29T19:49:47Z",
+      "side": 1,
+      "message": "Yup, I was hoping that might be the way to go.",
+      "parentUuid": "29cca438_de1a5df4",
+      "range": {
+        "startLine": 349,
+        "startChar": 23,
+        "endLine": 349,
+        "endChar": 34
+      },
+      "revId": "9bfeb0ea79e874bbadeb583492c0e5e91601f463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

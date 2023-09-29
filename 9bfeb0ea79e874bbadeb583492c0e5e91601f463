@@ -16,6 +16,29 @@
       "message": "Ran formatter, and ran  \n\n bazel build release \u0026\u0026 bazel test --flaky_test_attempts 3 --test_timeout 3600 --test_tag_filters\u003d-flaky //...\n ...\n Executed 200 out of 200 tests: 200 tests pass.\n There were tests whose specified size is too big. Use the --test_verbose_timINFO:  Build completed successfully, 1358 total actions",
       "revId": "9bfeb0ea79e874bbadeb583492c0e5e91601f463",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29cca438_de1a5df4",
+        "filename": "java/com/google/gerrit/server/git/ChangesByProjectCacheImpl.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-09-29T19:19:18Z",
+      "side": 1,
+      "message": "As a follow-up (probably on master), it would be nice to move these two Weights classes to the cache package and reuse them for other cache weighers.",
+      "range": {
+        "startLine": 349,
+        "startChar": 23,
+        "endLine": 349,
+        "endChar": 34
+      },
+      "revId": "9bfeb0ea79e874bbadeb583492c0e5e91601f463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

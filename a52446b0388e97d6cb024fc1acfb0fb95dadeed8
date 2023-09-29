@@ -194,6 +194,30 @@
       },
       "revId": "a52446b0388e97d6cb024fc1acfb0fb95dadeed8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "348821fc_38641921",
+        "filename": "tools/bzl/plugin.bzl",
+        "patchSetId": 23
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-09-29T10:04:08Z",
+      "side": 1,
+      "message": "To differentiate between two kinds of plugins: `plugin` and `api`. Api-plugin must be loaded first.",
+      "parentUuid": "ab296b7e_0043faa8",
+      "range": {
+        "startLine": 20,
+        "startChar": 8,
+        "endLine": 20,
+        "endChar": 24
+      },
+      "revId": "a52446b0388e97d6cb024fc1acfb0fb95dadeed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

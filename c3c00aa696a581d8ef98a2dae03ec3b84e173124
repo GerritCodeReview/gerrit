@@ -34,6 +34,24 @@
       "parentUuid": "b81ff00b_baa54121",
       "revId": "c3c00aa696a581d8ef98a2dae03ec3b84e173124",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c97b865f_89fb7067",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-09-29T10:04:08Z",
+      "side": 1,
+      "message": "I cannot build the patch set 27:\n\n```\njava/com/google/gerrit/server/plugins/ServerPlugin.java:328: error: getApiInjector() in ServerPlugin cannot override getApiInjector() in Plugin\n  public Injector getApiInjector() {\n                  ^\n  return type Injector is not compatible with Optional\u003cInjector\u003e\n```",
+      "parentUuid": "47ecd01d_e8523524",
+      "revId": "c3c00aa696a581d8ef98a2dae03ec3b84e173124",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

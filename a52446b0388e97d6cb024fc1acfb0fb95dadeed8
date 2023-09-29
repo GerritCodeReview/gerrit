@@ -242,6 +242,30 @@
       },
       "revId": "a52446b0388e97d6cb024fc1acfb0fb95dadeed8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7393ed6_6c7fe3a0",
+        "filename": "tools/bzl/plugin.bzl",
+        "patchSetId": 23
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-09-29T23:10:54Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d9f20e94_ef06927c",
+      "range": {
+        "startLine": 20,
+        "startChar": 8,
+        "endLine": 20,
+        "endChar": 24
+      },
+      "revId": "a52446b0388e97d6cb024fc1acfb0fb95dadeed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

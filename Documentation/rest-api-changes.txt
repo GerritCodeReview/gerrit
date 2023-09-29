@@ -3938,6 +3938,19 @@ link:config-gerrit.html#groups[groups.blockedUsersGroup]) group.
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers/John%20Doe/block HTTP/1.0
 ----
 
+Options can be provided in the request body as a
+link:#delete-reviewer-input[DeleteReviewerInput] entity.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers/John%20Doe/block HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "notify": "NONE"
+  }
+----
+
 .Response
 ----
   HTTP/1.1 204 No Content
@@ -3945,7 +3958,15 @@ link:config-gerrit.html#groups[groups.blockedUsersGroup]) group.
 
 .Notifications
 
-TODO: handle options (similarly to Delete Reviewer above), implement and add description of notifications
+An email will be sent using the "blockUser" template.
+Blocked user will never receive the email notification.
+
+[options="header",cols="1,5"]
+|=============================
+|WIP State       |Default Recipients
+|Ready for review|notify=ALL: reviewers, CCs, stars, ALL_COMMENTS watchers
+|Work in progress|notify=NONE: owner (if it wasn't the one who blocked user)
+|=============================
 
 [[list-votes]]
 === List Votes

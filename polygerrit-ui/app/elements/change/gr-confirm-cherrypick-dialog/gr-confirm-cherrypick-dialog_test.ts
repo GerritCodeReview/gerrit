@@ -5,7 +5,12 @@
  */
 import '../../../test/common-test-setup';
 import './gr-confirm-cherrypick-dialog';
-import {queryAll, queryAndAssert, stubRestApi} from '../../../test/test-utils';
+import {
+  query,
+  queryAll,
+  queryAndAssert,
+  stubRestApi,
+} from '../../../test/test-utils';
 import {GrConfirmCherrypickDialog} from './gr-confirm-cherrypick-dialog';
 import {
   BranchName,
@@ -24,11 +29,53 @@ import {createChange, createRevision} from '../../../test/test-data-generators';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {ProgressStatus} from '../../../constants/constants';
 import {fixture, html, assert} from '@open-wc/testing';
+import {GrDropdownList} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 
 const CHERRY_PICK_TYPES = {
   SINGLE_CHANGE: 1,
   TOPIC: 2,
 };
+
+const changes: ChangeInfo[] = [
+  {
+    ...createChange(),
+    id: '1234' as ChangeInfoId,
+    change_id: '12345678901234' as ChangeId,
+    topic: 'T' as TopicName,
+    subject: 'random',
+    project: 'A' as RepoName,
+    _number: 1 as NumericChangeId,
+    revisions: {
+      a: createRevision(),
+    },
+    current_revision: 'a' as CommitId,
+  },
+  {
+    ...createChange(),
+    id: '5678' as ChangeInfoId,
+    change_id: '23456' as ChangeId,
+    topic: 'T' as TopicName,
+    subject: 'a'.repeat(100),
+    project: 'B' as RepoName,
+    _number: 2 as NumericChangeId,
+    revisions: {
+      a: createRevision(),
+    },
+    current_revision: 'a' as CommitId,
+  },
+];
+
+const emails = [
+  {
+    email: 'primary@email.com',
+    preferred: true,
+  },
+  {
+    email: 'secondary@email.com',
+    preferred: false,
+  },
+];
+
 suite('gr-confirm-cherrypick-dialog tests', () => {
   let element: GrConfirmCherrypickDialog;
 
@@ -149,34 +196,6 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
   });
 
   suite('cherry pick topic', () => {
-    const changes: ChangeInfo[] = [
-      {
-        ...createChange(),
-        id: '1234' as ChangeInfoId,
-        change_id: '12345678901234' as ChangeId,
-        topic: 'T' as TopicName,
-        subject: 'random',
-        project: 'A' as RepoName,
-        _number: 1 as NumericChangeId,
-        revisions: {
-          a: createRevision(),
-        },
-        current_revision: 'a' as CommitId,
-      },
-      {
-        ...createChange(),
-        id: '5678' as ChangeInfoId,
-        change_id: '23456' as ChangeId,
-        topic: 'T' as TopicName,
-        subject: 'a'.repeat(100),
-        project: 'B' as RepoName,
-        _number: 2 as NumericChangeId,
-        revisions: {
-          a: createRevision(),
-        },
-        current_revision: 'a' as CommitId,
-      },
-    ];
     setup(async () => {
       element.updateChanges(changes);
       element.cherryPickType = CHERRY_PICK_TYPES.TOPIC;
@@ -289,5 +308,37 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
     const branches = await element.getProjectBranchesSuggestions('test-branch');
     assert.equal(branches.length, 1);
     assert.equal(branches[0].name, 'test-branch');
+  });
+
+  suite('cherry pick single change with committer email', () => {
+    test('hide email dropdown when user has one email', async () => {
+      element.emails = emails.slice(0, 1);
+      await element.updateComplete;
+      assert.notExists(query(element, '#cherryPickEmailDropdown'));
+    });
+
+    test('show email dropdown when user has more than one email', async () => {
+      element.emails = emails;
+      await element.updateComplete;
+      const cherryPickEmailDropdown = queryAndAssert(
+        element,
+        '#cherryPickEmailDropdown'
+      );
+      assert.dom.equal(
+        cherryPickEmailDropdown,
+        `<div id="cherryPickEmailDropdown">Cherry Pick Committer Email
+        <gr-dropdown-list></gr-dropdown-list>
+        <span></span>
+        </div>`
+      );
+      const emailDropdown = queryAndAssert<GrDropdownList>(
+        cherryPickEmailDropdown,
+        'gr-dropdown-list'
+      );
+      assert.deepEqual(
+        emailDropdown.items?.map(e => e.value),
+        emails.map(e => e.email)
+      );
+    });
   });
 });

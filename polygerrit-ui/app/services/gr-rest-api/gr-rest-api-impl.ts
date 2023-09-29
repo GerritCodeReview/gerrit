@@ -793,11 +793,14 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<AccountDetailInfo | undefined>;
   }
 
-  getAccountEmails() {
-    return this._fetchSharedCacheURL({
-      url: '/accounts/self/emails',
-      reportUrlAsIs: true,
-    }) as Promise<EmailInfo[] | undefined>;
+  async getAccountEmails() {
+    const isloggedIn = await this.getLoggedIn();
+    if (isloggedIn) {
+      return this._fetchSharedCacheURL({
+        url: '/accounts/self/emails',
+        reportUrlAsIs: true,
+      }) as Promise<EmailInfo[] | undefined>;
+    } else return;
   }
 
   addAccountEmail(email: string): Promise<Response> {

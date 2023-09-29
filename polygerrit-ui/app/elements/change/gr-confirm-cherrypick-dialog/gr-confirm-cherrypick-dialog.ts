@@ -18,6 +18,8 @@ import {
   ChangeInfoId,
   TopicName,
   ChangeActionDialog,
+  EmailInfo,
+  GitPersonInfo,
 } from '../../../types/common';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {
@@ -30,6 +32,7 @@ import {
   ChangeStatus,
   ProgressStatus,
 } from '../../../constants/constants';
+import {subscribe} from '../../lit/subscription-controller';
 import {fire, fireNoBubble} from '../../../utils/event-util';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -43,6 +46,7 @@ import {uuid} from '../../../utils/common-util';
 import {ParsedChangeInfo} from '../../../types/types';
 import {formStyles} from '../../../styles/form-styles';
 import {branchName} from '../../../utils/patch-set-util';
+import {changeModelToken} from '../../../models/change/change-model';
 
 const SUGGESTIONS_LIMIT = 15;
 const CHANGE_SUBJECT_LIMIT = 50;
@@ -127,12 +131,23 @@ export class GrConfirmCherrypickDialog
   @state()
   private invalidBranch = false;
 
+  @state()
+  emails: EmailInfo[] = [];
+
   @query('#branchInput')
   branchInput!: GrTypedAutocomplete<BranchName>;
+
+  @state()
+  committerEmail?: string;
+
+  @state()
+  latestCommitter?: GitPersonInfo;
 
   private selectedChangeIds = new Set<ChangeInfoId>();
 
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -142,6 +157,16 @@ export class GrConfirmCherrypickDialog
     super();
     this.statuses = {};
     this.query = (text: string) => this.getProjectBranchesSuggestions(text);
+    subscribe(
+      this,
+      () => this.getChangeModel().latestCommitter$,
+      x => (this.latestCommitter = x)
+    );
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.loadEmails();
   }
 
   override willUpdate(changedProperties: PropertyValues) {
@@ -341,6 +366,17 @@ export class GrConfirmCherrypickDialog
         @bind-value-changed=${(e: BindValueChangeEvent) =>
           (this.message = e.detail.value ?? '')}
       ></iron-autogrow-textarea>
+      ${when(
+        this.canShowEmailDropdown(),
+        () => html`<div id="cherryPickEmailDropdown">Cherry Pick Committer Email
+            <gr-dropdown-list
+                .items=${this.getEmailDropdownItems()}
+                .value=${this.committerEmail}
+                @value-change=${this.setCommitterEmail}
+            >
+            </gr-dropdown-list>
+            <span></div>`
+      )}
     `;
   }
 
@@ -580,6 +616,7 @@ export class GrConfirmCherrypickDialog
         topic,
         allow_conflicts: true,
         allow_empty: true,
+        committer_email: this.committerEmail ? this.committerEmail : null,
       };
       const handleError = (response?: Response | null) => {
         this.handleCherryPickFailed(change, response);
@@ -653,5 +690,39 @@ export class GrConfirmCherrypickDialog
         }
         return branches;
       });
+  }
+
+  async loadEmails() {
+    const accountEmails: EmailInfo[] =
+      (await this.restApiService.getAccountEmails()) ?? [];
+    let selectedEmail: string | undefined;
+    accountEmails.forEach(e => {
+      if (e.preferred) {
+        selectedEmail = e.email;
+      }
+    });
+
+    if (accountEmails.some(e => e.email === this.latestCommitter?.email)) {
+      selectedEmail = this.latestCommitter?.email;
+    }
+    this.emails = accountEmails;
+    this.committerEmail = selectedEmail;
+  }
+
+  private canShowEmailDropdown() {
+    return this.emails.length > 1;
+  }
+
+  private getEmailDropdownItems() {
+    return this.emails.map(e => {
+      return {
+        text: e.email,
+        value: e.email,
+      };
+    });
+  }
+
+  private setCommitterEmail(e: CustomEvent<{value: string}>) {
+    this.committerEmail = e.detail.value;
   }
 }

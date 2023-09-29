@@ -40,6 +40,7 @@ import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
@@ -239,6 +240,19 @@ public class ChangeData {
       return assistedFactory.create(project, id, null, null);
     }
 
+    public ChangeData create(Project.NameKey project, Change.Id id, ObjectId metaRevision) {
+      ChangeData cd = assistedFactory.create(project, id, null, null);
+      cd.setMetaRevision(metaRevision);
+      return cd;
+    }
+
+    public ChangeData createNonPrivate(BranchNameKey branch, Change.Id id, ObjectId metaRevision) {
+      ChangeData cd = create(branch.project(), id, metaRevision);
+      cd.branch = branch.branch();
+      cd.isPrivate = false;
+      return cd;
+    }
+
     public ChangeData create(Change change) {
       return assistedFactory.create(change.getProject(), change.getId(), change, null);
     }
@@ -382,7 +396,10 @@ public class ChangeData {
   private List<ChangeMessage> messages;
   private Optional<ChangedLines> changedLines;
   private SubmitTypeRecord submitTypeRecord;
+  private String branch;
+  private Boolean isPrivate;
   private Boolean mergeable;
+  private ObjectId metaRevision;
   private Set<String> hashtags;
   /**
    * Map from {@link com.google.gerrit.entities.Account.Id} to the tip of the edit ref for this
@@ -603,6 +620,55 @@ public class ChangeData {
     return project;
   }
 
+  public BranchNameKey branchOrThrow() {
+    if (change == null) {
+      if (branch != null) {
+        return BranchNameKey.create(project, branch);
+      }
+      throwIfNotLazyLoad("branch");
+      change();
+    }
+    return change.getDest();
+  }
+
+  public boolean isPrivateOrThrow() {
+    if (change == null) {
+      if (isPrivate != null) {
+        return isPrivate;
+      }
+      throwIfNotLazyLoad("isPrivate");
+      change();
+    }
+    return change.isPrivate();
+  }
+
+  public ChangeData setMetaRevision(ObjectId metaRevision) {
+    this.metaRevision = metaRevision;
+    return this;
+  }
+
+  public ObjectId metaRevisionOrThrow() {
+    if (notes == null) {
+      if (metaRevision != null) {
+        return metaRevision;
+      }
+      if (refStates != null) {
+        Set<RefState> refs = refStates.get(project);
+        if (refs != null) {
+          String metaRef = RefNames.changeMetaRef(getId());
+          for (RefState r : refs) {
+            if (r.ref().equals(metaRef)) {
+              return r.id();
+            }
+          }
+        }
+      }
+      throwIfNotLazyLoad("metaRevision");
+      notes();
+    }
+    return notes.getRevision();
+  }
+
   boolean fastIsVisibleTo(CurrentUser user) {
     return visibleTo == user;
   }
@@ -613,7 +679,7 @@ public class ChangeData {
 
   public Change change() {
     if (change == null && lazyload()) {
-      reloadChange();
+      loadChange();
     }
     return change;
   }
@@ -623,13 +689,19 @@ public class ChangeData {
   }
 
   public Change reloadChange() {
+    metaRevision = null;
+    return loadChange();
+  }
+
+  private Change loadChange() {
     try {
-      notes = notesFactory.createChecked(project, legacyId);
+      notes = notesFactory.createChecked(project, legacyId, metaRevision);
     } catch (NoSuchChangeException e) {
       throw new StorageException("Unable to load change " + legacyId, e);
     }
     change = notes.getChange();
     changeServerId = notes.getServerId();
+    metaRevision = null;
     setPatchSets(null);
     return change;
   }
@@ -647,7 +719,8 @@ public class ChangeData {
       if (!lazyload()) {
         throw new StorageException("ChangeNotes not available, lazyLoad = false");
       }
-      notes = notesFactory.create(project(), legacyId);
+      notes = notesFactory.create(project(), legacyId, metaRevision);
+      change = notes.getChange();
     }
     return notes;
   }
@@ -873,11 +946,7 @@ public class ChangeData {
 
   public ReviewerSet reviewers() {
     if (reviewers == null) {
-      if (!lazyload()) {
-        // We are not allowed to load values from NoteDb. Reviewers were not populated with values
-        // from the index. However, we need these values for permission checks.
-        throw new IllegalStateException("reviewers not populated");
-      }
+      throwIfNotLazyLoad("reviewers");
       reviewers = approvalsUtil.getReviewers(notes());
     }
     return reviewers;
@@ -1399,6 +1468,14 @@ public class ChangeData {
 
   public void setRefStatePatterns(Iterable<byte[]> refStatePatterns) {
     this.refStatePatterns = ImmutableList.copyOf(refStatePatterns);
+  }
+
+  private void throwIfNotLazyLoad(String field) {
+    if (!lazyload()) {
+      // We are not allowed to load values from NoteDb. 'field' was not populated, however,
+      // we need this value for permission checks.
+      throw new IllegalStateException("'" + field + "' field not populated");
+    }
   }
 
   @AutoValue

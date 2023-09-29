@@ -22,6 +22,30 @@
       },
       "revId": "15a42375cbff1af4a064aa2db8f892a97ab734e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "950ba8ba_9db0fbeb",
+        "filename": "java/com/google/gerrit/server/notedb/ProjectChangeSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-09-29T09:15:03Z",
+      "side": 1,
+      "message": "That is correct, but the all purpose of this investigation is to be able to have multiple changes with the same number. Intrinsicly they are unique because they are not global but in the project. \n\nTherefore there will be no need to use a function to make the change id globally unique, but it can just be a number.",
+      "parentUuid": "2112bc98_6ee7a7dd",
+      "range": {
+        "startLine": 33,
+        "startChar": 26,
+        "endLine": 33,
+        "endChar": 41
+      },
+      "revId": "15a42375cbff1af4a064aa2db8f892a97ab734e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

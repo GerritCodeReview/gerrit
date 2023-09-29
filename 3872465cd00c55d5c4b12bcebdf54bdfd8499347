@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "697a6785_456fdf37",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-09-29T13:16:55Z",
+      "side": 1,
+      "message": "LC is (still) required. We should exclude those gitiles artifacts from the LC label, because it is internal gitiles project, that is developed by Google and community contributors.",
+      "revId": "3872465cd00c55d5c4b12bcebdf54bdfd8499347",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

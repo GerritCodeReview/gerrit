@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "451abbd4_9405df49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-29T08:30:35Z",
+      "side": 1,
+      "message": "\u003e we already have a solution in Gerrit that works: the lifecycle listener.\n\nIsn\u0027t that only for the server start/stop? not a plugin load/unload?",
+      "parentUuid": "0a5b70a2_08f82987",
+      "range": {
+        "startLine": 108,
+        "startChar": 6,
+        "endLine": 108,
+        "endChar": 58
+      },
+      "revId": "e1c2e2350309cf81215f4044cad8c3d23ba72b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a4038220_49fda233",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 24
@@ -198,6 +222,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "c34033e7_a7e64015",
+      "range": {
+        "startLine": 478,
+        "startChar": 14,
+        "endLine": 480,
+        "endChar": 15
+      },
+      "revId": "e1c2e2350309cf81215f4044cad8c3d23ba72b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60398914_7a581678",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-29T08:30:35Z",
+      "side": 1,
+      "message": "\u003e Also, opening and checking inside each jar isn\u0027t too expensive in real-life, as nobody is planning to implement tens of thousands of plugins isn\u0027t it?\n\nAnd this should only happen \"once\" when the server is starting... and when the directory content is changed. Overall not very often.",
+      "parentUuid": "7d5024db_01c98667",
       "range": {
         "startLine": 478,
         "startChar": 14,

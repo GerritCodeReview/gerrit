@@ -660,6 +660,44 @@ content is unmodified.
 
 image::images/user-review-ui-side-by-side-diff-screen-rename.png[width=400, link="images/user-review-ui-side-by-side-diff-screen-rename.png"]
 
+[[normal-and-rebase-edits]]
+=== Normal and Rebase Edits
+
+In the diff view, Gerrit shows added and removed contents with green and red
+colors respectively.
+
+image::images/user-review-ui-side-by-side-diff-normal-edits.png[width=800, link="images/user-review-ui-side-by-side-diff-normal-edits.png"]
+
+When comparing two patch-sets against each other, and if both patch-sets have
+different bases (parents), Gerrit also identifies parts of the diff that were
+modified due to rebase. Those are called “rebase edits” and are highlighted with
+different colors.
+
+image::images/user-review-ui-side-by-side-diff-rebase-edits.png[width=800, link="images/user-review-ui-side-by-side-diff-rebase-edits.png"]
+
+Gerrit identifies rebase edits by also inspecting the diff between parents, and
+if it detects an edit between parents that’s also an edit between the patch-sets
+(after mapping/transforming the edit), then it marks it as a rebase edit. This
+server first diffs both patch-sets to identify all edits, then potentially
+excludes some of them if they were identified as rebase edits.
+
+image::images/user-review-ui-side-by-side-diff-rebase.png[width=400, link="images/user-review-ui-side-by-side-diff-rebase.png"]
+
+If all edits in a file were due to rebase, the file is skipped and is not shown
+among the list of files in the ‘files tab’.
+
+[[hazardous-rebases]]
+=== Hazardous Rebases
+
+A rebase might be hazardous in some cases. One such example is when users have a
+stack of changes (e.g. two changes as in the below figure) then squash both
+changes and upload the resulting commit as patch-set 2. In this case, PS1 and
+PS2 are identical and Gerrit shows an empty diff, which is a correct diff
+but it’s hidden the fact that new content got implicitly merged into this change
+from the parent change.
+
+image::images/user-review-ui-side-by-side-diff-squash.png[width=400, link="images/user-review-ui-side-by-side-diff-squash.png"]
+
 [[inline-comments]]
 === Inline Comments
 

@@ -161,6 +161,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "534bd750_472d79b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-29T09:01:36Z",
+      "side": 1,
+      "message": "We found the root cause. The API provider jar must go to the `$(gerrit_site)/plugins` directory (not `$(gerrit_site)/lib`. Now everything works as expected!!",
+      "parentUuid": "2f875d87_7c456cd8",
+      "revId": "e1c2e2350309cf81215f4044cad8c3d23ba72b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cebd305f_462ed195",

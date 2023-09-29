@@ -46,6 +46,30 @@
       },
       "revId": "15a42375cbff1af4a064aa2db8f892a97ab734e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5376852d_334498fc",
+        "filename": "java/com/google/gerrit/server/notedb/ProjectChangeSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-09-29T09:27:31Z",
+      "side": 1,
+      "message": "As discussed IRL with Diego, change numbers are called change ids in the source.",
+      "parentUuid": "950ba8ba_9db0fbeb",
+      "range": {
+        "startLine": 33,
+        "startChar": 26,
+        "endLine": 33,
+        "endChar": 41
+      },
+      "revId": "15a42375cbff1af4a064aa2db8f892a97ab734e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -88,7 +88,11 @@ import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
 import {isUnresolved} from '../../../utils/comment-util';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
 import {GrFileList} from '../gr-file-list/gr-file-list';
-import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
+import {
+  EditRevisionInfo,
+  LoadingStatus,
+  ParsedChangeInfo,
+} from '../../../types/types';
 import {
   EditableContentSaveEvent,
   FileActionTapEvent,
@@ -120,7 +124,6 @@ import {
   ShortcutSection,
   shortcutsServiceToken,
 } from '../../../services/shortcuts/shortcuts-service';
-import {LoadingStatus} from '../../../models/change/change-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve} from '../../../models/dependency';
 import {checksModelToken} from '../../../models/checks/checks-model';

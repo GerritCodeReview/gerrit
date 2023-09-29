@@ -54,7 +54,6 @@ import {SinonFakeTimers, SinonStub, SinonStubbedMember} from 'sinon';
 import {
   changeModelToken,
   ChangeModel,
-  LoadingStatus,
 } from '../../../models/change/change-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {GrDiffModeSelector} from '../gr-diff-mode-selector/gr-diff-mode-selector';
@@ -77,6 +76,7 @@ import {
 import {FileNameToNormalizedFileInfoMap} from '../../../models/change/files-model';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
+import {LoadingStatus} from '../../../types/types';
 
 function createComment(
   id: string,

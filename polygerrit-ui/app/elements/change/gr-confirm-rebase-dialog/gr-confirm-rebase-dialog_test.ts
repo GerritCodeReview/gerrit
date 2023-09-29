@@ -22,11 +22,9 @@ import {Key} from '../../../utils/dom-util';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {testResolver} from '../../../test/common-test-setup';
 import {userModelToken} from '../../../models/user/user-model';
-import {
-  changeModelToken,
-  LoadingStatus,
-} from '../../../models/change/change-model';
+import {changeModelToken} from '../../../models/change/change-model';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
+import {LoadingStatus} from '../../../types/types';
 
 suite('gr-confirm-rebase-dialog tests', () => {
   let element: GrConfirmRebaseDialog;

@@ -32,6 +32,13 @@ export enum ErrorType {
   GENERIC = 'GENERIC',
 }
 
+export enum LoadingStatus {
+  NOT_LOADED = 'NOT_LOADED',
+  LOADING = 'LOADING',
+  RELOADING = 'RELOADING',
+  LOADED = 'LOADED',
+}
+
 export interface AuthRequestInit extends RequestInit {
   // RequestInit define headers as HeadersInit, i.e.
   // Headers | string[][] | Record<string, string>

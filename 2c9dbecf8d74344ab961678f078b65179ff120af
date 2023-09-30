@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4abfad33_1ccd2fdf",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-09-30T07:41:40Z",
+      "side": 1,
+      "message": "When starting gerrit `./bin/gerrit.sh run` I get a bunch of exceptions:\n\n```\n[2023-09-30T09:39:41.248+02:00] [main] ERROR com.google.gerrit.server.plugins.PluginLoader : Unable to compare hooks.jar and replication.jar\njava.nio.file.NoSuchFileException: hooks.jar\n\tat java.base/sun.nio.fs.UnixException.translateToIOException(UnixException.java:92)\n\tat java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:111)\n\tat java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:116)\n\tat java.base/sun.nio.fs.UnixFileAttributeViews$Basic.readAttributes(UnixFileAttributeViews.java:55)\n\tat java.base/sun.nio.fs.UnixFileSystemProvider.readAttributes(UnixFileSystemProvider.java:149)\n\tat java.base/java.nio.file.Files.readAttributes(Files.java:1764)\n\tat java.base/java.util.zip.ZipFile$Source.get(ZipFile.java:1259)\n\tat java.base/java.util.zip.ZipFile$CleanableResource.\u003cinit\u003e(ZipFile.java:733)\n\tat java.base/java.util.zip.ZipFile$CleanableResource.get(ZipFile.java:850)\n\tat java.base/java.util.zip.ZipFile.\u003cinit\u003e(ZipFile.java:248)\n\tat java.base/java.util.zip.ZipFile.\u003cinit\u003e(ZipFile.java:177)\n\tat java.base/java.util.jar.JarFile.\u003cinit\u003e(JarFile.java:348)\n\tat java.base/java.util.jar.JarFile.\u003cinit\u003e(JarFile.java:319)\n\tat java.base/java.util.jar.JarFile.\u003cinit\u003e(JarFile.java:285)\n\tat com.google.gerrit.server.plugins.PluginLoader$1.hasApiModuleEntryInManifest(PluginLoader.java:489)\n\tat com.google.gerrit.server.plugins.PluginLoader$1.isApi(PluginLoader.java:485)\n\tat com.google.gerrit.server.plugins.PluginLoader$1.compare(PluginLoader.java:470)\n\tat com.google.gerrit.server.plugins.PluginLoader$1.compare(PluginLoader.java:462)\n\tat java.base/java.util.TreeMap.put(TreeMap.java:550)\n\tat java.base/java.util.TreeSet.add(TreeSet.java:255)\n\tat com.google.gerrit.server.plugins.PluginLoader.addAllEntries(PluginLoader.java:454)\n\tat com.google.gerrit.server.plugins.PluginLoader.jarsApiFirstSortedPluginsSet(PluginLoader.java:496)\n\tat com.google.gerrit.server.plugins.PluginLoader.rescan(PluginLoader.java:401)\n\tat com.google.gerrit.server.plugins.PluginLoader.start(PluginLoader.java:333)\n\tat com.google.gerrit.lifecycle.LifecycleManager.start(LifecycleManager.java:95)\n\tat com.google.gerrit.pgm.Daemon.start(Daemon.java:404)\n\tat com.google.gerrit.pgm.Daemon.run(Daemon.java:297)\n\tat com.google.gerrit.pgm.util.AbstractProgram.main(AbstractProgram.java:62)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\n\tat com.google.gerrit.launcher.GerritLauncher.invokeProgram(GerritLauncher.java:252)\n\tat com.google.gerrit.launcher.GerritLauncher.mainImpl(GerritLauncher.java:148)\n\tat com.google.gerrit.launcher.GerritLauncher.main(GerritLauncher.java:93)\n\tat Main.main(Main.java:30)\n\t```",
+      "revId": "2c9dbecf8d74344ab961678f078b65179ff120af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

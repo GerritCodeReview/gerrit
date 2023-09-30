@@ -282,7 +282,7 @@ also possible to base a new feature on an open change. This will create
 a dependency between the changes in Gerrit and each change can only be
 applied if all its predecessor are applied as well. Dependencies
 between changes can be seen from the
-link:user-review-ui.html#related-changes-tab[Related Changes] tab on
+link:user-review-ui.html#related-changes[Related Changes] tab on
 the change screen.
 
 [[watch]]

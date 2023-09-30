@@ -19,6 +19,7 @@
     required-projects:
       # This inherits from gerrit-base, so submodules listed above do
       # not need to be repeated here.
+      - modules/java-prettify
       - plugins/codemirror-editor
       - plugins/commit-message-length-validator
       - plugins/delete-project

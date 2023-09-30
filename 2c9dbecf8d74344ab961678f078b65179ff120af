@@ -34,6 +34,24 @@
       "parentUuid": "4abfad33_1ccd2fdf",
       "revId": "2c9dbecf8d74344ab961678f078b65179ff120af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3753bc10_7e94caf6",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-09-30T12:38:19Z",
+      "side": 1,
+      "message": "Sorry, that\u0027s my bad. Let\u0027s extract this code into `ServerPluginComparator`:\n\n```java\npackage com.google.gerrit.server.plugins;\n\nimport com.google.common.base.Strings;\nimport com.google.common.collect.ComparisonChain;\nimport java.io.IOException;\nimport java.nio.file.Path;\nimport java.util.Comparator;\nimport java.util.Map;\nimport java.util.Map.Entry;\nimport java.util.jar.JarFile;\n\npublic class ServerPluginComparator implements Comparator\u003cEntry\u003cString, Path\u003e\u003e {\n  @Override\n  public int compare(Map.Entry\u003cString, Path\u003e e1, Map.Entry\u003cString, Path\u003e e2) {\n    Path p1 \u003d e1.getValue();\n    Path p2 \u003d e2.getValue();\n    Path n1 \u003d p1.getFileName();\n    Path n2 \u003d p2.getFileName();\n\n    return ComparisonChain.start()\n        .compareTrueFirst(isApi(p1), isApi(p2))\n        .compareTrueFirst(isJar(p1), isJar(n2))\n        .compare(n1, n2)\n        .result();\n  }\n\n  private boolean isJar(Path pluginName) {\n    return pluginName.toString().endsWith(\".jar\");\n  }\n\n  private boolean isApi(Path pluginPath) {\n    try (JarFile jar \u003d new JarFile(pluginPath.toString())) {\n      String apiModule \u003d\n          Strings.emptyToNull(jar.getManifest().getMainAttributes().getValue(\"Gerrit-ApiModule\"));\n\n      return apiModule !\u003d null;\n    } catch (SecurityException | IOException e) {\n      return false;\n    }\n  }\n}\n```\n\nthen we can just do:\n\n```java\nTreeSet\u003cMap.Entry\u003cString, Path\u003e\u003e sortedPlugins \u003d Sets.newTreeSet(new ServerPluginComparator());\n```",
+      "parentUuid": "5a0a5d10_c33e2ef8",
+      "revId": "2c9dbecf8d74344ab961678f078b65179ff120af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

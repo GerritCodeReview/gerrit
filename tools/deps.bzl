@@ -84,9 +84,8 @@ def java_dependencies():
 
     maven_jar(
         name = "javaewah",
-        artifact = "com.googlecode.javaewah:JavaEWAH:1.1.12",
-        attach_source = False,
-        sha1 = "9feecc2b24d6bc9ff865af8d082f192238a293eb",
+        artifact = "com.googlecode.javaewah:JavaEWAH:1.2.3",
+        sha1 = "13a27c856e0c8808cee9a64032c58eee11c3adc9",
     )
 
     maven_jar(

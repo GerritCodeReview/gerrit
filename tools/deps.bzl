@@ -457,8 +457,8 @@ def java_dependencies():
 
     maven_jar(
         name = "httpcore",
-        artifact = "org.apache.httpcomponents:httpcore:4.4.4",
-        sha1 = "b31526a230871fbe285fbcbe2813f9c0839ae9b0",
+        artifact = "org.apache.httpcomponents:httpcore:4.4.16",
+        sha1 = "51cf043c87253c9f58b539c9f7e44c8894223850",
     )
 
     # Test-only dependencies below.

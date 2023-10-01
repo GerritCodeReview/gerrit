@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dd6fd319_ee9da6b2",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-01T08:21:14Z",
+      "side": 1,
+      "message": "nit: IMO, would be cleaner if this could be moved before `@Assisted` inject dependencies.",
+      "revId": "15a42375cbff1af4a064aa2db8f892a97ab734e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2112bc98_6ee7a7dd",
         "filename": "java/com/google/gerrit/server/notedb/ProjectChangeSequence.java",
         "patchSetId": 1

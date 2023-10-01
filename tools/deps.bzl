@@ -18,7 +18,7 @@ GITILES_REPO = GERRIT
 
 # When updating Bouncy Castle, also update it in bazlets.
 BC_VERS = "1.72"
-HTTPCOMP_VERS = "4.5.2"
+HTTPCOMP_VERS = "4.5.14"
 JETTY_VERS = "9.4.53.v20231009"
 BYTE_BUDDY_VERSION = "1.14.9"
 ROARING_BITMAP_VERSION = "0.9.44"
@@ -446,13 +446,13 @@ def java_dependencies():
     maven_jar(
         name = "fluent-hc",
         artifact = "org.apache.httpcomponents:fluent-hc:" + HTTPCOMP_VERS,
-        sha1 = "7bfdfa49de6d720ad3c8cedb6a5238eec564dfed",
+        sha1 = "81a16abc0d5acb5016d5b46d4b197b53c3d6eb93",
     )
 
     maven_jar(
         name = "httpclient",
         artifact = "org.apache.httpcomponents:httpclient:" + HTTPCOMP_VERS,
-        sha1 = "733db77aa8d9b2d68015189df76ab06304406e50",
+        sha1 = "1194890e6f56ec29177673f2f12d0b8e627dec98",
     )
 
     maven_jar(

@@ -463,8 +463,8 @@ def java_dependencies():
     # Test-only dependencies below.
     maven_jar(
         name = "junit",
-        artifact = "junit:junit:4.12",
-        sha1 = "2973d150c0dc1fefe998f834810d68f278ea58ec",
+        artifact = "junit:junit:4.13.2",
+        sha1 = "8ac9e16d933b6fb43bc7f576336b8f4d7eb5ba12",
     )
 
     maven_jar(

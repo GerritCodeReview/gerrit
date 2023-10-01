@@ -7,7 +7,7 @@ GREENMAIL_VERS = "1.5.5"
 MAIL_VERS = "1.6.0"
 MIME4J_VERS = "0.8.1"
 OW2_VERS = "9.2"
-AUTO_COMMON_VERSION = "1.2.1"
+AUTO_COMMON_VERSION = "1.2.2"
 AUTO_FACTORY_VERSION = "1.0.1"
 AUTO_VALUE_VERSION = "1.7.4"
 AUTO_VALUE_GSON_VERSION = "1.3.1"
@@ -277,7 +277,7 @@ def java_dependencies():
     maven_jar(
         name = "auto-common",
         artifact = "com.google.auto:auto-common:" + AUTO_COMMON_VERSION,
-        sha1 = "f6da26895f759010f5f170c8044e84c1b17ef83e",
+        sha1 = "9d38f10e22411681cf1d1ee3727e002af19f2c9e",
     )
 
     maven_jar(

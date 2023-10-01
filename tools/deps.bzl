@@ -153,8 +153,8 @@ def java_dependencies():
 
     maven_jar(
         name = "commons-net",
-        artifact = "commons-net:commons-net:3.6",
-        sha1 = "b71de00508dcb078d2b24b5fa7e538636de9b3da",
+        artifact = "commons-net:commons-net:3.9.0",
+        sha1 = "5a4e26802e0a5a42938f987976b55dae4a6cc636",
     )
 
     maven_jar(

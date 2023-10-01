@@ -164,8 +164,8 @@ def java_dependencies():
 
     maven_jar(
         name = "commons-validator",
-        artifact = "commons-validator:commons-validator:1.6",
-        sha1 = "e989d1e87cdd60575df0765ed5bac65c905d7908",
+        artifact = "commons-validator:commons-validator:1.8.0",
+        sha1 = "49bb9f45e0aa3c8b2261394c76675fba6f20d2e4",
     )
 
     maven_jar(

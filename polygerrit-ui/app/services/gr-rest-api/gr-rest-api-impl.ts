@@ -3083,37 +3083,48 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       });
   }
 
-  async setInProjectLookup(changeNum: NumericChangeId, project: RepoName) {
-    const lookupProject = await this._projectLookup[changeNum];
-    if (lookupProject && lookupProject !== project) {
-      console.warn(
-        'Change set with multiple project nums.' +
-          'One of them must be invalid.'
-      );
-    }
+  /**
+   * This can be called by the router, if the project can be determined from
+   * the URL. Or when handling a dashabord or a search response.
+   *
+   * Then we don't need to make a dedicated REST API call or have a fallback,
+   * if that fails.
+   */
+  setInProjectLookup(changeNum: NumericChangeId, project: RepoName) {
     this._projectLookup[changeNum] = Promise.resolve(project);
   }
 
   getFromProjectLookup(
     changeNum: NumericChangeId
   ): Promise<RepoName | undefined> {
-    const project = this._projectLookup[`${changeNum}`];
-    if (project) {
-      return project;
-    }
+    // Hopefully setInProjectLookup() has already been called. Then we don't
+    // have to make a dedicated REST API call to look up the project.
+    let projectPromise = this._projectLookup[changeNum];
+    if (projectPromise) return projectPromise;
 
-    const onError = (response?: Response | null) => firePageError(response);
+    // Ignore errors, because we have some dedicated fallback logic, see below.
+    const onError = () => {};
+    projectPromise = this.getChange(changeNum, onError).then(change => {
+      if (change?.project) return change.project;
 
-    const projectPromise = this.getChange(changeNum, onError).then(change => {
-      if (!change || !change.project) {
-        return;
+      // In the very rare case that the change index cannot provide an answer
+      // (e.g. stale index) we should check, if the router has called
+      // setInProjectLookup() in the meantime. Then we can fall back to that.
+      const currentProjectPromise = this._projectLookup[changeNum];
+      if (currentProjectPromise !== projectPromise) {
+        return currentProjectPromise;
       }
-      this.setInProjectLookup(changeNum, change.project);
-      return change.project;
+
+      // No luck. Without knowing the project we cannot proceed at all.
+      firePageError(
+        new Response(
+          `Failed to lookup the repo for change number ${changeNum}`,
+          {status: 404}
+        )
+      );
+      return undefined;
     });
-
     this._projectLookup[changeNum] = projectPromise;
-
     return projectPromise;
   }
 
@@ -3301,10 +3312,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       });
     }
     return this.getDocsBaseUrlCachedPromise;
-  }
-
-  testOnly_clearDocsBaseUrlCache() {
-    this.getDocsBaseUrlCachedPromise = undefined;
   }
 
   getDocumentationSearches(filter: string): Promise<DocResult[] | undefined> {

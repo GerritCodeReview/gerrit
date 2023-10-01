@@ -321,9 +321,6 @@ export const grRestApiMock: RestApiService = {
     }
     return Promise.resolve('');
   },
-  testOnly_clearDocsBaseUrlCache() {
-    return;
-  },
   getDocumentationSearches(): Promise<DocResult[] | undefined> {
     return Promise.resolve([]);
   },

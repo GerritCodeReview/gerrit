@@ -38,6 +38,7 @@ import {
 } from '../../constants/constants';
 import {
   BasePatchSetNum,
+  ChangeInfo,
   ChangeMessageId,
   CommentInfo,
   DashboardId,
@@ -62,6 +63,7 @@ import {
 import {assert} from '@open-wc/testing';
 import {AuthService} from '../gr-auth/gr-auth';
 import {GrAuthMock} from '../gr-auth/gr-auth_mock';
+import {getBaseUrl} from '../../utils/url-util';
 
 const EXPECTED_QUERY_OPTIONS = listChangesOptionsToHex(
   ListChangesOption.CHANGE_ACTIONS,
@@ -358,7 +360,7 @@ suite('gr-rest-api-service-impl tests', () => {
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
         fetchStub.firstCall.args[0].url,
-        'test52/accounts/?o=DETAILS&q=%22bro%22'
+        `${getBaseUrl()}/accounts/?o=DETAILS&q=%22bro%22`
       );
     });
 
@@ -367,7 +369,7 @@ suite('gr-rest-api-service-impl tests', () => {
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
         fetchStub.firstCall.args[0].url,
-        'test53/accounts/?o=DETAILS&q=%22bro%22%20and%20cansee%3A341682'
+        `${getBaseUrl()}/accounts/?o=DETAILS&q=%22bro%22%20and%20cansee%3A341682`
       );
     });
 
@@ -381,8 +383,7 @@ suite('gr-rest-api-service-impl tests', () => {
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
         fetchStub.firstCall.args[0].url,
-        'test54/accounts/?o=DETAILS&q=%22bro%22%20and%20' +
-          'cansee%3A341682%20and%20is%3Aactive'
+        `${getBaseUrl()}/accounts/?o=DETAILS&q=%22bro%22%20and%20cansee%3A341682%20and%20is%3Aactive`
       );
     });
   });
@@ -1156,31 +1157,45 @@ suite('gr-rest-api-service-impl tests', () => {
   });
 
   test('setInProjectLookup', async () => {
-    await element.setInProjectLookup(
-      555 as NumericChangeId,
-      'project' as RepoName
-    );
+    element.setInProjectLookup(555 as NumericChangeId, 'project' as RepoName);
     const project = await element.getFromProjectLookup(555 as NumericChangeId);
     assert.deepEqual(project, 'project' as RepoName);
   });
 
   suite('getFromProjectLookup', () => {
-    test('getChange succeeds, no project', async () => {
-      sinon.stub(element, 'getChange').resolves(null);
-      const val = await element.getFromProjectLookup(555 as NumericChangeId);
-      assert.strictEqual(val, undefined);
+    const changeNum = 555 as NumericChangeId;
+    const repo = 'test-repo' as RepoName;
+
+    test('getChange fails to yield a project', async () => {
+      const promise = mockPromise<null>();
+      sinon.stub(element, 'getChange').returns(promise);
+
+      const projectLookup = element.getFromProjectLookup(changeNum);
+      promise.resolve(null);
+
+      assert.isUndefined(await projectLookup);
     });
 
     test('getChange succeeds with project', async () => {
-      sinon
-        .stub(element, 'getChange')
-        .resolves({...createChange(), project: 'project' as RepoName});
-      const projectLookup = element.getFromProjectLookup(
-        555 as NumericChangeId
-      );
-      const val = await projectLookup;
-      assert.equal(val, 'project' as RepoName);
+      const promise = mockPromise<null | ChangeInfo>();
+      sinon.stub(element, 'getChange').returns(promise);
+
+      const projectLookup = element.getFromProjectLookup(changeNum);
+      promise.resolve({...createChange(), project: repo});
+
+      assert.equal(await projectLookup, repo);
       assert.deepEqual(element._projectLookup, {'555': projectLookup});
+    });
+
+    test('getChange fails, but a setInProjectLookup() call is used as fallback', async () => {
+      const promise = mockPromise<null>();
+      sinon.stub(element, 'getChange').returns(promise);
+
+      const projectLookup = element.getFromProjectLookup(changeNum);
+      element.setInProjectLookup(changeNum, repo);
+      promise.resolve(null);
+
+      assert.equal(await projectLookup, repo);
     });
   });
 
@@ -1594,10 +1609,11 @@ suite('gr-rest-api-service-impl tests', () => {
     test('null config', async () => {
       const probePathMock = sinon.stub(element, 'probePath').resolves(true);
       const docsBaseUrl = await element.getDocsBaseUrl(undefined);
-      assert.isTrue(
-        probePathMock.calledWith('test91/Documentation/index.html')
+      assert.equal(
+        probePathMock.lastCall.args[0],
+        `${getBaseUrl()}/Documentation/index.html`
       );
-      assert.equal(docsBaseUrl, 'test91/Documentation');
+      assert.equal(docsBaseUrl, `${getBaseUrl()}/Documentation`);
     });
 
     test('no doc config', async () => {
@@ -1607,10 +1623,11 @@ suite('gr-rest-api-service-impl tests', () => {
         gerrit: createGerritInfo(),
       };
       const docsBaseUrl = await element.getDocsBaseUrl(config);
-      assert.isTrue(
-        probePathMock.calledWith('test92/Documentation/index.html')
+      assert.equal(
+        probePathMock.lastCall.args[0],
+        `${getBaseUrl()}/Documentation/index.html`
       );
-      assert.equal(docsBaseUrl, 'test92/Documentation');
+      assert.equal(docsBaseUrl, `${getBaseUrl()}/Documentation`);
     });
 
     test('has doc config', async () => {
@@ -1627,8 +1644,9 @@ suite('gr-rest-api-service-impl tests', () => {
     test('no probe', async () => {
       const probePathMock = sinon.stub(element, 'probePath').resolves(false);
       const docsBaseUrl = await element.getDocsBaseUrl(undefined);
-      assert.isTrue(
-        probePathMock.calledWith('test94/Documentation/index.html')
+      assert.equal(
+        probePathMock.lastCall.args[0],
+        `${getBaseUrl()}/Documentation/index.html`
       );
       assert.isNotOk(docsBaseUrl);
     });

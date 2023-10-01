@@ -132,8 +132,8 @@ def java_dependencies():
 
     maven_jar(
         name = "commons-lang3",
-        artifact = "org.apache.commons:commons-lang3:3.8.1",
-        sha1 = "6505a72a097d9270f7a9e7bf42c4238283247755",
+        artifact = "org.apache.commons:commons-lang3:3.14.0",
+        sha1 = "1ed471194b02f2c6cb734a0cd6f6f107c673afae",
     )
 
     maven_jar(

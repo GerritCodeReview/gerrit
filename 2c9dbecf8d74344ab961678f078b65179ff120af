@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9c4869ba_d74de4cf",
+        "filename": "java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-01T07:33:29Z",
+      "side": 1,
+      "message": "With the latest changes to API and `ServerPluginComparator` this throws an NPE:\n```\njava.lang.NullPointerException\n\tat java.base/java.util.Objects.requireNonNull(Objects.java:221)\n\tat java.base/java.util.ImmutableCollections$ListN.\u003cinit\u003e(ImmutableCollections.java:432)\n\tat java.base/java.util.List.of(List.java:842)\n\tat com.google.gerrit.server.plugins.PluginGuiceEnvironment.onStartPlugin(PluginGuiceEnvironment.java:281)\n\tat com.google.gerrit.server.plugins.PluginLoader.runPlugin(PluginLoader.java:504)\n\tat com.google.gerrit.server.plugins.PluginLoader.rescan(PluginLoader.java:424)\n\tat com.google.gerrit.server.plugins.PluginLoader.start(PluginLoader.java:330)\n\tat com.google.gerrit.lifecycle.LifecycleManager.start(LifecycleManager.java:95)\n\tat com.google.gerrit.pgm.Daemon.start(Daemon.java:404)\n\tat com.google.gerrit.pgm.Daemon.run(Daemon.java:297)\n\tat com.google.gerrit.pgm.util.AbstractProgram.main(AbstractProgram.java:62)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\n\tat com.google.gerrit.launcher.GerritLauncher.invokeProgram(GerritLauncher.java:252)\n\tat com.google.gerrit.launcher.GerritLauncher.mainImpl(GerritLauncher.java:148)\n\tat com.google.gerrit.launcher.GerritLauncher.main(GerritLauncher.java:93)\n```\n\nwhich can be fixed by:\n\n```suggestion\n        List\u003cInjector\u003e allPluginInjectors \u003d\n            Stream.of(\n                    Optional.ofNullable(plugin.getSysInjector()),\n                    Optional.ofNullable(plugin.getSshInjector()),\n                    Optional.ofNullable(plugin.getHttpInjector()))\n                .filter(Optional::isPresent)\n                .map(Optional::get)\n                .collect(Collectors.toList());\n```\n\nWe should defo refactor the plugin loader code and improve test coverage.",
+      "range": {
+        "startLine": 280,
+        "startChar": 8,
+        "endLine": 284,
+        "endChar": 71
+      },
+      "revId": "2c9dbecf8d74344ab961678f078b65179ff120af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4abfad33_1ccd2fdf",
         "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 31

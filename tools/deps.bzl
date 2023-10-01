@@ -21,7 +21,7 @@ GITILES_VERS = "1.4.0"
 GITILES_REPO = GERRIT
 
 # When updating Bouncy Castle, also update it in bazlets.
-BC_VERS = "1.72"
+BC_VERS = "1.77"
 HTTPCOMP_VERS = "4.5.2"
 JETTY_VERS = "9.4.53.v20231009"
 BYTE_BUDDY_VERSION = "1.14.9"
@@ -422,25 +422,25 @@ def java_dependencies():
     maven_jar(
         name = "bcprov",
         artifact = "org.bouncycastle:bcprov-jdk18on:" + BC_VERS,
-        sha1 = "d8dc62c28a3497d29c93fee3e71c00b27dff41b4",
+        sha1 = "2cc971b6c20949c1ff98d1a4bc741ee848a09523",
     )
 
     maven_jar(
         name = "bcpg",
         artifact = "org.bouncycastle:bcpg-jdk18on:" + BC_VERS,
-        sha1 = "1a36a1740d07869161f6f0d01fae8d72dd1d8320",
+        sha1 = "bb0be51e8b378baae6e0d86f5282cd3887066539",
     )
 
     maven_jar(
         name = "bcpkix",
         artifact = "org.bouncycastle:bcpkix-jdk18on:" + BC_VERS,
-        sha1 = "bb3fdb5162ccd5085e8d7e57fada4d8eaa571f5a",
+        sha1 = "ed953791ba0229747dd0fd9911e3d76a462acfd3",
     )
 
     maven_jar(
         name = "bcutil",
         artifact = "org.bouncycastle:bcutil-jdk18on:" + BC_VERS,
-        sha1 = "41f19a69ada3b06fa48781120d8bebe1ba955c77",
+        sha1 = "de3eaef351545fe8562cf29ddff4a403a45b49b7",
     )
 
     maven_jar(

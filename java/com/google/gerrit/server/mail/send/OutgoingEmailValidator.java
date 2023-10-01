@@ -16,11 +16,12 @@ package com.google.gerrit.server.mail.send;
 
 import static org.apache.commons.validator.routines.DomainValidator.ArrayType.GENERIC_PLUS;
 
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.Collections;
 import org.apache.commons.validator.routines.DomainValidator;
+import org.apache.commons.validator.routines.DomainValidator.Item;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.eclipse.jgit.lib.Config;
 
@@ -33,23 +34,23 @@ import org.eclipse.jgit.lib.Config;
  */
 @Singleton
 public class OutgoingEmailValidator {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private final EmailValidator emailValidator;
 
   @Inject
   OutgoingEmailValidator(@GerritServerConfig Config config) {
     String[] allowTLD = config.getStringList("sendemail", null, "allowTLD");
     if (allowTLD.length != 0) {
-      try {
-        DomainValidator.updateTLDOverride(GENERIC_PLUS, allowTLD);
-      } catch (IllegalStateException e) {
-        // Should only happen in tests, where the OutgoingEmailValidator
-        // is instantiated repeatedly.
-        logger.atSevere().log("Failed to update TLD override: %s", e.getMessage());
-      }
+      Item item = new Item(GENERIC_PLUS, allowTLD);
+      DomainValidator domainValidator =
+          DomainValidator.getInstance(true, Collections.singletonList(item));
+      emailValidator = new EmailValidator(true, true, domainValidator);
+    } else {
+      emailValidator = EmailValidator.getInstance(true, true);
     }
   }
 
   public boolean isValid(String addr) {
-    return EmailValidator.getInstance(true, true).isValid(addr);
+    return emailValidator.isValid(addr);
   }
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdcc95c6_cd98143c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-10-01T20:28:28Z",
+      "side": 1,
+      "message": "AFAIU issue got `P1` priority, maybe we could wait until the fix is being deployed? I\u0027m also not sure if we should actually jump on `pre` version - maybe this change should be turned to `WIP` so that we could catch potential issues early but do not hinter the CI build with bazel issues, WDYT?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 37
+      },
+      "revId": "9b9072ed5276fa6b97f7f57a64ed559890e8b292",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

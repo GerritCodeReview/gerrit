@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45ee39c1_2e788fa2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-10-02T11:32:38Z",
+      "side": 1,
+      "message": "This is google project and tausend shoulb be excluded from LC Label (move it to nongoogle.bzl).",
+      "revId": "4ab3411ec2954d322a925672d84e475d18fec93b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

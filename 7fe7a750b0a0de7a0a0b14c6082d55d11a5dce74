@@ -16,6 +16,23 @@
       "message": "looks like some race, when debugging through the failing EmailValidatorIT tests they succeed",
       "revId": "7fe7a750b0a0de7a0a0b14c6082d55d11a5dce74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1016fc82_6067696b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1167912
+      },
+      "writtenOn": "2023-10-02T18:29:49Z",
+      "side": 1,
+      "message": "tuyennguyenvan",
+      "revId": "7fe7a750b0a0de7a0a0b14c6082d55d11a5dce74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

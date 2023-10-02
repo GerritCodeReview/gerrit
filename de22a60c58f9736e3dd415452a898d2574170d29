@@ -81,6 +81,30 @@
       },
       "revId": "de22a60c58f9736e3dd415452a898d2574170d29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "680ede40_da64e04a",
+        "filename": "java/Main.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-10-02T10:03:24Z",
+      "side": 1,
+      "message": "OK, turns out, Bazel is still using somewhat outdated JDK 17 release, so that some tests were failing:\n\n```\nfatal: Gerrit Code Review requires Java 17.0.8 or later\n       (trying to run on Java 17.0.5+8-LTS)\n```",
+      "parentUuid": "310518a8_fac72a2d",
+      "range": {
+        "startLine": 19,
+        "startChar": 81,
+        "endLine": 19,
+        "endChar": 87
+      },
+      "revId": "de22a60c58f9736e3dd415452a898d2574170d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

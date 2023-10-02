@@ -64,6 +64,24 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
       int pageSizeMultiplier,
       int limit,
       Set<String> fields) {
+    return createOptions(
+        config,
+        start,
+        pageSize,
+        pageSizeMultiplier,
+        limit,
+        /* allowIncompleteResults= */ false,
+        fields);
+  }
+
+  public static QueryOptions createOptions(
+      IndexConfig config,
+      int start,
+      int pageSize,
+      int pageSizeMultiplier,
+      int limit,
+      boolean allowIncompleteResults,
+      Set<String> fields) {
     // Always include project and change id since both are needed to load the change from NoteDb.
     if (!fields.contains(CHANGE_SPEC.getName())
         && !(fields.contains(PROJECT_SPEC.getName())
@@ -72,7 +90,8 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
       fields.add(PROJECT_SPEC.getName());
       fields.add(NUMERIC_ID_STR_SPEC.getName());
     }
-    return QueryOptions.create(config, start, pageSize, pageSizeMultiplier, limit, fields);
+    return QueryOptions.create(
+        config, start, pageSize, pageSizeMultiplier, limit, allowIncompleteResults, fields);
   }
 
   @VisibleForTesting
@@ -84,6 +103,7 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
         opts.pageSize(),
         opts.pageSizeMultiplier(),
         opts.limit(),
+        opts.allowIncompleteResults(),
         opts.fields());
   }
 

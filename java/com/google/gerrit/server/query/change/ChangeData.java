@@ -37,6 +37,7 @@ import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.BranchNameKey;
@@ -444,6 +445,7 @@ public class ChangeData {
   private String gerritServerId;
   private String changeServerId;
   private ChangeNumberVirtualIdAlgorithm virtualIdFunc;
+  private Boolean failedParsingFromIndex = false;
 
   @Inject
   private ChangeData(
@@ -530,6 +532,15 @@ public class ChangeData {
 
   public AllUsersName getAllUsersNameForIndexing() {
     return allUsersName;
+  }
+
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public void setFailedParsingFromIndex(Boolean val) {
+    this.failedParsingFromIndex = val;
+  }
+
+  public boolean hasFailedParsingFromIndex() {
+    return failedParsingFromIndex;
   }
 
   @VisibleForTesting

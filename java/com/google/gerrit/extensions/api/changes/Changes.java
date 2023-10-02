@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.api.changes;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
@@ -81,6 +82,7 @@ public interface Changes {
     private int limit;
     private int start;
     private boolean isNoLimit;
+    private boolean allowIncompleteResults;
     private Set<ListChangesOption> options = EnumSet.noneOf(ListChangesOption.class);
     private ListMultimap<String, String> pluginOptions = ArrayListMultimap.create();
 
@@ -103,6 +105,12 @@ public interface Changes {
 
     public QueryRequest withStart(int start) {
       this.start = start;
+      return this;
+    }
+
+    @UsedAt(UsedAt.Project.GOOGLE)
+    public QueryRequest withAllowIncompleteResults(boolean allow) {
+      this.allowIncompleteResults = allow;
       return this;
     }
 
@@ -150,6 +158,11 @@ public interface Changes {
 
     public int getStart() {
       return start;
+    }
+
+    @UsedAt(UsedAt.Project.GOOGLE)
+    public boolean getAllowIncompleteResults() {
+      return allowIncompleteResults;
     }
 
     public Set<ListChangesOption> getOptions() {

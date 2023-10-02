@@ -36,6 +36,7 @@ java_library(
         "//lib/antlr:java-runtime",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
+        "//lib/errorprone:annotations",
         "//lib/flogger:api",
     ],
 )

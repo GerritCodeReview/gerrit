@@ -16,6 +16,23 @@
       "message": "For open source, this change is a no-op because the added request parameter is not implemented by Elastic / Lucene.\n\nInside Google, we bind another index implementation and we\u0027ll use the new query parameter added in this change.",
       "revId": "f5fa77bc4c6794793eacf1aed63b2febaa47a8f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "769ea266_dc56a019",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-10-02T13:34:39Z",
+      "side": 1,
+      "message": "Let the change sit for 24h before submission.",
+      "revId": "f5fa77bc4c6794793eacf1aed63b2febaa47a8f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

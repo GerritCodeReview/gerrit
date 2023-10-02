@@ -48,8 +48,10 @@ suite('gr-suggestion-diff-preview tests', () => {
 
   test('render diff', async () => {
     stubFlags('isEnabled').returns(true);
-    element.suggestion =
-      '  private handleClick(e: MouseEvent) {\ne.stopPropagation();\ne.preventDefault();';
+    element.suggestion = {
+      replacement:
+        '  private handleClick(e: MouseEvent) {\ne.stopPropagation();\ne.preventDefault();',
+    };
     element.previewLoadedFor =
       '  private handleClick(e: MouseEvent) {\ne.stopPropagation();\ne.preventDefault();';
     element.preview = {

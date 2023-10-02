@@ -28,6 +28,7 @@ import {createUserFixSuggestion} from '../../../utils/comment-util';
 import {commentModelToken} from '../gr-comment-model/gr-comment-model';
 import {fire} from '../../../utils/event-util';
 import {Interaction, Timing} from '../../../constants/reporting';
+import {Suggestion} from '../../../api/suggestions';
 
 declare global {
   interface HTMLElementEventMap {
@@ -43,8 +44,8 @@ export interface OpenUserSuggestionPreviewEventDetail {
 
 @customElement('gr-suggestion-diff-preview')
 export class GrSuggestionDiffPreview extends LitElement {
-  @property({type: String})
-  suggestion?: string;
+  @property({type: Object})
+  suggestion?: Suggestion;
 
   @property({type: Boolean})
   showAddSuggestionButton = false;
@@ -210,7 +211,7 @@ export class GrSuggestionDiffPreview extends LitElement {
     const fixSuggestions = createUserFixSuggestion(
       this.comment,
       this.commentedText,
-      this.suggestion
+      this.suggestion.replacement
     );
     this.reporting.time(Timing.PREVIEW_FIX_LOAD);
     const res = await this.restApiService.getFixPreview(
@@ -227,7 +228,7 @@ export class GrSuggestionDiffPreview extends LitElement {
     });
     if (currentPreviews.length > 0) {
       this.preview = currentPreviews[0];
-      this.previewLoadedFor = this.suggestion;
+      this.previewLoadedFor = this.suggestion.replacement;
     }
 
     return res;
@@ -248,7 +249,9 @@ export class GrSuggestionDiffPreview extends LitElement {
     this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_ADDED, {
       uuid: this.uuid,
     });
-    fire(this, 'add-generated-suggestion', {code: this.suggestion});
+    fire(this, 'add-generated-suggestion', {
+      code: this.suggestion?.replacement,
+    });
   }
 }
 

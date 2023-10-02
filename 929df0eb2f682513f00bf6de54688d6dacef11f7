@@ -16,6 +16,24 @@
       "message": "It seems that starting from this change the verification is failing.",
       "revId": "929df0eb2f682513f00bf6de54688d6dacef11f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d4de0a9_02a8c2a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-02T15:22:16Z",
+      "side": 1,
+      "message": "I had missed to update the list of TLDs in\nresources/com/google/gerrit/acceptance/server/mail/tlds-alpha-by-domain.txt\nwhich was updated in commons-validator 1.7",
+      "parentUuid": "8bc33786_ba5630c4",
+      "revId": "929df0eb2f682513f00bf6de54688d6dacef11f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

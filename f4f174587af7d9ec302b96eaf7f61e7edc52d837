@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "303a3977_4e48e6a4",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-10-02T10:56:27Z",
+      "side": 0,
+      "message": "This was accidentally reverted. Please fix.",
+      "range": {
+        "startLine": 259,
+        "startChar": 8,
+        "endLine": 261,
+        "endChar": 9
+      },
+      "revId": "f4f174587af7d9ec302b96eaf7f61e7edc52d837",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

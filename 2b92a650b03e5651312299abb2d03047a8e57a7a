@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74c92dc5_4352af67",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-10-02T16:12:32Z",
+      "side": 1,
+      "message": "I think this message should not mention the need for the permission, but rather should something more like \"Rebase can only be done as the primary email of user ..., or as the original patchSet email of user\"",
+      "revId": "2b92a650b03e5651312299abb2d03047a8e57a7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

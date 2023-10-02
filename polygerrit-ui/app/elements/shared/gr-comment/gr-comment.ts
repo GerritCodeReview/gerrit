@@ -17,7 +17,6 @@ import '../gr-account-label/gr-account-label';
 import '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
 import {getAppContext} from '../../../services/app-context';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
-import {when} from 'lit/directives/when.js';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {provide, resolve} from '../../../models/dependency';
 import {GrTextarea} from '../gr-textarea/gr-textarea';
@@ -76,6 +75,7 @@ import {
 } from '../gr-comment-model/gr-comment-model';
 import {formStyles} from '../../../styles/form-styles';
 import {Interaction} from '../../../constants/reporting';
+import {Suggestion} from '../../../api/suggestions';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
@@ -208,7 +208,7 @@ export class GrComment extends LitElement {
   generateSuggestion = true;
 
   @state()
-  generatedReplacement?: string;
+  generatedSuggestion?: Suggestion;
 
   @state()
   generatedReplacementId?: string;
@@ -542,6 +542,14 @@ export class GrComment extends LitElement {
           color: inherit;
           margin-right: var(--spacing-s);
         }
+        .info {
+          background-color: var(--info-background);
+          padding: var(--spacing-l) var(--spacing-xl);
+        }
+        .info gr-icon {
+          color: var(--selected-foreground);
+          margin-right: var(--spacing-xl);
+        }
       `,
     ];
   }
@@ -572,17 +580,7 @@ export class GrComment extends LitElement {
             <gr-endpoint-slot name="above-actions"></gr-endpoint-slot>
             ${this.renderHumanActions()} ${this.renderRobotActions()}
           </div>
-          ${when(
-            this.showGeneratedSuggestion() &&
-              this.generateSuggestion &&
-              this.generatedReplacement,
-            () =>
-              html`<gr-suggestion-diff-preview
-                .showAddSuggestionButton=${true}
-                .suggestion=${this.generatedReplacement}
-                .uuid=${this.generatedReplacementId}
-              ></gr-suggestion-diff-preview>`
-          )}
+          ${this.renderGeneratedSuggestionPreview()}
         </div>
       </gr-endpoint-decorator>
       ${this.renderConfirmDialog()}
@@ -932,11 +930,34 @@ export class GrComment extends LitElement {
     );
   }
 
+  private renderGeneratedSuggestionPreview() {
+    if (
+      !this.showGeneratedSuggestion() ||
+      !this.generateSuggestion ||
+      !this.generatedSuggestion
+    )
+      return nothing;
+    // TODO(milutin): This is temporary warning, will be removed, once we are
+    // able to change range of a comment
+    if (this.generatedSuggestion.newRange) {
+      const range = this.generatedSuggestion.newRange;
+      return html`<div n class="info">
+        <gr-icon icon="info" filled></gr-icon>
+        There is a suggestion in range (${range.start_line}, ${range.end_line})
+      </div>`;
+    }
+    return html`<gr-suggestion-diff-preview
+      .showAddSuggestionButton=${true}
+      .suggestion=${this.generatedSuggestion?.replacement}
+      .uuid=${this.generatedReplacementId}
+    ></gr-suggestion-diff-preview>`;
+  }
+
   private renderGenerateSuggestEditButton() {
     if (!this.showGeneratedSuggestion()) {
       return nothing;
     }
-    const numberOfSuggestions = !this.generatedReplacement ? '' : ' (1)';
+    const numberOfSuggestions = !this.generatedSuggestion ? '' : ' (1)';
     return html`
       <div class="action">
         <label>
@@ -947,7 +968,7 @@ export class GrComment extends LitElement {
             @change=${() => {
               this.generateSuggestion = !this.generateSuggestion;
               if (!this.generateSuggestion) {
-                this.generatedReplacement = undefined;
+                this.generatedSuggestion = undefined;
               } else {
                 this.generateSuggestionTrigger$.next();
               }
@@ -988,21 +1009,26 @@ export class GrComment extends LitElement {
     this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_REQUEST, {
       uuid: this.generatedReplacementId,
     });
-    const suggestion = await suggestionsPlugins[0].provider.suggestCode({
-      prompt: this.messageText,
-      changeNumber: this.changeNum,
-      patchsetNumber: this.comment?.patch_set,
-      filePath: this.comment.path,
-      range: this.comment.range,
-      lineNumber: this.comment.line,
-    });
+    const suggestionResponse = await suggestionsPlugins[0].provider.suggestCode(
+      {
+        prompt: this.messageText,
+        changeNumber: this.changeNum,
+        patchsetNumber: this.comment?.patch_set,
+        filePath: this.comment.path,
+        range: this.comment.range,
+        lineNumber: this.comment.line,
+      }
+    );
+    // TODO(milutin): In future we shouldn't ignore other suggestions
     this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_RESPONSE, {
       uuid: this.generatedReplacementId,
-      response: suggestion.responseCode,
+      response: suggestionResponse.responseCode,
+      numSuggestions: suggestionResponse.suggestions.length,
+      hasNewRange: suggestionResponse.suggestions?.[0]?.newRange !== undefined,
     });
-    const replacement = suggestion.suggestions?.[0]?.replacement;
-    if (!replacement) return;
-    this.generatedReplacement = replacement;
+    const suggestion = suggestionResponse.suggestions?.[0];
+    if (!suggestion) return;
+    this.generatedSuggestion = suggestion;
   }
 
   private renderRobotActions() {
@@ -1107,7 +1133,7 @@ export class GrComment extends LitElement {
       if (
         !this.changeNum ||
         !this.comment ||
-        (!hasUserSuggestion(this.comment) && !this.generatedReplacement)
+        (!hasUserSuggestion(this.comment) && !this.generatedSuggestion)
       )
         return;
       (async () => {

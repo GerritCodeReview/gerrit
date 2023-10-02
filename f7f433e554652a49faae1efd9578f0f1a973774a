@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ef8d9f4_c0747d46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1167887
+      },
+      "writtenOn": "2023-10-02T21:01:29Z",
+      "side": 1,
+      "message": "Hi: Hope you\u0027re the right people to review this patch based on the original change which this fixes. Apologies in advance if not. Thanks, Chris.",
+      "revId": "f7f433e554652a49faae1efd9578f0f1a973774a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

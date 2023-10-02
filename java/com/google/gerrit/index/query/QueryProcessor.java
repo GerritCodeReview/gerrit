@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.Index;
@@ -92,6 +93,7 @@ public abstract class QueryProcessor<T> {
   private boolean enforceVisibility = true;
   private int userProvidedLimit;
   private boolean isNoLimit;
+  private boolean allowIncompleteResults;
   private Set<String> requestedFields;
 
   protected QueryProcessor(
@@ -160,6 +162,12 @@ public abstract class QueryProcessor<T> {
 
   public QueryProcessor<T> setNoLimit(boolean isNoLimit) {
     this.isNoLimit = isNoLimit;
+    return this;
+  }
+
+  @CanIgnoreReturnValue
+  public QueryProcessor<T> setAllowIncompleteResults(boolean allowIncompleteResults) {
+    this.allowIncompleteResults = allowIncompleteResults;
     return this;
   }
 
@@ -256,9 +264,6 @@ public abstract class QueryProcessor<T> {
         // it helps improve performance and also prevents no-limit queries from severely degrading
         // when pagination type is OFFSET.
         int pageSizeMultiplier = indexConfig.pageSizeMultiplier();
-        if (isNoLimit && pageSizeMultiplier == 1) {
-          pageSizeMultiplier = 10;
-        }
 
         QueryOptions opts =
             createOptions(
@@ -270,7 +275,8 @@ public abstract class QueryProcessor<T> {
                 // max for this user. The only way to see if there are more entities is to
                 // ask for one more result from the query.
                 // NOTE: This is consistent to the behaviour before the introduction of pagination.`
-                limit == getBackendSupportedLimit() ? limit : Ints.saturatedCast((long) limit + 1),
+                Ints.saturatedCast((long) limit + 1),
+                allowIncompleteResults,
                 getRequestedFields());
         logger.atFine().log("Query options: %s", opts);
         // Apply index-specific rewrite first
@@ -311,7 +317,8 @@ public abstract class QueryProcessor<T> {
         // TODO(brohlfs): Remove this extra logging by end of Q3 2023.
         if (limit > 500 && userProvidedLimit <= 0 && matchCount > 100 && enforceVisibility) {
           logger.atWarning().log(
-              "%s index query without provided limit. effective limit: %d, result count: %d, query: %s",
+              "%s index query without provided limit. effective limit: %d, result count: %d, query:"
+                  + " %s",
               schemaDef.getName(), getPermittedLimit(), matchCount, queryString);
         }
         out.add(QueryResult.create(queryString, predicates.get(i), limit, matchesList));
@@ -358,9 +365,16 @@ public abstract class QueryProcessor<T> {
       int pageSize,
       int pageSizeMultiplier,
       int limit,
+      boolean allowIncompleteResults,
       Set<String> requestedFields) {
     return QueryOptions.create(
-        indexConfig, start, pageSize, pageSizeMultiplier, limit, requestedFields);
+        indexConfig,
+        start,
+        pageSize,
+        pageSizeMultiplier,
+        limit,
+        allowIncompleteResults,
+        requestedFields);
   }
 
   /**

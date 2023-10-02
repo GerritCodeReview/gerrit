@@ -518,6 +518,13 @@ public class ChangeJson {
         // (2) Reusing
         boolean isCacheable = cacheQueryResultsByChangeNum && (i != changes.size() - 1);
         ChangeData cd = changes.get(i);
+        if (cd.hasFailedParsingFromIndex()) {
+          Optional<ChangeInfo> faultyChangeInfo = createFaultyChangeInfo(cd);
+          if (faultyChangeInfo.isPresent()) {
+            changeInfos.add(faultyChangeInfo.get());
+          }
+          continue;
+        }
         ChangeInfo info = cache.get(cd.getId());
         if (info != null && isCacheable) {
           changeInfos.add(info);
@@ -989,5 +996,26 @@ public class ChangeJson {
       return pluginDefinedInfosFactory.get().createPluginDefinedInfos(cds);
     }
     return ImmutableListMultimap.of();
+  }
+
+  /**
+   * Create an empty {@link ChangeInfo} designating a faulty record if {@link
+   * ChangeData#hasFailedParsingFromIndex()} is true.
+   *
+   * <p>Few fields are populated: project, branch, changeId, _number, subject, owner.
+   */
+  private static Optional<ChangeInfo> createFaultyChangeInfo(ChangeData cd) {
+    ChangeInfo info = new ChangeInfo();
+    Change c = cd.change();
+    if (c == null) {
+      return Optional.empty();
+    }
+    info.project = c.getProject().get();
+    info.branch = c.getDest().shortName();
+    info.changeId = c.getKey().get();
+    info._number = c.getId().get();
+    info.subject = "***ERROR***";
+    info.owner = new AccountInfo(c.getOwner().get());
+    return Optional.of(info);
   }
 }

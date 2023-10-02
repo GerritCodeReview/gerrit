@@ -161,6 +161,15 @@ need to be reindexed. Without this parameter query results the user has no permi
 are filtered out. REST requests with the skip-visibility option are rejected when the current
 user doesn't have the ADMINISTRATE_SERVER capability.
 
+The `allow-incomplete-results` query parameter can be used. This is a boolean
+parameter that can optionally be set to true. If set, the server can tolerate
+handling faulty records when parsed from the change index, for example if a
+field contained a value of a wrong format. For faulty records, the server
+will return a canonical empty record where only the fields {project, branch,
+change_id, _number, owner} are set and the subject will be set to
+"\*\**ERROR***". All other fields will be empty.
+Note that the handling of this parameter is up to the index implementation.
+
 Clients are allowed to specify more than one query by setting the `q`
 parameter multiple times. In this case the result is an array of
 arrays, one per query in the same order the queries were given in.

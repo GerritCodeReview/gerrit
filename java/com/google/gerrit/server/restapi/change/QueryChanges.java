@@ -60,6 +60,7 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
   private Integer start;
   private Boolean noLimit;
   private Boolean skipVisibility;
+  private Boolean allowIncompleteResults;
 
   @Option(
       name = "--query",
@@ -110,6 +111,11 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
       permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
     }
     skipVisibility = on;
+  }
+
+  @Option(name = "--allow-incomplete-results", usage = "Return partial results")
+  public void setAllowIncompleteResults(boolean allowIncompleteResults) {
+    this.allowIncompleteResults = allowIncompleteResults;
   }
 
   @Override
@@ -180,6 +186,9 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
     }
     if (skipVisibility != null) {
       queryProcessor.enforceVisibility(!skipVisibility);
+    }
+    if (allowIncompleteResults != null) {
+      queryProcessor.setAllowIncompleteResults(allowIncompleteResults);
     }
     dynamicBeans.forEach((p, b) -> queryProcessor.setDynamicBean(p, b));
 

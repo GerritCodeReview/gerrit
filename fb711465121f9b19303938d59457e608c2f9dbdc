@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "68a473f1_b05ac531",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-10-03T00:13:01Z",
+      "side": 1,
+      "message": "It feels wrong to be passing it the rebaseAsUser this way, and this change makes that worse I think. How hard would it be to clean this up?",
+      "revId": "fb711465121f9b19303938d59457e608c2f9dbdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8adcd1ec_d1ae4023",
         "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
         "patchSetId": 9

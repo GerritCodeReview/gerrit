@@ -39,6 +39,29 @@
       },
       "revId": "fb711465121f9b19303938d59457e608c2f9dbdc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68f37709_fb0bf930",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-10-03T10:51:19Z",
+      "side": 1,
+      "message": "This can be null?",
+      "range": {
+        "startLine": 605,
+        "startChar": 14,
+        "endLine": 605,
+        "endChar": 34
+      },
+      "revId": "fb711465121f9b19303938d59457e608c2f9dbdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -437,7 +437,9 @@ export class GrMainHeader extends LitElement {
           ></gr-icon>
         </div>
         ${this.renderRegister()}
-        <a class="loginButton" href=${this.loginUrl}>${this.loginText}</a>
+        <gr-endpoint-decorator name="auth-link">
+          <a class="loginButton" href=${this.loginUrl}>${this.loginText}</a>
+        </gr-endpoint-decorator>
         <a
           class="settingsButton"
           href="${getBaseUrl()}/settings/"

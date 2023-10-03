@@ -43,6 +43,11 @@ components.
 
 The following endpoints are available to plugins.
 
+=== auth-link
+The `auth-link` extension point is located in the top right corner of anonymous
+pages. The purpose is to improve user experience for custom OAuth providers by
+providing custom components and/or visual feedback of authentication progress.
+
 === banner
 The `banner` extension point is located at the top of all pages. The purpose
 is to allow plugins to show outage information and important announcements to

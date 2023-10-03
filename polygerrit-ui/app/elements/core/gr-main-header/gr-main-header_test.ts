@@ -82,7 +82,9 @@ suite('gr-main-header tests', () => {
               >
               </gr-icon>
             </div>
-            <a class="loginButton" href="/login"> Sign in </a>
+            <gr-endpoint-decorator name="auth-link">
+              <a class="loginButton" href="/login"> Sign in </a>
+            </gr-endpoint-decorator>
             <a
               aria-label="Settings"
               class="settingsButton"

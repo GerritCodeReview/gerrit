@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "595357ef_315a9d47",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
@@ -20,10 +21,10 @@
         "endChar": 5
       },
       "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "8fc49f7d_db1f2c9c",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
@@ -44,10 +45,10 @@
         "endChar": 5
       },
       "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "1836315e_4fc90068",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
@@ -68,10 +69,10 @@
         "endChar": 5
       },
       "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "148a4f6a_5275de2d",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
@@ -91,10 +92,10 @@
         "endChar": 32
       },
       "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "c9ff56eb_4931cafa",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
@@ -115,10 +116,10 @@
         "endChar": 32
       },
       "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "0782651b_253e24b3",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
@@ -132,10 +133,10 @@
       "side": 1,
       "message": "nit: blank lines would help readability here. if the comments would go into their own lines for when they are the only content of a block, that would also help IMO.",
       "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "c418db14_f99b8f6c",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
@@ -150,10 +151,10 @@
       "message": "Done",
       "parentUuid": "0782651b_253e24b3",
       "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "89e175dd_49e4c933",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
@@ -167,10 +168,10 @@
       "side": 1,
       "message": "nit: @Nullable (here and wherever applicable)",
       "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "da77d87c_446a5b1d",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
@@ -185,10 +186,10 @@
       "message": "Done",
       "parentUuid": "89e175dd_49e4c933",
       "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "aeb1e663_c8eda736",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
@@ -208,10 +209,10 @@
         "endChar": 53
       },
       "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "8ec06c54_68d9636d",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
@@ -232,10 +233,10 @@
         "endChar": 53
       },
       "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "3bcb97a0_4fabbbee",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
@@ -255,10 +256,10 @@
         "endChar": 35
       },
       "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "2e3920ac_11d3f535",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
@@ -279,10 +280,10 @@
         "endChar": 35
       },
       "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "ac6b4d85_16d573d0",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
@@ -296,10 +297,10 @@
       "side": 1,
       "message": "Can we factor this out and extend CacheSerializer\u003cTagSet\u003e and add a test?",
       "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "1d28541f_af1191e9",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
@@ -314,10 +315,10 @@
       "message": "TagSetHolder.Serializer seems to  implements CacheSerializer\u003cTagSetHolder\u003e, perhaps that is the appropriate level for CacheSerializer?",
       "parentUuid": "ac6b4d85_16d573d0",
       "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "cbd58933_ff4b9421",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
@@ -331,10 +332,10 @@
       "side": 1,
       "message": "It would be interesting to get some latency numbers on this and also get the required memory footprint.",
       "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "3a65f9db_63f52c3e",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
@@ -349,10 +350,28 @@
       "message": "Did you specifically mean for the \"copy\" method?",
       "parentUuid": "cbd58933_ff4b9421",
       "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "68ad2666_c9faeee4",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-10-03T23:17:01Z",
+      "side": 1,
+      "message": "I\u0027m working on getting perf numbers overall for this solution vs current tip (with RoaringBitmap) solution.",
+      "parentUuid": "3a65f9db_63f52c3e",
+      "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "3f2d0c25_a69c0a0a",
         "filename": "proto/cache.proto",
@@ -372,10 +391,10 @@
         "endChar": 32
       },
       "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "4cf6c3f7_072d640b",
         "filename": "proto/cache.proto",
@@ -396,8 +415,31 @@
         "endChar": 32
       },
       "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87b66417_89de4030",
+        "filename": "proto/cache.proto",
+        "patchSetId": 5
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-10-03T23:17:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cf6c3f7_072d640b",
+      "range": {
+        "startLine": 227,
+        "startChar": 31,
+        "endLine": 227,
+        "endChar": 32
+      },
+      "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

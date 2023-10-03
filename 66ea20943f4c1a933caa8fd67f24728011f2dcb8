@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4de5e60_880656b1",
+        "filename": "javatests/com/google/gerrit/server/git/TagSetTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-10-03T23:17:01Z",
+      "side": 1,
+      "message": "Fixed with parent change.",
+      "revId": "66ea20943f4c1a933caa8fd67f24728011f2dcb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7d81deac_08a5d402",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-10-03T18:36:48Z",
+      "side": 1,
+      "message": "It won\u0027t be a trivial refactor mainly because when `onBehalfOfUploader` is `True`, a new `RevisionResource` is created with the original patch-set uploader impersonating as the current user. A refactor will probably involve adding an `impersonateUser` to `ChangeResource`.",
+      "parentUuid": "68a473f1_b05ac531",
+      "revId": "fb711465121f9b19303938d59457e608c2f9dbdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8adcd1ec_d1ae4023",
         "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
         "patchSetId": 9
@@ -31,6 +49,30 @@
       "writtenOn": "2023-10-03T00:10:38Z",
       "side": 1,
       "message": "Is it permitted to expose account ids?",
+      "range": {
+        "startLine": 591,
+        "startChar": 46,
+        "endLine": 591,
+        "endChar": 48
+      },
+      "revId": "fb711465121f9b19303938d59457e608c2f9dbdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80346083_163908f6",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-10-03T18:36:48Z",
+      "side": 1,
+      "message": "I don\u0027t see ACLs restricting users from viewing account-ids of others. That said, I don\u0027t have to log the account-id. I can update it as below to address your concern:\n\n\n\"Cannot rebase using committer email \u0027%s\u0027. It can only be done using the primary email or the committer email of the uploader\"",
+      "parentUuid": "8adcd1ec_d1ae4023",
       "range": {
         "startLine": 591,
         "startChar": 46,

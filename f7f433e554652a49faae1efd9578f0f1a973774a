@@ -1,6 +1,40 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b540c69c_7286e9e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-10-03T08:03:07Z",
+      "side": 1,
+      "message": "Even though 3.4 Release is not supported any more, we should cherry-pick that change to stable-3.4 as well.",
+      "revId": "f7f433e554652a49faae1efd9578f0f1a973774a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8482d60_c85edc51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-10-03T08:03:07Z",
+      "side": 1,
+      "message": "Would it be possible to add a test to avoid such a mismatch in future?",
+      "revId": "f7f433e554652a49faae1efd9578f0f1a973774a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "1ef8d9f4_c0747d46",

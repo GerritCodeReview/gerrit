@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertAbout;
 
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.Subject;
+import com.google.inject.TypeLiteral;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -61,10 +62,12 @@ public class SerializedClassSubject extends Subject {
   }
 
   private final Class<?> clazz;
+  private final TypeLiteral clazzTl;
 
   private SerializedClassSubject(FailureMetadata metadata, Class<?> clazz) {
     super(metadata, clazz);
     this.clazz = clazz;
+    this.clazzTl = TypeLiteral.get(clazz);
   }
 
   public void isAbstract() {
@@ -87,7 +90,7 @@ public class SerializedClassSubject extends Subject {
         .that(
             FieldUtils.getAllFieldsList(clazz).stream()
                 .filter(f -> !Modifier.isStatic(f.getModifiers()))
-                .collect(toImmutableMap(Field::getName, Field::getGenericType)))
+                .collect(toImmutableMap(Field::getName, f -> clazzTl.getFieldType(f).getType())))
         .containsExactlyEntriesIn(expectedFields);
   }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89faeaa3_513f8419",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 947,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-10-04T10:18:03Z",
+      "side": 1,
+      "message": "How do you preview the suggestion?",
+      "range": {
+        "startLine": 944,
+        "startChar": 6,
+        "endLine": 947,
+        "endChar": 14
+      },
+      "revId": "bef3975d09c32276d319270dde2a91ea31c52f56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

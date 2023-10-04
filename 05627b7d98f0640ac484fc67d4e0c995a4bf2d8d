@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "274e29d8_f2a112d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-10-04T11:09:25Z",
+      "side": 1,
+      "message": "what does this mean \"show new range\"?",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "05627b7d98f0640ac484fc67d4e0c995a4bf2d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13ef8dcc_b6958535",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-10-04T11:09:25Z",
+      "side": 1,
+      "message": "how are we using this information?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "05627b7d98f0640ac484fc67d4e0c995a4bf2d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67749465_f372c86f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-10-04T11:09:25Z",
+      "side": 1,
+      "message": "why is this warning useful?",
+      "range": {
+        "startLine": 9,
+        "startChar": 33,
+        "endLine": 10,
+        "endChar": 18
+      },
+      "revId": "05627b7d98f0640ac484fc67d4e0c995a4bf2d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "690d0c9c_a16353ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-10-04T11:09:25Z",
+      "side": 1,
+      "message": "IIUC this particular warning is not being tested at all but something that you plan to remove in a future change?",
+      "range": {
+        "startLine": 14,
+        "startChar": 6,
+        "endLine": 14,
+        "endChar": 41
+      },
+      "revId": "05627b7d98f0640ac484fc67d4e0c995a4bf2d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

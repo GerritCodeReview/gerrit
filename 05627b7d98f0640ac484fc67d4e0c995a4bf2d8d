@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fa2e8e6_38444c3a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-10-04T11:19:29Z",
+      "side": 1,
+      "message": "Changed",
+      "parentUuid": "274e29d8_f2a112d0",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "05627b7d98f0640ac484fc67d4e0c995a4bf2d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "13ef8dcc_b6958535",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-10-04T11:09:25Z",
       "side": 1,
       "message": "how are we using this information?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "05627b7d98f0640ac484fc67d4e0c995a4bf2d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "046d64f3_554d8813",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-10-04T11:19:29Z",
+      "side": 1,
+      "message": "In new text, I wrote that I am using this for testing",
+      "parentUuid": "13ef8dcc_b6958535",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cc2f883_d5d16c2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-10-04T11:19:29Z",
+      "side": 1,
+      "message": "As I mentioned it is useful for testing and implementing plugin for now.",
+      "parentUuid": "67749465_f372c86f",
+      "range": {
+        "startLine": 9,
+        "startChar": 33,
+        "endLine": 10,
+        "endChar": 18
+      },
+      "revId": "05627b7d98f0640ac484fc67d4e0c995a4bf2d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "690d0c9c_a16353ea",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-10-04T11:09:25Z",
       "side": 1,
       "message": "IIUC this particular warning is not being tested at all but something that you plan to remove in a future change?",
+      "range": {
+        "startLine": 14,
+        "startChar": 6,
+        "endLine": 14,
+        "endChar": 41
+      },
+      "revId": "05627b7d98f0640ac484fc67d4e0c995a4bf2d8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ef7530d_c81a7daf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-10-04T11:19:29Z",
+      "side": 1,
+      "message": "This is my default message when I am implementing something under feature flag - so reviewers can be ok with incremental changes.\n\nI added that it will be replaced with full solution soon.",
+      "parentUuid": "690d0c9c_a16353ea",
       "range": {
         "startLine": 14,
         "startChar": 6,

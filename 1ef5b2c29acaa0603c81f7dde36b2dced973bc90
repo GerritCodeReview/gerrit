@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "058a9906_b75a2117",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-10-04T10:02:30Z",
+      "side": 1,
+      "message": "Adding Dhruv for +2 powers",
+      "revId": "1ef5b2c29acaa0603c81f7dde36b2dced973bc90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92644d33_d004ca89",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-10-04T10:02:30Z",
+      "side": 1,
+      "message": "This is not exactly for this change. But considering that this TODO placed in the \"preview\" logic, does it mean that if the TODO is implemented the comment will start \"jumping around\" as I type it. Will there be some logic to keep the comment anchored while still showing a preview for the new range?",
+      "range": {
+        "startLine": 940,
+        "startChar": 4,
+        "endLine": 941,
+        "endChar": 40
+      },
+      "revId": "1ef5b2c29acaa0603c81f7dde36b2dced973bc90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7b3eac0_15d4134a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-10-04T10:02:30Z",
+      "side": 1,
+      "message": "nit: reference to \"other\" is unclear.\n\n\n```suggestion\n    // TODO(milutin): The suggestionResponse can contain multiple suggestion options. \n    //We pick the first one for now. In future we shouldn\u0027t ignore other suggestions\n```",
+      "range": {
+        "startLine": 1022,
+        "startChar": 22,
+        "endLine": 1022,
+        "endChar": 69
+      },
+      "revId": "1ef5b2c29acaa0603c81f7dde36b2dced973bc90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

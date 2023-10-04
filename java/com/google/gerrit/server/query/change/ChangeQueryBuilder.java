@@ -1165,6 +1165,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
+  public Predicate<ChangeData> d(String text) throws QueryParseException {
+    return message(text);
+  }
+
+  @Operator
+  public Predicate<ChangeData> description(String text) throws QueryParseException {
+    return message(text);
+  }
+
+  @Operator
   public Predicate<ChangeData> message(String text) throws QueryParseException {
     if (text.startsWith("^")) {
       checkFieldAvailable(

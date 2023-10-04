@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d523d068_3a243d16",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1154402
+      },
+      "writtenOn": "2023-10-04T15:40:37Z",
+      "side": 1,
+      "message": "Could you let me know which command I should run to format all files?",
+      "revId": "4225f34a64013c3eeccda7eed1f938a2505e4c4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

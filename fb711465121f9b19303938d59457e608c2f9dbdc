@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "71b37075_584e06b2",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-10-04T17:51:14Z",
+      "side": 1,
+      "message": "I can. It won\u0027t really be a cleanup though as we\u0027d be duplicating information we have. Let me push a patch-set.",
+      "parentUuid": "3001d376_bc647d9b",
+      "revId": "fb711465121f9b19303938d59457e608c2f9dbdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8adcd1ec_d1ae4023",
         "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
         "patchSetId": 9

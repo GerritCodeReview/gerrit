@@ -345,7 +345,7 @@ a review.  See <<labels,labels>> below for more detail on the format
 of the argument.
 
 [[message]]
-message:'MESSAGE'::
+message:'MESSAGE'::, description:'MESSAGE'::, d:'MESSAGE'::
 +
 Changes that match 'MESSAGE' arbitrary string in the commit message body.
 By default full text matching is used, but regular expressions can be

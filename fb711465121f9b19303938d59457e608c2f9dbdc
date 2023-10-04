@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe420a7a_d0415681",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-10-04T17:56:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71b37075_584e06b2",
+      "revId": "fb711465121f9b19303938d59457e608c2f9dbdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8adcd1ec_d1ae4023",
@@ -109,6 +127,30 @@
       "side": 1,
       "message": "I don\u0027t see ACLs restricting users from viewing account-ids of others. That said, I don\u0027t have to log the account-id. I can update it as below to address your concern:\n\n\n\"Cannot rebase using committer email \u0027%s\u0027. It can only be done using the primary email or the committer email of the uploader\"",
       "parentUuid": "8adcd1ec_d1ae4023",
+      "range": {
+        "startLine": 591,
+        "startChar": 46,
+        "endLine": 591,
+        "endChar": 48
+      },
+      "revId": "fb711465121f9b19303938d59457e608c2f9dbdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e557179_7481892b",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-10-04T17:56:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80346083_163908f6",
       "range": {
         "startLine": 591,
         "startChar": 46,

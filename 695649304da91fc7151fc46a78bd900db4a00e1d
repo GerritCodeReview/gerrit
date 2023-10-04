@@ -87,6 +87,23 @@
       "parentUuid": "258a7a32_7f4be78a",
       "revId": "695649304da91fc7151fc46a78bd900db4a00e1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bad35d66_f4701e18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-10-04T08:51:34Z",
+      "side": 1,
+      "message": "change is forward compatible because we keep the index versions from 84 onwards as-is. please just add a footer to ACK this submit requirement",
+      "revId": "695649304da91fc7151fc46a78bd900db4a00e1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

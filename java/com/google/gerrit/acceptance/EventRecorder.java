@@ -32,6 +32,7 @@ import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.RefEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
 import com.google.gerrit.server.events.ReviewerDeletedEvent;
+import com.google.gerrit.server.events.UserBlockedEvent;
 import com.google.gerrit.server.events.UserScopedEventListener;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -73,6 +74,8 @@ public class EventRecorder {
                   recordedEvents.put(ReviewerDeletedEvent.TYPE, e);
                 } else if (e instanceof ChangeDeletedEvent) {
                   recordedEvents.put(ChangeDeletedEvent.TYPE, e);
+                } else if (e instanceof UserBlockedEvent) {
+                  recordedEvents.put(UserBlockedEvent.TYPE, e);
                 } else if (e instanceof RefEvent) {
                   RefEvent event = (RefEvent) e;
                   String key =
@@ -160,6 +163,21 @@ public class EventRecorder {
     return events;
   }
 
+  private ImmutableList<UserBlockedEvent> getUserBlockedEvents(int expectedSize) {
+    String key = UserBlockedEvent.TYPE;
+    if (expectedSize == 0) {
+      assertThat(recordedEvents).doesNotContainKey(key);
+      return ImmutableList.of();
+    }
+    assertThat(recordedEvents).containsKey(key);
+    ImmutableList<UserBlockedEvent> events =
+        FluentIterable.from(recordedEvents.get(key))
+            .transform(UserBlockedEvent.class::cast)
+            .toList();
+    assertThat(events).hasSize(expectedSize);
+    return events;
+  }
+
   public ImmutableList<Event> getGenericEvents(String type, int expectedSize) {
     if (expectedSize == 0) {
       assertThat(recordedEvents).doesNotContainKey(type);
@@ -238,6 +256,15 @@ public class EventRecorder {
       assertThat(id).isEqualTo(expected[i]);
       String reviewer = event.deleter.get().email;
       assertThat(reviewer).isEqualTo(expected[i + 1]);
+      i += 2;
+    }
+  }
+
+  public void assertUserBlockedEvents(String... expected) {
+    ImmutableList<UserBlockedEvent> events = getUserBlockedEvents(expected.length / 2);
+    int i = 0;
+    for (UserBlockedEvent event : events) {
+      assertThat(event.blocked.get().email).isEqualTo(expected[i + 1]);
       i += 2;
     }
   }

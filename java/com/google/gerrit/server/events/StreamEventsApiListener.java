@@ -49,6 +49,7 @@ import com.google.gerrit.extensions.events.ReviewerAddedListener;
 import com.google.gerrit.extensions.events.ReviewerDeletedListener;
 import com.google.gerrit.extensions.events.RevisionCreatedListener;
 import com.google.gerrit.extensions.events.TopicEditedListener;
+import com.google.gerrit.extensions.events.UserBlockedListener;
 import com.google.gerrit.extensions.events.VoteDeletedListener;
 import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -97,7 +98,8 @@ public class StreamEventsApiListener
         RevisionCreatedListener,
         TopicEditedListener,
         VoteDeletedListener,
-        HeadUpdatedListener {
+        HeadUpdatedListener,
+        UserBlockedListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static class StreamEventsApiListenerModule extends AbstractModule {
@@ -137,6 +139,7 @@ public class StreamEventsApiListener
       DynamicSet.bind(binder(), WorkInProgressStateChangedListener.class)
           .to(StreamEventsApiListener.class);
       DynamicSet.bind(binder(), HeadUpdatedListener.class).to(StreamEventsApiListener.class);
+      DynamicSet.bind(binder(), UserBlockedListener.class).to(StreamEventsApiListener.class);
     }
   }
 
@@ -585,6 +588,20 @@ public class StreamEventsApiListener
       event.deleter = accountAttributeSupplier(ev.getWho());
 
       dispatcher.run(d -> d.postEvent(change, event));
+    } catch (StorageException e) {
+      logger.atSevere().withCause(e).log("Failed to dispatch event");
+    }
+  }
+
+  @Override
+  public void onUserBlocked(UserBlockedListener.Event ev) {
+    try {
+      UserBlockedEvent event = new UserBlockedEvent();
+      event.whoBlocked = accountAttributeSupplier(ev.getBlocker());
+      event.blocked = accountAttributeSupplier(ev.getUser());
+      event.blockedUsersGroup = ev.getBlockedUsersGroup();
+
+      dispatcher.run(d -> d.postEvent(event));
     } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");
     }

@@ -2250,6 +2250,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(reviewerIt.next()._accountId).isEqualTo(admin.id().get());
 
     eventRecorder.assertReviewerDeletedEvents(changeId, user.email());
+    eventRecorder.assertUserBlockedEvents(changeId, user.email());
   }
 
   @Test

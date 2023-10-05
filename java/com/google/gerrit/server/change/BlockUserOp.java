@@ -32,9 +32,12 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ServerInitiated;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.extensions.events.UserBlocked;
 import com.google.gerrit.server.group.db.GroupDelta;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.mail.EmailFactories;
@@ -73,8 +76,10 @@ public class BlockUserOp extends ReviewerOp {
   private final ChangeMessagesUtil cmUtil;
   private final EmailFactories emailFactories;
   private final MessageIdGenerator messageIdGenerator;
+  private final UserBlocked userBlocked;
   private final Account reviewer;
   private final DeleteReviewerInput input;
+  private final AccountCache accountCache;
 
   private Change change;
   private Set<Account.Id> reviewers;
@@ -90,6 +95,8 @@ public class BlockUserOp extends ReviewerOp {
       ChangeMessagesUtil cmUtil,
       EmailFactories emailFactories,
       MessageIdGenerator messageIdGenerator,
+      UserBlocked userBlocked,
+      AccountCache accountCache,
       @Assisted Account reviewer,
       @Assisted DeleteReviewerInput input) {
     this.blockedUsersGroupName = config.getString("groups", null, "blockedUsersGroup");
@@ -99,6 +106,8 @@ public class BlockUserOp extends ReviewerOp {
     this.cmUtil = cmUtil;
     this.emailFactories = emailFactories;
     this.messageIdGenerator = messageIdGenerator;
+    this.userBlocked = userBlocked;
+    this.accountCache = accountCache;
     this.reviewer = reviewer;
     this.input = input;
   }
@@ -163,6 +172,19 @@ public class BlockUserOp extends ReviewerOp {
       } catch (Exception err) {
         logger.atSevere().withCause(err).log("Cannot email update for change %s", change.getId());
       }
+    }
+
+    if (sendEvent) {
+      NotifyHandling notifyHandling = notify.handling();
+      eventSender =
+          () ->
+              userBlocked.fire(
+                  ctx.getAccount(),
+                  accountCache.get(reviewer.id()).orElse(AccountState.forAccount(reviewer)),
+                  blockedUsersGroupName,
+                  notifyHandling,
+                  ctx.getWhen());
+      sendEvent();
     }
   }
 

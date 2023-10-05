@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0497be6a_3346d89c",
+        "filename": "/MERGE_LIST",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1168037
+      },
+      "writtenOn": "2023-10-05T05:12:24Z",
+      "side": 1,
+      "message": "/MERGE_LIST",
+      "revId": "9e15f445e32dd0bea1241683be638954c0d658e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "222bb95f_895f7ebf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1168037
+      },
+      "writtenOn": "2023-10-05T05:12:24Z",
+      "side": 1,
+      "message": "/MERGE_LIST",
+      "revId": "9e15f445e32dd0bea1241683be638954c0d658e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

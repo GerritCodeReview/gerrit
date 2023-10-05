@@ -42,6 +42,7 @@ public class EventTypes {
     register(TopicChangedEvent.TYPE, TopicChangedEvent.class);
     register(VoteDeletedEvent.TYPE, VoteDeletedEvent.class);
     register(WorkInProgressStateChangedEvent.TYPE, WorkInProgressStateChangedEvent.class);
+    register(UserBlockedEvent.TYPE, UserBlockedEvent.class);
   }
 
   /**

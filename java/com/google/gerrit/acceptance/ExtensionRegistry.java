@@ -32,6 +32,7 @@ import com.google.gerrit.extensions.events.ReviewerAddedListener;
 import com.google.gerrit.extensions.events.ReviewerDeletedListener;
 import com.google.gerrit.extensions.events.RevisionCreatedListener;
 import com.google.gerrit.extensions.events.TopicEditedListener;
+import com.google.gerrit.extensions.events.UserBlockedListener;
 import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -110,6 +111,7 @@ public class ExtensionRegistry {
   private final DynamicMap<ChangeHasOperandFactory> hasOperands;
   private final DynamicMap<ChangeIsOperandFactory> isOperands;
   private final DynamicMap<ReviewerSuggestion> reviewerSuggestions;
+  private final DynamicSet<UserBlockedListener> userBlockedListeners;
 
   @Inject
   ExtensionRegistry(
@@ -153,7 +155,8 @@ public class ExtensionRegistry {
       DynamicMap<ChangeHasOperandFactory> hasOperands,
       DynamicMap<ChangeIsOperandFactory> isOperands,
       DynamicSet<AttentionSetListener> attentionSetListeners,
-      DynamicMap<ReviewerSuggestion> reviewerSuggestions) {
+      DynamicMap<ReviewerSuggestion> reviewerSuggestions,
+      DynamicSet<UserBlockedListener> userBlockedListeners) {
     this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
     this.groupIndexedListeners = groupIndexedListeners;
@@ -195,6 +198,7 @@ public class ExtensionRegistry {
     this.isOperands = isOperands;
     this.attentionSetListeners = attentionSetListeners;
     this.reviewerSuggestions = reviewerSuggestions;
+    this.userBlockedListeners = userBlockedListeners;
   }
 
   public Registration newRegistration() {
@@ -373,6 +377,10 @@ public class ExtensionRegistry {
 
     public Registration add(ReviewerSuggestion reviewerSuggestion, String exportName) {
       return add(reviewerSuggestions, reviewerSuggestion, exportName);
+    }
+
+    public Registration add(UserBlockedListener userBlockedListener) {
+      return add(userBlockedListeners, userBlockedListener);
     }
 
     private <T> Registration add(DynamicSet<T> dynamicSet, T extension) {

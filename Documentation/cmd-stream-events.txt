@@ -263,6 +263,21 @@ comment:: Review comment cover message.
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 
+=== User Blocked
+
+Sent when an user is blocked.
+
+type:: "user-blocked"
+
+blocked:: reviewer that was blocked as link:json.html#account[account attribute]
+
+user:: user that blocked the reviewer as link:json.html#account[account attribute]
+
+blockedUsersGroup:: Review comment cover message.
+
+eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
+created.
+
 === Topic Changed
 
 Sent when the topic of a change has been changed.

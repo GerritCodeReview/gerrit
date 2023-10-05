@@ -126,6 +126,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "246dedea_e406269b",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2023-10-05T14:43:11Z",
+      "side": 1,
+      "message": "\u003e By duplication I meant, the `rebaseAsUser` is also in the `RevisionResource`\n\nOK, help me out here, why does your refactor not fix that?",
+      "parentUuid": "f414f7aa_4d8f4124",
+      "revId": "fb711465121f9b19303938d59457e608c2f9dbdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8adcd1ec_d1ae4023",

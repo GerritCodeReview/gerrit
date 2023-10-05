@@ -180,6 +180,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "218f9284_e2600f4a",
+        "filename": "java/com/google/gerrit/server/change/RebaseUtil.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-10-05T22:34:04Z",
+      "side": 1,
+      "message": "Attempted in PS11. I was trying to avoid that refactor as I wasn\u0027t sure if it was the right thing to do.",
+      "parentUuid": "187b52d6_52651f75",
+      "revId": "fb711465121f9b19303938d59457e608c2f9dbdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8adcd1ec_d1ae4023",

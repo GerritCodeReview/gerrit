@@ -34,7 +34,6 @@ public final class StaticModuleConstants {
   public static final ImmutableList<String> POLYGERRIT_INDEX_PATHS =
       ImmutableList.of(
           "/",
-          "/c/*",
           "/id/*",
           "/p/*",
           "/q/*",

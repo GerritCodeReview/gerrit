@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "74c37793_53ba26ef",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-10-06T15:56:28Z",
+      "side": 1,
+      "message": "It might be that just excluding access to the `refs/meta/config` would do it. Can you give it a go?",
+      "parentUuid": "b45c8439_61368587",
+      "revId": "8a1817b1cba64f3a4d8750791dca1588aa2d09af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9b51d9c1_3e4b712f",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 2

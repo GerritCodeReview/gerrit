@@ -46,6 +46,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -403,7 +405,13 @@ public class StaticModule extends ServletModule {
     }
 
     private static boolean isPolyGerritIndex(String path) {
-      return matchPath(POLYGERRIT_INDEX_PATHS, path);
+      return matchPath(POLYGERRIT_INDEX_PATHS, path) || isChangeUri(path);
+    }
+
+    private static boolean isChangeUri(String path) {
+      Pattern pattern = Pattern.compile("/c/.+/\\+/\\d+/?$");
+      Matcher matcher = pattern.matcher(path);
+      return matcher.matches();
     }
 
     private static boolean matchPath(Iterable<String> paths, String path) {

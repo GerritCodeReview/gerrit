@@ -57,6 +57,24 @@
       "parentUuid": "b3685bc9_ba864c74",
       "revId": "ffa190e04476374402e0c60982f32398ee2cb952",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0232432a_73170eb1",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-10-06T12:44:07Z",
+      "side": 1,
+      "message": "Add your piece of documentation in a NOTE section. I have seen it done in other places of the documentation.",
+      "parentUuid": "2634a063_8dfcb3bb",
+      "revId": "ffa190e04476374402e0c60982f32398ee2cb952",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

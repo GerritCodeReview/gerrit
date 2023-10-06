@@ -1442,13 +1442,17 @@ export class GrReplyDialog extends LitElement {
         this.includeComments = true;
         fireNoBubble(this, 'send', {});
         fireIronAnnounce(this, 'Reply sent');
+        return;
       })
-      .then(result => result)
+      .then(result => {
+        this.disabled = false;
+        return result;
+      })
       .catch(err => {
+        this.disabled = false;
         throw err;
       })
       .finally(() => {
-        this.disabled = false;
         if (this.patchsetLevelGrComment) {
           this.patchsetLevelGrComment.disableAutoSaving = false;
         }

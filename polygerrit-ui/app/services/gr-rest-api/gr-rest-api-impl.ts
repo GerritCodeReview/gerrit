@@ -1027,7 +1027,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   /**
    * Construct the uri to get list of changes.
    *
-   * If options is undefined then default options (see getListChangesOptionsHex) is
+   * If options is undefined then default options (see _getChangesOptionsHex) is
    * used.
    */
   getRequestForGetChanges(
@@ -1036,7 +1036,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     offset?: 'n,z' | number,
     options?: string
   ) {
-    options = options || this.getListChangesOptionsHex();
+    options = options || this._getChangesOptionsHex();
     if (offset === 'n,z') {
       offset = 0;
     }
@@ -1061,7 +1061,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   /**
    * For every query fetches the matching changes.
    *
-   * If options is undefined then default options (see getListChangesOptionsHex) is
+   * If options is undefined then default options (see _getChangesOptionsHex) is
    * used.
    */
   getChangesForMultipleQueries(
@@ -1108,7 +1108,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   /**
    * Fetches changes that match the query.
    *
-   * If options is undefined then default options (see getListChangesOptionsHex) is
+   * If options is undefined then default options (see _getChangesOptionsHex) is
    * used.
    */
   getChanges(
@@ -1183,31 +1183,34 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     );
   }
 
-  async getChangeDetail(
+  getChangeDetail(
     changeNum?: NumericChangeId,
     errFn?: ErrorCallback,
     cancelCondition?: CancelConditionCallback
   ): Promise<ParsedChangeInfo | undefined> {
-    if (!changeNum) return;
-    const optionsHex = await this.getChangeOptionsHex();
-
-    return this._getChangeDetail(
-      changeNum,
-      optionsHex,
-      errFn,
-      cancelCondition
-    ).then(detail =>
-      // detail has ChangeViewChangeInfo type because the optionsHex always
-      // includes ALL_REVISIONS flag.
-      GrReviewerUpdatesParser.parse(detail as ChangeViewChangeInfo)
-    );
+    if (!changeNum) return Promise.resolve(undefined);
+    return this.getConfig(false).then(config => {
+      const optionsHex = this._getChangeOptionsHex(config);
+      return this._getChangeDetail(
+        changeNum,
+        optionsHex,
+        errFn,
+        cancelCondition
+      ).then(detail =>
+        // detail has ChangeViewChangeInfo type because the optionsHex always
+        // includes ALL_REVISIONS flag.
+        GrReviewerUpdatesParser.parse(detail as ChangeViewChangeInfo)
+      );
+    });
   }
 
-  /**
-   * Returns the options to use for querying multiple changes (e.g. dashboard or search).
-   * @return The options hex to use when fetching multiple changes.
-   */
-  private getListChangesOptionsHex() {
+  _getChangesOptionsHex() {
+    if (
+      window.DEFAULT_DETAIL_HEXES &&
+      window.DEFAULT_DETAIL_HEXES.dashboardPage
+    ) {
+      return window.DEFAULT_DETAIL_HEXES.dashboardPage;
+    }
     const options = [
       ListChangesOption.LABELS,
       ListChangesOption.DETAILED_ACCOUNTS,
@@ -1218,8 +1221,14 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     return listChangesOptionsToHex(...options);
   }
 
-  async getChangeOptionsHex(): Promise<string> {
-    const config = await this.getConfig(false);
+  _getChangeOptionsHex(config?: ServerInfo) {
+    if (
+      window.DEFAULT_DETAIL_HEXES &&
+      window.DEFAULT_DETAIL_HEXES.changePage &&
+      (!config || !(config.receive && config.receive.enable_signed_push))
+    ) {
+      return window.DEFAULT_DETAIL_HEXES.changePage;
+    }
 
     // This list MUST be kept in sync with
     // ChangeIT#changeDetailsDoesNotRequireIndex

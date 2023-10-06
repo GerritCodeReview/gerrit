@@ -160,6 +160,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.git.ObjectIds;
+import com.google.gerrit.httpd.raw.IndexPreloadingUtil;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -237,13 +238,6 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject private IndexOperations.Change changeIndexOperations;
   @Inject private AccountControl.Factory accountControlFactory;
   @Inject private ChangeOperations changeOperations;
-
-  public static final ImmutableSet<ListChangesOption> DASHBOARD_OPTIONS =
-      ImmutableSet.of(
-          ListChangesOption.LABELS,
-          ListChangesOption.DETAILED_ACCOUNTS,
-          ListChangesOption.SUBMIT_REQUIREMENTS,
-          ListChangesOption.STAR);
 
   @Inject
   @Named("diff_intraline")
@@ -3138,7 +3132,7 @@ public class ChangeIT extends AbstractDaemonTest {
               gApi.changes()
                   .query()
                   .withQuery("project:{" + project.get() + "} (status:open OR status:closed)")
-                  .withOptions(DASHBOARD_OPTIONS)
+                  .withOptions(IndexPreloadingUtil.DASHBOARD_OPTIONS)
                   .get())
           .hasSize(2);
     }

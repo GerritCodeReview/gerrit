@@ -1160,7 +1160,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery(searchOperator + "\"^aaaa(c)*c.*\"", change2);
     assertQuery(searchOperator + "\"^.*HELLO WORLD.*\"", change3);
     assertQuery(
-        searchOperator + "\"^.*(H|h)(E|e)(L|l)(L|l)(O|o) (W|w)(O|o)(R|r)(L|l)(D|d).*\"", change4, change3);
+        searchOperator + "\"^.*(H|h)(E|e)(L|l)(L|l)(O|o) (W|w)(O|o)(R|r)(L|l)(D|d).*\"",
+        change4,
+        change3);
   }
 
   @Test

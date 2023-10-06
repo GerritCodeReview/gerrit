@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2de1281f_bcba37d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-06T18:50:42Z",
+      "side": 1,
+      "message": "Can you elaborate more the commit message to explain the rationale behind this change?",
+      "revId": "83b467a15f61bd1249e9313a0080e7afa1dc059a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a3b1b02_2aca0e35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-06T18:50:42Z",
+      "side": 1,
+      "message": "We should also add a validate test that verifies:\n\n/c/test-repo/+/1 \u003d\u003e is served from the PolyGerrit servlet\n/c/1 \u003d\u003e is redirected to /c/test-repo/+/1",
+      "revId": "83b467a15f61bd1249e9313a0080e7afa1dc059a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

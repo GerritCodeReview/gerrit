@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe3690da_54f400e6",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModuleConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-06T18:50:42Z",
+      "side": 0,
+      "message": "This looks wrong: we need to keep serving the PolyGerrit UI when accessing the changes directly with the full /c/\u003cproject\u003e/+/\u003cchange\u003e URL.\n\nExample:\nhttp://localhost:8080/c/test-repo/+/1\nreturns 404 after this change.",
+      "range": {
+        "startLine": 37,
+        "startChar": 10,
+        "endLine": 37,
+        "endChar": 16
+      },
+      "revId": "feede2f664f2d8613268682cf29c480e514fd67d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

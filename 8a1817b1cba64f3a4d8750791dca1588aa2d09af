@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c07149f_d2ae7c5f",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-06T12:03:41Z",
+      "side": 1,
+      "message": "I think my statement around `refs/*` is accurate.",
+      "revId": "8a1817b1cba64f3a4d8750791dca1588aa2d09af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b51d9c1_3e4b712f",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-06T12:03:41Z",
+      "side": 1,
+      "message": "I would like to some help around `N`. Does it make sense?",
+      "revId": "8a1817b1cba64f3a4d8750791dca1588aa2d09af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

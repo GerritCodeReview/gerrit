@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf088ca5_25253576",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-10-06T12:04:23Z",
+      "side": 1,
+      "message": "I\u0027d say something like: \"the \u0027parent\u0027 field value will be `?-N`, where N is the nesting level in the projects\u0027 tree structure\"",
+      "range": {
+        "startLine": 302,
+        "startChar": 0,
+        "endLine": 303,
+        "endChar": 17
+      },
+      "revId": "53adf4c10605f36963d6df7d9a06d65d4b0f5b2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

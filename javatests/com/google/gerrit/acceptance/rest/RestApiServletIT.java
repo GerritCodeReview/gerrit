@@ -427,6 +427,22 @@ public class RestApiServletIT extends AbstractDaemonTest {
     adminRestSession.get("/projects").assertOK();
   }
 
+  @Test
+  public void testNumericChangeIdRedirectWithPrefix() throws Exception {
+    int changeNumber = createChange().getChange().getId().get();
+
+    String redirectUri = String.format("/c/%s/+/%d/", project.get(), changeNumber);
+    anonymousRestSession.get("/c/" + changeNumber).assertTemporaryRedirect(redirectUri);
+  }
+
+  @Test
+  public void testNumericChangeIdRedirectWithOutPrefix() throws Exception {
+    int changeNumber = createChange().getChange().getId().get();
+
+    String redirectUri = String.format("/c/%s/+/%d/", project.get(), changeNumber);
+    anonymousRestSession.get("/" + changeNumber).assertTemporaryRedirect(redirectUri);
+  }
+
   private ObjectId getMetaRefSha1(Result change) {
     return change.getChange().notes().getRevision();
   }

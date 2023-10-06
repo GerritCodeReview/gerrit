@@ -16,6 +16,24 @@
       "message": "The failure seems to be a false positive: //javatests/com/google/gerrit/server/query/change:FakeQueryChangesLatestIndexVersionTest FAILED in 3 out of 3 in 158.1s\n\nWill try to submit it again.",
       "revId": "3d38dd82e1c78a19819c1133bdfbc2e6593a6f7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbd14634_3948e6d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1154402
+      },
+      "writtenOn": "2023-10-06T12:20:37Z",
+      "side": 1,
+      "message": "Er...I\u0027m sorry, I\u0027m not used to this workflow. How can I retrigger the build? I believe the test is just flaky.",
+      "parentUuid": "b4ae750e_ede0d6a0",
+      "revId": "3d38dd82e1c78a19819c1133bdfbc2e6593a6f7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

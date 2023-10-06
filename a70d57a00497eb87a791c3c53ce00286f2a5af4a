@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a0fe68d_e67e93e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-06T17:30:44Z",
+      "side": 1,
+      "message": "This is the first change of 2 changes. Once the wording is agreed in this change I will add it in the other `Gerrit SSH API ls-projects`",
+      "revId": "a70d57a00497eb87a791c3c53ce00286f2a5af4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

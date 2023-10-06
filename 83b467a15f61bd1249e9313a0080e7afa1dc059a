@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c40cb988_f3626b23",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-10-06T20:10:59Z",
+      "side": 1,
+      "message": "Sure I will do. The change is still in WIP, I should have changed the status accordingly.",
+      "parentUuid": "2de1281f_bcba37d4",
+      "revId": "83b467a15f61bd1249e9313a0080e7afa1dc059a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9a3b1b02_2aca0e35",

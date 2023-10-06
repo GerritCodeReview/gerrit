@@ -22,6 +22,30 @@
       },
       "revId": "feede2f664f2d8613268682cf29c480e514fd67d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbb9dab3_5d76e632",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModuleConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-10-06T20:10:59Z",
+      "side": 0,
+      "message": "\u003e This looks wrong: we need to keep serving the PolyGerrit UI when accessing the changes directly with the full /c/\u003cproject\u003e/+/\u003cchange\u003e URL.\n\nYep, I know it is not working. Sorry, I should have put the change in WIP. I pushed it just to see which test I would have broken...but no tests are failing and yet the change is wrong 😮",
+      "parentUuid": "fe3690da_54f400e6",
+      "range": {
+        "startLine": 37,
+        "startChar": 10,
+        "endLine": 37,
+        "endChar": 16
+      },
+      "revId": "feede2f664f2d8613268682cf29c480e514fd67d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

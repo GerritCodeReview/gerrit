@@ -46,6 +46,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
+import java.util.regex.Pattern;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -61,6 +62,7 @@ import org.eclipse.jgit.lib.Config;
 
 public class StaticModule extends ServletModule {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private static final Pattern CHANGE_URI_PATTERN = Pattern.compile("/c/.+/\\+/\\d+/?$");
 
   /**
    * Paths that should be treated as static assets when serving PolyGerrit.
@@ -403,7 +405,11 @@ public class StaticModule extends ServletModule {
     }
 
     private static boolean isPolyGerritIndex(String path) {
-      return matchPath(POLYGERRIT_INDEX_PATHS, path);
+      return matchPath(POLYGERRIT_INDEX_PATHS, path) || isChangeUri(path);
+    }
+
+    private static boolean isChangeUri(String path) {
+      return CHANGE_URI_PATTERN.matcher(path).matches();
     }
 
     private static boolean matchPath(Iterable<String> paths, String path) {

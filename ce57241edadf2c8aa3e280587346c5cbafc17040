@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8dd85c0_4d8b5852",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-10-06T14:43:04Z",
+      "side": 1,
+      "message": "Same comment as below",
+      "range": {
+        "startLine": 10,
+        "startChar": 47,
+        "endLine": 10,
+        "endChar": 51
+      },
+      "revId": "ce57241edadf2c8aa3e280587346c5cbafc17040",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a809140d_58280be3",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-10-06T14:43:04Z",
+      "side": 1,
+      "message": "I don\u0027t think the response type adds any value here. If you look at the rest of the documentation we never specify the payload type when talking about a specific field.",
+      "range": {
+        "startLine": 274,
+        "startChar": 26,
+        "endLine": 274,
+        "endChar": 30
+      },
+      "revId": "ce57241edadf2c8aa3e280587346c5cbafc17040",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

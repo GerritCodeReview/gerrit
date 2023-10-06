@@ -298,6 +298,11 @@ GET /projects/?t HTTP/1.0
   }
 ----
 
+When the calling user has no read access to `refs/*` on the parent of a project,
+the value of the JSON field parent will be `?-N`, with N representing the
+hierarchy level. In the provided example, `All-Projects` corresponds to
+`level 1`, `parent-project` to `level 2`, and `child-project` to level `3`.
+
 Type(type)::
 Get projects with specified type: ALL, CODE, PERMISSIONS.
 +

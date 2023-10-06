@@ -110,20 +110,22 @@ public class SubmitWithStickyApprovalDiff {
           InvalidChangeOperationException {
     PatchSet currentPatchset = notes.getCurrentPatchSet();
 
-    PatchSet.Id latestApprovedPatchsetId = getLatestApprovedPatchsetId(notes);
-    if (latestApprovedPatchsetId.get() == currentPatchset.id().get()) {
+    Optional<PatchSet.Id> latestApprovedPatchsetId = getLatestApprovedPatchsetId(notes);
+    if (latestApprovedPatchsetId.isEmpty()
+        || latestApprovedPatchsetId.get().get() == currentPatchset.id().get()) {
       // If the latest approved patchset is the current patchset, no need to return anything.
       return "";
     }
     StringBuilder diff =
         new StringBuilder(
             String.format(
-                "\n\n%d is the latest approved patch-set.\n", latestApprovedPatchsetId.get()));
+                "\n\n%d is the latest approved patch-set.\n",
+                latestApprovedPatchsetId.get().get()));
     Map<String, FileDiffOutput> modifiedFiles =
         listModifiedFiles(
             notes.getProjectName(),
             currentPatchset,
-            notes.getPatchSets().get(latestApprovedPatchsetId));
+            notes.getPatchSets().get(latestApprovedPatchsetId.get()));
 
     // To make the message a bit more concise, we skip the magic files.
     List<FileDiffOutput> modifiedFilesList =
@@ -173,7 +175,7 @@ public class SubmitWithStickyApprovalDiff {
             getDiffForFile(
                 notes,
                 currentPatchset.id(),
-                latestApprovedPatchsetId,
+                latestApprovedPatchsetId.get(),
                 fileDiff,
                 currentUser,
                 formatterResult,
@@ -290,10 +292,10 @@ public class SubmitWithStickyApprovalDiff {
     return diffPreferencesInfo;
   }
 
-  private PatchSet.Id getLatestApprovedPatchsetId(ChangeNotes notes) {
+  private Optional<PatchSet.Id> getLatestApprovedPatchsetId(ChangeNotes notes) {
     ProjectState projectState =
         projectCache.get(notes.getProjectName()).orElseThrow(illegalState(notes.getProjectName()));
-    PatchSet.Id maxPatchSetId = PatchSet.id(notes.getChangeId(), 1);
+    Optional<PatchSet.Id> maxPatchSetId = Optional.empty();
     for (PatchSetApproval patchSetApproval : notes.getApprovals().onlyNonCopied().values()) {
       if (!patchSetApproval.label().equals(LabelId.CODE_REVIEW)) {
         continue;
@@ -303,8 +305,9 @@ public class SubmitWithStickyApprovalDiff {
       if (!lt.isPresent() || !lt.get().isMaxPositive(patchSetApproval)) {
         continue;
       }
-      if (patchSetApproval.patchSetId().get() > maxPatchSetId.get()) {
-        maxPatchSetId = patchSetApproval.patchSetId();
+      if (maxPatchSetId.isEmpty()
+          || patchSetApproval.patchSetId().get() > maxPatchSetId.get().get()) {
+        maxPatchSetId = Optional.of(patchSetApproval.patchSetId());
       }
     }
     return maxPatchSetId;

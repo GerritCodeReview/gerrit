@@ -31,8 +31,8 @@ import java.util.function.Function;
  * <p>Upstream, we use java representations of the preference classes. Internally, we store proto
  * equivalents in Spanner.
  */
-final class UserPreferencesConverter {
-  static final class GeneralPreferencesInfoConverter {
+public final class UserPreferencesConverter {
+  public static final class GeneralPreferencesInfoConverter {
     public static UserPreferences.GeneralPreferencesInfo toProto(GeneralPreferencesInfo info) {
       UserPreferences.GeneralPreferencesInfo.Builder builder =
           UserPreferences.GeneralPreferencesInfo.newBuilder();
@@ -197,7 +197,7 @@ final class UserPreferencesConverter {
     private GeneralPreferencesInfoConverter() {}
   }
 
-  static final class DiffPreferencesInfoConverter {
+  public static final class DiffPreferencesInfoConverter {
     public static UserPreferences.DiffPreferencesInfo toProto(DiffPreferencesInfo info) {
       UserPreferences.DiffPreferencesInfo.Builder builder =
           UserPreferences.DiffPreferencesInfo.newBuilder();
@@ -272,7 +272,7 @@ final class UserPreferencesConverter {
     private DiffPreferencesInfoConverter() {}
   }
 
-  static final class EditPreferencesInfoConverter {
+  public static final class EditPreferencesInfoConverter {
     public static UserPreferences.EditPreferencesInfo toProto(EditPreferencesInfo info) {
       UserPreferences.EditPreferencesInfo.Builder builder =
           UserPreferences.EditPreferencesInfo.newBuilder();

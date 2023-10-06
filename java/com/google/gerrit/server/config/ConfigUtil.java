@@ -17,6 +17,9 @@ package com.google.gerrit.server.config;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.UsedAt;
+import com.google.gerrit.common.UsedAt.Project;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
@@ -389,6 +392,41 @@ public class ConfigUtil {
       throw new ConfigInvalidException("cannot load values", e);
     }
     return s;
+  }
+
+  /**
+   * Update user config by applying the specified delta
+   *
+   * <p>As opposed to {@link com.google.gerrit.server.config.ConfigUtil#storeSection}, this method
+   * does not unset a variable that are set to default, because it is expected that the input {@code
+   * original} is the raw user config value (does not include the defaults)
+   *
+   * <p>To use this method with the proto config (see {@link
+   * CachedPreferences#asUserPreferencesProto()}), the caller can first convert the proto to a java
+   * class usign one of the {@link UserPreferencesConverter} classes.
+   *
+   * <p>Fields marked with final or transient modifiers are skipped.
+   *
+   * @param original the original current user config
+   * @param updateDelta instance of class with config values that need to be uplied to the original
+   *     config
+   */
+  @UsedAt(Project.GOOGLE)
+  public static <T> void updatePreferences(T original, T updateDelta) throws IOException {
+    try {
+      for (Field f : updateDelta.getClass().getDeclaredFields()) {
+        if (skipField(f)) {
+          continue;
+        }
+        f.setAccessible(true);
+        Object c = f.get(updateDelta);
+        if (c != null) {
+          f.set(original, c);
+        }
+      }
+    } catch (SecurityException | IllegalArgumentException | IllegalAccessException e) {
+      throw new IOException("cannot apply delta the original config", e);
+    }
   }
 
   public static boolean skipField(Field field) {

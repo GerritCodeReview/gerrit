@@ -457,7 +457,14 @@ export class GrImageViewer extends LitElement {
         <paper-button class=${classMap(leftClasses)} @click=${this.selectBase}>
           Base
         </paper-button>
-        <paper-fab mini icon="gr-icons:swapHoriz" @click=${this.manualBlink}>
+        <paper-fab
+          mini
+          icon="gr-icons:swapHoriz"
+          title=${this.baseSelected
+            ? 'switch to Revision version'
+            : 'switch to Base version'}
+          @click=${this.manualBlink}
+        >
         </paper-fab>
         <paper-button
           class=${classMap(rightClasses)}

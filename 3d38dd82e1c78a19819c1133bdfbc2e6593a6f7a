@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4ae750e_ede0d6a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1154402
+      },
+      "writtenOn": "2023-10-06T12:19:25Z",
+      "side": 1,
+      "message": "The failure seems to be a false positive: //javatests/com/google/gerrit/server/query/change:FakeQueryChangesLatestIndexVersionTest FAILED in 3 out of 3 in 158.1s\n\nWill try to submit it again.",
+      "revId": "3d38dd82e1c78a19819c1133bdfbc2e6593a6f7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

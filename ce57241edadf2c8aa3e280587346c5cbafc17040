@@ -45,6 +45,30 @@
       },
       "revId": "ce57241edadf2c8aa3e280587346c5cbafc17040",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54f7158f_1d7973f3",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-06T15:08:19Z",
+      "side": 1,
+      "message": "I am happy to remove it but in the document there are 2 times with the same sentence:\n\n```\nIf the number of projects matching the query exceeds either the internal limit or a supplied limit query parameter, the last project object has a _more_projects: true JSON field set.\n```",
+      "parentUuid": "a809140d_58280be3",
+      "range": {
+        "startLine": 274,
+        "startChar": 26,
+        "endLine": 274,
+        "endChar": 30
+      },
+      "revId": "ce57241edadf2c8aa3e280587346c5cbafc17040",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

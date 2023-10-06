@@ -16,7 +16,9 @@ package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
+import static com.google.gerrit.entities.LabelFunction.NO_BLOCK;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.labelBuilder;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -586,6 +588,34 @@ public class SubmitWithStickyApprovalDiffIT extends AbstractDaemonTest {
     // patch-set 2 was the latest approved one.
     assertThat(Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message)
         .contains("2 is the latest approved patch-set.");
+  }
+
+  @Test
+  public void overriddenSubmitRequirementMissingCodeReviewVote_submitsWithoutDiff()
+      throws Exception {
+    // Set Code-Review to optional
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .upsertLabelType(
+              label(
+                      "Code-Review",
+                      value(1, "Positive"),
+                      value(0, "No score"),
+                      value(-1, "Negative"))
+                  .toBuilder()
+                  .setFunction(NO_BLOCK)
+                  .build());
+      u.save();
+    }
+
+    Change.Id changeId = changeOperations.newChange().project(project).create();
+    changeOperations.change(changeId).newPatchset().create();
+
+    // Submitted without Code-Review approval
+    gApi.changes().id(changeId.get()).current().submit();
+
+    assertThat(Iterables.getLast(gApi.changes().id(changeId.get()).messages()).message)
+        .isEqualTo("Change has been successfully merged");
   }
 
   @Test

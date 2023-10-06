@@ -1197,9 +1197,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     cancelCondition?: CancelConditionCallback
   ): Promise<ParsedChangeInfo | undefined> {
     if (!changeNum) return;
-    const optionsHex = listChangesOptionsToHex(
-      ...(await this.getChangeOptions())
-    );
+    const optionsHex = await this.getChangeOptionsHex();
 
     return this._getChangeDetail(
       changeNum,
@@ -1213,11 +1211,13 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     );
   }
 
-  /**
-   * Returns the options to use for querying multiple changes (e.g. dashboard or search).
-   * @return The options hex to use when fetching multiple changes.
-   */
   private getListChangesOptionsHex() {
+    if (
+      window.DEFAULT_DETAIL_HEXES &&
+      window.DEFAULT_DETAIL_HEXES.dashboardPage
+    ) {
+      return window.DEFAULT_DETAIL_HEXES.dashboardPage;
+    }
     const options = [
       ListChangesOption.LABELS,
       ListChangesOption.DETAILED_ACCOUNTS,
@@ -1226,6 +1226,16 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     ];
 
     return listChangesOptionsToHex(...options);
+  }
+
+  async getChangeOptionsHex(): Promise<string> {
+    if (
+      window.DEFAULT_DETAIL_HEXES &&
+      window.DEFAULT_DETAIL_HEXES.dashboardPage
+    ) {
+      return window.DEFAULT_DETAIL_HEXES.dashboardPage;
+    }
+    return listChangesOptionsToHex(...(await this.getChangeOptions()));
   }
 
   async getChangeOptions(): Promise<number[]> {

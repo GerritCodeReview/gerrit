@@ -1452,7 +1452,9 @@ export class GrReplyDialog extends LitElement {
         this.includeComments = true;
         fireNoBubble(this, 'send', {});
         fireIronAnnounce(this, 'Reply sent');
+        return;
       })
+      .then(result => result)
       .finally(() => {
         this.getNavigation().releaseNavigation('sending review');
         this.disabled = false;

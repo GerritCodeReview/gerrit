@@ -16,6 +16,24 @@
       "message": "Could you let me know which command I should run to format all files?",
       "revId": "4225f34a64013c3eeccda7eed1f938a2505e4c4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29ff4b34_a1b3c3a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-10-06T08:32:15Z",
+      "side": 1,
+      "message": "See https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html\n\n`git ls-files | grep java$ | xargs java -jar /Users/hiesel/gerrit/tools/format/google-java-format-1.7-all-deps.jar -i`",
+      "parentUuid": "d523d068_3a243d16",
+      "revId": "4225f34a64013c3eeccda7eed1f938a2505e4c4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -105,6 +105,7 @@ public class StaticModule extends ServletModule {
     serveRegex("^/Documentation$").with(named(DOC_SERVLET));
     serveRegex("^/Documentation/$").with(named(DOC_SERVLET));
     serveRegex("^/Documentation/(.+)$").with(named(DOC_SERVLET));
+    serveRegex("^/c/.+/\\+/\\d+/?$").with(named(POLYGERRIT_INDEX_SERVLET));
     serve("/static/*").with(SiteStaticDirectoryServlet.class);
     install(
         new CacheModule() {

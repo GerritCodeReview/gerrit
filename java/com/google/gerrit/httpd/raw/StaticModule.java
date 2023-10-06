@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.raw;
 
+import static com.google.gerrit.httpd.UrlModule.CHANGE_NUMBER_URI_REGEX;
 import static com.google.gerrit.httpd.raw.StaticModuleConstants.CACHE;
 import static com.google.gerrit.httpd.raw.StaticModuleConstants.POLYGERRIT_INDEX_PATHS;
 import static java.nio.file.Files.exists;
@@ -46,6 +47,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
+import java.util.regex.Pattern;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -61,6 +63,8 @@ import org.eclipse.jgit.lib.Config;
 
 public class StaticModule extends ServletModule {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  public static final String CHANGE_NUMBER_URI_REGEX = "^(?:/c)?/([1-9][0-9]*)/?$";
+  private static final Pattern CHANGE_NUMBER_URI_PATTERN = Pattern.compile(CHANGE_NUMBER_URI_REGEX);
 
   /**
    * Paths that should be treated as static assets when serving PolyGerrit.
@@ -403,7 +407,11 @@ public class StaticModule extends ServletModule {
     }
 
     private static boolean isPolyGerritIndex(String path) {
-      return matchPath(POLYGERRIT_INDEX_PATHS, path);
+      return !isChangeNumberUri(path) && matchPath(POLYGERRIT_INDEX_PATHS, path);
+    }
+
+    private static boolean isChangeNumberUri(String path) {
+      return CHANGE_NUMBER_URI_PATTERN.matcher(path).matches();
     }
 
     private static boolean matchPath(Iterable<String> paths, String path) {

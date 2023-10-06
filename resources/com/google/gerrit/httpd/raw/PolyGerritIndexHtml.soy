@@ -48,6 +48,14 @@
     // Disable extra font load from paper-styles
     window.polymerSkipLoadingFontRoboto = true;
     window.CLOSURE_NO_DEPS = true;
+    window.DEFAULT_DETAIL_HEXES = {lb}
+      {if $defaultChangeDetailHex}
+        changePage: '{$defaultChangeDetailHex}',
+      {/if}
+      {if $defaultDashboardHex}
+        dashboardPage: '{$defaultDashboardHex}',
+      {/if}
+    {rb};
     window.PRELOADED_QUERIES = {lb}
       {if $userIsAuthenticated and $defaultDashboardHex and $dashboardQuery}
         dashboardQuery: [{for $query in $dashboardQuery}{$query},{/for}],

@@ -34,6 +34,24 @@
       "parentUuid": "b4ae750e_ede0d6a0",
       "revId": "3d38dd82e1c78a19819c1133bdfbc2e6593a6f7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8532b3c6_f7c422d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1154402
+      },
+      "writtenOn": "2023-10-08T14:40:11Z",
+      "side": 1,
+      "message": "Ah no, it\u0027s a real failure:\n\n```\nTime: 193.805\nThere were 6 failures:\n1) byMessageRegEx_byAlias(com.google.gerrit.server.query.change.LuceneQueryChangesPreviousIndexVersionTest)\ncom.google.gerrit.extensions.restapi.ResourceConflictException: Project already exists\n```",
+      "parentUuid": "fbd14634_3948e6d5",
+      "revId": "3d38dd82e1c78a19819c1133bdfbc2e6593a6f7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

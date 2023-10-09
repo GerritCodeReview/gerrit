@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "04031a17_f2f2d4a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-09T19:44:22Z",
+      "side": 1,
+      "message": "I will update the commit description.",
+      "parentUuid": "5493535c_9a870ac3",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "09a65454b34584903b8c99bfc681cd942b988384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e855ebf3_3d7bda4f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -123,6 +147,30 @@
       "writtenOn": "2023-10-09T19:23:26Z",
       "side": 1,
       "message": "I think this might be a bit vague, because permissions are not at project level, but rather at ref level, so when you say \"has no `READ permissions` on the project\" it is a bit unclear exactly what that means.\n\nLooking at the code [1], it seems that two checks are executed depending on the state of the project:\n\nIf the project is *not hidden*: then the `ACCESS` permission is checked, which means that \"at least one ref\" can be read by the user [2],\n\nIf the project *is hidden*: then the `READ_CONFIG` permission is checked, which means that read access needs to be granted on `refs/meta/config` (or in other words, the caller must be a project owner).\n\nCould you expand a little bit on this documentation explaining this behaviour?\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.6/java/com/google/gerrit/server/restapi/project/ListProjects.java#642\n\n[2] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.6/java/com/google/gerrit/server/permissions/ProjectPermission.java#30",
+      "range": {
+        "startLine": 273,
+        "startChar": 0,
+        "endLine": 273,
+        "endChar": 72
+      },
+      "revId": "09a65454b34584903b8c99bfc681cd942b988384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "714992c4_4e1fb2f5",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-09T19:44:22Z",
+      "side": 1,
+      "message": "Definitively the documentation needs to be updated with the notes that you raised.",
+      "parentUuid": "dc2378f7_b647716c",
       "range": {
         "startLine": 273,
         "startChar": 0,

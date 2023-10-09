@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "506e6c90_e7db66b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-10-09T11:48:52Z",
+      "side": 1,
+      "message": "can you capture the new data in one of the render snapshot tests or a new render snapshot test?",
+      "revId": "2393da795336b53077a2a19bb6555aefd8bb49f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be5c1254_533d2009",
+        "filename": "plugins/download-commands",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-10-09T11:48:52Z",
+      "side": 1,
+      "message": "revert your submodule stuff",
+      "range": {
+        "startLine": 1,
+        "startChar": 11,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "2393da795336b53077a2a19bb6555aefd8bb49f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b987176e_52ef9f0a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-10-09T11:48:52Z",
+      "side": 1,
+      "message": "not a status, can you put a new class name and add it to the same css rules?",
+      "range": {
+        "startLine": 288,
+        "startChar": 18,
+        "endLine": 288,
+        "endChar": 24
+      },
+      "revId": "2393da795336b53077a2a19bb6555aefd8bb49f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

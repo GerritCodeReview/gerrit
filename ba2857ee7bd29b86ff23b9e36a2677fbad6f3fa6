@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8a49423_6cabc3e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-10-09T16:49:00Z",
+      "side": 1,
+      "message": "Can you use a publicly accessible link please?",
+      "revId": "ba2857ee7bd29b86ff23b9e36a2677fbad6f3fa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c49b708_74b965f4",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-10-09T16:49:00Z",
+      "side": 1,
+      "message": "Maybe invert this check and de-dup lines 157-163 and 190-193? That would also make it clearer this isn\u0027t an entirely new code path. So this would be something like:\n\n```\nif (!parentPredicates.isEmpty()) {\n[insert lines 165-186]\n}\n[insert lines 152-154 + 188-193]\n```",
+      "revId": "ba2857ee7bd29b86ff23b9e36a2677fbad6f3fa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7795ab40_add1e8fe",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-10-09T16:49:00Z",
+      "side": 1,
+      "message": "2 comments on this:\n1) \"check the visibility on each\" is misleading since I think we would only be checking the visibility of the distinct set of branches for all changes\n2) Is this comment important to the new behavior or just describing the problem with the old behavior?",
+      "range": {
+        "startLine": 152,
+        "startChar": 47,
+        "endLine": 154,
+        "endChar": 18
+      },
+      "revId": "ba2857ee7bd29b86ff23b9e36a2677fbad6f3fa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -21,6 +21,7 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 import {branchName} from '../../../utils/patch-set-util';
 import {when} from 'lit/directives/when.js';
 import {createChangeUrl} from '../../../models/views/change';
+import {sharedStyles} from '../../../styles/shared-styles';
 
 @customElement('gr-revision-parents')
 export class GrRevisionParents extends LitElement {
@@ -59,6 +60,7 @@ export class GrRevisionParents extends LitElement {
   static override get styles() {
     return [
       fontStyles,
+      sharedStyles,
       css`
         :host {
           display: block;
@@ -66,7 +68,6 @@ export class GrRevisionParents extends LitElement {
         div.container {
           padding: var(--spacing-m) var(--spacing-l);
           border-top: 1px solid var(--border-color);
-          background-color: var(--yellow-50);
         }
         .sections {
           display: flex;

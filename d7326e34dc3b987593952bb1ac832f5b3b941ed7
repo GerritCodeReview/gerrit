@@ -33,6 +33,29 @@
       "message": "test",
       "revId": "d7326e34dc3b987593952bb1ac832f5b3b941ed7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3627fe73_5354c8dc",
+        "filename": "yarn.lock",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-10-09T10:50:57Z",
+      "side": 1,
+      "message": "test",
+      "range": {
+        "startLine": 8,
+        "startChar": 79,
+        "endLine": 8,
+        "endChar": 105
+      },
+      "revId": "d7326e34dc3b987593952bb1ac832f5b3b941ed7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

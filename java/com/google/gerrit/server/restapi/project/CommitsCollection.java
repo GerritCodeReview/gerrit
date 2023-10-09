@@ -144,15 +144,28 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
       return true;
     }
 
+    ImmutableList<Predicate<ChangeData>> parentPredicates =
+        Arrays.stream(commit.getParents())
+            .map(parent -> ChangePredicates.commitPrefix(parent.getId().getName()))
+            .collect(toImmutableList());
+    if (parentPredicates.isEmpty()) {
+      // The commit does not have any parents. We do not want to request all changes from the
+      // project and check the visibility on each, because we can easily go over the index limit
+      // this way.
+      // Check if it is visible from any ref in the project. Exclude change refs, since it is
+      // confirmed the commit is not a patchset of any change.
+      return reachable.fromRefs(
+          project,
+          repo,
+          commit,
+          repo.getRefDatabase()
+              .getRefsByPrefixWithExclusions(
+                  RefDatabase.ALL, ImmutableSet.of(RefNames.REFS_CHANGES)));
+    }
     // Maybe the commit was a merge commit of a change. Try to find promising candidates for
     // branches to check, by seeing if its parents were associated to changes.
     Predicate<ChangeData> pred =
-        Predicate.and(
-            ChangePredicates.project(project),
-            Predicate.or(
-                Arrays.stream(commit.getParents())
-                    .map(parent -> ChangePredicates.commitPrefix(parent.getId().getName()))
-                    .collect(toImmutableList())));
+        Predicate.and(ChangePredicates.project(project), Predicate.or(parentPredicates));
     changes =
         retryHelper
             .changeIndexQuery(

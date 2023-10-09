@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1b8f7d86_8cf98bf0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1167887
+      },
+      "writtenOn": "2023-10-09T20:13:27Z",
+      "side": 1,
+      "message": "I\u0027ll leave that up to you guys. I targeted 3.6 here as that happens to be the version we\u0027re currently running and so we\u0027ve tested this fix in production, and also it\u0027s currently the oldest version that\u0027s still supported.",
+      "parentUuid": "b540c69c_7286e9e5",
+      "revId": "f7f433e554652a49faae1efd9578f0f1a973774a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f8482d60_c85edc51",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2023-10-03T08:03:07Z",
       "side": 1,
       "message": "Would it be possible to add a test to avoid such a mismatch in future?",
+      "revId": "f7f433e554652a49faae1efd9578f0f1a973774a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0215bd56_9cc60c51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1167887
+      },
+      "writtenOn": "2023-10-09T20:13:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8482d60_c85edc51",
       "revId": "f7f433e554652a49faae1efd9578f0f1a973774a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

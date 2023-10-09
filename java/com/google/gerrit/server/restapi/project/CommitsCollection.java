@@ -143,37 +143,41 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
     if (!changes.isEmpty()) {
       return true;
     }
+    if (commit.getParents() != null && commit.getParents().length > 0) {
+      // Maybe the commit was a merge commit of a change. Try to find promising candidates for
+      // branches to check, by seeing if its parents were associated to changes.
+      // Only request changes from the index if the commit has parents. If size(parents) == 0, then
+      // the query does not make sense (it would request all changes from the project).
+      ImmutableList<Predicate<ChangeData>> parentPredicates =
+          Arrays.stream(commit.getParents())
+              .map(parent -> ChangePredicates.commitPrefix(parent.getId().getName()))
+              .collect(toImmutableList());
+      Predicate<ChangeData> pred =
+          Predicate.and(ChangePredicates.project(project), Predicate.or(parentPredicates));
+      changes =
+          retryHelper
+              .changeIndexQuery(
+                  "queryChangesByProjectCommit", q -> q.enforceVisibility(true).query(pred))
+              .call();
+      Set<Ref> branchesForCommitParents = new HashSet<>(changes.size());
+      for (ChangeData cd : changes) {
+        Ref ref = repo.exactRef(cd.change().getDest().branch());
+        if (ref != null) {
+          branchesForCommitParents.add(ref);
+        }
+      }
 
-    // Maybe the commit was a merge commit of a change. Try to find promising candidates for
-    // branches to check, by seeing if its parents were associated to changes.
-    Predicate<ChangeData> pred =
-        Predicate.and(
-            ChangePredicates.project(project),
-            Predicate.or(
-                Arrays.stream(commit.getParents())
-                    .map(parent -> ChangePredicates.commitPrefix(parent.getId().getName()))
-                    .collect(toImmutableList())));
-    changes =
-        retryHelper
-            .changeIndexQuery(
-                "queryChangesByProjectCommit", q -> q.enforceVisibility(true).query(pred))
-            .call();
-
-    Set<Ref> branchesForCommitParents = new HashSet<>(changes.size());
-    for (ChangeData cd : changes) {
-      Ref ref = repo.exactRef(cd.change().getDest().branch());
-      if (ref != null) {
-        branchesForCommitParents.add(ref);
+      if (reachable.fromRefs(
+          project, repo, commit, branchesForCommitParents.stream().collect(Collectors.toList()))) {
+        return true;
       }
     }
+    // This check covers 2 situations:
+    // 1) The commit does not have any parents. Check if it is visible from any ref in the project.
+    // Exclude change refs, since it is confirmed the commit is not a patchset of any change.
 
-    if (reachable.fromRefs(
-        project, repo, commit, branchesForCommitParents.stream().collect(Collectors.toList()))) {
-      return true;
-    }
-
-    // If we have already checked change refs using the change index, spare any further checks for
-    // changes.
+    // 2) If we have already checked change refs using the change index, spare any further checks
+    // for changes.
     List<Ref> refs =
         repo.getRefDatabase()
             .getRefsByPrefixWithExclusions(RefDatabase.ALL, ImmutableSet.of(RefNames.REFS_CHANGES));

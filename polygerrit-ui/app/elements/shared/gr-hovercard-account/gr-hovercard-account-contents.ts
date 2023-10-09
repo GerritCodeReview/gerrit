@@ -105,6 +105,7 @@ export class GrHovercardAccountContents extends LitElement {
         .top,
         .attention,
         .status,
+        .displayName,
         .voteable {
           padding: var(--spacing-s) var(--spacing-l);
         }
@@ -181,7 +182,8 @@ export class GrHovercardAccountContents extends LitElement {
         </div>
       </div>
       ${this.renderAccountStatusPlugins()} ${this.renderAccountStatus()}
-      ${this.renderLinks()} ${this.renderChangeRelatedInfoAndActions()}
+      ${this.renderDisplayName()} ${this.renderLinks()}
+      ${this.renderChangeRelatedInfoAndActions()}
     `;
   }
 
@@ -277,6 +279,16 @@ export class GrHovercardAccountContents extends LitElement {
       <div class="status">
         <span class="title">About me:</span>
         <span class="value">${this.account.status.trim()}</span>
+      </div>
+    `;
+  }
+
+  private renderDisplayName() {
+    if (!this.account.display_name) return nothing;
+    return html`
+      <div class="displayName">
+        <span class="title">Display name:</span>
+        <span class="value">${this.account.display_name.trim()}</span>
       </div>
     `;
   }

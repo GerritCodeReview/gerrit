@@ -128,8 +128,7 @@ public class TagSetTest {
         .extendsClass(new TypeLiteral<AtomicReference<ObjectId>>() {}.getType());
     assertThatSerializedClass(CachedRef.class)
         .hasFields(
-            ImmutableMap.of(
-                "flag", int.class, "value", AtomicReference.class.getTypeParameters()[0]));
+            ImmutableMap.of("flag", int.class, "value", new TypeLiteral<ObjectId>() {}.getType()));
   }
 
   @Test

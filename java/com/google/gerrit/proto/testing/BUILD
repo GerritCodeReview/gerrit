@@ -9,6 +9,7 @@ java_library(
     deps = [
         "//lib:guava",
         "//lib/commons:lang3",
+        "//lib/guice",
         "//lib/truth",
     ],
 )

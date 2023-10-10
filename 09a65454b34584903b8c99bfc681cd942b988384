@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3668804d_5b56b793",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-10T09:34:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04031a17_f2f2d4a4",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "09a65454b34584903b8c99bfc681cd942b988384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e855ebf3_3d7bda4f",
@@ -61,6 +85,30 @@
       "writtenOn": "2023-10-09T19:23:26Z",
       "side": 1,
       "message": "Consider just using imperative form: Clarify",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "09a65454b34584903b8c99bfc681cd942b988384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9341d211_fc5f6fe6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-10T09:34:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e855ebf3_3d7bda4f",
       "range": {
         "startLine": 9,
         "startChar": 0,
@@ -117,6 +165,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f26dffd2_d5f26f97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-10T09:34:57Z",
+      "side": 1,
+      "message": "\u003e where we explain this is only happening when the project is hidden\n\nThat is not the only case.",
+      "parentUuid": "967f36c5_d140ec4f",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 43
+      },
+      "revId": "09a65454b34584903b8c99bfc681cd942b988384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "323c2633_7ff9d988",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-10T09:34:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96d14b70_d3d07fe3",
+      "range": {
+        "startLine": 11,
+        "startChar": 37,
+        "endLine": 11,
+        "endChar": 43
+      },
+      "revId": "09a65454b34584903b8c99bfc681cd942b988384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8545f0a3_65758b10",
@@ -130,6 +226,24 @@
       "writtenOn": "2023-10-09T19:23:26Z",
       "side": 1,
       "message": "missing Release-Notes",
+      "revId": "09a65454b34584903b8c99bfc681cd942b988384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3a7a59b_d094a4b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-10T09:34:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8545f0a3_65758b10",
       "revId": "09a65454b34584903b8c99bfc681cd942b988384",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -171,6 +285,30 @@
       "side": 1,
       "message": "Definitively the documentation needs to be updated with the notes that you raised.",
       "parentUuid": "dc2378f7_b647716c",
+      "range": {
+        "startLine": 273,
+        "startChar": 0,
+        "endLine": 273,
+        "endChar": 72
+      },
+      "revId": "09a65454b34584903b8c99bfc681cd942b988384",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f3c3f85_c508e143",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-10T09:34:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "714992c4_4e1fb2f5",
       "range": {
         "startLine": 273,
         "startChar": 0,

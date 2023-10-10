@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b3eb480_52ae10e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-10-10T09:13:09Z",
+      "side": 1,
+      "message": "Thank you for the comments @dariusz.luksza@gmail.com and @dariusjokilehto@gmail.com, for the refactoring of the code coming from the PaginatingSource I would be happy to discuss and open a new issue, so that the changes will not be unrelated to this one.",
+      "revId": "3c9b74b09fc798ab24c270b69b00077ebdd0e1eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

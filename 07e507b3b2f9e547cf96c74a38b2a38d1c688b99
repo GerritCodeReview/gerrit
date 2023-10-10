@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e3ae6b7_da4303f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-10-10T09:13:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "992126d1_76e81e49",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 9,
+        "endChar": 55
+      },
+      "revId": "07e507b3b2f9e547cf96c74a38b2a38d1c688b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84c7ad1f_6ab1484b",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-09-15T13:44:08Z",
       "side": 1,
       "message": "We can remove this footnote, Gerrit creates the link inline.",
+      "revId": "07e507b3b2f9e547cf96c74a38b2a38d1c688b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e7e6101_8d99f9d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-10-10T09:13:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84c7ad1f_6ab1484b",
       "revId": "07e507b3b2f9e547cf96c74a38b2a38d1c688b99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9a83eff_29118e6c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-10-10T09:13:09Z",
+      "side": 1,
+      "message": "The bug was already fixed in the linked changed. We still reference the issue though as this refactoring was mentioned there. I don\u0027t think we should repeat the release notes for the original issue here.",
+      "parentUuid": "875406fb_6eea0f0c",
+      "revId": "07e507b3b2f9e547cf96c74a38b2a38d1c688b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "255709d2_6467f4cc",
@@ -71,6 +131,24 @@
       "writtenOn": "2023-09-15T13:44:08Z",
       "side": 1,
       "message": "Given this is a constructor argument, wouldn\u0027t it be better to check it at construction time instead of here?",
+      "revId": "07e507b3b2f9e547cf96c74a38b2a38d1c688b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e913ca18_351e5a14",
+        "filename": "java/com/google/gerrit/index/query/FilteredSource.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-10-10T09:13:09Z",
+      "side": 1,
+      "message": "Good point, this is an unrelated change though.",
+      "parentUuid": "255709d2_6467f4cc",
       "revId": "07e507b3b2f9e547cf96c74a38b2a38d1c688b99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -98,6 +176,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "03fae726_3d409c80",
+        "filename": "java/com/google/gerrit/index/query/FilteredSource.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-10-10T09:13:09Z",
+      "side": 1,
+      "message": "Yes this is a new class, so it is not an unrelated change.",
+      "parentUuid": "62a25104_b2d888c0",
+      "range": {
+        "startLine": 46,
+        "startChar": 53,
+        "endLine": 46,
+        "endChar": 57
+      },
+      "revId": "07e507b3b2f9e547cf96c74a38b2a38d1c688b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53b2f398_97eadf13",
@@ -115,6 +217,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8118c34_fe57f163",
+        "filename": "java/com/google/gerrit/index/query/FilteredSource.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-10-10T09:13:09Z",
+      "side": 1,
+      "message": "I agree with you, happy to discuss and open a new issue for all this unrelated changes.",
+      "parentUuid": "53b2f398_97eadf13",
+      "revId": "07e507b3b2f9e547cf96c74a38b2a38d1c688b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2a5e327_06828a08",
@@ -128,6 +248,30 @@
       "writtenOn": "2023-09-19T09:19:47Z",
       "side": 1,
       "message": "this looks like a copy from `PaginatingSource:121`, but isn\u0027t it just a no-op? as the `this::tranformBuffer` is an _identity function_. Shouldn\u0027t this be equivalent to just calling `.get(0)` instead of `transformAndConcat`?",
+      "range": {
+        "startLine": 74,
+        "startChar": 4,
+        "endLine": 75,
+        "endChar": 51
+      },
+      "revId": "07e507b3b2f9e547cf96c74a38b2a38d1c688b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d31f695_95ab507f",
+        "filename": "java/com/google/gerrit/index/query/FilteredSource.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-10-10T09:13:09Z",
+      "side": 1,
+      "message": "Indeed the code comes from PaginatingSource, I believe the `transformAndConcat` needs to take a function. We could get rid of it but that is an unrelated change. I am willing to even implement the fuction without the guava library, but we should have a conversation to open a different issue for that in my opinion.",
+      "parentUuid": "a2a5e327_06828a08",
       "range": {
         "startLine": 74,
         "startChar": 4,

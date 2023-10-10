@@ -58,6 +58,21 @@ used to unescape the output.
 	Displays project inheritance in a tree-like format.
 	This option does not work together with the show-branch option.
 
+[NOTE]
+If the calling user does not meet any of the following criteria:
+
+* The state of the parent project is either "ACTIVE" or "READ ONLY",
+and the calling user has READ permission to at least one ref.
+* The state of the parent project is "HIDDEN" and the calling user
+has READ permission for 'refs/meta/config'.
+
+Then the 'parent' field will be labeled as '?-N', where N represents the
+nesting level within the project's tree structure. In the provided example,
+'All-Projects' corresponds to level 1, 'parent-project' to level 2, and
+'child-project' to level 3.
+
+The output format to display the results should be `json` or `json_compact`.
+
 --type::
 	Display only projects of the specified type.  If not
 	specified, defaults to `all`. Supported types:

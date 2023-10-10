@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce12a522_d27b2826",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-10-10T07:51:49Z",
+      "side": 1,
+      "message": "I thought about testing, but testing this seems hard because it is a heuristical optimization.",
+      "revId": "ba2857ee7bd29b86ff23b9e36a2677fbad6f3fa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c49b708_74b965f4",
@@ -31,6 +48,24 @@
       "writtenOn": "2023-10-09T16:49:00Z",
       "side": 1,
       "message": "Maybe invert this check and de-dup lines 157-163 and 190-193? That would also make it clearer this isn\u0027t an entirely new code path. So this would be something like:\n\n```\nif (!parentPredicates.isEmpty()) {\n[insert lines 165-186]\n}\n[insert lines 152-154 + 188-193]\n```",
+      "revId": "ba2857ee7bd29b86ff23b9e36a2677fbad6f3fa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2175c5ae_695fcd92",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-10-10T07:51:49Z",
+      "side": 1,
+      "message": "+1 we could do:\n\nif (commit.getParents() \u003d\u003d null || commit.getParents().length \u003d\u003d 0) {\nreturn ...\n}\n\nSeems more readable.",
+      "parentUuid": "9c49b708_74b965f4",
       "revId": "ba2857ee7bd29b86ff23b9e36a2677fbad6f3fa6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

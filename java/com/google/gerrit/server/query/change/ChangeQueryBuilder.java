@@ -470,13 +470,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Inject
   ChangeQueryBuilder(Arguments args) {
     this(mydef, args);
-    setupAliases();
   }
 
   @VisibleForTesting
   protected ChangeQueryBuilder(Definition<ChangeData, ChangeQueryBuilder> def, Arguments args) {
     super(def, args.opFactories);
     this.args = args;
+    setupAliases();
   }
 
   private void setupAliases() {

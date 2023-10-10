@@ -127,26 +127,6 @@ public class RepoSequence {
         0);
   }
 
-  public RepoSequence(
-      GitRepositoryManager repoManager,
-      GitReferenceUpdated gitRefUpdated,
-      Project.NameKey projectName,
-      String name,
-      Seed seed,
-      int batchSize,
-      int floor) {
-    this(
-        repoManager,
-        gitRefUpdated,
-        projectName,
-        name,
-        seed,
-        batchSize,
-        Runnables.doNothing(),
-        RETRYER,
-        floor);
-  }
-
   @VisibleForTesting
   RepoSequence(
       GitRepositoryManager repoManager,

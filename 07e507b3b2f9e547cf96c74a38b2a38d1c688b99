@@ -153,6 +153,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bce804c_6dc7e0e8",
+        "filename": "java/com/google/gerrit/index/query/FilteredSource.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1063024
+      },
+      "writtenOn": "2023-10-10T09:30:20Z",
+      "side": 1,
+      "message": "Ah, fair - this is mostly copy-pasted 👍",
+      "parentUuid": "e913ca18_351e5a14",
+      "revId": "07e507b3b2f9e547cf96c74a38b2a38d1c688b99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62a25104_b2d888c0",

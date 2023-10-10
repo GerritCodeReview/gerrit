@@ -70,6 +70,23 @@
       "parentUuid": "b050ed0a_b8816fcd",
       "revId": "4ec7225fc08951579e8bd26c701936cf6a3cd517",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "191a7b73_d7e6af6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 37
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-10T10:21:04Z",
+      "side": 1,
+      "message": "here is a new update to Jetty 10.0.16: https://gerrit-review.googlesource.com/c/gerrit/+/388874",
+      "revId": "4ec7225fc08951579e8bd26c701936cf6a3cd517",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

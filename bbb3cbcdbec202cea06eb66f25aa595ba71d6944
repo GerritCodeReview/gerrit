@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3eee208_13849fe6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-10T14:44:40Z",
+      "side": 1,
+      "message": "How about something like:\n\nChange I301ae1e158 extended the /project/ REST API documentation to explain the meaning of the \u0027parent\u0027 field being set to \"?-N\".\n\nSimilarly, update the ls-projects SSH API documentation to document the same behavior.",
+      "revId": "bbb3cbcdbec202cea06eb66f25aa595ba71d6944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0af1b4d_7d7ce7d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-10T14:44:40Z",
+      "side": 1,
+      "message": "Consider removing this part if you want to go for a shorter commit message as I suggested above.\n\nIf you prefer to keep it or amend it, consider to refer to the related change by change-Id (Change I301ae1e158), as opposed to the full lengthy sha1 commit. Gerrit will be able to parse it.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 56
+      },
+      "revId": "bbb3cbcdbec202cea06eb66f25aa595ba71d6944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b99da0e3_71a4a406",
+        "filename": "Documentation/cmd-ls-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-10T14:44:40Z",
+      "side": 1,
+      "message": "What happens if it isn\u0027t? Is the project inheritance not displayed?",
+      "revId": "bbb3cbcdbec202cea06eb66f25aa595ba71d6944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

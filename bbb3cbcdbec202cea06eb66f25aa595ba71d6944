@@ -56,6 +56,24 @@
       "message": "What happens if it isn\u0027t? Is the project inheritance not displayed?",
       "revId": "bbb3cbcdbec202cea06eb66f25aa595ba71d6944",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c85c79f0_4a881ccf",
+        "filename": "Documentation/cmd-ls-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-10T15:39:41Z",
+      "side": 1,
+      "message": "Correct.\n\nThis is the possible output formats: `--format {text | json | json_compact}`\n\n- text:\n\n```\n$ssh -i some_private_key -p 29418 alvaro@localhost gerrit ls-projects --tree --format text\n\n`-- All-Users\n`-- test-repo\n```\n\n- json:\n\n```\nssh -i some_private_key -p 29418 alvaro@localhost gerrit ls-projects --tree --format json\n\n{\n  \"All-Users\": {\n    \"id\": \"All-Users\",\n    \"parent\": \"?-1\",\n    \"state\": \"ACTIVE\",\n    \"web_links\": [\n      {\n        \"name\": \"browse\",\n        \"url\": \"/plugins/gitiles/All-Users\",\n        \"target\": \"_blank\"\n      }\n    ]\n  },\n  \"test-repo\": {\n    \"id\": \"test-repo\",\n    \"parent\": \"?-1\",\n    \"state\": \"ACTIVE\",\n    \"web_links\": [\n      {\n        \"name\": \"browse\",\n        \"url\": \"/plugins/gitiles/test-repo\",\n        \"target\": \"_blank\"\n      }\n    ]\n  }\n}\n\n```\n\n- json_compact:\n\n```\nssh -i some_private_key -p 29418 alvaro@localhost gerrit ls-projects --tree --format json_compact\n\n{\"All-Users\":{\"id\":\"All-Users\",\"parent\":\"?-1\",\"state\":\"ACTIVE\",\"web_links\":[{\"name\":\"browse\",\"url\":\"/plugins/gitiles/All-Users\",\"target\":\"_blank\"}]},\"test-repo\":{\"id\":\"test-repo\",\"parent\":\"?-1\",\"state\":\"ACTIVE\",\"web_links\":[{\"name\":\"browse\",\"url\":\"/plugins/gitiles/test-repo\",\"target\":\"_blank\"}]}}\n```",
+      "parentUuid": "b99da0e3_71a4a406",
+      "revId": "bbb3cbcdbec202cea06eb66f25aa595ba71d6944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

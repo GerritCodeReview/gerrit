@@ -22,6 +22,8 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.server.schema.AclUtil.grant;
 import static com.google.gerrit.server.schema.AclUtil.rule;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.INIT_REPO;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.gerrit.common.Version;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -37,7 +39,6 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.update.context.RefUpdateContext;
@@ -48,6 +49,7 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -246,10 +248,16 @@ public class AllProjectsCreator {
       // Can't easily reuse the inserter from MetaDataUpdate, but this shouldn't slow down site
       // initialization unduly.
       try (ObjectInserter ins = git.newObjectInserter()) {
-        bru.addCommand(RepoSequence.storeNew(ins, Sequences.NAME_CHANGES, firstChangeId));
+        bru.addCommand(createNewChangeSequence(ins, firstChangeId));
         ins.flush();
       }
     }
+  }
+
+  private ReceiveCommand createNewChangeSequence(ObjectInserter ins, int val) throws IOException {
+    ObjectId newId = ins.insert(OBJ_BLOB, Integer.toString(val).getBytes(UTF_8));
+    return new ReceiveCommand(
+        ObjectId.zeroId(), newId, RefNames.REFS_SEQUENCES + Sequences.NAME_CHANGES);
   }
 
   private void execute(Repository git, BatchRefUpdate bru) throws IOException {

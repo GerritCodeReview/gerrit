@@ -18,9 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.entities.RefNames.REFS;
 import static com.google.gerrit.entities.RefNames.REFS_SEQUENCES;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.REPO_SEQ;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
-import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.github.rholder.retry.RetryException;
 import com.github.rholder.retry.Retryer;
@@ -50,11 +48,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.ReceiveCommand;
 
 /**
  * Class for managing an incrementing sequence backed by a git repository.
@@ -273,12 +269,6 @@ public class RepoSequence {
         throw new StorageException(e);
       }
     }
-  }
-
-  public static ReceiveCommand storeNew(ObjectInserter ins, String name, int val)
-      throws IOException {
-    ObjectId newId = ins.insert(OBJ_BLOB, Integer.toString(val).getBytes(UTF_8));
-    return new ReceiveCommand(ObjectId.zeroId(), newId, RefNames.REFS_SEQUENCES + name);
   }
 
   public void storeNew(int value) {

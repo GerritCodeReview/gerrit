@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aee88818_d092ea54",
+        "filename": "javatests/com/google/gerrit/sshd/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-10-10T05:26:18Z",
+      "side": 1,
+      "message": "We differentiate between unit tests and acceptance tests, that depend on acceptance framework.\n\nMove this test in this package: `javatests/com/google/gerrit/acceptance/ssh`. And rename the test class to `SshDaemonConfigIT.java`. Acceptance tests are using `acceptance_tests` Bazel macro, that already specified all needed acceptance test dependencies.",
+      "revId": "86ef39e62becddab6c9c9200fd16ba875eea8146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ec770e3_ea73b6bf",
+        "filename": "javatests/com/google/gerrit/sshd/SshDaemonConfigTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-10-10T05:26:18Z",
+      "side": 1,
+      "message": "Also add a test that doesn\u0027t override the default value 120 seconds and tests that the default value 30 seconds is set correctly.",
+      "revId": "86ef39e62becddab6c9c9200fd16ba875eea8146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15d33513_6848993a",
+        "filename": "javatests/com/google/gerrit/sshd/SshDaemonConfigTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-10-10T05:26:18Z",
+      "side": 1,
+      "message": "Add a test that the default 3600 set correctly.",
+      "revId": "86ef39e62becddab6c9c9200fd16ba875eea8146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d571d6d6_5c5898c0",
+        "filename": "javatests/com/google/gerrit/sshd/SshDaemonConfigTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-10-10T05:26:18Z",
+      "side": 1,
+      "message": "Add a test that the default 30 seconds set correctly.",
+      "revId": "86ef39e62becddab6c9c9200fd16ba875eea8146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

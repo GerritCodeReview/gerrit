@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "529a425c_2a3ac9bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-10T18:41:22Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c3eee208_13849fe6",
+      "revId": "bbb3cbcdbec202cea06eb66f25aa595ba71d6944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0af1b4d_7d7ce7d1",
@@ -96,6 +114,24 @@
       "side": 1,
       "message": "Correct.\n\nThis is the possible output formats: `--format {text | json | json_compact}`\n\n- text:\n\n```\n$ssh -i some_private_key -p 29418 alvaro@localhost gerrit ls-projects --tree --format text\n\n`-- All-Users\n`-- test-repo\n```\n\n- json:\n\n```\nssh -i some_private_key -p 29418 alvaro@localhost gerrit ls-projects --tree --format json\n\n{\n  \"All-Users\": {\n    \"id\": \"All-Users\",\n    \"parent\": \"?-1\",\n    \"state\": \"ACTIVE\",\n    \"web_links\": [\n      {\n        \"name\": \"browse\",\n        \"url\": \"/plugins/gitiles/All-Users\",\n        \"target\": \"_blank\"\n      }\n    ]\n  },\n  \"test-repo\": {\n    \"id\": \"test-repo\",\n    \"parent\": \"?-1\",\n    \"state\": \"ACTIVE\",\n    \"web_links\": [\n      {\n        \"name\": \"browse\",\n        \"url\": \"/plugins/gitiles/test-repo\",\n        \"target\": \"_blank\"\n      }\n    ]\n  }\n}\n\n```\n\n- json_compact:\n\n```\nssh -i some_private_key -p 29418 alvaro@localhost gerrit ls-projects --tree --format json_compact\n\n{\"All-Users\":{\"id\":\"All-Users\",\"parent\":\"?-1\",\"state\":\"ACTIVE\",\"web_links\":[{\"name\":\"browse\",\"url\":\"/plugins/gitiles/All-Users\",\"target\":\"_blank\"}]},\"test-repo\":{\"id\":\"test-repo\",\"parent\":\"?-1\",\"state\":\"ACTIVE\",\"web_links\":[{\"name\":\"browse\",\"url\":\"/plugins/gitiles/test-repo\",\"target\":\"_blank\"}]}}\n```",
       "parentUuid": "b99da0e3_71a4a406",
+      "revId": "bbb3cbcdbec202cea06eb66f25aa595ba71d6944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d447a591_92ab16e5",
+        "filename": "Documentation/cmd-ls-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-10T18:41:22Z",
+      "side": 1,
+      "message": "Thanks for the info @alvaro.vilaplana@gmail.com.\nYep you\u0027re right, We don\u0027t collect any extra information if we are in text mode. [1]\n\nI think this info could be added at L60.\nThe documentation already specifies:\n\n```\nThis option does not work together with the show-branch option.\n```\n\nCould you please verify that the documentation doesn\u0027t already specify this.\nIf not, perhaps we could add a new line at L60 explaining that the `tree` option is totally ignored unless the output is in a json format.\n\nWDYT?\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.6/java/com/google/gerrit/server/restapi/project/ListProjects.java#464",
+      "parentUuid": "c85c79f0_4a881ccf",
       "revId": "bbb3cbcdbec202cea06eb66f25aa595ba71d6944",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

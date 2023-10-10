@@ -62,7 +62,7 @@ public class SerializedClassSubject extends Subject {
   }
 
   private final Class<?> clazz;
-  private final TypeLiteral clazzTl;
+  private final TypeLiteral<?> clazzTl;
 
   private SerializedClassSubject(FailureMetadata metadata, Class<?> clazz) {
     super(metadata, clazz);

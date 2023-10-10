@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "70fa9ea1_8ac2e225",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-10T12:23:40Z",
+      "side": 1,
+      "message": "Much better, thanks",
+      "parentUuid": "043ead7e_d948927a",
+      "range": {
+        "startLine": 12,
+        "startChar": 10,
+        "endLine": 16,
+        "endChar": 56
+      },
+      "revId": "271871394e8c363501db3d987851f7b791d9595b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c630cf45_c48a97c8",

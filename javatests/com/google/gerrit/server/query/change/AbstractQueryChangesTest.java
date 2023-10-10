@@ -1107,40 +1107,70 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void byMessageExact() throws Exception {
-    repo = createAndOpenProject("repo");
-    RevCommit commit1 = repo.parseBody(repo.commit().message("one").create());
-    Change change1 = insert("repo", newChangeForCommit(repo, commit1));
-    RevCommit commit2 = repo.parseBody(repo.commit().message("two").create());
-    Change change2 = insert("repo", newChangeForCommit(repo, commit2));
-    RevCommit commit3 = repo.parseBody(repo.commit().message("A great \"fix\" to my bug").create());
-    Change change3 = insert("repo", newChangeForCommit(repo, commit3));
-
-    assertQuery("message:foo");
-    assertQuery("message:one", change1);
-    assertQuery("message:two", change2);
-    assertQuery("message:\"great \\\"fix\\\" to\"", change3);
+  public void byMessageExact_byAlias_d() throws Exception {
+    byMessageExact("d:", "d_repo");
   }
 
   @Test
-  public void byMessageRegEx() throws Exception {
+  public void byMessageExact_byAlias_description() throws Exception {
+    byMessageExact("description:", "description_repo");
+  }
+
+  @Test
+  public void byMessageExact_byMainOperator() throws Exception {
+    byMessageExact("message:", "message_repo");
+  }
+
+  private void byMessageExact(String searchOperator, String projectName) throws Exception {
+    repo = createAndOpenProject(projectName);
+    RevCommit commit1 = repo.parseBody(repo.commit().message("one").create());
+    Change change1 = insert(projectName, newChangeForCommit(repo, commit1));
+    RevCommit commit2 = repo.parseBody(repo.commit().message("two").create());
+    Change change2 = insert(projectName, newChangeForCommit(repo, commit2));
+    RevCommit commit3 = repo.parseBody(repo.commit().message("A great \"fix\" to my bug").create());
+    Change change3 = insert(projectName, newChangeForCommit(repo, commit3));
+
+    assertQuery(searchOperator + "foo");
+    assertQuery(searchOperator + "one", change1);
+    assertQuery(searchOperator + "two", change2);
+    assertQuery(searchOperator + "\"great \\\"fix\\\" to\"", change3);
+  }
+
+  @Test
+  public void byMessageRegEx_byAlias_d() throws Exception {
+    byMessageRegEx("d:", "d_repo");
+  }
+
+  @Test
+  public void byMessageRegEx_byAlias_description() throws Exception {
+    byMessageRegEx("description:", "description_repo");
+  }
+
+  @Test
+  public void byMessageRegEx_byMainOperator() throws Exception {
+    byMessageRegEx("message:", "message_repo");
+  }
+
+  private void byMessageRegEx(String searchOperator, String projectName) throws Exception {
     assume().that(getSchema().hasField(ChangeField.COMMIT_MESSAGE_EXACT)).isTrue();
-    repo = createAndOpenProject("repo");
+    repo = createAndOpenProject(projectName);
     RevCommit commit1 = repo.parseBody(repo.commit().message("aaaabcc").create());
-    Change change1 = insert("repo", newChangeForCommit(repo, commit1));
+    Change change1 = insert(projectName, newChangeForCommit(repo, commit1));
     RevCommit commit2 = repo.parseBody(repo.commit().message("aaaacc").create());
-    Change change2 = insert("repo", newChangeForCommit(repo, commit2));
+    Change change2 = insert(projectName, newChangeForCommit(repo, commit2));
     RevCommit commit3 = repo.parseBody(repo.commit().message("Title\n\nHELLO WORLD").create());
-    Change change3 = insert("repo", newChangeForCommit(repo, commit3));
+    Change change3 = insert(projectName, newChangeForCommit(repo, commit3));
     RevCommit commit4 =
         repo.parseBody(repo.commit().message("Title\n\nfoobar hello WORLD").create());
-    Change change4 = insert("repo", newChangeForCommit(repo, commit4));
+    Change change4 = insert(projectName, newChangeForCommit(repo, commit4));
 
-    assertQuery("message:\"^aaaa(b|c)*\"", change2, change1);
-    assertQuery("message:\"^aaaa(c)*c.*\"", change2);
-    assertQuery("message:\"^.*HELLO WORLD.*\"", change3);
+    assertQuery(searchOperator + "\"^aaaa(b|c)*\"", change2, change1);
+    assertQuery(searchOperator + "\"^aaaa(c)*c.*\"", change2);
+    assertQuery(searchOperator + "\"^.*HELLO WORLD.*\"", change3);
     assertQuery(
-        "message:\"^.*(H|h)(E|e)(L|l)(L|l)(O|o) (W|w)(O|o)(R|r)(L|l)(D|d).*\"", change4, change3);
+        searchOperator + "\"^.*(H|h)(E|e)(L|l)(L|l)(O|o) (W|w)(O|o)(R|r)(L|l)(D|d).*\"",
+        change4,
+        change3);
   }
 
   @Test

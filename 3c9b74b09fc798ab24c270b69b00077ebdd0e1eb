@@ -16,6 +16,63 @@
       "message": "Thank you for the comments @dariusz.luksza@gmail.com and @dariusjokilehto@gmail.com, for the refactoring of the code coming from the PaginatingSource I would be happy to discuss and open a new issue, so that the changes will not be unrelated to this one.",
       "revId": "3c9b74b09fc798ab24c270b69b00077ebdd0e1eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4234c27a_25bc617a",
+        "filename": "java/com/google/gerrit/index/query/FilteredSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-10T11:56:40Z",
+      "side": 1,
+      "message": "IMO: we can shortcut here:\n```java\nif (!isMatchable()) {\n  return ImmutableList.of();\n}\n```\n\nThen we can skip `!isMatchable()` check in line 55",
+      "revId": "3c9b74b09fc798ab24c270b69b00077ebdd0e1eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8ca8dbb_295fc058",
+        "filename": "java/com/google/gerrit/index/query/FilteredSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-10T11:56:40Z",
+      "side": 1,
+      "message": "nit: we can skip the `else` here, as we already skip the `else` in the final case at line 64.",
+      "revId": "3c9b74b09fc798ab24c270b69b00077ebdd0e1eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5d56af2_0d757099",
+        "filename": "java/com/google/gerrit/index/query/FilteredSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-10T11:56:40Z",
+      "side": 1,
+      "message": "this whole code block can be replaced with:\n\n```suggestion\n          return StreamSupport.stream(buffer(resultSet).spliterator(), false)\n              .filter(this::match)\n              .skip(start)\n              .collect(ImmutableList.toImmutableList());\n```\n\nThen we won\u0027t need the `r` variable.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 11
+      },
+      "revId": "3c9b74b09fc798ab24c270b69b00077ebdd0e1eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

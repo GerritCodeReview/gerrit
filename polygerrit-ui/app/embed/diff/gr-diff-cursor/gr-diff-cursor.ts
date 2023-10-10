@@ -303,6 +303,9 @@ export class GrDiffCursor implements GrDiffCursorApi {
     this.updateStops();
     if (!this.diffRowTR) {
       // does not scroll during init unless requested
+      console.log(
+        `${Date.now() % 100000} asdf reInitCursor ${this.initialLineNumber}`
+      );
       this.cursorManager.scrollMode = this.initialLineNumber
         ? ScrollMode.KEEP_VISIBLE
         : ScrollMode.NEVER;
@@ -317,10 +320,16 @@ export class GrDiffCursor implements GrDiffCursorApi {
   }
 
   resetScrollMode() {
+    console.log(`${Date.now() % 100000} asdf resetScrollMode`);
     this.cursorManager.scrollMode = ScrollMode.KEEP_VISIBLE;
   }
 
   private boundHandleWindowScroll = () => {
+    console.log(
+      `${Date.now() % 100000} asdf boundHandleWindowScroll ${
+        this.preventAutoScrollOnManualScroll
+      }`
+    );
     if (this.preventAutoScrollOnManualScroll) {
       this.cursorManager.scrollMode = ScrollMode.NEVER;
       this.cursorManager.focusOnMove = false;
@@ -338,10 +347,12 @@ export class GrDiffCursor implements GrDiffCursorApi {
   };
 
   private boundHandleDiffRenderStart = () => {
+    console.log(`${Date.now() % 100000} asdf boundHandleDiffRenderStart`);
     this.preventAutoScrollOnManualScroll = true;
   };
 
   private boundHandleDiffRenderContent = () => {
+    console.log(`${Date.now() % 100000} asdf boundHandleDiffRenderContent`);
     this.updateStops();
     // When done rendering, turn focus on move and automatic scrolling back on
     this.cursorManager.focusOnMove = true;
@@ -470,6 +481,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
   }
 
   private removeEventListeners(diff: GrDiffCursorable) {
+    console.log(`${Date.now() % 100000} asdf removeEventListeners`);
     diff.removeEventListener(
       'loading-changed',
       this.boundHandleDiffLoadingChanged
@@ -483,6 +495,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
   }
 
   private addEventListeners(diff: GrDiffCursorable) {
+    console.log(`${Date.now() % 100000} asdf addEventListeners`);
     diff.addEventListener(
       'loading-changed',
       this.boundHandleDiffLoadingChanged

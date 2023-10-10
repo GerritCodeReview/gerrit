@@ -162,11 +162,13 @@ export class GrDiffElement extends LitElement {
   private async fireRenderContent() {
     await this.updateComplete;
     // TODO: Retire one of these two events.
+    console.log(`${Date.now() % 100000} asdf fire render-content`);
     fire(this, 'render-content', {});
     fire(this, 'render', {});
   }
 
   override render() {
+    console.log(`${Date.now() % 100000} asdf fire render-start`);
     fire(this.diffTable, 'render-start', {});
     return html`
       ${this.renderHeader()} ${this.renderContainer()}

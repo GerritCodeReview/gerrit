@@ -75,6 +75,10 @@ export class GrCursorManager {
     return this.stops.filter(isTargetable);
   }
 
+  constructor() {
+    console.log(`${Date.now() % 100000} asdf cursor manager constructor`);
+  }
+
   /**
    * Move the cursor forward. Clipped to the end of the stop list.
    *
@@ -221,6 +225,7 @@ export class GrCursorManager {
     let behavior;
     if (noScroll) {
       behavior = this.scrollMode;
+      console.log(`${Date.now() % 100000} asdf no scroll ${behavior}`);
       this.scrollMode = ScrollMode.NEVER;
     }
 
@@ -233,6 +238,7 @@ export class GrCursorManager {
       this._focusAfterMove();
     }
     if (noScroll && behavior) {
+      console.log(`${Date.now() % 100000} asdf scroll reset ${behavior}`);
       this.scrollMode = behavior;
     }
   }
@@ -287,8 +293,11 @@ export class GrCursorManager {
       circular?: boolean;
     } = {}
   ): CursorMoveResult {
+    console.log(`${Date.now() % 100000} asdf move cursor ${this.scrollMode}`);
+
     if (!this.stops.length) {
       this.unsetCursor();
+      console.log(`${Date.now() % 100000} asdf move cursor NO STOPS`);
       return CursorMoveResult.NO_STOPS;
     }
 
@@ -321,6 +330,7 @@ export class GrCursorManager {
     } while (isTargetable(newStop) && filter && !filter(newStop));
 
     if (!isTargetable(newStop)) {
+      console.log(`${Date.now() % 100000} asdf move cursor ABORTED`);
       return CursorMoveResult.ABORTED;
     }
 
@@ -337,6 +347,11 @@ export class GrCursorManager {
 
     this._decorateTarget();
     this._focusAfterMove();
+    console.log(
+      `${Date.now() % 100000} asdf move cursor DONE ${clipped} ${
+        this.focusOnMove
+      } ${this.target}`
+    );
     return clipped ? CursorMoveResult.CLIPPED : CursorMoveResult.MOVED;
   }
 
@@ -403,6 +418,11 @@ export class GrCursorManager {
   }
 
   _scrollToTarget() {
+    console.log(
+      `${Date.now() % 100000} asdf _scrollToTarget ${this.target} ${
+        this.scrollMode
+      }`
+    );
     if (!this.target || this.scrollMode === ScrollMode.NEVER) {
       return;
     }

@@ -327,6 +327,11 @@ export class GrDiffCursor implements GrDiffCursorApi {
   }
 
   private _boundHandleWindowScroll = () => {
+    console.log(
+      `${Date.now() % 100000} asdf boundHandleWindowScroll ${
+        this.preventAutoScrollOnManualScroll
+      }`
+    );
     if (this.preventAutoScrollOnManualScroll) {
       this.cursorManager.scrollMode = ScrollMode.NEVER;
       this.cursorManager.focusOnMove = false;
@@ -344,10 +349,12 @@ export class GrDiffCursor implements GrDiffCursorApi {
   };
 
   private _boundHandleDiffRenderStart = () => {
+    console.log(`${Date.now() % 100000} asdf boundHandleDiffRenderStart`);
     this.preventAutoScrollOnManualScroll = true;
   };
 
   private _boundHandleDiffRenderContent = () => {
+    console.log(`${Date.now() % 100000} asdf boundHandleDiffRenderContent`);
     this._updateStops();
     // When done rendering, turn focus on move and automatic scrolling back on
     this.cursorManager.focusOnMove = true;

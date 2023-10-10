@@ -431,7 +431,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   override render() {
-    fire(this, 'render-start', {});
     return html`<gr-diff-element></gr-diff-element>`;
   }
 

@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "45b6c1d4_bc288ba1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-10-10T10:46:46Z",
+      "side": 1,
+      "message": "Sorry. Done",
+      "parentUuid": "c8a49423_6cabc3e2",
+      "revId": "ba2857ee7bd29b86ff23b9e36a2677fbad6f3fa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "ce12a522_d27b2826",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -70,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e6097c3_7512ff3f",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-10-10T10:46:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2175c5ae_695fcd92",
+      "revId": "ba2857ee7bd29b86ff23b9e36a2677fbad6f3fa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7795ab40_add1e8fe",
@@ -83,6 +119,30 @@
       "writtenOn": "2023-10-09T16:49:00Z",
       "side": 1,
       "message": "2 comments on this:\n1) \"check the visibility on each\" is misleading since I think we would only be checking the visibility of the distinct set of branches for all changes\n2) Is this comment important to the new behavior or just describing the problem with the old behavior?",
+      "range": {
+        "startLine": 152,
+        "startChar": 47,
+        "endLine": 154,
+        "endChar": 18
+      },
+      "revId": "ba2857ee7bd29b86ff23b9e36a2677fbad6f3fa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fe6374c_580b5b3f",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-10-10T10:46:46Z",
+      "side": 1,
+      "message": "1) We request changes from index with enforceVisibility\u003dtrue. Post filter predicate will check visibility on each change, until it finds N visible changes, where N is the user query limit. I think the comment makes it clear enough that requesting all changes is a bad idea.\n2) This comment is important so that noone is tempted to remove this line.",
+      "parentUuid": "7795ab40_add1e8fe",
       "range": {
         "startLine": 152,
         "startChar": 47,

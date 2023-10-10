@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "043ead7e_d948927a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-10T10:58:45Z",
+      "side": 1,
+      "message": "Let me know what you think now.",
+      "parentUuid": "c7c974d9_a04c5fdd",
+      "range": {
+        "startLine": 12,
+        "startChar": 10,
+        "endLine": 16,
+        "endChar": 56
+      },
+      "revId": "271871394e8c363501db3d987851f7b791d9595b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c630cf45_c48a97c8",
         "filename": "/COMMIT_MSG",
         "patchSetId": 12
@@ -37,6 +61,30 @@
       "writtenOn": "2023-10-10T10:00:40Z",
       "side": 1,
       "message": "Consider using the summary line here:\n\n```\nExplain in /projects/ REST API when the \"parent\" field is \"?-N\"\n```\n\nI think it is shorter and equally descriptive",
+      "range": {
+        "startLine": 21,
+        "startChar": 15,
+        "endLine": 21,
+        "endChar": 100
+      },
+      "revId": "271871394e8c363501db3d987851f7b791d9595b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "725d5ffe_4d208418",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-10T10:58:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c630cf45_c48a97c8",
       "range": {
         "startLine": 21,
         "startChar": 15,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5ba8927_57cd7527",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-10T10:58:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b7ffa0b_5a0caddd",
+      "range": {
+        "startLine": 273,
+        "startChar": 62,
+        "endLine": 273,
+        "endChar": 63
+      },
+      "revId": "271871394e8c363501db3d987851f7b791d9595b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1d5f87c_4a5396db",
@@ -100,6 +172,30 @@
       "writtenOn": "2023-10-10T10:00:40Z",
       "side": 1,
       "message": "I think we can just say:\n\"and the calling user has READ permission to at least one ref\"\n\n(being a project owner falls into this category, because the calling user will have access at least to the `refs/meta/config`)",
+      "range": {
+        "startLine": 276,
+        "startChar": 0,
+        "endLine": 277,
+        "endChar": 10
+      },
+      "revId": "271871394e8c363501db3d987851f7b791d9595b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "296a13ff_5933f212",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-10T10:58:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1d5f87c_4a5396db",
       "range": {
         "startLine": 276,
         "startChar": 0,

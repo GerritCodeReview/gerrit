@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "837b7202_1ffd2db3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-10T11:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5736138a_175317d3",
+      "range": {
+        "startLine": 16,
+        "startChar": 42,
+        "endLine": 16,
+        "endChar": 43
+      },
+      "revId": "694d2a109a5735303707b6933979ad24c17495f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f29898b5_781bfc2e",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-10-10T11:21:39Z",
       "side": 1,
       "message": "Could you move the comma outside the double-quotes?",
+      "range": {
+        "startLine": 19,
+        "startChar": 27,
+        "endLine": 19,
+        "endChar": 28
+      },
+      "revId": "694d2a109a5735303707b6933979ad24c17495f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eff9d183_687862e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-10T11:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f29898b5_781bfc2e",
       "range": {
         "startLine": 19,
         "startChar": 27,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27bcc08b_405a6286",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-10T11:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7b89ba3_41ceb4e4",
+      "range": {
+        "startLine": 20,
+        "startChar": 21,
+        "endLine": 20,
+        "endChar": 22
+      },
+      "revId": "694d2a109a5735303707b6933979ad24c17495f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b8e139d9_cce44a53",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-10-10T11:21:39Z",
       "side": 1,
       "message": "nit: no need for this to be on a new line",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 10
+      },
+      "revId": "694d2a109a5735303707b6933979ad24c17495f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bdf6fb1_32025fe1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-10T11:28:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8e139d9_cce44a53",
       "range": {
         "startLine": 24,
         "startChar": 0,

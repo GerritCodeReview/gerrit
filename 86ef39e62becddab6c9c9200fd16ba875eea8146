@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "71c037ff_3c0910ef",
+        "filename": "javatests/com/google/gerrit/sshd/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1167887
+      },
+      "writtenOn": "2023-10-10T10:42:19Z",
+      "side": 1,
+      "message": "Thanks for the pointers. If I were to move it into the acceptance package I\u0027ll also need to make \"GerritGSSAuthenticator\", \"NoShell\" and \"SshLog\" public so they are visible outside the \"com.google.gerrit.sshd\" package. Would that be acceptable?\n\nAlternatively, I\u0027m only depending on the acceptance framework here for the convenience of \"@GerritConfig\" and \"SshdModule\" so could use \"ConfigSuite\" instead and mock the later. Given that this is intended to be a lightweight unit test (ie. don\u0027t really need to launch a server instance) then perhaps might be better to do that instead?\n\nHappy to take whichever approach is preferable to you.",
+      "parentUuid": "aee88818_d092ea54",
+      "revId": "86ef39e62becddab6c9c9200fd16ba875eea8146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ec770e3_ea73b6bf",
         "filename": "javatests/com/google/gerrit/sshd/SshDaemonConfigTest.java",
         "patchSetId": 4

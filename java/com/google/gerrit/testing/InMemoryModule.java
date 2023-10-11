@@ -42,6 +42,7 @@ import com.google.gerrit.server.DefaultRefLogIdentityProvider;
 import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.IncrementingSequence;
 import com.google.gerrit.server.LibModuleType;
 import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.account.AccountCacheImpl;
@@ -99,6 +100,8 @@ import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
 import com.google.gerrit.server.mail.EmailModule;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier.SignedTokenEmailTokenVerifierModule;
+import com.google.gerrit.server.notedb.RepoSequence.LightweighGroupsSequenceProvider;
+import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.patch.DiffExecutor;
 import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.plugins.ServerInformationImpl;
@@ -123,6 +126,7 @@ import com.google.inject.Provider;
 import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
+import com.google.inject.name.Names;
 import com.google.inject.servlet.RequestScoped;
 import com.google.inject.util.Providers;
 import java.lang.reflect.InvocationTargetException;
@@ -312,6 +316,9 @@ public class InMemoryModule extends FactoryModule {
           .toProvider(AnonymousCowardNameProvider.class);
 
       bind(GroupIndexCollection.class);
+      bind(IncrementingSequence.class)
+          .annotatedWith(Names.named(Sequences.NAME_GROUPS_LIGHTWEIGHT))
+          .toProvider(LightweighGroupsSequenceProvider.class);
       bind(SchemaCreator.class).to(SchemaCreatorImpl.class);
     }
 

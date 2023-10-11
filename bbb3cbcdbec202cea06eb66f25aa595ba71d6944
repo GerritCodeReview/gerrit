@@ -188,6 +188,24 @@
       "parentUuid": "e98baaac_58c05012",
       "revId": "bbb3cbcdbec202cea06eb66f25aa595ba71d6944",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "966ef3fa_46923443",
+        "filename": "Documentation/cmd-ls-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-11T14:16:03Z",
+      "side": 1,
+      "message": "Actually reviewing the options:\nwhen we execute the command with `--tree` and default format `text` the output would be like:\n```\n`-- All-Projects\n    |-- All-Users\n    |-- alvaro-p1\n        `-- alvaro-p2\n    `-- p1\n        `-- p2\n```\nSo it is tree format. \n\nThe thing here is that if the format is json or json-compact, the output is a tree:\n\n```\n{\n  \"All-Projects\": {\n    \"id\": \"All-Projects\",\n    \"state\": \"ACTIVE\"\n  },\n  \"All-Users\": {\n    \"id\": \"All-Users\",\n    \"parent\": \"All-Projects\",\n    \"state\": \"ACTIVE\"\n  },\n  \"alvaro-p1\": {\n    \"id\": \"alvaro-p1\",\n    \"parent\": \"All-Projects\",\n    \"state\": \"ACTIVE\"\n  },\n  \"alvaro-p2\": {\n    \"id\": \"alvaro-p2\",\n    \"parent\": \"alvaro-p1\",\n    \"state\": \"ACTIVE\"\n  },\n  \"p1\": {\n    \"id\": \"p1\",\n    \"parent\": \"All-Projects\",\n    \"state\": \"ACTIVE\"\n  },\n  \"p2\": {\n    \"id\": \"p2\",\n    \"parent\": \"p1\",\n    \"state\": \"ACTIVE\"\n  }\n}\n```\n\nWhere is more descriptive for the nature of json.\n\nSo I am not sure if we need to be more explicit in the documentation that what it would be after this change.",
+      "parentUuid": "bcf60fd6_3a553c92",
+      "revId": "bbb3cbcdbec202cea06eb66f25aa595ba71d6944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

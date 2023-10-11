@@ -52,7 +52,7 @@ public enum CommitMergeStatus {
       "Marking change merged without cherry-picking to branch, as the resulting commit would be"
           + " empty."),
 
-  MISSING_DEPENDENCY("Depends on change that was not submitted."),
+  MISSING_DEPENDENCY("Depends on commit that cannot be merged."),
 
   MANUAL_RECURSIVE_MERGE(
       "The change requires a local merge to resolve.\n"

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c05e5ffe_b8112c9b",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-10-11T08:45:10Z",
+      "side": 1,
+      "message": "[optional]Maybe better \"toRevisionInfo\" and \"RevisionJson\" as it may theoretically be possible that it\u0027s called from other places than toChangeInfo in ChangeJson.\n\n```suggestion\n                      \"Latency for computing parent data information in toRevisionInfo\"\n                          + \" invocations in RevisionJson\")\n```",
+      "range": {
+        "startLine": 109,
+        "startChar": 72,
+        "endLine": 110,
+        "endChar": 55
+      },
+      "revId": "a70219f41df62aa9a0194b7297af534d59290521",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

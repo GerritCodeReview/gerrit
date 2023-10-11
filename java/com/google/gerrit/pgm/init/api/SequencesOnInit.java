@@ -14,34 +14,22 @@
 
 package com.google.gerrit.pgm.init.api;
 
-import com.google.gerrit.entities.Project;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.notedb.RepoSequence;
-import com.google.gerrit.server.notedb.Sequences;
+import static com.google.gerrit.server.Sequence.LightweightAccounts;
+
+import com.google.gerrit.server.Sequence;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
 public class SequencesOnInit {
-  private final GitRepositoryManager repoManager;
-  private final AllUsersNameOnInitProvider allUsersName;
+  private final Sequence accountsSequence;
 
   @Inject
-  SequencesOnInit(GitRepositoryManagerOnInit repoManager, AllUsersNameOnInitProvider allUsersName) {
-    this.repoManager = repoManager;
-    this.allUsersName = allUsersName;
+  SequencesOnInit(@LightweightAccounts Sequence accountsSequence) {
+    this.accountsSequence = accountsSequence;
   }
 
   public int nextAccountId() {
-    RepoSequence accountSeq =
-        new RepoSequence(
-            repoManager,
-            GitReferenceUpdated.DISABLED,
-            Project.nameKey(allUsersName.get()),
-            Sequences.NAME_ACCOUNTS,
-            () -> Sequences.FIRST_ACCOUNT_ID,
-            1);
-    return accountSeq.next();
+    return accountsSequence.next();
   }
 }

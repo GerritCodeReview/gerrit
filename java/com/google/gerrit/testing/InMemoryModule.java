@@ -16,6 +16,7 @@ package com.google.gerrit.testing;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
+import static com.google.gerrit.server.Sequence.LightweightGroups;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.base.Strings;
@@ -44,6 +45,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.LibModuleType;
 import com.google.gerrit.server.PluginUser;
+import com.google.gerrit.server.Sequence;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.storage.notedb.AccountNoteDbStorageModule;
@@ -99,6 +101,7 @@ import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
 import com.google.gerrit.server.mail.EmailModule;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier.SignedTokenEmailTokenVerifierModule;
+import com.google.gerrit.server.notedb.RepoSequence.DisabledGitRefUpdatedRepoGroupsSequenceProvider;
 import com.google.gerrit.server.patch.DiffExecutor;
 import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.plugins.ServerInformationImpl;
@@ -312,6 +315,9 @@ public class InMemoryModule extends FactoryModule {
           .toProvider(AnonymousCowardNameProvider.class);
 
       bind(GroupIndexCollection.class);
+      bind(Sequence.class)
+          .annotatedWith(LightweightGroups.class)
+          .toProvider(DisabledGitRefUpdatedRepoGroupsSequenceProvider.class);
       bind(SchemaCreator.class).to(SchemaCreatorImpl.class);
     }
 

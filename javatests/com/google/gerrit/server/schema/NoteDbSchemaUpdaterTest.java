@@ -24,13 +24,13 @@ import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.server.Sequence;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.IntBlob;
 import com.google.gerrit.server.notedb.RepoSequence;
-import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.TestUpdateUI;
 import java.io.IOException;
@@ -150,7 +150,7 @@ public class NoteDbSchemaUpdaterTest {
               repoManager,
               GitReferenceUpdated.DISABLED,
               allUsersName,
-              Sequences.NAME_GROUPS,
+              Sequence.NAME_GROUPS,
               () -> 1,
               1)
           .next();

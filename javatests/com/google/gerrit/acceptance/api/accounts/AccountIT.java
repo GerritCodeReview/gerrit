@@ -132,6 +132,7 @@ import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.testing.TestKey;
 import com.google.gerrit.httpd.CacheBasedWebSession;
 import com.google.gerrit.server.ExceptionHook;
+import com.google.gerrit.server.Sequence;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountProperties;
@@ -331,7 +332,7 @@ public class AccountIT extends AbstractDaemonTest {
       refUpdateCounter.assertRefUpdateFor(
           RefUpdateCounter.projectRef(allUsers, RefNames.refsUsers(accountId)),
           RefUpdateCounter.projectRef(allUsers, RefNames.REFS_EXTERNAL_IDS),
-          RefUpdateCounter.projectRef(allUsers, RefNames.REFS_SEQUENCES + Sequences.NAME_ACCOUNTS));
+          RefUpdateCounter.projectRef(allUsers, RefNames.REFS_SEQUENCES + Sequence.NAME_ACCOUNTS));
     }
   }
 

@@ -627,12 +627,6 @@ public final class Change {
     this.originalSubject = originalSubject;
   }
 
-  public void clearCurrentPatchSet() {
-    currentPatchSetId = 0;
-    subject = null;
-    originalSubject = null;
-  }
-
   public String getSubmissionId() {
     return submissionId;
   }

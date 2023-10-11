@@ -381,13 +381,8 @@ public abstract class ChangeNotesState {
     change.setRevertOf(c.revertOf());
     change.setCherryPickOf(c.cherryPickOf());
 
-    if (!patchSets().isEmpty()) {
-      change.setCurrentPatchSet(c.currentPatchSetId(), c.subject(), c.originalSubject());
-    } else {
-      // TODO(dborowitz): This should be an error, but for now it's required for
-      // some tests to pass.
-      change.clearCurrentPatchSet();
-    }
+    checkState(!patchSets().isEmpty(), "change %s has no patch sets", changeId());
+    change.setCurrentPatchSet(c.currentPatchSetId(), c.subject(), c.originalSubject());
   }
 
   @AutoValue.Builder

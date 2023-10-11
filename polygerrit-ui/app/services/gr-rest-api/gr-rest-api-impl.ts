@@ -148,6 +148,7 @@ import {addDraftProp} from '../../utils/comment-util';
 import {BaseScheduler, Scheduler} from '../scheduler/scheduler';
 import {MaxInFlightScheduler} from '../scheduler/max-in-flight-scheduler';
 import {escapeAndWrapSearchOperatorValue} from '../../utils/string-util';
+import {FlagsService, KnownExperimentId} from '../flags/flags';
 
 const MAX_PROJECT_RESULTS = 25;
 export const PROBE_PATH = '/Documentation/index.html';
@@ -301,7 +302,10 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   // Used to serialize requests for certain RPCs
   readonly _serialScheduler: Scheduler<Response>;
 
-  constructor(private readonly authService: AuthService) {
+  constructor(
+    private readonly authService: AuthService,
+    private readonly flagService: FlagsService
+  ) {
     this._restApiHelper = new GrRestApiHelper(
       this._cache,
       this.authService,
@@ -1277,8 +1281,10 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       ListChangesOption.WEB_LINKS,
       ListChangesOption.SKIP_DIFFSTAT,
       ListChangesOption.SUBMIT_REQUIREMENTS,
-      ListChangesOption.PARENTS,
     ];
+    if (this.flagService.isEnabled(KnownExperimentId.REVISION_PARENTS_DATA)) {
+      options.push(ListChangesOption.PARENTS);
+    }
     if (config?.receive?.enable_signed_push) {
       options.push(ListChangesOption.PUSH_CERTIFICATES);
     }
@@ -1303,8 +1309,10 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       'WEB_LINKS',
       'SKIP_DIFFSTAT',
       'SUBMIT_REQUIREMENTS',
-      'PARENTS',
     ];
+    if (this.flagService.isEnabled(KnownExperimentId.REVISION_PARENTS_DATA)) {
+      options.push('PARENTS');
+    }
     if (config?.receive?.enable_signed_push) {
       options.push('PUSH_CERTIFICATES');
     }

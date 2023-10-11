@@ -62,6 +62,7 @@ import {assert} from '@open-wc/testing';
 import {AuthService} from '../gr-auth/gr-auth';
 import {GrAuthMock} from '../gr-auth/gr-auth_mock';
 import {getBaseUrl} from '../../utils/url-util';
+import {FlagsServiceImplementation} from '../flags/flags_impl';
 
 const EXPECTED_QUERY_OPTIONS = listChangesOptionsToHex(
   ListChangesOption.CHANGE_ACTIONS,
@@ -91,7 +92,10 @@ suite('gr-rest-api-service-impl tests', () => {
     // fake auth
     authService = new GrAuthMock();
     sinon.stub(authService, 'authCheck').resolves(true);
-    element = new GrRestApiServiceImpl(authService);
+    element = new GrRestApiServiceImpl(
+      authService,
+      new FlagsServiceImplementation()
+    );
 
     element._projectLookup = {};
   });

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_COMMITS;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
@@ -766,6 +767,14 @@ public class ChangeJson {
           break;
         }
       }
+      if (out.currentRevision == null) {
+      	logger.atSevere().log(
+          "current revision for change %s not found (current patch set ID = %s, patch sets = %s, meta revision = %s)",
+          cd.getId(),
+          cd.change().currentPatchSetId(),
+          src.entrySet().stream()
+              .collect(toImmutableMap(Map.Entry::getKey, e -> e.getValue().commitId().name())),
+          getMetaRevisionIfAvailable(cd));
     }
 
     if (has(CURRENT_ACTIONS) || has(CHANGE_ACTIONS)) {
@@ -781,6 +790,14 @@ public class ChangeJson {
     }
 
     return out;
+  }
+
+  private Optional<ObjectId> getMetaRevisionIfAvailable(ChangeData cd) {
+    try {
+      return Optional.of(cd.metaRevisionOrThrow());
+    } catch (Exception e) {
+      return Optional.empty();
+    }
   }
 
   private Map<ReviewerState, Collection<AccountInfo>> reviewerMap(

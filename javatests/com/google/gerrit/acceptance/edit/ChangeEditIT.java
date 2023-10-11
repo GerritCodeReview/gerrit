@@ -203,6 +203,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
   public void publishEditRest() throws Exception {
     PatchSet oldCurrentPatchSet = getCurrentPatchSet(changeId);
     createArbitraryEditFor(changeId);
+    
+    gApi.changes().query(changeId).withOption(ListChangesOption.ALL_REVISIONS).get();
 
     adminRestSession.post(urlPublish(changeId)).assertNoContent();
     assertThat(getEdit(changeId)).isAbsent();

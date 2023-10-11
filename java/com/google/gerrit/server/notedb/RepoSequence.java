@@ -34,11 +34,18 @@ import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.RefUpdateUtil;
+import com.google.gerrit.server.IncrementingSequence;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.update.context.RefUpdateContext;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +54,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
@@ -62,12 +70,140 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * memory until they run out. This means concurrent processes will hand out somewhat non-monotonic
  * numbers.
  */
-public class RepoSequence {
+public class RepoSequence implements IncrementingSequence {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private static final String NAME_ACCOUNTS = "accounts";
+  private static final String NAME_GROUPS = "groups";
+  private static final String NAME_CHANGES = "changes";
 
   @FunctionalInterface
   public interface Seed {
     int get();
+  }
+
+  public static class RepoSequenceModule extends FactoryModule {
+    @Override
+    protected void configure() {
+      bind(IncrementingSequence.Factory.class).to(RepoSequenceFactory.class);
+      factory(RepoSequence.Factory.class);
+    }
+  }
+
+  /** A factory for creating a {@link RepoSequence}. */
+  public static class RepoSequenceFactory implements IncrementingSequence.Factory {
+    private static final String SECTION_NOTEDB = "noteDb";
+    private static final String KEY_SEQUENCE_BATCH_SIZE = "sequenceBatchSize";
+    private static final int DEFAULT_ACCOUNTS_SEQUENCE_BATCH_SIZE = 1;
+    private static final int DEFAULT_CHANGES_SEQUENCE_BATCH_SIZE = 20;
+    private static final int DEFAULT_GROUPS_SEQUENCE_BATCH_SIZE = 1;
+
+    private final GitRepositoryManager repoManager;
+    private final AllProjectsName allProjects;
+    private final AllUsersName allUsers;
+    private final Config cfg;
+    private final RepoSequence.Factory repoSeqFactory;
+
+    private boolean isGitReferenceUpdateDisabled = false;
+
+    @Inject
+    RepoSequenceFactory(
+        AllProjectsName allProjects,
+        AllUsersName allUsers,
+        @GerritServerConfig Config cfg,
+        RepoSequence.Factory repoSeqFactory,
+        GitRepositoryManager repoManager) {
+      this.allProjects = allProjects;
+      this.allUsers = allUsers;
+      this.cfg = cfg;
+      this.repoSeqFactory = repoSeqFactory;
+      this.repoManager = repoManager;
+    }
+
+    public RepoSequenceFactory(
+        AllProjectsName allProjects,
+        AllUsersName allUsers,
+        @GerritServerConfig Config cfg,
+        GitRepositoryManager repoManager) {
+      this.allProjects = allProjects;
+      this.allUsers = allUsers;
+      this.cfg = cfg;
+      this.repoSeqFactory = null;
+      this.repoManager = repoManager;
+    }
+
+    public RepoSequenceFactory withGitReferenceUpdateDisabled() {
+      this.isGitReferenceUpdateDisabled = true;
+      return this;
+    }
+
+    @Override
+    public IncrementingSequence create(SequenceType sequenceType) {
+      switch (sequenceType) {
+        case ACCOUNTS:
+          int accountBatchSize =
+              cfg.getInt(
+                  SECTION_NOTEDB,
+                  NAME_ACCOUNTS,
+                  KEY_SEQUENCE_BATCH_SIZE,
+                  DEFAULT_ACCOUNTS_SEQUENCE_BATCH_SIZE);
+          return isGitReferenceUpdateDisabled
+              ? new RepoSequence(
+                  repoManager,
+                  GitReferenceUpdated.DISABLED,
+                  allUsers,
+                  NAME_ACCOUNTS,
+                  () -> Sequences.FIRST_ACCOUNT_ID,
+                  accountBatchSize)
+              : repoSeqFactory.create(
+                  allUsers, NAME_ACCOUNTS, () -> Sequences.FIRST_ACCOUNT_ID, accountBatchSize);
+        case CHANGES:
+          int changeBatchSize =
+              cfg.getInt(
+                  SECTION_NOTEDB,
+                  NAME_CHANGES,
+                  KEY_SEQUENCE_BATCH_SIZE,
+                  DEFAULT_CHANGES_SEQUENCE_BATCH_SIZE);
+          return isGitReferenceUpdateDisabled
+              ? new RepoSequence(
+                  repoManager,
+                  GitReferenceUpdated.DISABLED,
+                  allProjects,
+                  NAME_CHANGES,
+                  () -> Sequences.FIRST_CHANGE_ID,
+                  changeBatchSize)
+              : repoSeqFactory.create(
+                  allProjects, NAME_CHANGES, () -> Sequences.FIRST_CHANGE_ID, changeBatchSize);
+        case GROUPS:
+          return isGitReferenceUpdateDisabled
+              ? new RepoSequence(
+                  repoManager,
+                  GitReferenceUpdated.DISABLED,
+                  allUsers,
+                  NAME_GROUPS,
+                  () -> Sequences.FIRST_GROUP_ID,
+                  DEFAULT_GROUPS_SEQUENCE_BATCH_SIZE)
+              : repoSeqFactory.create(
+                  allUsers,
+                  NAME_GROUPS,
+                  () -> Sequences.FIRST_GROUP_ID,
+                  DEFAULT_GROUPS_SEQUENCE_BATCH_SIZE);
+      }
+      throw new RuntimeException("Unrecognized sequence type");
+    }
+  }
+
+  /** A factory for creating {@link RepoSequence}(s) . */
+  public interface Factory {
+    RepoSequence create(Project.NameKey projectName, String name, Seed seed, int batchSize);
+
+    RepoSequence create(
+        Project.NameKey projectName,
+        String name,
+        Seed seed,
+        int batchSize,
+        Runnable afterReadRef,
+        Retryer<ImmutableList<Integer>> retryer);
   }
 
   @VisibleForTesting
@@ -104,13 +240,14 @@ public class RepoSequence {
 
   @VisibleForTesting int acquireCount;
 
+  @Inject
   public RepoSequence(
       GitRepositoryManager repoManager,
       GitReferenceUpdated gitRefUpdated,
-      Project.NameKey projectName,
-      String name,
-      Seed seed,
-      int batchSize) {
+      @Assisted Project.NameKey projectName,
+      @Assisted String name,
+      @Assisted Seed seed,
+      @Assisted int batchSize) {
     this(
         repoManager,
         gitRefUpdated,
@@ -136,7 +273,7 @@ public class RepoSequence {
     this(repoManager, gitRefUpdated, projectName, name, seed, batchSize, afterReadRef, retryer, 0);
   }
 
-  RepoSequence(
+  private RepoSequence(
       GitRepositoryManager repoManager,
       GitReferenceUpdated gitRefUpdated,
       Project.NameKey projectName,
@@ -177,6 +314,7 @@ public class RepoSequence {
    *
    * @return the next available sequence number
    */
+  @Override
   public int next() {
     return Iterables.getOnlyElement(next(1));
   }
@@ -189,6 +327,7 @@ public class RepoSequence {
    * @param count the number of sequence numbers which should be returned
    * @return the next N available sequence numbers
    */
+  @Override
   public ImmutableList<Integer> next(int count) {
     if (count == 0) {
       return ImmutableList.of();
@@ -271,6 +410,7 @@ public class RepoSequence {
     }
   }
 
+  @Override
   public void storeNew(int value) {
     counterLock.lock();
     try (Repository repo = repoManager.openRepository(projectName);
@@ -296,6 +436,12 @@ public class RepoSequence {
     }
   }
 
+  @Override
+  public int getBatchSize() {
+    return batchSize;
+  }
+
+  @Override
   public int current() {
     counterLock.lock();
     try (Repository repo = repoManager.openRepository(projectName);
@@ -320,6 +466,7 @@ public class RepoSequence {
    *
    * <p>Explicitly calls {@link #next()} if this instance didn't return sequence number until now.
    */
+  @Override
   public int last() {
     if (counter == 0) {
       next();

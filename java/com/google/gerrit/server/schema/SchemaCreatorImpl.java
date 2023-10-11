@@ -23,6 +23,7 @@ import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.IncrementingSequence;
 import com.google.gerrit.server.account.GroupUuid;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -37,6 +38,7 @@ import com.google.gerrit.server.group.db.GroupNameNotes;
 import com.google.gerrit.server.group.db.InternalGroupCreation;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
+import com.google.gerrit.server.notedb.RepoSequence.RepoSequenceFactory;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType;
@@ -108,14 +110,10 @@ public class SchemaCreatorImpl implements SchemaCreator {
 
       // Don't rely on injection to construct Sequences, as the default GitReferenceUpdated has a
       // thick dependency stack which may not all be available at schema creation time.
-      Sequences seqs =
-          new Sequences(
-              config,
-              repoManager,
-              GitReferenceUpdated.DISABLED,
-              allProjectsName,
-              allUsersName,
-              metricMaker);
+      IncrementingSequence.Factory sequenceFactory =
+          new RepoSequenceFactory(allProjectsName, allUsersName, config, repoManager)
+              .withGitReferenceUpdateDisabled();
+      Sequences seqs = new Sequences(sequenceFactory, metricMaker);
       try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
         createAdminsGroup(seqs, allUsersRepo, admins);
         createBatchUsersGroup(seqs, allUsersRepo, serviceUsers, admins.getUUID());

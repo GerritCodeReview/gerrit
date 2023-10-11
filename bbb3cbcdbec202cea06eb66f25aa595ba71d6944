@@ -152,6 +152,24 @@
       "parentUuid": "d447a591_92ab16e5",
       "revId": "bbb3cbcdbec202cea06eb66f25aa595ba71d6944",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e98baaac_58c05012",
+        "filename": "Documentation/cmd-ls-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-11T12:41:17Z",
+      "side": 1,
+      "message": "Yes it could go to a follow up change.\nI think this \"restriction\" applies to many other features of `ls-projects`, probably all of them. We should test which ones work (if any), which ones don\u0027t, and document that _none_ of those work when the format is `text`, not specifically just the tree one.\n\nWDYT?",
+      "parentUuid": "a3c5f14a_a7f14f31",
+      "revId": "bbb3cbcdbec202cea06eb66f25aa595ba71d6944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

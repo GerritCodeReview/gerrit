@@ -52,6 +52,10 @@ import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.metrics.Description;
+import com.google.gerrit.metrics.Description.Units;
+import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GpgException;
@@ -70,6 +74,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -91,6 +96,23 @@ public class RevisionJson {
     RevisionJson create(Iterable<ListChangesOption> options);
   }
 
+  @Singleton
+  private static class Metrics {
+    private final Timer0 parentDataLatency;
+
+    @Inject
+    Metrics(MetricMaker metricMaker) {
+      parentDataLatency =
+          metricMaker.newTimer(
+              "http/server/rest_api/change_json/to_change_info_latency/parent_data_computation",
+              new Description(
+                      "Latency for computing parent data information in toRevisionInfo"
+                          + " invocations in RevisionJson")
+                  .setCumulative()
+                  .setUnit(Units.MILLISECONDS));
+    }
+  }
+
   private final MergeUtilFactory mergeUtilFactory;
   private final IdentifiedUser.GenericFactory userFactory;
   private final FileInfoJson fileInfoJson;
@@ -109,6 +131,7 @@ public class RevisionJson {
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
   private final ParentDataProvider parentDataProvider;
+  private final Metrics metrics;
 
   @Inject
   RevisionJson(
@@ -129,6 +152,7 @@ public class RevisionJson {
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
       ParentDataProvider parentDataProvider,
+      Metrics metrics,
       @Assisted Iterable<ListChangesOption> options) {
     this.userProvider = userProvider;
     this.anonymous = anonymous;
@@ -147,6 +171,7 @@ public class RevisionJson {
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
     this.parentDataProvider = parentDataProvider;
+    this.metrics = metrics;
     this.options = ImmutableSet.copyOf(options);
   }
 
@@ -339,14 +364,17 @@ public class RevisionJson {
                 c.getId().get());
       }
       if (has(PARENTS)) {
-        String targetBranch =
-            in.branch().isPresent() ? in.branch().get() : cd.change().getDest().branch();
-        List<ParentCommitData> parentData = new ArrayList<>();
-        for (RevCommit parent : commit.getParents()) {
-          ParentCommitData p = parentDataProvider.get(project, repo, parent.getId(), targetBranch);
-          parentData.add(p);
+        try (Timer0.Context ignored = metrics.parentDataLatency.start()) {
+          String targetBranch =
+              in.branch().isPresent() ? in.branch().get() : cd.change().getDest().branch();
+          List<ParentCommitData> parentData = new ArrayList<>();
+          for (RevCommit parent : commit.getParents()) {
+            ParentCommitData p =
+                parentDataProvider.get(project, repo, parent.getId(), targetBranch);
+            parentData.add(p);
+          }
+          out.parentsData = getParentInfo(parentData);
         }
-        out.parentsData = getParentInfo(parentData);
       }
       if (addFooters) {
         Ref ref = repo.exactRef(branchName);

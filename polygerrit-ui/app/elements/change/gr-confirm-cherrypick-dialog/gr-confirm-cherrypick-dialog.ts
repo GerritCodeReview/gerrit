@@ -616,7 +616,6 @@ export class GrConfirmCherrypickDialog
         topic,
         allow_conflicts: true,
         allow_empty: true,
-        committer_email: this.committerEmail ? this.committerEmail : null,
       };
       const handleError = (response?: Response | null) => {
         this.handleCherryPickFailed(change, response);

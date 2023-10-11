@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a147e7b3_dab2aa44",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-10-11T19:37:32Z",
+      "side": 1,
+      "message": "Thanks for fixing. I noticed the warning now in IntelliJ, but it doesn\u0027t stand out compared to all the other \"hints\" it tries to give.",
+      "revId": "ab8674036815aabc9ce7d924e8abee67558b1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

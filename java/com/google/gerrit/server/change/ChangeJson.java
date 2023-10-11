@@ -760,12 +760,10 @@ public class ChangeJson {
     // it will be passed to ActionVisitors as-is.
     if (needRevisions) {
       out.revisions = revisionJson.getRevisions(accountLoader, cd, src, limitToPsId, out);
-      if (out.revisions != null) {
-        for (Map.Entry<String, RevisionInfo> entry : out.revisions.entrySet()) {
-          if (entry.getValue().isCurrent) {
-            out.currentRevision = entry.getKey();
-            break;
-          }
+      for (Map.Entry<String, RevisionInfo> entry : out.revisions.entrySet()) {
+        if (entry.getValue().isCurrent) {
+          out.currentRevision = entry.getKey();
+          break;
         }
       }
       if (out.currentRevision == null) {

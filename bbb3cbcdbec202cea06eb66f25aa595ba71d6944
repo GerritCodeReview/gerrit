@@ -134,6 +134,24 @@
       "parentUuid": "c85c79f0_4a881ccf",
       "revId": "bbb3cbcdbec202cea06eb66f25aa595ba71d6944",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3c5f14a_a7f14f31",
+        "filename": "Documentation/cmd-ls-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-11T08:48:38Z",
+      "side": 1,
+      "message": "\u003e Could you please verify that the documentation doesn\u0027t already specify this.\n\nThere is no mention in the documentation.\n\n\u003e If not, perhaps we could add a new line at L60 explaining that the tree option is totally ignored unless the output is in a json format.\n\nShould this go in another change?",
+      "parentUuid": "d447a591_92ab16e5",
+      "revId": "bbb3cbcdbec202cea06eb66f25aa595ba71d6944",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

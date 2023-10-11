@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15c8a4e3_a9164148",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-10-11T09:18:51Z",
+      "side": 1,
+      "message": "LGTM, @Nasser/@Kaushik can you +2?, or @Yash can you add Frank?",
+      "revId": "e56d2c66234225094a2b322b8e6b606ad42598b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

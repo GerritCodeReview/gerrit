@@ -74,6 +74,7 @@ import com.google.gerrit.server.git.PureRevertCache;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.notedb.ChangeDraftNotesUpdate;
 import com.google.gerrit.server.notedb.NoteDbModule;
+import com.google.gerrit.server.notedb.RepoSequence.RepoSequenceModule;
 import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.patch.DiffOperationsImpl;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
@@ -196,6 +197,7 @@ public class BatchProgramModule extends FactoryModule {
     modules.add(TagCache.module());
     modules.add(PureRevertCache.module());
     modules.add(new ApprovalModule());
+    modules.add(new RepoSequenceModule());
     modules.add(SubmitRequirementsEvaluatorImpl.module());
     factory(CapabilityCollection.Factory.class);
     factory(ChangeData.AssistedFactory.class);

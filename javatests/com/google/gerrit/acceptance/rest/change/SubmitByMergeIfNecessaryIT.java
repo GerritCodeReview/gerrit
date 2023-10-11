@@ -381,8 +381,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
             + " due to the following problems:\n"
             + "Change "
             + change3a.getChange().getId()
-            + ": Depends on change that"
-            + " was not submitted."
+            + ": Depends on commit that cannot be merged."
             + " Commit "
             + change3a.getCommit().name()
             + " depends on commit "
@@ -485,7 +484,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         "Failed to submit 1 change due to the following problems:\n"
             + "Change "
             + change3.getPatchSetId().changeId().get()
-            + ": Depends on change that was not submitted."
+            + ": Depends on commit that cannot be merged."
             + " Commit "
             + change3.getCommit().name()
             + " depends on commit "
@@ -518,7 +517,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         "Failed to submit 1 change due to the following problems:\n"
             + "Change "
             + change2Result.getChange().getId()
-            + ": Depends on change that was not submitted."
+            + ": Depends on commit that cannot be merged."
             + " Commit "
             + change2Result.getCommit().name()
             + " depends on commit "
@@ -584,7 +583,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         "Failed to submit 1 change due to the following problems:\n"
             + "Change "
             + change2Result.getChange().getId()
-            + ": Depends on change that was not submitted."
+            + ": Depends on commit that cannot be merged."
             + " Commit "
             + change2Result.getCommit().name()
             + " depends on commit "

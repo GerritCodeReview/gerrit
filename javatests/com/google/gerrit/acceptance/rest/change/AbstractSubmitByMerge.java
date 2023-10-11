@@ -120,7 +120,7 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
   }
 
   @Test
-  public void dependencyOnOutdatedPatchSetPreventsMerge() throws Throwable {
+  public void dependencyOnOutdatedPatchSetOfUnsubmittedChangePreventsMerge() throws Throwable {
     // Create a change
     PushOneCommit change = pushFactory.create(user.newIdent(), testRepo, "fix", "a.txt", "foo");
     PushOneCommit.Result changeResult = change.to("refs/for/master");
@@ -147,7 +147,7 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
         "Failed to submit 2 changes due to the following problems:\n"
             + "Change "
             + change2Result.getChange().getId()
-            + ": Depends on change that was not submitted."
+            + ": Depends on commit that cannot be merged."
             + " Commit "
             + change2Result.getCommit().name()
             + " depends on commit "
@@ -162,5 +162,57 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
 
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
+  }
+
+  @Test
+  public void dependencyOnOutdatedPatchSetOfSubmittedChangePreventsMerge() throws Throwable {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+
+    // Create a change
+    PushOneCommit change = pushFactory.create(user.newIdent(), testRepo, "fix", "a.txt", "foo");
+    PushOneCommit.Result changeResult = change.to("refs/for/master");
+    PatchSet.Id patchSetId = changeResult.getPatchSetId();
+
+    // Create a successor change.
+    PushOneCommit change2 =
+        pushFactory.create(user.newIdent(), testRepo, "feature", "b.txt", "bar");
+    PushOneCommit.Result change2Result = change2.to("refs/for/master");
+
+    // Create new patch set for first change.
+    testRepo.reset(changeResult.getCommit().name());
+    amendChange(changeResult.getChangeId());
+
+    // Approve and submit the first changes
+    approve(changeResult.getChangeId());
+    submit(changeResult.getChangeId());
+    RevCommit headAfterSubmit = projectOperations.project(project).getHead("master");
+
+    // Approve the second change
+    approve(change2Result.getChangeId());
+
+    // submit button is disabled.
+    assertSubmitDisabled(change2Result.getChangeId());
+
+    submitWithConflict(
+        change2Result.getChangeId(),
+        "Failed to submit 1 change due to the following problems:\n"
+            + "Change "
+            + change2Result.getChange().getId()
+            + ": Depends on commit that cannot be merged."
+            + " Commit "
+            + change2Result.getCommit().name()
+            + " depends on commit "
+            + changeResult.getCommit().name()
+            + ", which is outdated patch set "
+            + patchSetId.get()
+            + " of change "
+            + changeResult.getChange().getId()
+            + ". The latest patch set is "
+            + changeResult.getPatchSetId().get()
+            + ".");
+
+    // Only events for the first change are sent.
+    assertRefUpdatedEvents(initialHead, headAfterSubmit);
+    assertChangeMergedEvents(changeResult.getChangeId(), headAfterSubmit.name());
   }
 }

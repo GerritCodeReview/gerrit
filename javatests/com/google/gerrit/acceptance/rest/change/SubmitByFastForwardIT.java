@@ -234,7 +234,7 @@ public class SubmitByFastForwardIT extends AbstractSubmit {
         "Failed to submit 2 changes due to the following problems:\n"
             + "Change "
             + change2Result.getChange().getId()
-            + ": Depends on change that was not submitted."
+            + ": Depends on commit that cannot be merged."
             + " Commit "
             + change2Result.getCommit().name()
             + " depends on commit "

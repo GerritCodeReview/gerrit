@@ -95,6 +95,7 @@ public class IndexPreloadingUtil {
           ListChangesOption.ALL_COMMITS,
           ListChangesOption.ALL_REVISIONS,
           ListChangesOption.CHANGE_ACTIONS,
+          ListChangesOption.DETAILED_ACCOUNTS,
           ListChangesOption.DETAILED_LABELS,
           ListChangesOption.DOWNLOAD_COMMANDS,
           ListChangesOption.MESSAGES,

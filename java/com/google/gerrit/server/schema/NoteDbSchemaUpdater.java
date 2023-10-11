@@ -23,10 +23,10 @@ import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.server.IncrementingSequence;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -151,7 +151,7 @@ public class NoteDbSchemaUpdater {
     //    In this case the server literally will not start under 2.16. We assume the user will fix
     //    this and get 2.16 running rather than abandoning 2.16 and jumping to 3.0 at this point.
     try (Repository allUsers = repoManager.openRepository(allUsersName)) {
-      if (allUsers.exactRef(RefNames.REFS_SEQUENCES + Sequences.NAME_GROUPS) == null) {
+      if (allUsers.exactRef(RefNames.REFS_SEQUENCES + IncrementingSequence.NAME_GROUPS) == null) {
         throw new StorageException(
             "You appear to be upgrading to 3.x from a version prior to 2.16; you must upgrade to"
                 + " 2.16.x first");

@@ -14,12 +14,19 @@
 
 package com.google.gerrit.pgm.init;
 
+import static com.google.gerrit.server.IncrementingSequence.LightweightAccounts;
+import static com.google.inject.Scopes.SINGLETON;
+
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
+import com.google.gerrit.server.IncrementingSequence;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdFactoryNoteDbImpl;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.notedb.RepoSequence.LightweightRepoAccountsSequenceProvider;
 import com.google.inject.Singleton;
 import com.google.inject.binder.LinkedBindingBuilder;
 import com.google.inject.internal.UniqueAnnotations;
@@ -37,6 +44,10 @@ public class InitModule extends FactoryModule {
   @Override
   protected void configure() {
     bind(SitePaths.class);
+    bind(AllUsersName.class).toProvider(AllUsersNameProvider.class).in(SINGLETON);
+    bind(IncrementingSequence.class)
+        .annotatedWith(LightweightAccounts.class)
+        .toProvider(LightweightRepoAccountsSequenceProvider.class);
     factory(Section.Factory.class);
     factory(VersionedAuthorizedKeysOnInit.Factory.class);
 

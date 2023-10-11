@@ -14,12 +14,14 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.gerrit.server.IncrementingSequence.LightweightGroups;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.IncrementingSequence;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AllUsersName;
@@ -31,6 +33,7 @@ import com.google.gerrit.server.config.GerritImportedServerIdsProvider;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.config.GerritServerIdProvider;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
+import com.google.gerrit.server.notedb.RepoSequence.LightweightRepoGroupsSequenceProvider;
 import com.google.inject.TypeLiteral;
 import org.eclipse.jgit.lib.PersonIdent;
 
@@ -64,6 +67,9 @@ public class SchemaModule extends FactoryModule {
     // SchemaCreatorImpl, so it's needed.
     // TODO(dborowitz): Is there any way to untangle this?
     bind(GroupIndexCollection.class);
+    bind(IncrementingSequence.class)
+        .annotatedWith(LightweightGroups.class)
+        .toProvider(LightweightRepoGroupsSequenceProvider.class);
     bind(SchemaCreator.class).to(SchemaCreatorImpl.class);
   }
 }

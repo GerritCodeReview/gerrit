@@ -279,6 +279,9 @@ setting.
    view implementation class
 * `http/server/rest_api/change_json/to_change_info_latency`: Latency for
   toChangeInfo invocations in ChangeJson.
+* `http/server/rest_api/change_json/to_change_info_latency/parent_data_computation`:
+   Latency for computing parent data information in toChangeInfo invocations
+   in ChangeJson. See link:rest-api-changes.html#parent-info[ParentInfo].
 * `http/server/rest_api/change_json/to_change_infos_latency`: Latency for
   toChangeInfos invocations in ChangeJson.
 * `http/server/rest_api/change_json/format_query_results_latency`: Latency for

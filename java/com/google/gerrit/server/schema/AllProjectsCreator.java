@@ -34,12 +34,12 @@ import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRule.Action;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.IncrementingSequence;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
@@ -244,7 +244,7 @@ public class AllProjectsCreator {
 
   private void initSequences(Repository git, BatchRefUpdate bru, int firstChangeId)
       throws IOException {
-    if (git.exactRef(REFS_SEQUENCES + Sequences.NAME_CHANGES) == null) {
+    if (git.exactRef(REFS_SEQUENCES + IncrementingSequence.NAME_CHANGES) == null) {
       // Can't easily reuse the inserter from MetaDataUpdate, but this shouldn't slow down site
       // initialization unduly.
       try (ObjectInserter ins = git.newObjectInserter()) {
@@ -257,7 +257,7 @@ public class AllProjectsCreator {
   private ReceiveCommand createNewChangeSequence(ObjectInserter ins, int val) throws IOException {
     ObjectId newId = ins.insert(OBJ_BLOB, Integer.toString(val).getBytes(UTF_8));
     return new ReceiveCommand(
-        ObjectId.zeroId(), newId, RefNames.REFS_SEQUENCES + Sequences.NAME_CHANGES);
+        ObjectId.zeroId(), newId, RefNames.REFS_SEQUENCES + IncrementingSequence.NAME_CHANGES);
   }
 
   private void execute(Repository git, BatchRefUpdate bru) throws IOException {

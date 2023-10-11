@@ -43,8 +43,8 @@ import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.IncrementingSequence;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import org.eclipse.jgit.junit.TestRepository;
@@ -458,7 +458,7 @@ public class GetBranchIT extends AbstractDaemonTest {
   public void getAccountSequenceRef() throws Exception {
     // a user without the 'Access Database' capability cannot see the refs/sequences/accounts ref
     requestScopeOperations.setApiUser(user.id());
-    String accountSequenceRef = RefNames.REFS_SEQUENCES + Sequences.NAME_ACCOUNTS;
+    String accountSequenceRef = RefNames.REFS_SEQUENCES + IncrementingSequence.NAME_ACCOUNTS;
     assertBranchNotFound(allUsers, accountSequenceRef);
 
     // a user with the 'Access Database' capability can see the refs/sequences/accounts ref
@@ -469,7 +469,7 @@ public class GetBranchIT extends AbstractDaemonTest {
   public void getChangeSequenceRef() throws Exception {
     // a user without the 'Access Database' capability cannot see the refs/sequences/changes ref
     requestScopeOperations.setApiUser(user.id());
-    String changeSequenceRef = RefNames.REFS_SEQUENCES + Sequences.NAME_CHANGES;
+    String changeSequenceRef = RefNames.REFS_SEQUENCES + IncrementingSequence.NAME_CHANGES;
     assertBranchNotFound(allProjects, changeSequenceRef);
 
     // a user with the 'Access Database' capability can see the refs/sequences/changes ref
@@ -480,7 +480,7 @@ public class GetBranchIT extends AbstractDaemonTest {
   public void getGroupSequenceRef() throws Exception {
     // a user without the 'Access Database' capability cannot see the refs/sequences/groups ref
     requestScopeOperations.setApiUser(user.id());
-    String groupSequenceRef = RefNames.REFS_SEQUENCES + Sequences.NAME_GROUPS;
+    String groupSequenceRef = RefNames.REFS_SEQUENCES + IncrementingSequence.NAME_GROUPS;
     assertBranchNotFound(allUsers, groupSequenceRef);
 
     // a user with the 'Access Database' capability can see the refs/sequences/groups ref

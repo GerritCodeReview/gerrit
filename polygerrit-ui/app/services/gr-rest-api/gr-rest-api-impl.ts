@@ -1254,11 +1254,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   async getChangeOptionsHex(): Promise<string> {
-    if (
-      window.DEFAULT_DETAIL_HEXES &&
-      window.DEFAULT_DETAIL_HEXES.dashboardPage
-    ) {
-      return window.DEFAULT_DETAIL_HEXES.dashboardPage;
+    if (window.DEFAULT_DETAIL_HEXES && window.DEFAULT_DETAIL_HEXES.changePage) {
+      return window.DEFAULT_DETAIL_HEXES.changePage;
     }
     return listChangesOptionsToHex(...(await this.getChangeOptions()));
   }

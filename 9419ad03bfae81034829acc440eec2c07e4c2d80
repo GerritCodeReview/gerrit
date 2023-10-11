@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23025123_d07c13d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-10-11T08:37:41Z",
+      "side": 1,
+      "message": "LGTM. \n\nNit: can we say why the commit can\u0027t be merged? In case of the immediate issue it\u0027s because the change has already been submitted with a newer patchset. Can there be other reasons, can we put this information in the error message?",
+      "revId": "9419ad03bfae81034829acc440eec2c07e4c2d80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -43,7 +43,7 @@ import org.junit.Test;
 public class GeneralPreferencesIT extends AbstractDaemonTest {
   @Inject private ExtensionRegistry extensionRegistry;
 
-  private TestAccount user42;
+  protected TestAccount user42;
 
   @Before
   public void setUp() throws Exception {

@@ -285,7 +285,9 @@ public abstract class AbstractDaemonTest {
   @Inject protected TestTicker testTicker;
 
   protected EventRecorder eventRecorder;
+
   protected GerritServer server;
+
   protected Project.NameKey project;
   protected RestSession adminRestSession;
   protected RestSession userRestSession;
@@ -295,7 +297,6 @@ public abstract class AbstractDaemonTest {
   protected TestAccount admin;
   protected TestAccount user;
   protected TestRepository<InMemoryRepository> testRepo;
-  protected String testMethodName;
   protected String resourcePrefix;
   protected Description description;
   protected GerritServer.Description testMethodDescription;
@@ -317,6 +318,101 @@ public abstract class AbstractDaemonTest {
   private List<Repository> toClose;
   private String systemTimeZone;
   private SystemReader oldSystemReader;
+
+  /**
+   * The Getters and Setters below are needed for tests that run on custom {@link GerritServer}
+   * (that can be set up via {@link #initServer} and {@link #setUpDatabase} methods. Because tests
+   * inherit directly from {@link AbstractDaemonTest}, the set up has to be delegated to some other
+   * class that can share the set up logic across different test classes.
+   *
+   * <p>E.g, we need to be able to do something like:
+   *
+   * <pre>{@code
+   * public class AccountIT extends AbstractDaemonTest {...}
+   *
+   * public class AbstractDaemonTestAdapter {
+   *
+   *   protected void initServer() {...}
+   *
+   *   ...
+   *
+   * }
+   *
+   * public class CustomAccountIT extends AccountIT {
+   *
+   *   AbstractDaemonTestAdapter testAdapter;
+   *
+   *   {@literal @Override}
+   *   protected void initServer() {
+   *         testAdapter.initServer();
+   *   }
+   *   ...
+   * }
+   *
+   * public class CustomChangeIT extends ChangeIT {
+   *
+   *   AbstractDaemonTestAdapter testAdapter;
+   *
+   *   {@literal @Override}
+   *   protected void initServer() {
+   *         testAdapter.initServer();
+   *   }
+   *   ...
+   * }
+   *
+   * }</pre>
+   */
+  public String getResourcePrefix() {
+    return resourcePrefix;
+  }
+
+  public void setResourcePrefix(String resourcePrefix) {
+    this.resourcePrefix = resourcePrefix;
+  }
+
+  public Description getDescription() {
+    return description;
+  }
+
+  public TestRepository<InMemoryRepository> getTestRepo() {
+    return testRepo;
+  }
+
+  public void setTestRepo(TestRepository<InMemoryRepository> testRepo) {
+    this.testRepo = testRepo;
+  }
+
+  public TestAccount getUser() {
+    return user;
+  }
+
+  public void setUser(TestAccount user) {
+    this.user = user;
+  }
+
+  public TestAccount getAdmin() {
+    return admin;
+  }
+
+  public void setAdmin(TestAccount admin) {
+    this.admin = admin;
+  }
+
+  public Project.NameKey getProject() {
+    return project;
+  }
+
+  public void setProject(Project.NameKey project) {
+    this.project = project;
+  }
+
+  public GerritServer getServer() {
+    return server;
+  }
+
+  public void setServer(GerritServer server) {
+    this.server = server;
+  }
 
   @Before
   public void clearSender() {
@@ -409,7 +505,7 @@ public abstract class AbstractDaemonTest {
     initSsh();
   }
 
-  protected void reindexAccount(Account.Id accountId) {
+  public void reindexAccount(Account.Id accountId) {
     accountIndexer.index(accountId);
   }
 
@@ -486,14 +582,13 @@ public abstract class AbstractDaemonTest {
 
     initSsh();
 
-    testMethodName = description.getMethodName();
+    String testMethodName = description.getMethodName();
     resourcePrefix =
         UNSAFE_PROJECT_NAME
             .matcher(description.getClassName() + "_" + testMethodName + "_")
             .replaceAll("");
 
-    Context ctx = newRequestContext(admin);
-    atrScope.set(ctx);
+    setRequestScope(admin);
     ProjectInput in = projectInput(description);
     gApi.projects().create(in);
     project = Project.nameKey(in.name);
@@ -606,7 +701,7 @@ public abstract class AbstractDaemonTest {
   }
 
   /** Generate default project properties based on test description */
-  protected ProjectInput projectInput(Description description) {
+  public ProjectInput projectInput(Description description) {
     ProjectInput in = new ProjectInput();
     TestProjectInput ann = description.getAnnotation(TestProjectInput.class);
     in.name = name("project");
@@ -639,7 +734,7 @@ public abstract class AbstractDaemonTest {
     // Default implementation does nothing.
   }
 
-  protected static final Pattern UNSAFE_PROJECT_NAME = Pattern.compile("[^a-zA-Z0-9._/-]+");
+  public static final Pattern UNSAFE_PROJECT_NAME = Pattern.compile("[^a-zA-Z0-9._/-]+");
 
   protected Git git() {
     return testRepo.git();
@@ -1061,6 +1156,12 @@ public abstract class AbstractDaemonTest {
 
   protected List<ChangeInfo> query(String q) throws RestApiException {
     return gApi.changes().query(q).get();
+  }
+
+  /** Sets up {@code account} as a caller in tests. */
+  public void setRequestScope(TestAccount account) {
+    Context ctx = newRequestContext(account);
+    atrScope.set(ctx);
   }
 
   protected Context newRequestContext(TestAccount account) {

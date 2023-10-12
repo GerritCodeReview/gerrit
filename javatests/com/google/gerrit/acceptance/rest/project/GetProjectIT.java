@@ -29,7 +29,7 @@ import org.junit.Test;
 public class GetProjectIT extends AbstractDaemonTest {
 
   @Test
-  public void getProject() throws Exception {
+  public void testGetProject() throws Exception {
     String name = project.get();
     ProjectInfo p = gApi.projects().name(name).get();
     assertThat(p.name).isEqualTo(name);

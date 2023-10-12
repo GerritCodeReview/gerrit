@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f1edaac_4b555c06",
+        "filename": "polygerrit-ui/app/utils/ml-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-10-12T09:33:04Z",
+      "side": 1,
+      "message": "Rename C2CSuggestion to something elses",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 23
+      },
+      "revId": "175d4f3ead8d939fad3e5abf8281613627c4b6b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

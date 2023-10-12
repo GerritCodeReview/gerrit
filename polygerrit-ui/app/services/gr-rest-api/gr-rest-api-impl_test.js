@@ -28,6 +28,7 @@ import {GrRestApiServiceImpl} from './gr-rest-api-impl';
 import {CommentSide} from '../../constants/constants';
 import {EDIT, PARENT} from '../../types/common';
 import {assert} from '@open-wc/testing';
+import {getBaseUrl} from '../../utils/url-util';
 
 const EXPECTED_QUERY_OPTIONS = listChangesOptionsToHex(
     ListChangesOption.CHANGE_ACTIONS,
@@ -328,7 +329,7 @@ suite('gr-rest-api-service-impl tests', () => {
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
           fetchStub.firstCall.args[0].url,
-          'test52/accounts/?o=DETAILS&q=bro'
+          getBaseUrl() + '/accounts/?o=DETAILS&q=bro'
       );
     });
 
@@ -337,7 +338,7 @@ suite('gr-rest-api-service-impl tests', () => {
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
           fetchStub.firstCall.args[0].url,
-          'test53/accounts/?o=DETAILS&q=bro%20and%20cansee%3A341682'
+          getBaseUrl() + '/accounts/?o=DETAILS&q=bro%20and%20cansee%3A341682'
       );
     });
 
@@ -346,7 +347,7 @@ suite('gr-rest-api-service-impl tests', () => {
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
           fetchStub.firstCall.args[0].url,
-          'test54/accounts/?o=DETAILS&q=bro%20and%20' +
+          getBaseUrl() + '/accounts/?o=DETAILS&q=bro%20and%20' +
           'cansee%3A341682%20and%20is%3Aactive'
       );
     });
@@ -507,6 +508,31 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.equal(sendStub.lastCall.args[0].method, 'PUT');
     assert.equal(sendStub.lastCall.args[0].url, '/config/server/email.confirm');
     assert.deepEqual(sendStub.lastCall.args[0].body, {token: 'foo'});
+  });
+
+  test('setPreferredAccountEmail', () => {
+    const email1 = 'email1@example.com';
+    const email2 = 'email2@example.com';
+    const encodedEmail = encodeURIComponent(email2);
+    const sendStub = sinon.stub(element._restApiHelper, 'send').resolves();
+    element._cache.set('/accounts/self/emails', [
+      {email: email1, preferred: true},
+      {email: email2, preferred: false},
+    ]);
+
+    return element.setPreferredAccountEmail(email2).then(() => {
+      assert.isTrue(sendStub.calledOnce);
+      assert.equal(sendStub.lastCall.args[0].method, 'PUT');
+      assert.equal(sendStub.lastCall.args[0].url,
+          `/accounts/self/emails/${encodedEmail}/preferred`
+      );
+      assert.deepEqual(
+          element._restApiHelper._cache.get('/accounts/self/emails'), [
+            {email: email1, preferred: false},
+            {email: email2, preferred: true},
+          ]
+      );
+    });
   });
 
   test('setAccountStatus', () => {

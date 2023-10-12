@@ -101,7 +101,8 @@ public class IndexPreloadingUtil {
           ListChangesOption.SUBMITTABLE,
           ListChangesOption.WEB_LINKS,
           ListChangesOption.SKIP_DIFFSTAT,
-          ListChangesOption.SUBMIT_REQUIREMENTS);
+          ListChangesOption.SUBMIT_REQUIREMENTS,
+          ListChangesOption.PARENTS);
 
   @Nullable
   public static String getPath(@Nullable String requestedURL) throws URISyntaxException {

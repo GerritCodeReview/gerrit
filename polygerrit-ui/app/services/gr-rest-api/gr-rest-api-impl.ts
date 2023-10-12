@@ -221,7 +221,7 @@ interface SendJSONChangeRequest extends SendChangeRequestBase {
 }
 
 interface QueryChangesParams {
-  [paramName: string]: string | undefined | number | string[] | boolean;
+  [paramName: string]: string | undefined | number | string[];
   O?: string; // options
   S: number; // start
   n?: number; // changes per page
@@ -1058,7 +1058,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     if (query && query.length > 0) {
       params.q = query;
     }
-    params['allow-incomplete-results'] = true;
     const request = {
       url: '/changes/',
       params,

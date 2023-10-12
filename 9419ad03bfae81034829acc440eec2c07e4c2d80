@@ -50,6 +50,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "f0888b4b_8b291a70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-10-12T15:27:33Z",
+      "side": 1,
+      "message": "Nice! thanks for adding.",
+      "parentUuid": "0fc2fe51_79a08ef2",
+      "range": {
+        "startLine": 22,
+        "startChar": 8,
+        "endLine": 22,
+        "endChar": 65
+      },
+      "revId": "9419ad03bfae81034829acc440eec2c07e4c2d80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "23025123_d07c13d5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

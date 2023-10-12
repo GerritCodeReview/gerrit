@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0fc2fe51_79a08ef2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-10-12T15:25:46Z",
+      "side": 1,
+      "message": "Yes, for the cherry-pick submit strategy these kind of submit problems\n(change cannot be submitted due to a missing dependency) cannot happen\nsince the cherry-pick submit strategy always ignores dependencies.\n\nI\u0027ve added a note about this to the commit message.",
+      "parentUuid": "c98796be_ce9319ef",
+      "range": {
+        "startLine": 22,
+        "startChar": 8,
+        "endLine": 22,
+        "endChar": 65
+      },
+      "revId": "9419ad03bfae81034829acc440eec2c07e4c2d80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "23025123_d07c13d5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

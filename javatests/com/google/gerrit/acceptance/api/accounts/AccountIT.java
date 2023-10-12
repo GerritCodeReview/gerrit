@@ -3173,7 +3173,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void deleteAccount_deletesAccountIdentifiers() throws Exception {
-    TestAccount deleted = accountCreator.createValid(testMethodName);
+    TestAccount deleted = accountCreator.createValid(name("deleted"));
     String secondaryEmail = "secondary@email.com";
     gApi.accounts().id(deleted.id().get()).addEmail(newEmailInput(secondaryEmail));
 
@@ -3218,7 +3218,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   @UseSsh
   public void deleteAccount_deletesSshKeys() throws Exception {
-    TestAccount deleted = accountCreator.createValid(testMethodName);
+    TestAccount deleted = accountCreator.createValid(name("deleted"));
     requestScopeOperations.setApiUser(deleted.id());
     String newKey = TestSshKeys.publicKey(SshSessionFactory.genSshKey(), deleted.email());
     gApi.accounts().self().addSshKey(newKey);
@@ -3236,7 +3236,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void deleteAccount_deletesGpgKeys() throws Exception {
-    TestAccount deleted = accountCreator.createValid(testMethodName);
+    TestAccount deleted = accountCreator.createValid(name("deleted"));
 
     requestScopeOperations.setApiUser(deleted.id());
     addExternalIdEmail(
@@ -3261,7 +3261,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void deleteAccount_deletesStarredChanges() throws Exception {
-    TestAccount deleted = accountCreator.createValid(testMethodName);
+    TestAccount deleted = accountCreator.createValid(name("deleted"));
     PushOneCommit.Result r = createChange();
     String triplet = project.get() + "~master~" + r.getChangeId();
 
@@ -3291,7 +3291,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void deleteAccount_deletesChangeEdits() throws Exception {
-    TestAccount deleted = accountCreator.createValid(testMethodName);
+    TestAccount deleted = accountCreator.createValid(name("deleted"));
     PushOneCommit.Result r = createChange();
 
     requestScopeOperations.setApiUser(deleted.id());
@@ -3320,7 +3320,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void deleteAccount_deletesDraftComments() throws Exception {
-    TestAccount deleted = accountCreator.createValid(testMethodName);
+    TestAccount deleted = accountCreator.createValid(name("deleted"));
     PushOneCommit.Result r = createChange();
 
     requestScopeOperations.setApiUser(deleted.id());
@@ -3351,7 +3351,7 @@ public class AccountIT extends AbstractDaemonTest {
   @SuppressWarnings("unused")
   public void deleteAccount_deletesReviewedFlags() throws Exception {
     PushOneCommit.Result r = createChange();
-    TestAccount deleted = accountCreator.createValid(testMethodName);
+    TestAccount deleted = accountCreator.createValid(name("deleted"));
     ReviewerInput in = new ReviewerInput();
     in.reviewer = deleted.email();
     gApi.changes().id(r.getChangeId()).addReviewer(in);
@@ -3373,7 +3373,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void deleteAccount_appliesForSelfById() throws Exception {
-    TestAccount deleted = accountCreator.createValid(testMethodName);
+    TestAccount deleted = accountCreator.createValid(name("deleted"));
     requestScopeOperations.setApiUser(deleted.id());
     gApi.accounts().id(deleted.id().get()).delete();
 
@@ -3383,7 +3383,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void deleteAccount_throwsForOtherUsers() throws Exception {
-    TestAccount deleted = accountCreator.createValid(testMethodName);
+    TestAccount deleted = accountCreator.createValid(name("deleted"));
     requestScopeOperations.setApiUser(user.id());
     AuthException thrown =
         assertThrows(AuthException.class, () -> gApi.accounts().id(deleted.id().get()).delete());

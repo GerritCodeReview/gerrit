@@ -151,6 +151,30 @@
       },
       "revId": "ba2857ee7bd29b86ff23b9e36a2677fbad6f3fa6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab135a56_20d0215a",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-10-12T05:09:17Z",
+      "side": 1,
+      "message": "\u003e 1) We request changes from index with enforceVisibility\u003dtrue. Post filter predicate will check visibility on each change, until it finds N visible changes, where N is the user query limit. I think the comment makes it clear enough that requesting all changes is a bad idea.\n\nGot it, thanks. Now that I see that enforceVisibility\u003dtrue in the code, I wonder if it would be more optimal to collect the set of branches for the changes (without enforcing visibility during the change query) and then only check visibility on each branch once. Does that make sense to you?\n\nWith either approach, it seems like limiting the query results to the user query limit could lead to unpredictable results. Why is this query limited like that?\n\n\u003e 2) This comment is important so that noone is tempted to remove this line.\n\nAck.",
+      "parentUuid": "7fe6374c_580b5b3f",
+      "range": {
+        "startLine": 152,
+        "startChar": 47,
+        "endLine": 154,
+        "endChar": 18
+      },
+      "revId": "ba2857ee7bd29b86ff23b9e36a2677fbad6f3fa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

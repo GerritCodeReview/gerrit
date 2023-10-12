@@ -1264,7 +1264,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     const config = await this.getConfig(false);
 
     // This list MUST be kept in sync with
-    // ChangeIT#changeDetailsDoesNotRequireIndex
+    // ChangeIT#changeDetailsDoesNotRequireIndex and IndexPreloadingUtil#CHANGE_DETAIL_OPTIONS
     // This list MUST be kept in sync with getResponseFormatOptions
     const options = [
       ListChangesOption.ALL_COMMITS,
@@ -1292,7 +1292,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     const config = await this.getConfig(false);
 
     // This list MUST be kept in sync with
-    // ChangeIT#changeDetailsDoesNotRequireIndex
+    // ChangeIT#changeDetailsDoesNotRequireIndex and IndexPreloadingUtil#CHANGE_DETAIL_OPTIONS
     // This list MUST be kept in sync with getChangeOptions
     const options = [
       'ALL_COMMITS',

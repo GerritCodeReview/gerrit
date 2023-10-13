@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93488da1_80135ab2",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-10-13T06:17:36Z",
+      "side": 1,
+      "message": "Consider adding NoteDb to the name as this is being imported outside of the package.",
+      "range": {
+        "startLine": 178,
+        "startChar": 22,
+        "endLine": 178,
+        "endChar": 56
+      },
+      "revId": "c6813ec9f552c19d5c958413a13216fa8072a584",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25251d0b_33436dc9",
+        "filename": "java/com/google/gerrit/server/notedb/Sequences.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-10-13T06:17:36Z",
+      "side": 1,
+      "message": "Shouldn\u0027t these annotations be defined in the interface, so we can bind other implementations with them?\nAlso, please make both explicit annotations, rather than strings.",
+      "revId": "c6813ec9f552c19d5c958413a13216fa8072a584",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

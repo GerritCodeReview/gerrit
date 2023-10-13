@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5687f9ba_8b2a2ff8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-13T21:26:04Z",
+      "side": 1,
+      "message": "Is there really any change from a user\u0027s or admin\u0027s perspective? I don\u0027t think so, this is more an internal implementation optimisation IMHO.\n\nIf I am reading this, what\u0027s the answer to _\"What is changing for me?\"_\n\nI would do:\n`Release-Notes: skip`",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 73
+      },
+      "revId": "e220581ad27aa3db887f4859db6fc3671d4bc4ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f1753e15_3dc43d59",
         "filename": "javatests/com/google/gerrit/acceptance/rest/RestApiServletIT.java",
         "patchSetId": 9

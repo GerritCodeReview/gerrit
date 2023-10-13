@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6151b0f5_30097afd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-13T21:14:14Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "range": {
+        "startLine": 18,
+        "startChar": 68,
+        "endLine": 18,
+        "endChar": 74
+      },
+      "revId": "1359da25f877e832aa2248ab0c77190d1c08d090",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3cc923fb_e050b2dc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -43,6 +66,98 @@
         "startChar": 0,
         "endLine": 22,
         "endChar": 68
+      },
+      "revId": "1359da25f877e832aa2248ab0c77190d1c08d090",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89022d72_bf42f6cc",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-13T21:14:14Z",
+      "side": 1,
+      "message": "```suggestion\n  private static final Pattern CHANGE_NUMBER_URI_PATTERN \u003d Pattern.compile(\"/c/\\\\d+/?$\");\n```",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 80
+      },
+      "revId": "1359da25f877e832aa2248ab0c77190d1c08d090",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "741ba8b4_debd9986",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-13T21:14:14Z",
+      "side": 1,
+      "message": "We need to just exclude the change URIs that has only `/c/\u003cnumber\u003e` from being considered a PolyGerrit URI, everything else can stay as-is today.\n\n```suggestion\n      return !isChangeNumberUri(path) \u0026\u0026 matchPath(POLYGERRIT_INDEX_PATHS, path);\n```",
+      "range": {
+        "startLine": 408,
+        "startChar": 56,
+        "endLine": 408,
+        "endChar": 67
+      },
+      "revId": "1359da25f877e832aa2248ab0c77190d1c08d090",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e73c77ed_8afb5713",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-13T21:14:14Z",
+      "side": 1,
+      "message": "```suggestion\n    private static boolean isChangeNumberUri(String path) {\n```",
+      "range": {
+        "startLine": 411,
+        "startChar": 27,
+        "endLine": 411,
+        "endChar": 38
+      },
+      "revId": "1359da25f877e832aa2248ab0c77190d1c08d090",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce0675fb_eed2b3b7",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-13T21:14:14Z",
+      "side": 1,
+      "message": "```suggestion\n      return CHANGE_NUMBER_URI_PATTERN.matcher(path).matches();\n```",
+      "range": {
+        "startLine": 412,
+        "startChar": 13,
+        "endLine": 412,
+        "endChar": 31
       },
       "revId": "1359da25f877e832aa2248ab0c77190d1c08d090",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

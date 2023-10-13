@@ -121,6 +121,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "be08ec1b_86ce9859",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModuleConstants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-13T21:14:14Z",
+      "side": 0,
+      "message": "Let me explain why this should stay.\n\nBefore this change the call to: `http://localhost:8080/c/test-repo/+/1` with cookie `GerritAccount\u003daSceprrCSjQewKk.jdSzThzJsws0m8MOMq` was returning to me the following:\n\n```\n\u003c HTTP/1.1 200 OK\n\u003c Date: Fri, 13 Oct 2023 20:57:01 GMT\n\u003c X-Frame-Options: DENY\n\u003c Set-Cookie: XSRF_TOKEN\u003daSceprsP-CXGVZS2Q.o0KTujplZpwCtcVW; Path\u003d/\n\u003c Expires: Thu, 01 Jan 1970 00:00:00 GMT\n\u003c Content-Type: text/html;charset\u003dutf-8\n\u003c Content-Length: 7943\n```\n\nNotice above the `XsrfCookieFilter` that has set the `XSRF_TOKEN` needed by the GUI to work properly.\n\nAfter this change, I see the *same call* returning:\n\n```\n\u003c HTTP/1.1 200 OK\n\u003c Date: Fri, 13 Oct 2023 20:57:01 GMT\n\u003c X-Frame-Options: DENY\n\u003c Expires: Thu, 01 Jan 1970 00:00:00 GMT\n\u003c Content-Type: text/html;charset\u003dutf-8\n\u003c Content-Length: 7943\n```\n\nNotice that the `XSRF_TOKEN` is not returned anymore, hence there is a regression.",
+      "parentUuid": "678b11ff_25a35dc1",
+      "range": {
+        "startLine": 37,
+        "startChar": 10,
+        "endLine": 37,
+        "endChar": 16
+      },
+      "revId": "feede2f664f2d8613268682cf29c480e514fd67d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9fdf4fa3_cb80ccfd",
         "filename": "java/com/google/gerrit/httpd/raw/StaticModuleConstants.java",
         "patchSetId": 6

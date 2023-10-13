@@ -151,7 +151,7 @@ public abstract class RefPatternMatcher {
     }
 
     private ImmutableSet<String> getUsernames(CurrentUser user) {
-      Stream<String> usernames = Streams.stream(user.getUserName());
+      Stream<String> usernames = user.getUserName().stream();
       if (user.isIdentifiedUser()) {
         usernames = Streams.concat(usernames, user.asIdentifiedUser().getEmailAddresses().stream());
       }

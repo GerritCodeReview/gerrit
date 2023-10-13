@@ -26,7 +26,6 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Streams;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.UsedAt.Project;
 import com.google.gerrit.entities.Account;
@@ -301,7 +300,7 @@ public class AccountResolver {
   private abstract class AccountIdSearcher implements Searcher<Account.Id> {
     @Override
     public final Stream<AccountState> search(Account.Id input) {
-      return Streams.stream(accountCache.get(input));
+      return accountCache.get(input).stream();
     }
   }
 
@@ -375,7 +374,7 @@ public class AccountResolver {
 
     @Override
     public Stream<AccountState> search(String input) {
-      return Streams.stream(accountCache.getByUsername(input));
+      return accountCache.getByUsername(input).stream();
     }
 
     @Override

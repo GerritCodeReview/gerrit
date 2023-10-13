@@ -52,6 +52,24 @@
       "parentUuid": "e6e55c0c_2c5cff0a",
       "revId": "c55ed3b470fdced5912659026694ad4d6dd45b7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95ceee4f_01e1c21f",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-10-13T07:33:33Z",
+      "side": 1,
+      "message": "Fine with me, but I think the rest of our javadoc just uses \u003cpre\u003e",
+      "parentUuid": "5803d38c_73e519a1",
+      "revId": "c55ed3b470fdced5912659026694ad4d6dd45b7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

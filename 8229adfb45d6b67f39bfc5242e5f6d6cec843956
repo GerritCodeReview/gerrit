@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dcba572_01130ea5",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-10-13T06:20:25Z",
+      "side": 0,
+      "message": "I verified that our data export doesn\u0027t have a single change with 0 patch sets.",
+      "range": {
+        "startLine": 388,
+        "startChar": 14,
+        "endLine": 388,
+        "endChar": 19
+      },
+      "revId": "8229adfb45d6b67f39bfc5242e5f6d6cec843956",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

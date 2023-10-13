@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "678b11ff_25a35dc1",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModuleConstants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-10-13T20:16:51Z",
+      "side": 0,
+      "message": "I don\u0027t think so, otherwise, a request like `c/\u003cchangeNum\u003e` will be served by the PolyGerrit servlet.\n\nWhat we want is for both `c/\u003cchangeNum\u003e` and `/changeNum` to be served by `NumericChangeIdRedirectServlet`.",
+      "parentUuid": "f159a9aa_106a8025",
+      "range": {
+        "startLine": 37,
+        "startChar": 10,
+        "endLine": 37,
+        "endChar": 16
+      },
+      "revId": "feede2f664f2d8613268682cf29c480e514fd67d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9fdf4fa3_cb80ccfd",
         "filename": "java/com/google/gerrit/httpd/raw/StaticModuleConstants.java",
         "patchSetId": 6
@@ -108,6 +132,30 @@
       "writtenOn": "2023-10-13T17:59:52Z",
       "side": 0,
       "message": "This can stay, because it is just used for XsrfCookieFilter processing",
+      "range": {
+        "startLine": 37,
+        "startChar": 10,
+        "endLine": 37,
+        "endChar": 16
+      },
+      "revId": "feede2f664f2d8613268682cf29c480e514fd67d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e7059d9_8e06764d",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModuleConstants.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-10-13T20:16:51Z",
+      "side": 0,
+      "message": "Same as below",
+      "parentUuid": "9fdf4fa3_cb80ccfd",
       "range": {
         "startLine": 37,
         "startChar": 10,

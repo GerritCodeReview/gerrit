@@ -34,6 +34,24 @@
       "parentUuid": "b45f448d_977f2ecd",
       "revId": "c55ed3b470fdced5912659026694ad4d6dd45b7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5803d38c_73e519a1",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1118500
+      },
+      "writtenOn": "2023-10-13T07:27:55Z",
+      "side": 1,
+      "message": "I would keep the code because it keeps the formatting.\n\nIf the nested literal does not work, I will keep the comment //Override instead.",
+      "parentUuid": "e6e55c0c_2c5cff0a",
+      "revId": "c55ed3b470fdced5912659026694ad4d6dd45b7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

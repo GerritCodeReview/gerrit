@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56a0f549_f1e8d2d6",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-13T17:59:52Z",
+      "side": 1,
+      "message": "This should be created just once.",
+      "range": {
+        "startLine": 412,
+        "startChar": 0,
+        "endLine": 412,
+        "endChar": 61
+      },
+      "revId": "a708e7c7a8f4513ba33e4cc21b3228449aee45ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

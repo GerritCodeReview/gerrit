@@ -70,6 +70,52 @@
       },
       "revId": "feede2f664f2d8613268682cf29c480e514fd67d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f159a9aa_106a8025",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModuleConstants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-13T17:59:52Z",
+      "side": 0,
+      "message": "This should stay",
+      "range": {
+        "startLine": 37,
+        "startChar": 10,
+        "endLine": 37,
+        "endChar": 16
+      },
+      "revId": "feede2f664f2d8613268682cf29c480e514fd67d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fdf4fa3_cb80ccfd",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModuleConstants.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-13T17:59:52Z",
+      "side": 0,
+      "message": "This can stay, because it is just used for XsrfCookieFilter processing",
+      "range": {
+        "startLine": 37,
+        "startChar": 10,
+        "endLine": 37,
+        "endChar": 16
+      },
+      "revId": "feede2f664f2d8613268682cf29c480e514fd67d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

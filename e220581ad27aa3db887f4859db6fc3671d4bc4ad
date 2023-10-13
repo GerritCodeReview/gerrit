@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77115758_3356ca8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-10-13T21:37:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5687f9ba_8b2a2ff8",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 73
+      },
+      "revId": "e220581ad27aa3db887f4859db6fc3671d4bc4ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1753e15_3dc43d59",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-10-13T21:16:16Z",
       "side": 1,
       "message": "```suggestion\n  public void testNumericChangeIdRedirectWithoutPrefix() throws Exception {\n```",
+      "range": {
+        "startLine": 439,
+        "startChar": 41,
+        "endLine": 439,
+        "endChar": 48
+      },
+      "revId": "e220581ad27aa3db887f4859db6fc3671d4bc4ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1d1f90d_b136e4d6",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/RestApiServletIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-10-13T21:37:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1753e15_3dc43d59",
       "range": {
         "startLine": 439,
         "startChar": 41,

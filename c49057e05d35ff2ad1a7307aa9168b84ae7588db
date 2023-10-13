@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3658a49c_8bbbedb1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-10-13T09:42:54Z",
+      "side": 1,
+      "message": "This looks fine, Google uses 9.4.53 too.",
+      "revId": "c49057e05d35ff2ad1a7307aa9168b84ae7588db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

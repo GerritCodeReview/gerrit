@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb939955_660b4633",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-10-13T20:00:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "003fa0ed_52d53f90",
+      "range": {
+        "startLine": 24,
+        "startChar": 5,
+        "endLine": 24,
+        "endChar": 14
+      },
+      "revId": "e632161e576b2640fb5a274d58faab744f29c176",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "245ac2ae_05214433",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-10-13T17:59:52Z",
       "side": 1,
       "message": "This would break the headless server startup",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 108,
+        "endChar": 75
+      },
+      "revId": "e632161e576b2640fb5a274d58faab744f29c176",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9e0db07_bd50a071",
+        "filename": "java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-10-13T20:00:03Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "245ac2ae_05214433",
       "range": {
         "startLine": 108,
         "startChar": 4,

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8da9507_71cbd7be",
+        "filename": "java/com/google/gerrit/server/IncrementingSequence.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-10-13T12:27:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "087acdfb_d4b8153b",
+      "range": {
+        "startLine": 31,
+        "startChar": 17,
+        "endLine": 31,
+        "endChar": 37
+      },
+      "revId": "6b5ebf6fcf1f358ba61262055e95af6cbf025bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a88a8d4_68dd104f",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ff3a34f_78077490",
+        "filename": "java/com/google/gerrit/server/IncrementingSequence.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-10-13T12:27:08Z",
+      "side": 1,
+      "message": "I agree. But the point is \"not fire git reference updates\" is implementation specific to RepoSequence. I know this annotation is clunky but that\u0027s the best I could come up with for now. I\u0027d have wanted to add a more generic reason of why we added them here.\n\nI added other Javadocs instead. PTAL.",
+      "parentUuid": "9a88a8d4_68dd104f",
+      "range": {
+        "startLine": 36,
+        "startChar": 1,
+        "endLine": 44,
+        "endChar": 33
+      },
+      "revId": "6b5ebf6fcf1f358ba61262055e95af6cbf025bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f04d7db1_9da76531",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-10-13T12:04:53Z",
       "side": 1,
       "message": "[optional] I find this name not very self-explaining, but unfortunately I don\u0027t have a good suggestion for a better name.",
+      "range": {
+        "startLine": 151,
+        "startChar": 22,
+        "endLine": 151,
+        "endChar": 33
+      },
+      "revId": "6b5ebf6fcf1f358ba61262055e95af6cbf025bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e431137_c15d078e",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-10-13T12:27:08Z",
+      "side": 1,
+      "message": "Found a better name ;) (though a bit longer)",
+      "parentUuid": "f04d7db1_9da76531",
       "range": {
         "startLine": 151,
         "startChar": 22,

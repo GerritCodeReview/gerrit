@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cc923fb_e050b2dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-10-13T20:50:23Z",
+      "side": 1,
+      "message": "So I get this intent, but I don\u0027t actually see anywhere in this message that you explain what end result (final behavior) we get with this change. Can you add that or point out where I\u0027m missing it?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 68
+      },
+      "revId": "1359da25f877e832aa2248ab0c77190d1c08d090",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

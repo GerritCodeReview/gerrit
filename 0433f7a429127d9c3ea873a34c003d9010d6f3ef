@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "646f2069_9f2accd0",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl_test.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-10-13T23:53:14Z",
+      "side": 1,
+      "message": "@yash.chaturvedi@linaro.org, do you understand why these had to be incremented for the tests to pass? I didn\u0027t look into it closely.",
+      "range": {
+        "startLine": 331,
+        "startChar": 11,
+        "endLine": 331,
+        "endChar": 17
+      },
+      "revId": "0433f7a429127d9c3ea873a34c003d9010d6f3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

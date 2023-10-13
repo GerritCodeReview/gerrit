@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b45f448d_977f2ecd",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-10-13T07:22:56Z",
+      "side": 1,
+      "message": "I think you can use \n\n  {@literal @Override}",
+      "revId": "c55ed3b470fdced5912659026694ad4d6dd45b7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

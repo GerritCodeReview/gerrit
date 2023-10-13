@@ -99,6 +99,24 @@
       "parentUuid": "249596f6_26078e71",
       "revId": "c6813ec9f552c19d5c958413a13216fa8072a584",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98eabf0d_e047cac1",
+        "filename": "java/com/google/gerrit/server/notedb/Sequences.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-10-13T10:34:18Z",
+      "side": 1,
+      "message": "Thanks for pointing out!\n\nDone.",
+      "parentUuid": "da263276_d218a3bd",
+      "revId": "c6813ec9f552c19d5c958413a13216fa8072a584",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

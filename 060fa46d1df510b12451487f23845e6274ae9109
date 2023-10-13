@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4e1478c_2456bc89",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-13T21:44:07Z",
+      "side": 1,
+      "message": "One last inconsistency that needs fixing, for making sure we do not get the lost in two different regex for the same URI",
+      "revId": "060fa46d1df510b12451487f23845e6274ae9109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cbbc50e_ff81b731",
+        "filename": "java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-13T21:44:07Z",
+      "side": 1,
+      "message": "It would be best to have this defined as `CHANGE_NUMBER_URI_REGEX` and reused here and for creating `CHANGE_NUMBER_URI_PATTERN` in StaticModule.java.",
+      "range": {
+        "startLine": 75,
+        "startChar": 15,
+        "endLine": 75,
+        "endChar": 42
+      },
+      "revId": "060fa46d1df510b12451487f23845e6274ae9109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

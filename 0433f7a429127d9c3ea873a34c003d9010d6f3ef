@@ -22,6 +22,30 @@
       },
       "revId": "0433f7a429127d9c3ea873a34c003d9010d6f3ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "890336d8_8593ce16",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl_test.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-10-14T09:22:02Z",
+      "side": 1,
+      "message": "Simply adding a new test resulted in the failure since these tests are incredibly fragile (depending on hard-coded test numbers). Refactored the assertions to be much more resilient.",
+      "parentUuid": "646f2069_9f2accd0",
+      "range": {
+        "startLine": 331,
+        "startChar": 11,
+        "endLine": 331,
+        "endChar": 17
+      },
+      "revId": "0433f7a429127d9c3ea873a34c003d9010d6f3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -818,9 +818,9 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       if (cachedEmails) {
         const emails = cachedEmails.map(entry => {
           if (entry.email === email) {
-            return {email, preferred: true};
+            return {email: entry.email, preferred: true};
           } else {
-            return {email};
+            return {email: entry.email, preferred: false};
           }
         });
         this._cache.set('/accounts/self/emails', emails);

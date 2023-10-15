@@ -565,6 +565,29 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.deepEqual(sendStub.lastCall.args[0].body, {token: 'foo'});
   });
 
+  test('setPreferredAccountEmail', async () => {
+    const email1 = 'email1@example.com';
+    const email2 = 'email2@example.com';
+    const encodedEmail = encodeURIComponent(email2);
+    const sendStub = sinon.stub(element._restApiHelper, 'send').resolves();
+    element._cache.set('/accounts/self/emails', [
+      {email: email1, preferred: true},
+      {email: email2, preferred: false},
+    ]);
+
+    await element.setPreferredAccountEmail(email2);
+    assert.isTrue(sendStub.calledOnce);
+    assert.equal(sendStub.lastCall.args[0].method, HttpMethod.PUT);
+    assert.equal(
+      sendStub.lastCall.args[0].url,
+      `/accounts/self/emails/${encodedEmail}/preferred`
+    );
+    assert.deepEqual(element._cache.get('/accounts/self/emails'), [
+      {email: email1, preferred: false},
+      {email: email2, preferred: true},
+    ]);
+  });
+
   test('setAccountStatus', async () => {
     const sendStub = sinon
       .stub(element._restApiHelper, 'send')

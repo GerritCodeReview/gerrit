@@ -70,6 +70,29 @@
       },
       "revId": "f7520655665dcd7aac7d47c297f868443a02bff1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc39e424_9492f347",
+        "filename": "java/com/google/gerrit/server/query/account/AccountQueryProcessor.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-10-16T11:49:25Z",
+      "side": 1,
+      "message": "this has a side effect of incrementing the sequence, i.e. it a performs a write operation on a supposedly read path.\n\nAlso QueryProcessor#getIndexSize is not used in the codebase. Can we remove it? (or otherwise annotate with @UsedAt(Project.\u003cprojectName\u003e).",
+      "range": {
+        "startLine": 89,
+        "startChar": 21,
+        "endLine": 89,
+        "endChar": 34
+      },
+      "revId": "f7520655665dcd7aac7d47c297f868443a02bff1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

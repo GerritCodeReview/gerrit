@@ -49,11 +49,11 @@ import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.Sequence;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.receive.ReceiveCommitsAdvertiseRefsHookChain;
 import com.google.gerrit.server.git.receive.testing.TestRefAdvertiser;
-import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -1413,8 +1413,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
             RefNames.REFS_GROUPNAMES,
             RefNames.refsGroups(admins),
             RefNames.refsGroups(nonInteractiveUsers),
-            RefNames.REFS_SEQUENCES + Sequences.NAME_ACCOUNTS,
-            RefNames.REFS_SEQUENCES + Sequences.NAME_GROUPS,
+            RefNames.REFS_SEQUENCES + Sequence.NAME_ACCOUNTS,
+            RefNames.REFS_SEQUENCES + Sequence.NAME_GROUPS,
             RefNames.REFS_CONFIG,
             Constants.HEAD);
 

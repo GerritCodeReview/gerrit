@@ -14,98 +14,43 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.gerrit.server.Sequence.NAME_ACCOUNTS;
+import static com.google.gerrit.server.Sequence.NAME_CHANGES;
+import static com.google.gerrit.server.Sequence.NAME_GROUPS;
+
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer2;
-import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.config.AllUsersName;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
-import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.Sequence;
+import com.google.gerrit.server.Sequence.SequenceType;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import org.eclipse.jgit.lib.Config;
+import com.google.inject.name.Named;
 
 @Singleton
 public class Sequences {
-  private static final String SECTION_NOTEDB = "noteDb";
-  private static final String KEY_SEQUENCE_BATCH_SIZE = "sequenceBatchSize";
-  private static final int DEFAULT_ACCOUNTS_SEQUENCE_BATCH_SIZE = 1;
-  private static final int DEFAULT_CHANGES_SEQUENCE_BATCH_SIZE = 20;
-
-  public static final String NAME_ACCOUNTS = "accounts";
-  public static final String NAME_GROUPS = "groups";
-  public static final String NAME_CHANGES = "changes";
-
-  public static final int FIRST_ACCOUNT_ID = 1000000;
-  public static final int FIRST_GROUP_ID = 1;
   public static final int FIRST_CHANGE_ID = 1;
+  public static final int FIRST_GROUP_ID = 1;
+  public static final int FIRST_ACCOUNT_ID = 1000000;
 
-  private enum SequenceType {
-    ACCOUNTS,
-    CHANGES,
-    GROUPS;
-  }
-
-  private final RepoSequence accountSeq;
-  private final RepoSequence changeSeq;
-  private final RepoSequence groupSeq;
+  private final Sequence accountSeq;
+  private final Sequence changeSeq;
+  private final Sequence groupSeq;
   private final Timer2<SequenceType, Boolean> nextIdLatency;
-  private final int accountBatchSize;
-  private final int changeBatchSize;
-  private final int groupBatchSize = 1;
 
   @Inject
   public Sequences(
-      @GerritServerConfig Config cfg,
-      GitRepositoryManager repoManager,
-      GitReferenceUpdated gitRefUpdated,
-      AllProjectsName allProjects,
-      AllUsersName allUsers,
-      MetricMaker metrics) {
-
-    accountBatchSize =
-        cfg.getInt(
-            SECTION_NOTEDB,
-            NAME_ACCOUNTS,
-            KEY_SEQUENCE_BATCH_SIZE,
-            DEFAULT_ACCOUNTS_SEQUENCE_BATCH_SIZE);
-    accountSeq =
-        new RepoSequence(
-            repoManager,
-            gitRefUpdated,
-            allUsers,
-            NAME_ACCOUNTS,
-            () -> FIRST_ACCOUNT_ID,
-            accountBatchSize);
-
-    changeBatchSize =
-        cfg.getInt(
-            SECTION_NOTEDB,
-            NAME_CHANGES,
-            KEY_SEQUENCE_BATCH_SIZE,
-            DEFAULT_CHANGES_SEQUENCE_BATCH_SIZE);
-    changeSeq =
-        new RepoSequence(
-            repoManager,
-            gitRefUpdated,
-            allProjects,
-            NAME_CHANGES,
-            () -> FIRST_CHANGE_ID,
-            changeBatchSize);
-
-    groupSeq =
-        new RepoSequence(
-            repoManager,
-            gitRefUpdated,
-            allUsers,
-            NAME_GROUPS,
-            () -> FIRST_GROUP_ID,
-            groupBatchSize);
+      MetricMaker metrics,
+      @Named(NAME_ACCOUNTS) Sequence accountsSeq,
+      @Named(NAME_GROUPS) Sequence groupsSeq,
+      @Named(NAME_CHANGES) Sequence changesSeq) {
+    this.accountSeq = accountsSeq;
+    this.groupSeq = groupsSeq;
+    this.changeSeq = changesSeq;
 
     nextIdLatency =
         metrics.newTimer(
@@ -123,42 +68,42 @@ public class Sequences {
 
   public int nextAccountId() {
     try (Timer2.Context<SequenceType, Boolean> timer =
-        nextIdLatency.start(SequenceType.ACCOUNTS, false)) {
+        nextIdLatency.start(Sequence.SequenceType.ACCOUNTS, false)) {
       return accountSeq.next();
     }
   }
 
   public int nextChangeId() {
     try (Timer2.Context<SequenceType, Boolean> timer =
-        nextIdLatency.start(SequenceType.CHANGES, false)) {
+        nextIdLatency.start(Sequence.SequenceType.CHANGES, false)) {
       return changeSeq.next();
     }
   }
 
   public ImmutableList<Integer> nextChangeIds(int count) {
     try (Timer2.Context<SequenceType, Boolean> timer =
-        nextIdLatency.start(SequenceType.CHANGES, count > 1)) {
+        nextIdLatency.start(Sequence.SequenceType.CHANGES, count > 1)) {
       return changeSeq.next(count);
     }
   }
 
   public int nextGroupId() {
     try (Timer2.Context<SequenceType, Boolean> timer =
-        nextIdLatency.start(SequenceType.GROUPS, false)) {
+        nextIdLatency.start(Sequence.SequenceType.GROUPS, false)) {
       return groupSeq.next();
     }
   }
 
   public int changeBatchSize() {
-    return changeBatchSize;
+    return changeSeq.getBatchSize();
   }
 
   public int groupBatchSize() {
-    return groupBatchSize;
+    return groupSeq.getBatchSize();
   }
 
   public int accountBatchSize() {
-    return accountBatchSize;
+    return accountSeq.getBatchSize();
   }
 
   public int currentChangeId() {

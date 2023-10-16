@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.gerrit.server.Sequence.LightweightGroups;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
@@ -21,8 +23,8 @@ import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.git.RefUpdateUtil;
-import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.Sequence;
 import com.google.gerrit.server.account.GroupUuid;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -37,7 +39,6 @@ import com.google.gerrit.server.group.db.GroupNameNotes;
 import com.google.gerrit.server.group.db.InternalGroupCreation;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
-import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType;
 import com.google.inject.Inject;
@@ -45,7 +46,6 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
@@ -58,12 +58,10 @@ public class SchemaCreatorImpl implements SchemaCreator {
   private final AllProjectsCreator allProjectsCreator;
   private final AllUsersCreator allUsersCreator;
   private final AllUsersName allUsersName;
+  private final Sequence groupsSequence;
   private final PersonIdent serverUser;
   private final GroupIndexCollection indexCollection;
   private final String serverId;
-
-  private final Config config;
-  private final MetricMaker metricMaker;
   private final AllProjectsName allProjectsName;
 
   @Inject
@@ -72,23 +70,21 @@ public class SchemaCreatorImpl implements SchemaCreator {
       AllProjectsCreator ap,
       AllUsersCreator auc,
       AllUsersName allUsersName,
+      @LightweightGroups Sequence groupsSequence,
       @GerritPersonIdent PersonIdent au,
       GroupIndexCollection ic,
       String serverId,
-      Config config,
-      MetricMaker metricMaker,
       AllProjectsName apName) {
     this.repoManager = repoManager;
     allProjectsCreator = ap;
     allUsersCreator = auc;
     this.allUsersName = allUsersName;
+    this.groupsSequence = groupsSequence;
     serverUser = au;
     indexCollection = ic;
     this.serverId = serverId;
 
-    this.config = config;
     this.allProjectsName = apName;
-    this.metricMaker = metricMaker;
   }
 
   @Override
@@ -106,19 +102,9 @@ public class SchemaCreatorImpl implements SchemaCreator {
       // We have to create the All-Users repository before we can use it to store the groups in it.
       allUsersCreator.setAdministrators(admins).create();
 
-      // Don't rely on injection to construct Sequences, as the default GitReferenceUpdated has a
-      // thick dependency stack which may not all be available at schema creation time.
-      Sequences seqs =
-          new Sequences(
-              config,
-              repoManager,
-              GitReferenceUpdated.DISABLED,
-              allProjectsName,
-              allUsersName,
-              metricMaker);
       try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
-        createAdminsGroup(seqs, allUsersRepo, admins);
-        createBatchUsersGroup(seqs, allUsersRepo, serviceUsers, admins.getUUID());
+        createAdminsGroup(allUsersRepo, admins);
+        createBatchUsersGroup(allUsersRepo, serviceUsers, admins.getUUID());
       }
     }
   }
@@ -132,10 +118,9 @@ public class SchemaCreatorImpl implements SchemaCreator {
     }
   }
 
-  private void createAdminsGroup(
-      Sequences seqs, Repository allUsersRepo, GroupReference groupReference)
+  private void createAdminsGroup(Repository allUsersRepo, GroupReference groupReference)
       throws IOException, ConfigInvalidException {
-    InternalGroupCreation groupCreation = getGroupCreation(seqs, groupReference);
+    InternalGroupCreation groupCreation = getGroupCreation(groupReference);
     GroupDelta groupDelta =
         GroupDelta.builder().setDescription("Gerrit Site Administrators").build();
 
@@ -143,12 +128,9 @@ public class SchemaCreatorImpl implements SchemaCreator {
   }
 
   private void createBatchUsersGroup(
-      Sequences seqs,
-      Repository allUsersRepo,
-      GroupReference groupReference,
-      AccountGroup.UUID adminsGroupUuid)
+      Repository allUsersRepo, GroupReference groupReference, AccountGroup.UUID adminsGroupUuid)
       throws IOException, ConfigInvalidException {
-    InternalGroupCreation groupCreation = getGroupCreation(seqs, groupReference);
+    InternalGroupCreation groupCreation = getGroupCreation(groupReference);
     GroupDelta groupDelta =
         GroupDelta.builder()
             .setDescription("Users who perform batch actions on Gerrit")
@@ -223,8 +205,8 @@ public class SchemaCreatorImpl implements SchemaCreator {
     return GroupReference.create(groupUuid, name);
   }
 
-  private InternalGroupCreation getGroupCreation(Sequences seqs, GroupReference groupReference) {
-    int next = seqs.nextGroupId();
+  private InternalGroupCreation getGroupCreation(GroupReference groupReference) {
+    int next = groupsSequence.next();
     return InternalGroupCreation.builder()
         .setNameKey(AccountGroup.nameKey(groupReference.getName()))
         .setId(AccountGroup.id(next))

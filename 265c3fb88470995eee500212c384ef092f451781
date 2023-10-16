@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dfe13fa_8752ee2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-10-16T20:15:18Z",
+      "side": 1,
+      "message": "This is PS1 of https://gerrit-review.googlesource.com/c/gerrit/+/389494 but the merged PS is PS2. Please update.",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 20
+      },
+      "revId": "265c3fb88470995eee500212c384ef092f451781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

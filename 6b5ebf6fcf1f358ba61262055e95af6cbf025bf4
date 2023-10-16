@@ -97,6 +97,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d3a13b1b_0fa2b013",
+        "filename": "java/com/google/gerrit/server/IncrementingSequence.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-10-16T06:49:50Z",
+      "side": 1,
+      "message": "Yes, finding a better name is difficult (I first wanted to suggest OnInitAccounts, but realised it\u0027s not only used on init, but also in other places). Thanks for the Javadoc, I think it makes things clearer and it\u0027s OK to submit like this.",
+      "parentUuid": "4ff3a34f_78077490",
+      "range": {
+        "startLine": 36,
+        "startChar": 1,
+        "endLine": 44,
+        "endChar": 33
+      },
+      "revId": "6b5ebf6fcf1f358ba61262055e95af6cbf025bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f04d7db1_9da76531",
         "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
         "patchSetId": 5
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "Found a better name ;) (though a bit longer)",
       "parentUuid": "f04d7db1_9da76531",
+      "range": {
+        "startLine": 151,
+        "startChar": 22,
+        "endLine": 151,
+        "endChar": 33
+      },
+      "revId": "6b5ebf6fcf1f358ba61262055e95af6cbf025bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6b550a0_0554d05a",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-10-16T06:49:50Z",
+      "side": 1,
+      "message": "Nice, much better!",
+      "parentUuid": "0e431137_c15d078e",
       "range": {
         "startLine": 151,
         "startChar": 22,

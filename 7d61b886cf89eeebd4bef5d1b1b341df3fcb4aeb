@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3313c841_1b28d309",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-16T11:03:22Z",
+      "side": 1,
+      "message": "@ghareeb@google.com Thanks for the quick fix. Would it make sense to use an annotation on StaticModule so that we know that all references to that module must be avoided?",
+      "revId": "7d61b886cf89eeebd4bef5d1b1b341df3fcb4aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

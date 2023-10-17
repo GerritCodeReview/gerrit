@@ -379,34 +379,29 @@ public class LabelsJson {
       LabelTypes labelTypes,
       boolean includeAccountInfo) {
     Map<String, LabelWithStatus> labels = new TreeMap<>(labelTypes.nameComparator());
-    for (SubmitRecord rec : submitRecords(cd)) {
-      if (rec.labels == null) {
-        continue;
-      }
-      for (SubmitRecord.Label r : rec.labels) {
-        LabelWithStatus p = labels.get(r.label);
-        if (p == null || p.status().compareTo(r.status) < 0) {
-          LabelInfo n = new LabelInfo();
-          if (includeAccountInfo) {
-            switch (r.status) {
-              case OK:
-                n.approved = accountLoader.get(r.appliedBy);
-                break;
-              case REJECT:
-                n.rejected = accountLoader.get(r.appliedBy);
-                n.blocking = true;
-                break;
-              case IMPOSSIBLE:
-              case MAY:
-              case NEED:
-              default:
-                break;
-            }
+    for (SubmitRecord.Label r : cd.submitRecordLabels(ChangeJson.SUBMIT_RULE_OPTIONS_LENIENT)) {
+      LabelWithStatus p = labels.get(r.label);
+      if (p == null || p.status().compareTo(r.status) < 0) {
+        LabelInfo n = new LabelInfo();
+        if (includeAccountInfo) {
+          switch (r.status) {
+            case OK:
+              n.approved = accountLoader.get(r.appliedBy);
+              break;
+            case REJECT:
+              n.rejected = accountLoader.get(r.appliedBy);
+              n.blocking = true;
+              break;
+            case IMPOSSIBLE:
+            case MAY:
+            case NEED:
+            default:
+              break;
           }
-
-          n.optional = r.status == SubmitRecord.Label.Status.MAY ? true : null;
-          labels.put(r.label, LabelWithStatus.create(n, r.status));
         }
+
+        n.optional = r.status == SubmitRecord.Label.Status.MAY ? true : null;
+        labels.put(r.label, LabelWithStatus.create(n, r.status));
       }
     }
     setLabelsDescription(labels, labelTypes);
@@ -527,10 +522,6 @@ public class LabelsJson {
             approvalInfo(accountLoader, accountId, value, permittedVotingRange, tag, date));
       }
     }
-  }
-
-  private List<SubmitRecord> submitRecords(ChangeData cd) {
-    return cd.submitRecords(ChangeJson.SUBMIT_RULE_OPTIONS_LENIENT);
   }
 
   private Map<String, VotingRangeInfo> getPermittedVotingRanges(

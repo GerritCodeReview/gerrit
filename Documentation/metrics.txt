@@ -193,6 +193,7 @@ setting.
   change.
 * `change/submit_type_evaluation`: Latency for evaluating the submit type on a
   change.
+* `change/find_labels`: Latency for finding labels for a change.
 * `change/post_review/draft_handling`: Total number of draft handling option
   (KEEP, PUBLISH, PUBLISH_ALL_REVISIONS) selected by users while posting a
   review.

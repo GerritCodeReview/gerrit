@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
@@ -39,6 +40,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -57,6 +59,7 @@ public class SubmitRuleEvaluator {
   private static class Metrics {
     final Timer0 submitRuleEvaluationLatency;
     final Timer0 submitTypeEvaluationLatency;
+    final Timer0 findLabelsEvaluationLatency;
 
     @Inject
     Metrics(MetricMaker metricMaker) {
@@ -70,6 +73,12 @@ public class SubmitRuleEvaluator {
           metricMaker.newTimer(
               "change/submit_type_evaluation",
               new Description("Latency for evaluating the submit type on a change.")
+                  .setCumulative()
+                  .setUnit(Units.MILLISECONDS));
+      findLabelsEvaluationLatency =
+          metricMaker.newTimer(
+              "change/find_labels",
+              new Description("Latency for finding labels for a change.")
                   .setCumulative()
                   .setUnit(Units.MILLISECONDS));
     }
@@ -106,7 +115,7 @@ public class SubmitRuleEvaluator {
   }
 
   /**
-   * Evaluate the submit rules.
+   * Evaluates the submit rules.
    *
    * @return List of {@link SubmitRecord} objects returned from the evaluated rules, including any
    *     errors.
@@ -117,58 +126,86 @@ public class SubmitRuleEvaluator {
         "Evaluate submit rules for change %d (caller: %s)",
         cd.change().getId().get(), callerFinder.findCallerLazy());
     try (Timer0.Context ignored = metrics.submitRuleEvaluationLatency.start()) {
-      if (cd.change() == null) {
-        throw new StorageException("Change not found");
-      }
+      return evaluate(cd, /* skipSubmitRulesWithoutLabels= */ false);
+    }
+  }
 
-      ProjectState projectState =
-          projectCache
-              .get(cd.project())
-              .orElseThrow(
-                  () ->
-                      new IllegalStateException(
-                          "Unable to find project while evaluating submit rule",
-                          new NoSuchProjectException(cd.project())));
+  private List<SubmitRecord> evaluate(ChangeData cd, boolean skipSubmitRulesWithoutLabels) {
+    if (cd.change() == null) {
+      throw new StorageException("Change not found");
+    }
 
-      if (cd.change().isClosed()
-          && (!opts.recomputeOnClosedChanges() || OnlineReindexMode.isActive())) {
-        return cd.notes().getSubmitRecords().stream()
-            .map(
-                r -> {
-                  SubmitRecord record = r.deepCopy();
-                  if (record.status == SubmitRecord.Status.OK) {
-                    // Submit records that were OK when they got merged are CLOSED now.
-                    record.status = SubmitRecord.Status.CLOSED;
-                  }
-                  return record;
-                })
-            .collect(toImmutableList());
-      }
+    ProjectState projectState =
+        projectCache
+            .get(cd.project())
+            .orElseThrow(
+                () ->
+                    new IllegalStateException(
+                        "Unable to find project while evaluating submit rule",
+                        new NoSuchProjectException(cd.project())));
 
-      // We evaluate all the plugin-defined evaluators,
-      // and then we collect the results in one list.
-      return Streams.stream(submitRules)
-          // Skip evaluating the default submit rule if the project has prolog rules.
-          // Note that in this case, the prolog submit rule will handle labels for us
-          .filter(
-              projectState.hasPrologRules()
-                  ? rule -> !(rule.get() instanceof DefaultSubmitRule)
-                  : rule -> true)
+    if (cd.change().isClosed()
+        && (!opts.recomputeOnClosedChanges() || OnlineReindexMode.isActive())) {
+      return cd.notes().getSubmitRecords().stream()
+          .filter(r -> !skipSubmitRulesWithoutLabels || r.labels == null || r.labels.isEmpty())
           .map(
-              c ->
-                  c.call(
-                      s -> {
-                        Optional<SubmitRecord> record = s.evaluate(cd);
-                        if (record.isPresent() && record.get().ruleName == null) {
-                          // Only back-fill the ruleName if it was not populated by the "submit
-                          // rule".
-                          record.get().ruleName =
-                              c.getPluginName() + "~" + s.getClass().getSimpleName();
-                        }
-                        return record;
-                      }))
-          .filter(Optional::isPresent)
-          .map(Optional::get)
+              r -> {
+                SubmitRecord record = r.deepCopy();
+                if (record.status == SubmitRecord.Status.OK) {
+                  // Submit records that were OK when they got merged are CLOSED now.
+                  record.status = SubmitRecord.Status.CLOSED;
+                }
+                return record;
+              })
+          .collect(toImmutableList());
+    }
+
+    // We evaluate all the plugin-defined evaluators,
+    // and then we collect the results in one list.
+    return Streams.stream(submitRules)
+        .filter(r -> !skipSubmitRulesWithoutLabels || r.get().mayHaveLabels())
+        // Skip evaluating the default submit rule if the project has prolog rules.
+        // Note that in this case, the prolog submit rule will handle labels for us
+        .filter(
+            projectState.hasPrologRules()
+                ? rule -> !(rule.get() instanceof DefaultSubmitRule)
+                : rule -> true)
+        .map(
+            c ->
+                c.call(
+                    s -> {
+                      Optional<SubmitRecord> record = s.evaluate(cd);
+                      if (record.isPresent() && record.get().ruleName == null) {
+                        // Only back-fill the ruleName if it was not populated by the "submit
+                        // rule".
+                        record.get().ruleName =
+                            c.getPluginName() + "~" + s.getClass().getSimpleName();
+                      }
+                      return record;
+                    }))
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .collect(toImmutableList());
+  }
+
+  /**
+   * Evaluates the submit rules to find labels.
+   *
+   * <p>Submit rules that may not return labels are skipped.
+   *
+   * @return List of {@link com.google.gerrit.entities.SubmitRecord.Label} objects returned from the
+   *     evaluated rules.
+   * @param cd ChangeData to evaluate
+   */
+  public ImmutableList<SubmitRecord.Label> findLabels(ChangeData cd) {
+    logger.atFine().log(
+        "Find labels for change %d (caller: %s)",
+        cd.change().getId().get(), callerFinder.findCallerLazy());
+    try (Timer0.Context ignored = metrics.findLabelsEvaluationLatency.start()) {
+      return evaluate(cd, /* skipSubmitRulesWithoutLabels= */ true).stream()
+          .map(r -> r.labels)
+          .filter(Objects::nonNull)
+          .flatMap(List::stream)
           .collect(toImmutableList());
     }
   }

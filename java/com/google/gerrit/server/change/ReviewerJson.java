@@ -117,20 +117,15 @@ public class ReviewerJson {
     if (ps != null) {
       PermissionBackend.ForChange perm = permissionBackend.absentUser(reviewerAccountId).change(cd);
 
-      for (SubmitRecord rec : cd.submitRecords(SubmitRuleOptions.defaults())) {
-        if (rec.labels == null) {
+      for (SubmitRecord.Label label : cd.submitRecordLabels(SubmitRuleOptions.defaults())) {
+        String name = label.label;
+        Optional<LabelType> type = labelTypes.byLabel(name);
+        if (out.approvals.containsKey(name) || !type.isPresent()) {
           continue;
         }
-        for (SubmitRecord.Label label : rec.labels) {
-          String name = label.label;
-          Optional<LabelType> type = labelTypes.byLabel(name);
-          if (out.approvals.containsKey(name) || !type.isPresent()) {
-            continue;
-          }
 
-          if (perm.test(new LabelPermission(type.get()))) {
-            out.approvals.put(name, formatValue((short) 0));
-          }
+        if (perm.test(new LabelPermission(type.get()))) {
+          out.approvals.put(name, formatValue((short) 0));
         }
       }
     }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
@@ -108,6 +109,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
@@ -382,6 +384,8 @@ public class ChangeData {
   // Lazily populated fields, including optional assisted injected fields.
 
   private final Map<SubmitRuleOptions, List<SubmitRecord>> submitRecords =
+      Maps.newLinkedHashMapWithExpectedSize(1);
+  private final Map<SubmitRuleOptions, List<SubmitRecord.Label>> submitRecordLabels =
       Maps.newLinkedHashMapWithExpectedSize(1);
 
   private Map<SubmitRequirement, SubmitRequirementResult> submitRequirements;
@@ -1196,21 +1200,66 @@ public class ChangeData {
       }
       records = submitRuleEvaluatorFactory.create(options).evaluate(this);
       submitRecords.put(options, records);
+
+      List<SubmitRecord.Label> labels = getLabels(records);
+      submitRecordLabels.put(options, labels);
+
       if (!change().isClosed() && submitRecords.size() == 1) {
         // Cache the SubmitRecord with allowClosed = !allowClosed as the SubmitRecord are the same.
-        submitRecords.put(
+        options =
             options
                 .toBuilder()
                 .recomputeOnClosedChanges(!options.recomputeOnClosedChanges())
-                .build(),
-            records);
+                .build();
+        submitRecords.put(options, records);
+        submitRecordLabels.put(options, labels);
       }
     }
     return records;
   }
 
+  public List<SubmitRecord.Label> submitRecordLabels(SubmitRuleOptions options) {
+    // If the change is not submitted yet, 'strict' and 'lenient' both have the same result. If the
+    // change is submitted, SubmitRecord requested with 'strict' will contain just a single entry
+    // that with status=CLOSED. The latter is cheap to evaluate as we don't have to run any actual
+    // evaluation.
+    List<SubmitRecord.Label> labels = submitRecordLabels.get(options);
+    if (labels == null) {
+      if (storageConstraint != StorageConstraint.NOTEDB_ONLY) {
+        // Submit requirements are expensive. We allow loading them only if this change did not
+        // originate from the change index and we can invest the extra time.
+        logger.atWarning().log(
+            "Tried to load SubmitRecord.Labels for change fetched from index %s: %d",
+            project(), getId().get());
+        return Collections.emptyList();
+      }
+      labels = submitRuleEvaluatorFactory.create(options).findLabels(this);
+
+      submitRecordLabels.put(options, labels);
+      if (!change().isClosed() && submitRecords.size() == 1) {
+        // Cache the SubmitRecord with allowClosed = !allowClosed as the SubmitRecord are the same.
+        submitRecordLabels.put(
+            options
+                .toBuilder()
+                .recomputeOnClosedChanges(!options.recomputeOnClosedChanges())
+                .build(),
+            labels);
+      }
+    }
+    return labels;
+  }
+
   public void setSubmitRecords(SubmitRuleOptions options, List<SubmitRecord> records) {
     submitRecords.put(options, records);
+    submitRecordLabels.put(options, getLabels(records));
+  }
+
+  private List<SubmitRecord.Label> getLabels(List<SubmitRecord> records) {
+    return records.stream()
+        .map(r -> r.labels)
+        .filter(Objects::nonNull)
+        .flatMap(List::stream)
+        .collect(toImmutableList());
   }
 
   public SubmitTypeRecord submitTypeRecord() {

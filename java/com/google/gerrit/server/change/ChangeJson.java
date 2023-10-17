@@ -698,13 +698,13 @@ public class ChangeJson {
       out.reviewed = cd.isReviewedBy(user.getAccountId()) ? true : null;
     }
 
-    out.labels = labelsJson.labelsFor(accountLoader, cd, has(LABELS), has(DETAILED_LABELS));
     out.requirements = requirementsFor(cd);
     out.submitRecords = submitRecordsFor(cd);
     if (has(SUBMIT_REQUIREMENTS)) {
       out.submitRequirements = submitRequirementsFor(cd);
     }
 
+    out.labels = labelsJson.labelsFor(accountLoader, cd, has(LABELS), has(DETAILED_LABELS));
     if (out.labels != null && has(DETAILED_LABELS)) {
       // If limited to specific patch sets but not the current patch set, don't
       // list permitted labels, since users can't vote on those patch sets.

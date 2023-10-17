@@ -110,6 +110,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
@@ -168,6 +169,7 @@ import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.change.testing.TestChangeETagComputation;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -182,6 +184,7 @@ import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeOperatorFactory;
 import com.google.gerrit.server.restapi.change.PostReview;
+import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -1580,6 +1583,58 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).addReviewer(in);
     assertThat(gApi.changes().id(r.getChangeId()).reviewers().stream().map(a -> a.username))
         .containsExactly(user.username(), username1);
+  }
+
+  @Test
+  public void listReviewersInvokesSubmitRulesOnlyOnce() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    ReviewerInput in = new ReviewerInput();
+    in.reviewer = user.email();
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+
+    TestAccount user2 = accountCreator.user2();
+    in.reviewer = user2.email();
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+
+    assertThat(gApi.changes().id(r.getChangeId()).reviewers()).hasSize(2);
+
+    TestSubmitRule testSubmitRule = new TestSubmitRule();
+    try (Registration registration = extensionRegistry.newRegistration().add(testSubmitRule)) {
+      gApi.changes().id(r.getChangeId()).reviewers();
+    }
+
+    // submit rules are invoked to collect labels
+    assertThat(testSubmitRule.count).isEqualTo(1);
+  }
+
+  @Test
+  public void listReviewersDoesNotInvokesSubmitRulesThatDoNotReturnLables() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    ReviewerInput in = new ReviewerInput();
+    in.reviewer = user.email();
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+
+    TestAccount user2 = accountCreator.user2();
+    in.reviewer = user2.email();
+    gApi.changes().id(r.getChangeId()).addReviewer(in);
+
+    assertThat(gApi.changes().id(r.getChangeId()).reviewers()).hasSize(2);
+
+    TestSubmitRule testSubmitRule =
+        new TestSubmitRule() {
+          @Override
+          public boolean mayHaveLabels() {
+            return false;
+          }
+        };
+    try (Registration registration = extensionRegistry.newRegistration().add(testSubmitRule)) {
+      gApi.changes().id(r.getChangeId()).reviewers();
+    }
+
+    // submit rules that do not return labels are skipped
+    assertThat(testSubmitRule.count).isEqualTo(0);
   }
 
   @Test
@@ -4710,5 +4765,23 @@ public class ChangeIT extends AbstractDaemonTest {
 
   private void voteLabel(String changeId, String labelName, int score) throws RestApiException {
     gApi.changes().id(changeId).current().review(new ReviewInput().label(labelName, score));
+  }
+
+  private static class TestSubmitRule implements SubmitRule {
+    int count;
+
+    @Override
+    public Optional<SubmitRecord> evaluate(ChangeData changeData) {
+      if (!isAsyncCallForSendingReviewCommentsEmail()) {
+        count++;
+      }
+      return Optional.empty();
+    }
+
+    private boolean isAsyncCallForSendingReviewCommentsEmail() {
+      return Arrays.stream(Thread.currentThread().getStackTrace())
+          .map(StackTraceElement::getClassName)
+          .anyMatch(className -> EmailReviewComments.class.getName().equals(className));
+    }
   }
 }

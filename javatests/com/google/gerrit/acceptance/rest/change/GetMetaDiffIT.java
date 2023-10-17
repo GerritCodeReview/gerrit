@@ -16,11 +16,15 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -29,12 +33,19 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInfoDifference;
+import com.google.gerrit.server.change.EmailReviewComments;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.rules.SubmitRule;
 import com.google.inject.Inject;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.EnumSet;
+import java.util.Optional;
 import org.junit.Test;
 
 public class GetMetaDiffIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   private static final String UNSAVED_REV_ID = "0000000000000000000000000000000000000001";
   private static final String TOPIC = "topic";
@@ -236,5 +247,44 @@ public class GetMetaDiffIT extends AbstractDaemonTest {
     assertThat(reviewers).hasSize(1);
     AccountInfo info = reviewers.iterator().next();
     assertThat(info._accountId).isEqualTo(user.id().get());
+  }
+
+  @Test
+  public void submitRulesAreInvokedTwice() throws Exception {
+    PushOneCommit.Result ch = createChange();
+    ChangeApi chApi = gApi.changes().id(ch.getChangeId());
+    ChangeInfo oldInfo = chApi.get();
+    chApi.topic(TOPIC);
+    ChangeInfo newInfo = chApi.get();
+
+    TestSubmitRule testSubmitRule = new TestSubmitRule();
+    try (Registration registration = extensionRegistry.newRegistration().add(testSubmitRule)) {
+      chApi.metaDiff(
+          oldInfo.metaRevId,
+          newInfo.metaRevId,
+          EnumSet.of(ListChangesOption.LABELS),
+          ImmutableListMultimap.of());
+    }
+
+    // submit rules are executed once for each metaRevId
+    assertThat(testSubmitRule.count).isEqualTo(2);
+  }
+
+  private static class TestSubmitRule implements SubmitRule {
+    int count;
+
+    @Override
+    public Optional<SubmitRecord> evaluate(ChangeData changeData) {
+      if (!isAsyncCallForSendingReviewCommentsEmail()) {
+        count++;
+      }
+      return Optional.empty();
+    }
+
+    private boolean isAsyncCallForSendingReviewCommentsEmail() {
+      return Arrays.stream(Thread.currentThread().getStackTrace())
+          .map(StackTraceElement::getClassName)
+          .anyMatch(className -> EmailReviewComments.class.getName().equals(className));
+    }
   }
 }

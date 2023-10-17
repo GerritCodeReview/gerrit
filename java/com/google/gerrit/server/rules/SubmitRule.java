@@ -43,4 +43,26 @@ public interface SubmitRule {
    * Optional#empty()} if the SubmitRule was a no-op.
    */
   Optional<SubmitRecord> evaluate(ChangeData changeData);
+
+  /**
+   * Whether this submit rule may return labels in {@link SubmitRecord#labels} when it is evaluated
+   * (see {@link #evaluate(ChangeData)}.
+   *
+   * <p>For some use-cases Gerrit evaluates submit rules just to collect the labels, but some submit
+   * rules never return labels. These submit rules may override this method and return {@code
+   * false}.
+   *
+   * <p>If {@code false} is returned Gerrit skips evaluating this submit rule when it collects
+   * labels. This way the unnecessary evaluation of submit rules that never return labels is
+   * avoided, which improves performance.
+   *
+   * <p>Skipping the evaluation
+   *
+   * @return {@code true} if this submit rule may return labels via {@link SubmitRecord#labels} when
+   *     it is evaluated, {@code false} if this submit rule never returns labels via {@link
+   *     SubmitRecord#labels} when it is evaluated
+   */
+  default boolean mayHaveLabels() {
+    return true;
+  }
 }

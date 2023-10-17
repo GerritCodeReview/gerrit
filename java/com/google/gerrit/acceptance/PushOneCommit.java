@@ -163,7 +163,7 @@ public class PushOneCommit {
   private final Result.Factory pushResultFactory;
 
   private final String subject;
-  private final Map<String, String> files;
+  private Map<String, String> files;
   private String changeId;
   private Tag tag;
   private boolean force;
@@ -263,6 +263,13 @@ public class PushOneCommit {
   @CanIgnoreReturnValue
   public PushOneCommit setTopLevelTreeId(ObjectId treeId) {
     commitBuilder.setTopLevelTree(treeId);
+    return this;
+  }
+
+  @CanIgnoreReturnValue
+  public PushOneCommit noFiles() {
+    commitBuilder.noFiles();
+    files = ImmutableMap.of();
     return this;
   }
 

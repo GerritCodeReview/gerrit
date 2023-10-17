@@ -14,8 +14,15 @@
 
 package com.google.gerrit.testing;
 
+import com.google.gerrit.common.Nullable;
+
 /** Static JUnit utility methods. */
 public class GerritJUnit {
+
+  public static <T extends Throwable> T assertThrows(Class<T> throwableClass, ThrowingRunnable runnable) {
+    return assertThrows(null, throwableClass, runnable);
+  }
+
   /**
    * Assert that an exception is thrown by a block of code.
    *
@@ -37,13 +44,14 @@ public class GerritJUnit {
    * @return exception that was thrown.
    */
   public static <T extends Throwable> T assertThrows(
-      Class<T> throwableClass, ThrowingRunnable runnable) {
+      @Nullable String message, Class<T> throwableClass, ThrowingRunnable runnable) {
+    String prefix = message != null && message.length() > 0 ? message + ": " : "";
     try {
       runnable.run();
     } catch (Throwable t) {
       if (!throwableClass.isInstance(t)) {
         throw new AssertionError(
-            "expected "
+            prefix + "expected "
                 + throwableClass.getName()
                 + " but "
                 + t.getClass().getName()
@@ -55,7 +63,7 @@ public class GerritJUnit {
       return toReturn;
     }
     throw new AssertionError(
-        "expected " + throwableClass.getName() + " but no exception was thrown");
+        prefix + "expected " + throwableClass.getName() + " but no exception was thrown");
   }
 
   @FunctionalInterface

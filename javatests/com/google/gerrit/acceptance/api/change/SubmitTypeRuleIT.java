@@ -28,6 +28,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -39,6 +40,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.ConfigSuite;
 import java.io.IOException;
 import java.util.List;
@@ -89,13 +91,19 @@ public class SubmitTypeRuleIT extends AbstractDaemonTest {
   }
 
   private AtomicInteger fileCounter;
+
+  // The change is used only to verify that the rule is valid. It is never submitted in the test.
   private Change.Id testChangeId;
 
   @Before
   public void setUp() throws Exception {
     fileCounter = new AtomicInteger();
     gApi.projects().name(project.get()).branch("test").create(new BranchInput());
-    testChangeId = createChange("test", "test change").getChange().getId();
+    Result testChange = createChange("test", "test change");
+    testChangeId = testChange.getChange().getId();
+    // Reset repo back to the original state - otherwise all changes in tests have testChange as a
+    // parent.
+    testRepo.reset(testChange.getCommit().getParent(0));
   }
 
   private void setRulesPl(String rule) throws Exception {

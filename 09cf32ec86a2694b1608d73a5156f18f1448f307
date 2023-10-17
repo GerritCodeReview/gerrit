@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71a0ed00_8c5c08d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-10-17T14:38:35Z",
+      "side": 1,
+      "message": "Just a few nits",
+      "revId": "09cf32ec86a2694b1608d73a5156f18f1448f307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fef73a17_be6edd7a",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1369,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-10-17T14:38:35Z",
+      "side": 1,
+      "message": "Maybe add here default value?",
+      "range": {
+        "startLine": 1369,
+        "startChar": 0,
+        "endLine": 1369,
+        "endChar": 41
+      },
+      "revId": "09cf32ec86a2694b1608d73a5156f18f1448f307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3c22309_b4a15c6d",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2790,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-10-17T14:38:35Z",
+      "side": 1,
+      "message": "Do you need to add info here as well?",
+      "revId": "09cf32ec86a2694b1608d73a5156f18f1448f307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60db0695_52538cfe",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1336,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-10-17T14:38:35Z",
+      "side": 1,
+      "message": "Maybe this can be type?",
+      "range": {
+        "startLine": 1336,
+        "startChar": 22,
+        "endLine": 1336,
+        "endChar": 28
+      },
+      "revId": "09cf32ec86a2694b1608d73a5156f18f1448f307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

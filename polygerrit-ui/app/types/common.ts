@@ -253,6 +253,8 @@ export type EncodedGroupId = BrandType<string, '_encodedGroupId'>;
 
 export type UserId = AccountId | GroupId | EmailAddress;
 
+export type DiffPageSidebar = 'NONE' | `plugin-${string}`;
+
 // Must be kept in sync with the ListChangesOption enum.
 // See: java/com/google/gerrit/extensions/client/ListChangesOption.java
 export const ListChangesOption = {
@@ -1333,6 +1335,7 @@ export interface PreferencesInfo {
   // The email_format doesn't mentioned in doc, but exists in Java class GeneralPreferencesInfo
   email_format?: EmailFormat;
   allow_browser_notifications?: boolean;
+  diff_page_sidebar?: DiffPageSidebar;
 }
 
 /**

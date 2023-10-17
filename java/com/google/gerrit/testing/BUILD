@@ -66,6 +66,7 @@ java_library(
     name = "gerrit-junit",
     srcs = ["GerritJUnit.java"],
     visibility = ["//visibility:public"],
+    deps = ["//java/com/google/gerrit/common:annotations"],
 )
 
 java_library(

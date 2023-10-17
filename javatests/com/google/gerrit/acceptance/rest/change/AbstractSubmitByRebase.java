@@ -348,6 +348,11 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     submit(change2.getChangeId());
   }
 
+  @Override
+  protected boolean enableExperimentsRejectImplicitMergesOnMerge() {
+    return true;
+  }
+
   @Test
   @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
   public void submitChainFailsOnRework() throws Throwable {

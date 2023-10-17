@@ -33,6 +33,24 @@
       "message": "Please add default\u003d\"NONE\".\n```suggestion\n    optional string diff_page_sidebar \u003d 23; [default \u003d \"NONE\"];\n```",
       "revId": "617282221cfa109d2bb7d26db19994c95840562e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e0dc1f2_c40fc150",
+        "filename": "proto/entities.proto",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-10-17T13:37:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a8fa6a0_5cbf4f4f",
+      "revId": "617282221cfa109d2bb7d26db19994c95840562e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

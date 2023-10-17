@@ -29,6 +29,11 @@ public class ExperimentFeaturesIT extends AbstractDaemonTest {
 
   @Inject ExperimentFeatures experimentFeatures;
 
+  @Override
+  public boolean enableExperimentsRejectImplicitMergesOnMerge() {
+    return false;
+  }
+
   @Test
   public void emptyConfig_defaultFeatures_enabled() {
     for (String defaultFeature : ExperimentFeaturesConstants.DEFAULT_ENABLED_FEATURES) {

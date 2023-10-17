@@ -26,6 +26,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.BranchNameKey;
@@ -42,6 +43,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.inject.Inject;
 import java.util.List;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
@@ -280,6 +282,10 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.disabled",
+      // The test intentionally create an implicit merge change.
+      value = "GerritBackendFeature__reject_implicit_merges_on_merge")
   public void submitWithMergedAncestorsOnOtherBranch() throws Throwable {
     RevCommit initialHead = projectOperations.project(project).getHead("master");
 
@@ -329,6 +335,10 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.disabled",
+      // The test intentionally create an implicit merge change.
+      value = "GerritBackendFeature__reject_implicit_merges_on_merge")
   public void submitWithOpenAncestorsOnOtherBranch() throws Throwable {
     RevCommit initialHead = projectOperations.project(project).getHead("master");
     PushOneCommit.Result change1 =
@@ -549,19 +559,27 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
     PushOneCommit.Result changeResult = change.to("refs/for/master");
     approve(changeResult.getChangeId());
 
-    // Create a successor change.
+    // Create a destination branch that later will be made non-visible to user.
+    BranchNameKey secretBranch = BranchNameKey.create(project, "secretBranch");
+    String secretBranchTip =
+        gApi.projects()
+            .name(secretBranch.project().get())
+            .branch(secretBranch.branch())
+            .create(new BranchInput())
+            .get()
+            .revision;
+
+    // Create a successor change which merges visible and non-visible branch. This change
+    // is created as an explicit merge - otherwise Gerrit rejects it on submit as implicit merge.
     PushOneCommit change2 =
         pushFactory.create(admin.newIdent(), testRepo, "feature", "b.txt", "bar");
+    change2.setParents(
+        List.of(
+            changeResult.getCommit(), repo().parseCommit(ObjectId.fromString(secretBranchTip))));
     PushOneCommit.Result change2Result = change2.to("refs/for/master");
-
-    // Move the first change to a destination branch that is non-visible to user so that user cannot
-    // this change anymore.
-    BranchNameKey secretBranch = BranchNameKey.create(project, "secretBranch");
-    gApi.projects()
-        .name(secretBranch.project().get())
-        .branch(secretBranch.branch())
-        .create(new BranchInput());
     gApi.changes().id(changeResult.getChangeId()).move(secretBranch.branch());
+
+    // Hide branch from the user so that user cannot this change anymore.
     projectOperations
         .project(project)
         .forUpdate()

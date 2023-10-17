@@ -133,6 +133,30 @@
       },
       "revId": "3c9b74b09fc798ab24c270b69b00077ebdd0e1eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "308b311d_f1a64b60",
+        "filename": "java/com/google/gerrit/index/query/FilteredSource.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-10-17T07:30:37Z",
+      "side": 1,
+      "message": "Thank you @dariusz.luksza@gmail.com, I collected the improvements you suggested in the issue [305785536](https://issues.gerritcodereview.com/issues/305785536)",
+      "parentUuid": "ae922073_0718fa34",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 11
+      },
+      "revId": "3c9b74b09fc798ab24c270b69b00077ebdd0e1eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

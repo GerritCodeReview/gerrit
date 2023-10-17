@@ -237,6 +237,11 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     }
   }
 
+  @Override
+  protected boolean enableExperimentsRejectImplicitMergesOnMerge() {
+    return false;
+  }
+
   @Test
   @GerritConfig(name = "auth.skipFullRefEvaluationIfAllRefsAreVisible", value = "false")
   public void uploadPackAllRefsVisibleNoRefsMetaConfig() throws Exception {

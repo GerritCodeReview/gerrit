@@ -205,6 +205,9 @@ export class GrComment extends LitElement {
   unresolved = true;
 
   @state()
+  isGeneratedSuggestionAvailable = false;
+
+  @state()
   generateSuggestion = true;
 
   @state()
@@ -273,6 +276,12 @@ export class GrComment extends LitElement {
    */
   private originalUnresolved = false;
 
+  /**
+   * For `connectedCallback()` to distinguish between connecting to the DOM for
+   * the first time or if just re-connecting.
+   */
+  private isFirstConnection = true;
+
   constructor() {
     super();
     provide(this, commentModelToken, () => this.commentModel);
@@ -338,20 +347,35 @@ export class GrComment extends LitElement {
         this.autoSave();
       }
     );
+  }
+
+  private firstConnectedCallback() {
+    if (!this.isFirstConnection) return;
+    this.isFirstConnection = false;
     if (this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT)) {
-      subscribe(
-        this,
-        () =>
-          this.generateSuggestionTrigger$.pipe(
-            debounceTime(GENERATE_SUGGESTION_DEBOUNCE_DELAY_MS)
-          ),
-        () => {
-          if (this.generateSuggestion) {
-            this.generateSuggestEdit();
+      (async () => {
+        this.isGeneratedSuggestionAvailable =
+          await this.checkGeneratedSuggestionAvailability();
+        if (!this.isGeneratedSuggestionAvailable) return;
+        subscribe(
+          this,
+          () =>
+            this.generateSuggestionTrigger$.pipe(
+              debounceTime(GENERATE_SUGGESTION_DEBOUNCE_DELAY_MS)
+            ),
+          () => {
+            if (this.generateSuggestion) {
+              this.generateSuggestEdit();
+            }
           }
-        }
-      );
+        );
+      })();
     }
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.firstConnectedCallback();
   }
 
   override disconnectedCallback() {
@@ -916,9 +940,24 @@ export class GrComment extends LitElement {
     `;
   }
 
+  private async checkGeneratedSuggestionAvailability() {
+    await this.getPluginLoader().awaitPluginsLoaded();
+    const suggestionsPlugins =
+      this.getPluginLoader().pluginsModel.getState().suggestionsPlugins;
+    if (suggestionsPlugins.length === 0) return false;
+    const suggestionProvider = suggestionsPlugins[0].provider;
+    if (
+      typeof suggestionProvider.isAvailable === 'function' &&
+      !suggestionProvider.isAvailable()
+    )
+      return false;
+    return true;
+  }
+
   private showGeneratedSuggestion() {
     return (
       this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT) &&
+      this.isGeneratedSuggestionAvailable &&
       this.editing &&
       !this.permanentEditingMode &&
       this.comment &&

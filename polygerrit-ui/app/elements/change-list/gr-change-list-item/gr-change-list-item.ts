@@ -218,10 +218,6 @@ export class GrChangeListItem extends LitElement {
         .container {
           position: relative;
         }
-        .strikethrough {
-          color: var(--deemphasized-text-color);
-          text-decoration: line-through;
-        }
         .content {
           overflow: hidden;
           position: absolute;
@@ -285,11 +281,18 @@ export class GrChangeListItem extends LitElement {
           cursor: pointer;
           text-decoration: none;
         }
-        a:hover {
+        /* The subject cell needs a separate rule for these reasons:
+           1. :hover does not propagate to absolutely positioned children.
+           2. .strikethrough for abandoned changes must be respected.
+           3. We don't want the "spacer" and the &nbsp; to be underlined.
+        */
+        .cell:not(.subject) a:hover,
+        .cell.subject a:hover .content:not(.strikethrough) {
           text-decoration: underline;
         }
-        .subject:hover .content {
-          text-decoration: underline;
+        .strikethrough {
+          color: var(--deemphasized-text-color);
+          text-decoration: line-through;
         }
         .comma,
         .placeholder {

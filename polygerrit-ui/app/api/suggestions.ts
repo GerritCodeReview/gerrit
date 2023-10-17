@@ -28,6 +28,7 @@ export declare interface SuggestionsProvider {
    * - ... user types a comment draft
    */
   suggestCode(commentData: SuggestCodeRequest): Promise<SuggestCodeResponse>;
+  isAvailable(): Promise<boolean>;
 }
 
 export declare interface SuggestCodeResponse {

@@ -361,7 +361,7 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
     RevCommit initialHead = projectOperations.project(project).getHead("master");
 
     testRepo.reset(initialHead);
-    PushOneCommit.Result change = createChange("Change 1", "b", "b1");
+    PushOneCommit.Result change = createChange("Change 1", "a", "b1");
     PushOneCommit.Result change2 = createChange("Change 2", "b", "b2");
     assertThat(change2.getCommit().getParent(0)).isEqualTo(change.getCommit());
 

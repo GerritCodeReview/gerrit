@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mime;
 
+import com.google.gerrit.common.Nullable;
 import eu.medsea.mimeutil.MimeType;
 import eu.medsea.mimeutil.MimeUtil2;
 import java.io.InputStream;
@@ -31,7 +32,7 @@ public interface FileTypeRegistry {
    *     determined, {@link MimeUtil2#UNKNOWN_MIME_TYPE} which is an alias for {@code
    *     application/octet-stream}.
    */
-  MimeType getMimeType(String path, byte[] content);
+  MimeType getMimeType(String path, @Nullable byte[] content);
 
   /**
    * Get the most specific MIME type available for a file.

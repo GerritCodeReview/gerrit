@@ -44,6 +44,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.diff.Edit;
+import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -366,7 +367,11 @@ class PatchScriptBuilder {
         if (reuse) {
           srcContent = other.srcContent;
         } else {
-          srcContent = SrcContentResolver.getSourceContent(db, id, mode);
+          try {
+            srcContent = SrcContentResolver.getSourceContent(db, id, mode);
+          } catch (LargeObjectException e) {
+            srcContent = Text.NO_BYTES;
+          }
         }
         String mimeType = MimeUtil2.UNKNOWN_MIME_TYPE.toString();
         DisplayMethod displayMethod = DisplayMethod.DIFF;
@@ -374,9 +379,9 @@ class PatchScriptBuilder {
           mimeType = other.mimeType;
           displayMethod = other.displayMethod;
           src = other.src;
-
-        } else if (srcContent.length > 0 && FileMode.SYMLINK != mode) {
-          MimeType registryMimeType = registry.getMimeType(path, srcContent);
+        } else if (FileMode.SYMLINK != mode) {
+          MimeType registryMimeType =
+              registry.getMimeType(path, srcContent.length > 0 ? srcContent : null);
           if ("image".equals(registryMimeType.getMediaType())
               && registry.isSafeInline(registryMimeType)) {
             displayMethod = DisplayMethod.IMG;

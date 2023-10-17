@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04fbceed_208021d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-10-17T15:18:57Z",
+      "side": 1,
+      "message": "For some reason CI does not seem to vote, so I have to do it myself. :-)\n\nI have built:\n* bazelisk build polygerrit-ui/app:polygerrit_ui\n* bazelisk build tools/...:all\n\nThat makes me confident to vote.",
+      "revId": "228571fae0b6645c855c5dc2a0857340a6d9ff85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

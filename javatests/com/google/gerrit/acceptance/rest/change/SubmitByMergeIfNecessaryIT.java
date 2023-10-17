@@ -26,6 +26,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.BranchNameKey;
@@ -281,6 +282,10 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.disabled",
+      // The test intentionally create an implicit merge change.
+      value = "GerritBackendFeature__reject_implicit_merges_on_merge")
   public void submitWithMergedAncestorsOnOtherBranch() throws Throwable {
     RevCommit initialHead = projectOperations.project(project).getHead("master");
 
@@ -330,6 +335,10 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.disabled",
+      // The test intentionally create an implicit merge change.
+      value = "GerritBackendFeature__reject_implicit_merges_on_merge")
   public void submitWithOpenAncestorsOnOtherBranch() throws Throwable {
     RevCommit initialHead = projectOperations.project(project).getHead("master");
     PushOneCommit.Result change1 =

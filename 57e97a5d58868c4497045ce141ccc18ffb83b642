@@ -16,6 +16,24 @@
       "message": "How hard would it be to distinguish this case and write \"Difference in large file\" instead.\n\nI predict users will complain that their txt file is not binary.\n\nThis is an optional/nit to me though so IMO we should only do it if it doesn\u0027t add much complexity.\n\n--\n\nCan we test this?",
       "revId": "57e97a5d58868c4497045ce141ccc18ffb83b642",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb58e9e6_d14e6b5d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-10-17T08:08:10Z",
+      "side": 1,
+      "message": "\u003e How hard would it be to distinguish this case and write \"Difference in large \n\u003e file\" instead.\n\u003e\n\u003e I predict users will complain that their txt file is not binary.\n\u003e \n\u003e This is an optional/nit to me though so IMO we should only do it if it\n\u003e doesn\u0027t add much complexity.\n\nYes, I would love to distinguish this, since as a user I would have the same complaint.\n\nIt\u0027s not stright-forward though:\n\n1. When diffing files JGit throws BinaryBlobException if it detected the file as a binary, but also if the file size exceeds the binaryFileThreshold of 50MB.\n\nSo we would need to teach JGit to differentiate these cases. For us internally we could maybe adapt your internal fix from cl/526950791 to throw a different exception, let\u0027s say BlobTooLargeException.\n\n2. DiffFormatter#createFormatResult catches BinaryBlobException and sets patch type to PatchType.BINARY.\n\nSo I guess here we would need to catch BlobTooLargeException and invent a new PatchType.TOO_LARGE enum value.\n\n3. If patch type is BINARY we set diffInfo.binary \u003d true in the JSON response of the GetDiff request\n\nSo here we would need a new JSON field to tell the client that the file is too large.\n\n4. The text \"Difference in binary files\" is set by PolyGerrit, I assume if diffInfo.binary \u003d true.\n\nMaybe a simple, but hacky, fix could be to change the text here to \"Difference in binary files or file too large\", anticipating that the Gerrit backend wrongly sets diffInfo.binary \u003d true for large files.\n\n\u003e Can we test this?\n\nWe don\u0027t have any tests for large files yet, and it seems GetDiff lacks tests in general (there are a few, but I doubt they cover enough).\n\nThe problem is that the large file threshold is hard-coded in JGit (PackConfig.DEFAULT_BIG_FILE_THRESHOLD), so we can\u0027t set a lower threshold from tests. Hence  there is no test, since I didn\u0027t want to create a \u003e50MB file in a test.",
+      "parentUuid": "77f04139_fe8589d0",
+      "revId": "57e97a5d58868c4497045ce141ccc18ffb83b642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

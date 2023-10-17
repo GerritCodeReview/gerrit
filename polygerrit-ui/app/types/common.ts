@@ -1333,6 +1333,7 @@ export interface PreferencesInfo {
   // The email_format doesn't mentioned in doc, but exists in Java class GeneralPreferencesInfo
   email_format?: EmailFormat;
   allow_browser_notifications?: boolean;
+  diff_page_sidebar?: string;
 }
 
 /**

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2563148_e77854c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-10-17T13:37:26Z",
+      "side": 1,
+      "message": "I\u0027m afraid that this makes this change useless. The improvement for List Reviewers is probably not worth the extra complexity that we are adding here.\n\nMaybe this change makes sense if we deprecate and remove the \u0027requirements\u0027 and\n\u0027submit_records\u0027 fields, but that\u0027s an API incompatible change and rolling this out would likely be a lot of work. FWIW the \u0027requirements\u0027 field is already deprecated and replaced by the new \u0027submit_requirements\u0027 field which is protected by a ListChangesOption. But even if we get rid of these fields, this change only helps if callers do not request submit requirements, which they likely do.\n\nSo bottom-line I think we probably don\u0027t want to submit this change. I uploaded for documenting this attempt and as base for discussion.",
+      "range": {
+        "startLine": 34,
+        "startChar": 26,
+        "endLine": 38,
+        "endChar": 42
+      },
+      "revId": "128d48e641b832e9e1b7a5e1e11f13f30de2e4fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -122,6 +122,8 @@ public class CommitIT extends AbstractDaemonTest {
     createBranch(BranchNameKey.create(project, "test-branch-1"));
     createBranch(BranchNameKey.create(project, "test-branch-2"));
     createAndSubmitChange("refs/for/test-branch-1");
+    testRepo.git().fetch();
+    testRepo.reset(baseChange.getCommit().getId());
     createAndSubmitChange("refs/for/test-branch-2");
 
     assertThat(getIncludedIn(baseChange.getCommit().getId()).branches)

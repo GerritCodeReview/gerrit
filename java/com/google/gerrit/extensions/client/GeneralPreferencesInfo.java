@@ -142,6 +142,13 @@ public class GeneralPreferencesInfo {
   public List<MenuItem> my;
   public List<String> changeTable;
   public Boolean allowBrowserNotifications;
+  /**
+   * The sidebar section that the user prefers to have open on the diff page, or
+   * "NONE" if all sidebars should be closed.
+   *
+   * Sidebars supplied by plugins are prefixed with "plugin-".
+   */
+  public String diffPageSidebar;
 
   public DateFormat getDateFormat() {
     if (dateFormat == null) {
@@ -205,7 +212,8 @@ public class GeneralPreferencesInfo {
         && Objects.equals(this.workInProgressByDefault, other.workInProgressByDefault)
         && Objects.equals(this.my, other.my)
         && Objects.equals(this.changeTable, other.changeTable)
-        && Objects.equals(this.allowBrowserNotifications, other.allowBrowserNotifications);
+        && Objects.equals(this.allowBrowserNotifications, other.allowBrowserNotifications)
+        && Objects.equals(this.diffPageSidebar, other.diffPageSidebar);
   }
 
   @Override
@@ -232,7 +240,8 @@ public class GeneralPreferencesInfo {
         workInProgressByDefault,
         my,
         changeTable,
-        allowBrowserNotifications);
+        allowBrowserNotifications,
+        diffPageSidebar);
   }
 
   @Override
@@ -260,6 +269,7 @@ public class GeneralPreferencesInfo {
         .add("my", my)
         .add("changeTable", changeTable)
         .add("allowBrowserNotifications", allowBrowserNotifications)
+        .add("diffPageSidebar", diffPageSidebar)
         .toString();
   }
 
@@ -285,6 +295,7 @@ public class GeneralPreferencesInfo {
     p.disableTokenHighlighting = false;
     p.workInProgressByDefault = false;
     p.allowBrowserNotifications = true;
+    p.diffPageSidebar = "NONE";
     return p;
   }
 }

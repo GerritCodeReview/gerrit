@@ -273,7 +273,20 @@ List all projects that match substring `test/`:
 Tree(t)::
 Get projects inheritance in a tree-like format. This option does
 not work together with the branch option.
-+
+
+[NOTE]
+If the calling user does not meet any of the following criteria:
+
+* The state of the parent project is either "ACTIVE" or "READ ONLY",
+and the calling user has READ permission to at least one ref.
+* The state of the parent project is "HIDDEN" and the calling user
+has READ permission for 'refs/meta/config'.
+
+Then the 'parent' field will be labeled as '?-N', where N represents the
+nesting level within the project's tree structure. In the provided example,
+'All-Projects' corresponds to level 1, 'parent-project' to level 2, and
+'child-project' to level 3.
+
 Get all the projects with tree option:
 +
 .Request

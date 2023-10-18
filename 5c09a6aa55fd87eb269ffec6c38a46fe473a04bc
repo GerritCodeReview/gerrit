@@ -16,6 +16,24 @@
       "message": "This is an API change so callers might break.\n\nIs it worth it? i.e. do we spare computation or should we leave it as-is out of caution? If we go ahead, what is the rollout strategy?",
       "revId": "5c09a6aa55fd87eb269ffec6c38a46fe473a04bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b534197_a03ba7e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-10-18T11:59:42Z",
+      "side": 1,
+      "message": "Yes it\u0027s an API change, but the risk of breaking callers is rather small. This is an optional field so callers should already expect it to be not present.\n\n\u003e Is it worth it?\n\nIt fixes a weird behaviour, I think that makes it worth fixing it.\n\n\u003e i.e. do we spare computation or should we leave it as-is out of caution? \n\nNot sure if it spares significant computation. Sure out of caution we can just leave it as it is 😞\n\n\u003e what is the rollout strategy?\n\nNo particular rollout strategy. We could add a experiment flag, but that seems overkill, then better to just leave it.",
+      "parentUuid": "7c31630a_3b49acda",
+      "revId": "5c09a6aa55fd87eb269ffec6c38a46fe473a04bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

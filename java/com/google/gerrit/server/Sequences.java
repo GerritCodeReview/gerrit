@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.notedb;
+package com.google.gerrit.server;
 
 import static com.google.gerrit.server.Sequence.NAME_ACCOUNTS;
 import static com.google.gerrit.server.Sequence.NAME_CHANGES;
@@ -24,7 +24,6 @@ import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer2;
-import com.google.gerrit.server.Sequence;
 import com.google.gerrit.server.Sequence.SequenceType;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.inject.Inject;

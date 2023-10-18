@@ -39,7 +39,7 @@ public class NotificationMailFormatIT extends AbstractDaemonTest {
     // Set user preference to receive only plaintext content
     GeneralPreferencesInfo i = new GeneralPreferencesInfo();
     i.emailFormat = EmailFormat.PLAINTEXT;
-    gApi.accounts().id(admin.id().toString()).setPreferences(i);
+    gApi.accounts().id(admin.id().get()).setPreferences(i);
 
     // Create change as admin and review as user
     PushOneCommit.Result r = createChange();
@@ -57,7 +57,7 @@ public class NotificationMailFormatIT extends AbstractDaemonTest {
     // Reset user preference
     requestScopeOperations.setApiUser(admin.id());
     i.emailFormat = EmailFormat.HTML_PLAINTEXT;
-    gApi.accounts().id(admin.id().toString()).setPreferences(i);
+    gApi.accounts().id(admin.id().get()).setPreferences(i);
   }
 
   @Test

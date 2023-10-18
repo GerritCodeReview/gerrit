@@ -55,7 +55,7 @@ public class PushToRefsUsersIT extends StandaloneSiteTest {
       ctx.getInjector().injectMembers(this);
 
       // Setup admin password
-      gApi.accounts().id(admin.username()).setHttpPassword(ADMIN_PASSWORD);
+      gApi.accounts().id(admin.id().get()).setHttpPassword(ADMIN_PASSWORD);
 
       // Get authenticated Git/HTTP URL
       String urlWithCredentials =

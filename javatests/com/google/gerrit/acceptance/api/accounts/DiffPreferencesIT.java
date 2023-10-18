@@ -28,7 +28,7 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
   @Test
   public void getDiffPreferences() throws Exception {
     DiffPreferencesInfo d = DiffPreferencesInfo.defaults();
-    DiffPreferencesInfo o = gApi.accounts().id(admin.id().toString()).getDiffPreferences();
+    DiffPreferencesInfo o = gApi.accounts().id(admin.id().get()).getDiffPreferences();
     assertPrefs(o, d);
   }
 
@@ -62,13 +62,13 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     i.matchBrackets ^= true;
     i.lineWrapping ^= true;
 
-    DiffPreferencesInfo o = gApi.accounts().id(admin.id().toString()).setDiffPreferences(i);
+    DiffPreferencesInfo o = gApi.accounts().id(admin.id().get()).setDiffPreferences(i);
     assertPrefs(o, i);
 
     // Partially fill input record
     i = new DiffPreferencesInfo();
     i.tabSize = 42;
-    DiffPreferencesInfo a = gApi.accounts().id(admin.id().toString()).setDiffPreferences(i);
+    DiffPreferencesInfo a = gApi.accounts().id(admin.id().get()).setDiffPreferences(i);
     assertPrefs(a, o, "tabSize");
     assertThat(a.tabSize).isEqualTo(42);
   }
@@ -85,7 +85,7 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     update.fontSize = newFontSize;
     gApi.config().server().setDefaultDiffPreferences(update);
 
-    DiffPreferencesInfo o = gApi.accounts().id(admin.id().toString()).getDiffPreferences();
+    DiffPreferencesInfo o = gApi.accounts().id(admin.id().get()).getDiffPreferences();
 
     // assert configured defaults
     assertThat(o.lineLength).isEqualTo(newLineLength);
@@ -104,29 +104,29 @@ public class DiffPreferencesIT extends AbstractDaemonTest {
     update.lineLength = configuredDefaultLineLength;
     gApi.config().server().setDefaultDiffPreferences(update);
 
-    DiffPreferencesInfo o = gApi.accounts().id(admin.id().toString()).getDiffPreferences();
+    DiffPreferencesInfo o = gApi.accounts().id(admin.id().get()).getDiffPreferences();
     assertThat(o.lineLength).isEqualTo(configuredDefaultLineLength);
     assertPrefs(o, d, "lineLength");
 
     int newLineLength = configuredDefaultLineLength + 10;
     DiffPreferencesInfo i = new DiffPreferencesInfo();
     i.lineLength = newLineLength;
-    DiffPreferencesInfo a = gApi.accounts().id(admin.id().toString()).setDiffPreferences(i);
+    DiffPreferencesInfo a = gApi.accounts().id(admin.id().get()).setDiffPreferences(i);
     assertThat(a.lineLength).isEqualTo(newLineLength);
     assertPrefs(a, d, "lineLength");
 
-    a = gApi.accounts().id(admin.id().toString()).getDiffPreferences();
+    a = gApi.accounts().id(admin.id().get()).getDiffPreferences();
     assertThat(a.lineLength).isEqualTo(newLineLength);
     assertPrefs(a, d, "lineLength");
 
     // overwrite the configured default with original hard-coded default
     i = new DiffPreferencesInfo();
     i.lineLength = d.lineLength;
-    a = gApi.accounts().id(admin.id().toString()).setDiffPreferences(i);
+    a = gApi.accounts().id(admin.id().get()).setDiffPreferences(i);
     assertThat(a.lineLength).isEqualTo(d.lineLength);
     assertPrefs(a, d, "lineLength");
 
-    a = gApi.accounts().id(admin.id().toString()).getDiffPreferences();
+    a = gApi.accounts().id(admin.id().get()).getDiffPreferences();
     assertThat(a.lineLength).isEqualTo(d.lineLength);
     assertPrefs(a, d, "lineLength");
   }

@@ -65,7 +65,7 @@ public class NoAccessSameAsNotFoundIT extends StandaloneSiteTest {
     ctx.getInjector().injectMembers(this);
 
     TestAccount user = accountCreator.user1();
-    gApi.accounts().id(user.username()).setHttpPassword(PASSWORD);
+    gApi.accounts().id(user.id().get()).setHttpPassword(PASSWORD);
 
     String canonical = config.getString("gerrit", null, "canonicalweburl");
     repoUrl =

@@ -16,6 +16,24 @@
       "message": "@ghareeb@google.com Thanks for the quick fix. Would it make sense to use an annotation on StaticModule so that we know that all references to that module must be avoided?",
       "revId": "7d61b886cf89eeebd4bef5d1b1b341df3fcb4aeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0dac405_51c40f7d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-10-18T11:07:51Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com I\u0027m aware of the UsedAt annotation, but we don\u0027t have another one for unused stuff AFAIK. I\u0027m a little skeptical to introduce that, but I think it\u0027s generally a good idea.\n\nThere are also other stuff we exclude in our internal imports e.g. ssh, elastic/lucene packages, h2 cache bindings and prolog rules. I think we can annotate these as well.\n\n-- \n\nI just realised we keep StaticModule internally but build it as a separate target (sorry I overlooked this initially). I\u0027ll check if I can re-add this dependency and if so, I will revert this change. Sorry for the noise.",
+      "parentUuid": "3313c841_1b28d309",
+      "revId": "7d61b886cf89eeebd4bef5d1b1b341df3fcb4aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

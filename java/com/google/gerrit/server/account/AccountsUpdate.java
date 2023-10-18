@@ -26,7 +26,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.notedb.Sequences;
+import com.google.gerrit.server.Sequences;
 import com.google.inject.BindingAnnotation;
 import java.io.IOException;
 import java.lang.annotation.Retention;

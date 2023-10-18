@@ -31,6 +31,7 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountResolver;
@@ -39,7 +40,6 @@ import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountExcep
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import com.google.inject.Provider;

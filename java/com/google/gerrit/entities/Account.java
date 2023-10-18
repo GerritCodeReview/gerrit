@@ -162,7 +162,7 @@ public abstract class Account {
   /**
    * Create a new account.
    *
-   * @param newId unique id, see {@link com.google.gerrit.server.notedb.Sequences#nextAccountId()}.
+   * @param newId unique id, see Sequences#nextAccountId().
    * @param registeredOn when the account was registered.
    */
   public static Account.Builder builder(Account.Id newId, Instant registeredOn) {

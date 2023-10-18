@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c31630a_3b49acda",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-10-18T11:29:59Z",
+      "side": 1,
+      "message": "This is an API change so callers might break.\n\nIs it worth it? i.e. do we spare computation or should we leave it as-is out of caution? If we go ahead, what is the rollout strategy?",
+      "revId": "5c09a6aa55fd87eb269ffec6c38a46fe473a04bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

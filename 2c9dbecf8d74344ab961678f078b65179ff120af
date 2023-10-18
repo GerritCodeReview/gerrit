@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6ee09455_0208e5c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-18T19:18:45Z",
+      "side": 1,
+      "message": "I think I would be acceptable to keep this limitation for now, but I would consider removing the word `PoC`. Since we are aiming to finalize this, the maturity level of this change should allow to stop calling it PoC.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 23
+      },
+      "revId": "2c9dbecf8d74344ab961678f078b65179ff120af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49a8e1bf_c9126bd5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-18T19:18:45Z",
+      "side": 1,
+      "message": "At point 2. we state:\n\n```\n2.The plugin loader sorts plugins by putting all the ones that\n  expose an ApiModule before the others, so that all Plugin APIs\n  are declared before any other plugin that can use them.\n```\n\nIs this context, wouldn\u0027t it be right to say that PLUGIN B is always loaded _before_ PLUGIN A?",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 21
+      },
+      "revId": "2c9dbecf8d74344ab961678f078b65179ff120af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9c4869ba_d74de4cf",
         "filename": "java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
         "patchSetId": 31

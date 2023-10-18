@@ -51,6 +51,7 @@ import {
 } from '../../../test/test-data-generators';
 import {ParsedChangeInfo} from '../../../types/types';
 import {ViewState} from '../../../models/views/base';
+import {DashboardType} from '../../../models/views/dashboard';
 
 suite('gr-router tests', () => {
   let router: GrRouter;
@@ -591,6 +592,7 @@ suite('gr-router tests', () => {
         // CUSTOM_DASHBOARD: /^\/dashboard\/?$/,
         await checkUrlToState('/dashboard?title=Custom Dashboard&a=b&d=e', {
           ...createDashboardViewState(),
+          type: DashboardType.CUSTOM,
           sections: [
             {name: 'a', query: 'b'},
             {name: 'd', query: 'e'},
@@ -599,6 +601,7 @@ suite('gr-router tests', () => {
         });
         await checkUrlToState('/dashboard?a=b&c&d=&=e&foreach=is:open', {
           ...createDashboardViewState(),
+          type: DashboardType.CUSTOM,
           sections: [{name: 'a', query: 'is:open b'}],
           title: 'Custom Dashboard',
         });

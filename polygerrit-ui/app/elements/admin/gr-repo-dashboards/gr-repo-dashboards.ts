@@ -11,7 +11,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {tableStyles} from '../../../styles/gr-table-styles';
 import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
-import {createDashboardUrl} from '../../../models/views/dashboard';
+import {DashboardType, createDashboardUrl} from '../../../models/views/dashboard';
 
 interface DashboardRef {
   section: string;
@@ -156,7 +156,7 @@ export class GrRepoDashboards extends LitElement {
   _getUrl(project?: RepoName, dashboard?: DashboardId) {
     if (!project || !dashboard) return '';
 
-    return createDashboardUrl({project, dashboard});
+    return createDashboardUrl({project, type: DashboardType.REPO, dashboard});
   }
 
   _computeLoadingClass(loading: boolean) {

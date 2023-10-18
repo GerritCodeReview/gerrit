@@ -19,6 +19,7 @@ export const PROJECT_DASHBOARD_ROUTE: Route<DashboardViewState> = {
     const dashboard = (ctx.params[1] ?? '') as DashboardId;
     const state: DashboardViewState = {
       view: GerritView.DASHBOARD,
+      type: DashboardType.REPO,
       project,
       dashboard,
     };
@@ -26,8 +27,15 @@ export const PROJECT_DASHBOARD_ROUTE: Route<DashboardViewState> = {
   },
 };
 
+export enum DashboardType {
+  USER,
+  REPO,
+  CUSTOM
+}
+
 export interface DashboardViewState extends ViewState {
   view: GerritView.DASHBOARD;
+  type: DashboardType,
   project?: RepoName;
   dashboard?: DashboardId;
   user?: string;

@@ -34,109 +34,147 @@ import org.junit.Test;
 public class TaskListenerIT extends AbstractDaemonTest {
   /**
    * Use a LatchedMethod in a method to allow another thread to await the method's call. Once
-   * called, the Latch.call() method will block until another thread calls its LatchedMethods's
-   * complete() method.
+   * called, the call() method will block until another thread calls the complete() method or until
+   * a preset timeout is reached.
    */
-  private static class LatchedMethod {
-    private static final int AWAIT_TIMEOUT = 20;
-    private static final TimeUnit AWAIT_TIMEUNIT = TimeUnit.MILLISECONDS;
-
-    /** API class meant be used by the class whose method is being latched */
-    private class Latch {
-      /** Ensure that the latched method calls this on entry */
-      public void call() {
-        called.countDown();
-        await(complete);
-      }
-    }
-
-    public Latch latch = new Latch();
+  public static class LatchedMethod<T> {
+    private volatile T value;
 
     private final CountDownLatch called = new CountDownLatch(1);
     private final CountDownLatch complete = new CountDownLatch(1);
 
-    /** Assert that the Latch's call() method has not yet been called */
+    /** Assert that the call() method has not yet been called */
     public void assertUncalled() {
       assertThat(called.getCount()).isEqualTo(1);
     }
 
     /**
-     * Assert that a timeout does not occur while awaiting Latch's call() method to be called. Fails
-     * if the waiting time elapses before Latch's call() method is called, otherwise passes.
+     * Assert that a timeout does not occur while awaiting the call() to be called. Fails if the
+     * waiting time elapses before the call() method is called, otherwise passes.
      */
-    public void assertAwait() {
+    public void assertCalledEventually() {
       assertThat(await(called)).isEqualTo(true);
     }
 
-    /** Unblock the Latch's call() method so that it can complete */
+    public T call() {
+      called.countDown();
+      await(complete);
+      return getValue();
+    }
+
+    public T call(T val) {
+      set(val);
+      return call();
+    }
+
+    public T callAndAwaitComplete() throws InterruptedException {
+      called.countDown();
+      complete.await();
+      return getValue();
+    }
+
     public void complete() {
       complete.countDown();
     }
 
-    @CanIgnoreReturnValue
-    private static boolean await(CountDownLatch latch) {
-      try {
-        return latch.await(AWAIT_TIMEOUT, AWAIT_TIMEUNIT);
-      } catch (InterruptedException e) {
-        return false;
-      }
+    public void set(T val) {
+      value = val;
+    }
+
+    public void complete(T val) {
+      set(val);
+      complete();
+    }
+
+    public void assertCalledEventuallyThenComplete(T val) {
+      assertCalledEventually();
+      complete(val);
+    }
+
+    protected T getValue() {
+      return value;
     }
   }
 
-  private static class LatchedRunnable implements Runnable {
-    public LatchedMethod run = new LatchedMethod();
+  public static class LatchedRunnable implements Runnable {
+    public LatchedMethod<?> run = new LatchedMethod<>();
+    public String name = "latched-runnable";
+
+    public LatchedRunnable(String name) {
+      this.name = name;
+    }
+
+    public LatchedRunnable() {}
 
     @Override
     public void run() {
-      run.latch.call();
+      run.call();
+    }
+
+    @Override
+    public String toString() {
+      return name;
     }
   }
 
-  private static class ForwardingListener implements TaskListener {
-    public volatile TaskListener delegate;
+  public static class ForwardingListener<T extends TaskListener> implements TaskListener {
+    public volatile T delegate;
     public volatile Task<?> task;
 
-    public void resetDelegate(TaskListener listener) {
+    public void resetDelegate(T listener) {
       delegate = listener;
       task = null;
     }
 
     @Override
     public void onStart(Task<?> task) {
-      if (delegate != null) {
-        if (this.task == null || this.task == task) {
-          this.task = task;
-          delegate.onStart(task);
-        }
+      if (isDelegatable(task)) {
+        delegate.onStart(task);
       }
     }
 
     @Override
     public void onStop(Task<?> task) {
+      if (isDelegatable(task)) {
+        delegate.onStop(task);
+      }
+    }
+
+    protected boolean isDelegatable(Task<?> task) {
       if (delegate != null) {
         if (this.task == task) {
-          delegate.onStop(task);
+          return true;
+        }
+        if (this.task == null) {
+          this.task = task;
+          return true;
         }
       }
+      return false;
     }
   }
 
-  private static class LatchedListener implements TaskListener {
-    public LatchedMethod onStart = new LatchedMethod();
-    public LatchedMethod onStop = new LatchedMethod();
+  public static class LatchedListener implements TaskListener {
+    public LatchedMethod<?> onStart = new LatchedMethod<>();
+    public LatchedMethod<?> onStop = new LatchedMethod<>();
 
     @Override
     public void onStart(Task<?> task) {
-      onStart.latch.call();
+      onStart.call();
     }
 
     @Override
     public void onStop(Task<?> task) {
-      onStop.latch.call();
+      onStop.call();
     }
   }
 
-  private static ForwardingListener forwarder;
+  private static final int AWAIT_TIMEOUT = 20;
+  private static final TimeUnit AWAIT_TIMEUNIT = TimeUnit.MILLISECONDS;
+  private static final long MS_EMPTY_QUEUE =
+      TimeUnit.MILLISECONDS.convert(50, TimeUnit.MILLISECONDS);
+
+  private static ForwardingListener<TaskListener> forwarder;
 
   @Inject private WorkQueue workQueue;
   private ScheduledExecutorService executor;
@@ -149,9 +187,9 @@ public class TaskListenerIT extends AbstractDaemonTest {
     return new AbstractModule() {
       @Override
       public void configure() {
-        // Forwarder.delegate is empty on start to protect test listener from non test tasks
-        // (such as the "Log File Manager") interference
-        forwarder = new ForwardingListener(); // Only gets bound once for all tests
+        // Forwarder.delegate is empty on start to protect test listener from non-test tasks (such
+        // as the "Log File Manager") interference
+        forwarder = new ForwardingListener<>(); // Only gets bound once for all tests
         bind(TaskListener.class).annotatedWith(Exports.named("listener")).toInstance(forwarder);
       }
     };
@@ -184,23 +222,23 @@ public class TaskListenerIT extends AbstractDaemonTest {
     int size = assertQueueBlockedOnExecution(runnable);
 
     // onStartThenRunThenOnStopAreCalled -> onStart...Called
-    listener.onStart.assertAwait();
+    listener.onStart.assertCalledEventually();
     assertQueueSize(size);
     runnable.run.assertUncalled();
     listener.onStop.assertUncalled();
 
     listener.onStart.complete();
     // onStartThenRunThenOnStopAreCalled -> ...ThenRun...Called
-    runnable.run.assertAwait();
+    runnable.run.assertCalledEventually();
     listener.onStop.assertUncalled();
 
     runnable.run.complete();
     // onStartThenRunThenOnStopAreCalled -> ...ThenOnStop...Called
-    listener.onStop.assertAwait();
+    listener.onStop.assertCalledEventually();
     assertQueueSize(size);
 
     listener.onStop.complete();
-    assertAwaitQueueSize(--size);
+    assertTaskCountIsEventually(--size);
   }
 
   @Test
@@ -208,7 +246,7 @@ public class TaskListenerIT extends AbstractDaemonTest {
     int size = assertQueueBlockedOnExecution(runnable);
 
     // firstBlocksSecond -> first...
-    listener.onStart.assertAwait();
+    listener.onStart.assertCalledEventually();
     assertQueueSize(size);
 
     LatchedRunnable runnable2 = new LatchedRunnable();
@@ -219,35 +257,35 @@ public class TaskListenerIT extends AbstractDaemonTest {
     assertQueueSize(size); // waiting on first
 
     listener.onStart.complete();
-    runnable.run.assertAwait();
+    runnable.run.assertCalledEventually();
     assertQueueSize(size); // waiting on first
     runnable2.run.assertUncalled();
 
     runnable.run.complete();
-    listener.onStop.assertAwait();
+    listener.onStop.assertCalledEventually();
     assertQueueSize(size); // waiting on first
     runnable2.run.assertUncalled();
 
     listener.onStop.complete();
-    runnable2.run.assertAwait();
+    runnable2.run.assertCalledEventually();
     assertQueueSize(--size);
 
     runnable2.run.complete();
-    assertAwaitQueueSize(--size);
+    assertTaskCountIsEventually(--size);
   }
 
   @Test
   public void states() throws Exception {
     executor.execute(runnable);
-    listener.onStart.assertAwait();
+    listener.onStart.assertCalledEventually();
     assertStateIs(Task.State.STARTING);
 
     listener.onStart.complete();
-    runnable.run.assertAwait();
+    runnable.run.assertCalledEventually();
     assertStateIs(Task.State.RUNNING);
 
     runnable.run.complete();
-    listener.onStop.assertAwait();
+    listener.onStop.assertCalledEventually();
     assertStateIs(Task.State.STOPPING);
 
     listener.onStop.complete();
@@ -255,8 +293,40 @@ public class TaskListenerIT extends AbstractDaemonTest {
     assertStateIs(Task.State.DONE);
   }
 
+  /** Fails if the waiting time elapses before the count is reached, otherwise passes */
+  public static void assertTaskCountIsEventually(WorkQueue workQueue, int count)
+      throws InterruptedException {
+    long ms = 0;
+    while (count != workQueue.getTasks().size()) {
+      assertThat(ms++).isLessThan(MS_EMPTY_QUEUE);
+      TimeUnit.MILLISECONDS.sleep(1);
+    }
+  }
+
+  public static void assertQueueSize(WorkQueue workQueue, int size) {
+    assertThat(workQueue.getTasks().size()).isEqualTo(size);
+  }
+
+  @CanIgnoreReturnValue
+  public static boolean await(CountDownLatch latch) {
+    try {
+      return latch.await(AWAIT_TIMEOUT, AWAIT_TIMEUNIT);
+    } catch (InterruptedException e) {
+      return false;
+    }
+  }
+
+  public void assertTaskCountIsEventually(int count) throws InterruptedException {
+    TaskListenerIT.assertTaskCountIsEventually(workQueue, count);
+  }
+
+  public static void assertStateIs(Task<?> task, Task.State state) {
+    assertThat(task).isNotNull();
+    assertThat(task.getState()).isEqualTo(state);
+  }
+
   private void assertStateIs(Task.State state) {
-    assertThat(forwarder.task.getState()).isEqualTo(state);
+    assertStateIs(forwarder.task, state);
   }
 
   private int assertQueueBlockedOnExecution(Runnable runnable) {
@@ -267,19 +337,10 @@ public class TaskListenerIT extends AbstractDaemonTest {
   }
 
   private void assertQueueSize(int size) {
-    assertThat(workQueue.getTasks().size()).isEqualTo(size);
+    assertQueueSize(workQueue, size);
   }
 
   private void assertAwaitQueueIsEmpty() throws InterruptedException {
-    assertAwaitQueueSize(0);
-  }
-
-  /** Fails if the waiting time elapses before the count is reached, otherwise passes */
-  private void assertAwaitQueueSize(int size) throws InterruptedException {
-    long i = 0;
-    do {
-      TimeUnit.NANOSECONDS.sleep(100);
-      assertThat(i++).isLessThan(1000);
-    } while (size != workQueue.getTasks().size());
+    assertTaskCountIsEventually(0);
   }
 }

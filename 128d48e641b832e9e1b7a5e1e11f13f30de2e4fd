@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dd0ab1c4_1db7e3a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-10-18T12:56:14Z",
+      "side": 1,
+      "message": "\u003e So bottom-line I think we probably don\u0027t want to submit this change\n\n+1 unfortunately :-(",
+      "parentUuid": "f2563148_e77854c3",
+      "range": {
+        "startLine": 34,
+        "startChar": 26,
+        "endLine": 38,
+        "endChar": 42
+      },
+      "revId": "128d48e641b832e9e1b7a5e1e11f13f30de2e4fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "17d222d0_75612b0c",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1

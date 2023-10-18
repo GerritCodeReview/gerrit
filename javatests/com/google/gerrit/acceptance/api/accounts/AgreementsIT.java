@@ -202,7 +202,7 @@ public class AgreementsIT extends AbstractDaemonTest {
     AuthException thrown =
         assertThrows(
             AuthException.class,
-            () -> gApi.accounts().id("admin").signAgreement(caAutoVerify.getName()));
+            () -> gApi.accounts().id(admin.id().get()).signAgreement(caAutoVerify.getName()));
     assertThat(thrown).hasMessageThat().contains("not allowed to enter contributor agreement");
   }
 

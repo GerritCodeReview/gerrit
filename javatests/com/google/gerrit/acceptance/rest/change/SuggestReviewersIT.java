@@ -476,17 +476,17 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     String name = name("foo");
     TestAccount foo1 = accountCreator.create(name + "-1");
     reviewChange(changeIdReviewed, foo1);
-    assertThat(gApi.accounts().id(foo1.username()).getActive()).isTrue();
+    assertThat(gApi.accounts().id(foo1.id().get()).getActive()).isTrue();
 
     TestAccount foo2 = accountCreator.create(name + "-2");
     reviewChange(changeIdReviewed, foo2);
-    assertThat(gApi.accounts().id(foo2.username()).getActive()).isTrue();
+    assertThat(gApi.accounts().id(foo2.id().get()).getActive()).isTrue();
 
     assertReviewers(
         suggestReviewers(changeId, name), ImmutableList.of(foo1, foo2), ImmutableList.of());
 
     requestScopeOperations.setApiUser(user.id());
-    gApi.accounts().id(foo2.username()).setActive(false);
+    gApi.accounts().id(foo2.id().get()).setActive(false);
     assertThat(gApi.accounts().id(foo2.id().get()).getActive()).isFalse();
     assertReviewers(suggestReviewers(changeId, name), ImmutableList.of(foo1), ImmutableList.of());
     assertReviewers(

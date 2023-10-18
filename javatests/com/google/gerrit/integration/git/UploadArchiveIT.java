@@ -154,7 +154,7 @@ public class UploadArchiveIT extends StandaloneSiteTest {
             .add(String.format("id_rsa_%s", admin.username()))
             .build());
     gApi.accounts()
-        .id(admin.username())
+        .id(admin.id().get())
         .addSshKey(
             new String(
                 java.nio.file.Files.readAllBytes(

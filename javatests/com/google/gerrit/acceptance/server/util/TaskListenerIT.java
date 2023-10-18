@@ -34,23 +34,11 @@ import org.junit.Test;
 public class TaskListenerIT extends AbstractDaemonTest {
   /**
    * Use a LatchedMethod in a method to allow another thread to await the method's call. Once
-   * called, the Latch.call() method will block until another thread calls its LatchedMethods's
-   * complete() method.
+   * called, the LatchedMethod.call() method will block until another thread calls its
+   * LatchedMethods's complete() method.
    */
-  private static class LatchedMethod {
-    private static final int AWAIT_TIMEOUT = 20;
-    private static final TimeUnit AWAIT_TIMEUNIT = TimeUnit.MILLISECONDS;
-
-    /** API class meant be used by the class whose method is being latched */
-    private class Latch {
-      /** Ensure that the latched method calls this on entry */
-      public void call() {
-        called.countDown();
-        await(complete);
-      }
-    }
-
-    public Latch latch = new Latch();
+  public static class LatchedMethod<T> {
+    private volatile T value;
 
     private final CountDownLatch called = new CountDownLatch(1);
     private final CountDownLatch complete = new CountDownLatch(1);
@@ -69,6 +57,29 @@ public class TaskListenerIT extends AbstractDaemonTest {
     }
 
     /** Unblock the Latch's call() method so that it can complete */
+    public T assertAwaitAndComplete() {
+      assertAwait();
+      complete();
+      return getValue();
+    }
+
+    // public T assertAwaitAndSupply(T val) {
+    //  assertAwait();
+    //  supply(val);
+    //  return getValue();
+    // }
+
+    public T call() {
+      called.countDown();
+      await(complete);
+      return getValue();
+    }
+
+    public T call(T val) {
+      set(val);
+      return call();
+    }
+
     public void complete() {
       complete.countDown();
     }
@@ -81,62 +92,88 @@ public class TaskListenerIT extends AbstractDaemonTest {
         return false;
       }
     }
+
+    public void set(T val) {
+      value = val;
+    }
+
+    public void supply(T val) {
+      set(val);
+      complete();
+    }
+
+    protected T getValue() {
+      return value;
+    }
   }
 
-  private static class LatchedRunnable implements Runnable {
+  public static class LatchedRunnable implements Runnable {
     public LatchedMethod run = new LatchedMethod();
 
     @Override
     public void run() {
-      run.latch.call();
+      run.call();
     }
   }
 
-  private static class ForwardingListener implements TaskListener {
-    public volatile TaskListener delegate;
-    public volatile Task<?> task;
+  public static class ForwardingListener<T extends TaskListener> implements TaskListener {
+    public volatile T delegate;
+    public volatile Task task;
 
-    public void resetDelegate(TaskListener listener) {
+    public void resetDelegate(T listener) {
       delegate = listener;
       task = null;
     }
 
     @Override
     public void onStart(Task<?> task) {
-      if (delegate != null) {
-        if (this.task == null || this.task == task) {
-          this.task = task;
-          delegate.onStart(task);
-        }
+      if (isDelegatable(task)) {
+        delegate.onStart(task);
       }
     }
 
     @Override
     public void onStop(Task<?> task) {
+      if (isDelegatable(task)) {
+        delegate.onStop(task);
+      }
+    }
+
+    protected boolean isDelegatable(Task<?> task) {
       if (delegate != null) {
         if (this.task == task) {
-          delegate.onStop(task);
+          return true;
+        }
+        if (this.task == null) {
+          this.task = task;
+          return true;
         }
       }
+      return false;
     }
   }
 
-  private static class LatchedListener implements TaskListener {
+  public static class LatchedListener implements TaskListener {
     public LatchedMethod onStart = new LatchedMethod();
     public LatchedMethod onStop = new LatchedMethod();
 
     @Override
     public void onStart(Task<?> task) {
-      onStart.latch.call();
+      onStart.call();
     }
 
     @Override
     public void onStop(Task<?> task) {
-      onStop.latch.call();
+      onStop.call();
     }
   }
 
-  private static ForwardingListener forwarder;
+  private static final int AWAIT_TIMEOUT = 5;
+  private static final TimeUnit AWAIT_TIMEUNIT = TimeUnit.MILLISECONDS;
+  private static final long MS_EMPTY_QUEUE =
+      TimeUnit.MILLISECONDS.convert(5, TimeUnit.MILLISECONDS);
+
+  private static ForwardingListener<TaskListener> forwarder;
 
   @Inject private WorkQueue workQueue;
   private ScheduledExecutorService executor;
@@ -151,7 +188,7 @@ public class TaskListenerIT extends AbstractDaemonTest {
       public void configure() {
         // Forwarder.delegate is empty on start to protect test listener from non test tasks
         // (such as the "Log File Compressor") interference
-        forwarder = new ForwardingListener(); // Only gets bound once for all tests
+        forwarder = new ForwardingListener<>(); // Only gets bound once for all tests
         bind(TaskListener.class).annotatedWith(Exports.named("listener")).toInstance(forwarder);
       }
     };
@@ -266,6 +303,19 @@ public class TaskListenerIT extends AbstractDaemonTest {
     return expectedSize;
   }
 
+  // private void assertTaskCountIsEventually(int count) throws InterruptedException {
+  //  assertTaskCountIsEventually(workQueue, count);
+  // }
+
+  public static void assertTaskCountIsEventually(WorkQueue workQueue, int count)
+      throws InterruptedException {
+    long ms = 0;
+    while (count != workQueue.getTasks().size()) {
+      assertThat(ms++).isLessThan(MS_EMPTY_QUEUE);
+      TimeUnit.MILLISECONDS.sleep(1);
+    }
+  }
+
   private void assertQueueSize(int size) {
     assertThat(workQueue.getTasks().size()).isEqualTo(size);
   }
@@ -281,5 +331,13 @@ public class TaskListenerIT extends AbstractDaemonTest {
       TimeUnit.NANOSECONDS.sleep(100);
       assertThat(i++).isLessThan(1000);
     } while (size != workQueue.getTasks().size());
+  }
+
+  public static boolean await(CountDownLatch latch) {
+    try {
+      return latch.await(AWAIT_TIMEOUT, AWAIT_TIMEUNIT);
+    } catch (InterruptedException e) {
+      return false;
+    }
   }
 }

@@ -50,7 +50,6 @@ import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
-import com.google.gerrit.extensions.common.testing.ContentEntrySubject;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.webui.EditWebLink;
@@ -3084,14 +3083,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     DiffInfo diffInfo = gApi.changes().id(changeId2.get()).current().file(imageFileName).diff();
 
     assertThat(diffInfo).binary().isTrue();
-
-    // All fields in the contentEntry are null, except the 'skip' field. It's probably a bug that
-    // this is set for binary files.
-    ContentEntrySubject contentEntry = assertThat(diffInfo).content().onlyElement();
-    contentEntry.linesOfA().isNull();
-    contentEntry.linesOfB().isNull();
-    contentEntry.commonLines().isNull();
-
+    assertThat(diffInfo).content().isEmpty();
     assertThat(diffInfo).diffHeader().contains("Binary files differ");
     assertThat(diffInfo).metaA().isNotNull();
     assertThat(diffInfo).metaB().isNotNull();
@@ -3121,14 +3113,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     DiffInfo diffInfo = gApi.changes().id(changeId2.get()).current().file(imageFileName).diff();
 
     assertThat(diffInfo).binary().isTrue();
-
-    // All fields in the contentEntry are null, except the 'skip' field. It's probably a bug that
-    // this is set for binary files.
-    ContentEntrySubject contentEntry = assertThat(diffInfo).content().onlyElement();
-    contentEntry.linesOfA().isNull();
-    contentEntry.linesOfB().isNull();
-    contentEntry.commonLines().isNull();
-
+    assertThat(diffInfo).content().isEmpty();
     assertThat(diffInfo).diffHeader().contains("Binary files differ");
     assertThat(diffInfo).metaA().isNotNull();
     assertThat(diffInfo).metaB().isNull();

@@ -142,7 +142,9 @@ public class DiffInfoCreator {
           throw new IllegalStateException();
       }
     }
-    contentCollector.addCommon(ps.getA().getSize());
+    if (!ps.isBinary()) {
+      contentCollector.addCommon(ps.getA().getSize());
+    }
 
     return contentCollector.lines;
   }

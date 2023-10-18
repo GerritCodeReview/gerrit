@@ -70,6 +70,7 @@ import {
   createDiffUrl,
 } from '../../../models/views/change';
 import {
+  DashboardType,
   DashboardViewModel,
   DashboardViewState,
   PROJECT_DASHBOARD_ROUTE,
@@ -1020,6 +1021,7 @@ export class GrRouter implements Finalizable, NavigationService {
       } else {
         const state: DashboardViewState = {
           view: GerritView.DASHBOARD,
+          type: DashboardType.USER,
           user: ctx.params[0],
         };
         // Note that router model view must be updated before view models.
@@ -1055,6 +1057,7 @@ export class GrRouter implements Finalizable, NavigationService {
 
     const state: DashboardViewState = {
       view: GerritView.DASHBOARD,
+      type: DashboardType.CUSTOM,
       user: 'self',
       sections,
       title,

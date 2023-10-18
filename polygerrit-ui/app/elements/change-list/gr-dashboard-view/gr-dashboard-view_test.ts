@@ -36,6 +36,7 @@ import {fixture, html, assert} from '@open-wc/testing';
 import {SinonStubbedMember} from 'sinon';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {GrButton} from '../../shared/gr-button/gr-button';
+import {DashboardType} from '../../../models/views/dashboard';
 
 suite('gr-dashboard-view tests', () => {
   let element: GrDashboardView;
@@ -63,6 +64,7 @@ suite('gr-dashboard-view tests', () => {
   test('render', async () => {
     element.viewState = {
       view: GerritView.DASHBOARD,
+      type: DashboardType.CUSTOM,
       user: 'self',
       sections: [
         {name: 'test1', query: 'test1', hideIfEmpty: true},
@@ -117,6 +119,7 @@ suite('gr-dashboard-view tests', () => {
     setup(async () => {
       element.viewState = {
         view: GerritView.DASHBOARD,
+        type: DashboardType.CUSTOM,
         user: 'user',
         sections: [
           {name: 'test1', query: 'test1', hideIfEmpty: true},
@@ -155,6 +158,7 @@ suite('gr-dashboard-view tests', () => {
     setup(async () => {
       element.viewState = {
         view: GerritView.DASHBOARD,
+        type: DashboardType.CUSTOM,
         user: 'self',
         sections: [
           {name: 'test1', query: 'test1', hideIfEmpty: true},
@@ -167,6 +171,7 @@ suite('gr-dashboard-view tests', () => {
       test('not dashboard/self', () => {
         element.viewState = {
           view: GerritView.DASHBOARD,
+          type: DashboardType.USER,
           user: 'notself',
           dashboard: '' as DashboardId,
         };
@@ -178,6 +183,7 @@ suite('gr-dashboard-view tests', () => {
         element.results = [];
         element.viewState = {
           view: GerritView.DASHBOARD,
+          type: DashboardType.USER,
           user: 'self',
           dashboard: '' as DashboardId,
         };
@@ -192,6 +198,7 @@ suite('gr-dashboard-view tests', () => {
         ];
         element.viewState = {
           view: GerritView.DASHBOARD,
+          type: DashboardType.USER,
           user: 'self',
           dashboard: '' as DashboardId,
         };
@@ -212,6 +219,7 @@ suite('gr-dashboard-view tests', () => {
         assert.isFalse(changeIsOpen(element.results[0].results[0]));
         element.viewState = {
           view: GerritView.DASHBOARD,
+          type: DashboardType.USER,
           user: 'self',
           dashboard: '' as DashboardId,
         };
@@ -322,6 +330,7 @@ suite('gr-dashboard-view tests', () => {
       element.loggedInUser = undefined;
       element.viewState = {
         view: GerritView.DASHBOARD,
+        type: DashboardType.CUSTOM,
         user: 'self',
         dashboard: '' as DashboardId,
         sections: [
@@ -337,6 +346,7 @@ suite('gr-dashboard-view tests', () => {
       element.loggedInUser = createAccountDetailWithId(1);
       element.viewState = {
         view: GerritView.DASHBOARD,
+        type: DashboardType.CUSTOM,
         user: 'self',
         dashboard: '' as DashboardId,
         sections: [
@@ -353,6 +363,7 @@ suite('gr-dashboard-view tests', () => {
     test("viewing another user's dashboard omits selfOnly sections", async () => {
       element.viewState = {
         view: GerritView.DASHBOARD,
+        type: DashboardType.CUSTOM,
         user: 'user',
         dashboard: '' as DashboardId,
         sections: [
@@ -368,6 +379,7 @@ suite('gr-dashboard-view tests', () => {
   test('suffixForDashboard is included in getChanges query', async () => {
     element.viewState = {
       view: GerritView.DASHBOARD,
+      type: DashboardType.CUSTOM,
       dashboard: '' as DashboardId,
       sections: [
         {name: '', query: '1'},
@@ -508,6 +520,7 @@ suite('gr-dashboard-view tests', () => {
   test('showNewUserHelp', async () => {
     element.viewState = {
       view: GerritView.DASHBOARD,
+      type: DashboardType.USER,
     };
     element.loading = false;
     element.showNewUserHelp = false;
@@ -542,6 +555,7 @@ suite('gr-dashboard-view tests', () => {
 
     element.viewState = {
       view: GerritView.DASHBOARD,
+      type: DashboardType.USER,
       dashboard: '' as DashboardId,
       user: 'self',
     };
@@ -551,6 +565,7 @@ suite('gr-dashboard-view tests', () => {
     element.loading = false;
     element.viewState = {
       view: GerritView.DASHBOARD,
+      type: DashboardType.USER,
       dashboard: '' as DashboardId,
       user: 'user',
     };
@@ -559,6 +574,7 @@ suite('gr-dashboard-view tests', () => {
 
     element.viewState = {
       view: GerritView.DASHBOARD,
+      type: DashboardType.REPO,
       dashboard: '' as DashboardId,
       project: 'p' as RepoName,
       user: 'user',
@@ -584,6 +600,7 @@ suite('gr-dashboard-view tests', () => {
     });
     element.viewState = {
       view: GerritView.DASHBOARD,
+      type: DashboardType.REPO,
       dashboard: 'dashboard' as DashboardId,
       project: 'project' as RepoName,
       user: '',
@@ -592,6 +609,18 @@ suite('gr-dashboard-view tests', () => {
   });
 
   test('viewState change triggers dashboardDisplayed()', async () => {
+    getChangesStub.returns(Promise.resolve([[]]));
+    const dashboardDisplayedStub = stubReporting('dashboardDisplayed');
+    element.viewState = {
+      view: GerritView.DASHBOARD,
+      type: DashboardType.USER,
+      user: 'self',
+    };
+    await element.reload();
+    assert.isTrue(dashboardDisplayedStub.calledOnce);
+  });
+
+  test('viewState change does not trigger dashboardDisplayed() for repo', async () => {
     stubRestApi('getDashboard').returns(
       Promise.resolve({
         id: '' as DashboardId,
@@ -609,11 +638,24 @@ suite('gr-dashboard-view tests', () => {
     const dashboardDisplayedStub = stubReporting('dashboardDisplayed');
     element.viewState = {
       view: GerritView.DASHBOARD,
+      type: DashboardType.REPO,
       dashboard: 'dashboard' as DashboardId,
       project: 'project' as RepoName,
       user: '',
     };
     await element.reload();
-    assert.isTrue(dashboardDisplayedStub.calledOnce);
+    assert.isFalse(dashboardDisplayedStub.calledOnce);
+  });
+
+  test('viewState change does not trigger dashboardDisplayed() for not-self', async () => {
+    getChangesStub.returns(Promise.resolve([]));
+    const dashboardDisplayedStub = stubReporting('dashboardDisplayed');
+    element.viewState = {
+      view: GerritView.DASHBOARD,
+      type: DashboardType.USER,
+      user: 'notself',
+    };
+    await element.reload();
+    assert.isFalse(dashboardDisplayedStub.calledOnce);
   });
 });

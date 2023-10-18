@@ -43,6 +43,7 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {Shortcut} from '../../../services/shortcuts/shortcuts-config';
 import {ShortcutController} from '../../lit/shortcut-controller';
 import {
+  DashboardType,
   dashboardViewModelToken,
   DashboardViewState,
 } from '../../../models/views/dashboard';
@@ -386,7 +387,7 @@ export class GrDashboardView extends LitElement {
     this.firstTimeLoad = false;
 
     this.loading = true;
-    const {project, dashboard, title, user, sections} = this.viewState;
+    const {project, type, dashboard, title, user, sections} = this.viewState;
 
     const dashboardPromise: Promise<UserDashboard | undefined> = project
       ? this.getRepositoryDashboard(project, dashboard)
@@ -406,7 +407,10 @@ export class GrDashboardView extends LitElement {
       })
       .then(() => {
         this.maybeShowDraftsBanner();
-        this.reporting.dashboardDisplayed();
+        // Only report the metric for the default personal dashboard.
+        if (type === DashboardType.USER && isLoggedInUserDashboard) {
+          this.reporting.dashboardDisplayed();
+        }
       })
       .catch(err => {
         fireTitleChange(title || this.computeTitle(user));

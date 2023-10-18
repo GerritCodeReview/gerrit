@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61a1cab5_260cd64b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-18T22:03:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ee09455_0208e5c9",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 23
+      },
+      "revId": "2c9dbecf8d74344ab961678f078b65179ff120af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49a8e1bf_c9126bd5",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2bf5424a_d385672d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-18T22:03:35Z",
+      "side": 1,
+      "message": "I clarified that it is possible because they use the same notification channel, which is external to both.",
+      "parentUuid": "49a8e1bf_c9126bd5",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 21
+      },
+      "revId": "2c9dbecf8d74344ab961678f078b65179ff120af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c4869ba_d74de4cf",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-10-01T07:33:29Z",
       "side": 1,
       "message": "With the latest changes to API and `ServerPluginComparator` this throws an NPE:\n```\njava.lang.NullPointerException\n\tat java.base/java.util.Objects.requireNonNull(Objects.java:221)\n\tat java.base/java.util.ImmutableCollections$ListN.\u003cinit\u003e(ImmutableCollections.java:432)\n\tat java.base/java.util.List.of(List.java:842)\n\tat com.google.gerrit.server.plugins.PluginGuiceEnvironment.onStartPlugin(PluginGuiceEnvironment.java:281)\n\tat com.google.gerrit.server.plugins.PluginLoader.runPlugin(PluginLoader.java:504)\n\tat com.google.gerrit.server.plugins.PluginLoader.rescan(PluginLoader.java:424)\n\tat com.google.gerrit.server.plugins.PluginLoader.start(PluginLoader.java:330)\n\tat com.google.gerrit.lifecycle.LifecycleManager.start(LifecycleManager.java:95)\n\tat com.google.gerrit.pgm.Daemon.start(Daemon.java:404)\n\tat com.google.gerrit.pgm.Daemon.run(Daemon.java:297)\n\tat com.google.gerrit.pgm.util.AbstractProgram.main(AbstractProgram.java:62)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\n\tat com.google.gerrit.launcher.GerritLauncher.invokeProgram(GerritLauncher.java:252)\n\tat com.google.gerrit.launcher.GerritLauncher.mainImpl(GerritLauncher.java:148)\n\tat com.google.gerrit.launcher.GerritLauncher.main(GerritLauncher.java:93)\n```\n\nwhich can be fixed by:\n\n```suggestion\n        List\u003cInjector\u003e allPluginInjectors \u003d\n            Stream.of(\n                    Optional.ofNullable(plugin.getSysInjector()),\n                    Optional.ofNullable(plugin.getSshInjector()),\n                    Optional.ofNullable(plugin.getHttpInjector()))\n                .filter(Optional::isPresent)\n                .map(Optional::get)\n                .collect(Collectors.toList());\n```\n\nWe should defo refactor the plugin loader code and improve test coverage.",
+      "range": {
+        "startLine": 280,
+        "startChar": 8,
+        "endLine": 284,
+        "endChar": 71
+      },
+      "revId": "2c9dbecf8d74344ab961678f078b65179ff120af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaa1b2ac_c62f5880",
+        "filename": "java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-18T22:03:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c4869ba_d74de4cf",
       "range": {
         "startLine": 280,
         "startChar": 8,
@@ -119,6 +191,47 @@
       "side": 1,
       "message": "Sorry, that\u0027s my bad. Let\u0027s extract this code into `ServerPluginComparator`:\n\n```java\npackage com.google.gerrit.server.plugins;\n\nimport com.google.common.base.Strings;\nimport com.google.common.collect.ComparisonChain;\nimport java.io.IOException;\nimport java.nio.file.Path;\nimport java.util.Comparator;\nimport java.util.Map;\nimport java.util.Map.Entry;\nimport java.util.jar.JarFile;\n\npublic class ServerPluginComparator implements Comparator\u003cEntry\u003cString, Path\u003e\u003e {\n  @Override\n  public int compare(Map.Entry\u003cString, Path\u003e e1, Map.Entry\u003cString, Path\u003e e2) {\n    Path p1 \u003d e1.getValue();\n    Path p2 \u003d e2.getValue();\n    Path n1 \u003d p1.getFileName();\n    Path n2 \u003d p2.getFileName();\n\n    return ComparisonChain.start()\n        .compareTrueFirst(isApi(p1), isApi(p2))\n        .compareTrueFirst(isJar(p1), isJar(n2))\n        .compare(n1, n2)\n        .result();\n  }\n\n  private boolean isJar(Path pluginName) {\n    return pluginName.toString().endsWith(\".jar\");\n  }\n\n  private boolean isApi(Path pluginPath) {\n    try (JarFile jar \u003d new JarFile(pluginPath.toString())) {\n      String apiModule \u003d\n          Strings.emptyToNull(jar.getManifest().getMainAttributes().getValue(\"Gerrit-ApiModule\"));\n\n      return apiModule !\u003d null;\n    } catch (SecurityException | IOException e) {\n      return false;\n    }\n  }\n}\n```\n\nthen we can just do:\n\n```java\nTreeSet\u003cMap.Entry\u003cString, Path\u003e\u003e sortedPlugins \u003d Sets.newTreeSet(new ServerPluginComparator());\n```",
       "parentUuid": "5a0a5d10_c33e2ef8",
+      "revId": "2c9dbecf8d74344ab961678f078b65179ff120af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69cf14ad_ed3ba393",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-18T22:03:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3753bc10_7e94caf6",
+      "revId": "2c9dbecf8d74344ab961678f078b65179ff120af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48eed868_f2759c4b",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 31
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-18T22:03:35Z",
+      "side": 1,
+      "message": "`!Strings.isNullOrEmpty`",
+      "range": {
+        "startLine": 490,
+        "startChar": 25,
+        "endLine": 490,
+        "endChar": 46
+      },
       "revId": "2c9dbecf8d74344ab961678f078b65179ff120af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

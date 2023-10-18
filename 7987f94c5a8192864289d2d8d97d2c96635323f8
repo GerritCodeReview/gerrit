@@ -252,6 +252,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16b81a06_6411e09a",
+        "filename": "java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-18T22:03:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fcb1707_6fd155c2",
+      "range": {
+        "startLine": 286,
+        "startChar": 8,
+        "endLine": 296,
+        "endChar": 61
+      },
+      "revId": "7987f94c5a8192864289d2d8d97d2c96635323f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "939961ba_cd57ab8f",

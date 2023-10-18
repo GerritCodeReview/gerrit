@@ -127,6 +127,43 @@ Gerrit-BatchModule: tld.example.project.CoreModuleClassName
 In this runtime, only the module designated by `Gerrit-BatchModule` is
 enabled, not `Gerrit-SysModule`.
 
+=== Cross-Plugin communication
+
+A plugin can optionally declare an API to be used by other plugins.
+
+---
+Gerrit-ApiModule: tld.example.project.APIClassName
+---
+
+Plugins can then consume this API by injecting the classes defined by it.
+For example, by injecting `DynamicItem`, `DynamicSet` or a `DynamicMap` defined
+by the API, a plugin might register new concrete implementation or replace
+existing ones.
+
+This enables plugins to influence other plugins by customizing or extending the
+their behaviour.
+
+Gotchas and Limitations:
+
+- The plugin declaring an API needs to end with the `.api.jar`.
+- A `plugin A` depending a `plugin B` should include `plugin B` as a `neverlink`
+  library in its BUILD file, as follows:
+
+  ```
+  java_library(
+      name = "gerrit-pluginB-neverlink",
+      neverlink = True,
+      exports = ["//plugins/pluginB"],
+  )
+  ```
+
+  The reason is that the `plugin B` dependency should not be included as a
+  shaded jar of the plugin: Gerrit will load the dependency dynamically at
+  runtime instead of packaging it in the consumer plugin fat jar.
+
+- Removing/renaming the plugin jar that defines the classes declared in the
+  `Gerrit-ApiModule` is currently not supported.
+
 [[plugin_name]]
 === Plugin Name
 

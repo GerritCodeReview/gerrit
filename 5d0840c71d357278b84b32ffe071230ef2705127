@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf0b2cd1_2a8e5aad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-18T21:55:31Z",
+      "side": 1,
+      "message": "Why do we still have a -2? Can we upgrade Lucene on Gerrit v3.9?",
+      "revId": "5d0840c71d357278b84b32ffe071230ef2705127",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f55eeb3e_0d55dff7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-10-18T09:27:39Z",
+      "side": 1,
+      "message": "I think the side-panel should take it\u0027s state from preferences only when it\u0027s first connected. And otherwise we write the preferences, but don\u0027t update the state of the page.\n\nThis will run into the same issues that download dialog has, where multiple quick switches lead to bad behaviour.\n\nAdditionally, imagine following scenario: I have tab open with a side-bar, on another tab I close a sidebar. I go to the first tab, do something unrelated that causes the preferences to update \u003d\u003e the side-bar closes. This is surprising and probably not desired.",
+      "range": {
+        "startLine": 365,
+        "startChar": 8,
+        "endLine": 374,
+        "endChar": 9
+      },
+      "revId": "e17f705b9c302b0894bca0ce9c88623db2bef4e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

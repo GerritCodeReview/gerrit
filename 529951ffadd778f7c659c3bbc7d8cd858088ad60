@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e21e943_09867bf3",
+        "filename": "polygerrit-ui/app/api/suggestions.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-10-18T07:14:04Z",
+      "side": 1,
+      "message": "Maybe add a comment for how this is supposed to be used. If a plugin registers a provider, then why would it not be available? What is the usecase?\n\nAlso, you are using this in the context of a specific comment, so you already for example the file name. Would it make sense to pass the a parameter such that the plugin can opt-out early of providing suggestions for a specific type of file or comment range?",
+      "revId": "529951ffadd778f7c659c3bbc7d8cd858088ad60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db297d11_e6b1d813",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-10-18T07:14:04Z",
+      "side": 1,
+      "message": "Maybe add a comment.",
+      "revId": "529951ffadd778f7c659c3bbc7d8cd858088ad60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56b7e10d_18503d9a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-10-18T07:14:04Z",
+      "side": 1,
+      "message": "Maybe add a comment about why this cannot be run in the constructor.",
+      "revId": "529951ffadd778f7c659c3bbc7d8cd858088ad60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10db7b8d_e22e5efb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 946,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-10-18T07:14:04Z",
+      "side": 1,
+      "message": "Calling `getState()` from a component is an anti-pattern, I think. You should subscribe to the model and make `suggestionsPlugins` a state. Same problem in `generateSuggestEdit()`.\n\nYou could also make it so that the selector emits `undefined` until plugins are loaded and then `[]`.\n\nMaybe you even want to select the `providers` directly and not the `plugins`?\n\nIt would also be good to have a TODO (in the plugins model) for why you only use `[0]` of the `suggestionsPlugins`.",
+      "revId": "529951ffadd778f7c659c3bbc7d8cd858088ad60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

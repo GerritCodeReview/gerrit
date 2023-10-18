@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8aa81a1d_abb68264",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1369,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-10-18T06:33:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fef73a17_be6edd7a",
+      "range": {
+        "startLine": 1369,
+        "startChar": 0,
+        "endLine": 1369,
+        "endChar": 41
+      },
+      "revId": "09cf32ec86a2694b1608d73a5156f18f1448f307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3c22309_b4a15c6d",
@@ -58,6 +82,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e843fc1_320c7157",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2790,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-10-18T06:33:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3c22309_b4a15c6d",
+      "revId": "09cf32ec86a2694b1608d73a5156f18f1448f307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60db0695_52538cfe",
@@ -71,6 +113,30 @@
       "writtenOn": "2023-10-17T14:38:35Z",
       "side": 1,
       "message": "Maybe this can be type?",
+      "range": {
+        "startLine": 1336,
+        "startChar": 22,
+        "endLine": 1336,
+        "endChar": 28
+      },
+      "revId": "09cf32ec86a2694b1608d73a5156f18f1448f307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a77789d7_6ef17e30",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1336,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-10-18T06:33:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60db0695_52538cfe",
       "range": {
         "startLine": 1336,
         "startChar": 22,

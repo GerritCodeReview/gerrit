@@ -236,6 +236,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a56b369b_aba9ff14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-18T22:06:47Z",
+      "side": 1,
+      "message": "Yes, however I believe the current solution already provides good enough value for many use-cases.",
+      "parentUuid": "1f7145f3_34e492d2",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 13
+      },
+      "revId": "883175a9ff6d10ff8650e57cf2cf1b24f7e59a5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bcf40790_ca2185ef",

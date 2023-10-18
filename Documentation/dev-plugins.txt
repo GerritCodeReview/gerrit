@@ -127,6 +127,74 @@ Gerrit-BatchModule: tld.example.project.CoreModuleClassName
 In this runtime, only the module designated by `Gerrit-BatchModule` is
 enabled, not `Gerrit-SysModule`.
 
+=== Cross-Plugin communication
+
+A plugin can optionally declare an API to be used by other plugins.
+
+---
+Gerrit-ApiModule: tld.example.project.APIClassName
+---
+
+Notably, when injecting 'DynamicItem,' 'DynamicSet,' or 'DynamicMap' defined by
+the API, a plugin can register new concrete implementations or replace existing
+ones.
+However, these are not the only classes available for consumption; API plugins
+can also define and provide interfaces and concrete classes for other plugins.
+
+This enables plugins to influence other plugins by customizing or extending the
+their behaviour.
+
+*Gotchas and Limitations*:
+
+- A `plugin A` depending on a `plugin B` (declaring a `Gerrit-ApiModule`),
+  should include `plugin B` as a `neverlink` library in its BUILD file, as
+  follows:
+
+  ```
+  java_library(
+      name = "gerrit-pluginB-neverlink",
+      neverlink = True,
+      exports = ["//plugins/pluginB"],
+  )
+  ```
+
+  The reason is that the `plugin B` dependency should not be included as a
+  shaded jar of the plugin: Gerrit will load the dependency dynamically at
+  runtime instead of packaging it in the consumer plugin fat jar.
+
+- Removing/renaming the plugin jar that defines the classes declared in the
+  `Gerrit-ApiModule` is currently not supported.
+  The behaviour in this case is unpredictable and depends on the specifics of
+  the classes involved.
+
+- An API plugin cannot depend on another API plugin.
+
+*Gerrit CI and Validation*:
+
+To build this as part of the gerrit-ci the plugin Api (in our example,
+`plugin B`) needs to be added as a dependency via the `extra-plugins` property.
+For example:
+
+```
+ project:
+    name: plugin-A
+    jobs:
+      - 'plugin-{name}-bazel-{branch}':
+          extra-plugins: 'plugin-B'
+          branch:
+            - master
+```
+
+Additionally, for `plugin A` to be verified by the gerrit-ci, the `Jenkinsfile`
+also needs to be inclusive of the API dependency, as such:
+
+```
+pluginPipeline(
+  formatCheckId: 'gerritforge:plugin-A-format-3852e64366bb37d13b8baf8af9b15cfd38eb9227',
+  buildCheckId: 'gerritforge:plugin-A-3852e64366bb37d13b8baf8af9b15cfd38eb9227',
+  extraPlugins: ['plugin-B'])
+```
+
 [[plugin_name]]
 === Plugin Name
 

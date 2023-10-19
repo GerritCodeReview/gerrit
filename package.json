@@ -12,7 +12,7 @@
   "devDependencies": {
     "@koa/cors": "^3.4.3",
     "@types/page": "^1.11.6",
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/eslint-plugin": "^6.8.0",
     "@web/dev-server": "^0.1.38",
     "@web/dev-server-esbuild": "^0.3.6",
     "eslint": "^8.49.0",
@@ -24,14 +24,14 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-regex": "^1.10.0",
-    "gts": "^3.1.1",
+    "gts": "^5.2.0",
     "lit-analyzer": "^1.2.1",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.8",
-    "rollup": "^2.79.1",
-    "terser": "~5.8.0",
+    "rollup": "^4.1.4",
+    "terser": "^5.22.0",
     "ts-lit-plugin": "^1.2.1",
-    "typescript": "^4.9.5"
+    "typescript": "^5.2.2"
   },
   "scripts": {
     "setup": "yarn && yarn --cwd=polygerrit-ui && yarn --cwd=polygerrit-ui/app",

@@ -111,6 +111,7 @@ public final class UserPreferencesConverter {
       builder =
           setIfNotNull(
               builder, builder::setAllowBrowserNotifications, info.allowBrowserNotifications);
+      builder = setIfNotNull(builder, builder::setDiffPageSidebar, info.diffPageSidebar);
       return builder.build();
     }
 
@@ -171,6 +172,7 @@ public final class UserPreferencesConverter {
       res.changeTable = proto.getChangeTableCount() != 0 ? proto.getChangeTableList() : null;
       res.allowBrowserNotifications =
           proto.hasAllowBrowserNotifications() ? proto.getAllowBrowserNotifications() : null;
+      res.diffPageSidebar = proto.hasDiffPageSidebar() ? proto.getDiffPageSidebar() : null;
       return res;
     }
 

@@ -196,10 +196,6 @@ const RoutePattern = {
 
   CHANGE_ID_QUERY: /^\/id\/(I[0-9a-f]{40})$/,
 
-  // Matches /c/<changeNum>/[*][/].
-  CHANGE_LEGACY: /^\/c\/(\d+)\/?(.*)$/,
-  CHANGE_NUMBER_LEGACY: /^\/(\d+)\/?/,
-
   // Matches
   // /c/<project>/+/<changeNum>/[<basePatchNum|edit>..][<patchNum|edit>].
   // TODO(kaspern): Migrate completely to project based URLs, with backwards
@@ -849,12 +845,6 @@ export class GrRouter implements Finalizable, NavigationService {
     );
 
     this.mapRoute(
-      RoutePattern.CHANGE_NUMBER_LEGACY,
-      'handleChangeNumberLegacyRoute',
-      ctx => this.handleChangeNumberLegacyRoute(ctx)
-    );
-
-    this.mapRoute(
       RoutePattern.DIFF_EDIT,
       'handleDiffEditRoute',
       ctx => this.handleDiffEditRoute(ctx),
@@ -882,10 +872,6 @@ export class GrRouter implements Finalizable, NavigationService {
 
     this.mapRoute(RoutePattern.CHANGE, 'handleChangeRoute', ctx =>
       this.handleChangeRoute(ctx)
-    );
-
-    this.mapRoute(RoutePattern.CHANGE_LEGACY, 'handleChangeLegacyRoute', ctx =>
-      this.handleChangeLegacyRoute(ctx)
     );
 
     this.mapRoute(

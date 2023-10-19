@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aed1d1a1_f9b1dfd1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-19T10:15:47Z",
+      "side": 1,
+      "message": "Hey @ghareeb@google.com, it looks like this change broke Gerrit init [1].\n\nI think IT tests didn\u0027t catch this because they do not run the init step explicitly.\n\n[1] https://pastebin.com/raw/jk1e9Fsd",
+      "revId": "1e80aca8d26249e5d2f0e3b59ce763d8a7bce86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

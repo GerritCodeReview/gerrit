@@ -51,7 +51,10 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
-/** Caches important (but small) account state to avoid database hits. */
+/** Caches important (but small) account state to avoid database hits. 
+ * 
+ * This class is a singleton.
+*/
 @Singleton
 public class AccountCacheImpl implements AccountCache {
   @ModuleImpl(name = ACCOUNT_CACHE_MODULE)

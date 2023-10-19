@@ -22,7 +22,10 @@ import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
-/** Caches important (but small) account state to avoid database hits. */
+/** Caches important (but small) account state to avoid database hits. 
+ * 
+ * This is used as a performance optimization. Making another change.
+*/
 public interface AccountCache {
   /**
    * Returns an {@code AccountState} instance for the given account ID. If not cached yet the

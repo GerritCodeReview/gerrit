@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efc25632_a65a72d5",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2023-10-19T21:20:03Z",
+      "side": 1,
+      "message": "This can be made more efficient by keeping track of any added/modified nodes, and only pruning them. Likely the dag itself could keep track of that so that prune() knows exactly what to prune.",
+      "revId": "f358bb15ff03c588d38e7c424922f2553ba7df9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "I believe this is a false positive, the error-prone description says:\n_Use grouping parentheses to disambiguate expressions that contain both || and \u0026\u0026, or both shift and arithmetic operators._\n\nIn the cases highlighted, I don\u0027t see both || and \u0026\u0026 anywhere, or am I blind?",
       "revId": "cde591111d10b93f5e28195b178af95d169180d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c35f3c1b_f398e7bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-10-19T14:27:01Z",
+      "side": 1,
+      "message": "Good point. I reported the issue upstream: [1]. Meantime we could suppress the false positives.\n\n[1]: https://github.com/google/error-prone/issues/4153",
+      "parentUuid": "b81caafd_3dd2c61b",
+      "revId": "cde591111d10b93f5e28195b178af95d169180d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

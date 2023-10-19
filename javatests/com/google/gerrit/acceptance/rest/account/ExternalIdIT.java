@@ -1083,9 +1083,9 @@ public class ExternalIdIT extends AbstractDaemonTest {
     info.emailAddress = extId.email();
     info.canDelete = !extId.isScheme(SCHEME_USERNAME) ? true : null;
     info.trusted =
-        extId.isScheme(SCHEME_MAILTO)
+        (extId.isScheme(SCHEME_MAILTO)
                 || extId.isScheme(SCHEME_UUID)
-                || extId.isScheme(SCHEME_USERNAME)
+                || extId.isScheme(SCHEME_USERNAME))
             ? true
             : null;
     return info;

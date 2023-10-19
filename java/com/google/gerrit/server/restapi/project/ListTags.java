@@ -181,7 +181,9 @@ public class ListTags implements RestReadView<ProjectResource> {
     if (!isConfigRef(ref.getName())) {
       // Never allow to delete the meta config branch.
       canDelete =
-          perm.testOrFalse(RefPermission.DELETE) && projectState.statePermitsWrite() ? true : null;
+          (perm.testOrFalse(RefPermission.DELETE) && projectState.statePermitsWrite())
+              ? true
+              : null;
     }
 
     ImmutableList<WebLinkInfo> webLinks = links.getTagLinks(projectState.getName(), ref.getName());

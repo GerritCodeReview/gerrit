@@ -20,6 +20,6 @@ public class EmailInfo {
   public Boolean pendingConfirmation;
 
   public void preferred(String e) {
-    this.preferred = e != null && e.equals(email) ? true : null;
+    this.preferred = (e != null && e.equals(email)) ? true : null;
   }
 }

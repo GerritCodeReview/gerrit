@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a37d8552_834f5856",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-19T11:42:46Z",
+      "side": 1,
+      "message": "This is no longer an example, but a fully-featured implementation.\nConsider removing or rephrasing this?",
+      "range": {
+        "startLine": 10,
+        "startChar": 49,
+        "endLine": 12,
+        "endChar": 12
+      },
+      "revId": "f31435a929c4d6e023abcef17df9745c9aa3542b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7fd5dc5_88570a64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-19T11:42:46Z",
+      "side": 1,
+      "message": "nit: remove space",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 3
+      },
+      "revId": "f31435a929c4d6e023abcef17df9745c9aa3542b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32722f96_616a08e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-19T11:42:46Z",
+      "side": 1,
+      "message": "Consider referring this as `neverlink`, as per bazel documentation [1]\n\n\n[1]https://bazel.build/reference/be/java#java_library.neverlink",
+      "range": {
+        "startLine": 34,
+        "startChar": 55,
+        "endLine": 34,
+        "endChar": 62
+      },
+      "revId": "f31435a929c4d6e023abcef17df9745c9aa3542b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "667ad1c5_ef4a3d3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-19T11:42:46Z",
+      "side": 1,
+      "message": "This should say not step 5.",
+      "range": {
+        "startLine": 44,
+        "startChar": 9,
+        "endLine": 44,
+        "endChar": 11
+      },
+      "revId": "f31435a929c4d6e023abcef17df9745c9aa3542b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d160f676_45664701",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-19T11:42:46Z",
+      "side": 1,
+      "message": "I think `might` cause would be a better expression here.\nIn my healthcheck/pull-replication implementation for example I can see that \nnloading the healthcheck plugin for example does not cause any failure.\n\nPerhaps we can phrase it so that we explain that the behaviour in unpredictable and depends on the specifics of the classes involved?",
+      "range": {
+        "startLine": 94,
+        "startChar": 46,
+        "endLine": 94,
+        "endChar": 51
+      },
+      "revId": "f31435a929c4d6e023abcef17df9745c9aa3542b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d3e8b88_793b337e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-19T11:42:46Z",
+      "side": 1,
+      "message": "as discussed, this is no longer the necessary naming, consider removing `.api.jar`",
+      "range": {
+        "startLine": 129,
+        "startChar": 73,
+        "endLine": 129,
+        "endChar": 81
+      },
+      "revId": "f31435a929c4d6e023abcef17df9745c9aa3542b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ff58008_4697a27e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-19T11:42:46Z",
+      "side": 1,
+      "message": "nit: plugins",
+      "range": {
+        "startLine": 135,
+        "startChar": 22,
+        "endLine": 135,
+        "endChar": 28
+      },
+      "revId": "f31435a929c4d6e023abcef17df9745c9aa3542b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a69f5b54_4bed3ef4",
+        "filename": "java/com/google/gerrit/server/plugins/JarPluginProvider.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-19T11:42:46Z",
+      "side": 1,
+      "message": "this could use the public final static string API_MODULE defined at java/com/google/gerrit/server/plugins/ServerPlugin.javaL42",
+      "range": {
+        "startLine": 147,
+        "startChar": 48,
+        "endLine": 147,
+        "endChar": 66
+      },
+      "revId": "f31435a929c4d6e023abcef17df9745c9aa3542b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7347983_56771b78",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-19T11:42:46Z",
+      "side": 1,
+      "message": "this could use the public final static string API_MODULE defined at java/com/google/gerrit/server/plugins/ServerPlugin.javaL42",
+      "range": {
+        "startLine": 499,
+        "startChar": 73,
+        "endLine": 499,
+        "endChar": 91
+      },
+      "revId": "f31435a929c4d6e023abcef17df9745c9aa3542b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

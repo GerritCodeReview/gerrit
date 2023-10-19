@@ -66,7 +66,7 @@ import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
 import {toggleClass, whenVisible} from '../../../utils/dom-util';
 import {CursorMoveResult} from '../../../api/core';
 import {throttleWrap} from '../../../utils/async-util';
-import {filter, take, switchMap} from 'rxjs/operators';
+import {filter, take, switchMap, map} from 'rxjs/operators';
 import {combineLatest} from 'rxjs';
 import {
   Shortcut,
@@ -702,6 +702,19 @@ export class GrDiffView extends LitElement {
     if (this.diffHost) this.reInitCursor();
     window.addEventListener('scroll', this.updateSidebarHeight);
     window.addEventListener('resize', this.updateSidebarHeight);
+    this.getUserModel()
+      .preferences$.pipe(
+        map(p => p.diff_page_sidebar),
+        take(1)
+      )
+      .toPromise()
+      .then(initialSidebar => {
+        if (initialSidebar === 'NONE' || initialSidebar === undefined) {
+          this.shownSidebar = undefined;
+        } else {
+          this.shownSidebar = initialSidebar.substring('plugin-'.length);
+        }
+      });
   }
 
   override disconnectedCallback() {
@@ -914,9 +927,16 @@ export class GrDiffView extends LitElement {
         <gr-endpoint-decorator name="sidebarTrigger">
           <gr-endpoint-param
             name="onTrigger"
-            .value=${(pluginName: string) =>
-              (this.shownSidebar =
-                this.shownSidebar === pluginName ? undefined : pluginName)}
+            .value=${(pluginName: string) => {
+              this.shownSidebar =
+                this.shownSidebar === pluginName ? undefined : pluginName;
+              this.getUserModel().updatePreferences({
+                diff_page_sidebar:
+                  this.shownSidebar === pluginName
+                    ? 'NONE'
+                    : `plugin-${pluginName}`,
+              });
+            }}
           ></gr-endpoint-param>
           <!-- params cannot start falsy, so the value must be wrapped -->
           <gr-endpoint-param
@@ -985,10 +1005,11 @@ export class GrDiffView extends LitElement {
                     // Only close the sidebar if that particular sidebar is
                     // still open. An async onClose callback should not close a
                     // different sidebar.
-                    this.shownSidebar =
-                      this.shownSidebar === pluginName
-                        ? undefined
-                        : this.shownSidebar;
+                    if (this.shownSidebar !== pluginName) return;
+                    this.shownSidebar = undefined;
+                    this.getUserModel().updatePreferences({
+                      diff_page_sidebar: 'NONE',
+                    });
                   }}
                 >
                 </gr-endpoint-param>

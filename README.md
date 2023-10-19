@@ -2,6 +2,8 @@
 
 Hello from Cider G!
 
+Hello World!
+
 [Gerrit](https://www.gerritcodereview.com) is a code review and project
 management tool for Git based projects.
 

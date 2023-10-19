@@ -353,6 +353,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf7c3d09_ea7b13fe",
+        "filename": "java/com/google/gerrit/server/plugins/JarPluginProvider.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-19T12:37:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a69f5b54_4bed3ef4",
+      "range": {
+        "startLine": 147,
+        "startChar": 48,
+        "endLine": 147,
+        "endChar": 66
+      },
+      "revId": "f31435a929c4d6e023abcef17df9745c9aa3542b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7347983_56771b78",
@@ -366,6 +390,30 @@
       "writtenOn": "2023-10-19T11:42:46Z",
       "side": 1,
       "message": "this could use the public final static string API_MODULE defined at java/com/google/gerrit/server/plugins/ServerPlugin.javaL42",
+      "range": {
+        "startLine": 499,
+        "startChar": 73,
+        "endLine": 499,
+        "endChar": 91
+      },
+      "revId": "f31435a929c4d6e023abcef17df9745c9aa3542b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca39de93_186efafb",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 35
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-19T12:37:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7347983_56771b78",
       "range": {
         "startLine": 499,
         "startChar": 73,

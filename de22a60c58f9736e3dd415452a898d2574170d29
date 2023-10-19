@@ -171,6 +171,30 @@
       },
       "revId": "de22a60c58f9736e3dd415452a898d2574170d29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d661828f_fd5f03a6",
+        "filename": "java/Main.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-19T22:29:56Z",
+      "side": 1,
+      "message": "😎",
+      "parentUuid": "6cf8b82b_15d17921",
+      "range": {
+        "startLine": 19,
+        "startChar": 81,
+        "endLine": 19,
+        "endChar": 87
+      },
+      "revId": "de22a60c58f9736e3dd415452a898d2574170d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

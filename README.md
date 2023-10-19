@@ -1,5 +1,7 @@
 # Gerrit Code Review
 
+Hello from Cider G!
+
 [Gerrit](https://www.gerritcodereview.com) is a code review and project
 management tool for Git based projects.
 
@@ -7,9 +9,6 @@ management tool for Git based projects.
 ![Maven Central](https://img.shields.io/maven-central/v/com.google.gerrit/gerrit-war)
 
 ## Objective
-
-Gerrit makes reviews easier by showing changes in a side-by-side display,
-and allowing inline comments to be added by any reviewer.
 
 Gerrit simplifies Git based project maintainership by permitting any
 authorized user to submit changes to the master Git repository, rather
@@ -22,6 +21,9 @@ For information about how to install and use Gerrit, refer to
 [the documentation](https://gerrit-review.googlesource.com/Documentation/index.html).
 
 ## Source
+
+Gerrit makes reviews easier by showing changes in a side-by-side display,
+and allowing inline comments to be added by any reviewer.
 
 Our canonical Git repository is located on [googlesource.com](https://gerrit.googlesource.com/gerrit).
 There is a mirror of the repository on [Github](https://github.com/GerritCodeReview/gerrit).

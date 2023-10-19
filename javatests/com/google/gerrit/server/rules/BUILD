@@ -6,6 +6,7 @@ junit_tests(
     deps = [
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/server",
+        "//lib:guava",
         "//lib/truth",
     ],
 )

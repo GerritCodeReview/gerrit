@@ -6,6 +6,7 @@ junit_tests(
     deps = [
         "//java/com/google/gerrit/proto",
         "//java/com/google/gerrit/testing:gerrit-junit",
+        "//lib:guava",
         "//lib:protobuf",
         "//lib/truth",
         "//lib/truth:truth-proto-extension",

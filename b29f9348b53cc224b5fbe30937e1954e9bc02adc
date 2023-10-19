@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7304b8e1_e1249a54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-19T11:09:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36bc8f73_4625e080",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 23
+      },
+      "revId": "b29f9348b53cc224b5fbe30937e1954e9bc02adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b5126f2_7993bbc0",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-10-19T09:57:57Z",
       "side": 1,
       "message": "IMO we chain all _api modules_ then each plugin gets a loader that has all of the APIs. That means that we have only a \"one level tree\" with a \"single root and leafs\".\n\nThere\u0027s no dependency from the consumer plugin to the API, so we can\u0027t create a real tree.\n\nThis is also (AFAIK) a simplification compared to eg. OSGi, where each plugin gets its own \"loader\" with only its declared dependencies.\n\nIMO, the more accurate description here would be that we load all API modules into plugin\u0027s parent loader.",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 18
+      },
+      "revId": "b29f9348b53cc224b5fbe30937e1954e9bc02adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "440354a0_b05350b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-19T11:09:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b5126f2_7993bbc0",
       "range": {
         "startLine": 32,
         "startChar": 2,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "477131a5_5b8f7905",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-19T11:09:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cde92b8b_916e1688",
+      "revId": "b29f9348b53cc224b5fbe30937e1954e9bc02adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f42d97d2_c456a6fa",
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2663d50a_520325a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-19T11:09:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f42d97d2_c456a6fa",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 8
+      },
+      "revId": "b29f9348b53cc224b5fbe30937e1954e9bc02adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb86b9e2_2a6a0ba9",
@@ -100,6 +190,30 @@
       "writtenOn": "2023-10-19T09:57:57Z",
       "side": 1,
       "message": "that\u0027s true for the _regular_ plugins. The ApiModules, will be loaded into the same Guice context and all of the plugins can access all of the registered APIs.",
+      "range": {
+        "startLine": 113,
+        "startChar": 6,
+        "endLine": 114,
+        "endChar": 42
+      },
+      "revId": "b29f9348b53cc224b5fbe30937e1954e9bc02adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cfbc3de_ff857a67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-19T11:09:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb86b9e2_2a6a0ba9",
       "range": {
         "startLine": 113,
         "startChar": 6,

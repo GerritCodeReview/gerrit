@@ -1,5 +1,7 @@
 # Gerrit Code Review
 
+Hello World!
+
 [Gerrit](https://www.gerritcodereview.com) is a code review and project
 management tool for Git based projects.
 
@@ -8,8 +10,8 @@ management tool for Git based projects.
 
 ## Objective
 
-Gerrit makes reviews easier by showing changes in a side-by-side display,
-and allowing inline comments to be added by any reviewer.
+Gerrit makes reviews very easy by showing changes in a side-by-side display,
+and allowing inline comments to be added by any reviewer!
 
 Gerrit simplifies Git based project maintainership by permitting any
 authorized user to submit changes to the master Git repository, rather

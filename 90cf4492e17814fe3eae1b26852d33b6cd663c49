@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b9dbbb7_14735841",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-10-19T12:41:03Z",
+      "side": 1,
+      "message": "I think you still need to update shownSidebar here, otherwise the panel is not going to open on click. Or am I misunderstanding?",
+      "range": {
+        "startLine": 928,
+        "startChar": 10,
+        "endLine": 936,
+        "endChar": 17
+      },
+      "revId": "90cf4492e17814fe3eae1b26852d33b6cd663c49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

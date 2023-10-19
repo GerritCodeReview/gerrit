@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96476681_1fb04c6c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-10-19T12:39:02Z",
+      "side": 1,
+      "message": "seems like a lot needs to bump to support lit 3. Can you summarize the important ones that may be interesting beyond supporting lit and put a hint in the release note in case plugin users are broken?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "2af4af431c693c3c4ea4339c74ddfeaa70a70186",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

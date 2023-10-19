@@ -1,6 +1,10 @@
 # Gerrit Code Review
 
+<<<<<<< PATCH SET (35919d change2)
+Hello World!
+=======
 Hello from Cider G!
+>>>>>>> BASE      (cf4743 change1)
 
 [Gerrit](https://www.gerritcodereview.com) is a code review and project
 management tool for Git based projects.
@@ -10,6 +14,12 @@ management tool for Git based projects.
 
 ## Objective
 
+<<<<<<< PATCH SET (35919d change2)
+Gerrit makes reviews very easy by showing changes in a side-by-side display,
+and allowing inline comments to be added by any reviewer!
+
+=======
+>>>>>>> BASE      (cf4743 change1)
 Gerrit simplifies Git based project maintainership by permitting any
 authorized user to submit changes to the master Git repository, rather
 than requiring all approved changes to be merged in by hand by the project

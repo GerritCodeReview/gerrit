@@ -9,6 +9,7 @@ junit_tests(
         "//java/com/google/gerrit/metrics",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/cache/mem",
+        "//lib:guava",
         "//lib:jgit",
         "//lib:junit",
         "//lib/guice",

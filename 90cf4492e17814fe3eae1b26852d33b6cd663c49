@@ -22,6 +22,30 @@
       },
       "revId": "90cf4492e17814fe3eae1b26852d33b6cd663c49",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b110243e_b693fd3c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-10-19T12:52:03Z",
+      "side": 1,
+      "message": "Yes, you\u0027re right. Previously it wasn\u0027t needed since the pref value was coming right back to the view via subscription, but it\u0027s no longer the case.",
+      "parentUuid": "5b9dbbb7_14735841",
+      "range": {
+        "startLine": 928,
+        "startChar": 10,
+        "endLine": 936,
+        "endChar": 17
+      },
+      "revId": "90cf4492e17814fe3eae1b26852d33b6cd663c49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

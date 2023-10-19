@@ -34,6 +34,24 @@
       "parentUuid": "3313c841_1b28d309",
       "revId": "7d61b886cf89eeebd4bef5d1b1b341df3fcb4aeb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c5a024d_9dd1b1f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-19T22:40:45Z",
+      "side": 1,
+      "message": "Thanks @ghareeb@google.com for your feedback. I am looking at ways to warn us on which classes aren\u0027t used at Google and avoid making cross-references between them.\n\nIdeally I\u0027d like also to encode those checks in the CI jobs, but that\u0027s a bit tricky I believe.",
+      "parentUuid": "f0dac405_51c40f7d",
+      "revId": "7d61b886cf89eeebd4bef5d1b1b341df3fcb4aeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

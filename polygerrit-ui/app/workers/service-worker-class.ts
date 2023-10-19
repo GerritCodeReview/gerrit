@@ -16,7 +16,7 @@ import {
   getServiceWorkerState,
   putServiceWorkerState,
 } from './service-worker-indexdb';
-import {createDashboardUrl} from '../models/views/dashboard';
+import {DashboardType, createDashboardUrl} from '../models/views/dashboard';
 import {createChangeUrl} from '../models/views/change';
 import {noAwait} from '../utils/async-util';
 
@@ -142,7 +142,7 @@ export class ServiceWorker {
 
   private showNotificationForDashboard(numOfChangesToNotifyAbout: number) {
     const title = `You are in the attention set for ${numOfChangesToNotifyAbout} new changes.`;
-    const dashboardUrl = createDashboardUrl({});
+    const dashboardUrl = createDashboardUrl({type: DashboardType.USER});
     const data = {url: `${self.location.origin}${dashboardUrl}`};
     const icon = `${self.location.origin}/favicon.ico`;
     this.ctx.registration.showNotification(title, {data, icon});

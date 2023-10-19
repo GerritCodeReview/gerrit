@@ -15,7 +15,10 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {LitElement, css, html, PropertyValues} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
-import {createDashboardUrl} from '../../../models/views/dashboard';
+import {
+  DashboardType,
+  createDashboardUrl,
+} from '../../../models/views/dashboard';
 
 @customElement('gr-user-header')
 export class GrUserHeader extends LitElement {
@@ -145,10 +148,12 @@ export class GrUserHeader extends LitElement {
     if (!accountDetails) return '';
 
     const id = accountDetails._account_id;
-    if (id) return createDashboardUrl({user: String(id)});
+    if (id)
+      return createDashboardUrl({type: DashboardType.USER, user: String(id)});
 
     const email = accountDetails.email;
-    if (email) return createDashboardUrl({user: email});
+    if (email)
+      return createDashboardUrl({type: DashboardType.USER, user: email});
 
     return '';
   }

@@ -112,7 +112,7 @@ import {NormalizedFileInfo} from '../models/change/files-model';
 import {GroupViewState} from '../models/views/group';
 import {RepoDetailView, RepoViewState} from '../models/views/repo';
 import {AdminChildView, AdminViewState} from '../models/views/admin';
-import {DashboardViewState} from '../models/views/dashboard';
+import {DashboardType, DashboardViewState} from '../models/views/dashboard';
 
 const TEST_DEFAULT_EXPRESSION = 'label:Verified=MAX -label:Verified=MIN';
 export const TEST_PROJECT_NAME: RepoName = 'test-project' as RepoName;
@@ -744,6 +744,7 @@ export function createSearchViewState(): SearchViewState {
 export function createDashboardViewState(): DashboardViewState {
   return {
     view: GerritView.DASHBOARD,
+    type: DashboardType.USER,
     user: 'self',
   };
 }

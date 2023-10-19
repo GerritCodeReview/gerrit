@@ -66,7 +66,7 @@ import {AppTheme} from '../constants/constants';
 import {subscribe} from './lit/subscription-controller';
 import {createSearchUrl} from '../models/views/search';
 import {createSettingsUrl} from '../models/views/settings';
-import {createDashboardUrl} from '../models/views/dashboard';
+import {DashboardType, createDashboardUrl} from '../models/views/dashboard';
 import {userModelToken} from '../models/user/user-model';
 import {modalStyles} from '../styles/gr-modal-styles';
 import {AdminChildView, createAdminUrl} from '../models/views/admin';
@@ -174,7 +174,9 @@ export class GrAppElement extends LitElement {
       this.showKeyboardShortcuts()
     );
     this.shortcuts.addAbstract(Shortcut.GO_TO_USER_DASHBOARD, () =>
-      this.getNavigation().setUrl(createDashboardUrl({user: 'self'}))
+      this.getNavigation().setUrl(
+        createDashboardUrl({type: DashboardType.USER, user: 'self'})
+      )
     );
     this.shortcuts.addAbstract(Shortcut.GO_TO_OPENED_CHANGES, () =>
       this.getNavigation().setUrl(createSearchUrl({statuses: ['open']}))

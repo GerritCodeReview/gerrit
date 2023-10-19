@@ -22,6 +22,30 @@
       },
       "revId": "e17f705b9c302b0894bca0ce9c88623db2bef4e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "312b7825_38b44678",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-10-19T12:32:00Z",
+      "side": 1,
+      "message": "Done. I am concerned that usermodel may emit some default values first before emitting the real value after some user data fetch, so listening just once may not get the real preference. But lets try it.",
+      "parentUuid": "f55eeb3e_0d55dff7",
+      "range": {
+        "startLine": 365,
+        "startChar": 8,
+        "endLine": 374,
+        "endChar": 9
+      },
+      "revId": "e17f705b9c302b0894bca0ce9c88623db2bef4e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -74,6 +74,30 @@
       },
       "revId": "3e3da5a6e42801c2b2bbfb5e1ef31a3f76e23f74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5a01fb8_a39c565d",
+        "filename": "polygerrit-ui/app/models/views/dashboard.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-10-19T11:01:40Z",
+      "side": 1,
+      "message": "User is existing field, and it\u0027s always populated with either self or an email. So I felt it unnecessary to make a distinction on the enum level. It feels more consistent this way, the REPO has project field, the USER has user field.",
+      "parentUuid": "e2d970e7_b364ebeb",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 6
+      },
+      "revId": "3e3da5a6e42801c2b2bbfb5e1ef31a3f76e23f74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

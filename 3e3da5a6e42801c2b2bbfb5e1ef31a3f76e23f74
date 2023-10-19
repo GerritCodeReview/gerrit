@@ -34,6 +34,46 @@
       "parentUuid": "c7ef8e74_d85f644f",
       "revId": "3e3da5a6e42801c2b2bbfb5e1ef31a3f76e23f74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03f41ca1_6ddc12ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-10-19T10:50:47Z",
+      "side": 1,
+      "message": "I like how it is now easier to understand type of dashboard",
+      "revId": "3e3da5a6e42801c2b2bbfb5e1ef31a3f76e23f74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2d970e7_b364ebeb",
+        "filename": "polygerrit-ui/app/models/views/dashboard.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-10-19T10:50:47Z",
+      "side": 1,
+      "message": "Do you think it would make sense to have types like\nSELF\nOTHER_USER\n?\n\nI think we preload only for /self.",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 6
+      },
+      "revId": "3e3da5a6e42801c2b2bbfb5e1ef31a3f76e23f74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

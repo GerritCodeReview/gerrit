@@ -105,7 +105,21 @@ suite('gr-confirm-revert-dialog tests', () => {
       'abcd123' as CommitId
     );
     const expected =
-      'Revert "Revert "one line commit""\n\n' +
+      'Revert^2 "one line commit"\n\n' +
+      'This reverts commit abcd123.\n\n' +
+      'Reason for revert: <INSERT REASONING HERE>\n';
+    assert.equal(element.message, expected);
+  });
+
+  test('revert a revert of a revert', () => {
+    assert.isNotOk(element.message);
+    element.populateRevertSingleChangeMessage(
+      createParsedChange(),
+      'Revert^2 "one line commit"\n\nChange-Id: abcdefg\n',
+      'abcd123' as CommitId
+    );
+    const expected =
+      'Revert^3 "one line commit"\n\n' +
       'This reverts commit abcd123.\n\n' +
       'Reason for revert: <INSERT REASONING HERE>\n';
     assert.equal(element.message, expected);

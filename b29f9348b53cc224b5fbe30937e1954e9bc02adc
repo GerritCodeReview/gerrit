@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36bc8f73_4625e080",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-19T09:57:57Z",
+      "side": 1,
+      "message": "nit: nit is no longer true, as we discover the module in the `MANIFEST.MF` and not relay anymore on the file name.",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 26,
+        "endChar": 23
+      },
+      "revId": "b29f9348b53cc224b5fbe30937e1954e9bc02adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b5126f2_7993bbc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-19T09:57:57Z",
+      "side": 1,
+      "message": "IMO we chain all _api modules_ then each plugin gets a loader that has all of the APIs. That means that we have only a \"one level tree\" with a \"single root and leafs\".\n\nThere\u0027s no dependency from the consumer plugin to the API, so we can\u0027t create a real tree.\n\nThis is also (AFAIK) a simplification compared to eg. OSGi, where each plugin gets its own \"loader\" with only its declared dependencies.\n\nIMO, the more accurate description here would be that we load all API modules into plugin\u0027s parent loader.",
+      "range": {
+        "startLine": 32,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 18
+      },
+      "revId": "b29f9348b53cc224b5fbe30937e1954e9bc02adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cde92b8b_916e1688",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-19T09:57:57Z",
+      "side": 1,
+      "message": "nit: how about adding\n``` 7.The ApiModules cannot depend on other ApiModules, we only support one level of dependency\n```",
+      "revId": "b29f9348b53cc224b5fbe30937e1954e9bc02adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f42d97d2_c456a6fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-19T09:57:57Z",
+      "side": 1,
+      "message": "nit: IMO we need three plugins here:\n* A - the `ApiProvider` that exposes the interfaces\n* B - that will consume messages\n* C - message producer\n\nwith this B and C can be installed and removed while server is running, but A should not be removed.\n\nThis also means that `ApiModules` should not be uninstalled via SSH commands. But this can be implemented in a follow up change.",
+      "range": {
+        "startLine": 75,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 8
+      },
+      "revId": "b29f9348b53cc224b5fbe30937e1954e9bc02adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb86b9e2_2a6a0ba9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-19T09:57:57Z",
+      "side": 1,
+      "message": "that\u0027s true for the _regular_ plugins. The ApiModules, will be loaded into the same Guice context and all of the plugins can access all of the registered APIs.",
+      "range": {
+        "startLine": 113,
+        "startChar": 6,
+        "endLine": 114,
+        "endChar": 42
+      },
+      "revId": "b29f9348b53cc224b5fbe30937e1954e9bc02adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a5b09c1_c2ff80fa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 33
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-19T09:57:57Z",
+      "side": 1,
+      "message": "I\u0027ve tested this with:\n* download-commands\n* github-oauth\n* [my own simple provider-consumer plugin](https://github.com/dluksza/gerrit-x-plugin-dependency-poc-example)\n\nand everything worked as expected.\n\nThis change should be followed up with a change for dev documentation and possibly another one that would block the ssh command to unload a plugin with `ApiModule`. And maybe some refactoring in the plugin loader area would also be good.",
+      "revId": "b29f9348b53cc224b5fbe30937e1954e9bc02adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

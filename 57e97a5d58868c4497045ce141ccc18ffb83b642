@@ -52,6 +52,24 @@
       "parentUuid": "cb58e9e6_d14e6b5d",
       "revId": "57e97a5d58868c4497045ce141ccc18ffb83b642",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d8eb03b_d045cada",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-10-19T10:08:44Z",
+      "side": 1,
+      "message": "I think handling this in PolyGerrit is better. I filed an internal issue for this (b/b/306335002 for Googlers). Hence abandoning this change.",
+      "parentUuid": "515eb4ff_81493691",
+      "revId": "57e97a5d58868c4497045ce141ccc18ffb83b642",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

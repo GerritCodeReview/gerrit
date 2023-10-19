@@ -209,7 +209,16 @@ export class GrConfirmRevertDialog
   ) {
     // Figure out what the revert title should be.
     const originalTitle = (commitMessage || '').split('\n')[0];
-    const revertTitle = `Revert "${originalTitle}"`;
+    let revertTitle = `Revert "${originalTitle}"`;
+    const match = originalTitle.match(/^Revert(?:\^([0-9]+))? "(.*)"$/);
+    if (match) {
+      let revertNum = 2;
+      if (match[1]) {
+        revertNum = Number(match[1]) + 1;
+      }
+      revertTitle = `Revert^${revertNum} "${match[2]}"`;
+    }
+
     if (!commitHash) {
       fireAlert(this, ERR_COMMIT_NOT_FOUND);
       return;

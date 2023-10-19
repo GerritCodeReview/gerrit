@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5d259935_d86eb478",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-10-19T14:15:27Z",
+      "side": 1,
+      "message": "Discussed with Luca in person: The plan is to bump Java language level to Java 17 per default, but provide a Test CI build that will check Java 11 compatibility.\n\nI started to work on that job in: [1].\n\n[1]: https://gerrit-review.googlesource.com/c/gerrit-ci-scripts/+/330027",
+      "parentUuid": "7af427ca_ec3c8c56",
+      "revId": "de22a60c58f9736e3dd415452a898d2574170d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8298e9f5_ab138efc",
         "filename": "java/Main.java",
         "patchSetId": 21
@@ -121,6 +139,30 @@
       "side": 1,
       "message": "Should we then set to `17.0.5`?",
       "parentUuid": "680ede40_da64e04a",
+      "range": {
+        "startLine": 19,
+        "startChar": 81,
+        "endLine": 19,
+        "endChar": 87
+      },
+      "revId": "de22a60c58f9736e3dd415452a898d2574170d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cf8b82b_15d17921",
+        "filename": "java/Main.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-10-19T14:15:27Z",
+      "side": 1,
+      "message": "Yes, it was set to 17.0.5 in the latest patch set.",
+      "parentUuid": "7ea244a2_b51cc1d3",
       "range": {
         "startLine": 19,
         "startChar": 81,

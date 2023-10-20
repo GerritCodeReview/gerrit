@@ -34,6 +34,24 @@
       "parentUuid": "ddce3a85_6d9ec0b4",
       "revId": "b49ecfd532c96d02cbc19af1cb1cd6b09a6201c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2945c4d6_909e4f34",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-10-20T14:42:03Z",
+      "side": 1,
+      "message": "Yes, exactly. The reason is: to support online reindex we can only Update one major Lucene per Gerrit release line. And we have updated Lucene already on Master after creating stable-3.8 branch.\n\nThe limitation is in Lucene. Every Lucene version is shipping only current and previous codec version to read lucene data.",
+      "parentUuid": "62d46292_9cd01b53",
+      "revId": "b49ecfd532c96d02cbc19af1cb1cd6b09a6201c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

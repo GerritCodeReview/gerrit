@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.common.base.Splitter;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -24,6 +25,7 @@ import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +45,10 @@ public class NumericChangeIdRedirectServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
-    String idString = req.getPathInfo();
+    String uriPath = req.getPathInfo();
+    List<String> segments = Splitter.on("/comment/").splitToList(uriPath);
+    String idString = segments.get(0);
+
     if (idString.endsWith("/")) {
       idString = idString.substring(0, idString.length() - 1);
     }
@@ -64,6 +69,9 @@ public class NumericChangeIdRedirectServlet extends HttpServlet {
     }
     String path =
         PageLinks.toChange(changeResource.getProject(), changeResource.getChange().getId());
+    if (segments.size() > 1) {
+      path = String.format("%scomment/%s", path, segments.get(1));
+    }
     UrlModule.toGerrit(path, req, rsp);
   }
 }

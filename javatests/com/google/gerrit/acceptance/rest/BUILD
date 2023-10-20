@@ -7,5 +7,6 @@ acceptance_tests(
     deps = [
         "//java/com/google/gerrit/server/cancellation",
         "//java/com/google/gerrit/server/logging",
+        "//javatests/com/google/gerrit/acceptance/server/change:util",
     ],
 )

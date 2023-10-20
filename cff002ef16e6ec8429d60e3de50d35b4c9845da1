@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d49a288_677bc173",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2023-10-20T15:33:01Z",
+      "side": 1,
+      "message": "why \"fix\"? it\u0027s a subjective judgment, and imo you made the wrong call.",
+      "revId": "cff002ef16e6ec8429d60e3de50d35b4c9845da1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "777f77fa_e9e7915c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2023-10-20T15:33:01Z",
+      "side": 1,
+      "message": "is this for real or is it just a test change?",
+      "revId": "cff002ef16e6ec8429d60e3de50d35b4c9845da1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

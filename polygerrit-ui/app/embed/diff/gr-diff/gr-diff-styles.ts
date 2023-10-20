@@ -462,10 +462,7 @@ export const grDiffStyles = css`
     color: var(--link-color);
     padding: var(--spacing-m) 0 var(--spacing-m) 48px;
   }
-  /* for new diff */
-  gr-diff-element,
-  /* for old diff, TODO: remove */
-  #diffTable {
+  gr-diff-element {
     /* for gr-selection-action-box positioning */
     position: relative;
   }

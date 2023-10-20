@@ -15,11 +15,7 @@ import {
   DiffPreferencesInfo,
 } from '../../../api/diff';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
-import {
-  isNewDiff,
-  diffClasses,
-  getResponsiveMode,
-} from '../gr-diff/gr-diff-utils';
+import {diffClasses, getResponsiveMode} from '../gr-diff/gr-diff-utils';
 import {GrDiffRow} from './gr-diff-row';
 import '../gr-context-controls/gr-context-controls-section';
 import '../gr-context-controls/gr-context-controls';
@@ -297,14 +293,10 @@ export class GrDiffSection extends LitElement {
   }
 }
 
-// TODO(newdiff-cleanup): Remove once newdiff migration is completed.
-if (isNewDiff()) {
-  customElements.define('gr-diff-section', GrDiffSection);
-}
+customElements.define('gr-diff-section', GrDiffSection);
 
 declare global {
   interface HTMLElementTagNameMap {
-    // TODO(newdiff-cleanup): Replace once newdiff migration is completed.
-    'gr-diff-section': LitElement;
+    'gr-diff-section': GrDiffSection;
   }
 }

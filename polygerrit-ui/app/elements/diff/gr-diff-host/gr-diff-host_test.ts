@@ -59,7 +59,6 @@ import {
   CommentsModel,
   commentsModelToken,
 } from '../../../models/comments/comments-model';
-import {isNewDiff} from '../../../embed/diff/gr-diff/gr-diff-utils';
 
 suite('gr-diff-host tests', () => {
   let element: GrDiffHost;
@@ -152,25 +151,6 @@ suite('gr-diff-host tests', () => {
       `,
       {ignoreAttributes: ['style']}
     );
-  });
-
-  test('reload() cancels before network resolves', async () => {
-    if (isNewDiff()) return;
-    assertIsDefined(element.diffElement);
-    const cancelStub = sinon.stub(element.diffElement, 'cancel');
-
-    // Stub the network calls into requests that never resolve.
-    sinon.stub(element, 'getDiff').callsFake(() => new Promise(() => {}));
-    element.patchRange = createPatchRange();
-    element.change = createChange();
-    element.prefs = undefined;
-
-    // Needs to be set to something first for it to cancel.
-    element.diff = createDiff();
-    await element.updateComplete;
-
-    element.reload();
-    assert.isTrue(cancelStub.called);
   });
 
   test('prefetch getDiff', async () => {
@@ -558,15 +538,6 @@ suite('gr-diff-host tests', () => {
     assert.isTrue(showAuthRequireSpy.called);
   });
 
-  test('delegates cancel()', () => {
-    assertIsDefined(element.diffElement);
-    const stub = sinon.stub(element.diffElement, 'cancel');
-    element.patchRange = createPatchRange();
-    element.cancel();
-    assert.isTrue(stub.calledOnce);
-    assert.equal(stub.lastCall.args.length, 0);
-  });
-
   test('delegates getCursorStops()', () => {
     const returnValue = [document.createElement('b')];
     assertIsDefined(element.diffElement);
@@ -664,14 +635,6 @@ suite('gr-diff-host tests', () => {
         // We don't expect a call because
         assert.isTrue(isBlameLoadedStub.notCalled);
       });
-  });
-
-  test('delegates clearDiffContent()', () => {
-    assertIsDefined(element.diffElement);
-    const stub = sinon.stub(element.diffElement, 'clearDiffContent');
-    element.clearDiffContent();
-    assert.isTrue(stub.calledOnce);
-    assert.equal(stub.lastCall.args.length, 0);
   });
 
   test('delegates toggleAllContext()', () => {

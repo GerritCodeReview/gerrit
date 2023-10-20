@@ -16,7 +16,6 @@ import '../gr-diff-builder/gr-diff-section';
 import '../gr-diff-builder/gr-diff-row';
 import {
   isResponsive,
-  isNewDiff,
   FullContext,
   diffClasses,
   FULL_CONTEXT,
@@ -186,7 +185,6 @@ export class GrDiffElement extends LitElement {
 
   private renderContainer() {
     const cssClasses = {
-      newDiff: true,
       diffContainer: true,
       unified: this.viewMode === DiffViewMode.UNIFIED,
       sideBySide: this.viewMode === DiffViewMode.SIDE_BY_SIDE,
@@ -411,10 +409,7 @@ function getLineNumberCellWidth(prefs: DiffPreferencesInfo) {
   return prefs.font_size * 4;
 }
 
-// TODO(newdiff-cleanup): Remove once newdiff migration is completed.
-if (isNewDiff()) {
-  customElements.define('gr-diff-element', GrDiffElement);
-}
+customElements.define('gr-diff-element', GrDiffElement);
 
 declare global {
   interface HTMLElementTagNameMap {

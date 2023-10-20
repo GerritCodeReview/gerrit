@@ -23,10 +23,7 @@ suite('gr-context-control tests', () => {
   let element: GrContextControls;
 
   setup(async () => {
-    // TODO(newdiff-cleanup): Remove cast when newdiff migration is complete.
-    element = document.createElement(
-      'gr-context-controls'
-    ) as GrContextControls;
+    element = document.createElement('gr-context-controls');
     element.diff = {content: []} as any as DiffInfo;
     element.renderPreferences = {};
     const div = await fixture(html`<div></div>`);

@@ -2,8 +2,7 @@ import { esbuildPlugin } from "@web/dev-server-esbuild";
 import { defaultReporter, summaryReporter } from "@web/test-runner";
 import { visualRegressionPlugin } from "@web/test-runner-visual-regression/plugin";
 
-function testRunnerHtmlFactory(options) {
-  const setNewDiffExp = `<script type="text/javascript">window.ENABLED_EXPERIMENTS = ['UiFeature__new_diff'];</script>`;
+function testRunnerHtmlFactory() {
   return (testFramework) => `
     <!DOCTYPE html>
     <html>
@@ -15,7 +14,6 @@ function testRunnerHtmlFactory(options) {
           href="polygerrit-ui/app/styles/material-icons.css">
       </head>
       <body>
-        ${options.newDiff ? setNewDiffExp : ''}
         <script type="module" src="${testFramework}"></script>
       </body>
     </html>
@@ -26,33 +24,10 @@ function testRunnerHtmlFactory(options) {
 const config = {
   files: [
     "app/**/*_test.{ts,js}",
-    "!app/embed/diff/gr-context-controls/**/*_test.{ts,js}",
-    "!app/embed/diff/gr-diff/**/*_test.{ts,js}",
-    "!app/embed/diff/gr-diff-builder/**/*_test.{ts,js}",
-    "!app/embed/diff/gr-diff-cursor/**/*_test.{ts,js}",
-    "!app/embed/diff/gr-diff-highlight/**/*_test.{ts,js}",
-    "!app/embed/diff/gr-diff-model/**/*_test.{ts,js}",
-    "!app/embed/diff/gr-diff-processor/**/*_test.{ts,js}",
-    "!app/embed/diff/gr-diff-selection/**/*_test.{ts,js}",
     "!**/node_modules/**/*",
     ...(process.argv.includes("--run-screenshots")
       ? []
       : ["!app/**/*_screenshot_test.{ts,js}"]),
-  ],
-  // TODO(newdiff-cleanup): Remove once newdiff migration is completed.
-  groups: [
-    {
-      name: "new-diff",
-      files: [
-        "app/embed/diff/**/*_test.{ts,js}",
-        "app/elements/change/gr-file-list/gr-file-list_test.{ts,js}",
-        "app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog_test.{ts,js}",
-        "app/elements/diff/gr-diff-host/gr-diff-host_test.{ts,js}",
-        "app/elements/diff/gr-diff-view/gr-diff-view_test.{ts,js}",
-        "app/elements/shared/gr-comment-thread/gr-comment-thread_test.{ts,js}",
-      ],
-      testRunnerHtml: testRunnerHtmlFactory({newDiff: true}),
-    },
   ],
   port: 9876,
   nodeResolve: true,
@@ -85,6 +60,6 @@ const config = {
       await next();
     },
   ],
-  testRunnerHtml: testRunnerHtmlFactory({newDiff: false}),
+  testRunnerHtml: testRunnerHtmlFactory(),
 };
 export default config;

@@ -14,7 +14,10 @@ acceptance_tests(
 java_library(
     name = "util",
     srcs = ["CommentsUtil.java"],
-    visibility = ["//javatests/com/google/gerrit/acceptance/api/change:__subpackages__"],
+    visibility = [
+        "//javatests/com/google/gerrit/acceptance/api/change:__subpackages__",
+        "//javatests/com/google/gerrit/acceptance/rest:__subpackages__",
+    ],
     deps = [
         "//java/com/google/gerrit/acceptance:lib",
         "//java/com/google/gerrit/entities",

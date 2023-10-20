@@ -68,11 +68,11 @@ class UrlModule extends ServletModule {
     serve("/open").with(query("status:open"));
     serve("/watched").with(query("is:watched status:open"));
     serve("/starred").with(query("is:starred"));
-
     serveRegex("^/settings/?$").with(screen(PageLinks.SETTINGS));
     serveRegex("^/register$").with(registerScreen(false));
     serveRegex("^/register/(.+)$").with(registerScreen(true));
     serveRegex("^(?:/c)?/([1-9][0-9]*)/?$").with(NumericChangeIdRedirectServlet.class);
+    serveRegex("^(?:/c)?/([1-9][0-9]*)/comment/\\w+/?$").with(NumericChangeIdRedirectServlet.class);
     serveRegex("^/p/(.*)$").with(queryProjectNew());
     serveRegex("^/r/(.+)/?$").with(DirectChangeByCommit.class);
 

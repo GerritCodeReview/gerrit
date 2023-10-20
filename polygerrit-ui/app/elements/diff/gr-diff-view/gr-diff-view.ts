@@ -56,8 +56,7 @@ import {
   FilesWebLinks,
   PatchRangeChangeEvent,
 } from '../gr-patch-range-select/gr-patch-range-select';
-import {GrDiffCursor as GrDiffCursorNew} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
-import {GrDiffCursor} from '../../../embed/diff-old/gr-diff-cursor/gr-diff-cursor';
+import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {OpenFixPreviewEvent, ValueChangedEvent} from '../../../types/events';
@@ -104,7 +103,6 @@ import {
   FileNameToNormalizedFileInfoMap,
   filesModelToken,
 } from '../../../models/change/files-model';
-import {isNewDiff} from '../../../embed/diff/gr-diff/gr-diff-utils';
 import {isImageDiff} from '../../../utils/diff-util';
 import {formStyles} from '../../../styles/form-styles';
 
@@ -258,9 +256,8 @@ export class GrDiffView extends LitElement {
 
   private throttledToggleFileReviewed?: (e: KeyboardEvent) => void;
 
-  // TODO(newdiff-cleanup): Replace once newdiff migration is completed.
   @state()
-  cursor?: GrDiffCursor | GrDiffCursorNew;
+  cursor?: GrDiffCursor;
 
   private readonly shortcutsController = new ShortcutController(this);
 
@@ -697,8 +694,7 @@ export class GrDiffView extends LitElement {
       this.handleToggleFileReviewed()
     );
     this.addEventListener('open-fix-preview', e => this.onOpenFixPreview(e));
-    // TODO(newdiff-cleanup): Remove once newdiff migration is completed.
-    this.cursor = isNewDiff() ? new GrDiffCursorNew() : new GrDiffCursor();
+    this.cursor = new GrDiffCursor();
     if (this.diffHost) this.reInitCursor();
     window.addEventListener('scroll', this.updateSidebarHeight);
     window.addEventListener('resize', this.updateSidebarHeight);

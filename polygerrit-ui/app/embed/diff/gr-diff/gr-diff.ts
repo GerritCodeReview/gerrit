@@ -20,7 +20,6 @@ import {
   isThreadEl,
   getResponsiveMode,
   isResponsive,
-  isNewDiff,
   getSideByLineEl,
   compareComments,
   getDataFromCommentThreadEl,
@@ -47,6 +46,7 @@ import {
   DisplayLine,
   LineNumber,
   ContentLoadNeededEventDetail,
+  DiffContextExpandedExternalDetail,
 } from '../../../api/diff';
 import {isSafari, toggleClass} from '../../../utils/dom-util';
 import {assertIsDefined} from '../../../utils/common-util';
@@ -490,9 +490,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
     this.commentThreadRedispatcher(e.target, 'comment-thread-mouseleave');
   };
 
-  /** TODO: Can be removed when diff-old is gone. */
-  cancel() {}
-
   getCursorStops(): Array<HTMLElement | AbortStop> {
     if (this.hidden && this.noAutoRender) return [];
 
@@ -696,9 +693,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
     }
     this.rangeLayer.updateRanges(ranges);
   }
-
-  /** TODO: Can be removed when diff-old is gone. */
-  clearDiffContent() {}
 
   // TODO: Migrate callers to just update prefs.context.
   toggleAllContext() {
@@ -1017,15 +1011,11 @@ function annotateSymbols(
   }
 }
 
-// TODO(newdiff-cleanup): Remove once newdiff migration is completed.
-if (isNewDiff()) {
-  customElements.define('gr-diff', GrDiff);
-}
+customElements.define('gr-diff', GrDiff);
 
 declare global {
   interface HTMLElementTagNameMap {
-    // TODO(newdiff-cleanup): Replace once newdiff migration is completed.
-    'gr-diff': LitElement;
+    'gr-diff': GrDiff;
   }
   interface HTMLElementEventMap {
     'comment-thread-mouseenter': CustomEvent<GrDiffCommentThread>;
@@ -1042,6 +1032,7 @@ declare global {
      * renders and for partial rerenders.
      */
     'render-content': CustomEvent<{}>;
+    'diff-context-expanded': CustomEvent<DiffContextExpandedExternalDetail>;
     'diff-context-expanded-internal-new': CustomEvent<DiffContextExpandedEventDetail>;
     'content-load-needed': CustomEvent<ContentLoadNeededEventDetail>;
   }

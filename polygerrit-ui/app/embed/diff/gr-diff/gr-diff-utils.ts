@@ -40,12 +40,6 @@ import {GrDiffGroup} from './gr-diff-group';
  */
 export const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
-// TODO(newdiff-cleanup): Remove once newdiff migration is completed.
-export function isNewDiff() {
-  const flags = new Set(window.ENABLED_EXPERIMENTS ?? []);
-  return flags.has('UiFeature__new_diff');
-}
-
 export function getResponsiveMode(
   prefs?: DiffPreferencesInfo,
   renderPrefs?: RenderPreferences

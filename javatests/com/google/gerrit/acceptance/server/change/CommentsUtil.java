@@ -35,7 +35,7 @@ import java.util.HashMap;
  * comments. Used by tests that require dealing with comments.
  */
 public class CommentsUtil {
-  static CommentInput addComment(GerritApi gApi, String changeId) throws Exception {
+  public static CommentInput addComment(GerritApi gApi, String changeId) throws Exception {
     ReviewInput input = new ReviewInput();
     CommentInput comment = CommentsUtil.newComment(FILE_NAME, Side.REVISION, 0, "a message", false);
     input.comments = ImmutableMap.of(comment.path, Lists.newArrayList(comment));

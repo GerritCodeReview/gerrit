@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "72560f72_2fe37d0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-20T13:38:33Z",
+      "side": 1,
+      "message": "I believe we can start merging this change as we are cutting stable-3.9 today.",
+      "parentUuid": "5d259935_d86eb478",
+      "revId": "de22a60c58f9736e3dd415452a898d2574170d29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8298e9f5_ab138efc",

@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "396ecf7a_4bdca2e9",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-20T11:39:06Z",
+      "side": 1,
+      "message": "\u003e nit: I\u0027d also add that injecting any classes from the API plugin is supported.\n\ndoes it not say this in the previous sentence?\n\n ```Plugins can then consume this API by injecting the classes defined by it.```\n\n\u003e There\u0027s no limitation on injecting only `Dynamic*` dependencies.\n \nThe aim of the \"for example\" in that sentence is to highlight that this is not an exhaustive list. I mentioned the dynamic* because I believe they will be first citizens in the addition and replacement of existing behaviour.\n\n\u003e The API plugin can provide a cache, service or any other thing that could be consumed from other plugins.\n\nNot necessarily. Classes might or might not be injectable depending on whether they depend on classes that have not been bound by Guice yet.\n\nIf you look at the healthcheck implementation, for example [1] you will notice the refactoring around `HealthCheckMetrics.Factory healthCheckMetricsFactory`, which couldn\u0027t be instantiated due to `MetricMaker` not being bound to any concrete implementation yet (the sysInjector will do this).\n\nI think I will need to expand on this, WDYT @luca.milanesio@gmail.com, @darekm@google.com?\n\n[1] https://gerrit-review.googlesource.com/c/plugins/healthcheck/+/373454",
+      "parentUuid": "2dbd9118_4a7c566f",
+      "revId": "98f2d6b704bc16968570f42975edd7ff30057e64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "58665db5_6bd41384",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 5
@@ -31,6 +49,24 @@
       "writtenOn": "2023-10-20T08:32:17Z",
       "side": 1,
       "message": "nit: can we add \"plugin B must declare `Gerrit-ApiModule` in its `MANIFEST.MF`\", this is assumed in this section, but I\u0027d prefer to have it explicitly mentioned. We can also word it in a way that \"plugin B must expose API module\" or something, but IMO mentioning it explicitly would be helpful and save some debugging and WTF for the consumers.",
+      "revId": "98f2d6b704bc16968570f42975edd7ff30057e64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab608395_b92f9f8e",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-20T11:39:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58665db5_6bd41384",
       "revId": "98f2d6b704bc16968570f42975edd7ff30057e64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -60,6 +96,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b63853d9_bf389e2a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-20T11:39:06Z",
+      "side": 1,
+      "message": "I think it is a good idea to add a sentence to address this. \nI am not sure what you mean by \"a crash\".\n\nA crash of the jvm? of the plugin(s)? runtime exceptions?\n\nIn the parent ticket\u0027s commit we said:\n\n```\nThe behaviour in this case is unpredictable and depends on the\nspecifics of the classes involved.\n```\n\nI will use the same wording",
+      "parentUuid": "5d50e541_af753b62",
+      "range": {
+        "startLine": 164,
+        "startChar": 47,
+        "endLine": 164,
+        "endChar": 48
+      },
+      "revId": "98f2d6b704bc16968570f42975edd7ff30057e64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0d7f279_b571717a",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 5
@@ -71,6 +131,24 @@
       "writtenOn": "2023-10-20T08:32:17Z",
       "side": 1,
       "message": "IMO we mention that API plugins cannot depend on another API plugin.",
+      "revId": "98f2d6b704bc16968570f42975edd7ff30057e64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2fa4ef75_48014b26",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-20T11:39:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0d7f279_b571717a",
       "revId": "98f2d6b704bc16968570f42975edd7ff30057e64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

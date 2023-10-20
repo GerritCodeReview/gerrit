@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f547cf3f_42f19850",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-10-20T14:12:09Z",
+      "side": 1,
+      "message": "TODOs:\n- better timestamp handling for snapshot directory\n- allow to snapshot all indexes\n- benchmark on large sites\n- if necessary (likely), make the request asynchronous",
+      "revId": "a78f1e55086ed33671b98c13fa63d99b18512729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

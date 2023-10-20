@@ -13,9 +13,6 @@ export const grDiffStyles = css`
   :host(.no-left) .sideBySide tr:not(.dividerRow) td:nth-child(-n + 4) {
     display: none;
   }
-  :host(.disable-context-control-buttons) {
-    --context-control-display: none;
-  }
   :host(.disable-context-control-buttons) .section {
     border-right: none;
   }
@@ -376,7 +373,7 @@ export const grDiffStyles = css`
 
   /* Context controls */
   .contextControl {
-    display: var(--context-control-display, table-row-group);
+    display: table-row-group;
     background-color: transparent;
     border: none;
     --divider-height: var(--spacing-s);
@@ -403,6 +400,16 @@ export const grDiffStyles = css`
     /* One line of background behind the context expanders which they can
        render on top of, plus some padding. */
     height: calc(var(--line-height-normal) + var(--spacing-s));
+  }
+
+  /* Hide the actual context control buttons */
+  :host(.disable-context-control-buttons) .contextControl gr-context-controls {
+    display: none;
+  }
+  /* Maintain a small amount of padding at the edges of diff chunks */
+  :host(.disable-context-control-buttons) .contextControl .contextBackground {
+    height: var(--spacing-s);
+    border-right: none;
   }
 
   .dividerCell {

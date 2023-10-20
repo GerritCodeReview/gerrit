@@ -8,7 +8,7 @@ management tool for Git based projects.
 
 ## Objective
 
-Gerrit makes reviews easier by showing changes in a side-by-side display,
+Gerrit makes reviews easy by showing changes in a side-by-side display,
 and allowing inline comments to be added by any reviewer.
 
 Gerrit simplifies Git based project maintainership by permitting any

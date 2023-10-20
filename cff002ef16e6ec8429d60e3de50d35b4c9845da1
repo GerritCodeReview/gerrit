@@ -33,6 +33,24 @@
       "message": "is this for real or is it just a test change?",
       "revId": "cff002ef16e6ec8429d60e3de50d35b4c9845da1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "804f1a92_f04ef83b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-10-20T19:23:36Z",
+      "side": 1,
+      "message": "This is just a test change.",
+      "parentUuid": "777f77fa_e9e7915c",
+      "revId": "cff002ef16e6ec8429d60e3de50d35b4c9845da1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

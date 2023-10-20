@@ -16,10 +16,12 @@ package com.google.gerrit.acceptance.rest;
 
 import static com.google.common.net.HttpHeaders.ORIGIN;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.X_GERRIT_UPDATED_REF;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.X_GERRIT_UPDATED_REF_ENABLED;
 import static org.apache.http.HttpStatus.SC_OK;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
@@ -29,12 +31,14 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.restapi.ParameterParser;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 import org.apache.http.message.BasicHeader;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -433,6 +437,30 @@ public class RestApiServletIT extends AbstractDaemonTest {
 
     String redirectUri = String.format("/c/%s/+/%d/", project.get(), changeNumber);
     anonymousRestSession.get("/c/" + changeNumber).assertTemporaryRedirect(redirectUri);
+  }
+
+  @Test
+  public void testCommentLinkWithPrefixRedirects() throws Exception {
+    int changeNumber = createChange().getChange().getId().get();
+    String commentId = "ff3303fd_8341647b";
+
+    String redirectUri = String.format("/c/%s/+/%d/comment/%s", project.get(), changeNumber, commentId);
+
+    anonymousRestSession
+        .get(String.format("/c/%s/comment/%s", changeNumber, commentId))
+        .assertTemporaryRedirect(redirectUri);
+  }
+
+  @Test
+  public void testCommentLinkWithoutPrefixRedirects() throws Exception {
+    int changeNumber = createChange().getChange().getId().get();
+    String commentId = "ff3303fd_8341647b";
+
+    String redirectUri = String.format("/c/%s/+/%d/comment/%s", project.get(), changeNumber, commentId);
+
+    anonymousRestSession
+        .get(String.format("/%s/comment/%s", changeNumber, commentId))
+        .assertTemporaryRedirect(redirectUri);
   }
 
   @Test

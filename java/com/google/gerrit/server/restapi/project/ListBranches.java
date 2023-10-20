@@ -348,8 +348,8 @@ public class ListBranches implements RestReadView<ProjectResource> {
           info.canDelete = null;
         } else {
           info.canDelete =
-              perm.ref(ref.getName()).testOrFalse(RefPermission.DELETE)
-                      && projectState.statePermitsWrite()
+              (perm.ref(ref.getName()).testOrFalse(RefPermission.DELETE)
+                      && projectState.statePermitsWrite())
                   ? true
                   : null;
         }
@@ -415,9 +415,9 @@ public class ListBranches implements RestReadView<ProjectResource> {
       info.canDelete = null;
     } else {
       info.canDelete =
-          !targets.contains(ref.getName())
+          (!targets.contains(ref.getName())
                   && perm.testOrFalse(RefPermission.DELETE)
-                  && projectState.statePermitsWrite()
+                  && projectState.statePermitsWrite())
               ? true
               : null;
     }

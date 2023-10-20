@@ -21,11 +21,13 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.GitUpdateFailureException;
@@ -97,12 +99,12 @@ public class StarredChangesUtilNoteDbImpl implements StarredChangesUtil {
   }
 
   @Override
-  public void star(Account.Id accountId, Change.Id changeId) {
+  public void star(Account.Id accountId, Project.NameKey project, Change.Id changeId) {
     updateStar(accountId, changeId, true);
   }
 
   @Override
-  public void unstar(Account.Id accountId, Change.Id changeId) {
+  public void unstar(Account.Id accountId, Project.NameKey project, Change.Id changeId) {
     updateStar(accountId, changeId, false);
   }
 
@@ -145,7 +147,8 @@ public class StarredChangesUtilNoteDbImpl implements StarredChangesUtil {
   }
 
   @Override
-  public void unstarAllForChangeDeletion(Change.Id changeId) throws IOException {
+  public void unstarAllForChangeDeletion(Project.NameKey project, Change.Id changeId)
+      throws IOException {
     try (Repository repo = repoManager.openRepository(allUsers);
         RevWalk rw = new RevWalk(repo)) {
       BatchRefUpdate batchUpdate = repo.getRefDatabase().newBatchUpdate();
@@ -176,7 +179,7 @@ public class StarredChangesUtilNoteDbImpl implements StarredChangesUtil {
   }
 
   @Override
-  public ImmutableMap<Account.Id, Ref> byChange(Change.Id changeId) {
+  public ImmutableMap<Account.Id, Ref> byChange(Project.NameKey project, Change.Id changeId) {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       ImmutableMap.Builder<Account.Id, Ref> builder = ImmutableMap.builder();
       for (Account.Id accountId : getStars(repo, changeId)) {
@@ -193,12 +196,13 @@ public class StarredChangesUtilNoteDbImpl implements StarredChangesUtil {
   }
 
   @Override
-  public ImmutableSet<Change.Id> byAccountId(Account.Id accountId) {
+  public ImmutableSetMultimap<Project.NameKey, Change.Id> byAccountId(Account.Id accountId) {
     return byAccountId(accountId, true);
   }
 
   @Override
-  public ImmutableSet<Change.Id> byAccountId(Account.Id accountId, boolean skipInvalidChanges) {
+  public ImmutableSetMultimap<Project.NameKey, Change.Id> byAccountId(
+      Account.Id accountId, boolean skipInvalidChanges) {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       ImmutableSet.Builder<Change.Id> builder = ImmutableSet.builder();
       for (Ref ref : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_STARRED_CHANGES)) {
@@ -215,7 +219,11 @@ public class StarredChangesUtilNoteDbImpl implements StarredChangesUtil {
         }
         builder.add(changeId);
       }
-      return builder.build();
+
+      ImmutableSetMultimap.Builder<Project.NameKey, Change.Id> starredChangesByProject =
+          ImmutableSetMultimap.builder();
+      starredChangesByProject.putAll(allUsers, builder.build());
+      return starredChangesByProject.build();
     } catch (IOException e) {
       throw new StorageException(
           String.format("Get starred changes for account %d failed", accountId.get()), e);

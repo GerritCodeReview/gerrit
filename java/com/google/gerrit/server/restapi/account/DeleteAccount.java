@@ -14,12 +14,13 @@
 
 package com.google.gerrit.server.restapi.account;
 
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Table;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -161,9 +162,12 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
   }
 
   private void deleteStarredChanges(Account.Id accountId) {
-    ImmutableSet<Change.Id> staredChanges = starredChangesUtil.byAccountId(accountId, false);
-    for (Change.Id change : staredChanges) {
-      starredChangesUtil.unstar(self.get().getAccountId(), change);
+    ImmutableSetMultimap<Project.NameKey, Change.Id> starredChanges =
+        starredChangesUtil.byAccountId(accountId, false);
+    for (Project.NameKey project : starredChanges.keySet()) {
+      for (Change.Id changeId : starredChanges.get(project)) {
+        starredChangesUtil.unstar(self.get().getAccountId(), project, changeId);
+      }
     }
   }
 

@@ -19,6 +19,7 @@ import static com.google.common.flogger.LazyArgs.lazy;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -80,7 +81,7 @@ public class DeleteChangeOp implements BatchUpdateOp {
     ensureDeletable(ctx, id, patchSets);
     // Cleaning up is only possible as long as the change and its elements are
     // still part of the database.
-    cleanUpReferences(id);
+    cleanUpReferences(ctx.getProject(), id);
 
     logger.atFine().log(
         "Deleting change %s, current patch set %d is commit %s",
@@ -123,11 +124,11 @@ public class DeleteChangeOp implements BatchUpdateOp {
         revWalk.parseCommit(patchSet.commitId()), revWalk.parseCommit(destId.get()));
   }
 
-  private void cleanUpReferences(Change.Id id) throws IOException {
+  private void cleanUpReferences(Project.NameKey project, Change.Id id) throws IOException {
     accountPatchReviewStore.run(s -> s.clearReviewed(id));
 
     // Non-atomic operation on All-Users refs; not much we can do to make it atomic.
-    starredChangesUtil.unstarAllForChangeDeletion(id);
+    starredChangesUtil.unstarAllForChangeDeletion(project, id);
   }
 
   @Override

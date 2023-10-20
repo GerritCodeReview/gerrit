@@ -124,7 +124,7 @@ public class StarredChanges
       }
 
       try {
-        starredChangesUtil.star(self.get().getAccountId(), change.getId());
+        starredChangesUtil.star(self.get().getAccountId(), change.getProject(), change.getId());
       } catch (DuplicateKeyException e) {
         return Response.none();
       }
@@ -167,7 +167,8 @@ public class StarredChanges
       if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed remove starred change");
       }
-      starredChangesUtil.unstar(self.get().getAccountId(), rsrc.getChange().getId());
+      starredChangesUtil.unstar(
+          self.get().getAccountId(), rsrc.getChange().getProject(), rsrc.getChange().getId());
       return Response.none();
     }
   }

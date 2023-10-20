@@ -1411,7 +1411,7 @@ public class ChangeData {
       if (!lazyload()) {
         return ImmutableMap.of();
       }
-      starRefs = requireNonNull(starredChangesUtil).byChange(legacyId);
+      starRefs = requireNonNull(starredChangesUtil).byChange(project, legacyId);
     }
     return starRefs;
   }

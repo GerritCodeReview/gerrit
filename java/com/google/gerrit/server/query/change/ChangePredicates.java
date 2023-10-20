@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -34,6 +35,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /** Predicates that match against {@link ChangeData}. */
 public class ChangePredicates {
@@ -104,11 +106,28 @@ public class ChangePredicates {
    * com.google.gerrit.entities.Account.Id} has starred changes with {@code label}.
    */
   public static Predicate<ChangeData> starBy(StarredChangesUtil starredChangesUtil, Account.Id id) {
-    Set<Predicate<ChangeData>> starredChanges =
-        starredChangesUtil.byAccountId(id).stream()
-            .map(ChangePredicates::idStr)
-            .collect(toImmutableSet());
-    return starredChanges.isEmpty() ? ChangeIndexPredicate.none() : Predicate.or(starredChanges);
+    ImmutableSetMultimap<Project.NameKey, Change.Id> starredChangesByProject =
+        starredChangesUtil.byAccountId(id);
+    if (starredChangesByProject.isEmpty()) {
+      return ChangeIndexPredicate.none();
+    }
+
+    Set<Predicate<ChangeData>> predicatesByProject =
+        starredChangesByProject.keySet().stream()
+            .map(
+                project -> {
+                  Set<Predicate<ChangeData>> starredChanges =
+                      starredChangesByProject.get(project).stream()
+                          .map(ChangePredicates::idStr)
+                          .collect(toImmutableSet());
+                  Predicate<ChangeData> starredChangesPredicate =
+                      Predicate.and(
+                          ChangePredicates.project(project), Predicate.or(starredChanges));
+                  return starredChangesPredicate;
+                })
+            .collect(Collectors.toUnmodifiableSet());
+
+    return Predicate.or(predicatesByProject);
   }
 
   /**

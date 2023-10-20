@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0040c30b_ffa0ad6e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-10-20T08:29:39Z",
+      "side": 1,
+      "message": "Thanks for moving the change to Gerrit!\n\nTo submit it you need to add a footer to your commit message above Change-Id with\n`Release-Notes: \u003cshort text about feature/change\u003e`\n\nChange 389894 is an example",
+      "revId": "ae51aa9bb343febd670b0c0d8a3fc164108a6e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -29,7 +29,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Redirects {@code domain.tld/123} to {@code domain.tld/c/project/+/123}. */
+/**
+ * Redirects:
+ *
+ * <ul>
+ *   <li>{@code domain.tld/123} to {@code domain.tld/c/project/+/123}
+ *   <li/>
+ *   <li>{@code domain.tld/123/comment/bc630c55_3e265b44} to {@code
+ *       domain.tld/c/project/+/123/comment/bc630c55_3e265b44/}
+ *   <li/>
+ * </ul>
+ */
 @Singleton
 public class NumericChangeIdRedirectServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
@@ -43,7 +53,11 @@ public class NumericChangeIdRedirectServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
-    String idString = req.getPathInfo();
+    String uriPath = req.getPathInfo();
+    // Check if we are processing a comment url, like "/c/1/comment/ff3303fd_8341647b/".
+    int commentIdx = uriPath.indexOf("/comment");
+    String idString = commentIdx == -1 ? uriPath : uriPath.substring(0, commentIdx);
+
     if (idString.endsWith("/")) {
       idString = idString.substring(0, idString.length() - 1);
     }
@@ -64,6 +78,10 @@ public class NumericChangeIdRedirectServlet extends HttpServlet {
     }
     String path =
         PageLinks.toChange(changeResource.getProject(), changeResource.getChange().getId());
+    if (commentIdx > -1) {
+      // path already contain a trailing /, hence we start from "commentIdx + 1"
+      path = path + uriPath.substring(commentIdx + 1);
+    }
     UrlModule.toGerrit(path, req, rsp);
   }
 }

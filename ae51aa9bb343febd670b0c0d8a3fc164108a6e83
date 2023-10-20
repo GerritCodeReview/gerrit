@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "19cf15ee_e37a8240",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2023-10-20T10:15:49Z",
+      "side": 1,
+      "message": "please don\u0027t.\nplain git will use \"Reapply\" starting with the next release.\nsee https://lore.kernel.org/all/568b853a-cf71-4262-86be-7b65cf066d93@app.fastmail.com/T/#u for the discussion.",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "ae51aa9bb343febd670b0c0d8a3fc164108a6e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f2d600e_c5a5b82c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2023-10-20T10:15:49Z",
+      "side": 1,
+      "message": "a reference to https://issues.gerritcodereview.com/issues/40014605 would be in order.",
+      "revId": "ae51aa9bb343febd670b0c0d8a3fc164108a6e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0040c30b_ffa0ad6e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -14,6 +54,23 @@
       "writtenOn": "2023-10-20T08:29:39Z",
       "side": 1,
       "message": "Thanks for moving the change to Gerrit!\n\nTo submit it you need to add a footer to your commit message above Change-Id with\n`Release-Notes: \u003cshort text about feature/change\u003e`\n\nChange 389894 is an example",
+      "revId": "ae51aa9bb343febd670b0c0d8a3fc164108a6e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d46f01a_d455fa04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2023-10-20T10:15:49Z",
+      "side": 1,
+      "message": "while at it, you may want to address https://issues.gerritcodereview.com/issues/40014606 as well. 😊",
       "revId": "ae51aa9bb343febd670b0c0d8a3fc164108a6e83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

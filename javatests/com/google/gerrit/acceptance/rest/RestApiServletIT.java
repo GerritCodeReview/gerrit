@@ -436,6 +436,32 @@ public class RestApiServletIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void testCommentLinkWithPrefixRedirects() throws Exception {
+    int changeNumber = createChange().getChange().getId().get();
+    String commentId = "ff3303fd_8341647b";
+
+    String redirectUri =
+        String.format("/c/%s/+/%d/comment/%s", project.get(), changeNumber, commentId);
+
+    anonymousRestSession
+        .get(String.format("/c/%s/comment/%s", changeNumber, commentId))
+        .assertTemporaryRedirect(redirectUri);
+  }
+
+  @Test
+  public void testCommentLinkWithoutPrefixRedirects() throws Exception {
+    int changeNumber = createChange().getChange().getId().get();
+    String commentId = "ff3303fd_8341647b";
+
+    String redirectUri =
+        String.format("/c/%s/+/%d/comment/%s", project.get(), changeNumber, commentId);
+
+    anonymousRestSession
+        .get(String.format("/%s/comment/%s", changeNumber, commentId))
+        .assertTemporaryRedirect(redirectUri);
+  }
+
+  @Test
   public void testNumericChangeIdRedirectWithoutPrefix() throws Exception {
     int changeNumber = createChange().getChange().getId().get();
 

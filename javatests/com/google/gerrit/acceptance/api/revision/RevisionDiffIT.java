@@ -29,6 +29,7 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toMap;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -3132,6 +3133,49 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     assertThat(diffInfo).diffHeader().contains("Binary files differ");
     assertThat(diffInfo).metaA().isNotNull();
     assertThat(diffInfo).metaB().isNull();
+    assertThat(diffInfo).webLinks().isNull();
+  }
+
+  @Test
+  public void diffForBinaryFileThatIsNotTouchedInTheChange() throws Exception {
+    String imageFileName1 = "an_image.png";
+    byte[] imageBytes1 = createRgbImage(255, 0, 0);
+    String imageContent1 = new String(imageBytes1, UTF_8);
+    Change.Id changeId1 =
+        changeOperations.newChange().file(imageFileName1).content(imageContent1).create();
+
+    String imageFileName2 = "another_image.png";
+    byte[] imageBytes2 = createRgbImage(0, 255, 0);
+    Change.Id changeId2 =
+        changeOperations
+            .newChange()
+            .childOf()
+            .change(changeId1)
+            .file(imageFileName2)
+            .content(new String(imageBytes2, UTF_8))
+            .create();
+
+    // Since file imageFileName1 was not touched in the second change, trying to get the diff for it
+    // should probably fail with '404 Not Found'.
+    DiffInfo diffInfo = gApi.changes().id(changeId2.get()).current().file(imageFileName1).diff();
+
+    // This should be detected as a binary file, but it isn't.
+    assertThat(diffInfo).binary().isNull();
+
+    // For binary files linesOfA, linesOfB and commonLines are expected to be null, but the content
+    // of the binary file is returned as common lines.
+    ContentEntrySubject contentEntry = assertThat(diffInfo).content().onlyElement();
+    contentEntry.linesOfA().isNull();
+    contentEntry.linesOfB().isNull();
+    contentEntry
+        .commonLines()
+        .containsExactlyElementsIn(Splitter.on("\n").splitToList(imageContent1));
+
+    // For binary file the header list should contain "Binary files differ", but it doesn't.
+    assertThat(diffInfo).diffHeader().isNull();
+
+    assertThat(diffInfo).metaA().isNotNull();
+    assertThat(diffInfo).metaB().isNotNull();
     assertThat(diffInfo).webLinks().isNull();
   }
 

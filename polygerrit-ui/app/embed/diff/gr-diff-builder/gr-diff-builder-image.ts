@@ -8,7 +8,6 @@ import {Side} from '../../../api/diff';
 import '../gr-diff-image-viewer/gr-image-viewer';
 import {html, LitElement, nothing} from 'lit';
 import {property, query, state} from 'lit/decorators.js';
-import {isNewDiff} from '../gr-diff/gr-diff-utils';
 
 // MIME types for images we allow showing. Do not include SVG, it can contain
 // arbitrary JavaScript.
@@ -201,16 +200,12 @@ function imageSrc(image?: ImageInfo): string {
     : '';
 }
 
-// TODO(newdiff-cleanup): Remove once newdiff migration is completed.
-if (isNewDiff()) {
-  customElements.define('gr-diff-image-new', GrDiffImageNew);
-  customElements.define('gr-diff-image-old', GrDiffImageOld);
-}
+customElements.define('gr-diff-image-new', GrDiffImageNew);
+customElements.define('gr-diff-image-old', GrDiffImageOld);
 
 declare global {
   interface HTMLElementTagNameMap {
-    // TODO(newdiff-cleanup): Replace once newdiff migration is completed.
-    'gr-diff-image-new': LitElement;
-    'gr-diff-image-old': LitElement;
+    'gr-diff-image-new': GrDiffImageNew;
+    'gr-diff-image-old': GrDiffImageOld;
   }
 }

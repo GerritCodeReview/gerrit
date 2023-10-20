@@ -100,6 +100,15 @@ suite('gr-suggestion-diff-preview tests', () => {
     };
     await element.updateComplete;
 
-    assert.shadowDom.equal(element, /* HTML */ '<gr-diff></gr-diff>');
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <gr-diff
+          class="disable-context-control-buttons hide-line-length-indicator"
+        >
+        </gr-diff>
+      `,
+      {ignoreAttributes: ['style']}
+    );
   });
 });

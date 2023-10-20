@@ -26,7 +26,6 @@ import {
   diffClasses,
   GrDiffCommentThread,
   isLongCommentRange,
-  isNewDiff,
   isResponsive,
 } from '../gr-diff/gr-diff-utils';
 import {resolve} from '../../../models/dependency';
@@ -579,14 +578,10 @@ export class GrDiffRow extends LitElement {
   }
 }
 
-// TODO(newdiff-cleanup): Remove once newdiff migration is completed.
-if (isNewDiff()) {
-  customElements.define('gr-diff-row', GrDiffRow);
-}
+customElements.define('gr-diff-row', GrDiffRow);
 
 declare global {
   interface HTMLElementTagNameMap {
-    // TODO(newdiff-cleanup): Replace once newdiff migration is completed.
-    'gr-diff-row': LitElement;
+    'gr-diff-row': GrDiffRow;
   }
 }

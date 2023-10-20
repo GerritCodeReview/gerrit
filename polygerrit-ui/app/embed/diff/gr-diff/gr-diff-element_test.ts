@@ -57,7 +57,7 @@ suite('gr-diff-element tests', () => {
       assert.lightDom.equal(
         element,
         /* HTML */ `
-          <div class="diffContainer newDiff sideBySide">
+          <div class="diffContainer sideBySide">
             <table id="diffTable">
               <colgroup>
                 <col class="blame gr-diff" />
@@ -85,7 +85,7 @@ suite('gr-diff-element tests', () => {
       assert.lightDom.equal(
         element,
         /* HTML */ `
-          <div class="diffContainer newDiff unified">
+          <div class="diffContainer unified">
             <table id="diffTable">
               <colgroup>
                 <col class="blame gr-diff" />
@@ -1319,7 +1319,7 @@ suite('gr-diff-element tests', () => {
       assert.lightDom.equal(
         element,
         /* HTML */ `
-          <div class="diffContainer newDiff sideBySide">
+          <div class="diffContainer sideBySide">
             <table id="diffTable">
               <colgroup>
                 <col class="blame gr-diff" />
@@ -2935,7 +2935,7 @@ suite('gr-diff-element tests', () => {
         assert.lightDom.equal(
           element,
           /* HTML */ `
-            <div class="diffContainer newDiff sideBySide">
+            <div class="diffContainer sideBySide">
               <gr-diff-section class="left-FILE right-FILE"> </gr-diff-section>
               <gr-diff-row class="left-FILE right-FILE"> </gr-diff-row>
               <table id="diffTable">

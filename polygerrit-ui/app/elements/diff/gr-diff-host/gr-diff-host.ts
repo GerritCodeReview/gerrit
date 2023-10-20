@@ -6,7 +6,6 @@
 import '../../shared/gr-comment-thread/gr-comment-thread';
 import '../../checks/gr-diff-check-result';
 import '../../../embed/diff/gr-diff/gr-diff';
-import '../../../embed/diff-old/gr-diff/gr-diff';
 import {
   anyLineTooLong,
   getDiffLength,
@@ -46,8 +45,7 @@ import {
   IgnoreWhitespaceType,
   WebLinkInfo,
 } from '../../../types/diff';
-import {GrDiff as GrDiffNew} from '../../../embed/diff/gr-diff/gr-diff';
-import {GrDiff} from '../../../embed/diff-old/gr-diff/gr-diff';
+import {GrDiff} from '../../../embed/diff/gr-diff/gr-diff';
 import {DiffViewMode, Side, CommentSide} from '../../../constants/constants';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {KnownExperimentId} from '../../../services/flags/flags';
@@ -139,9 +137,8 @@ declare global {
  */
 @customElement('gr-diff-host')
 export class GrDiffHost extends LitElement {
-  // TODO(newdiff-cleanup): Replace once newdiff migration is completed.
   @query('#diff')
-  diffElement?: GrDiff | GrDiffNew;
+  diffElement?: GrDiff;
 
   @property({type: Number})
   changeNum?: NumericChangeId;
@@ -560,8 +557,6 @@ export class GrDiffHost extends LitElement {
     // TODO: Find better names for these 3 clear/cancel methods. Ideally the
     // <gr-diff-host> should not re-used at all for another diff rendering pass.
     this.clear();
-    this.cancel();
-    this.clearDiffContent();
     assertIsDefined(this.path, 'path');
     assertIsDefined(this.changeNum, 'changeNum');
     this.diff = undefined;
@@ -815,11 +810,6 @@ export class GrDiffHost extends LitElement {
     };
   }
 
-  /** Cancel any remaining diff builder rendering work. */
-  cancel() {
-    this.diffElement?.cancel();
-  }
-
   getCursorStops() {
     assertIsDefined(this.diffElement);
     return this.diffElement.getCursorStops();
@@ -862,10 +852,6 @@ export class GrDiffHost extends LitElement {
 
   clearBlame() {
     this.blame = null;
-  }
-
-  clearDiffContent() {
-    this.diffElement?.clearDiffContent();
   }
 
   toggleAllContext() {

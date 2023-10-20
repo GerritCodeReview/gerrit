@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f805e467_7167836e",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-20T15:11:49Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e nit: I\u0027d also add that injecting any classes from the API plugin is supported.\n\u003e \u003e \n\u003e \u003e does it not say this in the previous sentence?\n\u003e \u003e \n\u003e \u003e  ```Plugins can then consume this API by injecting the classes defined by it.```\n\u003e \n\u003e how about: `the consumer plugin can then consume any classes provided by the API plugin`\n\u003e \n\u003e \u003e \u003e There\u0027s no limitation on injecting only `Dynamic*` dependencies.\n\u003e \u003e  \n\u003e \u003e The aim of the \"for example\" in that sentence is to highlight that this is not an exhaustive list. I mentioned the dynamic* because I believe they will be the first citizens in the addition and replacement of existing behaviour.\n\u003e \n\u003e I\u0027d be more explicit here, as I\u0027ve already seen some thinking that only dynamic* things are allowed to be injected from API plugins.\n\n\nWhere did you see this thinking?\n\n\u003e \n\u003e \u003e \u003e The API plugin can provide a cache, service or any other thing that could be consumed from other plugins.\n\u003e \u003e \n\u003e \u003e Not necessarily. Classes might or might not be injectable depending on whether they depend on classes that have not been bound by Guice yet.\n\u003e \n\u003e you don\u0027t need to have a binding in Guice for injection to work, let\u0027s consider a `SharedService` class as follows:\n\u003e \n\u003e ```java\n\u003e @Singleton\n\u003e public class SharedService {\n\u003e   @Inject \n\u003e   SharedService() {}\n\u003e   \n\u003e   public Result someMethod() {\n\u003e     ...\n\u003e   }\n\u003e }\n\u003e ```\n\u003e \n\u003e this then can be injected into any consumer plugin without binding in the ApiModule.\n\nYep, makes sense\n\n\u003e \n\u003e \n\u003e \u003e If you look at the healthcheck implementation, for example [1] you will notice the refactoring around `HealthCheckMetrics.Factory healthCheckMetricsFactory`, which couldn\u0027t be instantiated due to `MetricMaker` not being bound to any concrete implementation yet (the sysInjector will do this).\n\u003e \n\u003e That\u0027s an implementation detail that is specific for the `helthcheck` plugin, which is also an \"advanced\" case. I\u0027m just trying to say that one doesn\u0027t need all of the _fancy_ dynamic* things in order to use the ApiModule.\n\n\nI don\u0027t know if I\u0027d call this \"advanced\" case 😊 but this is exactly what I think should be documented, that the API cannot provide necessarily any \"cache, service or any other thing\", if those classes require bindings that have not happened yet.\n\nBut I understand the point you\u0027re trying to make.\nLet me see if I can add/rephrase the docs. \n\n\u003e \n\u003e Also, the API plugin, can have an empty module definition and provide a bunch of interfaces or data classes that are shared between other plugins.\n\u003e \n\u003e You can also check my simple [x-plugin dependency demonstration plugin](https://github.com/dluksza/gerrit-x-plugin-dependency-poc-example)\n\n\n👍",
+      "parentUuid": "7fa8ac65_bbe84234",
+      "revId": "98f2d6b704bc16968570f42975edd7ff30057e64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "58665db5_6bd41384",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 5
@@ -150,6 +168,30 @@
       "side": 1,
       "message": "sounds good to me 👍",
       "parentUuid": "b63853d9_bf389e2a",
+      "range": {
+        "startLine": 164,
+        "startChar": 47,
+        "endLine": 164,
+        "endChar": 48
+      },
+      "revId": "98f2d6b704bc16968570f42975edd7ff30057e64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df36e346_00225f7c",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-20T15:11:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40bf4670_5737f25e",
       "range": {
         "startLine": 164,
         "startChar": 47,

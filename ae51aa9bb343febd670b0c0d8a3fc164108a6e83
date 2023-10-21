@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "37426d12_b6345ebb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1166176
+      },
+      "writtenOn": "2023-10-21T00:10:06Z",
+      "side": 1,
+      "message": "Could we go with this for now? Because other parts of gerrit code use Revert^2. I\u0027m not a gerrit dev / have time to rework all the various parts to use reapply, I was just hoping to throw a cl over the fence for a quick improvement.\n\nIf not, I\u0027ll just abandon the cl.",
+      "parentUuid": "19cf15ee_e37a8240",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "ae51aa9bb343febd670b0c0d8a3fc164108a6e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f2d600e_c5a5b82c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -37,6 +61,24 @@
       "writtenOn": "2023-10-20T10:15:49Z",
       "side": 1,
       "message": "a reference to https://issues.gerritcodereview.com/issues/40014605 would be in order.",
+      "revId": "ae51aa9bb343febd670b0c0d8a3fc164108a6e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0219020_83c35f56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1166176
+      },
+      "writtenOn": "2023-10-21T00:10:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f2d600e_c5a5b82c",
       "revId": "ae51aa9bb343febd670b0c0d8a3fc164108a6e83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -71,6 +113,24 @@
       "writtenOn": "2023-10-20T10:15:49Z",
       "side": 1,
       "message": "while at it, you may want to address https://issues.gerritcodereview.com/issues/40014606 as well. 😊",
+      "revId": "ae51aa9bb343febd670b0c0d8a3fc164108a6e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "985984dd_cb955683",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1166176
+      },
+      "writtenOn": "2023-10-21T00:10:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0040c30b_ffa0ad6e",
       "revId": "ae51aa9bb343febd670b0c0d8a3fc164108a6e83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

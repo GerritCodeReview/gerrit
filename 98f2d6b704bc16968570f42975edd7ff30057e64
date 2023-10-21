@@ -126,6 +126,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e83d0e2_5a220a57",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-21T11:50:06Z",
+      "side": 1,
+      "message": "\u003e I would say common interface rather than plugin. But you are right that the mechanism can be abused for not using the interface at all but just rely on the fact that all the plugins that have a Gerrit-ApiModule are loaded inside the same Guice injector and they are the parent of all the others.\n\nI\u0027d only consider an _abuse_ only if the `ApiModule` has only DTOs and interfaces, without any _service_. When there\u0027s a _service_ class it isn\u0027t an abuse. For example, consider that you have multiple plugins that need to communicate with a proprietary external system. Without `ApiModule` you\u0027d have a separate connection pool in each plugin, but with `ApiModule` you can expose one connection pool consumed from other plugins. I\u0027d consider that a good design, not an abuse ;)",
+      "parentUuid": "8e26ebe6_f6e3045b",
+      "revId": "98f2d6b704bc16968570f42975edd7ff30057e64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58665db5_6bd41384",

@@ -33,20 +33,20 @@ load("//tools:deps.bzl", "CAFFEINE_VERS", "java_dependencies")
 
 http_archive(
     name = "platforms",
-    sha256 = "379113459b0feaf6bfbb584a91874c065078aa673222846ac765f86661c27407",
+    sha256 = "3a561c99e7bdbe9173aa653fd579fe849f1d8d67395780ab4770b1f381431d51",
     urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/platforms/releases/download/0.0.5/platforms-0.0.5.tar.gz",
-        "https://github.com/bazelbuild/platforms/releases/download/0.0.5/platforms-0.0.5.tar.gz",
+        "https://mirror.bazel.build/github.com/bazelbuild/platforms/releases/download/0.0.7/platforms-0.0.7.tar.gz",
+        "https://github.com/bazelbuild/platforms/releases/download/0.0.7/platforms-0.0.7.tar.gz",
     ],
 )
 
 http_archive(
     name = "rbe_jdk11",
-    sha256 = "dbcfd6f26589ef506b91fe03a12dc559ca9c84699e4cf6381150522287f0e6f6",
-    strip_prefix = "rbe_autoconfig-3.1.0",
+    sha256 = "0005932ef456cb47d2282f11232046bfeabd910e0a085eb0e2b6b751abcdeb02",
+    strip_prefix = "rbe_autoconfig-4.0.0",
     urls = [
-        "https://gerrit-bazel.storage.googleapis.com/rbe_autoconfig/v3.1.0.tar.gz",
-        "https://github.com/davido/rbe_autoconfig/archive/v3.1.0.tar.gz",
+        "https://gerrit-bazel.storage.googleapis.com/rbe_autoconfig/v4.0.0.tar.gz",
+        "https://github.com/davido/rbe_autoconfig/releases/download/v4.0.0/v4.0.0.tar.gz",
     ],
 )
 
@@ -65,8 +65,8 @@ protobuf_deps()
 
 http_archive(
     name = "build_bazel_rules_nodejs",
-    sha256 = "0fad45a9bda7dc1990c47b002fd64f55041ea751fafc00cd34efb96107675778",
-    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/5.5.0/rules_nodejs-5.5.0.tar.gz"],
+    sha256 = "94070eff79305be05b7699207fbac5d2608054dd53e6109f7d00d923919ff45a",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/5.8.2/rules_nodejs-5.8.2.tar.gz"],
 )
 
 load("@build_bazel_rules_nodejs//:repositories.bzl", "build_bazel_rules_nodejs_dependencies")
@@ -103,6 +103,12 @@ register_toolchains("//tools:error_prone_warnings_toolchain_java11_definition")
 
 register_toolchains("//tools:error_prone_warnings_toolchain_java17_definition")
 
+# Java-Prettify external repository consumed from git submodule
+local_repository(
+    name = "java-prettify",
+    path = "modules/java-prettify",
+)
+
 # JGit external repository consumed from git submodule
 local_repository(
     name = "jgit",
@@ -136,8 +142,8 @@ declare_nongoogle_deps()
 load("@build_bazel_rules_nodejs//:index.bzl", "node_repositories", "yarn_install")
 
 node_repositories(
-    node_version = "16.15.0",
-    yarn_version = "1.22.18",
+    node_version = "17.9.1",
+    yarn_version = "1.22.19",
 )
 
 yarn_install(

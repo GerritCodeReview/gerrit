@@ -74,6 +74,30 @@
       },
       "revId": "4d85897264e86bd9c65e95f7b54880b2af764e0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a02a3707_f77b35d3",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-23T12:26:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1a0a442_62618987",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 167,
+        "endChar": 24
+      },
+      "revId": "4d85897264e86bd9c65e95f7b54880b2af764e0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

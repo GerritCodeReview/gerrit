@@ -3806,6 +3806,42 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "rules.evaluateCurrentRulesOnClosedChanges", value = "false")
+  public void checkLabelsNotUpdatedForMergedChange() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+
+    ChangeInfo change = gApi.changes().id(r.getChangeId()).get();
+    assertThat(change.status).isEqualTo(MERGED);
+    assertThat(change.submissionId).isNotNull();
+    assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
+    assertThat(change.permittedLabels.keySet()).containsExactly(LabelId.CODE_REVIEW);
+    assertPermitted(change, LabelId.CODE_REVIEW, 2);
+
+    LabelType verified = TestLabels.verified();
+    AccountGroup.UUID registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+    String heads = RefNames.REFS_HEADS + "*";
+
+    // add new label and assert that it's returned for existing changes
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().upsertLabelType(verified);
+      u.save();
+    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel(verified.getName()).ref(heads).group(registeredUsers).range(-1, 1))
+        .update();
+
+    change = gApi.changes().id(r.getChangeId()).get();
+    assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
+    assertThat(change.permittedLabels.keySet())
+        .containsExactly(LabelId.CODE_REVIEW, LabelId.VERIFIED);
+    assertPermitted(change, LabelId.CODE_REVIEW, 2);
+  }
+
+  @Test
   public void notifyConfigForDirectoryTriggersEmail() throws Exception {
     // Configure notifications on project level.
     RevCommit oldHead = projectOperations.project(project).getHead("master");

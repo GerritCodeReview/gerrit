@@ -17,6 +17,16 @@ export function getBaseUrl(): string {
   return self.CANONICAL_PATH || '';
 }
 
+export function getDocUrl(docsBaseUrl: string, relativeUrl: string): string {
+  if (docsBaseUrl.endsWith('/')) {
+    docsBaseUrl = docsBaseUrl.slice(0, -1);
+  }
+  if (relativeUrl.startsWith('/')) {
+    relativeUrl = relativeUrl.slice(1);
+  }
+  return `${docsBaseUrl}/${relativeUrl}`;
+}
+
 /**
  * Return the url to use for login. If the server configuration
  * contains the `loginUrl` in the `auth` section then that custom url

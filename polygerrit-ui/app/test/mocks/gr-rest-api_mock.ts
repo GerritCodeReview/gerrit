@@ -77,11 +77,6 @@ import {
   createDefaultPreferences,
 } from '../../constants/constants';
 import {ParsedChangeInfo} from '../../types/types';
-import {getBaseUrl} from '../../utils/url-util';
-import {
-  DOCS_BASE_PATH,
-  PROBE_PATH,
-} from '../../services/gr-rest-api/gr-rest-api-impl';
 
 export const grRestApiMock: RestApiService = {
   addAccountEmail(): Promise<Response> {
@@ -316,16 +311,6 @@ export const grRestApiMock: RestApiService = {
     // NOTE: This method can not be typed properly due to overloads.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return Promise.resolve({}) as any;
-  },
-  getDocsBaseUrl(config?: ServerInfo): Promise<string | null> {
-    if (config?.gerrit?.doc_url) {
-      return Promise.resolve(config.gerrit.doc_url);
-    } else {
-      return this.probePath(getBaseUrl() + PROBE_PATH).then(ok =>
-        Promise.resolve(ok ? getBaseUrl() + DOCS_BASE_PATH : null)
-      );
-    }
-    return Promise.resolve('');
   },
   getDocumentationSearches(): Promise<DocResult[] | undefined> {
     return Promise.resolve([]);

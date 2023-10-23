@@ -151,8 +151,6 @@ import {escapeAndWrapSearchOperatorValue} from '../../utils/string-util';
 import {FlagsService, KnownExperimentId} from '../flags/flags';
 
 const MAX_PROJECT_RESULTS = 25;
-export const PROBE_PATH = '/Documentation/index.html';
-export const DOCS_BASE_PATH = '/Documentation';
 
 const Requests = {
   SEND_DIFF_DRAFT: 'sendDiffDraft',
@@ -289,8 +287,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   readonly _pendingRequests = pendingRequest; // Shared across instances.
 
   readonly _etags = grEtagDecorator; // Shared across instances.
-
-  getDocsBaseUrlCachedPromise: Promise<string | null> | undefined;
 
   // readonly, but set in tests.
   _projectLookup = projectLookup; // Shared across instances.
@@ -3397,26 +3393,6 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       errFn,
       anonymizedUrl: '/projects/*/dashboards/*',
     }) as Promise<DashboardInfo | undefined>;
-  }
-
-  /**
-   * Get the docs base URL from either the server config or by probing.
-   *
-   * @return A promise that resolves with the docs base URL.
-   */
-  getDocsBaseUrl(config: ServerInfo | undefined): Promise<string | null> {
-    if (!this.getDocsBaseUrlCachedPromise) {
-      this.getDocsBaseUrlCachedPromise = new Promise(resolve => {
-        if (config?.gerrit?.doc_url) {
-          resolve(config.gerrit.doc_url);
-        } else {
-          this.probePath(getBaseUrl() + PROBE_PATH).then(ok => {
-            resolve(ok ? getBaseUrl() + DOCS_BASE_PATH : null);
-          });
-        }
-      });
-    }
-    return this.getDocsBaseUrlCachedPromise;
   }
 
   getDocumentationSearches(filter: string): Promise<DocResult[] | undefined> {

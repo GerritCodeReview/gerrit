@@ -11,7 +11,7 @@ import {
   stubRestApi,
 } from '../../../test/test-utils';
 import './gr-main-header';
-import {GrMainHeader} from './gr-main-header';
+import {GrMainHeader, getDocLinks} from './gr-main-header';
 import {
   createAccountDetailWithId,
   createGerritInfo,
@@ -49,6 +49,11 @@ suite('gr-main-header tests', () => {
             <li>
               <gr-dropdown down-arrow="" horizontal-align="left" link="">
                 <span class="linksTitle" id="Changes"> Changes </span>
+              </gr-dropdown>
+            </li>
+            <li class="hideOnMobile">
+              <gr-dropdown down-arrow="" horizontal-align="left" link="">
+                <span class="linksTitle" id="Documentation">Documentation</span>
               </gr-dropdown>
             </li>
             <li>
@@ -168,36 +173,24 @@ suite('gr-main-header tests', () => {
 
     // When no admin links are passed, it should use the default.
     assert.deepEqual(
-      element.computeLinks(
-        /* userLinks= */ [],
-        adminLinks,
-        /* topMenus= */ [],
-        /* docBaseUrl= */ '',
-        defaultLinks
-      ),
-      defaultLinks.concat({
-        title: 'Browse',
-        links: adminLinks,
-      })
+      element
+        .computeLinks(
+          /* userLinks= */ [],
+          adminLinks,
+          /* topMenus= */ [],
+          defaultLinks
+        )
+        .find(i => i.title === 'Faves'),
+      defaultLinks[0]
     );
     assert.deepEqual(
-      element.computeLinks(
-        userLinks,
-        adminLinks,
-        /* topMenus= */ [],
-        /* docBaseUrl= */ '',
-        defaultLinks
-      ),
-      defaultLinks.concat([
-        {
-          title: 'Your',
-          links: userLinks,
-        },
-        {
-          title: 'Browse',
-          links: adminLinks,
-        },
-      ])
+      element
+        .computeLinks(userLinks, adminLinks, /* topMenus= */ [], defaultLinks)
+        .find(i => i.title === 'Your'),
+      {
+        title: 'Your',
+        links: userLinks,
+      }
     );
   });
 
@@ -209,11 +202,10 @@ suite('gr-main-header tests', () => {
       },
     ];
 
-    assert.deepEqual(element.getDocLinks(null, docLinks), []);
-    assert.deepEqual(element.getDocLinks('', docLinks), []);
-    assert.deepEqual(element.getDocLinks('base', []), []);
+    assert.deepEqual(getDocLinks('', docLinks), []);
+    assert.deepEqual(getDocLinks('base', []), []);
 
-    assert.deepEqual(element.getDocLinks('base', docLinks), [
+    assert.deepEqual(getDocLinks('base', docLinks), [
       {
         name: 'Table of Contents',
         target: '_blank',
@@ -221,7 +213,7 @@ suite('gr-main-header tests', () => {
       },
     ]);
 
-    assert.deepEqual(element.getDocLinks('base/', docLinks), [
+    assert.deepEqual(getDocLinks('base/', docLinks), [
       {
         name: 'Table of Contents',
         target: '_blank',
@@ -255,24 +247,17 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         adminLinks,
         topMenus,
-        /* baseDocUrl= */ '',
         /* defaultLinks= */ []
-      ),
-      [
-        {
-          title: 'Browse',
-          links: adminLinks,
-        },
-        {
-          title: 'Plugins',
-          links: [
-            {
-              name: 'Manage',
-              url: 'https://gerrit/plugins/plugin-manager/static/index.html',
-            },
-          ],
-        },
-      ]
+      )[2],
+      {
+        title: 'Plugins',
+        links: [
+          {
+            name: 'Manage',
+            url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+          },
+        ],
+      }
     );
   });
 
@@ -306,24 +291,17 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         adminLinks,
         topMenus,
-        /* baseDocUrl= */ '',
         /* defaultLinks= */ []
-      ),
-      [
-        {
-          title: 'Browse',
-          links: adminLinks,
-        },
-        {
-          title: 'Projects',
-          links: [
-            {
-              name: 'Project List',
-              url: '/plugins/myplugin/index.html',
-            },
-          ],
-        },
-      ]
+      )[2],
+      {
+        title: 'Projects',
+        links: [
+          {
+            name: 'Project List',
+            url: '/plugins/myplugin/index.html',
+          },
+        ],
+      }
     );
   });
 
@@ -362,28 +340,21 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         adminLinks,
         topMenus,
-        /* baseDocUrl= */ '',
         /* defaultLinks= */ []
-      ),
-      [
-        {
-          title: 'Browse',
-          links: adminLinks,
-        },
-        {
-          title: 'Plugins',
-          links: [
-            {
-              name: 'Manage',
-              url: 'https://gerrit/plugins/plugin-manager/static/index.html',
-            },
-            {
-              name: 'Create',
-              url: 'https://gerrit/plugins/plugin-manager/static/create.html',
-            },
-          ],
-        },
-      ]
+      )[2],
+      {
+        title: 'Plugins',
+        links: [
+          {
+            name: 'Manage',
+            url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+          },
+          {
+            name: 'Create',
+            url: 'https://gerrit/plugins/plugin-manager/static/create.html',
+          },
+        ],
+      }
     );
   });
 
@@ -416,24 +387,17 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         /* adminLinks= */ [],
         topMenus,
-        /* baseDocUrl= */ '',
         defaultLinks
-      ),
-      [
-        {
-          title: 'Faves',
-          links: defaultLinks[0].links.concat([
-            {
-              name: 'Manage',
-              url: 'https://gerrit/plugins/plugin-manager/static/index.html',
-            },
-          ]),
-        },
-        {
-          title: 'Browse',
-          links: [],
-        },
-      ]
+      )[0],
+      {
+        title: 'Faves',
+        links: defaultLinks[0].links.concat([
+          {
+            name: 'Manage',
+            url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+          },
+        ]),
+      }
     );
   });
 
@@ -462,29 +426,22 @@ suite('gr-main-header tests', () => {
         userLinks,
         /* adminLinks= */ [],
         topMenus,
-        /* baseDocUrl= */ '',
         /* defaultLinks= */ []
-      ),
-      [
-        {
-          title: 'Your',
-          links: [
-            {
-              name: 'Facebook',
-              url: 'https://facebook.com',
-              target: '',
-            },
-            {
-              name: 'Manage',
-              url: 'https://gerrit/plugins/plugin-manager/static/index.html',
-            },
-          ],
-        },
-        {
-          title: 'Browse',
-          links: [],
-        },
-      ]
+      )[0],
+      {
+        title: 'Your',
+        links: [
+          {
+            name: 'Facebook',
+            url: 'https://facebook.com',
+            target: '',
+          },
+          {
+            name: 'Manage',
+            url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+          },
+        ],
+      }
     );
   });
 
@@ -513,21 +470,18 @@ suite('gr-main-header tests', () => {
         /* userLinks= */ [],
         adminLinks,
         topMenus,
-        /* baseDocUrl= */ '',
         /* defaultLinks= */ []
-      ),
-      [
-        {
-          title: 'Browse',
-          links: [
-            adminLinks[0],
-            {
-              name: 'Manage',
-              url: 'https://gerrit/plugins/plugin-manager/static/index.html',
-            },
-          ],
-        },
-      ]
+      )[1],
+      {
+        title: 'Browse',
+        links: [
+          adminLinks[0],
+          {
+            name: 'Manage',
+            url: 'https://gerrit/plugins/plugin-manager/static/index.html',
+          },
+        ],
+      }
     );
   });
 

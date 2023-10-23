@@ -11,7 +11,10 @@ import {ChangeModel} from '../change/change-model';
 import {select} from '../../utils/observable-util';
 import {Model} from '../base/model';
 import {define} from '../dependency';
-import {loginUrl} from '../../utils/url-util';
+import {getBaseUrl, loginUrl} from '../../utils/url-util';
+
+export const PROBE_PATH = '/Documentation/index.html';
+export const DOCS_BASE_PATH = '/Documentation';
 
 export interface ConfigState {
   repoConfig?: ConfigInfo;
@@ -56,9 +59,7 @@ export class ConfigModel extends Model<ConfigState> {
 
   public docsBaseUrl$ = select(
     this.serverConfig$.pipe(
-      switchMap(serverConfig =>
-        from(this.restApiService.getDocsBaseUrl(serverConfig))
-      )
+      switchMap(serverConfig => from(this.getDocsBaseUrl(serverConfig)))
     ),
     url => url
   );
@@ -83,6 +84,16 @@ export class ConfigModel extends Model<ConfigState> {
           this.updateRepoConfig(repoConfig);
         }),
     ];
+  }
+
+  // visible for testing
+  async getDocsBaseUrl(config: ServerInfo | undefined): Promise<string> {
+    if (config?.gerrit?.doc_url) return config.gerrit.doc_url;
+
+    const ok = await this.restApiService.probePath(getBaseUrl() + PROBE_PATH);
+    if (ok) return getBaseUrl() + DOCS_BASE_PATH;
+
+    return 'https://gerrit-review.googlesource.com/Documentation';
   }
 
   // visible for testing

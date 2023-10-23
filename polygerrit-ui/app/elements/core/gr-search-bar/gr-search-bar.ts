@@ -30,6 +30,7 @@ import {
   ValueChangedEvent,
 } from '../../../types/events';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
+import {getDocUrl} from '../../../utils/url-util';
 
 // Possible static search options for auto complete, without negations.
 const SEARCH_OPERATORS: ReadonlyArray<string> = [
@@ -168,7 +169,7 @@ export class GrSearchBar extends LitElement {
   @state() inputVal = '';
 
   // private but used in test
-  @state() docsBaseUrl: string | null = null;
+  @state() docsBaseUrl = '';
 
   @state() private query: AutocompleteQuery;
 
@@ -240,7 +241,7 @@ export class GrSearchBar extends LitElement {
           <a
             class="help"
             slot="suffix"
-            href=${this.computeHelpDocLink()}
+            href=${getDocUrl(this.docsBaseUrl, 'user-search.html')}
             target="_blank"
             rel="noopener noreferrer"
             tabindex="-1"
@@ -274,18 +275,6 @@ export class GrSearchBar extends LitElement {
       set.add('-is:mergeable');
     }
     return set;
-  }
-
-  // private but used in test
-  computeHelpDocLink() {
-    // fallback to gerrit's official doc
-    let baseUrl =
-      this.docsBaseUrl ||
-      'https://gerrit-review.googlesource.com/Documentation/';
-    if (baseUrl.endsWith('/')) {
-      baseUrl = baseUrl.substring(0, baseUrl.length - 1);
-    }
-    return `${baseUrl}/user-search.html`;
   }
 
   private handleInputCommit(e: AutocompleteCommitEvent) {

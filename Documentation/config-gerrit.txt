@@ -4656,6 +4656,18 @@ larger rule files.
 +
 Default is 256.
 
+[[rules.skipCurrentRulesEvaluationOnClosedChanges]]
++
+If false, Gerrit will always take latest project configuration to
+compute submit labels. This means that, old closed changes (either
+merged or abandoned) will be evaluated against latest configuration
+which may produce different results. Especially for merged changes,
+they may look like they didn't meet the submit requirements.
+When true, evaluation will be skipped and Gerrit will show the
+exact status of submit labels when change was submitted.
++
+Default it false.
+
 [[execution]]
 === Section execution
 

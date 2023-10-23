@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "25eeb829_8606b88b",
+        "filename": "Documentation/dev-contribution-opportunities.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-10-23T10:24:05Z",
+      "side": 1,
+      "message": "Hmm, I didn\u0027t change this link (see Documentation/dev-starter-projects.txt) and it just works for me (checked on [1]). How did you check this?\n\n\n[1] https://gerrit-documentation.storage.googleapis.com/Documentation/3.8.2/dev-starter-projects.html",
+      "parentUuid": "69946a36_8e278e1d",
+      "revId": "b1cbf9860d2f6cdaf28f51d8dfffecf9e5aa2065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d8c0bbbf_0cb6b420",
         "filename": "Documentation/dev-contribution-opportunities.txt",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2023-10-23T10:19:08Z",
       "side": 1,
       "message": "opening this fails with malformed request error",
+      "revId": "b1cbf9860d2f6cdaf28f51d8dfffecf9e5aa2065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10246a04_e20383c3",
+        "filename": "Documentation/dev-contribution-opportunities.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-10-23T10:24:05Z",
+      "side": 1,
+      "message": "same here",
+      "parentUuid": "d8c0bbbf_0cb6b420",
       "revId": "b1cbf9860d2f6cdaf28f51d8dfffecf9e5aa2065",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

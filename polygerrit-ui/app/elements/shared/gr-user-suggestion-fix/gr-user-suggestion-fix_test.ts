@@ -44,7 +44,7 @@ suite('gr-user-suggestion-fix tests', () => {
           <div class="title">
             <span>Suggested edit</span>
             <a
-              href="https://gerrit-review.googlesource.com/Documentation/user-suggest-edits.html"
+              href="/Documentation/user-suggest-edits.html"
               rel="noopener noreferrer"
               target="_blank"
               ><gr-icon icon="help" title="read documentation"></gr-icon

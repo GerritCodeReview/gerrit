@@ -8,8 +8,12 @@ import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import '../gr-suggestion-diff-preview/gr-suggestion-diff-preview';
 import {css, html, LitElement, nothing} from 'lit';
-import {customElement} from 'lit/decorators.js';
+import {customElement, state} from 'lit/decorators.js';
 import {fire} from '../../../utils/event-util';
+import {getDocUrl} from '../../../utils/url-util';
+import {subscribe} from '../../lit/subscription-controller';
+import {resolve} from '../../../models/dependency';
+import {configModelToken} from '../../../models/config/config-model';
 
 declare global {
   interface HTMLElementEventMap {
@@ -25,8 +29,17 @@ export interface OpenUserSuggestionPreviewEventDetail {
 
 @customElement('gr-user-suggestion-fix')
 export class GrUserSuggestionsFix extends LitElement {
+  @state() private docsBaseUrl = '';
+
+  private readonly getConfigModel = resolve(this, configModelToken);
+
   constructor() {
     super();
+    subscribe(
+      this,
+      () => this.getConfigModel().docsBaseUrl$,
+      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
+    );
   }
 
   static override get styles() {
@@ -58,7 +71,7 @@ export class GrUserSuggestionsFix extends LitElement {
         <div class="title">
           <span>Suggested edit</span>
           <a
-            href="https://gerrit-review.googlesource.com/Documentation/user-suggest-edits.html"
+            href=${getDocUrl(this.docsBaseUrl, 'user-suggest-edits.html')}
             target="_blank"
             rel="noopener noreferrer"
             ><gr-icon icon="help" title="read documentation"></gr-icon

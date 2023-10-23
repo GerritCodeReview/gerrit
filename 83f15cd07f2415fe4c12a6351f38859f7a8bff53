@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33e9ed0c_df3f9ef8",
+        "filename": "java/com/google/gerrit/httpd/NumericChangeIdRedirectServlet.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-10-23T08:21:28Z",
+      "side": 1,
+      "message": "nit: please use a list for better readability",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 6
+      },
+      "revId": "83f15cd07f2415fe4c12a6351f38859f7a8bff53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

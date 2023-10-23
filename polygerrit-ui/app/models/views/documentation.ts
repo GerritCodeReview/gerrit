@@ -14,6 +14,10 @@ export interface DocumentationViewState extends ViewState {
   filter: string;
 }
 
+/**
+ * This is just for documentation *searches*, not for static documentation
+ * URLs. See `getDocUrl()` in url-util.ts.
+ */
 export function createDocumentationUrl() {
   return `${getBaseUrl()}/Documentation`;
 }

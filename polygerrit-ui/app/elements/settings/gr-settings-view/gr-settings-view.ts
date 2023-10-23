@@ -69,7 +69,8 @@ import {
 } from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {rootUrl} from '../../../utils/url-util';
+import {getDocUrl, rootUrl} from '../../../utils/url-util';
+import { configModelToken } from '../../../models/config/config-model';
 
 const HTTP_AUTH = ['HTTP', 'HTTP_LDAP'];
 
@@ -193,6 +194,8 @@ export class GrSettingsView extends LitElement {
 
   @state() isDeletingAccount = false;
 
+  @state() private docsBaseUrl = '';
+
   // private but used in test
   public _testOnly_loadingPromise?: Promise<void>;
 
@@ -206,6 +209,8 @@ export class GrSettingsView extends LitElement {
   private readonly getViewModel = resolve(this, settingsViewModelToken);
 
   private readonly getNavigation = resolve(this, navigationToken);
+
+  private readonly getConfigModel = resolve(this, configModelToken);
 
   constructor() {
     super();
@@ -237,6 +242,11 @@ export class GrSettingsView extends LitElement {
         this.prefsChanged = false;
         this.localChangeTableColumns = changeTablePrefs(prefs);
       }
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().docsBaseUrl$,
+      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
     );
   }
 
@@ -831,7 +841,10 @@ export class GrSettingsView extends LitElement {
             >Allow browser notifications</label
           >
           <a
-            href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html#_browser_notifications"
+            href=${getDocUrl(
+              this.docsBaseUrl,
+              'user-attention-set.html#_browser_notifications'
+            )}
             target="_blank"
             rel="noopener noreferrer"
           >

@@ -16,6 +16,24 @@
       "message": "is this related?",
       "revId": "0253be6a5bff7c1e71ba761972f4c16d89d9f979",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6d6a1c1_64344d5b",
+        "filename": "java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-10-23T16:08:30Z",
+      "side": 0,
+      "message": "removed",
+      "parentUuid": "9fe67103_57ba1496",
+      "revId": "0253be6a5bff7c1e71ba761972f4c16d89d9f979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

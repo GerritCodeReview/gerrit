@@ -1420,6 +1420,73 @@ Using this endpoint Gerrit admins can also index change(s) which are not visible
 When `delete_missing` is set to `true` changes to be reindexed which are missing in NoteDb
 will be deleted in the index.
 
+[[list-indexes]]
+=== List Indexes
+--
+'GET /config/server/indexes'
+--
+
+Lists the indexes used by Gerrit. It provides details about the index versions,
+which index version is used to search and which versions are written to.
+
+This endpoint requires the
+link:access-control.html#capability_maintainServer[Maintain Server]
+capability.
+
+.Request
+----
+  GET /config/server/indexes/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "accounts": {
+      "name": "accounts",
+      "versions": {
+        "13": {
+          "write": true,
+          "search": true
+        }
+      }
+    },
+    "changes": {
+      "name": "changes",
+      "versions": {
+        "83": {
+          "write": true,
+          "search": true
+        },
+        "84": {
+          "write": true,
+          "search": false
+        }
+      }
+    },
+    "groups": {
+      "name": "groups",
+      "versions": {
+        "10": {
+          "write": true,
+          "search": true
+        }
+      }
+    },
+    "projects": {
+      "name": "projects",
+      "versions": {
+        "8": {
+          "write": true,
+          "search": true
+        }
+      }
+    }
+  }
+----
 
 [[ids]]
 == IDs

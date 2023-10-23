@@ -4656,6 +4656,17 @@ larger rule files.
 +
 Default is 256.
 
+[[rules.evaluateCurrentRulesOnClosedChanges]]
++
+If true, Gerrit will evaluate Prolog rules on merged and abandoned
+changes.  Always the current 'rules.pl' will be evaluated, which
+may result in different review labels, compared to when the change was
+merged.
+When false, evaluation will be skipped and Gerrit will show the
+exact status of submit labels when change was submitted.
++
+Default it true.
+
 [[execution]]
 === Section execution
 

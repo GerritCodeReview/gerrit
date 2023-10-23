@@ -310,7 +310,7 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
         mergeSuperSet
             .get()
             .completeChangeSet(change.change(), user(admin), /* includingTopicClosure= */ false);
-    assertThat(submit.unmergeableChanges(cs).isEmpty()).isEqualTo(expected);
+    assertThat(submit.getUnmergeableChanges(cs).isEmpty()).isEqualTo(expected);
   }
 
   private void assertMergeable(ChangeData change) throws Exception {

@@ -34,6 +34,24 @@
       "parentUuid": "8a1ddfe7_15a44cc0",
       "revId": "3e87a86aa8a611e858752daf2b3e16aca2299999",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9ff7dbe_4f9be99e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-23T14:17:23Z",
+      "side": 1,
+      "message": "I agree that here the performance takes priority. the code looks still readable IMHO",
+      "parentUuid": "2572b90d_425c82fa",
+      "revId": "3e87a86aa8a611e858752daf2b3e16aca2299999",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

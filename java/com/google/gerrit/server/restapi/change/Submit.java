@@ -22,7 +22,6 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
@@ -83,6 +82,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 @Singleton
@@ -278,7 +278,7 @@ public class Submit
         }
       }
 
-      Collection<ChangeData> unmergeable = unmergeableChanges(cs);
+      Collection<ChangeData> unmergeable = getUnmergeableChanges(cs);
       if (unmergeable == null) {
         return CLICK_FAILURE_TOOLTIP;
       } else if (!unmergeable.isEmpty()) {
@@ -375,36 +375,27 @@ public class Submit
   }
 
   @Nullable
-  public Collection<ChangeData> unmergeableChanges(ChangeSet cs) throws IOException {
-    Set<ChangeData> mergeabilityMap = new HashSet<>();
-    Set<ObjectId> outDatedPatchsets = new HashSet<>();
+  public Collection<ChangeData> getUnmergeableChanges(ChangeSet cs) throws IOException {
+    Set<ChangeData> unmergeableChanges = new HashSet<>();
+    Set<ObjectId> outDatedPatchSets = new HashSet<>();
     for (ChangeData change : cs.changes()) {
-      mergeabilityMap.add(change);
-      // Add all the patchsets commit ids except the current patchset.
-      outDatedPatchsets.addAll(
-          change.notes().getPatchSets().values().stream()
-              .map(p -> p.commitId())
-              .collect(Collectors.toSet()));
-      outDatedPatchsets.remove(change.currentPatchSet().commitId());
+      unmergeableChanges.add(change);
+      addAllOutdatedPatchSets(outDatedPatchSets, change);
     }
-
     ListMultimap<BranchNameKey, ChangeData> cbb = cs.changesByBranch();
     for (BranchNameKey branch : cbb.keySet()) {
       Collection<ChangeData> targetBranch = cbb.get(branch);
-      HashMap<Change.Id, RevCommit> commits = findCommits(targetBranch, branch.project());
-
-      Set<ObjectId> allParents = Sets.newHashSetWithExpectedSize(cs.size());
-      for (RevCommit commit : commits.values()) {
-        for (RevCommit parent : commit.getParents()) {
-          allParents.add(parent.getId());
-        }
-      }
+      HashMap<Change.Id, RevCommit> commits = mapToCommits(targetBranch, branch.project());
+      Set<ObjectId> allParents =
+          commits.values().stream()
+              .flatMap(c -> Arrays.stream(c.getParents()))
+              .map(RevObject::getId)
+              .collect(Collectors.toSet());
       for (ChangeData change : targetBranch) {
-
         RevCommit commit = commits.get(change.getId());
         boolean isMergeCommit = commit.getParentCount() > 1;
         boolean isLastInChain = !allParents.contains(commit.getId());
-        if (Arrays.stream(commit.getParents()).anyMatch(c -> outDatedPatchsets.contains(c.getId()))
+        if (Arrays.stream(commit.getParents()).anyMatch(c -> outDatedPatchSets.contains(c.getId()))
             && !isCherryPickSubmit(change)) {
           // Found a parent that depends on an outdated patchset and the submit strategy is not
           // cherry-pick.
@@ -421,18 +412,26 @@ public class Submit
           return null;
         }
         if (mergeable) {
-          mergeabilityMap.remove(change);
+          unmergeableChanges.remove(change);
         }
-
         if (isLastInChain && isMergeCommit && mergeable) {
-          for (ChangeData c : targetBranch) {
-            mergeabilityMap.remove(c);
-          }
+          targetBranch.stream().forEach(unmergeableChanges::remove);
           break;
         }
       }
     }
-    return mergeabilityMap;
+    return unmergeableChanges;
+  }
+
+  /**
+   * Add all outdated patch-sets (non-last patch-sets) to the output set {@code outdatedPatchSets}.
+   */
+  private static void addAllOutdatedPatchSets(Set<ObjectId> outdatedPatchSets, ChangeData cd) {
+    outdatedPatchSets.addAll(
+        cd.notes().getPatchSets().values().stream()
+            .map(p -> p.commitId())
+            .collect(Collectors.toSet()));
+    outdatedPatchSets.remove(cd.currentPatchSet().commitId());
   }
 
   private boolean isCherryPickSubmit(ChangeData changeData) {
@@ -440,7 +439,8 @@ public class Submit
     return submitTypeRecord.isOk() && submitTypeRecord.type == SubmitType.CHERRY_PICK;
   }
 
-  private HashMap<Change.Id, RevCommit> findCommits(
+  /** Map input {@code changes} to the commit SHA-1 of their latest patch-set. */
+  private HashMap<Change.Id, RevCommit> mapToCommits(
       Collection<ChangeData> changes, Project.NameKey project) throws IOException {
     HashMap<Change.Id, RevCommit> commits = new HashMap<>();
     try (Repository repo = repoManager.openRepository(project);

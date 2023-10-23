@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0afcf9c2_9a1ab735",
+        "filename": "Documentation/dev-contribution-opportunities.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-23T10:34:32Z",
+      "side": 1,
+      "message": "my fault, I copy pasted the complete string including the display text in square brackets to the browser ;-)",
+      "parentUuid": "25eeb829_8606b88b",
+      "revId": "b1cbf9860d2f6cdaf28f51d8dfffecf9e5aa2065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d8c0bbbf_0cb6b420",
@@ -71,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "013be939_d6fa2831",
+        "filename": "Documentation/dev-contribution-opportunities.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-23T10:34:32Z",
+      "side": 1,
+      "message": "my fault",
+      "parentUuid": "10246a04_e20383c3",
+      "revId": "b1cbf9860d2f6cdaf28f51d8dfffecf9e5aa2065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "27402735_0d274897",
@@ -84,6 +120,24 @@
       "writtenOn": "2023-10-23T10:19:08Z",
       "side": 1,
       "message": "The URL parameter hotlistId has the malformed value \"5395287[HelpWanted,role\u003dexternal,window\u003d_blank]\".",
+      "revId": "b1cbf9860d2f6cdaf28f51d8dfffecf9e5aa2065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5495828_8c02e86e",
+        "filename": "Documentation/dev-contribution-opportunities.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-23T10:34:32Z",
+      "side": 1,
+      "message": "my fault",
+      "parentUuid": "27402735_0d274897",
       "revId": "b1cbf9860d2f6cdaf28f51d8dfffecf9e5aa2065",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

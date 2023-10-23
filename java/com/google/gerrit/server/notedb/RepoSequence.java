@@ -81,11 +81,11 @@ public class RepoSequence implements Sequence {
   }
 
   public static class RepoSequenceModule extends FactoryModule {
-    private static final String SECTION_NOTE_DB = "noteDb";
-    private static final String KEY_SEQUENCE_BATCH_SIZE = "sequenceBatchSize";
-    private static final int DEFAULT_ACCOUNTS_SEQUENCE_BATCH_SIZE = 1;
-    private static final int DEFAULT_GROUPS_SEQUENCE_BATCH_SIZE = 1;
-    private static final int DEFAULT_CHANGES_SEQUENCE_BATCH_SIZE = 20;
+    public static final String SECTION_NOTE_DB = "noteDb";
+    public static final String KEY_SEQUENCE_BATCH_SIZE = "sequenceBatchSize";
+    public static final int DEFAULT_ACCOUNTS_SEQUENCE_BATCH_SIZE = 1;
+    public static final int DEFAULT_GROUPS_SEQUENCE_BATCH_SIZE = 1;
+    public static final int DEFAULT_CHANGES_SEQUENCE_BATCH_SIZE = 20;
 
     @Provides
     @Named(NAME_ACCOUNTS)
@@ -170,41 +170,6 @@ public class RepoSequence implements Sequence {
           NAME_GROUPS,
           () -> Sequences.FIRST_GROUP_ID,
           DEFAULT_GROUPS_SEQUENCE_BATCH_SIZE);
-    }
-  }
-
-  /** A accounts sequence provider that does not fire git reference updates. */
-  public static class DisabledGitRefUpdatedRepoAccountsSequenceProvider
-      implements Provider<Sequence> {
-    private final GitRepositoryManager repoManager;
-    private final AllUsersName allUsers;
-    private final Config cfg;
-
-    @Inject
-    DisabledGitRefUpdatedRepoAccountsSequenceProvider(
-        @GerritServerConfig Config cfg,
-        GitRepositoryManager repoManager,
-        AllUsersName allUsersName) {
-      this.repoManager = repoManager;
-      this.allUsers = allUsersName;
-      this.cfg = cfg;
-    }
-
-    @Override
-    public Sequence get() {
-      int accountBatchSize =
-          cfg.getInt(
-              RepoSequenceModule.SECTION_NOTE_DB,
-              NAME_ACCOUNTS,
-              RepoSequenceModule.KEY_SEQUENCE_BATCH_SIZE,
-              RepoSequenceModule.DEFAULT_ACCOUNTS_SEQUENCE_BATCH_SIZE);
-      return new RepoSequence(
-          repoManager,
-          GitReferenceUpdated.DISABLED,
-          allUsers,
-          NAME_ACCOUNTS,
-          () -> Sequences.FIRST_ACCOUNT_ID,
-          accountBatchSize);
     }
   }
 

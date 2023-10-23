@@ -47,6 +47,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f56d53cc_192ef922",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-23T15:51:07Z",
+      "side": 1,
+      "message": "\u003e  if userA is the change owner and she tries to add userA as reviewer, it won\u0027t work.\n\nWhat do you mean by that? I tried locally and if a user `alvaro` creates a change and tries to add `alvaro` as a reviewer, it is impossible because the user `alvaro` is not listed in the reviewer field.",
+      "parentUuid": "00c62156_92f1a7d4",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 69
+      },
+      "revId": "f460a4c1cfe059521d3afc455f14c3f29ca8d89e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "65e936cb_e4c0436f",

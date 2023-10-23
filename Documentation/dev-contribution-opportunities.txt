@@ -1,0 +1,30 @@
+:linkattrs:
+= Gerrit Code Review - Contribution Opportunities
+
+If you are eager to contribute to Gerrit, but you don't know where to
+start here are some opportunities to contribute.
+
+== Starter Projects
+
+The link:https://issues.gerritcodereview.com/hotlists/5052926[StarterProject,role=external,window=_blank]
+hotlist in the issue tracker lists projects that are easy to
+implement, and hence are suitable to be picked up by new contributors.
+
+If you are interested in any of the projects and you want to try
+implementing it, just assign the corresponding issue to yourself and
+reach out on the
+link:https://groups.google.com/forum/#!forum/repo-discuss[mailing list,role=external,window=_blank]
+if you have questions or need help.
+
+== Help Wanted
+
+The link:https://issues.gerritcodereview.com/hotlists/5395287[HelpWanted,role=external,window=_blank]
+hotlist in the issue tracker lists issues that need help from the
+community and where any contribution is very welcome.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

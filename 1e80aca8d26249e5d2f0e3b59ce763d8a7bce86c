@@ -106,6 +106,24 @@
       "parentUuid": "d205cb09_547d87e5",
       "revId": "1e80aca8d26249e5d2f0e3b59ce763d8a7bce86c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d64bc174_8e60ffcc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-23T09:33:18Z",
+      "side": 1,
+      "message": "here is the public URL of this fix\nhttps://gerrit-review.googlesource.com/c/gerrit/+/390554",
+      "parentUuid": "977c10e0_a465e88b",
+      "revId": "1e80aca8d26249e5d2f0e3b59ce763d8a7bce86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

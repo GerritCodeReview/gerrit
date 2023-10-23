@@ -109,9 +109,15 @@ public abstract class DeleteZombieComments<KeyT> implements AutoCloseable {
   @CanIgnoreReturnValue
   public int execute() throws IOException {
     setup();
-    List<KeyT> emptyDrafts = filterByCleanupPercentage(listEmptyDrafts(), "empty");
     ListMultimap<KeyT, HumanComment> alreadyPublished = listDraftCommentsThatAreAlsoPublished();
-    if (dryRun) {
+    if (!dryRun) {
+      deleteZombieDrafts(alreadyPublished);
+    }
+
+    List<KeyT> emptyDrafts = filterByCleanupPercentage(listEmptyDrafts(), "empty");
+    if (!dryRun) {
+      deleteEmptyDraftsByKey(emptyDrafts);
+    } else {
       logInfo(
           String.format(
               "Running in dry run mode. Skipping deletion."
@@ -119,9 +125,6 @@ public abstract class DeleteZombieComments<KeyT> implements AutoCloseable {
                   + "\nEmpty drafts = %d"
                   + "\nAlready published drafts (zombies) = %d",
               cleanupPercentage, emptyDrafts.size(), alreadyPublished.size()));
-    } else {
-      deleteEmptyDraftsByKey(emptyDrafts);
-      deleteZombieDrafts(alreadyPublished);
     }
     return emptyDrafts.size() + alreadyPublished.size();
   }

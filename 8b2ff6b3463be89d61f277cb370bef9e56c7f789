@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f3e3764_1567baac",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-23T14:30:20Z",
+      "side": 1,
+      "message": "add an example where multiple index versions exist for the same index ?",
+      "revId": "8b2ff6b3463be89d61f277cb370bef9e56c7f789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb1ddeb6_6e4507c7",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-23T14:30:20Z",
+      "side": 1,
+      "message": "nit: reformatting needed",
+      "revId": "8b2ff6b3463be89d61f277cb370bef9e56c7f789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b457e946_1eaeb58c",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-23T14:30:20Z",
+      "side": 1,
+      "message": "nit: use blanks to indent",
+      "revId": "8b2ff6b3463be89d61f277cb370bef9e56c7f789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7cb2c15_be9519f5",
+        "filename": "java/com/google/gerrit/server/restapi/config/ListIndexes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-23T14:30:20Z",
+      "side": 1,
+      "message": "nit: use blanks to indent",
+      "revId": "8b2ff6b3463be89d61f277cb370bef9e56c7f789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69946a36_8e278e1d",
+        "filename": "Documentation/dev-contribution-opportunities.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-23T10:19:08Z",
+      "side": 1,
+      "message": "tried opening this URL, fails with \"The URL parameter hotlistId has the malformed value \"5052926[StarterProject,role\u003dexternal,window\u003d_blank]\".\"",
+      "revId": "b1cbf9860d2f6cdaf28f51d8dfffecf9e5aa2065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8c0bbbf_0cb6b420",
+        "filename": "Documentation/dev-contribution-opportunities.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-23T10:19:08Z",
+      "side": 1,
+      "message": "opening this fails with malformed request error",
+      "revId": "b1cbf9860d2f6cdaf28f51d8dfffecf9e5aa2065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27402735_0d274897",
+        "filename": "Documentation/dev-contribution-opportunities.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-23T10:19:08Z",
+      "side": 1,
+      "message": "The URL parameter hotlistId has the malformed value \"5395287[HelpWanted,role\u003dexternal,window\u003d_blank]\".",
+      "revId": "b1cbf9860d2f6cdaf28f51d8dfffecf9e5aa2065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

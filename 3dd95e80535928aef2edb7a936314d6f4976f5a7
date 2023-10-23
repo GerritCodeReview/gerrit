@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edb2ba6d_00f1d4ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-10-23T07:15:37Z",
+      "side": 1,
+      "message": "Why?",
+      "revId": "3dd95e80535928aef2edb7a936314d6f4976f5a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78c1ea80_93e8b920",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-10-23T07:15:37Z",
+      "side": 1,
+      "message": "CI is failing.",
+      "revId": "3dd95e80535928aef2edb7a936314d6f4976f5a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -17,8 +17,17 @@ package com.google.gerrit.pgm.init.api;
 import static com.google.gerrit.server.Sequence.LightweightAccounts;
 
 import com.google.gerrit.server.Sequence;
+import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.notedb.RepoSequence;
+import com.google.gerrit.server.notedb.RepoSequence.RepoSequenceModule;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class SequencesOnInit {
@@ -31,5 +40,40 @@ public class SequencesOnInit {
 
   public int nextAccountId() {
     return accountsSequence.next();
+  }
+
+  /** A accounts sequence provider that does not fire git reference updates. */
+  public static class DisabledGitRefUpdatedRepoAccountsSequenceProvider
+      implements Provider<Sequence> {
+    private final GitRepositoryManager repoManager;
+    private final AllUsersName allUsers;
+    private final Config cfg;
+
+    @Inject
+    DisabledGitRefUpdatedRepoAccountsSequenceProvider(
+        @GerritServerConfig Config cfg,
+        GitRepositoryManagerOnInit repoManager,
+        AllUsersName allUsersName) {
+      this.repoManager = repoManager;
+      this.allUsers = allUsersName;
+      this.cfg = cfg;
+    }
+
+    @Override
+    public Sequence get() {
+      int accountBatchSize =
+          cfg.getInt(
+              RepoSequenceModule.SECTION_NOTE_DB,
+              Sequence.NAME_ACCOUNTS,
+              RepoSequenceModule.KEY_SEQUENCE_BATCH_SIZE,
+              RepoSequenceModule.DEFAULT_ACCOUNTS_SEQUENCE_BATCH_SIZE);
+      return new RepoSequence(
+          repoManager,
+          GitReferenceUpdated.DISABLED,
+          allUsers,
+          Sequence.NAME_ACCOUNTS,
+          () -> Sequences.FIRST_ACCOUNT_ID,
+          accountBatchSize);
+    }
   }
 }

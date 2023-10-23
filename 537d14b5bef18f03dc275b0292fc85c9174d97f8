@@ -83,6 +83,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3f3bf0f9_6e2e7a4a",
+        "filename": "java/com/google/gerrit/index/Index.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-23T14:40:33Z",
+      "side": 1,
+      "message": "```suggestion\n  /**\n   * Creates a snapshot of the index.\n   *\n   * @return {@code true} if the snapshot was successful.\n   * @throws IOException if writing the snapshot to disk fails.\n   */\n```",
+      "range": {
+        "startLine": 174,
+        "startChar": 2,
+        "endLine": 178,
+        "endChar": 5
+      },
+      "revId": "537d14b5bef18f03dc275b0292fc85c9174d97f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "05e6c1de_9e54d5a0",
         "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
         "patchSetId": 4
@@ -94,6 +117,24 @@
       "writtenOn": "2023-10-23T13:26:29Z",
       "side": 1,
       "message": "I guess this is the default as, before this change, we didn\u0027t explicitly set the indexDeletionPolicy? I would avoid setting the default and only set the policy when `allowSnapshots` is `true`.",
+      "revId": "537d14b5bef18f03dc275b0292fc85c9174d97f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ef3520a_985d6c7d",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-23T14:40:33Z",
+      "side": 1,
+      "message": "the javadoc of IndexDeletionPolicy confirms your assumption that KeepOnlyLastCommitDeletionPolicy is the default:\nhttps://lucene.apache.org/core/8_11_2/core/org/apache/lucene/index/IndexDeletionPolicy.html",
+      "parentUuid": "05e6c1de_9e54d5a0",
       "revId": "537d14b5bef18f03dc275b0292fc85c9174d97f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -69,6 +69,24 @@
       "message": "feel free to merge once the nit is addressed",
       "revId": "3e87a86aa8a611e858752daf2b3e16aca2299999",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70f8b7f9_e48d9ec4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-10-23T16:09:35Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com I have addressed the nit. It should be good to go now.",
+      "parentUuid": "bddaf399_ab828bf7",
+      "revId": "3e87a86aa8a611e858752daf2b3e16aca2299999",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

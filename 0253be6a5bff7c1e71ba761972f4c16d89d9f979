@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fe67103_57ba1496",
+        "filename": "java/com/google/gerrit/httpd/UrlModule.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-23T14:19:35Z",
+      "side": 0,
+      "message": "is this related?",
+      "revId": "0253be6a5bff7c1e71ba761972f4c16d89d9f979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

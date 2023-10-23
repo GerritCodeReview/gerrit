@@ -88,6 +88,24 @@
       "parentUuid": "2b5b128d_0f719a54",
       "revId": "1e80aca8d26249e5d2f0e3b59ce763d8a7bce86c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "977c10e0_a465e88b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-10-23T09:29:52Z",
+      "side": 1,
+      "message": "fix in https://gerrit-review.git.corp.google.com/c/gerrit/+/390554",
+      "parentUuid": "d205cb09_547d87e5",
+      "revId": "1e80aca8d26249e5d2f0e3b59ce763d8a7bce86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

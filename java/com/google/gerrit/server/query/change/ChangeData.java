@@ -896,6 +896,14 @@ public class ChangeData {
   }
 
   public List<SubmitRecord> submitRecords(SubmitRuleOptions options) {
+    // Return immediately when change is closed and already has stored submit records. This prevent
+    // executing possibly expensive Prolog rules on closed changes.
+    if (change().isClosed()) {
+      List<SubmitRecord> records = notes().getSubmitRecords();
+      if (!records.isEmpty()) {
+        return records;
+      }
+    }
     // If the change is not submitted yet, 'strict' and 'lenient' both have the same result. If the
     // change is submitted, SubmitRecord requested with 'strict' will contain just a single entry
     // that with status=CLOSED. The latter is cheap to evaluate as we don't have to run any actual

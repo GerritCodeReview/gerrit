@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "896cd50f_32e9af3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-10-23T19:47:43Z",
+      "side": 1,
+      "message": "the `stable-3.9` has already been cut, we can merge this to `master` now.",
+      "revId": "9339e8563c4a93bfebb706059269c8dcea54a120",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

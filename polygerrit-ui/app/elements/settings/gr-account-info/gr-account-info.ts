@@ -23,6 +23,10 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {when} from 'lit/directives/when.js';
 import {BindValueChangeEvent, ValueChangedEvent} from '../../../types/events';
 import {formStyles} from '../../../styles/form-styles';
+import {getDocUrl} from '../../../utils/url-util';
+import {subscribe} from '../../lit/subscription-controller';
+import {resolve} from '../../../models/dependency';
+import {configModelToken} from '../../../models/config/config-model';
 
 @customElement('gr-account-info')
 export class GrAccountInfo extends LitElement {
@@ -59,7 +63,11 @@ export class GrAccountInfo extends LitElement {
 
   @state() private avatarChangeUrl = '';
 
+  @state() private docsBaseUrl = '';
+
   private readonly restApiService = getAppContext().restApiService;
+
+  private readonly getConfigModel = resolve(this, configModelToken);
 
   static override get styles() {
     return [
@@ -100,6 +108,15 @@ export class GrAccountInfo extends LitElement {
     ];
   }
 
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getConfigModel().docsBaseUrl$,
+      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
+    );
+  }
+
   override render() {
     if (!this.account || this.loading) return nothing;
     return html`<div class="gr-form-styles">
@@ -107,8 +124,7 @@ export class GrAccountInfo extends LitElement {
         All profile fields below may be publicly displayed to others, including
         on changes you are associated with, as well as in search and
         autocompletion.
-        <a
-          href="https://gerrit-review.googlesource.com/Documentation/user-privacy.html"
+        <a href=${getDocUrl(this.docsBaseUrl, 'user-privacy.html')}
           >Learn more</a
         >
       </p>

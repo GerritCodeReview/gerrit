@@ -130,6 +130,7 @@ import {ironAnnouncerRequestAvailability} from '../../polymer-util';
 import {GrReviewerUpdatesParser} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {formStyles} from '../../../styles/form-styles';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
+import {getDocUrl} from '../../../utils/url-util';
 
 export enum FocusTarget {
   ANY = 'any',
@@ -207,6 +208,8 @@ export class GrReplyDialog extends LitElement {
   @state() latestPatchNum?: PatchSetNumber;
 
   @state() serverConfig?: ServerInfo;
+
+  @state() private docsBaseUrl = '';
 
   @state()
   patchsetLevelDraftMessage = '';
@@ -618,6 +621,11 @@ export class GrReplyDialog extends LitElement {
     );
     subscribe(
       this,
+      () => this.getConfigModel().docsBaseUrl$,
+      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
+    );
+    subscribe(
+      this,
       () => this.getChangeModel().change$,
       x => (this.change = x)
     );
@@ -1009,7 +1017,7 @@ export class GrReplyDialog extends LitElement {
           <div>
             ${this.renderModifyAttentionSetButton()}
             <a
-              href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
+              href=${getDocUrl(this.docsBaseUrl, 'user-attention-set.html')}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -1057,7 +1065,7 @@ export class GrReplyDialog extends LitElement {
           <div>
             ${this.renderModifyAttentionSetButton()}
             <a
-              href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
+              href=${getDocUrl(this.docsBaseUrl, 'user-attention-set.html')}
               target="_blank"
               rel="noopener noreferrer"
             >

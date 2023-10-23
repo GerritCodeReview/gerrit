@@ -875,6 +875,68 @@ The entries in the map are sorted by capability ID.
   }
 ----
 
+[[list-indexes]]
+=== List Indexes
+--
+'GET /config/server/indexes'
+--
+
+Lists the indexes used by Gerrit. It provides details about the index versions,
+which index version is used to search and which versions are written to.
+
+This endpoint requires the `Maintain Server`-capability.
+
+.Request
+----
+  GET /config/server/indexes/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "ACCOUNTS": {
+      "name": "accounts",
+      "versions": {
+        "13": {
+          "write": true,
+          "search": true
+        }
+      }
+    },
+    "CHANGES": {
+      "name": "changes",
+      "versions": {
+        "84": {
+          "write": true,
+          "search": true
+        }
+      }
+    },
+    "GROUPS": {
+      "name": "groups",
+      "versions": {
+        "10": {
+          "write": true,
+          "search": true
+        }
+      }
+    },
+    "PROJECTS": {
+      "name": "projects",
+      "versions": {
+        "8": {
+          "write": true,
+          "search": true
+        }
+      }
+    }
+  }
+----
+
 [[list-tasks]]
 === List Tasks
 --

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a1ddfe7_15a44cc0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-23T13:12:49Z",
+      "side": 1,
+      "message": "I am not a bit of a supporter of methods like `indexOf` and `substring` when strings need to be manipulated. Mainly because it makes the code difficult to follow. I wonder if you thought the use of regular expressions, can simplify the code a lot although maybe there is a cost in performance.",
+      "revId": "3e87a86aa8a611e858752daf2b3e16aca2299999",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

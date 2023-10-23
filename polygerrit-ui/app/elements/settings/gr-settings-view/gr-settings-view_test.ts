@@ -469,7 +469,7 @@ suite('gr-settings-view tests', () => {
             Allow browser notifications
           </label>
           <a
-            href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html#_browser_notifications"
+            href="/Documentation/user-attention-set.html#_browser_notifications"
             target="_blank"
             rel="noopener noreferrer"
           >

@@ -276,7 +276,7 @@ suite('gr-reply-dialog tests', () => {
                       </div>
                     </gr-button>
                     <a
-                      href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
+                      href="/Documentation/user-attention-set.html"
                       target="_blank"
                       rel="noopener noreferrer"
                     >

@@ -33,6 +33,24 @@
       "message": "test",
       "revId": "fd5052b6dad0e978b6a6dc392436821278cf5b05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2aec18ff_5d06df6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-23T14:16:57Z",
+      "side": 1,
+      "message": "ok, I understand you are in favour of this change even if it forces some changes in index-elasticsearch",
+      "parentUuid": "ac381a76_c1a7ce5f",
+      "revId": "fd5052b6dad0e978b6a6dc392436821278cf5b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

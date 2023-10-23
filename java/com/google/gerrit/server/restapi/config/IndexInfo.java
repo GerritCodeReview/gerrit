@@ -1,0 +1,59 @@
+// Copyright (C) 2023 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.restapi.config;
+
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.index.Index;
+import com.google.gerrit.index.IndexCollection;
+import com.google.gerrit.server.restapi.config.IndexCollection.IndexType;
+import java.util.Locale;
+import java.util.TreeMap;
+
+@AutoValue
+public abstract class IndexInfo {
+
+  public static IndexInfo fromIndexCollection(
+      IndexType indexType, IndexCollection<?, ?, ?> indexCollection) {
+    String name = indexType.toString().toLowerCase(Locale.US);
+    TreeMap<Integer, IndexVersionInfo> versions = new TreeMap<>();
+    Index<?, ?> searchIndex = indexCollection.getSearchIndex();
+    int searchIndexVersion = searchIndex.getSchema().getVersion();
+    for (Index<?, ?> index : indexCollection.getWriteIndexes()) {
+      versions.put(
+          index.getSchema().getVersion(),
+          IndexVersionInfo.create(true, index.getSchema().getVersion() == searchIndexVersion));
+    }
+    if (!versions.containsKey(searchIndexVersion)) {
+      versions.put(searchIndexVersion, IndexVersionInfo.create(false, true));
+    }
+    return new AutoValue_IndexInfo(name, ImmutableMap.copyOf(versions));
+  }
+
+  public abstract String getName();
+
+  public abstract ImmutableMap<Integer, IndexVersionInfo> getVersions();
+
+  @AutoValue
+  public abstract static class IndexVersionInfo {
+    static IndexVersionInfo create(boolean write, boolean search) {
+      return new AutoValue_IndexInfo_IndexVersionInfo(write, search);
+    }
+
+    abstract boolean isWrite();
+
+    abstract boolean isSearch();
+  }
+}

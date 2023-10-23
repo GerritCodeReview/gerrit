@@ -17,7 +17,6 @@ import {
   createAccountDetailWithId,
   createChange,
   createComment,
-  createGerritInfo,
   createParsedChange,
   createServerInfo,
 } from '../../test/test-data-generators';
@@ -54,7 +53,6 @@ import {
   RevisionId,
   RevisionPatchSetNum,
   RobotCommentInfo,
-  ServerInfo,
   Timestamp,
   UrlEncodedCommentId,
 } from '../../types/common';
@@ -1627,53 +1625,6 @@ suite('gr-rest-api-service-impl tests', () => {
       method: HttpMethod.DELETE,
       url: '/accounts/self/starred.changes/test~456',
       anonymizedUrl: '/accounts/self/starred.changes/*',
-    });
-  });
-
-  suite('getDocsBaseUrl tests', () => {
-    test('null config', async () => {
-      const probePathMock = sinon.stub(element, 'probePath').resolves(true);
-      const docsBaseUrl = await element.getDocsBaseUrl(undefined);
-      assert.equal(
-        probePathMock.lastCall.args[0],
-        `${getBaseUrl()}/Documentation/index.html`
-      );
-      assert.equal(docsBaseUrl, `${getBaseUrl()}/Documentation`);
-    });
-
-    test('no doc config', async () => {
-      const probePathMock = sinon.stub(element, 'probePath').resolves(true);
-      const config: ServerInfo = {
-        ...createServerInfo(),
-        gerrit: createGerritInfo(),
-      };
-      const docsBaseUrl = await element.getDocsBaseUrl(config);
-      assert.equal(
-        probePathMock.lastCall.args[0],
-        `${getBaseUrl()}/Documentation/index.html`
-      );
-      assert.equal(docsBaseUrl, `${getBaseUrl()}/Documentation`);
-    });
-
-    test('has doc config', async () => {
-      const probePathMock = sinon.stub(element, 'probePath').resolves(true);
-      const config: ServerInfo = {
-        ...createServerInfo(),
-        gerrit: {...createGerritInfo(), doc_url: 'foobar'},
-      };
-      const docsBaseUrl = await element.getDocsBaseUrl(config);
-      assert.isFalse(probePathMock.called);
-      assert.equal(docsBaseUrl, 'foobar');
-    });
-
-    test('no probe', async () => {
-      const probePathMock = sinon.stub(element, 'probePath').resolves(false);
-      const docsBaseUrl = await element.getDocsBaseUrl(undefined);
-      assert.equal(
-        probePathMock.lastCall.args[0],
-        `${getBaseUrl()}/Documentation/index.html`
-      );
-      assert.isNotOk(docsBaseUrl);
     });
   });
 });

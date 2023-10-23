@@ -16,6 +16,7 @@ import {
   toPathname,
   toSearchParams,
   sameOrigin,
+  getDocUrl,
 } from './url-util';
 import {assert} from '@open-wc/testing';
 import {createAuth} from '../test/test-data-generators';
@@ -35,6 +36,15 @@ suite('url-util tests', () => {
 
     test('getBaseUrl', () => {
       assert.deepEqual(getBaseUrl(), '/r');
+    });
+  });
+
+  suite('getDocUrl tests', () => {
+    test('getDocUrl', () => {
+      assert.deepEqual(getDocUrl('a', 'b'), 'a/b');
+      assert.deepEqual(getDocUrl('a/', 'b'), 'a/b');
+      assert.deepEqual(getDocUrl('a', '/b'), 'a/b');
+      assert.deepEqual(getDocUrl('a/', '/b'), 'a/b');
     });
   });
 

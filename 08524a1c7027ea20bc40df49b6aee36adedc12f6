@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60efda56_08fb59e1",
+        "filename": "java/com/google/gerrit/httpd/NumericChangeIdRedirectServlet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-23T07:06:22Z",
+      "side": 1,
+      "message": "This is incorrect: we are supposed to receive here something like `/c/1/comment/ff3303fd_8341647b/` isn\u0027t it?",
+      "range": {
+        "startLine": 51,
+        "startChar": 58,
+        "endLine": 51,
+        "endChar": 65
+      },
+      "revId": "08524a1c7027ea20bc40df49b6aee36adedc12f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e410c49_22c7baa2",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-23T07:06:22Z",
+      "side": 1,
+      "message": "Is this strictly needed?",
+      "revId": "08524a1c7027ea20bc40df49b6aee36adedc12f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e4a9d266_bbcb4f6c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/RestApiServletIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-23T07:06:22Z",
+      "side": 1,
+      "message": "These aren\u0027t needed: we don\u0027t really care about having a *real* comment but just receiving a redirect.",
+      "range": {
+        "startLine": 446,
+        "startChar": 0,
+        "endLine": 448,
+        "endChar": 66
+      },
+      "revId": "08524a1c7027ea20bc40df49b6aee36adedc12f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b931e46b_80e08b59",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/RestApiServletIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-23T07:06:22Z",
+      "side": 1,
+      "message": "```suggestion\n  public void testCommentLinkWithoutPrefixRedirects() throws Exception {\n```",
+      "range": {
+        "startLine": 458,
+        "startChar": 29,
+        "endLine": 458,
+        "endChar": 36
+      },
+      "revId": "08524a1c7027ea20bc40df49b6aee36adedc12f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0624f9b4_690c64c6",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/RestApiServletIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-23T07:06:22Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 460,
+        "startChar": 0,
+        "endLine": 462,
+        "endChar": 66
+      },
+      "revId": "08524a1c7027ea20bc40df49b6aee36adedc12f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "755591fc_301090c4",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/RestApiServletIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-23T07:06:22Z",
+      "side": 1,
+      "message": "Same as above: we do not need to have a real comment here.",
+      "range": {
+        "startLine": 470,
+        "startChar": 0,
+        "endLine": 476,
+        "endChar": 3
+      },
+      "revId": "08524a1c7027ea20bc40df49b6aee36adedc12f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6ae6963_85879a02",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-23T07:06:22Z",
+      "side": 1,
+      "message": "Not needed.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 6
+      },
+      "revId": "08524a1c7027ea20bc40df49b6aee36adedc12f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a1213a2_59c5160c",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-23T07:06:22Z",
+      "side": 1,
+      "message": "Not needed.",
+      "revId": "08524a1c7027ea20bc40df49b6aee36adedc12f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

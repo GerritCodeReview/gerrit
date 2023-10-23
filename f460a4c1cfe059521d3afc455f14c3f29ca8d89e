@@ -71,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "37a0a84c_eabd90ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-23T16:04:06Z",
+      "side": 1,
+      "message": "@syntonyze@gmail.com, forget my comment, just a question: is your comment:\n\n\u003e This is not the only case for which the endpoint erroneously return 200.\n\nRelated with this other comment?\n\u003e Even if the user exists but cannot be added for some reason: if userA is the change owner and she tries to add userA as reviewer, it won\u0027t work.\n\nI got confused.",
+      "parentUuid": "f56d53cc_192ef922",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 69
+      },
+      "revId": "f460a4c1cfe059521d3afc455f14c3f29ca8d89e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "65e936cb_e4c0436f",

@@ -121,10 +121,6 @@ suite('gr-settings-view tests', () => {
   });
 
   test('renders', async () => {
-    sinon
-      .stub(element, 'getFilterDocsLink')
-      .returns('https://test.com/user-notify.html');
-    element.docsBaseUrl = 'https://test.com';
     await element.updateComplete;
     // this cannot be formatted with /* HTML */, because it breaks test
     assert.shadowDom.equal(
@@ -775,45 +771,6 @@ suite('gr-settings-view tests', () => {
     element.serverConfig = undefined;
     await element.updateComplete;
     assert.isFalse(element.showHttpAuth());
-  });
-
-  suite('getFilterDocsLink', () => {
-    test('with http: docs base URL', () => {
-      const base = 'http://example.com/';
-      const result = element.getFilterDocsLink(base);
-      assert.equal(result, 'http://example.com/user-notify.html');
-    });
-
-    test('with http: docs base URL without slash', () => {
-      const base = 'http://example.com';
-      const result = element.getFilterDocsLink(base);
-      assert.equal(result, 'http://example.com/user-notify.html');
-    });
-
-    test('with https: docs base URL', () => {
-      const base = 'https://example.com/';
-      const result = element.getFilterDocsLink(base);
-      assert.equal(result, 'https://example.com/user-notify.html');
-    });
-
-    test('without docs base URL', () => {
-      const result = element.getFilterDocsLink(null);
-      assert.equal(
-        result,
-        'https://gerrit-review.googlesource.com/' +
-          'Documentation/user-notify.html'
-      );
-    });
-
-    test('ignores non HTTP links', () => {
-      const base = 'javascript://alert("evil");';
-      const result = element.getFilterDocsLink(base);
-      assert.equal(
-        result,
-        'https://gerrit-review.googlesource.com/' +
-          'Documentation/user-notify.html'
-      );
-    });
   });
 
   suite('when email verification token is provided', () => {

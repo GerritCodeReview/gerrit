@@ -75,6 +75,7 @@ import com.google.gerrit.server.change.CommentThreads;
 import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.change.PureRevert;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.SkipCurrentRulesEvaluationOnClosedChanges;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
@@ -284,7 +285,7 @@ public class ChangeData {
     ChangeData cd =
         new ChangeData(
             null, null, null, null, null, null, null, null, null, null, null, null, null, null,
-            null, null, null, project, id, null, null);
+            null, null, null, true, project, id, null, null);
     cd.currentPatchSet =
         PatchSet.builder()
             .id(PatchSet.id(id, currentPatchSetId))
@@ -313,6 +314,7 @@ public class ChangeData {
   private final SubmitRequirementsEvaluator submitRequirementsEvaluator;
   private final SubmitRequirementsUtil submitRequirementsUtil;
   private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
+  private final boolean skipCurrentRulesEvaluationOnClosedChanges;
 
   // Required assisted injected fields.
   private final Project.NameKey project;
@@ -349,6 +351,7 @@ public class ChangeData {
   private Boolean mergeable;
   private ObjectId metaRevision;
   private Set<String> hashtags;
+
   /**
    * Map from {@link com.google.gerrit.entities.Account.Id} to the tip of the edit ref for this
    * change and a given user.
@@ -356,6 +359,7 @@ public class ChangeData {
   private Table<Account.Id, PatchSet.Id, ObjectId> editsByUser;
 
   private Set<Account.Id> reviewedBy;
+
   /**
    * Map from {@link com.google.gerrit.entities.Account.Id} to the tip of the draft comments ref for
    * this change and the user.
@@ -400,6 +404,7 @@ public class ChangeData {
       SubmitRequirementsEvaluator submitRequirementsEvaluator,
       SubmitRequirementsUtil submitRequirementsUtil,
       SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
+      @SkipCurrentRulesEvaluationOnClosedChanges Boolean skipCurrentRulesEvaluationOnClosedChange,
       @Assisted Project.NameKey project,
       @Assisted Change.Id id,
       @Assisted @Nullable Change change,
@@ -421,6 +426,7 @@ public class ChangeData {
     this.submitRequirementsEvaluator = submitRequirementsEvaluator;
     this.submitRequirementsUtil = submitRequirementsUtil;
     this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
+    this.skipCurrentRulesEvaluationOnClosedChanges = skipCurrentRulesEvaluationOnClosedChange;
 
     this.project = project;
     this.legacyId = id;
@@ -1083,13 +1089,15 @@ public class ChangeData {
             project(), getId().get());
         return Collections.emptyList();
       }
+      if (skipCurrentRulesEvaluationOnClosedChanges && change().isClosed()) {
+        return notes().getSubmitRecords();
+      }
       records = submitRuleEvaluatorFactory.create(options).evaluate(this);
       submitRecords.put(options, records);
       if (!change().isClosed() && submitRecords.size() == 1) {
         // Cache the SubmitRecord with allowClosed = !allowClosed as the SubmitRecord are the same.
         submitRecords.put(
-            options
-                .toBuilder()
+            options.toBuilder()
                 .recomputeOnClosedChanges(!options.recomputeOnClosedChanges())
                 .build(),
             records);

@@ -31,6 +31,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.b
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.labelPermissionKey;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.entities.RefNames.changeMetaRef;
+import static com.google.gerrit.extensions.client.ChangeStatus.ABANDONED;
 import static com.google.gerrit.extensions.client.ChangeStatus.MERGED;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CHANGE_ACTIONS;
@@ -3803,6 +3804,74 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
     assertThat(change.permittedLabels.keySet()).containsExactly(LabelId.CODE_REVIEW);
     assertPermitted(change, LabelId.CODE_REVIEW, 2);
+  }
+
+  @Test
+  @GerritConfig(name = "rules.skipCurrentRulesEvaluationOnClosedChanges", value = "true")
+  public void checkLabelsNotUpdatedForMergedChange() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+
+    ChangeInfo change = gApi.changes().id(r.getChangeId()).get();
+    assertThat(change.status).isEqualTo(MERGED);
+    assertThat(change.submissionId).isNotNull();
+    assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
+    assertThat(change.permittedLabels.keySet()).containsExactly(LabelId.CODE_REVIEW);
+    assertPermitted(change, LabelId.CODE_REVIEW, 2);
+
+    LabelType verified = TestLabels.verified();
+    AccountGroup.UUID registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+    String heads = RefNames.REFS_HEADS + "*";
+
+    // add new label and assert that it's returned for existing changes
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().upsertLabelType(verified);
+      u.save();
+    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel(verified.getName()).ref(heads).group(registeredUsers).range(-1, 1))
+        .update();
+
+    change = gApi.changes().id(r.getChangeId()).get();
+    assertThat(change.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
+    assertThat(change.permittedLabels.keySet())
+        .containsExactly(LabelId.CODE_REVIEW, LabelId.VERIFIED);
+    assertPermitted(change, LabelId.CODE_REVIEW, 2);
+  }
+
+  @Test
+  @GerritConfig(name = "rules.skipCurrentRulesEvaluationOnClosedChanges", value = "true")
+  public void checkLabelsNotUpdatedForAbandonedChange() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).abandon();
+
+    ChangeInfo change = gApi.changes().id(r.getChangeId()).get();
+    assertThat(change.status).isEqualTo(ABANDONED);
+    assertThat(change.labels.keySet()).isEmpty();
+    assertThat(change.submitRecords).isEmpty();
+
+    LabelType verified = TestLabels.verified();
+    AccountGroup.UUID registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+    String heads = RefNames.REFS_HEADS + "*";
+
+    // add new label and assert that it's returned for existing changes
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().upsertLabelType(verified);
+      u.save();
+    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel(verified.getName()).ref(heads).group(registeredUsers).range(-1, 1))
+        .update();
+
+    change = gApi.changes().id(r.getChangeId()).get();
+    assertThat(change.labels.keySet()).isEmpty();
+    assertThat(change.permittedLabels.keySet()).isEmpty();
+    assertThat(change.submitRecords).isEmpty();
   }
 
   @Test

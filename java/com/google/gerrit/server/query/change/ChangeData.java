@@ -1083,6 +1083,12 @@ public class ChangeData {
             project(), getId().get());
         return Collections.emptyList();
       }
+      if (change().isClosed()) {
+        records = notes().getSubmitRecords();
+        if (!records.isEmpty()) {
+          return records;
+        }
+      }
       records = submitRuleEvaluatorFactory.create(options).evaluate(this);
       submitRecords.put(options, records);
       if (!change().isClosed() && submitRecords.size() == 1) {

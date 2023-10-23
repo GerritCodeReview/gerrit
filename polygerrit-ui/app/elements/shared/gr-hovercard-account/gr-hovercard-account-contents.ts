@@ -48,6 +48,7 @@ import {
 } from '../../../models/views/dashboard';
 import {fire, fireReload} from '../../../utils/event-util';
 import {userModelToken} from '../../../models/user/user-model';
+import {getDocUrl} from '../../../utils/url-util';
 
 @customElement('gr-hovercard-account-contents')
 export class GrHovercardAccountContents extends LitElement {
@@ -76,6 +77,8 @@ export class GrHovercardAccountContents extends LitElement {
   @state()
   serverConfig?: ServerInfo;
 
+  @state() private docsBaseUrl = '';
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
@@ -97,6 +100,11 @@ export class GrHovercardAccountContents extends LitElement {
       config => {
         this.serverConfig = config;
       }
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().docsBaseUrl$,
+      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
     );
   }
 
@@ -310,7 +318,7 @@ export class GrHovercardAccountContents extends LitElement {
           ></gr-icon>
           <span> ${this.computePronoun()} turn to take action. </span>
           <a
-            href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
+            href=${getDocUrl(this.docsBaseUrl, 'user-attention-set.html')}
             target="_blank"
             rel="noopener noreferrer"
           >

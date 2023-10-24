@@ -23,7 +23,8 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.account.externalids.storage.notedb.DisabledExternalIdCache;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdCaseSensitivityMigrator;
-import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNoteDbStorageModule;
+import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNoteDbReadStorageModule;
+import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNoteDbWriteStorageModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -83,7 +84,8 @@ public class ChangeExternalIdCaseSensitivity extends SiteProgram {
                     new FactoryModuleBuilder()
                         .build(ExternalIdCaseSensitivityMigrator.Factory.class));
                 factory(MetaDataUpdate.InternalFactory.class);
-                install(new ExternalIdNoteDbStorageModule());
+                install(new ExternalIdNoteDbReadStorageModule());
+                install(new ExternalIdNoteDbWriteStorageModule());
 
                 // The ChangeExternalIdCaseSensitivity program needs to access all external IDs only
                 // once to update them. After the update they are not accessed again. Hence the

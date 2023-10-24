@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b84d4350_9eab67b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-10-24T08:58:27Z",
+      "side": 1,
+      "message": "double checked google-java-format locally and all files are good.",
+      "revId": "97e0e96b1b66b60f82aebc4e3747fe3bc5ebbe57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,6 +1,18 @@
 # Gerrit Code Review
 
+<<<<<<< PATCH SET (2da90b Change B)
+<<<<<<< PATCH SET (00f303 Change B)
+Change B
+=======
+<<<<<<< PATCH SET (b11a6f Change A)
+Change A
+=======
+New Base
+>>>>>>> BASE      (7a69fe New Base)
+>>>>>>> BASE      (92b25e Change A)
+=======
 Change A rebased onto New Base
+>>>>>>> BASE      (dc24b2 Change A)
 
 [Gerrit](https://www.gerritcodereview.com) is a code review and project
 management tool for Git based projects.

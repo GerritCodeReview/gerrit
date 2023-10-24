@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efacd6ce_198a1b51",
+        "filename": "polygerrit-ui/app/utils/url-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-10-24T08:29:43Z",
+      "side": 1,
+      "message": "nit: Replace slice checks with startsWith, endsWith for better readability",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 40
+      },
+      "revId": "6b2004a19bf371f0eb501223a886b8c37e09c5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

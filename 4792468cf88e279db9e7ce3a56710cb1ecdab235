@@ -52,6 +52,24 @@
       "parentUuid": "cafa5548_bff9752c",
       "revId": "4792468cf88e279db9e7ce3a56710cb1ecdab235",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f26dd1a1_5726c753",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-10-24T13:54:47Z",
+      "side": 1,
+      "message": "Ohh yes, sorry.\nNvm I misunderstood the usage of this method. 😞\n\nThen I agree the method name cannot be updated.\nReverting this CL.",
+      "parentUuid": "e53df898_4f474e5e",
+      "revId": "4792468cf88e279db9e7ce3a56710cb1ecdab235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

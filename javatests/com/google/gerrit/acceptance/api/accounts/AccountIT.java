@@ -575,7 +575,7 @@ public class AccountIT extends AbstractDaemonTest {
       AccountInfo info = gApi.accounts().self().get();
       assertUser(info, admin);
 
-      info = gApi.accounts().id("self").get();
+      info = gApi.accounts().self().get();
       assertUser(info, admin);
       accountIndexedCounter.assertNoReindex();
     }

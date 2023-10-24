@@ -16,11 +16,16 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.notedb.NoteDbTable.CHANGES;
+import static com.google.gerrit.server.notedb.rebuild.OnlineNoteDbMigrator.ONLINE_MIGRATION_PROJECTS;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.inject.AbstractModule;
+import java.util.Arrays;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -87,6 +92,9 @@ public abstract class NotesMigration {
           .setDisableChangeReviewDb(
               cfg.getBoolean(SECTION_NOTE_DB, CHANGES.key(), DISABLE_REVIEW_DB, false))
           .setFailOnLoadForTest(false) // Only set in tests, can't be set via config.
+          .setMigrationProjects(
+              Arrays.stream(cfg.getStringList(SECTION_NOTE_DB, null, ONLINE_MIGRATION_PROJECTS))
+                  .collect(Collectors.toSet()))
           .build();
     }
 
@@ -102,6 +110,8 @@ public abstract class NotesMigration {
 
     abstract boolean failOnLoadForTest();
 
+    abstract Set<String> migrationProjects();
+
     abstract Builder toBuilder();
 
     void setConfigValues(Config cfg) {
@@ -109,6 +119,7 @@ public abstract class NotesMigration {
       cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), READ, readChanges());
       cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), SEQUENCE, readChangeSequence());
       cfg.setEnum(SECTION_NOTE_DB, CHANGES.key(), PRIMARY_STORAGE, changePrimaryStorage());
+      cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), DISABLE_REVIEW_DB, disableChangeReviewDb());
       cfg.setBoolean(SECTION_NOTE_DB, CHANGES.key(), DISABLE_REVIEW_DB, disableChangeReviewDb());
     }
 
@@ -125,6 +136,8 @@ public abstract class NotesMigration {
       abstract Builder setDisableChangeReviewDb(boolean disableChangeReviewDb);
 
       abstract Builder setFailOnLoadForTest(boolean failOnLoadForTest);
+
+      abstract Builder setMigrationProjects(Set<String> projects);
 
       abstract Snapshot autoBuild();
 
@@ -205,6 +218,36 @@ public abstract class NotesMigration {
    */
   public boolean failOnLoadForTest() {
     return snapshot.get().failOnLoadForTest();
+  }
+
+  /**
+   * Limit the online migration from reviewDb to noteDb to a set of projects.
+   *
+   * @return The set of projects that should be migrated to NoteDB
+   */
+  public Set<String> migrationProjects() {
+    return snapshot.get().migrationProjects();
+  }
+
+  /**
+   * Check whether the NoteDB migration is enabled for the provided project and writes for NoteDB
+   * should be committed.
+   *
+   * @param projectNameKey the name of the project to check
+   * @return true when the migration is enabled for the project
+   */
+  public final boolean commitChangeWritesForProject(Project.NameKey projectNameKey) {
+    return commitChangeWrites() && shouldMigrateProject(projectNameKey);
+  }
+
+  /**
+   * Check whether the NoteDB migration is enabled for the provided project
+   *
+   * @param projectNameKey the name of the project to check
+   * @return true when the migration is enabled for the project
+   */
+  public boolean shouldMigrateProject(Project.NameKey projectNameKey) {
+    return migrationProjects().isEmpty() || migrationProjects().contains(projectNameKey.get());
   }
 
   public final boolean commitChangeWrites() {

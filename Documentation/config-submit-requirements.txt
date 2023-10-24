@@ -127,7 +127,7 @@ Note that in this case, the change is overridden whether the
 link:#submit_requirement_submittable_if[submittableIf] expression evaluates to
 true or not.
 
-* `BYPASSED`
+* `FORCED`
 +
 The change was merged directly bypassing code review by supplying the
 link:user-upload.html#auto_merge[submit] push option while doing a git push.

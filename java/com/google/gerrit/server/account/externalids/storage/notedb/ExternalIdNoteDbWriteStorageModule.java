@@ -12,18 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.account.storage.notedb;
+package com.google.gerrit.server.account.externalids.storage.notedb;
 
-import com.google.gerrit.server.account.Accounts;
-import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNoteDbStorageModule;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.server.account.externalids.ExternalIdUpsertPreprocessor;
 import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
 
-public class AccountNoteDbStorageModule extends AbstractModule {
+public class ExternalIdNoteDbWriteStorageModule extends AbstractModule {
   @Override
   protected void configure() {
-    install(new ExternalIdNoteDbStorageModule());
-
-    bind(Accounts.class).to(AccountsNoteDbImpl.class).in(Singleton.class);
+    DynamicMap.mapOf(binder(), ExternalIdUpsertPreprocessor.class);
   }
 }

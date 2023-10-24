@@ -48,7 +48,7 @@ import com.google.gerrit.server.PluginUser;
 import com.google.gerrit.server.Sequence;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.GroupBackend;
-import com.google.gerrit.server.account.storage.notedb.AccountNoteDbStorageModule;
+import com.google.gerrit.server.account.storage.notedb.AccountNoteDbReadStorageModule;
 import com.google.gerrit.server.account.storage.notedb.AccountNoteDbWriteStorageModule;
 import com.google.gerrit.server.api.GerritApiModule;
 import com.google.gerrit.server.api.PluginApiModule;
@@ -200,7 +200,7 @@ public class InMemoryModule extends FactoryModule {
     install(cfgInjector.getInstance(AccountCacheImpl.AccountCacheModule.class));
     install(cfgInjector.getInstance(GerritGlobalModule.class));
     install(new AccountNoteDbWriteStorageModule());
-    install(new AccountNoteDbStorageModule());
+    install(new AccountNoteDbReadStorageModule());
 
     AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
     install(new AuthModule(authConfig));

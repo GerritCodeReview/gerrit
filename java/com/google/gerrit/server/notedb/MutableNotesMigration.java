@@ -18,6 +18,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.Set;
 import java.util.function.Function;
 import org.eclipse.jgit.lib.Config;
 
@@ -74,6 +75,10 @@ public class MutableNotesMigration extends NotesMigration {
 
   public MutableNotesMigration setFailOnLoadForTest(boolean failOnLoadForTest) {
     return set(b -> b.setFailOnLoadForTest(failOnLoadForTest));
+  }
+
+  public MutableNotesMigration setMigrationProjects(Set<String> projects) {
+    return set(b -> b.setMigrationProjects(projects));
   }
 
   /**

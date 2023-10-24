@@ -341,6 +341,25 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void restApiNotFoundWhenProjectMigrationDisabled() throws Exception {
+    setNotesMigration(true, true);
+    notesMigration.setMigrationProjects(Collections.singleton("foobar"));
+    PushOneCommit.Result r = createChange();
+    exception.expect(ResourceNotFoundException.class);
+    rebuildHandler.apply(parseChangeResource(r.getChangeId()), new Input());
+  }
+
+  @Test
+  public void restApiSuccessProjectMigrationEnabled() throws Exception {
+    setNotesMigration(true, true);
+    notesMigration.setMigrationProjects(Collections.singleton(project.get()));
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    rebuildHandler.apply(parseChangeResource(r.getChangeId()), new Input());
+    checker.rebuildAndCheckChanges(id);
+  }
+
+  @Test
   public void rebuildViaRestApi() throws Exception {
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getPatchSetId().getParentKey();
@@ -369,6 +388,30 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     // ref doesn't exist until a manual rebuild.
     checker.assertNoChangeRef(project, id1);
     checker.rebuildAndCheckChanges(id1);
+  }
+
+  @Test
+  public void noteDbChangeShouldNotBeCreatedWhenMigrationProjectDoesNotMatch() throws Exception {
+    setNotesMigration(true, true);
+    notesMigration.setMigrationProjects(Collections.singleton("foobar"));
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+
+    ObjectId changeMetaId = getMetaRef(project, changeMetaRef(id));
+
+    assertThat(changeMetaId).isNull();
+    assertThat(getUnwrappedDb().changes().get(id).getNoteDbState()).isNull();
+  }
+
+  @Test
+  public void noteDbChangeShouldNotBeCreatedWhenMigrationProjectMatches() throws Exception {
+    setNotesMigration(true, true);
+    notesMigration.setMigrationProjects(Collections.singleton(project.get()));
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+
+    ObjectId changeMetaId = getMetaRef(project, changeMetaRef(id));
+    assertThat(getUnwrappedDb().changes().get(id).getNoteDbState()).isEqualTo(changeMetaId.name());
   }
 
   @Test

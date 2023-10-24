@@ -437,7 +437,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   }
 
   private boolean isEmpty() {
-    if (!migration.commitChangeWrites()) {
+    if (!migration.commitChangeWritesForProject(projectName)) {
       return true;
     }
     return changeUpdates.isEmpty()

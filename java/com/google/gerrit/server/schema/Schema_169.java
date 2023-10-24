@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.gerrit.server.notedb.rebuild.OnlineNoteDbMigrator.ONLINE_MIGRATION_PROJECTS;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Project;
@@ -71,6 +73,12 @@ public class Schema_169 extends SchemaVersion {
     pm.beginTask("Migrating projects", projects.size());
     int skipped = 0;
     for (Project.NameKey project : projects) {
+      if (!notesMigration.shouldMigrateProject(project)) {
+        logger.atWarning().log(
+            "Skipping migration of project %s, not listed in '%s' section",
+            project, ONLINE_MIGRATION_PROJECTS);
+        continue;
+      }
       try (Repository repo = repoManager.openRepository(project)) {
         ProjectMigrationResult progress = migrator.migrateProject(project, repo, false);
         skipped += progress.skipped;

@@ -28,7 +28,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.notedb.Sequences;
+import com.google.gerrit.server.Sequences;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.concurrent.atomic.AtomicInteger;

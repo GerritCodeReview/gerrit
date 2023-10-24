@@ -24,7 +24,7 @@ import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.InheritableBoolean;
-import com.google.gerrit.server.notedb.Sequences;
+import com.google.gerrit.server.Sequences;
 import java.util.Optional;
 
 @AutoValue

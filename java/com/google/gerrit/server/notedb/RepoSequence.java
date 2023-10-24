@@ -38,6 +38,7 @@ import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.Sequence;
+import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;

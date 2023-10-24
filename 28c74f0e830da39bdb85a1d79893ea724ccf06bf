@@ -34,6 +34,24 @@
       "parentUuid": "4f717e8e_8f90424e",
       "revId": "28c74f0e830da39bdb85a1d79893ea724ccf06bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70657e62_97edda7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-10-24T19:38:43Z",
+      "side": 1,
+      "message": "@ponch78@gmail.com we attempted a parallel roll-back of this change in our internal build and it did not fix the issue (sorry for the noise)\n\nbut I found out that https://gerrit-review.git.corp.google.com/c/gerrit/+/390074 (the change in polygerrit) is the actual culprit. with this change, requests like https://gerrit-review.googlesource.com/c/390834 don\u0027t work and a rollback of it fixed the issue.",
+      "parentUuid": "682312bd_9670b2eb",
+      "revId": "28c74f0e830da39bdb85a1d79893ea724ccf06bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -389,6 +389,49 @@ suite('gr-confirm-rebase-dialog tests', () => {
     );
   });
 
+  test('committer email is sent when chain is not rebased', async () => {
+    const fireStub = sinon.stub(element, 'dispatchEvent');
+    element.text = '123';
+    element.selectedEmailForRebase = 'abc@def.com';
+    await element.updateComplete;
+    queryAndAssert(element, '#confirmDialog').dispatchEvent(
+      new CustomEvent('confirm', {
+        composed: true,
+        bubbles: true,
+      })
+    );
+    assert.deepEqual((fireStub.lastCall.args[0] as CustomEvent).detail, {
+      allowConflicts: false,
+      base: '123',
+      rebaseChain: false,
+      onBehalfOfUploader: true,
+      committerEmail: 'abc@def.com',
+    });
+  });
+
+  test('committer email is not sent when chain is rebased', async () => {
+    const fireStub = sinon.stub(element, 'dispatchEvent');
+    element.text = '123';
+    element.selectedEmailForRebase = 'abc@def.com';
+    element.hasParent = true;
+    element.shouldRebaseChain = true;
+    await element.updateComplete;
+    queryAndAssert<HTMLInputElement>(element, '#rebaseChain').checked = true;
+    queryAndAssert(element, '#confirmDialog').dispatchEvent(
+      new CustomEvent('confirm', {
+        composed: true,
+        bubbles: true,
+      })
+    );
+    assert.deepEqual((fireStub.lastCall.args[0] as CustomEvent).detail, {
+      allowConflicts: false,
+      base: '123',
+      rebaseChain: true,
+      onBehalfOfUploader: true,
+      committerEmail: null,
+    });
+  });
+
   test('input cleared on cancel or submit', async () => {
     element.text = '123';
     await element.updateComplete;

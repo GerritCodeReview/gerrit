@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e454232e_6abd3e73",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-10-24T14:55:39Z",
+      "side": 1,
+      "message": "Updated the Jetty version and sha of the artifacts in `WORKSPACE` file, bacause the `tools/deps.bzl` does not exists in this branch (introduced [here](https://gerrit-review.googlesource.com/c/gerrit/+/323755) and included from 3.6).\n\nVerifying with `bazelisk test -- //javatest/...` there are failures on the following tests:\n```\n//javatests/com/google/gerrit/integration/git:protocol-v2\n//javatests/com/google/gerrit/integration/git:upload-archive\n//javatests/com/google/gerrit/integration/ssh:no-shell\n//javatests/com/google/gerrit/integration/ssh:peer-keys-auth\n```\n\nSame tests are also failing for tip of stable-3.2 and I also checked the latest release [3.2.14](https://gerrit.googlesource.com/gerrit/+/v3.2.14) .\n\nI think it is very unlikely that the release is really failing the tests, so must be my environment. Investigating. \n\n@luca.milanesio@gmail.com do you meantime if there is another way to test this?",
+      "revId": "17aa9fb80944d47eac74c39d3ab7a2cf39912740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2caddad_f5622365",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-10-24T13:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15b9140d_b21d479a",
+      "range": {
+        "startLine": 9,
+        "startChar": 35,
+        "endLine": 9,
+        "endChar": 52
+      },
+      "revId": "537d14b5bef18f03dc275b0292fc85c9174d97f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47246909_ab792207",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-10-24T13:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a1c8878_24ced050",
+      "range": {
+        "startLine": 9,
+        "startChar": 17,
+        "endLine": 9,
+        "endChar": 35
+      },
+      "revId": "537d14b5bef18f03dc275b0292fc85c9174d97f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37a6debc_dd9e164b",
@@ -60,6 +108,24 @@
       "writtenOn": "2023-10-23T13:26:29Z",
       "side": 1,
       "message": "Maybe describe more why it is not safe to create backup of a live write index?",
+      "revId": "537d14b5bef18f03dc275b0292fc85c9174d97f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81c5ac4c_c83e7c71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-10-24T13:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37a6debc_dd9e164b",
       "revId": "537d14b5bef18f03dc275b0292fc85c9174d97f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -81,6 +147,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c46a6a1c_abb94e45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-10-24T13:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26df0922_b98ed579",
+      "revId": "537d14b5bef18f03dc275b0292fc85c9174d97f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f3bf0f9_6e2e7a4a",
@@ -94,6 +178,30 @@
       "writtenOn": "2023-10-23T14:40:33Z",
       "side": 1,
       "message": "```suggestion\n  /**\n   * Creates a snapshot of the index.\n   *\n   * @return {@code true} if the snapshot was successful.\n   * @throws IOException if writing the snapshot to disk fails.\n   */\n```",
+      "range": {
+        "startLine": 174,
+        "startChar": 2,
+        "endLine": 178,
+        "endChar": 5
+      },
+      "revId": "537d14b5bef18f03dc275b0292fc85c9174d97f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbd9f5bd_7e23e702",
+        "filename": "java/com/google/gerrit/index/Index.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-10-24T13:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f3bf0f9_6e2e7a4a",
       "range": {
         "startLine": 174,
         "startChar": 2,
@@ -139,6 +247,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "94a16f8d_525dc78c",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-10-24T13:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ef3520a_985d6c7d",
+      "revId": "537d14b5bef18f03dc275b0292fc85c9174d97f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1cff21bd_9b986ff6",
@@ -156,6 +282,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e723104_d8b88cd3",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-10-24T13:56:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cff21bd_9b986ff6",
+      "revId": "537d14b5bef18f03dc275b0292fc85c9174d97f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc1c33a3_dc85fb51",
@@ -169,6 +313,24 @@
       "writtenOn": "2023-10-23T13:26:29Z",
       "side": 1,
       "message": "The only way that this `commit` is `null` is that line 549 throws an exception. That exception is, anyway, not handled here and will exit this method immediately. Therefore, the code structure can be written to avoid `null` assignment and check:\n\n```\n  IndexCommit commit \u003d snapshooter.snapshot();\n  try {\n    for (String file : commit.getFilenames()) {\n      ...\n    }\n  } finally {\n    snapshooter.release(commit);\n  }\n```",
+      "revId": "537d14b5bef18f03dc275b0292fc85c9174d97f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d19c1cd_c915c75b",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-10-24T13:56:10Z",
+      "side": 1,
+      "message": "As I understand it, even if we don\u0027t handle the IOException or IllegalStateException here, the finally block will be called. Am I wrong? If that happens, and commit is null, we would get an unnecessary NullPointerException.",
+      "parentUuid": "fc1c33a3_dc85fb51",
       "revId": "537d14b5bef18f03dc275b0292fc85c9174d97f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

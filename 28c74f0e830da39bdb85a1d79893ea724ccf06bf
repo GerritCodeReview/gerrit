@@ -16,6 +16,24 @@
       "message": "I have tested my change locally again, and it looks to be ok.\n\nFurthermore, `chromium-review` doesn\u0027t look like includes my change (at least the Gerrit instance is serving my requests isn\u0027t).\n\nThe version running on `chromium-review` is on `3.8.2-1171-g23ddfc9c48` which is prior to my change.\n\nLastly, from `crrev.com` to `chromium-review` there are a couple of redirects in between: \n\n```\n\u003e curl -vL https://crrev.com/c/4932177\n\n\u003c HTTP/2 301\n\u003c location: https://cr-rev.appspot.com/c/4932177\n\n\u003c HTTP/2 308\n\u003c content-type: text/html; charset\u003dutf-8\n\u003c location: https://chromium-review.googlesource.com/c/4932177\n\n\u003c HTTP/2 200\n\n```\n\nThe above-mentioned redirects lead to `https://chromium-review.googlesource.com/c/4932177` which strangely returns a 200 and nevertheless serves a 404 in the front end.\n\nI will try to run `3.8.2-1171-g23ddfc9c48` locally to see if it works fine.\nI\u0027ll keep you posted.",
       "revId": "28c74f0e830da39bdb85a1d79893ea724ccf06bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "682312bd_9670b2eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-10-24T16:06:33Z",
+      "side": 1,
+      "message": "I tried locally `3.8.2-1171-g23ddfc9c48` and it returns `302` for `/changeNum` and `200` for `/c/changeNum`, as expected before the change I introduced.",
+      "parentUuid": "4f717e8e_8f90424e",
+      "revId": "28c74f0e830da39bdb85a1d79893ea724ccf06bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

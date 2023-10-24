@@ -1,6 +1,6 @@
 # Gerrit Code Review
 
-New Base
+Change A rebased onto New Base
 
 [Gerrit](https://www.gerritcodereview.com) is a code review and project
 management tool for Git based projects.

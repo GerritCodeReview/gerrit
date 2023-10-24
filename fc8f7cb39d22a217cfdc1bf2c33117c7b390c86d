@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0c7963d_a3d6252a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-10-24T11:07:35Z",
+      "side": 1,
+      "message": "This broke SequencesOnInit. Fix in https://gerrit-review.googlesource.com/c/gerrit/+/390697.",
+      "revId": "fc8f7cb39d22a217cfdc1bf2c33117c7b390c86d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

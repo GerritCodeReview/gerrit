@@ -164,8 +164,9 @@ suite('gr-revision-parents tests', () => {
        <div class="icon"><gr-icon icon="warning"></gr-icon></div>
        <div class="text"><p>
        Patchset 1 and 2 are targeting different branches.<br/>
-       The diff below may not be meaningful and may even be hiding
-                relevant changes.
+       The diff below may not be meaningful and may<br/>
+       even be hiding relevant changes.
+       <a href="/Documentation/user-review-ui.html#hazardous-rebases">Learn more</a>
        </p><p><gr-button link="">Show details</gr-button></p></div></div>`
     );
   });
@@ -179,9 +180,10 @@ suite('gr-revision-parents tests', () => {
        <div class="text"><p>
        Patchset 2 is based on a commit that neither exists in its
             target branch, nor is it a commit of another active change.<br/>
-       The diff below may not be meaningful and may even be hiding
-                relevant changes.
-       </p><p><gr-button link="">Show details</gr-button></p></div></div>`
+            The diff below may not be meaningful and may<br/>
+            even be hiding relevant changes.
+            <a href="/Documentation/user-review-ui.html#hazardous-rebases">Learn more</a>
+            </p><p><gr-button link="">Show details</gr-button></p></div></div>`
     );
   });
 
@@ -230,8 +232,9 @@ suite('gr-revision-parents tests', () => {
        <a href="/c/123/1">1</a>
        of change
        <a href="/c/123">123</a>.<br>
-       The diff below may not be meaningful and may even be hiding
-                relevant changes.
+       The diff below may not be meaningful and may<br/>
+       even be hiding relevant changes.
+       <a href="/Documentation/user-review-ui.html#hazardous-rebases">Learn more</a>
        </p><p><gr-button link="">Show details</gr-button></p></div></div>`
     );
   });

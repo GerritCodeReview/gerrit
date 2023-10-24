@@ -58,6 +58,7 @@ import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +77,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
   @Inject private ChangeNoteJson changeNoteJson;
   @Inject private LegacyChangeNoteRead legacyChangeNoteRead;
+  @Inject protected MutableNotesMigration notesMigration;
 
   @Inject private @GerritServerId String serverId;
 
@@ -1324,6 +1326,34 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     PatchSetApproval approval2 =
         newNotes(c2).getApprovals().get(c2.currentPatchSetId()).iterator().next();
     assertThat(approval2.getLabel()).isEqualTo("Code-Review");
+  }
+
+  @Test
+  public void doNotUpdateWhenProjectIsDisabled() throws Exception {
+    notesMigration.setMigrationProjects(Collections.singletonList("foobar"));
+
+    Change c1 = newChange();
+    ChangeUpdate update1 = newUpdate(c1, changeOwner);
+    update1.putApproval("Verified", (short) 1);
+
+    try (NoteDbUpdateManager updateManager = updateManagerFactory.create(project)) {
+      updateManager.add(update1);
+      assertThat(updateManager.execute()).isNull();
+    }
+  }
+
+  @Test
+  public void updateWhenProjectIsDisabled() throws Exception {
+    notesMigration.setMigrationProjects(Collections.singletonList(project.get()));
+
+    Change c1 = newChange();
+    ChangeUpdate update1 = newUpdate(c1, changeOwner);
+    update1.putApproval("Verified", (short) 1);
+
+    try (NoteDbUpdateManager updateManager = updateManagerFactory.create(project)) {
+      updateManager.add(update1);
+      assertThat(updateManager.execute()).isNotNull();
+    }
   }
 
   @Test

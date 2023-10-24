@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be69334b_fab10742",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-10-24T13:48:53Z",
+      "side": 1,
+      "message": "The email or full name seems important in reviewer suggestion to differentiate eg multiple Dhruv\u0027s",
+      "revId": "4792468cf88e279db9e7ce3a56710cb1ecdab235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

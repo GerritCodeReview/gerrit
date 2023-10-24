@@ -16,6 +16,24 @@
       "message": "The email or full name seems important in reviewer suggestion to differentiate eg multiple Dhruv\u0027s",
       "revId": "4792468cf88e279db9e7ce3a56710cb1ecdab235",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cafa5548_bff9752c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-10-24T13:51:01Z",
+      "side": 1,
+      "message": "This should be handled by the user who should take both email and name as input instead of taking one input name which includes both name and email.\n\nI added this method to use in a plugin and the plugin rightfully expects name and email and then renders both of them them like you suggested.",
+      "parentUuid": "be69334b_fab10742",
+      "revId": "4792468cf88e279db9e7ce3a56710cb1ecdab235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

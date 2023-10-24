@@ -333,6 +333,24 @@
       "parentUuid": "fc1c33a3_dc85fb51",
       "revId": "537d14b5bef18f03dc275b0292fc85c9174d97f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26568a80_82c84a00",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-24T14:07:40Z",
+      "side": 1,
+      "message": "no, it wouldn\u0027t be called since Sasa proposed to call `snapshooter.snapshot()` before the try-finally block.",
+      "parentUuid": "1d19c1cd_c915c75b",
+      "revId": "537d14b5bef18f03dc275b0292fc85c9174d97f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

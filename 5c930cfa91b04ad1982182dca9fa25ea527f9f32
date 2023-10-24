@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9eb1607_59e78367",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096442
+      },
+      "writtenOn": "2023-10-24T04:43:38Z",
+      "side": 1,
+      "message": "```\n$ bazelisk test --flaky_test_attempts 3 --test_timeout 3600 --test_tag_filters\u003d-flaky,-elastic,-no_rbe //...\n\n...\n//javatests/com/google/gerrit/server/rules:prolog_tests                  PASSED in 4.3s\n//javatests/com/google/gerrit/server/submit:submit_tests                 PASSED in 3.4s\n//javatests/com/google/gerrit/server/update:small_tests                  PASSED in 27.8s\n//javatests/com/google/gerrit/sshd:sshd_tests                            PASSED in 1.0s\n//javatests/com/google/gerrit/testing:testing_tests                      PASSED in 3.5s\n//plugins/delete-project:delete-project_tests                            PASSED in 53.3s\n//plugins/download-commands:download-commands_tests                      PASSED in 1.0s\n//plugins/gitiles:gitiles_tests                                          PASSED in 9.1s\n//plugins/hooks:hooks_tests                                              PASSED in 10.1s\n//plugins/plugin-manager:plugin_manager_tests                            PASSED in 12.9s\n//plugins/replication:replication_tests                                  PASSED in 12.0s\n//plugins/replication:src_test_java_com_googlesource_gerrit_plugins_replication_ReplicationDistributorIT PASSED in 26.2s\n//plugins/replication:src_test_java_com_googlesource_gerrit_plugins_replication_ReplicationEventsIT PASSED in 41.2s\n//plugins/replication:src_test_java_com_googlesource_gerrit_plugins_replication_ReplicationFanoutIT PASSED in 20.6s\n//plugins/replication:src_test_java_com_googlesource_gerrit_plugins_replication_ReplicationIT PASSED in 167.4s\n//plugins/replication:src_test_java_com_googlesource_gerrit_plugins_replication_ReplicationPushInBatchesIT PASSED in 16.1s\n//plugins/replication:src_test_java_com_googlesource_gerrit_plugins_replication_ReplicationStorageIT PASSED in 96.6s\n//plugins/replication:src_test_java_com_googlesource_gerrit_plugins_replication_ReplicationStorageMPIT PASSED in 45.2s\n//plugins/singleusergroup:singleusergroup_tests                          PASSED in 8.0s\n//plugins/webhooks:webhooks_tests                                        PASSED in 13.9s\n//prologtests/examples:test_examples                                     PASSED in 5.4s\n\nExecuted 188 out of 199 tests: 199 tests pass.\nINFO: Build completed successfully, 1298 total actions\n```",
+      "revId": "5c930cfa91b04ad1982182dca9fa25ea527f9f32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

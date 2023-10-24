@@ -546,7 +546,9 @@ export class GrConfirmRebaseDialog
       allowConflicts: !!this.rebaseAllowConflicts?.checked,
       rebaseChain: !!this.rebaseChain?.checked,
       onBehalfOfUploader: this.rebaseOnBehalfOfUploader(),
-      committerEmail: this.selectedEmailForRebase || null,
+      committerEmail: this.rebaseChain?.checked
+        ? null
+        : this.selectedEmailForRebase || null,
     };
     fireNoBubbleNoCompose(this, 'confirm-rebase', detail);
     this.text = '';

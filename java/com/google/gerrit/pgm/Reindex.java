@@ -32,7 +32,7 @@ import com.google.gerrit.pgm.util.BatchProgramModule;
 import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.LibModuleLoader;
 import com.google.gerrit.server.ModuleOverloader;
-import com.google.gerrit.server.account.storage.notedb.AccountNoteDbStorageModule;
+import com.google.gerrit.server.account.storage.notedb.AccountNoteDbReadStorageModule;
 import com.google.gerrit.server.account.storage.notedb.AccountNoteDbWriteStorageModule;
 import com.google.gerrit.server.cache.CacheDisplay;
 import com.google.gerrit.server.cache.CacheInfo;
@@ -227,7 +227,7 @@ public class Reindex extends SiteProgram {
           }
         });
     modules.add(new AccountNoteDbWriteStorageModule());
-    modules.add(new AccountNoteDbStorageModule());
+    modules.add(new AccountNoteDbReadStorageModule());
 
     return dbInjector.createChildInjector(
         ModuleOverloader.override(

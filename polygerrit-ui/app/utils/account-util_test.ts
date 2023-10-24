@@ -9,6 +9,7 @@ import {
   computeVoteableText,
   extractMentionedUsers,
   getAccountTemplate,
+  getSuggestedReviewerName,
   isAccountEmailOnly,
   isDetailedAccount,
   isServiceUser,
@@ -31,6 +32,7 @@ import {
 } from '../api/rest-api';
 import {
   createAccountDetailWithId,
+  createAccountDetailWithIdNameAndEmail,
   createAccountWithEmailOnly,
   createAccountWithId,
   createChange,
@@ -74,6 +76,20 @@ suite('account-util tests', () => {
     assert.isFalse(isServiceUser(ERNIE));
     assert.isTrue(isServiceUser(SERVY));
     assert.isTrue(isServiceUser(BOTTY));
+  });
+
+  test('getSuggestedReviewerName', () => {
+    assert.equal(
+      getSuggestedReviewerName(createAccountDetailWithIdNameAndEmail(1)),
+      'User-1'
+    );
+    assert.equal(
+      getSuggestedReviewerName({
+        account: createAccountDetailWithIdNameAndEmail(1),
+        count: 1,
+      }),
+      'User-1'
+    );
   });
 
   test('extractMentionedUsers', () => {

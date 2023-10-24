@@ -24,11 +24,7 @@ import {
 } from '../types/common';
 import {AccountTag, ReviewerState} from '../constants/constants';
 import {assertNever, hasOwnProperty} from './common-util';
-import {
-  getAccountDisplayName,
-  getDisplayName,
-  getGroupDisplayName,
-} from './display-name-util';
+import {getDisplayName, getGroupDisplayName} from './display-name-util';
 import {getApprovalInfo} from './label-util';
 import {ParsedChangeInfo} from '../types/types';
 
@@ -282,12 +278,12 @@ export function getSuggestedReviewerName(
 ) {
   if (isAccountSuggestion(suggestion)) {
     // Reviewer is an account suggestion from getSuggestedAccounts.
-    return getAccountDisplayName(config, suggestion);
+    return getDisplayName(config, suggestion);
   }
 
   if (isReviewerAccountSuggestion(suggestion)) {
     // Reviewer is an account suggestion from getChangeSuggestedReviewers.
-    return getAccountDisplayName(config, suggestion.account);
+    return getDisplayName(config, suggestion.account);
   }
 
   if (isReviewerGroupSuggestion(suggestion)) {

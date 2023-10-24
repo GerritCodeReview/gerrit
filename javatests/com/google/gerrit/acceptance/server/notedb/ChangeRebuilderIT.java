@@ -372,6 +372,30 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void noteDbChangeShouldNotBeCreatedWhenMigrationProjectDoesNotMatch() throws Exception {
+    setNotesMigration(true, true);
+    notesMigration.setMigrationProjects(Collections.singletonList("foobar"));
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+
+    ObjectId changeMetaId = getMetaRef(project, changeMetaRef(id));
+
+    assertThat(changeMetaId).isNull();
+    assertThat(getUnwrappedDb().changes().get(id).getNoteDbState()).isNull();
+  }
+
+  @Test
+  public void noteDbChangeShouldNotBeCreatedWhenMigrationProjectMatches() throws Exception {
+    setNotesMigration(true, true);
+    notesMigration.setMigrationProjects(Collections.singletonList(project.get()));
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+
+    ObjectId changeMetaId = getMetaRef(project, changeMetaRef(id));
+    assertThat(getUnwrappedDb().changes().get(id).getNoteDbState()).isEqualTo(changeMetaId.name());
+  }
+
+  @Test
   public void noteDbChangeState() throws Exception {
     setNotesMigration(true, true);
     PushOneCommit.Result r = createChange();

@@ -14,24 +14,6 @@
 
 package com.google.gerrit.acceptance.server.notedb;
 
-import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assert_;
-import static com.google.common.truth.TruthJUnit.assume;
-import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
-import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
-import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
-import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
-import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.testing.Util.category;
-import static com.google.gerrit.server.project.testing.Util.value;
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.concurrent.TimeUnit.DAYS;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
-import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Ordering;
@@ -100,14 +82,6 @@ import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.OrmRuntimeException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import java.sql.Timestamp;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.eclipse.jgit.junit.TestRepository;
@@ -120,6 +94,33 @@ import org.eclipse.jgit.lib.Repository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.sql.Timestamp;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
+
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
+import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
+import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
+import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
+import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.project.testing.Util.category;
+import static com.google.gerrit.server.project.testing.Util.value;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.concurrent.TimeUnit.DAYS;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 public class ChangeRebuilderIT extends AbstractDaemonTest {
   @ConfigSuite.Default
@@ -341,6 +342,25 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void restApiNotFoundWhenMigrationIsDisabledForProject() throws Exception {
+    setNotesMigration(true, true);
+    notesMigration.setMigrationProjects(Collections.singleton("project-not-to-be-migrated"));
+    PushOneCommit.Result r = createChange();
+    exception.expect(ResourceNotFoundException.class);
+    rebuildHandler.apply(parseChangeResource(r.getChangeId()), new Input());
+  }
+
+  @Test
+  public void restApiSuccessProjectMigrationEnabled() throws Exception {
+    setNotesMigration(true, true);
+    notesMigration.setMigrationProjects(Collections.singleton(project.get()));
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+    rebuildHandler.apply(parseChangeResource(r.getChangeId()), new Input());
+    checker.rebuildAndCheckChanges(id);
+  }
+
+  @Test
   public void rebuildViaRestApi() throws Exception {
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getPatchSetId().getParentKey();
@@ -369,6 +389,30 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     // ref doesn't exist until a manual rebuild.
     checker.assertNoChangeRef(project, id1);
     checker.rebuildAndCheckChanges(id1);
+  }
+
+  @Test
+  public void noteDBNotCreatedWhenMigrationIsDisabledForProject() throws Exception {
+    setNotesMigration(true, true);
+    notesMigration.setMigrationProjects(Collections.singleton("project-not-to-be-migrated"));
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+
+    ObjectId changeMetaId = getMetaRef(project, changeMetaRef(id));
+
+    assertThat(changeMetaId).isNull();
+    assertThat(getUnwrappedDb().changes().get(id).getNoteDbState()).isNull();
+  }
+
+  @Test
+  public void noteDBCreatedWhenMigrationIsEnabledForProject() throws Exception {
+    setNotesMigration(true, true);
+    notesMigration.setMigrationProjects(Collections.singleton(project.get()));
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+
+    ObjectId changeMetaId = getMetaRef(project, changeMetaRef(id));
+    assertThat(getUnwrappedDb().changes().get(id).getNoteDbState()).isEqualTo(changeMetaId.name());
   }
 
   @Test

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d694cca_76991fe9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-24T22:43:22Z",
+      "side": 1,
+      "message": "I tried to create snapshot for all indexes but nothing was written undex $SITE/index/snapshot",
+      "revId": "c713cb5a8452eb09cd7bddab26460b8c037acab9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77423ed9_551e4ebb",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1512,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-24T22:43:22Z",
+      "side": 1,
+      "message": "indexes",
+      "range": {
+        "startLine": 1512,
+        "startChar": 21,
+        "endLine": 1512,
+        "endChar": 26
+      },
+      "revId": "c713cb5a8452eb09cd7bddab26460b8c037acab9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d615382_4876a21d",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1528,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-24T22:43:22Z",
+      "side": 1,
+      "message": "indexes",
+      "range": {
+        "startLine": 1528,
+        "startChar": 21,
+        "endLine": 1528,
+        "endChar": 26
+      },
+      "revId": "c713cb5a8452eb09cd7bddab26460b8c037acab9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

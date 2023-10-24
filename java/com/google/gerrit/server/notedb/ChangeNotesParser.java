@@ -175,6 +175,8 @@ class ChangeNotesParser {
   private final List<PatchSetApproval.Builder> bufferedApprovals;
   private final List<ChangeMessage> allChangeMessages;
 
+  private final Set<Account.Id> removedReviewers;
+
   // Non-final private members filled in during the parsing process.
   private Map<PatchSet.Id, String> branchByPatchSet;
   private String branch;
@@ -239,6 +241,7 @@ class ChangeNotesParser {
     patchSetStates = new HashMap<>();
     currentPatchSets = new ArrayList<>();
     customKeyedValues = new TreeMap<>();
+    removedReviewers = new HashSet<>();
   }
 
   ChangeNotesState parseAll() throws ConfigInvalidException, IOException {
@@ -1079,11 +1082,18 @@ class ChangeNotesParser {
       throw pe;
     }
 
+    // The ChangeNotesParser parses updates from newest to oldest.
+    // The removedReviewers stores all reviewers which were removed in the newer change notes. Their
+    // votes should be ignored (i.e. set to 0) because their votes should be removed together with
+    // reviewer.
+    // The value is set to 0 (instead of skipping it) similar to the parseRemoveApproval:
+    // the ChangeNotesParser uses putIfAbsent to put a new approval into the approvals; storing 0
+    // as a value prevents any updates of the approval by an older noteDb's commit.
     PatchSetApproval.Builder psa =
         PatchSetApproval.builder()
             .key(PatchSetApproval.key(psId, approverId, LabelId.create(l.label())))
             .uuid(parsedPatchSetApproval.uuid().map(PatchSetApproval::uuid))
-            .value(l.value())
+            .value(removedReviewers.contains(approverId) ? 0 : l.value())
             .granted(ts)
             .tag(Optional.ofNullable(tag));
     if (!Objects.equals(realAccountId, committerId)) {
@@ -1219,7 +1229,12 @@ class ChangeNotesParser {
       throw invalidFooter(state.getFooterKey(), line);
     }
     Account.Id accountId = parseIdent(ident);
-    reviewerUpdates.add(ReviewerStatusUpdate.create(ts, ownerId, accountId, state));
+    ReviewerStatusUpdate update = ReviewerStatusUpdate.create(ts, ownerId, accountId, state);
+    reviewerUpdates.add(update);
+    if (update.state() == ReviewerStateInternal.REMOVED) {
+      removedReviewers.add(accountId);
+    }
+
     if (!reviewers.containsRow(accountId)) {
       reviewers.put(accountId, state, ts);
     }

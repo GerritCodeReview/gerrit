@@ -106,7 +106,7 @@ public class AccountResolverIT extends AbstractDaemonTest {
     gApi.accounts().id(user.id().get()).setActive(false);
 
     requestScopeOperations.setApiUser(user.id());
-    assertThat(gApi.accounts().id("self").getActive()).isFalse();
+    assertThat(gApi.accounts().self().getActive()).isFalse();
 
     Result result = resolveAsResult("self");
     assertThat(result.asIdSet()).containsExactly(user.id());

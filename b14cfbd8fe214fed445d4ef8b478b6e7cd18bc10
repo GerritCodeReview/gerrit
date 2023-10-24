@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbd1830e_426ceee0",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-10-24T06:33:13Z",
+      "side": 1,
+      "message": "I guess we should only get this data, if we use debug logging.",
+      "revId": "b14cfbd8fe214fed445d4ef8b478b6e7cd18bc10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

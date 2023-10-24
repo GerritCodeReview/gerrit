@@ -69,14 +69,8 @@ import {
 } from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {rootUrl} from '../../../utils/url-util';
+import {getDocUrl, rootUrl} from '../../../utils/url-util';
 import {configModelToken} from '../../../models/config/config-model';
-
-const GERRIT_DOCS_BASE_URL =
-  'https://gerrit-review.googlesource.com/' + 'Documentation';
-const GERRIT_DOCS_FILTER_PATH = '/user-notify.html';
-const ABSOLUTE_URL_PATTERN = /^https?:/;
-const TRAILING_SLASH_PATTERN = /\/$/;
 
 const HTTP_AUTH = ['HTTP', 'HTTP_LDAP'];
 
@@ -188,9 +182,6 @@ export class GrSettingsView extends LitElement {
   // private but used in test
   @state() serverConfig?: ServerInfo;
 
-  // private but used in test
-  @state() docsBaseUrl?: string | null;
-
   @state() private emailsChanged = false;
 
   // private but used in test
@@ -203,6 +194,8 @@ export class GrSettingsView extends LitElement {
 
   @state() isDeletingAccount = false;
 
+  @state() private docsBaseUrl = '';
+
   // private but used in test
   public _testOnly_loadingPromise?: Promise<void>;
 
@@ -210,14 +203,14 @@ export class GrSettingsView extends LitElement {
 
   private readonly getUserModel = resolve(this, userModelToken);
 
-  private readonly getConfigModel = resolve(this, configModelToken);
-
   // private but used in test
   readonly flagsService = getAppContext().flagsService;
 
   private readonly getViewModel = resolve(this, settingsViewModelToken);
 
   private readonly getNavigation = resolve(this, navigationToken);
+
+  private readonly getConfigModel = resolve(this, configModelToken);
 
   constructor() {
     super();
@@ -238,11 +231,6 @@ export class GrSettingsView extends LitElement {
     );
     subscribe(
       this,
-      () => this.getConfigModel().docsBaseUrl$,
-      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
-    );
-    subscribe(
-      this,
       () => this.getUserModel().preferences$,
       prefs => {
         if (!prefs) {
@@ -254,6 +242,11 @@ export class GrSettingsView extends LitElement {
         this.prefsChanged = false;
         this.localChangeTableColumns = changeTablePrefs(prefs);
       }
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().docsBaseUrl$,
+      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
     );
   }
 
@@ -848,7 +841,10 @@ export class GrSettingsView extends LitElement {
             >Allow browser notifications</label
           >
           <a
-            href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html#_browser_notifications"
+            href=${getDocUrl(
+              this.docsBaseUrl,
+              'user-attention-set.html#_browser_notifications'
+            )}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -1168,19 +1164,6 @@ export class GrSettingsView extends LitElement {
     this.isDeletingAccount = false;
     this.deleteAccountConfirmationDialog?.close();
     this.getNavigation().setUrl(rootUrl());
-  }
-
-  // private but used in test
-  getFilterDocsLink(docsBaseUrl?: string | null) {
-    let base = docsBaseUrl;
-    if (!base || !ABSOLUTE_URL_PATTERN.test(base)) {
-      base = GERRIT_DOCS_BASE_URL;
-    }
-
-    // Remove any trailing slash, since it is in the GERRIT_DOCS_FILTER_PATH.
-    base = base.replace(TRAILING_SLASH_PATTERN, '');
-
-    return base + GERRIT_DOCS_FILTER_PATH;
   }
 
   // private but used in test

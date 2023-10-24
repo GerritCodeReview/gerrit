@@ -21,7 +21,11 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LAB
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REMOVED;
 import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
+import static com.google.gerrit.extensions.common.testing.ChangeInfoSubject.assertThat;
+import static com.google.gerrit.extensions.common.testing.ChangeInfoSubject.vote;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.project.testing.TestLabels.labelBuilder;
+import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
@@ -39,6 +43,7 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -874,6 +879,61 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
             AuthException.class,
             () -> gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove());
     assertThat(thrown).hasMessageThat().contains("remove reviewer not permitted");
+  }
+
+  @Test
+  public void removeReviewerWithVoteAndThenAddItBackClearsVote() throws Exception {
+    // Add Verified label.
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      LabelType.Builder verified =
+          labelBuilder(
+              LabelId.VERIFIED, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
+      u.getConfig().upsertLabelType(verified.build());
+      u.save();
+    }
+
+    // Grant permissions to vote on the verified label.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(LabelId.VERIFIED)
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(REGISTERED_USERS)
+                .range(-1, 1))
+        .update();
+
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .review(new ReviewInput().label(LabelId.VERIFIED, 1).label(LabelId.CODE_REVIEW, 1));
+
+    requestScopeOperations.setApiUser(admin.id());
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .review(new ReviewInput().label(LabelId.CODE_REVIEW, 2));
+
+    assertThat(gApi.changes().id(r.getChangeId()).get(DETAILED_LABELS))
+        .hasExactlyVotes(
+            vote(LabelId.CODE_REVIEW, user.id(), 1),
+            vote(LabelId.VERIFIED, user.id(), 1),
+            vote(LabelId.CODE_REVIEW, admin.id(), 2));
+
+    gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove();
+    assertThat(gApi.changes().id(r.getChangeId()).get(DETAILED_LABELS))
+        .hasExactlyVotes(vote(LabelId.CODE_REVIEW, admin.id(), 2));
+
+    ReviewerInput input = new ReviewerInput();
+    input.reviewer = user.email();
+    input.state = ReviewerState.REVIEWER;
+    ReviewerResult result = gApi.changes().id(r.getChangeId()).addReviewer(input);
+    assertThat(result.reviewers).hasSize(1);
+
+    assertThat(gApi.changes().id(r.getChangeId()).get(DETAILED_LABELS))
+        .hasExactlyVotes(vote(LabelId.CODE_REVIEW, admin.id(), 2));
   }
 
   @Test

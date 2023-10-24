@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "286abda3_626ee142",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-10-24T11:58:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f3e3764_1567baac",
+      "revId": "8b2ff6b3463be89d61f277cb370bef9e56c7f789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb1ddeb6_6e4507c7",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-10-23T14:30:20Z",
       "side": 1,
       "message": "nit: reformatting needed",
+      "revId": "8b2ff6b3463be89d61f277cb370bef9e56c7f789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dad24db1_1590d2b3",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-10-24T11:58:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb1ddeb6_6e4507c7",
       "revId": "8b2ff6b3463be89d61f277cb370bef9e56c7f789",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7761609f_f93c8968",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-10-24T11:58:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b457e946_1eaeb58c",
+      "revId": "8b2ff6b3463be89d61f277cb370bef9e56c7f789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d7cb2c15_be9519f5",
@@ -65,6 +119,24 @@
       "writtenOn": "2023-10-23T14:30:20Z",
       "side": 1,
       "message": "nit: use blanks to indent",
+      "revId": "8b2ff6b3463be89d61f277cb370bef9e56c7f789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1db9f84e_dbc9cad7",
+        "filename": "java/com/google/gerrit/server/restapi/config/ListIndexes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-10-24T11:58:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7cb2c15_be9519f5",
       "revId": "8b2ff6b3463be89d61f277cb370bef9e56c7f789",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

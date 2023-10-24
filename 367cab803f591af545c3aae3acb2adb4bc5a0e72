@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fabb2d3_2ea7d216",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-24T17:29:59Z",
+      "side": 1,
+      "message": "p",
+      "revId": "367cab803f591af545c3aae3acb2adb4bc5a0e72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b662be9_3ba87b1a",
+        "filename": "java/com/google/gerrit/server/schema/Schema_169.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-24T17:29:59Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com, any idea if this is required or not?\nI am trying to understand if the `CommentJsonMigrator` should be actually limited to only the projects for which the migration has been enabled.",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 7
+      },
+      "revId": "367cab803f591af545c3aae3acb2adb4bc5a0e72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

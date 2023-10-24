@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd;
 
-import static com.google.gerrit.httpd.raw.StaticModule.CHANGE_NUMBER_URI_REGEX;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.base.Strings;
@@ -73,7 +72,7 @@ class UrlModule extends ServletModule {
     serveRegex("^/settings/?$").with(screen(PageLinks.SETTINGS));
     serveRegex("^/register$").with(registerScreen(false));
     serveRegex("^/register/(.+)$").with(registerScreen(true));
-    serveRegex(CHANGE_NUMBER_URI_REGEX).with(NumericChangeIdRedirectServlet.class);
+    serveRegex("^/([1-9][0-9]*)/?$").with(NumericChangeIdRedirectServlet.class);
     serveRegex("^/p/(.*)$").with(queryProjectNew());
     serveRegex("^/r/(.+)/?$").with(DirectChangeByCommit.class);
 

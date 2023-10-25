@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cf95daa_1bc2e42d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-10-25T10:33:29Z",
+      "side": 1,
+      "message": "This change needs tests",
+      "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c213cbb_35c911d0",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1538,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-10-25T10:33:29Z",
+      "side": 1,
+      "message": "Since there is no response body, I believe that `201 Created` is a better choice for the response code.",
+      "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "866c8c8a_b47bd4b7",
+        "filename": "java/com/google/gerrit/lucene/ChangeSubIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-10-25T10:33:29Z",
+      "side": 1,
+      "message": "The superclass `AbstractLuceneIndex` also has a `name\u0027 field. Line `95` passes `NAME` to the superclass. What is the purpose of the new field `name` in this class and how does it relate to the `name` in the superclass?",
+      "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "847282bf_4a8cbffc",
+        "filename": "java/com/google/gerrit/lucene/ChangeSubIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-10-25T10:33:29Z",
+      "side": 1,
+      "message": "Unused method? I couldn\u0027t find any usage of this method in this change.",
+      "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2db4b68_f1132afd",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexCollection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-10-25T10:33:29Z",
+      "side": 1,
+      "message": "```suggestion\n    if (indexAndVersion.size() \u003c 1 || 2 \u003c indexAndVersion.size()) {\n      throw new ResourceNotFoundException(id);\n    }\n    \n    String index \u003d indexAndVersion.get(0);\n    Integer version \u003d indexAndVersion.size() \u003d\u003d 2 ? indexAndVersion.get(1) : null;\n```",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 5
+      },
+      "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

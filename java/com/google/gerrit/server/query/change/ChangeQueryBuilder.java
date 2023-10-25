@@ -502,18 +502,22 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Inject
   protected ChangeQueryBuilder(Arguments args) {
     this(mydef, args);
-    setupAliases();
   }
 
   @VisibleForTesting
   protected ChangeQueryBuilder(Definition<ChangeData, ChangeQueryBuilder> def, Arguments args) {
     super(def, args.opFactories);
     this.args = args;
+    setupAliases();
   }
 
   private void setupAliases() {
-    setOperatorAliases(args.operatorAliasConfig.getChangeQueryOperatorAliases());
-    hasOperandAliases = args.hasOperandAliasConfig.getChangeQueryHasOperandAliases();
+    if (args.operatorAliasConfig != null) {
+      setOperatorAliases(args.operatorAliasConfig.getChangeQueryOperatorAliases());
+    }
+    if (args.hasOperandAliasConfig != null) {
+      hasOperandAliases = args.hasOperandAliasConfig.getChangeQueryHasOperandAliases();
+    }
   }
 
   public ChangeQueryBuilder asUser(CurrentUser user) {

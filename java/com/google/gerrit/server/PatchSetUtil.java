@@ -21,6 +21,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelFunction;
@@ -53,6 +54,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 /** Utilities for manipulating patch sets. */
 @Singleton
 public class PatchSetUtil {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final Provider<ApprovalsUtil> approvalsUtilProvider;
   private final ProjectCache projectCache;
   private final GitRepositoryManager repoManager;
@@ -76,7 +79,22 @@ public class PatchSetUtil {
   }
 
   public ImmutableCollection<PatchSet> byChange(ChangeNotes notes) {
-    return notes.load().getPatchSets().values();
+    ChangeNotes reloadedNotes = notes.load();
+
+    if (!reloadedNotes
+        .getPatchSets()
+        .keySet()
+        .contains(reloadedNotes.getChange().currentPatchSetId())) {
+      logger.atSevere().log(
+          "Current patch set %s missing in ChangeNotes of change %s (available patch sets: %s,"
+              + " meta revision: %s)",
+          reloadedNotes.getChange().currentPatchSetId().get(),
+          reloadedNotes.getChange().getId().get(),
+          reloadedNotes.getPatchSets().keySet(),
+          reloadedNotes.getRevision().name());
+    }
+
+    return reloadedNotes.getPatchSets().values();
   }
 
   public ImmutableMap<PatchSet.Id, PatchSet> byChangeAsMap(ChangeNotes notes) {

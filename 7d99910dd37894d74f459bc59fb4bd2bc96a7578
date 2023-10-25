@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d917a3c_e7e46a9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-10-25T06:50:11Z",
+      "side": 1,
+      "message": "Please add release-notes footer",
+      "revId": "7d99910dd37894d74f459bc59fb4bd2bc96a7578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e810e9bf_ca166ac3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-10-25T06:50:11Z",
+      "side": 1,
+      "message": "Would you please add a sentence or two in commit message why this split is needed?",
+      "revId": "7d99910dd37894d74f459bc59fb4bd2bc96a7578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

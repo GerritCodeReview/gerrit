@@ -19,6 +19,7 @@ import static com.google.gerrit.httpd.raw.StaticModuleConstants.POLYGERRIT_INDEX
 import static java.nio.file.Files.exists;
 import static java.nio.file.Files.isReadable;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
@@ -62,7 +63,7 @@ import org.eclipse.jgit.lib.Config;
 
 public class StaticModule extends ServletModule {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  public static final String CHANGE_NUMBER_URI_REGEX = "^(?:/c)?/([1-9][0-9]*)/?$";
+  public static final String CHANGE_NUMBER_URI_REGEX = "^(?:/c)?/([1-9][0-9]*)/?.*";
   private static final Pattern CHANGE_NUMBER_URI_PATTERN = Pattern.compile(CHANGE_NUMBER_URI_REGEX);
 
   /**
@@ -354,7 +355,7 @@ public class StaticModule extends ServletModule {
   }
 
   @Singleton
-  private static class PolyGerritFilter implements Filter {
+  protected static class PolyGerritFilter implements Filter {
     private final HttpServlet polyGerritIndex;
     private final PolyGerritUiServlet polygerritUI;
 
@@ -405,7 +406,8 @@ public class StaticModule extends ServletModule {
       return matchPath(POLYGERRIT_ASSET_PATHS, path);
     }
 
-    private static boolean isPolyGerritIndex(String path) {
+    @VisibleForTesting
+    protected static boolean isPolyGerritIndex(String path) {
       return !isChangeNumberUri(path) && matchPath(POLYGERRIT_INDEX_PATHS, path);
     }
 

@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "015bc13d_7cd44451",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1232,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-10-25T07:56:53Z",
+      "side": 1,
+      "message": "Ah right, I forgot for a moment that it\u0027s parsing newest to oldest. Then this should be fine. Sorry for the confusion.",
+      "parentUuid": "efe91fea_9b120a4a",
+      "revId": "f3c0268c5444f41dea4a203a2ebf1e266262d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f8f66347_00c2cdd4",
@@ -84,6 +102,24 @@
       "side": 1,
       "message": "Sorry, I don\u0027t understand. The fix is opposite - when the reviewer is re-added, gerrit shouldn\u0027t return any previous votes (i.e. any votes which were added before the reviewer is removed).",
       "parentUuid": "f8f66347_00c2cdd4",
+      "revId": "f3c0268c5444f41dea4a203a2ebf1e266262d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2309df7_5944982f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-10-25T07:56:53Z",
+      "side": 1,
+      "message": "Yes, I understand this. What I meant is testing that a reviewer that was removed can vote again afterwards and then these votes should count. E.g. extend this test to apply a new vote from user and the assert that it is returned.\n\nSomething like appending this at the end of the test:\n\nrequestScopeOperations.setApiUser(user.id());\ngApi.changes()\n  .id(r.getChangeId())\n  .current()\n  .review(new ReviewInput().label(LabelId.VERIFIED, 1).label(LabelId.CODE_REVIEW, 1));\nassertThat(gApi.changes().id(r.getChangeId()).get(DETAILED_LABELS))\n        .hasExactlyVotes(\n            vote(LabelId.CODE_REVIEW, user.id(), 1),\n            vote(LabelId.VERIFIED, user.id(), 1),\n            vote(LabelId.CODE_REVIEW, admin.id(), 2));",
+      "parentUuid": "da15384c_e88133bc",
       "revId": "f3c0268c5444f41dea4a203a2ebf1e266262d8db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

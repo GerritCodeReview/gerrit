@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "46c0ee4a_72d56409",
+        "filename": "java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-25T16:12:13Z",
+      "side": 1,
+      "message": "todo: remove",
+      "revId": "367cab803f591af545c3aae3acb2adb4bc5a0e72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8b662be9_3ba87b1a",
         "filename": "java/com/google/gerrit/server/schema/Schema_169.java",
         "patchSetId": 1

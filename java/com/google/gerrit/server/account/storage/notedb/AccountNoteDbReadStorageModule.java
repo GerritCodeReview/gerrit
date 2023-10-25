@@ -14,20 +14,16 @@
 
 package com.google.gerrit.server.account.storage.notedb;
 
-import com.google.gerrit.server.account.AccountsUpdate;
-import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNoteDbWriteStorageModule;
+import com.google.gerrit.server.account.Accounts;
+import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdNoteDbReadStorageModule;
 import com.google.inject.AbstractModule;
+import com.google.inject.Singleton;
 
-/** Module that binds {@link AccountsUpdate} */
-public class AccountNoteDbWriteStorageModule extends AbstractModule {
+public class AccountNoteDbReadStorageModule extends AbstractModule {
   @Override
   protected void configure() {
-    install(new ExternalIdNoteDbWriteStorageModule());
-    bind(AccountsUpdate.AccountsUpdateLoader.class)
-        .annotatedWith(AccountsUpdate.AccountsUpdateLoader.WithReindex.class)
-        .to(AccountsUpdateNoteDbImpl.Factory.class);
-    bind(AccountsUpdate.AccountsUpdateLoader.class)
-        .annotatedWith(AccountsUpdate.AccountsUpdateLoader.NoReindex.class)
-        .to(AccountsUpdateNoteDbImpl.FactoryNoReindex.class);
+    install(new ExternalIdNoteDbReadStorageModule());
+
+    bind(Accounts.class).to(AccountsNoteDbImpl.class).in(Singleton.class);
   }
 }

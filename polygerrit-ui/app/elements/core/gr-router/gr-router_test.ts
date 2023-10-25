@@ -169,11 +169,13 @@ suite('gr-router tests', () => {
     const unauthenticatedHandlers = [
       'handleBranchListRoute',
       'handleChangeIdQueryRoute',
+      'handleChangeNumberLegacyRoute',
       'handleChangeRoute',
       'handleCommentRoute',
       'handleCommentsRoute',
       'handleDiffRoute',
       'handleDefaultRoute',
+      'handleChangeLegacyRoute',
       'handleDocumentationRedirectRoute',
       'handleDocumentationSearchRoute',
       'handleDocumentationSearchRedirectRoute',
@@ -854,6 +856,21 @@ suite('gr-router tests', () => {
     });
 
     suite('CHANGE* / DIFF*', () => {
+      test('CHANGE_NUMBER_LEGACY', async () => {
+        // CHANGE_NUMBER_LEGACY: /^\/(\d+)\/?/,
+        await checkRedirect('/12345', '/c/12345');
+      });
+
+      test('CHANGE_LEGACY', async () => {
+        // CHANGE_LEGACY: /^\/c\/(\d+)\/?(.*)$/,
+        stubRestApi('getFromProjectLookup').resolves('project' as RepoName);
+        await checkRedirect('/c/1234', '/c/project/+/1234/');
+        await checkRedirect(
+          '/c/1234/comment/6789',
+          '/c/project/+/1234/comment/6789'
+        );
+      });
+
       test('DIFF_LEGACY_LINENUM', async () => {
         await checkRedirect(
           '/c/1234/3..8/foo/bar@321',

@@ -351,6 +351,24 @@
       "parentUuid": "1d19c1cd_c915c75b",
       "revId": "537d14b5bef18f03dc275b0292fc85c9174d97f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d2136b3_3d9108f4",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-10-25T06:26:14Z",
+      "side": 1,
+      "message": "Did miss that detail.\nDone.",
+      "parentUuid": "26568a80_82c84a00",
+      "revId": "537d14b5bef18f03dc275b0292fc85c9174d97f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

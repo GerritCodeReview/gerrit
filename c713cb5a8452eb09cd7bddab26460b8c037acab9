@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddde40d2_36f11f1a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-10-25T05:55:16Z",
+      "side": 1,
+      "message": "It worked for me:\n\n```\n❯ rm -r $SITE/index/snapshots\n❯ curl \"http://admin:secret@localhost:8081/a/config/server/indexes/all/snapshot\" -XPUT -H \"Content-Type: application/json\" --data \u0027{\"id\": \"bla2\"}\u0027\n)]}\u0027\n\"\"\n❯ ls -la $SITE/index/snapshots\ntotal 0\ndrwxr-xr-x   3 d073103  staff   96 Oct 25 07:52 .\ndrwxr-xr-x  14 d073103  staff  448 Oct 25 07:52 ..\ndrwxr-xr-x   6 d073103  staff  192 Oct 25 07:52 bla2\n❯ ls -la $SITE/index/snapshots/bla2\ntotal 0\ndrwxr-xr-x   6 d073103  staff  192 Oct 25 07:52 .\ndrwxr-xr-x   3 d073103  staff   96 Oct 25 07:52 ..\ndrwxr-xr-x  12 d073103  staff  384 Oct 25 07:52 accounts_0013\ndrwxr-xr-x   4 d073103  staff  128 Oct 25 07:52 changes_0084\ndrwxr-xr-x   9 d073103  staff  288 Oct 25 07:52 groups_0010\ndrwxr-xr-x   9 d073103  staff  288 Oct 25 07:52 projects_0008\n❯ ls -la $SITE/index/snapshots/bla2/accounts_0013\ntotal 96\ndrwxr-xr-x  12 d073103  staff   384 Oct 25 07:52 .\ndrwxr-xr-x   6 d073103  staff   192 Oct 25 07:52 ..\n-rw-r--r--   1 d073103  staff   405 Oct 25 07:52 _0.cfe\n-rw-r--r--   1 d073103  staff  4734 Oct 25 07:52 _0.cfs\n-rw-r--r--   1 d073103  staff   387 Oct 25 07:52 _0.si\n-rw-r--r--   1 d073103  staff   405 Oct 25 07:52 _1.cfe\n-rw-r--r--   1 d073103  staff  5611 Oct 25 07:52 _1.cfs\n-rw-r--r--   1 d073103  staff   387 Oct 25 07:52 _1.si\n-rw-r--r--   1 d073103  staff   405 Oct 25 07:52 _2.cfe\n-rw-r--r--   1 d073103  staff  3077 Oct 25 07:52 _2.cfs\n-rw-r--r--   1 d073103  staff   387 Oct 25 07:52 _2.si\n-rw-r--r--   1 d073103  staff   318 Oct 25 07:52 segments_2\n```",
+      "parentUuid": "6d694cca_76991fe9",
+      "revId": "c713cb5a8452eb09cd7bddab26460b8c037acab9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "77423ed9_551e4ebb",

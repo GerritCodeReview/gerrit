@@ -51,6 +51,7 @@ suite('gr-diff-preferences tests', () => {
           <span class="value">
             <gr-select id="contextSelect">
               <select id="contextLineSelect">
+                <option value="0">0 lines</option>
                 <option value="3">3 lines</option>
                 <option value="10">10 lines</option>
                 <option value="25">25 lines</option>

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61868368_86439b02",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-10-25T21:26:08Z",
+      "side": 1,
+      "message": "This looks like the same issue that was seen previously in https://gerrit-review.googlesource.com/c/gerrit/+/374214\n\nI\u0027m not sure why it didn\u0027t happen with the most recent merge and is happening again now.",
+      "revId": "237f7e42a37df45de23f948212c331a99ad82684",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

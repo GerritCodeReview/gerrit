@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d6e8a10_ad9d3751",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1085,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-10-25T11:57:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62fdebec_db8e1c9e",
+      "range": {
+        "startLine": 1085,
+        "startChar": 49,
+        "endLine": 1085,
+        "endChar": 54
+      },
+      "revId": "64fa4cee2d11b094f2f7cf22adc5b81873b31a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9feda3f_72745114",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcd77ae0_fd704601",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1095,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-10-25T11:57:13Z",
+      "side": 1,
+      "message": "Added comment in the code why the vote is 0 instead of removing it.",
+      "parentUuid": "d9feda3f_72745114",
+      "range": {
+        "startLine": 1089,
+        "startChar": 1,
+        "endLine": 1095,
+        "endChar": 43
+      },
+      "revId": "64fa4cee2d11b094f2f7cf22adc5b81873b31a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c0a9583_6c348960",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-10-25T09:29:11Z",
       "side": 1,
       "message": "them",
+      "range": {
+        "startLine": 885,
+        "startChar": 46,
+        "endLine": 885,
+        "endChar": 48
+      },
+      "revId": "64fa4cee2d11b094f2f7cf22adc5b81873b31a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec92e56b_ff649733",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 885,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-10-25T11:57:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c0a9583_6c348960",
       "range": {
         "startLine": 885,
         "startChar": 46,

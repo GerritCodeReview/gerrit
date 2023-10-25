@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7b4a339_b7f3e4e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-10-25T09:05:18Z",
+      "side": 1,
+      "message": "It seems you somehow lost the commit message details?",
+      "revId": "24d8850ef648b4f3fd89994e3af79c48cc7b6e56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

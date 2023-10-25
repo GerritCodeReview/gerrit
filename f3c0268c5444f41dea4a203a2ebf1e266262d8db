@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "efe91fea_9b120a4a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1232,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-10-25T07:49:41Z",
+      "side": 1,
+      "message": "No.\nIIUC (please correct me where/if I am wrong):\nChangeNotesParser parses updates from newer one to the oldest one.\nE.g. if\n1) Aug 1 - Change is created\n2) Aug 2 - Reviewer A is added\n3) Aug 3 - Reviewer A voted CR+2\n4) Aug 4 - Reviewer A is removed\n5) Aug 5 - Reviewer A is added\n6) Aug 6 - Reviewer A voted Verified+1\n7) Aug 7 - Reviewer A is removed\n8) Aug 8 - Reviewer A is added\n9) Aug 9 - Reviewer A voted Code-Style + 1\n\nAll votes in steps 1..6 should be ignored after the step 7.\n\nChangeNotesParser processes this in order 9, 8, 7, 6,...1. So, on step 7 the reviewer is added to the removedReviewers and then all votes in step 1..6 are ignored (as expected).\nBecause ChangeNotesParser processes updates in reverse order, removing reviewers from removedReviewers when they were re-added doesn\u0027t change anything - in the example above the removedReviewers will not contain reviewer A between steps 9-7 and steps 5-4. But in steps 5-4 the reviewer is not in a reviewer list, so no votes from the reviewer is possible (and even if possible - they should be ignored, because later the reviewer was removed at step 7).",
+      "parentUuid": "31385fd9_1ac980a1",
+      "revId": "f3c0268c5444f41dea4a203a2ebf1e266262d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f8f66347_00c2cdd4",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
         "patchSetId": 4
@@ -48,6 +66,24 @@
       "writtenOn": "2023-10-25T07:08:08Z",
       "side": 1,
       "message": "Could we maybe also test that votes that are applied by the re-added reviewer are properly returned?",
+      "revId": "f3c0268c5444f41dea4a203a2ebf1e266262d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da15384c_e88133bc",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-10-25T07:49:41Z",
+      "side": 1,
+      "message": "Sorry, I don\u0027t understand. The fix is opposite - when the reviewer is re-added, gerrit shouldn\u0027t return any previous votes (i.e. any votes which were added before the reviewer is removed).",
+      "parentUuid": "f8f66347_00c2cdd4",
       "revId": "f3c0268c5444f41dea4a203a2ebf1e266262d8db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -37,7 +37,7 @@ import org.junit.Test;
 @UseSsh
 public class PeerKeysAuthIT extends StandaloneSiteTest {
   private static final String[] SSH_KEYGEN_CMD =
-      new String[] {"ssh-keygen", "-t", "rsa", "-q", "-P", "", "-f", "id_rsa"};
+      new String[] {"ssh-keygen", "-t", "ed25519", "-q", "-P", "", "-f", "id_rsa"};
   private static final String[] SSH_COMMAND =
       new String[] {
         "ssh",

@@ -50,7 +50,7 @@ import org.junit.Test;
 public class GitProtocolV2IT extends StandaloneSiteTest {
   private static final String ADMIN_PASSWORD = "secret";
   private final String[] SSH_KEYGEN_CMD =
-      new String[] {"ssh-keygen", "-t", "rsa", "-q", "-P", "", "-f"};
+      new String[] {"ssh-keygen", "-t", "ed25519", "-q", "-P", "", "-f"};
   private final String[] GIT_LS_REMOTE =
       new String[] {"git", "-c", "protocol.version=2", "ls-remote", "-o", "trace=12345"};
   private final String[] GIT_CLONE_MIRROR =

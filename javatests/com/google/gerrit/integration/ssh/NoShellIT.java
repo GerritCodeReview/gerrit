@@ -34,7 +34,7 @@ import org.junit.Test;
 @UseSsh
 public class NoShellIT extends StandaloneSiteTest {
   private static final String[] SSH_KEYGEN_CMD =
-      new String[] {"ssh-keygen", "-t", "rsa", "-q", "-P", "", "-f"};
+      new String[] {"ssh-keygen", "-t", "ed25519", "-q", "-P", "", "-f"};
 
   @Inject private GerritApi gApi;
   @Inject private @TestSshServerAddress InetSocketAddress sshAddress;

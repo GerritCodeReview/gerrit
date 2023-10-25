@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8cbc0c6b_7794db9e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-10-25T11:52:25Z",
+      "side": 1,
+      "message": "test //javatests/com/google/gerrit/integration/git:protocol-v2 times out",
+      "revId": "4f4f03370f32f33a365980d4b23c12e29f474f4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

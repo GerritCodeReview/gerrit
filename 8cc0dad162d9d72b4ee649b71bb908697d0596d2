@@ -18,6 +18,46 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b117549_cff3855d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-25T12:41:00Z",
+      "side": 1,
+      "message": "I propose to use human readable ISO8601 format for the timestamp used to name the folder containing a snapshot",
+      "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43e83855_1925542b",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1508,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-25T12:41:00Z",
+      "side": 1,
+      "message": "UTC time in ISO8601 format (e.g. 20231025T104716Z)",
+      "range": {
+        "startLine": 1508,
+        "startChar": 31,
+        "endLine": 1508,
+        "endChar": 47
+      },
+      "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c213cbb_35c911d0",
@@ -87,6 +127,46 @@
         "startChar": 0,
         "endLine": 90,
         "endChar": 5
+      },
+      "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "170314b9_5de701fe",
+        "filename": "java/com/google/gerrit/server/restapi/config/SnapshotIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-25T12:41:00Z",
+      "side": 1,
+      "message": "```\nprivate static final DateTimeFormatter ISO_8601 \u003d\n      DateTimeFormatter.ofPattern(\"yyyyMMdd\u0027T\u0027HHmmss\u0027Z\u0027\").withZone(ZoneId.of(\"UTC\"));\n```",
+      "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d202074_f140fc29",
+        "filename": "java/com/google/gerrit/server/restapi/config/SnapshotIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-10-25T12:41:00Z",
+      "side": 1,
+      "message": "```suggestion\n      return id \u003d\u003d null ? String.valueOf(ISO_8601.format(Instant.now())) : id;\n```",
+      "range": {
+        "startLine": 52,
+        "startChar": 41,
+        "endLine": 52,
+        "endChar": 71
       },
       "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

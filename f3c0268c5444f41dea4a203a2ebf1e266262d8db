@@ -16,6 +16,40 @@
       "message": "@",
       "revId": "f3c0268c5444f41dea4a203a2ebf1e266262d8db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31385fd9_1ac980a1",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1232,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-10-25T07:08:08Z",
+      "side": 1,
+      "message": "Should there also be code to remove removed reviewers from removedReviewers when they were re-added as a reviewer?",
+      "revId": "f3c0268c5444f41dea4a203a2ebf1e266262d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8f66347_00c2cdd4",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-10-25T07:08:08Z",
+      "side": 1,
+      "message": "Could we maybe also test that votes that are applied by the re-added reviewer are properly returned?",
+      "revId": "f3c0268c5444f41dea4a203a2ebf1e266262d8db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

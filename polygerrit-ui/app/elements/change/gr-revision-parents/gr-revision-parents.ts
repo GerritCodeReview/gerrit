@@ -22,6 +22,8 @@ import {branchName} from '../../../utils/patch-set-util';
 import {when} from 'lit/directives/when.js';
 import {createChangeUrl} from '../../../models/views/change';
 import {sharedStyles} from '../../../styles/shared-styles';
+import {configModelToken} from '../../../models/config/config-model';
+import {getDocUrl} from '../../../utils/url-util';
 
 @customElement('gr-revision-parents')
 export class GrRevisionParents extends LitElement {
@@ -33,7 +35,11 @@ export class GrRevisionParents extends LitElement {
 
   @state() showDetails = false;
 
+  @state() docsBaseUrl = '';
+
   private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getConfigModel = resolve(this, configModelToken);
 
   constructor() {
     super();
@@ -54,6 +60,11 @@ export class GrRevisionParents extends LitElement {
       this,
       () => this.getChangeModel().baseRevision$,
       x => (this.baseRevision = x)
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().docsBaseUrl$,
+      x => (this.docsBaseUrl = x)
     );
   }
 
@@ -266,8 +277,15 @@ export class GrRevisionParents extends LitElement {
               isWarning,
               () => html`
                 <br />
-                The diff below may not be meaningful and may even be hiding
-                relevant changes.
+                The diff below may not be meaningful and may <br />
+                even be hiding relevant changes.
+                <a
+                  href=${getDocUrl(
+                    this.docsBaseUrl,
+                    'user-review-ui.html#hazardous-rebases'
+                  )}
+                  >Learn more</a
+                >
               `
             )}
           </p>

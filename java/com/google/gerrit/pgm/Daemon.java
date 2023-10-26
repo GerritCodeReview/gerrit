@@ -103,6 +103,7 @@ import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier.SignedTokenEm
 import com.google.gerrit.server.mail.receive.MailReceiver.MailReceiverModule;
 import com.google.gerrit.server.mail.send.SmtpEmailSender.SmtpEmailSenderModule;
 import com.google.gerrit.server.mime.MimeUtil2Module;
+import com.google.gerrit.server.notedb.RepoSequence.RepoSequenceModule;
 import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
@@ -470,6 +471,7 @@ public class Daemon extends SiteProgram {
 
     modules.add(new AccountNoteDbWriteStorageModule());
     modules.add(new AccountNoteDbReadStorageModule());
+    modules.add(new RepoSequenceModule());
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
     modules.add(new GerritApiModule());
     modules.add(new ProjectQueryBuilderModule());

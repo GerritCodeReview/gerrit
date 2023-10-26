@@ -34,6 +34,24 @@
       "parentUuid": "17c7eb81_ca0847a2",
       "revId": "7bdee49e2412a7fd62572e7caae85748f282a8d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "482ecd8a_7d16022d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2023-10-26T13:52:27Z",
+      "side": 1,
+      "message": "Probably because of the conflicts.",
+      "parentUuid": "17b5eb43_1109a893",
+      "revId": "7bdee49e2412a7fd62572e7caae85748f282a8d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

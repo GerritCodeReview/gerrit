@@ -417,6 +417,10 @@ public abstract class QueryProcessor<T> {
     return enforceVisibility ? userQueryLimit.getAsInt() : Integer.MAX_VALUE;
   }
 
+  private int getDefaultLimit() {
+    return enforceVisibility ? indexConfig.defaultLimit() : Integer.MAX_VALUE;
+  }
+
   private int getBackendSupportedLimit() {
     return indexConfig.maxLimit();
   }
@@ -431,7 +435,7 @@ public abstract class QueryProcessor<T> {
     if (userProvidedLimit > 0) {
       possibleLimits.add(userProvidedLimit);
     } else if (indexConfig.defaultLimit() > 0) {
-      possibleLimits.add(indexConfig.defaultLimit());
+      possibleLimits.add(getDefaultLimit());
     }
     if (limitField != null) {
       Integer limitFromPredicate = LimitPredicate.getLimit(limitField, p);

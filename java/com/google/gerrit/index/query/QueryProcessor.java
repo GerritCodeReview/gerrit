@@ -417,6 +417,10 @@ public abstract class QueryProcessor<T> {
     return enforceVisibility ? userQueryLimit.getAsInt() : Integer.MAX_VALUE;
   }
 
+  private int getDefaultLimit() {
+    return enforceVisibility ? indexConfig.defaultLimit() : Integer.MAX_VALUE;
+  }
+
   private int getBackendSupportedLimit() {
     return indexConfig.maxLimit();
   }
@@ -431,7 +435,7 @@ public abstract class QueryProcessor<T> {
     if (userProvidedLimit > 0) {
       possibleLimits.add(userProvidedLimit);
     } else if (indexConfig.defaultLimit() > 0) {
-      possibleLimits.add(indexConfig.defaultLimit());
+      possibleLimits.add(getDefaultLimit());
     }
     if (limitField != null) {
       Integer limitFromPredicate = LimitPredicate.getLimit(limitField, p);
@@ -439,6 +443,7 @@ public abstract class QueryProcessor<T> {
         possibleLimits.add(limitFromPredicate);
       }
     }
+    System.out.println(possibleLimits);
     int result = Ordering.natural().min(possibleLimits);
     // Should have short-circuited from #query or thrown some other exception before getting here.
     checkState(result > 0, "effective limit should be positive");

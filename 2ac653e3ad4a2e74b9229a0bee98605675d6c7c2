@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "264f583e_b3687f28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-10-26T15:46:07Z",
+      "side": 1,
+      "message": "Manually verified also with a project that has the [reviewer.enableByEmail](https://gerrit-documentation.storage.googleapis.com/Documentation/3.8.2/config-project-config.html#reviewer.enableByEmail) enabled.",
+      "revId": "2ac653e3ad4a2e74b9229a0bee98605675d6c7c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

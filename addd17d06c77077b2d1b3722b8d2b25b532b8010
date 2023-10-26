@@ -104,6 +104,24 @@
       "parentUuid": "4bdbbbc7_b5f969c7",
       "revId": "addd17d06c77077b2d1b3722b8d2b25b532b8010",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d09b0cba_e24d100a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-10-26T15:46:07Z",
+      "side": 1,
+      "message": "@ponch78@gmail.com @danielesassoli@gmail.com I think the relevant section is actually [here](danielesassoli@gmail.com) and that the [Documentation for the add add-reviewer](https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#add-reviewer) is accurate already: \n\n\n*If reviewer.enableByEmail is set for the project, reviewers and CCs are not required to have a Gerrit account. If you POST an email address of a reviewer or CC then, they will be added to the change even if they don’t have a Gerrit account.*\n\n*If this option is disabled, the request would fail with 400 Bad Request if the email address can’t be resolved to an active Gerrit account.*",
+      "parentUuid": "33ba5dc0_0fbff90a",
+      "revId": "addd17d06c77077b2d1b3722b8d2b25b532b8010",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

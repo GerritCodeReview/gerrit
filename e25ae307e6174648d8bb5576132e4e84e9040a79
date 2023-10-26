@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fea6248b_fa20e5c1",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-10-26T15:59:28Z",
+      "side": 1,
+      "message": "the positive test (with the reviewer.enableByEmail enabled) are present already in `ChangeReviewersByEmailIT`",
+      "range": {
+        "startLine": 160,
+        "startChar": 2,
+        "endLine": 160,
+        "endChar": 59
+      },
+      "revId": "e25ae307e6174648d8bb5576132e4e84e9040a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

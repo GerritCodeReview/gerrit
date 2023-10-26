@@ -3,6 +3,29 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "30ed0ea2_eb78652c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-10-26T15:50:53Z",
+      "side": 1,
+      "message": "Change-Id needs to be on the footer",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 2
+      },
+      "revId": "c3ccf9f54d4a48ecc023be932483b2fe2ae08505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "b3332a03_8d60bf00",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 19

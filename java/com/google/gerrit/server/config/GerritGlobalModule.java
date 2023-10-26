@@ -174,7 +174,6 @@ import com.google.gerrit.server.mime.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.notedb.ChangeDraftNotesUpdate;
 import com.google.gerrit.server.notedb.DeleteZombieCommentsRefs;
 import com.google.gerrit.server.notedb.NoteDbModule;
-import com.google.gerrit.server.notedb.RepoSequence.RepoSequenceModule;
 import com.google.gerrit.server.notedb.StoreSubmitRequirementsOp;
 import com.google.gerrit.server.patch.DiffFileSizeValidator;
 import com.google.gerrit.server.patch.DiffOperationsImpl;
@@ -256,7 +255,6 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(IdGenerator.class);
     bind(BlameCache.class).to(BlameCacheImpl.class);
-    install(new RepoSequenceModule());
     install(BatchUpdate.module());
     install(ChangeKindCacheImpl.module());
     install(ChangeFinder.module());

@@ -67,7 +67,7 @@ public class InternalQuery<T, Q extends InternalQuery<T, Q>> {
   }
 
   public final Q setLimit(int n) {
-    queryProcessor.setUserProvidedLimit(n);
+    queryProcessor.setUserProvidedLimit(n, /* applyDefaultLimit */ false);
     return self();
   }
 

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69144793_31711e02",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-26T20:35:30Z",
+      "side": 1,
+      "message": "Should be also `private static` IMHO.",
+      "range": {
+        "startLine": 102,
+        "startChar": 2,
+        "endLine": 102,
+        "endChar": 7
+      },
+      "revId": "54f0caedadb99a200cb85666b595d5abcb6ccc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2572e3ce_80c7f097",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-26T20:35:30Z",
+      "side": 1,
+      "message": "Should be also `private static` IMHO.",
+      "range": {
+        "startLine": 119,
+        "startChar": 2,
+        "endLine": 119,
+        "endChar": 7
+      },
+      "revId": "54f0caedadb99a200cb85666b595d5abcb6ccc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

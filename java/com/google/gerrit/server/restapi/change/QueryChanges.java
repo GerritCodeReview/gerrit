@@ -173,7 +173,7 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
     }
 
     if (limit != null) {
-      queryProcessor.setUserProvidedLimit(limit);
+      queryProcessor.setUserProvidedLimit(limit, /* applyDefaultLimit */ true);
     }
     if (start != null) {
       if (start < 0) {

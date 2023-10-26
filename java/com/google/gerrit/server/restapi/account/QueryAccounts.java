@@ -198,7 +198,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
     }
 
     if (limit != null) {
-      queryProcessor.setUserProvidedLimit(limit);
+      queryProcessor.setUserProvidedLimit(limit, /* applyDefaultLimit */ true);
     }
 
     if (start != null) {
@@ -213,7 +213,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       Predicate<AccountState> queryPred;
       if (suggest) {
         queryPred = queryBuilder.defaultQuery(query);
-        queryProcessor.setUserProvidedLimit(suggestLimit);
+        queryProcessor.setUserProvidedLimit(suggestLimit, /* applyDefaultLimit */ true);
       } else {
         queryPred = queryBuilder.parse(query);
       }

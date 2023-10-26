@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a22bee61_d4795d55",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjectsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-26T19:01:50Z",
+      "side": 0,
+      "message": "This is a functional change: before the matching by substring was causing the list to be served from memory, but after this change is served by Lucene.",
+      "range": {
+        "startLine": 259,
+        "startChar": 0,
+        "endLine": 260,
+        "endChar": 31
+      },
+      "revId": "bd001535db60d0cfc855c8cefa59c95557554d33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

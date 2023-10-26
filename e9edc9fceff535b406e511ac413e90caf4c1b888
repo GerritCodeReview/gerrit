@@ -1,5 +1,69 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bcace147_a3798c8d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-26T19:01:50Z",
+      "side": 1,
+      "message": "Why skip? This change is quite important IMHO. Before this change, the project list was served from in-memory data and quite optimised; after this change, the search by substring causes Lucene to load the *full set of data* and then the substring will perform the post-processing.\n\nSee below the definition of the `substring` predicate:\n```\npublic class ProjectSubstringPredicate extends PostFilterPredicate\u003cProjectData\u003e\n```\n\nI believe this *must* be mentioned as breaking change from previous version with a bold warning on performance (See Issue 307592546).",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 19
+      },
+      "revId": "e9edc9fceff535b406e511ac413e90caf4c1b888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a3aafb3_2395b785",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-26T19:01:50Z",
+      "side": 1,
+      "message": "There is the missing update to the documentation on the different behaviour of the `listProjectsFromIndex` configuration.\n\nBefore this change \u003d\u003e was not used for matching substring\nAfter this change \u003d\u003e it is used for matching substring",
+      "revId": "e9edc9fceff535b406e511ac413e90caf4c1b888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e90bdb99_5cbeda02",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjectsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-26T19:01:50Z",
+      "side": 1,
+      "message": "**Performance warning**: this is NOT a native Lucene predicate, therefore will be translated as `MatchAllDocsQuery` which can be very expensive.\n\nSee c.g.g.l.QueryBuilder.java:87",
+      "range": {
+        "startLine": 274,
+        "startChar": 33,
+        "endLine": 274,
+        "endChar": 62
+      },
+      "revId": "e9edc9fceff535b406e511ac413e90caf4c1b888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

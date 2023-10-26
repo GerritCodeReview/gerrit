@@ -52,6 +52,24 @@
       "parentUuid": "17b5eb43_1109a893",
       "revId": "7bdee49e2412a7fd62572e7caae85748f282a8d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8733f1b4_f374112b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-10-26T15:15:52Z",
+      "side": 1,
+      "message": "\u003e Probably because of the conflicts.\n\nRight, makes sense.\n\n@hiesel@google.com looks like you did CR+2 but not LC+1. Can you add that please?",
+      "parentUuid": "482ecd8a_7d16022d",
+      "revId": "7bdee49e2412a7fd62572e7caae85748f282a8d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

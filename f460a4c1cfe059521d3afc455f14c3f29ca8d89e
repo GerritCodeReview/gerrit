@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1438968_a715b4e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-26T07:59:35Z",
+      "side": 1,
+      "message": "Yep basically the commit message says:\n\n`\nwhen trying to add a user that doesn\u0027t exists as a reviewer\non a change, the API returns a 200`\n\nI was saying that the API *also* returns 200 OK in some other scenarios, for example when the reviewer is the same as the owner.\n\nI was suggesting to mention this to clarify that the \"user doesn\u0027t exist\" is not the only possibility.",
+      "parentUuid": "37a0a84c_eabd90ec",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 69
+      },
+      "revId": "f460a4c1cfe059521d3afc455f14c3f29ca8d89e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "65e936cb_e4c0436f",

@@ -44,6 +44,7 @@ import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.index.options.BuildBloomFilter;
 import com.google.gerrit.server.index.options.IsFirstInsertForEntry;
+import com.google.gerrit.server.notedb.RepoSequence.RepoSequenceModule;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.util.ReplicaUtil;
 import com.google.inject.AbstractModule;
@@ -228,6 +229,7 @@ public class Reindex extends SiteProgram {
         });
     modules.add(new AccountNoteDbWriteStorageModule());
     modules.add(new AccountNoteDbReadStorageModule());
+    modules.add(new RepoSequenceModule());
 
     return dbInjector.createChildInjector(
         ModuleOverloader.override(

@@ -92,6 +92,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "7748fb22_a0ba3919",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-10-27T17:24:50Z",
+      "side": 1,
+      "message": "@danielesassoli@gmail.com that is correct if the flag `reviewer.enableByEmail` is enabled; but if it is not, then the two tests I added make sure the current behavior is returning 400 as specified in the docs.",
+      "parentUuid": "71e279c0_f5906128",
+      "revId": "e25ae307e6174648d8bb5576132e4e84e9040a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "fea6248b_fa20e5c1",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
         "patchSetId": 21

@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "df3c2946_a83782c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-10-27T15:49:00Z",
+      "side": 1,
+      "message": "Done. @danielesassoli@gmail.com do we also need to change the issue description?",
+      "parentUuid": "86e97696_0a2508e4",
+      "revId": "e25ae307e6174648d8bb5576132e4e84e9040a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "fea6248b_fa20e5c1",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
         "patchSetId": 21

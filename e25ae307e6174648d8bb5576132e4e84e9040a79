@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a84015d1_5a634a33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-10-27T16:51:11Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to change the issue, but the commit message I\u0027d say yes.",
+      "parentUuid": "b2d8d678_fd0dfd04",
+      "revId": "e25ae307e6174648d8bb5576132e4e84e9040a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "fea6248b_fa20e5c1",

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e88db44_14ab56f7",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-10-27T09:56:51Z",
+      "side": 1,
+      "message": "Internal queries might or might not enforce visibility, this is a flag you can set on the query builders.\n\nSo we can unfortunately not rely on it here.\n\nAlso, the previous default was 10k IIRC, so this would be a functional change to increase the limit to INT_MAX.\n\nCan we instead look at the 4 query rest endpoints we offer (changes, accounts, groups, projects) and address it at the API handler level by passing an explicit limit down to the index subsystem even if the user has not provided one?",
+      "range": {
+        "startLine": 421,
+        "startChar": 11,
+        "endLine": 421,
+        "endChar": 28
+      },
+      "revId": "8f22207d54540e8af007ae0b91161ee612018735",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2d8d678_fd0dfd04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-27T15:59:37Z",
+      "side": 1,
+      "message": "I think it would be good idea to mention the uses cases. Something like:\n\n```\nThis change returns HTTP status code 400 BAD_REQUEST in the following scenarios:\n- When a large/medium group is included as a Reviewer.\n- When an email without an associated account is included as a CC.\n- When an email without an associated account is included as a Reviewer.\n\nPreviously, the logic would return an HTTP status code 200 OK.\n```",
+      "parentUuid": "df3c2946_a83782c9",
+      "revId": "e25ae307e6174648d8bb5576132e4e84e9040a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "fea6248b_fa20e5c1",

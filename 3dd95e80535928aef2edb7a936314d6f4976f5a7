@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c38f138c_b6c55131",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-10-27T10:03:50Z",
+      "side": 1,
+      "message": "Answering myself: We need node 18 for being able to upgrade our typescript dep to something \u003e\u003d5.",
+      "parentUuid": "8fe5465d_81eb0cae",
+      "revId": "3dd95e80535928aef2edb7a936314d6f4976f5a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "78c1ea80_93e8b920",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -84,6 +102,24 @@
       "writtenOn": "2023-10-26T23:07:07Z",
       "side": 1,
       "message": "I am trying to disable the PolyGerrit validations / builds on RBE, so that this test can pass.\n\nRBE is behind :-(",
+      "revId": "3dd95e80535928aef2edb7a936314d6f4976f5a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51f94b07_8ed23bf7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-10-27T10:03:50Z",
+      "side": 1,
+      "message": "I have asked Milutin to update RBE.",
+      "parentUuid": "a7d1cf88_c369eed0",
       "revId": "3dd95e80535928aef2edb7a936314d6f4976f5a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

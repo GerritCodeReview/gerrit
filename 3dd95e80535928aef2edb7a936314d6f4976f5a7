@@ -140,6 +140,24 @@
       "parentUuid": "51f94b07_8ed23bf7",
       "revId": "3dd95e80535928aef2edb7a936314d6f4976f5a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ea9e296_7086dda9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-27T10:54:52Z",
+      "side": 1,
+      "message": "\u003e @Luca how do you update RBE? Can you give me example?\n\nI do not have access to Google\u0027s RBE, that was provided by Han-Wen and is a Google Cloud service for Bazel Remote Build Execution.\n\nIt is hosted and managed by Google :-(\n\nIs anyone taking over from Han-Wen?",
+      "parentUuid": "c6fc91e8_ed7e3dde",
+      "revId": "3dd95e80535928aef2edb7a936314d6f4976f5a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -5,7 +5,7 @@
 
 There are several ways to create a new project in Gerrit:
 
-- in the Web UI under 'Projects' > 'Create Project'
+- click 'CREATE NEW' in the Web UI under 'BROWSE' > 'Repositories'
 - via the link:rest-api-projects.html#create-project[Create Project]
   REST endpoint
 - via the link:cmd-create-project.html[create-project] SSH command
@@ -58,7 +58,7 @@ See details at link:config-project-config.html#project-section[project section].
 
 There are several ways to create a new branch in a project:
 
-- in the Web UI under 'Projects' > 'List' > <project> > 'Branches'
+- in the Web UI under 'BROWSE' > 'Repositories' > <project> > 'Branches'
 - via the link:rest-api-projects.html#create-branch[Create Branch]
   REST endpoint
 - via the link:cmd-create-branch.html[create-branch] SSH command
@@ -84,7 +84,7 @@ are not supported.
 
 There are several ways to delete a branch:
 
-- in the Web UI under 'Projects' > 'List' > <project> > 'Branches'
+- in the Web UI under 'BROWSE' > 'Repositories' > <project> > 'Branches'
 - via the link:rest-api-projects.html#delete-branch[Delete Branch]
   REST endpoint
 - by using a git client
@@ -114,10 +114,11 @@ if the project was created with empty branches.
 For convenience reasons, when the repository is cloned Git creates a
 local branch for this default branch and checks it out.
 
-Project owners can set `HEAD`
+Project owners can set `HEAD` several ways:
 
-- in the Web UI under 'Projects' > 'List' > <project> > 'Branches' or
+- in the Web UI under 'BROWSE' > 'Repositories' > <project> > 'Branches'
 - via the link:rest-api-projects.html#set-head[Set HEAD] REST endpoint
+- via the link:cmd-set-head.html[Set HEAD] SSH command
 
 
 GERRIT

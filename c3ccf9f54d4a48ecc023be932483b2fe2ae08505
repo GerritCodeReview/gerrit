@@ -145,6 +145,30 @@
       },
       "revId": "c3ccf9f54d4a48ecc023be932483b2fe2ae08505",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e195eed1_c78f760d",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewers.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-10-27T14:48:21Z",
+      "side": 1,
+      "message": "I think @darekm@google.com meant to throw an exception in L75 as in L69. Something like:\n\n```\nthrow new BadRequestException(\"Non-existent user\");\n```\n\nBut that would break the tests:\n- addGroupAsReviewer\n- addReviewerEmailWithoutAccount\n- addCcEmailWithoutAccount\n\nWhen trying to deserialise the JSON payload.\n\nMaybe you could leave it as it is.",
+      "parentUuid": "3305bfb2_075ed316",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 75,
+        "endChar": 36
+      },
+      "revId": "c3ccf9f54d4a48ecc023be932483b2fe2ae08505",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

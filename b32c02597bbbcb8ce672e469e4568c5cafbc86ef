@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71a5da87_e4aa46d8",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-10-27T10:00:26Z",
+      "side": 1,
+      "message": "nit/optional: Monarch cardinality is cardinality of each filed multiplied. Host/repos have no overalp, so if you are concerened about cardinality, you could make a combined filed.\n\nrepo_key \u003d host/repo",
+      "range": {
+        "startLine": 469,
+        "startChar": 14,
+        "endLine": 469,
+        "endChar": 19
+      },
+      "revId": "b32c02597bbbcb8ce672e469e4568c5cafbc86ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

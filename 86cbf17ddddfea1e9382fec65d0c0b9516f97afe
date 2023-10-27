@@ -1,5 +1,40 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3313ea9c_9d90bf4c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-27T23:23:39Z",
+      "side": 1,
+      "message": "Post-merge -1",
+      "revId": "86cbf17ddddfea1e9382fec65d0c0b9516f97afe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eff29ae5_acfed676",
+        "filename": "java/com/google/gerrit/acceptance/BUILD",
+        "patchSetId": 14
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-27T23:23:39Z",
+      "side": 1,
+      "message": "Was this added by mistake? This has caused the whole `com.google.gerrit.pgm.init` package to be excluded from the acceptance framework jar file published to maven. As a result, plugins fetching it from Maven won\u0027t be able to run the acceptance tests anymore.",
+      "revId": "86cbf17ddddfea1e9382fec65d0c0b9516f97afe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -54,6 +54,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5c692453_e1d0f87c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-30T20:13:03Z",
+      "side": 1,
+      "message": "Thanks @ponch78@gmail.com, I was indeed missing some of these (which I have now updated).\nHaving said that, currently we are still not guarding on 3 different places:\n\n1 - Schema_169.java, not sure if we should to be honest\n\nhttps://gerrit.googlesource.com/gerrit/+/refs/changes/74/390874/2/java/com/google/gerrit/server/schema/Schema_169.java#66\n\n2 - NoteDbMigrator.java, I think it is fine *not* to check for projects here, as the rebuild() is already guarded by the callers not be called when *any* project is set.\n\nhttps://gerrit.googlesource.com/gerrit/+/refs/changes/74/390874/2/java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java#962\n\n3 - ReviewDbBatchUpdate.java, this is just used to check state.\n\nhttps://gerrit.googlesource.com/gerrit/+/refs/changes/74/390874/2/java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java#721\n\n\n@luca.milanesio@gmail.com, @ponch78@gmail.com WDYT, about the above remaining cases?",
+      "parentUuid": "a06590fb_6b8e7d25",
+      "revId": "367cab803f591af545c3aae3acb2adb4bc5a0e72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cc50a8da_e82d847f",
         "filename": "java/com/google/gerrit/server/notedb/NotesMigration.java",
         "patchSetId": 1
@@ -65,6 +83,30 @@
       "writtenOn": "2023-10-30T15:55:44Z",
       "side": 1,
       "message": "Since we only use it as a lookup, it might be worth having it as a `Set\u003cString\u003e` instead.",
+      "range": {
+        "startLine": 113,
+        "startChar": 26,
+        "endLine": 113,
+        "endChar": 43
+      },
+      "revId": "367cab803f591af545c3aae3acb2adb4bc5a0e72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "184390e0_d195c2f1",
+        "filename": "java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-30T20:13:03Z",
+      "side": 1,
+      "message": "Good point, I thought the same actually, but I wanted to model it in the same way as the `OnlineNoteDbMigrator` did, for consistency.\n\nThinking again however, there is no reason to keep these in sync as they can still feed from the same configuration, which is what is important imho.\n\nHaving a set will make the code simpler and faster (we can do lookups now).",
+      "parentUuid": "cc50a8da_e82d847f",
       "range": {
         "startLine": 113,
         "startChar": 26,
@@ -92,6 +134,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaab1ae4_8d866d27",
+        "filename": "java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-30T20:13:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46c0ee4a_72d56409",
+      "revId": "367cab803f591af545c3aae3acb2adb4bc5a0e72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6203ee6b_15c531b1",
@@ -115,6 +175,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "842edf56_f9f613c1",
+        "filename": "java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-30T20:13:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6203ee6b_15c531b1",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 3
+      },
+      "revId": "367cab803f591af545c3aae3acb2adb4bc5a0e72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf0c3418_35e5830f",
@@ -128,6 +212,24 @@
       "writtenOn": "2023-10-30T15:55:44Z",
       "side": 1,
       "message": "With a Set this logic would be simplified as you suggested.",
+      "revId": "367cab803f591af545c3aae3acb2adb4bc5a0e72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c809f426_3b7bb416",
+        "filename": "java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-30T20:13:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf0c3418_35e5830f",
       "revId": "367cab803f591af545c3aae3acb2adb4bc5a0e72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

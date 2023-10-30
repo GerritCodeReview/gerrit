@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "00b829d1_99310709",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls-section.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-10-30T08:54:38Z",
+      "side": 1,
+      "message": "this checks `this.viewMode !\u003d\u003d DiffViewMode.UNIFIED` so maybe check for DiffViewMode.UNIFIED directly? \n```suggestion\n    const unified \u003d this.viewMode \u003d\u003d\u003d DiffViewMode.UNIFIED;\n```",
+      "range": {
+        "startLine": 111,
+        "startChar": 20,
+        "endLine": 111,
+        "endChar": 38
+      },
+      "revId": "041193e6dcf102e2393953ebe6c1f1742d7ae04c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "99360da4_67eb22ea",
@@ -14,6 +37,29 @@
       "writtenOn": "2023-10-30T08:50:54Z",
       "side": 1,
       "message": "Nit: Maybe it is worth making this information available globally? It should not really be this component\u0027s concern to know all of this.",
+      "revId": "041193e6dcf102e2393953ebe6c1f1742d7ae04c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32bb23a5_e56ee7b8",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls-section.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-10-30T08:54:38Z",
+      "side": 1,
+      "message": "`hidden` vars are calculated only to be filtered by flipping their value so looks like we are calculating `show` vars instead?\nPerhaps makes sense to compute `shownCols` instead?",
+      "range": {
+        "startLine": 128,
+        "startChar": 20,
+        "endLine": 128,
+        "endChar": 59
+      },
       "revId": "041193e6dcf102e2393953ebe6c1f1742d7ae04c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

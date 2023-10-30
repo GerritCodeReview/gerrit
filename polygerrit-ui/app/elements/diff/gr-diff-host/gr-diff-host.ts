@@ -827,7 +827,10 @@ export class GrDiffHost extends LitElement {
 
   toggleLeftDiff() {
     assertIsDefined(this.diffElement);
-    this.diffElement.toggleLeftDiff();
+    this.renderPrefs = {
+      ...this.renderPrefs,
+      hide_left_side: !this.renderPrefs.hide_left_side,
+    };
   }
 
   /**

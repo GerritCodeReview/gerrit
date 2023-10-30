@@ -329,10 +329,10 @@ mailto:gerritcodereview-community-managers@googlegroups.com[this mailing list].
 This is a group that remains private between the individual community
 member and community managers.
 
-The community managers should be a pair or trio that shares the work:
+The community managers should be at least a pair that shares the work:
 
 * One Googler that is appointed by Google.
-* One or two non-Googlers, elected by the community if there are more
+* One or more non-Googlers, elected by the community if there are more
   than two candidates. If there is no candidate, we only have the one
   community manager from Google.
 

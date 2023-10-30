@@ -53,15 +53,14 @@ timely manner.
 === Election of non-Google steering committee members
 
 The election of the non-Google steering committee members happens once
-a year in May. Non-Google link:dev-roles.html#maintainer[maintainers]
+a year in June. Non-Google link:dev-roles.html#maintainer[maintainers]
 can nominate themselves by posting an informal application on the
 non-public mailto:gerritcodereview-community-managers@googlegroups.com[
-community manager mailing list] by end of April (deadline for 2020
-is Thu 30th of April EOD).
+community manager mailing list] when the call for nomiations is sent to
+the maintainers list by a community manager.
 
 The list with all candidates will be published at the beginning of the
-voting period (for 2020 the start of the voting is planned for Mon 4th
-of May).
+voting period.
 
 Keeping the candidates private during the nomination phase and
 publishing all candidates at once only at the start of the voting
@@ -83,7 +82,7 @@ Each non-Google maintainer can vote for 2 candidates. The voting
 happens by posting on the
 mailto:gerritcodereview-maintainers@googlegroups.com[maintainer mailing
 list]. The voting period is 14 calendar days from the start of the
-voting (for 2020 the voting period ends on Mon 18th May EOD).
+voting.
 
 Google maintainers do not take part in this vote, because Google
 already has dedicated seats in the steering committee (see section

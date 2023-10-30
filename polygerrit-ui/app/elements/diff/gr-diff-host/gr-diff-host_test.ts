@@ -560,14 +560,6 @@ suite('gr-diff-host tests', () => {
     assert.equal(stub.lastCall.args.length, 0);
   });
 
-  test('delegates toggleLeftDiff()', () => {
-    assertIsDefined(element.diffElement);
-    const stub = sinon.stub(element.diffElement, 'toggleLeftDiff');
-    element.toggleLeftDiff();
-    assert.isTrue(stub.calledOnce);
-    assert.equal(stub.lastCall.args.length, 0);
-  });
-
   test('clearBlame', async () => {
     element.blame = [];
     await element.updateComplete;

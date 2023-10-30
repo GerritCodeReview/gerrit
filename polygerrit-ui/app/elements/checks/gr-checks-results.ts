@@ -1132,8 +1132,8 @@ export class GrChecksResults extends LitElement {
               ></gr-dropdown-list>`
             )}
             <gr-dropdown-list
-              value=${this.checksPatchsetNumber ??
-              this.latestPatchsetNumber ??
+              value=${(this.checksPatchsetNumber ||
+                this.latestPatchsetNumber) ??
               0}
               .items=${this.createPatchsetDropdownItems()}
               @value-change=${this.onPatchsetSelected}

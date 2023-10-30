@@ -22,6 +22,30 @@
       },
       "revId": "bd001535db60d0cfc855c8cefa59c95557554d33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0777a740_2b6b187e",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjectsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-10-30T08:38:34Z",
+      "side": 0,
+      "message": "This sounds more like an implementation detail, not a functional change.",
+      "parentUuid": "a22bee61_d4795d55",
+      "range": {
+        "startLine": 259,
+        "startChar": 0,
+        "endLine": 260,
+        "endChar": 31
+      },
+      "revId": "bd001535db60d0cfc855c8cefa59c95557554d33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

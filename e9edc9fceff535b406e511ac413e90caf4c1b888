@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1c4ac23_b4eaeb21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-10-30T08:38:34Z",
+      "side": 1,
+      "message": "\u003e Why skip?\n\nIt just an implementation detail how the user query is fulfilled.\n\n\u003e I believe this must be mentioned as breaking change from previous version\n\u003e with a bold warning on performance\n\nIt was not expected that this would impact performance significantly. If it was known we wouldn\u0027t have done this change (and we couldn\u0027t add a warning for something we were not aware of).\n\nLet\u0027s revert this change to fix this:\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/391376\n\nFWIW at Google we will soon completely stop using ListProjectsImpl and always use the index (same as for listing changes, groups, accounts). The revert should not affect us.",
+      "parentUuid": "bcace147_a3798c8d",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 19
+      },
+      "revId": "e9edc9fceff535b406e511ac413e90caf4c1b888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "4a3aafb3_2395b785",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-10-26T19:01:50Z",
       "side": 1,
       "message": "**Performance warning**: this is NOT a native Lucene predicate, therefore will be translated as `MatchAllDocsQuery` which can be very expensive.\n\nSee c.g.g.l.QueryBuilder.java:87",
+      "range": {
+        "startLine": 274,
+        "startChar": 33,
+        "endLine": 274,
+        "endChar": 62
+      },
+      "revId": "e9edc9fceff535b406e511ac413e90caf4c1b888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "169b337b_a842a8ca",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjectsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-10-30T08:38:34Z",
+      "side": 1,
+      "message": "Sorry, I didn\u0027t think this would be a problem. IIUC we also have change predicates that are translated to MatchAllDocsQuery and since there are much less projects than changes, I thought this would not be an issue.\n\nIf it causes performance issues, we can just revert this change:\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/391376",
+      "parentUuid": "e90bdb99_5cbeda02",
       "range": {
         "startLine": 274,
         "startChar": 33,

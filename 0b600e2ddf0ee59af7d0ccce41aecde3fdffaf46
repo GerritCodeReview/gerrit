@@ -16,6 +16,24 @@
       "message": "Is the result patch exactly the same as the one the user can download using download commands?\n\nIf so, is there really more value we get from adding it to the commit message?",
       "revId": "0b600e2ddf0ee59af7d0ccce41aecde3fdffaf46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c655883_ea155f54",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-10-30T12:06:38Z",
+      "side": 1,
+      "message": "Yes, both this and \"download patch\" are using `DiffUtil.getFormattedDiff`.\n\nHowever, a good error message will allow users to debug the potential issue themselves, with as little fraction as possible, and without involving anyone who is familiar with this API. So if we can spare this step with a very little cost, I think we should do so.",
+      "parentUuid": "59a100d0_13caaaf9",
+      "revId": "0b600e2ddf0ee59af7d0ccce41aecde3fdffaf46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

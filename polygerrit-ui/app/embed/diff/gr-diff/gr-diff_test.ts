@@ -180,10 +180,13 @@ suite('gr-diff tests', () => {
       await element.updateComplete;
     });
 
-    test('toggleLeftDiff', () => {
-      element.toggleLeftDiff();
+    test('toggleLeftDiff', async () => {
+      element.renderPrefs = {...element.renderPrefs, hide_left_side: true};
+      await element.updateComplete;
       assert.isTrue(element.classList.contains('no-left'));
-      element.toggleLeftDiff();
+
+      element.renderPrefs = {...element.renderPrefs, hide_left_side: false};
+      await element.updateComplete;
       assert.isFalse(element.classList.contains('no-left'));
     });
 

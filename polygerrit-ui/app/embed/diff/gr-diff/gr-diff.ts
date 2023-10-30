@@ -785,7 +785,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
       // differences to highlight and apply them to the element as
       // annotations.
       annotate(contentEl: HTMLElement, _: HTMLElement, line: GrDiffLine) {
-        const HL_CLASS = 'gr-diff intraline';
+        const HL_CLASS = 'intraline';
         for (const highlight of line.highlights) {
           // The start and end indices could be the same if a highlight is
           // meant to start at the end of a line and continue onto the
@@ -854,6 +854,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
             contentEl,
             index,
             length,
+            // TODO: DO NOT SUBMIT: Look at this. Remove function??
             'gr-diff trailing-whitespace'
           );
         }
@@ -972,7 +973,7 @@ function annotateSymbols(
     // Skip forward by the length of the content
     pos += split[i].length;
 
-    GrAnnotationImpl.annotateElement(contentEl, pos, 1, `gr-diff ${className}`);
+    GrAnnotationImpl.annotateElement(contentEl, pos, 1, className);
 
     pos++;
   }

@@ -318,9 +318,11 @@ export function isThreadEl(
 /**
  * Simple helper method for creating element classes in the context of
  * gr-diff. This is just a super simple convenience function.
+ *
+ * TODO: Maybe rename this simple function or inline it everywhere?
  */
 export function diffClasses(...additionalClasses: string[]) {
-  return ['gr-diff', ...additionalClasses].join(' ');
+  return additionalClasses.join(' ');
 }
 
 /**
@@ -333,7 +335,6 @@ export function createElementDiff(
 ): HTMLElement {
   const el = document.createElement(tagName);
 
-  el.classList.add('gr-diff');
   if (classStr) {
     for (const className of classStr.split(' ')) {
       el.classList.add(className);

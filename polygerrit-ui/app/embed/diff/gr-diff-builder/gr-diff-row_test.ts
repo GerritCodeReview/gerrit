@@ -39,10 +39,10 @@ suite('gr-diff-row test', () => {
               right-type="both"
               tabindex="-1"
             >
-              <td class="gr-diff left lineNum" data-value="1">
+              <td class="left lineNum" data-value="1">
                 <button
                   aria-label="1 unmodified"
-                  class="gr-diff left lineNumButton"
+                  class="left lineNumButton"
                   data-value="1"
                   id="left-button-1"
                   tabindex="-1"
@@ -60,10 +60,10 @@ suite('gr-diff-row test', () => {
                 </div>
                 </div>
               </td>
-              <td class="gr-diff lineNum right" data-value="1">
+              <td class="lineNum right" data-value="1">
                 <button
                   aria-label="1 unmodified"
-                  class="gr-diff lineNumButton right"
+                  class="lineNumButton right"
                   data-value="1"
                   id="right-button-1"
                   tabindex="-1"
@@ -108,10 +108,10 @@ suite('gr-diff-row test', () => {
               class="both diff-row gr-diff unified"
               tabindex="-1"
             >
-              <td class="gr-diff left lineNum" data-value="1">
+              <td class="left lineNum" data-value="1">
                 <button
                   aria-label="1 unmodified"
-                  class="gr-diff left lineNumButton"
+                  class="left lineNumButton"
                   data-value="1"
                   id="left-button-1"
                   tabindex="-1"
@@ -119,10 +119,10 @@ suite('gr-diff-row test', () => {
                   1
                 </button>
               </td>
-              <td class="gr-diff lineNum right" data-value="1">
+              <td class="lineNum right" data-value="1">
                 <button
                   aria-label="1 unmodified"
-                  class="gr-diff lineNumButton right"
+                  class="lineNumButton right"
                   data-value="1"
                   id="right-button-1"
                   tabindex="-1"
@@ -170,10 +170,10 @@ suite('gr-diff-row test', () => {
               <td class="blank gr-diff left no-intraline-info">
                 <div class="contentText gr-diff" data-side="left"></div>
               </td>
-              <td class="gr-diff lineNum right" data-value="1">
+              <td class="lineNum right" data-value="1">
                 <button
                   aria-label="1 added"
-                  class="gr-diff lineNumButton right"
+                  class="lineNumButton right"
                   data-value="1"
                   id="right-button-1"
                   tabindex="-1"
@@ -216,10 +216,10 @@ suite('gr-diff-row test', () => {
               right-type="blank"
               tabindex="-1"
             >
-              <td class="gr-diff left lineNum" data-value="1">
+              <td class="left lineNum" data-value="1">
                 <button
                   aria-label="1 removed"
-                  class="gr-diff left lineNumButton"
+                  class="left lineNumButton"
                   data-value="1"
                   id="left-button-1"
                   tabindex="-1"

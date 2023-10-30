@@ -50,20 +50,20 @@ suite('gr-diff-section test', () => {
         /* HTML */ `
           <table>
             <tbody>
-              <tr class="gr-diff moveControls movedOut">
-                <td class="gr-diff moveControlsLineNumCol"></td>
-                <td class="gr-diff moveHeader">
-                  <gr-range-header class="gr-diff" icon="move_item">
-                    <div class="gr-diff">
-                      <span class="gr-diff"> Moved to lines </span>
-                      <a class="gr-diff" href="#1"> 1 </a>
-                      <span class="gr-diff"> - </span>
-                      <a class="gr-diff" href="#2"> 2 </a>
+              <tr class="moveControls movedOut">
+                <td class="moveControlsLineNumCol"></td>
+                <td class="moveHeader">
+                  <gr-range-header icon="move_item">
+                    <div>
+                      <span> Moved to lines </span>
+                      <a href="#1"> 1 </a>
+                      <span> - </span>
+                      <a href="#2"> 2 </a>
                     </div>
                   </gr-range-header>
                 </td>
-                <td class="gr-diff moveControlsLineNumCol"></td>
-                <td class="gr-diff"></td>
+                <td class="moveControlsLineNumCol"></td>
+                <td></td>
               </tr>
             </tbody>
           </table>
@@ -86,16 +86,16 @@ suite('gr-diff-section test', () => {
         /* HTML */ `
           <table>
             <tbody>
-              <tr class="gr-diff moveControls movedOut">
-                <td class="gr-diff moveControlsLineNumCol"></td>
-                <td class="gr-diff moveControlsLineNumCol"></td>
-                <td class="gr-diff moveHeader">
-                  <gr-range-header class="gr-diff" icon="move_item">
-                    <div class="gr-diff">
-                      <span class="gr-diff"> Moved to lines </span>
-                      <a class="gr-diff" href="#1"> 1 </a>
-                      <span class="gr-diff"> - </span>
-                      <a class="gr-diff" href="#2"> 2 </a>
+              <tr class="moveControls movedOut">
+                <td class="moveControlsLineNumCol"></td>
+                <td class="moveControlsLineNumCol"></td>
+                <td class="moveHeader">
+                  <gr-range-header icon="move_item">
+                    <div>
+                      <span> Moved to lines </span>
+                      <a href="#1"> 1 </a>
+                      <span> - </span>
+                      <a href="#2"> 2 </a>
                     </div>
                   </gr-range-header>
                 </td>
@@ -141,10 +141,10 @@ suite('gr-diff-section test', () => {
               right-type="both"
               tabindex="-1"
             >
-              <td class="gr-diff left lineNum" data-value="1">
+              <td class="left lineNum" data-value="1">
                 <button
                   aria-label="1 unmodified"
-                  class="gr-diff left lineNumButton"
+                  class="left lineNumButton"
                   data-value="1"
                   id="left-button-1"
                   tabindex="-1"
@@ -161,10 +161,10 @@ suite('gr-diff-section test', () => {
                   <gr-diff-text data-side="left">asdf</gr-diff-text>
                 </div>
               </td>
-              <td class="gr-diff lineNum right" data-value="1">
+              <td class="lineNum right" data-value="1">
                 <button
                   aria-label="1 unmodified"
-                  class="gr-diff lineNumButton right"
+                  class="lineNumButton right"
                   data-value="1"
                   id="right-button-1"
                   tabindex="-1"
@@ -189,10 +189,10 @@ suite('gr-diff-section test', () => {
               right-type="both"
               tabindex="-1"
             >
-              <td class="gr-diff left lineNum" data-value="1">
+              <td class="left lineNum" data-value="1">
                 <button
                   aria-label="1 unmodified"
-                  class="gr-diff left lineNumButton"
+                  class="left lineNumButton"
                   data-value="1"
                   id="left-button-1"
                   tabindex="-1"
@@ -209,10 +209,10 @@ suite('gr-diff-section test', () => {
                   <gr-diff-text data-side="left"> qwer</gr-diff-text>
                 </div>
               </td>
-              <td class="gr-diff lineNum right" data-value="1">
+              <td class="lineNum right" data-value="1">
                 <button
                   aria-label="1 unmodified"
-                  class="gr-diff lineNumButton right"
+                  class="lineNumButton right"
                   data-value="1"
                   id="right-button-1"
                   tabindex="-1"
@@ -237,10 +237,10 @@ suite('gr-diff-section test', () => {
               right-type="both"
               tabindex="-1"
             >
-              <td class="gr-diff left lineNum" data-value="1">
+              <td class="left lineNum" data-value="1">
                 <button
                   aria-label="1 unmodified"
-                  class="gr-diff left lineNumButton"
+                  class="left lineNumButton"
                   data-value="1"
                   id="left-button-1"
                   tabindex="-1"
@@ -257,10 +257,10 @@ suite('gr-diff-section test', () => {
                   <gr-diff-text data-side="left">zxcv </gr-diff-text>
                 </div>
               </td>
-              <td class="gr-diff lineNum right" data-value="1">
+              <td class="lineNum right" data-value="1">
                 <button
                   aria-label="1 unmodified"
-                  class="gr-diff lineNumButton right"
+                  class="lineNumButton right"
                   data-value="1"
                   id="right-button-1"
                   tabindex="-1"

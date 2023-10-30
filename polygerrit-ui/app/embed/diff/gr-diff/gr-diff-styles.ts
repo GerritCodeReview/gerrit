@@ -6,13 +6,6 @@
 import {css} from 'lit';
 
 export const grDiffStyles = css`
-  /* This is used to hide all left side of the diff (e.g. diffs besides
-     comments in the change log). Since we want to remove the first 4
-     cells consistently in all rows except context buttons (.dividerRow). */
-  :host(.no-left) .sideBySide colgroup col:nth-child(-n + 4),
-  :host(.no-left) .sideBySide tr:not(.dividerRow) td:nth-child(-n + 4) {
-    display: none;
-  }
   :host(.disable-context-control-buttons) .section {
     border-right: none;
   }
@@ -506,18 +499,6 @@ export const grDiffStyles = css`
     color: var(--blue-700);
   }
 
-  col.sign,
-  td.sign {
-    display: none;
-  }
-
-  /* Sign column should only be shown in high-contrast mode. */
-  :host(.with-sign-col) col.sign {
-    display: table-column;
-  }
-  :host(.with-sign-col) td.sign {
-    display: table-cell;
-  }
   col.blame {
     display: none;
   }

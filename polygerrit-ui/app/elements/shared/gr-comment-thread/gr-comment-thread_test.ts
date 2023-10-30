@@ -297,7 +297,7 @@ suite('gr-comment-thread tests', () => {
       /* HTML */ `
         <div class="diff-container">
           <gr-diff
-            class="disable-context-control-buttons hide-line-length-indicator no-left"
+            class="disable-context-control-buttons hide-line-length-indicator"
             id="diff"
             style="--line-limit-marker:100ch; --content-width:none; --diff-max-width:none; --font-size:12px;"
           >

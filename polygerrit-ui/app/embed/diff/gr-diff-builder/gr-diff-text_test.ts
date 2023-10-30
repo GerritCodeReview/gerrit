@@ -8,9 +8,9 @@ import './gr-diff-text';
 import {GrDiffText} from './gr-diff-text';
 import {fixture, html, assert} from '@open-wc/testing';
 
-const LINE_BREAK = '<span class="gr-diff br"></span>';
+const LINE_BREAK = '<span class="br"></span>';
 
-const LINE_BREAK_WBR = '<wbr class="gr-diff"></wbr>';
+const LINE_BREAK_WBR = '<wbr></wbr>';
 
 const TAB = '<span class="" style=""></span>';
 
@@ -86,21 +86,21 @@ suite('gr-diff-text test', () => {
       element.tabSize = 4;
       await check(
         '\t',
-        /* HTML */ '<span class="gr-diff tab" style="tab-size:4;"></span>'
+        /* HTML */ '<span class="tab" style="tab-size:4;"></span>'
       );
       await check(
         'abc\t',
-        /* HTML */ 'abc<span class="gr-diff tab" style="tab-size:1;"></span>'
+        /* HTML */ 'abc<span class="tab" style="tab-size:1;"></span>'
       );
 
       element.tabSize = 8;
       await check(
         '\t',
-        /* HTML */ '<span class="gr-diff tab" style="tab-size:8;"></span>'
+        /* HTML */ '<span class="tab" style="tab-size:8;"></span>'
       );
       await check(
         'abc\t',
-        /* HTML */ 'abc<span class="gr-diff tab" style="tab-size:5;"></span>'
+        /* HTML */ 'abc<span class="tab" style="tab-size:5;"></span>'
       );
     });
 

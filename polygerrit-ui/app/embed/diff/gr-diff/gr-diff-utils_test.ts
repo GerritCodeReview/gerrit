@@ -23,7 +23,7 @@ import {
 import {FILE, LOST, Side} from '../../../api/diff';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 
-const LINE_BREAK_HTML = '<span class="gr-diff br"></span>';
+const LINE_BREAK_HTML = '<span class="br"></span>';
 
 suite('gr-diff-utils tests', () => {
   test('createElementDiff classStr applies all classes', () => {
@@ -83,7 +83,7 @@ suite('gr-diff-utils tests', () => {
 
   test('tab wrapper style', () => {
     const pattern = new RegExp(
-      '^<span class="gr-diff tab" ' +
+      '^<span class="tab" ' +
         'style="((?:-moz-)?tab-size: (\\d+);.?)+">\\t<\\/span>$'
     );
 

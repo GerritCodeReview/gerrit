@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59a100d0_13caaaf9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-10-30T11:42:34Z",
+      "side": 1,
+      "message": "Is the result patch exactly the same as the one the user can download using download commands?\n\nIf so, is there really more value we get from adding it to the commit message?",
+      "revId": "0b600e2ddf0ee59af7d0ccce41aecde3fdffaf46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

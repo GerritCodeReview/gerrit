@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1012d484_62ad6bd1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-10-30T17:38:08Z",
+      "side": 1,
+      "message": "Thanks a lot for the refactor!\n😊",
+      "revId": "326d87721fa1e253487ca4574c1dd60bc5bd27be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea028997_d3c3a302",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-10-30T17:38:08Z",
+      "side": 1,
+      "message": "GrDiff updating this state seems a bit strange to me.\nThis seems like this info should be requested by the model from the API and then stored, GrDiff should only request this data.\nWDYT?\n\nIt looks like the data is loaded by GrDiffHost instead of DiffModel\nhttps://cs.opensource.google/gerrit/gerrit/gerrit/+/master:polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts;l\u003d839?q\u003d%22loadBlame():%20Promise%3CBlameInfo%22\u0026sq\u003d\n\nIf we can move this to the model as well, then the state can be maintained by the model and GrDiff can just subscribe to it instead of getting it via a property and then updating the model",
+      "range": {
+        "startLine": 395,
+        "startChar": 6,
+        "endLine": 395,
+        "endChar": 32
+      },
+      "revId": "326d87721fa1e253487ca4574c1dd60bc5bd27be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

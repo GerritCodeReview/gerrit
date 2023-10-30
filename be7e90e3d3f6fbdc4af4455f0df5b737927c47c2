@@ -16,6 +16,24 @@
       "message": "The issue was just that the frontend changes were released before the backend changes. Let\u0027s wait until the backend changes are fully rolled out.",
       "revId": "be7e90e3d3f6fbdc4af4455f0df5b737927c47c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2376c4e_94863c73",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-10-30T14:10:00Z",
+      "side": 1,
+      "message": "Does it mean you don\u0027t normally rollout the same version of BE and FE together?\n\nI am happy to jump in a call to better understand your release process and see if there is anything we can do to avoid this kind of issues in the future.",
+      "parentUuid": "05f6a0f6_fa29571a",
+      "revId": "be7e90e3d3f6fbdc4af4455f0df5b737927c47c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -101,18 +101,44 @@ export class GrContextControlsSection extends LitElement {
     return this.viewMode !== DiffViewMode.UNIFIED;
   }
 
+  /**
+   * The context control table cell should span all the columns, but not the blame column.
+   * The tricky bit is to figure out, which of the 6 other table columns are actually shown or not.
+   */
+  private computeColspan() {
+    const hideLeft = !!this.renderPrefs?.hide_left_side;
+    const showSign = !!this.renderPrefs?.show_sign_col;
+    const unified = this.viewMode === DiffViewMode.UNIFIED;
+
+    // Hiding the left side in unified diff mode does not make a lot of sense and is not supported.
+    const showLeftNumberCol = !hideLeft || unified;
+    const showLeftSignCol = !hideLeft && showSign && !unified;
+    const showLeftContentCol = !hideLeft && !unified;
+    const showRightNumberCol = true;
+    const showRightSignCol = showSign && !unified;
+    const showRightContentCol = true;
+
+    const shownCols = [
+      showLeftNumberCol,
+      showLeftSignCol,
+      showLeftContentCol,
+      showRightNumberCol,
+      showRightSignCol,
+      showRightContentCol,
+    ];
+    const colspan = shownCols.filter(show => show).length;
+    return colspan;
+  }
+
   private createContextControlRow() {
-    // Note that <td> table cells that have `display: none` don't count!
-    const colspan = this.renderPrefs?.show_sign_col ? '5' : '3';
     const showConfig = getShowConfig(this.showAbove, this.showBelow);
     return html`
       <tr class=${diffClasses('dividerRow', `show-${showConfig}`)}>
         <td class=${diffClasses('blame')} data-line-number="0"></td>
-        ${when(
-          this.isSideBySide(),
-          () => html`<td class=${diffClasses()}></td>`
-        )}
-        <td class=${diffClasses('dividerCell')} colspan=${colspan}>
+        <td
+          class=${diffClasses('dividerCell')}
+          colspan=${this.computeColspan()}
+        >
           <gr-context-controls
             class=${diffClasses()}
             .diff=${this.diff}

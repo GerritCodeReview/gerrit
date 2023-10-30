@@ -39,6 +39,8 @@ import {
   getStringLength,
 } from '../gr-diff-highlight/gr-annotation';
 import {GrDiffLine} from './gr-diff-line';
+import {testResolver} from '../../../test/common-test-setup';
+import {diffModelToken} from '../gr-diff-model/gr-diff-model';
 
 const DEFAULT_PREFS = createDefaultDiffPrefs();
 
@@ -180,14 +182,21 @@ suite('gr-diff tests', () => {
       await element.updateComplete;
     });
 
-    test('toggleLeftDiff', async () => {
-      element.renderPrefs = {...element.renderPrefs, hide_left_side: true};
-      await element.updateComplete;
-      assert.isTrue(element.classList.contains('no-left'));
+    test('hide_left_side', async () => {
+      await setupSampleDiff({content: []});
+      const diffModel = testResolver(diffModelToken);
 
-      element.renderPrefs = {...element.renderPrefs, hide_left_side: false};
+      diffModel.updateState({renderPrefs: {hide_left_side: true}});
+      element.renderPrefs = {hide_left_side: true};
       await element.updateComplete;
-      assert.isFalse(element.classList.contains('no-left'));
+      let cols = queryAll(element, 'col');
+      assert.equal(cols.length, 3);
+
+      diffModel.updateState({renderPrefs: {hide_left_side: false}});
+      element.renderPrefs = {hide_left_side: false};
+      await element.updateComplete;
+      cols = queryAll(element, 'col');
+      assert.equal(cols.length, 5);
     });
 
     suite('getCursorStops', () => {

@@ -620,7 +620,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   private renderPrefsChanged() {
-    this.classList.toggle('no-left', !!this.renderPrefs.hide_left_side);
     this.classList.toggle(
       'disable-context-control-buttons',
       !!this.renderPrefs.disable_context_control_buttons

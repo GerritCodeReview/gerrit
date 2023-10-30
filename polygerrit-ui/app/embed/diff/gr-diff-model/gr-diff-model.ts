@@ -58,6 +58,26 @@ export interface DiffState {
   layers: DiffLayer[];
 }
 
+export interface ColumnsToShow {
+  blame: boolean;
+  leftNumber: boolean;
+  leftSign: boolean;
+  leftContent: boolean;
+  rightNumber: boolean;
+  rightSign: boolean;
+  rightContent: boolean;
+}
+
+export const NO_COLUMNS: ColumnsToShow = {
+  blame: false,
+  leftNumber: false,
+  leftSign: false,
+  leftContent: false,
+  rightNumber: false,
+  rightSign: false,
+  rightContent: false,
+};
+
 export const diffModelToken = define<DiffModel>('diff-model');
 
 export class DiffModel extends Model<DiffState> {
@@ -89,6 +109,32 @@ export class DiffModel extends Model<DiffState> {
   readonly viewMode$: Observable<DiffViewMode> = select(
     this.renderPrefs$,
     renderPrefs => renderPrefs.view_mode ?? DiffViewMode.SIDE_BY_SIDE
+  );
+
+  readonly columnsToShow$: Observable<ColumnsToShow> = select(
+    this.renderPrefs$,
+    renderPrefs => {
+      const hideLeft = !!renderPrefs.hide_left_side;
+      const showSign = !!renderPrefs.show_sign_col;
+      const unified = renderPrefs.view_mode === DiffViewMode.UNIFIED;
+
+      return {
+        // TODO: Do not always render the blame column. Move this into renderPrefs.
+        blame: true,
+        // Hiding the left side in unified diff mode does not make a lot of sense and is not supported.
+        leftNumber: !hideLeft || unified,
+        leftSign: !hideLeft && showSign && !unified,
+        leftContent: !hideLeft && !unified,
+        rightNumber: true,
+        rightSign: showSign && !unified,
+        rightContent: true,
+      };
+    }
+  );
+
+  readonly columnCount$: Observable<number> = select(
+    this.columnsToShow$,
+    columnsToShow => Object.values(columnsToShow).filter(s => s).length
   );
 
   readonly diffPrefs$: Observable<DiffPreferencesInfo> = select(

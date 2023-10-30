@@ -20,6 +20,8 @@ class GrDiffImageNew extends LitElement {
 
   @property() automaticBlink = false;
 
+  @property() columnCount = 0;
+
   /**
    * The browser API for handling selection does not (yet) work for selection
    * across multiple shadow DOM elements. So we are rendering gr-diff components
@@ -35,7 +37,7 @@ class GrDiffImageNew extends LitElement {
     return html`
       <tbody class="gr-diff image-diff">
         <tr class="gr-diff">
-          <td class="gr-diff" colspan="4">
+          <td class="gr-diff" colspan=${this.columnCount}>
             <gr-image-viewer
               class="gr-diff"
               .baseUrl=${imageSrc(this.baseImage)}
@@ -54,6 +56,8 @@ class GrDiffImageOld extends LitElement {
   @property() baseImage?: ImageInfo;
 
   @property() revisionImage?: ImageInfo;
+
+  @property() columnCount = 0;
 
   @query('img.left') baseImageEl?: HTMLImageElement;
 
@@ -87,7 +91,7 @@ class GrDiffImageOld extends LitElement {
     return html`
       <tbody class="gr-diff endpoint">
         <tr class="gr-diff">
-          <td class="gr-diff" colspan="4">
+          <td class="gr-diff" colspan=${this.columnCount}>
             <gr-endpoint-decorator class="gr-diff" name="image-diff">
               ${this.renderEndpointParam('baseImage', this.baseImage)}
               ${this.renderEndpointParam('revisionImage', this.revisionImage)}

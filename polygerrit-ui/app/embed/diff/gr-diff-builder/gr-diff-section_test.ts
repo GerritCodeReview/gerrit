@@ -11,6 +11,8 @@ import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {DiffViewMode, GrDiffLineType} from '../../../api/diff';
 import {waitQueryAndAssert} from '../../../test/test-utils';
+import {diffModelToken} from '../gr-diff-model/gr-diff-model';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-diff-section test', () => {
   let element: GrDiffSection;
@@ -49,8 +51,8 @@ suite('gr-diff-section test', () => {
           <table>
             <tbody>
               <tr class="gr-diff moveControls movedOut">
+                <td class="blame gr-diff"></td>
                 <td class="gr-diff moveControlsLineNumCol"></td>
-                <td class="gr-diff sign"></td>
                 <td class="gr-diff moveHeader">
                   <gr-range-header class="gr-diff" icon="move_item">
                     <div class="gr-diff">
@@ -62,7 +64,6 @@ suite('gr-diff-section test', () => {
                   </gr-range-header>
                 </td>
                 <td class="gr-diff moveControlsLineNumCol"></td>
-                <td class="gr-diff sign"></td>
                 <td class="gr-diff"></td>
               </tr>
             </tbody>
@@ -73,7 +74,8 @@ suite('gr-diff-section test', () => {
     });
 
     test('unified', async () => {
-      element.viewMode = DiffViewMode.UNIFIED;
+      const diffModel = testResolver(diffModelToken);
+      diffModel.updateState({renderPrefs: {view_mode: DiffViewMode.UNIFIED}});
       const row = await waitQueryAndAssert(element, 'tr.moveControls');
       // Semantic dom diff has a problem with just comparing table rows or
       // cells directly. So as a workaround put the row into an empty test
@@ -86,6 +88,7 @@ suite('gr-diff-section test', () => {
           <table>
             <tbody>
               <tr class="gr-diff moveControls movedOut">
+                <td class="blame gr-diff"></td>
                 <td class="gr-diff moveControlsLineNumCol"></td>
                 <td class="gr-diff moveControlsLineNumCol"></td>
                 <td class="gr-diff moveHeader">
@@ -152,7 +155,6 @@ suite('gr-diff-section test', () => {
                   1
                 </button>
               </td>
-              <td class="gr-diff left no-intraline-info sign"></td>
               <td class="both content gr-diff left no-intraline-info">
                 <div
                   class="contentText gr-diff"
@@ -173,7 +175,6 @@ suite('gr-diff-section test', () => {
                   1
                 </button>
               </td>
-              <td class="gr-diff no-intraline-info right sign"></td>
               <td class="both content gr-diff no-intraline-info right">
                 <div
                   class="contentText gr-diff"
@@ -203,7 +204,6 @@ suite('gr-diff-section test', () => {
                   1
                 </button>
               </td>
-              <td class="gr-diff left no-intraline-info sign"></td>
               <td class="both content gr-diff left no-intraline-info">
                 <div
                   class="contentText gr-diff"
@@ -224,7 +224,6 @@ suite('gr-diff-section test', () => {
                   1
                 </button>
               </td>
-              <td class="gr-diff no-intraline-info right sign"></td>
               <td class="both content gr-diff no-intraline-info right">
                 <div
                   class="contentText gr-diff"
@@ -254,7 +253,6 @@ suite('gr-diff-section test', () => {
                   1
                 </button>
               </td>
-              <td class="gr-diff left no-intraline-info sign"></td>
               <td class="both content gr-diff left no-intraline-info">
                 <div
                   class="contentText gr-diff"
@@ -275,7 +273,6 @@ suite('gr-diff-section test', () => {
                   1
                 </button>
               </td>
-              <td class="gr-diff no-intraline-info right sign"></td>
               <td class="both content gr-diff no-intraline-info right">
                 <div
                   class="contentText gr-diff"

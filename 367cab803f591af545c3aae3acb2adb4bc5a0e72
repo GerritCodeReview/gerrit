@@ -35,6 +35,46 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a06590fb_6b8e7d25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-10-30T15:55:44Z",
+      "side": 1,
+      "message": "I have noticed we are not guarding the `commitChangeWrites` in these classes:\n* NoteDbUpdateManager\n* NoteDbMigrator\n* Rebuild (change rebuild API)\n\nAny reason why we are not guarding these?\n\nIf not, can we move the check for the project to rebuild in the `commitChangeWrites` method?",
+      "revId": "367cab803f591af545c3aae3acb2adb4bc5a0e72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc50a8da_e82d847f",
+        "filename": "java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-10-30T15:55:44Z",
+      "side": 1,
+      "message": "Since we only use it as a lookup, it might be worth having it as a `Set\u003cString\u003e` instead.",
+      "range": {
+        "startLine": 113,
+        "startChar": 26,
+        "endLine": 113,
+        "endChar": 43
+      },
+      "revId": "367cab803f591af545c3aae3acb2adb4bc5a0e72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "46c0ee4a_72d56409",
@@ -48,6 +88,46 @@
       "writtenOn": "2023-10-25T16:12:13Z",
       "side": 1,
       "message": "todo: remove",
+      "revId": "367cab803f591af545c3aae3acb2adb4bc5a0e72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6203ee6b_15c531b1",
+        "filename": "java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-10-30T15:55:44Z",
+      "side": 1,
+      "message": "projects",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 3
+      },
+      "revId": "367cab803f591af545c3aae3acb2adb4bc5a0e72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf0c3418_35e5830f",
+        "filename": "java/com/google/gerrit/server/notedb/NotesMigration.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-10-30T15:55:44Z",
+      "side": 1,
+      "message": "With a Set this logic would be simplified as you suggested.",
       "revId": "367cab803f591af545c3aae3acb2adb4bc5a0e72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

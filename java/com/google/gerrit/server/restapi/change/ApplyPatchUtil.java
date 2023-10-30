@@ -206,7 +206,10 @@ public final class ApplyPatchUtil {
     if (cleanOriginalPatch.equals(cleanResultPatch)) {
       return Optional.empty();
     }
-    return Optional.of(StringUtils.difference(cleanOriginalPatch, cleanResultPatch));
+    return Optional.of(
+        StringUtils.difference(
+            cleanOriginalPatch.replaceAll("\n", "\n> "),
+            cleanResultPatch.replaceAll("\n", "\n> ")));
   }
 
   private static String decodeIfNecessary(String patch) {

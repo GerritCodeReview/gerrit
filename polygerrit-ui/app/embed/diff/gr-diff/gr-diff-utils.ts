@@ -3,7 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {CommentRange} from '../../../types/common';
+import {BlameInfo, CommentRange} from '../../../types/common';
 import {Side, SpecialFilePath} from '../../../constants/constants';
 import {
   DiffContextExpandedExternalDetail,
@@ -461,4 +461,11 @@ export interface DiffContextExpandedEventDetail
   contextGroup: GrDiffGroup;
   groups: GrDiffGroup[];
   numLines: number;
+}
+
+export function findBlame(blameInfos: BlameInfo[], line?: LineNumber) {
+  if (typeof line !== 'number') return undefined;
+  return blameInfos.find(info =>
+    info.ranges.find(range => range.start <= line && line <= range.end)
+  );
 }

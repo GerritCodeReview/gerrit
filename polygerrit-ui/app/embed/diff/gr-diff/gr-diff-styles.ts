@@ -499,19 +499,9 @@ export const grDiffStyles = css`
     color: var(--blue-700);
   }
 
-  col.blame {
-    display: none;
-  }
   td.blame {
-    display: none;
     padding: 0 var(--spacing-m);
     white-space: pre;
-  }
-  :host(.showBlame) col.blame {
-    display: table-column;
-  }
-  :host(.showBlame) td.blame {
-    display: table-cell;
   }
   td.blame > span {
     opacity: 0.6;

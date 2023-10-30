@@ -39,7 +39,6 @@ suite('gr-diff-row test', () => {
               right-type="both"
               tabindex="-1"
             >
-              <td class="blame gr-diff" data-line-number="1"></td>
               <td class="gr-diff left lineNum" data-value="1">
                 <button
                   aria-label="1 unmodified"
@@ -109,7 +108,6 @@ suite('gr-diff-row test', () => {
               class="both diff-row gr-diff unified"
               tabindex="-1"
             >
-              <td class="blame gr-diff" data-line-number="1"></td>
               <td class="gr-diff left lineNum" data-value="1">
                 <button
                   aria-label="1 unmodified"
@@ -168,7 +166,6 @@ suite('gr-diff-row test', () => {
               right-type="add"
               tabindex="-1"
             >
-              <td class="blame gr-diff" data-line-number="0"></td>
               <td class="blankLineNum gr-diff left"></td>
               <td class="blank gr-diff left no-intraline-info">
                 <div class="contentText gr-diff" data-side="left"></div>
@@ -219,7 +216,6 @@ suite('gr-diff-row test', () => {
               right-type="blank"
               tabindex="-1"
             >
-              <td class="blame gr-diff" data-line-number="1"></td>
               <td class="gr-diff left lineNum" data-value="1">
                 <button
                   aria-label="1 removed"

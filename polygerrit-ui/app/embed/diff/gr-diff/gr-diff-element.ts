@@ -34,7 +34,11 @@ import {html, LitElement, nothing} from 'lit';
 import {when} from 'lit/directives/when.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {expandFileMode} from '../../../utils/file-util';
-import {diffModelToken} from '../gr-diff-model/gr-diff-model';
+import {
+  ColumnsToShow,
+  NO_COLUMNS,
+  diffModelToken,
+} from '../gr-diff-model/gr-diff-model';
 import {resolve} from '../../../models/dependency';
 import {getDiffLength, isImageDiff} from '../../../utils/diff-util';
 import {GrDiffGroup} from './gr-diff-group';
@@ -72,6 +76,10 @@ export class GrDiffElement extends LitElement {
   @state() responsiveMode: DiffResponsiveMode = 'NONE';
 
   @state() loading = true;
+
+  @state() columns: ColumnsToShow = NO_COLUMNS;
+
+  @state() columnCount = 0;
 
   private getDiffModel = resolve(this, diffModelToken);
 
@@ -112,6 +120,16 @@ export class GrDiffElement extends LitElement {
       this,
       () => this.getDiffModel().renderPrefs$,
       renderPrefs => (this.renderPrefs = renderPrefs)
+    );
+    subscribe(
+      this,
+      () => this.getDiffModel().columnsToShow$,
+      columnsToShow => (this.columns = columnsToShow)
+    );
+    subscribe(
+      this,
+      () => this.getDiffModel().columnCount$,
+      columnCount => (this.columnCount = columnCount)
     );
     subscribe(
       this,
@@ -329,6 +347,7 @@ export class GrDiffElement extends LitElement {
         .automaticBlink=${autoBlink}
         .baseImage=${this.baseImage ?? undefined}
         .revisionImage=${this.revisionImage ?? undefined}
+        .columnCount=${this.columnCount}
       ></gr-diff-image-new>
     `;
   }
@@ -338,6 +357,7 @@ export class GrDiffElement extends LitElement {
       <gr-diff-image-old
         .baseImage=${this.baseImage ?? undefined}
         .revisionImage=${this.revisionImage ?? undefined}
+        .columnCount=${this.columnCount}
       ></gr-diff-image-old>
     `;
   }
@@ -346,7 +366,7 @@ export class GrDiffElement extends LitElement {
     return html`
       <tbody class="gr-diff binary-diff">
         <tr class="gr-diff">
-          <td colspan="5" class="gr-diff">
+          <td colspan=${this.columnCount} class="gr-diff">
             <span>Difference in binary files</span>
           </td>
         </tr>
@@ -374,33 +394,43 @@ export class GrDiffElement extends LitElement {
     );
     return html`
       <colgroup>
-        <col class=${diffClasses('blame')}></col>
         ${when(
-          (this.renderPrefs?.view_mode ?? this.viewMode) ===
-            DiffViewMode.UNIFIED,
-          () => html` ${this.renderUnifiedColumns(lineNumberWidth)} `,
-          () => html`
-            ${this.renderSideBySideColumns(Side.LEFT, lineNumberWidth)}
-            ${this.renderSideBySideColumns(Side.RIGHT, lineNumberWidth)}
-          `
+          this.columns.blame,
+          () => html`<col class=${diffClasses('blame')} />`
+        )}
+        ${when(
+          this.columns.leftNumber,
+          () =>
+            html`<col
+              class=${diffClasses(Side.LEFT)}
+              width=${lineNumberWidth}
+            />`
+        )}
+        ${when(
+          this.columns.leftSign,
+          () => html`<col class=${diffClasses(Side.LEFT, 'sign')} />`
+        )}
+        ${when(
+          this.columns.leftContent,
+          () => html`<col class=${diffClasses(Side.LEFT)} />`
+        )}
+        ${when(
+          this.columns.rightNumber,
+          () =>
+            html`<col
+              class=${diffClasses(Side.RIGHT)}
+              width=${lineNumberWidth}
+            />`
+        )}
+        ${when(
+          this.columns.rightSign,
+          () => html`<col class=${diffClasses(Side.RIGHT, 'sign')} />`
+        )}
+        ${when(
+          this.columns.rightContent,
+          () => html`<col class=${diffClasses(Side.RIGHT)} />`
         )}
       </colgroup>
-    `;
-  }
-
-  private renderUnifiedColumns(lineNumberWidth: number) {
-    return html`
-      <col class=${diffClasses()} width=${lineNumberWidth}></col>
-      <col class=${diffClasses()} width=${lineNumberWidth}></col>
-      <col class=${diffClasses()}></col>
-    `;
-  }
-
-  private renderSideBySideColumns(side: Side, lineNumberWidth: number) {
-    return html`
-      <col class=${diffClasses(side)} width=${lineNumberWidth}></col>
-      <col class=${diffClasses(side, 'sign')}></col>
-      <col class=${diffClasses(side)}></col>
     `;
   }
 }

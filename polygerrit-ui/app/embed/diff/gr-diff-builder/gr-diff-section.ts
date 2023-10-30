@@ -25,7 +25,11 @@ import {when} from 'lit/directives/when.js';
 import {fire} from '../../../utils/event-util';
 import {countLines} from '../../../utils/diff-util';
 import {resolve} from '../../../models/dependency';
-import {diffModelToken} from '../gr-diff-model/gr-diff-model';
+import {
+  ColumnsToShow,
+  diffModelToken,
+  NO_COLUMNS,
+} from '../gr-diff-model/gr-diff-model';
 import {subscribe} from '../../../elements/lit/subscription-controller';
 
 export class GrDiffSection extends LitElement {
@@ -49,6 +53,8 @@ export class GrDiffSection extends LitElement {
 
   @state()
   lineLength = 100;
+
+  @state() columns: ColumnsToShow = NO_COLUMNS;
 
   /**
    * Semantic DOM diff testing does not work with just table fragments, so when
@@ -93,6 +99,11 @@ export class GrDiffSection extends LitElement {
       this,
       () => this.getDiffModel().layers$,
       layers => (this.layers = layers)
+    );
+    subscribe(
+      this,
+      () => this.getDiffModel().columnsToShow$,
+      columnsToShow => (this.columns = columnsToShow)
     );
   }
 
@@ -215,10 +226,6 @@ export class GrDiffSection extends LitElement {
     if (!this.group?.moveDetails) return;
     const movedIn = this.group.adds.length > 0;
     const plainCell = html`<td class=${diffClasses()}></td>`;
-    const signCell = html`<td class=${diffClasses('sign')}></td>`;
-    const lineNumberCell = html`
-      <td class=${diffClasses('moveControlsLineNumCol')}></td>
-    `;
     const moveCell = html`
       <td class=${diffClasses('moveHeader')}>
         <gr-range-header class=${diffClasses()} icon="move_item">
@@ -231,11 +238,30 @@ export class GrDiffSection extends LitElement {
         class=${diffClasses('moveControls', movedIn ? 'movedIn' : 'movedOut')}
       >
         ${when(
-          this.isUnifiedDiff(),
-          () => html`${lineNumberCell} ${lineNumberCell} ${moveCell}`,
-          () => html`${lineNumberCell} ${signCell}
-          ${movedIn ? plainCell : moveCell} ${lineNumberCell} ${signCell}
-          ${movedIn ? moveCell : plainCell}`
+          this.columns.blame,
+          () => html`<td class=${diffClasses('blame')}></td>`
+        )}
+        ${when(
+          this.columns.leftNumber,
+          () => html`<td class=${diffClasses('moveControlsLineNumCol')}></td>`
+        )}
+        ${when(
+          this.columns.leftSign,
+          () => html`<td class=${diffClasses('sign')}></td>`
+        )}
+        ${when(this.columns.leftContent, () =>
+          movedIn ? plainCell : moveCell
+        )}
+        ${when(
+          this.columns.rightNumber,
+          () => html`<td class=${diffClasses('moveControlsLineNumCol')}></td>`
+        )}
+        ${when(
+          this.columns.rightSign,
+          () => html`<td class=${diffClasses('sign')}></td>`
+        )}
+        ${when(this.columns.rightContent, () =>
+          movedIn || this.isUnifiedDiff() ? moveCell : plainCell
         )}
       </tr>
     `;

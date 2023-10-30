@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05f6a0f6_fa29571a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-10-30T13:49:09Z",
+      "side": 1,
+      "message": "The issue was just that the frontend changes were released before the backend changes. Let\u0027s wait until the backend changes are fully rolled out.",
+      "revId": "be7e90e3d3f6fbdc4af4455f0df5b737927c47c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

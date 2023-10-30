@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7256de5f_c87a5f96",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-10-30T11:40:35Z",
+      "side": 1,
+      "message": "We can make the error message better, but the fastest way to debugging this is probably asking CoG for the exact patch and applying it locally to the Android repo. Then you can use the step-by-step debugger.",
+      "revId": "987e119630390b63f6bf29e8b1f619f605bc0a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

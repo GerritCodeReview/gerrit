@@ -39,6 +39,30 @@
       },
       "revId": "808d1f00b9bd324a98c5bb854049b0589cad21dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bbf7474_65558b5e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-10-30T10:51:36Z",
+      "side": 1,
+      "message": "I think both are fine. `() \u003d\u003e` is maybe a bit nicer. Feel free to change the 60 occurrences. 🤗\n\nSince this is unrelated to my change, I will leave as is.",
+      "parentUuid": "75f68e91_5b47a75a",
+      "range": {
+        "startLine": 669,
+        "startChar": 6,
+        "endLine": 669,
+        "endChar": 7
+      },
+      "revId": "808d1f00b9bd324a98c5bb854049b0589cad21dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

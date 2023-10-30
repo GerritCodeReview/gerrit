@@ -28,6 +28,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.hash.Hashing;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
@@ -324,6 +325,46 @@ public class ApplyPatchIT extends AbstractDaemonTest {
                 + MODIFIED_FILE_NAME
                 + ", hunk HunkHeader[1,2->1,1]: Hunk cannot be applied\n\nOriginal patch:\n "
                 + removePatchHeader(patch)
+                + "\n\nChange-Id: "
+                + result.changeId
+                + "\n");
+    // Error in MODIFIED_FILE should not affect ADDED_FILE results.
+    DiffInfo diff = fetchDiffForFile(result, ADDED_FILE_NAME);
+    assertDiffForNewFile(diff, result.currentRevision, ADDED_FILE_NAME, ADDED_FILE_CONTENT);
+  }
+
+  @Test
+  public void applyPatchWithConflict_appendErrorsToCommitMessageWithLargeOriginalPatch()
+      throws Exception {
+    initBaseWithFile(MODIFIED_FILE_NAME, "Unexpected base content");
+    String modifiedFileDiff =
+        "diff --git a/modified_file.txt b/modified_file.txt\n"
+            + "--- a/modified_file.txt\n"
+            + "+++ b/modified_file.txt\n"
+            + "@@ -1,2 +1,1001 @@\n"
+            + "-First original line\n"
+            + "-Second original line\n"
+            + "+Modified line\n"
+            + "+1000 additional lines\n".repeat(1000);
+    String patch = ADDED_FILE_DIFF + modifiedFileDiff;
+    ApplyPatchPatchSetInput in = buildInput(patch);
+    in.commitMessage = "subject";
+
+    ChangeInfo result = applyPatch(in);
+
+    assertThat(gApi.changes().id(result.id).current().commit(false).message)
+        .isEqualTo(
+            in.commitMessage
+                + "\n\nNOTE FOR REVIEWERS - errors occurred while applying the patch."
+                + "\nPLEASE REVIEW CAREFULLY.\nErrors:\nError applying patch in "
+                + MODIFIED_FILE_NAME
+                + ", hunk HunkHeader[1,2->1,1001]: Hunk cannot be applied\n\nOriginal patch:\n "
+                + removePatchHeader(patch).substring(0, 1024)
+                + "\n[[[Original patch trimmed due to size. Decoded string size: "
+                + removePatchHeader(patch).length()
+                + ". Decoded string SHA1: "
+                + Hashing.sha1().hashString(removePatchHeader(patch), UTF_8)
+                + ".]]]"
                 + "\n\nChange-Id: "
                 + result.changeId
                 + "\n");

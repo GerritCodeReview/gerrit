@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fef7b14b_bb95847d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-10-30T10:30:46Z",
+      "side": 1,
+      "message": "Nice!!",
+      "revId": "808d1f00b9bd324a98c5bb854049b0589cad21dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75f68e91_5b47a75a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-10-30T10:30:46Z",
+      "side": 1,
+      "message": "why is this `_` and not simply `() \u003d\u003e`?",
+      "range": {
+        "startLine": 669,
+        "startChar": 6,
+        "endLine": 669,
+        "endChar": 7
+      },
+      "revId": "808d1f00b9bd324a98c5bb854049b0589cad21dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

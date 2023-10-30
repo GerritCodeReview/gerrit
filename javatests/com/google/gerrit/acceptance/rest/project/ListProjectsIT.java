@@ -287,18 +287,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "gerrit.listProjectsFromIndex", value = "true")
-  public void listProjectsWithSubstring_indexEnabled() throws Exception {
-    testListProjectsWithSubstring();
-  }
-
-  @Test
-  @GerritConfig(name = "gerrit.listProjectsFromIndex", value = "false")
-  public void listProjectsWithSubstring_indexDisabled() throws Exception {
-    testListProjectsWithSubstring();
-  }
-
-  private void testListProjectsWithSubstring() throws Exception {
+  public void listProjectsWithSubstring() throws Exception {
     Project.NameKey someProject = projectOperations.newProject().name("some-project").create();
     Project.NameKey someOtherProject =
         projectOperations.newProject().name("some-other-project").create();

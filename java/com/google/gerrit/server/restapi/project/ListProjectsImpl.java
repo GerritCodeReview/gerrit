@@ -266,6 +266,8 @@ public class ListProjectsImpl extends AbstractListProjects {
                     .getSchema()
                     .hasField(ProjectField.PREFIX_NAME_SPEC))
             && isNullOrEmpty(matchRegex)
+            && isNullOrEmpty(
+                matchSubstring) // TODO: see https://issues.gerritcodereview.com/issues/40010295
             && type == FilterType.ALL
             && showBranch.isEmpty()
             && !showTree

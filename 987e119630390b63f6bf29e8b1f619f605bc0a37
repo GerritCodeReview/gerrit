@@ -16,6 +16,24 @@
       "message": "We can make the error message better, but the fastest way to debugging this is probably asking CoG for the exact patch and applying it locally to the Android repo. Then you can use the step-by-step debugger.",
       "revId": "987e119630390b63f6bf29e8b1f619f605bc0a37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf071aef_9c884307",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-10-30T11:45:24Z",
+      "side": 1,
+      "message": "I had an offline discussion with @myriamanis@google.com about debugging this specific case. However, this is not the only occurrence, and we want to speed up the debugging for those cases.",
+      "parentUuid": "7256de5f_c87a5f96",
+      "revId": "987e119630390b63f6bf29e8b1f619f605bc0a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

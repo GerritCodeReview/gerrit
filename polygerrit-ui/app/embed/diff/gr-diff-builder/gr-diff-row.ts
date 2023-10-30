@@ -3,7 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {html, LitElement, nothing, PropertyValues, TemplateResult} from 'lit';
+import {html, LitElement, nothing, PropertyValues} from 'lit';
 import {property, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {createRef, Ref, ref} from 'lit/directives/ref.js';
@@ -29,7 +29,11 @@ import {
   isResponsive,
 } from '../gr-diff/gr-diff-utils';
 import {resolve} from '../../../models/dependency';
-import {diffModelToken} from '../gr-diff-model/gr-diff-model';
+import {
+  ColumnsToShow,
+  diffModelToken,
+  NO_COLUMNS,
+} from '../gr-diff-model/gr-diff-model';
 import {when} from 'lit/directives/when.js';
 import {isDefined} from '../../../types/types';
 import {BehaviorSubject, combineLatest} from 'rxjs';
@@ -102,6 +106,8 @@ export class GrDiffRow extends LitElement {
 
   @state() rightComments: GrDiffCommentThread[] = [];
 
+  @state() columns: ColumnsToShow = NO_COLUMNS;
+
   /**
    * Keeps track of whether diff layers have already been applied to the diff
    * row. That happens after the DOM has been created in the `updated()`
@@ -146,6 +152,11 @@ export class GrDiffRow extends LitElement {
           distinctUntilChanged(deepEqual)
         ),
       rightComments => (this.rightComments = rightComments)
+    );
+    subscribe(
+      this,
+      () => this.getDiffModel().columnsToShow$,
+      columnsToShow => (this.columns = columnsToShow)
     );
   }
 
@@ -281,12 +292,15 @@ export class GrDiffRow extends LitElement {
   private renderBlameCell() {
     // td.blame has `white-space: pre`, so prettier must not add spaces.
     // prettier-ignore
+    if (!this.columns.blame) return nothing;
     return html`
       <td
         ${ref(this.blameCellRef)}
         class=${diffClasses('blame')}
         data-line-number=${this.left?.beforeNumber ?? 0}
-      >${this.renderBlameElement()}</td>
+      >
+        ${this.renderBlameElement()}
+      </td>
     `;
   }
 
@@ -319,7 +333,9 @@ export class GrDiffRow extends LitElement {
       ></span>`;
   }
 
-  private renderLineNumberCell(side: Side): TemplateResult {
+  private renderLineNumberCell(side: Side) {
+    if (!this.columns.leftNumber && side === Side.LEFT) return nothing;
+    if (!this.columns.rightNumber && side === Side.RIGHT) return nothing;
     const line = this.line(side);
     const lineNumber = this.lineNumber(side);
     const isBlank = line?.type === GrDiffLineType.BLANK;
@@ -392,9 +408,11 @@ export class GrDiffRow extends LitElement {
   }
 
   private renderContentCell(side: Side) {
+    if (!this.columns.leftContent && side === Side.LEFT) return nothing;
+    if (!this.columns.rightContent && side === Side.RIGHT) return nothing;
+
     let line = this.line(side);
     if (this.unifiedDiff) {
-      if (side === Side.LEFT) return nothing;
       if (line?.type === GrDiffLineType.BLANK) {
         side = Side.LEFT;
         line = this.line(Side.LEFT);
@@ -432,7 +450,9 @@ export class GrDiffRow extends LitElement {
   }
 
   private renderSignCell(side: Side) {
-    if (this.unifiedDiff) return nothing;
+    if (!this.columns.leftSign && side === Side.LEFT) return nothing;
+    if (!this.columns.rightSign && side === Side.RIGHT) return nothing;
+
     const line = this.line(side);
     assertIsDefined(line, 'line');
     const isBlank = line.type === GrDiffLineType.BLANK;

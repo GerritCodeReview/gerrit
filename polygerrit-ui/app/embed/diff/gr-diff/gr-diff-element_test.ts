@@ -62,10 +62,8 @@ suite('gr-diff-element tests', () => {
               <colgroup>
                 <col class="blame gr-diff" />
                 <col class="gr-diff left" width="48" />
-                <col class="gr-diff left sign" />
                 <col class="gr-diff left" />
                 <col class="gr-diff right" width="48" />
-                <col class="gr-diff right sign" />
                 <col class="gr-diff right" />
               </colgroup>
             </table>
@@ -89,9 +87,9 @@ suite('gr-diff-element tests', () => {
             <table id="diffTable">
               <colgroup>
                 <col class="blame gr-diff" />
-                <col class="gr-diff" width="48" />
-                <col class="gr-diff" width="48" />
-                <col class="gr-diff" />
+                <col class="gr-diff left" width="48" />
+                <col class="gr-diff right" width="48" />
+                <col class="gr-diff right" />
               </colgroup>
               <tbody class="both gr-diff section">
                 <tr
@@ -1324,10 +1322,8 @@ suite('gr-diff-element tests', () => {
               <colgroup>
                 <col class="blame gr-diff" />
                 <col class="gr-diff left" width="48" />
-                <col class="gr-diff left sign" />
                 <col class="gr-diff left" />
                 <col class="gr-diff right" width="48" />
-                <col class="gr-diff right sign" />
                 <col class="gr-diff right" />
               </colgroup>
               <tbody class="both gr-diff section">
@@ -1340,12 +1336,10 @@ suite('gr-diff-element tests', () => {
                 >
                   <td class="blame gr-diff" data-line-number="LOST"></td>
                   <td class="gr-diff left lineNum" data-value="LOST"></td>
-                  <td class="gr-diff left no-intraline-info sign"></td>
                   <td
                     class="both content gr-diff left lost no-intraline-info"
                   ></td>
                   <td class="gr-diff lineNum right" data-value="LOST"></td>
-                  <td class="gr-diff no-intraline-info right sign"></td>
                   <td
                     class="both content gr-diff lost no-intraline-info right"
                   ></td>
@@ -1371,7 +1365,6 @@ suite('gr-diff-element tests', () => {
                       FILE
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info sign"></td>
                   <td
                     class="both content file gr-diff left no-intraline-info"
                   ></td>
@@ -1386,7 +1379,6 @@ suite('gr-diff-element tests', () => {
                       FILE
                     </button>
                   </td>
-                  <td class="gr-diff no-intraline-info right sign"></td>
                   <td
                     class="both content file gr-diff no-intraline-info right"
                   ></td>
@@ -1412,7 +1404,6 @@ suite('gr-diff-element tests', () => {
                       1
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info sign"></td>
                   <td class="both content gr-diff left no-intraline-info">
                     <div
                       class="contentText gr-diff"
@@ -1431,7 +1422,6 @@ suite('gr-diff-element tests', () => {
                       1
                     </button>
                   </td>
-                  <td class="gr-diff no-intraline-info right sign"></td>
                   <td class="both content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -1459,7 +1449,6 @@ suite('gr-diff-element tests', () => {
                       2
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info sign"></td>
                   <td class="both content gr-diff left no-intraline-info">
                     <div
                       class="contentText gr-diff"
@@ -1478,7 +1467,6 @@ suite('gr-diff-element tests', () => {
                       2
                     </button>
                   </td>
-                  <td class="gr-diff no-intraline-info right sign"></td>
                   <td class="both content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -1506,7 +1494,6 @@ suite('gr-diff-element tests', () => {
                       3
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info sign"></td>
                   <td class="both content gr-diff left no-intraline-info">
                     <div
                       class="contentText gr-diff"
@@ -1525,7 +1512,6 @@ suite('gr-diff-element tests', () => {
                       3
                     </button>
                   </td>
-                  <td class="gr-diff no-intraline-info right sign"></td>
                   <td class="both content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -1553,7 +1539,6 @@ suite('gr-diff-element tests', () => {
                       4
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info sign"></td>
                   <td class="both content gr-diff left no-intraline-info">
                     <div
                       class="contentText gr-diff"
@@ -1572,7 +1557,6 @@ suite('gr-diff-element tests', () => {
                       4
                     </button>
                   </td>
-                  <td class="gr-diff no-intraline-info right sign"></td>
                   <td class="both content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -1592,7 +1576,6 @@ suite('gr-diff-element tests', () => {
                 >
                   <td class="blame gr-diff" data-line-number="0"></td>
                   <td class="blankLineNum gr-diff left"></td>
-                  <td class="blank gr-diff left no-intraline-info sign"></td>
                   <td class="blank gr-diff left no-intraline-info">
                     <div class="contentText gr-diff" data-side="left"></div>
                   </td>
@@ -1607,7 +1590,6 @@ suite('gr-diff-element tests', () => {
                       5
                     </button>
                   </td>
-                  <td class="add gr-diff no-intraline-info right sign">+</td>
                   <td class="add content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -1625,7 +1607,6 @@ suite('gr-diff-element tests', () => {
                 >
                   <td class="blame gr-diff" data-line-number="0"></td>
                   <td class="blankLineNum gr-diff left"></td>
-                  <td class="blank gr-diff left no-intraline-info sign"></td>
                   <td class="blank gr-diff left no-intraline-info">
                     <div class="contentText gr-diff" data-side="left"></div>
                   </td>
@@ -1640,7 +1621,6 @@ suite('gr-diff-element tests', () => {
                       6
                     </button>
                   </td>
-                  <td class="add gr-diff no-intraline-info right sign">+</td>
                   <td class="add content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -1658,7 +1638,6 @@ suite('gr-diff-element tests', () => {
                 >
                   <td class="blame gr-diff" data-line-number="0"></td>
                   <td class="blankLineNum gr-diff left"></td>
-                  <td class="blank gr-diff left no-intraline-info sign"></td>
                   <td class="blank gr-diff left no-intraline-info">
                     <div class="contentText gr-diff" data-side="left"></div>
                   </td>
@@ -1673,7 +1652,6 @@ suite('gr-diff-element tests', () => {
                       7
                     </button>
                   </td>
-                  <td class="add gr-diff no-intraline-info right sign">+</td>
                   <td class="add content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -1703,7 +1681,6 @@ suite('gr-diff-element tests', () => {
                       5
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info sign"></td>
                   <td class="both content gr-diff left no-intraline-info">
                     <div
                       class="contentText gr-diff"
@@ -1722,7 +1699,6 @@ suite('gr-diff-element tests', () => {
                       8
                     </button>
                   </td>
-                  <td class="gr-diff no-intraline-info right sign"></td>
                   <td class="both content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -1750,7 +1726,6 @@ suite('gr-diff-element tests', () => {
                       6
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info sign"></td>
                   <td class="both content gr-diff left no-intraline-info">
                     <div
                       class="contentText gr-diff"
@@ -1769,7 +1744,6 @@ suite('gr-diff-element tests', () => {
                       9
                     </button>
                   </td>
-                  <td class="gr-diff no-intraline-info right sign"></td>
                   <td class="both content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -1797,7 +1771,6 @@ suite('gr-diff-element tests', () => {
                       7
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info sign"></td>
                   <td class="both content gr-diff left no-intraline-info">
                     <div
                       class="contentText gr-diff"
@@ -1816,7 +1789,6 @@ suite('gr-diff-element tests', () => {
                       10
                     </button>
                   </td>
-                  <td class="gr-diff no-intraline-info right sign"></td>
                   <td class="both content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -1863,7 +1835,6 @@ suite('gr-diff-element tests', () => {
                       11
                     </button>
                   </td>
-                  <td class="gr-diff no-intraline-info right sign"></td>
                   <td class="both content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -1891,7 +1862,6 @@ suite('gr-diff-element tests', () => {
                       9
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info sign"></td>
                   <td class="both content gr-diff left no-intraline-info">
                     <div
                       class="contentText gr-diff"
@@ -1910,7 +1880,6 @@ suite('gr-diff-element tests', () => {
                       12
                     </button>
                   </td>
-                  <td class="gr-diff no-intraline-info right sign"></td>
                   <td class="both content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -1940,7 +1909,6 @@ suite('gr-diff-element tests', () => {
                       10
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info remove sign">-</td>
                   <td class="content gr-diff left no-intraline-info remove">
                     <div
                       class="contentText gr-diff"
@@ -1949,7 +1917,6 @@ suite('gr-diff-element tests', () => {
                     ></div>
                   </td>
                   <td class="blankLineNum gr-diff right"></td>
-                  <td class="blank gr-diff no-intraline-info right sign"></td>
                   <td class="blank gr-diff no-intraline-info right">
                     <div class="contentText gr-diff" data-side="right"></div>
                   </td>
@@ -1973,7 +1940,6 @@ suite('gr-diff-element tests', () => {
                       11
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info remove sign">-</td>
                   <td class="content gr-diff left no-intraline-info remove">
                     <div
                       class="contentText gr-diff"
@@ -1982,7 +1948,6 @@ suite('gr-diff-element tests', () => {
                     ></div>
                   </td>
                   <td class="blankLineNum gr-diff right"></td>
-                  <td class="blank gr-diff no-intraline-info right sign"></td>
                   <td class="blank gr-diff no-intraline-info right">
                     <div class="contentText gr-diff" data-side="right"></div>
                   </td>
@@ -2006,7 +1971,6 @@ suite('gr-diff-element tests', () => {
                       12
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info remove sign">-</td>
                   <td class="content gr-diff left no-intraline-info remove">
                     <div
                       class="contentText gr-diff"
@@ -2015,7 +1979,6 @@ suite('gr-diff-element tests', () => {
                     ></div>
                   </td>
                   <td class="blankLineNum gr-diff right"></td>
-                  <td class="blank gr-diff no-intraline-info right sign"></td>
                   <td class="blank gr-diff no-intraline-info right">
                     <div class="contentText gr-diff" data-side="right"></div>
                   </td>
@@ -2039,7 +2002,6 @@ suite('gr-diff-element tests', () => {
                       13
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info remove sign">-</td>
                   <td class="content gr-diff left no-intraline-info remove">
                     <div
                       class="contentText gr-diff"
@@ -2048,7 +2010,6 @@ suite('gr-diff-element tests', () => {
                     ></div>
                   </td>
                   <td class="blankLineNum gr-diff right"></td>
-                  <td class="blank gr-diff no-intraline-info right sign"></td>
                   <td class="blank gr-diff no-intraline-info right">
                     <div class="contentText gr-diff" data-side="right"></div>
                   </td>
@@ -2074,7 +2035,6 @@ suite('gr-diff-element tests', () => {
                       14
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info remove sign">-</td>
                   <td class="content gr-diff left no-intraline-info remove">
                     <div
                       class="contentText gr-diff"
@@ -2093,7 +2053,6 @@ suite('gr-diff-element tests', () => {
                       13
                     </button>
                   </td>
-                  <td class="add gr-diff no-intraline-info right sign">+</td>
                   <td class="add content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -2121,7 +2080,6 @@ suite('gr-diff-element tests', () => {
                       15
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info remove sign">-</td>
                   <td class="content gr-diff left no-intraline-info remove">
                     <div
                       class="contentText gr-diff"
@@ -2140,7 +2098,6 @@ suite('gr-diff-element tests', () => {
                       14
                     </button>
                   </td>
-                  <td class="add gr-diff no-intraline-info right sign">+</td>
                   <td class="add content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -2170,7 +2127,6 @@ suite('gr-diff-element tests', () => {
                       16
                     </button>
                   </td>
-                  <td class="gr-diff left remove sign">-</td>
                   <td class="content gr-diff left remove">
                     <div
                       class="contentText gr-diff"
@@ -2189,7 +2145,6 @@ suite('gr-diff-element tests', () => {
                       15
                     </button>
                   </td>
-                  <td class="add gr-diff right sign">+</td>
                   <td class="add content gr-diff right">
                     <div
                       class="contentText gr-diff"
@@ -2219,7 +2174,6 @@ suite('gr-diff-element tests', () => {
                       17
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info sign"></td>
                   <td class="both content gr-diff left no-intraline-info">
                     <div
                       class="contentText gr-diff"
@@ -2238,7 +2192,6 @@ suite('gr-diff-element tests', () => {
                       16
                     </button>
                   </td>
-                  <td class="gr-diff no-intraline-info right sign"></td>
                   <td class="both content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -2266,7 +2219,6 @@ suite('gr-diff-element tests', () => {
                       18
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info sign"></td>
                   <td class="both content gr-diff left no-intraline-info">
                     <div
                       class="contentText gr-diff"
@@ -2285,7 +2237,6 @@ suite('gr-diff-element tests', () => {
                       17
                     </button>
                   </td>
-                  <td class="gr-diff no-intraline-info right sign"></td>
                   <td class="both content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -2313,7 +2264,6 @@ suite('gr-diff-element tests', () => {
                       19
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info sign"></td>
                   <td class="both content gr-diff left no-intraline-info">
                     <div
                       class="contentText gr-diff"
@@ -2332,7 +2282,6 @@ suite('gr-diff-element tests', () => {
                       18
                     </button>
                   </td>
-                  <td class="gr-diff no-intraline-info right sign"></td>
                   <td class="both content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -2350,10 +2299,8 @@ suite('gr-diff-element tests', () => {
                 >
                   <td class="blame gr-diff" data-line-number="0"></td>
                   <td class="contextLineNum gr-diff"></td>
-                  <td class="gr-diff sign"></td>
                   <td class="gr-diff"></td>
                   <td class="contextLineNum gr-diff"></td>
-                  <td class="gr-diff sign"></td>
                   <td class="gr-diff"></td>
                 </tr>
                 <tr class="dividerRow gr-diff show-both">
@@ -2372,10 +2319,8 @@ suite('gr-diff-element tests', () => {
                 >
                   <td class="blame gr-diff" data-line-number="0"></td>
                   <td class="contextLineNum gr-diff"></td>
-                  <td class="gr-diff sign"></td>
                   <td class="gr-diff"></td>
                   <td class="contextLineNum gr-diff"></td>
-                  <td class="gr-diff sign"></td>
                   <td class="gr-diff"></td>
                 </tr>
               </tbody>
@@ -2399,7 +2344,6 @@ suite('gr-diff-element tests', () => {
                       38
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info sign"></td>
                   <td class="both content gr-diff left no-intraline-info">
                     <div
                       class="contentText gr-diff"
@@ -2418,7 +2362,6 @@ suite('gr-diff-element tests', () => {
                       37
                     </button>
                   </td>
-                  <td class="gr-diff no-intraline-info right sign"></td>
                   <td class="both content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -2446,7 +2389,6 @@ suite('gr-diff-element tests', () => {
                       39
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info sign"></td>
                   <td class="both content gr-diff left no-intraline-info">
                     <div
                       class="contentText gr-diff"
@@ -2465,7 +2407,6 @@ suite('gr-diff-element tests', () => {
                       38
                     </button>
                   </td>
-                  <td class="gr-diff no-intraline-info right sign"></td>
                   <td class="both content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -2493,7 +2434,6 @@ suite('gr-diff-element tests', () => {
                       40
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info sign"></td>
                   <td class="both content gr-diff left no-intraline-info">
                     <div
                       class="contentText gr-diff"
@@ -2512,7 +2452,6 @@ suite('gr-diff-element tests', () => {
                       39
                     </button>
                   </td>
-                  <td class="gr-diff no-intraline-info right sign"></td>
                   <td class="both content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -2532,7 +2471,6 @@ suite('gr-diff-element tests', () => {
                 >
                   <td class="blame gr-diff" data-line-number="0"></td>
                   <td class="blankLineNum gr-diff left"></td>
-                  <td class="blank gr-diff left no-intraline-info sign"></td>
                   <td class="blank gr-diff left no-intraline-info">
                     <div class="contentText gr-diff" data-side="left"></div>
                   </td>
@@ -2547,7 +2485,6 @@ suite('gr-diff-element tests', () => {
                       40
                     </button>
                   </td>
-                  <td class="add gr-diff no-intraline-info right sign">+</td>
                   <td class="add content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -2565,7 +2502,6 @@ suite('gr-diff-element tests', () => {
                 >
                   <td class="blame gr-diff" data-line-number="0"></td>
                   <td class="blankLineNum gr-diff left"></td>
-                  <td class="blank gr-diff left no-intraline-info sign"></td>
                   <td class="blank gr-diff left no-intraline-info">
                     <div class="contentText gr-diff" data-side="left"></div>
                   </td>
@@ -2580,7 +2516,6 @@ suite('gr-diff-element tests', () => {
                       41
                     </button>
                   </td>
-                  <td class="add gr-diff no-intraline-info right sign">+</td>
                   <td class="add content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -2598,7 +2533,6 @@ suite('gr-diff-element tests', () => {
                 >
                   <td class="blame gr-diff" data-line-number="0"></td>
                   <td class="blankLineNum gr-diff left"></td>
-                  <td class="blank gr-diff left no-intraline-info sign"></td>
                   <td class="blank gr-diff left no-intraline-info">
                     <div class="contentText gr-diff" data-side="left"></div>
                   </td>
@@ -2613,7 +2547,6 @@ suite('gr-diff-element tests', () => {
                       42
                     </button>
                   </td>
-                  <td class="add gr-diff no-intraline-info right sign">+</td>
                   <td class="add content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -2631,7 +2564,6 @@ suite('gr-diff-element tests', () => {
                 >
                   <td class="blame gr-diff" data-line-number="0"></td>
                   <td class="blankLineNum gr-diff left"></td>
-                  <td class="blank gr-diff left no-intraline-info sign"></td>
                   <td class="blank gr-diff left no-intraline-info">
                     <div class="contentText gr-diff" data-side="left"></div>
                   </td>
@@ -2646,7 +2578,6 @@ suite('gr-diff-element tests', () => {
                       43
                     </button>
                   </td>
-                  <td class="add gr-diff no-intraline-info right sign">+</td>
                   <td class="add content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -2676,7 +2607,6 @@ suite('gr-diff-element tests', () => {
                       41
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info sign"></td>
                   <td class="both content gr-diff left no-intraline-info">
                     <div
                       class="contentText gr-diff"
@@ -2695,7 +2625,6 @@ suite('gr-diff-element tests', () => {
                       44
                     </button>
                   </td>
-                  <td class="gr-diff no-intraline-info right sign"></td>
                   <td class="both content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -2723,7 +2652,6 @@ suite('gr-diff-element tests', () => {
                       42
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info sign"></td>
                   <td class="both content gr-diff left no-intraline-info">
                     <div
                       class="contentText gr-diff"
@@ -2742,7 +2670,6 @@ suite('gr-diff-element tests', () => {
                       45
                     </button>
                   </td>
-                  <td class="gr-diff no-intraline-info right sign"></td>
                   <td class="both content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -2770,7 +2697,6 @@ suite('gr-diff-element tests', () => {
                       43
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info sign"></td>
                   <td class="both content gr-diff left no-intraline-info">
                     <div
                       class="contentText gr-diff"
@@ -2789,7 +2715,6 @@ suite('gr-diff-element tests', () => {
                       46
                     </button>
                   </td>
-                  <td class="gr-diff no-intraline-info right sign"></td>
                   <td class="both content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -2817,7 +2742,6 @@ suite('gr-diff-element tests', () => {
                       44
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info sign"></td>
                   <td class="both content gr-diff left no-intraline-info">
                     <div
                       class="contentText gr-diff"
@@ -2836,7 +2760,6 @@ suite('gr-diff-element tests', () => {
                       47
                     </button>
                   </td>
-                  <td class="gr-diff no-intraline-info right sign"></td>
                   <td class="both content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -2864,7 +2787,6 @@ suite('gr-diff-element tests', () => {
                       45
                     </button>
                   </td>
-                  <td class="gr-diff left no-intraline-info sign"></td>
                   <td class="both content gr-diff left no-intraline-info">
                     <div
                       class="contentText gr-diff"
@@ -2883,7 +2805,6 @@ suite('gr-diff-element tests', () => {
                       48
                     </button>
                   </td>
-                  <td class="gr-diff no-intraline-info right sign"></td>
                   <td class="both content gr-diff no-intraline-info right">
                     <div
                       class="contentText gr-diff"
@@ -2941,10 +2862,8 @@ suite('gr-diff-element tests', () => {
                 <colgroup>
                   <col class="blame gr-diff" />
                   <col class="gr-diff left" width="48" />
-                  <col class="gr-diff left sign" />
                   <col class="gr-diff left" />
                   <col class="gr-diff right" width="48" />
-                  <col class="gr-diff right sign" />
                   <col class="gr-diff right" />
                 </colgroup>
                 <tbody class="both gr-diff section">
@@ -2967,7 +2886,6 @@ suite('gr-diff-element tests', () => {
                         FILE
                       </button>
                     </td>
-                    <td class="gr-diff left no-intraline-info sign"></td>
                     <td
                       class="both content file gr-diff left no-intraline-info"
                     ></td>
@@ -2982,7 +2900,6 @@ suite('gr-diff-element tests', () => {
                         FILE
                       </button>
                     </td>
-                    <td class="gr-diff no-intraline-info right sign"></td>
                     <td
                       class="both content file gr-diff no-intraline-info right"
                     ></td>

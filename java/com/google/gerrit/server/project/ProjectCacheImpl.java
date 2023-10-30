@@ -279,7 +279,7 @@ public class ProjectCacheImpl implements ProjectCache {
     } finally {
       listLock.unlock();
     }
-    indexer.get().index(newProjectName);
+    evictAndReindex(newProjectName);
   }
 
   @Override

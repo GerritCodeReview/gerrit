@@ -300,7 +300,7 @@ export class GrDiffRow extends LitElement {
     return html`
       <td
         ${ref(this.blameCellRef)}
-        class=${diffClasses('blame')}
+        class="blame"
         data-line-number=${this.left?.beforeNumber ?? 0}
       >${this.renderBlameElement()}</td>
     `;
@@ -321,10 +321,10 @@ export class GrDiffRow extends LitElement {
     // td.blame has `white-space: pre`, so prettier must not add spaces.
     // prettier-ignore
     return html`<span class=${diffClasses(...extras)}
-        ><a href=${url} class=${diffClasses('blameDate')}>${date}</a
-        ><span class=${diffClasses('blameAuthor')}> ${shortName}</span
-        ><gr-hovercard class=${diffClasses()}>
-          <span class=${diffClasses('blameHoverCard')}>
+        ><a href=${url} class="blameDate">${date}</a
+        ><span class="blameAuthor"> ${shortName}</span
+        ><gr-hovercard>
+          <span class="blameHoverCard">
             Commit ${commit.id}<br />
             Author: ${commit.author}<br />
             Date: ${date}<br />
@@ -586,7 +586,7 @@ export class GrDiffRow extends LitElement {
     // .content has `white-space: pre`, so prettier must not add spaces.
     // prettier-ignore
     return html`<div
-        class=${diffClasses('contentText')}
+        class="contentText"
         data-side=${ifDefined(side)}
         id=${this.contentId(side)}
       >${textElement}</div>`;

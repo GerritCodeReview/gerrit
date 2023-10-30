@@ -42,30 +42,29 @@ suite('gr-context-controls-section test', () => {
         <table>
           <tbody>
             <tr
-              class="above contextBackground gr-diff side-by-side"
+              class="above contextBackground side-by-side"
               left-type="contextControl"
               right-type="contextControl"
             >
-              <td class="contextLineNum gr-diff"></td>
-              <td class="gr-diff"></td>
-              <td class="contextLineNum gr-diff"></td>
-              <td class="gr-diff"></td>
+              <td class="contextLineNum"></td>
+              <td></td>
+              <td class="contextLineNum"></td>
+              <td></td>
             </tr>
-            <tr class="dividerRow gr-diff show-both">
-              <td class="dividerCell gr-diff" colspan="4">
-                <gr-context-controls class="gr-diff" showconfig="both">
-                </gr-context-controls>
+            <tr class="dividerRow show-both">
+              <td class="dividerCell" colspan="4">
+                <gr-context-controls showconfig="both"> </gr-context-controls>
               </td>
             </tr>
             <tr
-              class="below contextBackground gr-diff side-by-side"
+              class="below contextBackground side-by-side"
               left-type="contextControl"
               right-type="contextControl"
             >
-              <td class="contextLineNum gr-diff"></td>
-              <td class="gr-diff"></td>
-              <td class="contextLineNum gr-diff"></td>
-              <td class="gr-diff"></td>
+              <td class="contextLineNum"></td>
+              <td></td>
+              <td class="contextLineNum"></td>
+              <td></td>
             </tr>
           </tbody>
         </table>

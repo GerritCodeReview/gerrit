@@ -33,6 +33,24 @@
       "message": "Was this added by mistake? This has caused the whole `com.google.gerrit.pgm.init` package to be excluded from the acceptance framework jar file published to maven. As a result, plugins fetching it from Maven won\u0027t be able to run the acceptance tests anymore.",
       "revId": "86cbf17ddddfea1e9382fec65d0c0b9516f97afe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28ea0954_0994c107",
+        "filename": "java/com/google/gerrit/acceptance/BUILD",
+        "patchSetId": 14
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-10-30T09:52:45Z",
+      "side": 1,
+      "message": "This change was submitted a while ago, so it\u0027s hard for me to recall why i changed this line.\n\nHowever, both `javatests/com/google/gerrit/acceptance/...` and `javatests/com/google/gerrit/pgm/...` are passing locally after removing it, so I think this is safe to undo. Sending you a change.\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/391378",
+      "parentUuid": "eff29ae5_acfed676",
+      "revId": "86cbf17ddddfea1e9382fec65d0c0b9516f97afe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

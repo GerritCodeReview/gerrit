@@ -28,7 +28,7 @@ import {
   ScrollMode,
   SpecialFilePath,
 } from '../../../constants/constants';
-import {descendedFromClass, Key, toggleClass} from '../../../utils/dom-util';
+import {descendedFromClass, Key} from '../../../utils/dom-util';
 import {
   computeDisplayPath,
   computeTruncatedPath,
@@ -666,7 +666,7 @@ export class GrFileList extends LitElement {
     );
     this.shortcutsController.addAbstract(
       Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS,
-      _ => toggleClass(this, 'hideComments')
+      _ => this.classList.toggle('hideComments')
     );
     this.shortcutsController.addAbstract(
       Shortcut.CURSOR_NEXT_FILE,

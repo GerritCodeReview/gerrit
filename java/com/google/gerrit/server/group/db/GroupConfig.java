@@ -19,7 +19,6 @@ import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
@@ -89,9 +88,9 @@ import org.eclipse.jgit.revwalk.RevSort;
  * doesn't have any members or subgroups.
  */
 public class GroupConfig extends VersionedMetaData {
-  @VisibleForTesting public static final String GROUP_CONFIG_FILE = "group.config";
-  @VisibleForTesting public static final String MEMBERS_FILE = "members";
-  @VisibleForTesting public static final String SUBGROUPS_FILE = "subgroups";
+  public static final String GROUP_CONFIG_FILE = "group.config";
+  public static final String MEMBERS_FILE = "members";
+  public static final String SUBGROUPS_FILE = "subgroups";
   private static final Pattern LINE_SEPARATOR_PATTERN = Pattern.compile("\\R");
 
   /**

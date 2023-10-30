@@ -15,7 +15,9 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.hash.Hashing;
 import com.google.gerrit.extensions.api.changes.ApplyPatchInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -26,7 +28,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -63,7 +64,7 @@ public final class ApplyPatchUtil {
     RevTree tip = mergeTip.getTree();
     Patch patch = new Patch();
     try (InputStream patchStream =
-        new ByteArrayInputStream(decodeIfNecessary(input.patch).getBytes(StandardCharsets.UTF_8))) {
+        new ByteArrayInputStream(decodeIfNecessary(input.patch).getBytes(UTF_8))) {
       patch.parse(patchStream);
       if (!patch.getErrors().isEmpty()) {
         throw new BadRequestException(
@@ -140,9 +141,18 @@ public final class ApplyPatchUtil {
       Optional<String> originalPatchHeader = DiffUtil.getPatchHeader(decodedOriginalPatch);
       String patchDescription =
           (originalPatchHeader.isEmpty() ? decodedOriginalPatch : originalPatchHeader.get()).trim();
-      res.append(
-          "\n\nOriginal patch:\n "
-              + patchDescription.substring(0, Math.min(patchDescription.length(), 1024)));
+      if (patchDescription.length() <= 1024) {
+        res.append("\n\nOriginal patch:\n " + patchDescription);
+      } else {
+        res.append(
+            "\n\nOriginal patch:\n "
+                + patchDescription.substring(0, 1024)
+                + "\n[[[Original patch trimmed due to size. Decoded string size: "
+                + patchDescription.length()
+                + ". Decoded string SHA1: "
+                + Hashing.sha1().hashString(patchDescription, UTF_8)
+                + ".]]]");
+      }
     }
 
     if (!footerLines.isEmpty()) {
@@ -185,7 +195,7 @@ public final class ApplyPatchUtil {
 
   private static String decodeIfNecessary(String patch) {
     if (Base64.isBase64(patch)) {
-      return new String(org.eclipse.jgit.util.Base64.decode(patch), StandardCharsets.UTF_8);
+      return new String(org.eclipse.jgit.util.Base64.decode(patch), UTF_8);
     }
     return patch;
   }

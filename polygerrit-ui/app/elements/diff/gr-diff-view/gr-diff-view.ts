@@ -62,7 +62,7 @@ import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {OpenFixPreviewEvent, ValueChangedEvent} from '../../../types/events';
 import {fireAlert, fire} from '../../../utils/event-util';
 import {assertIsDefined, queryAndAssert} from '../../../utils/common-util';
-import {toggleClass, whenVisible} from '../../../utils/dom-util';
+import {whenVisible} from '../../../utils/dom-util';
 import {CursorMoveResult} from '../../../api/core';
 import {throttleWrap} from '../../../utils/async-util';
 import {filter, take, switchMap, map} from 'rxjs/operators';
@@ -1751,7 +1751,7 @@ export class GrDiffView extends LitElement {
   }
 
   private handleToggleHideAllCommentThreads() {
-    toggleClass(this, 'hideComments');
+    this.classList.toggle('hideComments');
   }
 
   private handleOpenFileList() {

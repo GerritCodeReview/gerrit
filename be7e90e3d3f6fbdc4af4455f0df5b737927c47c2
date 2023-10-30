@@ -52,6 +52,24 @@
       "parentUuid": "a2376c4e_94863c73",
       "revId": "be7e90e3d3f6fbdc4af4455f0df5b737927c47c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ef444a0_4d5e8772",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-10-30T16:13:39Z",
+      "side": 1,
+      "message": "Yes, FE and BE rollouts are completely separate for Google hosted Gerrit.\n\nFE is released twice a week: Mon and Wed on gerrit-review. Tue and Thu on all other hosts.\n\nBE rollout is somewhat less frequent and less stable. Currently on prod we have the Oct24 rollout, but today have started rolling out a Oct29 build.\n\nTypically I would wait 2 weeks after submitting a BE change. Then you can ping me with the BE change numbers. I will check which release they are included in and if/when they have been rolled out. Ideally we have to wait 1 week after the release for being sure that the release is rollback safe.",
+      "parentUuid": "f4a6bc35_45b06b97",
+      "revId": "be7e90e3d3f6fbdc4af4455f0df5b737927c47c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

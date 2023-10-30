@@ -370,6 +370,12 @@ Gerrit team at Google uses this
 link:https://gerrit-review.googlesource.com/q/label:%2522Library-Compliance%253Dneed%2522+-ownerin:google-gerrit-team+status:open+project:gerrit+-age:4week+-is:wip+-is:private+label:Code-Review%252B2[change query]
 to find changes that require a `Library-Compliance` approval.
 
+To get the attention of a Googler for dependency updates file separate issues
+(use type "Task") for each dependency update on the
+link:https://issues.gerritcodereview.com/issues/new?component=1371020&template=1834212["Hosting > googlesource" component].
+Then it will show up in Google's triage queue and the current person who is onduty
+should look into this.
+
 Gerrit's library dependencies should only be upgraded if the new version contains
 something we need in Gerrit. This includes new features, API changes as well as bug
 or security fixes.

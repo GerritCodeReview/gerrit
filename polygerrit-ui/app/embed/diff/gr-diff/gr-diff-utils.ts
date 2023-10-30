@@ -3,7 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {BlameInfo, CommentRange} from '../../../types/common';
+import {CommentRange} from '../../../types/common';
 import {Side, SpecialFilePath} from '../../../constants/constants';
 import {
   DiffContextExpandedExternalDetail,
@@ -15,7 +15,6 @@ import {
   LineNumber,
   RenderPreferences,
 } from '../../../api/diff';
-import {getBaseUrl} from '../../../utils/url-util';
 import {GrDiffGroup} from './gr-diff-group';
 
 /**
@@ -454,45 +453,6 @@ export function formatText(
     }
   }
   return contentText;
-}
-
-/**
- * Given the number of a base line and the BlameInfo create a <span> element
- * with a hovercard. This is supposed to be put into a <td> cell of the diff.
- */
-export function createBlameElement(
-  lineNum: LineNumber,
-  commit: BlameInfo
-): HTMLElement {
-  const isStartOfRange = commit.ranges.some(r => r.start === lineNum);
-
-  const date = new Date(commit.time * 1000).toLocaleDateString();
-  const blameNode = createElementDiff(
-    'span',
-    isStartOfRange ? 'startOfRange' : ''
-  );
-
-  const shaNode = createElementDiff('a', 'blameDate');
-  shaNode.innerText = `${date}`;
-  shaNode.setAttribute('href', `${getBaseUrl()}/q/${commit.id}`);
-  blameNode.appendChild(shaNode);
-
-  const shortName = commit.author.split(' ')[0];
-  const authorNode = createElementDiff('span', 'blameAuthor');
-  authorNode.innerText = ` ${shortName}`;
-  blameNode.appendChild(authorNode);
-
-  const hoverCardFragment = createElementDiff('span', 'blameHoverCard');
-  hoverCardFragment.innerText = `Commit ${commit.id}
-Author: ${commit.author}
-Date: ${date}
-
-${commit.commit_msg}`;
-  const hovercard = createElementDiff('gr-hovercard');
-  hovercard.appendChild(hoverCardFragment);
-  blameNode.appendChild(hovercard);
-
-  return blameNode;
 }
 
 export interface DiffContextExpandedEventDetail

@@ -39,6 +39,30 @@
       },
       "revId": "326d87721fa1e253487ca4574c1dd60bc5bd27be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "442738fe_088dfcf9",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 395,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-10-30T20:39:30Z",
+      "side": 1,
+      "message": "You have to take into account that \u003cgr-diff\u003e is a re-usable standalone component also used by other products. \u003cgr-diff-host\u003e is a Gerrit only component that only *uses* \u003cgr-diff\u003e. Currently the \"API\" of \u003cgr-diff\u003e are 100% just its component properties. gr-diff-model is not known to anything outside of \u003cgr-diff\u003e.\n\nReceiving properties from the outside and pushing this data into the model is the primary purpose of \u003cgr-diff\u003e. Everything else (for example actually rendering a diff table, etc.) is wrapped one level deeper in \u003cgr-diff-element\u003e.\n\nSo I think given the current architecture this model update makes perfect sense. And loading data must be done outside of \u003cgr-diff\u003e and its model.\n\nMakes sense?",
+      "parentUuid": "ea028997_d3c3a302",
+      "range": {
+        "startLine": 395,
+        "startChar": 6,
+        "endLine": 395,
+        "endChar": 32
+      },
+      "revId": "326d87721fa1e253487ca4574c1dd60bc5bd27be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -508,10 +508,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
     return !!this.highlights.selectedRange;
   }
 
-  toggleLeftDiff() {
-    toggleClass(this, 'no-left');
-  }
-
   private blameChanged() {
     this.setBlame(this.blame ?? []);
     if (this.blame) {
@@ -624,18 +620,16 @@ export class GrDiff extends LitElement implements GrDiffApi {
   }
 
   private renderPrefsChanged() {
-    if (this.renderPrefs.hide_left_side) {
-      this.classList.add('no-left');
-    }
-    if (this.renderPrefs.disable_context_control_buttons) {
-      this.classList.add('disable-context-control-buttons');
-    }
-    if (this.renderPrefs.hide_line_length_indicator) {
-      this.classList.add('hide-line-length-indicator');
-    }
-    if (this.renderPrefs.show_sign_col) {
-      this.classList.add('with-sign-col');
-    }
+    this.classList.toggle('no-left', !!this.renderPrefs.hide_left_side);
+    this.classList.toggle(
+      'disable-context-control-buttons',
+      !!this.renderPrefs.disable_context_control_buttons
+    );
+    this.classList.toggle(
+      'hide-line-length-indicator',
+      !!this.renderPrefs.hide_line_length_indicator
+    );
+    this.classList.toggle('with-sign-col', !!this.renderPrefs.show_sign_col);
     if (this.prefs) {
       this.updatePreferenceStyles();
     }

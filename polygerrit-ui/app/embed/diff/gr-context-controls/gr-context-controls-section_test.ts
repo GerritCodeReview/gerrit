@@ -46,14 +46,12 @@ suite('gr-context-controls-section test', () => {
               left-type="contextControl"
               right-type="contextControl"
             >
-              <td class="blame gr-diff" data-line-number="0"></td>
               <td class="contextLineNum gr-diff"></td>
               <td class="gr-diff"></td>
               <td class="contextLineNum gr-diff"></td>
               <td class="gr-diff"></td>
             </tr>
             <tr class="dividerRow gr-diff show-both">
-              <td class="blame gr-diff" data-line-number="0"></td>
               <td class="dividerCell gr-diff" colspan="4">
                 <gr-context-controls class="gr-diff" showconfig="both">
                 </gr-context-controls>
@@ -64,7 +62,6 @@ suite('gr-context-controls-section test', () => {
               left-type="contextControl"
               right-type="contextControl"
             >
-              <td class="blame gr-diff" data-line-number="0"></td>
               <td class="contextLineNum gr-diff"></td>
               <td class="gr-diff"></td>
               <td class="contextLineNum gr-diff"></td>

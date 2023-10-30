@@ -98,33 +98,20 @@ export class GrContextControlsSection extends LitElement {
       >
         ${when(
           this.columns.blame,
-          () =>
-            html`<td class=${diffClasses('blame')} data-line-number="0"></td>`
+          () => html`<td class="blame" data-line-number="0"></td>`
         )}
         ${when(
           this.columns.leftNumber,
-          () => html`<td class=${diffClasses('contextLineNum')}></td>`
+          () => html`<td class="contextLineNum"></td>`
         )}
-        ${when(
-          this.columns.leftSign,
-          () => html`<td class=${diffClasses('sign')}></td>`
-        )}
-        ${when(
-          this.columns.leftContent,
-          () => html`<td class=${diffClasses()}></td>`
-        )}
+        ${when(this.columns.leftSign, () => html`<td class="sign"></td>`)}
+        ${when(this.columns.leftContent, () => html`<td></td>`)}
         ${when(
           this.columns.rightNumber,
-          () => html`<td class=${diffClasses('contextLineNum')}></td>`
+          () => html`<td class="contextLineNum"></td>`
         )}
-        ${when(
-          this.columns.rightSign,
-          () => html`<td class=${diffClasses('sign')}></td>`
-        )}
-        ${when(
-          this.columns.rightContent,
-          () => html`<td class=${diffClasses()}></td>`
-        )}
+        ${when(this.columns.rightSign, () => html`<td class="sign"></td>`)}
+        ${when(this.columns.rightContent, () => html`<td></td>`)}
       </tr>
     `;
   }
@@ -142,12 +129,10 @@ export class GrContextControlsSection extends LitElement {
       <tr class=${diffClasses('dividerRow', `show-${showConfig}`)}>
         ${when(
           this.columns.blame,
-          () =>
-            html`<td class=${diffClasses('blame')} data-line-number="0"></td>`
+          () => html`<td class="blame" data-line-number="0"></td>`
         )}
-        <td class=${diffClasses('dividerCell')} colspan=${colspan}>
+        <td class="dividerCell" colspan=${colspan}>
           <gr-context-controls
-            class=${diffClasses()}
             .diff=${this.diff}
             .renderPreferences=${this.renderPrefs}
             .group=${this.group}

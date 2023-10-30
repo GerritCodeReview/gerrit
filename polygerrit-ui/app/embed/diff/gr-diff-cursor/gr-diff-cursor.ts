@@ -13,7 +13,6 @@ import {
   LineSelectedEventDetail,
 } from '../../../api/diff';
 import {ScrollMode, Side} from '../../../constants/constants';
-import {toggleClass} from '../../../utils/dom-util';
 import {
   GrCursorManager,
   isTargetable,
@@ -436,8 +435,8 @@ export class GrDiffCursor implements GrDiffCursorApi {
     if (!this.diffRowTR) {
       return;
     }
-    toggleClass(this.diffRowTR, LEFT_SIDE_CLASS, this.side === Side.LEFT);
-    toggleClass(this.diffRowTR, RIGHT_SIDE_CLASS, this.side === Side.RIGHT);
+    this.diffRowTR.classList.toggle(LEFT_SIDE_CLASS, this.side === Side.LEFT);
+    this.diffRowTR.classList.toggle(RIGHT_SIDE_CLASS, this.side === Side.RIGHT);
   }
 
   // visible for testing

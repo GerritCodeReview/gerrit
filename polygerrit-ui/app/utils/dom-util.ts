@@ -288,20 +288,6 @@ export function whenVisible(
 }
 
 /**
- * Toggles a CSS class on or off for an element.
- */
-export function toggleClass(el: Element, className: string, bool?: boolean) {
-  if (bool === undefined) {
-    bool = !el.classList.contains(className);
-  }
-  if (bool) {
-    el.classList.add(className);
-  } else {
-    el.classList.remove(className);
-  }
-}
-
-/**
  * For matching the `key` property of KeyboardEvents. These are known to work
  * with Firefox, Safari and Chrome.
  */

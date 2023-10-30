@@ -50,7 +50,7 @@ import {
   computeIsExpandable,
 } from '../../models/checks/checks-util';
 import {assertIsDefined, assert, unique} from '../../utils/common-util';
-import {modifierPressed, toggleClass, whenVisible} from '../../utils/dom-util';
+import {modifierPressed, whenVisible} from '../../utils/dom-util';
 import {durationString} from '../../utils/date-util';
 import {charsOnly} from '../../utils/string-util';
 import {isAttemptSelected, matches} from './gr-checks-util';
@@ -558,7 +558,7 @@ export class GrResultRow extends LitElement {
         horizontal-align="right"
         @tap-item=${this.handleAction}
         @opened-changed=${(e: ValueChangedEvent<boolean>) =>
-          toggleClass(this, 'dropdown-open', e.detail.value)}
+          this.classList.toggle('dropdown-open', e.detail.value)}
         ?hidden=${overflowItems.length === 0}
         .items=${overflowItems}
         .disabledIds=${disabledItems}

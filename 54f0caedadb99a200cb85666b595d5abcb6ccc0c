@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "de681c30_9684b271",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-10-30T09:34:17Z",
+      "side": 1,
+      "message": "Thought I made it private already, thank you for pointing it out. Making the inner class static though would mean that it cannot to access the non-static member of the outer class. In this case the actual datasource.",
+      "parentUuid": "69144793_31711e02",
+      "range": {
+        "startLine": 102,
+        "startChar": 2,
+        "endLine": 102,
+        "endChar": 7
+      },
+      "revId": "54f0caedadb99a200cb85666b595d5abcb6ccc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2572e3ce_80c7f097",
         "filename": "java/com/google/gerrit/index/query/AndSource.java",
         "patchSetId": 9
@@ -37,6 +61,30 @@
       "writtenOn": "2023-10-26T20:35:30Z",
       "side": 1,
       "message": "Should be also `private static` IMHO.",
+      "range": {
+        "startLine": 119,
+        "startChar": 2,
+        "endLine": 119,
+        "endChar": 7
+      },
+      "revId": "54f0caedadb99a200cb85666b595d5abcb6ccc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9717518f_b81ac842",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-10-30T09:34:17Z",
+      "side": 1,
+      "message": "Thought I made it private already, thank you for pointing it out. Making the inner class static though would mean that it cannot to access the non-static member of the outer class. In this case the actual datasource.",
+      "parentUuid": "2572e3ce_80c7f097",
       "range": {
         "startLine": 119,
         "startChar": 2,

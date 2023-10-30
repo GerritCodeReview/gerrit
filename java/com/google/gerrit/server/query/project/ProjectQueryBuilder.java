@@ -26,7 +26,6 @@ import java.util.List;
  */
 public interface ProjectQueryBuilder {
   String FIELD_LIMIT = "limit";
-  String FIELD_SUBSTRING = "substring";
 
   /** See {@link com.google.gerrit.index.query.QueryBuilder#parse(String)}. */
   Predicate<ProjectData> parse(String query) throws QueryParseException;

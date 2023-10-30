@@ -34,6 +34,24 @@
       "parentUuid": "05f6a0f6_fa29571a",
       "revId": "be7e90e3d3f6fbdc4af4455f0df5b737927c47c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4a6bc35_45b06b97",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-30T14:37:55Z",
+      "side": 1,
+      "message": "I believe the FE and BE are served differently at Google:\n- FE by the CDN\n- BE by the JVM tasks\n\nI agree with Ben to wait until all the BE fixes are rolled out. You can easily check those out from the version the bottom of the Gerrit screen.\n\n@brohlfs@google.com which sites should be monitor? gerrit-review? chromium-review? others?",
+      "parentUuid": "a2376c4e_94863c73",
+      "revId": "be7e90e3d3f6fbdc4af4455f0df5b737927c47c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

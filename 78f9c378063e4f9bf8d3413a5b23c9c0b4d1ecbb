@@ -22,6 +22,30 @@
       },
       "revId": "78f9c378063e4f9bf8d3413a5b23c9c0b4d1ecbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54816ea9_ddb0042a",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-model/gr-diff-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-10-30T16:19:11Z",
+      "side": 1,
+      "message": "In this case I like `hide...`, because showing it is the default, and hiding it is an (atypical) option. Also, render prefs are part of the diff API contract, so not so easy to change.",
+      "parentUuid": "a2e582f6_d7001cc3",
+      "range": {
+        "startLine": 117,
+        "startChar": 12,
+        "endLine": 117,
+        "endChar": 20
+      },
+      "revId": "78f9c378063e4f9bf8d3413a5b23c9c0b4d1ecbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

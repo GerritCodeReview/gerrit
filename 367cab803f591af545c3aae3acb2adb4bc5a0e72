@@ -70,6 +70,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d280dd50_49fb458d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-31T14:48:00Z",
+      "side": 1,
+      "message": "\u003e Thanks @ponch78@gmail.com, I was indeed missing some of these (which I have now updated).\n\u003e Having said that, currently we are still not guarding on 3 different places:\n\u003e \n\u003e 1 - Schema_169.java, not sure if we should to be honest\n\u003e \n\u003e https://gerrit.googlesource.com/gerrit/+/refs/changes/74/390874/2/java/com/google/gerrit/server/schema/Schema_169.java#66\n\nDONE - it was not needed\n\n\u003e \n\u003e 2 - NoteDbMigrator.java, I think it is fine *not* to check for projects here, as the rebuild() is already guarded by the callers not be called when *any* project is set.\n\u003e \n\u003e https://gerrit.googlesource.com/gerrit/+/refs/changes/74/390874/2/java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java#962\n\nDONE - tested and this is not needed\n\n\u003e \n\u003e 3 - ReviewDbBatchUpdate.java, this is just used to check state.\n\u003e \n\u003e https://gerrit.googlesource.com/gerrit/+/refs/changes/74/390874/2/java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java#721\n\u003e \n\u003e \n\u003e @luca.milanesio@gmail.com, @ponch78@gmail.com WDYT, about the above remaining cases?\n\nI think all cases have been addressed.",
+      "parentUuid": "5c692453_e1d0f87c",
+      "revId": "367cab803f591af545c3aae3acb2adb4bc5a0e72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc50a8da_e82d847f",
@@ -247,6 +265,30 @@
       "writtenOn": "2023-10-24T17:29:59Z",
       "side": 1,
       "message": "@luca.milanesio@gmail.com, any idea if this is required or not?\nI am trying to understand if the `CommentJsonMigrator` should be actually limited to only the projects for which the migration has been enabled.",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 7
+      },
+      "revId": "367cab803f591af545c3aae3acb2adb4bc5a0e72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecf19890_3160a128",
+        "filename": "java/com/google/gerrit/server/schema/Schema_169.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-31T14:48:00Z",
+      "side": 1,
+      "message": "This schema version is prior to 2.16 (which is on 170).\nTherefore, in 2.15 there was no possibility of doing per-project migration and thus we don\u0027t need to check whether we should migrate projects.\n\nResolving and removing this check.",
+      "parentUuid": "8b662be9_3ba87b1a",
       "range": {
         "startLine": 76,
         "startChar": 0,

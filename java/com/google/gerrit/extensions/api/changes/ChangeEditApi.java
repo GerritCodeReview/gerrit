@@ -195,6 +195,9 @@ public interface ChangeEditApi {
    */
   void modifyCommitMessage(String newCommitMessage) throws RestApiException;
 
+  void modifyIdentity(String name, String email, ChangeEditIdentityType type)
+      throws RestApiException;
+
   /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
@@ -267,6 +270,12 @@ public interface ChangeEditApi {
 
     @Override
     public void modifyCommitMessage(String newCommitMessage) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void modifyIdentity(String name, String email, ChangeEditIdentityType type)
+        throws RestApiException {
       throw new NotImplementedException();
     }
   }

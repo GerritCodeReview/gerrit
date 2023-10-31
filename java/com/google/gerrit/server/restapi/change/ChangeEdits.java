@@ -28,6 +28,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.api.changes.ChangeEditIdentityType;
 import com.google.gerrit.extensions.api.changes.FileContentInput;
 import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -49,6 +50,8 @@ import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.change.ChangeEditResource;
 import com.google.gerrit.server.change.ChangeResource;
@@ -61,9 +64,12 @@ import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -72,6 +78,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -556,6 +563,73 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
                 .base64());
       }
       throw new ResourceNotFoundException();
+    }
+  }
+
+  @Singleton
+  public static class EditIdentity implements RestModifyView<ChangeResource, EditIdentity.Input> {
+    public static class Input {
+      @DefaultInput public String name;
+      @DefaultInput public String email;
+      @DefaultInput public ChangeEditIdentityType type;
+    }
+
+    private final ChangeEditModifier editModifier;
+    private final GitRepositoryManager repositoryManager;
+    private final PermissionBackend permissionBackend;
+    private final Provider<CurrentUser> self;
+    private final Provider<PersonIdent> serverIdent;
+
+    @Inject
+    EditIdentity(
+        ChangeEditModifier editModifier,
+        GitRepositoryManager repositoryManager,
+        PermissionBackend permissionBackend,
+        Provider<CurrentUser> self,
+        @GerritPersonIdent Provider<PersonIdent> serverIdent) {
+      this.editModifier = editModifier;
+      this.repositoryManager = repositoryManager;
+      this.permissionBackend = permissionBackend;
+      this.self = self;
+      this.serverIdent = serverIdent;
+    }
+
+    @Override
+    public Response<Object> apply(ChangeResource rsrc, EditIdentity.Input input)
+        throws AuthException, IOException, BadRequestException, ResourceConflictException,
+            PermissionBackendException {
+      if (input == null || input.type == null || Strings.isNullOrEmpty(input.email)) {
+        throw new BadRequestException("email and type must be provided");
+      }
+
+      input.name = Strings.nullToEmpty(input.name);
+
+      if (!self.get().asIdentifiedUser().hasEmailAddress(input.email)) {
+        if (input.name.equals(serverIdent.get().getName())
+            || input.email.equals(serverIdent.get().getEmailAddress())) {
+          throw new ResourceConflictException("cannot use server identity");
+        }
+        try {
+          RefPermission perm =
+              input.type.equals(ChangeEditIdentityType.AUTHOR)
+                  ? RefPermission.FORGE_AUTHOR
+                  : RefPermission.FORGE_COMMITTER;
+          permissionBackend.user(self.get()).ref(rsrc.getNotes().getChange().getDest()).check(perm);
+        } catch (AuthException e) {
+          throw new ResourceConflictException(e.getMessage());
+        }
+      }
+
+      PersonIdent ident =
+          new PersonIdent(input.name, input.email, TimeUtil.now(), serverIdent.get().getZoneId());
+      Project.NameKey project = rsrc.getProject();
+      try (Repository repository = repositoryManager.openRepository(project)) {
+        editModifier.modifyIdentity(repository, rsrc.getNotes(), ident, input.type);
+      } catch (InvalidChangeOperationException e) {
+        throw new ResourceConflictException(e.getMessage());
+      }
+
+      return Response.none();
     }
   }
 }

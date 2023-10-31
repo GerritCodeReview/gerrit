@@ -240,8 +240,10 @@ public class ChangeEditUtil {
       throws IOException, ResourceConflictException {
     RevCommit parent = rw.parseCommit(basePatchSet.commitId());
     if (parent.getTree().equals(edit.getTree())
-        && edit.getFullMessage().equals(parent.getFullMessage())) {
-      throw new ResourceConflictException("identical tree and message");
+        && edit.getFullMessage().equals(parent.getFullMessage())
+        && parent.getAuthorIdent().equals(edit.getAuthorIdent())
+        && parent.getCommitterIdent().equals(edit.getCommitterIdent())) {
+      throw new ResourceConflictException("identical tree, message, author and committer");
     }
     return writeSquashedCommit(rw, inserter, parent, edit);
   }
@@ -284,7 +286,7 @@ public class ChangeEditUtil {
     for (int i = 0; i < parent.getParentCount(); i++) {
       mergeCommit.addParentId(parent.getParent(i));
     }
-    mergeCommit.setAuthor(parent.getAuthorIdent());
+    mergeCommit.setAuthor(edit.getAuthorIdent());
     mergeCommit.setMessage(edit.getFullMessage());
     mergeCommit.setCommitter(edit.getCommitterIdent());
     mergeCommit.setTreeId(edit.getTree());

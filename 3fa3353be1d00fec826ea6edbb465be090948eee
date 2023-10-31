@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16f1f88c_9dfe6069",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-10-31T14:32:49Z",
+      "side": 1,
+      "message": "This has created regressions in com.google.gerrit.acceptance.api.project.ProjectIT.\n\nDoes the test work locally for you?",
+      "revId": "3fa3353be1d00fec826ea6edbb465be090948eee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

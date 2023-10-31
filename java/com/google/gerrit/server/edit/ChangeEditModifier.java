@@ -24,6 +24,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.api.changes.ChangeEditIdentityType;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
@@ -202,7 +203,13 @@ public class ChangeEditModifier {
     Instant nowTimestamp = TimeUtil.now();
     String commitMessage = currentEditCommit.getFullMessage();
     ObjectId newEditCommitId =
-        createCommit(repository, basePatchSetCommit, newTreeId, commitMessage, nowTimestamp);
+        createCommit(
+            repository,
+            basePatchSetCommit,
+            newTreeId,
+            commitMessage,
+            currentEditCommit.getAuthorIdent(),
+            new PersonIdent(currentEditCommit.getCommitterIdent(), nowTimestamp));
 
     noteDbEdits.baseEditOnDifferentPatchset(
         project,
@@ -234,6 +241,26 @@ public class ChangeEditModifier {
         notes,
         new ModificationIntention.LatestCommit(),
         CommitModification.builder().newCommitMessage(newCommitMessage).build());
+  }
+
+  public void modifyIdentity(
+      Repository repository,
+      ChangeNotes notes,
+      PersonIdent identity,
+      ChangeEditIdentityType identityType)
+      throws AuthException, IOException, InvalidChangeOperationException,
+          PermissionBackendException, BadRequestException, ResourceConflictException {
+    CommitModification.Builder cmb = CommitModification.builder();
+    switch (identityType) {
+      case AUTHOR:
+        cmb.newAuthor(identity);
+        break;
+      case COMMITTER:
+      default:
+        cmb.newCommitter(identity);
+        break;
+    }
+    modifyCommit(repository, notes, new ModificationIntention.LatestCommit(), cmb.build());
   }
 
   /**
@@ -402,21 +429,65 @@ public class ChangeEditModifier {
         createNewCommitMessage(
             changeIdRequired, currentChangeId, editBehavior, commitModification, commitToModify);
     newCommitMessage = editBehavior.mergeCommitMessageIfNecessary(newCommitMessage, commitToModify);
+    Instant nowTimestamp = TimeUtil.now();
+    PersonIdent author = getAuthor(commitModification, commitToModify, nowTimestamp);
+    PersonIdent committer =
+        getCommitter(commitModification, commitToModify, basePatchsetCommit, nowTimestamp);
 
     Optional<ChangeEdit> unmodifiedEdit =
-        editBehavior.getEditIfNoModification(newTreeId, newCommitMessage);
+        editBehavior.getEditIfNoModification(
+            newTreeId, newCommitMessage,
+            author, committer);
     if (unmodifiedEdit.isPresent()) {
       return unmodifiedEdit.get();
     }
 
-    Instant nowTimestamp = TimeUtil.now();
     ObjectId newEditCommit =
-        createCommit(repository, basePatchsetCommit, newTreeId, newCommitMessage, nowTimestamp);
+        createCommit(
+            repository, basePatchsetCommit, newTreeId, newCommitMessage, author, committer);
 
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
       return editBehavior.updateEditInStorage(
           repository, notes, basePatchset, newEditCommit, nowTimestamp);
     }
+  }
+
+  private PersonIdent getAuthor(
+      CommitModification commitModification, RevCommit commitToModify, Instant timestamp) {
+    PersonIdent currentAuthor = commitToModify.getAuthorIdent();
+    if (!commitModification.newAuthor().isPresent()) {
+      return currentAuthor;
+    }
+    PersonIdent newAuthor = commitModification.newAuthor().get();
+    String newName = newAuthor.getName();
+    String newEmail = newAuthor.getEmailAddress();
+    return new PersonIdent(
+        newName.isEmpty() ? currentAuthor.getName() : newName,
+        newEmail.isEmpty() ? currentAuthor.getEmailAddress() : newEmail,
+        timestamp,
+        zoneId);
+  }
+
+  private PersonIdent getCommitter(
+      CommitModification commitModification,
+      RevCommit commitToModify,
+      RevCommit basePatchsetCommit,
+      Instant timestamp) {
+    PersonIdent currentCommitter = commitToModify.getCommitterIdent();
+    if (!commitModification.newCommitter().isPresent()) {
+      if (commitToModify.equals(basePatchsetCommit)) {
+        return getCommitterIdent(basePatchsetCommit, timestamp);
+      }
+      return new PersonIdent(currentCommitter, timestamp);
+    }
+    PersonIdent newCommitter = commitModification.newCommitter().get();
+    String newName = newCommitter.getName();
+    String newEmail = newCommitter.getEmailAddress();
+    return new PersonIdent(
+        newName.isEmpty() ? currentCommitter.getName() : newName,
+        newEmail.isEmpty() ? currentCommitter.getEmailAddress() : newEmail,
+        timestamp,
+        zoneId);
   }
 
   private void assertCanEdit(ChangeNotes notes)
@@ -528,14 +599,15 @@ public class ChangeEditModifier {
       RevCommit basePatchsetCommit,
       ObjectId tree,
       String commitMessage,
-      Instant timestamp)
+      PersonIdent author,
+      PersonIdent committer)
       throws IOException {
     try (ObjectInserter objectInserter = repository.newObjectInserter()) {
       CommitBuilder builder = new CommitBuilder();
       builder.setTreeId(tree);
       builder.setParentIds(basePatchsetCommit.getParents());
-      builder.setAuthor(basePatchsetCommit.getAuthorIdent());
-      builder.setCommitter(getCommitterIdent(basePatchsetCommit, timestamp));
+      builder.setAuthor(author);
+      builder.setCommitter(committer);
       builder.setMessage(commitMessage);
       ObjectId newCommitId = objectInserter.insert(builder);
       objectInserter.flush();
@@ -572,7 +644,11 @@ public class ChangeEditModifier {
     String mergeCommitMessageIfNecessary(String newCommitMessage, RevCommit commitToModify)
         throws MergeConflictException;
 
-    Optional<ChangeEdit> getEditIfNoModification(ObjectId newTreeId, String newCommitMessage);
+    Optional<ChangeEdit> getEditIfNoModification(
+        ObjectId newTreeId,
+        String newCommitMessage,
+        PersonIdent newAuthor,
+        PersonIdent newCommitter);
 
     ChangeEdit updateEditInStorage(
         Repository repository,
@@ -662,13 +738,29 @@ public class ChangeEditModifier {
 
     @Override
     public Optional<ChangeEdit> getEditIfNoModification(
-        ObjectId newTreeId, String newCommitMessage) {
-      if (!ObjectId.isEqual(newTreeId, changeEdit.getEditCommit().getTree())) {
+        ObjectId newTreeId,
+        String newCommitMessage,
+        PersonIdent newAuthor,
+        PersonIdent newCommitter) {
+      RevCommit editCommit = changeEdit.getEditCommit();
+
+      if (!ObjectId.isEqual(newTreeId, editCommit.getTree())) {
         return Optional.empty();
       }
-      if (!Objects.equals(newCommitMessage, changeEdit.getEditCommit().getFullMessage())) {
+      if (!Objects.equals(newCommitMessage, editCommit.getFullMessage())) {
         return Optional.empty();
       }
+      if (!newAuthor.getName().equals(editCommit.getAuthorIdent().getName())
+          || !newAuthor.getEmailAddress().equals(editCommit.getAuthorIdent().getEmailAddress())) {
+        return Optional.empty();
+      }
+      if (!newCommitter.getName().equals(editCommit.getCommitterIdent().getName())
+          || !newCommitter
+              .getEmailAddress()
+              .equals(editCommit.getCommitterIdent().getEmailAddress())) {
+        return Optional.empty();
+      }
+
       // Modifications are already contained in the change edit.
       return Optional.of(changeEdit);
     }
@@ -723,7 +815,10 @@ public class ChangeEditModifier {
 
     @Override
     public Optional<ChangeEdit> getEditIfNoModification(
-        ObjectId newTreeId, String newCommitMessage) {
+        ObjectId newTreeId,
+        String newCommitMessage,
+        PersonIdent newAuthor,
+        PersonIdent newCommitter) {
       return Optional.empty();
     }
 

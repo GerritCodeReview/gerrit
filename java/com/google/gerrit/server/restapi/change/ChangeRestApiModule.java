@@ -88,6 +88,7 @@ public class ChangeRestApiModule extends RestApiModule {
     put(CHANGE_EDIT_KIND, "/").to(ChangeEdits.Put.class);
     get(CHANGE_EDIT_KIND, "meta").to(ChangeEdits.GetMeta.class);
 
+    put(CHANGE_KIND, "edit:identity").to(ChangeEdits.EditIdentity.class);
     put(CHANGE_KIND, "edit:message").to(ChangeEdits.EditMessage.class);
     get(CHANGE_KIND, "edit:message").to(ChangeEdits.GetMessage.class);
     post(CHANGE_KIND, "edit:publish").to(PublishChangeEdit.class);

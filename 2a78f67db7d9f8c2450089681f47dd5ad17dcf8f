@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a38986e5_ab7f4d96",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-10-31T12:41:21Z",
+      "side": 1,
+      "message": "[optional] maybe switch the \"From URL\" and \"In the web interface\" sections. The latter one looks more important to be and should maybe come first?",
+      "revId": "2a78f67db7d9f8c2450089681f47dd5ad17dcf8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

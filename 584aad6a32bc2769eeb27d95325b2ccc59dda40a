@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dc35c6d_8deedeb3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-10-31T15:21:09Z",
+      "side": 1,
+      "message": "Manual testing:\n\n- 1: existing changes for projects configured in `onlineMigrationProjects` are correctly kept in sync between reviewDB and NoteDB\n\n- 2: new changes for projects configured in `onlineMigrationProjects` are correctly kept in sync between reviewDB and NoteDB\n\n- 3: existing changes for projects NOT configured in `onlineMigrationProjects` are not migrated to NoteDB\n\n- 4: new changes for projects NOT configured in `onlineMigrationProjects` are not only on ReviewDB\n\n- 5: Tested that `migrate-to-note-db` migrate *any* project passed as argument (even when not configured in `onlineMigrationProjects`)\n\n```\njava -jar bin/gerrit.war migrate-to-note-db -d $PWD --project project_four --trial\n```\n\n- 6: Tested that `/rebuild.notedb` api only allow rebuilding of configured projects. \n \nhttp://localhost:8080/a/changes/\u003cchange\u003e/rebuild.notedb/\n\n\nAlso run tests on jenkins-ci-2.\n\n@luca.milanesio@gmail.com please any feedback on this? Any specific test you are thinking?",
+      "revId": "584aad6a32bc2769eeb27d95325b2ccc59dda40a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

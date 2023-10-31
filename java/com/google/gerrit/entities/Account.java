@@ -19,6 +19,7 @@ import static com.google.gerrit.entities.RefNames.REFS_STARRED_CHANGES;
 import static com.google.gerrit.entities.RefNames.REFS_USERS;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.MoreObjects;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
@@ -281,5 +282,18 @@ public abstract class Account {
   @Override
   public final String toString() {
     return getName();
+  }
+
+  public final String debugString() {
+    return MoreObjects.toStringHelper(this)
+        .add("id", id())
+        .add("registeredOn", registeredOn())
+        .add("fullName", fullName())
+        .add("displayName", displayName())
+        .add("preferredEmail", preferredEmail())
+        .add("inactive", inactive())
+        .add("status", status())
+        .add("metaId", metaId())
+        .toString();
   }
 }

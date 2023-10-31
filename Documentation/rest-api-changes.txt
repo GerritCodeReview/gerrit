@@ -3383,6 +3383,36 @@ When change edit doesn't exist for this change yet it is created.
   HTTP/1.1 204 No Content
 ----
 
+[[put-change-edit-committer-author-identity]]
+=== Change author or committer identity in Change Edit
+--
+'PUT /changes/link:#change-id[\{change-id\}]/edit:identity'
+--
+
+Modify author or committer identity. The request body needs to include a
+link:#change-edit-identity-input[ChangeEditIdentityInput]
+entity. `type` must be either `AUTHOR` or `COMMITTER`.
+
+.Request
+----
+  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit:identity HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "type": "COMMITTER"
+  }
+----
+
+If a change edit doesn't exist for this change yet, it is created. As
+response "`204 No Content`" is returned.
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[get-edit-file]]
 === Retrieve file content from Change Edit
 --
@@ -7019,6 +7049,19 @@ the commit message within a change edit.
 |===========================
 |Field Name    ||Description
 |`message`     ||New commit message.
+|===========================
+
+[[change-edit-identity-input]]
+=== ChangeEditIdentityInput
+The `ChangeEditIdentityInput` entity contains information for changing
+the author or committer identity within a change edit.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`name`     |optional|The name of the author/committer. Defaults to author/committer name of the commit being edited.
+|`email`    ||The email of the author/committer.
+|`type`     ||Type of the identity being edited. Must be either `AUTHOR` or `COMMITTER`.
 |===========================
 
 [[change-info]]

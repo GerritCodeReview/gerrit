@@ -50,6 +50,7 @@ import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.api.changes.ChangeEditIdentityType;
 import com.google.gerrit.extensions.api.changes.FileContentInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
@@ -62,9 +63,12 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
+import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FileInfo;
+import com.google.gerrit.extensions.common.GitPerson;
+import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -72,6 +76,7 @@ import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.project.testing.TestLabels;
+import com.google.gerrit.server.restapi.change.ChangeEdits;
 import com.google.gerrit.server.restapi.change.ChangeEdits.EditMessage;
 import com.google.gerrit.server.restapi.change.ChangeEdits.Post;
 import com.google.gson.reflect.TypeToken;
@@ -482,6 +487,206 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(thrown)
         .hasMessageThat()
         .contains("New commit message cannot be same as existing commit message");
+  }
+
+  @Test
+  public void updateCommitter() throws Exception {
+    createEmptyEditFor(changeId);
+    gApi.changes()
+        .id(changeId)
+        .edit()
+        .modifyIdentity("Test", "test@example.com", ChangeEditIdentityType.COMMITTER);
+
+    PublishChangeEditInput publishInput = new PublishChangeEditInput();
+    publishInput.notify = NotifyHandling.NONE;
+    gApi.changes().id(changeId).edit().publish(publishInput);
+    assertThat(getEdit(changeId)).isAbsent();
+
+    ChangeInfo info =
+        get(changeId, ListChangesOption.CURRENT_COMMIT, ListChangesOption.CURRENT_REVISION);
+    GitPerson committer = info.revisions.get(info.currentRevision).commit.committer;
+    assertThat(committer.name).isEqualTo("Test");
+    assertThat(committer.email).isEqualTo("test@example.com");
+  }
+
+  @Test
+  public void updateCommitterRest() throws Exception {
+    adminRestSession.get(urlEditIdentity(changeId)).assertNotFound();
+    ChangeEdits.EditIdentity.Input in = new ChangeEdits.EditIdentity.Input();
+    in.name = "Test";
+    in.email = "test@example.com";
+    in.type = ChangeEditIdentityType.COMMITTER;
+    adminRestSession.put(urlEditIdentity(changeId), in).assertNoContent();
+    adminRestSession.getJsonAccept(urlEditIdentity(changeId));
+    adminRestSession.post(urlPublish(changeId)).assertNoContent();
+    ChangeInfo info =
+        get(changeId, ListChangesOption.CURRENT_COMMIT, ListChangesOption.CURRENT_REVISION);
+    GitPerson committer = info.revisions.get(info.currentRevision).commit.committer;
+    assertThat(committer.name).isEqualTo("Test");
+    assertThat(committer.email).isEqualTo("test@example.com");
+  }
+
+  @Test
+  public void updateCommitterRestWithDefaultName() throws Exception {
+    adminRestSession.get(urlEditIdentity(changeId)).assertNotFound();
+    ChangeEdits.EditIdentity.Input in = new ChangeEdits.EditIdentity.Input();
+    in.type = ChangeEditIdentityType.COMMITTER;
+    in.email = "test@example.com";
+    adminRestSession.put(urlEditIdentity(changeId), in).assertNoContent();
+    adminRestSession.getJsonAccept(urlEditIdentity(changeId));
+    adminRestSession.post(urlPublish(changeId)).assertNoContent();
+    ChangeInfo info =
+        get(changeId, ListChangesOption.CURRENT_COMMIT, ListChangesOption.CURRENT_REVISION);
+    GitPerson committer = info.revisions.get(info.currentRevision).commit.committer;
+    assertThat(committer.name).isEqualTo("Administrator");
+    assertThat(committer.email).isEqualTo("test@example.com");
+  }
+
+  @Test
+  public void cannotUpdateCommitterToServerIdent() throws Exception {
+    createEmptyEditFor(changeId);
+    assertThrows(
+        ResourceConflictException.class,
+        () ->
+            gApi.changes()
+                .id(changeId)
+                .edit()
+                .modifyIdentity(
+                    serverIdent.get().getName(),
+                    serverIdent.get().getEmailAddress(),
+                    ChangeEditIdentityType.COMMITTER));
+  }
+
+  @Test
+  public void cannotForgeCommitterWithoutPerm() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.FORGE_COMMITTER).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    createEmptyEditFor(changeId);
+    assertThrows(
+        ResourceConflictException.class,
+        () ->
+            gApi.changes()
+                .id(changeId)
+                .edit()
+                .modifyIdentity("Test", "test@example.com", ChangeEditIdentityType.COMMITTER));
+  }
+
+  @Test
+  public void updateAuthor() throws Exception {
+    createEmptyEditFor(changeId);
+    gApi.changes()
+        .id(changeId)
+        .edit()
+        .modifyIdentity("Test", "test@example.com", ChangeEditIdentityType.AUTHOR);
+
+    PublishChangeEditInput publishInput = new PublishChangeEditInput();
+    publishInput.notify = NotifyHandling.NONE;
+    gApi.changes().id(changeId).edit().publish(publishInput);
+    assertThat(getEdit(changeId)).isAbsent();
+
+    ChangeInfo info =
+        get(changeId, ListChangesOption.CURRENT_COMMIT, ListChangesOption.CURRENT_REVISION);
+    GitPerson author = info.revisions.get(info.currentRevision).commit.author;
+    assertThat(author.name).isEqualTo("Test");
+    assertThat(author.email).isEqualTo("test@example.com");
+  }
+
+  @Test
+  public void updateAuthorRest() throws Exception {
+    adminRestSession.get(urlEditIdentity(changeId)).assertNotFound();
+    ChangeEdits.EditIdentity.Input in = new ChangeEdits.EditIdentity.Input();
+    in.name = "Test";
+    in.type = ChangeEditIdentityType.AUTHOR;
+    in.email = "test@example.com";
+    adminRestSession.put(urlEditIdentity(changeId), in).assertNoContent();
+    adminRestSession.getJsonAccept(urlEditIdentity(changeId));
+    adminRestSession.post(urlPublish(changeId)).assertNoContent();
+    ChangeInfo info =
+        get(changeId, ListChangesOption.CURRENT_COMMIT, ListChangesOption.CURRENT_REVISION);
+    GitPerson author = info.revisions.get(info.currentRevision).commit.author;
+    assertThat(author.name).isEqualTo("Test");
+    assertThat(author.email).isEqualTo("test@example.com");
+  }
+
+  @Test
+  public void updateAuthorRestWithDefaultName() throws Exception {
+    adminRestSession.get(urlEditIdentity(changeId)).assertNotFound();
+    ChangeEdits.EditIdentity.Input in = new ChangeEdits.EditIdentity.Input();
+    in.type = ChangeEditIdentityType.AUTHOR;
+    in.email = "test@example.com";
+    adminRestSession.put(urlEditIdentity(changeId), in).assertNoContent();
+    adminRestSession.getJsonAccept(urlEditIdentity(changeId));
+    adminRestSession.post(urlPublish(changeId)).assertNoContent();
+    ChangeInfo info =
+        get(changeId, ListChangesOption.CURRENT_COMMIT, ListChangesOption.CURRENT_REVISION);
+    GitPerson author = info.revisions.get(info.currentRevision).commit.author;
+    assertThat(author.name).isEqualTo("Administrator");
+    assertThat(author.email).isEqualTo("test@example.com");
+  }
+
+  @Test
+  public void cannotUpdateAuthorToServerIdent() throws Exception {
+    createEmptyEditFor(changeId);
+    assertThrows(
+        ResourceConflictException.class,
+        () ->
+            gApi.changes()
+                .id(changeId)
+                .edit()
+                .modifyIdentity(
+                    serverIdent.get().getName(),
+                    serverIdent.get().getEmailAddress(),
+                    ChangeEditIdentityType.AUTHOR));
+  }
+
+  @Test
+  public void cannotForgeAuthorWithoutPerm() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.FORGE_AUTHOR).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    createEmptyEditFor(changeId);
+    assertThrows(
+        ResourceConflictException.class,
+        () ->
+            gApi.changes()
+                .id(changeId)
+                .edit()
+                .modifyIdentity("Test", "test@example.com", ChangeEditIdentityType.AUTHOR));
+  }
+
+  @Test
+  public void updateAuthorAsOtherUser() throws Exception {
+    Account.Id otherUser =
+        accountOperations
+            .newAccount()
+            .preferredEmail("otherUser@example.com")
+            .fullname("otherUser")
+            .create();
+    requestScopeOperations.setApiUser(otherUser);
+    createEmptyEditFor(changeId);
+    gApi.changes()
+        .id(changeId)
+        .edit()
+        .modifyIdentity("Test", "test@example.com", ChangeEditIdentityType.AUTHOR);
+
+    PublishChangeEditInput publishInput = new PublishChangeEditInput();
+    publishInput.notify = NotifyHandling.NONE;
+    gApi.changes().id(changeId).edit().publish(publishInput);
+    assertThat(getEdit(changeId)).isAbsent();
+
+    ChangeInfo info =
+        get(changeId, ListChangesOption.CURRENT_COMMIT, ListChangesOption.CURRENT_REVISION);
+    GitPerson author = info.revisions.get(info.currentRevision).commit.author;
+    GitPerson committer = info.revisions.get(info.currentRevision).commit.committer;
+    assertThat(author.name).isEqualTo("Test");
+    assertThat(author.email).isEqualTo("test@example.com");
+    assertThat(committer.name).isEqualTo("otherUser");
+    assertThat(committer.email).isEqualTo("otherUser@example.com");
   }
 
   @Test
@@ -1162,6 +1367,59 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(info1.currentRevision).isNotEqualTo(info2.currentRevision);
   }
 
+  @Test
+  public void canCombineEdits() throws Exception {
+    createEmptyEditFor(changeId);
+
+    // update author
+    gApi.changes()
+        .id(changeId)
+        .edit()
+        .modifyIdentity("Test Author", "test.author@example.com", ChangeEditIdentityType.AUTHOR);
+
+    // update message
+    String msg = String.format("New commit message\n\nChange-Id: %s\n", changeId);
+    gApi.changes().id(changeId).edit().modifyCommitMessage(msg);
+
+    // add new file
+    String newFile = "foobar";
+    gApi.changes().id(changeId).edit().modifyFile(newFile, RawInputUtil.create(CONTENT_NEW));
+
+    // update committer
+    gApi.changes()
+        .id(changeId)
+        .edit()
+        .modifyIdentity(
+            "Test Committer", "test.committer@example.com", ChangeEditIdentityType.COMMITTER);
+
+    // delete file
+    gApi.changes().id(changeId).edit().deleteFile(FILE_NAME);
+
+    // rename file
+    gApi.changes().id(changeId).edit().renameFile(FILE_NAME2, FILE_NAME3);
+
+    // publish edit
+    PublishChangeEditInput publishInput = new PublishChangeEditInput();
+    publishInput.notify = NotifyHandling.NONE;
+    gApi.changes().id(changeId).edit().publish(publishInput);
+    assertThat(getEdit(changeId)).isAbsent();
+
+    ChangeInfo info =
+        get(
+            changeId,
+            ListChangesOption.CURRENT_COMMIT,
+            ListChangesOption.CURRENT_REVISION,
+            ListChangesOption.ALL_FILES);
+    RevisionInfo currentRevision = info.revisions.get(info.currentRevision);
+    CommitInfo currentCommit = currentRevision.commit;
+    assertThat(currentCommit.committer.name).isEqualTo("Test Committer");
+    assertThat(currentCommit.committer.email).isEqualTo("test.committer@example.com");
+    assertThat(currentCommit.author.name).isEqualTo("Test Author");
+    assertThat(currentCommit.author.email).isEqualTo("test.author@example.com");
+    assertThat(currentCommit.message).isEqualTo(msg);
+    assertThat(currentRevision.files.keySet()).containsExactly(newFile, FILE_NAME3);
+  }
+
   private void createArbitraryEditFor(String changeId) throws Exception {
     createEmptyEditFor(changeId);
     arbitrarilyModifyEditOf(changeId);
@@ -1225,6 +1483,10 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   private String urlEditMessage(String changeId, boolean base) {
     return "/changes/" + changeId + "/edit:message" + (base ? "?base" : "");
+  }
+
+  private String urlEditIdentity(String changeId) {
+    return "/changes/" + changeId + "/edit:identity";
   }
 
   private String urlEditFile(String changeId, String fileName) {

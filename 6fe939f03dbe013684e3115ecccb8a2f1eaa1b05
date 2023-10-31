@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e6f627f_2e191722",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-10-31T10:56:28Z",
+      "side": 1,
+      "message": "To me this doesn\u0027t sound like the most recommended way to upload changes, hence I think this shouldn\u0027t be mentioned as the first option in the \"Upload a change\" section.\n\nShould this rather be part of the \"Inline Edit\" section?",
+      "range": {
+        "startLine": 82,
+        "startChar": 61,
+        "endLine": 82,
+        "endChar": 81
+      },
+      "revId": "6fe939f03dbe013684e3115ecccb8a2f1eaa1b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

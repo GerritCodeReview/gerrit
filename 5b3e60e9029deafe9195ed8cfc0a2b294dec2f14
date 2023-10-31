@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63809e2f_8c21fbde",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7062,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-10-31T21:28:04Z",
+      "side": 1,
+      "message": "What\u0027s the default if this isn\u0027t set?",
+      "range": {
+        "startLine": 7062,
+        "startChar": 13,
+        "endLine": 7062,
+        "endChar": 21
+      },
+      "revId": "5b3e60e9029deafe9195ed8cfc0a2b294dec2f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e007a1ed_eb11feed",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeEditApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-10-31T21:28:04Z",
+      "side": 1,
+      "message": "Add javadoc like methods above",
+      "revId": "5b3e60e9029deafe9195ed8cfc0a2b294dec2f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19deb029_0d394b7f",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-10-31T21:28:04Z",
+      "side": 1,
+      "message": "Is it valid to use this annotation multiple times in the same class? It looks like `RestApiServlet.java` will return from the loop after finding the first one. I think this is used when providing a single field is sufficient for the input (i.e. you have an input with one required field and one optional field). You could make leave it on `email` since you specify `name` is optional, but I don\u0027t know how that interacts with `type` also being required.",
+      "range": {
+        "startLine": 573,
+        "startChar": 6,
+        "endLine": 573,
+        "endChar": 19
+      },
+      "revId": "5b3e60e9029deafe9195ed8cfc0a2b294dec2f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62eac5c6_f613f116",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-10-31T21:28:04Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure it\u0027s not valid to use `@DefaultInput` on a non-String object.",
+      "revId": "5b3e60e9029deafe9195ed8cfc0a2b294dec2f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28c852f6_527fb919",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-10-31T21:28:04Z",
+      "side": 1,
+      "message": "This should be `\u0026\u0026`. It\u0027s not the \"server identity\" unless both name and email match.\n\n\n```suggestion\n            \u0026\u0026 input.email.equals(serverIdent.get().getEmailAddress())) {\n```",
+      "range": {
+        "startLine": 609,
+        "startChar": 12,
+        "endLine": 609,
+        "endChar": 14
+      },
+      "revId": "5b3e60e9029deafe9195ed8cfc0a2b294dec2f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "473073ee_7ac5be29",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-10-31T21:28:04Z",
+      "side": 1,
+      "message": "It\u0027d be great if you could re-use the message from `com.google.gerrit.server.git.validators.CommitValidators#invalidEmail`.",
+      "range": {
+        "startLine": 619,
+        "startChar": 46,
+        "endLine": 619,
+        "endChar": 60
+      },
+      "revId": "5b3e60e9029deafe9195ed8cfc0a2b294dec2f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcb6d0ba_4107ce78",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-10-31T21:28:04Z",
+      "side": 1,
+      "message": "nit: inline the single use `project` variable\n\n```suggestion\n      try (Repository repository \u003d repositoryManager.openRepository(rsrc.getProject())) {\n```",
+      "range": {
+        "startLine": 626,
+        "startChar": 68,
+        "endLine": 626,
+        "endChar": 75
+      },
+      "revId": "5b3e60e9029deafe9195ed8cfc0a2b294dec2f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -46,6 +46,30 @@
       },
       "revId": "6fe939f03dbe013684e3115ecccb8a2f1eaa1b05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be4e8d39_8e37af5c",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-10-31T11:59:46Z",
+      "side": 1,
+      "message": "OK, I\u0027m not sure this is the right place to mention this.\n\nThis documentation page is intended to instruct human end users how to work with Gerrit, but the option that you are mentioning seems to be for tool integrations? Is this actually relevant for human end users?\n\n\u003e What I want to accomplish is that someone looking for ways to create\n\u003e changes should get all options enumerated in one place.\n\nI think this place is\nhttps://gerrit-review.googlesource.com/Documentation/user-upload.html. Maybe add this info there?",
+      "parentUuid": "bb3a884b_73f802b0",
+      "range": {
+        "startLine": 82,
+        "startChar": 61,
+        "endLine": 82,
+        "endChar": 81
+      },
+      "revId": "6fe939f03dbe013684e3115ecccb8a2f1eaa1b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

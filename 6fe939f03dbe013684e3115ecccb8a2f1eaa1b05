@@ -22,6 +22,30 @@
       },
       "revId": "6fe939f03dbe013684e3115ecccb8a2f1eaa1b05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb3a884b_73f802b0",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-10-31T11:53:39Z",
+      "side": 1,
+      "message": "I can change the order if that feels more natural.\nWhat I want to accomplish is that someone looking for ways to create changes should get all options enumerated in one place.\nIf I were looking for ways to create a change I would probably not even glance at an \"Inline Edit\" section.",
+      "parentUuid": "4e6f627f_2e191722",
+      "range": {
+        "startLine": 82,
+        "startChar": 61,
+        "endLine": 82,
+        "endChar": 81
+      },
+      "revId": "6fe939f03dbe013684e3115ecccb8a2f1eaa1b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

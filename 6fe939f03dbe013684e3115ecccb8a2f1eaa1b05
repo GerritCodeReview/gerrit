@@ -70,6 +70,30 @@
       },
       "revId": "6fe939f03dbe013684e3115ecccb8a2f1eaa1b05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "111356a2_6b1f1770",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-10-31T12:37:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be4e8d39_8e37af5c",
+      "range": {
+        "startLine": 82,
+        "startChar": 61,
+        "endLine": 82,
+        "endChar": 81
+      },
+      "revId": "6fe939f03dbe013684e3115ecccb8a2f1eaa1b05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

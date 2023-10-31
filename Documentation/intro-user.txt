@@ -78,9 +78,13 @@ ready.
 [[upload-change]]
 == Upload a Change
 
-Uploading a change to Gerrit is done by pushing a commit to Gerrit. The
-commit must be pushed to a ref in the `refs/for/` namespace which
-defines the target branch: `refs/for/<target-branch>`.
+Creating a change in Gerrit can be done
+link:user-inline-edit.html#create-change[directly in the UI, by using an edit URL]
+or (most commonly) by pushing a commit to Gerrit.
+
+To create a change by pushing the commit must be pushed to a ref in
+the `refs/for/` namespace which defines the target branch:
+`refs/for/<target-branch>`.
 The magic `refs/for/` prefix allows Gerrit to differentiate commits
 that are pushed for review from commits that are pushed directly into
 the repository, bypassing code review. For the target branch it is

@@ -16,6 +16,24 @@
       "message": "Should this be moved to stable-3.9?",
       "revId": "822c2d3604d16e5bd7eed603ed23e3b62ab6ea9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "528567d2_b2ad7bf3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-01T22:56:43Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "f4fc46c5_126feb11",
+      "revId": "822c2d3604d16e5bd7eed603ed23e3b62ab6ea9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

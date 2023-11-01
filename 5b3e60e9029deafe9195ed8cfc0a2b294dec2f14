@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90e0d04e_6fa9edcb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7062,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-11-01T20:42:52Z",
+      "side": 1,
+      "message": "Updated the doc.",
+      "parentUuid": "63809e2f_8c21fbde",
+      "range": {
+        "startLine": 7062,
+        "startChar": 13,
+        "endLine": 7062,
+        "endChar": 21
+      },
+      "revId": "5b3e60e9029deafe9195ed8cfc0a2b294dec2f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e007a1ed_eb11feed",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-10-31T21:28:04Z",
       "side": 1,
       "message": "Add javadoc like methods above",
+      "revId": "5b3e60e9029deafe9195ed8cfc0a2b294dec2f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16a51e6e_1caac94d",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeEditApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-11-01T20:42:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e007a1ed_eb11feed",
       "revId": "5b3e60e9029deafe9195ed8cfc0a2b294dec2f14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b46d208c_ba30de43",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-11-01T20:42:52Z",
+      "side": 1,
+      "message": "It looks like `DefaultInput` is useful when providing the data in non-json format and when there is one required input. I have removed it from all the `EditIdentity` inputs now. Other edit classes such as `Post.Input` having more than one required input also don\u0027t use it.",
+      "parentUuid": "19deb029_0d394b7f",
+      "range": {
+        "startLine": 573,
+        "startChar": 6,
+        "endLine": 573,
+        "endChar": 19
+      },
+      "revId": "5b3e60e9029deafe9195ed8cfc0a2b294dec2f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "62eac5c6_f613f116",
@@ -81,6 +147,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ece5f62_e0cf9543",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-11-01T20:42:52Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "62eac5c6_f613f116",
+      "revId": "5b3e60e9029deafe9195ed8cfc0a2b294dec2f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "28c852f6_527fb919",
@@ -94,6 +178,30 @@
       "writtenOn": "2023-10-31T21:28:04Z",
       "side": 1,
       "message": "This should be `\u0026\u0026`. It\u0027s not the \"server identity\" unless both name and email match.\n\n\n```suggestion\n            \u0026\u0026 input.email.equals(serverIdent.get().getEmailAddress())) {\n```",
+      "range": {
+        "startLine": 609,
+        "startChar": 12,
+        "endLine": 609,
+        "endChar": 14
+      },
+      "revId": "5b3e60e9029deafe9195ed8cfc0a2b294dec2f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44926d39_88fe36d8",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-11-01T20:42:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28c852f6_527fb919",
       "range": {
         "startLine": 609,
         "startChar": 12,
@@ -127,6 +235,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa7f4a06_09d7ce56",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-11-01T20:42:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "473073ee_7ac5be29",
+      "range": {
+        "startLine": 619,
+        "startChar": 46,
+        "endLine": 619,
+        "endChar": 60
+      },
+      "revId": "5b3e60e9029deafe9195ed8cfc0a2b294dec2f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dcb6d0ba_4107ce78",
@@ -140,6 +272,30 @@
       "writtenOn": "2023-10-31T21:28:04Z",
       "side": 1,
       "message": "nit: inline the single use `project` variable\n\n```suggestion\n      try (Repository repository \u003d repositoryManager.openRepository(rsrc.getProject())) {\n```",
+      "range": {
+        "startLine": 626,
+        "startChar": 68,
+        "endLine": 626,
+        "endChar": 75
+      },
+      "revId": "5b3e60e9029deafe9195ed8cfc0a2b294dec2f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa612f3c_6140714b",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-11-01T20:42:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcb6d0ba_4107ce78",
       "range": {
         "startLine": 626,
         "startChar": 68,

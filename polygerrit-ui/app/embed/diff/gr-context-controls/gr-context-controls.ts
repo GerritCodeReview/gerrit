@@ -18,10 +18,9 @@ import {switchMap, delay} from 'rxjs/operators';
 import '../../../elements/shared/gr-button/gr-button';
 import {pluralize} from '../../../utils/string-util';
 import {fire} from '../../../utils/event-util';
-import {DiffInfo} from '../../../types/diff';
 import {assertIsDefined} from '../../../utils/common-util';
-import {css, html, LitElement, TemplateResult} from 'lit';
-import {property} from 'lit/decorators.js';
+import {css, html, LitElement, nothing, TemplateResult} from 'lit';
+import {property, state} from 'lit/decorators.js';
 import {subscribe} from '../../../elements/lit/subscription-controller';
 
 import {
@@ -32,6 +31,8 @@ import {
 } from '../../../api/diff';
 
 import {GrDiffGroup, hideInContextControl} from '../gr-diff/gr-diff-group';
+import {resolve} from '../../../models/dependency';
+import {diffModelToken} from '../gr-diff-model/gr-diff-model';
 
 declare global {
   interface HTMLElementEventMap {
@@ -85,12 +86,14 @@ export function getShowConfig(
 export class GrContextControls extends LitElement {
   @property({type: Object}) renderPreferences?: RenderPreferences;
 
-  @property({type: Object}) diff?: DiffInfo;
-
   @property({type: Object}) group?: GrDiffGroup;
 
   @property({type: String, reflect: true})
   showConfig: GrContextControlsShowConfig = 'both';
+
+  @state() syntaxTreeRight?: SyntaxBlock[];
+
+  private readonly getDiffModel = resolve(this, diffModelToken);
 
   private expandButtonsHover = new Subject<{
     eventType: 'enter' | 'leave';
@@ -219,6 +222,11 @@ export class GrContextControls extends LitElement {
   constructor() {
     super();
     this.setupButtonHoverHandler();
+    subscribe(
+      this,
+      () => this.getDiffModel().syntaxTreeRight$,
+      syntaxTree => (this.syntaxTreeRight = syntaxTree)
+    );
   }
 
   private showBoth() {
@@ -439,14 +447,12 @@ export class GrContextControls extends LitElement {
     if (this.showAbove()) {
       aboveBlockButton = this.createBlockButton(
         ContextButtonType.BLOCK_ABOVE,
-        this.numLines(),
         this.group.lineRange.right.start_line - 1
       );
     }
     if (this.showBelow()) {
       belowBlockButton = this.createBlockButton(
         ContextButtonType.BLOCK_BELOW,
-        this.numLines(),
         this.group.lineRange.right.end_line + 1
       );
     }
@@ -476,26 +482,28 @@ export class GrContextControls extends LitElement {
     >`;
   }
 
+  /**
+   * Creates a "expand until end of block" button. This is based on syntax tree
+   * information for the *right* side of the diff.
+   */
   private createBlockButton(
     buttonType: ContextButtonType,
-    numLines: number,
-    referenceLine: number
+    referenceLineRight: number
   ) {
-    if (!this.diff?.meta_b) return;
-    const syntaxTree = this.diff.meta_b.syntax_tree;
+    if (this.syntaxTreeRight === undefined) return;
     const outlineSyntaxPath = findBlockTreePathForLine(
-      referenceLine,
-      syntaxTree
+      referenceLineRight,
+      this.syntaxTreeRight
     );
-    let linesToExpand = numLines;
+    let linesToExpand = this.numLines();
     if (outlineSyntaxPath.length) {
       const {range} = outlineSyntaxPath[outlineSyntaxPath.length - 1];
       const targetLine =
         buttonType === ContextButtonType.BLOCK_ABOVE
           ? range.end_line
           : range.start_line;
-      const distanceToTargetLine = Math.abs(targetLine - referenceLine);
-      if (distanceToTargetLine < numLines) {
+      const distanceToTargetLine = Math.abs(targetLine - referenceLineRight);
+      if (distanceToTargetLine < this.numLines()) {
         linesToExpand = distanceToTargetLine;
       }
     }
@@ -507,15 +515,8 @@ export class GrContextControls extends LitElement {
     return this.createContextButton(buttonType, linesToExpand, tooltip);
   }
 
-  private hasValidProperties() {
-    return !!(this.diff && this.group?.contextGroups?.length);
-  }
-
   override render() {
-    if (!this.hasValidProperties()) {
-      console.error('Invalid properties for gr-context-controls!');
-      return html`<p>invalid properties</p>`;
-    }
+    if (!this.group) return nothing;
     return html`
       <div class="horizontalFlex">
         ${this.createExpandAllButtonContainer()}

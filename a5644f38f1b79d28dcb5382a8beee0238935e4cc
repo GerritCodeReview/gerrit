@@ -16,6 +16,24 @@
       "message": "nit: wrap line",
       "revId": "a5644f38f1b79d28dcb5382a8beee0238935e4cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1931ec4d_c69ba67d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-11-02T18:56:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de497858_7a550278",
+      "revId": "a5644f38f1b79d28dcb5382a8beee0238935e4cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

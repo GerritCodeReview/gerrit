@@ -32,7 +32,7 @@ import com.google.gerrit.extensions.restapi.RestResource.HasETag;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.StarredChangesReader;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.approval.ApprovalsUtil;
@@ -76,7 +76,7 @@ public class ChangeResource implements RestResource, HasETag {
   private final ApprovalsUtil approvalUtil;
   private final PatchSetUtil patchSetUtil;
   private final PermissionBackend permissionBackend;
-  private final StarredChangesUtil starredChangesUtil;
+  private final StarredChangesReader starredChangesReader;
   private final ProjectCache projectCache;
   private final PluginSetContext<ChangeETagComputation> changeETagComputation;
   private final ChangeData changeData;
@@ -88,7 +88,7 @@ public class ChangeResource implements RestResource, HasETag {
       ApprovalsUtil approvalUtil,
       PatchSetUtil patchSetUtil,
       PermissionBackend permissionBackend,
-      StarredChangesUtil starredChangesUtil,
+      StarredChangesReader starredChangesReader,
       ProjectCache projectCache,
       PluginSetContext<ChangeETagComputation> changeETagComputation,
       ChangeData.Factory changeDataFactory,
@@ -98,7 +98,7 @@ public class ChangeResource implements RestResource, HasETag {
     this.approvalUtil = approvalUtil;
     this.patchSetUtil = patchSetUtil;
     this.permissionBackend = permissionBackend;
-    this.starredChangesUtil = starredChangesUtil;
+    this.starredChangesReader = starredChangesReader;
     this.projectCache = projectCache;
     this.changeETagComputation = changeETagComputation;
     this.changeData = changeDataFactory.create(notes);
@@ -111,7 +111,7 @@ public class ChangeResource implements RestResource, HasETag {
       ApprovalsUtil approvalUtil,
       PatchSetUtil patchSetUtil,
       PermissionBackend permissionBackend,
-      StarredChangesUtil starredChangesUtil,
+      StarredChangesReader starredChangesReader,
       ProjectCache projectCache,
       PluginSetContext<ChangeETagComputation> changeETagComputation,
       @Assisted ChangeData changeData,
@@ -120,7 +120,7 @@ public class ChangeResource implements RestResource, HasETag {
     this.approvalUtil = approvalUtil;
     this.patchSetUtil = patchSetUtil;
     this.permissionBackend = permissionBackend;
-    this.starredChangesUtil = starredChangesUtil;
+    this.starredChangesReader = starredChangesReader;
     this.projectCache = projectCache;
     this.changeETagComputation = changeETagComputation;
     this.changeData = changeData;
@@ -237,7 +237,7 @@ public class ChangeResource implements RestResource, HasETag {
                 .build())) {
       Hasher h = Hashing.murmur3_128().newHasher();
       if (user.isIdentifiedUser()) {
-        h.putBoolean(starredChangesUtil.isStarred(user.getAccountId(), getId()));
+        h.putBoolean(starredChangesReader.isStarred(user.getAccountId(), getId()));
       }
       prepareETag(h, user);
       return h.hash().toString();

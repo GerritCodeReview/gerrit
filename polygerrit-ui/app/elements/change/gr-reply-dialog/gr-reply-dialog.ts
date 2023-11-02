@@ -1367,6 +1367,9 @@ export class GrReplyDialog extends LitElement {
     // timer will be ended.
     this.reporting.time(Timing.SEND_REPLY);
     const labels = this.getLabelScores().getLabelValues();
+    if (labels[StandardLabels.CODE_REVIEW] === 2) {
+      this.reporting.reportInteraction(Interaction.CODE_REVIEW_APPROVAL);
+    }
 
     const reviewInput: ReviewInput = {
       drafts: includeComments

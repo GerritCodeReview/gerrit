@@ -315,16 +315,6 @@ export function isThreadEl(
   );
 }
 
-/**
- * Simple helper method for creating element classes in the context of
- * gr-diff. This is just a super simple convenience function.
- *
- * TODO: Maybe rename this simple function or inline it everywhere?
- */
-export function diffClasses(...additionalClasses: string[]) {
-  return additionalClasses.join(' ');
-}
-
 export interface DiffContextExpandedEventDetail
   extends DiffContextExpandedExternalDetail {
   /** The context control group that should be replaced by `groups`. */

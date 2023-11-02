@@ -8,7 +8,6 @@ import {html, LitElement} from 'lit';
 import {property, state} from 'lit/decorators.js';
 import {DiffInfo, DiffViewMode, RenderPreferences} from '../../../api/diff';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
-import {diffClasses} from '../gr-diff/gr-diff-utils';
 import {getShowConfig} from './gr-context-controls';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {when} from 'lit/directives/when.js';
@@ -92,7 +91,7 @@ export class GrContextControlsSection extends LitElement {
       : undefined;
     return html`
       <tr
-        class=${diffClasses('contextBackground', modeClass, whereClass)}
+        class=${['contextBackground', modeClass, whereClass].join(' ')}
         left-type=${ifDefined(type)}
         right-type=${ifDefined(type)}
       >
@@ -126,7 +125,7 @@ export class GrContextControlsSection extends LitElement {
     if (this.columns.blame) colspan--;
     const showConfig = getShowConfig(this.showAbove, this.showBelow);
     return html`
-      <tr class=${diffClasses('dividerRow', `show-${showConfig}`)}>
+      <tr class=${['dividerRow', `show-${showConfig}`].join(' ')}>
         ${when(
           this.columns.blame,
           () => html`<td class="blame" data-line-number="0"></td>`

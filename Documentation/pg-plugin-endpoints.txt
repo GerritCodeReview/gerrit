@@ -86,6 +86,25 @@ link:rest-api-changes.html#revision-info[RevisionInfo]
 labels with scores applied to the change, map of the label names to
 link:rest-api-changes.html#label-info[LabelInfo] entries
 
+=== check-result-expanded
+The `check-result-expanded` extension point is attached to a result
+of the link:pg-plugin-checks-api.html[ChecksAPI] when it is expanded. This can
+be used to attach a Web Component displaying results instead of the
+`CheckResult.message` field which is limited to raw unformatted text.
+
+In addition to default parameters, the following are available:
+
+* `result`
++
+The `CheckResult` object for the currently expanded result row.
+
+* `run`
++
+Same as `result`. The `CheckRun` object is not passed to the endpoint.
+
+The end point contains the `<gr-formatted-text>` element holding the
+`CheckResult.message` (if any was set).
+
 === robot-comment-controls
 The `robot-comment-controls` extension point is located inside each comment
 rendered on the diff page, and is only visible when the comment is a robot

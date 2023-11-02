@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c56896a_4f59ec06",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-11-02T11:44:06Z",
+      "side": 1,
+      "message": "I think the rename can be down now since diffClasses no longer makes sense.\n\n```suggestion\nexport function joinClasses(...classes: string[]) {\n```",
+      "range": {
+        "startLine": 324,
+        "startChar": 0,
+        "endLine": 324,
+        "endChar": 27
+      },
+      "revId": "7f6528eefd6858712acd2b4a005e1681499b7f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

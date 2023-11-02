@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71ba44db_920aed69",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-11-02T15:01:25Z",
+      "side": 1,
+      "message": "Note from our internal discussion: this change broke our tests because the latest two versions were identical.\n\nWe can re-land this change with having few of the last versions, with some of them having differences.",
+      "revId": "fbfff1c6120b931bf235d31303efaefc2174b70c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

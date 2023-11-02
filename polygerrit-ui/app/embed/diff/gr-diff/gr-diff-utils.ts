@@ -321,7 +321,7 @@ export function isThreadEl(
  *
  * TODO: Maybe rename this simple function or inline it everywhere?
  */
-export function diffClasses(...additionalClasses: string[]) {
+export function joinClasses(...additionalClasses: string[]) {
   return additionalClasses.join(' ');
 }
 

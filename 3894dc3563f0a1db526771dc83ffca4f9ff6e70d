@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c01396eb_8c46c0a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-11-02T17:39:56Z",
+      "side": 1,
+      "message": "maybe elaborate on the message how exactly this was done?",
+      "range": {
+        "startLine": 23,
+        "startChar": 19,
+        "endLine": 24,
+        "endChar": 9
+      },
+      "revId": "3894dc3563f0a1db526771dc83ffca4f9ff6e70d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1cb4eaf_90e16e12",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-11-02T17:39:56Z",
+      "side": 1,
+      "message": "Thanks for a really nice change.\nAs a reviewer this is a bit tough to review, since FWICT the styles were inspected manually(much appreciate the effort!)",
+      "revId": "3894dc3563f0a1db526771dc83ffca4f9ff6e70d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

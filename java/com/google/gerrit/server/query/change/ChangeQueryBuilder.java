@@ -58,7 +58,7 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.StarredChangesReader;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
@@ -272,7 +272,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     final ProjectCache projectCache;
     final Provider<InternalChangeQuery> queryProvider;
     final ChildProjects childProjects;
-    final StarredChangesUtil starredChangesUtil;
+    final StarredChangesReader starredChangesReader;
     final SubmitDryRun submitDryRun;
     final GroupMembers groupMembers;
     final ChangeIsVisibleToPredicate.Factory changeIsVisbleToPredicateFactory;
@@ -313,7 +313,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         SubmitDryRun submitDryRun,
         ConflictsCache conflictsCache,
         IndexConfig indexConfig,
-        StarredChangesUtil starredChangesUtil,
+        StarredChangesReader starredChangesReader,
         AccountCache accountCache,
         GroupMembers groupMembers,
         OperatorAliasConfig operatorAliasConfig,
@@ -347,7 +347,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           conflictsCache,
           indexes != null ? indexes.getSearchIndex() : null,
           indexConfig,
-          starredChangesUtil,
+          starredChangesReader,
           accountCache,
           groupMembers,
           operatorAliasConfig,
@@ -384,7 +384,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         ConflictsCache conflictsCache,
         ChangeIndex index,
         IndexConfig indexConfig,
-        StarredChangesUtil starredChangesUtil,
+        StarredChangesReader starredChangesReader,
         AccountCache accountCache,
         GroupMembers groupMembers,
         OperatorAliasConfig operatorAliasConfig,
@@ -416,7 +416,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       this.conflictsCache = conflictsCache;
       this.index = index;
       this.indexConfig = indexConfig;
-      this.starredChangesUtil = starredChangesUtil;
+      this.starredChangesReader = starredChangesReader;
       this.accountCache = accountCache;
       this.hasOperands = hasOperands;
       this.isOperands = isOperands;
@@ -456,7 +456,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           conflictsCache,
           index,
           indexConfig,
-          starredChangesUtil,
+          starredChangesReader,
           accountCache,
           groupMembers,
           operatorAliasConfig,
@@ -1203,7 +1203,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   private Predicate<ChangeData> starredBySelf() throws QueryParseException {
-    return ChangePredicates.starBy(args.starredChangesUtil, self());
+    return ChangePredicates.starBy(args.starredChangesReader, self());
   }
 
   private Predicate<ChangeData> draftBySelf() throws QueryParseException {

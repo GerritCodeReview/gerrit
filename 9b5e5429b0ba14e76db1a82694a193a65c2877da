@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93b2048c_03494506",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-11-02T11:48:06Z",
+      "side": 1,
+      "message": "```suggestion\nexport function joinClasses(...classes: string[]) {\n```",
+      "range": {
+        "startLine": 324,
+        "startChar": 31,
+        "endLine": 324,
+        "endChar": 48
+      },
+      "revId": "9b5e5429b0ba14e76db1a82694a193a65c2877da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -48,10 +48,11 @@ public class ListSubgroups implements RestReadView<GroupResource> {
   @Override
   public Response<List<GroupInfo>> apply(GroupResource rsrc)
       throws NotInternalGroupException, PermissionBackendException {
-    GroupDescription.Internal group =
-        rsrc.asInternalGroup().orElseThrow(NotInternalGroupException::new);
-
-    return Response.ok(getDirectSubgroups(group, rsrc.getControl()));
+//    GroupDescription.Internal group =
+//        rsrc.asInternalGroup().orElseThrow(NotInternalGroupException::new);
+//
+//    return Response.ok(getDirectSubgroups(group, rsrc.getControl()));
+    return Response.ok(new ArrayList<GroupInfo>());
   }
 
   public List<GroupInfo> getDirectSubgroups(

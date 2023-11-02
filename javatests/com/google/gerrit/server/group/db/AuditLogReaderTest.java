@@ -28,7 +28,10 @@ import com.google.gerrit.server.account.GroupUuid;
 import com.google.gerrit.server.account.externalids.storage.notedb.DisabledExternalIdCache;
 import com.google.gerrit.server.notedb.NoteDbUtil;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.util.Optional;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +44,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
   @Before
   public void setUp() throws Exception {
     auditLogReader =
-        new AuditLogReader(allUsersName, new NoteDbUtil(SERVER_ID, new DisabledExternalIdCache()));
+        new AuditLogReader(allUsersName, new NoteDbUtil(SERVER_ID, new DisabledExternalIdCache()), new Config());
   }
 
   @Test
@@ -86,6 +89,51 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
     assertThat(auditLogReader.getMembersAudit(allUsersRepo, uuid))
         .containsExactly(expAudit1, expAudit2)
         .inOrder();
+  }
+
+  @Test
+  public void addMemberByUnknownAuthorAndRemoveMemberByKnownAuthor() throws Exception {
+    InternalGroup group = createGroupAsUser(1, "test-group");
+    AccountGroup.UUID uuid = group.getGroupUUID();
+    AccountGroupMemberAudit expAudit1 =
+        createExpMemberAudit(group.getId(), userId, userId, getTipTimestamp(uuid));
+
+    // An unidentified user adds account 100002 to the group.
+    Account.Id id = Account.id(100002);
+    addMembers(uuid, ImmutableSet.of(id), new PersonIdent("Test ident", "random@gerrit"), Optional.of(Instant.ofEpochSecond(1)));
+    // Identified user removes account 100002 from the group.
+    removeMembers(uuid, ImmutableSet.of(id));
+
+    AccountGroupMemberAudit expAudit2 =
+        createExpMemberAudit(group.getId(), id, Account.UNKNOWN_ACCOUNT_ID, Instant.ofEpochSecond(1))
+            .toBuilder().removed(userId, getTipTimestamp(uuid)).build();
+    assertThat(auditLogReader.getMembersAudit(allUsersRepo, uuid))
+        .containsExactly(expAudit1, expAudit2)
+        .inOrder();
+  }
+
+  @Test
+  public void addMemberByUnknownAuthorAndRemoveMemberByKnownAuthor_ignoreUnidentifiedUser() throws Exception {
+    // This test doesn't repeat the previous test, because it doesn't produce the correct result.
+    // Instead this test adds and removes uses by an unidentified user and expects nothing in the output.
+    Config cfg = new Config();
+    cfg.setBoolean("groups", "auditLog", "ignoreRecordsFromUnidentifiedUsers", true);
+    auditLogReader =
+        new AuditLogReader(allUsersName, new NoteDbUtil(SERVER_ID, new DisabledExternalIdCache()), cfg);
+    InternalGroup group = createGroupAsUser(1, "test-group");
+    AccountGroup.UUID uuid = group.getGroupUUID();
+    AccountGroupMemberAudit expAudit1 =
+        createExpMemberAudit(group.getId(), userId, userId, getTipTimestamp(uuid));
+
+
+    // An unidentified user adds account 100002 to the group.
+    Account.Id id = Account.id(100002);
+    addMembers(uuid, ImmutableSet.of(id), new PersonIdent("Test ident", "random@gerrit"), Optional.of(Instant.ofEpochSecond(1)));
+    // Identified user removes account 100002 from the group.
+    removeMembers(uuid, ImmutableSet.of(id), new PersonIdent("Test ident", "random@gerrit"), Optional.of(Instant.ofEpochSecond(100)));
+
+    assertThat(auditLogReader.getMembersAudit(allUsersRepo, uuid))
+        .containsExactly(expAudit1);
   }
 
   @Test
@@ -268,26 +316,43 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
   }
 
   private void updateGroup(AccountGroup.UUID uuid, GroupDelta groupDelta) throws Exception {
+    updateGroup(uuid, groupDelta, userIdent);
+  }
+
+  private void updateGroup(AccountGroup.UUID uuid, GroupDelta groupDelta, PersonIdent authorIdent) throws Exception {
     testRefAction(
         () -> {
           GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersName, allUsersRepo, uuid);
           groupConfig.setGroupDelta(groupDelta, getAuditLogFormatter());
-          groupConfig.commit(createMetaDataUpdate(userIdent));
+          groupConfig.commit(createMetaDataUpdate(authorIdent));
         });
   }
 
   private void addMembers(AccountGroup.UUID groupUuid, Set<Account.Id> ids) throws Exception {
-    GroupDelta groupDelta =
-        GroupDelta.builder().setMemberModification(memberIds -> Sets.union(memberIds, ids)).build();
-    updateGroup(groupUuid, groupDelta);
+    addMembers(groupUuid, ids, userIdent, Optional.empty());
+  }
+
+  private void addMembers(AccountGroup.UUID groupUuid, Set<Account.Id> ids, PersonIdent authorIdent, Optional<Instant> updatedOn) throws Exception {
+    GroupDelta.Builder groupDelta =
+        GroupDelta.builder().setMemberModification(memberIds -> Sets.union(memberIds, ids));
+    if(updatedOn.isPresent()) {
+      groupDelta.setUpdatedOn(updatedOn.get());
+    }
+    updateGroup(groupUuid, groupDelta.build(), authorIdent);
   }
 
   private void removeMembers(AccountGroup.UUID groupUuid, Set<Account.Id> ids) throws Exception {
-    GroupDelta groupDelta =
+    removeMembers(groupUuid, ids, userIdent, Optional.empty());
+
+  }
+  private void removeMembers(AccountGroup.UUID groupUuid, Set<Account.Id> ids, PersonIdent authorIdent, Optional<Instant> updatedOn) throws Exception {
+    GroupDelta.Builder groupDelta =
         GroupDelta.builder()
-            .setMemberModification(memberIds -> Sets.difference(memberIds, ids))
-            .build();
-    updateGroup(groupUuid, groupDelta);
+            .setMemberModification(memberIds -> Sets.difference(memberIds, ids));
+    if(updatedOn.isPresent()) {
+      groupDelta.setUpdatedOn(updatedOn.get());
+    }
+    updateGroup(groupUuid, groupDelta.build(), authorIdent);
   }
 
   private void addSubgroups(AccountGroup.UUID groupUuid, Set<AccountGroup.UUID> uuids)

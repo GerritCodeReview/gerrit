@@ -16,6 +16,23 @@
       "message": "LC is needed.",
       "revId": "3a097e34ebb297837237cfc74ecd25fa4e8f593f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b3206fd_f9f6a8af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-02T07:29:01Z",
+      "side": 1,
+      "message": "Please file an issue for this as described in the documentation that Matthias added recently in https://gerrit-review.googlesource.com/c/gerrit/+/391390. We have a rotation for bug-triaging and the current person onduty should also look at changes that need LC.",
+      "revId": "3a097e34ebb297837237cfc74ecd25fa4e8f593f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "Could you please add tests for it to reproduce the issue?",
       "revId": "63e041bc3abb7d298d24cdce1aff0300bd0c5976",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76e5d6b1_9cfcb744",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-02T12:28:16Z",
+      "side": 1,
+      "message": "Sorry, we don\u0027t know yet what\u0027s causing this and how to reproduce it. That\u0027s what we are trying to find out by adding the new logs.",
+      "parentUuid": "3ff910d4_a8f1b585",
+      "revId": "63e041bc3abb7d298d24cdce1aff0300bd0c5976",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

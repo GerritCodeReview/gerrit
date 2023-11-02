@@ -193,6 +193,24 @@
       "parentUuid": "5ea9e296_7086dda9",
       "revId": "3dd95e80535928aef2edb7a936314d6f4976f5a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b180dcb1_df2ff412",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-11-02T09:06:18Z",
+      "side": 1,
+      "message": "Sorry for late reply, I was on vacation.\n\nI haven\u0027t been able to find access to RBE. I asked in out team chat and nobody have any context into this. So I don\u0027t have any timeframe when this can be resolved. We might to disable RBE for now if it is your blocker.",
+      "parentUuid": "d4596483_75362856",
+      "revId": "3dd95e80535928aef2edb7a936314d6f4976f5a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

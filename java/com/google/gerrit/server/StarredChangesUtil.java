@@ -14,43 +14,6 @@
 
 package com.google.gerrit.server;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.Change;
-import java.io.IOException;
-import java.util.List;
-import java.util.Set;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-
-public interface StarredChangesUtil {
-  boolean isStarred(Account.Id accountId, Change.Id changeId);
-
-  /**
-   * Returns a subset of change IDs among the input {@code changeIds} list that are starred by the
-   * {@code caller} user.
-   */
-  Set<Change.Id> areStarred(Repository allUsersRepo, List<Change.Id> changeIds, Account.Id caller);
-
-  ImmutableMap<Account.Id, Ref> byChange(Change.Id changeId);
-
-  ImmutableSet<Change.Id> byAccountId(Account.Id accountId);
-
-  ImmutableSet<Change.Id> byAccountId(Account.Id accountId, boolean skipInvalidChanges);
-
-  void star(Account.Id accountId, Change.Id changeId);
-
-  void unstar(Account.Id accountId, Change.Id changeId);
-
-  /**
-   * Unstar the given change for all users.
-   *
-   * <p>Intended for use only when we're about to delete a change. For that reason, the change is
-   * not reindexed.
-   *
-   * @param changeId change ID.
-   * @throws IOException if an error occurred.
-   */
-  void unstarAllForChangeDeletion(Change.Id changeId) throws IOException;
-}
+// TODO - delete this class. It cannot be deleted as part of the original refactoring since it's
+// used by a plugin.
+public interface StarredChangesUtil extends StarredChangesReader, StarredChangesWriter {}

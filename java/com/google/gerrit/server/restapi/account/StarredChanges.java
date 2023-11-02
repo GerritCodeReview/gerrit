@@ -33,7 +33,8 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.StarredChangesReader;
+import com.google.gerrit.server.StarredChangesWriter;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -51,16 +52,16 @@ public class StarredChanges
 
   private final ChangesCollection changes;
   private final DynamicMap<RestView<AccountResource.StarredChange>> views;
-  private final StarredChangesUtil starredChangesUtil;
+  private final StarredChangesReader starredChangesReader;
 
   @Inject
   StarredChanges(
       ChangesCollection changes,
       DynamicMap<RestView<AccountResource.StarredChange>> views,
-      StarredChangesUtil starredChangesUtil) {
+      StarredChangesReader starredChangesReader) {
     this.changes = changes;
     this.views = views;
-    this.starredChangesUtil = starredChangesUtil;
+    this.starredChangesReader = starredChangesReader;
   }
 
   @Override
@@ -68,7 +69,7 @@ public class StarredChanges
       throws RestApiException, PermissionBackendException, IOException {
     IdentifiedUser user = parent.getUser();
     ChangeResource change = changes.parse(TopLevelResource.INSTANCE, id);
-    if (starredChangesUtil.isStarred(user.getAccountId(), change.getId())) {
+    if (starredChangesReader.isStarred(user.getAccountId(), change.getId())) {
       return new AccountResource.StarredChange(user, change);
     }
     throw new ResourceNotFoundException(id);
@@ -94,16 +95,16 @@ public class StarredChanges
       implements RestCollectionCreateView<AccountResource, AccountResource.StarredChange, Input> {
     private final Provider<CurrentUser> self;
     private final ChangesCollection changes;
-    private final StarredChangesUtil starredChangesUtil;
+    private final StarredChangesWriter starredChangesWriter;
 
     @Inject
     Create(
         Provider<CurrentUser> self,
         ChangesCollection changes,
-        StarredChangesUtil starredChangesUtil) {
+        StarredChangesWriter starredChangesWriter) {
       this.self = self;
       this.changes = changes;
-      this.starredChangesUtil = starredChangesUtil;
+      this.starredChangesWriter = starredChangesWriter;
     }
 
     @Override
@@ -124,7 +125,7 @@ public class StarredChanges
       }
 
       try {
-        starredChangesUtil.star(self.get().getAccountId(), change.getId());
+        starredChangesWriter.star(self.get().getAccountId(), change.getId());
       } catch (DuplicateKeyException e) {
         return Response.none();
       }
@@ -153,12 +154,12 @@ public class StarredChanges
   @Singleton
   public static class Delete implements RestModifyView<AccountResource.StarredChange, Input> {
     private final Provider<CurrentUser> self;
-    private final StarredChangesUtil starredChangesUtil;
+    private final StarredChangesWriter starredChangesWriter;
 
     @Inject
-    Delete(Provider<CurrentUser> self, StarredChangesUtil starredChangesUtil) {
+    Delete(Provider<CurrentUser> self, StarredChangesWriter starredChangesWriter) {
       this.self = self;
-      this.starredChangesUtil = starredChangesUtil;
+      this.starredChangesWriter = starredChangesWriter;
     }
 
     @Override
@@ -167,7 +168,7 @@ public class StarredChanges
       if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed remove starred change");
       }
-      starredChangesUtil.unstar(self.get().getAccountId(), rsrc.getChange().getId());
+      starredChangesWriter.unstar(self.get().getAccountId(), rsrc.getChange().getId());
       return Response.none();
     }
   }

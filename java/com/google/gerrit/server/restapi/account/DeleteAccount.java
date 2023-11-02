@@ -30,7 +30,8 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.StarredChangesReader;
+import com.google.gerrit.server.StarredChangesWriter;
 import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountResource;
@@ -71,7 +72,8 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
   private final Provider<AccountsUpdate> accountsUpdateProvider;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
   private final SshKeyCache sshKeyCache;
-  private final StarredChangesUtil starredChangesUtil;
+  private final StarredChangesReader starredChangesReader;
+  private final StarredChangesWriter starredChangesWriter;
   private final DeleteDraftCommentsUtil deleteDraftCommentsUtil;
   private final GitRepositoryManager gitManager;
   private final Provider<InternalChangeQuery> queryProvider;
@@ -86,7 +88,8 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
       @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
       SshKeyCache sshKeyCache,
-      StarredChangesUtil starredChangesUtil,
+      StarredChangesReader starredChangesReader,
+      StarredChangesWriter starredChangesWriter,
       DeleteDraftCommentsUtil deleteDraftCommentsUtil,
       GitRepositoryManager gitManager,
       Provider<InternalChangeQuery> queryProvider,
@@ -98,7 +101,8 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
     this.accountsUpdateProvider = accountsUpdateProvider;
     this.authorizedKeys = authorizedKeys;
     this.sshKeyCache = sshKeyCache;
-    this.starredChangesUtil = starredChangesUtil;
+    this.starredChangesReader = starredChangesReader;
+    this.starredChangesWriter = starredChangesWriter;
     this.deleteDraftCommentsUtil = deleteDraftCommentsUtil;
     this.gitManager = gitManager;
     this.queryProvider = queryProvider;
@@ -161,9 +165,9 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
   }
 
   private void deleteStarredChanges(Account.Id accountId) {
-    ImmutableSet<Change.Id> staredChanges = starredChangesUtil.byAccountId(accountId, false);
+    ImmutableSet<Change.Id> staredChanges = starredChangesReader.byAccountId(accountId, false);
     for (Change.Id change : staredChanges) {
-      starredChangesUtil.unstar(self.get().getAccountId(), change);
+      starredChangesWriter.unstar(self.get().getAccountId(), change);
     }
   }
 

@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "14a7f8a5_fff10656",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-11-02T11:50:58Z",
+      "side": 1,
+      "message": "A bug pointing to what exactly we consider the interaction CODE_REVIEW_APPROVAL or an explanation in the commit message would be nice. 😊",
+      "revId": "36e7c4401d28ccc5ddb574ed03f30e640248cc11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "954d6901_fd16906b",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
         "patchSetId": 1

@@ -9,10 +9,12 @@ import {assertIsDefined, assert} from '../../../utils/common-util';
 import {isDefined} from '../../../types/types';
 
 export enum GrDiffGroupType {
-  /** Unchanged context. */
+  /** A group of unchanged diff lines. */
   BOTH = 'both',
 
-  /** A widget used to show more context. */
+  /**
+   * A context control group "hides" other diff groups in its `contextGroups` field.
+   */
   CONTEXT_CONTROL = 'contextControl',
 
   /** Added, removed or modified chunk. */
@@ -216,7 +218,13 @@ export interface GrMoveDetails {
   };
 }
 
-/** A chunk of the diff that should be rendered together. */
+/**
+ * A chunk of the diff that should be rendered together. Typically corresponds
+ * to a gr-diff-section. It mostly just just contains an array of diff `lines`.
+ *
+ * A group of type CONTEXT_CONTROL does not contain any lines directly, but
+ * "hides" other groups in `contextGroups`, which the user can expand.
+ */
 export class GrDiffGroup {
   constructor(
     options:
@@ -322,6 +330,12 @@ export class GrDiffGroup {
 
   readonly removes: GrDiffLine[] = [];
 
+  /**
+   * Only set, iff type is CONTEXT_CONTROL.
+   *
+   * A CONTEXT_CONTROL group "hides" other groups that the user may expand.
+   * This field contains those hidden groups.
+   */
   readonly contextGroups: GrDiffGroup[] = [];
 
   readonly skip?: number;

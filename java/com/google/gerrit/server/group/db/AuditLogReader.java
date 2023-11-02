@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -53,10 +54,14 @@ public class AuditLogReader {
   private final AllUsersName allUsersName;
   private final NoteDbUtil noteDbUtil;
 
+  private final boolean ignoreRecordsFromUnidentifiedUsers;
+
   @Inject
-  public AuditLogReader(AllUsersName allUsersName, NoteDbUtil noteDbUtil) {
+  public AuditLogReader(AllUsersName allUsersName, NoteDbUtil noteDbUtil, Config cfg) {
     this.allUsersName = allUsersName;
     this.noteDbUtil = noteDbUtil;
+    ignoreRecordsFromUnidentifiedUsers =
+        cfg.getBoolean("groups", "auditLog", "ignoreRecordsFromUnidentifiedUsers", false);
   }
 
   // Having separate methods for reading the two types of audit records mirrors the split in
@@ -144,9 +149,12 @@ public class AuditLogReader {
   private Optional<ParsedCommit> parse(AccountGroup.UUID uuid, RevCommit c) {
     Optional<Account.Id> authorId = noteDbUtil.parseIdent(c.getAuthorIdent());
     if (!authorId.isPresent()) {
-      // Only report audit events from identified users, since this was a non-nullable field in
-      // ReviewDb. May be revisited.
-      return Optional.empty();
+      if (ignoreRecordsFromUnidentifiedUsers) {
+        // Only report audit events from identified users, since this was a non-nullable field in
+        // ReviewDb.
+        return Optional.empty();
+      }
+      authorId = Optional.of(Account.UNKNOWN_ACCOUNT_ID);
     }
 
     List<Account.Id> addedMembers = new ArrayList<>();

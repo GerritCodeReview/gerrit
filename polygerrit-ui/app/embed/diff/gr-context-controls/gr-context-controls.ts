@@ -14,23 +14,31 @@ import '@polymer/paper-listbox/paper-listbox';
 import '@polymer/paper-tooltip/paper-tooltip';
 import {of, EMPTY, Subject} from 'rxjs';
 import {switchMap, delay} from 'rxjs/operators';
-
 import '../../../elements/shared/gr-button/gr-button';
 import {pluralize} from '../../../utils/string-util';
 import {fire} from '../../../utils/event-util';
 import {assertIsDefined} from '../../../utils/common-util';
-import {css, html, LitElement, nothing, TemplateResult} from 'lit';
+import {
+  css,
+  html,
+  LitElement,
+  nothing,
+  PropertyValues,
+  TemplateResult,
+} from 'lit';
 import {property, state} from 'lit/decorators.js';
 import {subscribe} from '../../../elements/lit/subscription-controller';
-
 import {
   ContextButtonType,
   DiffContextButtonHoveredDetail,
   RenderPreferences,
   SyntaxBlock,
 } from '../../../api/diff';
-
-import {GrDiffGroup, hideInContextControl} from '../gr-diff/gr-diff-group';
+import {
+  GrDiffGroup,
+  GrDiffGroupType,
+  hideInContextControl,
+} from '../gr-diff/gr-diff-group';
 import {resolve} from '../../../models/dependency';
 import {diffModelToken} from '../gr-diff-model/gr-diff-model';
 
@@ -68,14 +76,25 @@ function findBlockTreePathForLine(
   return [containingBlock].concat(innerPathInChild);
 }
 
+/**
+ * 'above': Typically only for the context controls at the end of a file. So
+ *          only show buttons "above" the middle line of the context control
+ *          section.
+ * 'below': Typically only for the context controls at the beginning of a file.
+ *          So only show buttons "below" the middle line of the context control
+ *          section.
+ * 'both': Typically for the context controls in the middle of a file. So show
+ *         two buttons, one for expanding from the top and one for expanding
+ *         from the bottom.
+ */
 export type GrContextControlsShowConfig = 'above' | 'below' | 'both';
 
-export function getShowConfig(
-  showAbove: boolean,
-  showBelow: boolean
-): GrContextControlsShowConfig {
-  if (showAbove && !showBelow) return 'above';
-  if (!showAbove && showBelow) return 'below';
+export function getShowConfig(group?: GrDiffGroup, lineCountLeft = 0) {
+  const above = showAbove(group, lineCountLeft);
+  const below = showBelow(group, lineCountLeft);
+
+  if (above && !below) return 'above';
+  if (!above && below) return 'below';
 
   // Note that !showAbove && !showBelow also intentionally returns 'both'.
   // This means the file is completely collapsed, which is unusual, but at least
@@ -83,15 +102,47 @@ export function getShowConfig(
   return 'both';
 }
 
-export class GrContextControls extends LitElement {
-  @property({type: Object}) renderPreferences?: RenderPreferences;
+/** See GrContextControlsShowConfig for explanation of "above". */
+export function showAbove(group?: GrDiffGroup, lineCountLeft = 0) {
+  if (group?.type !== GrDiffGroupType.CONTEXT_CONTROL) return false;
 
+  const leftStart = group.lineRange.left.start_line;
+  const firstGroupIsSkipped = !!group.contextGroups[0].skip;
+  if (leftStart > 1 && !firstGroupIsSkipped) return true;
+
+  const leftEnd = group.lineRange.left.end_line;
+  const containsWholeFile = lineCountLeft === leftEnd - leftStart + 1;
+  return containsWholeFile;
+}
+
+/** See GrContextControlsShowConfig for explanation of "below". */
+export function showBelow(group?: GrDiffGroup, lineCountLeft = 0) {
+  if (group?.type !== GrDiffGroupType.CONTEXT_CONTROL) return false;
+
+  const leftEnd = group.lineRange.left.end_line;
+  const lastGroupIsSkipped =
+    !!group.contextGroups[group.contextGroups.length - 1].skip;
+
+  return leftEnd < lineCountLeft && !lastGroupIsSkipped;
+}
+
+/**
+ * Renders context control buttons such as "+23 lines" or "+Block". It is only
+ * meant to be used to be rendered into a diff table cell of its parent
+ * component <gr-context-controls-section>.
+ */
+export class GrContextControls extends LitElement {
   @property({type: Object}) group?: GrDiffGroup;
 
+  // This is just a property (and not a state), because we want to "reflect".
   @property({type: String, reflect: true})
   showConfig: GrContextControlsShowConfig = 'both';
 
   @state() syntaxTreeRight?: SyntaxBlock[];
+
+  @state() renderPreferences?: RenderPreferences;
+
+  @state() lineCountLeft = 0;
 
   private readonly getDiffModel = resolve(this, diffModelToken);
 
@@ -227,6 +278,27 @@ export class GrContextControls extends LitElement {
       () => this.getDiffModel().syntaxTreeRight$,
       syntaxTree => (this.syntaxTreeRight = syntaxTree)
     );
+    subscribe(
+      this,
+      () => this.getDiffModel().renderPrefs$,
+      renderPrefs => (this.renderPreferences = renderPrefs)
+    );
+    subscribe(
+      this,
+      () => this.getDiffModel().lineCountLeft$,
+      lineCountLeft => {
+        this.lineCountLeft = lineCountLeft;
+        this.updateShowConfig();
+      }
+    );
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('group')) this.updateShowConfig();
+  }
+
+  private updateShowConfig() {
+    this.showConfig = getShowConfig(this.group, this.lineCountLeft);
   }
 
   private showBoth() {

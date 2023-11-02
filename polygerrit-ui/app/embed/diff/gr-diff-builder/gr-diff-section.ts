@@ -23,7 +23,6 @@ import '../gr-range-header/gr-range-header';
 import './gr-diff-row';
 import {when} from 'lit/directives/when.js';
 import {fire} from '../../../utils/event-util';
-import {countLines} from '../../../utils/diff-util';
 import {resolve} from '../../../models/dependency';
 import {
   ColumnsToShow,
@@ -191,25 +190,8 @@ export class GrDiffSection extends LitElement {
 
   private renderContextControls() {
     if (this.group?.type !== GrDiffGroupType.CONTEXT_CONTROL) return;
-
-    const leftStart = this.group.lineRange.left.start_line;
-    const leftEnd = this.group.lineRange.left.end_line;
-    const firstGroupIsSkipped = !!this.group.contextGroups[0].skip;
-    const lastGroupIsSkipped =
-      !!this.group.contextGroups[this.group.contextGroups.length - 1].skip;
-    const lineCountLeft = countLines(this.diff, Side.LEFT);
-    const containsWholeFile = lineCountLeft === leftEnd - leftStart + 1;
-    const showAbove =
-      (leftStart > 1 && !firstGroupIsSkipped) || containsWholeFile;
-    const showBelow = leftEnd < lineCountLeft && !lastGroupIsSkipped;
-
     return html`
-      <gr-context-controls-section
-        .showAbove=${showAbove}
-        .showBelow=${showBelow}
-        .group=${this.group}
-        .renderPrefs=${this.renderPrefs}
-      >
+      <gr-context-controls-section .group=${this.group}>
       </gr-context-controls-section>
     `;
   }

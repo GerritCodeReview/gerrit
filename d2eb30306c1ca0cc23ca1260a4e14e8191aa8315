@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "544a9cdc_9fa2cd22",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-02T19:02:26Z",
+      "side": 1,
+      "message": "I am still confused between the commit message and what I see in the tests. For me the commit message should be extended to explain all the uses affected by this.",
+      "revId": "d2eb30306c1ca0cc23ca1260a4e14e8191aa8315",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

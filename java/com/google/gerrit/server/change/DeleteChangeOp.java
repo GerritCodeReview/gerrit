@@ -24,7 +24,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.StarredChangesWriter;
 import com.google.gerrit.server.extensions.events.ChangeDeleted;
 import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -48,7 +48,7 @@ public class DeleteChangeOp implements BatchUpdateOp {
   }
 
   private final PatchSetUtil psUtil;
-  private final StarredChangesUtil starredChangesUtil;
+  private final StarredChangesWriter starredChangesWriter;
   private final PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore;
   private final ChangeData.Factory changeDataFactory;
   private final ChangeDeleted changeDeleted;
@@ -57,13 +57,13 @@ public class DeleteChangeOp implements BatchUpdateOp {
   @Inject
   DeleteChangeOp(
       PatchSetUtil psUtil,
-      StarredChangesUtil starredChangesUtil,
+      StarredChangesWriter starredChangesWriter,
       PluginItemContext<AccountPatchReviewStore> accountPatchReviewStore,
       ChangeData.Factory changeDataFactory,
       ChangeDeleted changeDeleted,
       @Assisted Change.Id id) {
     this.psUtil = psUtil;
-    this.starredChangesUtil = starredChangesUtil;
+    this.starredChangesWriter = starredChangesWriter;
     this.accountPatchReviewStore = accountPatchReviewStore;
     this.changeDataFactory = changeDataFactory;
     this.changeDeleted = changeDeleted;
@@ -127,7 +127,7 @@ public class DeleteChangeOp implements BatchUpdateOp {
     accountPatchReviewStore.run(s -> s.clearReviewed(id));
 
     // Non-atomic operation on All-Users refs; not much we can do to make it atomic.
-    starredChangesUtil.unstarAllForChangeDeletion(id);
+    starredChangesWriter.unstarAllForChangeDeletion(id);
   }
 
   @Override

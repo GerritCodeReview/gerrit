@@ -22,6 +22,30 @@
       },
       "revId": "7f6528eefd6858712acd2b4a005e1681499b7f99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f697b100_44958ce5",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-11-02T11:57:46Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.git.corp.google.com/c/gerrit/+/391596: Inline `diffClasses` function",
+      "parentUuid": "8c56896a_4f59ec06",
+      "range": {
+        "startLine": 324,
+        "startChar": 0,
+        "endLine": 324,
+        "endChar": 27
+      },
+      "revId": "7f6528eefd6858712acd2b4a005e1681499b7f99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

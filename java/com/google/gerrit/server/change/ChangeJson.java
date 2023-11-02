@@ -780,10 +780,12 @@ public class ChangeJson {
                 .filter(refState -> PatchSet.Id.fromRef(refState.ref()) != null)
                 .map(refState -> refState.ref() + ":" + refState.id().name())
                 .collect(toList()));
-        if (!cd.change().currentPatchSetId().equals(cd.currentPatchSet().id())) {
+        PatchSet.Id currentPatchSetFromChangeData =
+            Optional.ofNullable(cd.currentPatchSet()).map(PatchSet::id).orElse(null);
+        if (!cd.change().currentPatchSetId().equals(currentPatchSetFromChangeData)) {
           logger.atSevere().log(
               "mismatch between current patch set in Change (%s) and ChangeData (%s)",
-              cd.change().currentPatchSetId(), cd.currentPatchSet().id());
+              cd.change().currentPatchSetId(), currentPatchSetFromChangeData);
         }
       }
     }

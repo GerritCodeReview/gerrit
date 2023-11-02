@@ -22,6 +22,30 @@
       },
       "revId": "ed46139d988a3521523c36b6f30e91a0137653dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3398900_f6c6e2f1",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-model/gr-diff-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-11-02T11:45:01Z",
+      "side": 0,
+      "message": "No, I think it is ok to just rely on the presence of the `blameInfo` property. It seems redundant to force the `\u003cgr-diff\u003e` user to set the info property *and* a rendering pref.",
+      "parentUuid": "cb43eee8_80f55441",
+      "range": {
+        "startLine": 122,
+        "startChar": 8,
+        "endLine": 122,
+        "endChar": 83
+      },
+      "revId": "ed46139d988a3521523c36b6f30e91a0137653dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

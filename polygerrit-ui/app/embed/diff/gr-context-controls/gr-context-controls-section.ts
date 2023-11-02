@@ -6,7 +6,7 @@
 import '../../../elements/shared/gr-button/gr-button';
 import {html, LitElement} from 'lit';
 import {property, state} from 'lit/decorators.js';
-import {DiffInfo, DiffViewMode, RenderPreferences} from '../../../api/diff';
+import {DiffViewMode, RenderPreferences} from '../../../api/diff';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {getShowConfig} from './gr-context-controls';
 import {ifDefined} from 'lit/directives/if-defined.js';
@@ -29,9 +29,6 @@ export class GrContextControlsSection extends LitElement {
   /** Must be of type GrDiffGroupType.CONTEXT_CONTROL. */
   @property({type: Object})
   group?: GrDiffGroup;
-
-  @property({type: Object})
-  diff?: DiffInfo;
 
   @property({type: Object})
   renderPrefs?: RenderPreferences;
@@ -132,7 +129,6 @@ export class GrContextControlsSection extends LitElement {
         )}
         <td class="dividerCell" colspan=${colspan}>
           <gr-context-controls
-            .diff=${this.diff}
             .renderPreferences=${this.renderPrefs}
             .group=${this.group}
             .showConfig=${showConfig}

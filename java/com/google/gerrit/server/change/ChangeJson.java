@@ -97,7 +97,7 @@ import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
-import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.StarredChangesReader;
 import com.google.gerrit.server.account.AccountInfoComparator;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.cancellation.RequestCancelledException;
@@ -232,7 +232,7 @@ public class ChangeJson {
   private final AccountLoader.Factory accountLoaderFactory;
   private final ImmutableSet<ListChangesOption> options;
   private final ChangeMessagesUtil cmUtil;
-  private final StarredChangesUtil starredChangesUtil;
+  private final StarredChangesReader starredChangesreader;
   private final Provider<ConsistencyChecker> checkerProvider;
   private final ActionJson actionJson;
   private final ChangeNotes.Factory notesFactory;
@@ -258,7 +258,7 @@ public class ChangeJson {
       ChangeData.Factory cdf,
       AccountLoader.Factory ailf,
       ChangeMessagesUtil cmUtil,
-      StarredChangesUtil starredChangesUtil,
+      StarredChangesReader starredChangesreader,
       Provider<ConsistencyChecker> checkerProvider,
       ActionJson actionJson,
       ChangeNotes.Factory notesFactory,
@@ -277,7 +277,7 @@ public class ChangeJson {
     this.permissionBackend = permissionBackend;
     this.accountLoaderFactory = ailf;
     this.cmUtil = cmUtil;
-    this.starredChangesUtil = starredChangesUtil;
+    this.starredChangesreader = starredChangesreader;
     this.checkerProvider = checkerProvider;
     this.actionJson = actionJson;
     this.notesFactory = notesFactory;
@@ -1001,7 +1001,7 @@ public class ChangeJson {
       List<Change.Id> changeIds =
           changeInfos.stream().map(c -> Change.id(c._number)).collect(Collectors.toList());
       Set<Change.Id> starredChanges =
-          starredChangesUtil.areStarred(
+          starredChangesreader.areStarred(
               allUsersRepo, changeIds, userProvider.get().asIdentifiedUser().getAccountId());
       if (starredChanges.isEmpty()) {
         return;

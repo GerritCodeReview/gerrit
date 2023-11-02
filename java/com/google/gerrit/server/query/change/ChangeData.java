@@ -68,7 +68,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
-import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.StarredChangesReader;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.CommentThread;
 import com.google.gerrit.server.change.CommentThreads;
@@ -351,7 +351,7 @@ public class ChangeData {
   }
 
   // Injected fields.
-  private @Nullable final StarredChangesUtil starredChangesUtil;
+  private @Nullable final StarredChangesReader starredChangesReader;
   private final AllUsersName allUsersName;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
@@ -446,7 +446,7 @@ public class ChangeData {
 
   @Inject
   private ChangeData(
-      @Nullable StarredChangesUtil starredChangesUtil,
+      @Nullable StarredChangesReader starredChangesReader,
       ApprovalsUtil approvalsUtil,
       AllUsersName allUsersName,
       ChangeMessagesUtil cmUtil,
@@ -481,7 +481,7 @@ public class ChangeData {
     this.patchListCache = patchListCache;
     this.psUtil = psUtil;
     this.projectCache = projectCache;
-    this.starredChangesUtil = starredChangesUtil;
+    this.starredChangesReader = starredChangesReader;
     this.trackingFooters = trackingFooters;
     this.pureRevert = pureRevert;
     this.propagateSubmitRequirementErrors =
@@ -1392,7 +1392,7 @@ public class ChangeData {
       if (!lazyload()) {
         return ImmutableMap.of();
       }
-      starRefs = requireNonNull(starredChangesUtil).byChange(legacyId);
+      starRefs = requireNonNull(starredChangesReader).byChange(legacyId);
     }
     return starRefs;
   }
@@ -1410,7 +1410,7 @@ public class ChangeData {
         if (!lazyload()) {
           return false;
         }
-        if (starredChangesUtil.isStarred(accountId, legacyId)) {
+        if (starredChangesReader.isStarred(accountId, legacyId)) {
           starredBy = accountId;
         }
       }

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5779246_0c57cef9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-11-02T12:07:43Z",
+      "side": 1,
+      "message": "This was requested by DevIntel. I have cced you to the email conversation.",
+      "parentUuid": "14a7f8a5_fff10656",
+      "revId": "36e7c4401d28ccc5ddb574ed03f30e640248cc11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "954d6901_fd16906b",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-11-02T11:50:23Z",
       "side": 1,
       "message": "if the author uploads a new patchset then the approval could become invalid(non-sticky approvals).\nDo we want to consider this use case?\nPerhaps the first approval that did not become invalid would be a nicer metric for when the Reviewer\u0027s Approval responsibility is over?",
+      "range": {
+        "startLine": 1371,
+        "startChar": 6,
+        "endLine": 1371,
+        "endChar": 71
+      },
+      "revId": "36e7c4401d28ccc5ddb574ed03f30e640248cc11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22656686_156fbe1a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1371,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-11-02T12:07:43Z",
+      "side": 1,
+      "message": "There are always lots of ways to improve metrics. My goal here is to just be nice to other teams that ask for the most basic interaction logging. And I think that need is addressed here.\n\nThey will look at session logs and will thus be able to whether this is the first approval or not.",
+      "parentUuid": "954d6901_fd16906b",
       "range": {
         "startLine": 1371,
         "startChar": 6,

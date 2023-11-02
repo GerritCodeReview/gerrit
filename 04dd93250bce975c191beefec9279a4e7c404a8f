@@ -16,6 +16,23 @@
       "message": "one may argue that if a state engine with so few states needs to be meticulously documented to even hope for anything close to a convergent understanding of the expectations, then something is seriously wrong with the UX. most users won\u0027t ever read the documentation anyway.\n\nso i suppose this change (and the predictably ensued discussion) is basically a piece of evidence in favor of implementing issue 14699. in particular the auto-promotion of commenting (\u003d\u003d active) users to reviewer status is something i\u0027ve argued for myself (issue 13190).\n",
       "revId": "04dd93250bce975c191beefec9279a4e7c404a8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7b22078_e100e267",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1169326
+      },
+      "writtenOn": "2023-11-02T10:02:32Z",
+      "side": 1,
+      "message": "ralamsyah573@gmail.com",
+      "revId": "04dd93250bce975c191beefec9279a4e7c404a8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

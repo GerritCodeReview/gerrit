@@ -25,7 +25,7 @@ import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.DraftCommentsReader;
-import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.StarredChangesReader;
 import com.google.gerrit.server.change.HashtagsUtil;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.inject.ImplementedBy;
@@ -103,9 +103,10 @@ public class ChangePredicates {
    * Returns a predicate that matches changes where the provided {@link
    * com.google.gerrit.entities.Account.Id} has starred changes with {@code label}.
    */
-  public static Predicate<ChangeData> starBy(StarredChangesUtil starredChangesUtil, Account.Id id) {
+  public static Predicate<ChangeData> starBy(
+      StarredChangesReader starredChangesReader, Account.Id id) {
     Set<Predicate<ChangeData>> starredChanges =
-        starredChangesUtil.byAccountId(id).stream()
+        starredChangesReader.byAccountId(id).stream()
             .map(ChangePredicates::idStr)
             .collect(toImmutableSet());
     return starredChanges.isEmpty() ? ChangeIndexPredicate.none() : Predicate.or(starredChanges);

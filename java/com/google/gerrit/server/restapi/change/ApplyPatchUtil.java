@@ -118,6 +118,7 @@ public final class ApplyPatchUtil {
     StringBuilder res = new StringBuilder(message.trim());
 
     boolean appendOriginalPatch = false;
+    boolean appendResultPatch = false;
     String decodedOriginalPatch = decodeIfNecessary(originalPatch);
     if (!errors.isEmpty()) {
       res.append(
@@ -134,6 +135,7 @@ public final class ApplyPatchUtil {
                 + "\nPLEASE REVIEW CAREFULLY.\nDiffs between the patches:\n "
                 + patchDiff.get());
         appendOriginalPatch = true;
+        appendResultPatch = true;
       }
     }
 
@@ -151,6 +153,20 @@ public final class ApplyPatchUtil {
                 + patchDescription.length()
                 + ". Decoded string SHA1: "
                 + Hashing.sha1().hashString(patchDescription, UTF_8)
+                + ".]]]");
+      }
+    }
+    if (appendResultPatch) {
+      res.append("\n\nResult patch:\n ");
+      if (resultPatch.length() <= 1024) {
+        res.append(resultPatch);
+      } else {
+        res.append(
+            resultPatch.substring(0, 1024)
+                + "\n[[[Result patch trimmed due to size. Decoded string size: "
+                + resultPatch.length()
+                + ". Decoded string SHA1: "
+                + Hashing.sha1().hashString(resultPatch, UTF_8)
                 + ".]]]");
       }
     }
@@ -190,7 +206,10 @@ public final class ApplyPatchUtil {
     if (cleanOriginalPatch.equals(cleanResultPatch)) {
       return Optional.empty();
     }
-    return Optional.of(StringUtils.difference(cleanOriginalPatch, cleanResultPatch));
+    return Optional.of(
+        StringUtils.difference(
+            cleanOriginalPatch.replaceAll("\n", "\n> "),
+            cleanResultPatch.replaceAll("\n", "\n> ")));
   }
 
   private static String decodeIfNecessary(String patch) {

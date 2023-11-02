@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ba4073d_13d17d39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2023-11-02T17:39:44Z",
+      "side": 1,
+      "message": "The `check-result-expanded` plugin endpoint has been introduced to Gerrit to support the Chromium buildbucket plugin written by Gavin Mak (added as a reviewer) https://chromium-review.googlesource.com/c/infra/gerrit-plugins/buildbucket/+/2713212\n\nI retrieve some JSON from CI and pass the data to a Web Component which does the colorful/HTML rendering. Example rendering https://phabricator.wikimedia.org/F41415689 (that file might vanish in the future).",
+      "revId": "34e4906ae010a799b3320ab28a17763e4cbcded9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

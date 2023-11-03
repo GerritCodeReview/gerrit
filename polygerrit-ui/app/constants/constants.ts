@@ -7,11 +7,10 @@
 /**
  * Tab names for primary tabs on change view page.
  */
-import {DiffViewMode} from '../api/diff';
-import {DiffPreferencesInfo} from '../types/diff';
+import {DiffMode} from '../api/diff';
 import {EditPreferencesInfo, PreferencesInfo} from '../types/common';
 import {
-  AuthType,
+  Auth,
   ChangeStatus,
   CommentSide,
   ConfigParameterInfoType,
@@ -31,7 +30,7 @@ import {
 } from '../api/rest-api';
 
 export {
-  AuthType,
+  Auth,
   ChangeStatus,
   CommentSide,
   ConfigParameterInfoType,
@@ -40,9 +39,6 @@ export {
   FileInfoStatus,
   GpgKeyInfoStatus,
   HttpMethod,
-  InheritedBooleanInfoConfiguredValue,
-  MergeabilityComputationBehavior,
-  ProblemInfoStatus,
   RepoState,
   RequirementStatus,
   ReviewerState,

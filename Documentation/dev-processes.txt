@@ -56,7 +56,7 @@ The election of the non-Google steering committee members happens once
 a year in June. Non-Google link:dev-roles.html#maintainer[maintainers]
 can nominate themselves by posting an informal application on the
 non-public mailto:gerritcodereview-community-managers@googlegroups.com[
-community manager mailing list] when the call for nomiations is sent to
+community manager mailing list] when the call for nominations is sent to
 the maintainers list by a community manager.
 
 The list with all candidates will be published at the beginning of the

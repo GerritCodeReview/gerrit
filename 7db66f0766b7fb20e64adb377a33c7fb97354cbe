@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5723a603_71e49341",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-03T18:07:05Z",
+      "side": 1,
+      "message": "nit: AFAIU or project configuration e.g. when label was added since the change was merged",
+      "range": {
+        "startLine": 16,
+        "startChar": 51,
+        "endLine": 16,
+        "endChar": 61
+      },
+      "revId": "7db66f0766b7fb20e64adb377a33c7fb97354cbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14f0d785_6b781a8e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 4666,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-03T18:07:05Z",
+      "side": 1,
+      "message": "nit: AFAIU it is _not_ only about `Prolog` rules but about all submit rules (including `Prolog`). If that is correct then description should be changed and perhaps also the configuration section (`change` sound like a good example). WDYT?",
+      "range": {
+        "startLine": 4661,
+        "startChar": 9,
+        "endLine": 4666,
+        "endChar": 56
+      },
+      "revId": "7db66f0766b7fb20e64adb377a33c7fb97354cbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a35ed49_483296e8",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1093,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-03T18:07:05Z",
+      "side": 1,
+      "message": "question: I have checked what is performed in `evaluate` and AFAIU when `SubmitRuleOptions.recomputeOnClosedChanges` is `false` it already handles the case by copying the existing submit records.\n\nHow about influencing the `recomputeOnClosedChanges` and keeping the logic of submit rules evaluation in one place?",
+      "range": {
+        "startLine": 1090,
+        "startChar": 6,
+        "endLine": 1093,
+        "endChar": 74
+      },
+      "revId": "7db66f0766b7fb20e64adb377a33c7fb97354cbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f300a74_136af9bf",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 3810,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-03T18:07:05Z",
+      "side": 1,
+      "message": "nit: how about adding test for `abandoned` changes? The full coverage would be:\n1. vote on change\n2. abandon it\n3. add label\n4. verify that label is not part of the abandoned change submit records\n5. restore change and verify that new label is required (optional)\nWDYT?",
+      "revId": "7db66f0766b7fb20e64adb377a33c7fb97354cbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b11957d2_cb3d5bb8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 3819,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-03T18:07:05Z",
+      "side": 1,
+      "message": "nit: there is `ChangeInfo.submitRecords` therefore I would propose to check the content of it throughout the test as AFAIU that is the ultimate confirmation whether it was re-computed or not...",
+      "revId": "7db66f0766b7fb20e64adb377a33c7fb97354cbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

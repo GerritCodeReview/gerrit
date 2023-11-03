@@ -164,6 +164,7 @@ import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -328,8 +329,7 @@ public class RestApiServlet extends HttpServlet {
 
       try (PerThreadCache ignored = PerThreadCache.create()) {
         List<IdString> path = splitPath(req);
-        RequestInfo requestInfo =
-            createRequestInfo(traceContext, requestUri, req.getQueryString(), path);
+        RequestInfo requestInfo = createRequestInfo(traceContext, req, requestUri, path);
         globals.requestListeners.runEach(l -> l.onRequest(requestInfo));
 
         // It's important that the PerformanceLogContext is closed before the response is sent to
@@ -1670,16 +1670,23 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private RequestInfo createRequestInfo(
-      TraceContext traceContext,
-      String requestUri,
-      @Nullable String queryString,
-      List<IdString> path) {
+      TraceContext traceContext, HttpServletRequest req, String requestUri, List<IdString> path) {
     RequestInfo.Builder requestInfo =
         RequestInfo.builder(RequestInfo.RequestType.REST, globals.currentUser.get(), traceContext)
             .requestUri(requestUri);
 
-    if (queryString != null) {
-      requestInfo.requestQueryString(queryString);
+    if (req.getQueryString() != null) {
+      requestInfo.requestQueryString(req.getQueryString());
+    }
+
+    Enumeration<String> headerNames = req.getHeaderNames();
+    while (headerNames.hasMoreElements()) {
+      String headerName = headerNames.nextElement();
+      Enumeration<String> headerValues = req.getHeaders(headerName);
+      while (headerValues.hasMoreElements()) {
+        String headerValue = headerValues.nextElement();
+        requestInfo.addHeader(headerName, headerValue);
+      }
     }
 
     if (path.size() < 1) {

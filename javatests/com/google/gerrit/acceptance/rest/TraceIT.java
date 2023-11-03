@@ -18,9 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.apache.http.HttpStatus.SC_CREATED;
 import static org.apache.http.HttpStatus.SC_INTERNAL_SERVER_ERROR;
 import static org.apache.http.HttpStatus.SC_OK;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
@@ -845,6 +845,64 @@ public class TraceIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(reviewerSuggestion, /* exportName= */ "foo")) {
       RestResponse response =
           adminRestSession.get(String.format("/changes/%s/suggest_reviewers?limit=10", changeId));
+      assertThat(response.getStatusCode()).isEqualTo(SC_OK);
+      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(reviewerSuggestion.traceId).isNull();
+      assertThat(reviewerSuggestion.isLoggingForced).isFalse();
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "tracing.issue123.headerPattern", value = "User-Agent=foo.*")
+  public void traceHeader() throws Exception {
+    String changeId = createChange().getChangeId();
+    TraceReviewerSuggestion reviewerSuggestion = new TraceReviewerSuggestion();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(reviewerSuggestion, /* exportName= */ "foo")) {
+
+      RestResponse response =
+          adminRestSession.getWithHeaders(
+              String.format("/changes/%s/suggest_reviewers?limit=10", changeId),
+              new BasicHeader("User-Agent", "foo-bar"),
+              new BasicHeader("Other-Header", "baz"));
+      assertThat(response.getStatusCode()).isEqualTo(SC_OK);
+      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(reviewerSuggestion.traceId).isEqualTo("issue123");
+      assertThat(reviewerSuggestion.isLoggingForced).isTrue();
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "tracing.issue123.headerPattern", value = "User-Agent=bar.*")
+  public void traceHeaderNoMatch() throws Exception {
+    String changeId = createChange().getChangeId();
+    TraceReviewerSuggestion reviewerSuggestion = new TraceReviewerSuggestion();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(reviewerSuggestion, /* exportName= */ "foo")) {
+      RestResponse response =
+          adminRestSession.getWithHeaders(
+              String.format("/changes/%s/suggest_reviewers?limit=10", changeId),
+              new BasicHeader("User-Agent", "foo-bar"),
+              new BasicHeader("Other-Header", "baz"));
+      assertThat(response.getStatusCode()).isEqualTo(SC_OK);
+      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(reviewerSuggestion.traceId).isNull();
+      assertThat(reviewerSuggestion.isLoggingForced).isFalse();
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "tracing.issue123.headerPattern", value = "][")
+  public void traceHeaderInvalidRegEx() throws Exception {
+    String changeId = createChange().getChangeId();
+    TraceReviewerSuggestion reviewerSuggestion = new TraceReviewerSuggestion();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(reviewerSuggestion, /* exportName= */ "foo")) {
+      RestResponse response =
+          adminRestSession.getWithHeaders(
+              String.format("/changes/%s/suggest_reviewers?limit=10", changeId),
+              new BasicHeader("User-Agent", "foo-bar"),
+              new BasicHeader("Other-Header", "baz"));
       assertThat(response.getStatusCode()).isEqualTo(SC_OK);
       assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
       assertThat(reviewerSuggestion.traceId).isNull();

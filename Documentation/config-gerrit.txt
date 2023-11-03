@@ -5770,6 +5770,21 @@ Example:
 +
 By default, unset (all request query strings are matched).
 
+[[tracing.traceid.headerPattern]]tracing.<trace-id>.headerPattern::
++
+Regular expression to match headers for which request tracing should be
+enabled. The regular expression is matched against the headers in the
+format '<header-name>=<header-value>'.
++
+May be specified multiple times.
++
+Example:
+----
+  requestQueryStringPattern = User-Agent=foo-.*
+----
++
+By default, unset (all headers are matched).
+
 [[tracing.traceid.account]]tracing.<trace-id>.account::
 +
 Account ID of an account for which request tracing should be always

@@ -16,6 +16,24 @@
       "message": "It would be fine to update the plugin in the same topic. But like this it is also good.",
       "revId": "8d991add8dde92db002ea4f7e9ee470359a578e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b8c4195_553e9c1f",
+        "filename": "java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-11-03T18:24:36Z",
+      "side": 1,
+      "message": "Having both part of the same topic doesn\u0027t make the checks pass. I feel more comfortable with this solution than with overriding the test results manually.",
+      "parentUuid": "a274ac94_959e6181",
+      "revId": "8d991add8dde92db002ea4f7e9ee470359a578e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

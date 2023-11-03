@@ -748,6 +748,7 @@ public class ChangeData {
       }
       notes = notesFactory.create(project(), legacyId, metaRevision);
       change = notes.getChange();
+      setPatchSets(null);
     }
     return notes;
   }

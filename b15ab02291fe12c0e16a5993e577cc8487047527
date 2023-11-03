@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa0830fb_5a948e75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-03T07:27:36Z",
+      "side": 1,
+      "message": "nit: contain",
+      "range": {
+        "startLine": 11,
+        "startChar": 13,
+        "endLine": 11,
+        "endChar": 21
+      },
+      "revId": "b15ab02291fe12c0e16a5993e577cc8487047527",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b44c209_9c843080",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2831,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-03T07:27:36Z",
+      "side": 1,
+      "message": "nit: drop this?",
+      "range": {
+        "startLine": 2831,
+        "startChar": 65,
+        "endLine": 2831,
+        "endChar": 67
+      },
+      "revId": "b15ab02291fe12c0e16a5993e577cc8487047527",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0e221a5_7491465d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2832,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-03T07:27:36Z",
+      "side": 1,
+      "message": "nit: then",
+      "range": {
+        "startLine": 2832,
+        "startChar": 9,
+        "endLine": 2832,
+        "endChar": 13
+      },
+      "revId": "b15ab02291fe12c0e16a5993e577cc8487047527",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4172f5c6_a81d4448",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2833,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-03T07:27:36Z",
+      "side": 1,
+      "message": "nit: commit",
+      "range": {
+        "startLine": 2833,
+        "startChar": 21,
+        "endLine": 2833,
+        "endChar": 28
+      },
+      "revId": "b15ab02291fe12c0e16a5993e577cc8487047527",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c845d834_549f2ff8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2835,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-03T07:27:36Z",
+      "side": 1,
+      "message": "nit: drop this?",
+      "range": {
+        "startLine": 2835,
+        "startChar": 37,
+        "endLine": 2835,
+        "endChar": 39
+      },
+      "revId": "b15ab02291fe12c0e16a5993e577cc8487047527",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5be6efc3_3367162d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2836,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-03T07:27:36Z",
+      "side": 1,
+      "message": "maybe add \"e.g.\" since googlesource.com sounds like it\u0027s only for us at Google.",
+      "range": {
+        "startLine": 2836,
+        "startChar": 65,
+        "endLine": 2836,
+        "endChar": 68
+      },
+      "revId": "b15ab02291fe12c0e16a5993e577cc8487047527",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

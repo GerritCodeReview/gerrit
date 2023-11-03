@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9dd1b4c_dc3e630e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2023-11-03T14:50:41Z",
+      "side": 1,
+      "message": "Adding Gavin Mak who use the `ChecksApi.updateResult` in the Chromium Buildbucket plugin https://chromium-review.googlesource.com/c/infra/gerrit-plugins/buildbucket/+/2973596",
+      "revId": "150ab62d1c7da6d0686c1838eccfd55bf175d013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

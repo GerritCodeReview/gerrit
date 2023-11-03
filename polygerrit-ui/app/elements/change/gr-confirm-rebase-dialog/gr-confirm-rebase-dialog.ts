@@ -472,7 +472,8 @@ export class GrConfirmRebaseDialog
     } else if (this.uploader && this.uploader.email) {
       const currentUploaderEmails =
         await this.restApiService.getAccountEmailsFor(
-          this.uploader.email.toString()
+          this.uploader.email.toString(),
+          () => {}
         );
       this.committerEmailDropdownItems = currentUploaderEmails || [];
     } else {

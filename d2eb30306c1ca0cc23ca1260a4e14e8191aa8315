@@ -16,6 +16,24 @@
       "message": "I am still confused between the commit message and what I see in the tests. For me the commit message should be extended to explain all the uses affected by this.",
       "revId": "d2eb30306c1ca0cc23ca1260a4e14e8191aa8315",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af9cb51f_91b92307",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-11-03T07:23:10Z",
+      "side": 1,
+      "message": "We discussed it [in this comment](https://gerrit-review.googlesource.com/c/gerrit/+/369234/comment/86e97696_0a2508e4/), anyway please check the commit message now reflecting the issue description. \n\n\u003e I am still confused between the commit message and what I see in the tests\n\nTests were added to make sure we did not break the existing funtionality, in particular for adding a user without account in CC, which is allowed depending on the project flag `reviewer.enableByEmail`.",
+      "parentUuid": "544a9cdc_9fa2cd22",
+      "revId": "d2eb30306c1ca0cc23ca1260a4e14e8191aa8315",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

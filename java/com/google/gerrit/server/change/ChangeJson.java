@@ -769,17 +769,12 @@ public class ChangeJson {
       if (limitToPsId.isEmpty() && out.currentRevision == null) {
         logger.atSevere().log(
             "current revision for change %s not found"
-                + "(current patch set ID = %s, patch sets = %s, meta revision = %s,"
-                + " patch set ref states = %s)",
+                + " (current patch set ID = %s, patch sets = %s, meta revision = %s)",
             cd.getId(),
             cd.change().currentPatchSetId(),
             src.entrySet().stream()
                 .collect(toImmutableMap(Map.Entry::getKey, e -> e.getValue().commitId().name())),
-            getMetaRevisionIfAvailable(cd).map(ObjectId::name).orElse("n/a"),
-            cd.getRefStates().get(cd.project()).stream()
-                .filter(refState -> PatchSet.Id.fromRef(refState.ref()) != null)
-                .map(refState -> refState.ref() + ":" + refState.id().name())
-                .collect(toList()));
+            getMetaRevisionIfAvailable(cd).map(ObjectId::name).orElse("n/a"));
         PatchSet.Id currentPatchSetFromChangeData =
             Optional.ofNullable(cd.currentPatchSet()).map(PatchSet::id).orElse(null);
         if (!cd.change().currentPatchSetId().equals(currentPatchSetFromChangeData)) {

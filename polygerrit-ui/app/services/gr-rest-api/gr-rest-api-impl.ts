@@ -803,7 +803,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     } else return;
   }
 
-  getAccountEmailsFor(email: string) {
+  getAccountEmailsFor(email: string, errFn?: ErrorCallback) {
     return this.getLoggedIn()
       .then(isLoggedIn => {
         if (isLoggedIn) {
@@ -817,6 +817,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
           return this._fetchSharedCacheURL({
             url: '/accounts/' + email + '/emails',
             reportUrlAsIs: true,
+            errFn,
           }) as Promise<EmailInfo[] | undefined>;
         }
         return undefined;

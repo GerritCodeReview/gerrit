@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a274ac94_959e6181",
+        "filename": "java/com/google/gerrit/server/StarredChangesUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-03T13:06:11Z",
+      "side": 1,
+      "message": "It would be fine to update the plugin in the same topic. But like this it is also good.",
+      "revId": "8d991add8dde92db002ea4f7e9ee470359a578e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

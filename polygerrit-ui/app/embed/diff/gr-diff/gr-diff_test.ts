@@ -190,13 +190,13 @@ suite('gr-diff tests', () => {
       element.renderPrefs = {hide_left_side: true};
       await element.updateComplete;
       let cols = queryAll(element, 'col');
-      assert.equal(cols.length, 3);
+      assert.equal(cols.length, 2);
 
       diffModel.updateState({renderPrefs: {hide_left_side: false}});
       element.renderPrefs = {hide_left_side: false};
       await element.updateComplete;
       cols = queryAll(element, 'col');
-      assert.equal(cols.length, 5);
+      assert.equal(cols.length, 4);
     });
 
     suite('getCursorStops', () => {
@@ -330,32 +330,6 @@ suite('gr-diff tests', () => {
         element.querySelectorAll('gr-ranged-comment-hint').length,
         1
       );
-    });
-  });
-
-  suite('blame', () => {
-    test('unsetting', async () => {
-      element.blame = [];
-      const setBlameSpy = sinon.spy(element, 'setBlame');
-      element.classList.add('showBlame');
-      element.blame = null;
-      await element.updateComplete;
-      assert.isTrue(setBlameSpy.calledWithExactly([]));
-      assert.isFalse(element.classList.contains('showBlame'));
-    });
-
-    test('setting', async () => {
-      element.blame = [
-        {
-          author: 'test-author',
-          time: 12345,
-          commit_msg: '',
-          id: 'commit id',
-          ranges: [{start: 1, end: 2}],
-        },
-      ];
-      await element.updateComplete;
-      assert.isTrue(element.classList.contains('showBlame'));
     });
   });
 

@@ -392,7 +392,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
       this.layersChanged();
     }
     if (changedProperties.has('blame')) {
-      this.blameChanged();
+      this.diffModel.updateState({blameInfo: this.blame ?? []});
     }
     if (changedProperties.has('renderPrefs')) {
       this.renderPrefsChanged();
@@ -508,15 +508,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
     return !!this.highlights.selectedRange;
   }
 
-  private blameChanged() {
-    this.setBlame(this.blame ?? []);
-    if (this.blame) {
-      this.classList.add('showBlame');
-    } else {
-      this.classList.remove('showBlame');
-    }
-  }
-
   // Private but used in tests.
   selectLine(el: Element) {
     const lineNumber = Number(el.getAttribute('data-value'));
@@ -545,8 +536,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   private prefsChanged() {
     if (!this.prefs) return;
-
-    this.blame = null;
     this.updatePreferenceStyles();
 
     if (!Number.isInteger(this.prefs.tab_size) || this.prefs.tab_size <= 0) {
@@ -796,7 +785,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
       // differences to highlight and apply them to the element as
       // annotations.
       annotate(contentEl: HTMLElement, _: HTMLElement, line: GrDiffLine) {
-        const HL_CLASS = 'gr-diff intraline';
+        const HL_CLASS = 'intraline';
         for (const highlight of line.highlights) {
           // The start and end indices could be the same if a highlight is
           // meant to start at the end of a line and continue onto the
@@ -865,7 +854,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
             contentEl,
             index,
             length,
-            'gr-diff trailing-whitespace'
+            'trailing-whitespace'
           );
         }
       },
@@ -963,21 +952,6 @@ export class GrDiff extends LitElement implements GrDiffApi {
       .slice(startIndex, endIndex + 1)
       .filter(group => group.lines.length > 0);
   }
-
-  /**
-   * Set the blame information for the diff. For any already-rendered line,
-   * re-render its blame cell content.
-   */
-  setBlame(blame: BlameInfo[]) {
-    for (const blameInfo of blame) {
-      for (const range of blameInfo.ranges) {
-        for (let line = range.start; line <= range.end; line++) {
-          const row = this.findRow(Side.LEFT, line);
-          if (row) row.blameInfo = blameInfo;
-        }
-      }
-    }
-  }
 }
 
 function getLineNumberCellWidth(prefs: DiffPreferencesInfo) {
@@ -998,7 +972,7 @@ function annotateSymbols(
     // Skip forward by the length of the content
     pos += split[i].length;
 
-    GrAnnotationImpl.annotateElement(contentEl, pos, 1, `gr-diff ${className}`);
+    GrAnnotationImpl.annotateElement(contentEl, pos, 1, className);
 
     pos++;
   }

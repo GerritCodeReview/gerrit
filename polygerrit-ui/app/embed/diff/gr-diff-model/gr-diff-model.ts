@@ -38,7 +38,7 @@ import {
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {assert} from '../../../utils/common-util';
 import {isImageDiff} from '../../../utils/diff-util';
-import {ImageInfo} from '../../../types/common';
+import {BlameInfo, ImageInfo} from '../../../types/common';
 import {fire} from '../../../utils/event-util';
 import {CommentRange} from '../../../api/rest-api';
 
@@ -56,6 +56,7 @@ export interface DiffState {
   showFullContext: FullContext;
   errorMessage?: string;
   layers: DiffLayer[];
+  blameInfo: BlameInfo[];
 }
 
 export interface ColumnsToShow {
@@ -101,6 +102,11 @@ export class DiffModel extends Model<DiffState> {
     diffState => diffState.path
   );
 
+  readonly blameInfo$: Observable<BlameInfo[]> = select(
+    this.state$,
+    diffState => diffState.blameInfo
+  );
+
   readonly renderPrefs$: Observable<RenderPreferences> = select(
     this.state$,
     diffState => diffState.renderPrefs
@@ -112,15 +118,14 @@ export class DiffModel extends Model<DiffState> {
   );
 
   readonly columnsToShow$: Observable<ColumnsToShow> = select(
-    this.renderPrefs$,
-    renderPrefs => {
+    combineLatest([this.blameInfo$, this.renderPrefs$]),
+    ([blameInfo, renderPrefs]) => {
       const hideLeft = !!renderPrefs.hide_left_side;
       const showSign = !!renderPrefs.show_sign_col;
       const unified = renderPrefs.view_mode === DiffViewMode.UNIFIED;
 
       return {
-        // TODO: Do not always render the blame column. Move this into renderPrefs.
-        blame: true,
+        blame: blameInfo.length > 0,
         // Hiding the left side in unified diff mode does not make a lot of sense and is not supported.
         leftNumber: !hideLeft || unified,
         leftSign: !hideLeft && showSign && !unified,
@@ -211,6 +216,7 @@ export class DiffModel extends Model<DiffState> {
       groups: [],
       showFullContext: FullContext.UNDECIDED,
       layers: [],
+      blameInfo: [],
     });
     this.subscriptions = [this.processDiff()];
   }

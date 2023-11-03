@@ -22,6 +22,30 @@
       },
       "revId": "0f9abe3a5acdccc1b3bdcd7d45e91546a71de9eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04ad503c_4de9d8c9",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-03T08:58:53Z",
+      "side": 1,
+      "message": "Fixed in https://gerrit-review.googlesource.com/c/gerrit/+/391754",
+      "parentUuid": "c40a83a9_dd154eb6",
+      "range": {
+        "startLine": 59,
+        "startChar": 50,
+        "endLine": 59,
+        "endChar": 60
+      },
+      "revId": "0f9abe3a5acdccc1b3bdcd7d45e91546a71de9eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -42,3 +42,23 @@ Here are some examples of open source plugins that make use of the Checks API:
 `checksApi.announceUpdate()`
 
 Tells Gerrit to call `provider.fetch()`.
+
+[[updateResult]]
+== updateResult
+`checksApi.updateResult(run: CheckRun, result: CheckResult)`
+
+Updates an individual result. This can be used for lazy laoding detailled
+information. For example, if you are using the
+link:pg-plugin-endpoints.html#_check_result_expanded[`check-result-expanded`
+endpoint], then you can load more result details when the user expands a result
+row.
+
+The parameter `run` is only used to *find* the correct run for updating the
+result. It will only be used for comparing `change`, `patchset`, `attempt` and
+`checkName`. Its properties other than `results` will not be updated.
+
+For us being able to identify the result that you want to update you have to
+set the `externalId` property. An undefined `externalId` will result in an
+error.
+
+An example usage can be found in link:https://chromium.googlesource.com/infra/gerrit-plugins/buildbucket/+/main/web/checks-result.ts[Chromium Buildbucket Plugin].

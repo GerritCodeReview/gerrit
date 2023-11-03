@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "860546cb_590204ff",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-03T22:27:42Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "de681c30_9684b271",
+      "range": {
+        "startLine": 102,
+        "startChar": 2,
+        "endLine": 102,
+        "endChar": 7
+      },
+      "revId": "54f0caedadb99a200cb85666b595d5abcb6ccc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2572e3ce_80c7f097",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "Thought I made it private already, thank you for pointing it out. Making the inner class static though would mean that it cannot to access the non-static member of the outer class. In this case the actual datasource.",
       "parentUuid": "2572e3ce_80c7f097",
+      "range": {
+        "startLine": 119,
+        "startChar": 2,
+        "endLine": 119,
+        "endChar": 7
+      },
+      "revId": "54f0caedadb99a200cb85666b595d5abcb6ccc0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "067f4c90_a1b3ffb0",
+        "filename": "java/com/google/gerrit/index/query/AndSource.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-03T22:27:42Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "9717518f_b81ac842",
       "range": {
         "startLine": 119,
         "startChar": 2,

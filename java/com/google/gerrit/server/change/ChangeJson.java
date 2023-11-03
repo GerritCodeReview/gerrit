@@ -106,6 +106,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.logging.CallerFinder;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -758,6 +759,7 @@ public class ChangeJson {
 
     // This block must come after the ChangeInfo is mostly populated, since
     // it will be passed to ActionVisitors as-is.
+
     if (needRevisions) {
       out.revisions = revisionJson.getRevisions(accountLoader, cd, src, limitToPsId, out);
       for (Map.Entry<String, RevisionInfo> entry : out.revisions.entrySet()) {
@@ -770,13 +772,14 @@ public class ChangeJson {
         logger.atSevere().log(
             "current revision for change %s not found"
                 + " (current patch set ID = %s, patch sets = %s, meta revision = %s,"
-                + " options = %s)",
+                + " options = %s, caller = %s)",
             cd.getId(),
             cd.change().currentPatchSetId(),
             src.entrySet().stream()
                 .collect(toImmutableMap(Map.Entry::getKey, e -> e.getValue().commitId().name())),
             getMetaRevisionIfAvailable(cd).map(ObjectId::name).orElse("n/a"),
-            options);
+            options,
+            CallerFinder.builder().addTarget(ChangeJson.class).build().findCallerLazy());
         PatchSet.Id currentPatchSetFromChangeData =
             Optional.ofNullable(cd.currentPatchSet()).map(PatchSet::id).orElse(null);
         if (!cd.change().currentPatchSetId().equals(currentPatchSetFromChangeData)) {

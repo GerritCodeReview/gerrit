@@ -16,6 +16,24 @@
       "message": "why don\u0027t you update right away to master ?",
       "revId": "649ae0650ddc258049516ad8b230b3c9f5afe747",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d355de23_a1e4fca2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-04T23:07:43Z",
+      "side": 1,
+      "message": "Because this stable-3.5 is EOL and I am taking the most cautious approach so far :-)\n\nI would need still to:\n- Run all the tests\n- Run all the Gatling tests\n- Confirm that there are no functional or performance regressions",
+      "parentUuid": "66bc7bdf_64a10c09",
+      "revId": "649ae0650ddc258049516ad8b230b3c9f5afe747",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

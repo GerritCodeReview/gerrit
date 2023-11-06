@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e564c19_ed94f5be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-06T08:29:01Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com @ponch78@gmail.com @matthias.sohn@gmail.com, all comments have been addressed, can you please re-check?",
+      "revId": "08b0b203fb3c6db400a240889fe7c2e77edb91f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

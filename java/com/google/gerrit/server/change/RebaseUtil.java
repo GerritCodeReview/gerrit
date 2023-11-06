@@ -252,18 +252,16 @@ public class RebaseUtil {
           String.format("Change %s is %s", change.getId(), ChangeUtil.status(change)));
     }
 
-    if (!hasOneParent(rw, patchSet)) {
+    if (!hasAtLeastOneParent(rw, patchSet)) {
       throw new ResourceConflictException(
           String.format(
-              "Error rebasing %s. Cannot rebase %s",
-              change.getId(),
-              countParents(rw, patchSet) > 1 ? "merge commits" : "commit with no ancestor"));
+              "Error rebasing %s. Cannot rebase commit with no ancestor", change.getId()));
     }
   }
 
-  public static boolean hasOneParent(RevWalk rw, PatchSet ps) throws IOException {
-    // Prevent rebase of exotic changes (merge commit, no ancestor).
-    return countParents(rw, ps) == 1;
+  public static boolean hasAtLeastOneParent(RevWalk rw, PatchSet ps) throws IOException {
+    // Prevent rebase of changes with no ancestor.
+    return countParents(rw, ps) >= 1;
   }
 
   private static int countParents(RevWalk rw, PatchSet ps) throws IOException {
@@ -487,9 +485,7 @@ public class RebaseUtil {
     ObjectId baseId = null;
     RevCommit commit = rw.parseCommit(patchSet.commitId());
 
-    if (commit.getParentCount() > 1) {
-      throw new UnprocessableEntityException("Cannot rebase a change with multiple parents.");
-    } else if (commit.getParentCount() == 0) {
+    if (commit.getParentCount() == 0) {
       throw new UnprocessableEntityException(
           "Cannot rebase a change without any parents (is this the initial commit?).");
     }

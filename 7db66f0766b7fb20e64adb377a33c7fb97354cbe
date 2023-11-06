@@ -326,6 +326,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f7e8338c_26ae156e",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1093,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-06T11:21:32Z",
+      "side": 1,
+      "message": "As @luca.milanesio@gmail.com pointed out, the Ifaf6ead5c869ba7 will improve overall performance, but won\u0027t prevent rules evaluation on closed changes and also won\u0027t prevent `ReductionLimitException` which is mentioned on the issue this change is fixing.",
+      "parentUuid": "95864729_edfef499",
+      "range": {
+        "startLine": 1090,
+        "startChar": 6,
+        "endLine": 1093,
+        "endChar": 74
+      },
+      "revId": "7db66f0766b7fb20e64adb377a33c7fb97354cbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5f300a74_136af9bf",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 8

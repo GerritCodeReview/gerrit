@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f2aa6cd_8329acc1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-11-06T15:33:51Z",
+      "side": 1,
+      "message": "Inviting for review here because of what he wrote in the commit message of I6a4b2731f8de77cc453b58f931a9ec7a3f5b6612",
+      "revId": "18169f0edbaabc7cded66734acfedac10ed6a6e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

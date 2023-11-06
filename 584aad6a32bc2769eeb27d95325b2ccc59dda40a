@@ -129,6 +129,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69a95d60_d80fa856",
+        "filename": "javatests/com/google/gerrit/acceptance/server/notedb/ChangeRebuilderIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-06T08:32:02Z",
+      "side": 1,
+      "message": "Thanks, now the name is showing what it represents.",
+      "parentUuid": "ae42c165_4481226a",
+      "range": {
+        "startLine": 346,
+        "startChar": 62,
+        "endLine": 346,
+        "endChar": 70
+      },
+      "revId": "584aad6a32bc2769eeb27d95325b2ccc59dda40a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a12eb04e_826cd026",

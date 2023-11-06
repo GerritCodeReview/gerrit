@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "956d4815_443ba6a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-06T19:15:18Z",
+      "side": 1,
+      "message": "add release notes trailer",
+      "revId": "18169f0edbaabc7cded66734acfedac10ed6a6e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6f2aa6cd_8329acc1",

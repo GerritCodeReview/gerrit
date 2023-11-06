@@ -254,6 +254,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f576c077_3c83f5f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-06T18:15:25Z",
+      "side": 1,
+      "message": "Totally agree on this. We should keep this behaviour configurable on `stable` branches in order to keep the same behaviour. For `master` we can flip the default value of the configuration option to skip evaluation.\n\nI\u0027d merge-up this change to all stable branches (including `3.9`) and change the behaviour on `master`.",
+      "parentUuid": "72125285_e65eb820",
+      "revId": "7db66f0766b7fb20e64adb377a33c7fb97354cbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14f0d785_6b781a8e",

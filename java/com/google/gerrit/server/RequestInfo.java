@@ -20,6 +20,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.auto.value.AutoValue;
 import com.google.auto.value.extension.memoized.Memoized;
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.logging.TraceContext;
@@ -69,6 +70,9 @@ public abstract class RequestInfo {
    * <p>Only set if request type is {@link RequestType#REST}.
    */
   public abstract Optional<String> requestQueryString();
+
+  /** Request headers in the form '{@code <header-name>:<header-value>}'. */
+  public abstract ImmutableList<String> headers();
 
   /**
    * Redacted request URI.
@@ -175,6 +179,15 @@ public abstract class RequestInfo {
     public abstract Builder requestUri(String requestUri);
 
     public abstract Builder requestQueryString(String requestQueryString);
+
+    /** Gets a builder for adding reasons for this status. */
+    abstract ImmutableList.Builder<String> headersBuilder();
+
+    /** Adds a header. */
+    public Builder addHeader(String headerName, String headerValue) {
+      headersBuilder().add(headerName + "=" + headerValue);
+      return this;
+    }
 
     public abstract Builder callingUser(CurrentUser callingUser);
 

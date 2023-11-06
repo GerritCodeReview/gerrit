@@ -43,6 +43,7 @@ public abstract class RequestConfig {
         requestConfig.requestUriPatterns(parseRequestUriPatterns(cfg, section, id));
         requestConfig.excludedRequestUriPatterns(parseExcludedRequestUriPatterns(cfg, section, id));
         requestConfig.requestQueryStringPatterns(parseRequestQueryStringPatterns(cfg, section, id));
+        requestConfig.headerPatterns(parseHeaderPatterns(cfg, section, id));
         requestConfig.accountIds(parseAccounts(cfg, section, id));
         requestConfig.projectPatterns(parseProjectPatterns(cfg, section, id));
         requestConfigs.add(requestConfig.build());
@@ -71,6 +72,11 @@ public abstract class RequestConfig {
   private static ImmutableSet<Pattern> parseRequestQueryStringPatterns(
       Config cfg, String section, String id) throws ConfigInvalidException {
     return parsePatterns(cfg, section, id, "requestQueryStringPattern");
+  }
+
+  private static ImmutableSet<Pattern> parseHeaderPatterns(Config cfg, String section, String id)
+      throws ConfigInvalidException {
+    return parsePatterns(cfg, section, id, "headerPattern");
   }
 
   private static ImmutableSet<Account.Id> parseAccounts(Config cfg, String section, String id)
@@ -133,6 +139,9 @@ public abstract class RequestConfig {
   /** pattern matching request query strings */
   abstract ImmutableSet<Pattern> requestQueryStringPatterns();
 
+  /** pattern matching headers */
+  abstract ImmutableSet<Pattern> headerPatterns();
+
   /** accounts IDs matching calling user */
   abstract ImmutableSet<Account.Id> accountIds();
 
@@ -194,6 +203,22 @@ public abstract class RequestConfig {
       }
     }
 
+    // If in the request config header patterns are set and none of them matches, then the request
+    // is not matched.
+    if (!headerPatterns().isEmpty()) {
+      if (requestInfo.headers().isEmpty()) {
+        // The request has no headers, hence it cannot match a header pattern.
+        return false;
+      }
+
+      if (headerPatterns().stream()
+          .noneMatch(
+              p ->
+                  requestInfo.headers().stream().anyMatch(header -> p.matcher(header).matches()))) {
+        return false;
+      }
+    }
+
     // If in the request config accounts are set and none of them matches, then the request is not
     // matched.
     if (!accountIds().isEmpty()) {
@@ -223,8 +248,8 @@ public abstract class RequestConfig {
     }
 
     // For any match criteria (request type, request URI pattern, request query string pattern,
-    // account, project pattern) that was specified in the request config, at least one of the
-    // configured value matched the request.
+    // header, account, project pattern) that was specified in the request config, at least one of
+    // the configured value matched the request.
     return true;
   }
 
@@ -243,6 +268,8 @@ public abstract class RequestConfig {
     abstract Builder excludedRequestUriPatterns(ImmutableSet<Pattern> excludedRequestUriPatterns);
 
     abstract Builder requestQueryStringPatterns(ImmutableSet<Pattern> requestQueryStringPatterns);
+
+    abstract Builder headerPatterns(ImmutableSet<Pattern> headerPatterns);
 
     abstract Builder accountIds(ImmutableSet<Account.Id> accountIds);
 

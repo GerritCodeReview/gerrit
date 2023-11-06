@@ -488,6 +488,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cffaa83e_affec764",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1093,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-06T21:21:21Z",
+      "side": 1,
+      "message": "I was referring to this statement:\n\n\u003e This can save us a few CPU cycles and memory that could be used for other operations.\n\nWhich is AFAIU about short-circuiting here and having decision spread across multiple places over affecting the options of the `evaluate` function (called in line #1093) - the change makes it a bit cheaper if we follow my original suggestion and alter options.",
+      "parentUuid": "f7e8338c_26ae156e",
+      "range": {
+        "startLine": 1090,
+        "startChar": 6,
+        "endLine": 1093,
+        "endChar": 74
+      },
+      "revId": "7db66f0766b7fb20e64adb377a33c7fb97354cbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5f300a74_136af9bf",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 8

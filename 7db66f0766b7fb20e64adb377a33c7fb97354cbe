@@ -74,6 +74,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cb97a6bc_162f51f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-06T08:40:46Z",
+      "side": 1,
+      "message": "state",
+      "range": {
+        "startLine": 17,
+        "startChar": 62,
+        "endLine": 17,
+        "endChar": 66
+      },
+      "revId": "7db66f0766b7fb20e64adb377a33c7fb97354cbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "245772a4_6ec1e8ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-06T08:40:46Z",
+      "side": 1,
+      "message": "`skipCurrentRulesEvaluationOnClosedChanges` would be a better name IMHO",
+      "range": {
+        "startLine": 20,
+        "startChar": 12,
+        "endLine": 20,
+        "endChar": 47
+      },
+      "revId": "7db66f0766b7fb20e64adb377a33c7fb97354cbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5308ed1_57c7a991",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-06T08:40:46Z",
+      "side": 1,
+      "message": "What if someone gives a positive vote?",
+      "range": {
+        "startLine": 21,
+        "startChar": 21,
+        "endLine": 21,
+        "endChar": 49
+      },
+      "revId": "7db66f0766b7fb20e64adb377a33c7fb97354cbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "14f0d785_6b781a8e",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 8
@@ -204,6 +273,30 @@
       "side": 1,
       "message": "\u003e I don\u0027t like mutating input arguments...\n\nBy setting the option to `true` it is done _implicitly_ anyway so it could be done _explicitly_ instead 😊\n\n\u003e Also, it\u0027s better to bail out earlier...\n\nNote that there is a room for improvement (addressed in Ifaf6ead5c869ba7) to make it less costly so that you could reconsider 😊",
       "parentUuid": "82ed4245_e3b91000",
+      "range": {
+        "startLine": 1090,
+        "startChar": 6,
+        "endLine": 1093,
+        "endChar": 74
+      },
+      "revId": "7db66f0766b7fb20e64adb377a33c7fb97354cbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95864729_edfef499",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1093,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-06T08:40:46Z",
+      "side": 1,
+      "message": "\u003e \u003e I don\u0027t like mutating input arguments...\n\u003e \n\u003e By setting the option to `true` it is done _implicitly_ anyway so it could be done _explicitly_ instead 😊\n\u003e \n\u003e \u003e Also, it\u0027s better to bail out earlier...\n\u003e \n\u003e Note that there is a room for improvement (addressed in Ifaf6ead5c869ba7) to make it less costly so that you could reconsider 😊\n\nI do not see anywhere in Ifaf6ead5c869ba7 that would prevent the Prolog rules execution (and potential explosion), do you have a more specific line number to point to?",
+      "parentUuid": "ba2bf2cd_c6cac326",
       "range": {
         "startLine": 1090,
         "startChar": 6,

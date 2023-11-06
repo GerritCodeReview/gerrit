@@ -2826,6 +2826,21 @@ Valid values are `true` and `false`. The default is `true`.
 [[groups]]
 === Section groups
 
+[[groups.auditLog.ignoreRecordsFromUnidentifiedUsers]]groups.auditLog.ignoreRecordsFromUnidentifiedUsers::
++
+Controls whether AuditLogReader should ignore commits created by unidentified users.
+If true, then AuditLogReader ignores commits in the refs/groups/* made by unidentified users (i.e.
+when the author of a commit can't be parsed as account id).
++
+The current version of Gerrit writes identified users as authors for new refs/groups/* commits.
+However, some old versions used a server identity as the author (e.g. "Gerrit Code Review
+<server@googlesource.com>") for such commits. Such string can't be converted to account id but
+usually the commit shouldn't be ignored.
++
+By default, false.
++
+Setting it to true may lead to some unexpected results in audit log and must be set carefully.
+
 [[groups.includeExternalUsersInRegisteredUsersGroup]]groups.includeExternalUsersInRegisteredUsersGroup::
 +
 Controls whether external users (these are users we have sufficient

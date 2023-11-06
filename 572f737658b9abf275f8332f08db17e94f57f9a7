@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15a01c2b_dbb8048b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7062,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-06T20:32:11Z",
+      "side": 1,
+      "message": "nit: you can make this a little more concise\n\n```suggestion\n|`name`     |optional|The name of the author/committer. If not specified, the existing name will be used.\n```",
+      "range": {
+        "startLine": 7062,
+        "startChar": 55,
+        "endLine": 7062,
+        "endChar": 117
+      },
+      "revId": "572f737658b9abf275f8332f08db17e94f57f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2399cf1b_100e3061",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7063,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-06T20:32:11Z",
+      "side": 1,
+      "message": "Why not have the same default as `name`?",
+      "revId": "572f737658b9abf275f8332f08db17e94f57f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94dc7f1a_5ebf78ec",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-06T20:32:11Z",
+      "side": 1,
+      "message": "I don\u0027t really like that you\u0027re not comparing to `ChangeEditIdentityType.COMMITTER` to get to here. Doing a short switch statement before the method call would be clearer and easier to maintain.\n\n```\nCommitModification.Builder cmb \u003d CommitModification.builder();\nswitch (identityType) {\n  case ChangeEditIdentityType.AUTHOR:\n    cmb.newAuthor(identity);\n    break;\n  case ChangeEditIdentityType.COMMITTER:\n  default:\n    cmb.newCommitter(identity);\n    break;\n}\n```",
+      "range": {
+        "startLine": 259,
+        "startChar": 14,
+        "endLine": 259,
+        "endChar": 55
+      },
+      "revId": "572f737658b9abf275f8332f08db17e94f57f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9266185b_9cd89ae8",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-06T20:32:11Z",
+      "side": 1,
+      "message": "This might be a little easier to follow if you put the negative case first:\n\n```\nif (!commitModification.newAuthor().isPresent()) {\n  return commitToModify.getAuthorIdent();\n}\n...\n```\n\nSame for `getCommitter()` below.",
+      "revId": "572f737658b9abf275f8332f08db17e94f57f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "530bf4c6_f44beec3",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-06T20:32:11Z",
+      "side": 1,
+      "message": "Don\u0027t use a ternary for this, it\u0027s too long. Same for the other 2 below.",
+      "range": {
+        "startLine": 456,
+        "startChar": 10,
+        "endLine": 456,
+        "endChar": 11
+      },
+      "revId": "572f737658b9abf275f8332f08db17e94f57f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cf1b4d3_d45622fd",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-06T20:32:11Z",
+      "side": 1,
+      "message": "I\u0027m not sure it matters, but I noticed the commit validator only cares about merge commits. See the check for parentCount: https://gerrit.googlesource.com/gerrit/+/refs/changes/94/391494/2/java/com/google/gerrit/server/git/validators/CommitValidators.java#787\n\nWe should probably keep them consistent unless there\u0027s a reason not to.",
+      "revId": "572f737658b9abf275f8332f08db17e94f57f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "391cbe10_34d8b56e",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-06T20:32:11Z",
+      "side": 1,
+      "message": "try to align this message with the one from CommitValidators too",
+      "range": {
+        "startLine": 618,
+        "startChar": 47,
+        "endLine": 618,
+        "endChar": 73
+      },
+      "revId": "572f737658b9abf275f8332f08db17e94f57f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b56a68f_a11793c2",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-06T20:32:11Z",
+      "side": 1,
+      "message": "This is the same \"assumed to be committer\" case that I commented on in another file. Ideally use a switch statement here too.",
+      "range": {
+        "startLine": 624,
+        "startChar": 20,
+        "endLine": 624,
+        "endChar": 49
+      },
+      "revId": "572f737658b9abf275f8332f08db17e94f57f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

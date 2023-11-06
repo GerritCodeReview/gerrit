@@ -121,15 +121,6 @@ public class SubmitRuleEvaluator {
         throw new StorageException("Change not found");
       }
 
-      ProjectState projectState =
-          projectCache
-              .get(cd.project())
-              .orElseThrow(
-                  () ->
-                      new IllegalStateException(
-                          "Unable to find project while evaluating submit rule",
-                          new NoSuchProjectException(cd.project())));
-
       if (cd.change().isClosed()
           && (!opts.recomputeOnClosedChanges() || OnlineReindexMode.isActive())) {
         return cd.notes().getSubmitRecords().stream()
@@ -144,6 +135,15 @@ public class SubmitRuleEvaluator {
                 })
             .collect(toImmutableList());
       }
+
+      ProjectState projectState =
+          projectCache
+              .get(cd.project())
+              .orElseThrow(
+                  () ->
+                      new IllegalStateException(
+                          "Unable to find project while evaluating submit rule",
+                          new NoSuchProjectException(cd.project())));
 
       // We evaluate all the plugin-defined evaluators,
       // and then we collect the results in one list.

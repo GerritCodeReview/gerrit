@@ -223,7 +223,7 @@ public class LabelsJson {
       if (!type.isPresent()) {
         continue;
       }
-      if (standard) {
+      if (standard || detailed) {
         for (PatchSetApproval psa : cd.currentApprovals()) {
           if (type.get().matches(psa)) {
             short val = psa.value();

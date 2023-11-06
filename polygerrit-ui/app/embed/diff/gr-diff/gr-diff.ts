@@ -59,7 +59,20 @@ import {grRangedCommentTheme} from '../gr-ranged-comment-themes/gr-ranged-commen
 import {iconStyles} from '../../../styles/gr-icon-styles';
 import {DiffModel, diffModelToken} from '../gr-diff-model/gr-diff-model';
 import {provide} from '../../../models/dependency';
-import {grDiffStyles} from './gr-diff-styles';
+import {
+  grDiffBinaryStyles,
+  grDiffContextControlsSectionStyles,
+  grDiffElementStyles,
+  grDiffIgnoredWhitespaceStyles,
+  grDiffImageStyles,
+  grDiffMoveStyles,
+  grDiffRebaseStyles,
+  grDiffRowStyles,
+  grDiffSectionStyles,
+  grDiffSelectionStyles,
+  grDiffStyles,
+  grDiffTextStyles,
+} from './gr-diff-styles';
 import {GrCoverageLayer} from '../gr-coverage-layer/gr-coverage-layer';
 import {
   GrAnnotationImpl,
@@ -277,6 +290,17 @@ export class GrDiff extends LitElement implements GrDiffApi {
       grSyntaxTheme,
       grRangedCommentTheme,
       grDiffStyles,
+      grDiffElementStyles,
+      grDiffSectionStyles,
+      grDiffContextControlsSectionStyles,
+      grDiffRowStyles,
+      grDiffIgnoredWhitespaceStyles,
+      grDiffMoveStyles,
+      grDiffRebaseStyles,
+      grDiffSelectionStyles,
+      grDiffTextStyles,
+      grDiffImageStyles,
+      grDiffBinaryStyles,
     ];
   }
 

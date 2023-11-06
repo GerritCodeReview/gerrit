@@ -311,7 +311,7 @@ public class RebaseChain
       } else {
         for (RevisionResource psRsrc : chainAsRevisionResources) {
           if (patchSetUtil.isPatchSetLocked(psRsrc.getNotes())
-              || !RebaseUtil.hasOneParent(rw, psRsrc.getPatchSet())) {
+              || !RebaseUtil.hasAtLeastOneParent(rw, psRsrc.getPatchSet())) {
             enabled = false;
             break;
           }

@@ -56,6 +56,7 @@ import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -501,9 +502,18 @@ public class RebaseChangeOp implements BatchUpdateOp {
               mergeResults);
     }
 
+    List<ObjectId> parents = new ArrayList<>();
+    parents.add(base);
+    if (original.getParentCount() > 1) {
+      // If a merge commit is rebased add all other parents (parent 2 to N).
+      for (int parent = 1; parent < original.getParentCount(); parent++) {
+        parents.add(original.getParent(parent));
+      }
+    }
+
     CommitBuilder cb = new CommitBuilder();
     cb.setTreeId(tree);
-    cb.setParentId(base);
+    cb.setParentIds(parents);
     cb.setAuthor(original.getAuthorIdent());
     cb.setMessage(commitMessage);
     if (committerIdent != null) {

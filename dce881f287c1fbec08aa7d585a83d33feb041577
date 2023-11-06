@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "675b61f9_1047d59d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-11-06T17:15:53Z",
+      "side": 1,
+      "message": "this comment is a bit confusing.\nSee what exactly there 😊",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 108,
+        "endChar": 35
+      },
+      "revId": "dce881f287c1fbec08aa7d585a83d33feb041577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c59a8dc8_ff9cc4c9",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-11-06T17:15:53Z",
+      "side": 1,
+      "message": "this is existing code but very hard for me to understand 😞\n\n1. I am not sure how/why GrDiffGroup can be/is of type CONTEXT_CONTROL\n\n2. `contextGroups: GrDiffGroup` then there is `contextGroups` which are also somehow DiffGroups?\n\n`if (leftStart \u003e 1 \u0026\u0026 !firstGroupIsSkipped) return true;`\nSame for this check. I don\u0027t know why this is true 😞\n\nIf you can be patient to explain it to me, let me know. If possible add some comments. \n\nFeel free to add another reviewer, if you want a faster approval. (Sorry for the slow speed on this) 😞",
+      "range": {
+        "startLine": 113,
+        "startChar": 2,
+        "endLine": 113,
+        "endChar": 53
+      },
+      "revId": "dce881f287c1fbec08aa7d585a83d33feb041577",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

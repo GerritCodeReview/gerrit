@@ -84,6 +84,7 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.acceptance.testsuite.request.SshSessionFactory;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Account;
@@ -351,7 +352,8 @@ public class AccountIT extends AbstractDaemonTest {
     assertThrows(ResourceNotFoundException.class, () -> gApi.accounts().id(input.username).get());
   }
 
-  private Account.Id createByAccountCreator(int expectedAccountReindexCalls) throws Exception {
+  @UsedAt(UsedAt.Project.GOOGLE)
+  protected Account.Id createByAccountCreator(int expectedAccountReindexCalls) throws Exception {
     AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {
@@ -3682,10 +3684,12 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(loginResponse.getStatusLine().getStatusCode()).isEqualTo(expectedHttpStatus);
   }
 
-  private static class RefUpdateCounter implements GitReferenceUpdatedListener {
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public static class RefUpdateCounter implements GitReferenceUpdatedListener {
     private final AtomicLongMap<String> countsByProjectRefs = AtomicLongMap.create();
 
-    static String projectRef(Project.NameKey project, String ref) {
+    @UsedAt(UsedAt.Project.GOOGLE)
+    public static String projectRef(Project.NameKey project, String ref) {
       return projectRef(project.get(), ref);
     }
 
@@ -3702,7 +3706,8 @@ public class AccountIT extends AbstractDaemonTest {
       countsByProjectRefs.clear();
     }
 
-    void assertRefUpdateFor(String... projectRefs) {
+    @UsedAt(UsedAt.Project.GOOGLE)
+    public void assertRefUpdateFor(String... projectRefs) {
       Map<String, Long> expectedRefUpdateCounts = new HashMap<>();
       for (String projectRef : projectRefs) {
         expectedRefUpdateCounts.put(projectRef, 1L);

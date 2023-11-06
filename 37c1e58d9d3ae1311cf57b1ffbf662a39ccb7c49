@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74df0141_d6cb8880",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-06T08:44:29Z",
+      "side": 1,
+      "message": "@syntonyze@gmail.com can you verify the Code-Style with GJF?",
+      "revId": "37c1e58d9d3ae1311cf57b1ffbf662a39ccb7c49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

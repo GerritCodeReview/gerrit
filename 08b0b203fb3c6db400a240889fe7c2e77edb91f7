@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d73cb89c_24f71fee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-06T08:32:32Z",
+      "side": 1,
+      "message": "Missing `Forward-Compatible: checked`",
+      "revId": "08b0b203fb3c6db400a240889fe7c2e77edb91f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5e564c19_ed94f5be",

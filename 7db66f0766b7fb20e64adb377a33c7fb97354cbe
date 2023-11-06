@@ -141,6 +141,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "72125285_e65eb820",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-06T08:43:29Z",
+      "side": 1,
+      "message": "I am thinking about that evaluating the Prolog rules based on the latest `rules.pl` on the project, if a change is closed (abandoned or merged) is *always* the wrong thing to do.\n\nIf you allow it, you will create inconsistencies anyway (e.g. A merged change that does not satisfy the Prolog rules).\n\nWhilst I am fine in keeping a conservative approach on stable-3.6 (and possibly also the merge-ups to stable-3.8), should we change also the default on stable-3.9?",
+      "revId": "7db66f0766b7fb20e64adb377a33c7fb97354cbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14f0d785_6b781a8e",

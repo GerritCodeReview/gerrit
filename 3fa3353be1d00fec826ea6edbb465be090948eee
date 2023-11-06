@@ -16,6 +16,24 @@
       "message": "This has created regressions in com.google.gerrit.acceptance.api.project.ProjectIT.\n\nDoes the test work locally for you?",
       "revId": "3fa3353be1d00fec826ea6edbb465be090948eee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64afbcda_50f8b786",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-11-06T09:29:14Z",
+      "side": 1,
+      "message": "Yes, it looks like that first approach cause a regression. Regression was related to the fact that we invalidated the cache when project was fully setup. But `refs/meta/config` ref-updated event wasn\u0027t processed by restricted listeners. The reason why is because `google/gerrit/server/events/EventBroker.java#L168` is checking if project exists and at that point we still had negative caching.",
+      "parentUuid": "16f1f88c_9dfe6069",
+      "revId": "3fa3353be1d00fec826ea6edbb465be090948eee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

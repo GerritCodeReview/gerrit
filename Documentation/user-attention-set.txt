@@ -97,21 +97,21 @@ uploader) to the attention set, if it comes along with a negative vote.
 
 === Dashboard
 
-The default *dashboard* contains a new section at the top called "Your Turn". It
+The default *dashboard* contains a new section at the top called "Your turn". It
 lists all changes where the logged-in user is in the attention set. When you are
 a reviewer, the change is highlighted and is shown at the top of the section.
 The "Waiting" column indicates how long the owner has already been waiting for
 you to act.
 
-image::images/user-attention-set-dashboard.png["dashboard with Your Turn section", align="center"]
+image::images/user-attention-set-dashboard.png["dashboard with Your turn section", align="center"]
 
 As an active developer, one of your daily goals will be to iterate over this
 list and clear it.
 
-image::images/user-attention-set-dashboard-empty.png["dashboard with empty Your Turn section", align="center"]
+image::images/user-attention-set-dashboard-empty.png["dashboard with empty Your turn section", align="center"]
 
 Note that you can also navigate to other users' dashboards to check their
-"Your Turn" section.
+"Your turn" section.
 
 === Emails
 

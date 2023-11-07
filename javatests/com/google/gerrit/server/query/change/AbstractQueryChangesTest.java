@@ -1117,6 +1117,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byMessageExact_byAlias_m() throws Exception {
+    byMessageExact("m:", "description_repo");
+  }
+
+  @Test
   public void byMessageExact_byMainOperator() throws Exception {
     byMessageExact("message:", "message_repo");
   }
@@ -1144,6 +1149,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Test
   public void byMessageRegEx_byAlias_description() throws Exception {
     byMessageRegEx("description:", "description_repo");
+  }
+
+  @Test
+  public void byMessageRegEx_byAlias_m() throws Exception {
+    byMessageRegEx("m:", "description_repo");
   }
 
   @Test

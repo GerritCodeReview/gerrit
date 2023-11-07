@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.inject.AbstractModule;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -96,6 +97,30 @@ public abstract class NotesMigration {
               Arrays.stream(cfg.getStringList(SECTION_NOTE_DB, null, ONLINE_MIGRATION_PROJECTS))
                   .collect(Collectors.toSet()))
           .build();
+    }
+
+    @Override
+    public final boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      Snapshot snapshot = (Snapshot) o;
+      return writeChanges() == snapshot.writeChanges()
+          && readChanges() == snapshot.readChanges()
+          && readChangeSequence() == snapshot.readChangeSequence()
+          && changePrimaryStorage() == snapshot.changePrimaryStorage()
+          && disableChangeReviewDb() == snapshot.disableChangeReviewDb()
+          && failOnLoadForTest() == snapshot.failOnLoadForTest();
+    }
+
+    @Override
+    public final int hashCode() {
+      return Objects.hash(
+          writeChanges(),
+          readChanges(),
+          readChangeSequence(),
+          changePrimaryStorage(),
+          disableChangeReviewDb(),
+          failOnLoadForTest());
     }
 
     abstract boolean writeChanges();

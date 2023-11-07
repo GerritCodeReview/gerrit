@@ -488,7 +488,7 @@ export class GrDashboardView extends LitElement {
 
   /**
    * Usually we really want to stick to the sorting that the backend provides,
-   * but for the "Your Turn" section it is important to put the changes at the
+   * but for the "Your turn" section it is important to put the changes at the
    * top where the current user is a reviewer. Owned changes are less important.
    * And then we want to emphasize the changes where the waiting time is larger.
    */
@@ -505,7 +505,7 @@ export class GrDashboardView extends LitElement {
         const c1Owner = c1.owner._account_id === userId;
         const c2Owner = c2.owner._account_id === userId;
         if (c1Owner !== c2Owner) return c1Owner ? 1 : -1;
-        // Should never happen, because the change is in the 'Your Turn'
+        // Should never happen, because the change is in the 'Your turn'
         // section, so the userId should be found in the attention set of both.
         if (!c1.attention_set || !c1.attention_set[userId]) return 0;
         if (!c2.attention_set || !c2.attention_set[userId]) return 0;

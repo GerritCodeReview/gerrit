@@ -16,6 +16,24 @@
       "message": "The CI failure looks like the same flaky issue previously seen on 3.6: https://gerrit-review.googlesource.com/c/gerrit/+/391094/comments/61868368_86439b02",
       "revId": "25bbccfa75037ff02c5ba8843b4f80a7b676f1b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5226104_ea58d889",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-07T18:44:59Z",
+      "side": 1,
+      "message": "I have just re-triggered it...",
+      "parentUuid": "c241a4a7_28d9dba7",
+      "revId": "25bbccfa75037ff02c5ba8843b4f80a7b676f1b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

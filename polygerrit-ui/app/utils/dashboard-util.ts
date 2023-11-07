@@ -40,7 +40,7 @@ const HAS_DRAFTS: DashboardSection = {
 
 export const YOUR_TURN: DashboardSection = {
   // Changes where the user is in the attention set.
-  name: 'Your Turn',
+  name: 'Your turn',
   query: 'attention:${user}',
   hideIfEmpty: false,
   suffixForDashboard: 'limit:25',

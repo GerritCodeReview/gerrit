@@ -34,6 +34,23 @@
       "parentUuid": "c241a4a7_28d9dba7",
       "revId": "25bbccfa75037ff02c5ba8843b4f80a7b676f1b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da0df153_260ab3dc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-07T18:47:18Z",
+      "side": 1,
+      "message": "@ekempin@google.com and here we go again `LC+1` is needed, but this time due to merge conflicts?",
+      "revId": "25bbccfa75037ff02c5ba8843b4f80a7b676f1b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

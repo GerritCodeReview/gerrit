@@ -22,6 +22,30 @@
       },
       "revId": "8f22207d54540e8af007ae0b91161ee612018735",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "153942bf_9a3bbd05",
+        "filename": "java/com/google/gerrit/index/query/QueryProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-11-07T18:38:07Z",
+      "side": 1,
+      "message": "Makes sense. PTAL.",
+      "parentUuid": "7e88db44_14ab56f7",
+      "range": {
+        "startLine": 421,
+        "startChar": 11,
+        "endLine": 421,
+        "endChar": 28
+      },
+      "revId": "8f22207d54540e8af007ae0b91161ee612018735",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

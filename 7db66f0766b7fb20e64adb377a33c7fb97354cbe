@@ -512,6 +512,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2f45080d_28350394",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1093,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-07T09:49:57Z",
+      "side": 1,
+      "message": "\u003e I was referring to this statement:\n\u003e \n\u003e \u003e This can save us a few CPU cycles and memory that could be used for other operations.\n\u003e \n\u003e Which is AFAIU about short-circuiting here and having decision spread across multiple places over affecting the options of the `evaluate` function (called in line #1093) - the change makes it a bit cheaper if we follow my original suggestion and alter options.\n\nIt\u0027s not only _a bit_ cheaper, as we not only bypass \"one function call\", but also two try-catch blocks, potentially loading change data from notedb, then getting project from a cache and finally mapping all of the `SubmitRecord`s to change status `OK` to `CLOSED` (which for merged change should be no-op).\n\nIt\u0027s more than just skipping one method call",
+      "parentUuid": "cffaa83e_affec764",
+      "range": {
+        "startLine": 1090,
+        "startChar": 6,
+        "endLine": 1093,
+        "endChar": 74
+      },
+      "revId": "7db66f0766b7fb20e64adb377a33c7fb97354cbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5f300a74_136af9bf",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 8

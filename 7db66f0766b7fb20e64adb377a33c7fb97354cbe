@@ -369,6 +369,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3b2e964a_3573f614",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 4666,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-07T19:15:44Z",
+      "side": 1,
+      "message": "looks good 👍 would just rephrase the last sequence from\n\u003e Gerrit will show the exact status of submit labels when change was submitted.\n\nas it will also reflect the post-submit votes, right? maybe sth like\n\u003e Gerrit will not process the existing submit records with updated submit rules.\n\nWDYT?",
+      "parentUuid": "d31b577d_4928f09e",
+      "range": {
+        "startLine": 4661,
+        "startChar": 9,
+        "endLine": 4666,
+        "endChar": 56
+      },
+      "revId": "7db66f0766b7fb20e64adb377a33c7fb97354cbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a35ed49_483296e8",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 8

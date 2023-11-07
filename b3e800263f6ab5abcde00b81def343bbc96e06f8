@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2083e23_8509a8f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-07T19:15:44Z",
+      "side": 1,
+      "message": "nit: it disables all rules evaluation not just the prolog ones",
+      "range": {
+        "startLine": 25,
+        "startChar": 29,
+        "endLine": 25,
+        "endChar": 41
+      },
+      "revId": "b3e800263f6ab5abcde00b81def343bbc96e06f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40682069_30f19ad8",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-07T19:15:44Z",
+      "side": 1,
+      "message": "this fails to comply with error-prone with the following issue:\n```\njava/com/google/gerrit/server/query/change/ChangeData.java:317: error: [UnusedVariable] The field \u0027skipCurrentRulesEvaluationOnClosedChanges\u0027 is never read.\n  private final boolean skipCurrentRulesEvaluationOnClosedChanges;\n                        ^\n    (see https://errorprone.info/bugpattern/UnusedVariable)\n  Did you mean to remove this line?\n```",
+      "revId": "b3e800263f6ab5abcde00b81def343bbc96e06f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bc26b5c_d84f9891",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 3811,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-07T19:15:44Z",
+      "side": 1,
+      "message": "in my IDE both tests are failing...",
+      "revId": "b3e800263f6ab5abcde00b81def343bbc96e06f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

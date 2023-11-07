@@ -46,6 +46,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSet;
@@ -603,16 +604,38 @@ public class PostReviewIT extends AbstractDaemonTest {
 
   @Test
   public void onPostReviewApprovedIsReturnedForLabelsAndDetailedLabels() throws Exception {
+    // Create Verify label with NO_BLOCK function and allow voting on it.
+    // When the NO_BLOCK function is used for a label, the "approved" is set by the
+    // LabelsJson.setLabelScores method instead of LabelsJson.initLabels method.
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      LabelType.Builder verified =
+          labelBuilder(
+                  LabelId.VERIFIED, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"))
+              .setFunction(LabelFunction.NO_BLOCK);
+      u.getConfig().upsertLabelType(verified.build());
+      u.save();
+    }
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(LabelId.VERIFIED)
+                .ref(RefNames.REFS_HEADS + "*")
+                .group(REGISTERED_USERS)
+                .range(-1, 1))
+        .update();
     PushOneCommit.Result r = createChange();
-    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
+    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 2).label(LabelId.VERIFIED, 1);
     gApi.changes().id(r.getChangeId()).current().review(input);
 
     input = new ReviewInput();
     input.message = "first message";
     input.responseFormatOptions = ImmutableList.of(ListChangesOption.DETAILED_LABELS);
     ReviewResult reviewResult = gApi.changes().id(r.getChangeId()).current().review(input);
-    assertThat(reviewResult.changeInfo.labels).containsKey(LabelId.CODE_REVIEW);
+    assertThat(reviewResult.changeInfo.labels.keySet())
+        .containsExactly(LabelId.CODE_REVIEW, LabelId.VERIFIED);
     assertThat(reviewResult.changeInfo.labels.get(LabelId.CODE_REVIEW).approved).isNotNull();
+    assertThat(reviewResult.changeInfo.labels.get(LabelId.VERIFIED).approved).isNotNull();
 
     input = new ReviewInput();
     input.message = "second message";
@@ -620,6 +643,7 @@ public class PostReviewIT extends AbstractDaemonTest {
     reviewResult = gApi.changes().id(r.getChangeId()).current().review(input);
     assertThat(reviewResult.changeInfo.labels).containsKey(LabelId.CODE_REVIEW);
     assertThat(reviewResult.changeInfo.labels.get(LabelId.CODE_REVIEW).approved).isNotNull();
+    assertThat(reviewResult.changeInfo.labels.get(LabelId.VERIFIED).approved).isNotNull();
   }
 
   @Test

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9be395d3_1df40869",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7062,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-11-07T21:38:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15a01c2b_dbb8048b",
+      "range": {
+        "startLine": 7062,
+        "startChar": 55,
+        "endLine": 7062,
+        "endChar": 117
+      },
+      "revId": "572f737658b9abf275f8332f08db17e94f57f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2399cf1b_100e3061",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-11-06T20:32:11Z",
       "side": 1,
       "message": "Why not have the same default as `name`?",
+      "revId": "572f737658b9abf275f8332f08db17e94f57f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "381da22e_21416fa8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7063,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-11-07T21:38:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2399cf1b_100e3061",
       "revId": "572f737658b9abf275f8332f08db17e94f57f9a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -64,6 +106,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4a7d3e7_270f78e9",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-11-07T21:38:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94dc7f1a_5ebf78ec",
+      "range": {
+        "startLine": 259,
+        "startChar": 14,
+        "endLine": 259,
+        "endChar": 55
+      },
+      "revId": "572f737658b9abf275f8332f08db17e94f57f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "552e8250_a7dcdd02",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-11-07T21:38:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94dc7f1a_5ebf78ec",
+      "range": {
+        "startLine": 259,
+        "startChar": 14,
+        "endLine": 259,
+        "endChar": 55
+      },
+      "revId": "572f737658b9abf275f8332f08db17e94f57f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9266185b_9cd89ae8",
@@ -77,6 +167,42 @@
       "writtenOn": "2023-11-06T20:32:11Z",
       "side": 1,
       "message": "This might be a little easier to follow if you put the negative case first:\n\n```\nif (!commitModification.newAuthor().isPresent()) {\n  return commitToModify.getAuthorIdent();\n}\n...\n```\n\nSame for `getCommitter()` below.",
+      "revId": "572f737658b9abf275f8332f08db17e94f57f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6c057b8_2f29ce0f",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-11-07T21:38:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9266185b_9cd89ae8",
+      "revId": "572f737658b9abf275f8332f08db17e94f57f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa63c68f_27fb973e",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-11-07T21:38:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9266185b_9cd89ae8",
       "revId": "572f737658b9abf275f8332f08db17e94f57f9a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -104,6 +230,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c45f71c4_fef7bffd",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-11-07T21:38:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "530bf4c6_f44beec3",
+      "range": {
+        "startLine": 456,
+        "startChar": 10,
+        "endLine": 456,
+        "endChar": 11
+      },
+      "revId": "572f737658b9abf275f8332f08db17e94f57f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04692bbf_5bbcae9f",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-11-07T21:38:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "530bf4c6_f44beec3",
+      "range": {
+        "startLine": 456,
+        "startChar": 10,
+        "endLine": 456,
+        "endChar": 11
+      },
+      "revId": "572f737658b9abf275f8332f08db17e94f57f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8cf1b4d3_d45622fd",
@@ -117,6 +291,24 @@
       "writtenOn": "2023-11-06T20:32:11Z",
       "side": 1,
       "message": "I\u0027m not sure it matters, but I noticed the commit validator only cares about merge commits. See the check for parentCount: https://gerrit.googlesource.com/gerrit/+/refs/changes/94/391494/2/java/com/google/gerrit/server/git/validators/CommitValidators.java#787\n\nWe should probably keep them consistent unless there\u0027s a reason not to.",
+      "revId": "572f737658b9abf275f8332f08db17e94f57f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e82c9a9f_6c0053a1",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-11-07T21:38:03Z",
+      "side": 1,
+      "message": "I have removed the check for server identity here as it is not a common use-case. This check will anyway happen before the comment is published.",
+      "parentUuid": "8cf1b4d3_d45622fd",
       "revId": "572f737658b9abf275f8332f08db17e94f57f9a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -144,6 +336,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d5efd36_72d25a6e",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 618,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-11-07T21:38:03Z",
+      "side": 1,
+      "message": "Removed this check.",
+      "parentUuid": "391cbe10_34d8b56e",
+      "range": {
+        "startLine": 618,
+        "startChar": 47,
+        "endLine": 618,
+        "endChar": 73
+      },
+      "revId": "572f737658b9abf275f8332f08db17e94f57f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b56a68f_a11793c2",
@@ -157,6 +373,54 @@
       "writtenOn": "2023-11-06T20:32:11Z",
       "side": 1,
       "message": "This is the same \"assumed to be committer\" case that I commented on in another file. Ideally use a switch statement here too.",
+      "range": {
+        "startLine": 624,
+        "startChar": 20,
+        "endLine": 624,
+        "endChar": 49
+      },
+      "revId": "572f737658b9abf275f8332f08db17e94f57f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75fb0d70_9b4ba272",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-11-07T21:38:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b56a68f_a11793c2",
+      "range": {
+        "startLine": 624,
+        "startChar": 20,
+        "endLine": 624,
+        "endChar": 49
+      },
+      "revId": "572f737658b9abf275f8332f08db17e94f57f9a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8937caf_17d8fbb3",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 1012457
+      },
+      "writtenOn": "2023-11-07T21:38:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b56a68f_a11793c2",
       "range": {
         "startLine": 624,
         "startChar": 20,

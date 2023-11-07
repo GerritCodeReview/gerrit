@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a9d39e9_4baef2eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-11-07T16:06:56Z",
+      "side": 1,
+      "message": "Verified locally with `bazelisk test -- //javatest/...`\n\nProvided the default algorithm is changed to ed25519 for ssh keys generation then all the tests are passing, including:\n\n```\n//javatests/com/google/gerrit/integration/git:protocol-v2\n//javatests/com/google/gerrit/integration/git:upload-archive\n//javatests/com/google/gerrit/integration/ssh:no-shell\n//javatests/com/google/gerrit/integration/ssh:peer-keys-auth\n```",
+      "revId": "268d83abc2e75c103647c99ac4be5e65a2a0c7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

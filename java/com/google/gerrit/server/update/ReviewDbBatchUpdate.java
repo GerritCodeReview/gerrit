@@ -444,7 +444,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
 
       tasks = new ArrayList<>(ops.keySet().size());
       try {
-        if (notesMigration.commitChangeWritesForProject(project) && repoView != null) {
+        if (notesMigration.commitChangeWrites() && repoView != null) {
           // A NoteDb change may have been rebuilt since the repo was originally
           // opened, so make sure we see that.
           logDebug("Preemptively scanning for repo changes");
@@ -472,7 +472,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
         }
         Futures.allAsList(futures).get();
 
-        if (notesMigration.commitChangeWritesForProject(project)) {
+        if (notesMigration.commitChangeWrites()) {
           if (!dryrun) {
             executeNoteDbUpdates(tasks);
           }
@@ -680,7 +680,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
           }
 
           // Stage the NoteDb update and store its state in the Change.
-          if (notesMigration.commitChangeWritesForProject(project)) {
+          if (notesMigration.commitChangeWrites()) {
             updateManager = stageNoteDbUpdate(ctx, deleted);
           }
 
@@ -720,7 +720,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
           // Should have failed above if NoteDb is disabled.
           checkState(notesMigration.commitChangeWrites());
           noteDbResult = updateManager.stage().get(id);
-        } else if (notesMigration.commitChangeWritesForProject(project)) {
+        } else if (notesMigration.commitChangeWrites()) {
           try {
             noteDbResult = updateManager.stage().get(id);
           } catch (IOException ex) {

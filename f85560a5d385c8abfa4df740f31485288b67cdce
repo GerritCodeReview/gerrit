@@ -22,6 +22,30 @@
       },
       "revId": "f85560a5d385c8abfa4df740f31485288b67cdce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "deea26b4_2da4f691",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2023-11-08T08:24:28Z",
+      "side": 0,
+      "message": "It does shows the warning that option --java_toolchain is deprecated.\n```\n$ bazel build --java_toolchain\u003d//tools:error_prone_warnings_toolchain_java11 :release\nWARNING: Option \u0027java_toolchain\u0027 is deprecated\nINFO: Invocation ID: c7ebd533-779e-4835-b16f-78c664b81317\nINFO: Reading \u0027startup\u0027 options from /Users/paswal/.bazelrc: --host_jvm_args\u003d-Djavax.net.ssl.trustStore\u003d/Library/Java/JavaVirtualMachines/adoptopenjdk-11.jdk/Contents/Home/lib/security/cacerts, --host_jvm_args\u003d-Djavax.net.ssl.trustStorePassword\u003dchangeit\nINFO: Options provided by the client:\n  Inherited \u0027common\u0027 options: --isatty\u003d1 --terminal_columns\u003d196\nINFO: Reading rc options for \u0027build\u0027 from /Users/paswal/work/dev/upstream/gerrit/.bazelrc:\n  \u0027build\u0027 options: --workspace_status_command\u003dpython3 ./tools/workspace_status.py --repository_cache\u003d~/.gerritcodereview/bazel-cache/repository --action_env\u003dPATH --disk_cache\u003d~/.gerritcodereview/bazel-cache/cas --java_language_version\u003d11 --java_runtime_version\u003dremotejdk_11 --tool_java_language_version\u003d11 --tool_java_runtime_version\u003dremotejdk_11 --host_conlyopt\u003d-std\u003dc90 --incompatible_strict_action_env --announce_rc\n```\n\nChange Ib3b923db7bb which bumped bazel version to 5.0.0 \u0026 updates .bazelrc does talks about using \u0027bazel build release\u0027 for Java11",
+      "parentUuid": "c6721eb6_06cb00ba",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 87
+      },
+      "revId": "f85560a5d385c8abfa4df740f31485288b67cdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

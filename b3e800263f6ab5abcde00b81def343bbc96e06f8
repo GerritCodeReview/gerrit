@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e410063_4116f5db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-08T11:07:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2083e23_8509a8f9",
+      "range": {
+        "startLine": 25,
+        "startChar": 29,
+        "endLine": 25,
+        "endChar": 41
+      },
+      "revId": "b3e800263f6ab5abcde00b81def343bbc96e06f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40682069_30f19ad8",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b49237f6_4037c330",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-08T11:07:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40682069_30f19ad8",
+      "revId": "b3e800263f6ab5abcde00b81def343bbc96e06f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3bc26b5c_d84f9891",
@@ -54,6 +96,24 @@
       "writtenOn": "2023-11-07T19:15:44Z",
       "side": 1,
       "message": "in my IDE both tests are failing...",
+      "revId": "b3e800263f6ab5abcde00b81def343bbc96e06f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a979f73b_05dc165d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 3811,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-08T11:07:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bc26b5c_d84f9891",
       "revId": "b3e800263f6ab5abcde00b81def343bbc96e06f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

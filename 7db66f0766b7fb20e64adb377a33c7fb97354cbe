@@ -393,6 +393,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eae6ab3e_0cfdd227",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 4666,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-08T11:07:53Z",
+      "side": 1,
+      "message": "\u003e \u003e Gerrit will not process the existing submit records with updated submit rules.\n\u003e \n\u003e WDYT?\n\nThis sounds too convoluted to me. Let me try to rephrase it.",
+      "parentUuid": "3b2e964a_3573f614",
+      "range": {
+        "startLine": 4661,
+        "startChar": 9,
+        "endLine": 4666,
+        "endChar": 56
+      },
+      "revId": "7db66f0766b7fb20e64adb377a33c7fb97354cbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5a35ed49_483296e8",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 8

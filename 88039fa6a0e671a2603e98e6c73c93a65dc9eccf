@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2979f33f_19cc6844",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-08T18:47:49Z",
+      "side": 1,
+      "message": "Change Ib7b4f378b is on stable-3.9, so we want this fix. There are also a few changes that follow it on master that clean up logging in this class.",
+      "revId": "88039fa6a0e671a2603e98e6c73c93a65dc9eccf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

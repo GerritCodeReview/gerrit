@@ -22,6 +22,30 @@
       },
       "revId": "02508338d72615e42aecc41911a747a44241e192",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60c2fe53_88f2440b",
+        "filename": "java/Main.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-08T16:04:52Z",
+      "side": 1,
+      "message": "Pushed a fix: https://gerrit-review.googlesource.com/c/gerrit/+/392294 Fix accidental bump to require java 17",
+      "parentUuid": "f220ef64_e58ec7e8",
+      "range": {
+        "startLine": 19,
+        "startChar": 80,
+        "endLine": 19,
+        "endChar": 88
+      },
+      "revId": "02508338d72615e42aecc41911a747a44241e192",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

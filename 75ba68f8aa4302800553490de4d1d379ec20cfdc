@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4bb4797_69d9ae23",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-11-08T09:43:38Z",
+      "side": 1,
+      "message": "is it possible that group.lineRange.left.start_line !\u003d group.lineRange.right.start_line?\n\nTo me a context control doesn\u0027t have a left/right and just expands both of them so it\u0027s unclear to me why all the calculations involve \"left\" here",
+      "range": {
+        "startLine": 109,
+        "startChar": 20,
+        "endLine": 109,
+        "endChar": 51
+      },
+      "revId": "75ba68f8aa4302800553490de4d1d379ec20cfdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d626fadf_64d7d076",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-group.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-11-08T09:43:38Z",
+      "side": 1,
+      "message": "just\n```suggestion\n * to a gr-diff-section. It mostly just contains an array of diff `lines`.\n```",
+      "range": {
+        "startLine": 223,
+        "startChar": 35,
+        "endLine": 223,
+        "endChar": 44
+      },
+      "revId": "75ba68f8aa4302800553490de4d1d379ec20cfdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

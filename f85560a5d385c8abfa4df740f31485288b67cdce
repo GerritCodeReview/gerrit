@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6721eb6_06cb00ba",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-08T05:25:25Z",
+      "side": 0,
+      "message": "this command still works for me. Does it not work for you?\n\n```\n$ bazel build --java_toolchain\u003d//tools:error_prone_warnings_toolchain_java11 :release\n[snip]\ncreated bazel-out/k8-fastbuild/bin/polygerrit-ui/app/gr-app-bundle-js.js in 16.3s\nTarget //:release up-to-date:\n  bazel-bin/release.war\nINFO: Elapsed time: 11.156s, Critical Path: 7.12s\nINFO: 1232 processes: 1012 disk cache hit, 205 internal, 15 linux-sandbox.\nINFO: Build completed successfully, 1232 total actions\n```\n\nI checked bazel version too:\n```\n$ bazel version\nBazelisk version: v1.12.0\nBuild label: 5.3.1\nBuild target: bazel-out/k8-opt/bin/src/main/java/com/google/devtools/build/lib/bazel/BazelServer_deploy.jar\nBuild time: Mon Sep 19 17:28:49 2022 (1663608529)\nBuild timestamp: 1663608529\nBuild timestamp as int: 1663608529\n```",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 87
+      },
+      "revId": "f85560a5d385c8abfa4df740f31485288b67cdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

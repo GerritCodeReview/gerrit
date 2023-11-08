@@ -143,4 +143,17 @@ public class ProjectCacheIT extends AbstractDaemonTest {
     inMemoryProjectCache.get(Project.nameKey("foo")); // Another invocation
     assertThat(inMemoryProjectCache.stats().missCount()).isEqualTo(initialNumMisses + 1);
   }
+
+  @Test
+  public void invalidatesNegativeCachingAfterProjectCreation() throws Exception {
+    long initialNumMisses = inMemoryProjectCache.stats().missCount();
+    assertThat(inMemoryProjectCache.get(Project.nameKey(name("foo")))).isEmpty();
+    assertThat(inMemoryProjectCache.stats().missCount())
+        .isEqualTo(initialNumMisses + 1); // Negative voting cached
+    Project.NameKey newProjectName =
+        createProjectOverAPI("foo", allProjects, true, /* submitType= */ null);
+    assertThat(inMemoryProjectCache.get(newProjectName)).isPresent(); // Another invocation
+    assertThat(inMemoryProjectCache.stats().missCount())
+        .isEqualTo(initialNumMisses + 3); // Two eviction happened during the project creation
+  }
 }

@@ -70,7 +70,7 @@ public class Rebuild implements RestModifyView<ChangeResource, Input> {
   public BinaryResult apply(ChangeResource rsrc, Input input)
       throws ResourceNotFoundException, IOException, OrmException, ConfigInvalidException,
           ResourceConflictException {
-    if (!migration.commitChangeWritesForProject(rsrc.getProject())) {
+    if (!migration.commitChangeWrites()) {
       throw new ResourceNotFoundException();
     }
     if (!migration.readChanges()) {

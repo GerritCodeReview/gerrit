@@ -44,7 +44,7 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
 
   private static final String ONLINE_MIGRATION_THREADS = "onlineMigrationThreads";
 
-  public static final String ONLINE_MIGRATION_PROJECTS = "onlineMigrationProjects";
+  private static final String ONLINE_MIGRATION_PROJECTS = "onlineMigrationProjects";
 
   public static class Module extends LifecycleModule {
     private final boolean trial;

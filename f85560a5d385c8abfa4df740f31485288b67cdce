@@ -46,6 +46,30 @@
       },
       "revId": "f85560a5d385c8abfa4df740f31485288b67cdce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3f911fb_a9eaa709",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-08T18:30:53Z",
+      "side": 0,
+      "message": "\u003e It does shows the warning that option --java_toolchain is deprecated.\n\nYeah, I assumed deprecated was still working, but reading the release notes, it\u0027s a no-op: https://blog.bazel.build/2022/01/19/bazel-5.0.html#java",
+      "parentUuid": "deea26b4_2da4f691",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 87
+      },
+      "revId": "f85560a5d385c8abfa4df740f31485288b67cdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6b59f82_5e5378bd",
+        "filename": "java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-11-08T15:19:01Z",
+      "side": 1,
+      "message": "We are always rebasing the parent with index 0 (aka the first parent) which I think is a fair assumption, but we should document it IMO.",
+      "range": {
+        "startLine": 509,
+        "startChar": 24,
+        "endLine": 509,
+        "endChar": 44
+      },
+      "revId": "79d5ad7a1c9ea944e34d277f1e2103150bb20705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

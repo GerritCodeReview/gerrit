@@ -3753,6 +3753,11 @@ projects.
 When not defined, all projects are migrated to noteDb.
 +
 By default, undefined.
++
+
+*Note*: this configuration will be honoured also for new changes: if you have
+any `notedb.onlineMigrationProjects` configured, only new changes for those
+projects will be created on NoteDB.
 
 [[notedb.onlineMigrationThreads]] notedb.onlineMigrationThreads::
 +

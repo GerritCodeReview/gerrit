@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08611499_9a9663cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-11-08T15:41:10Z",
+      "side": 1,
+      "message": "This is a behavioral change because internal queries used to have defaultLimit (10k) applied. Now we set INTEGER_MAX. For our index, this means we instruct it to return all changes.\n\nThis would break in at least one case in ChangesByProjectCacheImpl where we get a base set of changes to use for visibility filtering on the Git wire. Going from 10k to INT_MAX (\u003d 1M+ changes for some projects) would likely cause an outage.\n\nWould it make sense that we have a \"default internal limit\" and a \"default API limit\" and distinguish between these two?",
+      "revId": "ac29b251995b6603520b6294b9ee5fdf8aaf6be9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

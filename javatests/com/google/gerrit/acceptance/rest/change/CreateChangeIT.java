@@ -286,7 +286,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
   @Test
   public void noteDbCommit() throws Exception {
     assume().that(notesMigration.readChanges()).isTrue();
-    assume().that(notesMigration.commitChangeWrites()).isTrue();
 
     ChangeInfo c = assertCreateSucceeds(newChangeInput(ChangeStatus.NEW));
     try (Repository repo = repoManager.openRepository(project);

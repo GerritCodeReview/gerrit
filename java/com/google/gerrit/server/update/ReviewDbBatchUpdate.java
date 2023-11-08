@@ -58,6 +58,7 @@ import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager.MismatchedStateException;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.notedb.OnlineProjectsMigrationChecker;
 import com.google.gwtorm.server.OrmException;
 import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
@@ -308,6 +309,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
   private final Metrics metrics;
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final NotesMigration notesMigration;
+  private final OnlineProjectsMigrationChecker onlineProjectsMigrationChecker;
   private final ReviewDb db;
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final long skewMs;
@@ -334,7 +336,8 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
       @Assisted ReviewDb db,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
-      @Assisted Timestamp when) {
+      @Assisted Timestamp when,
+      OnlineProjectsMigrationChecker onlineProjectsMigrationChecker) {
     super(repoManager, serverIdent, project, user, when);
     this.allUsers = allUsers;
     this.changeNotesFactory = changeNotesFactory;
@@ -348,6 +351,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
     this.updateManagerFactory = updateManagerFactory;
     this.db = db;
     skewMs = NoteDbChangeState.getReadOnlySkew(cfg);
+    this.onlineProjectsMigrationChecker = onlineProjectsMigrationChecker;
   }
 
   @Override
@@ -444,7 +448,8 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
 
       tasks = new ArrayList<>(ops.keySet().size());
       try {
-        if (notesMigration.commitChangeWrites() && repoView != null) {
+        if (onlineProjectsMigrationChecker.commitChangeWritesForProject(project)
+            && repoView != null) {
           // A NoteDb change may have been rebuilt since the repo was originally
           // opened, so make sure we see that.
           logDebug("Preemptively scanning for repo changes");
@@ -472,7 +477,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
         }
         Futures.allAsList(futures).get();
 
-        if (notesMigration.commitChangeWrites()) {
+        if (onlineProjectsMigrationChecker.commitChangeWritesForProject(project)) {
           if (!dryrun) {
             executeNoteDbUpdates(tasks);
           }
@@ -680,7 +685,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
           }
 
           // Stage the NoteDb update and store its state in the Change.
-          if (notesMigration.commitChangeWrites()) {
+          if (onlineProjectsMigrationChecker.commitChangeWritesForProject(project)) {
             updateManager = stageNoteDbUpdate(ctx, deleted);
           }
 
@@ -720,7 +725,7 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
           // Should have failed above if NoteDb is disabled.
           checkState(notesMigration.commitChangeWrites());
           noteDbResult = updateManager.stage().get(id);
-        } else if (notesMigration.commitChangeWrites()) {
+        } else if (onlineProjectsMigrationChecker.commitChangeWritesForProject(project)) {
           try {
             noteDbResult = updateManager.stage().get(id);
           } catch (IOException ex) {

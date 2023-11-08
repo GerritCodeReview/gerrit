@@ -22,6 +22,8 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LAB
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
+import static com.google.gerrit.server.notedb.rebuild.OnlineNoteDbMigrator.ONLINE_MIGRATION_PROJECTS;
 import static com.google.gerrit.server.project.testing.Util.category;
 import static com.google.gerrit.server.project.testing.Util.value;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -76,6 +78,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
+import com.google.gerrit.server.notedb.OnlineProjectsMigrationChecker;
 import com.google.gerrit.server.notedb.TestChangeRebuilderWrapper;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder.NoPatchSetsException;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -160,11 +163,14 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
 
   @Inject private PatchListCache patchListCache;
 
+  @Inject private OnlineProjectsMigrationChecker onlineProjectsMigrationChecker;
+
   @Before
   public void setUp() throws Exception {
     assume().that(NoteDbMode.get()).isEqualTo(NoteDbMode.OFF);
     TestTimeUtil.resetWithClockStep(1, SECONDS);
     setNotesMigration(false, false);
+    onlineProjectsMigrationChecker.reloadProjectsFromConfig();
   }
 
   @After
@@ -341,6 +347,36 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void restApiNotFoundWhenMigrationIsDisabledForProject() throws Exception {
+    setNotesMigration(true, true);
+    cfg.setStringList(
+        SECTION_NOTE_DB,
+        null,
+        ONLINE_MIGRATION_PROJECTS,
+        Collections.singletonList("project-to-be-migrated"));
+    onlineProjectsMigrationChecker.reloadProjectsFromConfig(cfg);
+    PushOneCommit.Result r = createChange();
+
+    exception.expect(ResourceNotFoundException.class);
+
+    rebuildHandler.apply(parseChangeResource(r.getChangeId()), new Input());
+  }
+
+  @Test
+  public void restApiSuccessWhenMigrationIsEnabledForProject() throws Exception {
+    setNotesMigration(true, true);
+    cfg.setStringList(
+        SECTION_NOTE_DB, null, ONLINE_MIGRATION_PROJECTS, Collections.singletonList(project.get()));
+    onlineProjectsMigrationChecker.reloadProjectsFromConfig(cfg);
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+
+    rebuildHandler.apply(parseChangeResource(r.getChangeId()), new Input());
+
+    checker.rebuildAndCheckChanges(id);
+  }
+
+  @Test
   public void rebuildViaRestApi() throws Exception {
     PushOneCommit.Result r = createChange();
     Change.Id id = r.getPatchSetId().getParentKey();
@@ -349,6 +385,37 @@ public class ChangeRebuilderIT extends AbstractDaemonTest {
     checker.assertNoChangeRef(project, id);
     rebuildHandler.apply(parseChangeResource(r.getChangeId()), new Input());
     checker.checkChanges(id);
+  }
+
+  @Test
+  public void noteDBNotCreatedWhenMigrationIsDisabledForProject() throws Exception {
+    setNotesMigration(true, true);
+    cfg.setStringList(
+        SECTION_NOTE_DB,
+        null,
+        ONLINE_MIGRATION_PROJECTS,
+        Collections.singletonList("project-to-be-migrated"));
+    onlineProjectsMigrationChecker.reloadProjectsFromConfig(cfg);
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+
+    ObjectId changeMetaId = getMetaRef(project, changeMetaRef(id));
+
+    assertThat(changeMetaId).isNull();
+    assertThat(getUnwrappedDb().changes().get(id).getNoteDbState()).isNull();
+  }
+
+  @Test
+  public void noteDBCreatedWhenMigrationIsEnabledForProject() throws Exception {
+    setNotesMigration(true, true);
+    cfg.setStringList(
+        SECTION_NOTE_DB, null, ONLINE_MIGRATION_PROJECTS, Collections.singletonList(project.get()));
+    onlineProjectsMigrationChecker.reloadProjectsFromConfig(cfg);
+    PushOneCommit.Result r = createChange();
+    Change.Id id = r.getPatchSetId().getParentKey();
+
+    ObjectId changeMetaId = getMetaRef(project, changeMetaRef(id));
+    assertThat(getUnwrappedDb().changes().get(id).getNoteDbState()).isEqualTo(changeMetaId.name());
   }
 
   @Test

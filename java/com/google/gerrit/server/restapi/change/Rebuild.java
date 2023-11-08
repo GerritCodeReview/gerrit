@@ -30,6 +30,7 @@ import com.google.gerrit.server.notedb.ChangeBundle;
 import com.google.gerrit.server.notedb.ChangeBundleReader;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.NotesMigration;
+import com.google.gerrit.server.notedb.OnlineProjectsMigrationChecker;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gwtorm.server.OrmException;
@@ -45,6 +46,7 @@ public class Rebuild implements RestModifyView<ChangeResource, Input> {
 
   private final Provider<ReviewDb> db;
   private final NotesMigration migration;
+  private final OnlineProjectsMigrationChecker onlineProjectsMigrationChecker;
   private final ChangeRebuilder rebuilder;
   private final ChangeBundleReader bundleReader;
   private final CommentsUtil commentsUtil;
@@ -57,20 +59,22 @@ public class Rebuild implements RestModifyView<ChangeResource, Input> {
       ChangeRebuilder rebuilder,
       ChangeBundleReader bundleReader,
       CommentsUtil commentsUtil,
-      ChangeNotes.Factory notesFactory) {
+      ChangeNotes.Factory notesFactory,
+      OnlineProjectsMigrationChecker onlineProjectsMigrationChecker) {
     this.db = db;
     this.migration = migration;
     this.rebuilder = rebuilder;
     this.bundleReader = bundleReader;
     this.commentsUtil = commentsUtil;
     this.notesFactory = notesFactory;
+    this.onlineProjectsMigrationChecker = onlineProjectsMigrationChecker;
   }
 
   @Override
   public BinaryResult apply(ChangeResource rsrc, Input input)
       throws ResourceNotFoundException, IOException, OrmException, ConfigInvalidException,
           ResourceConflictException {
-    if (!migration.commitChangeWrites()) {
+    if (!onlineProjectsMigrationChecker.commitChangeWritesForProject(rsrc.getProject())) {
       throw new ResourceNotFoundException();
     }
     if (!migration.readChanges()) {

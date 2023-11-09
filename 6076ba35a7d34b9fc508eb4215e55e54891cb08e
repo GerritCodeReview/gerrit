@@ -16,6 +16,29 @@
       "message": "@milutin@google.com would you please review this change for me? I\u0027m specifically interested in how I can test that this change does not break preloading. Thanks!",
       "revId": "6076ba35a7d34b9fc508eb4215e55e54891cb08e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7615a7e9_733c1b44",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1087,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-11-09T10:31:14Z",
+      "side": 1,
+      "message": "Nit: I would not rewrite \u0027allow-incomplete-results\u0027, maybe you can use inside request params: {\u0027allow-incomplete-results\u0027: true, ...params}\n```suggestion\n    return {\n      url: \u0027/changes/\u0027,\n      params: {\u0027allow-incomplete-results\u0027: true, ...params},\n      reportUrlAsIs: true,\n    };\n  }\n```",
+      "range": {
+        "startLine": 1082,
+        "startChar": 0,
+        "endLine": 1087,
+        "endChar": 6
+      },
+      "revId": "6076ba35a7d34b9fc508eb4215e55e54891cb08e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

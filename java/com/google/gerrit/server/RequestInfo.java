@@ -21,6 +21,7 @@ import com.google.auto.value.AutoValue;
 import com.google.auto.value.extension.memoized.Memoized;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.logging.TraceContext;
@@ -184,6 +185,7 @@ public abstract class RequestInfo {
     abstract ImmutableList.Builder<String> headersBuilder();
 
     /** Adds a header. */
+    @CanIgnoreReturnValue
     public Builder addHeader(String headerName, String headerValue) {
       headersBuilder().add(headerName + "=" + headerValue);
       return this;

@@ -23,7 +23,6 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.collect.HashBasedTable;
@@ -31,12 +30,10 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableTable;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.Files;
-import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import com.google.common.reflect.TypeToken;
 import com.google.gerrit.common.Nullable;
@@ -65,7 +62,6 @@ import com.google.gerrit.proto.Entities;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.cache.proto.Cache;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.index.change.StalenessChecker.RefStatePattern;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.notedb.SubmitRequirementProtoConverter;
@@ -110,8 +106,6 @@ import org.eclipse.jgit.lib.PersonIdent;
  */
 public class ChangeField {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  public static final int NO_ASSIGNEE = -1;
 
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
 
@@ -503,16 +497,6 @@ public class ChangeField {
   public static final IndexedField<ChangeData, Iterable<byte[]>>.SearchSpec
       ATTENTION_SET_FULL_SPEC =
           ATTENTION_SET_FULL_FIELD.storedOnly(ChangeQueryBuilder.FIELD_ATTENTION_SET_FULL);
-
-  /** The user assigned to the change. */
-  // The getter always returns NO_ASSIGNEE, since assignee field is deprecated.
-  @Deprecated
-  public static final IndexedField<ChangeData, Integer> ASSIGNEE_FIELD =
-      IndexedField.<ChangeData>integerBuilder("Assignee").build(changeGetter(c -> NO_ASSIGNEE));
-
-  @Deprecated
-  public static final IndexedField<ChangeData, Integer>.SearchSpec ASSIGNEE_SPEC =
-      ASSIGNEE_FIELD.integer(ChangeQueryBuilder.FIELD_ASSIGNEE);
 
   /** Reviewer(s) associated with the change. */
   public static final IndexedField<ChangeData, Iterable<String>> REVIEWER_FIELD =
@@ -1268,31 +1252,6 @@ public class ChangeField {
   public static final IndexedField<ChangeData, Iterable<Integer>>.SearchSpec COMMENTBY_SPEC =
       COMMENTBY_FIELD.integer(ChangeQueryBuilder.FIELD_COMMENTBY);
 
-  /** Star labels on this change in the format: &lt;account-id&gt; */
-  public static final IndexedField<ChangeData, Iterable<String>> STAR_FIELD =
-      IndexedField.<ChangeData>iterableStringBuilder("Star")
-          .stored()
-          .build(
-              cd ->
-                  Iterables.transform(
-                      cd.stars(), accountId -> StarField.create(accountId).toString()),
-              (cd, field) ->
-                  cd.setStars(
-                      StreamSupport.stream(field.spliterator(), false)
-                          .map(f -> StarField.parse(f).accountId())
-                          .collect(toImmutableList())));
-
-  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec STAR_SPEC =
-      STAR_FIELD.exact(ChangeQueryBuilder.FIELD_STAR);
-
-  /** Users that have starred the change with any label. */
-  public static final IndexedField<ChangeData, Iterable<Integer>> STARBY_FIELD =
-      IndexedField.<ChangeData>iterableIntegerBuilder("StarBy")
-          .build(cd -> Iterables.transform(cd.stars(), Account.Id::get));
-
-  public static final IndexedField<ChangeData, Iterable<Integer>>.SearchSpec STARBY_SPEC =
-      STARBY_FIELD.integer(ChangeQueryBuilder.FIELD_STARBY);
-
   /** Opaque group identifiers for this change's patch sets. */
   public static final IndexedField<ChangeData, Iterable<String>> GROUP_FIELD =
       IndexedField.<ChangeData>iterableStringBuilder("Group")
@@ -1329,14 +1288,6 @@ public class ChangeField {
 
   public static final IndexedField<ChangeData, Iterable<Integer>>.SearchSpec EDITBY_SPEC =
       EDITBY_FIELD.integer(ChangeQueryBuilder.FIELD_EDITBY);
-
-  /** Users who have draft comments on this change. */
-  public static final IndexedField<ChangeData, Iterable<Integer>> DRAFTBY_FIELD =
-      IndexedField.<ChangeData>iterableIntegerBuilder("DraftBy")
-          .build(cd -> cd.draftsByUser().stream().map(Account.Id::get).collect(toSet()));
-
-  public static final IndexedField<ChangeData, Iterable<Integer>>.SearchSpec DRAFTBY_SPEC =
-      DRAFTBY_FIELD.integer(ChangeQueryBuilder.FIELD_DRAFTBY);
 
   public static final Integer NOT_REVIEWED = -1;
 
@@ -1696,12 +1647,6 @@ public class ChangeField {
                     RefStatePattern.create(
                             RefNames.REFS_USERS + "*/" + RefNames.EDIT_PREFIX + id + "/*")
                         .toByteArray(project));
-                result.add(
-                    RefStatePattern.create(RefNames.refsStarredChangesPrefix(id) + "*")
-                        .toByteArray(allUsers(cd)));
-                result.add(
-                    RefStatePattern.create(RefNames.refsDraftCommentsPrefix(id) + "*")
-                        .toByteArray(allUsers(cd)));
                 return result;
               },
               (cd, field) -> cd.setRefStatePatterns(field));
@@ -1770,10 +1715,6 @@ public class ChangeField {
     return in -> in.change() != null ? func.apply(in.change()) : null;
   }
 
-  private static AllUsersName allUsers(ChangeData cd) {
-    return cd.getAllUsersNameForIndexing();
-  }
-
   private static String truncateStringValueToMaxTermLength(String str) {
     return truncateStringValue(str, MAX_TERM_LENGTH);
   }
@@ -1814,46 +1755,5 @@ public class ChangeField {
       return new String(Arrays.copyOfRange(strBytes, 0, maxBytes), UTF_8);
     }
     return str;
-  }
-
-  @AutoValue
-  abstract static class StarField {
-    private static final String SEPARATOR = ":";
-
-    @Nullable
-    static StarField parse(String s) {
-      Integer id;
-      int p = s.indexOf(SEPARATOR);
-      if (p >= 0) {
-        id = Ints.tryParse(s.substring(0, p));
-      } else {
-        // NOTE: This code branch should not be removed. This code is used internally by Google and
-        // must not be changed without approval from a Google contributor. In
-        // 992877d06d3492f78a3b189eb5579ddb86b9f0da we accidentally changed index writing to write
-        // <account_id> instead of <account_id>:star. As some servers have picked that up and wrote
-        // index entries with the short format, we should keep support its parsing.
-        id = Ints.tryParse(s);
-      }
-      if (id == null) {
-        return null;
-      }
-      return create(Account.id(id));
-    }
-
-    static StarField create(Account.Id accountId) {
-      return new AutoValue_ChangeField_StarField(accountId);
-    }
-
-    public abstract Account.Id accountId();
-
-    @Override
-    public final String toString() {
-      // NOTE: The ":star" addition is used internally by Google and must not be removed without
-      // approval from a Google contributor. This method is used for writing change index data.
-      // Historically, we supported different kinds of labels, which were stored in this
-      // format, with "star" being the only label in use. This label addition stayed in order to
-      // keep the index format consistent while removing the star-label support.
-      return accountId() + SEPARATOR + "star";
-    }
   }
 }

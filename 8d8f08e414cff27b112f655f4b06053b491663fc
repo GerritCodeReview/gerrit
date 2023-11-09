@@ -70,6 +70,24 @@
       "parentUuid": "320b9642_d5c8d286",
       "revId": "8d8f08e414cff27b112f655f4b06053b491663fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17add31f_2a8f7e68",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-11-09T12:08:43Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/392179",
+      "parentUuid": "320b9642_d5c8d286",
+      "revId": "8d8f08e414cff27b112f655f4b06053b491663fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

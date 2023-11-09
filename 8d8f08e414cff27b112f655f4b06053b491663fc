@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a64b222d_6c7b3783",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1132393
+      },
+      "writtenOn": "2023-11-09T11:37:44Z",
+      "side": 1,
+      "message": "The mentioned example URLs are not OK.\n\nWorking format:\n\n`https://gerrit.mycompany.com/admin/repos/edit/repo/my/repo/branch/master/file/Jenkinsfile`\n\nBy the way, why was this only merged to stable-3.8?",
+      "revId": "8d8f08e414cff27b112f655f4b06053b491663fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

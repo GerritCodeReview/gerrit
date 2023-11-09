@@ -80,8 +80,8 @@ files in Gerrit.
 
 Ex:
 ```
-https://gerrit.mycompany.com/admin/repo/my/repo/branch/refs/heads/master/file/Jenkinsfile # Jenkins build file
-https://gerrit.mycompany.com/admin/repo/my/repo/branch/refs/heads/master/file/catalog-info.yaml # Backstage catalog-info
+https://gerrit.mycompany.com/admin/repos/edit/repo/my/repo/branch/refs/heads/master/file/Jenkinsfile # Jenkins build file
+https://gerrit.mycompany.com/admin/repos/edit/repo/my/repo/branch/refs/heads/master/file/catalog-info.yaml # Backstage catalog-info
 ```
 
 [[add-files]]

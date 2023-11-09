@@ -38,7 +38,7 @@ import {
 } from '../gr-diff-processor/gr-diff-processor';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {assert} from '../../../utils/common-util';
-import {isImageDiff} from '../../../utils/diff-util';
+import {countLines, isImageDiff} from '../../../utils/diff-util';
 import {BlameInfo, ImageInfo} from '../../../types/common';
 import {fire} from '../../../utils/event-util';
 import {CommentRange} from '../../../api/rest-api';
@@ -91,6 +91,10 @@ export class DiffModel extends Model<DiffState> {
   readonly syntaxTreeRight$: Observable<SyntaxBlock[] | undefined> = select(
     this.diff$,
     diff => diff.meta_b?.syntax_tree
+  );
+
+  readonly lineCountLeft$: Observable<number> = select(this.diff$, diff =>
+    countLines(diff, Side.LEFT)
   );
 
   readonly baseImage$: Observable<ImageInfo | undefined> = select(

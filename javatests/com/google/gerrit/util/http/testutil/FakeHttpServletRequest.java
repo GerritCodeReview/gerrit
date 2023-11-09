@@ -355,11 +355,7 @@ public class FakeHttpServletRequest implements HttpServletRequest {
 
   @Override
   public String getRequestURI() {
-    String uri = contextPath + servletPath + path;
-    if (!Strings.isNullOrEmpty(queryString)) {
-      uri += '?' + queryString;
-    }
-    return uri;
+    return contextPath + servletPath + path;
   }
 
   @Override

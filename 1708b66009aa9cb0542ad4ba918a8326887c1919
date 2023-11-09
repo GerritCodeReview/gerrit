@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c829b13_3baa3e35",
+        "filename": "javatests/com/google/gerrit/util/http/testutil/FakeHttpServletRequest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-09T20:59:59Z",
+      "side": 1,
+      "message": "if `session` is null and `create` is false, the return value will be `null`, consider adding `@Nullable` here.",
+      "range": {
+        "startLine": 388,
+        "startChar": 0,
+        "endLine": 388,
+        "endChar": 21
+      },
+      "revId": "1708b66009aa9cb0542ad4ba918a8326887c1919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

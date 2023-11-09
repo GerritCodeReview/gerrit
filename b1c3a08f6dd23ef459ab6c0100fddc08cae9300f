@@ -16,6 +16,69 @@
       "message": "FYI, during my testing I have found an issue (which I have described here [1])\nThis happens even with the stable version of 2.16\n\n[1] https://issues.gerritcodereview.com/issues/309927165",
       "revId": "b1c3a08f6dd23ef459ab6c0100fddc08cae9300f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37e32562_471356d6",
+        "filename": "java/com/google/gerrit/server/notedb/OnlineProjectsMigrationChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-09T15:41:02Z",
+      "side": 1,
+      "message": "This could be final.\n\n```suggestion\n  private final NotesMigration notesMigration;\n```",
+      "revId": "b1c3a08f6dd23ef459ab6c0100fddc08cae9300f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4eb35319_9a78d2a2",
+        "filename": "java/com/google/gerrit/server/notedb/OnlineProjectsMigrationChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-09T15:41:02Z",
+      "side": 1,
+      "message": "Consider returning an immutable set.",
+      "range": {
+        "startLine": 71,
+        "startChar": 17,
+        "endLine": 71,
+        "endChar": 35
+      },
+      "revId": "b1c3a08f6dd23ef459ab6c0100fddc08cae9300f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e65d5361_0fbfea0b",
+        "filename": "java/com/google/gerrit/server/restapi/change/Rebuild.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-09T15:41:02Z",
+      "side": 1,
+      "message": "This is already available in `onlineProjectsMigrationChecker` and it could be returned by introducing a getter there.\n\nExample:\n```\nonlineProjectsMigrationChecker.getNotesMigration();\n```",
+      "range": {
+        "startLine": 58,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 30
+      },
+      "revId": "b1c3a08f6dd23ef459ab6c0100fddc08cae9300f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

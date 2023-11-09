@@ -82,6 +82,14 @@ public class RequestUtilTest {
     assertThat(req.getSession(false)).isNotNull();
   }
 
+  @Test
+  public void getRequestURI_shouldNotInclueQueryString() {
+    FakeHttpServletRequest req = fakeRequest("/", "/", "/foo");
+    req.setQueryString("query=foo");
+    assertThat(req.getRequestURI()).endsWith("/foo");
+    assertThat(req.getRequestURI()).doesNotContain("?query=foo");
+  }
+
   private FakeHttpServletRequest fakeRequest(
       String contextPath, String servletPath, String pathInfo) {
     return fakeRequest(contextPath, servletPath, pathInfo, null, null);

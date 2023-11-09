@@ -132,6 +132,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0ce2837f_33ad9111",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1094,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-09T11:46:27Z",
+      "side": 1,
+      "message": "this fix is missing from the file",
+      "range": {
+        "startLine": 1092,
+        "startChar": 6,
+        "endLine": 1094,
+        "endChar": 7
+      },
+      "revId": "9c03b5d0a679f7043e2bebfb0c9873bd8ef70a5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b196810f_a0dd549d",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 11

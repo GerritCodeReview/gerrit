@@ -22,6 +22,30 @@
       },
       "revId": "79d5ad7a1c9ea944e34d277f1e2103150bb20705",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6851510_1913262c",
+        "filename": "java/com/google/gerrit/server/change/RebaseChangeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-09T10:40:04Z",
+      "side": 1,
+      "message": "Good point. I extended the documentation of the rebase REST endpoint to mention this.",
+      "parentUuid": "e6b59f82_5e5378bd",
+      "range": {
+        "startLine": 509,
+        "startChar": 24,
+        "endLine": 509,
+        "endChar": 44
+      },
+      "revId": "79d5ad7a1c9ea944e34d277f1e2103150bb20705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

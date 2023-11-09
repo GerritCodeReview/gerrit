@@ -52,6 +52,24 @@
       "parentUuid": "623f42bf_351c5c56",
       "revId": "8d8f08e414cff27b112f655f4b06053b491663fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f98597ea_a60e32af",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1132393
+      },
+      "writtenOn": "2023-11-09T12:05:09Z",
+      "side": 1,
+      "message": "Thanks a lot :) I love this feature and I look forward to making use of it in LibreOffice\u0027s Gerrit deployment.",
+      "parentUuid": "320b9642_d5c8d286",
+      "revId": "8d8f08e414cff27b112f655f4b06053b491663fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

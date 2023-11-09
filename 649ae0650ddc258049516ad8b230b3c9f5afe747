@@ -52,6 +52,23 @@
       "parentUuid": "d355de23_a1e4fca2",
       "revId": "649ae0650ddc258049516ad8b230b3c9f5afe747",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "248bbb75_4e5f1bab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-09T23:13:11Z",
+      "side": 1,
+      "message": "Tested with long-running parallel threads for 2h and everything works as expected.",
+      "revId": "649ae0650ddc258049516ad8b230b3c9f5afe747",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3c8c8d2_7bdfa1b8",
+        "filename": "polygerrit-ui/app/embed/diff/gr-context-controls/gr-context-controls.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-11-09T15:00:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4bb4797_69d9ae23",
+      "range": {
+        "startLine": 109,
+        "startChar": 20,
+        "endLine": 109,
+        "endChar": 51
+      },
+      "revId": "75ba68f8aa4302800553490de4d1d379ec20cfdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d626fadf_64d7d076",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-11-08T09:43:38Z",
       "side": 1,
       "message": "just\n```suggestion\n * to a gr-diff-section. It mostly just contains an array of diff `lines`.\n```",
+      "range": {
+        "startLine": 223,
+        "startChar": 35,
+        "endLine": 223,
+        "endChar": 44
+      },
+      "revId": "75ba68f8aa4302800553490de4d1d379ec20cfdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07f9aaf5_1fc1ac8d",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-group.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-11-09T15:00:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d626fadf_64d7d076",
       "range": {
         "startLine": 223,
         "startChar": 35,

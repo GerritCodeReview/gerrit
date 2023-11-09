@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e195bf32_3df3754f",
+        "filename": "java/com/google/gerrit/server/notedb/OnlineProjectsMigrationChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-09T20:16:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37e32562_471356d6",
+      "revId": "b1c3a08f6dd23ef459ab6c0100fddc08cae9300f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4eb35319_9a78d2a2",
@@ -58,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30567b62_04c5ed41",
+        "filename": "java/com/google/gerrit/server/notedb/OnlineProjectsMigrationChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-09T20:16:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4eb35319_9a78d2a2",
+      "range": {
+        "startLine": 71,
+        "startChar": 17,
+        "endLine": 71,
+        "endChar": 35
+      },
+      "revId": "b1c3a08f6dd23ef459ab6c0100fddc08cae9300f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e65d5361_0fbfea0b",
@@ -71,6 +113,30 @@
       "writtenOn": "2023-11-09T15:41:02Z",
       "side": 1,
       "message": "This is already available in `onlineProjectsMigrationChecker` and it could be returned by introducing a getter there.\n\nExample:\n```\nonlineProjectsMigrationChecker.getNotesMigration();\n```",
+      "range": {
+        "startLine": 58,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 30
+      },
+      "revId": "b1c3a08f6dd23ef459ab6c0100fddc08cae9300f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c826155f_37c9155f",
+        "filename": "java/com/google/gerrit/server/restapi/change/Rebuild.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-09T20:16:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e65d5361_0fbfea0b",
       "range": {
         "startLine": 58,
         "startChar": 6,

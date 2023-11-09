@@ -46,6 +46,7 @@ java_library(
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/server/util/time",
         "//java/com/google/gerrit/testing:test-ref-update-context",
+        "//javatests/com/google/gerrit/util/http/testutil",
         "//lib:guava",
         "//lib:h2",
         "//lib:jgit",

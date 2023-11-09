@@ -1081,7 +1081,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }
     const request = {
       url: '/changes/',
-      params,
+      params: {...params, 'allow-incomplete-results': true},
       reportUrlAsIs: true,
     };
     return request;

@@ -33,6 +33,24 @@
       "message": "Please file an issue for this as described in the documentation that Matthias added recently in https://gerrit-review.googlesource.com/c/gerrit/+/391390. We have a rotation for bug-triaging and the current person onduty should also look at changes that need LC.",
       "revId": "3a097e34ebb297837237cfc74ecd25fa4e8f593f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2cb1c22_da93dce7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-11-09T05:41:03Z",
+      "side": 1,
+      "message": "Done: [1].\n\n[1]: https://issues.gerritcodereview.com/issues/309841152",
+      "parentUuid": "6b3206fd_f9f6a8af",
+      "revId": "3a097e34ebb297837237cfc74ecd25fa4e8f593f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

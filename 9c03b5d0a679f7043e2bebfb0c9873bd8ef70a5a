@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "587d18e8_9d9a7fe9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-09T10:10:29Z",
+      "side": 1,
+      "message": "damn you google-java-format v1.8!!!",
+      "parentUuid": "020f24e1_5c4ae279",
+      "revId": "9c03b5d0a679f7043e2bebfb0c9873bd8ef70a5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c815efc_f908c885",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-11-09T05:54:40Z",
       "side": 1,
       "message": "nit `s/old cloned/old, cloned`",
+      "range": {
+        "startLine": 1668,
+        "startChar": 40,
+        "endLine": 1668,
+        "endChar": 51
+      },
+      "revId": "9c03b5d0a679f7043e2bebfb0c9873bd8ef70a5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b71e43bf_e4f28c99",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 1668,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-09T10:10:29Z",
+      "side": 1,
+      "message": "the `old` here may be confusing, as the closed change doesn\u0027t need to be _old_ in order to have their submit rules re-evaluated in this case. Will remove it.",
+      "parentUuid": "6c815efc_f908c885",
       "range": {
         "startLine": 1668,
         "startChar": 40,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8292ccea_a2634dd8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 1669,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-09T10:10:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ae6a746_21299486",
+      "range": {
+        "startLine": 1669,
+        "startChar": 46,
+        "endLine": 1669,
+        "endChar": 53
+      },
+      "revId": "9c03b5d0a679f7043e2bebfb0c9873bd8ef70a5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b196810f_a0dd549d",
@@ -77,6 +143,30 @@
       "writtenOn": "2023-11-09T05:54:40Z",
       "side": 1,
       "message": "not related change that makes code-style sad - here you can make it happy again 😊\n```suggestion\n            options\n                .toBuilder()\n                .recomputeOnClosedChanges(!options.recomputeOnClosedChanges())\n```",
+      "range": {
+        "startLine": 1100,
+        "startChar": 12,
+        "endLine": 1101,
+        "endChar": 78
+      },
+      "revId": "9c03b5d0a679f7043e2bebfb0c9873bd8ef70a5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac4a9690_e87d9e4d",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1101,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-09T10:10:29Z",
+      "side": 1,
+      "message": "that\u0027s google-java-format v1.8... maybe we can migrate? 😄",
+      "parentUuid": "b196810f_a0dd549d",
       "range": {
         "startLine": 1100,
         "startChar": 12,

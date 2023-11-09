@@ -16,6 +16,23 @@
       "message": "PTAL",
       "revId": "cabf51a97f4219940fd3bcb2777cbd185086b506",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce1b2bb7_7c102372",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-11-09T18:38:37Z",
+      "side": 1,
+      "message": "@dmfilippov@google.com can you please double-check that internally we set maxLimit correctly and that it is applied in QueryBuilder (i.e. the InternalQueries still see a limit of 10k items)?\n\nBen and I looked at this and we come to that conclusion but since you implemented the dynamic configs, I would appreciate if you could have a look.",
+      "revId": "cabf51a97f4219940fd3bcb2777cbd185086b506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

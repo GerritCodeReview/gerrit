@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d97dcc23_cd39a22f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-09T07:14:49Z",
+      "side": 1,
+      "message": "IIUC what we need to reland this change is:\n\n1. Keep at least 2 schema versions that have different fields (which is not the case with this change yet).\n2. Adapt our internal test to use these 2 schema versions.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 32
+      },
+      "revId": "e2937ca9e32bc9f0b3ad1bf5746e454b094bfb90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "parentUuid": "a64b222d_6c7b3783",
       "revId": "8d8f08e414cff27b112f655f4b06053b491663fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "320b9642_d5c8d286",
+        "filename": "Documentation/user-inline-edit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-11-09T12:04:10Z",
+      "side": 1,
+      "message": "Sorry, confusicat.\nThis feature was introduced on master before stable-3.8 was cut but was never documented.\nIt will eventually be merged into master.",
+      "parentUuid": "623f42bf_351c5c56",
+      "revId": "8d8f08e414cff27b112f655f4b06053b491663fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

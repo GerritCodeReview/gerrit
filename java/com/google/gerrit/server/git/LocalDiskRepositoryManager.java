@@ -121,7 +121,7 @@ public class LocalDiskRepositoryManager implements GitRepositoryManager {
     if (basePath == null) {
       throw new IllegalStateException("gerrit.basePath must be configured");
     }
-    usePerRequestRefCache = cfg.getBoolean("core", null, "usePerRequestRefCache", true);
+    usePerRequestRefCache = cfg.getBoolean("core", null, "usePerRequestRefCache", false);
   }
 
   /**

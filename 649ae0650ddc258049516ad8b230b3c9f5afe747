@@ -86,6 +86,24 @@
       "message": "Also run all tests locally:\nINFO: Build completed successfully",
       "revId": "649ae0650ddc258049516ad8b230b3c9f5afe747",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b6db1d8_2f46b629",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-10T09:28:43Z",
+      "side": 1,
+      "message": "@nasser.grainawi@linaro.org any feedback on your side?",
+      "parentUuid": "06b637a2_44f55f98",
+      "revId": "649ae0650ddc258049516ad8b230b3c9f5afe747",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

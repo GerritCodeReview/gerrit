@@ -34,6 +34,23 @@
       "parentUuid": "09a4f63a_cfd07f43",
       "revId": "ad0080bc742e736a4513c60ad0e56fdd182d2c5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1884cc96_355be850",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-11-10T08:38:10Z",
+      "side": 1,
+      "message": "Sorry for the delayed response, there were a few things I had to handle before this change.\n\nCan you please explain why this is done first in `stable-3.9` and not in `master`?\n\nThanks!",
+      "revId": "ad0080bc742e736a4513c60ad0e56fdd182d2c5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

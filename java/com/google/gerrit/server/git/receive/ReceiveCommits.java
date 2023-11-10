@@ -3024,7 +3024,11 @@ class ReceiveCommits {
           reject(inputCommand, "change " + ontoChange + " closed");
           return false;
         } else if (revisions.containsKey(newCommit)) {
-          reject(inputCommand, "commit already exists (in the change)");
+          reject(
+              inputCommand,
+              String.format(
+                  "commit %s already exists in change %s",
+                  newCommit.name().substring(0, 10), change.getId()));
           return false;
         }
 

@@ -16,6 +16,23 @@
       "message": "Change Ib7b4f378b is on stable-3.9, so we want this fix. There are also a few changes that follow it on master that clean up logging in this class.",
       "revId": "88039fa6a0e671a2603e98e6c73c93a65dc9eccf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1abd70eb_1ec042d4",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 785,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2023-11-10T17:18:54Z",
+      "side": 1,
+      "message": "This sort of verification likely should be done inside ChangeData somewhere instead?",
+      "revId": "88039fa6a0e671a2603e98e6c73c93a65dc9eccf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -38,6 +38,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.Supplier;
 import javax.servlet.AsyncContext;
 import javax.servlet.DispatcherType;
 import javax.servlet.RequestDispatcher;
@@ -69,12 +70,24 @@ public class FakeHttpServletRequest implements HttpServletRequest {
   private String servletPath;
   private String path;
   private String method;
+  private final Supplier<HttpSession> sessionSupplier;
+  private HttpSession session;
 
   public FakeHttpServletRequest() {
     this("gerrit.example.com", 80, "", SERVLET_PATH);
   }
 
   public FakeHttpServletRequest(String hostName, int port, String contextPath, String servletPath) {
+    this(hostName, port, contextPath, servletPath, null, null);
+  }
+
+  public FakeHttpServletRequest(
+      String hostName,
+      int port,
+      String contextPath,
+      String servletPath,
+      @Nullable Supplier<HttpSession> sessionSupplier,
+      @Nullable HttpSession currentSession) {
     this.hostName = requireNonNull(hostName, "hostName");
     checkArgument(port > 0);
     this.port = port;
@@ -84,6 +97,8 @@ public class FakeHttpServletRequest implements HttpServletRequest {
     parameters = LinkedListMultimap.create();
     headers = LinkedListMultimap.create();
     method = "GET";
+    this.sessionSupplier = sessionSupplier;
+    this.session = currentSession;
   }
 
   @Override
@@ -340,11 +355,7 @@ public class FakeHttpServletRequest implements HttpServletRequest {
 
   @Override
   public String getRequestURI() {
-    String uri = contextPath + servletPath + path;
-    if (!Strings.isNullOrEmpty(queryString)) {
-      uri += '?' + queryString;
-    }
-    return uri;
+    return contextPath + servletPath + path;
   }
 
   @Override
@@ -364,12 +375,22 @@ public class FakeHttpServletRequest implements HttpServletRequest {
 
   @Override
   public HttpSession getSession() {
-    throw new UnsupportedOperationException();
+    return getSession(true);
   }
 
   @Override
+  @Nullable
   public HttpSession getSession(boolean create) {
-    throw new UnsupportedOperationException();
+    if (session != null || !create) {
+      return session;
+    }
+
+    if (sessionSupplier == null) {
+      throw new UnsupportedOperationException();
+    }
+
+    session = sessionSupplier.get();
+    return session;
   }
 
   @Override

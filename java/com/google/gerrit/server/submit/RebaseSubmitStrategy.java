@@ -182,9 +182,10 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
                   committer,
                   cherryPickCmtMsg,
                   args.rw,
-                  0,
-                  true,
-                  false);
+                  /* parentIndex= */ 0,
+                  /* preserveMerge= */ false,
+                  /* ignoreIdenticalTree= */ true,
+                  /* allowConflicts= */ false);
         } catch (MergeConflictException mce) {
           // Unlike in Cherry-pick case, this should never happen.
           toMerge.setStatusCode(CommitMergeStatus.REBASE_MERGE_CONFLICT);

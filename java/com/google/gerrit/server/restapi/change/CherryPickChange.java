@@ -372,6 +372,7 @@ public class CherryPickChange {
                 commitMessage,
                 revWalk,
                 input.parent - 1,
+                input.preserveMerge,
                 input.allowEmpty,
                 input.allowConflicts);
         oi.flush();

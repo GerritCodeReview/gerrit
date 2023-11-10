@@ -220,6 +220,7 @@ public class MergeUtil {
       String commitMsg,
       CodeReviewRevWalk rw,
       int parentIndex,
+      boolean preserveMerge,
       boolean ignoreIdenticalTree,
       boolean allowConflicts)
       throws IOException, MergeIdenticalTreeException, MergeConflictException,
@@ -274,9 +275,19 @@ public class MergeUtil {
               rw, inserter, dc, "HEAD", mergeTip, "CHANGE", originalCommit, mergeResults);
     }
 
+    List<ObjectId> parents = new ArrayList<>();
+    parents.add(mergeTip);
+    if (preserveMerge && originalCommit.getParentCount() > 1) {
+      // If a merge commit is cherry-picked with preserveMerge=true add all other parents (parent 2
+      // to N).
+      for (int parent = 1; parent < originalCommit.getParentCount(); parent++) {
+        parents.add(originalCommit.getParent(parent));
+      }
+    }
+
     CommitBuilder cherryPickCommit = new CommitBuilder();
     cherryPickCommit.setTreeId(tree);
-    cherryPickCommit.setParentId(mergeTip);
+    cherryPickCommit.setParentIds(parents);
     cherryPickCommit.setAuthor(originalCommit.getAuthorIdent());
     cherryPickCommit.setCommitter(cherryPickCommitterIdent);
     cherryPickCommit.setMessage(commitMsg);

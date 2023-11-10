@@ -23,6 +23,7 @@ public class CherryPickInput {
   // 40-hex digit SHA-1 of the commit which will be the parent commit of the newly created change.
   public String base;
   public Integer parent;
+  public boolean preserveMerge;
 
   public NotifyHandling notify = NotifyHandling.ALL;
   public Map<RecipientType, NotifyInfo> notifyDetails;

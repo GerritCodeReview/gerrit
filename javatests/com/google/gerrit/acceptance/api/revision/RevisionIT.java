@@ -930,6 +930,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
     String cherryPickBranchName = "branch_for_cherry_pick";
     createBranch(BranchNameKey.create(project, cherryPickBranchName));
+    String expectedBase = projectOperations.project(project).getHead(cherryPickBranchName).name();
 
     CherryPickInput cherryPickInput = new CherryPickInput();
     cherryPickInput.destination = cherryPickBranchName;
@@ -941,11 +942,55 @@ public class RevisionIT extends AbstractDaemonTest {
             .current()
             .cherryPick(cherryPickInput)
             .get();
+    assertThat(cherryPickedChangeInfo.getCurrentRevision().parentsData).hasSize(1);
+    assertThat(cherryPickedChangeInfo.getCurrentRevision().parentsData.get(0).commitId)
+        .isEqualTo(expectedBase);
 
     Map<String, FileInfo> cherryPickedFilesByName =
         cherryPickedChangeInfo.revisions.get(cherryPickedChangeInfo.currentRevision).files;
     assertThat(cherryPickedFilesByName).containsKey(parent2FileName);
     assertThat(cherryPickedFilesByName).doesNotContainKey(parent1FileName);
+  }
+
+  @Test
+  public void cherryPickMergeRelativeToDefaultParent_preserveMerge() throws Exception {
+    String parent1FileName = "a.txt";
+    String parent2FileName = "b.txt";
+    PushOneCommit.Result mergeChangeResult =
+        createCherryPickableMerge(parent1FileName, parent2FileName);
+
+    String cherryPickBranchName = "branch_for_cherry_pick";
+    createBranch(BranchNameKey.create(project, cherryPickBranchName));
+    String expectedBase = projectOperations.project(project).getHead(cherryPickBranchName).name();
+
+    CherryPickInput cherryPickInput = new CherryPickInput();
+    cherryPickInput.destination = cherryPickBranchName;
+    cherryPickInput.message = "Cherry-pick a merge commit to another branch";
+    cherryPickInput.preserveMerge = true;
+
+    ChangeInfo cherryPickedChangeInfo =
+        gApi.changes()
+            .id(mergeChangeResult.getChangeId())
+            .current()
+            .cherryPick(cherryPickInput)
+            .get();
+    assertThat(cherryPickedChangeInfo.getCurrentRevision().parentsData).hasSize(2);
+    assertThat(cherryPickedChangeInfo.getCurrentRevision().parentsData.get(0).commitId)
+        .isEqualTo(expectedBase);
+    assertThat(cherryPickedChangeInfo.getCurrentRevision().parentsData.get(1).commitId)
+        .isEqualTo(mergeChangeResult.getCommit().getParent(1).name());
+
+    Map<String, FileInfo> cherryPickedFilesByNameAgainstFirstParent =
+        gApi.changes().id(cherryPickedChangeInfo.id).current().files(1);
+    assertThat(cherryPickedFilesByNameAgainstFirstParent).containsKey(parent2FileName);
+    assertThat(cherryPickedFilesByNameAgainstFirstParent.get(parent2FileName).status)
+        .isEqualTo('A');
+    assertThat(cherryPickedFilesByNameAgainstFirstParent).doesNotContainKey(parent1FileName);
+
+    Map<String, FileInfo> cherryPickedFilesByNameAgainstSecondParent =
+        gApi.changes().id(cherryPickedChangeInfo.id).current().files(2);
+    assertThat(cherryPickedFilesByNameAgainstSecondParent).doesNotContainKey(parent1FileName);
+    assertThat(cherryPickedFilesByNameAgainstSecondParent).doesNotContainKey(parent2FileName);
   }
 
   @Test
@@ -974,6 +1019,53 @@ public class RevisionIT extends AbstractDaemonTest {
         cherryPickedChangeInfo.revisions.get(cherryPickedChangeInfo.currentRevision).files;
     assertThat(cherryPickedFilesByName).containsKey(parent1FileName);
     assertThat(cherryPickedFilesByName).doesNotContainKey(parent2FileName);
+  }
+
+  @Test
+  public void cherryPickMergeRelativeToSpecificParent_preserveMerge() throws Exception {
+    String parent1FileName = "a.txt";
+    String parent2FileName = "b.txt";
+    PushOneCommit.Result mergeChangeResult =
+        createCherryPickableMerge(parent1FileName, parent2FileName);
+
+    String cherryPickBranchName = "branch_for_cherry_pick";
+    createBranch(BranchNameKey.create(project, cherryPickBranchName));
+    String expectedBase = projectOperations.project(project).getHead(cherryPickBranchName).name();
+
+    CherryPickInput cherryPickInput = new CherryPickInput();
+    cherryPickInput.destination = cherryPickBranchName;
+    cherryPickInput.message = "Cherry-pick a merge commit to another branch";
+    cherryPickInput.preserveMerge = true;
+    cherryPickInput.parent = 2;
+
+    ChangeInfo cherryPickedChangeInfo =
+        gApi.changes()
+            .id(mergeChangeResult.getChangeId())
+            .current()
+            .cherryPick(cherryPickInput)
+            .get();
+    assertThat(cherryPickedChangeInfo.getCurrentRevision().parentsData).hasSize(2);
+    assertThat(cherryPickedChangeInfo.getCurrentRevision().parentsData.get(0).commitId)
+        .isEqualTo(expectedBase);
+    assertThat(cherryPickedChangeInfo.getCurrentRevision().parentsData.get(1).commitId)
+        .isEqualTo(mergeChangeResult.getCommit().getParent(1).name());
+
+    // TODO WHY?
+    Map<String, FileInfo> cherryPickedFilesByNameAgainstFirstParent =
+        gApi.changes().id(cherryPickedChangeInfo.id).current().files(1);
+    assertThat(cherryPickedFilesByNameAgainstFirstParent).containsKey(parent1FileName);
+    assertThat(cherryPickedFilesByNameAgainstFirstParent.get(parent1FileName).status)
+        .isEqualTo('A');
+    assertThat(cherryPickedFilesByNameAgainstFirstParent).doesNotContainKey(parent2FileName);
+
+    Map<String, FileInfo> cherryPickedFilesByNameAgainstSecondParent =
+        gApi.changes().id(cherryPickedChangeInfo.id).current().files(2);
+    assertThat(cherryPickedFilesByNameAgainstSecondParent).containsKey(parent1FileName);
+    assertThat(cherryPickedFilesByNameAgainstSecondParent.get(parent1FileName).status)
+        .isEqualTo('A');
+    assertThat(cherryPickedFilesByNameAgainstSecondParent).containsKey(parent2FileName);
+    assertThat(cherryPickedFilesByNameAgainstSecondParent.get(parent2FileName).status)
+        .isEqualTo('D');
   }
 
   @Test

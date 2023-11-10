@@ -49,6 +49,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "febd359c_cb368998",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-10T19:14:45Z",
+      "side": 1,
+      "message": "Missing `Release-Notes` footer.",
+      "revId": "96b05b7b311d4f7b04ec9f11d472ee4c015279db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2b3d9cbf_895e069c",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -60,6 +77,23 @@
       "writtenOn": "2023-11-10T15:31:22Z",
       "side": 1,
       "message": "I miss a test.",
+      "revId": "96b05b7b311d4f7b04ec9f11d472ee4c015279db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bef8a4e9_0802b046",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-10T19:14:45Z",
+      "side": 1,
+      "message": "Really 😎",
       "revId": "96b05b7b311d4f7b04ec9f11d472ee4c015279db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

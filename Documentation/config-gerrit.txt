@@ -2068,7 +2068,7 @@ refs are checked and potentially read at least once per request
 (lazily) if needed. This helps reduce the overhead of checking if
 the packed-refs file is outdated.
 +
-Default is true.
+Default is false.
 
 [[dashboard]]
 === Section dashboard

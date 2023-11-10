@@ -27,6 +27,9 @@ public class PerThreadRefDbCache {
       PerThreadCache.Key.create(PerThreadRefDbCache.class);
 
   public static RefDatabase getRefDatabase(File path, RefDatabase refDb) {
+    if (PerThreadCache.get() == null) {
+      PerThreadCache.create();
+    }
     if (PerThreadCache.get() != null) {
       return PerThreadCache.get()
           .get(REFDB_CACHE_KEY, PerThreadRefDbCache::new)

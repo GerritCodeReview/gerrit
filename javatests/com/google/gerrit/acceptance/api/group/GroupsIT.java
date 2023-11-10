@@ -50,6 +50,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseClockStep;
+import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
@@ -137,6 +138,7 @@ import org.junit.Test;
 
 @NoHttpd
 @UseClockStep
+@UseLocalDisk
 public class GroupsIT extends AbstractDaemonTest {
   @Inject @ServerInitiated private GroupsUpdate groupsUpdate;
   @Inject private AccountOperations accountOperations;

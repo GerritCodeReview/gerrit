@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d6c4695_bf93f4ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2023-11-10T15:17:48Z",
+      "side": 1,
+      "message": "Perhaps add\n\n\"This helps to identify which change has a duplicate commit when pushing stacks of changes\".",
+      "revId": "f6d9a627e47b61b8733d2cc7db455f8aeefcc5e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b57b2a9e_9d5f411e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2023-11-10T15:17:48Z",
+      "side": 1,
+      "message": "Not sure if this is on the scale of release notes, but perhaps make it a bit more directly related?\n\n`Added commit and ChangeNumber to \"commit already exists (in change)\" Push Rejected response.`\n\nor\n\n`Improved response when pushes are rejected due to the commit already existing in change.`\n\nI am not sure which, if either, is better.",
+      "revId": "f6d9a627e47b61b8733d2cc7db455f8aeefcc5e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c61c7bb_0a0293d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2023-11-10T15:17:48Z",
+      "side": 1,
+      "message": "t",
+      "revId": "f6d9a627e47b61b8733d2cc7db455f8aeefcc5e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

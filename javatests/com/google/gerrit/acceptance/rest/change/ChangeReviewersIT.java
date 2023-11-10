@@ -105,14 +105,14 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     // Attempt to add overly large group as reviewers.
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
-    ReviewerResult result = addReviewer(changeId, largeGroup);
+    ReviewerResult result = addReviewer(changeId, largeGroup, SC_BAD_REQUEST);
     assertThat(result.input).isEqualTo(largeGroup);
     assertThat(result.confirm).isNull();
     assertThat(result.error).contains("has too many members to add them all as reviewers");
     assertThat(result.reviewers).isNull();
 
     // Attempt to add medium group without confirmation.
-    result = addReviewer(changeId, mediumGroup);
+    result = addReviewer(changeId, mediumGroup, SC_BAD_REQUEST);
     assertThat(result.input).isEqualTo(mediumGroup);
     assertThat(result.confirm).isTrue();
     assertThat(result.error)
@@ -159,6 +159,48 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(user.getNameEmail());
     assertThat(m.body()).contains(admin.fullName() + " has uploaded this change for review.");
+  }
+
+  @Test
+  public void addCcEmailWithoutAccount() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String testEmailAddress = "email@without.account";
+
+    // Add a reviewer
+    ReviewerInput ri = new ReviewerInput();
+    ri.reviewer = user.email();
+    ri.state = REVIEWER;
+    ReviewerResult result = addReviewer(changeId, ri);
+    assertThat(result.input).isEqualTo(user.email());
+    assertThat(result.confirm).isNull();
+    assertThat(result.error).isNull();
+    assertThat(result.reviewers).hasSize(1);
+
+    // Add an email address that has no account to CC
+    ReviewerInput ccInput = new ReviewerInput();
+    ccInput.reviewer = testEmailAddress;
+    ccInput.state = CC;
+    ReviewerResult resultCC = addReviewer(changeId, ccInput, SC_BAD_REQUEST);
+    assertThat(resultCC.error).contains("Account '" + testEmailAddress + "' not found");
+    assertThat(resultCC.error)
+        .contains(testEmailAddress + " does not identify a registered user or group");
+  }
+
+  @Test
+  public void addReviewerEmailWithoutAccount() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String testEmailAddress = "email@without.account";
+
+    // Add a reviewer without an account
+    ReviewerInput ri = new ReviewerInput();
+    ri.reviewer = testEmailAddress;
+    ri.state = REVIEWER;
+    ReviewerResult result = addReviewer(changeId, ri, SC_BAD_REQUEST);
+    assertThat(result.error).contains("Account '" + testEmailAddress + "' not found");
+    assertThat(result.error)
+        .contains(testEmailAddress + " does not identify a registered user or group");
   }
 
   @Test

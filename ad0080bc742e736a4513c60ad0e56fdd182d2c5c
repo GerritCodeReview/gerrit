@@ -16,6 +16,24 @@
       "message": "@ekempin@google.com are you OK with a LC +1 for including this in Gerrit v3.9.0-rc4?",
       "revId": "ad0080bc742e736a4513c60ad0e56fdd182d2c5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1d27ead_55f49800",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-10T07:24:07Z",
+      "side": 1,
+      "message": "Please don\u0027t add me for changes that require LC. If you need the attention of a Googler on such a change, please follow the process that is described in [1]. We have a onduty rotation that should take care of such changes and it\u0027s currently not me. Adding Nitzan who is currently onduty.\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-processes.html#upgrading-libraries",
+      "parentUuid": "09a4f63a_cfd07f43",
+      "revId": "ad0080bc742e736a4513c60ad0e56fdd182d2c5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

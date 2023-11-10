@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9306145f_5f72eb03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-10T18:11:39Z",
+      "side": 1,
+      "message": "There\u0027s updates on that thread clarifying that there are no known issues __specific to this cache__. Yes, NFS behavior can affect this cache, but I don\u0027t have any reason to believe the cache makes it worse. That said, NFS behavior can affect a lot of things in Gerrit, many of which have good defaults for most sites, but which admins may need to adjust when using NFS.",
+      "revId": "c8d4e243d6524611383180b5eceedca3c533c763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

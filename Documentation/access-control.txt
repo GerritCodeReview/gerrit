@@ -1090,7 +1090,7 @@ Suggested access rights to grant:
 * <<examples_developer,Developer rights>>
 * <<category_push,`Push`>> to 'refs/heads/*'
 * <<category_push_merge,`Push merge commit`>> to 'refs/heads/*'
-* <<category_forge_committer,`Forge Committer Identity`>> to 'refs/for/refs/heads/*'
+* <<category_forge_committer,`Forge Committer Identity`>> to 'refs/heads/*'
 * <<category_create,`Create Reference`>> to 'refs/heads/*'
 * <<category_create_annotated,`Create Annotated Tag`>> to 'refs/tags/*'
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03aee9eb_10f858e4",
+        "filename": "java/com/google/gerrit/server/cache/PerThreadRefDbCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-10T23:04:35Z",
+      "side": 1,
+      "message": "This isn\u0027t really what\u0027s happening at runtime though: the thread-local caching of refs is applied only to specific cases of Gerrit APis.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 5
+      },
+      "revId": "6749635dae2a7cca7b7148a08ebf543afb0f7f10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -48,7 +48,7 @@ public class MergeIfNecessary extends SubmitStrategy {
 
   static boolean dryRun(
       SubmitDryRun.Arguments args, CodeReviewCommit mergeTip, CodeReviewCommit toMerge) {
-    return args.mergeUtil.canFastForward(args.mergeSorter, mergeTip, args.rw, toMerge)
-        || args.mergeUtil.canMerge(args.mergeSorter, args.repo, mergeTip, toMerge);
+    return args.mergeUtil.canFastForwardOrMerge(
+        args.mergeSorter, mergeTip, args.rw, args.repo, toMerge);
   }
 }

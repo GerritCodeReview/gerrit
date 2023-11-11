@@ -52,6 +52,24 @@
       "parentUuid": "45ff9901_8e5506a3",
       "revId": "293a424d8aca089bedf86b6f620660d6bc5e3f05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd66fb6a_fa844316",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-11T07:36:59Z",
+      "side": 1,
+      "message": "And last but not least: nobody wants to remove it. It just feels wrong that at the current state we don\u0027t mention the case with GC in notes and enable it by default for everyone. Let\u0027s disable it until we know it works. WDYT?",
+      "parentUuid": "777fd54e_b6061581",
+      "revId": "293a424d8aca089bedf86b6f620660d6bc5e3f05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

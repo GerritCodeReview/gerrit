@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b79333c5_56a995e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-11T01:31:49Z",
+      "side": 1,
+      "message": "Our APM tool was showing that we have some profiling samples from our production servers where we spend a lot of time in the `hasMissingDependencies()` method, twice.\n\n```\n$ bazel build release \u0026\u0026 bazel test --flaky_test_attempts 3 --test_timeout 3600 --test_tag_filters\u003d-flaky //...\n[snip]\nINFO: Elapsed time: 2072.839s, Critical Path: 1072.64s\nINFO: 1385 processes: 103 disk cache hit, 831 internal, 232 linux-sandbox, 219 worker.\nINFO: Build completed successfully, 1385 total actions\n[snip]\nExecuted 190 out of 200 tests: 200 tests pass.\nINFO: Build completed successfully, 1385 total actions\n```",
+      "revId": "22ce9df0793d2be6eccf3a19cbda4bb33ae030d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

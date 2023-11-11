@@ -34,6 +34,24 @@
       "parentUuid": "f7b29433_97fa8f79",
       "revId": "293a424d8aca089bedf86b6f620660d6bc5e3f05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "777fd54e_b6061581",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-11T07:33:09Z",
+      "side": 1,
+      "message": "As you have mentioned functionality works well in a lot conditions but if it fails for a pretty obvious one: GC while pushing then IMHO it qualifies to be disabled until this case is solved 😞",
+      "parentUuid": "45ff9901_8e5506a3",
+      "revId": "293a424d8aca089bedf86b6f620660d6bc5e3f05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

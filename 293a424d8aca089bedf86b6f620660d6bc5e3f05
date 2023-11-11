@@ -16,6 +16,24 @@
       "message": "My 2c on the topic: we *could* do two things:\n- Flagging it as experimental in the documentation (and as a breaking change in the release notes)\n- Disabling it by default\n\nI believe the functionality should stay because there are *conditions* where it could actually work without issues, such as replicas.\n\nEventually we will find all the bugs, fix all of them and we could remove the _experimental_ prefix and have it enabled back by default.",
       "revId": "293a424d8aca089bedf86b6f620660d6bc5e3f05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45ff9901_8e5506a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-11T02:27:43Z",
+      "side": 1,
+      "message": "\u003e My 2c on the topic: we *could* do two things:\n\u003e - Flagging it as experimental in the documentation (and as a breaking change in the release notes)\n\u003e - Disabling it by default\n\nWe could. I\u0027m not convinced we should. See below.\n\n\u003e \n\u003e I believe the functionality should stay because there are *conditions* where it could actually work without issues, such as replicas.\n\nI think it\u0027s largely useless on replicas. When are you re-reading refs repeatedly from multiple repos in a single thread lifetime on replicas?\n\nAnd as I\u0027ve noted a few times now, the functionality works quite well for us on our very busy active-active clustered w/ NFS servers and the only reported issue so far for is case you found with GC, which is a bug.\n\n\u003e \n\u003e Eventually we will find all the bugs, fix all of them and we could remove the _experimental_ prefix and have it enabled back by default.\n\nDo you think there are that few other people using 3.8 that no one else has found an issue? I\u0027m struggling to see why this is so much more experimental than plenty of other features that just go in. I\u0027m not too worried if you really feel strongly it should be experimental, but I\u0027d like to hear more specifics on how you think it can be re-enabled as default after that.",
+      "parentUuid": "f7b29433_97fa8f79",
+      "revId": "293a424d8aca089bedf86b6f620660d6bc5e3f05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

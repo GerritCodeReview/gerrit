@@ -11,7 +11,6 @@ TMP=$(mktemp -d || mktemp -d -t /tmp/tmp.XXXXXX)
 grep 'name = "[^"]*"' ${bzl} | sed 's|^[^"]*"||g;s|".*$||g' | sort > $TMP/names
 
 cat << EOF > $TMP/want
-backward-codecs
 cglib-3_2
 commons-io
 dropwizard-core
@@ -36,6 +35,7 @@ log-api
 log-ext
 log4j
 lucene-analyzers-common
+lucene-backward-codecs
 lucene-core
 lucene-misc
 lucene-queryparser

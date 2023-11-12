@@ -239,8 +239,7 @@ def gen_classpath(ext):
             if p.endswith('libquery_parser.jar') or \
                p.endswith('libgerrit-prolog-common.jar') or \
                p.endswith('external/com_google_protobuf/java/core/libcore.jar') or \
-               p.endswith('external/com_google_protobuf/java/core/liblite.jar') or \
-               p.endswith('lucene-core-and-backward-codecs-merged_deploy.jar'):
+               p.endswith('external/com_google_protobuf/java/core/liblite.jar'):
                 lib.add(p)
             if proto_library.match(p) :
                 proto.add(p)

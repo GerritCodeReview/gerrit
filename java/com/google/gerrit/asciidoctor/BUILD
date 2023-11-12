@@ -35,6 +35,6 @@ java_library(
         "//lib:args4j",
         "//lib:guava",
         "//lib/lucene:lucene-analyzers-common",
-        "//lib/lucene:lucene-core-and-backward-codecs",
+        "//lib/lucene:lucene-core",
     ],
 )

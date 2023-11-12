@@ -10,7 +10,7 @@ java_library(
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/index:query_exception",
         "//lib:guava",
-        "//lib/lucene:lucene-core-and-backward-codecs",
+        "//lib/lucene:lucene-core",
     ],
 )
 
@@ -39,7 +39,7 @@ java_library(
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/lucene:lucene-analyzers-common",
-        "//lib/lucene:lucene-core-and-backward-codecs",
+        "//lib/lucene:lucene-core",
         "//lib/lucene:lucene-misc",
     ],
 )

@@ -105,7 +105,7 @@ java_library(
         "//lib/jsoup",
         "//lib/log:log4j",
         "//lib/lucene:lucene-analyzers-common",
-        "//lib/lucene:lucene-core-and-backward-codecs",
+        "//lib/lucene:lucene-core",
         "//lib/lucene:lucene-queryparser",
         "//lib/mime4j:core",
         "//lib/mime4j:dom",

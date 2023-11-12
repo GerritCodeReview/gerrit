@@ -264,7 +264,7 @@ def declare_nongoogle_deps():
     )
 
     maven_jar(
-        name = "backward-codecs",
+        name = "lucene-backward-codecs",
         artifact = "org.apache.lucene:lucene-backward-codecs:" + LUCENE_VERS,
         sha1 = "e98fb408028f40170e6d87c16422bfdc0bb2e392",
     )

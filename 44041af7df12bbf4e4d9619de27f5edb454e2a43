@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df9ee8e2_de4392dd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-11-12T16:11:56Z",
+      "side": 1,
+      "message": "LC is needed because (for consistence reasons) I renamed `backward-codecs` to `lucene-backward-codecs`. From external dependency perspective this change is a no-op.",
+      "revId": "44041af7df12bbf4e4d9619de27f5edb454e2a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

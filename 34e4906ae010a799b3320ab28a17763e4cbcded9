@@ -16,6 +16,23 @@
       "message": "The `check-result-expanded` plugin endpoint has been introduced to Gerrit to support the Chromium buildbucket plugin written by Gavin Mak (added as a reviewer) https://chromium-review.googlesource.com/c/infra/gerrit-plugins/buildbucket/+/2713212\n\nI retrieve some JSON from CI and pass the data to a Web Component which does the colorful/HTML rendering. Example rendering https://phabricator.wikimedia.org/F41415689 (that file might vanish in the future).",
       "revId": "34e4906ae010a799b3320ab28a17763e4cbcded9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9193f69_0500aa36",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010788
+      },
+      "writtenOn": "2023-11-13T20:23:05Z",
+      "side": 1,
+      "message": "There is a single PolyGerrit test failing: `gr-comment-thread tests`:\n\n\u003e -    style\u003d\"--line-limit-marker: 100ch; --content-width: none; --diff-max-width: none; --font-size: 12px;\"\n\u003e +    style\u003d\"--line-limit-marker:100ch; --content-width:none; --diff-max-width:none; --font-size:12px;\"\n\nEven though `@open-wc/semantic-dom-diff` is supposed to ignore style and strip whitespaces, I guess it does not do that for inline styling which somehow changed in between Chrome versions.\n\nI think that can be ignored.\n\n\nI can\u0027t submit change on gerrit, so Ben you will have to do it for me :-]",
+      "revId": "34e4906ae010a799b3320ab28a17763e4cbcded9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

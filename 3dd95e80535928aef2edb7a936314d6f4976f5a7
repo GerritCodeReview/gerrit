@@ -247,6 +247,24 @@
       "parentUuid": "2ac1b481_631f8df0",
       "revId": "3dd95e80535928aef2edb7a936314d6f4976f5a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd7d0ff9_9847b804",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-11-13T17:47:02Z",
+      "side": 1,
+      "message": "Before even looking into fixing the RBE, we could exclude PolyGerrit related build from RBE e.g. bazel build :headless.\n\nI will look into it, though.",
+      "parentUuid": "60de8d7c_c0b8fbe2",
+      "revId": "3dd95e80535928aef2edb7a936314d6f4976f5a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

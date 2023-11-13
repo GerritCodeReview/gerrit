@@ -33,6 +33,23 @@
       "message": "Sohn",
       "revId": "44041af7df12bbf4e4d9619de27f5edb454e2a43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7150fe52_d296ebc0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-11-13T19:41:39Z",
+      "side": 1,
+      "message": "Note to the reviewers: I did very careful testing:\n\no Created gerrit site with older Gerrit releases (that shipped older Lucene version): Gerrit 3.9 with Lucene 8.x\no Upgraded Gerrit to Gerrit@HEAD, with this change inlcuded\no Reindex was successful\n\nThat\u0027s because the both libraries: lucene-core and lucene-backward-codecs are included in the `release.war`.",
+      "revId": "44041af7df12bbf4e4d9619de27f5edb454e2a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

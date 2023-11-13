@@ -88,6 +88,24 @@
       "parentUuid": "fd66fb6a_fa844316",
       "revId": "293a424d8aca089bedf86b6f620660d6bc5e3f05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93b13515_598a3aea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-13T19:42:30Z",
+      "side": 1,
+      "message": "\u003e \u003e And last but not least: nobody wants to remove it.\n\u003e \n\u003e +1, I actually introduced the same concept back in Gerrit v2.16, with a more limited scope, 2 years ago\n\nAnd likewise, I don\u0027t want to break any Gerrit installs because of bugs in new optional code.\n\n\u003e \n\u003e \u003e  It just feels wrong that at the current state we don\u0027t mention the case with GC in notes and enable it by default for everyone.\n\u003e \n\u003e I don\u0027t believe this is the only bug we have in Gerrit, isn\u0027t it? But every release note should mention critical known issues IMHO.\n\n+1\n\n\u003e \n\u003e \u003e Let\u0027s disable it until we know it works. WDYT?\n\u003e \n\u003e I\u0027m good with either highlight the risks on the release notes or disable it by default. @nasser.grainawi@linaro.org what\u0027s your view on that?\n\nI think the highlight you add here is sufficient for right now.\n392082: Highlight known-issues on Gerrit v3.8 | https://gerrit-review.googlesource.com/c/homepage/+/392082\n\nMaybe if we can\u0027t find \u0026 fix the bug with GC or if other buggy cases are found and not fixed before 3.9.0 would be released, we switch to disabled by default in 3.8.X and 3.9.0?",
+      "parentUuid": "d32e87d7_eed16c74",
+      "revId": "293a424d8aca089bedf86b6f620660d6bc5e3f05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

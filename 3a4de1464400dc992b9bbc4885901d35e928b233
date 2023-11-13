@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f446e0ec_cedcb63b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-11-13T13:53:53Z",
+      "side": 1,
+      "message": "I made a cherry-pick on stable-3.9 \n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/392595",
+      "parentUuid": "ab7852dc_66306fa2",
+      "revId": "3a4de1464400dc992b9bbc4885901d35e928b233",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b995d3b0_aee909c3",

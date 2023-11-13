@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "38a535cd_cc1b6d2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-13T21:33:19Z",
+      "side": 1,
+      "message": "Should we mention that now we need at least Ubuntu 20.04 to build Gerrit on RBE?",
+      "range": {
+        "startLine": 14,
+        "startChar": 15,
+        "endLine": 14,
+        "endChar": 19
+      },
+      "revId": "a5cdbfc392c89823a73fdd9fd01f8caadf04a491",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "27654124_586b9aad",

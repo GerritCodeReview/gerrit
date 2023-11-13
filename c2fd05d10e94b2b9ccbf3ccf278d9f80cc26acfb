@@ -16,6 +16,23 @@
       "message": "nit: line wrap please https://cbea.ms/git-commit/#wrap-72",
       "revId": "c2fd05d10e94b2b9ccbf3ccf278d9f80cc26acfb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04a05d82_44fa3f3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-13T19:37:40Z",
+      "side": 1,
+      "message": "This is fixed from stable-3.6 onwards via 392483: Bazel: Remove left over --java_toolchain option | https://gerrit-review.googlesource.com/c/gerrit/+/392483",
+      "revId": "c2fd05d10e94b2b9ccbf3ccf278d9f80cc26acfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

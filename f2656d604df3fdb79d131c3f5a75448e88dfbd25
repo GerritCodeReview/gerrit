@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60005b3b_7310cd17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-13T13:55:28Z",
+      "side": 1,
+      "message": "Nit: missing `Release-Notes: skip` footer",
+      "revId": "f2656d604df3fdb79d131c3f5a75448e88dfbd25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9882a328_9766eec9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-13T13:55:28Z",
+      "side": 1,
+      "message": "Just a small nit, feel free to merge once it is done.",
+      "revId": "f2656d604df3fdb79d131c3f5a75448e88dfbd25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

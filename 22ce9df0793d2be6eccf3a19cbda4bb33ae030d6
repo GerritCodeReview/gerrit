@@ -52,6 +52,24 @@
       "parentUuid": "78d0073c_07d27868",
       "revId": "22ce9df0793d2be6eccf3a19cbda4bb33ae030d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b867b8d6_9d72a22b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-13T16:53:40Z",
+      "side": 1,
+      "message": "@geminica.programs@gmail.com can you +2 if this looks good to you?",
+      "parentUuid": "78a9989a_79eac6ae",
+      "revId": "22ce9df0793d2be6eccf3a19cbda4bb33ae030d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

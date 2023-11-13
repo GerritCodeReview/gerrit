@@ -318,6 +318,24 @@
       "message": "https://gerrit-review.googlesource.com/c/gerrit/+/390494",
       "revId": "3dd95e80535928aef2edb7a936314d6f4976f5a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de67eb70_5b6ff8e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-11-13T21:31:42Z",
+      "side": 1,
+      "message": "\u003e I will look into it, though.\n\nDone in change 392679.\n\n\u003e @Luca how do you update RBE? Can you give me example?\n\nWe can have a call, so that I can demonstrate how to update RBE docker image and generate `rbe_configuration` and upload it to Google storage bucket and update the reference in `WORKSPACE` file. See also the issue 310680007 that linked to my change. I put all the required information there.",
+      "parentUuid": "dd7d0ff9_9847b804",
+      "revId": "3dd95e80535928aef2edb7a936314d6f4976f5a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c84277a_84376cda",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-11-13T21:31:42Z",
+      "side": 1,
+      "message": "Unrelated to this change, but we should migrate to `rules_js`: [1] from Aspect Dev: [2].\n\nFor one, all `rules_nodejs` maintainers moved to `rules_js` now, for another they are using `esbuild` bundler that appears to be factor 100 time faster than `rollup` with `terser`, that we are using: [3].\n\nLast but not least, `rules_js` is also available on bazel central registry: [4], that is required for us to switch to using `bzlmod`: [5].\n\n[1]: https://github.com/aspect-build/rules_js\n[2]: https://www.aspect.dev\n[3]: https://esbuild.github.io\n[4]: https://github.com/bazelbuild/bazel-central-registry\n[5]: https://issues.gerritcodereview.com/issues/303819949",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "511ca197e5c86c216025f86900cb0f6906989d32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

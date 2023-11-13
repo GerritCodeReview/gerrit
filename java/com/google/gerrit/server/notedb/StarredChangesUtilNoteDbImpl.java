@@ -31,7 +31,8 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.GitUpdateFailureException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.StarredChangesReader;
+import com.google.gerrit.server.StarredChangesWriter;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -62,7 +63,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 @Singleton
-public class StarredChangesUtilNoteDbImpl implements StarredChangesUtil {
+public class StarredChangesUtilNoteDbImpl implements StarredChangesReader, StarredChangesWriter {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String DEFAULT_STAR_LABEL = "star";
 

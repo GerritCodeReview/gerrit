@@ -34,6 +34,24 @@
       "parentUuid": "f7d737a7_3fc77352",
       "revId": "899edb37528c25ff575f3e4e084136e88d744b30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1150807_0c1b6ab3",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1713,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-11-13T12:09:41Z",
+      "side": 1,
+      "message": "\u003e Not sure I understand? Do you mean that the request would still fail at a later point in time?\n\nI understood that, prior to this change, if change finder fails, then the entire request would fail. Now we\u0027re changing this behaviour and ignoring this failure with a warning. I was wondering if that would hide these failures.\n\nAnd yes, can the request fail at a later point due to the missing data?\n\n\u003e Populating the project in the request info is only relevant for tracing, it\u0027s fine to proceed if we couldn\u0027t retrieve it.\n\nOK, thanks for explaining. Then it should be OK to ignore.",
+      "parentUuid": "f9e9525a_2bb22711",
+      "revId": "899edb37528c25ff575f3e4e084136e88d744b30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7d737a7_3fc77352",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1713,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-11-13T11:47:31Z",
+      "side": 1,
+      "message": "This diff is modifying the code with two changes\n  * Adding retries\n  * Ignoring the failure\n  \nShould we only add retries? So that we don\u0027t change behaviour if querying index keeps failing.\n\nAlso it would make the error continue to surface.",
+      "revId": "899edb37528c25ff575f3e4e084136e88d744b30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

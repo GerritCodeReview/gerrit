@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "12094ea0_6622e9f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-13T22:01:54Z",
+      "side": 1,
+      "message": "Is there any implication for the Gerrit admin on backward compatibility with earlier indexes?",
+      "range": {
+        "startLine": 34,
+        "startChar": 15,
+        "endLine": 34,
+        "endChar": 19
+      },
+      "revId": "44041af7df12bbf4e4d9619de27f5edb454e2a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "df9ee8e2_de4392dd",

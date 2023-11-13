@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab7852dc_66306fa2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-13T13:46:24Z",
+      "side": 1,
+      "message": "Consider moving this change to stable-3.9, where we introduced the maximum diff size limits.",
+      "revId": "3a4de1464400dc992b9bbc4885901d35e928b233",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b995d3b0_aee909c3",
+        "filename": "java/com/google/gerrit/server/patch/DiffFileSizeValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-13T13:46:24Z",
+      "side": 1,
+      "message": "Consider collapsing those two checks into a single `if` and putting the `maxFileSize` first, because it is cheaper to execute.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 27
+      },
+      "revId": "3a4de1464400dc992b9bbc4885901d35e928b233",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

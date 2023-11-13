@@ -74,13 +74,25 @@ public class DiffValidatorsTest {
     diffValidators.validate(fileDiff);
   }
 
+  @Test
+  public void binaryFileSizeExceeded_notCheckedForFileSize() throws Exception {
+    diffFileSizeValidator.setMaxFileSize(1000);
+    int largeSize = 100000000;
+    FileDiffOutput fileDiff = createFakeFileDiffOutput(largeSize, PatchType.BINARY);
+    diffValidators.validate(fileDiff);
+  }
+
   private FileDiffOutput createFakeFileDiffOutput(int largeSize) {
+    return createFakeFileDiffOutput(largeSize, PatchType.UNIFIED);
+  }
+
+  private FileDiffOutput createFakeFileDiffOutput(int largeSize, PatchType patchType) {
     return FileDiffOutput.builder()
         .oldCommitId(ObjectId.zeroId())
         .newCommitId(ObjectId.zeroId())
         .comparisonType(ComparisonType.againstRoot())
         .changeType(ChangeType.ADDED)
-        .patchType(Optional.of(PatchType.UNIFIED))
+        .patchType(Optional.of(patchType))
         .oldPath(Optional.empty())
         .newPath(Optional.of("f.txt"))
         .oldMode(Optional.empty())

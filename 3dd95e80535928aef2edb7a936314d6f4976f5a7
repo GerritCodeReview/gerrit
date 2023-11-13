@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9efa6835_d2ef1aa8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-11-13T19:22:54Z",
+      "side": 1,
+      "message": "\u003e The CI images have been upgraded to Debian/Bullseye. RBE is still behind though :-(\n\nI have created already custom RBE docker image for Gerrit project, for Git protocol v2 tests in this CL: [1].\n\nI\u0027ve created issue 310680007 \"Update RBE docker image\", and started to work on it.\n\n[1]: https://gerrit-review.googlesource.com/c/gerrit/+/264178",
+      "parentUuid": "3f25f34e_9e83dabe",
+      "revId": "3dd95e80535928aef2edb7a936314d6f4976f5a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78c1ea80_93e8b920",

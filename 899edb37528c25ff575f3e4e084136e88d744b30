@@ -16,6 +16,24 @@
       "message": "This diff is modifying the code with two changes\n  * Adding retries\n  * Ignoring the failure\n  \nShould we only add retries? So that we don\u0027t change behaviour if querying index keeps failing.\n\nAlso it would make the error continue to surface.",
       "revId": "899edb37528c25ff575f3e4e084136e88d744b30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9e9525a_2bb22711",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1713,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-13T11:58:30Z",
+      "side": 1,
+      "message": "Both changes are intended. If you prefer I can split the change. \n\n\u003e So that we don\u0027t change behaviour if querying index keeps failing.\n\nPopulating the project in the request info is only relevant for tracing, it\u0027s fine to proceed if we couldn\u0027t retrieve it.\n\n\u003e Also it would make the error continue to surface.\n\nNot sure I understand? Do you mean that the request would still fail at a later point in time? This may or may not be depending on whether the request requires querying the index.",
+      "parentUuid": "f7d737a7_3fc77352",
+      "revId": "899edb37528c25ff575f3e4e084136e88d744b30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

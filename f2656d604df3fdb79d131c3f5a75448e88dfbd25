@@ -51,6 +51,29 @@
       "message": "Just a small nit, feel free to merge once it is done.",
       "revId": "f2656d604df3fdb79d131c3f5a75448e88dfbd25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f60db371_f0a8d4ff",
+        "filename": "java/com/google/gerrit/server/patch/DiffFileSizeValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-13T14:42:18Z",
+      "side": 1,
+      "message": "ErrorProne says:\n__Use grouping parenthesis to make the operator precedence explicit__",
+      "range": {
+        "startLine": 47,
+        "startChar": 8,
+        "endLine": 49,
+        "endChar": 65
+      },
+      "revId": "f2656d604df3fdb79d131c3f5a75448e88dfbd25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

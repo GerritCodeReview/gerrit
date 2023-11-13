@@ -39,6 +39,30 @@
       },
       "revId": "3a4de1464400dc992b9bbc4885901d35e928b233",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "563c77d3_28a91a91",
+        "filename": "java/com/google/gerrit/server/patch/DiffFileSizeValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-11-13T13:52:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b995d3b0_aee909c3",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 27
+      },
+      "revId": "3a4de1464400dc992b9bbc4885901d35e928b233",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

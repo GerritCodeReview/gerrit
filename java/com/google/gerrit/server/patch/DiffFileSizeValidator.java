@@ -15,6 +15,7 @@
 package com.google.gerrit.server.patch;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.gerrit.entities.Patch.PatchType;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
@@ -43,8 +44,14 @@ public class DiffFileSizeValidator implements DiffValidator {
 
   @Override
   public void validate(FileDiffOutput fileDiff) throws LargeObjectException {
-    if (maxFileSize <= 0) {
+    if (maxFileSize <= 0
+        || (fileDiff.patchType().isPresent()
+            && fileDiff.patchType().get().equals(PatchType.BINARY))) {
       // Do not apply limits if the config is not set.
+      // Also do not check file size for binary files. For modified binary files, JGit skips the
+      // diff and returns no edits. On the API layer, we only set the DiffInfo.ContentEntry.skip
+      // parameter to the number of lines in the file and the front-end displays a "Difference in
+      // binary files" in the diff view.
       return;
     }
     if (fileDiff.size() > maxFileSize) {

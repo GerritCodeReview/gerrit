@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f25f34e_9e83dabe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1170270
+      },
+      "writtenOn": "2023-11-13T18:14:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c38f138c_b6c55131",
+      "revId": "3dd95e80535928aef2edb7a936314d6f4976f5a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78c1ea80_93e8b920",
@@ -263,6 +281,23 @@
       "side": 1,
       "message": "Before even looking into fixing the RBE, we could exclude PolyGerrit related build from RBE e.g. bazel build :headless.\n\nI will look into it, though.",
       "parentUuid": "60de8d7c_c0b8fbe2",
+      "revId": "3dd95e80535928aef2edb7a936314d6f4976f5a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46a5f46a_27fd346c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1170270
+      },
+      "writtenOn": "2023-11-13T18:14:15Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/390494",
       "revId": "3dd95e80535928aef2edb7a936314d6f4976f5a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

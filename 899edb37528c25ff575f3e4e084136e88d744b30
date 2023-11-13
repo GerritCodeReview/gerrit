@@ -52,6 +52,24 @@
       "parentUuid": "f9e9525a_2bb22711",
       "revId": "899edb37528c25ff575f3e4e084136e88d744b30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "935452f5_2378f430",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1713,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-13T12:14:47Z",
+      "side": 1,
+      "message": "\u003e I was wondering if that would hide these failures.\n\nIt\u0027s possible, but since change queries are done very frequently, we would expect to see the same failure in other places.\n\n\u003e And yes, can the request fail at a later point due to the missing data?\n\nNot due to missing data (the project in RequestInfo is only relevant for tracing). But it may happen that the request does another index query at a later point that fails with the same issue.",
+      "parentUuid": "d1150807_0c1b6ab3",
+      "revId": "899edb37528c25ff575f3e4e084136e88d744b30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

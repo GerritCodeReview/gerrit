@@ -42,11 +42,11 @@ http_archive(
 
 http_archive(
     name = "rbe_jdk11",
-    sha256 = "dbcfd6f26589ef506b91fe03a12dc559ca9c84699e4cf6381150522287f0e6f6",
-    strip_prefix = "rbe_autoconfig-3.1.0",
+    sha256 = "0005932ef456cb47d2282f11232046bfeabd910e0a085eb0e2b6b751abcdeb02",
+    strip_prefix = "rbe_autoconfig-4.0.0",
     urls = [
-        "https://gerrit-bazel.storage.googleapis.com/rbe_autoconfig/v3.1.0.tar.gz",
-        "https://github.com/davido/rbe_autoconfig/archive/v3.1.0.tar.gz",
+        "https://gerrit-bazel.storage.googleapis.com/rbe_autoconfig/v4.0.0.tar.gz",
+        "https://github.com/davido/rbe_autoconfig/releases/download/v4.0.0/v4.0.0.tar.gz",
     ],
 )
 

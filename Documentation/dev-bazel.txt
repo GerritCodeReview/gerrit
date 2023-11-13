@@ -54,7 +54,7 @@ To check the installed version of Java, open a terminal window and run:
 To build Gerrit with Java 11 language level, run:
 
 ```
-  $ bazel build --java_toolchain=//tools:error_prone_warnings_toolchain_java11 :release
+  $ bazel build :release
 ```
 
 [[java-17]]

@@ -96,8 +96,7 @@ def _build_bazel_cmd(*args):
             build = True
         cmd.append(arg)
     if custom_java:
-        cmd.append('--host_java_toolchain=@bazel_tools//tools/jdk:toolchain_java%s' % custom_java)
-        cmd.append('--java_toolchain=@bazel_tools//tools/jdk:toolchain_java%s' % custom_java)
+        cmd.append('--config=java%s' % custom_java)
     return cmd
 
 

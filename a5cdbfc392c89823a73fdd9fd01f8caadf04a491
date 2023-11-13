@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "31172967_ff632545",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-11-13T21:42:59Z",
+      "side": 1,
+      "message": "May be we should better document the required step to the update?\n\n1. Update docker image and push it to GCR\n2. Using the new image generate rbe_configuration, as described on my project that I maintain for this purpose: [1]\n3. Upload new release of rbe_configuration to my project\u0027s release page: [1] and in addition to google storage bucket\n4. Update WORKSPACE file with the new reference to the rbe_configuration.\n\nNote, that at the step 4 new docker image already referenced in the RBE configuration, so that you actually cannot separate RBE usage from the docker image, they are tied together.\n\nIOW, this:\n\n```\nhttp_archive(\n    name \u003d \"rbe_jdk11\",\n    sha256 \u003d \"0005932ef456cb47d2282f11232046bfeabd910e0a085eb0e2b6b751abcdeb02\",\n    strip_prefix \u003d \"rbe_autoconfig-4.0.0\",\n    urls \u003d [\n        \"https://gerrit-bazel.storage.googleapis.com/rbe_autoconfig/v4.0.0.tar.gz\",\n        \"https://github.com/davido/rbe_autoconfig/releases/download/v4.0.0/v4.0.0.tar.gz\",\n    ],\n)\n\n\nwhere the new docker image 20.04 is referenced from.\n\nDoes it make sense? Should I provide more detailed documentation in the corresponding `dev-bazel.txt` section?\n\n[1]: https://github.com/davido/rbe_autoconfig",
+      "parentUuid": "38a535cd_cc1b6d2d",
+      "range": {
+        "startLine": 14,
+        "startChar": 15,
+        "endLine": 14,
+        "endChar": 19
+      },
+      "revId": "a5cdbfc392c89823a73fdd9fd01f8caadf04a491",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "27654124_586b9aad",

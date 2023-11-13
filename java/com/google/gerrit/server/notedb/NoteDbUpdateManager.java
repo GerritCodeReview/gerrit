@@ -84,7 +84,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
     NoteDbUpdateManager create(Project.NameKey projectName);
   }
 
-  private final Provider<PersonIdent> serverIdent;
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
   private final NoteDbMetrics metrics;
@@ -96,6 +95,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private final ListMultimap<String, RobotCommentUpdate> robotCommentUpdates;
   private final ListMultimap<String, NoteDbRewriter> rewriters;
   private final Set<Change.Id> changesToDelete;
+  private final NoteDbUpdateExecutor noteDbUpdateExecutor;
 
   private OpenRepo changeRepo;
   private OpenRepo allUsersRepo;
@@ -114,13 +114,15 @@ public class NoteDbUpdateManager implements AutoCloseable {
       AllUsersName allUsersName,
       NoteDbMetrics metrics,
       AllUsersAsyncUpdate updateAllUsersAsync,
-      @Assisted Project.NameKey projectName) {
+      @Assisted Project.NameKey projectName,
+      NoteDbUpdateExecutor noteDbUpdateExecutor) {
     this.serverIdent = serverIdent;
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
     this.metrics = metrics;
     this.updateAllUsersAsync = updateAllUsersAsync;
     this.projectName = projectName;
+    this.noteDbUpdateExecutor = noteDbUpdateExecutor;
     maxUpdates = cfg.getInt("change", null, "maxUpdates", MAX_UPDATES_DEFAULT);
     maxPatchSets = cfg.getInt("change", null, "maxPatchSets", MAX_PATCH_SETS_DEFAULT);
     changeUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
@@ -369,37 +371,14 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
   private Optional<BatchRefUpdate> execute(
       OpenRepo or, boolean dryrun, @Nullable PushCertificate pushCert) throws IOException {
-    if (or == null || or.cmds.isEmpty()) {
-      return Optional.empty();
-    }
-    if (!dryrun) {
-      or.flush();
-    } else {
-      // OpenRepo buffers objects separately; caller may assume that objects are available in the
-      // inserter it previously passed via setChangeRepo.
-      or.flushToFinalInserter();
-    }
-
-    BatchRefUpdate bru = or.repo.getRefDatabase().newBatchUpdate();
-    bru.setPushCertificate(pushCert);
-    if (refLogMessage != null) {
-      bru.setRefLogMessage(refLogMessage, false);
-    } else {
-      bru.setRefLogMessage(
-          firstNonNull(NoteDbUtil.guessRestApiHandler(), "Update NoteDb refs"), false);
-    }
-    bru.setRefLogIdent(refLogIdent != null ? refLogIdent : serverIdent.get());
-    bru.setAtomic(true);
-    or.cmds.addTo(bru);
-    bru.setAllowNonFastForwards(allowNonFastForwards(or.cmds));
-    for (BatchUpdateListener listener : batchUpdateListeners) {
-      bru = listener.beforeUpdateRefs(bru);
-    }
-
-    if (!dryrun) {
-      RefUpdateUtil.executeChecked(bru, or.rw);
-    }
-    return Optional.of(bru);
+    return noteDbUpdateExecutor.execute(
+        or,
+        dryrun,
+        allowNonFastForwards(),
+        batchUpdateListeners,
+        pushCert,
+        refLogIdent,
+        refLogMessage);
   }
 
   private void addCommands() throws IOException {
@@ -483,17 +462,10 @@ public class NoteDbUpdateManager implements AutoCloseable {
    *
    * <p>2. NoteDb rewriters.
    *
-   * <p>3. If any of the receive commands is of type {@link
-   * org.eclipse.jgit.transport.ReceiveCommand.Type#UPDATE_NONFASTFORWARD} (for example due to a
-   * force push).
-   *
    * <p>Note that we don't need to explicitly allow non fast-forward updates for DELETE commands
    * since JGit forces the update implicitly in this case.
    */
-  private boolean allowNonFastForwards(ChainedReceiveCommands receiveCommands) {
-    return !draftUpdates.isEmpty()
-        || !rewriters.isEmpty()
-        || receiveCommands.getCommands().values().stream()
-            .anyMatch(cmd -> cmd.getType().equals(ReceiveCommand.Type.UPDATE_NONFASTFORWARD));
+  private boolean allowNonFastForwards() {
+    return !draftUpdates.isEmpty() || !rewriters.isEmpty();
   }
 }

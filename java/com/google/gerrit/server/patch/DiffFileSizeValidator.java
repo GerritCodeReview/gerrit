@@ -15,6 +15,7 @@
 package com.google.gerrit.server.patch;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.gerrit.entities.Patch.PatchType;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
@@ -43,8 +44,12 @@ public class DiffFileSizeValidator implements DiffValidator {
 
   @Override
   public void validate(FileDiffOutput fileDiff) throws LargeObjectException {
-    if (maxFileSize <= 0) {
-      // Do not apply limits if the config is not set.
+    if (maxFileSize <= 0
+        || fileDiff.patchType().isPresent()
+            && fileDiff.patchType().get().equals(PatchType.BINARY)) {
+      // Do not check file size for binary files. The front-end omits the diff for binary files
+      // and displays a "Difference in binary files" message.
+      // Also do not apply limits if the config is not set.
       return;
     }
     if (fileDiff.size() > maxFileSize) {

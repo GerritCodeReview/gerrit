@@ -199,7 +199,6 @@ const RoutePattern = {
 
   // Matches /c/<changeNum>/[*][/].
   CHANGE_LEGACY: /^\/c\/(\d+)\/?(.*)$/,
-  CHANGE_NUMBER_LEGACY: /^\/(\d+)\/?/,
 
   // Matches
   // /c/<project>/+/<changeNum>/[<basePatchNum|edit>..][<patchNum|edit>].
@@ -850,12 +849,6 @@ export class GrRouter implements Finalizable, NavigationService {
     );
 
     this.mapRoute(
-      RoutePattern.CHANGE_NUMBER_LEGACY,
-      'handleChangeNumberLegacyRoute',
-      ctx => this.handleChangeNumberLegacyRoute(ctx)
-    );
-
-    this.mapRoute(
       RoutePattern.DIFF_EDIT,
       'handleDiffEditRoute',
       ctx => this.handleDiffEditRoute(ctx),
@@ -1308,14 +1301,6 @@ export class GrRouter implements Finalizable, NavigationService {
     this.redirect(ctx.path.replace(LEGACY_QUERY_SUFFIX_PATTERN, ''));
   }
 
-  handleChangeNumberLegacyRoute(ctx: PageContext) {
-    this.redirect(
-      '/c/' +
-        ctx.params[0] +
-        (ctx.querystring.length > 0 ? `?${ctx.querystring}` : '')
-    );
-  }
-
   handleChangeRoute(ctx: PageContext) {
     // Parameter order is based on the regex group number matched.
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
@@ -1473,18 +1458,10 @@ export class GrRouter implements Finalizable, NavigationService {
       this.show404();
       return;
     }
-    this.restApiService.getFromProjectLookup(changeNum).then(project => {
-      // Show a 404 and terminate if the lookup request failed. Attempting
-      // to redirect after failing to get the project loops infinitely.
-      if (!project) {
-        this.show404();
-        return;
-      }
-      this.redirect(
-        `/c/${project}/+/${changeNum}/${ctx.params[1]}` +
-          (ctx.querystring.length > 0 ? `?${ctx.querystring}` : '')
-      );
-    });
+    this.redirect(
+      `/${changeNum}/${ctx.params[1]}` +
+        (ctx.querystring.length > 0 ? `?${ctx.querystring}` : '')
+    );
   }
 
   handleLegacyLinenum(ctx: PageContext) {

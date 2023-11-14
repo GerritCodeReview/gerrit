@@ -199,7 +199,6 @@ const RoutePattern = {
 
   // Matches /c/<changeNum>/[*][/].
   CHANGE_LEGACY: /^\/c\/(\d+)\/?(.*)$/,
-  CHANGE_NUMBER_LEGACY: /^\/(\d+)\/?/,
 
   // Matches
   // /c/<project>/+/<changeNum>/[<basePatchNum|edit>..][<patchNum|edit>].
@@ -850,12 +849,6 @@ export class GrRouter implements Finalizable, NavigationService {
     );
 
     this.mapRoute(
-      RoutePattern.CHANGE_NUMBER_LEGACY,
-      'handleChangeNumberLegacyRoute',
-      ctx => this.handleChangeNumberLegacyRoute(ctx)
-    );
-
-    this.mapRoute(
       RoutePattern.DIFF_EDIT,
       'handleDiffEditRoute',
       ctx => this.handleDiffEditRoute(ctx),
@@ -1481,7 +1474,7 @@ export class GrRouter implements Finalizable, NavigationService {
         return;
       }
       this.redirect(
-        `/c/${project}/+/${changeNum}/${ctx.params[1]}` +
+        `/${changeNum}/${ctx.params[1]}` +
           (ctx.querystring.length > 0 ? `?${ctx.querystring}` : '')
       );
     });

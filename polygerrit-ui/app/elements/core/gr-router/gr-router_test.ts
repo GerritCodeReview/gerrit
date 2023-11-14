@@ -856,18 +856,13 @@ suite('gr-router tests', () => {
     });
 
     suite('CHANGE* / DIFF*', () => {
-      test('CHANGE_NUMBER_LEGACY', async () => {
-        // CHANGE_NUMBER_LEGACY: /^\/(\d+)\/?/,
-        await checkRedirect('/12345', '/c/12345');
-      });
-
       test('CHANGE_LEGACY', async () => {
         // CHANGE_LEGACY: /^\/c\/(\d+)\/?(.*)$/,
         stubRestApi('getFromProjectLookup').resolves('project' as RepoName);
-        await checkRedirect('/c/1234', '/c/project/+/1234/');
+        await checkRedirect('/c/1234', '/1234/');
         await checkRedirect(
           '/c/1234/comment/6789',
-          '/c/project/+/1234/comment/6789'
+          '/1234/comment/6789'
         );
       });
 

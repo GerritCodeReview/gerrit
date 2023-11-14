@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4951493_7cb1ee01",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-11-14T10:45:58Z",
+      "side": 1,
+      "message": "esbuild is super fast, we use it for local development. rollup is still king afaik for minifying and supporting wide range of browsers. This split setup is very popular, the most popular web build tool authors are looking to rewrite rollup out of javascript to get acceptable perf for local dev.",
+      "parentUuid": "2c84277a_84376cda",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "511ca197e5c86c216025f86900cb0f6906989d32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "8329fd63_52b3276f",

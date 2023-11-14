@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0b72d2dd_1b76efeb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-11-14T10:08:38Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "2c84277a_84376cda",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "511ca197e5c86c216025f86900cb0f6906989d32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8329fd63_52b3276f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -59,6 +83,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ce9a469_7d1ba9c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-11-14T10:08:38Z",
+      "side": 1,
+      "message": "LC label is needed.",
+      "revId": "511ca197e5c86c216025f86900cb0f6906989d32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "48ae2919_f5d81c6a",
@@ -72,6 +113,30 @@
       "writtenOn": "2023-11-14T07:07:47Z",
       "side": 1,
       "message": "18.x NodeJS release line is outdated. 20.x release line is the current one: [1].\n\nThe reason you cannot update to 18.18.0 or even directly to 20.9.0, is because rules_nodejs 5.8 release line stopped to become node version updates.\n\nI fixed that by patching one single file in rules_nodejs distribution: [1], conducted a custom `rules_nodejs` release and uploaded change 392716.\n\n[1]: https://github.com/bazelbuild/rules_nodejs/blob/main/nodejs/private/node_versions.bzl#L2565",
+      "range": {
+        "startLine": 145,
+        "startChar": 20,
+        "endLine": 145,
+        "endChar": 27
+      },
+      "revId": "511ca197e5c86c216025f86900cb0f6906989d32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d954fd22_be3a5ae7",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-11-14T10:08:38Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "48ae2919_f5d81c6a",
       "range": {
         "startLine": 145,
         "startChar": 20,

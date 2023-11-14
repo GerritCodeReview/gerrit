@@ -664,26 +664,16 @@ gcloud alpha remote-build-execution worker-pools create default \
     --disk-size=200
 ```
 
-Due to outdated Git version in official RBE docker images, a custom RBE docker
-image must be used. To build custom docker imager, change to the directory
-`tools/platforms` and build and publish custom RBE docker image.
+Note, that we are using Ubuntu2204 docker image from bazel project:
 
-To build the custom RBE docker image, run:
 
 ```
-docker build -t gcr.io/api-project-164060093628/rbe-ubuntu20-04 .
+docker pull gcr.io/bazel-public/ubuntu2204-java17@sha256:ffe37746a34537d8e73cef5a20ccd3a4e3ec7af3e7410cba87387ba97c0e520f
 ```
 
-To publish the custom RBE docker image, run:
-
-```
-docker push gcr.io/api-project-164060093628/rbe-ubuntu20-04
-[...]
-latest: digest: sha256:0bb7a57107eadf558a73167558f5ca1be2db366783be9562299221ccfc6f2b23 size: 2009
-```
-
-Re-build rbe_autoconfig project conduct a new release and switch to using it
-in `WORKSPACE` file.
+Re-build rbe_autoconfig project, conduct a new release and switch to using it
+in `WORKSPACE` file. For more details see this
+link:https://github.com/davido/rbe_autoconfig[repository,role=external,window=_blank]
 
 Note, to authenticate to the gcr.io registry, the following command must be
 used:

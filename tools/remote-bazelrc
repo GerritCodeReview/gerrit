@@ -30,11 +30,11 @@ build:remote_shared --disk_cache=
 
 # Set several flags related to specifying the platform, toolchain and java
 # properties.
-build:remote_shared --crosstool_top=@rbe_jdk11//cc:toolchain
-build:remote_shared --extra_toolchains=@rbe_jdk11//config:cc-toolchain
-build:remote_shared --extra_execution_platforms=@rbe_jdk11//config:platform
-build:remote_shared --host_platform=@rbe_jdk11//config:platform
-build:remote_shared --platforms=@rbe_jdk11//config:platform
+build:remote_shared --crosstool_top=@ubuntu2204_jdk17//cc:toolchain
+build:remote_shared --extra_toolchains=@ubuntu2204_jdk17//config:cc-toolchain
+build:remote_shared --extra_execution_platforms=@ubuntu2204_jdk17//config:platform
+build:remote_shared --host_platform=@ubuntu2204_jdk17//config:platform
+build:remote_shared --platforms=@ubuntu2204_jdk17//config:platform
 build:remote_shared --action_env=BAZEL_DO_NOT_DETECT_CPP_TOOLCHAIN=1
 
 # Set various strategies so that all actions execute remotely. Mixing remote

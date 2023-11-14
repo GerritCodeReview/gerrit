@@ -33,29 +33,29 @@ load("//tools:deps.bzl", "CAFFEINE_VERS", "java_dependencies")
 
 http_archive(
     name = "platforms",
-    sha256 = "379113459b0feaf6bfbb584a91874c065078aa673222846ac765f86661c27407",
+    sha256 = "3a561c99e7bdbe9173aa653fd579fe849f1d8d67395780ab4770b1f381431d51",
     urls = [
-        "https://mirror.bazel.build/github.com/bazelbuild/platforms/releases/download/0.0.5/platforms-0.0.5.tar.gz",
-        "https://github.com/bazelbuild/platforms/releases/download/0.0.5/platforms-0.0.5.tar.gz",
+        "https://mirror.bazel.build/github.com/bazelbuild/platforms/releases/download/0.0.7/platforms-0.0.7.tar.gz",
+        "https://github.com/bazelbuild/platforms/releases/download/0.0.7/platforms-0.0.7.tar.gz",
     ],
 )
 
 http_archive(
-    name = "rbe_jdk11",
-    sha256 = "dbcfd6f26589ef506b91fe03a12dc559ca9c84699e4cf6381150522287f0e6f6",
-    strip_prefix = "rbe_autoconfig-3.1.0",
+    name = "ubuntu2204_jdk17",
+    sha256 = "8ea82b81c9707e535ff93ef5349d11e55b2a23c62bcc3b0faaec052144aed87d",
+    strip_prefix = "rbe_autoconfig-5.1.0",
     urls = [
-        "https://gerrit-bazel.storage.googleapis.com/rbe_autoconfig/v3.1.0.tar.gz",
-        "https://github.com/davido/rbe_autoconfig/archive/v3.1.0.tar.gz",
+        "https://gerrit-bazel.storage.googleapis.com/rbe_autoconfig/v5.1.0.tar.gz",
+        "https://github.com/davido/rbe_autoconfig/releases/download/v5.1.0/v5.1.0.tar.gz",
     ],
 )
 
 http_archive(
     name = "com_google_protobuf",
-    sha256 = "3bd7828aa5af4b13b99c191e8b1e884ebfa9ad371b0ce264605d347f135d2568",
-    strip_prefix = "protobuf-3.19.4",
+    sha256 = "75be42bd736f4df6d702a0e4e4d30de9ee40eac024c4b845d17ae4cc831fe4ae",
+    strip_prefix = "protobuf-21.7",
     urls = [
-        "https://github.com/protocolbuffers/protobuf/archive/v3.19.4.tar.gz",
+        "https://github.com/protocolbuffers/protobuf/archive/v21.7.tar.gz",
     ],
 )
 
@@ -64,9 +64,17 @@ load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
 protobuf_deps()
 
 http_archive(
+    name = "rules_nodejs",
+    patch_args = ["-p1"],
+    patches = ["//tools:rules_nodejs-5.8.4-node_versions.bzl.patch"],
+    sha256 = "8fc8e300cb67b89ceebd5b8ba6896ff273c84f6099fc88d23f24e7102319d8fd",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/5.8.4/rules_nodejs-core-5.8.4.tar.gz"],
+)
+
+http_archive(
     name = "build_bazel_rules_nodejs",
-    sha256 = "0fad45a9bda7dc1990c47b002fd64f55041ea751fafc00cd34efb96107675778",
-    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/5.5.0/rules_nodejs-5.5.0.tar.gz"],
+    sha256 = "709cc0dcb51cf9028dd57c268066e5bc8f03a119ded410a13b5c3925d6e43c48",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/5.8.4/rules_nodejs-5.8.4.tar.gz"],
 )
 
 load("@build_bazel_rules_nodejs//:repositories.bzl", "build_bazel_rules_nodejs_dependencies")
@@ -103,6 +111,12 @@ register_toolchains("//tools:error_prone_warnings_toolchain_java11_definition")
 
 register_toolchains("//tools:error_prone_warnings_toolchain_java17_definition")
 
+# Java-Prettify external repository consumed from git submodule
+local_repository(
+    name = "java-prettify",
+    path = "modules/java-prettify",
+)
+
 # JGit external repository consumed from git submodule
 local_repository(
     name = "jgit",
@@ -136,8 +150,8 @@ declare_nongoogle_deps()
 load("@build_bazel_rules_nodejs//:index.bzl", "node_repositories", "yarn_install")
 
 node_repositories(
-    node_version = "16.15.0",
-    yarn_version = "1.22.18",
+    node_version = "20.9.0",
+    yarn_version = "1.22.19",
 )
 
 yarn_install(

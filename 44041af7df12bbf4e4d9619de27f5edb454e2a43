@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "34aab461_0a182673",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-11-14T07:26:25Z",
+      "side": 1,
+      "message": "There should no be any implication for the Gerrit admins on backward compatibility, when migrating from the older Gerrit releases, that used older Lucene versions.\n\nAccording to the JDK ServiceLoader SPI specification: [1] the META-INF/services/* must be detected and loaded across different JARs files.\n\nGiven that both JARs: lucene-core and lucene-backward-codecs included (unchanged) in `release.war`, the loading of codecs classes should just work. In fact I tested exactly this use case E2E (Upgrade from stable-3.9 to Gerrit@HEAD, with this change included).\n\nNote: that this change is requirement for JDK 21 to work with Gerrit@HEAD.\n\nThe reason is that we\u0027ve upgraded Lucene to 9.x, and started from 9.x release line, Lucene is releasing Multi-Release-JAR fil format, that we corrupted during merging operation (\"Mutli-Release: true\" was lost during the merge) as explained in the commit message).\n\n[1]: https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/ServiceLoader.html",
+      "parentUuid": "12094ea0_6622e9f9",
+      "range": {
+        "startLine": 34,
+        "startChar": 15,
+        "endLine": 34,
+        "endChar": 19
+      },
+      "revId": "44041af7df12bbf4e4d9619de27f5edb454e2a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "df9ee8e2_de4392dd",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3

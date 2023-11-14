@@ -16,6 +16,24 @@
       "message": "Why is the Verified and Style submit requirements not needed on this change?\n\nAlso I see commit-queue in trigger votes which I\u0027ve never seen before.",
       "revId": "f7529cb19dfc317c46393be6ca3ecbab3cde421f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "977946cf_1828ad76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-11-14T11:58:38Z",
+      "side": 1,
+      "message": "I think it\u0027s because the applicability expression of \u0027verified\u0027 and \u0027code-style\u0027 which skips if these SRs if the files in diff are all in the polygerrit-ui directory. I\u0027d suspect the diff here is made against the auto-merge, which is an empty list in this change.\n\n[1] https://gerrit.googlesource.com/gerrit/+/1779fc589675c27fc74a98cddfa784eb1583162c/project.config#116",
+      "parentUuid": "756e3fc2_4237f070",
+      "revId": "f7529cb19dfc317c46393be6ca3ecbab3cde421f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -54,6 +54,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -505,28 +506,30 @@ public class AccountManager {
    */
   public AuthResult updateLink(Account.Id to, AuthRequest who)
       throws AccountException, IOException, ConfigInvalidException {
+    Optional<ExternalId> optionalExtId = externalIds.get(who.getExternalIdKey());
+    if (optionalExtId.filter(extId -> !extId.accountId().equals(to)).isPresent()) {
+      throw new AccountException(
+          "Identity '" + optionalExtId.get().key().get() + "' in use by another account");
+    }
+
     accountsUpdateProvider
         .get()
         .update(
-            "Delete External IDs on Update Link",
+            "Update External IDs on Update Link",
             to,
             (a, u) -> {
               Set<ExternalId> filteredExtIdsByScheme =
                   a.externalIds().stream()
                       .filter(e -> e.key().isScheme(who.getExternalIdKey().scheme()))
                       .collect(toImmutableSet());
-              if (filteredExtIdsByScheme.isEmpty()) {
-                return;
-              }
+              ExternalId newExtId =
+                  externalIdFactory.createWithEmail(
+                      who.getExternalIdKey(), to, who.getEmailAddress());
 
-              if (filteredExtIdsByScheme.size() > 1
-                  || filteredExtIdsByScheme.stream()
-                      .noneMatch(e -> e.key().equals(who.getExternalIdKey()))) {
-                u.deleteExternalIds(filteredExtIdsByScheme);
-              }
+              u.replaceExternalIds(filteredExtIdsByScheme, Collections.singletonList(newExtId));
             });
 
-    return link(to, who);
+    return new AuthResult(to, who.getExternalIdKey(), false);
   }
 
   /**

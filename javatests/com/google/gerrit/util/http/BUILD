@@ -8,6 +8,7 @@ junit_tests(
         "//javatests/com/google/gerrit/util/http/testutil",
         "//lib:junit",
         "//lib:servlet-api-without-neverlink",
+        "//lib/mockito",
         "//lib/truth",
     ],
 )

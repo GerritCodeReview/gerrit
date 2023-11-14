@@ -15,6 +15,9 @@ To learn more, see the link:intro-user.html[Gerrit User's Guide].
 [[create-change]]
 == Creating a Change
 
+[[create_in_web_interface]]
+=== In the web interface
+
 To create a change in the Gerrit web interface:
 
 . From the link:http://gerrit-review.googlesource.com[Gerrit Code Review,role=external,window=_blank]
@@ -64,6 +67,22 @@ change.
 
 . Add the files you want to be reviewed.
 
+[[create_from_url]]
+=== From URL
+
+Gerrit supports creating a new change and opening a specific file for edit
+in that change from an "Edit URL":
+```
+^\/admin\/repos\/edit\/repo\/(.+)\/branch\/(.+)\/file\/(.+)$
+```
+This enables other tools to provide a direct link to edit their configuration
+files in Gerrit.
+
+Ex:
+```
+https://gerrit.mycompany.com/admin/repos/edit/repo/my/repo/branch/refs/heads/master/file/Jenkinsfile # Jenkins build file
+https://gerrit.mycompany.com/admin/repos/edit/repo/my/repo/branch/refs/heads/master/file/catalog-info.yaml # Backstage catalog-info
+```
 
 [[add-files]]
 == Adding a File to a Change

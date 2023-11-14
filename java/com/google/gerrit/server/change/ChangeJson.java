@@ -106,7 +106,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
-import com.google.gerrit.server.logging.CallerFinder;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -768,26 +767,6 @@ public class ChangeJson {
           break;
         }
       }
-      if (limitToPsId.isEmpty() && out.currentRevision == null) {
-        logger.atSevere().log(
-            "current revision for change %s not found"
-                + " (current patch set ID = %s, patch sets = %s, meta revision = %s,"
-                + " options = %s, caller = %s)",
-            cd.getId(),
-            cd.change().currentPatchSetId(),
-            src.entrySet().stream()
-                .collect(toImmutableMap(Map.Entry::getKey, e -> e.getValue().commitId().name())),
-            getMetaRevisionIfAvailable(cd).map(ObjectId::name).orElse("n/a"),
-            options,
-            CallerFinder.builder().addTarget(ChangeJson.class).build().findCallerLazy());
-        PatchSet.Id currentPatchSetFromChangeData =
-            Optional.ofNullable(cd.currentPatchSet()).map(PatchSet::id).orElse(null);
-        if (!cd.change().currentPatchSetId().equals(currentPatchSetFromChangeData)) {
-          logger.atSevere().log(
-              "mismatch between current patch set in Change (%s) and ChangeData (%s)",
-              cd.change().currentPatchSetId(), currentPatchSetFromChangeData);
-        }
-      }
     }
 
     if (has(CURRENT_ACTIONS) || has(CHANGE_ACTIONS)) {
@@ -803,14 +782,6 @@ public class ChangeJson {
     }
 
     return out;
-  }
-
-  private Optional<ObjectId> getMetaRevisionIfAvailable(ChangeData cd) {
-    try {
-      return Optional.of(cd.metaRevisionOrThrow());
-    } catch (Exception e) {
-      return Optional.empty();
-    }
   }
 
   private Map<ReviewerState, Collection<AccountInfo>> reviewerMap(

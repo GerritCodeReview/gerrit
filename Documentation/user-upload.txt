@@ -1,13 +1,15 @@
 :linkattrs:
 = Gerrit Code Review - Uploading Changes
 
-Gerrit supports three methods of uploading changes:
+Gerrit supports five methods of uploading changes:
 
 * Use `repo upload`, to create changes for review
 * Use `git push`, to create changes for review
+* link:user-inline-edit.html#create_in_web_interface[Create a change for review from the web interface]
+* link:user-inline-edit.html#create_from_url[Create a change for review by using an "Edit URL"]
 * Use `git push`, and bypass code review
 
-All three methods rely on authentication, which must first be configured
+All five methods rely on authentication, which must first be configured
 by the uploading user.
 
 Gerrit supports two protocols for uploading changes; SSH and HTTP/HTTPS. These

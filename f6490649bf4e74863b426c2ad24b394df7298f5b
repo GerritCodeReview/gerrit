@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb66bd53_3626fd9b",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-11-14T08:19:45Z",
+      "side": 1,
+      "message": "Can\u0027t we patch it in place, to avoid messing around with yet another fork?",
+      "range": {
+        "startLine": 69,
+        "startChar": 12,
+        "endLine": 69,
+        "endChar": 151
+      },
+      "revId": "f6490649bf4e74863b426c2ad24b394df7298f5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

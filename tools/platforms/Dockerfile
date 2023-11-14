@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM gcr.io/bazel-public/ubuntu2004-java11@sha256:833b20afd7b624693160c8e9f8aafaee46657d29d32e61012256aa3d045d8662
+FROM gcr.io/bazel-public/ubuntu2204-java17@sha256:c94269bb0cd79b47700fb7ce86f33ea9cfa0ceee64bb0f12d26345b6bed4877a
 
 # Install openssh-client (ssh-keygen utility)
 RUN apt-get -y update && \

@@ -146,6 +146,12 @@ public abstract class QueryProcessor<T> {
     return this;
   }
 
+  /** Convenience method for API backward compatibility. */
+  @CanIgnoreReturnValue
+  public QueryProcessor<T> setUserProvidedLimit(int n) {
+    return setUserProvidedLimit(n, true);
+  }
+
   /**
    * Set an end-user-provided limit on the number of results returned.
    *

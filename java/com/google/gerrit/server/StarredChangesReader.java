@@ -14,13 +14,12 @@
 
 package com.google.gerrit.server;
 
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import java.util.List;
 import java.util.Set;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
 public interface StarredChangesReader {
@@ -32,7 +31,7 @@ public interface StarredChangesReader {
    */
   Set<Change.Id> areStarred(Repository allUsersRepo, List<Change.Id> changeIds, Account.Id caller);
 
-  ImmutableMap<Account.Id, Ref> byChange(Change.Id changeId);
+  ImmutableList<Account.Id> byChange(Change.Id changeId);
 
   ImmutableSet<Change.Id> byAccountId(Account.Id accountId);
 

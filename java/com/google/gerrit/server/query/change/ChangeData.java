@@ -426,7 +426,7 @@ public class ChangeData {
 
   private ImmutableList<Account.Id> stars;
   private Account.Id starredBy;
-  private ImmutableMap<Account.Id, Ref> starRefs;
+  private ImmutableList<Account.Id> starAccounts;
   private ReviewerSet reviewers;
   private ReviewerByEmailSet reviewersByEmail;
   private ReviewerSet pendingReviewers;
@@ -1399,7 +1399,7 @@ public class ChangeData {
       if (!lazyload()) {
         return ImmutableList.of();
       }
-      return starRefs().keySet().asList();
+      return starAccounts();
     }
     return stars;
   }
@@ -1408,14 +1408,14 @@ public class ChangeData {
     this.stars = ImmutableList.copyOf(accountIds);
   }
 
-  private ImmutableMap<Account.Id, Ref> starRefs() {
-    if (starRefs == null) {
+  private ImmutableList<Account.Id> starAccounts() {
+    if (starAccounts == null) {
       if (!lazyload()) {
-        return ImmutableMap.of();
+        return ImmutableList.of();
       }
-      starRefs = requireNonNull(starredChangesReader).byChange(legacyId);
+      starAccounts = requireNonNull(starredChangesReader).byChange(legacyId);
     }
-    return starRefs;
+    return starAccounts;
   }
 
   public boolean isStarred(Account.Id accountId) {

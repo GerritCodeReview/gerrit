@@ -19,7 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
@@ -177,13 +177,13 @@ public class StarredChangesUtilNoteDbImpl implements StarredChangesReader, Starr
   }
 
   @Override
-  public ImmutableMap<Account.Id, Ref> byChange(Change.Id changeId) {
+  public ImmutableList<Account.Id> byChange(Change.Id changeId) {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      ImmutableMap.Builder<Account.Id, Ref> builder = ImmutableMap.builder();
+      ImmutableList.Builder<Account.Id> builder = ImmutableList.builder();
       for (Account.Id accountId : getStars(repo, changeId)) {
         Optional<Ref> starRef = getStarRef(repo, RefNames.refsStarredChanges(changeId, accountId));
         if (starRef.isPresent()) {
-          builder.put(accountId, starRef.get());
+          builder.add(accountId);
         }
       }
       return builder.build();

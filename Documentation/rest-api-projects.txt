@@ -551,6 +551,25 @@ describes the created project.
   }
 ----
 
+[[delete-project]]
+=== Delete Project
+--
+'DELETE /projects/link:#project-name[\{project-name\}]'
+--
+
+Deletes a project.
+
+.Request
+----
+  DELETE /projects/MyProject HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+
 [[get-project-description]]
 === Get Project Description
 --

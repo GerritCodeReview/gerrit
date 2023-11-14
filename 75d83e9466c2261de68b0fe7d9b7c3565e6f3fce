@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ce5574c_b0bbc3ae",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-11-14T12:21:50Z",
+      "side": 1,
+      "message": "Can you provide more context? My understanding is, that we don\u0027t have delete project feature in gerrit core, but only provide this feature with delete-project plugin.\n\n```\n  $ grep delete ProjectRestApiModule.java\n    delete(BRANCH_KIND).to(DeleteBranch.class);\n    post(PROJECT_KIND, \"branches:delete\").to(DeleteBranches.class);\n    delete(DASHBOARD_KIND).to(DeleteDashboard.class);\n    delete(PROJECT_KIND, \"description\").to(PutDescription.class);\n    delete(LABEL_KIND).to(DeleteLabel.class);\n    delete(SUBMIT_REQUIREMENT_KIND).to(DeleteSubmitRequirement.class);\n    delete(TAG_KIND).to(DeleteTag.class);\n    post(PROJECT_KIND, \"tags:delete\").to(DeleteTags.class);\n```\n\nI also don\u0027t see an endpoint for it.\n\nIn delete-project plugin this endpoint is documented: [1].\n\n[1]: https://gerrit.googlesource.com/plugins/delete-project/+/refs/heads/master/src/main/resources/Documentation/rest-api-projects.md",
+      "range": {
+        "startLine": 557,
+        "startChar": 1,
+        "endLine": 557,
+        "endChar": 54
+      },
+      "revId": "75d83e9466c2261de68b0fe7d9b7c3565e6f3fce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

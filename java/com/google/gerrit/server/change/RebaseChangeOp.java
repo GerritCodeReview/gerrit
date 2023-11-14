@@ -114,6 +114,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
   private boolean matchAuthorToCommitterDate = false;
   private ImmutableListMultimap<String, String> validationOptions = ImmutableListMultimap.of();
   private String mergeStrategy;
+  private boolean verifyNeedsRebase = true;
 
   private CodeReviewCommit rebasedCommit;
   private PatchSet.Id rebasedPatchSetId;
@@ -272,6 +273,11 @@ public class RebaseChangeOp implements BatchUpdateOp {
 
   public RebaseChangeOp setMergeStrategy(String strategy) {
     this.mergeStrategy = strategy;
+    return this;
+  }
+
+  public RebaseChangeOp setVerifyNeedsRebase(boolean verifyNeedsRebase) {
+    this.verifyNeedsRebase = verifyNeedsRebase;
     return this;
   }
 
@@ -441,7 +447,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
       throws ResourceConflictException, IOException {
     RevCommit parentCommit = original.getParent(0);
 
-    if (base.equals(parentCommit)) {
+    if (verifyNeedsRebase && base.equals(parentCommit)) {
       throw new ResourceConflictException("Change is already up to date.");
     }
 

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81c94a7f_4c037737",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-14T13:39:34Z",
+      "side": 1,
+      "message": "Please also document the metric fields.",
+      "revId": "961969e7b1491e311e62bd5a28087df2556f21b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37bd607f_bd4f000e",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-14T13:39:34Z",
+      "side": 1,
+      "message": "Maybe also add a description for the fields.",
+      "range": {
+        "startLine": 468,
+        "startChar": 14,
+        "endLine": 469,
+        "endChar": 72
+      },
+      "revId": "961969e7b1491e311e62bd5a28087df2556f21b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

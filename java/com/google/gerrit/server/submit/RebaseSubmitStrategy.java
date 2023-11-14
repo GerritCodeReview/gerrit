@@ -17,7 +17,6 @@ package com.google.gerrit.server.submit;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.submit.CommitMergeStatus.EMPTY_COMMIT;
-import static com.google.gerrit.server.submit.CommitMergeStatus.SKIPPED_IDENTICAL_TREE;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
@@ -41,11 +40,8 @@ import com.google.gerrit.server.update.RepoContext;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
 
 /** This strategy covers RebaseAlways and RebaseIfNecessary ones. */
 public class RebaseSubmitStrategy extends SubmitStrategy {
@@ -145,90 +141,61 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
     public void updateRepoImpl(RepoContext ctx)
         throws InvalidChangeOperationException, RestApiException, IOException,
             PermissionBackendException {
-      if (args.mergeUtil.canFastForward(
-          args.mergeSorter, args.mergeTip.getCurrentTip(), args.rw, toMerge)) {
-        if (!rebaseAlways) {
-          if (args.project.is(BooleanProjectConfig.REJECT_EMPTY_COMMIT)
-              && toMerge.getTree().equals(toMerge.getParent(0).getTree())) {
-            toMerge.setStatusCode(EMPTY_COMMIT);
-            return;
-          }
+      if (!rebaseAlways
+          && args.mergeUtil.canFastForward(
+              args.mergeSorter, args.mergeTip.getCurrentTip(), args.rw, toMerge)) {
+        if (args.project.is(BooleanProjectConfig.REJECT_EMPTY_COMMIT)
+            && toMerge.getTree().equals(toMerge.getParent(0).getTree())) {
+          toMerge.setStatusCode(EMPTY_COMMIT);
+          return;
+        }
 
-          args.mergeTip.moveTipTo(amendGitlink(toMerge), toMerge);
-          toMerge.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
-          acceptMergeTip(args.mergeTip);
-          return;
-        }
-        // RebaseAlways means we modify commit message.
-        args.rw.parseBody(toMerge);
-        newPatchSetId =
-            ChangeUtil.nextPatchSetIdFromChangeRefs(
-                ctx.getRepoView().getRefs(getId().toRefPrefix()).keySet(),
-                toMerge.change().currentPatchSetId());
-        RevCommit mergeTip = args.mergeTip.getCurrentTip();
-        args.rw.parseBody(mergeTip);
-        String cherryPickCmtMsg = args.mergeUtil.createCommitMessageOnSubmit(toMerge, mergeTip);
-        PersonIdent committer =
-            Optional.ofNullable(toMerge.getCommitterIdent())
-                .map(ident -> ctx.newCommitterIdent(ident.getEmailAddress(), args.caller))
-                .orElseGet(() -> ctx.newCommitterIdent(args.caller));
-        try {
-          newCommit =
-              args.mergeUtil.createCherryPickFromCommit(
-                  ctx.getInserter(),
-                  ctx.getRepoView().getConfig(),
-                  args.mergeTip.getCurrentTip(),
-                  toMerge,
-                  committer,
-                  cherryPickCmtMsg,
-                  args.rw,
-                  0,
-                  true,
-                  false);
-        } catch (MergeConflictException mce) {
-          // Unlike in Cherry-pick case, this should never happen.
-          toMerge.setStatusCode(CommitMergeStatus.REBASE_MERGE_CONFLICT);
-          throw new IllegalStateException(
-              "MergeConflictException on message edit must not happen", mce);
-        } catch (MergeIdenticalTreeException mie) {
-          // this should not happen
-          toMerge.setStatusCode(SKIPPED_IDENTICAL_TREE);
-          return;
-        }
-        ctx.addRefUpdate(ObjectId.zeroId(), newCommit, newPatchSetId.toRefName());
-      } else {
-        // Stale read of patch set is ok; see comments in RebaseChangeOp.
-        PatchSet origPs = args.psUtil.get(toMerge.getNotes(), toMerge.getPatchsetId());
-        rebaseOp =
-            args.rebaseFactory
-                .create(toMerge.notes(), origPs, args.mergeTip.getCurrentTip())
-                .setFireRevisionCreated(false)
-                // Bypass approval copier since SubmitStrategyOp copy all approvals
-                // later anyway.
-                .setValidate(false)
-                .setCheckAddPatchSetPermission(false)
-                // RebaseAlways should set always modify commit message like
-                // Cherry-Pick strategy.
-                .setDetailedCommitMessage(rebaseAlways)
-                // Do not post message after inserting new patchset because there
-                // will be one about change being merged already.
-                .setPostMessage(false)
-                .setSendEmail(false)
-                .setMatchAuthorToCommitterDate(
-                    args.project.is(BooleanProjectConfig.MATCH_AUTHOR_TO_COMMITTER_DATE))
-                // The votes are automatically copied and they don't count as copied votes. See
-                // method's javadoc.
-                .setStoreCopiedVotes(/* storeCopiedVotes = */ false);
-        try {
-          rebaseOp.updateRepo(ctx);
-        } catch (MergeConflictException | NoSuchChangeException e) {
-          toMerge.setStatusCode(CommitMergeStatus.REBASE_MERGE_CONFLICT);
-          throw new IntegrationConflictException(
-              "Cannot rebase " + toMerge.name() + ": " + e.getMessage(), e);
-        }
-        newCommit = args.rw.parseCommit(rebaseOp.getRebasedCommit());
-        newPatchSetId = rebaseOp.getPatchSetId();
+        args.mergeTip.moveTipTo(amendGitlink(toMerge), toMerge);
+        toMerge.setStatusCode(CommitMergeStatus.CLEAN_MERGE);
+        acceptMergeTip(args.mergeTip);
+        return;
       }
+
+      args.rw.parseBody(toMerge);
+      newPatchSetId =
+          ChangeUtil.nextPatchSetIdFromChangeRefs(
+              ctx.getRepoView().getRefs(getId().toRefPrefix()).keySet(),
+              toMerge.change().currentPatchSetId());
+      // Stale read of patch set is ok; see comments in RebaseChangeOp.
+      PatchSet origPs = args.psUtil.get(toMerge.getNotes(), toMerge.getPatchsetId());
+      rebaseOp =
+          args.rebaseFactory
+              .create(toMerge.notes(), origPs, args.mergeTip.getCurrentTip())
+              .setFireRevisionCreated(false)
+              // Bypass approval copier since SubmitStrategyOp copy all approvals
+              // later anyway.
+              .setValidate(false)
+              .setCheckAddPatchSetPermission(false)
+              // RebaseAlways should set always modify commit message like
+              // Cherry-Pick strategy.
+              .setDetailedCommitMessage(rebaseAlways)
+              // Do not post message after inserting new patchset because there
+              // will be one about change being merged already.
+              .setPostMessage(false)
+              .setSendEmail(false)
+              .setMatchAuthorToCommitterDate(
+                  args.project.is(BooleanProjectConfig.MATCH_AUTHOR_TO_COMMITTER_DATE))
+              // The votes are automatically copied and they don't count as copied votes. See
+              // method's javadoc.
+              .setStoreCopiedVotes(/* storeCopiedVotes = */ false)
+              .setVerifyNeedsRebase(/* verifyNeedsRebase= */ !rebaseAlways);
+
+      try {
+        rebaseOp.updateRepo(ctx);
+      } catch (MergeConflictException | NoSuchChangeException e) {
+        toMerge.setStatusCode(CommitMergeStatus.REBASE_MERGE_CONFLICT);
+        throw new IntegrationConflictException(
+            "Cannot rebase " + toMerge.name() + ": " + e.getMessage(), e);
+      }
+
+      newCommit = args.rw.parseCommit(rebaseOp.getRebasedCommit());
+      newPatchSetId = rebaseOp.getPatchSetId();
+
       if (args.project.is(BooleanProjectConfig.REJECT_EMPTY_COMMIT)
           && newCommit.getTree().equals(newCommit.getParent(0).getTree())) {
         toMerge.setStatusCode(EMPTY_COMMIT);

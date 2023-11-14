@@ -19,7 +19,7 @@ import {when} from 'lit/directives/when.js';
 import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
 import {resolve} from '../../../models/dependency';
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';
-import {NumericChangeId} from '../../../api/rest-api';
+import {CommentRange, NumericChangeId} from '../../../api/rest-api';
 import {changeModelToken} from '../../../models/change/change-model';
 import {subscribe} from '../../lit/subscription-controller';
 import {FilePreview} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
@@ -39,12 +39,16 @@ export type AddGeneratedSuggestionEvent =
   CustomEvent<OpenUserSuggestionPreviewEventDetail>;
 export interface OpenUserSuggestionPreviewEventDetail {
   code: string;
+  newRange?: CommentRange;
 }
 
 @customElement('gr-suggestion-diff-preview')
 export class GrSuggestionDiffPreview extends LitElement {
   @property({type: String})
   suggestion?: string;
+
+  @property({type: Object})
+  newRange?: CommentRange;
 
   @property({type: Boolean})
   showAddSuggestionButton = false;
@@ -176,7 +180,8 @@ export class GrSuggestionDiffPreview extends LitElement {
               class="action add-suggestion"
               @click=${this.handleAddGeneratedSuggestion}
             >
-              Add suggestion to comment
+              ${when(this.newRange, () => html`Change Range &amp; `)} Add
+              suggestion to comment
             </gr-button>
           </div>`
       )}
@@ -248,7 +253,10 @@ export class GrSuggestionDiffPreview extends LitElement {
     this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_ADDED, {
       uuid: this.uuid,
     });
-    fire(this, 'add-generated-suggestion', {code: this.suggestion});
+    fire(this, 'add-generated-suggestion', {
+      code: this.suggestion,
+      newRange: this.newRange,
+    });
   }
 }
 

@@ -76,6 +76,7 @@ import {
 import {formStyles} from '../../../styles/form-styles';
 import {Interaction} from '../../../constants/reporting';
 import {Suggestion} from '../../../api/suggestions';
+import {CommentRange} from '../../../api/rest-api';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
@@ -301,7 +302,7 @@ export class GrComment extends LitElement {
       this.handleShowFix(e.detail.code);
     });
     this.addEventListener('add-generated-suggestion', e => {
-      this.handleAddGeneratedSuggestion(e.detail.code);
+      this.handleAddGeneratedSuggestion(e.detail.code, e.detail.newRange);
     });
     this.messagePlaceholder = 'Mention others with @';
     subscribe(
@@ -939,16 +940,17 @@ export class GrComment extends LitElement {
       return nothing;
     // TODO(milutin): This is temporary warning, will be removed, once we are
     // able to change range of a comment
-    if (this.generatedSuggestion.newRange) {
-      const range = this.generatedSuggestion.newRange;
-      return html`<div class="info">
-        <gr-icon icon="info" filled></gr-icon>
-        There is a suggestion in range (${range.start_line}, ${range.end_line})
-      </div>`;
-    }
+    // if (this.generatedSuggestion.newRange) {
+    //   const range = this.generatedSuggestion.newRange;
+    //   return html`<div class="info">
+    //     <gr-icon icon="info" filled></gr-icon>
+    //     There is a suggestion in range (${range.start_line}, ${range.end_line})
+    //   </div>`;
+    // }
     return html`<gr-suggestion-diff-preview
       .showAddSuggestionButton=${true}
       .suggestion=${this.generatedSuggestion?.replacement}
+      .newRange=${this.generatedSuggestion.newRange}
       .uuid=${this.generatedReplacementId}
     ></gr-suggestion-diff-preview>`;
   }
@@ -985,11 +987,16 @@ export class GrComment extends LitElement {
     `;
   }
 
-  private handleAddGeneratedSuggestion(code: string) {
+  private handleAddGeneratedSuggestion(code: string, newRange?: CommentRange) {
     const addNewLine = this.messageText.length !== 0;
     this.messageText += `${
       addNewLine ? '\n' : ''
     }${USER_SUGGESTION_START_PATTERN}${code}${'\n```'}`;
+    if (this.comment && newRange) {
+      this.comment.range = newRange;
+      this.comment.line = newRange.end_line;
+      this.save();
+    }
   }
 
   private async generateSuggestEdit() {

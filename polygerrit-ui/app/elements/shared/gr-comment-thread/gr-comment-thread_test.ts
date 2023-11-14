@@ -278,27 +278,32 @@ suite('gr-comment-thread tests', () => {
     element.showCommentContext = true;
     element.thread = createThread(commentWithContext);
     await element.updateComplete;
-    expect(queryAndAssert(element, '.diff-container')).dom.to.equal(/* HTML */ `
-      <div class="diff-container">
-        <gr-diff
-          class="disable-context-control-buttons hide-line-length-indicator no-left"
-          id="diff"
-          style="--line-limit-marker:100ch; --content-width:none; --diff-max-width:none; --font-size:12px;"
-        >
-        </gr-diff>
-        <div class="view-diff-container">
-          <a href="">
-            <gr-button
-              aria-disabled="false"
-              class="view-diff-button"
-              link=""
-              role="button"
-              tabindex="0"
-            >
-              View Diff
-            </gr-button>
-          </a>
-        </div>
+
+    const gr_diff = queryAndAssert(element, '.diff-container gr-diff');
+    expect(gr_diff.id).to.equal('diff');
+    const gr_diff_classes = gr_diff.classList.value;
+    expect(gr_diff_classes).to.include('disable-context-control-buttons');
+    expect(gr_diff_classes).to.include('hide-line-length-indicator');
+    expect(gr_diff_classes).to.include('no-left');
+    // @ts-ignore
+    expect(gr_diff.getAttribute('style').replace(/\s+/g, '')).to.equal(
+      '--line-limit-marker:100ch;--content-width:none;--diff-max-width:none;--font-size:12px;'
+    );
+
+    expect(queryAndAssert(element, '.diff-container .view-diff-container')).dom
+      .to.equal(/* HTML */ `
+      <div class="view-diff-container">
+        <a href="">
+          <gr-button
+            aria-disabled="false"
+            class="view-diff-button"
+            link=""
+            role="button"
+            tabindex="0"
+          >
+            View Diff
+          </gr-button>
+        </a>
       </div>
     `);
   });

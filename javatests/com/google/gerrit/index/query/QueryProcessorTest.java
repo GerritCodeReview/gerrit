@@ -117,7 +117,7 @@ public class QueryProcessorTest {
   @Test
   public void getEffectiveLimit_LimitField() throws QueryParseException {
     limitField = "limit";
-    assertThat(createProcessor().getEffectiveLimit(new LimitPredicate(limitField, 314)))
+    assertThat(createProcessor().getEffectiveLimit(new LimitPredicate<>(limitField, 314)))
         .isEqualTo(314);
   }
 
@@ -131,7 +131,7 @@ public class QueryProcessorTest {
       userProvidedLimit = limits[0];
       userQueryLimit = limits[1];
       maxLimit = limits[2];
-      p = new LimitPredicate(limitField, limits[3]);
+      p = new LimitPredicate<>(limitField, limits[3]);
 
       // "rotate" the array of limits
       int l = limits[0];

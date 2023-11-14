@@ -158,6 +158,7 @@ public abstract class QueryProcessor<T> {
    *     this should be false. For API endpoints this should be true.
    * @return this.
    */
+  @CanIgnoreReturnValue
   public QueryProcessor<T> setUserProvidedLimit(int n, boolean applyDefaultLimit) {
     userProvidedLimit = n;
     if (applyDefaultLimit && userProvidedLimit <= 0 && indexConfig.defaultLimit() > 0) {
@@ -166,6 +167,7 @@ public abstract class QueryProcessor<T> {
     return this;
   }
 
+  @CanIgnoreReturnValue
   public QueryProcessor<T> setNoLimit(boolean isNoLimit) {
     this.isNoLimit = isNoLimit;
     return this;
@@ -177,6 +179,7 @@ public abstract class QueryProcessor<T> {
     return this;
   }
 
+  @CanIgnoreReturnValue
   public QueryProcessor<T> setRequestedFields(Set<String> fields) {
     requestedFields = fields;
     return this;

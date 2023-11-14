@@ -64,6 +64,12 @@ load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
 protobuf_deps()
 
 http_archive(
+    name = "rules_nodejs",
+    sha256 = "7c126478940bc90c378a38fd53405334f846293e5b709996d1fdfef41e7adb1d",
+    urls = ["https://github.com/davido/rules_nodejs/releases/download/5.8.4_patched_node_versions/rules_nodejs-core-5.8.4_patched_node_versions.tar.gz"],
+)
+
+http_archive(
     name = "build_bazel_rules_nodejs",
     sha256 = "709cc0dcb51cf9028dd57c268066e5bc8f03a119ded410a13b5c3925d6e43c48",
     urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/5.8.4/rules_nodejs-5.8.4.tar.gz"],
@@ -142,7 +148,7 @@ declare_nongoogle_deps()
 load("@build_bazel_rules_nodejs//:index.bzl", "node_repositories", "yarn_install")
 
 node_repositories(
-    node_version = "18.17.0",
+    node_version = "20.9.0",
     yarn_version = "1.22.19",
 )
 

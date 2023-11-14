@@ -74,6 +74,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "b83cb27c_cf22e848",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-11-14T11:10:42Z",
+      "side": 1,
+      "message": "\u003e rollup is still king afaik for minifying and supporting wide range of browsers.\n\nThanks for pointing this out. We could of course still keep using `rollup/terser` after migration from `rules_nodejs` to `rules_js`. We should still consider to migrate for the other reasons, that I mentioned.\n\nFor inspiration, we could check how `sourcegraph`: [1] project switched to `rules_js`.\n\n[1]: https://github.com/sourcegraph/sourcegraph",
+      "parentUuid": "f4951493_7cb1ee01",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "511ca197e5c86c216025f86900cb0f6906989d32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8329fd63_52b3276f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3

@@ -22,6 +22,30 @@
       },
       "revId": "75d83e9466c2261de68b0fe7d9b7c3565e6f3fce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54623e1b_bf7295bf",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-15T07:28:28Z",
+      "side": 1,
+      "message": "Aha, now I understand why I didn\u0027t find delete project in the documentation ;-)\n\nDouble maintaining this in the core documentation doesn\u0027t make sense hence I will abandon this change.\n\nI was looking for the documentation of delete project and couldn\u0027t find it, didn\u0027t come to the idea that this is functionality contributed by a core plugin. As a maintainer I should have known.\n\nMaybe we could consider to integrate documentation of plugins into the main documentation during the build for plugins which are listed in `tools/bzl/plugins.bzl`. I think that would improve discoverability of their features.\n\nWDYT ?",
+      "parentUuid": "0ce5574c_b0bbc3ae",
+      "range": {
+        "startLine": 557,
+        "startChar": 1,
+        "endLine": 557,
+        "endChar": 54
+      },
+      "revId": "75d83e9466c2261de68b0fe7d9b7c3565e6f3fce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

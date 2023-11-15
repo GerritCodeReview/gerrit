@@ -41,3 +41,25 @@ test --test_output=errors
 test --java_toolchain=//tools:error_prone_warnings_toolchain_java11
 
 import %workspace%/tools/remote-bazelrc
+
+build:remote-buildbuddy --tool_java_language_version=11
+build:remote-buildbuddy --java_language_version=11
+build:remote-buildbuddy --remote_executor=grpcs://remote.buildbuddy.io
+build:remote-buildbuddy --host_platform=@buildbuddy_toolchain//:platform
+build:remote-buildbuddy --platforms=@buildbuddy_toolchain//:platform
+build:remote-buildbuddy --extra_execution_platforms=@buildbuddy_toolchain//:platform
+build:remote-buildbuddy --crosstool_top=@buildbuddy_toolchain//:toolchain
+build:remote-buildbuddy --extra_toolchains=@buildbuddy_toolchain//:cc_toolchain
+build:remote-buildbuddy --javabase=@buildbuddy_toolchain//:javabase_jdk11
+build:remote-buildbuddy --host_javabase=@buildbuddy_toolchain//:javabase_jdk11
+build:remote-buildbuddy --java_toolchain=@buildbuddy_toolchain//:toolchain_jdk11
+build:remote-buildbuddy --host_java_toolchain=@buildbuddy_toolchain//:toolchain_jdk11
+build:remote-buildbuddy --define=EXECUTOR=remote
+build:remote-buildbuddy --bes_results_url=https://app.buildbuddy.io/invocation/
+build:remote-buildbuddy --bes_backend=grpcs://remote.buildbuddy.io
+build:remote-buildbuddy --remote_cache=grpcs://remote.buildbuddy.io
+build:remote-buildbuddy --remote_timeout=3600
+build:remote-buildbuddy --remote_upload_local_results
+build:remote-buildbuddy --remote_download_minimal
+build:remote-buildbuddy --jobs=5
+build:remote-buildbuddy --verbose_failures

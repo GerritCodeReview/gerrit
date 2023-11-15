@@ -37,7 +37,11 @@ build:remote_shared --define=EXECUTOR=remote
 # Set a higher timeout value, just in case.
 build:remote_shared --remote_timeout=3600
 
+<<<<<<< PATCH SET (23087f Refactor Bazel remote configuration to allocate BuildBuddy)
+#Configuration flags for remote settings in GCP
+=======
 # Configuration flags for remote settings in Google GCP RBE
+>>>>>>> BASE      (888f7e Specify GCP suffix explicitly in Bazel remote configuration)
 # Set several flags related to specifying the platform, toolchain and java
 # properties.
 build:config_gcp --crosstool_top=@rbe_jdk11//cc:toolchain
@@ -59,3 +63,31 @@ build:config_gcp --remote_executor=remotebuildexecution.googleapis.com
 # account credential instead.
 build:config_gcp --google_default_credentials
 build:config_gcp --config=remote_shared
+
+#Configuration flags for remote settings in BuildBuddy RBE
+# Set several flags related to specifying the platform, toolchain and java
+# properties.
+build:config_bb --crosstool_top=@buildbuddy_toolchain//:toolchain
+build:config_bb --extra_toolchains=@buildbuddy_toolchain//:cc_toolchain
+build:config_bb --extra_execution_platforms=@buildbuddy_toolchain//:platform
+build:config_bb --host_platform=@buildbuddy_toolchain//:platform
+build:config_bb --platforms=@buildbuddy_toolchain//:platform
+
+# Enable the remote cache so action results can be shared across machines,
+# developers, and workspaces.
+build:config_bb --remote_cache=grpcs://remote.buildbuddy.io
+
+# Enable remote execution so actions are performed on the remote systems.
+build:config_bb --remote_executor=grpcs://remote.buildbuddy.io
+
+# The results from each Bazel command are viewable with BuildBuddy
+build:config_bb --bes_results_url=https://app.buildbuddy.io/invocation/
+
+# The results of a local build will be uploaded to the BuildBuddy server,
+# providing visibility and collaboration features for the build.
+build:config_bb --remote_upload_local_results
+
+# Define the Build Event Service (BES) backend to use for remote caching and
+# build event storage.
+build:config_bb --bes_backend=grpcs://remote.buildbuddy.io
+build:config_bb --config=remote_shared

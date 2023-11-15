@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52ec329e_faf2048f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-11-15T09:25:10Z",
+      "side": 1,
+      "message": "AfAIK the single user journey we have publishes draft comments for a single user/change.",
+      "range": {
+        "startLine": 14,
+        "startChar": 8,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "c41ece7fd747d82236532aa1943409a8a55b2f2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cbe4924_3e7931c3",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeDraftUpdateExecutor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-11-15T09:25:10Z",
+      "side": 1,
+      "message": "Please add Javadocs to all methods.",
+      "revId": "c41ece7fd747d82236532aa1943409a8a55b2f2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e779344c_0f356708",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeDraftUpdateExecutor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-11-15T09:25:10Z",
+      "side": 1,
+      "message": "Can we add a statement why some updates need/can to be executed synchronously or asynchronously?",
+      "range": {
+        "startLine": 42,
+        "startChar": 72,
+        "endLine": 42,
+        "endChar": 85
+      },
+      "revId": "c41ece7fd747d82236532aa1943409a8a55b2f2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9222788f_a912c727",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeDraftUpdateExecutor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-11-15T09:25:10Z",
+      "side": 1,
+      "message": "The only user journey we have is to publish draft comments for a single change/user. Isn\u0027t ChangeDraftUpdate capable of doing that (i.e. it can store multiple drafts)? Which use case needs to publish more drafts than this?",
+      "range": {
+        "startLine": 53,
+        "startChar": 7,
+        "endLine": 53,
+        "endChar": 27
+      },
+      "revId": "c41ece7fd747d82236532aa1943409a8a55b2f2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9fadee3_b03d5c67",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-11-15T09:25:10Z",
+      "side": 1,
+      "message": "please fix line wrapping",
+      "range": {
+        "startLine": 330,
+        "startChar": 13,
+        "endLine": 331,
+        "endChar": 18
+      },
+      "revId": "c41ece7fd747d82236532aa1943409a8a55b2f2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

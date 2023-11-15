@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0194794b_17b88a2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-15T17:23:34Z",
+      "side": 1,
+      "message": "@ekempin@google.com `LC+1` is needed 🙏",
+      "revId": "fbc8e8f0e73fd0aa172a5adaf0a68f3d21fc4b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

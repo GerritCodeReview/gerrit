@@ -98,6 +98,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6b1e1620_50e13ed1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-11-15T10:48:51Z",
+      "side": 1,
+      "message": "the aspect docs are nice, and they are maintaining the \"upstream\" rules_js too that they depend on. It looks like they are forking pnpm, which is a nice tool. There is a flag -dev that is not possible in npm/yarn that could let us dedupe our multiple package.json files that confuses some tools and slows down our installs. Additionally the aspect rule will convert our yarn lock to a pnpm lock internally, it could be a smooth migration.\n\nhttps://docs.aspect.build/rulesets/aspect_rules_js/docs/npm_translate_lock#dev",
+      "parentUuid": "b83cb27c_cf22e848",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "511ca197e5c86c216025f86900cb0f6906989d32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "8329fd63_52b3276f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3

@@ -22,11 +22,23 @@ build:remote --config=build_shared
 # Define remote configuration alias
 build:remote_gcp --config=remote
 
+<<<<<<< PATCH SET (7b2ac8 Refactor Bazel remote configuration to allocate BuildBuddy)
+# Builds and executes on BuildBuddy RBE using remotejdk_11
+build:remote_11_bb --config=remote11
+build:remote_11_bb --config=remote_bb
+
+# Builds and executes using remotejdk_17
+build:remote --java_language_version=17
+build:remote --java_runtime_version=remotejdk_17
+build:remote --tool_java_language_version=17
+build:remote --tool_java_runtime_version=remotejdk_17
+=======
 # Define configuration using remotejdk_11, executes using remotejdk_11 or local_jdk
 build:build_java11_shared --java_language_version=11
 build:build_java11_shared --java_runtime_version=remotejdk_11
 build:build_java11_shared --tool_java_language_version=11
 build:build_java11_shared --tool_java_runtime_version=remotejdk_11
+>>>>>>> BASE      (5ac3fc Specify GCP suffix explicitly in Bazel remote configuration)
 
 build:java11 --config=build_java11_shared
 
@@ -36,6 +48,10 @@ build:remote11 --config=build_java11_shared
 
 # Define remote11 configuration alias
 build:remote11_gcp --config=remote11
+
+# Builds and executes on BuildBuddy RBE using remotejdk_17
+build:remote_default_bb --config=remote
+build:remote_default_bb --config=remote_bb
 
 # Enable strict_action_env flag to. For more information on this feature see
 # https://groups.google.com/forum/#!topic/bazel-discuss/_VmRfMyyHBk.

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab9e8ea1_4b86a667",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-11-15T10:54:43Z",
+      "side": 1,
+      "message": "I don\u0027t understand how renaming a variable can fix anything, but I assume you know what you are doing. 😄",
+      "revId": "06dfda4f75392d6ea1064508dc22fe6e42c6303d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

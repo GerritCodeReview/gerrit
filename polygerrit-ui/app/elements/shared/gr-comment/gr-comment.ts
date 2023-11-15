@@ -77,6 +77,8 @@ import {formStyles} from '../../../styles/form-styles';
 import {Interaction} from '../../../constants/reporting';
 import {Suggestion} from '../../../api/suggestions';
 import {when} from 'lit/directives/when.js';
+import {getDocUrl} from '../../../utils/url-util';
+import {configModelToken} from '../../../models/config/config-model';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
@@ -235,6 +237,8 @@ export class GrComment extends LitElement {
   @state()
   commentedText?: string;
 
+  @state() private docsBaseUrl = '';
+
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
@@ -246,6 +250,8 @@ export class GrComment extends LitElement {
   private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
+
+  private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly flagsService = getAppContext().flagsService;
 
@@ -341,6 +347,11 @@ export class GrComment extends LitElement {
       () => {
         this.autoSave();
       }
+    );
+    subscribe(
+      this,
+      () => this.getConfigModel().docsBaseUrl$,
+      docsBaseUrl => (this.docsBaseUrl = docsBaseUrl)
     );
     if (this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT)) {
       subscribe(
@@ -1000,6 +1011,19 @@ export class GrComment extends LitElement {
             () => html`${numberOfSuggestions}`
           )}
         </label>
+        <a
+          href=${getDocUrl(
+            this.docsBaseUrl,
+            'user-suggest-edits.html#_generate_suggestion'
+          )}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <gr-icon
+            icon="help"
+            title="About Generated Suggested Edits"
+          ></gr-icon>
+        </a>
       </div>
     `;
   }

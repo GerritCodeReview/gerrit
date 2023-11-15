@@ -22,6 +22,30 @@
       },
       "revId": "b9cfec8cae8bf0eb66dd95829b3c01001fba8715",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2aaaff1e_6aa66dff",
+        "filename": "java/com/google/gerrit/server/patch/DiffFileSizeValidator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-11-15T11:05:03Z",
+      "side": 1,
+      "message": "Yes, it looks like the server only returns the \u0027skip\u0027 parameter in response. I\u0027ve also found a recent test convering this (thanks for adding!) [1].\n\nI also followed the code and I think jgit does not produce a diff for binary files. This is mentioned in jgit in [2], and also debugged the test in [1] and found out that jgit produces no edits.\n\nI updated the comment.\n\n[1] https://gerrit.googlesource.com/gerrit/+/ac1f01e5b7e459ae651d51d48a9c0eb93c32920f/javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java#3089\n\n[2] https://gerrit.googlesource.com/jgit/+/4aaf8cad90ad94d96cf93f6163562b496a3bef7a/org.eclipse.jgit/src/org/eclipse/jgit/patch/FileHeader.java#78",
+      "parentUuid": "6f61ed5c_d9494250",
+      "range": {
+        "startLine": 50,
+        "startChar": 50,
+        "endLine": 50,
+        "endChar": 95
+      },
+      "revId": "b9cfec8cae8bf0eb66dd95829b3c01001fba8715",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

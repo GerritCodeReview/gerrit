@@ -697,6 +697,22 @@ bazelisk test --config=remote \
 ```
 
 
+== BuildBuddy Remote Build Support
+
+In order to use BuildBuddy Remote Build Execution service is neccesary:
+* link:https://www.buildbuddy.io/pricing[Create an account]
+* link:https://www.buildbuddy.io/docs/introduction/[Set up RBE]
+
+After the preceding steps are executed, RBE can be employed using the following command:
+
+```
+bazelisk test --config=remote_bb \
+    --remote_instance_name=projects/${PROJECT}/instances/default_instance \
+    --remote_header=x-buildbuddy-api-key=YOUR_API_KEY \
+    javatests/...
+```
+
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

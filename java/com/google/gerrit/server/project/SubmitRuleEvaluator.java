@@ -18,7 +18,6 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitTypeRecord;
@@ -118,25 +117,12 @@ public class SubmitRuleEvaluator {
         "Evaluate submit rules for change %d (caller: %s)",
         cd.change().getId().get(), callerFinder.findCallerLazy());
     try (Timer0.Context ignored = metrics.submitRuleEvaluationLatency.start()) {
-      Change change;
-      ProjectState projectState;
-      try {
-        change = cd.change();
-        if (change == null) {
-          throw new StorageException("Change not found");
-        }
-
-        Project.NameKey name = cd.project();
-        Optional<ProjectState> projectStateOptional = projectCache.get(name);
-        if (!projectStateOptional.isPresent()) {
-          throw new NoSuchProjectException(name);
-        }
-        projectState = projectStateOptional.get();
-      } catch (NoSuchProjectException e) {
-        throw new IllegalStateException("Unable to find project while evaluating submit rule", e);
+      if (cd.change() == null) {
+        throw new StorageException("Change not found");
       }
 
-      if (change.isClosed() && (!opts.recomputeOnClosedChanges() || OnlineReindexMode.isActive())) {
+      if (cd.change().isClosed()
+          && (!opts.recomputeOnClosedChanges() || OnlineReindexMode.isActive())) {
         return cd.notes().getSubmitRecords().stream()
             .map(
                 r -> {
@@ -149,6 +135,15 @@ public class SubmitRuleEvaluator {
                 })
             .collect(toImmutableList());
       }
+
+      ProjectState projectState =
+          projectCache
+              .get(cd.project())
+              .orElseThrow(
+                  () ->
+                      new IllegalStateException(
+                          "Unable to find project while evaluating submit rule",
+                          new NoSuchProjectException(cd.project())));
 
       // We evaluate all the plugin-defined evaluators,
       // and then we collect the results in one list.

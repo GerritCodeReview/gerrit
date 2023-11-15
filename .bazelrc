@@ -42,3 +42,41 @@ test --build_tests_only
 test --test_output=errors
 
 import %workspace%/tools/remote-bazelrc
+
+build:remote-buildbuddy --remote_executor=grpcs://remote.buildbuddy.io
+build:remote-buildbuddy --host_platform=@buildbuddy_toolchain//:platform
+build:remote-buildbuddy --platforms=@buildbuddy_toolchain//:platform
+build:remote-buildbuddy --extra_execution_platforms=@buildbuddy_toolchain//:platform
+build:remote-buildbuddy --crosstool_top=@buildbuddy_toolchain//:toolchain
+build:remote-buildbuddy --extra_toolchains=@buildbuddy_toolchain//:cc_toolchain
+build:remote-buildbuddy --define=EXECUTOR=remote
+build:remote-buildbuddy --bes_results_url=https://app.buildbuddy.io/invocation/
+build:remote-buildbuddy --bes_backend=grpcs://remote.buildbuddy.io
+build:remote-buildbuddy --remote_cache=grpcs://remote.buildbuddy.io
+build:remote-buildbuddy --remote_timeout=3600
+build:remote-buildbuddy --remote_upload_local_results
+build:remote-buildbuddy --remote_download_minimal
+build:remote-buildbuddy --jobs=50
+build:remote-buildbuddy --verbose_failures
+
+# BuildBuddy JDK 11
+build:remote-buildbuddy-11 --tool_java_language_version=11
+build:remote-buildbuddy-11 --tool_java_runtime_version=remotejdk_11
+build:remote-buildbuddy-11 --java_language_version=11
+build:remote-buildbuddy-11 --java_runtime_version=remotejdk_11
+build:remote-buildbuddy-11 --javabase=@buildbuddy_toolchain//:javabase_jdk11
+build:remote-buildbuddy-11 --host_javabase=@buildbuddy_toolchain//:javabase_jdk11
+build:remote-buildbuddy-11 --java_toolchain=@buildbuddy_toolchain//:toolchain_jdk11
+build:remote-buildbuddy-11 --host_java_toolchain=@buildbuddy_toolchain//:toolchain_jdk11
+# bazelisk test //javatests/... --config=remote-buildbuddy --config=remote-buildbuddy-11 --remote_header=x-buildbuddy-api-key=XXXXXX
+
+# BuildBuddy JDK 17
+build:remote-buildbuddy-17 --tool_java_language_version=17
+build:remote-buildbuddy-17 --tool_java_runtime_version=remotejdk_17
+build:remote-buildbuddy-17 --java_language_version=17
+build:remote-buildbuddy-17 --java_runtime_version=remotejdk_17
+build:remote-buildbuddy-17 --javabase=@buildbuddy_toolchain//:javabase_jdk17
+build:remote-buildbuddy-17 --host_javabase=@buildbuddy_toolchain//:javabase_jdk17
+build:remote-buildbuddy-17 --java_toolchain=@buildbuddy_toolchain//:toolchain_jdk17
+build:remote-buildbuddy-17 --host_java_toolchain=@buildbuddy_toolchain//:toolchain_jdk17
+# bazelisk test //javatests/... --config=remote-buildbuddy --config=remote-buildbuddy-17 --remote_header=x-buildbuddy-api-key=XXXXXX

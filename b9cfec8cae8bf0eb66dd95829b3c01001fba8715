@@ -46,6 +46,30 @@
       },
       "revId": "b9cfec8cae8bf0eb66dd95829b3c01001fba8715",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ca07dd3_a1c404ed",
+        "filename": "java/com/google/gerrit/server/patch/DiffFileSizeValidator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-15T11:14:50Z",
+      "side": 1,
+      "message": "FWIW I still think that setting the \u0027skip\u0027 parameter for binary files is a bug. I\u0027ve fixed it in [1], but this change was found to be too risky and hence it was abandoned.\n\n[1] https://gerrit-review.giooglesource.com/c/gerrit/+/389856",
+      "parentUuid": "2aaaff1e_6aa66dff",
+      "range": {
+        "startLine": 50,
+        "startChar": 50,
+        "endLine": 50,
+        "endChar": 95
+      },
+      "revId": "b9cfec8cae8bf0eb66dd95829b3c01001fba8715",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

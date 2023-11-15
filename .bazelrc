@@ -25,19 +25,27 @@ build:remote11 --java_runtime_version=remotejdk_11
 build:remote11 --tool_java_language_version=11
 build:remote11 --tool_java_runtime_version=remotejdk_11
 
-# Builds and executes on GCP RBE using remotejdk_11
-build:remote11_gcp --config=remote_11
-build:remote11_gcp --config=remote_gcp
-
 # Builds and executes on RBE using remotejdk_17
 build:remote --java_language_version=17
 build:remote --java_runtime_version=remotejdk_17
 build:remote --tool_java_language_version=17
 build:remote --tool_java_runtime_version=remotejdk_17
 
+# Builds and executes on GCP RBE using remotejdk_11
+build:remote_11_gcp --config=remote11
+build:remote_11_gcp --config=remote_gcp
+
 # Builds and executes on GCP RBE using remotejdk_17
-build:remote17_gcp --config=remote
-build:remote17_gcp --config=remote_gcp
+build:remote_17_gcp --config=remote
+build:remote_17_gcp --config=remote_gcp
+
+# Builds and executes on BuildBuddy RBE using remotejdk_11
+build:remote_11_bb --config=remote11
+build:remote_11_bb --config=remote_bb
+
+# Builds and executes on BuildBuddy RBE using remotejdk_17
+build:remote_17_bb --config=remote
+build:remote_17_bb --config=remote_bb
 
 # Enable strict_action_env flag to. For more information on this feature see
 # https://groups.google.com/forum/#!topic/bazel-discuss/_VmRfMyyHBk.

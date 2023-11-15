@@ -36,6 +36,7 @@ build:remote_shared --define=EXECUTOR=remote
 # Set a higher timeout value, just in case.
 build:remote_shared --remote_timeout=3600
 
+#Configuration flags for remote settings in GCP
 # Set several flags related to specifying the platform, toolchain and java
 # properties.
 build:remote_gcp --crosstool_top=@rbe_jdk11//cc:toolchain
@@ -56,7 +57,42 @@ build:remote_gcp --remote_executor=remotebuildexecution.googleapis.com
 # default. You can use --auth_credentials=some_file.json to use a service
 # account credential instead.
 build:remote_gcp --google_default_credentials
+
 build:remote_gcp --config=remote_shared
+
+#Configuration flags for remote settings in BuildBuddy
+# Set several flags related to specifying the platform, toolchain and java
+# properties.
+build:remote-bb --crosstool_top=@buildbuddy_toolchain//:toolchain
+build:remote-bb --extra_toolchains=@buildbuddy_toolchain//:cc_toolchain
+build:remote-bb --extra_execution_platforms=@buildbuddy_toolchain//:platform
+build:remote-bb --host_platform=@buildbuddy_toolchain//:platform
+build:remote-bb --platforms=@buildbuddy_toolchain//:platform
+
+# Enable the remote cache so action results can be shared across machines,
+# developers, and workspaces.
+build:remote-bb --remote_cache=grpcs://remote.buildbuddy.io
+
+# Enable remote execution so actions are performed on the remote systems.
+build:remote-bb --remote_executor=grpcs://remote.buildbuddy.io
+
+# The results from each Bazel command are viewable with BuildBuddy
+build:remote-bb --bes_results_url=https://app.buildbuddy.io/invocation/
+
+# The results of a local build will be uploaded to the BuildBuddy server, providing
+# visibility and collaboration features for the build.
+build:remote-bb --remote_upload_local_results
+
+# Define the Build Event Service (BES) backend to use for remote caching and build
+# event storage.
+build:remote-bb --bes_backend=grpcs://remote.buildbuddy.io
+
+# Build system should only download the minimal set of files needed to execute the
+# build locally, reducing the amount of data transferred over the network.
+build:remote-bb --remote_download_minimal
+
+# Shared remote configuration.
+build:remote-bb --config=remote-shared
 
 # The following flags enable the remote cache so action results can be shared
 # across machines, developers, and workspaces.

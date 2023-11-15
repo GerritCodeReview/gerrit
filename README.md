@@ -1,9 +1,9 @@
-# Gerrit Code Review
+# Gerrit Code Review test
 
 [Gerrit](https://www.gerritcodereview.com) is a code review and project
 management tool for Git based projects.
 
-[![Build Status](https://gerrit-ci.gerritforge.com/view/Gerrit/job/Gerrit-bazel-master/badge/icon)](https://gerrit-ci.gerritforge.com/view/Gerrit/job/Gerrit-bazel-master/)
+[![Build Status](https://gg.com/view/Gerrit/job/Gerrit-bazel-master/badge/icon)](https://gerrit-ci.gerritforge.com/view/Gerrit/job/Gerrit-bazel-master/)
 ![Maven Central](https://img.shields.io/maven-central/v/com.google.gerrit/gerrit-war)
 
 ## Objective

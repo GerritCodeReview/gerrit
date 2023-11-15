@@ -24,6 +24,10 @@ build:remote --config=build_shared
 # Define remote configuration alias
 build:remote_gcp --config=remote
 
+# Builds and executes on BuildBuddy RBE using remotejdk_11
+build:remote_bb --config=config_bb
+build:remote_bb --config=build_shared
+
 # Define configuration using remotejdk_17, executes using remotejdk_17 or local_jdk
 build:build_java17_shared --java_language_version=17
 build:build_java17_shared --java_runtime_version=remotejdk_17
@@ -38,6 +42,10 @@ build:remote17 --config=build_java17_shared
 
 # Define remote17 configuration alias
 build:remote17_gcp --config=remote17
+
+# Builds and executes on BuildBuddy RBE using remotejdk_17
+build:remote17_bb --config=config_bb
+build:remote17_bb --config=build_java17_shared
 
 # Enable strict_action_env flag to. For more information on this feature see
 # https://groups.google.com/forum/#!topic/bazel-discuss/_VmRfMyyHBk.

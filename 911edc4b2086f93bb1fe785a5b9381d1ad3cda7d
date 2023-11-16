@@ -16,6 +16,24 @@
       "message": "@diego.sessona@gmail.com it seems that sth went wrong with this and the following merge as both `3.6` and `3.7` are green in the CI",
       "revId": "911edc4b2086f93bb1fe785a5b9381d1ad3cda7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b894b67b_c90825eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-11-16T07:56:33Z",
+      "side": 1,
+      "message": "You mean \"were\" green in the CI? Yes there is a change that bring two new tests in the ChangeIT and they fail on 3.7 +. Looking at it.",
+      "parentUuid": "2741617a_b34b7437",
+      "revId": "911edc4b2086f93bb1fe785a5b9381d1ad3cda7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

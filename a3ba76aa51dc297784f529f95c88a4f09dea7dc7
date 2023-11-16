@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b818b66_b17b2992",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-16T17:48:12Z",
+      "side": 1,
+      "message": "i don’t believe this is correct, the Java tool chain configuration isn’t there in stable 3.9",
+      "revId": "a3ba76aa51dc297784f529f95c88a4f09dea7dc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

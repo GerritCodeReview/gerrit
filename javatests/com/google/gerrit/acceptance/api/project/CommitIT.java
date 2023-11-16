@@ -121,7 +121,10 @@ public class CommitIT extends AbstractDaemonTest {
 
     createBranch(BranchNameKey.create(project, "test-branch-1"));
     createBranch(BranchNameKey.create(project, "test-branch-2"));
-    createAndSubmitChange("refs/for/test-branch-1");
+    RevCommit changeCommit = createAndSubmitChange("refs/for/test-branch-1").getCommit();
+    // Reset repo back to the original state - otherwise all changes in tests have testChange as a
+    // parent.
+    testRepo.reset(changeCommit.getParent(0));
     createAndSubmitChange("refs/for/test-branch-2");
 
     assertThat(getIncludedIn(baseChange.getCommit().getId()).branches)

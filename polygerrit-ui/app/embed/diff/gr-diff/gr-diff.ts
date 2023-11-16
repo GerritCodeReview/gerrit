@@ -98,6 +98,8 @@ const COMMIT_MSG_PATH = '/COMMIT_MSG';
  * each line when displaying commit messages. To center the commit message
  * in an 80 char terminal a 4 ws border is added to the rightmost side:
  * 4 + 72 + 4
+ *
+ * just a test
  */
 const COMMIT_MSG_LINE_LENGTH = 72;
 

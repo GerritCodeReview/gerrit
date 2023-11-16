@@ -41,6 +41,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.ListeningScheduledExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.common.FormatUtil;
 import com.google.gerrit.common.Nullable;
@@ -92,6 +93,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantLock;
@@ -497,8 +499,7 @@ public class NoteDbMigrator implements AutoCloseable {
           primaryStorageMigrator,
           listeners,
           threads > 1
-              ? MoreExecutors.listeningDecorator(
-                  workQueue.createQueue(threads, "RebuildChange", true))
+              ? getRebuildChangeQueue(workQueue, threads)
               : MoreExecutors.newDirectExecutorService(),
           projects,
           skipProjects,
@@ -516,6 +517,16 @@ public class NoteDbMigrator implements AutoCloseable {
           lockLooseRefs,
           verbose);
     }
+  }
+
+  private static ListeningScheduledExecutorService getRebuildChangeQueue(
+      WorkQueue workQueue, int threads) {
+    final String QUEUE_NAME = "RebuildChange";
+
+    ScheduledThreadPoolExecutor executor = workQueue.getExecutor(QUEUE_NAME);
+    if (executor == null) executor = workQueue.createQueue(threads, QUEUE_NAME, true);
+
+    return MoreExecutors.listeningDecorator(executor);
   }
 
   private static class ProjectContext {

@@ -16,6 +16,24 @@
       "message": "@ekempin@google.com `LC+1` is needed 🙏",
       "revId": "fbc8e8f0e73fd0aa172a5adaf0a68f3d21fc4b79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad130243_8d575975",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1161425
+      },
+      "writtenOn": "2023-11-16T07:59:55Z",
+      "side": 1,
+      "message": "https://issues.gerritcodereview.com/issues/311215385",
+      "parentUuid": "0194794b_17b88a2f",
+      "revId": "fbc8e8f0e73fd0aa172a5adaf0a68f3d21fc4b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

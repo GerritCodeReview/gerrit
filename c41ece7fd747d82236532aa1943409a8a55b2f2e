@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fba6ec2a_7e993e2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-11-16T15:11:59Z",
+      "side": 1,
+      "message": "Please see my comment below.\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/379820/comment/9222788f_a912c727/",
+      "parentUuid": "52ec329e_faf2048f",
+      "range": {
+        "startLine": 14,
+        "startChar": 8,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "c41ece7fd747d82236532aa1943409a8a55b2f2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2cbe4924_3e7931c3",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7154909_3b62fa7d",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeDraftUpdateExecutor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-11-16T15:11:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2cbe4924_3e7931c3",
+      "revId": "c41ece7fd747d82236532aa1943409a8a55b2f2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e779344c_0f356708",
@@ -54,6 +96,30 @@
       "writtenOn": "2023-11-15T09:25:10Z",
       "side": 1,
       "message": "Can we add a statement why some updates need/can to be executed synchronously or asynchronously?",
+      "range": {
+        "startLine": 42,
+        "startChar": 72,
+        "endLine": 42,
+        "endChar": 85
+      },
+      "revId": "c41ece7fd747d82236532aa1943409a8a55b2f2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d15e876_4c87e605",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeDraftUpdateExecutor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-11-16T15:11:59Z",
+      "side": 1,
+      "message": "Done in ChangeDraftNotesUpdate::canRunAsync, since the exact terminology is likely to be different internally.",
+      "parentUuid": "e779344c_0f356708",
       "range": {
         "startLine": 42,
         "startChar": 72,
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ff2d1fc_b22a882f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeDraftUpdateExecutor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-11-16T15:11:59Z",
+      "side": 1,
+      "message": "Publishing a draft is the easy case. Unfortunately - deleting one is trickier.\n\nWhen we reply - we delete multiple drafts.\nWhen a change/account get deleted - we delete all relevant drafts.\n\nSee the comment here for the main issue:\nhttps://gerrit.googlesource.com/gerrit/+/44419e637712bdcc332558827dac03b3c907369f/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java#328\n\nAlso, please refer to this discussion for the design desicion:\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/379112/comment/02a0f5f1_18128c08/",
+      "parentUuid": "9222788f_a912c727",
+      "range": {
+        "startLine": 53,
+        "startChar": 7,
+        "endLine": 53,
+        "endChar": 27
+      },
+      "revId": "c41ece7fd747d82236532aa1943409a8a55b2f2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9fadee3_b03d5c67",
@@ -100,6 +190,30 @@
       "writtenOn": "2023-11-15T09:25:10Z",
       "side": 1,
       "message": "please fix line wrapping",
+      "range": {
+        "startLine": 330,
+        "startChar": 13,
+        "endLine": 331,
+        "endChar": 18
+      },
+      "revId": "c41ece7fd747d82236532aa1943409a8a55b2f2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ca4544a_c4873f4c",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-11-16T15:11:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9fadee3_b03d5c67",
       "range": {
         "startLine": 330,
         "startChar": 13,

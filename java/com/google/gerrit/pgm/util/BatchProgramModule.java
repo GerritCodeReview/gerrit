@@ -62,6 +62,7 @@ import com.google.gerrit.server.config.EnablePeerIPInReflogRecordProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
+import com.google.gerrit.server.config.SkipCurrentRulesEvaluationOnClosedChangesModule;
 import com.google.gerrit.server.config.SysExecutorModule;
 import com.google.gerrit.server.extensions.events.AttentionSetObserver;
 import com.google.gerrit.server.extensions.events.EventUtil;
@@ -212,6 +213,7 @@ public class BatchProgramModule extends FactoryModule {
     modules.add(new PrologModule(getConfig()));
     modules.add(new DefaultSubmitRuleModule());
     modules.add(new IgnoreSelfApprovalRuleModule());
+    modules.add(new SkipCurrentRulesEvaluationOnClosedChangesModule());
 
     // Global submit requirements
     DynamicSet.setOf(binder(), SubmitRequirement.class);

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2741617a_b34b7437",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-16T07:37:29Z",
+      "side": 1,
+      "message": "@diego.sessona@gmail.com it seems that sth went wrong with this and the following merge as both `3.6` and `3.7` are green in the CI",
+      "revId": "911edc4b2086f93bb1fe785a5b9381d1ad3cda7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

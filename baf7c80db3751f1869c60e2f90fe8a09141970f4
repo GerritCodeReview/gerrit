@@ -16,6 +16,24 @@
       "message": "If you look at the lines 151-158 they look exactly the same. AFAIR, this was moved up to fail fast and not even check the condition in line 136. So, I think we should keep this and remove the same code below. Am I right @geminica.programs@gmail.com?",
       "revId": "baf7c80db3751f1869c60e2f90fe8a09141970f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd3b31ad_2280c790",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-17T06:34:18Z",
+      "side": 0,
+      "message": "Good call. I haven\u0027t noticed that.",
+      "parentUuid": "fae35877_a01eb7df",
+      "revId": "baf7c80db3751f1869c60e2f90fe8a09141970f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

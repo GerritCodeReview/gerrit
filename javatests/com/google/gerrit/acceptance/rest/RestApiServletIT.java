@@ -432,7 +432,7 @@ public class RestApiServletIT extends AbstractDaemonTest {
     int changeNumber = createChange().getChange().getId().get();
 
     String redirectUri = String.format("/c/%s/+/%d/", project.get(), changeNumber);
-    anonymousRestSession.get("/c/" + changeNumber).assertTemporaryRedirect(redirectUri);
+    anonymousRestSession.get("/" + changeNumber).assertTemporaryRedirect(redirectUri);
   }
 
   @Test
@@ -444,7 +444,7 @@ public class RestApiServletIT extends AbstractDaemonTest {
         String.format("/c/%s/+/%d/comment/%s", project.get(), changeNumber, commentId);
 
     anonymousRestSession
-        .get(String.format("/c/%s/comment/%s", changeNumber, commentId))
+        .get(String.format("/%s/comment/%s", changeNumber, commentId))
         .assertTemporaryRedirect(redirectUri);
   }
 

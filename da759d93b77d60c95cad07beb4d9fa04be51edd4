@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9906b412_9d3eac4c",
+        "filename": "java/com/google/gerrit/server/notedb/OnlineProjectsMigrationChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-17T15:05:48Z",
+      "side": 1,
+      "message": "Unrelated formatting change.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 48
+      },
+      "revId": "da759d93b77d60c95cad07beb4d9fa04be51edd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9c81055_010ea584",
+        "filename": "java/com/google/gerrit/server/notedb/OnlineProjectsMigrationChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-17T15:05:48Z",
+      "side": 1,
+      "message": "This annotation isn\u0027t needed anymore then?",
+      "revId": "da759d93b77d60c95cad07beb4d9fa04be51edd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

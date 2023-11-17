@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecf17edc_4fbbfeec",
+        "filename": "java/com/google/gerrit/metrics/MetricMaker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-17T20:32:10Z",
+      "side": 1,
+      "message": "This will break the binary compatibility with all existing plugins that are using metrics. We can\u0027t do that on a stable EOL branch I\u0027m afraid.",
+      "range": {
+        "startLine": 83,
+        "startChar": 13,
+        "endLine": 83,
+        "endChar": 31
+      },
+      "revId": "71c894cb062168ff556fc0b782abb34f9401f726",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "parentUuid": "fae35877_a01eb7df",
       "revId": "baf7c80db3751f1869c60e2f90fe8a09141970f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48e78ece_d81b89cb",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-17T06:37:45Z",
+      "side": 0,
+      "message": "It has to be fixed since 3.7...",
+      "parentUuid": "cd3b31ad_2280c790",
+      "revId": "baf7c80db3751f1869c60e2f90fe8a09141970f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -208,6 +208,7 @@ public class NoteDbMigrator implements AutoCloseable {
     private boolean autoMigrate;
     private boolean lockLooseRefs;
     private boolean verbose;
+    private boolean executorMetrics = true;
 
     @Inject
     Builder(
@@ -480,6 +481,17 @@ public class NoteDbMigrator implements AutoCloseable {
       return this;
     }
 
+    /**
+     * Set whether to enable the executor metrics.
+     *
+     * @param executorMetrics whether to enable the executor metrics (default true)
+     * @return this
+     */
+    public Builder setExecutorMetrics(boolean executorMetrics) {
+      this.executorMetrics = executorMetrics;
+      return this;
+    }
+
     public NoteDbMigrator build() throws MigrationException {
       return new NoteDbMigrator(
           sitePaths,
@@ -498,7 +510,7 @@ public class NoteDbMigrator implements AutoCloseable {
           listeners,
           threads > 1
               ? MoreExecutors.listeningDecorator(
-                  workQueue.createQueue(threads, "RebuildChange", true))
+                  workQueue.createQueue(threads, "RebuildChange", executorMetrics))
               : MoreExecutors.newDirectExecutorService(),
           projects,
           skipProjects,

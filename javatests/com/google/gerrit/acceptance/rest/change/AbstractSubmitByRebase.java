@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.BranchNameKey;
@@ -37,6 +38,7 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.server.change.MergeabilityComputationBehavior;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.inject.Inject;
 import org.eclipse.jgit.lib.ObjectId;
@@ -227,6 +229,65 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.REBASE_MERGE_COMMITS)
+  public void submitMergeCommitThatDependsOnNormalChangeViaTheFirstParent_withRebasingMergeCommits()
+      throws Throwable {
+    /*
+         *  change2 (merge, rebased)
+         | \
+         *  \  change1 (rebased)
+         |   |
+         *   | change3 (new tip, rebased if 'Merge Always')
+         |   |
+         | * | change2 (merge)
+         | |\|
+         | | |
+         | * | change1
+          \|/
+           * initialHead
+    */
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    PushOneCommit.Result change1 = createChange("Added a", "a.txt", "");
+
+    PushOneCommit change2Push =
+        pushFactory.create(admin.newIdent(), testRepo, "Merge to master", "m.txt", "");
+    change2Push.setParents(ImmutableList.of(change1.getCommit(), initialHead));
+    PushOneCommit.Result change2 = change2Push.to("refs/for/master");
+
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change3 = createChange("New tip", "b.txt", "");
+
+    approve(change3.getChangeId());
+    submit(change3.getChangeId());
+
+    approve(change1.getChangeId());
+    approve(change2.getChangeId());
+    submit(change2.getChangeId());
+
+    RevCommit newHead = projectOperations.project(project).getHead("master");
+    assertThat(newHead.getParentCount()).isEqualTo(2);
+
+    RevCommit headParent1 = parse(newHead.getParent(0).getId());
+    RevCommit headParent2 = parse(newHead.getParent(1).getId());
+
+    assertCurrentRevision(change1.getChangeId(), 2, headParent1.getId());
+    assertThat(headParent2.getId()).isEqualTo(initialHead.getId());
+
+    assertThat(headParent1.getParentCount()).isEqualTo(1);
+    RevCommit headGrandparent1 = parse(headParent1.getParent(0).getId());
+    if (getSubmitType() == SubmitType.REBASE_ALWAYS) {
+      assertCurrentRevision(change3.getChangeId(), 2, headGrandparent1.getId());
+    } else {
+      assertThat(change3.getCommit().getId()).isEqualTo(headGrandparent1.getId());
+    }
+
+    assertThat(headGrandparent1.getParentCount()).isEqualTo(1);
+    assertThat(headGrandparent1.getParent(0).getId()).isEqualTo(initialHead.getId());
+  }
+
+  @Test
   public void submitMergeCommitThatDependsOnNormalChangeViaTheSecondParent() throws Throwable {
     /*
        *  merge created by Gerrit to integrate change 1 and change 2
@@ -279,6 +340,66 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
 
     assertThat(headGrandparent1.getId()).isEqualTo(initialHead.getId());
     assertThat(headGrandparent2.getId()).isEqualTo(change1.getCommit().getId());
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.REBASE_MERGE_COMMITS)
+  public void
+      submitMergeCommitThatDependsOnNormalChangeViaTheSecondParent_withRebasingMergeCommits()
+          throws Throwable {
+    /*
+       *  change2 (merge, rebased)
+       | \
+       *  \  change3 (new tip, rebased if 'Rebase Always')
+       |   |
+       | * | change2 (merge)
+       | |\|
+       | | * change1
+       | |/
+       | |
+       |/
+       * initialHead
+    */
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    PushOneCommit.Result change1 = createChange("Added a", "a.txt", "");
+
+    PushOneCommit change2Push =
+        pushFactory.create(admin.newIdent(), testRepo, "Merge to master", "m.txt", "");
+    change2Push.setParents(ImmutableList.of(initialHead, change1.getCommit()));
+    PushOneCommit.Result change2 = change2Push.to("refs/for/master");
+
+    testRepo.reset(initialHead);
+    PushOneCommit.Result change3 = createChange("New tip", "b.txt", "");
+
+    approve(change3.getChangeId());
+    submit(change3.getChangeId());
+
+    approve(change1.getChangeId());
+    approve(change2.getChangeId());
+    submit(change2.getChangeId());
+
+    RevCommit newHead = projectOperations.project(project).getHead("master");
+    assertThat(newHead.getParentCount()).isEqualTo(2);
+
+    RevCommit headParent1 = parse(newHead.getParent(0).getId());
+    RevCommit headParent2 = parse(newHead.getParent(1).getId());
+
+    if (getSubmitType() == SubmitType.REBASE_ALWAYS) {
+      assertCurrentRevision(change3.getChangeId(), 2, headParent1.getId());
+    } else {
+      assertThat(change3.getCommit().getId()).isEqualTo(headParent1.getId());
+    }
+    assertThat(headParent1.getParentCount()).isEqualTo(1);
+    assertThat(headParent1.getParent(0)).isEqualTo(initialHead);
+
+    assertThat(headParent2.getId()).isEqualTo(change1.getCommit().getId());
+    assertThat(headParent2.getParentCount()).isEqualTo(1);
+
+    RevCommit headGrandparent = parse(headParent2.getParent(0).getId());
+
+    assertThat(headGrandparent.getId()).isEqualTo(initialHead.getId());
   }
 
   @Test

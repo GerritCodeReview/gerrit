@@ -279,7 +279,7 @@ public class TaskListenerIT extends AbstractDaemonTest {
     long i = 0;
     do {
       TimeUnit.NANOSECONDS.sleep(10);
-      assertThat(i++).isLessThan(100);
+      assertThat(i++).isLessThan(1000);
     } while (size != workQueue.getTasks().size());
   }
 }

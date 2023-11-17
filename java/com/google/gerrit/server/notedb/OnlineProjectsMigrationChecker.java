@@ -23,17 +23,24 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfigProvider;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import com.google.inject.Scopes;
 import java.util.Arrays;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 
-@Singleton
 public class OnlineProjectsMigrationChecker {
   private Set<String> migrationProjects;
   private final GerritServerConfigProvider configProvider;
   private final NotesMigration notesMigration;
+
+  public static class Module extends AbstractModule {
+    @Override
+    public void configure() {
+      bind(OnlineProjectsMigrationChecker.class).in(Scopes.SINGLETON);
+    }
+  }
 
   @Inject
   public OnlineProjectsMigrationChecker(

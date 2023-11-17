@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9be01b12_784715a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-11-17T07:19:50Z",
+      "side": 1,
+      "message": "Even though, node 18 is supported until 2025, we could upgrade directly to LTS node release 20.x with this minimal invasive patch: [1].\n\n[1]: https://gerrit-review.googlesource.com/c/gerrit/+/392716/10/tools/rules_nodejs-5.8.4-node_versions.bzl.patch",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 35
+      },
+      "revId": "511ca197e5c86c216025f86900cb0f6906989d32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2c84277a_84376cda",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

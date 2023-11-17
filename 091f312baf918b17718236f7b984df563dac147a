@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dc2f0a7_8e892538",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-17T11:49:53Z",
+      "side": 1,
+      "message": "This looks wrong: \n- I don\u0027t see merge conflicts on that file\n- The move of the block on the lines was done in Ifaf6ead5c86 and therefore is what was in stable-3.6\n\nIf we merge this change, we will revert Ifaf6ead5c86 instead.",
+      "revId": "091f312baf918b17718236f7b984df563dac147a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

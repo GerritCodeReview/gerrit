@@ -52,6 +52,24 @@
       "parentUuid": "cd3b31ad_2280c790",
       "revId": "baf7c80db3751f1869c60e2f90fe8a09141970f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8be9aeb_c68fb96e",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-17T06:53:08Z",
+      "side": 0,
+      "message": "please redo this merge once I8d07158fd4cb gets merged 😊",
+      "parentUuid": "48e78ece_d81b89cb",
+      "revId": "baf7c80db3751f1869c60e2f90fe8a09141970f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

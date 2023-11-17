@@ -16,6 +16,7 @@ package com.google.gerrit.server.submit;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.REBASE_MERGE_COMMITS;
 import static com.google.gerrit.server.submit.CommitMergeStatus.EMPTY_COMMIT;
 
 import com.google.common.collect.ImmutableList;
@@ -54,44 +55,52 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
 
   @Override
   public ImmutableList<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge) {
+    boolean rebaseMergeCommits =
+        args.experimentFeatures.isFeatureEnabled(REBASE_MERGE_COMMITS, args.destBranch.project());
+
     List<CodeReviewCommit> sorted;
     try {
-      sorted = args.rebaseSorter.sort(toMerge);
+      sorted =
+          rebaseMergeCommits ? args.rebaseSorterNew.sort(toMerge) : args.rebaseSorter.sort(toMerge);
     } catch (IOException | StorageException e) {
       throw new StorageException("Commit sorting failed", e);
     }
 
-    // We cannot rebase merge commits. This is why we integrate merge changes into the target branch
-    // the same way as if MERGE_IF_NECESSARY was the submit strategy. This means if needed we create
-    // a merge commit that integrates the merge change into the target branch.
-    // If we integrate a change series that consists out of a normal change and a merge change,
-    // where the merge change depends on the normal change, we must skip rebasing the normal change,
-    // because it already gets integrated by merging the merge change. If the rebasing of the normal
-    // change is not skipped, it would appear twice in the history after the submit is done (once
-    // through its rebased commit, and once through its original commit which is a parent of the
-    // merge change that was merged into the target branch. To skip the rebasing of the normal
-    // change, we call MergeUtil#reduceToMinimalMerge, as it excludes commits which will be
-    // implicitly integrated by merging the series. Then we use the MergeIfNecessaryOp to integrate
-    // the whole series.
-    // If on the other hand, we integrate a change series that consists out of a merge change and a
-    // normal change, where the normal change depends on the merge change, we can first integrate
-    // the merge change by a merge and then integrate the normal change by a rebase. In this case we
-    // do not want to call MergeUtil#reduceToMinimalMerge as we are not intending to integrate the
-    // whole series by a merge, but rather do the integration of the commits one by one.
-    boolean foundNonMerge = false;
-    for (CodeReviewCommit c : sorted) {
-      if (c.getParentCount() > 1) {
-        if (!foundNonMerge) {
-          // found a merge change, but it doesn't depend on a normal change, this means we are not
-          // required to merge the whole series at once
-          continue;
+    if (!rebaseMergeCommits) {
+      // We cannot rebase merge commits. This is why we integrate merge changes into the target
+      // branch the same way as if MERGE_IF_NECESSARY was the submit strategy. This means if needed
+      // we create a merge commit that integrates the merge change into the target branch.
+      // If we integrate a change series that consists out of a normal change and a merge change,
+      // where the merge change depends on the normal change, we must skip rebasing the normal
+      // change, because it already gets integrated by merging the merge change. If the rebasing of
+      // the  normal change is not skipped, it would appear twice in the history after the submit is
+      // done (once through its rebased commit, and once through its original commit which is a
+      // parent of the merge change that was merged into the target branch. To skip the rebasing of
+      // the normal change, we call MergeUtil#reduceToMinimalMerge, as it excludes commits which
+      // will be implicitly integrated by merging the series. Then we use the MergeIfNecessaryOp to
+      // integrate the whole series.
+      // If on the other hand, we integrate a change series that consists out of a merge change and
+      // a normal change, where the normal change depends on the merge change, we can first
+      // integrate the merge change by a merge and then integrate the normal change by a rebase. In
+      // this case we do not want to call MergeUtil#reduceToMinimalMerge as we are not intending to
+      // integrate the whole series by a merge, but rather do the integration of the commits one by
+      // one.
+      boolean foundNonMerge = false;
+      for (CodeReviewCommit c : sorted) {
+        if (c.getParentCount() > 1) {
+          if (!foundNonMerge) {
+            // found a merge change, but it doesn't depend on a normal change, this means we are not
+            // required to merge the whole series at once
+            continue;
+          }
+          // found a merge commit that depends on a normal change, this means we are required to
+          // merge
+          // the whole series at once
+          sorted = args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, sorted);
+          return sorted.stream().map(n -> new MergeIfNecessaryOp(n)).collect(toImmutableList());
         }
-        // found a merge commit that depends on a normal change, this means we are required to merge
-        // the whole series at once
-        sorted = args.mergeUtil.reduceToMinimalMerge(args.mergeSorter, sorted);
-        return sorted.stream().map(n -> new MergeIfNecessaryOp(n)).collect(toImmutableList());
+        foundNonMerge = true;
       }
-      foundNonMerge = true;
     }
 
     ImmutableList.Builder<SubmitStrategyOp> ops =
@@ -105,6 +114,8 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         ops.add(new FastForwardOp(args, n));
       } else if (n.getParentCount() == 0) {
         ops.add(new RebaseRootOp(n));
+      } else if (rebaseMergeCommits) {
+        ops.add(new RebaseOneOp(n));
       } else if (n.getParentCount() == 1) {
         ops.add(new RebaseOneOp(n));
       } else {

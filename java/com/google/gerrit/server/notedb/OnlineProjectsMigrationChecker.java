@@ -14,26 +14,36 @@
 
 package com.google.gerrit.server.notedb;
 
-import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
-import static com.google.gerrit.server.notedb.rebuild.OnlineNoteDbMigrator.ONLINE_MIGRATION_PROJECTS;
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.toSet;
-
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.GerritServerConfigProvider;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
+import com.google.inject.Scopes;
 import com.google.inject.Singleton;
+import org.eclipse.jgit.lib.Config;
+
 import java.util.Arrays;
 import java.util.Set;
-import org.eclipse.jgit.lib.Config;
+
+import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
+import static com.google.gerrit.server.notedb.rebuild.OnlineNoteDbMigrator.ONLINE_MIGRATION_PROJECTS;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toSet;
 
 @Singleton
 public class OnlineProjectsMigrationChecker {
   private Set<String> migrationProjects;
   private final GerritServerConfigProvider configProvider;
   private final NotesMigration notesMigration;
+
+  public static class Module extends AbstractModule {
+    @Override
+    public void configure() {
+      bind(OnlineProjectsMigrationChecker.class).in(Scopes.SINGLETON);
+    }
+  }
 
   @Inject
   public OnlineProjectsMigrationChecker(

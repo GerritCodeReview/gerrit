@@ -75,10 +75,11 @@ import {
 } from '../gr-comment-model/gr-comment-model';
 import {formStyles} from '../../../styles/form-styles';
 import {Interaction} from '../../../constants/reporting';
-import {Suggestion} from '../../../api/suggestions';
+import {Suggestion, SuggestionsProvider} from '../../../api/suggestions';
 import {when} from 'lit/directives/when.js';
 import {getDocUrl} from '../../../utils/url-util';
 import {configModelToken} from '../../../models/config/config-model';
+import {getFileExtension} from '../../../utils/file-util';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
@@ -215,6 +216,9 @@ export class GrComment extends LitElement {
 
   @state()
   generatedSuggestionId?: string;
+
+  @state()
+  suggestionsProvider?: SuggestionsProvider;
 
   @state()
   suggestionLoading = false;
@@ -367,6 +371,18 @@ export class GrComment extends LitElement {
         }
       );
     }
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.getPluginLoader()
+      .awaitPluginsLoaded()
+      .then(() => {
+        const suggestionsPlugins =
+          this.getPluginLoader().pluginsModel.getState().suggestionsPlugins;
+        // We currently support results from only 1 provider.
+        this.suggestionsProvider = suggestionsPlugins?.[0]?.provider;
+      });
   }
 
   override disconnectedCallback() {
@@ -944,11 +960,17 @@ export class GrComment extends LitElement {
   private showGeneratedSuggestion() {
     return (
       this.flagsService.isEnabled(KnownExperimentId.ML_SUGGESTED_EDIT) &&
+      this.suggestionsProvider &&
       this.editing &&
       !this.permanentEditingMode &&
       this.comment &&
+      this.comment.path &&
       this.comment.path !== SpecialFilePath.PATCHSET_LEVEL_COMMENTS &&
       this.comment.path !== SpecialFilePath.COMMIT_MESSAGE &&
+      (!this.suggestionsProvider.supportedFileExtensions ||
+        this.suggestionsProvider.supportedFileExtensions.includes(
+          getFileExtension(this.comment.path)
+        )) &&
       this.comment === this.comments?.[0] && // Is first comment
       (this.comment.range || this.comment.line) && // Disabled for File comments
       !hasUserSuggestion(this.comment)
@@ -1036,10 +1058,9 @@ export class GrComment extends LitElement {
   }
 
   private async generateSuggestEdit() {
-    const suggestionsPlugins =
-      this.getPluginLoader().pluginsModel.getState().suggestionsPlugins;
-    if (suggestionsPlugins.length === 0) return;
+    const suggestionsProvider = this.suggestionsProvider;
     if (
+      !suggestionsProvider ||
       !this.showGeneratedSuggestion() ||
       !this.changeNum ||
       !this.comment ||
@@ -1053,16 +1074,14 @@ export class GrComment extends LitElement {
       uuid: this.generatedSuggestionId,
     });
     this.suggestionLoading = true;
-    const suggestionResponse = await suggestionsPlugins[0].provider.suggestCode(
-      {
-        prompt: this.messageText,
-        changeNumber: this.changeNum,
-        patchsetNumber: this.comment?.patch_set,
-        filePath: this.comment.path,
-        range: this.comment.range,
-        lineNumber: this.comment.line,
-      }
-    );
+    const suggestionResponse = await suggestionsProvider.suggestCode({
+      prompt: this.messageText,
+      changeNumber: this.changeNum,
+      patchsetNumber: this.comment?.patch_set,
+      filePath: this.comment.path,
+      range: this.comment.range,
+      lineNumber: this.comment.line,
+    });
     this.suggestionLoading = false;
     // TODO(milutin): The suggestionResponse can contain multiple suggestion
     // options. We pick the first one for now. In future we shouldn't ignore

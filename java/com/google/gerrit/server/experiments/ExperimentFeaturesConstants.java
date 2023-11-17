@@ -56,4 +56,7 @@ public class ExperimentFeaturesConstants {
   /** If true, gerrit ignores rejectImplicitMerges setting from the project config on merge. */
   public static String GERRIT_BACKEND_FEATURE_ALWAYS_REJECT_IMPLICIT_MERGES_ON_MERGE =
       "GerritBackendFeature__always_reject_implicit_merges_on_merge";
+
+  /** Whether the rebase submit strategies should rebase merge commits. */
+  public static final String REBASE_MERGE_COMMITS = "GerritBackendFeature__rebase_merge_commits";
 }

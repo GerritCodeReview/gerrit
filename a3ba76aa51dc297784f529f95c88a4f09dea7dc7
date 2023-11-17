@@ -70,6 +70,24 @@
       "parentUuid": "7531e730_063ca4b2",
       "revId": "a3ba76aa51dc297784f529f95c88a4f09dea7dc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c38a65f1_5e339a3e",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-17T00:18:24Z",
+      "side": 1,
+      "message": "\u003e Calling it with `$ bazel build :release` command that was correct on `stable-3.7` is not correct too as it will result in usage of JDK 17 toolchain and IMHO we shouldn\u0027t try to fix it in the merge commit as that may fall under the radar. Having said that I have uplaoded the follow-up change that fixes it - see I745762a3d03af. @luca.milanesio@gmail.com WDYT?\n\nI think it would be fine to squash I745762a3d03af into this merge, since it matches the intent of fixing the `--java_toolchain` option on the earlier branches. What should go into a separate change after the merge is clarification in the doc on which config/version is used when you don\u0027t specify `--config`.",
+      "parentUuid": "d7efb810_8d27fc96",
+      "revId": "a3ba76aa51dc297784f529f95c88a4f09dea7dc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

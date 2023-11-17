@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "679372ef_d0ae2524",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-17T10:10:02Z",
+      "side": 1,
+      "message": "On the second thought, as the merge commit is not submitted yet, and this change is fixing a wrong conflict resolution, we should re-do the merge correctly and abandon this one.",
+      "revId": "96417096194e16609ab7e1075b2de4f434d6799d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

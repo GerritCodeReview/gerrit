@@ -856,7 +856,7 @@ public class MergeOp implements AutoCloseable {
         GERRIT_BACKEND_FEATURE_CHECK_IMPLICIT_MERGES_ON_MERGE, project)) {
       return;
     }
-    if (submitType == SubmitType.CHERRY_PICK) {
+    if (submitType == SubmitType.CHERRY_PICK || submitType == SubmitType.REBASE_ALWAYS) {
       return;
     }
 

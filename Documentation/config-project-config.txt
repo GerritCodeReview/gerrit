@@ -457,9 +457,9 @@ Using this submit action results in a linear history of the target branch,
 unless merge commits are being submitted. For some people this is an advantage
 since they find the linear history easier to read.
 +
-NOTE: Rebasing merge commits is not supported. If a change with a merge commit
-is submitted the link:#merge_if_necessary[merge if necessary] submit action is
-applied.
+NOTE: Rebasing merge commits is done by rebasing their first parent commit,
+i.e. the first parent is updated to the new base while the second parent stays
+intact.
 
 [[rebase_always]]
 * 'rebase always':
@@ -476,9 +476,9 @@ Using this submit action results in a linear history of the target branch,
 unless merge commits are being submitted. For some people this is an advantage
 since they find the linear history easier to read.
 +
-NOTE: Rebasing merge commits is not supported. If a change with a merge commit
-is submitted the link:#merge_if_necessary[merge if necessary] submit action is
-applied.
+NOTE: Rebasing merge commits is done by rebasing their first parent commit,
+i.e. the first parent is updated to the new base while the second parent stays
+intact.
 +
 When rebasing the patchset, Gerrit automatically appends onto the end of the
 commit message a short summary of the change's approvals, and a URL link back

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e1a73c2_2862dd12",
+        "filename": "java/com/google/gerrit/server/notedb/OnlineProjectsMigrationChecker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-17T13:32:43Z",
+      "side": 1,
+      "message": "Add singleton here as well rather than L33. The annotation at class level *may not* really assure it under all conditions.\n\n\n```suggestion\n      bind(OnlineProjectsMigrationChecker.class).in(Scopes.SINGLETON);\n```",
+      "range": {
+        "startLine": 42,
+        "startChar": 48,
+        "endLine": 42,
+        "endChar": 49
+      },
+      "revId": "90b2cb257d429b570cfe78837b24ff9f7ac1525e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

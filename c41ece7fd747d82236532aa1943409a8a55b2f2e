@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7d7dd52_a6526d8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-11-17T08:34:29Z",
+      "side": 1,
+      "message": "(sorry, this was a duplicate comment I forgot to remove)",
+      "parentUuid": "fba6ec2a_7e993e2f",
+      "range": {
+        "startLine": 14,
+        "startChar": 8,
+        "endLine": 14,
+        "endChar": 46
+      },
+      "revId": "c41ece7fd747d82236532aa1943409a8a55b2f2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2cbe4924_3e7931c3",
@@ -167,6 +191,30 @@
       "side": 1,
       "message": "Publishing a draft is the easy case. Unfortunately - deleting one is trickier.\n\nWhen we reply - we delete multiple drafts.\nWhen a change/account get deleted - we delete all relevant drafts.\n\nSee the comment here for the main issue:\nhttps://gerrit.googlesource.com/gerrit/+/44419e637712bdcc332558827dac03b3c907369f/java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java#328\n\nAlso, please refer to this discussion for the design desicion:\nhttps://gerrit-review.git.corp.google.com/c/gerrit/+/379112/comment/02a0f5f1_18128c08/",
       "parentUuid": "9222788f_a912c727",
+      "range": {
+        "startLine": 53,
+        "startChar": 7,
+        "endLine": 53,
+        "endChar": 27
+      },
+      "revId": "c41ece7fd747d82236532aa1943409a8a55b2f2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f19333d4_7613e423",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeDraftUpdateExecutor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-11-17T08:34:29Z",
+      "side": 1,
+      "message": "Ack. Thanks for explaining!",
+      "parentUuid": "2ff2d1fc_b22a882f",
       "range": {
         "startLine": 53,
         "startChar": 7,

@@ -16,6 +16,24 @@
       "message": "On the second thought, as the merge commit is not submitted yet, and this change is fixing a wrong conflict resolution, we should re-do the merge correctly and abandon this one.",
       "revId": "96417096194e16609ab7e1075b2de4f434d6799d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "defe1127_ac7c7274",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-17T11:59:12Z",
+      "side": 1,
+      "message": "All fixes should stay separate from merges, I\u0027d fix this one first and then re-do the merge.",
+      "parentUuid": "679372ef_d0ae2524",
+      "revId": "96417096194e16609ab7e1075b2de4f434d6799d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

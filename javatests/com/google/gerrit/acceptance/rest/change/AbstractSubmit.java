@@ -669,7 +669,17 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
     List<RevCommit> log = getRemoteLog();
     assertThat(log).contains(stable.getCommit());
-    assertThat(log).contains(mergeReview.getCommit());
+
+    if (getSubmitType() == SubmitType.REBASE_ALWAYS) {
+      // the merge commit has been rebased
+      RevCommit newHead = projectOperations.project(project).getHead("master");
+      assertThat(newHead.getParentCount()).isEqualTo(2);
+
+      assertThat(newHead.getParent(0).getId()).isEqualTo(master);
+      assertThat(newHead.getParent(1).getId()).isEqualTo(stable.getCommit());
+    } else {
+      assertThat(log).contains(mergeReview.getCommit());
+    }
   }
 
   @Test
@@ -713,7 +723,17 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
     List<RevCommit> log = getRemoteLog();
     assertThat(log).contains(s1.getCommit());
-    assertThat(log).contains(mergeReview.getCommit());
+
+    if (getSubmitType() == SubmitType.REBASE_ALWAYS) {
+      // the merge commit has been rebased
+      RevCommit newHead = projectOperations.project(project).getHead("master");
+      assertThat(newHead.getParentCount()).isEqualTo(2);
+
+      assertThat(newHead.getParent(0).getId()).isEqualTo(m.getCommit());
+      assertThat(newHead.getParent(1).getId()).isEqualTo(s1.getCommit());
+    } else {
+      assertThat(log).contains(mergeReview.getCommit());
+    }
   }
 
   @Test
@@ -942,9 +962,18 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertMerged(mergeId);
     testRepo.git().fetch().call();
     RevWalk rw = testRepo.getRevWalk();
-    master = rw.parseCommit(projectOperations.project(project).getHead("master"));
-    assertThat(rw.isMergedInto(merge, master)).isTrue();
-    assertThat(rw.isMergedInto(fix, master)).isTrue();
+    RevCommit newMaster = rw.parseCommit(projectOperations.project(project).getHead("master"));
+    assertThat(rw.isMergedInto(fix, newMaster)).isTrue();
+
+    if (getSubmitType() == SubmitType.REBASE_ALWAYS) {
+      // the merge commit has been rebased
+      assertThat(newMaster.getParentCount()).isEqualTo(2);
+
+      assertThat(newMaster.getParent(0).getId()).isEqualTo(master);
+      assertThat(newMaster.getParent(1).getId()).isEqualTo(fix);
+    } else {
+      assertThat(rw.isMergedInto(merge, newMaster)).isTrue();
+    }
   }
 
   @Test

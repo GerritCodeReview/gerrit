@@ -60,7 +60,9 @@ public class ImplicitMergeOnSubmitExperimentsIT extends AbstractImplicitMergeTes
     // uses @RunWith(ConfigSuite.class). Emulate parameters using configs.
     ImmutableMap.Builder<String, Config> builder = ImmutableMap.builder();
     for (SubmitType submitType : SubmitType.values()) {
-      if (submitType == SubmitType.INHERIT || submitType == SubmitType.CHERRY_PICK) {
+      if (submitType == SubmitType.INHERIT
+          || submitType == SubmitType.CHERRY_PICK
+          || submitType == SubmitType.REBASE_ALWAYS) {
         continue;
       }
       Config cfg = new Config();

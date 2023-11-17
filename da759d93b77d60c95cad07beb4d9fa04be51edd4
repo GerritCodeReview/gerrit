@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "12b3580a_45c64336",
+        "filename": "java/com/google/gerrit/server/notedb/OnlineProjectsMigrationChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-17T15:27:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9906b412_9d3eac4c",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 48
+      },
+      "revId": "da759d93b77d60c95cad07beb4d9fa04be51edd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c9c81055_010ea584",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-11-17T15:05:48Z",
       "side": 1,
       "message": "This annotation isn\u0027t needed anymore then?",
+      "revId": "da759d93b77d60c95cad07beb4d9fa04be51edd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "551476a7_b858d6d8",
+        "filename": "java/com/google/gerrit/server/notedb/OnlineProjectsMigrationChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-17T15:27:04Z",
+      "side": 1,
+      "message": "I have tested it without and it works, so it is not needed.\n\nWouldn\u0027t it be better however leaving the annotation? imho it is descriptive to the reader of the class of the fact this is a singleton.\nAlso I can see many occurrences in Gerrit where the annotation is explicit despite the binding.",
+      "parentUuid": "c9c81055_010ea584",
       "revId": "da759d93b77d60c95cad07beb4d9fa04be51edd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

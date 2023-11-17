@@ -38,6 +38,7 @@ import com.google.gerrit.server.change.LabelNormalizer;
 import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.change.SetPrivateOp;
 import com.google.gerrit.server.change.TestSubmitInput;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -126,6 +127,7 @@ public abstract class SubmitStrategy {
     final ProjectConfig.Factory projectConfigFactory;
     final SetPrivateOp.Factory setPrivateOpFactory;
     final SubmitWithStickyApprovalDiff submitWithStickyApprovalDiff;
+    final ExperimentFeatures experimentFeatures;
 
     final BranchNameKey destBranch;
     final CodeReviewRevWalk rw;
@@ -143,6 +145,7 @@ public abstract class SubmitStrategy {
     final ProjectState project;
     final MergeSorter mergeSorter;
     final RebaseSorter rebaseSorter;
+    final RebaseSorterNew rebaseSorterNew;
     final MergeUtil mergeUtil;
     final boolean dryrun;
 
@@ -167,6 +170,7 @@ public abstract class SubmitStrategy {
         ProjectConfig.Factory projectConfigFactory,
         SetPrivateOp.Factory setPrivateOpFactory,
         SubmitWithStickyApprovalDiff submitWithStickyApprovalDiff,
+        ExperimentFeatures experimentFeatures,
         @Assisted BranchNameKey destBranch,
         @Assisted CommitStatus commitStatus,
         @Assisted CodeReviewRevWalk rw,
@@ -197,6 +201,7 @@ public abstract class SubmitStrategy {
       this.queryProvider = queryProvider;
       this.setPrivateOpFactory = setPrivateOpFactory;
       this.submitWithStickyApprovalDiff = submitWithStickyApprovalDiff;
+      this.experimentFeatures = experimentFeatures;
 
       this.serverIdent = serverIdent;
       this.destBranch = destBranch;
@@ -219,6 +224,15 @@ public abstract class SubmitStrategy {
           new MergeSorter(caller, rw, alreadyAccepted, canMergeFlag, queryProvider, incoming);
       this.rebaseSorter =
           new RebaseSorter(
+              caller,
+              rw,
+              mergeTip.getInitialTip(),
+              alreadyAccepted,
+              canMergeFlag,
+              queryProvider,
+              incoming);
+      this.rebaseSorterNew =
+          new RebaseSorterNew(
               caller,
               rw,
               mergeTip.getInitialTip(),

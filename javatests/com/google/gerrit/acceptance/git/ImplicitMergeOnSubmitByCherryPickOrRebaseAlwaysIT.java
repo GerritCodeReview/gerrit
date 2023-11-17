@@ -15,29 +15,54 @@
 package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
+import com.google.gerrit.testing.ConfigSuite;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests how implicit merges are submitted by the cherry pick strategy.
+ * Tests how implicit merges are submitted by the cherry pick and rebase always strategies.
  *
- * <p>Verifies that implicit merges can be submitted and that they doesn't add content from the
+ * <p>Verifies that implicit merges can be submitted and that they don't add content from the
  * implicitly merged branch to the target branch.
  */
-public class ImplicitMergeOnSubmitCherryPickIT extends AbstractImplicitMergeTest {
+public class ImplicitMergeOnSubmitByCherryPickOrRebaseAlwaysIT extends AbstractImplicitMergeTest {
+  @ConfigSuite.Configs
+  public static ImmutableMap<String, Config> configs() {
+    // The @RunWith(Parameterized.class) can't be used, because AbstractDaemonClass already
+    // uses @RunWith(ConfigSuite.class). Emulate parameters using configs.
+    ImmutableMap.Builder<String, Config> builder = ImmutableMap.builder();
+    for (SubmitType submitType : SubmitType.values()) {
+      if (submitType != SubmitType.CHERRY_PICK && submitType != SubmitType.REBASE_ALWAYS) {
+        continue;
+      }
+      Config cfg = new Config();
+      cfg.setString("test", null, "submitType", submitType.name());
+      builder.put(String.format("submitType=%s", submitType), cfg);
+    }
+    return builder.buildOrThrow();
+  }
 
   private String implicitMergeChangeId;
 
   @Before
   public void setUp() throws Exception {
+    // The ConfigSuite runner always adds a default config. Ignore it (submitType is not set for
+    // it).
+    String submitType = cfg.getString("test", null, "submitType");
+    assume().that(submitType).isNotEmpty();
+    setSubmitType(SubmitType.valueOf(submitType));
+
     setRejectImplicitMerges(false);
-    setSubmitType(SubmitType.CHERRY_PICK);
     RevCommit base = repo().parseCommit(repo().exactRef("HEAD").getObjectId());
     RevCommit masterBranchTip =
         pushTo("refs/heads/master", ImmutableMap.of("master-content", "master-first-line\n"), base)
@@ -54,6 +79,9 @@ public class ImplicitMergeOnSubmitCherryPickIT extends AbstractImplicitMergeTest
   }
 
   @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.REBASE_MERGE_COMMITS)
   public void doesntAddContentFromParentForImplicitMergeChange() throws Exception {
     gApi.changes().id(implicitMergeChangeId).current().submit();
 

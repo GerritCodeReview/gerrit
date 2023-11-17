@@ -75,7 +75,7 @@ Java 17 is supported. To build Gerrit with Java 17, run:
 To run the tests with Java 17, run:
 
 ```
-  $ bazelisk test --config=java17 //...
+  $ bazelisk test //...
 ```
 
 === Node.js and npm packages

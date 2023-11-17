@@ -106,6 +106,24 @@
       "parentUuid": "c38a65f1_5e339a3e",
       "revId": "a3ba76aa51dc297784f529f95c88a4f09dea7dc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc9a46c5_e89f77bb",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-17T11:57:23Z",
+      "side": 1,
+      "message": "I don\u0027t believe we should squash fixes with merges. Maybe let\u0027s merge  I745762a3d03af to stable-3.9 and then redo this merge.",
+      "parentUuid": "2a216ecd_78470e2f",
+      "revId": "a3ba76aa51dc297784f529f95c88a4f09dea7dc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

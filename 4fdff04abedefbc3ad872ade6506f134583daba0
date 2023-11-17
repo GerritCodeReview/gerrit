@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d04d4319_6df87ac8",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-17T11:57:23Z",
+      "side": 1,
+      "message": "Unrelated change and not even a conflict resolution: it should be taken out of the merge.",
+      "range": {
+        "startLine": 124,
+        "startChar": 6,
+        "endLine": 132,
+        "endChar": 0
+      },
+      "revId": "4fdff04abedefbc3ad872ade6506f134583daba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

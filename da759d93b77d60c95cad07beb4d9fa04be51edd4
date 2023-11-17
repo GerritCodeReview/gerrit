@@ -81,6 +81,24 @@
       "parentUuid": "c9c81055_010ea584",
       "revId": "da759d93b77d60c95cad07beb4d9fa04be51edd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be98f259_59130c66",
+        "filename": "java/com/google/gerrit/server/notedb/OnlineProjectsMigrationChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-17T20:31:18Z",
+      "side": 1,
+      "message": "\u003e I have tested it without and it works, so it is not needed.\n\u003e \n\u003e Wouldn\u0027t it be better however leaving the annotation? imho it is descriptive to the reader of the class of the fact this is a singleton.\n\u003e Also I can see many occurrences in Gerrit where the annotation is explicit despite the binding.\n\nTrue, that\u0027s not needed indeed also in Gerrit.",
+      "parentUuid": "551476a7_b858d6d8",
+      "revId": "da759d93b77d60c95cad07beb4d9fa04be51edd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

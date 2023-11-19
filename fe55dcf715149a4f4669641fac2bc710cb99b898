@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "404d0ead_266be9c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-19T16:38:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c89a4265_0c095e39",
+      "range": {
+        "startLine": 11,
+        "startChar": 49,
+        "endLine": 11,
+        "endChar": 52
+      },
+      "revId": "fe55dcf715149a4f4669641fac2bc710cb99b898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4212dd55_fa68f6bb",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-11-18T12:15:06Z",
       "side": 1,
       "message": "Commit message is not markdown: these formatting elements won\u0027t be useful.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 4
+      },
+      "revId": "fe55dcf715149a4f4669641fac2bc710cb99b898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4534e722_29a43bea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-19T16:38:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4212dd55_fa68f6bb",
       "range": {
         "startLine": 21,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f31af3b_c295e7dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-19T16:38:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d8ef9a3_d54bf430",
+      "range": {
+        "startLine": 28,
+        "startChar": 46,
+        "endLine": 28,
+        "endChar": 57
+      },
+      "revId": "fe55dcf715149a4f4669641fac2bc710cb99b898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6943fe3_01fc0ea1",
@@ -87,6 +159,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca4fd5b3_49ed827f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-19T16:38:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6943fe3_01fc0ea1",
+      "revId": "fe55dcf715149a4f4669641fac2bc710cb99b898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "124ec576_d312f9a1",
@@ -100,6 +190,30 @@
       "writtenOn": "2023-11-18T12:15:06Z",
       "side": 1,
       "message": "The name is misleading, because this isn\u0027t setting the metrics but just its enablement.\n\n```suggestion\n    public Builder setEnableExecutorMetrics(boolean executorMetrics) {\n```",
+      "range": {
+        "startLine": 490,
+        "startChar": 19,
+        "endLine": 490,
+        "endChar": 37
+      },
+      "revId": "fe55dcf715149a4f4669641fac2bc710cb99b898",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18e90c2f_1d9863da",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-19T16:38:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "124ec576_d312f9a1",
       "range": {
         "startLine": 490,
         "startChar": 19,

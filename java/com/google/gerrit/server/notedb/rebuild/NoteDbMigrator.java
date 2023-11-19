@@ -92,6 +92,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantLock;
@@ -208,6 +209,7 @@ public class NoteDbMigrator implements AutoCloseable {
     private boolean autoMigrate;
     private boolean lockLooseRefs;
     private boolean verbose;
+    private ScheduledThreadPoolExecutor externalExecutor;
 
     @Inject
     Builder(
@@ -480,7 +482,22 @@ public class NoteDbMigrator implements AutoCloseable {
       return this;
     }
 
+    /**
+     * Set an external executor to perform the NoteDB migration
+     *
+     * @param executor the thread-pool executor used to perform the NoteDB migration
+     *     <p>Incompatible with {@link #setThreads(int)}.
+     * @return this
+     */
+    public Builder setExternalExecutor(ScheduledThreadPoolExecutor executor) {
+      this.externalExecutor = executor;
+      return this;
+    }
+
     public NoteDbMigrator build() throws MigrationException {
+      if (externalExecutor != null && threads > 1) {
+        throw new MigrationException("Cannot combine external executor and threads");
+      }
       return new NoteDbMigrator(
           sitePaths,
           schemaFactory,
@@ -496,10 +513,12 @@ public class NoteDbMigrator implements AutoCloseable {
           globalNotesMigration,
           primaryStorageMigrator,
           listeners,
-          threads > 1
-              ? MoreExecutors.listeningDecorator(
-                  workQueue.createQueue(threads, "RebuildChange", true))
-              : MoreExecutors.newDirectExecutorService(),
+          externalExecutor != null
+              ? MoreExecutors.listeningDecorator(externalExecutor)
+              : (threads > 1
+                  ? MoreExecutors.listeningDecorator(
+                      workQueue.createQueue(threads, "RebuildChange", true))
+                  : MoreExecutors.newDirectExecutorService()),
           projects,
           skipProjects,
           changes,

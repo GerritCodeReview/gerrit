@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b4d7451_909cf24b",
+        "filename": ".bazelrc",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-19T19:59:27Z",
+      "side": 1,
+      "message": "this is the wrong issue, I think you meant https://issues.gerritcodereview.com/issues/303819949",
+      "range": {
+        "startLine": 2,
+        "startChar": 2,
+        "endLine": 2,
+        "endChar": 54
+      },
+      "revId": "79bf58f40cb188a8b61fa5f2322104a05a4e04b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

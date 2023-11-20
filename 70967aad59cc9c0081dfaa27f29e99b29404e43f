@@ -157,6 +157,24 @@
       "parentUuid": "646fee2e_b9fcfa6c",
       "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba597a55_fc4ca48b",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1477,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-11-20T22:19:09Z",
+      "side": 1,
+      "message": "True...we could eliminate the `getFromProjectLookup` entirely and defer to the backend the project lookup.\n\nThe downside I see is a possible performance degradation since the frontend caches a `changeNum -\u003e project` lookup variable.\n\nThis part of the code is only called for legacy URLs. In gerrithub.io we have about 150 calls a day using the legacy endpoint, all coming from bots. So I don\u0027t see it having a big impact, at least in gerrithub.io.\n\nDo you see any downside in getting rid of `getFromProjectLookup`?",
+      "parentUuid": "d4db8028_26017606",
+      "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

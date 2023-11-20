@@ -1830,7 +1830,7 @@ public abstract class AbstractDaemonTest {
     return new ProjectConfigUpdate(projectName);
   }
 
-  protected class ProjectConfigUpdate implements AutoCloseable {
+  public class ProjectConfigUpdate implements AutoCloseable {
     private final ProjectConfig projectConfig;
     private MetaDataUpdate metaDataUpdate;
 

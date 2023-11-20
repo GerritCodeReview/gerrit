@@ -172,7 +172,7 @@ public class Rebase
     boolean enabled = false;
     try (Repository repo = repoManager.openRepository(change.getDest().project());
         RevWalk rw = new RevWalk(repo)) {
-      if (RebaseUtil.hasOneParent(rw, rsrc.getPatchSet())) {
+      if (RebaseUtil.hasAtLeastOneParent(rw, rsrc.getPatchSet())) {
         enabled = rebaseUtil.canRebase(rsrc.getPatchSet(), change.getDest(), repo, rw);
       }
     }

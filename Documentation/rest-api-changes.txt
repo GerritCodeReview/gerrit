@@ -1331,6 +1331,9 @@ the error message is contained in the response body.
 
 Rebases a change.
 
+For merge commits always the first parent is rebased. This means the new base becomes the first
+parent of the rebased merge commit while the second parent stays intact.
+
 If one of the secondary emails associated with the user performing the operation was used as the
 committer email in the current patch set, the same email will be used as the committer email in the
 new patch set; otherwise, the user's preferred email will be used.

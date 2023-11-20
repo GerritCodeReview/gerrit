@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaa03ecb_b532dc39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-11-20T10:48:05Z",
+      "side": 1,
+      "message": "This was clarified in the upstream issue.",
+      "parentUuid": "7ea06539_f8608d59",
+      "revId": "82160288d29b72c82a818e1fff4d848fdd20f9d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "babde8b5_914f5e42",
@@ -67,6 +85,24 @@
       "writtenOn": "2023-11-14T10:12:29Z",
       "side": 1,
       "message": "Add a comment here, how this diff was produced.",
+      "revId": "82160288d29b72c82a818e1fff4d848fdd20f9d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08e86c2b_2f80605e",
+        "filename": "tools/rules_nodejs-5.8.4-node_versions.bzl.patch",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-11-20T10:48:05Z",
+      "side": 1,
+      "message": "I\u0027ve added more insights in the commit message.",
+      "parentUuid": "babde8b5_914f5e42",
       "revId": "82160288d29b72c82a818e1fff4d848fdd20f9d1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

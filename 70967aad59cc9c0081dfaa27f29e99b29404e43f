@@ -139,6 +139,24 @@
       "parentUuid": "c6a0e231_bdb3554f",
       "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4db8028_26017606",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1477,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-20T21:49:24Z",
+      "side": 1,
+      "message": "Well, why then calling the REST-API for the project lookup if the project name isn\u0027t used?",
+      "parentUuid": "646fee2e_b9fcfa6c",
+      "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

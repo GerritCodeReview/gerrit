@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ab3921c7_f2f008d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-11-20T12:15:54Z",
+      "side": 1,
+      "message": "Can you reference the backend change that this depends on? We have to check whether the backend change is already rolled out in Google\u0027s Gerrit release.",
+      "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e0852d35_01c299ea",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -14,6 +31,40 @@
       "writtenOn": "2023-11-20T10:49:29Z",
       "side": 1,
       "message": "I thinks this is interesting enough to add an entry in the release notes",
+      "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4ad5ef5_2a418058",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1304,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-11-20T12:15:54Z",
+      "side": 1,
+      "message": "Maybe remove the method?",
+      "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6a0e231_bdb3554f",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1477,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-11-20T12:15:54Z",
+      "side": 1,
+      "message": "Why remove `project` here?",
       "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

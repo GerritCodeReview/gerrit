@@ -16,6 +16,24 @@
       "message": "If we want to be extra helpful to users so they don\u0027t get this wrong, we could check that",
       "revId": "b81fefefdb3b049b2a4b72606f9fc06371af6fb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75115ebc_758a3a04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-11-20T13:49:50Z",
+      "side": 1,
+      "message": "ah sorry, this is a race in the comment saving code. I actually removed this comment.",
+      "parentUuid": "bf1f5edd_cc000727",
+      "revId": "b81fefefdb3b049b2a4b72606f9fc06371af6fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

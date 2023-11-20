@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18dd3da4_f9ace9ab",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1004,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-11-20T20:20:08Z",
+      "side": 1,
+      "message": "Move the body of the if-block to another method.",
+      "revId": "fc77b9dfefecd685387c9b0fb447a78ec0b7941b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ade84418_4fb6ca6c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-11-20T20:20:08Z",
+      "side": 1,
+      "message": "Please define a function that computes the numberOfSuggestions.",
+      "revId": "fc77b9dfefecd685387c9b0fb447a78ec0b7941b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

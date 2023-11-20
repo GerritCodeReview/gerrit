@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b6402d5_1d12e50e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "602672a9_77124be1",
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5fd11ec8_572777ce",
@@ -48,6 +66,30 @@
       "writtenOn": "2023-11-20T10:40:19Z",
       "side": 1,
       "message": "nit: check",
+      "range": {
+        "startLine": 24,
+        "startChar": 87,
+        "endLine": 24,
+        "endChar": 93
+      },
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03701962_fd26ac89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fd11ec8_572777ce",
       "range": {
         "startLine": 24,
         "startChar": 87,
@@ -81,6 +123,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0abda4d0_a7c8c87f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "481a0135_ac3ed61f",
+      "range": {
+        "startLine": 26,
+        "startChar": 79,
+        "endLine": 26,
+        "endChar": 84
+      },
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f45f69ea_5f88118d",
@@ -94,6 +160,30 @@
       "writtenOn": "2023-11-20T10:40:19Z",
       "side": 1,
       "message": "nit: skip",
+      "range": {
+        "startLine": 31,
+        "startChar": 15,
+        "endLine": 31,
+        "endChar": 20
+      },
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8cf3e84_371d49c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f45f69ea_5f88118d",
       "range": {
         "startLine": 31,
         "startChar": 15,
@@ -144,6 +234,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48aed810_388bdfaf",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 557,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f651388_236cdd2b",
+      "range": {
+        "startLine": 557,
+        "startChar": 69,
+        "endLine": 557,
+        "endChar": 73
+      },
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec8d29c5_602283f3",
@@ -157,6 +271,30 @@
       "writtenOn": "2023-11-20T10:40:19Z",
       "side": 1,
       "message": "\"only if\"",
+      "range": {
+        "startLine": 50,
+        "startChar": 39,
+        "endLine": 50,
+        "endChar": 43
+      },
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "317ddfe4_6a98887a",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeaturesConstants.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec8d29c5_602283f3",
       "range": {
         "startLine": 50,
         "startChar": 39,
@@ -190,6 +328,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc8ccbc9_7e300584",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29fc2c5e_e6c3329b",
+      "range": {
+        "startLine": 201,
+        "startChar": 16,
+        "endLine": 201,
+        "endChar": 19
+      },
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5373de9c_00df52af",
@@ -203,6 +365,30 @@
       "writtenOn": "2023-11-20T10:40:19Z",
       "side": 1,
       "message": "why not always report them?",
+      "range": {
+        "startLine": 240,
+        "startChar": 51,
+        "endLine": 240,
+        "endChar": 84
+      },
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "935ded6c_5907af40",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Updated the comment to explain it.",
+      "parentUuid": "5373de9c_00df52af",
       "range": {
         "startLine": 240,
         "startChar": 51,
@@ -247,6 +433,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01296996_00908496",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4789805e_e02cb27b",
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19eadc3f_c82ab738",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Yes, makes sense.\n\nHowever, because this requires additional code and tests for the fix, don\u0027t you mind if I add it later? Initially this will be rolled out in logging mode, so user will not see any message. I want first to ensure that:\n1) The algorithm is correct\n2) We don\u0027t break important users workflows.\n\nIf 1 or 2 is wrong, the additional improvements for message will be just waste of time now (because likely I have to redo it differently).",
+      "parentUuid": "89a362e5_4ef1580c",
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "863451ef_ecc4ed90",
@@ -260,6 +482,30 @@
       "writtenOn": "2023-11-20T10:40:19Z",
       "side": 1,
       "message": "nit: this exception is never thrown, hence it can be dropped from the method declaration",
+      "range": {
+        "startLine": 845,
+        "startChar": 26,
+        "endLine": 845,
+        "endChar": 54
+      },
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5ad9f1b_93046ea6",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 845,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "863451ef_ecc4ed90",
       "range": {
         "startLine": 845,
         "startChar": 26,
@@ -310,6 +556,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "469c5048_4f8c520d",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 881,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "597627c3_dc2827fc",
+      "range": {
+        "startLine": 881,
+        "startChar": 15,
+        "endLine": 881,
+        "endChar": 27
+      },
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ee0cfea_9e521bab",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 881,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "566d5fdf_08289252",
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "500220e1_0b894c30",
@@ -333,6 +621,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f97142ce_730ba9be",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 920,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "500220e1_0b894c30",
+      "range": {
+        "startLine": 920,
+        "startChar": 74,
+        "endLine": 920,
+        "endChar": 81
+      },
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee8c45fd_7410e540",
@@ -346,6 +658,30 @@
       "writtenOn": "2023-11-20T10:40:19Z",
       "side": 1,
       "message": "Maybe add a comment about when the parent can be merged-in-branch-as-submitted-change when it is not merged into the branchTip (is this something like the branch has been reset after a change was submitted so that the commit of the change is no longer present in the branch tip?).",
+      "range": {
+        "startLine": 942,
+        "startChar": 8,
+        "endLine": 942,
+        "endChar": 70
+      },
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "774386c2_48e0ce00",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 942,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee8c45fd_7410e540",
       "range": {
         "startLine": 942,
         "startChar": 8,
@@ -402,6 +738,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bad643b_43f9c2ba",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 958,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f20d805b_5e917643",
+      "range": {
+        "startLine": 957,
+        "startChar": 64,
+        "endLine": 958,
+        "endChar": 46
+      },
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2707096_aeb88d73",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 958,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3183f8c_99c240b2",
+      "range": {
+        "startLine": 957,
+        "startChar": 9,
+        "endLine": 958,
+        "endChar": 83
+      },
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "af5c347c_1d351544",
@@ -448,6 +832,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3519a4b8_2ed1ebd9",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af5c347c_1d351544",
+      "range": {
+        "startLine": 987,
+        "startChar": 7,
+        "endLine": 987,
+        "endChar": 92
+      },
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "408454cb_8bd533d0",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fc71147_eb8795da",
+      "range": {
+        "startLine": 987,
+        "startChar": 12,
+        "endLine": 987,
+        "endChar": 19
+      },
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "541c9daa_0ba17529",
@@ -461,6 +893,24 @@
       "writtenOn": "2023-11-20T10:40:19Z",
       "side": 1,
       "message": "Should the methods in this class be protected?",
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f3f1c37_00c8a9c9",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractImplicitMergeTest.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "541c9daa_0ba17529",
       "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -482,6 +932,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9eff524_8284dad5",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractImplicitMergeTest.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3480847b_d5e20581",
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ef5fc90_2af1ff2d",
@@ -495,6 +963,24 @@
       "writtenOn": "2023-11-20T10:40:19Z",
       "side": 1,
       "message": "nit: duplicate call (recursive \u003d false) was already set above",
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfbefddc_60998dc1",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractImplicitMergeTest.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ef5fc90_2af1ff2d",
       "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -522,6 +1008,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d06ce350_a68eab38",
+        "filename": "javatests/com/google/gerrit/acceptance/git/ImplicitMergeOnSubmitCherryPickIT.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea11313b_d7313441",
+      "range": {
+        "startLine": 37,
+        "startChar": 17,
+        "endLine": 37,
+        "endChar": 38
+      },
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b3f1d3cd_5fcc4e67",
@@ -535,6 +1045,30 @@
       "writtenOn": "2023-11-20T10:40:19Z",
       "side": 1,
       "message": "should this be true?",
+      "range": {
+        "startLine": 274,
+        "startChar": 40,
+        "endLine": 274,
+        "endChar": 45
+      },
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4953751d_098efa8f",
+        "filename": "javatests/com/google/gerrit/acceptance/git/ImplicitMergeOnSubmitExperimentsIT.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3f1d3cd_5fcc4e67",
       "range": {
         "startLine": 274,
         "startChar": 40,
@@ -579,6 +1113,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33f08013_64402722",
+        "filename": "javatests/com/google/gerrit/acceptance/git/ImplicitMergeOnSubmitIT.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ac8fbae_9be9d396",
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ee7c44c_e2b6bfc5",
@@ -592,6 +1144,30 @@
       "writtenOn": "2023-11-20T10:40:19Z",
       "side": 1,
       "message": "drop this? It seems the test only involves changes for the master branch",
+      "range": {
+        "startLine": 156,
+        "startChar": 31,
+        "endLine": 156,
+        "endChar": 48
+      },
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2956d33a_1554e40c",
+        "filename": "javatests/com/google/gerrit/acceptance/git/ImplicitMergeOnSubmitIT.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ee7c44c_e2b6bfc5",
       "range": {
         "startLine": 156,
         "startChar": 31,
@@ -625,6 +1201,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b8325f4_19feae96",
+        "filename": "javatests/com/google/gerrit/acceptance/git/ImplicitMergeOnSubmitIT.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9a66515_ce423a1b",
+      "range": {
+        "startLine": 181,
+        "startChar": 23,
+        "endLine": 181,
+        "endChar": 40
+      },
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2aef7e28_e3aef4c7",
@@ -638,6 +1238,30 @@
       "writtenOn": "2023-11-20T10:40:19Z",
       "side": 1,
       "message": "nit: and other",
+      "range": {
+        "startLine": 273,
+        "startChar": 30,
+        "endLine": 273,
+        "endChar": 36
+      },
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d91ebc7c_f5dc09e3",
+        "filename": "javatests/com/google/gerrit/acceptance/git/ImplicitMergeOnSubmitIT.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-20T12:35:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2aef7e28_e3aef4c7",
       "range": {
         "startLine": 273,
         "startChar": 30,

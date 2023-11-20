@@ -987,11 +987,20 @@ export class GrComment extends LitElement {
     // TODO(milutin): This is temporary warning, will be removed, once we are
     // able to change range of a comment
     if (this.generatedSuggestion.newRange) {
-      const range = this.generatedSuggestion.newRange;
-      return html`<div class="info">
-        <gr-icon icon="info" filled></gr-icon>
-        There is a suggestion in range (${range.start_line}, ${range.end_line})
-      </div>`;
+      if (
+        this.flagsService.isEnabled(
+          KnownExperimentId.ML_SUGGESTED_EDIT_OUT_OF_RANGE
+        )
+      ) {
+        const range = this.generatedSuggestion.newRange;
+        return html`<div class="info">
+          <gr-icon icon="info" filled></gr-icon>
+          There is a suggestion in range (${range.start_line},
+          ${range.end_line})
+        </div>`;
+      } else {
+        return nothing;
+      }
     }
     return html`<gr-suggestion-diff-preview
       .showAddSuggestionButton=${true}
@@ -1004,7 +1013,18 @@ export class GrComment extends LitElement {
     if (!this.showGeneratedSuggestion()) {
       return nothing;
     }
-    const numberOfSuggestions = !this.generatedSuggestion ? '' : ' (1)';
+    let numberOfSuggestions = !this.generatedSuggestion ? '' : ' (1)';
+    if (this.generatedSuggestion?.newRange) {
+      if (
+        this.flagsService.isEnabled(
+          KnownExperimentId.ML_SUGGESTED_EDIT_OUT_OF_RANGE
+        )
+      ) {
+        numberOfSuggestions = '(1)';
+      } else {
+        numberOfSuggestions = '(0)';
+      }
+    }
     return html`
       <div class="action">
         <label>

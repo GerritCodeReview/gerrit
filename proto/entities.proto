@@ -311,3 +311,64 @@ message UserPreferences {
   }
   optional EditPreferencesInfo edit_preferences_info = 3;
 }
+
+// Next Id: 13
+message HumanComment {
+  // Required. Note that the equivalent Java struct does not contain the change
+  // ID, so we keep the same format here.
+  optional int32 patchset_id = 1;
+  optional ObjectId dest_commit_id = 2;
+  // Required.
+  optional Account_Id account_id = 3;
+  optional Account_Id real_author = 4;
+
+  // Next Id: 5
+  message InFilePosition {
+    optional string file_path = 1;
+    enum Side {
+      // Should match the logic in
+      // http://google3/third_party/java_src/gerritcodereview/gerrit/java/com/google/gerrit/extensions/client/Side.java?rcl=579772037&l=24
+      PARENT = 0;
+      REVISION = 1;
+    }
+    // Default should match
+    // http://google3/third_party/java_src/gerritcodereview/gerrit/Documentation/rest-api-changes.txt?l=7423
+    optional Side side = 2 [default = REVISION];
+    message Range {
+      // 1-based
+      optional int32 start_line = 1;
+      // 0-based
+      optional int32 start_char = 2;
+      // 1-based
+      optional int32 end_line = 3;
+      // 0-based
+      optional int32 end_char = 4;
+    }
+    // If neither range nor line number set, the comment is on the file level. It is possible
+    // (though not required) for both values to be set. in this case, it is expected that the line
+    // number is identical to the range's end line.
+    optional Range position_range = 3;
+    // 1-based
+    optional int32 line_number = 4;
+  }
+
+  // If not set, the comment is on the patchset level.
+  optional InFilePosition in_file_position = 5;
+
+  // Required.
+  optional string message = 6;
+  // Might be set by the user while creating the draft.
+  // See http://go/gerrit-rest-api-change#comment-info.
+  optional string tag = 7;
+  optional bool unresolved = 8 [default = false];
+
+  // Required.
+  optional string comment_uuid = 9;
+  // Required.
+  optional string parent_comment_uuid = 10;
+
+  // Required. Epoch millis.
+  optional fixed64 written_on_millis = 11;
+  // Required.
+  optional string server_id = 12;
+}

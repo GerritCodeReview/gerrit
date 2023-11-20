@@ -1004,7 +1004,7 @@ export class GrComment extends LitElement {
     if (!this.showGeneratedSuggestion()) {
       return nothing;
     }
-    const numberOfSuggestions = !this.generatedSuggestion ? '' : ' (1)';
+    const numberOfSuggestions = !this.generatedSuggestion ? '(0)' : ' (1)';
     return html`
       <div class="action">
         <label>

@@ -216,7 +216,7 @@ public abstract class Comment {
   public int lineNbr;
 
   public Identity author;
-  protected Identity realAuthor;
+  public Identity realAuthor;
 
   // TODO(issue-15525): Migrate this field from Timestamp to Instant
   public Timestamp writtenOn;

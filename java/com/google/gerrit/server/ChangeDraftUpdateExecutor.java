@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server;
 
-import static autovalue.shaded.com.google$.common.collect.$ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
@@ -45,7 +45,17 @@ import org.eclipse.jgit.transport.PushCertificate;
  * </ol>
  */
 public interface ChangeDraftUpdateExecutor {
-  interface AbstractFactory<T extends ChangeDraftUpdateExecutor> {
+  interface AbstractFactory {
+    // Guice cannot bind either:
+    // - A parameterized entity.
+    // - A factory creating an interface (rather than a class).
+    // To overcome this - we declare the create method in this non-parameterized interface, then
+    // extend it with a factory returning an actual class.
+    ChangeDraftUpdateExecutor create();
+  }
+
+  interface Factory<T extends ChangeDraftUpdateExecutor> extends AbstractFactory {
+    @Override
     T create();
   }
 

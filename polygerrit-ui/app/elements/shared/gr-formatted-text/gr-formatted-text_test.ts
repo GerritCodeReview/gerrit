@@ -510,6 +510,9 @@ suite('gr-formatted-text tests', () => {
       element.content = `[myLink1](https://www.google.com)
         [myLink2](/destiny)
         [myLink3](${origin}/destiny)
+        [myLink4](google.com)
+        [myLink5](http://google.com)
+        [myLink6](mailto:google@google.com)
       `;
       await element.updateComplete;
 
@@ -529,6 +532,27 @@ suite('gr-formatted-text tests', () => {
                 <a href="/destiny">myLink2</a>
                 <br />
                 <a href="${origin}/destiny">myLink3</a>
+                <br />
+                <a
+                  href="https://google.com"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  >myLink4</a
+                >
+                <br />
+                <a
+                  href="http://google.com"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  >myLink5</a
+                >
+                <br />
+                <a
+                  href="mailto:google@google.com"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  >myLink6</a
+                >
               </p>
             </div>
           </marked-element>

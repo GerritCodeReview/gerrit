@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1ffdaf23_17d07f94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-11-20T16:57:45Z",
+      "side": 1,
+      "message": "You shouldn\u0027t need any backend changes. This is the purpose of the change.\n\nHowever, in the message, I mentioned 2 changes I have reverted to clean up my previous attempts: \"Reverted I354d78ea and I354d78ea in previous commits\nto cleanup the previous attempt.\"",
+      "parentUuid": "ab3921c7_f2f008d0",
+      "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e0852d35_01c299ea",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -31,6 +49,24 @@
       "writtenOn": "2023-11-20T10:49:29Z",
       "side": 1,
       "message": "I thinks this is interesting enough to add an entry in the release notes",
+      "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20125f16_7ca4eb62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-11-20T16:57:45Z",
+      "side": 1,
+      "message": "ok, added.",
+      "parentUuid": "e0852d35_01c299ea",
       "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55f1cb5f_4970565c",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1304,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-11-20T16:57:45Z",
+      "side": 1,
+      "message": "Good point. I missed it.",
+      "parentUuid": "d4ad5ef5_2a418058",
+      "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6a0e231_bdb3554f",
@@ -65,6 +119,24 @@
       "writtenOn": "2023-11-20T12:15:54Z",
       "side": 1,
       "message": "Why remove `project` here?",
+      "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "646fee2e_b9fcfa6c",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1477,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-11-20T16:57:45Z",
+      "side": 1,
+      "message": "We know that both vanilla Gerrit and \"Google\" Gerrit implement a redirection logic for `/changeNum` urls.\n\nHence, we delegate the redirection to the backend, regardless of the backend used.",
+      "parentUuid": "c6a0e231_bdb3554f",
       "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

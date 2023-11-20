@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0852d35_01c299ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-20T10:49:29Z",
+      "side": 1,
+      "message": "I thinks this is interesting enough to add an entry in the release notes",
+      "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

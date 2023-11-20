@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41d61fa5_212370f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-20T21:38:04Z",
+      "side": 1,
+      "message": "I would prefer Iaca9881cd46 as less invasive IMHO",
+      "revId": "0bb5f12cef4c011986dd265ef6717567b3c01068",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

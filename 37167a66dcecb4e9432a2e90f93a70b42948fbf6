@@ -399,6 +399,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9598677_b273d91e",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-20T12:58:25Z",
+      "side": 1,
+      "message": "Thanks! Makes sense to me.",
+      "parentUuid": "935ded6c_5907af40",
+      "range": {
+        "startLine": 240,
+        "startChar": 51,
+        "endLine": 240,
+        "endChar": 84
+      },
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89a362e5_4ef1580c",
@@ -465,6 +489,24 @@
       "side": 1,
       "message": "Yes, makes sense.\n\nHowever, because this requires additional code and tests for the fix, don\u0027t you mind if I add it later? Initially this will be rolled out in logging mode, so user will not see any message. I want first to ensure that:\n1) The algorithm is correct\n2) We don\u0027t break important users workflows.\n\nIf 1 or 2 is wrong, the additional improvements for message will be just waste of time now (because likely I have to redo it differently).",
       "parentUuid": "89a362e5_4ef1580c",
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9164d1a_c2041488",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-20T12:58:25Z",
+      "side": 1,
+      "message": "Yes, sure. Addressing this in a follow-up change is completely fine.",
+      "parentUuid": "19eadc3f_c82ab738",
       "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -682,6 +724,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "ee8c45fd_7410e540",
+      "range": {
+        "startLine": 942,
+        "startChar": 8,
+        "endLine": 942,
+        "endChar": 70
+      },
+      "revId": "37167a66dcecb4e9432a2e90f93a70b42948fbf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04aadb1a_f5fe5320",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 942,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-20T12:58:25Z",
+      "side": 1,
+      "message": "Thanks! Makes sense.",
+      "parentUuid": "774386c2_48e0ce00",
       "range": {
         "startLine": 942,
         "startChar": 8,

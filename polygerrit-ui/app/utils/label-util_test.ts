@@ -26,6 +26,7 @@ import {
   valueString,
   hasVotes,
   hasVoted,
+  extractLabelsWithCountFrom,
 } from './label-util';
 import {
   AccountId,
@@ -502,6 +503,31 @@ suite('label-util', () => {
       };
       const labels = extractAssociatedLabels(submitRequirement);
       assert.deepEqual(labels, ['Verified', 'Build-cop-override']);
+    });
+  });
+
+  suite('extractLabelsWithCountFrom', () => {
+    test('returns an empty array when the expression does not match the pattern', () => {
+      assert.deepEqual(extractLabelsWithCountFrom('foo'), []);
+      assert.deepEqual(
+        extractLabelsWithCountFrom('label:Verified=MAX -label:Code-Review=MIN'),
+        []
+      );
+    });
+
+    test('returns an empty array when count is not number', () => {
+      assert.deepEqual(extractLabelsWithCountFrom('label:name,count>=a'), []);
+    });
+
+    test('returns an array with label and count object when the expression matches the pattern', () => {
+      assert.deepEqual(extractLabelsWithCountFrom('label1:name=MIN,count>=1'), [
+        {label: 'name', count: 1},
+      ]);
+
+      assert.deepEqual(
+        extractLabelsWithCountFrom('label:Code-Review=MAX,count>=2'),
+        [{label: 'Code-Review', count: 2}]
+      );
     });
   });
 

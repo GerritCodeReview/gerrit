@@ -1452,13 +1452,19 @@ export class GrComment extends LitElement {
     await this.save();
   }
 
-  convertToCommentInput(): CommentInput | undefined {
+  async convertToCommentInputAndOrDiscard(): Promise<CommentInput | undefined> {
     if (!this.somethingToSave() || !this.comment) return;
-    return convertToCommentInput({
-      ...this.comment,
-      message: this.messageText.trimEnd(),
-      unresolved: this.unresolved,
-    });
+    const messageToSave = this.messageText.trimEnd();
+    if (messageToSave === '') {
+      await this.getCommentsModel().discardDraft(id(this.comment));
+      return undefined;
+    } else {
+      return convertToCommentInput({
+        ...this.comment,
+        message: this.messageText.trimEnd(),
+        unresolved: this.unresolved,
+      });
+    }
   }
 
   async save() {

@@ -175,6 +175,24 @@
       "parentUuid": "d4db8028_26017606",
       "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e292021_30be6d42",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1477,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-11-21T08:59:41Z",
+      "side": 1,
+      "message": "Let\u0027s just keep the method as is? What is the benefit of removing `project` here?\n\nDelegating to the backend means that the entire Gerrit web app has to be reloaded, which is a fairly high latency penalty.",
+      "parentUuid": "ba597a55_fc4ca48b",
+      "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

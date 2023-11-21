@@ -92,6 +92,7 @@ import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;
 import com.google.gerrit.server.mail.receive.MailReceiver;
 import com.google.gerrit.server.mail.send.SmtpEmailSender;
 import com.google.gerrit.server.mime.MimeUtil2Module;
+import com.google.gerrit.server.notedb.OnlineProjectsMigrationChecker;
 import com.google.gerrit.server.notedb.rebuild.NoteDbMigrator;
 import com.google.gerrit.server.notedb.rebuild.OnlineNoteDbMigrator;
 import com.google.gerrit.server.patch.DiffExecutorModule;
@@ -500,6 +501,7 @@ public class Daemon extends SiteProgram {
                   .annotatedWith(SecureStoreClassName.class)
                   .toInstance(DefaultSecureStore.class.getName());
               bind(SecureStore.class).toProvider(SecureStoreProvider.class);
+              install(new OnlineProjectsMigrationChecker.Module());
             }
           }
         });

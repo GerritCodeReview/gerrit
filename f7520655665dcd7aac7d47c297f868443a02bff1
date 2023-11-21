@@ -141,6 +141,30 @@
       },
       "revId": "f7520655665dcd7aac7d47c297f868443a02bff1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "174fc913_060d0035",
+        "filename": "java/com/google/gerrit/server/query/account/AccountQueryProcessor.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-11-21T08:26:50Z",
+      "side": 1,
+      "message": "Thanks for explaining. removed in https://gerrit-review.googlesource.com/c/gerrit/+/393874",
+      "parentUuid": "6cb70d6c_eddcc951",
+      "range": {
+        "startLine": 89,
+        "startChar": 21,
+        "endLine": 89,
+        "endChar": 34
+      },
+      "revId": "f7520655665dcd7aac7d47c297f868443a02bff1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

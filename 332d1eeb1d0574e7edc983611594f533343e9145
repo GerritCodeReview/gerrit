@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30f095e0_0fc6c902",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip-content/gr-tooltip-content.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2023-11-21T06:40:33Z",
+      "side": 1,
+      "message": "can we add some tests for this and a comment explaining why we need this method.",
+      "range": {
+        "startLine": 158,
+        "startChar": 2,
+        "endLine": 158,
+        "endChar": 26
+      },
+      "revId": "332d1eeb1d0574e7edc983611594f533343e9145",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

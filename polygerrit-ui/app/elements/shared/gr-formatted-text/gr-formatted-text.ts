@@ -126,7 +126,7 @@ export class GrFormattedText extends LitElement {
         this.repoCommentLinks = repoCommentLinks;
         // Always linkify URLs starting with https?://
         this.repoCommentLinks['ALWAYS_LINK_HTTP'] = {
-          match: '(https?://\\S+[\\w/~-])',
+          match: '(https?://((?!&(gt|lt|amp|quot|apos);)\\S)+[\\w/~-])',
           link: '$1',
           enabled: true,
         };

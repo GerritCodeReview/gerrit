@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3bc838a_c6c0bee8",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-11-21T09:17:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b05f2faf_bf11642a",
+      "revId": "d9140875d07ffac55a5a12d312d302b62b8d3d63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "81b65c78_31a16690",
@@ -48,6 +66,30 @@
       "writtenOn": "2023-11-21T08:39:49Z",
       "side": 1,
       "message": "Maybe \"needs\" instead of \"need\". asdf\n\nOr maybe \"requires\", if we have the space.",
+      "range": {
+        "startLine": 325,
+        "startChar": 16,
+        "endLine": 325,
+        "endChar": 20
+      },
+      "revId": "d9140875d07ffac55a5a12d312d302b62b8d3d63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d077d740_15ffe742",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-11-21T09:17:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81b65c78_31a16690",
       "range": {
         "startLine": 325,
         "startChar": 16,

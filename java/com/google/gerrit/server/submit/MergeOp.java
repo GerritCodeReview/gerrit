@@ -940,24 +940,32 @@ public class MergeOp implements AutoCloseable {
     // they are reachable from the targetBranchTip).
     Set<RevCommit> targetBranchParents = new HashSet<>();
     int nonTargetBranchParentsCount = 0;
-    for (RevCommit parent : Sets.difference(allParents, commitsToSubmit)) {
-      if (rw.isMergedInto(parent, branchTip)) {
-        targetBranchParents.add(parent);
-      } else {
-        // Special case: user created chain of changes and then submit first changes from the chain.
-        // It should be allowed for the user to submit remaining changes of the chain without
-        // rebasing them (otherwise votes can be lost).
-        // When a rebase... strategy is used in this scenario, submitting the first few changes of
-        // the chain creates new patchset(s), but all others changes are not rebased on top of new
-        // patchset(s). In this situation isMergedInto check is not enough and additional
-        // isMergedInBranchAsSubmittedChange check should be used.
-        if (isMergedInBranchAsSubmittedChange(parent, targetBranch)) {
+    try {
+      for (RevCommit parent : Sets.difference(allParents, commitsToSubmit)) {
+        if (rw.isMergedInto(parent, branchTip)) {
           targetBranchParents.add(parent);
         } else {
-          nonTargetBranchParentsCount++;
+          // Special case: user created chain of changes and then submit first changes from the
+          // chain. It should be allowed for the user to submit remaining changes of the chain
+          // without rebasing them (otherwise votes can be lost).
+          // When a rebase... strategy is used in this scenario, submitting the first few changes of
+          // the chain creates new patchset(s), but all others changes are not rebased on top of new
+          // patchset(s). In this situation isMergedInto check is not enough and additional
+          // isMergedInBranchAsSubmittedChange check should be used.
+          if (isMergedInBranchAsSubmittedChange(parent, targetBranch)) {
+            targetBranchParents.add(parent);
+          } else {
+            nonTargetBranchParentsCount++;
+          }
         }
       }
+    } finally {
+      // It's unclear why resetting the RevWalk here is needed, but if we don't do this MergeSorter
+      // and RebaseSorter which are invoked later with the same RevWalk instance may fail while
+      // marking commits as uninteresting.
+      rw.reset();
     }
+
     if (nonTargetBranchParentsCount == 0) {
       // All parents are in target branch, no implicit merge is possible.
       return false;

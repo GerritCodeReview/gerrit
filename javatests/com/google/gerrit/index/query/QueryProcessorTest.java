@@ -65,16 +65,6 @@ public class QueryProcessorTest {
           protected String formatForLogging(String o) {
             return "";
           }
-
-          @Override
-          protected int getIndexSize() {
-            return 0;
-          }
-
-          @Override
-          protected int getBatchSize() {
-            return 0;
-          }
         };
     processor.setNoLimit(noLimit);
     processor.setUserProvidedLimit(userProvidedLimit, /* applyDefaultLimit */ true);

@@ -105,6 +105,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "226875d0_b67bd02e",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1412,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-11-21T08:55:50Z",
+      "side": 1,
+      "message": "Forgot to discard draft.",
+      "revId": "7722698142090789a78b4552273818bb6fa974bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7ae16e28_2dacca5e",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
         "patchSetId": 7

@@ -16,6 +16,24 @@
       "message": "What is the motivation for removing this?\n\nIf for example a plugin contains a link using just the change number, then removing this handler means that the entire web app has to be reloaded. Is that intentional?",
       "revId": "7d147903012d671a8463cb4a8e694104608b5be8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "210f4288_6af8dab2",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1311,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-11-21T17:06:17Z",
+      "side": 0,
+      "message": "This has to go `/changeNum` URLs will be served by the backend.",
+      "parentUuid": "4f551de2_9a5028ad",
+      "revId": "7d147903012d671a8463cb4a8e694104608b5be8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

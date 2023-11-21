@@ -193,6 +193,24 @@
       "parentUuid": "ba597a55_fc4ca48b",
       "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efa41d41_397f30a7",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1477,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-11-21T17:06:17Z",
+      "side": 1,
+      "message": "Removing `project` will allow us to consolidate the way we handle `/c/changeNum` (returns `200`) and `/changeNum` (returns `302`) queries and delegate the lookup to the backend returning a consistent HTTP response code.\n\nI understand this would add a round trip to the backend, however, by checking at the gerrithub logs I don\u0027t see any call to this endpoint. Possibly your concern is related to any frontend plugin you have in mind? Maybe used in other Gerrit installations, for example Chromium?\n\nFurthermore, this is also a legacy endpoint which I believe it should be dismissed at some point. Maybe I can mark it as deprecated somehow in a followup change?\n\nThe following might be premature but just to keep in mind. When project-specific change numbers will be available in next Gerrit versions (v3.10 hopefully) the lookup by change number won\u0027t work anymore. But as I said it is probably too early to talk about that.",
+      "parentUuid": "7e292021_30be6d42",
+      "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

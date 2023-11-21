@@ -24,6 +24,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.CommentVerifier;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
@@ -42,6 +43,7 @@ public abstract class AbstractChangeUpdate {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   protected final ChangeNoteUtil noteUtil;
+  protected final CommentVerifier commentVerifier;
   protected final Account.Id accountId;
   protected final Account.Id realAccountId;
   protected final PersonIdent authorIdent;
@@ -55,7 +57,7 @@ public abstract class AbstractChangeUpdate {
   private ObjectId result;
   boolean rootOnly;
 
-  AbstractChangeUpdate(
+  protected AbstractChangeUpdate(
       ChangeNotes notes,
       CurrentUser user,
       PersonIdent serverIdent,
@@ -65,11 +67,13 @@ public abstract class AbstractChangeUpdate {
     this.serverIdent = new PersonIdent(serverIdent, when);
     this.notes = notes;
     this.change = notes.getChange();
+    this.when = when;
     this.accountId = accountId(user);
     Account.Id realAccountId = accountId(user.getRealUser());
     this.realAccountId = realAccountId != null ? realAccountId : accountId;
     this.authorIdent = ident(noteUtil, serverIdent, user, when);
-    this.when = when;
+    this.commentVerifier =
+        new CommentVerifier(this.accountId, this.realAccountId, this.authorIdent);
   }
 
   AbstractChangeUpdate(
@@ -92,6 +96,7 @@ public abstract class AbstractChangeUpdate {
     this.realAccountId = realAccountId;
     this.authorIdent = authorIdent;
     this.when = when;
+    this.commentVerifier = new CommentVerifier(accountId, realAccountId, authorIdent);
   }
 
   private static void checkUserType(CurrentUser user) {
@@ -275,20 +280,7 @@ public abstract class AbstractChangeUpdate {
     return ins.insert(Constants.OBJ_TREE, new byte[] {});
   }
 
-  void verifyComment(Comment c) {
-    checkArgument(c.getCommitId() != null, "commit ID required for comment: %s", c);
-    checkArgument(
-        c.author.getId().equals(getAccountId()),
-        "The author for the following comment does not match the author of this %s (%s): %s",
-        getClass().getSimpleName(),
-        getAccountId(),
-        c);
-    checkArgument(
-        c.getRealAuthor().getId().equals(realAccountId),
-        "The real author for the following comment does not match the real"
-            + " author of this %s (%s): %s",
-        getClass().getSimpleName(),
-        realAccountId,
-        c);
+  protected void verifyComment(Comment c) {
+    commentVerifier.verify(c);
   }
 }

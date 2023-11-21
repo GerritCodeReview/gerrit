@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bf748e2_65014cb3",
+        "filename": "java/com/google/gerrit/server/CommentVerifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-11-21T19:09:05Z",
+      "side": 1,
+      "message": "Please add file header",
+      "revId": "ff84e33781f7c8c5183df1736026a38e73361780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4aab93f6_d3d4b5b2",
+        "filename": "java/com/google/gerrit/server/CommentVerifier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-11-21T19:09:05Z",
+      "side": 1,
+      "message": "We can make this method static and get rid of the private fields\n  * public static void verify(Comment c, Account.Id accountId, Account.Id realAccountId, PersonIdent authorIdent)\n  \nFrom AbstractUpdate, all 3 fields are private fields of the class and can be passed to #verify. This will spare creating new instances of CommentVerifier.",
+      "revId": "ff84e33781f7c8c5183df1736026a38e73361780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

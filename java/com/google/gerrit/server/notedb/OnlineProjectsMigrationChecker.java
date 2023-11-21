@@ -28,8 +28,11 @@ import com.google.inject.Inject;
 import com.google.inject.Scopes;
 import java.util.Arrays;
 import java.util.Set;
+
+import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
+@Singleton
 public class OnlineProjectsMigrationChecker {
   private Set<String> migrationProjects;
   private final GerritServerConfigProvider configProvider;

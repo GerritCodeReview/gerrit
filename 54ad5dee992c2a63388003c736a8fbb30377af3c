@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac959255_1a7d637d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1459,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-11-21T09:30:01Z",
+      "side": 1,
+      "message": "Based on the line 1456 this is guaranteed `true`. Unless I am missing something",
+      "range": {
+        "startLine": 1459,
+        "startChar": 40,
+        "endLine": 1459,
+        "endChar": 62
+      },
+      "revId": "54ad5dee992c2a63388003c736a8fbb30377af3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

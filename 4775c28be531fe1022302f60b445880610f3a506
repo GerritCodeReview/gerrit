@@ -46,6 +46,30 @@
       },
       "revId": "4775c28be531fe1022302f60b445880610f3a506",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66cebeca_32fd8a5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-21T22:07:07Z",
+      "side": 1,
+      "message": "Thanks @luca, you were right, the problem was a missing binding for in-memory only tests.",
+      "parentUuid": "562d1fad_e49003a9",
+      "range": {
+        "startLine": 12,
+        "startChar": 50,
+        "endLine": 13,
+        "endChar": 42
+      },
+      "revId": "4775c28be531fe1022302f60b445880610f3a506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

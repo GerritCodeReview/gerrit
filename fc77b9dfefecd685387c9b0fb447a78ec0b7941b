@@ -38,6 +38,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3081a7d0_368629bb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1009,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-11-21T13:14:45Z",
+      "side": 1,
+      "message": "Consider moving this into an else, so it\u0027s clear it\u0027s either or.",
+      "range": {
+        "startLine": 1005,
+        "startChar": 0,
+        "endLine": 1009,
+        "endChar": 36
+      },
+      "revId": "fc77b9dfefecd685387c9b0fb447a78ec0b7941b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ade84418_4fb6ca6c",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
         "patchSetId": 2

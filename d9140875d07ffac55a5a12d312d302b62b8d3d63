@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e31d72c_7600aa58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-11-21T08:39:49Z",
+      "side": 1,
+      "message": "Nice! ❤️",
+      "revId": "d9140875d07ffac55a5a12d312d302b62b8d3d63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b05f2faf_bf11642a",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-11-21T08:39:49Z",
+      "side": 1,
+      "message": "I am not sure, if it can happen, but do you want to show this even if `count \u003d\u003d\u003d 1`?",
+      "revId": "d9140875d07ffac55a5a12d312d302b62b8d3d63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81b65c78_31a16690",
+        "filename": "polygerrit-ui/app/elements/change/gr-submit-requirements/gr-submit-requirements.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-11-21T08:39:49Z",
+      "side": 1,
+      "message": "Maybe \"needs\" instead of \"need\". asdf\n\nOr maybe \"requires\", if we have the space.",
+      "range": {
+        "startLine": 325,
+        "startChar": 16,
+        "endLine": 325,
+        "endChar": 20
+      },
+      "revId": "d9140875d07ffac55a5a12d312d302b62b8d3d63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

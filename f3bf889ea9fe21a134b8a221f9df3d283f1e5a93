@@ -86,6 +86,24 @@
       "parentUuid": "60175bc9_f6b1c1d2",
       "revId": "f3bf889ea9fe21a134b8a221f9df3d283f1e5a93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "daf44fa4_06c53f46",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-21T22:37:04Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "50e763cc_6dca65ec",
+      "revId": "f3bf889ea9fe21a134b8a221f9df3d283f1e5a93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

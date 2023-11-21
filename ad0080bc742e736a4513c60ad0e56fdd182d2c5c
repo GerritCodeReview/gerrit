@@ -86,6 +86,23 @@
       "message": "https://gerrit-review.googlesource.com/c/plugins/high-availability/+/390987/comments/fe2480f5_9f45a9c4",
       "revId": "ad0080bc742e736a4513c60ad0e56fdd182d2c5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd5e200d_9d956ffe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3042426
+      },
+      "writtenOn": "2023-11-21T01:31:40Z",
+      "side": 1,
+      "message": "390986: Update mockito to 5.6.0 and bytebuddy to 1.14.9 | https://gerrit-review.googlesource.com/c/gerrit/+/390986",
+      "revId": "ad0080bc742e736a4513c60ad0e56fdd182d2c5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

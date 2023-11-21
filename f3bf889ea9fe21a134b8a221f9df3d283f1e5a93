@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9307528_2bf65519",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-21T22:19:25Z",
+      "side": 1,
+      "message": "Missing `Release-Notes: skip`",
+      "revId": "f3bf889ea9fe21a134b8a221f9df3d283f1e5a93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8209f9cd_cf3b3f46",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-21T22:19:25Z",
+      "side": 1,
+      "message": "Good catch.",
+      "revId": "f3bf889ea9fe21a134b8a221f9df3d283f1e5a93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60175bc9_f6b1c1d2",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-21T22:19:25Z",
+      "side": 1,
+      "message": "Should this also include `if(migrateToNoteDb())` as well?",
+      "revId": "f3bf889ea9fe21a134b8a221f9df3d283f1e5a93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

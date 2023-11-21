@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65e38d6b_513365ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3020045
+      },
+      "writtenOn": "2023-11-21T21:43:44Z",
+      "side": 1,
+      "message": "git clone https://gerrit.googlesource.com/plugins/reviewnotes \u0026\u0026 (cd reviewnotes \u0026\u0026 f\u003d`git rev-parse --git-dir`/hooks/commit-msg ; mkdir -p $(dirname $f) ; curl -Lo $f https://gerrit-review.googlesource.com/tools/hooks/commit-msg ; chmod +x $f)",
+      "revId": "83495b02a486f2926453c4fec5d3aac7d597182f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

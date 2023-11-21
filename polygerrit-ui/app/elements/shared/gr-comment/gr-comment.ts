@@ -1019,9 +1019,11 @@ export class GrComment extends LitElement {
     if (!this.showGeneratedSuggestion()) {
       return nothing;
     }
+    const tooltip =
+      'Select to show a generated suggestion based on your comment for commented text. This suggestion can be inserted as a code block in your comment.';
     return html`
       <div class="action">
-        <label>
+        <label title=${tooltip}>
           <input
             type="checkbox"
             id="generateSuggestCheckbox"

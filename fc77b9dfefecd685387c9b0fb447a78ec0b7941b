@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b73d692_216ea5d3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1004,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-11-21T13:13:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18dd3da4_f9ace9ab",
+      "revId": "fc77b9dfefecd685387c9b0fb447a78ec0b7941b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ade84418_4fb6ca6c",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-11-20T20:20:08Z",
       "side": 1,
       "message": "Please define a function that computes the numberOfSuggestions.",
+      "revId": "fc77b9dfefecd685387c9b0fb447a78ec0b7941b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1cef78a_f25d0f72",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-11-21T13:13:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ade84418_4fb6ca6c",
       "revId": "fc77b9dfefecd685387c9b0fb447a78ec0b7941b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -68,6 +68,24 @@
       "message": "Should this also include `if(migrateToNoteDb())` as well?",
       "revId": "f3bf889ea9fe21a134b8a221f9df3d283f1e5a93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50e763cc_6dca65ec",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-21T22:34:38Z",
+      "side": 1,
+      "message": "Nope, the OnlineProjectsMigrationChecker always needs to be bound because it is used to _check_ whether the NoteDB should be created for the change based on the project name.\n\nIt is currently used in [1] and [2], In both cases we need to know whether the change needs to be created (or rebuilt) on NoteDB, regardless of the auto migrate flag.\n\nHope it makes sense.\n\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-2.16/java/com/google/gerrit/server/restapi/change/Rebuild.java#76\n\n[2] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-2.16/java/com/google/gerrit/server/update/ReviewDbBatchUpdate.java#450",
+      "parentUuid": "60175bc9_f6b1c1d2",
+      "revId": "f3bf889ea9fe21a134b8a221f9df3d283f1e5a93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

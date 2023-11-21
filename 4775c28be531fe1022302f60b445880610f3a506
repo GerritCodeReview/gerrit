@@ -22,6 +22,30 @@
       },
       "revId": "4775c28be531fe1022302f60b445880610f3a506",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "562d1fad_e49003a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-21T20:53:32Z",
+      "side": 1,
+      "message": "I tried to do the binding in `InMemoryTestingDatabaseModule`, but when I tried the number of dependent missing bindings was overwhelming.\n\nThis is the simplest, least invasive fix imho.",
+      "parentUuid": "3595d3f8_99f698c2",
+      "range": {
+        "startLine": 12,
+        "startChar": 50,
+        "endLine": 13,
+        "endChar": 42
+      },
+      "revId": "4775c28be531fe1022302f60b445880610f3a506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

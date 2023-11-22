@@ -387,9 +387,11 @@ export declare interface CheckResult {
    * responsible for not killing the browser. :-)
    *
    * For now this is just a plain unformatted string. The only formatting
-   * applied is the one that Gerrit also applies to human comments. TBD: Both
-   * human comments and check result messages should get richer formatting
-   * options.
+   * applied is the one that Gerrit also applies to human comments.
+   *
+   * To provide richer formatting to the check result messages you should use
+   * the `check-result-expanded` plugin endpoint to attach a Web Component.
+   * See `Documentation/pg-plugin-endpoints.txt`.
    */
   message?: string;
 

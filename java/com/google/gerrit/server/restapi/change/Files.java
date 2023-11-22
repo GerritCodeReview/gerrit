@@ -173,7 +173,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
       } else if (parentNum != 0) {
         int parents =
             gApi.changes()
-                .id(resource.getChange().getChangeId())
+                .id(resource.getChange().getProject().get(), resource.getChange().getChangeId())
                 .revision(resource.getPatchSet().id().get())
                 .commit(false)
                 .parents

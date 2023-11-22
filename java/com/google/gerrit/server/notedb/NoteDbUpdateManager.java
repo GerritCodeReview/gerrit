@@ -35,6 +35,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.metrics.Timer0;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.cancellation.RequestStateContext;
 import com.google.gerrit.server.cancellation.RequestStateContext.NonCancellableOperationContext;
@@ -81,7 +82,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private static final int MAX_PATCH_SETS_DEFAULT = 1000;
 
   public interface Factory {
-    NoteDbUpdateManager create(Project.NameKey projectName);
+    NoteDbUpdateManager create(Project.NameKey projectName, CurrentUser currentUser);
   }
 
   private final Provider<PersonIdent> serverIdent;
@@ -91,6 +92,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private final Project.NameKey projectName;
   private final int maxUpdates;
   private final int maxPatchSets;
+  private final CurrentUser currentUser;
   private final ListMultimap<String, ChangeUpdate> changeUpdates;
   private final ListMultimap<String, ChangeDraftNotesUpdate> draftUpdates;
   private final ListMultimap<String, RobotCommentUpdate> robotCommentUpdates;
@@ -114,7 +116,8 @@ public class NoteDbUpdateManager implements AutoCloseable {
       AllUsersName allUsersName,
       NoteDbMetrics metrics,
       AllUsersAsyncUpdate updateAllUsersAsync,
-      @Assisted Project.NameKey projectName) {
+      @Assisted Project.NameKey projectName,
+      @Assisted CurrentUser currentUser) {
     this.serverIdent = serverIdent;
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
@@ -123,6 +126,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     this.projectName = projectName;
     maxUpdates = cfg.getInt("change", null, "maxUpdates", MAX_UPDATES_DEFAULT);
     maxPatchSets = cfg.getInt("change", null, "maxPatchSets", MAX_PATCH_SETS_DEFAULT);
+    this.currentUser = currentUser;
     changeUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     draftUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     robotCommentUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
@@ -350,7 +354,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
         // have to run synchronous to be of any value at all. For the removal of draft comments from
         // All-Users we don't care much of the operation succeeds, so we are skipping the dry run
         // altogether.
-        updateAllUsersAsync.execute(refLogIdent, refLogMessage, pushCert);
+        updateAllUsersAsync.execute(refLogIdent, refLogMessage, pushCert, currentUser);
       }
       executed = true;
       return resultBuilder.build();

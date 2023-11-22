@@ -135,6 +135,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * the attached {@link ChangeRevisionNote}.
  */
 public class ChangeUpdate extends AbstractChangeUpdate {
+  private final CurrentUser user;
+
   public interface Factory {
     ChangeUpdate create(ChangeNotes notes, CurrentUser user, Instant when);
 
@@ -257,11 +259,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.serviceUserClassifier = serviceUserClassifier;
     this.patchSetApprovalUuidGenerator = patchSetApprovalUuidGenerator;
     this.approvals = approvals(labelNameComparator);
+    this.user = user;
   }
 
   public ObjectId commit() throws IOException {
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
-      try (NoteDbUpdateManager updateManager = updateManagerFactory.create(getProjectName())) {
+      try (NoteDbUpdateManager updateManager =
+          updateManagerFactory.create(getProjectName(), user)) {
         updateManager.add(this);
         updateManager.execute();
       }

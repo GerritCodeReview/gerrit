@@ -25,6 +25,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
@@ -47,6 +48,7 @@ public class AllUsersAsyncUpdate {
   private final AllUsersName allUsersName;
   private final GitRepositoryManager repoManager;
   private final ListMultimap<String, ChangeDraftNotesUpdate> draftUpdates;
+  private final GitReferenceUpdated gitRefUpdated;
 
   private PersonIdent serverIdent;
 
@@ -54,11 +56,13 @@ public class AllUsersAsyncUpdate {
   AllUsersAsyncUpdate(
       @FanOutExecutor ExecutorService executor,
       AllUsersName allUsersName,
-      GitRepositoryManager repoManager) {
+      GitRepositoryManager repoManager,
+      GitReferenceUpdated gitRefUpdated) {
     this.executor = executor;
     this.allUsersName = allUsersName;
     this.repoManager = repoManager;
     this.draftUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
+    this.gitRefUpdated = gitRefUpdated;
   }
 
   void setDraftUpdates(ListMultimap<String, ChangeDraftNotesUpdate> draftUpdates) {
@@ -110,6 +114,7 @@ public class AllUsersAsyncUpdate {
                   allUsersRepo.cmds.addTo(bru);
                   bru.setAllowNonFastForwards(true);
                   RefUpdateUtil.executeChecked(bru, allUsersRepo.rw);
+                  gitRefUpdated.fire(allUsersName, bru, null);
                 } catch (IOException e) {
                   logger.atSevere().withCause(e).log(
                       "Failed to delete draft comments asynchronously after publishing them");

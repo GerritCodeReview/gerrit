@@ -247,6 +247,24 @@
       "parentUuid": "3d9d4144_e3b8b4c3",
       "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac254151_c17ea2f7",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1477,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-22T12:04:40Z",
+      "side": 1,
+      "message": "Shall we abandon the change? Let\u0027s just keep the redirection on the backend and the frontend will keep its routing logic without doing any refresh.",
+      "parentUuid": "cc96d604_ad124683",
+      "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

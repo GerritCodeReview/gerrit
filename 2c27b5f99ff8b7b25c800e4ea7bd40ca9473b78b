@@ -65,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69324b3c_92ff9d3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-22T16:39:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb369407_81ccbcda",
+      "revId": "2c27b5f99ff8b7b25c800e4ea7bd40ca9473b78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b39325c_c50c40c6",
@@ -88,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5d36487_bba82397",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-22T16:39:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b39325c_c50c40c6",
+      "range": {
+        "startLine": 26,
+        "startChar": 49,
+        "endLine": 26,
+        "endChar": 56
+      },
+      "revId": "2c27b5f99ff8b7b25c800e4ea7bd40ca9473b78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "908169ac_07645a8a",
@@ -101,6 +143,30 @@
       "writtenOn": "2023-11-22T15:18:38Z",
       "side": 1,
       "message": "should this be URL.encoded or will the gApi take care of it?",
+      "range": {
+        "startLine": 176,
+        "startChar": 20,
+        "endLine": 176,
+        "endChar": 59
+      },
+      "revId": "2c27b5f99ff8b7b25c800e4ea7bd40ca9473b78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afc2e578_2215a006",
+        "filename": "java/com/google/gerrit/server/restapi/change/Files.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-22T16:39:36Z",
+      "side": 1,
+      "message": "The API is doing it:\n```\n        Joiner.on(\u0027~\u0027).join(ImmutableList.of(Url.encode(project), Url.encode(String.valueOf(id)))));\n```",
+      "parentUuid": "908169ac_07645a8a",
       "range": {
         "startLine": 176,
         "startChar": 20,

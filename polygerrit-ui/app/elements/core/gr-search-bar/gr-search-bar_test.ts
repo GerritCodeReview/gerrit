@@ -25,13 +25,11 @@ import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {fixture, html, assert} from '@open-wc/testing';
 import {Key} from '../../../utils/dom-util';
 import {getAppContext} from '../../../services/app-context';
-import {changeModelToken} from '../../../models/change/change-model';
 import {
   ConfigModel,
   configModelToken,
 } from '../../../models/config/config-model';
 import {wrapInProvider} from '../../../models/di-provider-element';
-import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-search-bar tests', () => {
   let element: GrSearchBar;
@@ -41,10 +39,7 @@ suite('gr-search-bar tests', () => {
     const serverConfig = createServerInfo();
     serverConfig.gerrit.doc_url = 'https://mydocumentationurl.google.com/';
     stubRestApi('getConfig').returns(Promise.resolve(serverConfig));
-    configModel = new ConfigModel(
-      testResolver(changeModelToken),
-      getAppContext().restApiService
-    );
+    configModel = new ConfigModel(getAppContext().restApiService);
     configModel.updateServerConfig(serverConfig);
     await waitUntilObserved(
       configModel.docsBaseUrl$,

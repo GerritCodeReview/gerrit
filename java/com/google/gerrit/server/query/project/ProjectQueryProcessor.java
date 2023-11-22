@@ -31,7 +31,6 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountLimits;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -47,7 +46,6 @@ import com.google.inject.Singleton;
 public class ProjectQueryProcessor extends QueryProcessor<ProjectData> {
   private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> userProvider;
-  private final ProjectCache projectCache;
   private final IndexConfig indexConfig;
 
   @Singleton
@@ -73,8 +71,7 @@ public class ProjectQueryProcessor extends QueryProcessor<ProjectData> {
       IndexConfig indexConfig,
       ProjectIndexCollection indexes,
       ProjectIndexRewriter rewriter,
-      PermissionBackend permissionBackend,
-      ProjectCache projectCache) {
+      PermissionBackend permissionBackend) {
     super(
         projectQueryMetrics,
         ProjectSchemaDefinitions.INSTANCE,
@@ -85,7 +82,6 @@ public class ProjectQueryProcessor extends QueryProcessor<ProjectData> {
         () -> limitsFactory.create(userProvider.get()).getQueryLimit());
     this.permissionBackend = permissionBackend;
     this.userProvider = userProvider;
-    this.projectCache = projectCache;
     this.indexConfig = indexConfig;
   }
 
@@ -101,15 +97,5 @@ public class ProjectQueryProcessor extends QueryProcessor<ProjectData> {
   @Override
   protected String formatForLogging(ProjectData projectData) {
     return projectData.getProject().getName();
-  }
-
-  @Override
-  protected int getIndexSize() {
-    return projectCache.all().size();
-  }
-
-  @Override
-  protected int getBatchSize() {
-    return 1;
   }
 }

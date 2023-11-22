@@ -26,6 +26,10 @@ import {
 } from './shortcuts/shortcuts-service';
 import {assertIsDefined} from '../utils/common-util';
 import {ConfigModel, configModelToken} from '../models/config/config-model';
+import {
+  RepoConfigModel,
+  repoConfigModelToken,
+} from '../models/config/repo-config-model';
 import {BrowserModel, browserModelToken} from '../models/browser/browser-model';
 import {
   HighlightService,
@@ -184,10 +188,14 @@ export function createAppDependencies(
           appContext.reportingService
         ),
     ],
+    [configModelToken, () => new ConfigModel(appContext.restApiService)],
     [
-      configModelToken,
+      repoConfigModelToken,
       () =>
-        new ConfigModel(resolver(changeModelToken), appContext.restApiService),
+        new RepoConfigModel(
+          resolver(changeModelToken),
+          appContext.restApiService
+        ),
     ],
     [
       relatedChangesModelToken,

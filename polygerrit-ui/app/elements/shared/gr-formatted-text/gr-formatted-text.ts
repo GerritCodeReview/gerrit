@@ -14,7 +14,7 @@ import {unescapeHTML} from '../../../utils/syntax-util';
 import '@polymer/marked-element';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
-import {configModelToken} from '../../../models/config/config-model';
+import {repoConfigModelToken} from '../../../models/config/repo-config-model';
 import {CommentLinks, EmailAddress} from '../../../api/rest-api';
 import {linkifyUrlsAndApplyRewrite} from '../../../utils/link-util';
 import '../gr-account-chip/gr-account-chip';
@@ -40,7 +40,7 @@ export class GrFormattedText extends LitElement {
   @state()
   private repoCommentLinks: CommentLinks = {};
 
-  private readonly getConfigModel = resolve(this, configModelToken);
+  private readonly getRepoConfigModel = resolve(this, repoConfigModelToken);
 
   // Private const but used in tests.
   // Limit the length of markdown because otherwise the markdown lexer will
@@ -121,7 +121,7 @@ export class GrFormattedText extends LitElement {
     super();
     subscribe(
       this,
-      () => this.getConfigModel().repoCommentLinks$,
+      () => this.getRepoConfigModel().repoCommentLinks$,
       repoCommentLinks => {
         this.repoCommentLinks = repoCommentLinks;
         // Always linkify URLs starting with https?://

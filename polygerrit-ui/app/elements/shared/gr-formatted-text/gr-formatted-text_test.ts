@@ -7,9 +7,9 @@ import '../../../test/common-test-setup';
 import {assert, fixture, html} from '@open-wc/testing';
 import {changeModelToken} from '../../../models/change/change-model';
 import {
-  ConfigModel,
-  configModelToken,
-} from '../../../models/config/config-model';
+  RepoConfigModel,
+  repoConfigModelToken,
+} from '../../../models/config/repo-config-model';
 import {wrapInProvider} from '../../../models/di-provider-element';
 import {getAppContext} from '../../../services/app-context';
 import './gr-formatted-text';
@@ -26,18 +26,18 @@ import {
 
 suite('gr-formatted-text tests', () => {
   let element: GrFormattedText;
-  let configModel: ConfigModel;
+  let repoConfigModel: RepoConfigModel;
 
   async function setCommentLinks(commentlinks: CommentLinks) {
-    configModel.updateRepoConfig({...createConfig(), commentlinks});
+    repoConfigModel.updateRepoConfig({...createConfig(), commentlinks});
     await waitUntilObserved(
-      configModel.repoCommentLinks$,
+      repoConfigModel.repoCommentLinks$,
       links => links === commentlinks
     );
   }
 
   setup(async () => {
-    configModel = new ConfigModel(
+    repoConfigModel = new RepoConfigModel(
       testResolver(changeModelToken),
       getAppContext().restApiService
     );
@@ -64,8 +64,8 @@ suite('gr-formatted-text tests', () => {
         wrapInProvider(
           wrapInProvider(
             html`<gr-formatted-text></gr-formatted-text>`,
-            configModelToken,
-            configModel
+            repoConfigModelToken,
+            repoConfigModel
           ),
           commentModelToken,
           commentModel

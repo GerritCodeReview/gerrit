@@ -11,19 +11,14 @@ import {
   createServerInfo,
 } from '../../test/test-data-generators';
 import {ConfigModel} from './config-model';
-import {testResolver} from '../../test/common-test-setup';
 import {getAppContext} from '../../services/app-context';
-import {changeModelToken} from '../change/change-model';
 import {ServerInfo} from '../../api/rest-api';
 
 suite('getDocsBaseUrl tests', () => {
   let model: ConfigModel;
 
   setup(async () => {
-    model = new ConfigModel(
-      testResolver(changeModelToken),
-      getAppContext().restApiService
-    );
+    model = new ConfigModel(getAppContext().restApiService);
   });
 
   test('null config', async () => {

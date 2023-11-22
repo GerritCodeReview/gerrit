@@ -294,6 +294,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new ApprovalModule());
     install(new MailSoySauceModule());
     install(new VersionInfoModule());
+    install(new SkipCurrentRulesEvaluationOnClosedChangesModule());
 
     factory(CapabilityCollection.Factory.class);
     factory(ChangeData.AssistedFactory.class);

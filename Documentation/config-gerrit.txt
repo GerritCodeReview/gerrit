@@ -1707,6 +1707,21 @@ link:rest-api-changes.html#get-diff[file diff] request will fail.
 +
 If not set or set to zero, no limits are applied on file sizes.
 
+[[change.skipCurrentRulesEvaluationOnClosedChanges]]
++
+If false, Gerrit will always take latest project configuration to
+compute submit labels. This means that, closed changes (either merged
+or abandoned) will be evaluated against the latest configuration which
+may produce different results. Especially for merged changes, they may
+look like they didn't meet the submit requirements.
++
+When true, evaluation will be skipped and Gerrit will show the
+exact status of submit labels when change was submitted. Post-review
+votes will only be allowed on labels that were configured when change
+was closed.
++
+Default it false.
+
 [[changeCleanup]]
 === Section changeCleanup
 

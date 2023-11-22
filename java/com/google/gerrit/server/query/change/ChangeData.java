@@ -78,6 +78,7 @@ import com.google.gerrit.server.change.PureRevert;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
+import com.google.gerrit.server.config.SkipCurrentRulesEvaluationOnClosedChanges;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtilFactory;
@@ -337,6 +338,7 @@ public class ChangeData {
             null,
             serverId,
             virtualIdAlgo,
+            false,
             project,
             id,
             null,
@@ -374,6 +376,7 @@ public class ChangeData {
   private final SubmitRequirementsEvaluator submitRequirementsEvaluator;
   private final SubmitRequirementsUtil submitRequirementsUtil;
   private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
+  private final boolean skipCurrentRulesEvaluationOnClosedChanges;
 
   // Required assisted injected fields.
   private final Project.NameKey project;
@@ -470,7 +473,8 @@ public class ChangeData {
       SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
       @GerritServerId String gerritServerId,
       ChangeNumberVirtualIdAlgorithm virtualIdFunc,
-      @Assisted NameKey project,
+      @SkipCurrentRulesEvaluationOnClosedChanges Boolean skipCurrentRulesEvaluationOnClosedChange,
+      @Assisted Project.NameKey project,
       @Assisted Change.Id id,
       @Assisted @Nullable Change change,
       @Assisted @Nullable ChangeNotes notes) {
@@ -496,6 +500,7 @@ public class ChangeData {
     this.submitRequirementsEvaluator = submitRequirementsEvaluator;
     this.submitRequirementsUtil = submitRequirementsUtil;
     this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
+    this.skipCurrentRulesEvaluationOnClosedChanges = skipCurrentRulesEvaluationOnClosedChange;
 
     this.project = project;
     this.legacyId = id;
@@ -1195,6 +1200,9 @@ public class ChangeData {
             "Tried to load SubmitRecords for change fetched from index %s: %d",
             project(), getId().get());
         return Collections.emptyList();
+      }
+      if (skipCurrentRulesEvaluationOnClosedChanges && change().isClosed()) {
+        return notes().getSubmitRecords();
       }
       records = submitRuleEvaluatorFactory.create(options).evaluate(this);
       submitRecords.put(options, records);

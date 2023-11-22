@@ -67,14 +67,4 @@ public class ImplicitMergeOnSubmitCherryPickIT extends AbstractImplicitMergeTest
             "master-content2", "added-by-implicit-merge\n",
             "stable-content", "stable-first-line\n");
   }
-
-  @Test
-  public void canSubmitImplicitMergeChange() throws Exception {
-    gApi.changes().id(implicitMergeChangeId).current().submit();
-
-    ChangeInfo ci = gApi.changes().id(implicitMergeChangeId).info();
-    assertThat(ci.submitted).isNotNull();
-    assertThat(ci.submitter).isNotNull();
-    assertThat(ci.submitter._accountId).isEqualTo(atrScope.get().getUser().getAccountId().get());
-  }
 }

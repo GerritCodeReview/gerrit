@@ -1037,7 +1037,7 @@ export declare interface RevisionInfo {
   commit?: CommitInfo;
   files?: {[filename: string]: FileInfo};
   reviewed?: boolean;
-  commit_with_footers?: boolean;
+  commit_with_footers?: string;
   push_certificate?: PushCertificateInfo;
   description?: string;
   parents_data?: ParentInfo[];

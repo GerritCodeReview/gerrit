@@ -22,6 +22,30 @@
       },
       "revId": "55938eef0a12fe35e0f3f46710e5dd3b338d8171",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a23da91_1c4ba941",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-22T14:41:44Z",
+      "side": 1,
+      "message": "It is about the followup change in this series. Without this fix, we get into an endless recursive loop: https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/40776/console\n\ne.g.:\n\n```\n ��� RangeError: Maximum call stack size exceeded \n      at Object.get (app/services/registry.ts:1:1)\n      at app/services/app-context-init.ts:1:1\n      at app/test/common-test-setup.ts:1:1\n      at testResolver (app/test/common-test-setup.ts:87:11)\n      at app/services/app-context-init.ts:1:1\n      at app/test/common-test-setup.ts:1:1\n      at testResolver (app/test/common-test-setup.ts:87:11)\n      at app/services/app-context-init.ts:1:1\n      at app/test/common-test-setup.ts:1:1\n      at testResolver (app/test/common-test-setup.ts:87:11)\n  /home/jenkins/.cache/bazel/_bazel_jenkins/67bba20af71044f1eb598ecb44098f26/execroot/gerrit/bazel-out/k8-fastbuild/bin/polygerrit-ui/web-test-runner.sh.runfiles/gerrit/polygerrit-ui/app/models/checks/checks-model_test.ts\n```",
+      "parentUuid": "ac7541ba_f07111ed",
+      "range": {
+        "startLine": 10,
+        "startChar": 7,
+        "endLine": 11,
+        "endChar": 40
+      },
+      "revId": "55938eef0a12fe35e0f3f46710e5dd3b338d8171",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

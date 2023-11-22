@@ -229,6 +229,24 @@
       "parentUuid": "efa41d41_397f30a7",
       "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc96d604_ad124683",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1477,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-11-22T12:01:35Z",
+      "side": 1,
+      "message": "+1 on leaving this as it is. It doesn\u0027t seem to bring much benefit but comes at a cost (reload web app, risk of outage)?",
+      "parentUuid": "3d9d4144_e3b8b4c3",
+      "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

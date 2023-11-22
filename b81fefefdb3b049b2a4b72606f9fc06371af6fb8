@@ -51,6 +51,24 @@
       "message": "Should we backport this to 3.9? This looks like a nice feature to have.",
       "revId": "b81fefefdb3b049b2a4b72606f9fc06371af6fb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0888fb6_ba4aa10b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-22T08:19:18Z",
+      "side": 1,
+      "message": "\u003e Should we backport this to 3.9? \n\nNo, I would prefer to not backport this. It\u0027s quite late in 3.9 release circle and we should not backport any new features this late. Especially this feature we haven\u0027t even seen working in production yet, and also the rebasing merge commits support is not complete with this change yet (i.e. there are open changes to support rebasing merge commits in the rebase submit strategies, see [1] and its predecessors).\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/393798",
+      "parentUuid": "48f79a1e_450c90df",
+      "revId": "b81fefefdb3b049b2a4b72606f9fc06371af6fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

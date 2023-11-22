@@ -121,6 +121,24 @@
       "parentUuid": "a92b364b_a24746f6",
       "revId": "ad0080bc742e736a4513c60ad0e56fdd182d2c5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "945a1faf_46be63f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-11-22T13:02:36Z",
+      "side": 1,
+      "message": "Reassigned to @hiesel@google.com as per-\nhttps://g-issues.gerritcodereview.com/issues/307779434",
+      "parentUuid": "a77a3c9e_4eb86a6a",
+      "revId": "ad0080bc742e736a4513c60ad0e56fdd182d2c5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

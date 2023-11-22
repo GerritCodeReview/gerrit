@@ -90,6 +90,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.approval.ApprovalsUtil;
+import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.TestSubmitInput;
 import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
@@ -126,6 +127,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.RefSpec;
+import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
@@ -135,6 +137,17 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @ConfigSuite.Config
   public static Config submitWholeTopicEnabled() {
     return submitWholeTopicEnabledConfig();
+  }
+
+  @ConfigSuite.Config
+  public static Config mergeabilityCheckEnabled() {
+    Config cfg = new Config();
+    cfg.setEnum(
+        "change",
+        null,
+        "mergeabilityComputationBehavior",
+        MergeabilityComputationBehavior.API_REF_UPDATED_AND_CHANGE_REINDEX);
+    return cfg;
   }
 
   @Inject private ApprovalsUtil approvalsUtil;
@@ -147,7 +160,14 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Inject private ChangeIndexer changeIndex;
 
+  protected MergeabilityComputationBehavior mcb;
+
   protected abstract SubmitType getSubmitType();
+
+  @Before
+  public void setUp() {
+    mcb = MergeabilityComputationBehavior.fromConfig(cfg);
+  }
 
   @Test
   @TestProjectInput(createEmptyCommit = false)

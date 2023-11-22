@@ -34,12 +34,16 @@ public interface Changes {
    * <p><strong>Note:</strong> This method eagerly reads the change. Methods that mutate the change
    * do not necessarily re-read the change. Therefore, calling a getter method on an instance after
    * calling a mutation method on that same instance is not guaranteed to reflect the mutation. It
-   * is not recommended to store references to {@code ChangeApi} instances.
+   * is not recommended to store references to {@code ChangeApi} instances. Also note that the
+   * change numeric id without a project name parameter may fail to identify a unique change
+   * element, because the potential conflict with other changes imported from Gerrit instances with
+   * a different Server-Id.
    *
    * @param id change number.
    * @return API for accessing the change.
    * @throws RestApiException if an error occurred.
    */
+  @Deprecated(since = "3.9")
   ChangeApi id(int id) throws RestApiException;
 
   /**

@@ -211,6 +211,24 @@
       "parentUuid": "7e292021_30be6d42",
       "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d9d4144_e3b8b4c3",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1477,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-11-22T10:44:19Z",
+      "side": 1,
+      "message": "\u003e Removing `project` will allow us to consolidate the way we handle `/c/changeNum` (returns `200`) and `/changeNum` (returns `302`) queries and delegate the lookup to the backend returning a consistent HTTP response code.\n\nWhat is the benefit of this consolidation?\n \n\u003e I understand this would add a round trip to the backend, however, by checking at the gerrithub logs I don\u0027t see any call to this endpoint. Possibly your concern is related to any frontend plugin you have in mind? Maybe used in other Gerrit installations, for example Chromium?\n\nNo, I don\u0027t have anything specific in mind. But we would also need to do logs analysis on our side to understand how this is used. And atm it seemer cheaper to just keep maintaining this code than doing the logs analysis.\n \n\u003e Furthermore, this is also a legacy endpoint which I believe it should be dismissed at some point. Maybe I can mark it as deprecated somehow in a followup change?\n\nSure. But just marking something as deprecated will not help. It may be used and whoever uses it may be upset.\n \n\u003e The following might be premature but just to keep in mind. When project-specific change numbers will be available in next Gerrit versions (v3.10 hopefully) the lookup by change number won\u0027t work anymore. But as I said it is probably too early to talk about that.\n\nI have not yet heard about that, but yeah, that sounds convincing. But let\u0027s wait until a design doc for that is approved.",
+      "parentUuid": "efa41d41_397f30a7",
+      "revId": "70967aad59cc9c0081dfaa27f29e99b29404e43f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

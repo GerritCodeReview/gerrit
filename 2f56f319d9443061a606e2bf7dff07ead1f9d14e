@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "401b98ff_c763ceff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-22T10:27:25Z",
+      "side": 1,
+      "message": "LGTM\n\nneeds approval from another maintainer since I edited the commit message",
+      "revId": "2f56f319d9443061a606e2bf7dff07ead1f9d14e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

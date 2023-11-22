@@ -114,7 +114,7 @@ import {modalStyles} from '../../../styles/gr-modal-styles';
 import {subscribe} from '../../lit/subscription-controller';
 import {userModelToken} from '../../../models/user/user-model';
 import {ParsedChangeInfo} from '../../../types/types';
-import {configModelToken} from '../../../models/config/config-model';
+import {repoConfigModelToken} from '../../../models/config/repo-config-model';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -497,7 +497,7 @@ export class GrChangeActions
 
   private readonly getUserModel = resolve(this, userModelToken);
 
-  private readonly getConfigModel = resolve(this, configModelToken);
+  private readonly getRepoConfigModel = resolve(this, repoConfigModelToken);
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
@@ -564,7 +564,7 @@ export class GrChangeActions
     );
     subscribe(
       this,
-      () => this.getConfigModel().repoConfig$,
+      () => this.getRepoConfigModel().repoConfig$,
       config => (this.privateByDefault = config?.private_by_default)
     );
   }

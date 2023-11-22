@@ -86,6 +86,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import {userModelToken} from '../../../models/user/user-model';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
+import {repoConfigModelToken} from '../../../models/config/repo-config-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
 import {truncatePath} from '../../../utils/path-list-util';
@@ -170,6 +171,8 @@ export class GrChangeMetadata extends LitElement {
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
+  private readonly getRepoConfigModel = resolve(this, repoConfigModelToken);
+
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getRelatedChangesModel = resolve(
@@ -186,7 +189,7 @@ export class GrChangeMetadata extends LitElement {
     );
     subscribe(
       this,
-      () => this.getConfigModel().repoConfig$,
+      () => this.getRepoConfigModel().repoConfig$,
       repoConfig => (this.repoConfig = repoConfig)
     );
     subscribe(

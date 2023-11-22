@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56899872_aeb5ef15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-22T15:18:38Z",
+      "side": 1,
+      "message": "step",
+      "range": {
+        "startLine": 14,
+        "startChar": 5,
+        "endLine": 14,
+        "endChar": 10
+      },
+      "revId": "2c27b5f99ff8b7b25c800e4ea7bd40ca9473b78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb369407_81ccbcda",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-22T15:18:38Z",
+      "side": 1,
+      "message": "For reference, could you mention the actual URL of the endpoint that caused the 404, like:\n\n````\nGET /changes/5819/files\n```",
+      "revId": "2c27b5f99ff8b7b25c800e4ea7bd40ca9473b78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b39325c_c50c40c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-22T15:18:38Z",
+      "side": 1,
+      "message": "return",
+      "range": {
+        "startLine": 26,
+        "startChar": 49,
+        "endLine": 26,
+        "endChar": 56
+      },
+      "revId": "2c27b5f99ff8b7b25c800e4ea7bd40ca9473b78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "908169ac_07645a8a",
+        "filename": "java/com/google/gerrit/server/restapi/change/Files.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-22T15:18:38Z",
+      "side": 1,
+      "message": "should this be URL.encoded or will the gApi take care of it?",
+      "range": {
+        "startLine": 176,
+        "startChar": 20,
+        "endLine": 176,
+        "endChar": 59
+      },
+      "revId": "2c27b5f99ff8b7b25c800e4ea7bd40ca9473b78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

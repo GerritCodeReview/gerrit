@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "956b3fba_19022a7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-23T12:10:10Z",
+      "side": 1,
+      "message": "The above list doesn\u0027t match my command: \n\n```\n$ git log --oneline --no-merges 5ae8d28faaf..82e277c81339\n\n88ca88a32 Add verification in GcKeepFilesTest that bitmaps are generated\n3a6eec9bb Express the explicit intention of creating bitmaps in GC\nac8d7838f GC: prune all packfiles after the loosen phase\ndd92c1aa9 Prepare 5.13.3-SNAPSHOT builds\n5aa8a7e27 (tag: v5.13.2.202306221912-r) JGit v5.13.2.202306221912-r\nf6928f573 Revert \"RefDirectory: Throw exception if CAS of packed ref list fails\"\n9932f9b41 (gerrithub/stable-6.2) [bazel] Move ToolTestCase to src folder (6.2)\n2fd050c56 (gerrithub/stable-5.13) GcConcurrentTest: @Ignore flaky testInterruptGc\n2aaa56113 Fix CommitTemplateConfigTest\n70bc5aad3 Fix after_open config and Snapshotting RefDir tests to work with bazel\n61d4e3134 [bazel] Skip ConfigTest#testCommitTemplatePathInHomeDirecory\nf3a3a2e87 Demote severity of some error prone bug patterns to warnings\n032eef5b1 Parse pull.rebase\u003dpreserve as alias for pull.rebase\u003dmerges\n064691e90 UploadPack: Fix NPE when traversing a tag chain\nb9b90d1d3 (origin/stable-5.11, gerrithub/stable-5.11) Add missing since tag for SshBasicTestBase\n4f662a26f (origin/stable-5.10, gerrithub/stable-5.10) Add missing since tag for SshTestHarness#publicKey2\n631858183 Silence API errors\n96d9e3eb1 (origin/stable-5.9, gerrithub/stable-5.9) Prevent infinite loop rescanning the pack list on PackMismatchException\nf371bfb3e Remove blank in maven.config\nf73efea21 Remove blank in maven.config\nd3ba40c80 Ensure parsed RevCommitCG has derived data from commit-graph\n17fac8a27 Downgrade maven-site-plugin to 3.12.1\nfc613e26d Use wagon-ssh-external to deploy Maven site\n23b9693a7 DirCache: support option index.skipHash\n```",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 37
+      },
+      "revId": "d6ea330c139d89438f067b1bdc6fdb804a398551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "57201b13_299d6340",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

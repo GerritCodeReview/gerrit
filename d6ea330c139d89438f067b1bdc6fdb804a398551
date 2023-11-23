@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d67c7b5_a75b41e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-23T13:49:06Z",
+      "side": 1,
+      "message": "I didn\u0027t list all commits, only the ones I thought are relevant for Gerrit.\nUpdated to the complete list.",
+      "parentUuid": "956b3fba_19022a7e",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 37
+      },
+      "revId": "d6ea330c139d89438f067b1bdc6fdb804a398551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57201b13_299d6340",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-11-23T12:06:40Z",
       "side": 1,
       "message": "Missing `Release-Notes` footer.",
+      "revId": "d6ea330c139d89438f067b1bdc6fdb804a398551",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc05c8a6_7a59d010",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-23T13:49:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57201b13_299d6340",
       "revId": "d6ea330c139d89438f067b1bdc6fdb804a398551",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

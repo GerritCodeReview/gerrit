@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45edc8f9_f567a419",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-23T14:39:30Z",
+      "side": 1,
+      "message": "Submit requirement for Verified is missing here.\nFiled https://issues.gerritcodereview.com/issues/312738713 to track this.\nSubmitting now since the CI validated this change.",
+      "revId": "c70348da43adc697388e8c368a262f037796f4ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -33,6 +33,23 @@
       "message": "Here is an example of the log message from init showing up in tracing logs in our CI\n\nhttps://zuul.opendev.org/t/openstack/build/19b18b787b5a46c4a6fd2a6e00c66882/log/review99.opendev.org/logs/error_log#86",
       "revId": "eeb1410e0baaa71e2ade8a8c3162e296ccc7c7f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "673f839f_f811b162",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-23T12:18:18Z",
+      "side": 1,
+      "message": "Can you please add the release notes footer? Then I\u0027m happy to merge and release the last v3.6 before EOL.",
+      "revId": "eeb1410e0baaa71e2ade8a8c3162e296ccc7c7f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -66,7 +66,7 @@ public class NoShellIT extends StandaloneSiteTest {
             .add(String.format("id_rsa_%s", "admin"))
             .build());
     gApi.accounts()
-        .id("admin")
+        .id(admin.id().get())
         .addSshKey(
             new String(
                 java.nio.file.Files.readAllBytes(

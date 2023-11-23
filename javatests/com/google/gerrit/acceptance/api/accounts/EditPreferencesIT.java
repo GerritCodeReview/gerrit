@@ -25,7 +25,7 @@ import org.junit.Test;
 public class EditPreferencesIT extends AbstractDaemonTest {
   @Test
   public void getSetEditPreferences() throws Exception {
-    EditPreferencesInfo out = gApi.accounts().id(admin.id().toString()).getEditPreferences();
+    EditPreferencesInfo out = gApi.accounts().id(admin.id().get()).getEditPreferences();
 
     assertThat(out.lineLength).isEqualTo(100);
     assertThat(out.indentUnit).isEqualTo(2);
@@ -58,7 +58,7 @@ public class EditPreferencesIT extends AbstractDaemonTest {
     out.autoCloseBrackets = true;
     out.showBase = true;
 
-    EditPreferencesInfo info = gApi.accounts().id(admin.id().toString()).setEditPreferences(out);
+    EditPreferencesInfo info = gApi.accounts().id(admin.id().get()).setEditPreferences(out);
 
     assertEditPreferences(info, out);
 
@@ -66,7 +66,7 @@ public class EditPreferencesIT extends AbstractDaemonTest {
     EditPreferencesInfo in = new EditPreferencesInfo();
     in.tabSize = 42;
 
-    info = gApi.accounts().id(admin.id().toString()).setEditPreferences(in);
+    info = gApi.accounts().id(admin.id().get()).setEditPreferences(in);
 
     out.tabSize = in.tabSize;
     assertEditPreferences(info, out);

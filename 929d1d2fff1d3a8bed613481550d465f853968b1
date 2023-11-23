@@ -16,6 +16,23 @@
       "message": "there was a very silly programming mistake in GitProtocolV2IT. Now fixed!",
       "revId": "929d1d2fff1d3a8bed613481550d465f853968b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f96c1c1f_b6e1a2e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-11-23T12:36:35Z",
+      "side": 1,
+      "message": "Aha 🎉🎉🎉🎉",
+      "revId": "929d1d2fff1d3a8bed613481550d465f853968b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

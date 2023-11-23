@@ -33,6 +33,23 @@
       "message": "Testing",
       "revId": "d98312f7026cd2982c323b8f8bdd66aa7a5a0698",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b237c82_ef94da06",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-23T11:49:27Z",
+      "side": 1,
+      "message": "The fix was already applied on master and there is no need for an urgent fix on stable-3.6.",
+      "revId": "d98312f7026cd2982c323b8f8bdd66aa7a5a0698",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce7d1cd2_5f64ca68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-23T12:17:52Z",
+      "side": 1,
+      "message": "Missing `Release-Notes` footer. I believe this change should be mentioned.",
+      "revId": "eeb1410e0baaa71e2ade8a8c3162e296ccc7c7f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3aef1781_a3f1e3a5",

@@ -28,6 +28,10 @@ export declare interface SuggestionsProvider {
    * - ... user types a comment draft
    */
   suggestCode(commentData: SuggestCodeRequest): Promise<SuggestCodeResponse>;
+  /**
+   * List of supported file extensions. If undefined, all file extensions supported.
+   */
+  supportedFileExtensions?: string[];
 }
 
 export declare interface SuggestCodeResponse {

@@ -14,12 +14,7 @@ import '../gr-ranged-comment-hint/gr-ranged-comment-hint';
 import '../gr-diff-builder/gr-diff-builder-image';
 import '../gr-diff-builder/gr-diff-section';
 import '../gr-diff-builder/gr-diff-row';
-import {
-  isResponsive,
-  FullContext,
-  diffClasses,
-  FULL_CONTEXT,
-} from './gr-diff-utils';
+import {isResponsive, FullContext, FULL_CONTEXT} from './gr-diff-utils';
 import {ImageInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {
@@ -364,9 +359,9 @@ export class GrDiffElement extends LitElement {
 
   public renderBinaryDiff() {
     return html`
-      <tbody class="gr-diff binary-diff">
-        <tr class="gr-diff">
-          <td colspan=${this.columnCount} class="gr-diff">
+      <tbody class="binary-diff">
+        <tr>
+          <td colspan=${this.columnCount}>
             <span>Difference in binary files</span>
           </td>
         </tr>
@@ -394,42 +389,19 @@ export class GrDiffElement extends LitElement {
     );
     return html`
       <colgroup>
-        ${when(
-          this.columns.blame,
-          () => html`<col class=${diffClasses('blame')} />`
-        )}
+        ${when(this.columns.blame, () => html`<col class="blame" />`)}
         ${when(
           this.columns.leftNumber,
-          () =>
-            html`<col
-              class=${diffClasses(Side.LEFT)}
-              width=${lineNumberWidth}
-            />`
+          () => html`<col class="left" width=${lineNumberWidth} />`
         )}
-        ${when(
-          this.columns.leftSign,
-          () => html`<col class=${diffClasses(Side.LEFT, 'sign')} />`
-        )}
-        ${when(
-          this.columns.leftContent,
-          () => html`<col class=${diffClasses(Side.LEFT)} />`
-        )}
+        ${when(this.columns.leftSign, () => html`<col class="left sign" />`)}
+        ${when(this.columns.leftContent, () => html`<col class="left" />`)}
         ${when(
           this.columns.rightNumber,
-          () =>
-            html`<col
-              class=${diffClasses(Side.RIGHT)}
-              width=${lineNumberWidth}
-            />`
+          () => html`<col class="right" width=${lineNumberWidth} />`
         )}
-        ${when(
-          this.columns.rightSign,
-          () => html`<col class=${diffClasses(Side.RIGHT, 'sign')} />`
-        )}
-        ${when(
-          this.columns.rightContent,
-          () => html`<col class=${diffClasses(Side.RIGHT)} />`
-        )}
+        ${when(this.columns.rightSign, () => html`<col class="right sign" />`)}
+        ${when(this.columns.rightContent, () => html`<col class="right" />`)}
       </colgroup>
     `;
   }

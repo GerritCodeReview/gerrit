@@ -30,6 +30,7 @@ import com.google.gerrit.server.config.CachedPreferences;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.StringJoiner;
 
 /**
  * Superset of all information related to an Account. This includes external IDs, project watches,
@@ -140,6 +141,21 @@ public abstract class AccountState {
     MoreObjects.ToStringHelper h = MoreObjects.toStringHelper(this);
     h.addValue(account().id());
     return h.toString();
+  }
+
+  public final String debugString() {
+    // Most of the fields might have a large representation. Using a multiline format to ease the
+    // reading.
+    return "AccountState[\n\t"
+        + new StringJoiner(",\n\t")
+            .add("account: " + account().debugString())
+            .add("externalIds: " + externalIds())
+            .add("userName: " + userName())
+            .add("projectWatches: " + projectWatches())
+            .add("generalPreferences: " + generalPreferences())
+            .add("diffPreferences: " + diffPreferences())
+            .add("editPreferences: " + editPreferences())
+        + "\n]";
   }
 
   /** Gerrit's default preferences as stored in {@code preferences.config}. */

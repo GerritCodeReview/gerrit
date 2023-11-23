@@ -658,15 +658,15 @@ image must be used. To build custom docker imager, change to the directory
 To build the custom RBE docker image, run:
 
 ```
-docker build -t gcr.io/api-project-164060093628/rbe-ubuntu18-04 .
+docker build -t gcr.io/api-project-164060093628/rbe-ubuntu20-04 .
 ```
 
 To publish the custom RBE docker image, run:
 
 ```
-docker push gcr.io/api-project-164060093628/rbe-ubuntu18-04
+docker push gcr.io/api-project-164060093628/rbe-ubuntu20-04
 [...]
-latest: digest: sha256:de5186d4313630a6111f9a2449b72563d0bc59ec9fb60956f063b69a38a76834 size: 1584
+latest: digest: sha256:0bb7a57107eadf558a73167558f5ca1be2db366783be9562299221ccfc6f2b23 size: 2009
 ```
 
 Re-build rbe_autoconfig project conduct a new release and switch to using it

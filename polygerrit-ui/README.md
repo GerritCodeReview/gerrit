@@ -29,8 +29,7 @@ probably easiest since you will have npm as part of Nodejs.
 
 ## Installing [Node.js](https://nodejs.org/en/download/) and npm packages
 
-The minimum nodejs version supported is 10.x+. We recommend at least the latest
-LTS (v16 as of October 2022).
+At the time of writing (November 2023) you should use version 18 of nodejs.
 
 ```sh
 # Debian experimental
@@ -38,7 +37,7 @@ sudo apt-get install nodejs
 sudo apt-get install npm
 
 # OS X with Homebrew
-brew install node@16
+brew install node@18
 brew install npm
 ```
 
@@ -57,17 +56,8 @@ For first time users to get the local server up, `bazel build gerrit` should be 
 # Install yarn package manager
 npm install -g yarn
 
-# Install packages from root-level packages.json
-bazel fetch @npm//:node_modules
-
-# Install packages from polygerrit-ui/app/packages.json
-bazel fetch @ui_npm//:node_modules
-
-# Install packages from polygerrit-ui/packages.json
-bazel fetch @ui_dev_npm//:node_modules
-
-# Install packages from tools/node_tools/packages.json
-bazel fetch @tools_npm//:node_modules
+# Install packages from all packages.json files
+yarn setup
 ```
 
 More information for installing and using nodejs rules can be found here https://bazelbuild.github.io/rules_nodejs/install.html

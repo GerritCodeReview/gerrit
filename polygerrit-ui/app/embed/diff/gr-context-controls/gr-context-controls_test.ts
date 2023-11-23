@@ -7,46 +7,22 @@ import '../../../test/common-test-setup';
 import '../gr-diff/gr-diff-group';
 import './gr-context-controls';
 import {GrContextControls} from './gr-context-controls';
-
-import {GrDiffLine} from '../gr-diff/gr-diff-line';
-import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
-import {
-  DiffFileMetaInfo,
-  DiffInfo,
-  GrDiffLineType,
-  SyntaxBlock,
-} from '../../../api/diff';
+import {SyntaxBlock} from '../../../api/diff';
 import {fixture, html, assert} from '@open-wc/testing';
 import {waitEventLoop} from '../../../test/test-utils';
+import {createContextGroup} from '../../../test/test-data-generators';
 
 suite('gr-context-control tests', () => {
   let element: GrContextControls;
 
   setup(async () => {
     element = document.createElement('gr-context-controls');
-    element.diff = {content: []} as any as DiffInfo;
+    element.lineCountLeft = 50;
     element.renderPreferences = {};
     const div = await fixture(html`<div></div>`);
     div.appendChild(element);
     await waitEventLoop();
   });
-
-  function createContextGroup(options: {offset?: number; count?: number}) {
-    const offset = options.offset || 0;
-    const numLines = options.count || 10;
-    const lines = [];
-    for (let i = 0; i < numLines; i++) {
-      const line = new GrDiffLine(GrDiffLineType.BOTH);
-      line.beforeNumber = offset + i + 1;
-      line.afterNumber = offset + i + 1;
-      line.text = 'lorem upsum';
-      lines.push(line);
-    }
-    return new GrDiffGroup({
-      type: GrDiffGroupType.CONTEXT_CONTROL,
-      contextGroups: [new GrDiffGroup({type: GrDiffGroupType.BOTH, lines})],
-    });
-  }
 
   test('no +10 buttons for 10 or less lines', async () => {
     element.group = createContextGroup({count: 10});
@@ -62,7 +38,6 @@ suite('gr-context-control tests', () => {
 
   test('context control at the top', async () => {
     element.group = createContextGroup({offset: 0, count: 20});
-    element.showConfig = 'below';
 
     await waitEventLoop();
 
@@ -80,7 +55,6 @@ suite('gr-context-control tests', () => {
 
   test('context control in the middle', async () => {
     element.group = createContextGroup({offset: 10, count: 20});
-    element.showConfig = 'both';
 
     await waitEventLoop();
 
@@ -100,7 +74,6 @@ suite('gr-context-control tests', () => {
 
   test('context control at the bottom', async () => {
     element.group = createContextGroup({offset: 30, count: 20});
-    element.showConfig = 'above';
 
     await waitEventLoop();
 
@@ -118,15 +91,12 @@ suite('gr-context-control tests', () => {
 
   function prepareForBlockExpansion(syntaxTree: SyntaxBlock[]) {
     element.renderPreferences!.use_block_expansion = true;
-    element.diff!.meta_b = {
-      syntax_tree: syntaxTree,
-    } as any as DiffFileMetaInfo;
+    element.syntaxTreeRight = syntaxTree;
   }
 
   test('context control with block expansion at the top', async () => {
     prepareForBlockExpansion([]);
     element.group = createContextGroup({offset: 0, count: 20});
-    element.showConfig = 'below';
 
     await waitEventLoop();
 
@@ -155,7 +125,6 @@ suite('gr-context-control tests', () => {
   test('context control with block expansion in the middle', async () => {
     prepareForBlockExpansion([]);
     element.group = createContextGroup({offset: 10, count: 20});
-    element.showConfig = 'both';
 
     await waitEventLoop();
 
@@ -192,7 +161,6 @@ suite('gr-context-control tests', () => {
   test('context control with block expansion at the bottom', async () => {
     prepareForBlockExpansion([]);
     element.group = createContextGroup({offset: 30, count: 20});
-    element.showConfig = 'above';
 
     await waitEventLoop();
 
@@ -218,7 +186,7 @@ suite('gr-context-control tests', () => {
     );
   });
 
-  test('+ Block tooltip tooltip shows syntax block containing the target lines above and below', async () => {
+  test('+Block tooltip tooltip shows syntax block containing the target lines above and below', async () => {
     prepareForBlockExpansion([
       {
         name: 'aSpecificFunction',
@@ -232,7 +200,6 @@ suite('gr-context-control tests', () => {
       },
     ]);
     element.group = createContextGroup({offset: 10, count: 20});
-    element.showConfig = 'both';
 
     await waitEventLoop();
 
@@ -284,7 +251,6 @@ suite('gr-context-control tests', () => {
       },
     ]);
     element.group = createContextGroup({offset: 10, count: 20});
-    element.showConfig = 'both';
 
     await waitEventLoop();
 
@@ -330,7 +296,6 @@ suite('gr-context-control tests', () => {
       },
     ]);
     element.group = createContextGroup({offset: 10, count: 20});
-    element.showConfig = 'both';
     await waitEventLoop();
 
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(
@@ -348,7 +313,6 @@ suite('gr-context-control tests', () => {
     prepareForBlockExpansion([]);
 
     element.group = createContextGroup({offset: 10, count: 20});
-    element.showConfig = 'both';
     await waitEventLoop();
 
     const blockExpansionButtons = element.shadowRoot!.querySelectorAll(

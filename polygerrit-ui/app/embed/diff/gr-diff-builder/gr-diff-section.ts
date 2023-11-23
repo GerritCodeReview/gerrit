@@ -15,7 +15,7 @@ import {
   DiffPreferencesInfo,
 } from '../../../api/diff';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
-import {diffClasses, getResponsiveMode} from '../gr-diff/gr-diff-utils';
+import {getResponsiveMode} from '../gr-diff/gr-diff-utils';
 import {GrDiffRow} from './gr-diff-row';
 import '../gr-context-controls/gr-context-controls-section';
 import '../gr-context-controls/gr-context-controls';
@@ -23,7 +23,6 @@ import '../gr-range-header/gr-range-header';
 import './gr-diff-row';
 import {when} from 'lit/directives/when.js';
 import {fire} from '../../../utils/event-util';
-import {countLines} from '../../../utils/diff-util';
 import {resolve} from '../../../models/dependency';
 import {
   ColumnsToShow,
@@ -142,7 +141,7 @@ export class GrDiffSection extends LitElement {
       this.diffPrefs?.show_file_comment_button === false ||
       this.renderPrefs?.show_file_comment_button === false;
     const body = html`
-      <tbody class=${diffClasses(...extras)}>
+      <tbody class=${extras.join(' ')}>
         ${this.renderContextControls()} ${this.renderMoveControls()}
         ${pairs.map(pair => {
           const leftClass = `left-${pair.left.lineNumber(Side.LEFT)}`;
@@ -191,26 +190,8 @@ export class GrDiffSection extends LitElement {
 
   private renderContextControls() {
     if (this.group?.type !== GrDiffGroupType.CONTEXT_CONTROL) return;
-
-    const leftStart = this.group.lineRange.left.start_line;
-    const leftEnd = this.group.lineRange.left.end_line;
-    const firstGroupIsSkipped = !!this.group.contextGroups[0].skip;
-    const lastGroupIsSkipped =
-      !!this.group.contextGroups[this.group.contextGroups.length - 1].skip;
-    const lineCountLeft = countLines(this.diff, Side.LEFT);
-    const containsWholeFile = lineCountLeft === leftEnd - leftStart + 1;
-    const showAbove =
-      (leftStart > 1 && !firstGroupIsSkipped) || containsWholeFile;
-    const showBelow = leftEnd < lineCountLeft && !lastGroupIsSkipped;
-
     return html`
-      <gr-context-controls-section
-        .showAbove=${showAbove}
-        .showBelow=${showBelow}
-        .group=${this.group}
-        .diff=${this.diff}
-        .renderPrefs=${this.renderPrefs}
-      >
+      <gr-context-controls-section .group=${this.group}>
       </gr-context-controls-section>
     `;
   }
@@ -225,41 +206,30 @@ export class GrDiffSection extends LitElement {
   private renderMoveControls() {
     if (!this.group?.moveDetails) return;
     const movedIn = this.group.adds.length > 0;
-    const plainCell = html`<td class=${diffClasses()}></td>`;
+    const plainCell = html`<td></td>`;
     const moveCell = html`
-      <td class=${diffClasses('moveHeader')}>
-        <gr-range-header class=${diffClasses()} icon="move_item">
+      <td class="moveHeader">
+        <gr-range-header icon="move_item">
           ${this.renderMoveDescription(movedIn)}
         </gr-range-header>
       </td>
     `;
     return html`
-      <tr
-        class=${diffClasses('moveControls', movedIn ? 'movedIn' : 'movedOut')}
-      >
-        ${when(
-          this.columns.blame,
-          () => html`<td class=${diffClasses('blame')}></td>`
-        )}
+      <tr class=${['moveControls', movedIn ? 'movedIn' : 'movedOut'].join(' ')}>
+        ${when(this.columns.blame, () => html`<td class="blame"></td>`)}
         ${when(
           this.columns.leftNumber,
-          () => html`<td class=${diffClasses('moveControlsLineNumCol')}></td>`
+          () => html`<td class="moveControlsLineNumCol"></td>`
         )}
-        ${when(
-          this.columns.leftSign,
-          () => html`<td class=${diffClasses('sign')}></td>`
-        )}
+        ${when(this.columns.leftSign, () => html`<td class="sign"></td>`)}
         ${when(this.columns.leftContent, () =>
           movedIn ? plainCell : moveCell
         )}
         ${when(
           this.columns.rightNumber,
-          () => html`<td class=${diffClasses('moveControlsLineNumCol')}></td>`
+          () => html`<td class="moveControlsLineNumCol"></td>`
         )}
-        ${when(
-          this.columns.rightSign,
-          () => html`<td class=${diffClasses('sign')}></td>`
-        )}
+        ${when(this.columns.rightSign, () => html`<td class="sign"></td>`)}
         ${when(this.columns.rightContent, () =>
           movedIn || this.isUnifiedDiff() ? moveCell : plainCell
         )}
@@ -275,20 +245,18 @@ export class GrDiffSection extends LitElement {
       const direction = movedIn ? 'from' : 'to';
       const textLabel = `Moved ${andChangedLabel}${direction} lines `;
       return html`
-        <div class=${diffClasses()}>
-          <span class=${diffClasses()}>${textLabel}</span>
+        <div>
+          <span>${textLabel}</span>
           ${this.renderMovedLineAnchor(range.start, otherSide)}
-          <span class=${diffClasses()}> - </span>
+          <span> - </span>
           ${this.renderMovedLineAnchor(range.end, otherSide)}
         </div>
       `;
     }
 
     return html`
-      <div class=${diffClasses()}>
-        <span class=${diffClasses()}
-          >${movedIn ? 'Moved in' : 'Moved out'}</span
-        >
+      <div>
+        <span>${movedIn ? 'Moved in' : 'Moved out'}</span>
       </div>
     `;
   }
@@ -299,11 +267,7 @@ export class GrDiffSection extends LitElement {
       this.handleMovedLineAnchorClick(e.target, side, line);
     };
     // `href` is not actually used but important for Screen Readers
-    return html`
-      <a class=${diffClasses()} href=${`#${line}`} @click=${listener}
-        >${line}</a
-      >
-    `;
+    return html`<a href=${`#${line}`} @click=${listener}>${line}</a>`;
   }
 
   private handleMovedLineAnchorClick(

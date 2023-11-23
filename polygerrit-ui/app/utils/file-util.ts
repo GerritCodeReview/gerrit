@@ -43,3 +43,11 @@ export function expandFileMode(input?: string) {
   }
   return input;
 }
+
+export function getFileExtension(fileName: string): string {
+  const index = fileName.lastIndexOf('.');
+  if (index === -1) {
+    return '';
+  }
+  return fileName.substring(index + 1);
+}

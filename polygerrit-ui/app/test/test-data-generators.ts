@@ -105,7 +105,7 @@ import {
 } from '../api/rest-api';
 import {CheckResult, CheckRun, RunResult} from '../models/checks/checks-model';
 import {Category, Fix, Link, LinkIcon, RunStatus} from '../api/checks';
-import {DiffInfo} from '../api/diff';
+import {DiffInfo, GrDiffLineType} from '../api/diff';
 import {SearchViewState} from '../models/views/search';
 import {ChangeChildView, ChangeViewState} from '../models/views/change';
 import {NormalizedFileInfo} from '../models/change/files-model';
@@ -113,6 +113,11 @@ import {GroupViewState} from '../models/views/group';
 import {RepoDetailView, RepoViewState} from '../models/views/repo';
 import {AdminChildView, AdminViewState} from '../models/views/admin';
 import {DashboardType, DashboardViewState} from '../models/views/dashboard';
+import {GrDiffLine} from '../embed/diff/gr-diff/gr-diff-line';
+import {
+  GrDiffGroup,
+  GrDiffGroupType,
+} from '../embed/diff/gr-diff/gr-diff-group';
 
 const TEST_DEFAULT_EXPRESSION = 'label:Verified=MAX -label:Verified=MIN';
 export const TEST_PROJECT_NAME: RepoName = 'test-project' as RepoName;
@@ -660,6 +665,23 @@ export function createDiff(): DiffInfo {
       },
     ],
   };
+}
+
+export function createContextGroup(options: {offset?: number; count?: number}) {
+  const offset = options.offset || 0;
+  const numLines = options.count || 10;
+  const lines = [];
+  for (let i = 0; i < numLines; i++) {
+    const line = new GrDiffLine(GrDiffLineType.BOTH);
+    line.beforeNumber = offset + i + 1;
+    line.afterNumber = offset + i + 1;
+    line.text = 'lorem upsum';
+    lines.push(line);
+  }
+  return new GrDiffGroup({
+    type: GrDiffGroupType.CONTEXT_CONTROL,
+    contextGroups: [new GrDiffGroup({type: GrDiffGroupType.BOTH, lines})],
+  });
 }
 
 export function createBlame(): BlameInfo {

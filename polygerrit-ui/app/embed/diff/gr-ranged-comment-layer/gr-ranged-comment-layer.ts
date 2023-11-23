@@ -49,8 +49,8 @@ type RangesMap = {
   [side in Side]: LinesMap;
 };
 
-const RANGE_BASE_ONLY = 'gr-diff range';
-const RANGE_HIGHLIGHT = 'gr-diff range rangeHighlight';
+const RANGE_BASE_ONLY = 'range';
+const RANGE_HIGHLIGHT = 'range rangeHighlight';
 // Note that there is also `rangeHoverHighlight` being set by GrDiffHighlight.
 
 /**

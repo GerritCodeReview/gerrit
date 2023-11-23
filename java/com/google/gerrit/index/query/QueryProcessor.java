@@ -146,6 +146,12 @@ public abstract class QueryProcessor<T> {
     return this;
   }
 
+  /** Convenience method for API backward compatibility. */
+  @CanIgnoreReturnValue
+  public QueryProcessor<T> setUserProvidedLimit(int n) {
+    return setUserProvidedLimit(n, true);
+  }
+
   /**
    * Set an end-user-provided limit on the number of results returned.
    *
@@ -154,13 +160,20 @@ public abstract class QueryProcessor<T> {
    * account and choose the one that makes the most sense.
    *
    * @param n limit; zero or negative means no limit.
+   * @param applyDefaultLimit Should the default limit be applied, if n <= 0? For internal queries
+   *     this should be false. For API endpoints this should be true.
    * @return this.
    */
-  public QueryProcessor<T> setUserProvidedLimit(int n) {
+  @CanIgnoreReturnValue
+  public QueryProcessor<T> setUserProvidedLimit(int n, boolean applyDefaultLimit) {
     userProvidedLimit = n;
+    if (applyDefaultLimit && userProvidedLimit <= 0 && indexConfig.defaultLimit() > 0) {
+      userProvidedLimit = indexConfig.defaultLimit();
+    }
     return this;
   }
 
+  @CanIgnoreReturnValue
   public QueryProcessor<T> setNoLimit(boolean isNoLimit) {
     this.isNoLimit = isNoLimit;
     return this;
@@ -172,6 +185,7 @@ public abstract class QueryProcessor<T> {
     return this;
   }
 
+  @CanIgnoreReturnValue
   public QueryProcessor<T> setRequestedFields(Set<String> fields) {
     requestedFields = fields;
     return this;
@@ -433,8 +447,6 @@ public abstract class QueryProcessor<T> {
     possibleLimits.add(getPermittedLimit());
     if (userProvidedLimit > 0) {
       possibleLimits.add(userProvidedLimit);
-    } else if (indexConfig.defaultLimit() > 0) {
-      possibleLimits.add(indexConfig.defaultLimit());
     }
     if (limitField != null) {
       Integer limitFromPredicate = LimitPredicate.getLimit(limitField, p);
@@ -465,8 +477,4 @@ public abstract class QueryProcessor<T> {
   }
 
   protected abstract String formatForLogging(T t);
-
-  protected abstract int getIndexSize();
-
-  protected abstract int getBatchSize();
 }

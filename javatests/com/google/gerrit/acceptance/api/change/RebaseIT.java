@@ -18,12 +18,15 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.extensions.client.ChangeKind.MERGE_FIRST_PARENT_UPDATE;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMMIT;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.project.testing.TestLabels.labelBuilder;
+import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
@@ -44,8 +47,10 @@ import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
@@ -65,6 +70,7 @@ import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -75,6 +81,7 @@ import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.inject.Inject;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -142,6 +149,474 @@ public class RebaseIT {
 
       // Rebasing the second change again should fail
       verifyChangeIsUpToDate(r2);
+    }
+
+    @Test
+    public void rebaseMerge() throws Exception {
+      // Create a new project for this test so that we can configure a copy condition without
+      // affecting any other tests. Copy Code-Review approvals if change kind is
+      // MERGE_FIRST_PARENT_UPDATE. MERGE_FIRST_PARENT_UPDATE is the change kind when a merge commit
+      // is rebased without conflicts.
+      Project.NameKey project = projectOperations.newProject().create();
+      try (ProjectConfigUpdate u = updateProject(project)) {
+        LabelType.Builder codeReview =
+            labelBuilder(
+                    LabelId.CODE_REVIEW,
+                    value(2, "Looks good to me, approved"),
+                    value(1, "Looks good to me, but someone else must approve"),
+                    value(0, "No score"),
+                    value(-1, "I would prefer this is not submitted as is"),
+                    value(-2, "This shall not be submitted"))
+                .setCopyCondition("changekind:" + MERGE_FIRST_PARENT_UPDATE.name());
+        u.getConfig().upsertLabelType(codeReview.build());
+        u.save();
+      }
+
+      String file1 = "foo/a.txt";
+      String file2 = "bar/b.txt";
+      String file3 = "baz/c.txt";
+
+      // Create an initial change that adds file1, so that we can modify it later.
+      Change.Id initialChange =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch("master")
+              .file(file1)
+              .content("base content")
+              .create();
+      approveAndSubmit(initialChange);
+
+      // Create another branch
+      String branchName = "foo";
+      BranchInput branchInput = new BranchInput();
+      branchInput.ref = branchName;
+      branchInput.revision = projectOperations.project(project).getHead("master").name();
+      gApi.projects().name(project.get()).branch(branchInput.ref).create(branchInput);
+
+      // Create a change in master that touches file1.
+      Change.Id baseChangeInMaster =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch("master")
+              .file(file1)
+              .content("master content")
+              .create();
+      approveAndSubmit(baseChangeInMaster);
+
+      // Create a change in the other branch and that touches file1 and creates file2.
+      Change.Id changeInOtherBranch =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch(branchName)
+              .file(file1)
+              .content("other content")
+              .file(file2)
+              .content("content")
+              .create();
+      approveAndSubmit(changeInOtherBranch);
+
+      // Create a merge change with a conflict resolution for file1. file2 has the same content as
+      // in the other branch (no conflict on file2).
+      Change.Id mergeChangeId =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch("master")
+              .mergeOfButBaseOnFirst()
+              .tipOfBranch("master")
+              .and()
+              .tipOfBranch(branchName)
+              .file(file1)
+              .content("merged content")
+              .file(file2)
+              .content("content")
+              .create();
+
+      // Create a change in master onto which the merge change can be rebased. This change touches
+      // an unrelated file (file3) so that there is no conflict on rebase.
+      Change.Id newBaseChangeInMaster =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch("master")
+              .file(file3)
+              .content("other content")
+              .create();
+      approveAndSubmit(newBaseChangeInMaster);
+
+      // Add an approval whose score should be copied on rebase.
+      gApi.changes().id(mergeChangeId.get()).current().review(ReviewInput.recommend());
+
+      // Rebase the merge change
+      rebaseCall.call(mergeChangeId.toString());
+
+      verifyRebaseForChange(
+          mergeChangeId,
+          ImmutableList.of(
+              getCurrentRevision(newBaseChangeInMaster), getCurrentRevision(changeInOtherBranch)),
+          /* shouldHaveApproval= */ true,
+          /* expectedNumRevisions= */ 2);
+
+      // Verify the file contents.
+      assertThat(getFileContent(mergeChangeId, file1)).isEqualTo("merged content");
+      assertThat(getFileContent(mergeChangeId, file2)).isEqualTo("content");
+      assertThat(getFileContent(mergeChangeId, file3)).isEqualTo("other content");
+
+      // Rebasing the merge change again should fail
+      verifyChangeIsUpToDate(mergeChangeId.toString());
+    }
+
+    @Test
+    public void rebaseMergeWithConflict_fails() throws Exception {
+      String file1 = "foo/a.txt";
+      String file2 = "bar/b.txt";
+
+      // Create an initial change that adds file1, so that we can modify it later.
+      Change.Id initialChange =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch("master")
+              .file(file1)
+              .content("base content")
+              .create();
+      approveAndSubmit(initialChange);
+
+      // Create another branch
+      String branchName = "foo";
+      BranchInput branchInput = new BranchInput();
+      branchInput.ref = branchName;
+      branchInput.revision = projectOperations.project(project).getHead("master").name();
+      gApi.projects().name(project.get()).branch(branchInput.ref).create(branchInput);
+
+      // Create a change in master that touches file1.
+      Change.Id baseChangeInMaster =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch("master")
+              .file(file1)
+              .content("master content")
+              .create();
+      approveAndSubmit(baseChangeInMaster);
+
+      // Create a change in the other branch and that touches file1 and creates file2.
+      Change.Id changeInOtherBranch =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch(branchName)
+              .file(file1)
+              .content("other content")
+              .file(file2)
+              .content("content")
+              .create();
+      approveAndSubmit(changeInOtherBranch);
+
+      // Create a merge change with a conflict resolution for file1. file2 has the same content as
+      // in the other branch (no conflict on file2).
+      Change.Id mergeChangeId =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch("master")
+              .mergeOfButBaseOnFirst()
+              .tipOfBranch("master")
+              .and()
+              .tipOfBranch(branchName)
+              .file(file1)
+              .content("merged content")
+              .file(file2)
+              .content("content")
+              .create();
+
+      // Create a change in master onto which the merge change can be rebased. This change touches
+      // file1 again so that there is a conflict on rebase.
+      Change.Id newBaseChangeInMaster =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch("master")
+              .file(file1)
+              .content("conflicting content")
+              .create();
+      approveAndSubmit(newBaseChangeInMaster);
+
+      // Try to rebase the merge change
+      MergeConflictException mergeConflictException =
+          assertThrows(
+              MergeConflictException.class, () -> rebaseCall.call(mergeChangeId.toString()));
+      assertThat(mergeConflictException)
+          .hasMessageThat()
+          .isEqualTo(
+              String.format(
+                  "Change %s could not be rebased due to a conflict during merge.\n"
+                      + "\n"
+                      + "merge conflict(s):\n"
+                      + "%s",
+                  mergeChangeId, file1));
+    }
+
+    @Test
+    public void rebaseMergeWithConflict_conflictsAllowed() throws Exception {
+      // Create a new project for this test so that we can configure a copy condition without
+      // affecting any other tests. Copy Code-Review approvals if change kind is
+      // MERGE_FIRST_PARENT_UPDATE. MERGE_FIRST_PARENT_UPDATE is the change kind when a merge commit
+      // is rebased without conflicts.
+      Project.NameKey project = projectOperations.newProject().create();
+      try (ProjectConfigUpdate u = updateProject(project)) {
+        LabelType.Builder codeReview =
+            labelBuilder(
+                    LabelId.CODE_REVIEW,
+                    value(2, "Looks good to me, approved"),
+                    value(1, "Looks good to me, but someone else must approve"),
+                    value(0, "No score"),
+                    value(-1, "I would prefer this is not submitted as is"),
+                    value(-2, "This shall not be submitted"))
+                .setCopyCondition("changekind:" + MERGE_FIRST_PARENT_UPDATE.name());
+        u.getConfig().upsertLabelType(codeReview.build());
+        u.save();
+      }
+
+      String file = "foo/a.txt";
+
+      // Create an initial change that adds a file, so that we can modify it later.
+      Change.Id initialChange =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch("master")
+              .file(file)
+              .content("base content")
+              .create();
+      approveAndSubmit(initialChange);
+
+      // Create another branch
+      String branchName = "foo";
+      BranchInput branchInput = new BranchInput();
+      branchInput.ref = branchName;
+      branchInput.revision = projectOperations.project(project).getHead("master").name();
+      gApi.projects().name(project.get()).branch(branchInput.ref).create(branchInput);
+
+      // Create a change in master that touches the file.
+      Change.Id baseChangeInMaster =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch("master")
+              .file(file)
+              .content("master content")
+              .create();
+      approveAndSubmit(baseChangeInMaster);
+
+      // Create a change in the other branch and that also touches the file.
+      Change.Id changeInOtherBranch =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch(branchName)
+              .file(file)
+              .content("other content")
+              .create();
+      approveAndSubmit(changeInOtherBranch);
+
+      // Create a merge change with a conflict resolution.
+      String mergeCommitMessage = "Merge";
+      String mergeContent = "merged content";
+      Change.Id mergeChangeId =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch("master")
+              .commitMessage(mergeCommitMessage)
+              .mergeOfButBaseOnFirst()
+              .tipOfBranch("master")
+              .and()
+              .tipOfBranch(branchName)
+              .file(file)
+              .content(mergeContent)
+              .create();
+      String mergeSha1 = abbreviateName(ObjectId.fromString(getCurrentRevision(mergeChangeId)), 6);
+
+      // Create a change in master onto which the merge change can be rebased. This change touches
+      // the file again so that there is a conflict on rebase.
+      String newBaseCommitMessage = "Foo";
+      String newBaseContent = "conflicting content";
+      Change.Id newBaseChangeInMaster =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch("master")
+              .commitMessage(newBaseCommitMessage)
+              .file(file)
+              .content(newBaseContent)
+              .create();
+      approveAndSubmit(newBaseChangeInMaster);
+
+      // Add an approval whose score should NOT be copied on rebase (since there is a conflict the
+      // change kind should be REWORK).
+      gApi.changes().id(mergeChangeId.get()).current().review(ReviewInput.recommend());
+
+      // Rebase the merge change with conflicts allowed.
+      TestWorkInProgressStateChangedListener wipStateChangedListener =
+          new TestWorkInProgressStateChangedListener();
+      try (ExtensionRegistry.Registration registration =
+          extensionRegistry.newRegistration().add(wipStateChangedListener)) {
+        RebaseInput rebaseInput = new RebaseInput();
+        rebaseInput.allowConflicts = true;
+        rebaseCallWithInput.call(mergeChangeId.toString(), rebaseInput);
+      }
+      assertThat(wipStateChangedListener.invoked).isTrue();
+      assertThat(wipStateChangedListener.wip).isTrue();
+
+      String baseCommit = getCurrentRevision(newBaseChangeInMaster);
+      verifyRebaseForChange(
+          mergeChangeId,
+          ImmutableList.of(baseCommit, getCurrentRevision(changeInOtherBranch)),
+          /* shouldHaveApproval= */ false,
+          /* expectedNumRevisions= */ 2);
+
+      // Verify the file contents.
+      String baseSha1 = abbreviateName(ObjectId.fromString(baseCommit), 6);
+      assertThat(getFileContent(mergeChangeId, file))
+          .isEqualTo(
+              "<<<<<<< PATCH SET ("
+                  + mergeSha1
+                  + " "
+                  + mergeCommitMessage
+                  + ")\n"
+                  + mergeContent
+                  + "\n"
+                  + "=======\n"
+                  + newBaseContent
+                  + "\n"
+                  + ">>>>>>> BASE      ("
+                  + baseSha1
+                  + " "
+                  + newBaseCommitMessage
+                  + ")\n");
+
+      // Verify that a change message has been posted on the change that informs about the conflict
+      // and the outdated vote.
+      List<ChangeMessageInfo> messages = gApi.changes().id(mergeChangeId.get()).messages();
+      assertThat(messages).hasSize(3);
+      assertThat(Iterables.getLast(messages).message)
+          .isEqualTo(
+              "Patch Set 2: Patch Set 1 was rebased\n\n"
+                  + "The following files contain Git conflicts:\n"
+                  + "* "
+                  + file
+                  + "\n\n"
+                  + "Outdated Votes:\n"
+                  + "* Code-Review+1"
+                  + " (copy condition: \"changekind:MERGE_FIRST_PARENT_UPDATE\")\n");
+
+      // Rebasing the merge change again should fail
+      verifyChangeIsUpToDate(mergeChangeId.toString());
+    }
+
+    @Test
+    public void rebaseMergeWithConflict_strategyAcceptTheirs() throws Exception {
+      rebaseMergeWithConflict_strategy("theirs");
+    }
+
+    @Test
+    public void rebaseMergeWithConflict_strategyAcceptOurs() throws Exception {
+      rebaseMergeWithConflict_strategy("ours");
+    }
+
+    private void rebaseMergeWithConflict_strategy(String strategy) throws Exception {
+      String file = "foo/a.txt";
+
+      // Create an initial change that adds a file, so that we can modify it later.
+      Change.Id initialChange =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch("master")
+              .file(file)
+              .content("base content")
+              .create();
+      approveAndSubmit(initialChange);
+
+      // Create another branch
+      String branchName = "foo";
+      BranchInput branchInput = new BranchInput();
+      branchInput.ref = branchName;
+      branchInput.revision = projectOperations.project(project).getHead("master").name();
+      gApi.projects().name(project.get()).branch(branchInput.ref).create(branchInput);
+
+      // Create a change in master that touches the file.
+      Change.Id baseChangeInMaster =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch("master")
+              .file(file)
+              .content("master content")
+              .create();
+      approveAndSubmit(baseChangeInMaster);
+
+      // Create a change in the other branch and that also touches the file.
+      Change.Id changeInOtherBranch =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch(branchName)
+              .file(file)
+              .content("other content")
+              .create();
+      approveAndSubmit(changeInOtherBranch);
+
+      // Create a merge change with a conflict resolution for the file.
+      String mergeContent = "merged content";
+      Change.Id mergeChangeId =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch("master")
+              .mergeOfButBaseOnFirst()
+              .tipOfBranch("master")
+              .and()
+              .tipOfBranch(branchName)
+              .file(file)
+              .content(mergeContent)
+              .create();
+
+      // Create a change in master onto which the merge change can be rebased.  This change touches
+      // the file again so that there is a conflict on rebase.
+      String newBaseContent = "conflicting content";
+      Change.Id newBaseChangeInMaster =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch("master")
+              .file(file)
+              .content(newBaseContent)
+              .create();
+      approveAndSubmit(newBaseChangeInMaster);
+
+      // Rebase the merge change with setting a merge strategy
+      RebaseInput rebaseInput = new RebaseInput();
+      rebaseInput.strategy = strategy;
+      rebaseCallWithInput.call(mergeChangeId.toString(), rebaseInput);
+
+      verifyRebaseForChange(
+          mergeChangeId,
+          ImmutableList.of(
+              getCurrentRevision(newBaseChangeInMaster), getCurrentRevision(changeInOtherBranch)),
+          /* shouldHaveApproval= */ false,
+          /* expectedNumRevisions= */ 2);
+
+      // Verify the file contents.
+      assertThat(getFileContent(mergeChangeId, file))
+          .isEqualTo(strategy.equals("theirs") ? newBaseContent : mergeContent);
+
+      // Rebasing the merge change again should fail
+      verifyChangeIsUpToDate(mergeChangeId.toString());
     }
 
     @Test
@@ -660,6 +1135,23 @@ public class RebaseIT {
           /* expectedNumRevisions= */ 2);
     }
 
+    protected void approveAndSubmit(Change.Id changeId) throws Exception {
+      approve(Integer.toString(changeId.get()));
+      gApi.changes().id(changeId.get()).current().submit();
+    }
+
+    protected String getCurrentRevision(Change.Id changeId) throws RestApiException {
+      return gApi.changes().id(changeId.get()).get(CURRENT_REVISION).currentRevision;
+    }
+
+    protected String getFileContent(Change.Id changeId, String file)
+        throws RestApiException, IOException {
+      BinaryResult bin = gApi.changes().id(changeId.get()).current().file(file).content();
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+      bin.writeTo(os);
+      return new String(os.toByteArray(), UTF_8);
+    }
+
     protected void verifyRebaseForChange(
         Change.Id changeId, Change.Id baseChangeId, boolean shouldHaveApproval)
         throws RestApiException {
@@ -672,13 +1164,25 @@ public class RebaseIT {
         boolean shouldHaveApproval,
         int expectedNumRevisions)
         throws RestApiException {
-      ChangeInfo baseInfo = gApi.changes().id(baseChangeId.get()).get(CURRENT_REVISION);
       verifyRebaseForChange(
-          changeId, baseInfo.currentRevision, shouldHaveApproval, expectedNumRevisions);
+          changeId,
+          ImmutableList.of(getCurrentRevision(baseChangeId)),
+          shouldHaveApproval,
+          expectedNumRevisions);
     }
 
     protected void verifyRebaseForChange(
         Change.Id changeId, String baseCommit, boolean shouldHaveApproval, int expectedNumRevisions)
+        throws RestApiException {
+      verifyRebaseForChange(
+          changeId, ImmutableList.of(baseCommit), shouldHaveApproval, expectedNumRevisions);
+    }
+
+    protected void verifyRebaseForChange(
+        Change.Id changeId,
+        List<String> baseCommits,
+        boolean shouldHaveApproval,
+        int expectedNumRevisions)
         throws RestApiException {
       ChangeInfo info =
           gApi.changes().id(changeId.get()).get(CURRENT_REVISION, CURRENT_COMMIT, DETAILED_LABELS);
@@ -688,10 +1192,12 @@ public class RebaseIT {
       assertThat(r.realUploader).isNull();
 
       // ...and the base should be correct
-      assertThat(r.commit.parents).hasSize(1);
-      assertWithMessage("base commit for change " + changeId)
-          .that(r.commit.parents.get(0).commit)
-          .isEqualTo(baseCommit);
+      assertThat(r.commit.parents).hasSize(baseCommits.size());
+      for (int baseNum = 0; baseNum < baseCommits.size(); baseNum++) {
+        assertWithMessage("base commit " + baseNum + " for change " + changeId)
+            .that(r.commit.parents.get(baseNum).commit)
+            .isEqualTo(baseCommits.get(baseNum));
+      }
 
       // ...and the committer and description should be correct
       GitPerson committer = r.commit.committer;
@@ -711,8 +1217,12 @@ public class RebaseIT {
     }
 
     protected void verifyChangeIsUpToDate(PushOneCommit.Result r) {
+      verifyChangeIsUpToDate(r.getChangeId());
+    }
+
+    protected void verifyChangeIsUpToDate(String changeId) {
       ResourceConflictException thrown =
-          assertThrows(ResourceConflictException.class, () -> rebaseCall.call(r.getChangeId()));
+          assertThrows(ResourceConflictException.class, () -> rebaseCall.call(changeId));
       assertThat(thrown).hasMessageThat().contains("Change is already up to date");
     }
 
@@ -1167,9 +1677,9 @@ public class RebaseIT {
     }
 
     @Override
-    protected void verifyChangeIsUpToDate(PushOneCommit.Result r) {
+    protected void verifyChangeIsUpToDate(String changeId) {
       ResourceConflictException thrown =
-          assertThrows(ResourceConflictException.class, () -> rebaseCall.call(r.getChangeId()));
+          assertThrows(ResourceConflictException.class, () -> rebaseCall.call(changeId));
       assertThat(thrown).hasMessageThat().contains("The whole chain is already up to date.");
     }
 
@@ -1291,6 +1801,152 @@ public class RebaseIT {
           gApi.changes().id(r5.getChangeId()).rebaseChain(), false, r2, r3, r4, r5);
 
       verifyRebaseForChange(r5.getChange().getId(), r4.getChange().getId(), false);
+    }
+
+    @Test
+    public void rebaseChainWithMerges() throws Exception {
+      String file1 = "foo/a.txt";
+      String file2 = "bar/b.txt";
+
+      // Create an initial change that adds file1, so that we can modify it later.
+      Change.Id initialChange =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch("master")
+              .file(file1)
+              .content("base content")
+              .create();
+      approveAndSubmit(initialChange);
+
+      // Create another branch
+      String branchName = "foo";
+      BranchInput branchInput = new BranchInput();
+      branchInput.ref = branchName;
+      branchInput.revision = projectOperations.project(project).getHead("master").name();
+      gApi.projects().name(project.get()).branch(branchInput.ref).create(branchInput);
+
+      // Create a change in master that touches file1.
+      Change.Id baseChangeInMaster =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch("master")
+              .file(file1)
+              .content("master content")
+              .create();
+      approveAndSubmit(baseChangeInMaster);
+
+      // Create a change in the other branch and that also touches file1.
+      Change.Id changeInOtherBranch =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch(branchName)
+              .file(file1)
+              .content("other content")
+              .create();
+      approveAndSubmit(changeInOtherBranch);
+
+      // Create a merge change with a conflict resolution.
+      Change.Id mergeChangeId =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch("master")
+              .mergeOfButBaseOnFirst()
+              .tipOfBranch("master")
+              .and()
+              .tipOfBranch(branchName)
+              .file(file1)
+              .content("merged content")
+              .create();
+
+      // Create a follow up change.
+      Change.Id followUpChangeId =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch("master")
+              .childOf()
+              .change(mergeChangeId)
+              .file(file1)
+              .content("modified content")
+              .create();
+
+      // Create another change in the other branch so that we can create another merge
+      Change.Id anotherChangeInOtherBranch =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch(branchName)
+              .file(file1)
+              .content("yet another content")
+              .create();
+      approveAndSubmit(anotherChangeInOtherBranch);
+
+      // Create a second merge change with a conflict resolution.
+      Change.Id followUpMergeChangeId =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch("master")
+              .childOf()
+              .change(followUpChangeId)
+              .mergeOfButBaseOnFirst()
+              .change(followUpChangeId)
+              .and()
+              .tipOfBranch(branchName)
+              .file(file1)
+              .content("another merged content")
+              .create();
+
+      // Create a change in master onto which the chain can be rebased. This change touches an
+      // unrelated file (file2) so that there is no conflict on rebase.
+      Change.Id newBaseChangeInMaster =
+          changeOperations
+              .newChange()
+              .project(project)
+              .branch("master")
+              .file(file2)
+              .content("other content")
+              .create();
+      approveAndSubmit(newBaseChangeInMaster);
+
+      // Rebase the chain
+      RebaseChainInfo rebaseChainInfo =
+          gApi.changes().id(followUpMergeChangeId.get()).rebaseChain().value();
+      assertThat(rebaseChainInfo.rebasedChanges).hasSize(3);
+      assertThat(rebaseChainInfo.containsGitConflicts).isNull();
+
+      verifyRebaseForChange(
+          mergeChangeId,
+          ImmutableList.of(
+              getCurrentRevision(newBaseChangeInMaster), getCurrentRevision(changeInOtherBranch)),
+          /* shouldHaveApproval= */ false,
+          /* expectedNumRevisions= */ 2);
+      verifyRebaseForChange(
+          followUpChangeId,
+          ImmutableList.of(getCurrentRevision(mergeChangeId)),
+          /* shouldHaveApproval= */ false,
+          /* expectedNumRevisions= */ 2);
+      verifyRebaseForChange(
+          followUpMergeChangeId,
+          ImmutableList.of(
+              getCurrentRevision(followUpChangeId), getCurrentRevision(anotherChangeInOtherBranch)),
+          /* shouldHaveApproval= */ false,
+          /* expectedNumRevisions= */ 2);
+
+      // Verify the file contents.
+      assertThat(getFileContent(mergeChangeId, file1)).isEqualTo("merged content");
+      assertThat(getFileContent(mergeChangeId, file2)).isEqualTo("other content");
+      assertThat(getFileContent(followUpChangeId, file1)).isEqualTo("modified content");
+      assertThat(getFileContent(followUpChangeId, file2)).isEqualTo("other content");
+      assertThat(getFileContent(followUpMergeChangeId, file1)).isEqualTo("another merged content");
+      assertThat(getFileContent(followUpMergeChangeId, file2)).isEqualTo("other content");
+
+      // Rebasing the chain again should fail
+      verifyChangeIsUpToDate(followUpChangeId.toString());
     }
 
     @Test

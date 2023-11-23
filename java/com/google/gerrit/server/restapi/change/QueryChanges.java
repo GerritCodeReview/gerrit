@@ -172,9 +172,7 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
       throw new QueryParseException("query disabled");
     }
 
-    if (limit != null) {
-      queryProcessor.setUserProvidedLimit(limit);
-    }
+    queryProcessor.setUserProvidedLimit(limit != null ? limit : 0, /* applyDefaultLimit */ true);
     if (start != null) {
       if (start < 0) {
         throw new BadRequestException("'start' parameter cannot be less than zero");

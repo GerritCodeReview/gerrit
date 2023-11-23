@@ -1698,9 +1698,21 @@ public class RestApiServlet extends HttpServlet {
     if (rootCollection instanceof ProjectsCollection) {
       requestInfo.project(Project.nameKey(resourceId));
     } else if (rootCollection instanceof ChangesCollection) {
-      Optional<ChangeNotes> changeNotes = globals.changeFinder.findOne(resourceId);
-      if (changeNotes.isPresent()) {
-        requestInfo.project(changeNotes.get().getProjectName());
+      try {
+        Optional<ChangeNotes> changeNotes =
+            globals
+                .retryHelper
+                .action(
+                    ActionType.INDEX_QUERY,
+                    "find-change",
+                    () -> globals.changeFinder.findOne(resourceId))
+                .call();
+        if (changeNotes.isPresent()) {
+          requestInfo.project(changeNotes.get().getProjectName());
+        }
+      } catch (Exception e) {
+        logger.atWarning().withCause(e).log(
+            "failed looking up change %s to populate project in request info", resourceId);
       }
     }
     return requestInfo.build();

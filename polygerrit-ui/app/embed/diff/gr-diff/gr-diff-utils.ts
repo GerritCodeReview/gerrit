@@ -3,7 +3,7 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {CommentRange} from '../../../types/common';
+import {BlameInfo, CommentRange} from '../../../types/common';
 import {Side, SpecialFilePath} from '../../../constants/constants';
 import {
   DiffContextExpandedExternalDetail,
@@ -315,150 +315,17 @@ export function isThreadEl(
   );
 }
 
-/**
- * Simple helper method for creating element classes in the context of
- * gr-diff. This is just a super simple convenience function.
- */
-export function diffClasses(...additionalClasses: string[]) {
-  return ['gr-diff', ...additionalClasses].join(' ');
-}
-
-/**
- * Simple helper method for creating elements in the context of gr-diff.
- * This is just a super simple convenience function.
- */
-export function createElementDiff(
-  tagName: string,
-  classStr?: string
-): HTMLElement {
-  const el = document.createElement(tagName);
-
-  el.classList.add('gr-diff');
-  if (classStr) {
-    for (const className of classStr.split(' ')) {
-      el.classList.add(className);
-    }
-  }
-  return el;
-}
-
-export function createElementDiffWithText(
-  tagName: string,
-  textContent: string
-) {
-  const element = createElementDiff(tagName);
-  element.textContent = textContent;
-  return element;
-}
-
-export function createLineBreak(mode: DiffResponsiveMode) {
-  return isResponsive(mode)
-    ? createElementDiff('wbr')
-    : createElementDiff('span', 'br');
-}
-
-/**
- * Returns a <span> element holding a '\t' character, that will visually
- * occupy |tabSize| many columns.
- *
- * @param tabSize The effective size of this tab stop.
- */
-export function createTabWrapper(tabSize: number): HTMLElement {
-  // Force this to be a number to prevent arbitrary injection.
-  const result = createElementDiff('span', 'tab');
-  result.setAttribute(
-    'style',
-    `tab-size: ${tabSize}; -moz-tab-size: ${tabSize};`
-  );
-  result.innerText = '\t';
-  return result;
-}
-
-/**
- * Returns a 'div' element containing the supplied |text| as its innerText,
- * with '\t' characters expanded to a width determined by |tabSize|, and the
- * text wrapped at column |lineLimit|, which may be Infinity if no wrapping is
- * desired.
- *
- * @param text The text to be formatted.
- * @param responsiveMode The responsive mode of the diff.
- * @param tabSize The width of each tab stop.
- * @param lineLimit The column after which to wrap lines.
- */
-export function formatText(
-  text: string,
-  responsiveMode: DiffResponsiveMode,
-  tabSize: number,
-  lineLimit: number,
-  elementId: string
-): HTMLElement {
-  const contentText = createElementDiff('div', 'contentText');
-  // <gr-legacy-text> is not defined anywhere, so this behave just as a <div>
-  // would. We use this during the migration to lit based diff elements to
-  // match <gr-diff-text>. We define a css rule with `display:contents` making
-  // sure that this extra element is basically a no-op.
-  const legacyText = document.createElement('gr-legacy-text');
-  contentText.appendChild(legacyText);
-  contentText.id = elementId;
-  let columnPos = 0;
-  let textOffset = 0;
-  for (const segment of text.split(REGEX_TAB_OR_SURROGATE_PAIR)) {
-    if (segment) {
-      // |segment| contains only normal characters. If |segment| doesn't fit
-      // entirely on the current line, append chunks of |segment| followed by
-      // line breaks.
-      let rowStart = 0;
-      let rowEnd = lineLimit - columnPos;
-      while (rowEnd < segment.length) {
-        legacyText.appendChild(
-          document.createTextNode(segment.substring(rowStart, rowEnd))
-        );
-        legacyText.appendChild(createLineBreak(responsiveMode));
-        columnPos = 0;
-        rowStart = rowEnd;
-        rowEnd += lineLimit;
-      }
-      // Append the last part of |segment|, which fits on the current line.
-      legacyText.appendChild(
-        document.createTextNode(segment.substring(rowStart))
-      );
-      columnPos += segment.length - rowStart;
-      textOffset += segment.length;
-    }
-    if (textOffset < text.length) {
-      // Handle the special character at |textOffset|.
-      if (text.startsWith('\t', textOffset)) {
-        // Append a single '\t' character.
-        let effectiveTabSize = tabSize - (columnPos % tabSize);
-        if (columnPos + effectiveTabSize > lineLimit) {
-          legacyText.appendChild(createLineBreak(responsiveMode));
-          columnPos = 0;
-          effectiveTabSize = tabSize;
-        }
-        legacyText.appendChild(createTabWrapper(effectiveTabSize));
-        columnPos += effectiveTabSize;
-        textOffset++;
-      } else {
-        // Append a single surrogate pair.
-        if (columnPos >= lineLimit) {
-          legacyText.appendChild(createLineBreak(responsiveMode));
-          columnPos = 0;
-        }
-        legacyText.appendChild(
-          document.createTextNode(text.substring(textOffset, textOffset + 2))
-        );
-        textOffset += 2;
-        columnPos += 1;
-      }
-    }
-  }
-  return contentText;
-}
-
 export interface DiffContextExpandedEventDetail
   extends DiffContextExpandedExternalDetail {
   /** The context control group that should be replaced by `groups`. */
   contextGroup: GrDiffGroup;
   groups: GrDiffGroup[];
   numLines: number;
+}
+
+export function findBlame(blameInfos: BlameInfo[], line?: LineNumber) {
+  if (typeof line !== 'number') return undefined;
+  return blameInfos.find(info =>
+    info.ranges.find(range => range.start <= line && line <= range.end)
+  );
 }

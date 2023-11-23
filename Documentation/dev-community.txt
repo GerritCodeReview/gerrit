@@ -45,7 +45,7 @@ link:dev-cla.html[contributor's agreement] on file with the project.
 * link:dev-readme.html[Developer Setup]
 * link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui[TypeScript Frontend Developer Setup]
 * link:dev-crafting-changes.html[Crafting Changes]
-* link:dev-starter-projects.html[Starter Projects]
+* link:dev-contribution-opportunities.html[Contribution Opportunities (Starter Projects, Help Wanted)]
 
 [[plugin-development]]
 == Plugin Development

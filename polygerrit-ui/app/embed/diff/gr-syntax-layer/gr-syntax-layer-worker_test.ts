@@ -139,7 +139,7 @@ suite('gr-syntax-layer-worker tests', () => {
       const el = annotate(Side.LEFT, 1, 'import it;');
       assert.equal(
         el.innerHTML,
-        '<hl class="gr-diff gr-syntax gr-syntax-literal">import</hl> it;'
+        '<hl class="gr-syntax gr-syntax-literal">import</hl> it;'
       );
       assert.equal(listener.callCount, 2);
       assert.equal(listener.getCall(0).args[0], 1);
@@ -155,9 +155,9 @@ suite('gr-syntax-layer-worker tests', () => {
       const el = annotate(Side.RIGHT, 3, '  public static final {');
       assert.equal(
         el.innerHTML,
-        '  <hl class="gr-diff gr-syntax gr-syntax-literal">public</hl> ' +
-          '<hl class="gr-diff gr-syntax gr-syntax-keyword">static</hl> ' +
-          '<hl class="gr-diff gr-syntax gr-syntax-name">final</hl> {'
+        '  <hl class="gr-syntax gr-syntax-literal">public</hl> ' +
+          '<hl class="gr-syntax gr-syntax-keyword">static</hl> ' +
+          '<hl class="gr-syntax gr-syntax-name">final</hl> {'
       );
       assert.equal(listener.callCount, 2);
     });

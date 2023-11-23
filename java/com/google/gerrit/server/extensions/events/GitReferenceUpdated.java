@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -76,7 +77,8 @@ public class GitReferenceUpdated {
     this.util = util;
   }
 
-  private GitReferenceUpdated() {
+  @VisibleForTesting
+  public GitReferenceUpdated() {
     this.batchRefUpdateListeners = null;
     this.refUpdatedListeners = null;
     this.util = null;

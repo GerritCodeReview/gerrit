@@ -66,6 +66,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.AssertableExecutorService;
+import com.google.gerrit.testing.AssertableGitReferenceUpdated;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeAccountCache;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
@@ -116,6 +117,7 @@ public abstract class AbstractChangeNotesTest {
   protected RevWalk rw;
   protected TestRepository<InMemoryRepository> tr;
   protected AssertableExecutorService assertableFanOutExecutor;
+  protected AssertableGitReferenceUpdated assertableGitReferenceUpdated;
 
   @Inject protected IdentifiedUser.GenericFactory userFactory;
 
@@ -162,6 +164,7 @@ public abstract class AbstractChangeNotesTest {
     ou.setPreferredEmail("other@account.com");
     accountCache.put(ou.build());
     assertableFanOutExecutor = new AssertableExecutorService();
+    assertableGitReferenceUpdated = new AssertableGitReferenceUpdated();
     changeOwnerId = co.id();
     otherUserId = ou.id();
     internalUser = new InternalUser();
@@ -206,7 +209,7 @@ public abstract class AbstractChangeNotesTest {
             bind(GroupBackend.class).to(SystemGroupBackend.class).in(SINGLETON);
             bind(AccountCache.class).toInstance(accountCache);
             bind(PersonIdent.class).annotatedWith(GerritPersonIdent.class).toInstance(serverIdent);
-            bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
+            bind(GitReferenceUpdated.class).toInstance(assertableGitReferenceUpdated);
             bind(MetricMaker.class).to(DisabledMetricMaker.class);
             bind(ExecutorService.class)
                 .annotatedWith(FanOutExecutor.class)
@@ -244,7 +247,10 @@ public abstract class AbstractChangeNotesTest {
   @After
   public void resetTime() {
     TestTimeUtil.useSystemTime();
-    System.setProperty("user.timezone", systemTimeZone);
+    if (systemTimeZone != null) System.setProperty("user.timezone", systemTimeZone);
+    else {
+      System.clearProperty("user.timezone");
+    }
   }
 
   protected Change newChange(boolean workInProgress) throws Exception {

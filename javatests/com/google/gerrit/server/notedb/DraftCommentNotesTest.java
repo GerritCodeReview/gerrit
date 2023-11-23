@@ -80,6 +80,18 @@ public class DraftCommentNotesTest extends AbstractChangeNotesTest {
     assertableFanOutExecutor.assertInteractions(0);
   }
 
+  @Test
+  public void createAndPublishCommentInOneAction_firesRefUpdatedDeletion() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, otherUser);
+    update.setPatchSetId(c.currentPatchSetId());
+    update.putComment(HumanComment.Status.PUBLISHED, comment(c.currentPatchSetId()));
+    update.commit();
+
+    assertThat(newNotes(c).getDraftComments(otherUserId)).isEmpty();
+    assertableGitReferenceUpdated.assertInteractions(1);
+  }
+
   private HumanComment comment(PatchSet.Id psId) {
     return newComment(
         psId,

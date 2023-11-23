@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "e8f48362_e69835b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-23T12:01:34Z",
+      "side": 1,
+      "message": "\u003e Should we mention the new rule: `bazelisk build Documentation:searchfree_safe` in the documentation to make it easier to discover?\n\u003e \n\u003e May be add mention it in:\n\u003e \n\u003e * Documentation/dev-bazel.txt\n\nDone.\n\n\u003e * Documentation/dev-release.txt\n\nNot done: we are not planning to change our release process for now. We can discuss of course and change it in the new releases.",
+      "parentUuid": "16134fe8_bb441217",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 61
+      },
+      "revId": "793c1705df263eb6bb1f17571e2fbf370a8525ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "b2c9b8eb_5e880dfb",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

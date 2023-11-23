@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef0bd763_fc2415ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-11-23T14:41:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ae40b3a_546b3cde",
+      "revId": "a236e26bc11dcdd44a222321e4548c77f179ac1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "886072fb_6f502e77",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "023a48c0_38bc5fa8",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 798,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-11-23T14:41:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "886072fb_6f502e77",
+      "range": {
+        "startLine": 798,
+        "startChar": 44,
+        "endLine": 798,
+        "endChar": 88
+      },
+      "revId": "a236e26bc11dcdd44a222321e4548c77f179ac1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7d1d7db0_d8a1b077",
@@ -54,6 +96,30 @@
       "writtenOn": "2023-11-23T00:02:15Z",
       "side": 1,
       "message": "Why are we firing a ref-update event in case of `NO_CHANGE`?",
+      "range": {
+        "startLine": 253,
+        "startChar": 11,
+        "endLine": 253,
+        "endChar": 20
+      },
+      "revId": "a236e26bc11dcdd44a222321e4548c77f179ac1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c3a45ff_4561699b",
+        "filename": "java/com/google/gerrit/server/edit/ChangeEditUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-11-23T14:41:11Z",
+      "side": 1,
+      "message": "Good catch! We shouldn\u0027t.\nAnother thing is that we should on FAST_FORWARD but currently we throw the exception.\n\nAlso [here](https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.6/java/com/google/gerrit/server/StarredChangesUtil.java#459) We send event on NO_CHANGE",
+      "parentUuid": "7d1d7db0_d8a1b077",
       "range": {
         "startLine": 253,
         "startChar": 11,

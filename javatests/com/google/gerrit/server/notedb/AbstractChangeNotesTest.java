@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static com.google.inject.Scopes.SINGLETON;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.mockito.Mockito.mock;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Account;
@@ -116,6 +117,7 @@ public abstract class AbstractChangeNotesTest {
   protected RevWalk rw;
   protected TestRepository<InMemoryRepository> tr;
   protected AssertableExecutorService assertableFanOutExecutor;
+  protected GitReferenceUpdated gitReferenceUpdated;
 
   @Inject protected IdentifiedUser.GenericFactory userFactory;
 
@@ -162,6 +164,7 @@ public abstract class AbstractChangeNotesTest {
     ou.setPreferredEmail("other@account.com");
     accountCache.put(ou.build());
     assertableFanOutExecutor = new AssertableExecutorService();
+    gitReferenceUpdated = mock(GitReferenceUpdated.class);
     changeOwnerId = co.id();
     otherUserId = ou.id();
     internalUser = new InternalUser();
@@ -206,7 +209,7 @@ public abstract class AbstractChangeNotesTest {
             bind(GroupBackend.class).to(SystemGroupBackend.class).in(SINGLETON);
             bind(AccountCache.class).toInstance(accountCache);
             bind(PersonIdent.class).annotatedWith(GerritPersonIdent.class).toInstance(serverIdent);
-            bind(GitReferenceUpdated.class).toInstance(GitReferenceUpdated.DISABLED);
+            bind(GitReferenceUpdated.class).toInstance(gitReferenceUpdated);
             bind(MetricMaker.class).to(DisabledMetricMaker.class);
             bind(ExecutorService.class)
                 .annotatedWith(FanOutExecutor.class)

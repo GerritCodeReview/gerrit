@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d1d8557_bd3d7fb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2023-11-23T18:21:43Z",
+      "side": 1,
+      "message": "that would be somewhat easy to fix, though - see https://gerrit-review.googlesource.com/c/gerrit/+/76670 for a first attempt.\nhttps://issues.gerritcodereview.com/issues/40001116",
+      "revId": "583e9c7d9325a440df7df86686a6e33e964359d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

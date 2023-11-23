@@ -358,8 +358,12 @@ export class GrTextarea extends LitElement {
   }
 
   private handleTabKey(e: KeyboardEvent) {
-    // Tab should have normal behavior if the picker is closed.
-    if (!this.isDropdownVisible()) {
+    // Tab should have normal behavior if the picker is closed, or "open" but
+    // with no results.
+    if (
+      !this.isDropdownVisible() ||
+      this.getVisibleDropdown().getCurrentText() === ''
+    ) {
       return;
     }
     e.preventDefault();

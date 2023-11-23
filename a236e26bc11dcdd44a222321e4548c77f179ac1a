@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7ae40b3a_546b3cde",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-23T11:45:09Z",
+      "side": 1,
+      "message": "Missing `Release-Notes` footer. I believe this fix should me mentioned.",
+      "revId": "a236e26bc11dcdd44a222321e4548c77f179ac1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "886072fb_6f502e77",
         "filename": "java/com/google/gerrit/server/edit/ChangeEditModifier.java",
         "patchSetId": 1

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1479ffd9_1546698d",
+        "filename": "javatests/com/google/gerrit/entities/converter/HumanCommentProtoConverterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-11-23T16:20:37Z",
+      "side": 1,
+      "message": "This is to some extent dangerous because it depends on the implementation of the tostring method and there is no API guarantee that the tostring method prints all fields. The comments implement equals, which we could use here. The API contract there is different which would make this safer.\n\nThe test would also fail if the equals implementation was removed as it would fall back to reference equality checks, which IMO is another safety measure :-)",
+      "range": {
+        "startLine": 51,
+        "startChar": 15,
+        "endLine": 51,
+        "endChar": 56
+      },
+      "revId": "6a74352ff6eb34a11bb0f4fe314385154beb3c33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b443076f_5a85ecf6",
+        "filename": "proto/entities.proto",
+        "patchSetId": 2
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-11-23T16:20:37Z",
+      "side": 1,
+      "message": "interesting that this works because message is a reserved word\n\nit does break syntax highlighting in gerrit :-)",
+      "range": {
+        "startLine": 359,
+        "startChar": 18,
+        "endLine": 359,
+        "endChar": 25
+      },
+      "revId": "6a74352ff6eb34a11bb0f4fe314385154beb3c33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

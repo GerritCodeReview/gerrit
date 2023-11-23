@@ -15,11 +15,16 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Mockito.verify;
 
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.util.time.TimeUtil;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
@@ -78,6 +83,18 @@ public class DraftCommentNotesTest extends AbstractChangeNotesTest {
     notes = newNotes(c);
     assertThat(notes.getDraftComments(otherUserId)).isEmpty();
     assertableFanOutExecutor.assertInteractions(0);
+  }
+
+  @Test
+  public void createAndPublishCommentInOneAction_firesRefUpdatedDeletion() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, otherUser);
+    update.setPatchSetId(c.currentPatchSetId());
+    update.putComment(HumanComment.Status.PUBLISHED, comment(c.currentPatchSetId()));
+    update.commit();
+
+    assertThat(newNotes(c).getDraftComments(otherUserId)).isEmpty();
+    verify(gitReferenceUpdated).fire(any(AllUsersName.class), any(BatchRefUpdate.class), isNull());
   }
 
   private HumanComment comment(PatchSet.Id psId) {

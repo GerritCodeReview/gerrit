@@ -22,6 +22,30 @@
       },
       "revId": "27b7f16d4736683b16327adb5560db7dcd110bf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c415c8a_9a60d065",
+        "filename": "tools/bzl/asciidoc.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-23T12:10:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e20d0a06_197552f0",
+      "range": {
+        "startLine": 310,
+        "startChar": 0,
+        "endLine": 319,
+        "endChar": 1
+      },
+      "revId": "27b7f16d4736683b16327adb5560db7dcd110bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

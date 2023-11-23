@@ -56,6 +56,24 @@
       "message": "The buildifier produces this diff here:\n\n```\ndiff --git a/Documentation/BUILD b/Documentation/BUILD\nindex 5cf79e0133..85ddbe7413 100644\n--- a/Documentation/BUILD\n+++ b/Documentation/BUILD\n@@ -135,4 +135,4 @@ genasciidoc_zip(\n     directory \u003d DOC_DIR,\n     searchbox \u003d False,\n     webfonts \u003d False,\n-)\n\\ No newline at end of file\n+)\n```",
       "revId": "793c1705df263eb6bb1f17571e2fbf370a8525ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a36e064e_c9bac05f",
+        "filename": "Documentation/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-23T12:00:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9319ac4_5bdff386",
+      "revId": "793c1705df263eb6bb1f17571e2fbf370a8525ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

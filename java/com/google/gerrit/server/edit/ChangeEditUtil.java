@@ -29,9 +29,11 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -69,6 +71,7 @@ public class ChangeEditUtil {
   private final Provider<CurrentUser> userProvider;
   private final ChangeKindCache changeKindCache;
   private final PatchSetUtil psUtil;
+  private final GitReferenceUpdated gitRefUpdated;
 
   @Inject
   ChangeEditUtil(
@@ -77,13 +80,15 @@ public class ChangeEditUtil {
       ChangeIndexer indexer,
       Provider<CurrentUser> userProvider,
       ChangeKindCache changeKindCache,
-      PatchSetUtil psUtil) {
+      PatchSetUtil psUtil,
+      GitReferenceUpdated gitRefUpdated) {
     this.gitManager = gitManager;
     this.patchSetInserterFactory = patchSetInserterFactory;
     this.indexer = indexer;
     this.userProvider = userProvider;
     this.changeKindCache = changeKindCache;
     this.psUtil = psUtil;
+    this.gitRefUpdated = gitRefUpdated;
   }
 
   /**
@@ -237,7 +242,8 @@ public class ChangeEditUtil {
     return writeSquashedCommit(rw, inserter, parent, edit);
   }
 
-  private static void deleteRef(Repository repo, ChangeEdit edit) throws IOException {
+  private void deleteRef(Repository repo, ChangeEdit edit) throws IOException {
+    AccountState userAccountState = userProvider.get().asIdentifiedUser().state();
     String refName = edit.getRefName();
     RefUpdate ru = repo.updateRef(refName, true);
     ru.setExpectedOldObjectId(edit.getEditCommit());
@@ -246,6 +252,8 @@ public class ChangeEditUtil {
     switch (result) {
       case FORCED:
       case NEW:
+        gitRefUpdated.fire(edit.getChange().getProject(), ru, userAccountState);
+        break;
       case NO_CHANGE:
         break;
       case LOCK_FAILURE:

@@ -18,9 +18,22 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import java.io.IOException;
 
+/** Interface for writing information about starred changes. */
 public interface StarredChangesWriter {
+  /**
+   * Star the given change for a single {@code Account.Id}.
+   *
+   * @param changeId the {@code Change.Id}.
+   * @param accountId the {@code Account.Id}.
+   */
   void star(Account.Id accountId, Change.Id changeId);
 
+  /**
+   * Unstar the given change for a single {@code Account.Id}.
+   *
+   * @param changeId the {@code Change.Id}.
+   * @param accountId the {@code Account.Id}.
+   */
   void unstar(Account.Id accountId, Change.Id changeId);
 
   /**

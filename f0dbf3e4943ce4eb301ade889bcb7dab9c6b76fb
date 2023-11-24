@@ -51,6 +51,24 @@
       "parentUuid": "81ef92a2_6707fbd1",
       "revId": "f0dbf3e4943ce4eb301ade889bcb7dab9c6b76fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf0fbe3f_4b17ad83",
+        "filename": "project.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-24T10:49:24Z",
+      "side": 1,
+      "message": "the problem sits in front of the keyboard, I misinterpreted `\\\"^~(polygerrit-ui/.*)$\\\"`, too many negations for my little brain ;-)",
+      "parentUuid": "ec26daf7_da22db09",
+      "revId": "f0dbf3e4943ce4eb301ade889bcb7dab9c6b76fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

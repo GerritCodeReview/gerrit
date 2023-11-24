@@ -33,6 +33,24 @@
       "message": "Adding this predicate seems correct.\n\nThough why are changes on the master branch which are not touching polygerrit files not applicable ?",
       "revId": "f0dbf3e4943ce4eb301ade889bcb7dab9c6b76fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec26daf7_da22db09",
+        "filename": "project.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-11-24T10:17:11Z",
+      "side": 1,
+      "message": "do you mean merge changes? Otherwise Change 393796 is an example of it working correctly AFAICT",
+      "parentUuid": "81ef92a2_6707fbd1",
+      "revId": "f0dbf3e4943ce4eb301ade889bcb7dab9c6b76fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

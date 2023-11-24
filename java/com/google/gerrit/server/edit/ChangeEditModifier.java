@@ -33,12 +33,14 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.edit.tree.ChangeFileContentModification;
 import com.google.gerrit.server.edit.tree.DeleteFileModification;
 import com.google.gerrit.server.edit.tree.RenameFileModification;
 import com.google.gerrit.server.edit.tree.RestoreFileModification;
 import com.google.gerrit.server.edit.tree.TreeCreator;
 import com.google.gerrit.server.edit.tree.TreeModification;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -107,7 +109,8 @@ public class ChangeEditModifier {
       PermissionBackend permissionBackend,
       ChangeEditUtil changeEditUtil,
       PatchSetUtil patchSetUtil,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      GitReferenceUpdated gitRefUpdated) {
     this.currentUser = currentUser;
     this.permissionBackend = permissionBackend;
     this.zoneId = gerritIdent.getZoneId();
@@ -115,7 +118,7 @@ public class ChangeEditModifier {
     this.patchSetUtil = patchSetUtil;
     this.projectCache = projectCache;
 
-    noteDbEdits = new NoteDbEdits(zoneId, indexer, currentUser);
+    noteDbEdits = new NoteDbEdits(zoneId, indexer, currentUser, gitRefUpdated);
   }
 
   /**
@@ -712,11 +715,17 @@ public class ChangeEditModifier {
     private final ZoneId zoneId;
     private final ChangeIndexer indexer;
     private final Provider<CurrentUser> currentUser;
+    private final GitReferenceUpdated gitRefUpdated;
 
-    NoteDbEdits(ZoneId zoneId, ChangeIndexer indexer, Provider<CurrentUser> currentUser) {
+    NoteDbEdits(
+        ZoneId zoneId,
+        ChangeIndexer indexer,
+        Provider<CurrentUser> currentUser,
+        GitReferenceUpdated gitRefUpdated) {
       this.zoneId = zoneId;
       this.indexer = indexer;
       this.currentUser = currentUser;
+      this.gitRefUpdated = gitRefUpdated;
     }
 
     ChangeEdit createEdit(
@@ -772,6 +781,7 @@ public class ChangeEditModifier {
         ObjectId targetObjectId,
         Instant timestamp)
         throws IOException {
+      AccountState userAccountState = currentUser.get().asIdentifiedUser().state();
       RefUpdate ru = repository.updateRef(refName);
       ru.setExpectedOldObjectId(currentObjectId);
       ru.setNewObjectId(targetObjectId);
@@ -787,6 +797,7 @@ public class ChangeEditModifier {
         if (res != RefUpdate.Result.NEW && res != RefUpdate.Result.FORCED) {
           throw new IOException(message);
         }
+        gitRefUpdated.fire(projectName, ru, userAccountState);
       }
     }
 

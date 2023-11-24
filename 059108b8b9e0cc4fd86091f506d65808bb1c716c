@@ -117,6 +117,30 @@
       },
       "revId": "059108b8b9e0cc4fd86091f506d65808bb1c716c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccbdaa1a_00b20d43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-11-24T10:30:12Z",
+      "side": 1,
+      "message": "\u003e Passing a currentUser assisted argument directly to the Executor.Factory.create() is also not an option because its interface is defined by ChangeDraftUpdateExecutor to be argumentless (see [2]).\n\nIt\u0027s OK to add the user ID to ChangeDraftUpdateExecutor creation method, I\u0027ll wire it for our implementation as well.",
+      "parentUuid": "04ce1c8a_9d405017",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 67
+      },
+      "revId": "059108b8b9e0cc4fd86091f506d65808bb1c716c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

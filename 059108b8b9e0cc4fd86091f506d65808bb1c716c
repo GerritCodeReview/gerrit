@@ -165,6 +165,30 @@
       },
       "revId": "059108b8b9e0cc4fd86091f506d65808bb1c716c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f667720_f52bf954",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-11-24T11:43:17Z",
+      "side": 1,
+      "message": "`parameterized` here refers to generic parameters, feel free to rephrase if you have a less confusing naming.\n\nI think adding a parameter to the `create` method along the chain should WAI.",
+      "parentUuid": "91d1da18_001e11e8",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 67
+      },
+      "revId": "059108b8b9e0cc4fd86091f506d65808bb1c716c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

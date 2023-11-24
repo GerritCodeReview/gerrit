@@ -202,11 +202,20 @@ reason for the settings so that this information is preserved in the git
 history. For example, this allows using `git blame` to inspect why
 configuration values have been set.
 
-== Property inheritance
+[[inheritance]]
+== Inheritance
 
-If a property is set to INHERIT, then the value from the parent project is
-used. If the property is not set in any parent project, the default value is
-FALSE.
+Projects in Gerrit are organized hierarchically in a tree with the
+`All-Projects` project as the root project. The parent project is defined in
+the link:#access.inheritFrom[access section] of the `project.config` file.
+
+Projects inherit access rights and options from their parent project, but not
+all options are inheritable. See the description of the options in the
+link:#file-project_config[project.config] file to learn whether they are
+inherited or not.
+
+Options with boolean values support a special `INHERIT` value to make them
+inherit the value that is set in the parent project.
 
 [[file-project_config]]
 == The file `project.config`

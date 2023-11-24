@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ff963ab_030ca77f",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 950,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-24T15:22:01Z",
+      "side": 1,
+      "message": "using the group",
+      "range": {
+        "startLine": 950,
+        "startChar": 22,
+        "endLine": 950,
+        "endChar": 45
+      },
+      "revId": "d988bf1aa7414b4bd2a4458be36ad999e94b7af3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55795fa4_89ef06f6",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 967,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-24T15:22:01Z",
+      "side": 1,
+      "message": "edited using",
+      "range": {
+        "startLine": 967,
+        "startChar": 56,
+        "endLine": 967,
+        "endChar": 69
+      },
+      "revId": "d988bf1aa7414b4bd2a4458be36ad999e94b7af3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34b2c9fd_5a8f7113",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-24T15:22:01Z",
+      "side": 1,
+      "message": "in",
+      "range": {
+        "startLine": 972,
+        "startChar": 52,
+        "endLine": 972,
+        "endChar": 56
+      },
+      "revId": "d988bf1aa7414b4bd2a4458be36ad999e94b7af3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

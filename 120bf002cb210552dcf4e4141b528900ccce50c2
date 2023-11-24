@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9dface4_1f1a5efe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-24T13:21:40Z",
+      "side": 1,
+      "message": "This also include the JGit bump you proposed with I503a051b5fc",
+      "revId": "120bf002cb210552dcf4e4141b528900ccce50c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -253,7 +253,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private Sequences seq;
   @Inject private StalenessChecker stalenessChecker;
   @Inject private VersionedAuthorizedKeys.Accessor authorizedKeys;
-  @Inject private ExtensionRegistry extensionRegistry;
+  @Inject protected ExtensionRegistry extensionRegistry;
   @Inject private PluginSetContext<ExceptionHook> exceptionHooks;
   @Inject private ExternalIdKeyFactory externalIdKeyFactory;
   @Inject private ExternalIdFactoryNoteDbImpl externalIdFactory;

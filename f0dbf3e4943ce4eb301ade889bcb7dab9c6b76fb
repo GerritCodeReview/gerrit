@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d058b0e_cd3b3711",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-24T09:33:44Z",
+      "side": 1,
+      "message": "nit: reformat too wide lines ?",
+      "revId": "f0dbf3e4943ce4eb301ade889bcb7dab9c6b76fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81ef92a2_6707fbd1",
+        "filename": "project.config",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-24T09:33:44Z",
+      "side": 1,
+      "message": "Adding this predicate seems correct.\n\nThough why are changes on the master branch which are not touching polygerrit files not applicable ?",
+      "revId": "f0dbf3e4943ce4eb301ade889bcb7dab9c6b76fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

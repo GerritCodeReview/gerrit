@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77ebd772_3950055b",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-24T15:17:15Z",
+      "side": 1,
+      "message": "Maybe extract this into a section \"Required permissions\" so that we don\u0027t need to repeat it e.g. in lines 86-90.\n\nI\u0027d add a hint that if administrators want to be able to help project owners configuring their project\u0027s they should set similar permissions for administrators in All-Projects.\n\nI would mention that the option `receive.allowProjectOwnersToChangeParent` can be used to enforce that project owners cannot escape permission restrictions defined in an ancestor of their project by reparenting their project without approval from an Administrator.",
+      "revId": "b9091e7f7aea59058f3bccf0154e669b3e09ba96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8527b2af_4df8c50b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-24T22:02:01Z",
+      "side": 1,
+      "message": "Looks like an an used variable was left during the merge up:\n\n```\n  Did you mean to remove this line?\njava/com/google/gerrit/server/edit/ChangeEditUtil.java:95: error: variable gitRefUpdated might not have been initialized\n  }\n```",
+      "revId": "6adb27daab8250548a14dd5609e901884f1fc9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

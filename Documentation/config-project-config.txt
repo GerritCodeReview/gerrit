@@ -1,25 +1,191 @@
-= Gerrit Code Review - Project Configuration File Format
+= Gerrit Code Review - Project Configuration
 
-This page explains the storage format of Gerrit's project configuration
-and access control models.
+Every project has a configuration that defines access rights and controls
+project-specific behavior.
 
-The web UI access control panel is a front end for human-readable
-configuration files under the +refs/meta/config+ namespace in the
-affected project.  Direct manipulation of these files is mainly
-relevant in an automation scenario of the access controls.
-
+The project configuration is stored inside the git repository inside the
+`refs/meta/config` branch.
 
 [[refs-meta-config]]
-== The +refs/meta/config+ namespace
+== The `refs/meta/config` branch
 
-The namespace contains three different files that play different
-roles in the permission model.  With read permission to that reference,
-it is possible to fetch the +refs/meta/config+ reference to a local
-repository.  A nice side effect is that you can also upload changes
-to project permissions and review them just like with regular code
-changes. The preview changes option is also provided on the UI. Please note
-that you will have to configure push rights for the +refs/meta/config+ name
-space if you'd like to use the possibility to automate permission updates.
+The `refs/meta/config` branch contains configuration files. It is disconnected
+from the normal branches under `refs/heads/` that contain the source code.
+
+The files inside the `refs/meta/config` branch are versioned just like any
+other file in the repository. This means from the git history of the
+`refs/meta/config` branch it can be seen how the configuration changed
+over time and which configuration was active when.
+
+== Configuration files
+
+The project configuration is stored in the following files (these files are
+stored inside the `refs/meta/config` branch, see
+link:#refs-meta-config[above]):
+
+* link:#file-project_config[project.config]:
+  Contains the link to the parent project, the project description, access
+  rights and options to control project-specific behavior.
+* link:#file-groups[groups]:
+  Resolves group names that are mentioned in `project.config` to group UUIDs.
+* [DEPRECATED] link:#file-rules_pl[rules.pl]:
+  Contains Prolog rules that control when a change becomes ready to submit.
+  Note, Prolog rules are deprecated and have been replaced by
+  link:config-submit-requirements.html[submit requirements].
+
+In addition, there can be configuration files from Gerrit plugins, usually they
+are named `<PLUGIN-NAME>.config`.
+
+== Updating the project configuration
+
+There are several possibilities to update the project configuration:
+
+* Through the Gerrit web UI:
++
+** On the project's `General` screen:
++
+The `General` screen can be found under:
+`BROWSE` > `Repositories` > `<project-name>` > `General`
++
+In the `Configurations` section this screen allows to edit the project
+description and change repository options.
++
+Note, this screen only supports changing the most important repository options,
+but it doesn't expose all options that exist.
++
+All changes are directly applied (without code review).
++
+Updating the project configuration via the `General` screen is only allowed for
+project owners, i.e. users that have the
+link:access-control.html#category_owner[Owner] access right assigned on
+`refs/*`.
++
+** On the project's `Access` screen:
++
+The `Access` screen can be found under:
+`BROWSE` > `Repositories` > `<project-name>` > `Access`
++
+This screen allows to edit the project's access rights.
++
+Updating access rights via the `Access` screen updates the
+link:#file-groups[groups] file automatically.
++
+Modifications can either be applied directly (`SAVE` button) or saved for
+review (`SAVE FOR REVIEW` button).
++
+Updating the access rights directly (`SAVE` button) is only allowed for project
+owners, i.e. users that have the link:access-control.html#category_owner[Owner]
+access right assigned on `refs/*`.
++
+Saving access modification for review (`SAVE FOR REVIEW` button) creates an
+open change for the `refs/meta/config` branch where the modifications can be
+reviewed by a project owner. The modifications become effective only after a
+project owner submits the change.
++
+Saving access modification for review requires the user to be able to see the
+`refs/meta/config` branch (have the
+link:access-control.html#category_read[Read] access right assigned on
+`refs/meta/config`) and be allowed to create changes for it (have the
+link:access-control.html#category_push[Push] access right assigned on
+`refs/for/refs/meta/config` or be a project owner).
++
+** Via online editing:
++
+The project's `Commands` screen, that can be found under `BROWSE` >
+`Repositories` > `<project-name>` > `Commands`, offers an `EDIT REPO CONFIG`
+command that allows to edit the `project.config` file directly in the Gerrit
+web UI.
++
+The `EDIT REPO CONFIG` command creates a new work-in-progress change with a
+change edit that contains the `project.config` file. Clicking on the command
+opens an online editor for the `project.config` file, allowing the user to make
+modifications to it.
++
+Modifications need to be saved and published ("saving" saves the modifications
+in the change edit, "publishing" publishes the change edit to make it visible
+to other users). While the change edit is not published yet, it's possible to
+add further files to it (e.g. the link:#file-groups[groups] file if it needs to
+be modified, in contrast to making access rights changes through the `Access`
+screen the `groups` file is not automatically updated). For further details how
+to work with change edits see the link:user-inline-edit.html[inline edit user
+guide]. After publishing the change edit, the change should be set to ready by
+clicking on `START REVIEW` > `SEND AND START REVIEW`. At this time you also
+want to add a project owner as a reviewer so that they can review and approve
+the change.
++
+Updating the project configuration via the `EDIT REPO CONFIG` command workflow
+requires the user to be able to see the `refs/meta/config` branch (have the
+link:access-control.html#category_read[Read] access right assigned on
+`refs/meta/config`) and be allowed to create changes (have the
+link:access-control.html#category_push[Push] access right assigned on
+`refs/for/refs/meta/config` or be a project owner).
++
+* By pushing updates via Git:
++
+Since the configuration files are stored in a git branch, it's possible to
+update them via normal git operations:
++
+--
+1. Clone the repository if you don't have it available yet. The clone command
+   can be found in the `Download` section of project's `General` screen
+   (`BROWSE` > `Repositories` > `<project-name>` > `General`).
+2. Fetch and checkout the `refs/meta/config branch`, e.g. by `git fetch origin
+   refs/meta/config && git checkout FETCH_HEAD`.
+3. Edit the `project.config` file or other configuration files and commit the
+   changes, e.g. by `git commit --all`. Note, since the `project.config` file
+   uses the format of a git config file you can also edit it via the
+   `git config` command (e.g. to set a project description do: `git config -f
+   project.config project.description "My project description"`).
+4. Push the newly created commit, either to update the `refs/meta/config`
+   branch directly without code-review (e.g. `git push origin
+   HEAD:refs/meta/config`), or for review (e.g. `git push origin
+   HEAD:refs/for/refs/meta/config`).
+--
++
+Fetching the `refs/meta/config` branch requires the user to be able to see the
+`refs/meta/config` branch (have the
+link:access-control.html#category_read[Read] access right assigned on
+`refs/meta/config`). Pushing changes directly to the `refs/meta/config` branch
+requires the user to have the link:access-control.html#category_push[Push]
+access right assigned on `refs/meta/config` and be a project owner (have the
+link:access-control.html#category_owner[Owner] access right assigned on
+`refs/*`). Pushing for review is possible if the user is allowed to create
+changes for the `refs/meta/config` branch (have the
+link:access-control.html#category_push[Push] access right assigned on
+`refs/for/refs/meta/config` or be a project owner).
++
+[NOTE]
+Updates to access right may require changes in the link:#file-groups[groups]
+file. In contrast to making access rights changes through the `Access` screen
+the `groups` file is not automatically updated.
++
+* Through the Gerrit REST API:
++
+Gerrit offers several REST endpoints to modify the project configuration:
++
+** link:rest-api-projects.html#set-config[Set Config] REST endpoint:
+   Allows to edit the project description and change repository options.
+** link:rest-api-projects.html#set-access[Add, Update and Delete Access Rights
+   for Project] REST endpoint:
+   Allows to edit the access rights of the project.
+** link:rest-api-projects.html#create-access-change[Create Access Rights Change
+   for review] REST endpoint:
+   Allows to create a change with access right modifications that can be
+   reviewed and submitted by a project owner.
+
+=== Comments in project configuration files
+
+In principle it's possible to have comments in the project configuration files
+(lines starting with '#'), however if any Gerrit API is used that lead to
+modifications in the configuration files the comments may be dropped. This is
+because when Gerrit parses the configuration files and writes them back with
+updates, comments are not preserved.
+
+[TIP]
+When updating the project configuration use the commit message to record the
+reason for the settings so that this information is preserved in the git
+history. For example, this allows using `git blame` to inspect why
+configuration values have been set.
 
 == Property inheritance
 
@@ -28,7 +194,7 @@ used. If the property is not set in any parent project, the default value is
 FALSE.
 
 [[file-project_config]]
-== The file +project.config+
+== The file `project.config`
 
 The +project.config+ file contains the link between groups and their
 permitted actions on reference patterns in this project and any projects
@@ -753,13 +919,13 @@ the parent project. If the property is not set in any parent project, the
 default value is `FALSE`.
 
 [[file-groups]]
-== The file +groups+
+== The file `groups`
 
 Each group in this list is linked with its UUID so that renaming of
-groups is possible without having to rewrite every +groups+ file
+groups is possible without having to rewrite every `groups` file
 in every repository where it's used.
 
-This is what the default groups file for +All-Projects.git+ looks like:
+This is what the default groups file for `All-Projects.git` looks like:
 
 ----
 # UUID                                         Group Name
@@ -771,29 +937,33 @@ global:Project-Owners                          Project Owners
 global:Registered-Users                        Registered Users
 ----
 
-This file can't be written to by the +git config+ command.
+This file can't be written to by the `git config` command.
 
-In order to reference a group in +project.config+, it must be listed in
+In order to reference a group in `project.config`, it must be listed in
 the +groups+ file.  When editing permissions through the web UI this
 file is maintained automatically, but when pushing updates to
-+refs/meta/config+ this must be dealt with by hand.  Gerrit will refuse
-+project.config+ files that refer to groups not listed in +groups+.
+`refs/meta/config` this must be dealt with by hand.  Gerrit will refuse
+`project.config` files that refer to groups not listed in `groups`.
 
 The UUID of a group can be found on the General tab of the group's page
-in the web UI or via the +-v+ option to
-link:cmd-ls-groups.html[the +ls-groups+ SSH command].
+in the web UI or via the `-v` option to the
+link:cmd-ls-groups.html[ls-groups] SSH command.
 
 
 [[file-rules_pl]]
-== The file +rules.pl+
+== The file `rules.pl`
 
-The +rules.pl+ files allows you to replace or amend the default Prolog
+The `rules.pl` files allows you to replace or amend the default Prolog
 rules that control e.g. what conditions need to be fulfilled for a
 change to be submittable.  This file content should be
 interpretable by the 'Prolog Cafe' interpreter.
 
-You can read more about the +rules.pl+ file and the prolog rules on
+You can read more about the `rules.pl` file and the prolog rules on
 link:prolog-cookbook.html[the Prolog cookbook page].
+
+[NOTE]
+Prolog rules are deprecated and have been replaced by
+link:config-submit-requirements.html[submit requirements].
 
 GERRIT
 ------

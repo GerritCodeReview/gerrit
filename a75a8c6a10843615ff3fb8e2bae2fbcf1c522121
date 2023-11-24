@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cb2b78b_b34fb568",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-24T17:13:13Z",
+      "side": 1,
+      "message": "please, david.ostrovsky@gmail.com have a look at this and let me know if that was your idea. I need to test in build buddy the second patch to make sure that I did not miss anything.",
+      "revId": "a75a8c6a10843615ff3fb8e2bae2fbcf1c522121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

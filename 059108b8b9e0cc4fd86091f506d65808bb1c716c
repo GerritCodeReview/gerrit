@@ -141,6 +141,30 @@
       },
       "revId": "059108b8b9e0cc4fd86091f506d65808bb1c716c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91d1da18_001e11e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-24T10:35:51Z",
+      "side": 1,
+      "message": "ok that\u0027s cool @nitzan@google.com.\nI haven\u0027t tried, but it looks this is going to confuse Guice? from [1]\n\n```\n  interface AbstractFactory {\n    // Guice cannot bind either:\n    // - A parameterized entity.\n    // - A factory creating an interface (rather than a class).\n    // To overcome this - we declare the create method in this non-parameterized interface, then\n    // extend it with a factory returning an actual class.\n    ChangeDraftUpdateExecutor create();\n  }\n```\n[1]https://gerrit-review.googlesource.com/c/gerrit/+/393415",
+      "parentUuid": "ccbdaa1a_00b20d43",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 67
+      },
+      "revId": "059108b8b9e0cc4fd86091f506d65808bb1c716c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

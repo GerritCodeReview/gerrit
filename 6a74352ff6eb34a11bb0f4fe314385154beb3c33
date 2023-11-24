@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "745dae47_5246486b",
+        "filename": "javatests/com/google/gerrit/entities/converter/HumanCommentProtoConverterTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-11-24T09:34:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1479ffd9_1546698d",
+      "range": {
+        "startLine": 51,
+        "startChar": 15,
+        "endLine": 51,
+        "endChar": 56
+      },
+      "revId": "6a74352ff6eb34a11bb0f4fe314385154beb3c33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "b443076f_5a85ecf6",
         "filename": "proto/entities.proto",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2023-11-23T16:20:37Z",
       "side": 1,
       "message": "interesting that this works because message is a reserved word\n\nit does break syntax highlighting in gerrit :-)",
+      "range": {
+        "startLine": 359,
+        "startChar": 18,
+        "endLine": 359,
+        "endChar": 25
+      },
+      "revId": "6a74352ff6eb34a11bb0f4fe314385154beb3c33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ea0fd76_a3c0a428",
+        "filename": "proto/entities.proto",
+        "patchSetId": 2
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-11-24T09:34:36Z",
+      "side": 1,
+      "message": "I didn\u0027t know `message` has saved words. 😊\nRenamed.",
+      "parentUuid": "b443076f_5a85ecf6",
       "range": {
         "startLine": 359,
         "startChar": 18,

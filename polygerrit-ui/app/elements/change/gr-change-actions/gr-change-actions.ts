@@ -370,15 +370,6 @@ export class GrChangeActions
 
   @query('#secondaryActions') secondaryActions?: HTMLElement;
 
-  // TODO(TS): Ensure that ActionType, ChangeActions and RevisionActions
-  // properties are replaced with enums everywhere and remove them from
-  // the GrChangeActions class
-  ActionType = ActionType;
-
-  ChangeActions = ChangeActions;
-
-  RevisionActions = RevisionActions;
-
   @state() change?: ParsedChangeInfo;
 
   @state() actions: ActionNameToActionInfoMap = {};

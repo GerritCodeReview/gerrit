@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dc945ba_fa071af1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-24T21:51:08Z",
+      "side": 1,
+      "message": "I have now reworded the relevant paragraph, hopefully makes more sense.",
+      "parentUuid": "dd2dc499_0c64e7d6",
+      "range": {
+        "startLine": 13,
+        "startChar": 47,
+        "endLine": 13,
+        "endChar": 55
+      },
+      "revId": "059108b8b9e0cc4fd86091f506d65808bb1c716c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "08ea9eeb_1b49a5e1",
@@ -205,6 +229,30 @@
       "side": 1,
       "message": "cool, thanks for clarifying, I will give it a try 😊",
       "parentUuid": "4f667720_f52bf954",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 67
+      },
+      "revId": "059108b8b9e0cc4fd86091f506d65808bb1c716c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad422806_03bde3eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-24T21:51:08Z",
+      "side": 1,
+      "message": "This works as a charm now, thanks for your help @nitzan@google.com 😊",
+      "parentUuid": "8f59f82b_bcb5d026",
       "range": {
         "startLine": 23,
         "startChar": 0,

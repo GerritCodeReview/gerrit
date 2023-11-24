@@ -938,11 +938,23 @@ default value is `FALSE`.
 [[file-groups]]
 == The file `groups`
 
-Each group in this list is linked with its UUID so that renaming of
-groups is possible without having to rewrite every `groups` file
-in every repository where it's used.
+The `groups` file resolves group names that are mentioned in
+link:#access-subsection[access subsections] of the link:#file-project_config[
+project.config] file to group UUIDs.
 
-This is what the default groups file for `All-Projects.git` looks like:
+In the access subsections access rights are assigned to group names. These
+group names are local to the project configuration and do not need to match
+with the actual group names. To enable Gerrit to resolve the local group names
+they must be mapped to group UUIDs in the `groups` file.
+
+The access sections use local group names, rather than requiring the actual
+group names, to allow renaming groups in Gerrit without having to rewrite every
+`project.config` file using the group.
+
+The content of the `groups` file is a simple table of group UUID to group name,
+separated by a tab.
+
+This is how the default `groups` file for `All-Projects` project looks like:
 
 ----
 # UUID                                         Group Name
@@ -954,18 +966,23 @@ global:Project-Owners                          Project Owners
 global:Registered-Users                        Registered Users
 ----
 
-This file can't be written to by the `git config` command.
+Since the `groups` file has a custom format it can't be edited using the
+`git config` command.
 
-In order to reference a group in `project.config`, it must be listed in
-the +groups+ file.  When editing permissions through the web UI this
-file is maintained automatically, but when pushing updates to
-`refs/meta/config` this must be dealt with by hand.  Gerrit will refuse
-`project.config` files that refer to groups not listed in `groups`.
+Whenever access rights in the `project.config` file are assigned to new groups
+mapping entries for the new groups must be added to the `groups` file. The
+modifications to the `groups` file must be included in the same commit that
+updates the `project.config` file. Pushing updates to `project.config` files
+that refer to groups not listed in the `groups` file are rejected by Gerrit.
 
-The UUID of a group can be found on the General tab of the group's page
-in the web UI or via the `-v` option to the
-link:cmd-ls-groups.html[ls-groups] SSH command.
+When link:#update-through-access-screen[editing access rights through the web
+UI] the `groups` file is automatically updated by Gerrit.
 
+The UUID of a group can be found on the group screen (`BROWSE` > `Groups` >
+`<group-name>` ). Alternatively the group can be looked up via the
+link:rest-api-groups.html#get-group[Get Group] REST endpoint (note that the
+`group-id` in the URL can be the group name). The group UUID is contained as
+`id` field in the return link:rest-api-groups.html#group-info[GroupInfo] JSON.
 
 [[file-rules_pl]]
 == The file `rules.pl`

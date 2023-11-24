@@ -1076,10 +1076,10 @@ export class GrComment extends LitElement {
         return '(0)';
       }
     }
-    if (!this.generatedSuggestion) {
-      return '(1)';
-    } else {
+    if (this.generatedSuggestion) {
       return '(0)';
+    } else {
+      return '(1)';
     }
   }
 

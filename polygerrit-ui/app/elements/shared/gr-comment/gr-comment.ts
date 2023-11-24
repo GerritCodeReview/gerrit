@@ -1078,7 +1078,7 @@ export class GrComment extends LitElement {
         return '(0)';
       }
     }
-    if (!this.generatedSuggestion) {
+    if (this.generatedSuggestion) {
       return '(1)';
     } else {
       return '(0)';

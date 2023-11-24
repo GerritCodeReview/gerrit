@@ -204,11 +204,33 @@ reason for the settings so that this information is preserved in the git
 history. For example, this allows using `git blame` to inspect why
 configuration values have been set.
 
-== Property inheritance
+[[inheritance]]
+== Inheritance
 
-If a property is set to INHERIT, then the value from the parent project is
-used. If the property is not set in any parent project, the default value is
-FALSE.
+Projects in Gerrit are organized hierarchically in a tree with the
+`All-Projects` project as the root project. The parent project is defined in
+the link:#access.inheritFrom[access section] of the `project.config` file.
+
+Projects inherit access rights and options from their parent project, but not
+all options are inheritable. See the description of the options in the
+link:#file-project_config[project.config] file to learn whether they are
+inherited or not.
+
+Options with boolean values support a special `INHERIT` value to make them
+inherit the value that is set in the parent project.
+
+Some settings can be enforced for child projects (or if set on the
+`All-Projects` root project for all projects), e.g. access right restrictions
+via link:access-control#block[BLOCK rules] or
+link:config-submit-requirements.html#submit_requirement_can_override_in_child_projects[
+non-overridable] submit requirements.
+
+[NOTE]
+Project owners can be allowed to change the parent of projects that they own
+(see config-gerrit.html#receive.allowProjectOwnersToChangeParent[
+receive.allowProjectOwnersToChangeParent] setting which is `false` by default).
+In this case project owners may escape the settings that are enforced by their
+parent project by choosing a different parent project.
 
 [[file-project_config]]
 == The file `project.config`

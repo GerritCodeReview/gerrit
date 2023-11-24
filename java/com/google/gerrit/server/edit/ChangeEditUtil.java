@@ -72,6 +72,7 @@ public class ChangeEditUtil {
   private final Provider<CurrentUser> userProvider;
   private final ChangeKindCache changeKindCache;
   private final PatchSetUtil psUtil;
+  private final GitReferenceUpdated gitRefUpdated;
 
   private final GitReferenceUpdated gitReferenceUpdated;
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20a14ddc_2d945b83",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-24T09:59:22Z",
+      "side": 1,
+      "message": "nit: maybe move this up to the protected fields at line 238-241",
+      "revId": "17b9e6e9ab8e133cf7d4cc81ab0206ae42b72fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

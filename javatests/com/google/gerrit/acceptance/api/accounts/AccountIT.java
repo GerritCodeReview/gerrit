@@ -238,6 +238,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject protected ProjectOperations projectOperations;
   @Inject protected Emails emails;
   @Inject protected ExtensionRegistry extensionRegistry;
+  @Inject protected RequestScopeOperations requestScopeOperations;
 
   @Inject protected GroupOperations groupOperations;
 
@@ -249,7 +250,6 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private Provider<InternalAccountQuery> accountQueryProvider;
   @Inject private Provider<MetaDataUpdate.InternalFactory> metaDataUpdateInternalFactory;
   @Inject private Provider<PublicKeyStore> publicKeyStoreProvider;
-  @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private RetryHelper.Metrics retryMetrics;
   @Inject private Sequences seq;
   @Inject private StalenessChecker stalenessChecker;
@@ -2081,7 +2081,7 @@ public class AccountIT extends AbstractDaemonTest {
     return input;
   }
 
-  private EmailInput newEmailInput(String email) {
+  protected EmailInput newEmailInput(String email) {
     return newEmailInput(email, true);
   }
 

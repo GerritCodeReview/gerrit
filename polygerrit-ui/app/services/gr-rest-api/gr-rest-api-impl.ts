@@ -1786,7 +1786,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     errFn?: ErrorCallback
   ): Promise<AccountInfo[] | undefined> {
     const params: QueryAccountsParams = {o: 'DETAILS', q: ''};
-    const queryParams = [];
+    const queryParams: String[] = [];
     inputVal = inputVal?.trim() ?? '';
     if (inputVal.length > 0) {
       // Wrap in quotes so that reserved keywords do not throw an error such
@@ -1795,22 +1795,28 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       // explicitly
       queryParams.push(`${escapeAndWrapSearchOperatorValue(inputVal)}`);
     }
-    if (canSee) {
-      queryParams.push(`cansee:${canSee}`);
-    }
     if (filterActive) {
       queryParams.push('is:active');
     }
-    params.q = queryParams.join(' and ');
-    if (!params.q) return Promise.resolve([]);
-    if (n) {
-      params.n = n;
-    }
-    return this._restApiHelper.fetchJSON({
-      url: '/accounts/',
-      params,
-      anonymizedUrl: '/accounts/?n=*',
-      errFn,
+    const canSeeChangePromise: Promise<String | undefined> = canSee
+      ? this.getFromProjectLookup(canSee).then(
+          project => `cansee:${project}~${canSee}`
+        )
+      : Promise.resolve(undefined);
+
+    return canSeeChangePromise.then(canSeeParam => {
+      if (canSeeParam) queryParams.push(canSeeParam);
+      params.q = queryParams.join(' and ');
+      if (!params.q) return Promise.resolve(undefined);
+      if (n) {
+        params.n = n;
+      }
+      return this._restApiHelper.fetchJSON({
+        url: '/accounts/',
+        params,
+        anonymizedUrl: '/accounts/?n=*',
+        errFn,
+      });
     }) as Promise<AccountInfo[] | undefined>;
   }
 

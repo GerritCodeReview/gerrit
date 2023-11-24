@@ -349,14 +349,17 @@ suite('gr-rest-api-service-impl tests', () => {
 
   suite('getAccountSuggestions', () => {
     let fetchStub: sinon.SinonStub;
+    const testProject = 'testproject';
+    const testChangeNumber = 341682 ;
     setup(() => {
       fetchStub = sinon
         .stub(element._restApiHelper, 'fetch')
         .resolves(new Response());
+      element.setInProjectLookup(testChangeNumber as NumericChangeId, testProject as RepoName);
     });
 
-    test('url with just email', () => {
-      element.getSuggestedAccounts('bro');
+    test('url with just email', async () => {
+      await element.getSuggestedAccounts('bro');
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
         fetchStub.firstCall.args[0].url,
@@ -364,26 +367,26 @@ suite('gr-rest-api-service-impl tests', () => {
       );
     });
 
-    test('url with email and canSee changeId', () => {
-      element.getSuggestedAccounts('bro', undefined, 341682 as NumericChangeId);
+    test('url with email and canSee changeId', async () => {
+      await element.getSuggestedAccounts('bro', undefined, testChangeNumber as NumericChangeId);
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
         fetchStub.firstCall.args[0].url,
-        `${getBaseUrl()}/accounts/?o=DETAILS&q=%22bro%22%20and%20cansee%3A341682`
+        `${getBaseUrl()}/accounts/?o=DETAILS&q=%22bro%22%20and%20cansee%3A${testProject}~${testChangeNumber}`
       );
     });
 
-    test('url with email and canSee changeId and isActive', () => {
-      element.getSuggestedAccounts(
+    test('url with email and canSee changeId and isActive', async () => {
+      await element.getSuggestedAccounts(
         'bro',
         undefined,
-        341682 as NumericChangeId,
+        testChangeNumber as NumericChangeId,
         true
       );
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
         fetchStub.firstCall.args[0].url,
-        `${getBaseUrl()}/accounts/?o=DETAILS&q=%22bro%22%20and%20cansee%3A341682%20and%20is%3Aactive`
+        `${getBaseUrl()}/accounts/?o=DETAILS&q=%22bro%22%20and%20is%3Aactive%20and%20cansee%3A${testProject}~${testChangeNumber}`
       );
     });
   });
@@ -1040,7 +1043,7 @@ suite('gr-rest-api-service-impl tests', () => {
     const fetchJSONSpy = sinon.spy(element._restApiHelper, 'fetchJSON');
     const accts = await element.getSuggestedAccounts('');
     assert.isFalse(fetchJSONSpy.called);
-    assert.equal(accts!.length, 0);
+    assert.isUndefined(accts)
   });
 
   test('fetchJSON gets called by getSuggestedAccounts', async () => {

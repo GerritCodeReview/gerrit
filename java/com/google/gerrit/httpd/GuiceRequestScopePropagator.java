@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd;
 
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.RemotePeer;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.util.RequestScopePropagator;
@@ -36,20 +35,23 @@ import javax.servlet.http.HttpServletRequest;
 /** Propagator for Guice's built-in servlet scope. */
 public class GuiceRequestScopePropagator extends RequestScopePropagator {
 
-  private final String url;
+  private final HttpCanonicalWebUrlProvider urlProvider;
   private final SocketAddress peer;
   private final Provider<HttpServletRequest> request;
 
   @Inject
   GuiceRequestScopePropagator(
-      @CanonicalWebUrl @Nullable Provider<String> urlProvider,
+      HttpCanonicalWebUrlProvider urlProvider,
       @RemotePeer Provider<SocketAddress> remotePeerProvider,
       ThreadLocalRequestContext local,
       Provider<HttpServletRequest> request) {
     super(ServletScopes.REQUEST, local);
-    this.url = urlProvider != null ? urlProvider.get() : null;
+    this.urlProvider = urlProvider;
     this.peer = remotePeerProvider.get();
     this.request = request;
+    // Ensure HttpServletRequest is propagated to HttpCanonicalWebUrlProvider
+    // so that it won't fallback to the default host name.
+    urlProvider.setHttpServletRequest(request);
   }
 
   /** @see RequestScopePropagator#wrap(Callable) */
@@ -60,12 +62,15 @@ public class GuiceRequestScopePropagator extends RequestScopePropagator {
   @Override
   protected <T> Callable<T> wrapImpl(Callable<T> callable) {
     Map<Key<?>, Object> seedMap = new HashMap<>();
+    String canonicalWebUrl = urlProvider.get();
 
     // Request scopes appear to use specific keys in their map, instead of only
     // providers. Add bindings for both the key to the instance directly and the
     // provider to the instance to be safe.
-    seedMap.put(Key.get(typeOfProvider(String.class), CanonicalWebUrl.class), Providers.of(url));
-    seedMap.put(Key.get(String.class, CanonicalWebUrl.class), url);
+    seedMap.put(
+        Key.get(typeOfProvider(String.class), CanonicalWebUrl.class),
+        Providers.of(canonicalWebUrl));
+    seedMap.put(Key.get(String.class, CanonicalWebUrl.class), canonicalWebUrl);
 
     seedMap.put(Key.get(typeOfProvider(SocketAddress.class), RemotePeer.class), Providers.of(peer));
     seedMap.put(Key.get(SocketAddress.class, RemotePeer.class), peer);

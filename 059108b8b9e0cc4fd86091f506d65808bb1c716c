@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "609916a5_e06bb425",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-11-24T09:17:08Z",
+      "side": 1,
+      "message": "Implicit?",
+      "range": {
+        "startLine": 13,
+        "startChar": 47,
+        "endLine": 13,
+        "endChar": 55
+      },
+      "revId": "059108b8b9e0cc4fd86091f506d65808bb1c716c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "08ea9eeb_1b49a5e1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -14,6 +37,30 @@
       "writtenOn": "2023-11-24T08:57:32Z",
       "side": 1,
       "message": "Hi @nitzan@google.com, sorry to summon you on this change, hope you don\u0027t mind 😊\n\nI am currently working on this fix and I find it hard to pass the current user to the `ChangeDraftNodesUpdate.Executor`, in fact, I am not sure it is possible given the current interface constraints.\n\nWould you mind checking that my analysis is correct?\n\nIs there any room for modifying the current `ChangeDraftUpdateExecutor` without affecting any subclasses you guys might have implemented?\n\nThanks a lot for your input!",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 67
+      },
+      "revId": "059108b8b9e0cc4fd86091f506d65808bb1c716c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f7d03a2_87cbcab9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-11-24T09:17:08Z",
+      "side": 1,
+      "message": "Hi, thanks for looping me in!\n\nWe\u0027d like to avoid adding NoteDb implementation details (e.g. repos/objectIds) to this and related interfaces. However, passing the `currentUser` SGTM.\n\nThat\u0027s assuming `currentUser` is injectable at `NoteDbUpdateManager` (the sole caller to this class), I see we do not currently inject it, or any other user ID there, but haven\u0027t looked closely to see if there\u0027s a blocker. I\u0027d guess some change and draft updates are not triggered by user actions though.",
+      "parentUuid": "08ea9eeb_1b49a5e1",
       "range": {
         "startLine": 23,
         "startChar": 0,

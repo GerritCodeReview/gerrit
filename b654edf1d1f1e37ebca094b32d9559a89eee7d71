@@ -139,6 +139,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6862d772_fe70b0a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-11-25T13:13:19Z",
+      "side": 1,
+      "message": "I tried to address some of my comments in this change: [1]. If you agreed may be you could rebase this series on top of my series?\n\n[1]: https://gerrit-review.googlesource.com/c/gerrit/+/394799",
+      "revId": "b654edf1d1f1e37ebca094b32d9559a89eee7d71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6699de6a_fb03e04e",

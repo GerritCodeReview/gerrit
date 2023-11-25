@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19fcb459_21f31474",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-25T12:20:04Z",
+      "side": 1,
+      "message": "Neat finding, 😎",
+      "revId": "2f982e079cc229047118f1eef1462bf52258e6e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "163685a2_238154cb",
+        "filename": "java/com/google/gerrit/httpd/GuiceRequestScopePropagator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-25T12:20:04Z",
+      "side": 1,
+      "message": "Yes, maybe specify that this was moved from Daemon.java because of the need of being overridden by other modules, such as the virtual host one.\n\nWould ti also make sense to add `@UsedAt(Project.MODULE_VIRTUALHOST)` annotation somewhere close?",
+      "revId": "2f982e079cc229047118f1eef1462bf52258e6e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a30bd890_8c8cd385",
+        "filename": "java/com/google/gerrit/httpd/GuiceRequestScopePropagator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-25T12:20:04Z",
+      "side": 1,
+      "message": "Yes, exactly the fix that I was also thinking about. We get the canonical web URL in the initial request as a value here.",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 47
+      },
+      "revId": "2f982e079cc229047118f1eef1462bf52258e6e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

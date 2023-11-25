@@ -21,9 +21,12 @@ build --java_runtime_version=remotejdk_17
 build --tool_java_language_version=17
 build --tool_java_runtime_version=remotejdk_17
 
-# Builds and executes on RBE using remotejdk_17
-build:remote --config=remote_shared
+# Builds and executes on Google GCP RBE using remotejdk_17
+build:remote --config=config_gcp
 build:remote --config=build_shared
+
+# Define remote configuration alias
+build:remote_gcp --config=remote
 
 # Define configuration using remotejdk_11, executes using remotejdk_11 or local_jdk
 build:build_java11_shared --java_language_version=11
@@ -33,9 +36,12 @@ build:build_java11_shared --tool_java_runtime_version=remotejdk_11
 
 build:java11 --config=build_java11_shared
 
-# Builds and executes on RBE using remotejdk_11
-build:remote11 --config=remote_shared
+# Builds and executes on Google GCP RBE using remotejdk_11
+build:remote11 --config=config_gcp
 build:remote11 --config=build_java11_shared
+
+# Define remote11 configuration alias
+build:remote11_gcp --config=remote11
 
 # Builds using remotejdk_21, executes using remotejdk_21 or local_jdk
 build:build_java21_shared --java_language_version=21
@@ -46,8 +52,11 @@ build:build_java21_shared --tool_java_runtime_version=remotejdk_21
 build:java21 --config=build_java21_shared
 
 # Builds and executes on RBE using remotejdk_21
-build:remote21 --config=remote_shared
+build:remote21 --config=config_gcp
 build:remote21 --config=build_java21_shared
+
+# Define remote21 configuration alias
+build:remote21_gcp --config=remote21
 
 # Enable modern C++ features
 build --cxxopt=-std=c++17

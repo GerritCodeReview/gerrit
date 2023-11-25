@@ -17,31 +17,35 @@ build --repository_cache=~/.gerritcodereview/bazel-cache/repository
 build --action_env=PATH
 build --disk_cache=~/.gerritcodereview/bazel-cache/cas
 
-# Builds using remotejdk_11, executes using remotejdk_11 or local_jdk
-build:java11 --java_language_version=11
-build:java11 --java_runtime_version=remotejdk_11
-build:java11 --tool_java_language_version=11
-build:java11 --tool_java_runtime_version=remotejdk_11
+# Define configuration using remotejdk_17, executes using remotejdk_17 or local_jdk
+build:build_shared --java_language_version=17
+build:build_shared --java_runtime_version=remotejdk_17
+build:build_shared --tool_java_language_version=17
+build:build_shared --tool_java_runtime_version=remotejdk_17
 
 # Builds using remotejdk_17, executes using remotejdk_17 or local_jdk
+# Avoid warnings for non default configurations:
+# build --config=build_shared
 build --java_language_version=17
 build --java_runtime_version=remotejdk_17
 build --tool_java_language_version=17
 build --tool_java_runtime_version=remotejdk_17
 
-# Builds and executes on RBE using remotejdk_11
-build:remote11 --java_language_version=11
-build:remote11 --java_runtime_version=remotejdk_11
-build:remote11 --tool_java_language_version=11
-build:remote11 --tool_java_runtime_version=remotejdk_11
-build:remote11 --config=remote_shared
-
 # Builds and executes on RBE using remotejdk_17
-build:remote --java_language_version=17
-build:remote --java_runtime_version=remotejdk_17
-build:remote --tool_java_language_version=17
-build:remote --tool_java_runtime_version=remotejdk_17
 build:remote --config=remote_shared
+build:remote --config=build_shared
+
+# Define configuration using remotejdk_11, executes using remotejdk_11 or local_jdk
+build:build_java11_shared --java_language_version=11
+build:build_java11_shared --java_runtime_version=remotejdk_11
+build:build_java11_shared --tool_java_language_version=11
+build:build_java11_shared --tool_java_runtime_version=remotejdk_11
+
+build:java11 --config=build_java11_shared
+
+# Builds and executes on RBE using remotejdk_11
+build:remote11 --config=remote_shared
+build:remote11 --config=build_java11_shared
 
 # Enable modern C++ features
 build --cxxopt=-std=c++17

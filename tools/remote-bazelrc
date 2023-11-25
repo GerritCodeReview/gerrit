@@ -27,6 +27,7 @@
 # for a remote machine to execute them.
 build:remote_shared --jobs=200
 build:remote_shared --disk_cache=
+build:remote_shared --remote_download_minimal
 
 # Set several flags related to specifying the platform, toolchain and java
 # properties.

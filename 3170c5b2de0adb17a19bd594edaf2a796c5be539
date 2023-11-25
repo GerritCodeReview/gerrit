@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0488b9bb_bdfdfc46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-25T14:02:45Z",
+      "side": 1,
+      "message": "Actually, Guice complaints were probably caused by `@Singleton` on `VirtualHostHttpCanonialWebUrlProvider`.\n\nI still believe that call to `setHttpServletRequest` in `Deamon.java` is a _dead code_, as the instance of `HttpCanonicalWebUrlProvider` will not be preserved by Guice.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 19
+      },
+      "revId": "3170c5b2de0adb17a19bd594edaf2a796c5be539",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

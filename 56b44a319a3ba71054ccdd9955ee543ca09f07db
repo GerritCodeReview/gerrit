@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c32aa835_49371915",
+        "filename": "tools/remote-bazelrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-25T10:00:26Z",
+      "side": 1,
+      "message": "@david.ostrovsky@gmail.com I did not find any reference to `--config\u003dremote-cache` neither this repo nor in https://gerrit.googlesource.com/gerrit-ci-scripts/+/refs/heads/master.\n\nI wonder if we could remove it.",
+      "revId": "56b44a319a3ba71054ccdd9955ee543ca09f07db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

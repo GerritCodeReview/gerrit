@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "580b3d63_706f52ae",
+        "filename": "java/com/google/gerrit/httpd/GuiceRequestScopePropagator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-25T13:58:54Z",
+      "side": 1,
+      "message": "Actually, `Provider\u003cHttpServletRequest\u003e` will never be used in `HttpCanonicalWebUrlProvider`, as it is only a fallback in case `gerrit.canonicalweburl` is not set in `gerrit.config`. If I\u0027m not mistaken, this is right now a mandatory configuration option (or is automatically set during `init`).\n\n\u003e Would ti also make sense to add @UsedAt(Project.MODULE_VIRTUALHOST) annotation somewhere close?\n\nIMO, that\u0027s a _standard_ API from `HttpCanonicalWebUrlProvider` and it was a bug that it was not called. Also, it seems that optional dependency injection doesn\u0027t work in that case. That setter should be automatically called by Guice, before the instance is injected, but it isn\u0027t.\n\nI don\u0027t think we need `@UsedAt` here.",
+      "parentUuid": "163685a2_238154cb",
+      "revId": "2f982e079cc229047118f1eef1462bf52258e6e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a30bd890_8c8cd385",

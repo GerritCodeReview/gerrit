@@ -22,6 +22,30 @@
       },
       "revId": "1b94625e00b9099bf5cf3b032c02677d2c8c08a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9de651f0_90cd5c53",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 632,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-11-25T13:58:54Z",
+      "side": 0,
+      "message": "\u003e I believe this needs to be explained in the commit message: the readers may wonder why this code that has been here for 14 years since Ia7956ba48cb needs to be moved from the initialisation of the httpd daemon.\n\nThis is already in the commit message, the second paragraph elaborates about this change. Probably I should make it more obvious by mentioning the `Deamon.java` file explicitly.\n\n\u003e If I understand correctly, the issue was that at this point, the plugins and modules were not loaded yet and therefore the HttpCanonicalWebUrlProvider class implementation was always the default one, instantiated only once and then set to the web injector directly here.\n\nThe main issue is that `HttpCanoncialWebUrlProvider` is not a singleton, so each time it is injected or `getInstance()` is used, a new version will be created. Then calling `setHttpServletRequest()` will only happen once (during the Gerrit startup) and the instance that got it set, will be disposed. During my testing I\u0027ve never seen `HttpCanonicalWebUrlProvider.setHttpServetRequest()` being called by Guice, it was only called once manually from the `Daemon.java`.",
+      "parentUuid": "bd2b1ecf_cf959d75",
+      "range": {
+        "startLine": 629,
+        "startChar": 0,
+        "endLine": 632,
+        "endChar": 0
+      },
+      "revId": "1b94625e00b9099bf5cf3b032c02677d2c8c08a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

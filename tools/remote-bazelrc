@@ -29,6 +29,14 @@ build:remote_shared --jobs=200
 build:remote_shared --disk_cache=
 build:remote_shared --remote_download_minimal
 
+# Set various strategies so that all actions execute remotely. Mixing remote
+# and local execution will lead to errors unless the toolchain and remote
+# machine exactly match the host machine.
+build:remote_shared --define=EXECUTOR=remote
+
+# Set a higher timeout value, just in case.
+build:remote_shared --remote_timeout=3600
+
 # Set several flags related to specifying the platform, toolchain and java
 # properties.
 build:remote_shared --crosstool_top=@ubuntu2204_jdk17//cc:toolchain
@@ -38,22 +46,16 @@ build:remote_shared --host_platform=@ubuntu2204_jdk17//config:platform
 build:remote_shared --platforms=@ubuntu2204_jdk17//config:platform
 build:remote_shared --action_env=BAZEL_DO_NOT_DETECT_CPP_TOOLCHAIN=1
 
-# Set various strategies so that all actions execute remotely. Mixing remote
-# and local execution will lead to errors unless the toolchain and remote
-# machine exactly match the host machine.
-build:remote_shared --define=EXECUTOR=remote
-
+# Configuration flags for remote settings in Google GCP RBE
 # Enable the remote cache so action results can be shared across machines,
 # developers, and workspaces.
-build:remote_shared --remote_cache=remotebuildexecution.googleapis.com
+build:config_gcp --remote_cache=remotebuildexecution.googleapis.com
 
 # Enable remote execution so actions are performed on the remote systems.
-build:remote_shared --remote_executor=remotebuildexecution.googleapis.com
-
-# Set a higher timeout value, just in case.
-build:remote_shared --remote_timeout=3600
+build:config_gcp --remote_executor=remotebuildexecution.googleapis.com
 
 # Enable authentication. This will pick up application default credentials by
 # default. You can use --auth_credentials=some_file.json to use a service
 # account credential instead.
-build:remote_shared --google_default_credentials
+build:config_gcp --google_default_credentials
+build:config_gcp --config=remote_shared

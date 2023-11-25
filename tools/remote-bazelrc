@@ -56,10 +56,3 @@ build:remote_shared --remote_timeout=3600
 # default. You can use --auth_credentials=some_file.json to use a service
 # account credential instead.
 build:remote_shared --google_default_credentials
-
-# The following flags enable the remote cache so action results can be shared
-# across machines, developers, and workspaces.
-build:remote-cache --remote_cache=remotebuildexecution.googleapis.com
-build:remote-cache --tls_enabled=true
-build:remote-cache --remote_timeout=3600
-build:remote-cache --auth_enabled=true

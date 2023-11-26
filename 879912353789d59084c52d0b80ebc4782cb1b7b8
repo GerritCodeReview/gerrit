@@ -34,6 +34,24 @@
       "parentUuid": "509b8cba_baf5aae0",
       "revId": "879912353789d59084c52d0b80ebc4782cb1b7b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f273311_0e355cdb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2023-11-26T17:21:04Z",
+      "side": 1,
+      "message": "I tried to be future-proof, but I see your point.\n\nI personally sometimes use \"temp! message\" to skip the hook, or to avoid pushing this commit by mistake, but Ok, I\u0027ll change it.",
+      "parentUuid": "fdb62a54_5acb6acc",
+      "revId": "879912353789d59084c52d0b80ebc4782cb1b7b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

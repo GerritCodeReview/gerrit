@@ -152,6 +152,24 @@
       "parentUuid": "6812ecb9_73bd3d10",
       "revId": "879912353789d59084c52d0b80ebc4782cb1b7b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "931871dd_e01dcea7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2023-11-26T17:28:19Z",
+      "side": 1,
+      "message": "Also please do cover this with a brief proposed release note, as it\u0027s a user-visible change.",
+      "parentUuid": "55fd52cf_592b24ac",
+      "revId": "879912353789d59084c52d0b80ebc4782cb1b7b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

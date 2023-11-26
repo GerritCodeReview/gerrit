@@ -2,8 +2,11 @@
 
 set -eu
 
-hook=$(pwd)/resources/com/google/gerrit/server/tools/root/hooks/commit-msg
+test_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+hook=$test_dir/tools/root/hooks/commit-msg
 
+TEST_TMPDIR=${TEST_TMPDIR:-/tmp/test-commit-msg-$$}
+mkdir -p "$TEST_TMPDIR"
 cd $TEST_TMPDIR
 
 function fail {

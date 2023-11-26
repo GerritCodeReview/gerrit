@@ -73,11 +73,6 @@ POST_JDK8_OPTS = [
     "-Djava.locale.providers=COMPAT",
 ]
 
-POST_JDK17_OPTS = [
-    # https://github.com/bazelbuild/bazel/issues/14502
-    "-Djava.security.manager=allow",
-]
-
 def junit_tests(name, srcs, **kwargs):
     s_name = name.replace("-", "_") + "TestSuite"
     _gen_suite(
@@ -86,10 +81,7 @@ def junit_tests(name, srcs, **kwargs):
         outname = s_name,
     )
     jvm_flags = kwargs.get("jvm_flags", []) + POST_JDK8_OPTS
-    jvm_flags = jvm_flags + select({
-        "//:java17": POST_JDK8_OPTS + POST_JDK17_OPTS,
-        "//conditions:default": POST_JDK8_OPTS,
-    })
+    jvm_flags = jvm_flags + POST_JDK8_OPTS
     java_test(
         name = name,
         test_class = s_name,

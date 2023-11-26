@@ -16,6 +16,24 @@
       "message": "the broadness of this should be probably debated. it irks me, but i can\u0027t come up with a _reasonable_ case where this would lead to false positives, either.",
       "revId": "879912353789d59084c52d0b80ebc4782cb1b7b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdb62a54_5acb6acc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2023-11-26T17:18:16Z",
+      "side": 1,
+      "message": "I agree with you that using an ERE of (squash|fixup)! would feel a bit safer - I don\u0027t really imagine that a project is going to ask people to write their commit messages as \"subsystem! do something great\" or \"yay! we fixed a bug\", but if they do, then why would we want to stop them?",
+      "parentUuid": "509b8cba_baf5aae0",
+      "revId": "879912353789d59084c52d0b80ebc4782cb1b7b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

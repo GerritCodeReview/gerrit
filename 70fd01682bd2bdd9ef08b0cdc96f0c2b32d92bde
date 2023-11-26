@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4ef20e2_194645de",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2023-11-26T23:55:49Z",
+      "side": 1,
+      "message": "you convinced me that `[a-z][a-z]*` is better here, as long as the commit message describes what we\u0027re trying to accomplish and why.",
+      "range": {
+        "startLine": 38,
+        "startChar": 29,
+        "endLine": 38,
+        "endChar": 53
+      },
+      "revId": "70fd01682bd2bdd9ef08b0cdc96f0c2b32d92bde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

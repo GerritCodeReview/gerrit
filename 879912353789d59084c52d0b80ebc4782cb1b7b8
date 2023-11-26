@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2da630ba_88672c48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2023-11-26T17:23:01Z",
+      "side": 1,
+      "message": "On second thought, this argument (will be discarded at fixup time) seems compelling to me. Which makes sense, since I made it. :)\n\nI still don\u0027t mind a (squash|fixup)! ERE, but this pushes the balance in the direction of it not being worth going even wider and getting false positives without a clear reason for doing so.",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "879912353789d59084c52d0b80ebc4782cb1b7b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94aae363_d58ed037",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2023-11-26T17:23:01Z",
+      "side": 1,
+      "message": "hm, can we spell out what cost we have in mind? For example, is the hook slow to run?",
+      "range": {
+        "startLine": 14,
+        "startChar": 23,
+        "endLine": 14,
+        "endChar": 35
+      },
+      "revId": "879912353789d59084c52d0b80ebc4782cb1b7b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "509b8cba_baf5aae0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -50,6 +96,24 @@
       "side": 1,
       "message": "I tried to be future-proof, but I see your point.\n\nI personally sometimes use \"temp! message\" to skip the hook, or to avoid pushing this commit by mistake, but Ok, I\u0027ll change it.",
       "parentUuid": "fdb62a54_5acb6acc",
+      "revId": "879912353789d59084c52d0b80ebc4782cb1b7b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a322c2f_b36c44c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2023-11-26T17:23:01Z",
+      "side": 1,
+      "message": "\u003e I personally sometimes use \"temp! message\" to skip the hook\n\nAh! I think now we\u0027re getting closer to the heart of things.\n\nShould there be some more convenient way to skip the hook? Can you say a little more about what you\u0027re aiming to do by making temp! skip it? (For example, does the missing change-id help with avoiding accidentally uploading the commit as a change for review?)",
+      "parentUuid": "6f273311_0e355cdb",
       "revId": "879912353789d59084c52d0b80ebc4782cb1b7b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

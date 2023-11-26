@@ -110,9 +110,9 @@ EOF
   fi
 }
 
-function test_suppress_squash {
+function suppress_squash_like {
   cat << EOF > input
-squash! bla bla
+$1! bla bla
 EOF
 
   ${hook} input || fail "failed hook execution"
@@ -120,6 +120,13 @@ EOF
   if [[ "${found}" != "0" ]]; then
     fail "got ${found} Change-Ids, want 0"
   fi
+}
+
+function test_suppress_squash {
+  suppress_squash_like squash
+  suppress_squash_like fixup
+  suppress_squash_like amend
+  suppress_squash_like temp
 }
 
 # gerrit.reviewUrl causes us to create Link instead of Change-Id.

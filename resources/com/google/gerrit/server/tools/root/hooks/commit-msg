@@ -34,8 +34,8 @@ if test "false" = "$(git config --bool --get gerrit.createChangeId)" ; then
   exit 0
 fi
 
-# Do not create a change id for squash commits.
-if head -n1 "$1" | grep -q '^squash! '; then
+# Do not create a change id for squash/fixup commits.
+if head -n1 "$1" | grep -q '^\(squash\|fixup\|amend\)! '; then
   exit 0
 fi
 

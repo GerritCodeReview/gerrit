@@ -97,6 +97,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3156b12e_fc8588ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2023-11-26T23:53:59Z",
+      "side": 1,
+      "message": "\u003e really, the argument is a bit pointless\n\nI disagree. By not spelling out why we\u0027re making the change, we make it more likely we\u0027ll regress later.\n\nMy understanding is that the real reason we\u0027re making the change is not about the energy consumption or time spent by running the hook, but rather because of the result that the hook writes a `Change-Id:` line that we don\u0027t actually want. When we upload the change, we want it to be rejected because it has no `Change-Id` line.",
+      "parentUuid": "16525f73_1f708a73",
+      "range": {
+        "startLine": 14,
+        "startChar": 23,
+        "endLine": 14,
+        "endChar": 35
+      },
+      "revId": "879912353789d59084c52d0b80ebc4782cb1b7b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "509b8cba_baf5aae0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

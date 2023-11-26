@@ -110,15 +110,39 @@ EOF
   fi
 }
 
-function test_suppress_squash {
+function suppress_squash_like {
   cat << EOF > input
-squash! bla bla
+$1! bla bla
 EOF
 
   ${hook} input || fail "failed hook execution"
   found=$(grep -c '^Change-Id' input || true)
   if [[ "${found}" != "0" ]]; then
     fail "got ${found} Change-Ids, want 0"
+  fi
+}
+
+function test_suppress_squash {
+  # test for standard git prefixes
+  suppress_squash_like squash
+  suppress_squash_like fixup
+  suppress_squash_like amend
+  # test for custom prefixes
+  suppress_squash_like temp
+  suppress_squash_like nopush
+}
+
+function test_always_create {
+  cat << EOF > input
+squash! bla bla
+EOF
+
+  git config gerrit.createChangeId always
+  ${hook} input || fail "failed hook execution"
+  git config --unset gerrit.createChangeId
+  found=$(grep -c '^Change-Id' input || true)
+  if [[ "${found}" != "1" ]]; then
+    fail "got ${found} Change-Ids, want 1"
   fi
 }
 

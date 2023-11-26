@@ -56,6 +56,12 @@ change viewed on the web.
 The `Change-Id` will not be added if `gerrit.createChangeId` is set
 to `false` in the git config.
 
+The `Change-Id` will not be added to temporary commits created by
+`git commit --fixup` or `git commit --squash`, as well as commits
+with a subject line that begins with a lowercase word followed by
+an exclamation mark (e.g., `nopush!`). To override this behavior,
+set `gerrit.createChangeId` to `always` in the git config.
+
 If `gerrit.reviewUrl` is set to the base URL of the Gerrit server that
 changes are uploaded to (e.g. `https://gerrit-review.googlesource.com/`)
 in the git config, then instead of adding a `Change-Id` trailer, a `Link`

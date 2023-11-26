@@ -30,14 +30,20 @@ if test ! -f "$1" ; then
 fi
 
 # Do not create a change id if requested
-if test "false" = "$(git config --bool --get gerrit.createChangeId)" ; then
-  exit 0
-fi
+case "$(git config --get gerrit.createChangeId)" in
+  false)
+    exit 0
+    ;;
+  always)
+    ;;
+  *)
+    # Do not create a change id for squash/fixup commits.
+    if head -n1 "$1" | LC_ALL=C grep -q '^[a-z][a-z]*! '; then
+      exit 0
+    fi
+    ;;
+esac
 
-# Do not create a change id for squash commits.
-if head -n1 "$1" | grep -q '^squash! '; then
-  exit 0
-fi
 
 if git rev-parse --verify HEAD >/dev/null 2>&1; then
   refhash="$(git rev-parse HEAD)"

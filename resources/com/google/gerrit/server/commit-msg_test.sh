@@ -2,12 +2,24 @@
 
 set -eu
 
-hook=$(pwd)/resources/com/google/gerrit/server/tools/root/hooks/commit-msg
+test_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+hook=$test_dir/tools/root/hooks/commit-msg
 
+TMPDIR_CREATED=
+if [ -z "$TEST_TMPDIR" ]; then
+  TEST_TMPDIR=$(mktemp -d)
+  echo "Created \"$TEST_TMPDIR\""
+  TMPDIR_CREATED=1
+fi
 cd $TEST_TMPDIR
+
+function cleanup {
+  [ -z "$TMPDIR_CREATED" ] || rm -rf "$TEST_TMPDIR"
+}
 
 function fail {
   echo "FAIL: $1"
+  cleanup
   exit 1
 }
 
@@ -237,3 +249,5 @@ for func in $( declare -F | awk '{print $3;}' | sort); do
       ;;
   esac
 done
+
+cleanup

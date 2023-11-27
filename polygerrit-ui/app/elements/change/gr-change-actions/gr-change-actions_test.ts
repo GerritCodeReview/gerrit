@@ -39,7 +39,7 @@ import {
   ReviewInput,
   TopicName,
 } from '../../../types/common';
-import {ActionType} from '../../../api/change-actions';
+import {ActionType, RevisionActions} from '../../../api/change-actions';
 import {SinonFakeTimers, SinonStubbedMember} from 'sinon';
 import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea';
 import {GrButton} from '../../shared/gr-button/gr-button';
@@ -409,8 +409,8 @@ suite('gr-change-actions tests', () => {
       );
       assert.isOk(buttonEl);
       element.setActionHidden(
-        element.ActionType.REVISION,
-        element.RevisionActions.SUBMIT,
+        ActionType.REVISION,
+        RevisionActions.SUBMIT,
         true
       );
       assert.lengthOf(element.hiddenActions, 1);
@@ -419,8 +419,8 @@ suite('gr-change-actions tests', () => {
       assert.isNotOk(buttonEl);
 
       element.setActionHidden(
-        element.ActionType.REVISION,
-        element.RevisionActions.SUBMIT,
+        ActionType.REVISION,
+        RevisionActions.SUBMIT,
         false
       );
       await element.updateComplete;
@@ -1235,7 +1235,7 @@ suite('gr-change-actions tests', () => {
     test('custom actions', async () => {
       // Add a button with the same key as a server-based one to ensure
       // collisions are taken care of.
-      const key = element.addActionButton(element.ActionType.REVISION, 'Bork!');
+      const key = element.addActionButton(ActionType.REVISION, 'Bork!');
       const keyTapped = mockPromise();
       element.addEventListener(key + '-tap', async e => {
         assert.equal(

@@ -9,10 +9,8 @@ import {getAppContext} from '../../../services/app-context';
 import {
   ActionPriority,
   ActionType,
-  ChangeActions,
   ChangeActionsPluginApi,
   PrimaryActionKey,
-  RevisionActions,
 } from '../../../api/change-actions';
 import {PropertyDeclaration} from 'lit';
 import {JsApiService} from './gr-js-api-types';
@@ -28,9 +26,6 @@ export interface UIActionInfo extends RequireProperties<ActionInfo, 'label'> {
 
 // This interface is required to avoid circular dependencies between files;
 export interface GrChangeActionsElement extends Element {
-  RevisionActions?: Record<string, string>;
-  ChangeActions: Record<string, string>;
-  ActionType: Record<string, string>;
   primaryActionKeys: string[];
   hideQuickApproveAction(): void;
   setActionOverflow(type: ActionType, key: string, overflow: boolean): void;
@@ -57,12 +52,6 @@ export interface GrChangeActionsElement extends Element {
 
 export class GrChangeActionsInterface implements ChangeActionsPluginApi {
   private el?: GrChangeActionsElement;
-
-  RevisionActions = RevisionActions;
-
-  ChangeActions = ChangeActions;
-
-  ActionType = ActionType;
 
   private readonly reporting = getAppContext().reportingService;
 

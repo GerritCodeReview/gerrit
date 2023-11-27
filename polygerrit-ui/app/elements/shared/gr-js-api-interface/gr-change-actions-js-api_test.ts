@@ -69,14 +69,6 @@ suite('gr-change-actions-js-api-interface tests', () => {
       testResolver(pluginLoaderToken).loadPlugins([]);
     });
 
-    test('property existence', () => {
-      const properties = ['ActionType', 'ChangeActions', 'RevisionActions'];
-      for (const p of properties) {
-        // Have to type as any to prevent 'has no index signature.'
-        assert.deepEqual((changeActions as any)[p], (element as any)[p]);
-      }
-    });
-
     test('add/remove primary action keys', () => {
       element.primaryActionKeys = [];
       changeActions.addPrimaryActionKey('foo' as PrimaryActionKey);

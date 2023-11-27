@@ -264,6 +264,7 @@ Then the effective range permitted to be used by the user is
 `-2..+2`, as the user's membership of `Foo Leads` effectively grant
 them access to the entire reference space, thanks to the wildcard.
 
+[[exclusive]]
 Gerrit also supports exclusive reference-level access control.
 
 It is possible to configure Gerrit to grant an exclusive ref level
@@ -443,13 +444,13 @@ ref.
 
 
 [[category_create]]
-=== Create Reference
+=== Create (aka Create Reference)
 
-The create reference category controls whether it is possible to
-create new references, branches or tags.  This implies that the
-reference must not already exist, it's not a destructive permission
-in that you can't overwrite or remove any previously existing
-references (and also discard any commits in the process).
+The create category controls whether it is possible to create new
+references, branches or tags.  This implies that the reference must not
+already exist, it's not a destructive permission in that you can't
+overwrite or remove any previously existing references (and also
+discard any commits in the process).
 
 It's probably most common to either permit the creation of a single
 branch in many gits (by granting permission on a parent project), or
@@ -484,9 +485,9 @@ git branches are case sensitive, so that sandbox branches containing
 `${username}` are still reachable by the users.
 
 [[category_delete]]
-=== Delete Reference
+=== Delete (aka Delete Reference)
 
-The delete reference category controls whether it is possible to delete
+The delete category controls whether it is possible to delete
 references, branches or tags. It doesn't allow any other update of
 references.
 
@@ -1618,6 +1619,7 @@ Here is how these play out in a link:config-project-config.html[project.config] 
 
 Access to refs can be blocked, allowed or denied.
 
+[[block-rule]]
 ==== BLOCK
 
 For blocking access, all rules marked BLOCK are tested, and if one
@@ -1643,6 +1645,7 @@ Such additions not only bypass BLOCK rules, but they will also grant
 permissions when they are processed in the ALLOW/DENY processing, as
 described in the next subsection.
 
+[[allow-rule]]
 ==== ALLOW
 
 For allowing access, all ALLOW/DENY rules that might apply to a ref
@@ -1656,6 +1659,7 @@ All-Projects.
 This ordering lets project owners apply permissions specific to their
 project, overwriting the site defaults specified in All-Projects.
 
+[[deny-rule]]
 ==== DENY
 
 DENY is processed together with ALLOW.

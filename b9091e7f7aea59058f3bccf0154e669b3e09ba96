@@ -70,6 +70,24 @@
       "parentUuid": "5460c39a_27636edb",
       "revId": "b9091e7f7aea59058f3bccf0154e669b3e09ba96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7485ff0c_995dd924",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-27T13:47:23Z",
+      "side": 1,
+      "message": "ack",
+      "parentUuid": "5b15fbcc_47b7dda7",
+      "revId": "b9091e7f7aea59058f3bccf0154e669b3e09ba96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

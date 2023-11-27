@@ -852,13 +852,58 @@ If not set, access rights are inherited from the `All-Projects` root project.
 [[access-subsection]]
 ==== Access subsection
 
-+access+ subsections for references connect access rights to groups. Each group
-listed must exist in the link:#file-groups[+groups+ file].
+`access` subsections define access rules for a ref or a ref namespace. The ref
+or ref namespace is specified as the subsection name and can be a concrete ref
+(e.g. `refs/heads/master`), a ref pattern (last path segment is '\*', e.g.
+`refs/heads/*`) or a regular expression (must start with '^', e.g.
+`^refs/heads/rel-.*`).
 
-Please refer to the
-link:access-control.html#access_categories[Access Categories]
-documentation for a full list of available access rights.
+[NOTE]
+For ref patterns '\*' can only appear as the last path segment. If a '*' is
+required in any other place the ref namespace must be specified as a regular
+expression (must start with '^', '\*' must follow what's being matched, e.g.
+".*" to match any string).
 
+The `access` subsections contain access rules that apply to the ref or ref
+namespace of the `access` subsections. The format of the access rules is: +
+`<accessCategoryId> = (block|deny)? <range>? group <group-name>`
+
+* `<accessCategoryId>`: ID of the link:access-control.html#access_categories[
+  access category] for which the access rule should be defined. The ID of the
+  access category is the name of the access category in lowerCamelCase (e.g.
+  `createTag`), except for label permissions where it is `label-<label-Name>`
+  (e.g. `label-Code-Review`).
+* `(block|deny)?`: `block` defines a link:access-control.html#block-rule[BLOCK]
+  rule, `deny` defines a link:access-control.html#deny-rule[DENY] rule, if
+  neither `block` or `deny` is specified an link:access-control.html#allow-rule[
+  ALLOW] rule is defined.
+* `<range>?`: Only set for label permission. The voting range in the format
+  `<min-vote>..<max-vote>` (e.g. `-1..+1`).
+* `group <group-name>`: The (local) name of the group to which the access rule
+  should apply (e.g. `group Foo Bar`). The (local) group name must exist in the
+  link:#file-groups[groups] file, so that Gerrit can resolve it to the group
+  UUID.
+
+To make access rules link:access-control.html#exclusive[exclusive] they need to
+included into the value of the `exclusiveGroupPermissions` key: +
+`exclusiveGroupPermissions = <space-separated-list-of-access-category-ids>`
+
+.Example access subsections
+----
+  [access "refs/heads/*"]
+    create = group Administrators
+    delete = group Administrators
+    deleteChanges = group Administrators
+    label-Code-Review = -2..+2 group Maintainers
+	label-Code-Review = -1..+1 group Registered Users
+	label-Verified = -1..+1 group Registered Users
+	push = block Registered Users
+	submit = group Maintainers
+    exclusiveGroupPermissions = deleteChanges submit
+  [access "^refs/tags/rel-.*"]
+	createTag = group Maintainers
+	createSignedTag = group Maintainers
+----
 
 [[mimetype-section]]
 === MIME Types section

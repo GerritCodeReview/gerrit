@@ -116,6 +116,31 @@ public class RecursiveApprovalCopier {
     persist(ImmutableList.of(project), labelsCopiedListener, true, dryRun);
   }
 
+  public void persistNotify(
+      Project.NameKey project,
+      @Nullable Consumer<Change> labelsCopiedListener,
+      boolean dryRun)
+      throws IOException, UpdateException, RestApiException, RepositoryNotFoundException {
+    try (BatchUpdate bu =
+             batchUpdateFactory.create(project, internalUserFactory.create(), TimeUtil.nowTs());
+         Repository repository = repositoryManager.openRepository(project)) {
+      for (Ref changeMetaRef :
+          repository.getRefDatabase().getRefsByPrefix(RefNames.REFS_CHANGES).stream()
+              .filter(r -> r.getName().endsWith(RefNames.META_SUFFIX))
+              .collect(toImmutableList())) {
+        Change.Id changeId = Change.Id.fromRef(changeMetaRef.getName());
+        if (isCorrupt(project, changeId)) {
+          logger.atSevere().log("skipping corrupt meta-ref %s", changeMetaRef.getName());
+          continue;
+        }
+        bu.addOp(changeId, new PersistCopiedVotesOp(approvalsUtil, labelsCopiedListener));
+      }
+      if(!dryRun) {
+        bu.execute();
+      }
+    }
+  }
+
   private void persist(
       Collection<Project.NameKey> projects,
       @Nullable Consumer<Change> labelsCopiedListener,
@@ -235,14 +260,14 @@ public class RecursiveApprovalCopier {
         "executing batch ref-update for project %s, size %d", project, updates.size());
     try (Repository repository = repositoryManager.openRepository(project)) {
       RefDatabase refdb = repository.getRefDatabase();
-      BatchRefUpdate bu;
+      BatchRefUpdate bru;
       if (refdb instanceof RefDirectory) {
-        bu = ((RefDirectory) refdb).newBatchUpdate(shouldLockLooseRefs);
+        bru = ((RefDirectory) refdb).newBatchUpdate(shouldLockLooseRefs);
       } else {
-        bu = refdb.newBatchUpdate();
+        bru = refdb.newBatchUpdate();
       }
-      bu.addCommand(updates);
-      RefUpdateUtil.executeChecked(bu, repository);
+      bru.addCommand(updates);
+      RefUpdateUtil.executeChecked(bru, repository);
 
       finishedRefUpdates.addAndGet(updates.size());
       logProgress();

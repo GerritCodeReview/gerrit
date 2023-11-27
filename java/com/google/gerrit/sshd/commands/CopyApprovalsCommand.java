@@ -62,6 +62,13 @@ public class CopyApprovalsCommand extends SshCommand {
       metaVar = "DRY-RUN")
   private boolean dryRun;
 
+  @Option(
+      name = "--notify-updates",
+      aliases = "-nu",
+      usage = "fire ref-updated stream-events when updating a ref. Uses legacy implementation, potentially slower",
+      metaVar = "NOTIFY-UPDATES")
+  private boolean notifyUpdates;
+
   @Inject
   public CopyApprovalsCommand(
       RecursiveApprovalCopier recursiveApprovalCopier, GitRepositoryManager repositoryManager) {
@@ -79,15 +86,27 @@ public class CopyApprovalsCommand extends SshCommand {
 
     for (Project.NameKey project : projectsList) {
       stdout.print("> " + project + " : ");
-      recursiveApprovalCopier.persist(
-          project,
-          c -> {
-            if (verbose) {
-              stdout.println("  [" + c.getProject() + "," + c.getChangeId() + "] updated");
-            }
-            changesCounter.incrementAndGet();
-          },
-          dryRun);
+      if(notifyUpdates) {
+        recursiveApprovalCopier.persistNotify(
+            project,
+            c -> {
+              if (verbose) {
+                stdout.println("  [" + c.getProject() + "," + c.getChangeId() + "] updated");
+              }
+              changesCounter.incrementAndGet();
+            },
+            dryRun);
+      } else {
+        recursiveApprovalCopier.persist(
+            project,
+            c -> {
+              if (verbose) {
+                stdout.println("  [" + c.getProject() + "," + c.getChangeId() + "] updated");
+              }
+              changesCounter.incrementAndGet();
+            },
+            dryRun);
+      }
       stdout.println("DONE");
     }
 

@@ -6,6 +6,8 @@
 #
 # COVERAGE_CPUS defaults to 2, and the default destination is a temp
 # dir.
+# 2
+# Test
 
 bazel_bin=$(which bazelisk 2>/dev/null)
 if [[ -z "$bazel_bin" ]]; then

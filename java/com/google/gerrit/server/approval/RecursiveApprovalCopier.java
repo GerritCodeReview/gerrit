@@ -227,7 +227,7 @@ public class RecursiveApprovalCopier {
 
   private void executeRefUpdates(
       Project.NameKey project, List<ReceiveCommand> updates, boolean shouldLockLooseRefs)
-      throws RepositoryNotFoundException, IOException {
+      throws IOException {
     logger.atInfo().log(
         "executing batch ref-update for project %s, size %d", project, updates.size());
     try (Repository repository = repositoryManager.openRepository(project)) {

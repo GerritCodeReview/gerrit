@@ -55,6 +55,13 @@ public class CopyApprovalsCommand extends SshCommand {
       metaVar = "VERBOSE")
   private boolean verbose;
 
+  @Option(
+      name = "--dry-run",
+      aliases = "-dr",
+      usage = "compute which changes would be updated, but do not actually update them",
+      metaVar = "DRY-RUN")
+  private boolean dryRun;
+
   @Inject
   public CopyApprovalsCommand(
       RecursiveApprovalCopier recursiveApprovalCopier, GitRepositoryManager repositoryManager) {
@@ -79,7 +86,8 @@ public class CopyApprovalsCommand extends SshCommand {
               stdout.println("  [" + c.getProject() + "," + c.getChangeId() + "] updated");
             }
             changesCounter.incrementAndGet();
-          });
+          },
+          dryRun);
       stdout.println("DONE");
     }
 

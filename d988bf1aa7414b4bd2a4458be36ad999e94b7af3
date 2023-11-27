@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd644357_b997c69e",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 950,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-27T11:47:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ff963ab_030ca77f",
+      "range": {
+        "startLine": 950,
+        "startChar": 22,
+        "endLine": 950,
+        "endChar": 45
+      },
+      "revId": "d988bf1aa7414b4bd2a4458be36ad999e94b7af3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "55795fa4_89ef06f6",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cac9852d_0827c765",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 967,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-27T11:47:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55795fa4_89ef06f6",
+      "range": {
+        "startLine": 967,
+        "startChar": 56,
+        "endLine": 967,
+        "endChar": 69
+      },
+      "revId": "d988bf1aa7414b4bd2a4458be36ad999e94b7af3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "34b2c9fd_5a8f7113",
@@ -60,6 +108,30 @@
       "writtenOn": "2023-11-24T15:22:01Z",
       "side": 1,
       "message": "in",
+      "range": {
+        "startLine": 972,
+        "startChar": 52,
+        "endLine": 972,
+        "endChar": 56
+      },
+      "revId": "d988bf1aa7414b4bd2a4458be36ad999e94b7af3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6427add7_798d0f9c",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 972,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-27T11:47:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34b2c9fd_5a8f7113",
       "range": {
         "startLine": 972,
         "startChar": 52,

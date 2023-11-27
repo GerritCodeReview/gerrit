@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17e261af_a3bad668",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-27T12:59:23Z",
+      "side": 1,
+      "message": "Tested again E2E on review-4.gerrithub.io and works as expected ! Thanks for the reviews @brohlfs@google.com",
+      "revId": "2084678004c9ede924ba22612d3abeadc13131ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

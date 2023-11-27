@@ -108,6 +108,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "241ca9fc_e41cfa25",
+        "filename": ".bazelrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-27T14:03:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56fd320c_bf987c05",
+      "revId": "d90e173fcdf86123da9c452eafd99a6d766a8c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63cb78d0_fab85844",

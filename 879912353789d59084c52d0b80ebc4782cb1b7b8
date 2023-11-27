@@ -145,6 +145,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9e71b25d_6ed9d90c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2023-11-27T08:08:18Z",
+      "side": 1,
+      "message": "I agree with Ossi. Shell scripts are very slow on Windows (can sometimes be ~50x slower than linux).\n\nI\u0027ll revert to PS2 and rephrase the commit message.",
+      "parentUuid": "81fc0920_5d36750e",
+      "range": {
+        "startLine": 14,
+        "startChar": 23,
+        "endLine": 14,
+        "endChar": 35
+      },
+      "revId": "879912353789d59084c52d0b80ebc4782cb1b7b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "509b8cba_baf5aae0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

@@ -34,6 +34,11 @@ with the inferred vote.
 -v::
 	Display projects/changes impacted by the label copy operation.
 
+--dry-run::
+-dr::
+	Combined with verbose option, it will print which changes would be affected
+	by running the command, but will not execute the updates.
+
 == ACCESS
 Only the user with MAINTAIN_SERVER permissions can run this command.
 

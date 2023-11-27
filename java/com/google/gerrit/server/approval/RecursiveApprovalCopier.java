@@ -104,22 +104,23 @@ public class RecursiveApprovalCopier {
    */
   public void persistStandalone()
       throws RepositoryNotFoundException, IOException, InterruptedException, ExecutionException {
-    persist(repositoryManager.list(), null, false);
+    persist(repositoryManager.list(), null, false, false);
 
     if (failedForAtLeastOneProject) {
       throw new RuntimeException("There were errors, check the logs for details");
     }
   }
 
-  public void persist(Project.NameKey project, @Nullable Consumer<Change> labelsCopiedListener)
+  public void persist(Project.NameKey project, @Nullable Consumer<Change> labelsCopiedListener, boolean dryRun)
       throws IOException, RepositoryNotFoundException, InterruptedException, ExecutionException {
-    persist(ImmutableList.of(project), labelsCopiedListener, true);
+    persist(ImmutableList.of(project), labelsCopiedListener, true, dryRun);
   }
 
   private void persist(
       Collection<Project.NameKey> projects,
       @Nullable Consumer<Change> labelsCopiedListener,
-      boolean shouldLockLooseRefs)
+      boolean shouldLockLooseRefs,
+      boolean dryRun)
       throws InterruptedException, ExecutionException, RepositoryNotFoundException, IOException {
     List<ListenableFuture<Void>> copyApprovalsTasks = new LinkedList<>();
     for (Project.NameKey project : projects) {
@@ -127,9 +128,11 @@ public class RecursiveApprovalCopier {
     }
     Futures.successfulAsList(copyApprovalsTasks).get();
 
-    List<ListenableFuture<Void>> batchRefUpdateTasks =
-        submitBatchRefUpdateTasks(shouldLockLooseRefs);
-    Futures.successfulAsList(batchRefUpdateTasks).get();
+    if(!dryRun) {
+      List<ListenableFuture<Void>> batchRefUpdateTasks =
+          submitBatchRefUpdateTasks(shouldLockLooseRefs);
+      Futures.successfulAsList(batchRefUpdateTasks).get();
+    }
   }
 
   private List<ListenableFuture<Void>> submitCopyApprovalsTasks(

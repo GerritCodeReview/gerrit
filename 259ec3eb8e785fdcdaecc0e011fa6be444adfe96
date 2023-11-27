@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8ead3c5_c645b47e",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1810,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-27T11:56:59Z",
+      "side": 1,
+      "message": "\u003e You should return `[]` here, not `Promise.resolve([])`, because you are inside a promise.\n\u003e \n\u003e Since this is generally confusing, we are trying to avoid `then()` syntax as much as possible these days. We prefer `async/await` syntax. Maybe it is also easier for you here. Just do\n\u003e ```\n\u003e let canSeeParam \u003d \u0027\u0027;\n\u003e if (canSee) {\n\u003e   const project \u003d await this.getFromProjectLookup(canSee);\n\u003e   canSeeParam \u003d `cansee:${project}~${canSee}`;\n\u003e }\n\u003e ```\n\u003e and then use the existing code without `then()`.\n\nThanks for the directions, I\u0027ve amended the change and it looks a lot more readable and smaller in size. Good stuff 👍",
+      "parentUuid": "252c6e5c_e958f989",
+      "range": {
+        "startLine": 1810,
+        "startChar": 44,
+        "endLine": 1810,
+        "endChar": 53
+      },
+      "revId": "259ec3eb8e785fdcdaecc0e011fa6be444adfe96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8fcc46fa_ac47d0e6",

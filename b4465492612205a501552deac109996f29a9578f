@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3da9bd56_c2782cf9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011217
+      },
+      "writtenOn": "2023-11-27T17:32:39Z",
+      "side": 1,
+      "message": "We recently upgraded to Gerrit 3.8.2 and some of our users noticed problems with changes submitting under certain conditions. The changes that fail produce tracebacks like this: https://paste.opendev.org/show/bjkm3wtVzLiPJxO9Qq0q/\n\nThis change appears to be fixing a bug introduced in master during the 3.8 release development (I7c8af57e8) but the fix was only applied to master during the 3.9 release development and not backported to stable-3.8. We backport this change as we believe it will address the errors identified before and was simply missed when originally fixed against 3.9.",
+      "revId": "b4465492612205a501552deac109996f29a9578f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

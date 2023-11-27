@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49645fa8_80bb3c5e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-27T12:05:48Z",
+      "side": 1,
+      "message": "@david.ostrovsky@gmail.com, I followed your wise comments. I hope now it makes more sense to you.",
+      "revId": "2f8a32636497501221bd9a1188b995dea4d5bbea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

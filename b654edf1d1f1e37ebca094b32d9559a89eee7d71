@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7fa39c0_710924b3",
+        "filename": ".bazelrc",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-27T12:05:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e68c828b_6e27b735",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 53
+      },
+      "revId": "b654edf1d1f1e37ebca094b32d9559a89eee7d71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff121ee3_cd4c11f9",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-11-25T12:19:44Z",
       "side": 1,
       "message": "We should carefully choose naming scheme here. Can it be that GCP/RBE is not unique enough? As documented on RBE provider pages, there are number of non commercial and commercial RBE service providers, that of course offer on premise as also hosted/cloud services, and of course have in portfolio the pipelines for Azure/AWS/GCP, so that if we say remote-gcp it could be non unique. OTH, we could spell Google GCP RBE Provider in the comment, to not make configuration name unnecessarily long.",
+      "range": {
+        "startLine": 28,
+        "startChar": 25,
+        "endLine": 28,
+        "endChar": 32
+      },
+      "revId": "b654edf1d1f1e37ebca094b32d9559a89eee7d71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c92a97a6_2928f968",
+        "filename": ".bazelrc",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-27T12:05:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff121ee3_cd4c11f9",
       "range": {
         "startLine": 28,
         "startChar": 25,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce331c22_1dc71b8e",
+        "filename": ".bazelrc",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-27T12:05:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5c149c1_a2b97b28",
+      "range": {
+        "startLine": 29,
+        "startChar": 28,
+        "endLine": 29,
+        "endChar": 37
+      },
+      "revId": "b654edf1d1f1e37ebca094b32d9559a89eee7d71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c52f2ba4_fac61805",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-11-25T12:19:44Z",
       "side": 1,
       "message": "I wouldn\u0027t rather rename the default remote config name for now. Same applies on lines 38.40 below. There are different clients that depend on those names. Just to mention two that we know:\n\no Bazel Buildkite CI: [1]\no gerrit RBE checker\n\nAll we do should be non intrusive and backwards compatibel, and not break clients that still rely on this configurations (now and may be also in future).\n\n[1]: https://github.com/bazelbuild/continuous-integration/blob/master/pipelines/gerrit.yml#L32",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 38
+      },
+      "revId": "b654edf1d1f1e37ebca094b32d9559a89eee7d71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23b56b40_d0cd45cc",
+        "filename": ".bazelrc",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-27T12:05:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c52f2ba4_fac61805",
       "range": {
         "startLine": 30,
         "startChar": 0,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b37c659b_ae667976",
+        "filename": ".bazelrc",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-27T12:05:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d247ff0_295927fe",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 0
+      },
+      "revId": "b654edf1d1f1e37ebca094b32d9559a89eee7d71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4aefe56_e6958a81",
@@ -129,6 +249,30 @@
       "writtenOn": "2023-11-25T12:19:44Z",
       "side": 1,
       "message": "Remove this, we should keep the default as-is for now.\n\nAlso we should try hard to avoid this `_default_` part in the configuration to avoid that clients would need to type that long name.\n\nIt should just be `remote`, or `remote_gcp`, or `remote_bb`. See my suggestion above and in `tools/remote-bazelrc` how to achieve this.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 44
+      },
+      "revId": "b654edf1d1f1e37ebca094b32d9559a89eee7d71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b628348f_7df4d743",
+        "filename": ".bazelrc",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-27T12:05:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4aefe56_e6958a81",
       "range": {
         "startLine": 38,
         "startChar": 0,
@@ -187,6 +331,30 @@
       "writtenOn": "2023-11-25T12:19:44Z",
       "side": 1,
       "message": "We shouldn\u0027t call it `remote_gcp` here and not `remote_bb` (or `remote-bb`, as you did, but we should be consistent with \"-\" v. \"_\" and call different RBE provider service configuation with the same delimiter). The reason is simple: this should be the finale name in the Bazel command invocation:\n\n```\n  $\u003e bazel build --config remote [...] :headless\n  $\u003e bazel build --config remote_gcp [...] :headless\n  $\u003e bazel build --config remote_bb [...] :headless\n```\n\nIn the above command invcations, `remote` and `remote_gcp` are aliases to the same thing. That would allow us to simple swap the default provider, so that `--config\u003dremote` would alias to `remote_bb`.\n\nThat\u0027s why we should use here a different name, my suggestion is short and simple: \n\n```\nbuild:config_gcp [...]\n# and later:\nbuild:config_bb [...]\n```\n\nThen we could hoist the `config_gcp` options from here into default `remote` configuration in `.bazelrc`:\n\n```\nbuild:remote --config\u003dconfig_gcp\n```\n\nAnd to to similarly with BuildBuddy `remote_bb` in the follow-up change:\n\n```\nbuild:remote_bb --config\u003dbuild_shared\nbuild:remote_bb --config\u003dconfig_bb\n```",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 16
+      },
+      "revId": "b654edf1d1f1e37ebca094b32d9559a89eee7d71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1a67a02_8e8fd5fd",
+        "filename": "tools/remote-bazelrc",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-27T12:05:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6699de6a_fb03e04e",
       "range": {
         "startLine": 41,
         "startChar": 0,

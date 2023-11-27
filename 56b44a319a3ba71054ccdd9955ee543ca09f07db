@@ -34,6 +34,24 @@
       "parentUuid": "c32aa835_49371915",
       "revId": "56b44a319a3ba71054ccdd9955ee543ca09f07db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "137e499f_d760b77f",
+        "filename": "tools/remote-bazelrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-27T12:05:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e08dc447_5c9af125",
+      "revId": "56b44a319a3ba71054ccdd9955ee543ca09f07db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

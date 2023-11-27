@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "afb932ab_3d009cdf",
+        "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2023-11-27T09:46:29Z",
+      "side": 1,
+      "message": "Thank you, I wasn\u0027t aware of that.",
+      "parentUuid": "48ffbea7_63eadf20",
+      "revId": "df877afdef744dea50dd5599a7b311f1b7802005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38994934_33283f6d",

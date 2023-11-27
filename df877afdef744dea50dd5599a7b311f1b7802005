@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b7e884e3_d9542b14",
+        "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2023-11-27T08:15:11Z",
+      "side": 1,
+      "message": "pedantically, the rhs of assignments doesn\u0027t need quoting (unless the string literal itself contains spaces, which isn\u0027t the case here).\n\nrepeats below.",
+      "revId": "df877afdef744dea50dd5599a7b311f1b7802005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "38994934_33283f6d",
         "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
         "patchSetId": 1
@@ -31,6 +48,24 @@
       "writtenOn": "2023-11-27T01:20:08Z",
       "side": 1,
       "message": "In the case that TEST_TMPDIR wasn\u0027t set by the test harness, how does this get cleaned up?",
+      "revId": "df877afdef744dea50dd5599a7b311f1b7802005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "182ad4da_707db448",
+        "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2023-11-27T08:15:11Z",
+      "side": 1,
+      "message": "/tmp is cleaned by the system at boot (and is nowadays usually on a ram drive to start with).\nnot super elegant, but as a fallback it doesn\u0027t seem too bad.",
+      "parentUuid": "38994934_33283f6d",
       "revId": "df877afdef744dea50dd5599a7b311f1b7802005",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

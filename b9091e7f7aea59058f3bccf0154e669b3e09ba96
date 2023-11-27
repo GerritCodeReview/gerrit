@@ -16,6 +16,24 @@
       "message": "Maybe extract this into a section \"Required permissions\" so that we don\u0027t need to repeat it e.g. in lines 86-90.\n\nI\u0027d add a hint that if administrators want to be able to help project owners configuring their project\u0027s they should set similar permissions for administrators in All-Projects.\n\nI would mention that the option `receive.allowProjectOwnersToChangeParent` can be used to enforce that project owners cannot escape permission restrictions defined in an ancestor of their project by reparenting their project without approval from an Administrator.",
       "revId": "b9091e7f7aea59058f3bccf0154e669b3e09ba96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b23749e8_9b5b1686",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-27T11:47:19Z",
+      "side": 1,
+      "message": "\u003e Maybe extract this into a section \"Required permissions\" so that we don\u0027t need to \u003e repeat it e.g. in lines 86-90.\n\nDone. Not sure if it\u0027s much better since the required access rights depend on how the project configuration is changed.\n\n\u003e I\u0027d add a hint that if administrators want to be able to help project owners\n\u003e configuring their project\u0027s they should set similar permissions for \n\u003e administrators in All-Projects.\n\nAdministrators are owners of all projects, hence by default they can edit the config and access rights of all projects through the webUI. So nothing needs to be configured for this? I clarified at the places where it says that the user must be a project owner that being an admin also fulfils this.\n\n\u003e I would mention that the option receive.allowProjectOwnersToChangeParent can be\n\u003e used to enforce that project owners cannot escape permission restrictions defined \n\u003e in an ancestor of their project by reparenting their project without approval\n\u003e from an Administrator.\n\nGood idea, I\u0027ve included this into the follow-up change which adds information about inheritance (https://gerrit-review.git.corp.google.com/c/gerrit/+/394740)",
+      "parentUuid": "77ebd772_3950055b",
+      "revId": "b9091e7f7aea59058f3bccf0154e669b3e09ba96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

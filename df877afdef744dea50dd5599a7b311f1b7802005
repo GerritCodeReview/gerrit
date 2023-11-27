@@ -140,6 +140,24 @@
       "parentUuid": "182ad4da_707db448",
       "revId": "df877afdef744dea50dd5599a7b311f1b7802005",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86310dd2_682f39c9",
+        "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2023-11-27T11:23:41Z",
+      "side": 1,
+      "message": "the use of \"user\" is misleading here, as the user is the test harness.\nand i\u0027d assume that it does not only set up the temp dir, but also cleans it up afterwards.\nthe local fallback won\u0027t do that, which i think is what @jrnieder@gmail.com points out.\nand as i said, i think that\u0027s ok. it\u0027s not the \"official\" way to invoke the script, after all. a more pertinent question would be whether the use case is considered \"valid enough\" to implement the fallback in the first place.",
+      "parentUuid": "5fc6e047_3c601a9c",
+      "revId": "df877afdef744dea50dd5599a7b311f1b7802005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "837d3807_3f280b02",
+        "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2023-11-27T11:23:41Z",
+      "side": 1,
+      "message": "to be super-pedantic, you can\u0027t use this, because it\u0027s a predictable path in a publicly writable location, and therefore a security risk (subject to a symlink attack).\nbut this just adds to the point i\u0027m making below: it\u0027s operating in \"i read the disclaimer, proceed anyway\" mode.\n\nwell, maybe one should actually add said disclaimer in form of a comment here. 😄",
+      "revId": "01683fc373e330b3558e321b27ef6060a9b70982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

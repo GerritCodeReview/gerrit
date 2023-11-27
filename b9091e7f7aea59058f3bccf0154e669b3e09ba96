@@ -52,6 +52,24 @@
       "parentUuid": "b23749e8_9b5b1686",
       "revId": "b9091e7f7aea59058f3bccf0154e669b3e09ba96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b15fbcc_47b7dda7",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-27T12:33:14Z",
+      "side": 1,
+      "message": "I see. I think admins already have read access to all repos by default. If we find a good set of access rights that we would like to recommend assigning for admins then [1] seems to be a better place for this.\n\n[1] https://gerrit-review.googlesource.com/Documentation/access-control.html#examples_administrator",
+      "parentUuid": "5460c39a_27636edb",
+      "revId": "b9091e7f7aea59058f3bccf0154e669b3e09ba96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

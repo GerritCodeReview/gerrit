@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "252c6e5c_e958f989",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1810,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-11-27T10:08:22Z",
+      "side": 1,
+      "message": "You should return `[]` here, not `Promise.resolve([])`, because you are inside a promise.\n\nSince this is generally confusing, we are trying to avoid `then()` syntax as much as possible these days. We prefer `async/await` syntax. Maybe it is also easier for you here. Just do\n```\nlet canSeeParam \u003d \u0027\u0027;\nif (canSee) {\n  const project \u003d await this.getFromProjectLookup(canSee);\n  canSeeParam \u003d `cansee:${project}~${canSee}`;\n}\n```\nand then use the existing code without `then()`.",
+      "parentUuid": "2bf47479_3578b5c2",
+      "range": {
+        "startLine": 1810,
+        "startChar": 44,
+        "endLine": 1810,
+        "endChar": 53
+      },
+      "revId": "259ec3eb8e785fdcdaecc0e011fa6be444adfe96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8fcc46fa_ac47d0e6",
         "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl_test.ts",
         "patchSetId": 5
@@ -37,6 +61,30 @@
       "writtenOn": "2023-11-24T22:17:36Z",
       "side": 1,
       "message": "I do not really understand how this could have worked before: the method returns a `Promise` so I believe the test should wait for its completion.\n\n@brohlfs@google.com I could leave it out of the change if you\u0027d like, as it may not be necessarily needed.",
+      "range": {
+        "startLine": 374,
+        "startChar": 6,
+        "endLine": 374,
+        "endChar": 11
+      },
+      "revId": "259ec3eb8e785fdcdaecc0e011fa6be444adfe96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5fc4a45_dbbbc935",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-11-27T10:08:22Z",
+      "side": 1,
+      "message": "No, leave it in. Looks good.",
+      "parentUuid": "8fcc46fa_ac47d0e6",
       "range": {
         "startLine": 374,
         "startChar": 6,
@@ -60,6 +108,30 @@
       "writtenOn": "2023-11-24T22:17:36Z",
       "side": 1,
       "message": "This change of assertion is needed because the method behaviour is slightly different now: if there are no accounts, there is no content, instead of an empty list.\n\nI\u0027ve tested it E2E and this doesn\u0027t create any UI issue.",
+      "range": {
+        "startLine": 1053,
+        "startChar": 11,
+        "endLine": 1053,
+        "endChar": 22
+      },
+      "revId": "259ec3eb8e785fdcdaecc0e011fa6be444adfe96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb2c21f0_d7336583",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1053,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-11-27T10:08:22Z",
+      "side": 1,
+      "message": "I think we should keep the previous logic of returning [], see other comment. Then this change should not be required.",
+      "parentUuid": "af2ae789_abe326d4",
       "range": {
         "startLine": 1053,
         "startChar": 11,

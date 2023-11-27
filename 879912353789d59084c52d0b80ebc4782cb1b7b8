@@ -121,6 +121,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "81fc0920_5d36750e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2023-11-27T08:04:46Z",
+      "side": 1,
+      "message": "the resource consumption is also a cost, even if it\u0027s marginal.\n\nand there is also the cost of a slight cognitive load to human readers.\n\ni\u0027m not arguing against a more verbose commit message that spells out _all_ the advantages. i just think that the minimalism argument is compelling by itself.",
+      "parentUuid": "3156b12e_fc8588ef",
+      "range": {
+        "startLine": 14,
+        "startChar": 23,
+        "endLine": 14,
+        "endChar": 35
+      },
+      "revId": "879912353789d59084c52d0b80ebc4782cb1b7b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "509b8cba_baf5aae0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

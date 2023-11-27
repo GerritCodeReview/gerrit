@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de37b68b_523ca336",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2023-11-27T22:29:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f9c780c_9a758fbf",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "223eff4b228357ca27d08a65ca3574b449733800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc75539b_d1e7a205",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "Thought I had updated this! 😕",
       "parentUuid": "dc75539b_d1e7a205",
+      "range": {
+        "startLine": 62,
+        "startChar": 6,
+        "endLine": 62,
+        "endChar": 25
+      },
+      "revId": "223eff4b228357ca27d08a65ca3574b449733800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80c4af30_d4b98692",
+        "filename": "java/com/google/gerrit/sshd/commands/CopyApprovalsCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2023-11-27T22:29:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd2fc3f5_0659a9fe",
       "range": {
         "startLine": 62,
         "startChar": 6,

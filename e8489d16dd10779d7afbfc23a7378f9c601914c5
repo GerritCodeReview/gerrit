@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b50b4f9_3a5e3c02",
+        "filename": "java/com/google/gerrit/server/approval/RecursiveApprovalCopier.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-11-27T23:56:25Z",
+      "side": 0,
+      "message": "I believe removing this in favour of the newer implementations has made it so that no events are fired when refs are updated by this tool. This means that in a multi-site setup, if we run this command on a node, the other nodes will not be notified. In a best case scenario this would lead to operations failing on the other nodes, in a worse case scenario this will lead to split brains.",
+      "range": {
+        "startLine": 108,
+        "startChar": 5,
+        "endLine": 108,
+        "endChar": 19
+      },
+      "revId": "e8489d16dd10779d7afbfc23a7378f9c601914c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

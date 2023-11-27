@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5f9c780c_9a758fbf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-11-27T21:56:32Z",
+      "side": 1,
+      "message": "If you use the `--verbose` option, they are yes. Without verbose it just prints how many refs it would have updated per project.",
+      "parentUuid": "7d875734_82f8603e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "223eff4b228357ca27d08a65ca3574b449733800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dc75539b_d1e7a205",
         "filename": "java/com/google/gerrit/sshd/commands/CopyApprovalsCommand.java",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2023-11-27T20:58:48Z",
       "side": 1,
       "message": "nit: I guess that `metavar` shouldn\u0027t be `VERBOSE`",
+      "range": {
+        "startLine": 62,
+        "startChar": 6,
+        "endLine": 62,
+        "endChar": 25
+      },
+      "revId": "223eff4b228357ca27d08a65ca3574b449733800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd2fc3f5_0659a9fe",
+        "filename": "java/com/google/gerrit/sshd/commands/CopyApprovalsCommand.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-11-27T21:56:32Z",
+      "side": 1,
+      "message": "Thought I had updated this! 😕",
+      "parentUuid": "dc75539b_d1e7a205",
       "range": {
         "startLine": 62,
         "startChar": 6,

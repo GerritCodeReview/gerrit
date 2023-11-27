@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "89af2aa8_12b1b0e4",
+        "filename": ".bazelrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-27T13:00:01Z",
+      "side": 1,
+      "message": "I was not able to reproduce these warnings that you mention in the commit message.\nIf I comment lines L10-14 and and add `build --config\u003dbuild_shared` when I execute:\n```\nbazelisk build gerrit\n```\nI dont see any WARNING, am I missing anything?",
+      "parentUuid": "954a30ad_b19fcfb9",
+      "revId": "d90e173fcdf86123da9c452eafd99a6d766a8c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "63cb78d0_fab85844",
         "filename": ".bazelrc",
         "patchSetId": 1

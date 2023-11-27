@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28547347_c75a4908",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-11-27T11:32:58Z",
+      "side": 1,
+      "message": "I think it could be useful adding a test in `StreamEventsIT` as well, similarly to  `draftCommentRefsShowInStreamEventsWithRefUpdated`.",
+      "revId": "b0e5f44bd5fa40d4e9026f7eaee45c2e414a852d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

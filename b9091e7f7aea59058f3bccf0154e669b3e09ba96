@@ -34,6 +34,24 @@
       "parentUuid": "77ebd772_3950055b",
       "revId": "b9091e7f7aea59058f3bccf0154e669b3e09ba96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5460c39a_27636edb",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-27T12:27:38Z",
+      "side": 1,
+      "message": "I know that admins can change all project configs, but if a project owner or user has an issue and the admin has to first tweak project permissions needed to help, this takes time. Hence it may make sense to grant more permissions to admins from the start so that they are already in place when admin needs to help a project owner or end user. E.g. they could configure on All-Projects that admins have read access to all repos and whatever other permissions they deem necessary to help support their project owners and end users.",
+      "parentUuid": "b23749e8_9b5b1686",
+      "revId": "b9091e7f7aea59058f3bccf0154e669b3e09ba96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

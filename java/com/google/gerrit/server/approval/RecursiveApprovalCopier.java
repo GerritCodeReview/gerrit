@@ -50,7 +50,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
-import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.RefDirectory;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Ref;
@@ -103,38 +102,41 @@ public class RecursiveApprovalCopier {
    * ref-updates.
    */
   public void persistStandalone()
-      throws RepositoryNotFoundException, IOException, InterruptedException, ExecutionException {
-    persist(repositoryManager.list(), null, false);
+      throws IOException, InterruptedException, ExecutionException {
+    persist(repositoryManager.list(), null, false, false);
 
     if (failedForAtLeastOneProject) {
       throw new RuntimeException("There were errors, check the logs for details");
     }
   }
 
-  public void persist(Project.NameKey project, @Nullable Consumer<Change> labelsCopiedListener)
-      throws IOException, RepositoryNotFoundException, InterruptedException, ExecutionException {
-    persist(ImmutableList.of(project), labelsCopiedListener, true);
+  public void persist(Project.NameKey project, @Nullable Consumer<Change> labelsCopiedListener, boolean dryRun)
+      throws IOException, InterruptedException, ExecutionException {
+    persist(ImmutableList.of(project), labelsCopiedListener, true, dryRun);
   }
 
   private void persist(
       Collection<Project.NameKey> projects,
       @Nullable Consumer<Change> labelsCopiedListener,
-      boolean shouldLockLooseRefs)
-      throws InterruptedException, ExecutionException, RepositoryNotFoundException, IOException {
+      boolean shouldLockLooseRefs,
+      boolean dryRun)
+      throws InterruptedException, ExecutionException, IOException {
     List<ListenableFuture<Void>> copyApprovalsTasks = new LinkedList<>();
     for (Project.NameKey project : projects) {
       copyApprovalsTasks.addAll(submitCopyApprovalsTasks(project, labelsCopiedListener));
     }
     Futures.successfulAsList(copyApprovalsTasks).get();
 
-    List<ListenableFuture<Void>> batchRefUpdateTasks =
-        submitBatchRefUpdateTasks(shouldLockLooseRefs);
-    Futures.successfulAsList(batchRefUpdateTasks).get();
+    if(!dryRun) {
+      List<ListenableFuture<Void>> batchRefUpdateTasks =
+          submitBatchRefUpdateTasks(shouldLockLooseRefs);
+      Futures.successfulAsList(batchRefUpdateTasks).get();
+    }
   }
 
   private List<ListenableFuture<Void>> submitCopyApprovalsTasks(
       Project.NameKey project, @Nullable Consumer<Change> labelsCopiedListener)
-      throws RepositoryNotFoundException, IOException {
+      throws IOException {
     List<ListenableFuture<Void>> futures = new LinkedList<>();
     try (Repository repository = repositoryManager.openRepository(project)) {
       ImmutableList<Ref> allMetaRefs =

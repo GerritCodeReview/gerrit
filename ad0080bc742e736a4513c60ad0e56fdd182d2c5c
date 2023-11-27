@@ -192,6 +192,24 @@
       "parentUuid": "f5fd9dac_ffc441c5",
       "revId": "ad0080bc742e736a4513c60ad0e56fdd182d2c5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83da9066_59003bcd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-27T22:22:15Z",
+      "side": 1,
+      "message": "several similar mockito issues were already reported for multiple mockito versions\nhttps://github.com/mockito/mockito/issues/2952\nhttps://github.com/mockito/mockito/issues/1879\nhttps://github.com/mockito/mockito/issues?q\u003dis%3Aissue+%22Could+not+initialize+inline+Byte+Buddy+mock+maker%22",
+      "parentUuid": "49fb072f_229ed5c4",
+      "revId": "ad0080bc742e736a4513c60ad0e56fdd182d2c5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

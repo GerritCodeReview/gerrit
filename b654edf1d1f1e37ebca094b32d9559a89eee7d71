@@ -156,6 +156,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "899920ac_d8a9bcfe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-27T11:16:07Z",
+      "side": 1,
+      "message": "happy to rebase. Good job.",
+      "parentUuid": "6862d772_fe70b0a2",
+      "revId": "b654edf1d1f1e37ebca094b32d9559a89eee7d71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6699de6a_fb03e04e",

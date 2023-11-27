@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "969fad58_d06d03f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-27T20:12:14Z",
+      "side": 1,
+      "message": "This looks like more a cleanup, rather than a fix. Do we really need it on a stable EOL branch?",
+      "revId": "6d89ddcc9254f4dda5d30165703946ee5ef14fab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

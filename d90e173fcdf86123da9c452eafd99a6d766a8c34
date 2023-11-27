@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "56fd320c_bf987c05",
+        "filename": ".bazelrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-11-27T13:33:35Z",
+      "side": 1,
+      "message": "I added a comment in .bazelrc to clarify it, and also added the command in the commit message, so that reviewers don\u0027t need to guess, how to replicate the problem.",
+      "parentUuid": "55a45799_b11580ba",
+      "revId": "d90e173fcdf86123da9c452eafd99a6d766a8c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "63cb78d0_fab85844",
         "filename": ".bazelrc",
         "patchSetId": 1
@@ -103,6 +121,24 @@
       "writtenOn": "2023-11-27T12:27:06Z",
       "side": 1,
       "message": "Nit: `Define` instead of `Defaine`",
+      "revId": "d90e173fcdf86123da9c452eafd99a6d766a8c34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b523d6dd_0961d630",
+        "filename": ".bazelrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-11-27T13:33:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63cb78d0_fab85844",
       "revId": "d90e173fcdf86123da9c452eafd99a6d766a8c34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

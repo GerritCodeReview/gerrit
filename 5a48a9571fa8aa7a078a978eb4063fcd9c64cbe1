@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "709d6a5e_4f82bf42",
+        "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2023-11-27T22:02:47Z",
+      "side": 1,
+      "message": "$RANDOM has a rather small range.\n\nthe way to do it properly is `TEST_TMPDIR\u003d$(mktemp -d) || exit`.\ni\u0027m not sure about portability, though. but do we even care here?",
+      "revId": "5a48a9571fa8aa7a078a978eb4063fcd9c64cbe1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

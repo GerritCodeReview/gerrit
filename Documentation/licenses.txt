@@ -77,8 +77,7 @@ Apache2.0
 * jetty:util-ajax
 * log:log4j
 * lucene:lucene-analyzers-common
-* lucene:lucene-backward-codecs
-* lucene:lucene-core
+* lucene:lucene-core-and-backward-codecs-merged
 * lucene:lucene-misc
 * lucene:lucene-queryparser
 * mime4j:core

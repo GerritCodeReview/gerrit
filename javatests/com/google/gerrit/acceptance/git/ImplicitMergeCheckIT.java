@@ -17,14 +17,16 @@ package com.google.gerrit.acceptance.git;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
+import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.entities.BooleanProjectConfig;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.git.ObjectIds;
 import java.util.Locale;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
-/** Checks that gerrit rejects/accepts implicit merges when receives a git push. */
-public class ImplicitMergeCheckOnReceiveIT extends AbstractImplicitMergeTest {
+public class ImplicitMergeCheckIT extends AbstractDaemonTest {
 
   @Test
   public void implicitMergeViaFastForward() throws Exception {
@@ -81,5 +83,22 @@ public class ImplicitMergeCheckOnReceiveIT extends AbstractImplicitMergeTest {
   private String implicitMergeOf(ObjectId commit) throws Exception {
     return "implicit merge of "
         + ObjectIds.abbreviateName(commit, testRepo.getRevWalk().getObjectReader());
+  }
+
+  private void setRejectImplicitMerges() throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updateProject(
+              p ->
+                  p.setBooleanConfig(
+                      BooleanProjectConfig.REJECT_IMPLICIT_MERGES, InheritableBoolean.TRUE));
+      u.save();
+    }
+  }
+
+  private PushOneCommit.Result push(String ref, String subject, String fileName, String content)
+      throws Exception {
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo, subject, fileName, content);
+    return push.to(ref);
   }
 }

@@ -110,6 +110,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "17ab29b2_9532d856",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorterNew.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-11-28T08:18:01Z",
+      "side": 1,
+      "message": "This is only temporary as we roll this out carefully with a feature flag. It will be renamed and the \"old\" sorter will be deleted before the next release.",
+      "parentUuid": "1b218b98_1b9cfa1b",
+      "range": {
+        "startLine": 38,
+        "startChar": 13,
+        "endLine": 38,
+        "endChar": 28
+      },
+      "revId": "cef50e8d245f61d875fa6d827bd177973f4933f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b9835f7_89abef14",
@@ -123,6 +147,30 @@
       "writtenOn": "2023-11-28T07:56:01Z",
       "side": 1,
       "message": "nit: is there a better name for `n`?",
+      "range": {
+        "startLine": 71,
+        "startChar": 29,
+        "endLine": 71,
+        "endChar": 30
+      },
+      "revId": "cef50e8d245f61d875fa6d827bd177973f4933f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f455968f_b23a9bd9",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorterNew.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2023-11-28T08:18:01Z",
+      "side": 1,
+      "message": "Here and below is existing code that was copied so that we can flag-gate the release. I would therefore leave it as-is.",
+      "parentUuid": "7b9835f7_89abef14",
       "range": {
         "startLine": 71,
         "startChar": 29,

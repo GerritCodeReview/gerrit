@@ -212,7 +212,7 @@ export class GrComment extends LitElement {
   generatedSuggestion?: Suggestion;
 
   @state()
-  generatedSuggestionId?: string;
+  generatedReplacementId?: string;
 
   @state()
   suggestionLoading = false;
@@ -963,7 +963,7 @@ export class GrComment extends LitElement {
     return html`<gr-suggestion-diff-preview
       .showAddSuggestionButton=${true}
       .suggestion=${this.generatedSuggestion?.replacement}
-      .uuid=${this.generatedSuggestionId}
+      .uuid=${this.generatedReplacementId}
     ></gr-suggestion-diff-preview>`;
   }
 
@@ -1024,9 +1024,9 @@ export class GrComment extends LitElement {
       this.messageText.length === 0
     )
       return;
-    this.generatedSuggestionId = uuid();
+    this.generatedReplacementId = uuid();
     this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_REQUEST, {
-      uuid: this.generatedSuggestionId,
+      uuid: this.generatedReplacementId,
     });
     this.suggestionLoading = true;
     const suggestionResponse = await suggestionsPlugins[0].provider.suggestCode(
@@ -1044,7 +1044,7 @@ export class GrComment extends LitElement {
     // options. We pick the first one for now. In future we shouldn't ignore
     // other suggestions.
     this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_RESPONSE, {
-      uuid: this.generatedSuggestionId,
+      uuid: this.generatedReplacementId,
       response: suggestionResponse.responseCode,
       numSuggestions: suggestionResponse.suggestions.length,
       hasNewRange: suggestionResponse.suggestions?.[0]?.newRange !== undefined,
@@ -1151,7 +1151,7 @@ export class GrComment extends LitElement {
     if (
       changed.has('changeNum') ||
       changed.has('comment') ||
-      changed.has('generatedSuggestion')
+      changed.has('generatedReplacement')
     ) {
       if (
         !this.changeNum ||

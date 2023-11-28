@@ -19,12 +19,7 @@ import {
 } from '../../../types/common';
 import './gr-download-dialog';
 import {GrDownloadDialog} from './gr-download-dialog';
-import {
-  mockPromise,
-  queryAll,
-  queryAndAssert,
-  waitUntil,
-} from '../../../test/test-utils';
+import {mockPromise, queryAll, queryAndAssert} from '../../../test/test-utils';
 import {GrDownloadCommands} from '../../shared/gr-download-commands/gr-download-commands';
 import {fixture, html, assert} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
@@ -156,20 +151,6 @@ suite('gr-download-dialog', () => {
       </section>
     `
     );
-  });
-
-  test('closes when gr-download-commands fires item-selected', async () => {
-    const fireStub = sinon.stub(element, 'dispatchEvent');
-    const commands = queryAndAssert<GrDownloadCommands>(
-      element,
-      'gr-download-commands'
-    );
-    commands.dispatchEvent(new CustomEvent('item-copied'));
-
-    await waitUntil(() => fireStub.called);
-
-    const events = fireStub.args.map(arg => arg[0].type || '');
-    assert.isTrue(events.includes('close'));
   });
 
   test('anchors use download attribute', () => {

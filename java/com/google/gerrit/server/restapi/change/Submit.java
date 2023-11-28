@@ -50,7 +50,6 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -121,8 +120,6 @@ public class Submit
   private final ProjectCache projectCache;
   private final ChangeJson.Factory json;
 
-  private final boolean useMergeabilityCheck;
-
   @Inject
   Submit(
       GitRepositoryManager repoManager,
@@ -169,7 +166,6 @@ public class Submit
     this.psUtil = psUtil;
     this.projectCache = projectCache;
     this.json = json;
-    this.useMergeabilityCheck = MergeabilityComputationBehavior.fromConfig(cfg).includeInApi();
   }
 
   @Override
@@ -282,9 +278,6 @@ public class Submit
         }
       }
 
-      if (!useMergeabilityCheck) {
-        return null;
-      }
       Collection<ChangeData> unmergeable = getUnmergeableChanges(cs);
       if (unmergeable == null) {
         return CLICK_FAILURE_TOOLTIP;
@@ -354,7 +347,7 @@ public class Submit
     // cd.setMergeable(null);
     // That was done in unmergeableChanges which was called by problemsForSubmittingChangeset, so
     // now it is safe to read from the cache, as it yields the same result.
-    Boolean enabled = useMergeabilityCheck ? cd.isMergeable() : true;
+    Boolean enabled = cd.isMergeable();
 
     if (treatWithTopic) {
       Map<String, String> params =

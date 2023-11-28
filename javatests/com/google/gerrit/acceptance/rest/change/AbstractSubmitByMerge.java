@@ -22,7 +22,6 @@ import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.client.InheritableBoolean;
-import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.inject.Inject;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
@@ -141,9 +140,7 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
     approve(change2Result.getChangeId());
 
     // submit button is disabled.
-    if (mcb != MergeabilityComputationBehavior.NEVER) {
-      assertSubmitDisabled(change2Result.getChangeId());
-    }
+    assertSubmitDisabled(change2Result.getChangeId());
 
     submitWithConflict(
         change2Result.getChangeId(),
@@ -194,9 +191,7 @@ public abstract class AbstractSubmitByMerge extends AbstractSubmit {
     approve(change2Result.getChangeId());
 
     // submit button is disabled.
-    if (mcb != MergeabilityComputationBehavior.NEVER) {
-      assertSubmitDisabled(change2Result.getChangeId());
-    }
+    assertSubmitDisabled(change2Result.getChangeId());
 
     submitWithConflict(
         change2Result.getChangeId(),

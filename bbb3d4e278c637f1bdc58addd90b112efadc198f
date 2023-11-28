@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8425f752_994aad28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2023-11-28T14:10:41Z",
+      "side": 1,
+      "message": "Do you mean squash/fixup/amend prefixes, or something else?\n\nHow does it work for you with squash and the existing hook?",
+      "parentUuid": "eaebbb78_926c6a65",
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7c1f8099_1cbbd58e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -31,6 +49,30 @@
       "writtenOn": "2023-11-28T00:37:17Z",
       "side": 1,
       "message": "If you want to add an explicit `nopush!` as a default, I think that would be fine.",
+      "range": {
+        "startLine": 20,
+        "startChar": 37,
+        "endLine": 20,
+        "endChar": 41
+      },
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91e7229e_10eb464f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2023-11-28T14:10:41Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "7c1f8099_1cbbd58e",
       "range": {
         "startLine": 20,
         "startChar": 37,

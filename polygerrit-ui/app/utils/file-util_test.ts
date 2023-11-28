@@ -3,14 +3,9 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../test/common-test-setup';
 import {assert} from '@open-wc/testing';
-import {
-  expandFileMode,
-  FileMode,
-  fileModeToString,
-  getFileExtension,
-} from './file-util';
+import '../test/common-test-setup';
+import {expandFileMode, FileMode, fileModeToString} from './file-util';
 
 suite('file-util tests', () => {
   test('fileModeToString', () => {
@@ -39,16 +34,5 @@ suite('file-util tests', () => {
       ['old mode 100644', 'new mode 100755'].map(expandFileMode),
       ['old mode regular (100644)', 'new mode executable (100755)']
     );
-  });
-
-  suite('getFileExtension', () => {
-    test('returns an empty string when the file name does not have an extension', () => {
-      assert.equal(getFileExtension('my_file'), '');
-    });
-    test('returns the extension when the file name has an extension', () => {
-      assert.equal(getFileExtension('my_file.txt'), 'txt');
-      assert.equal(getFileExtension('folder/my_file.java'), 'java');
-      assert.equal(getFileExtension('.hidden_file.ts'), 'ts');
-    });
   });
 });

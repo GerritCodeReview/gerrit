@@ -59,9 +59,6 @@ public interface DraftCommentsReader {
    */
   List<HumanComment> getDraftsByChangeForAllAuthors(ChangeNotes notes);
 
-  /** Returns all users that have any draft comments on the provided change. */
-  Set<Account.Id> getUsersWithDrafts(ChangeNotes changeNotes);
-
   /** Returns all changes that contain draft comments of {@code author}. */
   Set<Change.Id> getChangesWithDrafts(Account.Id author);
 }

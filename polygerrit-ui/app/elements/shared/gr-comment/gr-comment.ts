@@ -76,7 +76,6 @@ import {
 import {formStyles} from '../../../styles/form-styles';
 import {Interaction} from '../../../constants/reporting';
 import {Suggestion} from '../../../api/suggestions';
-import {when} from 'lit/directives/when.js';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
@@ -213,9 +212,6 @@ export class GrComment extends LitElement {
 
   @state()
   generatedReplacementId?: string;
-
-  @state()
-  suggestionLoading = false;
 
   @property({type: Boolean, attribute: 'show-patchset'})
   showPatchset = false;
@@ -553,16 +549,6 @@ export class GrComment extends LitElement {
         .info gr-icon {
           color: var(--selected-foreground);
           margin-right: var(--spacing-xl);
-        }
-        /* The basics of .loadingSpin are defined in shared styles. */
-        .loadingSpin {
-          width: calc(var(--line-height-normal) - 2px);
-          height: calc(var(--line-height-normal) - 2px);
-          display: inline-block;
-          vertical-align: top;
-          position: relative;
-          /* Making up for the 2px reduced height above. */
-          top: 1px;
         }
       `,
     ];
@@ -993,12 +979,7 @@ export class GrComment extends LitElement {
               );
             }}
           />
-          Generate Suggestion
-          ${when(
-            this.suggestionLoading,
-            () => html`<span class="loadingSpin"></span>`,
-            () => html`${numberOfSuggestions}`
-          )}
+          Generate Suggestion${numberOfSuggestions}
         </label>
       </div>
     `;
@@ -1028,7 +1009,6 @@ export class GrComment extends LitElement {
     this.reporting.reportInteraction(Interaction.GENERATE_SUGGESTION_REQUEST, {
       uuid: this.generatedReplacementId,
     });
-    this.suggestionLoading = true;
     const suggestionResponse = await suggestionsPlugins[0].provider.suggestCode(
       {
         prompt: this.messageText,
@@ -1039,7 +1019,6 @@ export class GrComment extends LitElement {
         lineNumber: this.comment.line,
       }
     );
-    this.suggestionLoading = false;
     // TODO(milutin): The suggestionResponse can contain multiple suggestion
     // options. We pick the first one for now. In future we shouldn't ignore
     // other suggestions.

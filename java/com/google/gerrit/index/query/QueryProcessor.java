@@ -477,4 +477,8 @@ public abstract class QueryProcessor<T> {
   }
 
   protected abstract String formatForLogging(T t);
+
+  protected abstract int getIndexSize();
+
+  protected abstract int getBatchSize();
 }

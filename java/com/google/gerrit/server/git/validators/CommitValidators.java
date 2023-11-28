@@ -36,10 +36,6 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.metrics.Counter2;
-import com.google.gerrit.metrics.Description;
-import com.google.gerrit.metrics.Field;
-import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -119,7 +115,6 @@ public class CommitValidators {
     private final DiffOperations diffOperations;
     private final Config config;
     private final ChangeUtil changeUtil;
-    private final MetricMaker metricMaker;
 
     @Inject
     Factory(
@@ -136,8 +131,7 @@ public class CommitValidators {
         ProjectCache projectCache,
         ProjectConfig.Factory projectConfigFactory,
         DiffOperations diffOperations,
-        ChangeUtil changeUtil,
-        MetricMaker metricMaker) {
+        ChangeUtil changeUtil) {
       this.gerritIdent = gerritIdent;
       this.urlFormatter = urlFormatter;
       this.config = config;
@@ -152,7 +146,6 @@ public class CommitValidators {
       this.projectConfigFactory = projectConfigFactory;
       this.diffOperations = diffOperations;
       this.changeUtil = changeUtil;
-      this.metricMaker = metricMaker;
     }
 
     public CommitValidators forReceiveCommits(
@@ -173,7 +166,7 @@ public class CommitValidators {
           .add(new ProjectStateValidationListener(projectState))
           .add(new AmendedGerritMergeCommitValidationListener(perm, gerritIdent))
           .add(new AuthorUploaderValidator(user, perm, urlFormatter.get()))
-          .add(new FileCountValidator(config, urlFormatter.get(), diffOperations, metricMaker))
+          .add(new FileCountValidator(config, urlFormatter.get(), diffOperations))
           .add(new CommitterUploaderValidator(user, perm, urlFormatter.get()))
           .add(new SignedOffByValidator(user, perm, projectState))
           .add(
@@ -205,7 +198,7 @@ public class CommitValidators {
           .add(new ProjectStateValidationListener(projectState))
           .add(new AmendedGerritMergeCommitValidationListener(perm, gerritIdent))
           .add(new AuthorUploaderValidator(user, perm, urlFormatter.get()))
-          .add(new FileCountValidator(config, urlFormatter.get(), diffOperations, metricMaker))
+          .add(new FileCountValidator(config, urlFormatter.get(), diffOperations))
           .add(new SignedOffByValidator(user, perm, projectState))
           .add(
               new ChangeIdValidator(
@@ -452,25 +445,10 @@ public class CommitValidators {
     private final int maxFileCount;
     private final UrlFormatter urlFormatter;
     private final DiffOperations diffOperations;
-    private final Counter2<Integer, String> metricCountManyFilesPerChange;
 
-    FileCountValidator(
-        Config config,
-        UrlFormatter urlFormatter,
-        DiffOperations diffOperations,
-        MetricMaker metricMaker) {
+    FileCountValidator(Config config, UrlFormatter urlFormatter, DiffOperations diffOperations) {
       this.urlFormatter = urlFormatter;
       this.diffOperations = diffOperations;
-      this.metricCountManyFilesPerChange =
-          metricMaker.newCounter(
-              "validation/file_count",
-              new Description("Count commits with many files per change."),
-              Field.ofInteger("file_count", (meta, value) -> {})
-                  .description("number of files in the patchset")
-                  .build(),
-              Field.ofString("host_repo", (meta, value) -> {})
-                  .description("host and repository of the change in the format 'host/repo'")
-                  .build());
       maxFileCount = config.getInt("change", null, "maxFiles", 100_000);
     }
 
@@ -504,9 +482,6 @@ public class CommitValidators {
           logger.atWarning().log(
               "Warning: Change with %d files on host %s, project %s, ref %s",
               changedFiles, host, project, refName);
-
-          this.metricCountManyFilesPerChange.increment(
-              Math.toIntExact(changedFiles), String.format("%s/%s", host, project));
         }
       } catch (DiffNotAvailableException e) {
         // This happens e.g. for cherrypicks.

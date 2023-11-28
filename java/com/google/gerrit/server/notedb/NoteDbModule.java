@@ -19,6 +19,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.StarredChangesReader;
+import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesWriter;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
@@ -50,6 +51,7 @@ public class NoteDbModule extends FactoryModule {
     factory(RobotCommentUpdate.Factory.class);
     bind(StarredChangesReader.class).to(StarredChangesUtilNoteDbImpl.class).in(Singleton.class);
     bind(StarredChangesWriter.class).to(StarredChangesUtilNoteDbImpl.class).in(Singleton.class);
+    bind(StarredChangesUtil.class).to(StarredChangesUtilNoteDbImpl.class).in(Singleton.class);
     bind(DraftCommentsReader.class).to(DraftCommentsNotesReader.class).in(Singleton.class);
 
     if (!useTestBindings) {

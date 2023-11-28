@@ -115,7 +115,9 @@ public class QueryProjects implements RestReadView<TopLevelResource> {
       queryProcessor.setStart(start);
     }
 
-    queryProcessor.setUserProvidedLimit(limit, /* applyDefaultLimit */ true);
+    if (limit != 0) {
+      queryProcessor.setUserProvidedLimit(limit);
+    }
 
     try {
       QueryResult<ProjectData> result =

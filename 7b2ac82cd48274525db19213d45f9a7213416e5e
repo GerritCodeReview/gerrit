@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd687585_c1605c9d",
+        "filename": "WORKSPACE",
+        "patchSetId": 11
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-11-28T09:02:56Z",
+      "side": 1,
+      "message": "The whole RBE-BB related toolchain section should be added in the beginning of this file, before or after RBE toolchain loading, around the lines: 43-51.",
+      "revId": "7b2ac82cd48274525db19213d45f9a7213416e5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

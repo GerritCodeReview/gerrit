@@ -22,6 +22,30 @@
       },
       "revId": "1f0d1e522491bf9d2ba2cc57c034a538fd4a39b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7717cc18_c88464ac",
+        "filename": "java/com/google/gerrit/git/RefUpdateUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-28T20:49:17Z",
+      "side": 1,
+      "message": "Oh yes, thanks for noticing this.\n\nDone.",
+      "parentUuid": "3549926c_26d66325",
+      "range": {
+        "startLine": 65,
+        "startChar": 11,
+        "endLine": 65,
+        "endChar": 19
+      },
+      "revId": "1f0d1e522491bf9d2ba2cc57c034a538fd4a39b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "304ee28d_fd3a95f8",
+        "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2023-11-28T18:03:41Z",
+      "side": 1,
+      "message": "is there a precedent for that?\nfor all i can tell it\u0027s a no-op ...",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 23
+      },
+      "revId": "a734b160cf5d434aed216b2512cbb2545baa7aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

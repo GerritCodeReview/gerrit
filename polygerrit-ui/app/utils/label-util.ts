@@ -101,32 +101,6 @@ export function hasNeutralStatus(
   return getLabelStatus(label, approvalInfo.value) === LabelStatus.NEUTRAL;
 }
 
-export function hasApprovedVote(labelInfo: LabelInfo) {
-  if (isDetailedLabelInfo(labelInfo)) {
-    return getAllUniqueApprovals(labelInfo).some(
-      approval =>
-        getLabelStatus(labelInfo, approval.value) === LabelStatus.APPROVED
-    );
-  } else if (isQuickLabelInfo(labelInfo)) {
-    return getLabelStatus(labelInfo) === LabelStatus.APPROVED;
-  } else {
-    return false;
-  }
-}
-
-export function hasRejectedVote(labelInfo: LabelInfo) {
-  if (isDetailedLabelInfo(labelInfo)) {
-    return getAllUniqueApprovals(labelInfo).some(
-      approval =>
-        getLabelStatus(labelInfo, approval.value) === LabelStatus.REJECTED
-    );
-  } else if (isQuickLabelInfo(labelInfo)) {
-    return getLabelStatus(labelInfo) === LabelStatus.REJECTED;
-  } else {
-    return false;
-  }
-}
-
 export function classForLabelStatus(status: LabelStatus) {
   switch (status) {
     case LabelStatus.APPROVED:
@@ -245,21 +219,6 @@ export function getCodeReviewLabel(
     }
   }
   return;
-}
-
-export function extractLabelsWithCountFrom(expression: string) {
-  const pattern = new RegExp(
-    'label[0-9]*:([\\w-]+)[^,]*,count>?=?([0-9])',
-    'g'
-  );
-  const labels = [];
-  let match;
-  while ((match = pattern.exec(expression)) !== null) {
-    if (match[2] && !isNaN(Number(match[2]))) {
-      labels.push({label: match[1], count: Number(match[2])});
-    }
-  }
-  return labels;
 }
 
 function extractLabelsFrom(expression: string) {

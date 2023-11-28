@@ -141,8 +141,7 @@ export class GrTooltipContent extends LitElement {
     // Set visibility to hidden before appending to the DOM so that
     // calculations can be made based on the element’s size.
     tooltip.style.visibility = 'hidden';
-    const parent = this.getTooltipParent(this);
-    parent.appendChild(tooltip);
+    document.body.appendChild(tooltip);
     await tooltip.updateComplete;
     this._positionTooltip(tooltip);
     tooltip.style.visibility = 'initial';
@@ -153,22 +152,6 @@ export class GrTooltipContent extends LitElement {
     if (!this.lightTooltip) {
       tooltip.addEventListener('mouseleave', this.hideHandler);
     }
-  }
-
-  getTooltipParent(el: Node): Node {
-    if (el === document.body) {
-      return el;
-    }
-    if (el instanceof HTMLDialogElement) {
-      return el;
-    }
-    if (el instanceof ShadowRoot) {
-      return this.getTooltipParent(el.host);
-    }
-    if (el.parentNode) {
-      return this.getTooltipParent(el.parentNode);
-    }
-    return document.body;
   }
 
   _handleHideTooltip(e?: Event) {

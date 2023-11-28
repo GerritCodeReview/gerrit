@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b648fe30_1c51aca8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-28T08:38:31Z",
+      "side": 1,
+      "message": "Sure, done.",
+      "parentUuid": "f720b48f_e1227c32",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 66
+      },
+      "revId": "cef50e8d245f61d875fa6d827bd177973f4933f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dcdee3c2_4712b385",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-11-28T07:56:01Z",
       "side": 1,
       "message": "nit: `s/Sicne/Since`",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 5
+      },
+      "revId": "cef50e8d245f61d875fa6d827bd177973f4933f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "debd66f8_dccd1340",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-28T08:38:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcdee3c2_4712b385",
       "range": {
         "startLine": 61,
         "startChar": 0,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38a988e1_8065957c",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorterNew.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-28T08:38:31Z",
+      "side": 1,
+      "message": "This is forking the RebaseSorter class which is from 2012, hence preserving this date is intended.",
+      "parentUuid": "949f5670_77ac2f16",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "cef50e8d245f61d875fa6d827bd177973f4933f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b218b98_1b9cfa1b",
@@ -123,6 +195,30 @@
       "writtenOn": "2023-11-28T08:18:01Z",
       "side": 1,
       "message": "This is only temporary as we roll this out carefully with a feature flag. It will be renamed and the \"old\" sorter will be deleted before the next release.",
+      "parentUuid": "1b218b98_1b9cfa1b",
+      "range": {
+        "startLine": 38,
+        "startChar": 13,
+        "endLine": 38,
+        "endChar": 28
+      },
+      "revId": "cef50e8d245f61d875fa6d827bd177973f4933f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d425c025_e8b08077",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorterNew.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-28T08:38:31Z",
+      "side": 1,
+      "message": "This class is only added temporarily until the experiment is rolled out. Hence I think this name is fine. I\u0027ve added javadoc to explain the situation.",
       "parentUuid": "1b218b98_1b9cfa1b",
       "range": {
         "startLine": 38,
@@ -181,6 +277,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11723bc6_129d8d19",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorterNew.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-28T08:38:31Z",
+      "side": 1,
+      "message": "I\u0027m not touching this code, hence leaving this as it is, see RebaseSorter.",
+      "parentUuid": "7b9835f7_89abef14",
+      "range": {
+        "startLine": 71,
+        "startChar": 29,
+        "endLine": 71,
+        "endChar": 30
+      },
+      "revId": "cef50e8d245f61d875fa6d827bd177973f4933f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "85ca6622_d35b6107",
@@ -194,6 +314,30 @@
       "writtenOn": "2023-11-28T07:56:01Z",
       "side": 1,
       "message": "nit: not needed",
+      "range": {
+        "startLine": 92,
+        "startChar": 12,
+        "endLine": 92,
+        "endChar": 14
+      },
+      "revId": "cef50e8d245f61d875fa6d827bd177973f4933f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4411d074_2865babe",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorterNew.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-28T08:38:31Z",
+      "side": 1,
+      "message": "I\u0027m not touching this code, hence leaving this as it is, see RebaseSorter.",
+      "parentUuid": "85ca6622_d35b6107",
       "range": {
         "startLine": 92,
         "startChar": 12,
@@ -227,6 +371,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c82ceeb_3b222318",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorterNew.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-28T08:38:31Z",
+      "side": 1,
+      "message": "I\u0027m not touching this code, hence leaving this as it is, see RebaseSorter.",
+      "parentUuid": "08588278_9cda4d51",
+      "range": {
+        "startLine": 111,
+        "startChar": 6,
+        "endLine": 112,
+        "endChar": 30
+      },
+      "revId": "cef50e8d245f61d875fa6d827bd177973f4933f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "207abdbf_13899cc5",
@@ -240,6 +408,30 @@
       "writtenOn": "2023-11-28T07:56:01Z",
       "side": 1,
       "message": "nit: what is `mirw`? and if we stick to shortcut how about just `rw`?",
+      "range": {
+        "startLine": 136,
+        "startChar": 27,
+        "endLine": 136,
+        "endChar": 31
+      },
+      "revId": "cef50e8d245f61d875fa6d827bd177973f4933f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea2cba27_441a26d0",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorterNew.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-28T08:38:31Z",
+      "side": 1,
+      "message": "I\u0027m not touching this code, hence leaving this as it is, see RebaseSorter.",
+      "parentUuid": "207abdbf_13899cc5",
       "range": {
         "startLine": 136,
         "startChar": 27,
@@ -296,6 +488,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46ba8740_51878bd3",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorterNew.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-28T08:38:31Z",
+      "side": 1,
+      "message": "I\u0027m not touching this code, hence leaving this as it is, see RebaseSorter.",
+      "parentUuid": "9ad49cc3_0d12ea30",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 167,
+        "endChar": 25
+      },
+      "revId": "cef50e8d245f61d875fa6d827bd177973f4933f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45b0bab2_4abe68ea",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorterNew.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-28T08:38:31Z",
+      "side": 1,
+      "message": "I\u0027m not touching this code, hence leaving this as it is, see RebaseSorter.",
+      "parentUuid": "0c3e12f6_8eac4dd1",
+      "range": {
+        "startLine": 167,
+        "startChar": 16,
+        "endLine": 167,
+        "endChar": 24
+      },
+      "revId": "cef50e8d245f61d875fa6d827bd177973f4933f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "44795f9d_5ca90fc4",
@@ -309,6 +549,30 @@
       "writtenOn": "2023-11-28T07:56:01Z",
       "side": 1,
       "message": "nit: AFAIU there is no rebase in this scenario as `master` is not advancing...",
+      "range": {
+        "startLine": 1052,
+        "startChar": 14,
+        "endLine": 1052,
+        "endChar": 80
+      },
+      "revId": "cef50e8d245f61d875fa6d827bd177973f4933f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8a98aa4_40b98356",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1052,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-28T08:38:31Z",
+      "side": 1,
+      "message": "master is advanced by submitting the merge change in l. 1113. The merge change is pushed for the master branch in l. 1102 - 1106.\n\nSo this looks correct to me.",
+      "parentUuid": "44795f9d_5ca90fc4",
       "range": {
         "startLine": 1052,
         "startChar": 14,

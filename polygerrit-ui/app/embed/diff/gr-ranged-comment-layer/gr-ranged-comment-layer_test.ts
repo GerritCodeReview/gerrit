@@ -159,7 +159,10 @@ suite('gr-ranged-comment-layer', () => {
       assert.equal(lastCall.args[0], el);
       assert.equal(lastCall.args[1], expectedStart);
       assert.equal(lastCall.args[2], expectedLength);
-      assert.equal(lastCall.args[3], 'range rangeHighlight generated_a');
+      assert.equal(
+        lastCall.args[3],
+        'gr-diff range rangeHighlight generated_a'
+      );
     });
 
     test('type=Both has-comment', () => {
@@ -176,7 +179,10 @@ suite('gr-ranged-comment-layer', () => {
       assert.equal(lastCall.args[0], el);
       assert.equal(lastCall.args[1], expectedStart);
       assert.equal(lastCall.args[2], expectedLength);
-      assert.equal(lastCall.args[3], 'range rangeHighlight generated_a');
+      assert.equal(
+        lastCall.args[3],
+        'gr-diff range rangeHighlight generated_a'
+      );
     });
 
     test('type=Both has-comment off side', () => {
@@ -204,7 +210,10 @@ suite('gr-ranged-comment-layer', () => {
       assert.equal(lastCall.args[0], el);
       assert.equal(lastCall.args[1], expectedStart);
       assert.equal(lastCall.args[2], expectedLength);
-      assert.equal(lastCall.args[3], 'range rangeHighlight generated_b');
+      assert.equal(
+        lastCall.args[3],
+        'gr-diff range rangeHighlight generated_b'
+      );
     });
 
     test('long range comment', () => {
@@ -217,7 +226,7 @@ suite('gr-ranged-comment-layer', () => {
       assert.isTrue(annotateElementStub.called);
       assert.equal(
         annotateElementStub.lastCall.args[3],
-        'range generated_right-60-1-71-1'
+        'gr-diff range generated_right-60-1-71-1'
       );
     });
 

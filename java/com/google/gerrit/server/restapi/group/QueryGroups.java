@@ -115,7 +115,9 @@ public class QueryGroups implements RestReadView<TopLevelResource> {
       queryProcessor.setStart(start);
     }
 
-    queryProcessor.setUserProvidedLimit(limit, /* applyDefaultLimit */ true);
+    if (limit != 0) {
+      queryProcessor.setUserProvidedLimit(limit);
+    }
 
     try {
       QueryResult<InternalGroup> result = queryProcessor.query(queryBuilder.parse(query));

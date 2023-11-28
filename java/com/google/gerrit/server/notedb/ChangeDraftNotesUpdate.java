@@ -106,7 +106,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
   }
 
   static class Executor implements ChangeDraftUpdateExecutor, AutoCloseable {
-    interface Factory extends ChangeDraftUpdateExecutor.Factory<Executor> {}
+    interface Factory extends ChangeDraftUpdateExecutor.AbstractFactory<Executor> {}
 
     private final GitRepositoryManager repoManager;
     private final AllUsersName allUsersName;

@@ -17,7 +17,6 @@ import {
   LineSelectedEventDetail,
   RenderPreferences,
   Side,
-  SyntaxBlock,
 } from '../../../api/diff';
 import {define} from '../../../models/dependency';
 import {Model} from '../../../models/base/model';
@@ -86,11 +85,6 @@ export class DiffModel extends Model<DiffState> {
   readonly diff$: Observable<DiffInfo> = select(
     this.state$.pipe(filter(state => state.diff !== undefined)),
     diffState => diffState.diff!
-  );
-
-  readonly syntaxTreeRight$: Observable<SyntaxBlock[] | undefined> = select(
-    this.diff$,
-    diff => diff.meta_b?.syntax_tree
   );
 
   readonly baseImage$: Observable<ImageInfo | undefined> = select(

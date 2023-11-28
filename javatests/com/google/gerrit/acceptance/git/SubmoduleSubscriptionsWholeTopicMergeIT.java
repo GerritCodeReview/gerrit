@@ -645,18 +645,11 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
     allowMatchingSubmoduleSubscription(subKey, "refs/heads/master", superKey, "refs/heads/master");
     allowMatchingSubmoduleSubscription(superKey, "refs/heads/dev", subKey, "refs/heads/dev");
 
-    // Create 'dev' branches in both repos by pushing changes.
     pushChangeTo(subRepo, "dev");
     pushChangeTo(superRepo, "dev");
 
     createSubmoduleSubscription(superRepo, "master", subKey, "master");
     createSubmoduleSubscription(subRepo, "dev", superKey, "dev");
-
-    // Reset the state of local repositories to avoid implicit merge changes.
-    subRepo.git().fetch();
-    subRepo.reset(subRepo.git().getRepository().findRef("origin/master").getObjectId().getName());
-    superRepo.git().fetch();
-    superRepo.reset(superRepo.git().getRepository().findRef("origin/dev").getObjectId().getName());
 
     ObjectId subMasterHead =
         pushChangeTo(

@@ -46,6 +46,30 @@
       },
       "revId": "a734b160cf5d434aed216b2512cbb2545baa7aac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fedc8ccd_5268c244",
+        "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2023-11-28T18:13:11Z",
+      "side": 1,
+      "message": "oh, that\u0027s because of the `set -u` above. TIL 😊",
+      "parentUuid": "d2cbb196_1a5fbe57",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 23
+      },
+      "revId": "a734b160cf5d434aed216b2512cbb2545baa7aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

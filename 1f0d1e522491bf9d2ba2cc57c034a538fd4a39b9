@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3549926c_26d66325",
+        "filename": "java/com/google/gerrit/git/RefUpdateUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-28T16:42:41Z",
+      "side": 1,
+      "message": "Is it correct? Shouldn\u0027t it be atFine?\n```suggestion\n    logger.atFine().log(\n```",
+      "range": {
+        "startLine": 65,
+        "startChar": 11,
+        "endLine": 65,
+        "endChar": 19
+      },
+      "revId": "1f0d1e522491bf9d2ba2cc57c034a538fd4a39b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

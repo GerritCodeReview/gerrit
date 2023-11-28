@@ -10,7 +10,12 @@ import {GrContextControls} from './gr-context-controls';
 
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
-import {GrDiffLineType, SyntaxBlock} from '../../../api/diff';
+import {
+  DiffFileMetaInfo,
+  DiffInfo,
+  GrDiffLineType,
+  SyntaxBlock,
+} from '../../../api/diff';
 import {fixture, html, assert} from '@open-wc/testing';
 import {waitEventLoop} from '../../../test/test-utils';
 
@@ -19,6 +24,7 @@ suite('gr-context-control tests', () => {
 
   setup(async () => {
     element = document.createElement('gr-context-controls');
+    element.diff = {content: []} as any as DiffInfo;
     element.renderPreferences = {};
     const div = await fixture(html`<div></div>`);
     div.appendChild(element);
@@ -112,7 +118,9 @@ suite('gr-context-control tests', () => {
 
   function prepareForBlockExpansion(syntaxTree: SyntaxBlock[]) {
     element.renderPreferences!.use_block_expansion = true;
-    element.syntaxTreeRight = syntaxTree;
+    element.diff!.meta_b = {
+      syntax_tree: syntaxTree,
+    } as any as DiffFileMetaInfo;
   }
 
   test('context control with block expansion at the top', async () => {

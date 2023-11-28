@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33afb6a6_cd3506d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-28T11:42:53Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com potential candidate to keep",
+      "revId": "8f0b4a6eb6445af23d437e658facd2f35dad4625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f720b48f_e1227c32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-28T07:56:01Z",
+      "side": 1,
+      "message": "nit: maybe you could add a simple diagrams here similar to what you added in `AbstractSubmit.java` or `AbstractSubmitByRebase` so that it is more descriptive?",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 66
+      },
+      "revId": "cef50e8d245f61d875fa6d827bd177973f4933f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcdee3c2_4712b385",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-28T07:56:01Z",
+      "side": 1,
+      "message": "nit: `s/Sicne/Since`",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 5
+      },
+      "revId": "cef50e8d245f61d875fa6d827bd177973f4933f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "949f5670_77ac2f16",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorterNew.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-28T07:56:01Z",
+      "side": 1,
+      "message": "nit: `2012`",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "cef50e8d245f61d875fa6d827bd177973f4933f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b218b98_1b9cfa1b",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorterNew.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-28T07:56:01Z",
+      "side": 1,
+      "message": "nit: how about more descriptive name 😊",
+      "range": {
+        "startLine": 38,
+        "startChar": 13,
+        "endLine": 38,
+        "endChar": 28
+      },
+      "revId": "cef50e8d245f61d875fa6d827bd177973f4933f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b9835f7_89abef14",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorterNew.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-28T07:56:01Z",
+      "side": 1,
+      "message": "nit: is there a better name for `n`?",
+      "range": {
+        "startLine": 71,
+        "startChar": 29,
+        "endLine": 71,
+        "endChar": 30
+      },
+      "revId": "cef50e8d245f61d875fa6d827bd177973f4933f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85ca6622_d35b6107",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorterNew.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-28T07:56:01Z",
+      "side": 1,
+      "message": "nit: not needed",
+      "range": {
+        "startLine": 92,
+        "startChar": 12,
+        "endLine": 92,
+        "endChar": 14
+      },
+      "revId": "cef50e8d245f61d875fa6d827bd177973f4933f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08588278_9cda4d51",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorterNew.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-28T07:56:01Z",
+      "side": 1,
+      "message": "question: I guess that we are doing that so that there are no duplicates in the list - perhaps `SortedSet` could be used as `sorted`?",
+      "range": {
+        "startLine": 111,
+        "startChar": 6,
+        "endLine": 112,
+        "endChar": 30
+      },
+      "revId": "cef50e8d245f61d875fa6d827bd177973f4933f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "207abdbf_13899cc5",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorterNew.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-28T07:56:01Z",
+      "side": 1,
+      "message": "nit: what is `mirw`? and if we stick to shortcut how about just `rw`?",
+      "range": {
+        "startLine": 136,
+        "startChar": 27,
+        "endLine": 136,
+        "endChar": 31
+      },
+      "revId": "cef50e8d245f61d875fa6d827bd177973f4933f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ad49cc3_0d12ea30",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorterNew.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-28T07:56:01Z",
+      "side": 1,
+      "message": "nit: `final` is not needed here",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 167,
+        "endChar": 25
+      },
+      "revId": "cef50e8d245f61d875fa6d827bd177973f4933f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c3e12f6_8eac4dd1",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSorterNew.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-28T07:56:01Z",
+      "side": 1,
+      "message": "question: what will be returned if there is no `next` available? AFAIR interface contract mentions `NoSuchElementException`",
+      "range": {
+        "startLine": 167,
+        "startChar": 16,
+        "endLine": 167,
+        "endChar": 24
+      },
+      "revId": "cef50e8d245f61d875fa6d827bd177973f4933f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44795f9d_5ca90fc4",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1052,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-28T07:56:01Z",
+      "side": 1,
+      "message": "nit: AFAIU there is no rebase in this scenario as `master` is not advancing...",
+      "range": {
+        "startLine": 1052,
+        "startChar": 14,
+        "endLine": 1052,
+        "endChar": 80
+      },
+      "revId": "cef50e8d245f61d875fa6d827bd177973f4933f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

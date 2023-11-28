@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d210463_18de4c2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-28T13:47:36Z",
+      "side": 1,
+      "message": "There are still a few commits to revert on stable-3.9 before releasing 3.9.0-rc6",
+      "revId": "4a5fc0cd9de6fbe3f2e503019c304abb8e9a5315",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

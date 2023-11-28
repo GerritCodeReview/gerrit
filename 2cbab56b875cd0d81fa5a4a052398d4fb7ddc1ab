@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39b63355_6dbe14bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-28T11:23:12Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com that sounds like a fix to keep, WDYT?",
+      "revId": "2cbab56b875cd0d81fa5a4a052398d4fb7ddc1ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1778,7 +1778,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     });
   }
 
-  getSuggestedAccounts(
+  async getSuggestedAccounts(
     inputVal: string,
     n?: number,
     canSee?: NumericChangeId,
@@ -1796,7 +1796,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       queryParams.push(`${escapeAndWrapSearchOperatorValue(inputVal)}`);
     }
     if (canSee) {
-      queryParams.push(`cansee:${canSee}`);
+      const project = await this.getFromProjectLookup(canSee);
+      queryParams.push(`cansee:${project}~${canSee}`);
     }
     if (filterActive) {
       queryParams.push('is:active');

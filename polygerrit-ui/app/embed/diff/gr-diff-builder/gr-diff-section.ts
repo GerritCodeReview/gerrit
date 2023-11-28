@@ -208,6 +208,7 @@ export class GrDiffSection extends LitElement {
         .showAbove=${showAbove}
         .showBelow=${showBelow}
         .group=${this.group}
+        .diff=${this.diff}
         .renderPrefs=${this.renderPrefs}
       >
       </gr-context-controls-section>

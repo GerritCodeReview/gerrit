@@ -14,12 +14,18 @@
 
 package com.google.gerrit.git;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Joiner;
+import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
+import java.util.Optional;
 import org.eclipse.jgit.internal.JGitText;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -27,6 +33,8 @@ import org.eclipse.jgit.transport.ReceiveCommand;
 
 /** Static utilities for working with JGit's ref update APIs. */
 public class RefUpdateUtil {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   /**
    * Execute a batch ref update, throwing a checked exception if not all updates succeeded.
    *
@@ -54,8 +62,34 @@ public class RefUpdateUtil {
    * @throws IOException if any result was not {@code OK}.
    */
   public static void executeChecked(BatchRefUpdate bru, RevWalk rw) throws IOException {
+    logger.atFine().log(
+        "Executing ref updates: %s\n",
+        Joiner.on("\n")
+            .join(
+                bru.getCommands().stream()
+                    .map(
+                        cmd ->
+                            String.format(
+                                "%s (new tree ID: %s)",
+                                cmd, getNewTreeId(rw, cmd).map(ObjectId::name).orElse("n/a")))
+                    .collect(toImmutableList())));
     bru.execute(rw, NullProgressMonitor.INSTANCE);
     checkResults(bru);
+  }
+
+  private static Optional<ObjectId> getNewTreeId(RevWalk revWalk, ReceiveCommand cmd) {
+    if (ReceiveCommand.Type.DELETE.equals(cmd.getType())) {
+      // Ref deletions do not have a new tree.
+      return Optional.empty();
+    }
+
+    try {
+      return Optional.of(revWalk.parseCommit(cmd.getNewId()).getTree());
+    } catch (IOException e) {
+      logger.atWarning().withCause(e).log(
+          "Failed parsing new commit %s for ref update: %s", cmd.getNewId().name(), cmd);
+      return Optional.empty();
+    }
   }
 
   /**

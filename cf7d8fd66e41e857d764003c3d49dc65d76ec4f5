@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c989cde_821875ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-11-28T12:52:33Z",
+      "side": 1,
+      "message": "The option to reject implicit merges on uploading for review was implemented in https://gerrit-review.googlesource.com/c/gerrit/+/72574 seven years ago. That change added code for implicit merge detection in the ReceiveCommits class.\n\nThis change adds code for implicit merge detection in the MergeOp class.\n\nWouldn\u0027t it make sense to factor out the code for implicit merge detection and (re)use it from both places?",
+      "revId": "cf7d8fd66e41e857d764003c3d49dc65d76ec4f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

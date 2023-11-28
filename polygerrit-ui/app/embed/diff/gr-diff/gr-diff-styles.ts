@@ -6,9 +6,13 @@
 import {css} from 'lit';
 
 export const grDiffStyles = css`
-  :host(.disable-context-control-buttons) gr-diff-section tbody.section {
+  :host(.disable-context-control-buttons) .section {
     border-right: none;
   }
+  :host(.hide-line-length-indicator) .full-width td.content .contentText {
+    background-image: none;
+  }
+
   :host {
     font-family: var(--monospace-font-family, ''), 'Roboto Mono';
     font-size: var(--font-size, var(--font-size-code, 12px));
@@ -18,32 +22,32 @@ export const grDiffStyles = css`
     );
   }
 
-  gr-diff-row td.content div.thread-group {
+  .thread-group {
     display: block;
     max-width: var(--content-width, 80ch);
     white-space: normal;
     background-color: var(--diff-blank-background-color);
   }
-  gr-diff-element div.diffContainer {
+  .diffContainer {
     max-width: var(--diff-max-width, none);
     font-family: var(--monospace-font-family);
   }
-  gr-diff-element table {
+  table {
     border-collapse: collapse;
     table-layout: fixed;
   }
-  gr-diff-row td.lineNum,
-  gr-diff-row td.blankLineNum {
+  td.lineNum,
+  td.blankLineNum {
     /* Enforces background whenever lines wrap */
     background-color: var(--diff-blank-background-color);
   }
 
   /* Provides the option to add side borders (left and right) to the line
      number column. */
-  gr-diff-row td.lineNum,
-  gr-diff-row td.blankLineNum,
-  gr-diff-section tr.moveControls td.moveControlsLineNumCol,
-  gr-context-controls-section tr.contextBackground td.contextLineNum {
+  td.lineNum,
+  td.blankLineNum,
+  td.moveControlsLineNumCol,
+  td.contextLineNum {
     box-shadow: var(--line-number-box-shadow, unset);
   }
 
@@ -52,10 +56,10 @@ export const grDiffStyles = css`
 
      Also taken into account for max-width calculations in SHRINK_ONLY mode
      (check GrDiff.updatePreferenceStyles). */
-  gr-diff-section tbody.section {
+  .section {
     border-right: 1px solid var(--border-color);
   }
-  gr-diff-section tbody.section.contextControl {
+  .section.contextControl {
     /* Divider inside this section must not have border; we set borders on
        the padding rows below. */
     border-right-width: 0;
@@ -63,30 +67,30 @@ export const grDiffStyles = css`
   /* Padding rows behind context controls. The diff is styled to be cut
      into two halves by the negative space of the divider on which the
      context control buttons are anchored. */
-  gr-context-controls-section tr.contextBackground {
+  .contextBackground {
     border-right: 1px solid var(--border-color);
   }
-  gr-context-controls-section tr.contextBackground.above {
+  .contextBackground.above {
     border-bottom: 1px solid var(--border-color);
   }
-  gr-context-controls-section tr.contextBackground.below {
+  .contextBackground.below {
     border-top: 1px solid var(--border-color);
   }
 
-  gr-diff-row td.lineNum button.lineNumButton {
+  .lineNumButton {
     display: block;
     width: 100%;
     height: 100%;
     background-color: var(--diff-blank-background-color);
     box-shadow: var(--line-number-box-shadow, unset);
   }
-  gr-diff-row td.lineNum {
+  td.lineNum {
     vertical-align: top;
   }
 
   /* The only way to focus this (clicking) will apply our own focus
      styling, so this default styling is not needed and distracting. */
-  gr-diff-row td.lineNum button.lineNumButton:focus {
+  .lineNumButton:focus {
     outline: none;
   }
   gr-image-viewer {
@@ -102,51 +106,45 @@ export const grDiffStyles = css`
        are almost invisible. */
     --primary-background-color: var(--background-color-secondary);
   }
-  tbody.image-diff .gr-diff {
+  .image-diff .gr-diff {
     text-align: center;
   }
-  tbody.image-diff img {
+  .image-diff img {
     box-shadow: var(--elevation-level-1);
     max-width: 50em;
   }
-  tbody.image-diff button.right.lineNumButton {
+  .image-diff .right.lineNumButton {
     border-left: 1px solid var(--border-color);
   }
-  tbody.image-diff label {
+  .image-diff label {
     font-family: var(--font-family);
     font-style: italic;
   }
-  gr-diff-element tbody.binary-diff td {
+  tbody.binary-diff td {
     font-family: var(--font-family);
     font-style: italic;
     text-align: center;
     padding: var(--spacing-s) 0;
   }
-  gr-diff-row tr.diff-row {
+  .diff-row {
     outline: none;
     user-select: none;
   }
-  gr-diff-row
-    tr.diff-row.target-row.target-side-left
-    td.lineNum
-    button.lineNumButton.left,
-  gr-diff-row
-    tr.diff-row.target-row.target-side-right
-    td.lineNum
-    button.lineNumButton.right,
-  gr-diff-row tr.diff-row.target-row.unified td.lineNum button.lineNumButton {
+  .diff-row.target-row.target-side-left .lineNumButton.left,
+  .diff-row.target-row.target-side-right .lineNumButton.right,
+  .diff-row.target-row.unified .lineNumButton {
     color: var(--primary-text-color);
   }
 
   /* Preparing selected line cells with position relative so it allows a
      positioned overlay with 'position: absolute'. */
-  gr-diff-row tr.target-row td {
+  .target-row td {
     position: relative;
   }
 
   /* Defines an overlay to the selected line for drawing an outline without
      blocking user interaction (e.g. text selection). */
-  gr-diff-row tr.target-row td::before {
+  .target-row td::before {
     border-width: 0;
     border-style: solid;
     border-color: var(--focused-line-outline-color);
@@ -162,53 +160,49 @@ export const grDiffStyles = css`
 
   /* The outline for the selected content cell should be the same in all
      cases. */
-  gr-diff-row tr.target-row.target-side-left td.left.content::before,
-  gr-diff-row tr.target-row.target-side-right td.right.content::before,
-  gr-diff-row tr.unified.target-row td.content::before {
+  .target-row.target-side-left td.left.content::before,
+  .target-row.target-side-right td.right.content::before,
+  .unified.target-row td.content::before {
     border-width: 1px 1px 1px 0;
   }
 
   /* The outline for the sign cell should be always be contiguous
      top/bottom. */
-  gr-diff-row tr.target-row.target-side-left td.left.sign::before,
-  gr-diff-row tr.target-row.target-side-right td.right.sign::before {
+  .target-row.target-side-left td.left.sign::before,
+  .target-row.target-side-right td.right.sign::before {
     border-width: 1px 0;
   }
 
   /* For side-by-side we need to select the correct line number to
      "visually close" the outline. */
-  gr-diff-row
-    tr.side-by-side.target-row.target-side-left
-    td.left.lineNum::before,
-  gr-diff-row
-    tr.side-by-side.target-row.target-side-right
-    td.right.lineNum::before {
+  .side-by-side.target-row.target-side-left td.left.lineNum::before,
+  .side-by-side.target-row.target-side-right td.right.lineNum::before {
     border-width: 1px 0 1px 1px;
   }
 
   /* For unified diff we always start the overlay from the left cell. */
-  gr-diff-row tr.unified.target-row td.left:not(.content)::before {
+  .unified.target-row td.left:not(.content)::before {
     border-width: 1px 0 1px 1px;
   }
 
   /* For unified diff we should continue the top/bottom border in right
      line number column. */
-  gr-diff-row tr.unified.target-row td.right:not(.content)::before {
+  .unified.target-row td.right:not(.content)::before {
     border-width: 1px 0;
   }
 
-  gr-diff-row td.content {
+  .content {
     background-color: var(--diff-blank-background-color);
   }
 
   /* Describes two states of semantic tokens: whenever a token has a
      definition that can be navigated to (navigable) and whenever
      the token is actually clickable to perform this navigation. */
-  gr-diff-text .semantic-token.navigable {
+  .semantic-token.navigable {
     text-decoration-style: dotted;
     text-decoration-line: underline;
   }
-  gr-diff-text .semantic-token.navigable.clickable {
+  .semantic-token.navigable.clickable {
     text-decoration-style: solid;
     cursor: pointer;
   }
@@ -217,33 +211,33 @@ export const grDiffStyles = css`
      first comment. We cannot add padding the container because we only
      want it if there is at least one comment thread, and the slotting
      makes :empty not work as expected. */
-  gr-diff-row td.content.file slot:first-child::slotted(.comment-thread) {
+  .content.file slot:first-child::slotted(.comment-thread) {
     display: block;
     margin-top: var(--spacing-xs);
   }
-  gr-diff-row td.content div.contentText {
+  .contentText {
     background-color: var(--view-background-color);
   }
-  gr-diff-row td.blank {
+  .blank {
     background-color: var(--diff-blank-background-color);
   }
-  .image-diff td.content {
+  .image-diff .content {
     background-color: var(--diff-blank-background-color);
   }
-  gr-diff-element table.responsive {
+  .responsive {
     width: 100%;
   }
-  gr-diff-element table.responsive gr-diff-row td.content div.contentText {
+  .responsive .contentText {
     white-space: break-spaces;
     word-break: break-all;
   }
-  gr-diff-row td.lineNum button.lineNumButton,
-  td.content {
+  .lineNumButton,
+  .content {
     vertical-align: top;
     white-space: pre;
   }
   .contextLineNum,
-  gr-diff-row td.lineNum button.lineNumButton {
+  .lineNumButton {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -253,18 +247,18 @@ export const grDiffStyles = css`
     padding: 0 var(--spacing-m);
     text-align: right;
   }
-  gr-diff-element div.canComment gr-diff-row td.lineNum button.lineNumButton {
+  .canComment .lineNumButton {
     cursor: pointer;
   }
-  gr-diff-row td.sign {
+  .sign {
     min-width: 1ch;
     width: 1ch;
     background-color: var(--view-background-color);
   }
-  gr-diff-row td.sign.blank {
+  .sign.blank {
     background-color: var(--diff-blank-background-color);
   }
-  gr-diff-row td.content {
+  .content {
     /* Set min width since setting width on table cells still allows them
        to shrink. Do not set max width because CJK
        (Chinese-Japanese-Korean) glyphs have variable width. */
@@ -272,151 +266,106 @@ export const grDiffStyles = css`
     width: var(--content-width, 80ch);
   }
   /* If there are no intraline info, consider everything changed */
-  gr-diff-row td.content.add div.contentText .intraline,
-  gr-diff-row td.content.add.no-intraline-info div.contentText,
-  gr-diff-row td.sign.add.no-intraline-info,
-  gr-diff-section tbody.delta.total gr-diff-row td.content.add div.contentText {
+  .content.add .contentText .intraline,
+  .content.add.no-intraline-info .contentText,
+  .sign.add.no-intraline-info,
+  .delta.total .content.add .contentText {
     background-color: var(--dark-add-highlight-color);
   }
-  gr-diff-row td.content.add div.contentText,
-  gr-diff-row td.sign.add {
+  .content.add .contentText,
+  .sign.add {
     background-color: var(--light-add-highlight-color);
   }
   /* If there are no intraline info, consider everything changed */
-  gr-diff-row td.content.remove div.contentText .intraline,
-  gr-diff-row td.content.remove.no-intraline-info div.contentText,
-  gr-diff-section
-    tbody.delta.total
-    gr-diff-row
-    td.content.remove
-    div.contentText,
-  gr-diff-row td.sign.remove.no-intraline-info {
+  .content.remove .contentText .intraline,
+  .content.remove.no-intraline-info .contentText,
+  .delta.total .content.remove .contentText,
+  .sign.remove.no-intraline-info {
     background-color: var(--dark-remove-highlight-color);
   }
-  gr-diff-row td.content.remove div.contentText,
-  gr-diff-row td.sign.remove {
+  .content.remove .contentText,
+  .sign.remove {
     background-color: var(--light-remove-highlight-color);
   }
 
-  gr-diff-section
-    tbody.ignoredWhitespaceOnly
-    gr-diff-row
-    td.sign.no-intraline-info {
+  .ignoredWhitespaceOnly .sign.no-intraline-info {
     background-color: var(--view-background-color);
   }
 
   /* dueToRebase */
-  gr-diff-section tbody.dueToRebase td.content.add div.contentText .intraline,
-  gr-diff-section tbody.delta.total.dueToRebase td.content.add div.contentText {
+  .dueToRebase .content.add .contentText .intraline,
+  .delta.total.dueToRebase .content.add .contentText {
     background-color: var(--dark-rebased-add-highlight-color);
   }
-  gr-diff-section tbody.dueToRebase td.content.add div.contentText {
+  .dueToRebase .content.add .contentText {
     background-color: var(--light-rebased-add-highlight-color);
   }
-  gr-diff-section
-    tbody.dueToRebase
-    td.content.remove
-    div.contentText
-    .intraline,
-  gr-diff-section
-    tbody.delta.total.dueToRebase
-    td.content.remove
-    div.contentText {
+  .dueToRebase .content.remove .contentText .intraline,
+  .delta.total.dueToRebase .content.remove .contentText {
     background-color: var(--dark-rebased-remove-highlight-color);
   }
-  gr-diff-section tbody.dueToRebase td.content.remove div.contentText {
+  .dueToRebase .content.remove .contentText {
     background-color: var(--light-rebased-remove-highlight-color);
   }
 
   /* dueToMove */
-  gr-diff-section tbody.dueToMove .sign.add,
-  gr-diff-section tbody.dueToMove td.content.add div.contentText,
-  gr-diff-section tbody.dueToMove tr.moveControls.movedIn .sign.right,
-  gr-diff-section tbody.dueToMove tr.moveControls.movedIn td.moveHeader,
-  gr-diff-section tbody.delta.total.dueToMove td.content.add div.contentText {
+  .dueToMove .sign.add,
+  .dueToMove .content.add .contentText,
+  .dueToMove .moveControls.movedIn .sign.right,
+  .dueToMove .moveControls.movedIn .moveHeader,
+  .delta.total.dueToMove .content.add .contentText {
     background-color: var(--diff-moved-in-background);
   }
 
-  gr-diff-section tbody.dueToMove.changed .sign.add,
-  gr-diff-section tbody.dueToMove.changed td.content.add div.contentText,
-  gr-diff-section tbody.dueToMove.changed tr.moveControls.movedIn .sign.right,
-  gr-diff-section tbody.dueToMove.changed tr.moveControls.movedIn td.moveHeader,
-  gr-diff-section
-    tbody.delta.total.dueToMove.changed
-    td.content.add
-    div.contentText {
+  .dueToMove.changed .sign.add,
+  .dueToMove.changed .content.add .contentText,
+  .dueToMove.changed .moveControls.movedIn .sign.right,
+  .dueToMove.changed .moveControls.movedIn .moveHeader,
+  .delta.total.dueToMove.changed .content.add .contentText {
     background-color: var(--diff-moved-in-changed-background);
   }
 
-  gr-diff-section tbody.dueToMove .sign.remove,
-  gr-diff-section tbody.dueToMove td.content.remove div.contentText,
-  gr-diff-section tbody.dueToMove tr.moveControls.movedOut td.moveHeader,
-  gr-diff-section tbody.dueToMove tr.moveControls.movedOut .sign.left,
-  gr-diff-section
-    tbody.delta.total.dueToMove
-    td.content.remove
-    div.contentText {
+  .dueToMove .sign.remove,
+  .dueToMove .content.remove .contentText,
+  .dueToMove .moveControls.movedOut .moveHeader,
+  .dueToMove .moveControls.movedOut .sign.left,
+  .delta.total.dueToMove .content.remove .contentText {
     background-color: var(--diff-moved-out-background);
   }
 
-  gr-diff-section tbody.delta.dueToMove tr.movedIn td.moveHeader {
+  .delta.dueToMove .movedIn .moveHeader {
     --gr-range-header-color: var(--diff-moved-in-label-color);
   }
-  gr-diff-section tbody.delta.dueToMove.changed tr.movedIn td.moveHeader {
+  .delta.dueToMove.changed .movedIn .moveHeader {
     --gr-range-header-color: var(--diff-moved-in-changed-label-color);
   }
-  gr-diff-section tbody.delta.dueToMove tr.movedOut td.moveHeader {
+  .delta.dueToMove .movedOut .moveHeader {
     --gr-range-header-color: var(--diff-moved-out-label-color);
   }
 
-  gr-diff-section tr.moveControls td.moveHeader a {
+  .moveHeader a {
     color: inherit;
   }
 
-  gr-diff-section
-    tbody.ignoredWhitespaceOnly
-    gr-diff-row
-    td.content.add
-    div.contentText
-    .intraline,
-  gr-diff-section
-    tbody.delta.total.ignoredWhitespaceOnly
-    gr-diff-row
-    td.content.add
-    div.contentText,
-  gr-diff-section
-    tbody.ignoredWhitespaceOnly
-    gr-diff-row
-    td.content.add
-    div.contentText,
-  gr-diff-section
-    tbody.ignoredWhitespaceOnly
-    gr-diff-row
-    td.content.remove
-    div.contentText
-    .intraline,
-  gr-diff-section
-    tbody.delta.total.ignoredWhitespaceOnly
-    gr-diff-row
-    td.content.remove
-    div.contentText,
-  gr-diff-section
-    tbody.ignoredWhitespaceOnly
-    gr-diff-row
-    td.content.remove
-    div.contentText {
+  /* ignoredWhitespaceOnly */
+  .ignoredWhitespaceOnly .content.add .contentText .intraline,
+  .delta.total.ignoredWhitespaceOnly .content.add .contentText,
+  .ignoredWhitespaceOnly .content.add .contentText,
+  .ignoredWhitespaceOnly .content.remove .contentText .intraline,
+  .delta.total.ignoredWhitespaceOnly .content.remove .contentText,
+  .ignoredWhitespaceOnly .content.remove .contentText {
     background-color: var(--view-background-color);
   }
 
-  gr-diff-row td.content div.contentText gr-diff-text:empty:after,
-  gr-diff-row td.content div.contentText gr-legacy-text:empty:after,
-  gr-diff-row td.content div.contentText:empty:after {
+  .content .contentText gr-diff-text:empty:after,
+  .content .contentText gr-legacy-text:empty:after,
+  .content .contentText:empty:after {
     /* Newline, to ensure empty lines are one line-height tall. */
     content: '\\A';
   }
 
   /* Context controls */
-  gr-diff-section tbody.contextControl {
+  .contextControl {
     display: table-row-group;
     background-color: transparent;
     border: none;
@@ -424,95 +373,90 @@ export const grDiffStyles = css`
     --divider-border: 1px;
   }
   /* TODO: Is this still used? */
-  gr-diff-section tbody.contextControl gr-button gr-icon {
+  .contextControl gr-button gr-icon {
     /* should match line-height of gr-button */
     font-size: var(--line-height-mono, 18px);
   }
-  gr-diff-section tbody.contextControl td:not(.lineNumButton) {
+  .contextControl td:not(.lineNumButton) {
     text-align: center;
   }
 
   /* Padding rows behind context controls. Styled as a continuation of the
      line gutters and code area. */
-  gr-context-controls-section tr.contextBackground > .contextLineNum {
+  .contextBackground > .contextLineNum {
     background-color: var(--diff-blank-background-color);
   }
-  gr-context-controls-section tr.contextBackground > td:not(.contextLineNum) {
+  .contextBackground > td:not(.contextLineNum) {
     background-color: var(--view-background-color);
   }
-  gr-context-controls-section tr.contextBackground {
+  .contextBackground {
     /* One line of background behind the context expanders which they can
        render on top of, plus some padding. */
     height: calc(var(--line-height-normal) + var(--spacing-s));
   }
 
   /* Hide the actual context control buttons */
-  :host(.disable-context-control-buttons)
-    gr-diff-section
-    tbody.contextControl
-    gr-context-controls-section
-    gr-context-controls {
+  :host(.disable-context-control-buttons) .contextControl gr-context-controls {
     display: none;
   }
   /* Maintain a small amount of padding at the edges of diff chunks */
-  :host(.disable-context-control-buttons)
-    gr-diff-section
-    tbody.contextControl
-    gr-context-controls-section
-    tr.contextBackground {
+  :host(.disable-context-control-buttons) .contextControl .contextBackground {
     height: var(--spacing-s);
     border-right: none;
   }
 
-  gr-context-controls-section td.dividerCell {
+  .dividerCell {
     vertical-align: top;
   }
-  gr-context-controls-section tr.dividerRow.show-both td.dividerCell {
+  .dividerRow.show-both .dividerCell {
     height: var(--divider-height);
   }
-  gr-context-controls-section tr.dividerRow.show-above td.dividerCell {
+  .dividerRow.show-above .dividerCell,
+  .dividerRow.show-above .dividerCell {
     height: 0;
   }
 
-  gr-diff-text .br:after {
+  .br:after {
     /* Line feed */
     content: '\\A';
   }
-  gr-diff-text .tab {
+  .tab {
     display: inline-block;
   }
-  gr-diff-text .tab-indicator:before {
+  .tab-indicator:before {
     color: var(--diff-tab-indicator-color);
     /* >> character */
     content: '\\00BB';
     position: absolute;
   }
-  gr-diff-text .special-char-indicator {
+  .special-char-indicator {
     /* spacing so elements don't collide */
     padding-right: var(--spacing-m);
   }
-  gr-diff-text .special-char-indicator:before {
+  .special-char-indicator:before {
     color: var(--diff-tab-indicator-color);
     content: '•';
     position: absolute;
   }
-  gr-diff-text .special-char-warning {
+  .special-char-warning {
     /* spacing so elements don't collide */
     padding-right: var(--spacing-m);
   }
-  gr-diff-text .special-char-warning:before {
+  .special-char-warning:before {
     color: var(--warning-foreground);
     content: '!';
     position: absolute;
   }
   /* Is defined after other background-colors, such that this
      rule wins in case of same specificity. */
-  td.content div.contentText gr-diff-text .trailing-whitespace,
-  td.content div.contentText gr-diff-text .trailing-whitespace .intraline {
+  .trailing-whitespace,
+  .content .contentText .trailing-whitespace,
+  .trailing-whitespace .intraline,
+  .content .contentText .trailing-whitespace .intraline {
     border-radius: var(--border-radius, 4px);
     background-color: var(--diff-trailing-whitespace-indicator);
   }
-  gr-diff-element div#diffHeader {
+  #diffHeader {
     background-color: var(--table-header-background-color);
     border-bottom: 1px solid var(--border-color);
     color: var(--link-color);
@@ -522,60 +466,60 @@ export const grDiffStyles = css`
     /* for gr-selection-action-box positioning */
     position: relative;
   }
-  gr-diff-element table#diffTable:focus {
+  #diffTable:focus {
     outline: none;
   }
-  gr-diff-element div#loadingError,
-  gr-diff-element div#sizeWarning {
+  #loadingError,
+  #sizeWarning {
     display: block;
     margin: var(--spacing-l) auto;
     max-width: 60em;
     text-align: center;
   }
-  gr-diff-element div#loadingError {
+  #loadingError {
     color: var(--error-text-color);
   }
-  gr-diff-element div#sizeWarning gr-button {
+  #sizeWarning gr-button {
     margin: var(--spacing-l);
   }
-  gr-diff-row tr.target-row td.blame {
+  .target-row td.blame {
     background: var(--diff-selection-background-color);
   }
-  gr-diff-row td.content.lost div {
+  td.lost div {
     background-color: var(--info-background);
   }
-  gr-diff-row td.content.lost div.lost-message {
+  td.lost div.lost-message {
     font-family: var(--font-family, 'Roboto');
     font-size: var(--font-size-normal, 14px);
     line-height: var(--line-height-normal);
     padding: var(--spacing-s) 0;
   }
-  gr-diff-row td.content.lost div.lost-message gr-icon {
+  td.lost div.lost-message gr-icon {
     padding: 0 var(--spacing-s) 0 var(--spacing-m);
     color: var(--blue-700);
   }
 
-  gr-diff-row td.blame {
+  td.blame {
     padding: 0 var(--spacing-m);
     white-space: pre;
   }
-  gr-diff-row td.blame > span {
+  td.blame > span {
     opacity: 0.6;
   }
-  gr-diff-row td.blame > span.startOfRange {
+  td.blame > span.startOfRange {
     opacity: 1;
   }
-  gr-diff-row td.blame .blameDate {
+  td.blame .blameDate {
     font-family: var(--monospace-font-family);
     color: var(--link-color);
     text-decoration: none;
   }
-  gr-diff-element table.responsive gr-diff-row td.blame {
+  .responsive td.blame {
     overflow: hidden;
     width: 200px;
   }
   /** Support the line length indicator **/
-  gr-diff-element table.responsive gr-diff-row td.content div.contentText {
+  .responsive td.content .contentText {
     /* Same strategy as in
        https://stackoverflow.com/questions/1179928/how-can-i-put-a-vertical-line-down-the-center-of-a-div
        */
@@ -587,28 +531,28 @@ export const grDiffStyles = css`
     background-position: var(--line-limit-marker) 0;
     background-repeat: no-repeat;
   }
-  gr-diff-element div.newlineWarning {
+  .newlineWarning {
     color: var(--deemphasized-text-color);
     text-align: center;
   }
-  gr-diff-element div.newlineWarning.hidden {
+  .newlineWarning.hidden {
     display: none;
   }
-  gr-diff-row td.lineNum.COVERED button.lineNumButton {
+  .lineNum.COVERED .lineNumButton {
     color: var(
       --coverage-covered-line-num-color,
       var(--deemphasized-text-color)
     );
     background-color: var(--coverage-covered, #e0f2f1);
   }
-  gr-diff-row td.lineNum.NOT_COVERED button.lineNumButton {
+  .lineNum.NOT_COVERED .lineNumButton {
     color: var(
       --coverage-covered-line-num-color,
       var(--deemphasized-text-color)
     );
     background-color: var(--coverage-not-covered, #ffd1a4);
   }
-  gr-diff-row td.lineNum.PARTIALLY_COVERED button.lineNumButton {
+  .lineNum.PARTIALLY_COVERED .lineNumButton {
     color: var(
       --coverage-covered-line-num-color,
       var(--deemphasized-text-color)
@@ -622,83 +566,75 @@ export const grDiffStyles = css`
     );
   }
 
-  gr-diff-row td.content,
-  gr-diff-section tbody.contextControl,
-  gr-diff-row td.blame {
+  // TODO: Investigate whether this CSS is still necessary.
+  /* BEGIN: Select and copy for Polymer 2 */
+  /* Below was copied and modified from the original css in gr-diff-selection.html. */
+  .content,
+  .contextControl,
+  .blame {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
   }
 
-  gr-diff-element.selected-left:not(.selected-comment)
-    gr-diff-row
-    tr.side-by-side
-    td.left
-    + td.content
-    div.contentText,
-  gr-diff-element.selected-right:not(.selected-comment)
-    gr-diff-row
-    tr.side-by-side
-    td.right
-    + td.content
-    div.contentText,
-  gr-diff-element.selected-left:not(.selected-comment)
-    gr-diff-row
-    tr.unified
-    td.left.lineNum
-    ~ td.content:not(.both)
-    div.contentText,
-  gr-diff-element.selected-right:not(.selected-comment)
-    gr-diff-row
-    tr.unified
-    td.right.lineNum
-    ~ td.content
-    div.contentText,
-  gr-diff-element.selected-left.selected-comment
-    gr-diff-row
-    tr.side-by-side
-    td.left
-    + td.content
-    div.thread-group
-    .message,
-  gr-diff-element.selected-right.selected-comment
-    gr-diff-row
-    tr.side-by-side
-    td.right
-    + td.content
-    div.thread-group
+  .selected-left:not(.selected-comment)
+    .side-by-side
+    .left
+    + .content
+    .contentText,
+  .selected-right:not(.selected-comment)
+    .side-by-side
+    .right
+    + .content
+    .contentText,
+  .selected-left:not(.selected-comment)
+    .unified
+    .left.lineNum
+    ~ .content:not(.both)
+    .contentText,
+  .selected-right:not(.selected-comment)
+    .unified
+    .right.lineNum
+    ~ .content
+    .contentText,
+  .selected-left.selected-comment .side-by-side .left + .content .message,
+  .selected-right.selected-comment
+    .side-by-side
+    .right
+    + .content
     .message
     :not(.collapsedContent),
-  gr-diff-element.selected-comment
-    gr-diff-row
-    tr.unified
-    td.content
-    div.thread-group
-    .message
-    :not(.collapsedContent),
-  gr-diff-element.selected-blame gr-diff-row td.blame,
-  gr-diff-element.selected-left.selected-comment
-    ::slotted(.comment-thread[diff-side='left']),
-  gr-diff-element.selected-right.selected-comment
-    ::slotted(.comment-thread[diff-side='right']) {
+  .selected-comment .unified .message :not(.collapsedContent),
+  .selected-blame .blame {
     -webkit-user-select: text;
     -moz-user-select: text;
     -ms-user-select: text;
     user-select: text;
   }
 
-  gr-diff-element div.whitespace-change-only-message {
+  /* Make comments and check results selectable when selected */
+  .selected-left.selected-comment ::slotted(.comment-thread[diff-side='left']),
+  .selected-right.selected-comment
+    ::slotted(.comment-thread[diff-side='right']) {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+  }
+  /* END: Select and copy for Polymer 2 */
+
+  .whitespace-change-only-message {
     background-color: var(--diff-context-control-background-color);
     border: 1px solid var(--diff-context-control-border-color);
     text-align: center;
   }
 
-  gr-diff-text .token-highlight {
+  .token-highlight {
     background-color: var(--token-highlighting-color, #fffd54);
   }
 
-  gr-diff-element gr-selection-action-box {
+  gr-selection-action-box {
     /* Needs z-index to appear above wrapped content, since it's inserted
        into DOM before it. */
     z-index: 120;

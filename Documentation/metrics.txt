@@ -415,13 +415,6 @@ Each queue provides the following metrics:
 * `permissions/ref_filter/skip_filter_count`: Rate of ref filter operations
   where we skip full evaluation because the user can read all refs
 
-=== Validation
-
-* `validation/file_count`: Track number of files per change during commit
-  validation, if it exceeds the FILE_COUNT_WARNING_THRESHOLD threshold.
-** `file_count`: number of files in the patchset
-** `host_repo`: host and repository of the change in the format 'host/repo'
-
 === Reviewer Suggestion
 
 * `reviewer_suggestion/query_accounts`: Latency for querying accounts for

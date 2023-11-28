@@ -24,7 +24,6 @@ import {otherSide} from '../../../utils/diff-util';
 import './gr-diff-text';
 import {
   diffClasses,
-  findBlame,
   GrDiffCommentThread,
   isLongCommentRange,
   isResponsive,
@@ -72,6 +71,9 @@ export class GrDiffRow extends LitElement {
   private right$ = new BehaviorSubject<GrDiffLine | undefined>(undefined);
 
   @property({type: Object})
+  blameInfo?: BlameInfo;
+
+  @property({type: Object})
   responsiveMode?: DiffResponsiveMode;
 
   @property({type: Boolean})
@@ -101,8 +103,6 @@ export class GrDiffRow extends LitElement {
   @state() rightComments: GrDiffCommentThread[] = [];
 
   @state() columns: ColumnsToShow = NO_COLUMNS;
-
-  @state() blameInfo?: BlameInfo;
 
   /**
    * Keeps track of whether diff layers have already been applied to the diff
@@ -153,14 +153,6 @@ export class GrDiffRow extends LitElement {
       this,
       () => this.getDiffModel().columnsToShow$,
       columnsToShow => (this.columns = columnsToShow)
-    );
-    subscribe(
-      this,
-      () => this.getDiffModel().blameInfo$,
-      blameInfos => {
-        const line = this.left?.lineNumber(Side.LEFT);
-        this.blameInfo = findBlame(blameInfos, line);
-      }
     );
   }
 

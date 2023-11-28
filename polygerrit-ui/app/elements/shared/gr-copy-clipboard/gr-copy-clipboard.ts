@@ -22,7 +22,6 @@ import {getAppContext} from '../../../services/app-context';
 import {Timing} from '../../../constants/reporting';
 import {when} from 'lit/directives/when.js';
 import {formStyles} from '../../../styles/form-styles';
-import {fire} from '../../../utils/event-util';
 
 const COPY_TIMEOUT_MS = 1000;
 
@@ -190,7 +189,6 @@ export class GrCopyClipboard extends LitElement {
     e.preventDefault();
     e.stopPropagation();
 
-    fire(this, 'item-copied', {});
     this.text = queryAndAssert<HTMLInputElement>(this, '#input').value;
     assertIsDefined(this.text, 'text');
     this.iconEl.icon = 'check';
@@ -201,12 +199,5 @@ export class GrCopyClipboard extends LitElement {
       });
     });
     setTimeout(() => (this.iconEl.icon = 'content_copy'), COPY_TIMEOUT_MS);
-  }
-}
-
-declare global {
-  interface HTMLElementEventMap {
-    /** Fired when an item has been copied. */
-    'item-copied': CustomEvent<{}>;
   }
 }

@@ -166,9 +166,6 @@ export class GrDownloadDialog extends LitElement {
           @selected-scheme-changed=${(e: BindValueChangeEvent) => {
             this.selectedScheme = e.detail.value;
           }}
-          @item-copied=${(e: Event) => {
-            this.handleCloseTap(e);
-          }}
         ></gr-download-commands>
       </section>
     `;

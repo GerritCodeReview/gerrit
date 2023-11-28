@@ -23,13 +23,10 @@ import {
 } from '../../../api/rest-api';
 import {
   extractAssociatedLabels,
-  extractLabelsWithCountFrom,
   getAllUniqueApprovals,
   getRequirements,
   getTriggerVotes,
-  hasApprovedVote,
   hasNeutralStatus,
-  hasRejectedVote,
   hasVotes,
   iconForRequirement,
   orderSubmitRequirements,
@@ -289,7 +286,6 @@ export class GrSubmitRequirements extends LitElement {
         label =>
           html`<div class="votes-line">
             ${this.renderLabelVote(label, allLabels)}
-            ${this.renderVoteCountHelpLabel(requirement, label, allLabels)}
             ${this.renderOverrideLabels(
               requirement,
               label,
@@ -299,30 +295,6 @@ export class GrSubmitRequirements extends LitElement {
           </div>`
       )}
     </div> `;
-  }
-
-  // Help when submit requirement needs more votes and there is already 1 vote
-  renderVoteCountHelpLabel(
-    requirement: SubmitRequirementResultInfo,
-    label: string,
-    labels: LabelNameToInfoMap
-  ) {
-    if (requirement.status !== SubmitRequirementStatus.UNSATISFIED) {
-      return nothing;
-    }
-
-    const labelInfo = labels[label];
-    if (!hasApprovedVote(labelInfo) || hasRejectedVote(labelInfo)) {
-      return nothing;
-    }
-
-    const count = extractLabelsWithCountFrom(
-      requirement.submittability_expression_result.expression
-    ).find(labelWithCount => labelWithCount.label === label)?.count;
-
-    if (!count || count === 1) return nothing;
-
-    return html`Requires ${count} votes`;
   }
 
   renderLabelVote(label: string, labels: LabelNameToInfoMap) {

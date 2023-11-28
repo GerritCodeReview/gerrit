@@ -95,10 +95,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.TreeMap;
 import java.util.function.Function;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -312,34 +310,7 @@ public class BatchUpdate implements AutoCloseable {
 
     @Override
     public void addRefUpdate(ReceiveCommand cmd) throws IOException {
-      logger.atFine().log(
-          "Adding ref update: %s: %s %s %s (new tree ID: %s)",
-          cmd.getType().name(),
-          cmd.getOldId().name(),
-          cmd.getNewId().name(),
-          cmd.getRefName(),
-          getNewTreeId(cmd).map(ObjectId::name).orElse("n/a"));
       getRepoView().getCommands().add(cmd);
-    }
-
-    private Optional<ObjectId> getNewTreeId(ReceiveCommand cmd) throws IOException {
-      if (ReceiveCommand.Type.DELETE.equals(cmd.getType())) {
-        // Ref deletions do not have a new tree.
-        return Optional.empty();
-      }
-
-      try {
-        return Optional.of(getRevWalk().parseCommit(cmd.getNewId()).getTree());
-      } catch (MissingObjectException e) {
-        logger.atWarning().withCause(e).log(
-            "Failed parsing new commit %s for ref update (%s: %s %s %s)",
-            cmd.getNewId().name(),
-            cmd.getType().name(),
-            cmd.getOldId().name(),
-            cmd.getNewId().name(),
-            cmd.getRefName());
-        return Optional.empty();
-      }
     }
   }
 

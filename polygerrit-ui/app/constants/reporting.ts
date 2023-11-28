@@ -147,5 +147,4 @@ export enum Interaction {
   // User disabled generating suggestions
   GENERATE_SUGGESTION_DISABLED = 'generate_suggestion_disabled',
   START_REVIEW = 'start-review',
-  CODE_REVIEW_APPROVAL = 'code-review-approval',
 }

@@ -49,7 +49,11 @@ public interface ChangeDraftUpdate {
    * Marks a comment for deletion. Called when the comment is deleted because the user published it.
    *
    * <p>NOTE for implementers: The actual deletion of a published draft should only happen after the
-   * published comment is successfully updated. Please use {@link ChangeDraftUpdateExecutor}.
+   * published comment is successfully updated. For more context, see {@link
+   * com.google.gerrit.server.notedb.NoteDbUpdateManager#execute(boolean)}.
+   *
+   * <p>TODO(nitzan) - add generalized support for the above sync issue. The implementation should
+   * support deletion of published drafts from multiple ChangeDraftUpdateFactory instances.
    */
   void markDraftCommentAsPublished(HumanComment c);
 
@@ -63,12 +67,4 @@ public interface ChangeDraftUpdate {
    * comments storage and the drafts one.
    */
   void addAllDraftCommentsForDeletion(List<Comment> comments);
-
-  /** Whether all updates in this updater can run asynchronously. */
-  boolean canRunAsync();
-
-  /**
-   * A unique identifier for the draft, used by the storage system. For example, NoteDB's ref name.
-   */
-  String getStorageKey();
 }

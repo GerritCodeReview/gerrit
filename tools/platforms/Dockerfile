@@ -12,9 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM gcr.io/bazel-public/ubuntu2004-java11@sha256:833b20afd7b624693160c8e9f8aafaee46657d29d32e61012256aa3d045d8662
+FROM gcr.io/cloud-marketplace/google/rbe-ubuntu18-04:latest
 
-# Install openssh-client (ssh-keygen utility)
-RUN apt-get -y update && \
-    apt-get -y install openssh-client && \
+# Install Git >=2.18.0
+RUN add-apt-repository ppa:git-core/ppa && \
+    apt-get -y update && \
+    apt-get -y install git && \
     apt-get clean

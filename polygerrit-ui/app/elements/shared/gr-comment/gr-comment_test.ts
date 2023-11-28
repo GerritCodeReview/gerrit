@@ -734,21 +734,6 @@ suite('gr-comment tests', () => {
       assert.isFalse(saveStub.called);
     });
 
-    test('converting to input for empty text calls discard()', async () => {
-      const saveStub = sinon.stub(commentsModel, 'saveDraft');
-      const discardStub = sinon.stub(commentsModel, 'discardDraft');
-      element.comment = createDraft();
-      element.editing = true;
-      await element.updateComplete;
-
-      element.messageText = '';
-      await element.updateComplete;
-
-      await element.convertToCommentInputAndOrDiscard();
-      assert.isTrue(discardStub.called);
-      assert.isFalse(saveStub.called);
-    });
-
     test('handlePleaseFix fires reply-to-comment event', async () => {
       const listener = listenOnce<ReplyToCommentEvent>(
         element,

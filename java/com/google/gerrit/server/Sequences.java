@@ -93,6 +93,18 @@ public class Sequences {
     }
   }
 
+  public int changeBatchSize() {
+    return changeSeq.getBatchSize();
+  }
+
+  public int groupBatchSize() {
+    return groupSeq.getBatchSize();
+  }
+
+  public int accountBatchSize() {
+    return accountSeq.getBatchSize();
+  }
+
   public int currentChangeId() {
     return changeSeq.current();
   }
@@ -103,6 +115,18 @@ public class Sequences {
 
   public int currentGroupId() {
     return groupSeq.current();
+  }
+
+  public int lastChangeId() {
+    return changeSeq.last();
+  }
+
+  public int lastGroupId() {
+    return groupSeq.last();
+  }
+
+  public int lastAccountId() {
+    return accountSeq.last();
   }
 
   public void setChangeIdValue(int value) {

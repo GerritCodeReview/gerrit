@@ -18,7 +18,7 @@
 {namespace com.google.gerrit.server.mail.template.ChangeHeaderHtml}
 
 {template ChangeHeaderHtml}
-  {@param? attentionSet: list<string>|null}
+  {@param attentionSet: list<string>|null}
   {if $attentionSet and length($attentionSet) > 0}
     <p> Attention is currently required from:{sp}
     {for $attentionSetUser, $index in $attentionSet}

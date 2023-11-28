@@ -76,4 +76,7 @@ public interface Sequence {
    * #current()}.
    */
   void storeNew(int value);
+
+  /** Returns the batch size that was used to initialize the sequence. */
+  int getBatchSize();
 }

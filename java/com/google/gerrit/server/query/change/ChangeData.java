@@ -709,7 +709,6 @@ public class ChangeData {
     visibleTo = user;
   }
 
-  @Nullable
   public Change change() {
     if (change == null && lazyload()) {
       loadChange();

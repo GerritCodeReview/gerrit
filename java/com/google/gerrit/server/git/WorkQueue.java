@@ -45,7 +45,6 @@ import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
 import java.util.concurrent.RunnableScheduledFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -464,9 +463,8 @@ public class WorkQueue {
 
     @Override
     protected <V> RunnableScheduledFuture<V> decorateTask(
-        Callable<V> callable, RunnableScheduledFuture<V> r) {
-      FutureTask<V> ft = new FutureTask<>(callable);
-      return decorateTask(ft, r);
+        Callable<V> callable, RunnableScheduledFuture<V> task) {
+      throw new UnsupportedOperationException("Callable not implemented");
     }
 
     void remove(Task<?> task) {

@@ -231,6 +231,19 @@ The html files will be bundled into `searchfree.zip` in this location:
   bazel-bin/Documentation/searchfree.zip
 ----
 
+To use local fonts with the searchfree target:
+
+----
+  bazel build Documentation:searchfree_safe
+----
+
+The html files will be bundled into `searchfree.zip` or `searchfree_safe.zip` in this location:
+
+----
+  bazel-bin/Documentation/searchfree.zip
+  bazel-bin/Documentation/searchfree_safe.zip
+----
+
 To generate HTML files skipping the zip archiving:
 
 ----

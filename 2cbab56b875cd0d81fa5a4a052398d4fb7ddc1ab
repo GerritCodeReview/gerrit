@@ -16,6 +16,24 @@
       "message": "@luca.milanesio@gmail.com that sounds like a fix to keep, WDYT?",
       "revId": "2cbab56b875cd0d81fa5a4a052398d4fb7ddc1ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3c279c2_722d6b42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-28T11:32:16Z",
+      "side": 1,
+      "message": "I checked the fix and looks like related to the rebase of merge commits, which is a brand-new feature in master. According to our release policies, we do not accept after RC3 any new features or changes associated to new features.\n\nI\u0027d stay on the safe side and keep the revert.",
+      "parentUuid": "39b63355_6dbe14bd",
+      "revId": "2cbab56b875cd0d81fa5a4a052398d4fb7ddc1ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

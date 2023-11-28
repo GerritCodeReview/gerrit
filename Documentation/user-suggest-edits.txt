@@ -36,21 +36,6 @@ link:user-review-ui.html#download[More about download drop-down panel]
 You can use copy to clipboard button to copy suggestion to clipboard and then you can paste it
 in your editor.
 
-== Generate Suggestion
-
-Following UI needs to be activated by a plugin that implements SuggestionsProvider. Gerrit is providing just UI.
-
-** When a user types a comment, Gerrit queries a plugin for a code snippet. When there is a snippet, the user can see a preview of snippet under comment.
-
-image::images/generated-suggested-edit-preview.png["Generate Suggested Edit", align="center", width=400]
-
-** A user needs to click on "ADD SUGGESTION TO COMMENT" button if they want to use this suggestion. Otherwise the suggestion is never used.
-
-image::images/generated-suggested-edit-added.png["Added Generated Suggested Edit", align="center", width=400]
-
-** By clicking on "ADD SUGGESTION TO COMMENT" button, the suggestion is added to end of comment. The user can then edit the suggestion, if needed.
-
-
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

@@ -20,6 +20,5 @@ export enum KnownExperimentId {
   PUSH_NOTIFICATIONS_DEVELOPER = 'UiFeature__push_notifications_developer',
   PUSH_NOTIFICATIONS = 'UiFeature__push_notifications',
   ML_SUGGESTED_EDIT = 'UiFeature__ml_suggested_edit',
-  ML_SUGGESTED_EDIT_OUT_OF_RANGE = 'UiFeature__ml_suggested_edit_out_of_range',
   REVISION_PARENTS_DATA = 'UiFeature__revision_parents_data',
 }

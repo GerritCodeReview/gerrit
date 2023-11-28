@@ -410,6 +410,7 @@ public class CreateChange
           PatchApplier.Result applyResult =
               ApplyPatchUtil.applyPatch(git, oi, input.patch, mergeTip);
           ObjectId treeId = applyResult.getTreeId();
+          logger.atFine().log("tree ID after applying patch: %s", treeId.name());
           String appliedPatchCommitMessage =
               getCommitMessage(
                   ApplyPatchUtil.buildCommitMessage(
@@ -433,6 +434,7 @@ public class CreateChange
           c = createEmptyCommit(oi, rw, author, committer, mergeTip, commitMessage);
         }
         // Flush inserter so that commit becomes visible to validators
+        logger.atFine().log("flushing inserter");
         oi.flush();
 
         Change.Id changeId = Change.id(seq.nextChangeId());
@@ -604,12 +606,13 @@ public class CreateChange
       @Nullable RevCommit mergeTip,
       String commitMessage)
       throws IOException {
-    logger.atFine().log("Creating empty commit");
-    ObjectId treeID = mergeTip == null ? emptyTreeId(oi) : mergeTip.getTree().getId();
+    logger.atFine().log("Creating empty commit (mergeTip = %s)", mergeTip);
+    ObjectId treeId = mergeTip == null ? emptyTreeId(oi) : mergeTip.getTree().getId();
+    logger.atFine().log("Tree ID of empty commit: %s", treeId.name());
     List<RevCommit> parents = mergeTip == null ? ImmutableList.of() : ImmutableList.of(mergeTip);
     return rw.parseCommit(
         CommitUtil.createCommitWithTree(
-            oi, authorIdent, committerIdent, parents, commitMessage, treeID));
+            oi, authorIdent, committerIdent, parents, commitMessage, treeId));
   }
 
   private static ObjectId emptyTreeId(ObjectInserter inserter) throws IOException {
@@ -653,17 +656,20 @@ public class CreateChange
     logger.atFine().log("merge strategy = %s", mergeStrategy);
 
     try {
-      return MergeUtil.createMergeCommit(
-          oi,
-          repo.getConfig(),
-          mergeTip,
-          sourceCommit,
-          mergeStrategy,
-          merge.allowConflicts,
-          authorIdent,
-          committerIdent,
-          commitMessage,
-          rw);
+      CodeReviewCommit mergeCommit =
+          MergeUtil.createMergeCommit(
+              oi,
+              repo.getConfig(),
+              mergeTip,
+              sourceCommit,
+              mergeStrategy,
+              merge.allowConflicts,
+              authorIdent,
+              committerIdent,
+              commitMessage,
+              rw);
+      logger.atFine().log("tree ID of merge commit: %s", mergeCommit.getTree().getId().name());
+      return mergeCommit;
     } catch (NoMergeBaseException e) {
       throw new ResourceConflictException(
           String.format("Cannot create merge commit: %s", e.getMessage()), e);

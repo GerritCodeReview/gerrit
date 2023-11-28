@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "937d00e1_1401dc0f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-11-28T07:05:53Z",
+      "side": 1,
+      "message": "And last but not least: please add the option to `Documentation/cmd-copy-approvals.txt` 😊",
+      "revId": "5a7cc1038cee26f6687388adf89e4279f54a26d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

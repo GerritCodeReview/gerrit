@@ -1253,6 +1253,7 @@ suite('gr-diff-element tests', () => {
             'gr-diff-section',
             'gr-diff-row',
             'gr-diff-text',
+            'gr-legacy-text',
             'slot',
           ],
         }
@@ -2726,6 +2727,7 @@ suite('gr-diff-element tests', () => {
             'gr-diff-section',
             'gr-diff-row',
             'gr-diff-text',
+            'gr-legacy-text',
             'slot',
           ],
         }

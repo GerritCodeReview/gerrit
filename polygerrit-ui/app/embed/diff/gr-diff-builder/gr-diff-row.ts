@@ -23,6 +23,7 @@ import {getBaseUrl} from '../../../utils/url-util';
 import {otherSide} from '../../../utils/diff-util';
 import './gr-diff-text';
 import {
+  diffClasses,
   findBlame,
   GrDiffCommentThread,
   isLongCommentRange,
@@ -227,7 +228,7 @@ export class GrDiffRow extends LitElement {
     const row = html`
       <tr
         ${ref(this.tableRowRef)}
-        class=${['diff-row', ...classes].join(' ')}
+        class=${diffClasses('diff-row', ...classes)}
         left-type=${ifDefined(this.getType(Side.LEFT))}
         right-type=${ifDefined(this.getType(Side.RIGHT))}
         tabindex="-1"
@@ -319,7 +320,7 @@ export class GrDiffRow extends LitElement {
 
     // td.blame has `white-space: pre`, so prettier must not add spaces.
     // prettier-ignore
-    return html`<span class=${extras.join(' ')}
+    return html`<span class=${diffClasses(...extras)}
         ><a href=${url} class="blameDate">${date}</a
         ><span class="blameAuthor"> ${shortName}</span
         ><gr-hovercard>
@@ -344,13 +345,13 @@ export class GrDiffRow extends LitElement {
       const blankClass = isBlank ? 'blankLineNum' : '';
       return html`<td
         ${ref(this.lineNumberRef(side))}
-        class=${[side, blankClass].join(' ')}
+        class=${diffClasses(side, blankClass)}
       ></td>`;
     }
 
     return html`<td
       ${ref(this.lineNumberRef(side))}
-      class=${[side, 'lineNum'].join(' ')}
+      class=${diffClasses(side, 'lineNum')}
       data-value=${lineNumber}
     >
       ${this.renderLineNumberButton(line, lineNumber, side)}
@@ -369,7 +370,7 @@ export class GrDiffRow extends LitElement {
     return html`
       <button
         id=${this.lineNumberId(side)}
-        class=${['lineNumButton', side].join(' ')}
+        class=${diffClasses('lineNumButton', side)}
         tabindex="-1"
         data-value=${lineNumber}
         aria-label=${ifDefined(
@@ -432,7 +433,7 @@ export class GrDiffRow extends LitElement {
     return html`
       <td
         ${ref(this.contentCellRef(side))}
-        class=${extras.join(' ')}
+        class=${diffClasses(...extras)}
         @click=${() => {
           if (lineNumber) {
             this.getDiffModel().selectLine(lineNumber, side);
@@ -466,7 +467,7 @@ export class GrDiffRow extends LitElement {
     if (!line.hasIntralineInfo) extras.push('no-intraline-info');
 
     const sign = isAdd ? '+' : isRemove ? '-' : '';
-    return html`<td class=${extras.join(' ')}>${sign}</td>`;
+    return html`<td class=${diffClasses(...extras)}>${sign}</td>`;
   }
 
   private renderLostMessage(side: Side) {

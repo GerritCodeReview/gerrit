@@ -15,7 +15,7 @@ import {
   DiffPreferencesInfo,
 } from '../../../api/diff';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
-import {getResponsiveMode} from '../gr-diff/gr-diff-utils';
+import {diffClasses, getResponsiveMode} from '../gr-diff/gr-diff-utils';
 import {GrDiffRow} from './gr-diff-row';
 import '../gr-context-controls/gr-context-controls-section';
 import '../gr-context-controls/gr-context-controls';
@@ -142,7 +142,7 @@ export class GrDiffSection extends LitElement {
       this.diffPrefs?.show_file_comment_button === false ||
       this.renderPrefs?.show_file_comment_button === false;
     const body = html`
-      <tbody class=${extras.join(' ')}>
+      <tbody class=${diffClasses(...extras)}>
         ${this.renderContextControls()} ${this.renderMoveControls()}
         ${pairs.map(pair => {
           const leftClass = `left-${pair.left.lineNumber(Side.LEFT)}`;
@@ -234,7 +234,9 @@ export class GrDiffSection extends LitElement {
       </td>
     `;
     return html`
-      <tr class=${['moveControls', movedIn ? 'movedIn' : 'movedOut'].join(' ')}>
+      <tr
+        class=${diffClasses('moveControls', movedIn ? 'movedIn' : 'movedOut')}
+      >
         ${when(this.columns.blame, () => html`<td class="blame"></td>`)}
         ${when(
           this.columns.leftNumber,

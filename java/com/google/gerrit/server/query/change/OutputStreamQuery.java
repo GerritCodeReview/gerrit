@@ -125,7 +125,7 @@ public class OutputStreamQuery {
   }
 
   void setLimit(int n) {
-    queryProcessor.setUserProvidedLimit(n, /* applyDefaultLimit */ false);
+    queryProcessor.setUserProvidedLimit(n);
   }
 
   public void setNoLimit(boolean on) {

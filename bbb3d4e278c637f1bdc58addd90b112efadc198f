@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eaebbb78_926c6a65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-28T00:37:17Z",
+      "side": 1,
+      "message": "So... this is probably an unusual workflow, but when we were maintaining a fork branch we would commonly push commits with these prefixes for review and merge them that way. The logic was that if we in the future wanted to upstream commits from our fork or rebase our fork onto a new version, we would then use those prefixes to help create \"clean\" commits. So while those commits were \"temp\", they were a very long lived kind of temp.\n\nCould this instead be supported via a git config like the `gerrit.createChangeId` one that already exists? Maybe `gerrit.commit-msg.skipPrefix`?",
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c1f8099_1cbbd58e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-28T00:37:17Z",
+      "side": 1,
+      "message": "If you want to add an explicit `nopush!` as a default, I think that would be fine.",
+      "range": {
+        "startLine": 20,
+        "startChar": 37,
+        "endLine": 20,
+        "endChar": 41
+      },
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

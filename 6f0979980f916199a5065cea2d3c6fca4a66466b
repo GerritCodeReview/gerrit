@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ccd9bd93_9c90bdb0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-28T10:47:44Z",
+      "side": 1,
+      "message": "- Local tests:\n```\n$ bazelisk test plugins/delete-project/...\n```\n\n**Tests pass**\n\n\n- Remote tests:\n```\n$bazelisk test --flaky_test_attempts 3 --config\u003dremote_bb  --remote_header\u003dx-buildbuddy-api-key\u003dXXXX plugins/delete-project/...\n```\n\n**Tests fail**\n\n```\nThere was 1 failure:\n1) \ninvalidTargetArchiveFolder(com.googlesource.gerrit.plugins.deleteproject.ConfigurationTest)\nexpected: /buildbuddy/remotebuilds/1d9f2dcf-1db8-4ee4-82c2-94c5f3519f10/_tmp/1a603f63979fdbf7741d14f4152518a3/junit16069211931322936868/data\nbut was : /\\\\\\\n        at com.googlesource.gerrit.plugins.deleteproject.ConfigurationTest.invalidTargetArchiveFolder(ConfigurationTest.java:127)\nFAILURES!!!\nTests run: 45,  Failures: 1\n```\n\nAny thought? Could it be the docker image used by BuildBuddy for running the sandboxed environment? Apologies for my lack of accuracy in the Bazel terminology.",
+      "parentUuid": "923fda08_eeed899f",
+      "revId": "6f0979980f916199a5065cea2d3c6fca4a66466b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "92e64d45_1d0ea787",
         "filename": "tools/remote-bazelrc",
         "patchSetId": 17
@@ -49,6 +67,30 @@
       "writtenOn": "2023-11-28T09:02:56Z",
       "side": 1,
       "message": "Nit: blank after # character, like in all comment lines below.",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 63,
+        "endChar": 14
+      },
+      "revId": "6f0979980f916199a5065cea2d3c6fca4a66466b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b16b1e8_a870a073",
+        "filename": "tools/remote-bazelrc",
+        "patchSetId": 17
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-28T10:47:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92e64d45_1d0ea787",
       "range": {
         "startLine": 63,
         "startChar": 0,

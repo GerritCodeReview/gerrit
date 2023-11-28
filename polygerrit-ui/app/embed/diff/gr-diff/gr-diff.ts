@@ -392,7 +392,7 @@ export class GrDiff extends LitElement implements GrDiffApi {
       this.layersChanged();
     }
     if (changedProperties.has('blame')) {
-      this.diffModel.updateState({blameInfo: this.blame ?? []});
+      this.blameChanged();
     }
     if (changedProperties.has('renderPrefs')) {
       this.renderPrefsChanged();
@@ -508,6 +508,15 @@ export class GrDiff extends LitElement implements GrDiffApi {
     return !!this.highlights.selectedRange;
   }
 
+  private blameChanged() {
+    this.setBlame(this.blame ?? []);
+    if (this.blame) {
+      this.classList.add('showBlame');
+    } else {
+      this.classList.remove('showBlame');
+    }
+  }
+
   // Private but used in tests.
   selectLine(el: Element) {
     const lineNumber = Number(el.getAttribute('data-value'));
@@ -536,6 +545,8 @@ export class GrDiff extends LitElement implements GrDiffApi {
 
   private prefsChanged() {
     if (!this.prefs) return;
+
+    this.blame = null;
     this.updatePreferenceStyles();
 
     if (!Number.isInteger(this.prefs.tab_size) || this.prefs.tab_size <= 0) {
@@ -951,6 +962,21 @@ export class GrDiff extends LitElement implements GrDiffApi {
     return this.groups
       .slice(startIndex, endIndex + 1)
       .filter(group => group.lines.length > 0);
+  }
+
+  /**
+   * Set the blame information for the diff. For any already-rendered line,
+   * re-render its blame cell content.
+   */
+  setBlame(blame: BlameInfo[]) {
+    for (const blameInfo of blame) {
+      for (const range of blameInfo.ranges) {
+        for (let line = range.start; line <= range.end; line++) {
+          const row = this.findRow(Side.LEFT, line);
+          if (row) row.blameInfo = blameInfo;
+        }
+      }
+    }
   }
 }
 

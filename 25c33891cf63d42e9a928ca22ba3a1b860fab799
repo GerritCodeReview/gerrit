@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "350e5fc6_013dd234",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-28T11:46:47Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com worth retriggering the build failure?",
+      "revId": "25c33891cf63d42e9a928ca22ba3a1b860fab799",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

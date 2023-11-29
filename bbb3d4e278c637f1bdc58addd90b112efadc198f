@@ -210,6 +210,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b1f61f6f_c004ceaf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2023-11-29T14:37:26Z",
+      "side": 1,
+      "message": "that merge history is insanity.  that said, i disagree you\u0027re following the guidance.  the doc says to default to master, especially for feature work (which this CL clearly is -- no bug fixing here).  it provides an exception for stable branches if you have issues running/testing on newer/master, but that also doesn\u0027t apply here -- this is a standalone shell script that isn\u0027t integrated into the java stack, and thus is trivial to test completely in isolation, which i suspect is exactly what you\u0027re doing.",
+      "parentUuid": "022ef8e4_bd90cda8",
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2ec69fb6_ca65b9c0",
         "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
         "patchSetId": 6
@@ -310,6 +328,24 @@
       "side": 1,
       "message": "this isn\u0027t really about the language diversity (which i\u0027m well aware of), but rather about some committee making inimical decisions for political or historical reasons (there is no good reason to treat [a-z] as [[:lower:]] or even [[:alpha:]], and even less so inconsistently across locales). or just implementation bugs.\n\nanyway, you\u0027re empirically clearly right, so i rest my case.",
       "parentUuid": "75da985b_b767174f",
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b7468e4_acfa1558",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2023-11-29T14:37:26Z",
+      "side": 1,
+      "message": "having `[:lower:]` and `[:alpha:]` classes match a language\u0027s definition of \"lower\" and \"alphanumeric\" is perfectly reasonable.  claiming everyone should be restricted to an ASCII view of the world and unable to process their own non-English languages makes no sense.  `a-z` is a harder case to make, but there isn\u0027t a great answer there in general.\n\ncertainly forcing an incompatible encoding in order to use something like `a-z` is terrible.  but the historical OS standards have always conflated encoding \u0026 language \u0026 locale settings into a single knob.  i wish at least GNU would take a lead on cleaning this up.\n\nwhich i guess really only leaves writing out the exact characters one wants to match.  or inventing yet more character classes like `[:ascii-lower:]` in a concession to how prevalent ASCII is when it comes to processing.  although `[:ascii-lower:]` takes 15 bytes and writing out all 26 latin lowercase letters takes 26 bytes ... so it just gains you semantic intention/clarity for the reader.",
+      "parentUuid": "94bc80bb_7835e132",
       "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

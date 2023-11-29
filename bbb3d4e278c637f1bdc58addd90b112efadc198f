@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb908e53_395c389e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-29T15:43:45Z",
+      "side": 1,
+      "message": "\u003e Do you mean squash/fixup/amend prefixes, or something else?\n\nYes, those. We most often use `!fixup`.\n\n\u003e \n\u003e How does it work for you with squash and the existing hook?\n\nWe only recently upgraded to Gerrit 3.5 and the hook has only been updated with the squash exception since 3.7, so we haven\u0027t been affected by that change yet.\n\nYour solution of `gerrit.createChangeId\u003dalways` works for me. Thanks!",
+      "parentUuid": "8425f752_994aad28",
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c1f8099_1cbbd58e",
@@ -276,6 +294,24 @@
       "side": 1,
       "message": "I\u0027ll wait for other opinions then 😊\n\nWe can have a minor fix that only adds fixup/amend in 3.7, and do the rest in master (although I\u0027m still unsure about @nasser.grainawi@linaro.org\u0027s use-case).",
       "parentUuid": "d551d901_b2aeb87e",
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1098afe6_b7acc003",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-29T15:43:45Z",
+      "side": 1,
+      "message": "\u003e I\u0027ll wait for other opinions then 😊\n\nI prefer stable first 😊\n\n\u003e \n\u003e We can have a minor fix that only adds fixup/amend in 3.7, and do the rest in master (although I\u0027m still unsure about @nasser.grainawi@linaro.org\u0027s use-case).\n\nEven if we call this a feature, this is minor enough that I\u0027m good with it as-is in stable-3.7.",
+      "parentUuid": "3c8fda2f_35b6dcee",
       "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "52009263_ca61707a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-11-29T15:05:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af5b0247_81302a7a",
+      "range": {
+        "startLine": 14,
+        "startChar": 52,
+        "endLine": 14,
+        "endChar": 62
+      },
+      "revId": "4979c658339ccbb36152a6f213dc248b3f6d3887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "922ebcb9_1a4ac6a2",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-11-29T11:54:19Z",
       "side": 1,
       "message": "until Gerrit v3.7",
+      "range": {
+        "startLine": 18,
+        "startChar": 37,
+        "endLine": 18,
+        "endChar": 46
+      },
+      "revId": "4979c658339ccbb36152a6f213dc248b3f6d3887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "52261f4f_b39c3370",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-11-29T15:05:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "922ebcb9_1a4ac6a2",
       "range": {
         "startLine": 18,
         "startChar": 37,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "820aae20_a75755d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-11-29T15:05:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7c1616a_f9bb7353",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 11
+      },
+      "revId": "4979c658339ccbb36152a6f213dc248b3f6d3887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e44ec884_0d0b2ad2",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-11-29T11:54:19Z",
       "side": 1,
       "message": "Fix comment directly link pointing to a change imported from other Gerrit server-ids",
+      "range": {
+        "startLine": 26,
+        "startChar": 15,
+        "endLine": 26,
+        "endChar": 19
+      },
+      "revId": "4979c658339ccbb36152a6f213dc248b3f6d3887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7568ed1_48476598",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-11-29T15:05:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e44ec884_0d0b2ad2",
       "range": {
         "startLine": 26,
         "startChar": 15,
@@ -141,6 +237,24 @@
       "side": 1,
       "message": "\u003e Works like a charm! Since the issue is from 3.9 should we move it there and merge it later on in master? I am happy to re-rest it 3.9.\n\nI\u0027d suggest to keep it on master and get it merged here first: we are in a _release freeze_ state on stable-3.9 and we can still cherry-pick it there later.",
       "parentUuid": "c8541972_61b4df36",
+      "revId": "4979c658339ccbb36152a6f213dc248b3f6d3887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "722af0f7_dac278a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-11-29T15:05:40Z",
+      "side": 1,
+      "message": "Moved to 3.9 after reading Ponch\u0027s comment. Moved back to master after reading Luca\u0027s comment. 😊",
+      "parentUuid": "d1064893_7fa6acaf",
       "revId": "4979c658339ccbb36152a6f213dc248b3f6d3887",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

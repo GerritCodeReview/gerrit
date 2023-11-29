@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9650eed_927a6625",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-29T14:41:29Z",
+      "side": 1,
+      "message": "add a test ?",
+      "revId": "472fe188f3dad0a8b4440cd88e7b0ed52878bc4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "633ae2b2_fa92a0bb",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1432,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-29T14:41:29Z",
+      "side": 1,
+      "message": "nit: trailing whitespace",
+      "revId": "472fe188f3dad0a8b4440cd88e7b0ed52878bc4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

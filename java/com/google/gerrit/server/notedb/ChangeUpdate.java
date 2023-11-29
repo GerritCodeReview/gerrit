@@ -58,6 +58,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Table;
 import com.google.common.collect.Table.Cell;
 import com.google.common.collect.TreeBasedTable;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
@@ -135,6 +136,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * the attached {@link ChangeRevisionNote}.
  */
 public class ChangeUpdate extends AbstractChangeUpdate {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public interface Factory {
     ChangeUpdate create(ChangeNotes notes, CurrentUser user, Instant when);
 
@@ -894,6 +897,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     cb.setMessage(msg.toString());
     try {
       ObjectId treeId = storeRevisionNotes(rw, ins, curr);
+      logger.atFine().log(
+          "change meta tree ID: %s (inserter: %s)", treeId != null ? treeId.name() : "null", ins);
       if (treeId != null) {
         cb.setTreeId(treeId);
       }

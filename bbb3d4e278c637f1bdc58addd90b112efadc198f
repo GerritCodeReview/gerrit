@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "786de30f_43b0a28c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-29T16:53:25Z",
+      "side": 1,
+      "message": "Blame says it\u0027s only since this change? 339555: commit-msg: Ignore fixup and squash commits | https://gerrit-review.googlesource.com/c/gerrit/+/339555",
+      "parentUuid": "bf030080_769aa0ca",
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c1f8099_1cbbd58e",

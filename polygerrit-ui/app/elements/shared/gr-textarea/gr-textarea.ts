@@ -329,7 +329,12 @@ export class GrTextarea extends LitElement {
   }
 
   private handleEscKey(e: KeyboardEvent) {
-    if (!this.isDropdownVisible()) {
+    // Esc should have normal behavior if the picker is closed, or "open" but
+    // with no results.
+    if (
+      !this.isDropdownVisible() ||
+      this.getVisibleDropdown().getCurrentText() === ''
+    ) {
       return;
     }
     e.preventDefault();
@@ -338,7 +343,12 @@ export class GrTextarea extends LitElement {
   }
 
   private handleUpKey(e: KeyboardEvent) {
-    if (!this.isDropdownVisible()) {
+    // Up should have normal behavior if the picker is closed, or "open" but
+    // with no results.
+    if (
+      !this.isDropdownVisible() ||
+      this.getVisibleDropdown().getCurrentText() === ''
+    ) {
       return;
     }
     e.preventDefault();
@@ -348,7 +358,12 @@ export class GrTextarea extends LitElement {
   }
 
   private handleDownKey(e: KeyboardEvent) {
-    if (!this.isDropdownVisible()) {
+    // Down should have normal behavior if the picker is closed, or "open" but
+    // with no results.
+    if (
+      !this.isDropdownVisible() ||
+      this.getVisibleDropdown().getCurrentText() === ''
+    ) {
       return;
     }
     e.preventDefault();

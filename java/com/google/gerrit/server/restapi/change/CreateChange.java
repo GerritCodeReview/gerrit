@@ -434,7 +434,7 @@ public class CreateChange
           c = createEmptyCommit(oi, rw, author, committer, mergeTip, commitMessage);
         }
         // Flush inserter so that commit becomes visible to validators
-        logger.atFine().log("flushing inserter");
+        logger.atFine().log("flushing inserter %s", oi);
         oi.flush();
 
         Change.Id changeId = Change.id(seq.nextChangeId());

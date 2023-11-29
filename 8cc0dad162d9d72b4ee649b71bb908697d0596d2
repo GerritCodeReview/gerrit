@@ -54,6 +54,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "65025c2f_4f655b01",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 3614,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-11-29T09:00:26Z",
+      "side": 1,
+      "message": "Does this option make sense if creation of index shapshots is anyway only allowed to the administrators? I mean, an admin can always allow it if wanted.",
+      "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "43e83855_1925542b",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 10

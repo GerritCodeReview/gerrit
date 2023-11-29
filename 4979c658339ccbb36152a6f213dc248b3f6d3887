@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af5b0247_81302a7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-29T11:54:19Z",
+      "side": 1,
+      "message": "nit: `dedicated`",
+      "range": {
+        "startLine": 14,
+        "startChar": 52,
+        "endLine": 14,
+        "endChar": 62
+      },
+      "revId": "4979c658339ccbb36152a6f213dc248b3f6d3887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "922ebcb9_1a4ac6a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-29T11:54:19Z",
+      "side": 1,
+      "message": "until Gerrit v3.7",
+      "range": {
+        "startLine": 18,
+        "startChar": 37,
+        "endLine": 18,
+        "endChar": 46
+      },
+      "revId": "4979c658339ccbb36152a6f213dc248b3f6d3887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7c1616a_f9bb7353",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-29T11:54:19Z",
+      "side": 1,
+      "message": "entire Gerrit setup",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 11
+      },
+      "revId": "4979c658339ccbb36152a6f213dc248b3f6d3887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e44ec884_0d0b2ad2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-29T11:54:19Z",
+      "side": 1,
+      "message": "Fix comment directly link pointing to a change imported from other Gerrit server-ids",
+      "range": {
+        "startLine": 26,
+        "startChar": 15,
+        "endLine": 26,
+        "endChar": 19
+      },
+      "revId": "4979c658339ccbb36152a6f213dc248b3f6d3887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cea128a_1e1158df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-29T11:54:19Z",
+      "side": 1,
+      "message": "Just some nits, everything else looks 😎",
+      "revId": "4979c658339ccbb36152a6f213dc248b3f6d3887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99f9da63_74319e0c",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1364,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-29T11:54:19Z",
+      "side": 1,
+      "message": "That works nicely! Thanks @brohlfs@google.com for the fix 👍",
+      "revId": "4979c658339ccbb36152a6f213dc248b3f6d3887",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -81,6 +81,57 @@
       },
       "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77546480_47052a2e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2023-11-29T11:06:17Z",
+      "side": 1,
+      "message": "not sure why this is being sent to the stable-3.7 branch.  pretty sure this should be sent to the master branch, and then only cherry-picked back to stable branches if really desired.",
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ec69fb6_ca65b9c0",
+        "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2023-11-29T11:06:17Z",
+      "side": 1,
+      "message": "add a comment like \"test for standard git prefixes\", and then note that the last one is a custom name that some people like to use, but git itself doesn\u0027t check",
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89436d8e_c6001442",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2023-11-29T11:06:17Z",
+      "side": 1,
+      "message": "```suggestion\nif head -n1 \"$1\" | LC_ALL\u003dC grep -q \u0027^[a-z][a-z]*! \u0027; then\n```\n\nthese ranges are sensitive to the current locale, and might match uppercase characters, and might not even match all 26 latin letters.\n\nif you want this to be exactly the 26 lower case latin letters, then the easiest thing is to force the locale.",
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

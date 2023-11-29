@@ -22,6 +22,30 @@
       },
       "revId": "f64bc389bade81d320b61fc6f8f041a563ff9efe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a007c960_94ac3502",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-29T16:03:01Z",
+      "side": 1,
+      "message": "This section was just moved up (to sort the sections alphabetically). I actually didn\u0027t review it for this round of improvements. FWIW I consider the \"branchOrder\" setting as rather unimportant (not sure if anyone is actually using it), hence I\u0027m not wanting to spend time on improving this description now.",
+      "parentUuid": "ea2a5fc5_9702cdbf",
+      "range": {
+        "startLine": 386,
+        "startChar": 39,
+        "endLine": 386,
+        "endChar": 43
+      },
+      "revId": "f64bc389bade81d320b61fc6f8f041a563ff9efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

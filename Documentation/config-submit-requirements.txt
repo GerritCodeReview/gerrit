@@ -1,32 +1,97 @@
 = Gerrit Code Review - Submit Requirements
 
-As part of the code review process, project owners need to configure rules that
-govern when changes become submittable. For example, an admin might want to
-prevent changes from being submittable until at least a “+2” vote on the
-“Code-Review” label is granted on a change. Admins can define submit
-requirements to enforce submittability rules for changes.
+Submit requirements are rules that define when a change can be submitted. This
+page describes how to configure them.
 
 [[configuring_submit_requirements]]
 == Configuring Submit Requirements
 
-Site administrators and project owners can define submit requirements in the
-link:config-project-config.html[project config]. A submit requirement has the
-following fields:
+Submit requirements are defined as link:#submit-requirement-subsection[
+submit-requirement] subsections in the
+link:config-project-config.html#file-project_config[project.config] file. The
+subsection name defines the name of the submit requirement.
 
+[NOTE]
+There are multiple options how to update `project.config` files, please refer
+to the link:config-project-config.html#update[project config documentation].
 
-[[submit_requirement_name]]
-=== submit-requirement.Name
+[TIP]
+When modifying submit requirements it's recommended to
+link:#test-submit-requirements[test] them before updating them in the project
+configuration.
 
-A name that uniquely identifies the submit requirement. Submit requirements
-can be overridden in child projects if they are defined with the same name in
-the child project. See the link:#inheritance[inheritance] section for more
-details.
+[WARNING]
+When adding submit requirements think about whether they should apply to the
+link:config-project-config.html#refs-meta-config[refs/meta/config] branch
+(see the link:#submit_requirement_applicable_if[applicableIf] description on
+how to exempt the `refs/meta/config` branch from a submit requirement). Since
+submit requirements are stored as part of the project configuration in the
+`refs/meta/config` branch, changing them requires to pass the submit
+requirements that apply to the `refs/meta/config` branch. Hence by
+misconfiguring submit requirements for the `refs/meta/config` branch you can
+make further updates to submit requirements impossible. If this happens the
+submit requirements can be restored by a direct push to the `refs/meta/config`
+branch. If direct pushes are disabled or not allowed reach out to a Gerrit
+administrator for help.
+
+[[inheritance]]
+== Inheritance
+
+Submit requirements are inherited from parent projects. Child projects may
+override an inherited submit requirement by defining a submit requirement with
+the same name, but only if overriding the submit requirement is allowed (see
+link:#submit_requirement_can_override_in_child_projects[
+canOverrideInChildProjects] field). Overriding an inherited submit requirement
+always overrides the complete submit requirement definition, overriding single
+fields only is not possible.
+
+[NOTE]
+To remove an inherited submit requirement in a child project, set both the
+link:#submit_requirement_applicable_if[applicableIf] expression and the
+link:#submit_requirement_submittable_if[submittableIf] expression to
+`is:false`.
+
+[NOTE]
+If overriding a submit requirement is disallowed in a parent project, submit
+requirements with the same name in child projects, that would otherwise
+override the inherited submit requirement, are ignored.
+
+[[submit-requirement-subsection]]
+== submit-requirement subsection
+
+Each `submit-requirement` subsection defines a submit requirement.
+
+The name of the `submit-requirement` subsection defines the name that uniquely
+identifies the submit requirement. It is shown to the user in the web UI when
+the submit requirement is applicable.
+
+[NOTE]
+By using the same name as an inherited submit requirement, the inherited submit
+requirement can be overridden, if overriding is allowed (see
+link:#submit_requirement_can_override_in_child_projects[
+canOverrideInChildProjects] field). Details about overriding submit
+requirements are explained in the link:#inheritance[inheritance] section.
+
+Submit requirements must at least define a
+link:#submit_requirement_submittable_if[submittableIf] expression that defines
+when a change can be submitted.
+
+.Example:
+----
+[submit-requirement "Verified"]
+  description = CI result status for build and tests is passing
+  applicableIf = -branch:refs/meta/config
+  submittableIf = label:Verified=MAX AND -label:Verified=MIN
+  canOverrideInChildProjects = true
+----
+
+The fields that can be set for submit requirements are explained below.
 
 [[submit_requirement_description]]
 === submit-requirement.Name.description
 
 A detailed description of what the submit requirement is supposed to do. This
-field is optional. The description is visible to the users in the change page
+field is optional. The description is visible to the user in the change page
 upon hovering on the submit requirement to help them understand what the
 requirement is about and how it can be fulfilled.
 
@@ -34,18 +99,21 @@ requirement is about and how it can be fulfilled.
 === submit-requirement.Name.applicableIf
 
 A link:#query_expression_syntax[query expression] that determines if the submit
-requirement is applicable for a change. For example, administrators can exclude
-submit requirements for certain branch patterns. See the
-link:#exempt-branch-example[exempt branch] example.
+requirement is applicable for a change. If a submit requirement is not
+applicable it is hidden in the web UI. For example, this allows to
+link:#exempt-branch-example[exempt a branch] from the submit requirement.
 
+[TIP]
+--
 Often submit requirements should only apply to branches that contain source
-code. In this case this parameter can be used to exclude the
+code. In this case the `applicableIf` condition can be used to exclude the
 link:config-project-config.html#refs-meta-config[refs/meta/config] branch from
-a submit requirement:
+the submit requirement:
 
 ----
   applicableIf = -branch:refs/meta/config
 ----
+--
 
 This field is optional, and if not specified, the submit requirement is
 considered applicable for all changes in the project.
@@ -54,7 +122,7 @@ considered applicable for all changes in the project.
 === submit-requirement.Name.submittableIf
 
 A link:#query_expression_syntax[query expression] that determines when the
-change becomes submittable. This field is mandatory.
+change can be submitted. This field is mandatory.
 
 
 [[submit_requirement_override_if]]
@@ -64,9 +132,10 @@ A link:#query_expression_syntax[query expression] that controls when the
 submit requirement is overridden. When this expression is evaluated to true,
 the submit requirement state becomes `OVERRIDDEN` and the submit requirement
 is no longer blocking the change submission.
+
 This expression can be used to enable bypassing the requirement in some
-circumstances, for example if the change owner is a power user or to allow
-change submission in case of emergencies. +
+circumstances, for example if the uploader is a trusted bot user or to allow
+change submission in case of emergencies.
 
 This field is optional.
 
@@ -74,7 +143,7 @@ This field is optional.
 === submit-requirement.Name.canOverrideInChildProjects
 
 A boolean (true, false) that determines if child projects can override the
-submit requirement. +
+submit requirement.
 
 The default value is `false`.
 
@@ -264,30 +333,6 @@ Some operators are not supported with submit requirement expressions.
 is:submittable::
 +
 Cannot be used since it will result in recursive evaluation of expressions.
-
-[[inheritance]]
-== Inheritance
-
-Child projects can override a submit requirement defined in any of their parent
-projects. Overriding a submit requirement overrides all of its properties and
-values. The overriding project needs to define all mandatory fields.
-
-Submit requirements are looked up from the current project up the inheritance
-hierarchy to “All-Projects”. The first project in the hierarchy chain that sets
-link:#submit_requirement_can_override_in_child_projects[canOverrideInChildProjects]
-to false prevents all descendant projects from overriding it.
-
-If a project disallows a submit requirement from being overridden in child
-projects, all definitions of this submit requirement in descendant projects are
-ignored.
-
-To remove a submit requirement in a child project, administrators can redefine
-the requirement with the same name in the child project and set the
-link:#submit_requirement_applicable_if[applicableIf] expression to `is:false`.
-Since the link:#submit_requirement_submittable_if[submittableIf] field is
-mandatory, administrators need to provide it in the child project but can set it
-to anything, for example `is:false` but it will have no effect anyway.
-
 
 [[trigger-votes]]
 == Trigger Votes

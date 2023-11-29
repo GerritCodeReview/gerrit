@@ -244,6 +244,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d551d901_b2aeb87e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2023-11-29T15:01:36Z",
+      "side": 1,
+      "message": "I\u0027ll move it to master.",
+      "parentUuid": "b1f61f6f_c004ceaf",
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ec69fb6_ca65b9c0",
@@ -381,6 +399,24 @@
       "writtenOn": "2023-11-29T15:01:18Z",
       "side": 1,
       "message": "[a-z] was the subject, and it makes no sense to reinterpret it to mean something for which perfectly good classes already exist. collating non-ascii characters into the range makes sense only for latin-based languages, and these all have case distinction as well (afaik). deviating from that might be a misguided attempt to workaround unportable regexes - with obviously disastrous effects.",
+      "parentUuid": "5b7468e4_acfa1558",
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5dfbb509_cc877c69",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2023-11-29T15:01:36Z",
+      "side": 1,
+      "message": "Done",
       "parentUuid": "5b7468e4_acfa1558",
       "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

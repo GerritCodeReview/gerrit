@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c027efd_c7f9ffda",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1432,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-11-29T14:08:56Z",
+      "side": 1,
+      "message": "This should be a link to the capability like in the rest of this file.",
+      "range": {
+        "startLine": 1432,
+        "startChar": 27,
+        "endLine": 1432,
+        "endChar": 56
+      },
+      "revId": "aa1d558213fa252c2611810bda291765be36e5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb8ce689_55673b52",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1446,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-11-29T14:08:56Z",
+      "side": 1,
+      "message": "Why uppercase for index names? They are not uppercase in any other place (like in the `$SITE/index/gerrit_index.config`, in the file system, etc..). I suggest to use lowercase.",
+      "range": {
+        "startLine": 1446,
+        "startChar": 5,
+        "endLine": 1446,
+        "endChar": 13
+      },
+      "revId": "aa1d558213fa252c2611810bda291765be36e5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18aa3b6b_aeaeb3f6",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-11-29T14:08:56Z",
+      "side": 1,
+      "message": "Make this an `@AutoValue` reduce boileplate code.",
+      "revId": "aa1d558213fa252c2611810bda291765be36e5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0d9d73f_91f53cf1",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-11-29T14:08:56Z",
+      "side": 1,
+      "message": "Implementations of the `Index\u003cK, V\u003e` interface do not implement `equals` method. Therefore, this call here will compare the `index` and `searchIndex` refer to the same object. I am not sure if Gerrit code guarantees that there will be only one instance of each `Index\u003cK, V\u003e` implementation and we should better not rely on that.\n\nComparing versions, which are integers, is safer thing to do. This is also done at the line 38.",
+      "range": {
+        "startLine": 35,
+        "startChar": 75,
+        "endLine": 35,
+        "endChar": 81
+      },
+      "revId": "aa1d558213fa252c2611810bda291765be36e5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1eb3811_f4df4e89",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-11-29T14:08:56Z",
+      "side": 1,
+      "message": "`@AutoValue`",
+      "revId": "aa1d558213fa252c2611810bda291765be36e5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

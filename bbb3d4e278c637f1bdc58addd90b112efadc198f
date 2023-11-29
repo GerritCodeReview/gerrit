@@ -174,6 +174,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f544bbe1_f10166d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2023-11-29T12:32:36Z",
+      "side": 1,
+      "message": "Branches are merged all the time. https://gerrit-review.googlesource.com/q/project:gerrit+is:merge",
+      "parentUuid": "8996b90d_e4428a1e",
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2ec69fb6_ca65b9c0",
         "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
         "patchSetId": 6

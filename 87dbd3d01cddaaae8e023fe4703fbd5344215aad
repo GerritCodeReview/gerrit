@@ -88,6 +88,24 @@
       "parentUuid": "90093597_6c0c8859",
       "revId": "87dbd3d01cddaaae8e023fe4703fbd5344215aad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85e26dba_b1489c31",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2023-11-29T16:44:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66d9bdc3_a8e62fe3",
+      "revId": "87dbd3d01cddaaae8e023fe4703fbd5344215aad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

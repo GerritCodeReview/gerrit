@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea2a5fc5_9702cdbf",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-11-29T15:30:54Z",
+      "side": 1,
+      "message": "computed\n\nIs the mergeability check documented somewhere ?\n\nMention that mergeability check can be disabled globally using change.mergeabilityComputationBehavior ?",
+      "range": {
+        "startLine": 386,
+        "startChar": 39,
+        "endLine": 386,
+        "endChar": 43
+      },
+      "revId": "f64bc389bade81d320b61fc6f8f041a563ff9efe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

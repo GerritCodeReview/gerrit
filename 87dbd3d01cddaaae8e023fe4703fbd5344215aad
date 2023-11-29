@@ -70,6 +70,24 @@
       "parentUuid": "acb8e985_9fe27a08",
       "revId": "87dbd3d01cddaaae8e023fe4703fbd5344215aad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66d9bdc3_a8e62fe3",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2023-11-29T16:41:46Z",
+      "side": 1,
+      "message": "fair enough.\n\nthen i guess move it to master, and we\u0027re good.",
+      "parentUuid": "90093597_6c0c8859",
+      "revId": "87dbd3d01cddaaae8e023fe4703fbd5344215aad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

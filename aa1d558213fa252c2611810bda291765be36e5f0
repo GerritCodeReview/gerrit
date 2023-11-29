@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ca17761d_9fb7e1d8",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1432,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-11-29T14:34:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c027efd_c7f9ffda",
+      "range": {
+        "startLine": 1432,
+        "startChar": 27,
+        "endLine": 1432,
+        "endChar": 56
+      },
+      "revId": "aa1d558213fa252c2611810bda291765be36e5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb8ce689_55673b52",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-11-29T14:08:56Z",
       "side": 1,
       "message": "Why uppercase for index names? They are not uppercase in any other place (like in the `$SITE/index/gerrit_index.config`, in the file system, etc..). I suggest to use lowercase.",
+      "range": {
+        "startLine": 1446,
+        "startChar": 5,
+        "endLine": 1446,
+        "endChar": 13
+      },
+      "revId": "aa1d558213fa252c2611810bda291765be36e5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad7aac9c_89b46fb0",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1446,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-11-29T14:34:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb8ce689_55673b52",
       "range": {
         "startLine": 1446,
         "startChar": 5,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8acde164_27c78252",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-11-29T14:34:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18aa3b6b_aeaeb3f6",
+      "revId": "aa1d558213fa252c2611810bda291765be36e5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0d9d73f_91f53cf1",
@@ -87,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4213acd3_5680e953",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-11-29T14:34:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0d9d73f_91f53cf1",
+      "range": {
+        "startLine": 35,
+        "startChar": 75,
+        "endLine": 35,
+        "endChar": 81
+      },
+      "revId": "aa1d558213fa252c2611810bda291765be36e5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1eb3811_f4df4e89",
@@ -100,6 +190,24 @@
       "writtenOn": "2023-11-29T14:08:56Z",
       "side": 1,
       "message": "`@AutoValue`",
+      "revId": "aa1d558213fa252c2611810bda291765be36e5f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8146b7f4_30c9e00c",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-11-29T14:34:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1eb3811_f4df4e89",
       "revId": "aa1d558213fa252c2611810bda291765be36e5f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

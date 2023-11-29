@@ -156,6 +156,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "835e28cd_7ef27238",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2023-11-29T12:27:21Z",
+      "side": 1,
+      "message": "ah Edwin found better refs.  since this is a trivial script to test in isolation, landing in master first is trivial.  if you want it in older branches, it should be cherry-picked from there.  although that would really only make sense for active branches.",
+      "parentUuid": "8996b90d_e4428a1e",
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2ec69fb6_ca65b9c0",
         "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
         "patchSetId": 6
@@ -220,6 +238,24 @@
       "side": 1,
       "message": "i think the world\u0027s languages are more varied than you give them credit.  both scenarios i describe are possible.  this is not an encoding issue e.g. ebcdic vs ASCII vs UTF-8 vs ...\n\nmultiple locales do not match the 26 latin lowercase letters when using `[a-z]`. here is just one example.\n```\n$ echo \"abcdefghijklmnopqrstuvwxyz\" | LC_ALL\u003daz_AZ.UTF8 grep -E \"^[a-z]+$\"\n$ echo $?\n1\n```\n\nmultiple locales match *some* latin uppercase letters when using `[a-z]`.  i just picked `E` as an example, but pretty sure there are others.\n```\n$ echo E | LC_ALL\u003dth_TH.UTF8 grep -E \"^[a-z]+$\"\nE\n```\n\nand multiple locales will match more than just the 26 latin uppercase letters.  but you agreed that\u0027s possible, so i won\u0027t include an example.",
       "parentUuid": "b7e29c99_2b74345e",
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75da985b_b767174f",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2023-11-29T12:27:21Z",
+      "side": 1,
+      "message": "\u003e and multiple locales will match more than just the 26 latin uppercase letters. but you agreed that\u0027s possible, so i won\u0027t include an example.\n\ni meant lowercase here, not that it changes the general point",
+      "parentUuid": "385b7e10_e9f064d4",
       "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

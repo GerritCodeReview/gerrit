@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b700ff3_ecdd29ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-29T12:28:20Z",
+      "side": 1,
+      "message": "Names \"master\" and \"stable\" here doesn\u0027t have any special meaning, they only used in the example to demonstrate why existing ReceiveCommits can\u0027t catch all problems (and why it is not possible to fix ReceiveCommits to catch them).\n\n\u003e And, of course, it would be an implicit merge only if stable contains a commit which is not yet in master\n\nRoughly speaking, in the case you described, the fix checks if the parent commit is reachable from the target branch. So, if a commit is in both branches already - then it is reachable and not rejected.",
+      "parentUuid": "c3b0144c_043085e4",
+      "revId": "cf7d8fd66e41e857d764003c3d49dc65d76ec4f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30b50dd3_e87759ca",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "161f75dc_89e8b72b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-29T12:28:20Z",
+      "side": 1,
+      "message": "\u003e  I would argue that not rejecting change-1 is a bug.\n\nNothing to argue about 😊 This is not a bug, and the next sentence explicitly says it: \"This is correct behaviour, because change 2 is an explicit merge. \"\n\nThe problem appears only if someone submits \"change 1\" without \"change 2\".",
+      "parentUuid": "30b50dd3_e87759ca",
+      "revId": "cf7d8fd66e41e857d764003c3d49dc65d76ec4f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25c356db_34997311",
@@ -48,6 +84,24 @@
       "writtenOn": "2023-11-29T12:10:57Z",
       "side": 1,
       "message": "AFAIR, the most common scenario which caused an undetected implicit merge was to create a change on master and then move it to stable. In that case there is no check for implicit merge (as it was only done on the upload in the ReceiveCommits class).",
+      "revId": "cf7d8fd66e41e857d764003c3d49dc65d76ec4f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad906fd8_6810a65c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-11-29T12:28:20Z",
+      "side": 1,
+      "message": "\u003e In that case there is no check for implicit merge (as it was only done on the upload in the ReceiveCommits class).\n\nBefore this fix gerrit didn\u0027t reject moved changes (in this scenario). With this fix, gerrit rejects submission of moved changes if it leads to implicit merge.\n\nSo, for me it looks like the fix works as expected.",
+      "parentUuid": "25c356db_34997311",
       "revId": "cf7d8fd66e41e857d764003c3d49dc65d76ec4f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

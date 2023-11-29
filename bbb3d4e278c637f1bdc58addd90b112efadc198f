@@ -334,6 +334,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "651653e9_c452e84d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2023-11-29T16:12:21Z",
+      "side": 1,
+      "message": "actually, i must contradict myself: amend! commits inherently discard the previous change-id, so they must already include a copy of it (which they typically will, if created with `commit --fixup\u003damend:\u003csha1\u003e`). \nthis puts them into the same category as fixup!, so it\u0027s debatable whether it qualifies as an important enough bugfix. i don\u0027t really care either way.",
+      "parentUuid": "3c8fda2f_35b6dcee",
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ec69fb6_ca65b9c0",

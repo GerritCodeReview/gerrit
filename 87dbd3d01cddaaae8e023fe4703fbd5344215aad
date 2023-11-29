@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1b28c88_3776cfee",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2023-11-29T16:12:21Z",
+      "side": 1,
+      "message": "i don\u0027t like this for several reasons:\n- the use case itself: it\u0027s really kinda a dangerous policy to \"overload\" git\u0027s scheme. it would be safer to use a custom one, like \"FIXUP:\" or \"fixup!!\".\n- this puts the change solidly into \"feature\" land.\n- arguably, it should be separated from the originally intended fix.\n- it actively counteracts the performance argument (not as badly for excluded commits, but it\u0027s a constant overhead for the common case), and given the questionable use case, it seems hard to justify imo.",
+      "revId": "87dbd3d01cddaaae8e023fe4703fbd5344215aad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "parentUuid": "e1b28c88_3776cfee",
       "revId": "87dbd3d01cddaaae8e023fe4703fbd5344215aad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acb8e985_9fe27a08",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2023-11-29T16:30:13Z",
+      "side": 1,
+      "message": "re 1: yeah, but they risk that they will accidentally autosquash them too early. it would be safer to use a different scheme, and when it comes to actually squashing, rewrite the commits first (with `git filter-repo`).\n\nre 4: right, that occurred to me as well. but then, the option seems a bit pointless to me in the first place ... why install the hook at all if you don\u0027t intend to use it? or install a different one? the configuration is per repo anyway. ah, well - too late anyway.",
+      "parentUuid": "22059921_c74acbb2",
+      "revId": "87dbd3d01cddaaae8e023fe4703fbd5344215aad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

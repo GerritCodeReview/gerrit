@@ -1002,7 +1002,7 @@ public class CommitValidators {
     }
   }
 
-  private static CommitValidationMessage invalidEmail(
+  public static CommitValidationMessage invalidEmail(
       String type, PersonIdent who, IdentifiedUser currentUser, UrlFormatter urlFormatter) {
     StringBuilder sb = new StringBuilder();
 

@@ -17,6 +17,7 @@ package com.google.gerrit.server.api.changes;
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.extensions.api.changes.ChangeEditApi;
+import com.google.gerrit.extensions.api.changes.ChangeEditIdentityType;
 import com.google.gerrit.extensions.api.changes.FileContentInput;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.client.ChangeEditDetailOption;
@@ -55,6 +56,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   private final ChangeEdits.DeleteContent changeEditDeleteContent;
   private final Provider<ChangeEdits.GetMessage> getChangeEditCommitMessageProvider;
   private final ChangeEdits.EditMessage modifyChangeEditCommitMessage;
+  private final ChangeEdits.EditIdentity modifyIdentity;
   private final ChangeEdits changeEdits;
   private final ChangeResource changeResource;
 
@@ -70,6 +72,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
       ChangeEdits.DeleteContent changeEditDeleteContent,
       Provider<ChangeEdits.GetMessage> getChangeEditCommitMessageProvider,
       ChangeEdits.EditMessage modifyChangeEditCommitMessage,
+      ChangeEdits.EditIdentity modifyIdentity,
       ChangeEdits changeEdits,
       @Assisted ChangeResource changeResource) {
     this.editDetailProvider = editDetailProvider;
@@ -82,6 +85,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
     this.changeEditDeleteContent = changeEditDeleteContent;
     this.getChangeEditCommitMessageProvider = getChangeEditCommitMessageProvider;
     this.modifyChangeEditCommitMessage = modifyChangeEditCommitMessage;
+    this.modifyIdentity = modifyIdentity;
     this.changeEdits = changeEdits;
     this.changeResource = changeResource;
   }
@@ -237,6 +241,20 @@ public class ChangeEditApiImpl implements ChangeEditApi {
       modifyChangeEditCommitMessage.apply(changeResource, input);
     } catch (Exception e) {
       throw asRestApiException("Cannot modify commit message of change edit", e);
+    }
+  }
+
+  @Override
+  public void modifyIdentity(String name, String email, ChangeEditIdentityType type)
+      throws RestApiException {
+    ChangeEdits.EditIdentity.Input input = new ChangeEdits.EditIdentity.Input();
+    input.name = name;
+    input.email = email;
+    input.type = type;
+    try {
+      modifyIdentity.apply(changeResource, input);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot edit identity of change", e);
     }
   }
 

@@ -228,6 +228,24 @@
       "parentUuid": "83da9066_59003bcd",
       "revId": "ad0080bc742e736a4513c60ad0e56fdd182d2c5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bf49627_7c48aae6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-11-29T10:40:02Z",
+      "side": 1,
+      "message": "\u003e Thanks a lot for links. The advice at [1] fixed the issue for me.\n\u003e \n\u003e [1] https://github.com/mockito/mockito/issues/1879#issuecomment-922459131\n\nNeat finding, that would actually explain why we don\u0027t see the issue on Gerrit-CI: we introduced that option because of Bazel crashing randomly from Java 11 onwards.\n\nThanks for sharing it, good stuff!\n\nP.S. Should we also add a note to the development instructions?",
+      "parentUuid": "ef0dd81c_2b3eb8b0",
+      "revId": "ad0080bc742e736a4513c60ad0e56fdd182d2c5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

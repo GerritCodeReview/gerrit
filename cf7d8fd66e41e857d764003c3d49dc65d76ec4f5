@@ -1,6 +1,57 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3b0144c_043085e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-11-29T12:10:57Z",
+      "side": 1,
+      "message": "This would be an implicit merge of stable into master which is actually much less dangerous than implicit merge of master into stable. And, of course, it would be an implicit merge only if stable contains a commit which is not yet in master.",
+      "revId": "cf7d8fd66e41e857d764003c3d49dc65d76ec4f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30b50dd3_e87759ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-11-29T12:10:57Z",
+      "side": 1,
+      "message": "It was seven years ago when I implemented the implicit merge protection so I don\u0027t recall all details but I would argue that not rejecting change-1 is a bug.",
+      "revId": "cf7d8fd66e41e857d764003c3d49dc65d76ec4f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25c356db_34997311",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-11-29T12:10:57Z",
+      "side": 1,
+      "message": "AFAIR, the most common scenario which caused an undetected implicit merge was to create a change on master and then move it to stable. In that case there is no check for implicit merge (as it was only done on the upload in the ReceiveCommits class).",
+      "revId": "cf7d8fd66e41e857d764003c3d49dc65d76ec4f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2c989cde_821875ad",

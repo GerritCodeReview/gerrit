@@ -120,6 +120,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "89fe489b_ccba0869",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-11-29T12:10:13Z",
+      "side": 1,
+      "message": "Actually we have a guideline at:\nhttps://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#branch\n\nHTH",
+      "parentUuid": "aa9e6d2f_ff0881fa",
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2ec69fb6_ca65b9c0",
         "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
         "patchSetId": 6

@@ -90,6 +90,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77a3363f_f108a7a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2023-11-29T16:56:35Z",
+      "side": 1,
+      "message": "We\u0027re both right 😄\n\nIt was removed in https://gerrit-review.googlesource.com/c/gerrit/+/188770 (2.16), and partially recovered in https://gerrit-review.googlesource.com/c/gerrit/+/339555 (3.7).",
+      "parentUuid": "786de30f_43b0a28c",
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c1f8099_1cbbd58e",

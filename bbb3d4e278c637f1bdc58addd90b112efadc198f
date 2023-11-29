@@ -192,6 +192,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "022ef8e4_bd90cda8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2023-11-29T12:51:29Z",
+      "side": 1,
+      "message": "edwin wrote:\n\u003e Actually we have a guideline \n\nyeah, a guideline - not a policy. and it shows - good luck making sense of `gitk --all` in the gerrit repo.\n\ni\u0027d say that it\u0027s obvious that the stable-first model just doesn\u0027t work in this project, and that\u0027s even before the 3.9 release debacle. the logical consequence would be to officially switch to a cherry-pick-only (NO merges!) master-first model. the qt project did that (for qt itself, while qt creator sticks with a forward-merging model). to avoid that fixes for stable get lost, there is some automation; my request https://issues.gerritcodereview.com/issues/40013177 relates to that.\n\nanyway, edwin\u0027s link does show that this change follows the current guidelines, as i expected.",
+      "parentUuid": "89fe489b_ccba0869",
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2ec69fb6_ca65b9c0",
         "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
         "patchSetId": 6
@@ -274,6 +292,24 @@
       "side": 1,
       "message": "\u003e and multiple locales will match more than just the 26 latin uppercase letters. but you agreed that\u0027s possible, so i won\u0027t include an example.\n\ni meant lowercase here, not that it changes the general point",
       "parentUuid": "385b7e10_e9f064d4",
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94bc80bb_7835e132",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2023-11-29T12:51:29Z",
+      "side": 1,
+      "message": "this isn\u0027t really about the language diversity (which i\u0027m well aware of), but rather about some committee making inimical decisions for political or historical reasons (there is no good reason to treat [a-z] as [[:lower:]] or even [[:alpha:]], and even less so inconsistently across locales). or just implementation bugs.\n\nanyway, you\u0027re empirically clearly right, so i rest my case.",
+      "parentUuid": "75da985b_b767174f",
       "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

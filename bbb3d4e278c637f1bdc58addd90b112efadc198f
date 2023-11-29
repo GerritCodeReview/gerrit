@@ -138,6 +138,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8996b90d_e4428a1e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2023-11-29T12:24:45Z",
+      "side": 1,
+      "message": "pretty sure Gerrit doesn\u0027t merge old stable branches into master.  so you landing this into stable-3.7 means it isn\u0027t going anywhere.  also fairly certain \"latest development\" happens in the master branch.  although if any development happens in a \"stable\" branch, it\u0027s going to be the latest (3.9), not 3.7.\n\nso this doesn\u0027t belong in 3.7.",
+      "parentUuid": "aa9e6d2f_ff0881fa",
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2ec69fb6_ca65b9c0",
         "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
         "patchSetId": 6
@@ -184,6 +202,24 @@
       "side": 1,
       "message": "this is only half-true: while extra characters may be included (which is clearly not intended here, but arguably not a big deal), uppercase will NOT be included (this is different from `sort`, or explicitly specifying a collating element with `[\u003da-z\u003d]`).\nand afaik, the latin characters not being included can only happen when the charset is ebcdic, which is of no material concern.\n\nanyway, i wouldn\u0027t mind the change being made for clarity.",
       "parentUuid": "89436d8e_c6001442",
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "385b7e10_e9f064d4",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2023-11-29T12:24:45Z",
+      "side": 1,
+      "message": "i think the world\u0027s languages are more varied than you give them credit.  both scenarios i describe are possible.  this is not an encoding issue e.g. ebcdic vs ASCII vs UTF-8 vs ...\n\nmultiple locales do not match the 26 latin lowercase letters when using `[a-z]`. here is just one example.\n```\n$ echo \"abcdefghijklmnopqrstuvwxyz\" | LC_ALL\u003daz_AZ.UTF8 grep -E \"^[a-z]+$\"\n$ echo $?\n1\n```\n\nmultiple locales match *some* latin uppercase letters when using `[a-z]`.  i just picked `E` as an example, but pretty sure there are others.\n```\n$ echo E | LC_ALL\u003dth_TH.UTF8 grep -E \"^[a-z]+$\"\nE\n```\n\nand multiple locales will match more than just the 26 latin uppercase letters.  but you agreed that\u0027s possible, so i won\u0027t include an example.",
+      "parentUuid": "b7e29c99_2b74345e",
       "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -26,7 +26,8 @@ link:#refs-meta-config[above]):
 
 * link:#file-project_config[project.config]:
   Contains the link to the parent project, the project description, access
-  rights and options to control project-specific behavior.
+  rights, label definitions, submit requirements and options to control
+  project-specific behavior.
 * link:#file-groups[groups]:
   Resolves group names that are mentioned in `project.config` to group UUIDs.
 * [DEPRECATED] link:#file-rules_pl[rules.pl]:
@@ -235,65 +236,234 @@ parent project by choosing a different parent project.
 [[file-project_config]]
 == The file `project.config`
 
-The +project.config+ file contains the link between groups and their
-permitted actions on reference patterns in this project and any projects
-that inherit its permissions.
+The `project.config` file contains the link to the parent project, the project
+description, access rights, link:config-labels.html[label definitions],
+link:config-submit-requirements.html[submit requirements] and options to
+control project-specific behavior.
 
-The format in this file corresponds to the Git config file format, so
-if you want to automate your permissions it is a good idea to use the
-+git config+ command when writing to the file. This way you know you
-don't accidentally break the format of the file.
+The format in this file corresponds to the Git config file format.
 
-Here follows a +git config+ command example:
+[TIP]
+--
+Since the format of the `project.config` file adheres to the Git config file
+format, utilizing the `git config` command when modifying the file is
+recommended. This way you can avoid breaking the format of the file
+accidentally.
+
+Here is an example of a `git config` command that updates the project
+description:
 
 ----
-$ git config -f project.config project.description "Rights inherited by all other projects"
+$ git config -f project.config project.description "Foo Bar"
 ----
+--
 
-Below you will find an example of the +project.config+ file format:
+This is an example of a `project.config` file:
 
 ----
 [project]
-       description = Rights inherited by all other projects
+  description = Collection of scripts for setting up foo bar.
 [access "refs/*"]
-       read = group Administrators
+  read = group Registered Users
 [access "refs/heads/*"]
-        label-Your-Label-Here = -1..+1 group Administrators
-[capability]
-       administrateServer = group Administrators
+  label-Code-Review = -2..+2 group Maintainers
+  label-Code-Review = -1..+1 group Registered Users
+  label-Your-Label = -1..+1 group Maintainers
 [receive]
-       requireContributorAgreement = false
-[label "Your-Label-Here"]
-        function = MaxWithBlock
-        value = -1 Your -1 Description
-        value =  0 Your No score Description
-        value = +1 Your +1 Description
+  requireChangeId = true
+[label "Your-Label"]
+  function = NoOp
+  value = -1 Your -1 Description
+  value =  0 Your No score Description
+  value = +1 Your +1 Description
+[submit-requirement "Your-Label"]
+  description = At least one maximum vote for label 'Your-Label' is required
+  applicableIf = -branch:refs/meta/config
+  submittableIf = label:Your-Label=MAX AND -label:Your-Label=MIN
 ----
 
-As you can see, there are several sections.
+The sections that can appear in the `project.config` file are explained below.
 
-The link:#project-section[+project+ section] appears once per project.
+[[access-section]]
+=== Access section
 
-The link:#access-subsection[+access+ section] appears once per reference pattern,
-such as `+refs/*+` or `+refs/heads/*+`. Only one access section per pattern is
-allowed.
+[[access.inheritFrom]]access.inheritFrom::
++
+Name of the parent project from which access rights are inherited.
++
+If not set, access rights are inherited from the `All-Projects` root project.
 
-The link:#receive-section[+receive+ section] appears once per project.
+[[access-subsection]]
+==== Access subsection
 
-The link:#submit-section[+submit+ section] appears once per project.
+`access` subsections define access rules for a ref or a ref namespace. The ref
+or ref namespace is specified as the subsection name and can be a concrete ref
+(e.g. `refs/heads/master`), a ref pattern (last path segment is '\*', e.g.
+`refs/heads/*`) or a regular expression (must start with '^', e.g.
+`^refs/heads/rel-.*`).
 
-The link:#capability-section[+capability+] section only appears once, and only
-in the +All-Projects+ repository.  It controls core features that are configured
-on a global level.
+[NOTE]
+For ref patterns '\*' can only appear as the last path segment. If a '*' is
+required in any other place the ref namespace must be specified as a regular
+expression (must start with '^', '\*' must follow what's being matched, e.g.
+".*" to match any string).
 
-The link:#label-section[+label+] section can appear multiple times. You can
-also redefine the text and behavior of the built in label types `Code-Review`
-and `Verified`.
+[NOTE]
+Only one access subsection per ref and per ref namespace is allowed.
 
-Optionally a +commentlink+ section can be added to define project-specific
-comment links. The +commentlink+ section has the same format as the
-link:config-gerrit.html#commentlink[+commentlink+ section in gerrit.config]
+The `access` subsections contain access rules that apply to the ref or ref
+namespace of the `access` subsections. The format of the access rules is: +
+`<accessCategoryId> = (block|deny)? <range>? group <group-name>`
+
+* `<accessCategoryId>`: ID of the link:access-control.html#access_categories[
+  access category] for which the access rule should be defined. The ID of the
+  access category is the name of the access category in lowerCamelCase (e.g.
+  `createTag`), except for label permissions where it is `label-<label-Name>`
+  (e.g. `label-Code-Review`).
+* `(block|deny)?`: `block` defines a link:access-control.html#block-rule[BLOCK]
+  rule, `deny` defines a link:access-control.html#deny-rule[DENY] rule, if
+  neither `block` or `deny` is specified an link:access-control.html#allow-rule[
+  ALLOW] rule is defined.
+* `<range>?`: Only set for label permission. The voting range in the format
+  `<min-vote>..<max-vote>` (e.g. `-1..+1`).
+* `group <group-name>`: The (local) name of the group to which the access rule
+  should apply (e.g. `group Foo Bar`). The (local) group name must exist in the
+  link:#file-groups[groups] file, so that Gerrit can resolve it to the group
+  UUID.
+
+To make access rules link:access-control.html#exclusive[exclusive] they need to
+be included into the value of the `exclusiveGroupPermissions` key: +
+`exclusiveGroupPermissions = <space-separated-list-of-access-category-ids>`
+
+.Example access subsections
+----
+  [access "refs/heads/*"]
+    create = group Administrators
+    delete = group Administrators
+    deleteChanges = group Administrators
+    label-Code-Review = -2..+2 group Maintainers
+    label-Code-Review = -1..+1 group Registered Users
+    label-Verified = -1..+1 group Registered Users
+    push = block Registered Users
+    submit = group Maintainers
+    exclusiveGroupPermissions = deleteChanges submit
+  [access "^refs/tags/rel-.*"]
+    createTag = group Maintainers
+    createSignedTag = group Maintainers
+----
+
+[[branchOrder-section]]
+=== branchOrder section
+
+Defines a branch ordering which is used for backporting of changes.
+Backporting will be offered for a change (in the Gerrit UI) for all
+more stable branches where the change can merge cleanly.
+
+[[branchOrder.branch]]branchOrder.branch::
+
+A branch name, typically multiple values will be defined. The order of branch
+names in this section defines the branch order. The topmost is considered to be
+the least stable branch (typically the master branch) and the last one the
+most stable (typically the last maintained release branch).
+
+.Example:
+----
+[branchOrder]
+  branch = master
+  branch = stable-2.9
+  branch = stable-2.8
+  branch = stable-2.7
+----
+
+The `branchOrder` section is inheritable. This is useful when multiple or all
+projects follow the same branch rules. A `branchOrder` section in a child
+project completely overrides any `branchOrder` section from a parent i.e. there
+is no merging of `branchOrder` sections. A present but empty `branchOrder`
+section removes all inherited branch order.
+
+Branches not listed in this section will not be included in the mergeability
+check. If the `branchOrder` section is not defined then the mergeability of a
+change into other branches will not be done.
+
+[[capability-section]]
+=== Capability section
+
+The `capability` section only appears once, and only in the `project.config`
+file of the `All-Projects` root project. It controls Gerrit administration
+capabilities that are configured on a global level.
+
+.Example:
+----
+[capability]
+  administrateServer = group Administrators
+----
+
+[NOTE]
+The (local) group names for which capabilities are assigned must exist in the
+link:#file-groups[groups] file, so that Gerrit can resolve them to their group
+UUID.
+
+Please refer to the
+link:access-control.html#global_capabilities[Global Capabilities]
+documentation for a full list of available capabilities.
+
+[[change-section]]
+=== Change section
+
+The change section includes configuration for project-specific change settings:
+
+[[change.privateByDefault]]change.privateByDefault::
++
+Controls whether all new changes in the project are set as private by default.
++
+Note that a new change will be public if the `is_private` field in
+link:rest-api-changes.html#change-input[ChangeInput] is set to `false` explicitly
+when calling the link:rest-api-changes.html#create-change[CreateChange] REST API
+or the `remove-private` link:user-upload.html#private[PushOption] is used during
+the Git push.
++
+Default is `INHERIT`, which means that this property is inherited from
+the parent project.
+
+[[change.workInProgressByDefault]]change.workInProgressByDefault::
++
+Controls whether all new changes in the project are set as WIP by default.
++
+Note that a new change will be ready if the `workInProgress` field in
+link:rest-api-changes.html#change-input[ChangeInput] is set to `false` explicitly
+when calling the link:rest-api-changes.html#create-change[CreateChange] REST API
+or the `ready` link:user-upload.html#wip[PushOption] is used during
+the Git push.
++
+Default is `INHERIT`, which means that this property is inherited from
+the parent project.
+
+[[commentlink-section]]
+=== Commentlink section
+
+Optionally a `commentlink` section can be added to define project-specific
+comment links. The `commentlink` section has the same format as the
+link:config-gerrit.html#commentlink[commentlink] section in `gerrit.config`
 which is used to define global comment links.
+
+[[label-section]]
+=== Label section
+
+Please refer to link:config-labels.html#label_custom[Custom Labels] documentation.
+
+[[mimetype-section]]
+=== MIME Types section
+
+The +mimetype+ section may be configured to force the web code
+reviewer to return certain MIME types by file path. MIME types
+may be used to activate syntax highlighting.
+
+----
+[mimetype "text/x-c"]
+  path = *.pkt
+[mimetype "text/x-java"]
+  path = api/current.txt
+----
 
 [[project-section]]
 === Project section
@@ -486,36 +656,31 @@ branch first and for review to another branch for example. Or in cases
 where a commit is already merged into a branch and you want to create
 a new open change for that commit on another branch.
 
-[[change-section]]
-=== Change section
+[[reviewer-section]]
+=== reviewer section
 
-The change section includes configuration for project-specific change settings:
+Defines config options to adjust a project's reviewer workflow such as enabling
+reviewers and CCs by email.
 
-[[change.privateByDefault]]change.privateByDefault::
+[[reviewer.enableByEmail]]reviewer.enableByEmail::
 +
-Controls whether all new changes in the project are set as private by default.
+A boolean indicating if reviewers and CCs that do not currently have a Gerrit
+account can be added to a change by providing their email address.
 +
-Note that a new change will be public if the `is_private` field in
-link:rest-api-changes.html#change-input[ChangeInput] is set to `false` explicitly
-when calling the link:rest-api-changes.html#create-change[CreateChange] REST API
-or the `remove-private` link:user-upload.html#private[PushOption] is used during
-the Git push.
+This setting only takes effect for changes that are readable by anonymous users.
 +
 Default is `INHERIT`, which means that this property is inherited from
-the parent project.
+the parent project. If the property is not set in any parent project, the
+default value is `FALSE`.
 
-[[change.workInProgressByDefault]]change.workInProgressByDefault::
+[[reviewer.skipAddingAuthorAndCommitterAsReviewers]]reviewer.skipAddingAuthorAndCommitterAsReviewers::
 +
-Controls whether all new changes in the project are set as WIP by default.
-+
-Note that a new change will be ready if the `workInProgress` field in
-link:rest-api-changes.html#change-input[ChangeInput] is set to `false` explicitly
-when calling the link:rest-api-changes.html#create-change[CreateChange] REST API
-or the `ready` link:user-upload.html#wip[PushOption] is used during
-the Git push.
+Whether to skip adding the Git commit author and committer as reviewers for
+a new change.
 +
 Default is `INHERIT`, which means that this property is inherited from
-the parent project.
+the parent project. If the property is not set in any parent project, the
+default value is `FALSE`.
 
 [[submit-section]]
 === Submit section
@@ -839,168 +1004,11 @@ become empty upon submit, since the rebase|cherry-pick can lead to an empty comm
 is set to 'true' the merge would fail in such a case. An empty commit is still allowed as the
 initial commit on a branch.
 
-
-[[access-section]]
-=== Access section
-
-[[access.inheritFrom]]access.inheritFrom::
-+
-Name of the parent project from which access rights are inherited.
-+
-If not set, access rights are inherited from the `All-Projects` root project.
-
-[[access-subsection]]
-==== Access subsection
-
-`access` subsections define access rules for a ref or a ref namespace. The ref
-or ref namespace is specified as the subsection name and can be a concrete ref
-(e.g. `refs/heads/master`), a ref pattern (last path segment is '\*', e.g.
-`refs/heads/*`) or a regular expression (must start with '^', e.g.
-`^refs/heads/rel-.*`).
-
-[NOTE]
-For ref patterns '\*' can only appear as the last path segment. If a '*' is
-required in any other place the ref namespace must be specified as a regular
-expression (must start with '^', '\*' must follow what's being matched, e.g.
-".*" to match any string).
-
-The `access` subsections contain access rules that apply to the ref or ref
-namespace of the `access` subsections. The format of the access rules is: +
-`<accessCategoryId> = (block|deny)? <range>? group <group-name>`
-
-* `<accessCategoryId>`: ID of the link:access-control.html#access_categories[
-  access category] for which the access rule should be defined. The ID of the
-  access category is the name of the access category in lowerCamelCase (e.g.
-  `createTag`), except for label permissions where it is `label-<label-Name>`
-  (e.g. `label-Code-Review`).
-* `(block|deny)?`: `block` defines a link:access-control.html#block-rule[BLOCK]
-  rule, `deny` defines a link:access-control.html#deny-rule[DENY] rule, if
-  neither `block` or `deny` is specified an link:access-control.html#allow-rule[
-  ALLOW] rule is defined.
-* `<range>?`: Only set for label permission. The voting range in the format
-  `<min-vote>..<max-vote>` (e.g. `-1..+1`).
-* `group <group-name>`: The (local) name of the group to which the access rule
-  should apply (e.g. `group Foo Bar`). The (local) group name must exist in the
-  link:#file-groups[groups] file, so that Gerrit can resolve it to the group
-  UUID.
-
-To make access rules link:access-control.html#exclusive[exclusive] they need to
-be included into the value of the `exclusiveGroupPermissions` key: +
-`exclusiveGroupPermissions = <space-separated-list-of-access-category-ids>`
-
-.Example access subsections
-----
-  [access "refs/heads/*"]
-    create = group Administrators
-    delete = group Administrators
-    deleteChanges = group Administrators
-    label-Code-Review = -2..+2 group Maintainers
-    label-Code-Review = -1..+1 group Registered Users
-    label-Verified = -1..+1 group Registered Users
-    push = block Registered Users
-    submit = group Maintainers
-    exclusiveGroupPermissions = deleteChanges submit
-  [access "^refs/tags/rel-.*"]
-    createTag = group Maintainers
-    createSignedTag = group Maintainers
-----
-
-[[mimetype-section]]
-=== MIME Types section
-
-The +mimetype+ section may be configured to force the web code
-reviewer to return certain MIME types by file path. MIME types
-may be used to activate syntax highlighting.
-
-----
-[mimetype "text/x-c"]
-  path = *.pkt
-[mimetype "text/x-java"]
-  path = api/current.txt
-----
-
-
-[[capability-section]]
-=== Capability section
-
-The +capability+ section only appears once, and only in the +All-Projects+
-repository.  It controls Gerrit administration capabilities that are configured
-on a global level.
-
-Please refer to the
-link:access-control.html#global_capabilities[Global Capabilities]
-documentation for a full list of available capabilities.
-
-[[label-section]]
-=== Label section
-
-Please refer to link:config-labels.html#label_custom[Custom Labels] documentation.
-
 [[submit-requirement-section]]
 === Submit Requirement section
 
 Please refer to link:config-submit-requirements.html[Configuring Submit
 Requirements] documentation.
-
-[[branchOrder-section]]
-=== branchOrder section
-
-Defines a branch ordering which is used for backporting of changes.
-Backporting will be offered for a change (in the Gerrit UI) for all
-more stable branches where the change can merge cleanly.
-
-[[branchOrder.branch]]branchOrder.branch::
-+
-A branch name, typically multiple values will be defined. The order of branch
-names in this section defines the branch order. The topmost is considered to be
-the least stable branch (typically the master branch) and the last one the
-most stable (typically the last maintained release branch).
-+
-Example:
-+
-----
-[branchOrder]
-  branch = master
-  branch = stable-2.9
-  branch = stable-2.8
-  branch = stable-2.7
-----
-+
-The `branchOrder` section is inheritable. This is useful when multiple or all
-projects follow the same branch rules. A `branchOrder` section in a child
-project completely overrides any `branchOrder` section from a parent i.e. there
-is no merging of `branchOrder` sections. A present but empty `branchOrder`
-section removes all inherited branch order.
-+
-Branches not listed in this section will not be included in the mergeability
-check. If the `branchOrder` section is not defined then the mergeability of a
-change into other branches will not be done.
-
-[[reviewer-section]]
-=== reviewer section
-
-Defines config options to adjust a project's reviewer workflow such as enabling
-reviewers and CCs by email.
-
-[[reviewer.enableByEmail]]reviewer.enableByEmail::
-+
-A boolean indicating if reviewers and CCs that do not currently have a Gerrit
-account can be added to a change by providing their email address.
-+
-This setting only takes effect for changes that are readable by anonymous users.
-+
-Default is `INHERIT`, which means that this property is inherited from
-the parent project. If the property is not set in any parent project, the
-default value is `FALSE`.
-
-[[reviewer.skipAddingAuthorAndCommitterAsReviewers]]reviewer.skipAddingAuthorAndCommitterAsReviewers::
-+
-Whether to skip adding the Git commit author and committer as reviewers for
-a new change.
-+
-Default is `INHERIT`, which means that this property is inherited from
-the parent project. If the property is not set in any parent project, the
-default value is `FALSE`.
 
 [[file-groups]]
 == The file `groups`

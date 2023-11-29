@@ -262,6 +262,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c8fda2f_35b6dcee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2023-11-29T15:19:12Z",
+      "side": 1,
+      "message": "I\u0027ll wait for other opinions then 😊\n\nWe can have a minor fix that only adds fixup/amend in 3.7, and do the rest in master (although I\u0027m still unsure about @nasser.grainawi@linaro.org\u0027s use-case).",
+      "parentUuid": "d551d901_b2aeb87e",
+      "revId": "bbb3d4e278c637f1bdc58addd90b112efadc198f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ec69fb6_ca65b9c0",

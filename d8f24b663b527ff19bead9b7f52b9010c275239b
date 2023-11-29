@@ -16,6 +16,24 @@
       "message": "Post-merge -2: this change was moved to stable-3.9 but *NOT* rebased. The merge of this change has caused the merge of master to the stable-3.9, invalidating the whole release.",
       "revId": "d8f24b663b527ff19bead9b7f52b9010c275239b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80249e38_5eaeeb42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2023-11-29T13:00:34Z",
+      "side": 1,
+      "message": "Maybe this incident will help pushing https://issues.gerritcodereview.com/issues/40007703?",
+      "parentUuid": "616e4c4c_a6906e12",
+      "revId": "d8f24b663b527ff19bead9b7f52b9010c275239b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

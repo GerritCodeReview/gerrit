@@ -71,6 +71,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1a5b6424_892d2a4e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 3614,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-30T07:52:55Z",
+      "side": 1,
+      "message": "I agree, this is redundant and should be removed.",
+      "parentUuid": "65025c2f_4f655b01",
+      "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "43e83855_1925542b",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 10
@@ -129,6 +147,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5ff9ebf2_67ac3a23",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1538,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-30T07:52:55Z",
+      "side": 1,
+      "message": "Yes, that is something that I also already had in mind.",
+      "parentUuid": "929aeb18_227b53f3",
+      "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "44a7722e_fbaba178",
         "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
         "patchSetId": 10
@@ -140,6 +176,30 @@
       "writtenOn": "2023-11-29T14:53:46Z",
       "side": 1,
       "message": "Are these files all directly under the `sourceDir`, no subdirectories?",
+      "range": {
+        "startLine": 556,
+        "startChar": 32,
+        "endLine": 556,
+        "endChar": 44
+      },
+      "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b30bafb_1e0a990e",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-30T07:52:55Z",
+      "side": 1,
+      "message": "Yes. Lucene uses a Directory to store the index. This directory only contains a flat list of files: https://lucene.apache.org/core/9_8_0/core/org/apache/lucene/store/Directory.html",
+      "parentUuid": "44a7722e_fbaba178",
       "range": {
         "startLine": 556,
         "startChar": 32,
@@ -169,6 +229,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a60208e1_0db41805",
+        "filename": "java/com/google/gerrit/lucene/ChangeSubIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-30T07:52:55Z",
+      "side": 1,
+      "message": "The `NAME` constant is `changes`, but we need the name of the subindex, e.g. `changes_open`. Adding this field here didn\u0027t change existing fields. But I think it might be better to change the field name to something like `subIndexName`.",
+      "parentUuid": "866c8c8a_b47bd4b7",
+      "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "847282bf_4a8cbffc",
         "filename": "java/com/google/gerrit/lucene/ChangeSubIndex.java",
         "patchSetId": 10
@@ -180,6 +258,24 @@
       "writtenOn": "2023-10-25T10:33:29Z",
       "side": 1,
       "message": "Unused method? I couldn\u0027t find any usage of this method in this change.",
+      "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f4fae4b_8b747e05",
+        "filename": "java/com/google/gerrit/lucene/ChangeSubIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-11-30T07:52:55Z",
+      "side": 1,
+      "message": "Hmm...likely part of some previous attempt/experiment. I guess, it can be removed and with it the name field.",
+      "parentUuid": "847282bf_4a8cbffc",
       "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

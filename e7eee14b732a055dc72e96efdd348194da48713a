@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0b1ba9b_099c21d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-30T23:59:22Z",
+      "side": 1,
+      "message": "With this commit applied, what happens now in the use case from Change 270450?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "e7eee14b732a055dc72e96efdd348194da48713a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "13fc7d6b_7992e4ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-30T23:59:22Z",
+      "side": 1,
+      "message": "Most likely the caller isn\u0027t explicitly doing an index operation though, they\u0027re likely updating some data in NoteDb and then Gerrit is automatically indexing that updated data. How does the caller know to retry indexing when this fails? Will they even have permissions to do that?",
+      "range": {
+        "startLine": 28,
+        "startChar": 3,
+        "endLine": 28,
+        "endChar": 22
+      },
+      "revId": "e7eee14b732a055dc72e96efdd348194da48713a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a60bf2a1_9f158f24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-30T23:59:22Z",
+      "side": 1,
+      "message": "Do you mean that if you don\u0027t know the change identifier (\"discovered\") then you can\u0027t use the reindex API? Or do you mean that even if you have a change id, the reindex API won\u0027t work?",
+      "range": {
+        "startLine": 32,
+        "startChar": 16,
+        "endLine": 32,
+        "endChar": 61
+      },
+      "revId": "e7eee14b732a055dc72e96efdd348194da48713a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a126b0cd_1663404a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-30T23:59:22Z",
+      "side": 1,
+      "message": "Is this already happening automatically or is a follow up needed to do that?",
+      "range": {
+        "startLine": 51,
+        "startChar": 37,
+        "endLine": 52,
+        "endChar": 44
+      },
+      "revId": "e7eee14b732a055dc72e96efdd348194da48713a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "838cbc8e_62881c76",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-30T23:59:22Z",
+      "side": 1,
+      "message": "```suggestion\n   * to the caller.\n```",
+      "range": {
+        "startLine": 212,
+        "startChar": 5,
+        "endLine": 212,
+        "endChar": 13
+      },
+      "revId": "e7eee14b732a055dc72e96efdd348194da48713a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "56ddda3f_f84dd1e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-11-30T15:17:45Z",
+      "side": 1,
+      "message": "I forgot to add the link to [2]: https://gerrit.googlesource.com/plugins/delete-project/+/refs/heads/master/src/main/java/com/googlesource/gerrit/plugins/deleteproject/Configuration.java#107",
+      "parentUuid": "ffa2c605_cd0e22bc",
+      "revId": "6f0979980f916199a5065cea2d3c6fca4a66466b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "92e64d45_1d0ea787",
         "filename": "tools/remote-bazelrc",
         "patchSetId": 17

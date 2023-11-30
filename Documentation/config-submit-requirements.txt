@@ -56,6 +56,134 @@ If overriding a submit requirement is disallowed in a parent project, submit
 requirements with the same name in child projects, that would otherwise
 override the inherited submit requirement, are ignored.
 
+[[deprecated]]
+== Deprecated ways to control when changes can be submitted
+
+Using submit requirements is the recommended way to control when changes can be
+submitted. However, historically there are other ways for this, which are still
+working, although they are deprecated:
+
+[[label-functions]]
+* Label functions:
++
+link:config-labels.html#label_custom[Label definitions] can contain a
+link:config-labels.html#label_function[function] that impacts the
+submittability of changes (link:config-labels.html#MaxWithBlock[MaxWithBlock],
+link:config-labels.html#AnyWithBlock[AnyWithBlock],
+link:config-labels.html#MaxNoBlock[MaxNoBlock]). These functions are deprecated
+and setting them is no longer allowed, however if they are (already) set for
+existing label definitions they are still respected. For new labels submit
+requirements should be used instead (using `submittableIf = label:My-Label=MAX
+AND -label:My-Label=MIN` is equivalent to `MaxWithBlock`, using
+`submittableIf = -label:My-Label=MIN` is equivalent to `AnyWithBlock`, using
+`submittableIf = label:My-Label=MAX` is equivalent to using `MaxNoBlock`).
+
+[[ignoreSelfApproval]]
+* `ignoreSelfApproval` flag on labels:
++
+Labels can be configured to link:config-labels.html#label_ignoreSelfApproval[
+ignore self approvals]. This flag only works in combination with the deprecated
+label functions (see link:#label-functions[above]) and hence it is deprecated
+as well. Instead use a `submittableIf` expression with the
+link:#operator_label[label] operator and the `user=non_uploader` argument. See
+the link:#code-review-example[Code Review] submit requirement example.
+
+[[prolog-rules]]
+* Prolog rules:
++
+Projects can define link:prolog-cookbook.html[prolog submit rules] that control
+when changes can be submitted. It's still possible to have Prolog submit rules,
+but they are deprecated and support for them will be dropped in future Gerrit
+releases. Hence it's recommended to use submit requirements instead.
+
+When checking whether changes can be submitted Gerrit takes results of label
+functions and Prolog submit rules into account, in addition to the submit
+requirements.
+
+[[plugin-submit-rules]]
+== Plugin provided submit rules
+
+Plugins can contribute submit rules by implementing the `SubmitRule` extension
+point (see link:dev-plugins.html#pre-submit-evaluator[Pre-submit Validation
+Plugins]).
+
+When checking whether changes can be submitted Gerrit takes results of
+plugin-provided submit rules into account, in addition to the submit
+requirements.
+
+[[evaluation]]
+== Submit Requirement Evaluation
+
+Submit requirements are evaluated whenever a change is updated. To decide
+whether changes can be submitted, the results of link:#label-functions[label
+functions], link:#prolog-rules[Prolog submit rules] and
+link:#plugin-submit-rules[plugin-provided submit rules] are taken into account,
+in addition to the submit requirements. For this the results of label
+functions, Prolog submit rules and plugin-provided submit rules are converted
+to submit requirement results.
+
+Submit requirement results are returned in the REST API when retrieving changes
+with the link:rest-api-changes.html#submit-requirements[SUBMIT_REQUIREMENTS]
+option (e.g. via the link:rest-api-changes.html#get-change-detail[Get Change
+Detail] REST endpoint or the link:rest-api-changes.html#list-changes[Query
+Changes] REST endpoint). If requested, submit requirements are included as
+link:rest-api-changes.html#submit-requirement-result-info[
+SubmitRequirementResultInfo] entities into
+link:rest-api-changes.html#change-info[ChangeInfo] (field
+`submit_requirements`).
+
+The `status` field of submit requirement results can be one of:
+
+[[status-not-applicable]]
+* `NOT_APPLICABLE`
++
+The link:#submit_requirement_applicable_if[applicableIf] expression evaluates
+to false for the change.
+
+[[status-unsatisfied]]
+* `UNSATISFIED`
++
+The submit requirement is applicable
+(link:#submit_requirement_applicable_if[applicableIf] evaluates to true), but
+the evaluation of the link:#submit_requirement_submittable_if[submittableIf] and
+link:#submit_requirement_override_if[overrideIf] expressions return false for
+the change.
+
+[[status-satisfied]]
+* `SATISFIED`
++
+The submit requirement is applicable
+(link:#submit_requirement_applicable_if[applicableIf] evaluates to true), the
+link:#submit_requirement_submittable_if[submittableIf] expression evaluates to
+true, and the link:#submit_requirement_override_if[overrideIf] evaluates to
+false for the change.
+
+[[status-overridden]]
+* `OVERRIDDEN`
++
+The submit requirement is applicable
+(link:#submit_requirement_applicable_if[applicableIf] evaluates to true) and the
+link:#submit_requirement_override_if[overrideIf] expression evaluates to true.
++
+Note that in this case, the change is overridden whether the
+link:#submit_requirement_submittable_if[submittableIf] expression evaluates to
+true or not.
+
+[[status-forced]]
+* `FORCED`
++
+The change was merged directly bypassing code review by supplying the
+link:user-upload.html#auto_merge[submit] push option while doing a git push.
+
+[[status-error]]
+* `ERROR`
++
+The evaluation of any of the
+link:#submit_requirement_applicable_if[applicableIf],
+link:#submit_requirement_submittable_if[submittableIf] or
+link:#submit_requirement_override_if[overrideIf] expressions resulted in an
+error.
+
 [[submit-requirement-subsection]]
 == submit-requirement subsection
 
@@ -146,69 +274,6 @@ A boolean (true, false) that determines if child projects can override the
 submit requirement.
 
 The default value is `false`.
-
-[[evaluation_results]]
-== Evaluation Results
-
-When submit requirements are configured, their results are returned for all
-changes requested by the REST API with the
-link:rest-api-changes.html#submit-requirement-result-info[SubmitRequirementResultInfo]
-entity. +
-
-Submit requirement results are produced from the evaluation of the submit
-requirements in the project config (
-See link:#configuring_submit_requirements[Configuring Submit Requirements])
-as well as the conversion of the results of the legacy submit rules to submit
-requirement results. Legacy submit rules are label functions
-(see link:config-labels.html[config labels]), custom and
-link:prolog-cookbook.html[prolog] submit rules.
-
-The `status` field can be one of:
-
-* `NOT_APPLICABLE`
-+
-The link:#submit_requirement_applicable_if[applicableIf] expression evaluates
-to false for the change.
-
-* `UNSATISFIED`
-+
-The submit requirement is applicable
-(link:#submit_requirement_applicable_if[applicableIf] evaluates to true), but
-the evaluation of the link:#submit_requirement_submittable_if[submittableIf] and
-link:#submit_requirement_override_if[overrideIf] expressions return false for
-the change.
-
-* `SATISFIED`
-+
-The submit requirement is applicable
-(link:#submit_requirement_applicable_if[applicableIf] evaluates to true), the
-link:#submit_requirement_submittable_if[submittableIf] expression evaluates to
-true, and the link:#submit_requirement_override_if[overrideIf] evaluates to
-false for the change.
-
-* `OVERRIDDEN`
-+
-The submit requirement is applicable
-(link:#submit_requirement_applicable_if[applicableIf] evaluates to true) and the
-link:#submit_requirement_override_if[overrideIf] expression evaluates to true.
-+
-Note that in this case, the change is overridden whether the
-link:#submit_requirement_submittable_if[submittableIf] expression evaluates to
-true or not.
-
-* `FORCED`
-+
-The change was merged directly bypassing code review by supplying the
-link:user-upload.html#auto_merge[submit] push option while doing a git push.
-
-* `ERROR`
-+
-The evaluation of any of the
-link:#submit_requirement_applicable_if[applicableIf],
-link:#submit_requirement_submittable_if[submittableIf] or
-link:#submit_requirement_override_if[overrideIf] expressions resulted in an
-error.
-
 
 [[query_expression_syntax]]
 == Query Expression Syntax

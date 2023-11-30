@@ -1500,6 +1500,7 @@ export class GrChecksResults extends LitElement {
         <tbody @checks-results-filter=${this.handleFilter}>
           ${repeat(
             filtered,
+            // @ts-ignore: temporarily unblock typescript 5.3 migration
             result => result.internalResultId,
             (result?: RunResult) => html`
               <gr-result-row

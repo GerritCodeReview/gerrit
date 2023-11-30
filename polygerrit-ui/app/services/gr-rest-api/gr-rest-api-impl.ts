@@ -1202,6 +1202,9 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }
   }
 
+  /*
+    @deprecated
+  */
   getChangeActionURL(
     changeNum: NumericChangeId,
     revisionId: RevisionId | undefined,
@@ -1212,6 +1215,24 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     );
   }
 
+  getChangeActionURL(
+      project: RepoName,
+      changeNum: NumericChangeId,
+      revisionId: RevisionId | undefined,
+      endpoint: string
+    ): string {
+      let url = `/changes/${encodeURIComponent(
+        project as RepoName
+      )}~${changeNum}`;
+      if (revisionId) {
+        url += `/revisions/${revisionId}`;
+      }
+      return url;
+    }
+
+  /**
+   * @deprecated The method should not be used
+   */
   async getChangeDetail(
     changeNum?: NumericChangeId,
     errFn?: ErrorCallback,
@@ -1231,6 +1252,27 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       GrReviewerUpdatesParser.parse(detail as ChangeViewChangeInfo)
     );
   }
+
+  async getChangeDetail(
+      project: RepoName,
+      changeNum: NumericChangeId,
+      errFn?: ErrorCallback,
+      cancelCondition?: CancelConditionCallback
+    ): Promise<ParsedChangeInfo | undefined> {
+      const optionsHex = await this.getChangeOptionsHex();
+
+      return this._getChangeDetail(
+        project,
+        changeNum,
+        optionsHex,
+        errFn,
+        cancelCondition
+      ).then(detail =>
+        // detail has ChangeViewChangeInfo type because the optionsHex always
+        // includes ALL_REVISIONS flag.
+        GrReviewerUpdatesParser.parse(detail as ChangeViewChangeInfo)
+      );
+    }
 
   private getListChangesOptionsHex() {
     if (
@@ -1313,6 +1355,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   /**
+   * @deprecated
    * @param optionsHex list changes options in hex
    */
   _getChangeDetail(
@@ -1323,50 +1366,71 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   ): Promise<ChangeInfo | undefined> {
     return this.getChangeActionURL(changeNum, undefined, '/detail').then(
       url => {
-        const params: FetchParams = {O: optionsHex};
-        const urlWithParams = this._restApiHelper.urlWithParams(url, params);
-        const req: FetchJSONRequest = {
-          url,
-          errFn,
-          cancelCondition,
-          params,
-          fetchOptions: this._etags.getOptions(urlWithParams),
-          anonymizedUrl: '/changes/*~*/detail?O=' + optionsHex,
-        };
-        return this._restApiHelper.fetchRawJSON(req).then(response => {
-          if (response?.status === 304) {
-            return parsePrefixedJSON(
-              // urlWithParams already cached
-              this._etags.getCachedPayload(urlWithParams)!
-            ) as unknown as ChangeInfo;
-          }
-
-          if (response && !response.ok) {
-            if (errFn) {
-              errFn.call(null, response);
-            } else {
-              fireServerError(response, req);
-            }
-            return undefined;
-          }
-
-          if (!response) {
-            return Promise.resolve(undefined);
-          }
-
-          return readResponsePayload(response).then(payload => {
-            if (!payload) {
-              return undefined;
-            }
-            this._etags.collect(urlWithParams, response, payload.raw);
-            // TODO(TS): Why it is always change info?
-            this._maybeInsertInLookup(payload.parsed as unknown as ChangeInfo);
-
-            return payload.parsed as unknown as ChangeInfo;
-          });
-        });
+        return _fetchChangeInfo(url);
       }
     );
+  }
+
+    /**
+     * @param optionsHex list changes options in hex
+     */
+    _getChangeDetail(
+      project: RepoName,
+      changeNum: NumericChangeId,
+      optionsHex: string,
+      errFn?: ErrorCallback,
+      cancelCondition?: CancelConditionCallback
+    ): Promise<ChangeInfo | undefined> {
+      return this.getChangeActionURL(project, changeNum, undefined, '/detail').then(
+        url => {
+          return _fetchChangeInfo(url);
+        }
+      );
+    }
+
+  _fetchChangeInfo(url: string) {
+    const params: FetchParams = {O: optionsHex};
+    const urlWithParams = this._restApiHelper.urlWithParams(url, params);
+    const req: FetchJSONRequest = {
+      url,
+      errFn,
+      cancelCondition,
+      params,
+      fetchOptions: this._etags.getOptions(urlWithParams),
+      anonymizedUrl: '/changes/*~*/detail?O=' + optionsHex,
+    };
+    return this._restApiHelper.fetchRawJSON(req).then(response => {
+      if (response?.status === 304) {
+        return parsePrefixedJSON(
+          // urlWithParams already cached
+          this._etags.getCachedPayload(urlWithParams)!
+        ) as unknown as ChangeInfo;
+      }
+
+      if (response && !response.ok) {
+        if (errFn) {
+          errFn.call(null, response);
+        } else {
+          fireServerError(response, req);
+        }
+        return undefined;
+      }
+
+      if (!response) {
+        return Promise.resolve(undefined);
+      }
+
+      return readResponsePayload(response).then(payload => {
+        if (!payload) {
+          return undefined;
+        }
+        this._etags.collect(urlWithParams, response, payload.raw);
+        // TODO(TS): Why it is always change info?
+        this._maybeInsertInLookup(payload.parsed as unknown as ChangeInfo);
+
+        return payload.parsed as unknown as ChangeInfo;
+      });
+    });
   }
 
   getChangeCommitInfo(changeNum: NumericChangeId, patchNum: PatchSetNum) {

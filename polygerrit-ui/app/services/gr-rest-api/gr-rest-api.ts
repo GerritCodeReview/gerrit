@@ -197,11 +197,22 @@ export interface RestApiService extends Finalizable {
     errFn?: ErrorCallback
   ): Promise<BranchInfo[] | undefined>;
 
+  /*
+  @deprecated
+  */
+
   getChangeDetail(
     changeNum?: number | string,
     errFn?: ErrorCallback,
     cancelCondition?: Function
   ): Promise<ParsedChangeInfo | undefined>;
+
+  getChangeDetail(
+      project: RepoName,
+      changeNum: number | string,
+      errFn?: ErrorCallback,
+      cancelCondition?: Function
+    ): Promise<ParsedChangeInfo | undefined>;
 
   /**
    * Given a changeNum, gets the change.
@@ -368,11 +379,21 @@ export interface RestApiService extends Finalizable {
 
   getChangeEdit(changeNum?: NumericChangeId): Promise<EditInfo | undefined>;
 
+  /*
+    @deprecated
+    */
   getChangeActionURL(
     changeNum: NumericChangeId,
     patchNum: PatchSetNum | undefined,
     endpoint: string
   ): Promise<string>;
+
+  getChangeActionURL(
+    project: RepoName,
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum | undefined,
+    endpoint: string
+  ): string;
 
   createChange(
     repo: RepoName,

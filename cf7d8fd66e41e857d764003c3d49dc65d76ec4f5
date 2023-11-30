@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "210f9ae5_e6cec5ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-11-30T09:48:18Z",
+      "side": 1,
+      "message": "Regarding the branch names in the examples: I know that they do not matter. However, if concrete names are used which reflect our real life usage (like master and stable) then we intuitively think of stable being merged into the master most of the time and it is easier to reason that way.",
+      "parentUuid": "1b700ff3_ecdd29ac",
+      "revId": "cf7d8fd66e41e857d764003c3d49dc65d76ec4f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30b50dd3_e87759ca",

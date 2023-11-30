@@ -252,7 +252,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
     input.email = email;
     input.type = type;
     try {
-      modifyIdentity.apply(changeResource, input);
+      var unused = modifyIdentity.apply(changeResource, input);
     } catch (Exception e) {
       throw asRestApiException("Cannot edit identity of change", e);
     }

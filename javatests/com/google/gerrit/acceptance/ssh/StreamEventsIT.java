@@ -39,6 +39,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -157,6 +158,26 @@ public class StreamEventsIT extends AbstractDaemonTest {
 
     waitForEvent(
         () -> pollEventsContaining("batch-ref-updated", "refs/draft-comments/").size() == 1);
+  }
+
+  @Test
+  @GerritConfig(name = "event.stream-events.enableRefUpdatedEvents", value = "true")
+  @GerritConfig(name = "event.stream-events.enableBatchRefUpdatedEvents", value = "false")
+  @GerritConfig(name = "event.stream-events.enableDraftCommentEvents", value = "true")
+  public void draftCommentRefsDeletionShowInStreamEventsUponPublishing() throws Exception {
+    change = createChange().getChange();
+
+    draftReviewChange(PATCHSET_LEVEL, String.format("%s 1", TEST_REVIEW_DRAFT_COMMENT));
+    publishDraftReviews();
+
+    waitForEvent(
+        () ->
+            pollEventsContaining(
+                        "ref-updated",
+                        "refs/draft-comments/",
+                        "\"newRev\":\"" + ObjectId.zeroId().name() + "\"")
+                    .size()
+                == 1);
   }
 
   private void waitForEvent(Supplier<Boolean> waitCondition) throws InterruptedException {

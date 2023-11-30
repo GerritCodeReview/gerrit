@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "416411e8_7ff1b130",
+        "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-30T23:16:11Z",
+      "side": 1,
+      "message": "I don\u0027t know how much you care, but this method using BASH_SOURCE can be wrong (I think with usage of soft links sometimes). The robust way of doing it uses GNU readlink and needs 2 lines if you want MacOS to work:\n\n```suggestion\nreadlink -f / \u0026\u003e /dev/null || readlink() { greadlink \"$@\" ; } # for MacOS\ntest_dir\u003d$(dirname -- \"$(readlink -f -- \"$0\")\")\n```",
+      "revId": "a734b160cf5d434aed216b2512cbb2545baa7aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "304ee28d_fd3a95f8",
         "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
         "patchSetId": 7
@@ -84,6 +101,29 @@
         "startChar": 22,
         "endLine": 9,
         "endChar": 23
+      },
+      "revId": "a734b160cf5d434aed216b2512cbb2545baa7aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52ec82fc_2dc24680",
+        "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-30T23:16:11Z",
+      "side": 1,
+      "message": "I would make this explicit for what you set, and initialize to 0 on line 8.\n\nBut what would be even better would be to skip ever dealing with this variable and set this up as a trap when you create the dir, like this:\n\n```\n  TEST_TMPDIR\u003d$(mktemp -d)\n  trap cleanup EXIT\nfi\n\nfunction cleanup {\n  rm -rf \"$TEST_TMPDIR\"\n}\n```\n\nAnd then you don\u0027t need to call it on lines 22 or 253.",
+      "range": {
+        "startLine": 17,
+        "startChar": 4,
+        "endLine": 17,
+        "endChar": 24
       },
       "revId": "a734b160cf5d434aed216b2512cbb2545baa7aac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

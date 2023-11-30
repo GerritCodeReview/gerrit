@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d75d1097_a25c36bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2023-11-30T11:16:30Z",
+      "side": 1,
+      "message": "doesn\u0027t macOS support `-E` ?  that\u0027s the portable form for `-r`.",
+      "revId": "0685c111dfc8d13a61981c17d479ad656a8f829e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

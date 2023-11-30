@@ -16,6 +16,23 @@
       "message": "Rebased this on the new stable-3.9 after the mismerged fix saga [1]\n\n\n[1]https://www.gerritcodereview.com/3.9.html#upgrade-from-gerrit-v390-defective-release",
       "revId": "1f19bdc53a735dc7b42f275cc9ab3f834d7aa82b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60d50a53_822eb9db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-11-30T09:31:23Z",
+      "side": 1,
+      "message": "Thanks for the reviews!\nLet\u0027s wait before merging this so the first 3.9 release is out this Friday.",
+      "revId": "1f19bdc53a735dc7b42f275cc9ab3f834d7aa82b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

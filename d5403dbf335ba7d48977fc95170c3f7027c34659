@@ -16,6 +16,24 @@
       "message": "we\u0027ve been copying this file into the repo tree as it takes care of deploying this hook automatically.  once this merges, please update that copy too.\nhttps://gerrit.googlesource.com/git-repo/+/HEAD/hooks/commit-msg",
       "revId": "d5403dbf335ba7d48977fc95170c3f7027c34659",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3a51260_78dd9a55",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2023-11-30T10:17:57Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/git-repo/+/395577",
+      "parentUuid": "e5f2dee6_b7224a46",
+      "revId": "d5403dbf335ba7d48977fc95170c3f7027c34659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

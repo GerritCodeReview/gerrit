@@ -39,6 +39,30 @@
       },
       "revId": "7c7b8d86a112bec31d51eed384477b93e7cae20e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c89e1f4_052daef5",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-11-30T22:40:13Z",
+      "side": 1,
+      "message": "Yeah, I also should have noticed it breaks the contract stated in the javadoc:\n\n```\n   * \u003cp\u003eNull values are omitted, as are fields which cause errors, which are logged.\n```",
+      "parentUuid": "d54f1286_0b3217e0",
+      "range": {
+        "startLine": 222,
+        "startChar": 6,
+        "endLine": 224,
+        "endChar": 5
+      },
+      "revId": "7c7b8d86a112bec31d51eed384477b93e7cae20e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

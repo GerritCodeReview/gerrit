@@ -22,9 +22,13 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.git.RefUpdateUtil;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.FanOutExecutor;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
@@ -46,6 +50,7 @@ public class AllUsersAsyncUpdate {
   private final ExecutorService executor;
   private final AllUsersName allUsersName;
   private final GitRepositoryManager repoManager;
+  private final GitReferenceUpdated gitReferenceUpdated;
   private final ListMultimap<String, ChangeDraftNotesUpdate> draftUpdates;
 
   private PersonIdent serverIdent;
@@ -54,10 +59,12 @@ public class AllUsersAsyncUpdate {
   AllUsersAsyncUpdate(
       @FanOutExecutor ExecutorService executor,
       AllUsersName allUsersName,
-      GitRepositoryManager repoManager) {
+      GitRepositoryManager repoManager,
+      GitReferenceUpdated gitReferenceUpdated) {
     this.executor = executor;
     this.allUsersName = allUsersName;
     this.repoManager = repoManager;
+    this.gitReferenceUpdated = gitReferenceUpdated;
     this.draftUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
   }
 
@@ -83,7 +90,11 @@ public class AllUsersAsyncUpdate {
   }
 
   /** Executes repository update asynchronously. No-op in case no updates were scheduled. */
-  void execute(PersonIdent refLogIdent, String refLogMessage, PushCertificate pushCert) {
+  void execute(
+      PersonIdent refLogIdent,
+      String refLogMessage,
+      PushCertificate pushCert,
+      CurrentUser currentUser) {
     if (isEmpty()) {
       return;
     }
@@ -110,11 +121,17 @@ public class AllUsersAsyncUpdate {
                   allUsersRepo.cmds.addTo(bru);
                   bru.setAllowNonFastForwards(true);
                   RefUpdateUtil.executeChecked(bru, allUsersRepo.rw);
+                  gitReferenceUpdated.fire(allUsersName, bru, getAccountState(currentUser));
                 } catch (IOException e) {
                   logger.atSevere().withCause(e).log(
                       "Failed to delete draft comments asynchronously after publishing them");
                 }
               }
             });
+  }
+
+  @Nullable
+  private static AccountState getAccountState(CurrentUser user) {
+    return user.isIdentifiedUser() ? user.asIdentifiedUser().state() : null;
   }
 }

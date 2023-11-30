@@ -2061,7 +2061,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeUpdate update2 = newUpdate(c, otherUser);
     update2.putApproval(LabelId.CODE_REVIEW, (short) 2);
 
-    try (NoteDbUpdateManager updateManager = updateManagerFactory.create(project)) {
+    try (NoteDbUpdateManager updateManager = updateManagerFactory.create(project, otherUser)) {
       updateManager.add(update1);
       updateManager.add(update2);
       testRefAction(() -> updateManager.execute());
@@ -2090,7 +2090,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Instant time1 = TimeUtil.now();
     PatchSet.Id psId = c.currentPatchSetId();
     RevCommit tipCommit;
-    try (NoteDbUpdateManager updateManager = updateManagerFactory.create(project)) {
+    try (NoteDbUpdateManager updateManager = updateManagerFactory.create(project, otherUser)) {
       HumanComment comment1 =
           newComment(
               psId,
@@ -2170,7 +2170,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Ref initial2 = repo.exactRef(update2.getRefName());
     assertThat(initial2).isNotNull();
 
-    try (NoteDbUpdateManager updateManager = updateManagerFactory.create(project)) {
+    try (NoteDbUpdateManager updateManager = updateManagerFactory.create(project, otherUser)) {
       updateManager.add(update1);
       updateManager.add(update2);
       testRefAction(() -> updateManager.execute());
@@ -3477,7 +3477,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             newUpdate(c, otherUser).createDraftUpdateIfNull());
     if (draftUpdate.isPresent()) {
       draftUpdate.get().putDraftComment(comment2);
-      try (NoteDbUpdateManager manager = updateManagerFactory.create(c.getProject())) {
+      try (NoteDbUpdateManager manager = updateManagerFactory.create(c.getProject(), otherUser)) {
         manager.add(draftUpdate.get());
         testRefAction(() -> manager.execute());
       }
@@ -3541,7 +3541,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             false);
     update2.putComment(HumanComment.Status.PUBLISHED, comment2);
 
-    try (NoteDbUpdateManager manager = updateManagerFactory.create(project)) {
+    try (NoteDbUpdateManager manager = updateManagerFactory.create(project, otherUser)) {
       manager.add(update1);
       manager.add(update2);
       testRefAction(() -> manager.execute());

@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79de2fd4_09ba3405",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2023-11-30T11:18:18Z",
+      "side": 1,
+      "message": "`cat xxx | sed` is just `sed xxx`.  no need to waste time on cat here.",
+      "revId": "c05b8b2883468606920ec63f057bf07cccd1f614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

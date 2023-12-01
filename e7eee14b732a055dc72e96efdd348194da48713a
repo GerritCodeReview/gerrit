@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6037c93e_3983ea58",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-12-01T00:51:58Z",
+      "side": 1,
+      "message": "Ack. Good with me. I\u0027ll leave this unresolved for Orgad to share any more.",
+      "parentUuid": "c785eb29_d426a2fe",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "e7eee14b732a055dc72e96efdd348194da48713a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "13fc7d6b_7992e4ce",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

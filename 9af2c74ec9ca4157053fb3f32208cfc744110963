@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa484126_27eb4214",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-12-01T17:32:08Z",
+      "side": 1,
+      "message": "How about adding a unit test to [EventDeserializerTest.java](https://gerrit.googlesource.com/gerrit/+/9af2c74ec9ca4157053fb3f32208cfc744110963/javatests/com/google/gerrit/server/events/EventDeserializerTest.java) so that it gets verified automatically? Similarly to what was done in Ie09b7e4b717b?",
+      "revId": "9af2c74ec9ca4157053fb3f32208cfc744110963",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

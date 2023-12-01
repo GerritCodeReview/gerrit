@@ -34,6 +34,69 @@ submit requirements can be restored by a direct push to the `refs/meta/config`
 branch. If direct pushes are disabled or not allowed reach out to a Gerrit
 administrator for help.
 
+[[test-submit-requirements]]
+=== Testing Submit Requirements
+
+When modifying submit requirements it's recommended to test them before
+updating them in the project configuration.
+
+To test a submit requirement on a selected change
+link:rest-api-changes.html#change-id[project~branch~changeId] use the
+link:rest-api-changes.html#check-submit-requirement[Check Submit Requirement]
+REST endpoint.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/check.submit_requirement HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+    {
+      "name": "Code-Review",
+      "submittability_expression": "label:Code-Review=+2"
+    }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "name": "Code-Review",
+    "status": "SATISFIED",
+    "submittability_expression_result": {
+      "expression": "label:Code-Review=+2",
+      "fulfilled": true,
+      "passingAtoms": [
+        "label:Code-Review=+2"
+      ]
+    },
+    "is_legacy": false
+  }
+----
+
+Alternatively you can make a change that updates a submit requirement in the
+`project.config` file, upload it for review to the `refs/meta/config` branch
+and then load it from that change which is in review to test it against a
+change.
+
+Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/check.submit_requirement?sr-name=Code-Review&refs-config-change-id=myProject~refs/meta/config~Ibc1409aef8bf0a16a76f9fa9a928bd505228fa1d HTTP/1.0
+----
+
+In the above example `myProject\~master~I8473b95934b5732ac55d26311a706c9c2bde9940`
+is the change against which the submit requirement is tested, `Code Review` is
+the name of the submit requirement that is tested and
+`myProject\~refs/meta/config~Ibc1409aef8bf0a16a76f9fa9a928bd505228fa1d` is the
+change from which the `Code Review` submit requirement is loaded. Change
+`myProject~refs/meta/config~Ibc1409aef8bf0a16a76f9fa9a928bd505228fa1d` must be
+a change that touches the `project.config` file in the `refs/meta/config`
+branch and the `project.config` file must contain a submit requirement with the
+name `Code-Review`.
+
 [[dashboard]]
 === Show Submit Requirements on Dashboards
 
@@ -504,46 +567,6 @@ the commit message.
   description = Changes must include a 'Bug' footer
   applicableIf = -branch:refs/meta/config AND -hasfooter:\"Bug\"
   submittableIf = hasfooter:\"Bug\"
-----
-
-[[test-submit-requirements]]
-== Testing Submit Requirements
-
-The link:rest-api-changes.html#check-submit-requirement[Check Submit Requirement]
-change endpoint can be used to test submit requirements on any change. Users
-are encouraged to test submit requirements before adding them to the project
-to ensure they work as intended.
-
-.Request
-----
-  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/check.submit_requirement HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-
-    {
-      "name": "Code-Review",
-      "submittability_expression": "label:Code-Review=+2"
-    }
-----
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  {
-    "name": "Code-Review",
-    "status": "SATISFIED",
-    "submittability_expression_result": {
-      "expression": "label:Code-Review=+2",
-      "fulfilled": true,
-      "passingAtoms": [
-        "label:Code-Review=+2"
-      ]
-    },
-    "is_legacy": false
-  }
 ----
 
 GERRIT

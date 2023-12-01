@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "780a44bf_647a2045",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-01T16:45:57Z",
+      "side": 1,
+      "message": "Definitively it is a matter of permissions. I have checked with BuildBuddy engineers and apparently the image `gcr.io/flame-public/rbe-ubuntu20-04:latest` is used for running remote actions and these ones are run as a `root` user.\nThey suggested to add the following in the delete-project plugin\u0027s test target BUILD [1]:\n```\n    exec_properties \u003d {\n        \"dockerUser\": \"nobody\",\n    },\n```\n\nAfter adding that, all the test passed correctly.\n\n@david.ostrovsky@gmail.com, please let me know when you are available.\nReferences:\n\n[1] https://gerrit.googlesource.com/plugins/delete-project/+/refs/heads/master/BUILD#30",
+      "parentUuid": "56ddda3f_f84dd1e7",
+      "revId": "6f0979980f916199a5065cea2d3c6fca4a66466b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "92e64d45_1d0ea787",
         "filename": "tools/remote-bazelrc",
         "patchSetId": 17

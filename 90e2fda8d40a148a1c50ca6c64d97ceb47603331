@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10722cb7_adec854a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-01T00:14:16Z",
+      "side": 1,
+      "message": "It makes sense to move this to stable-3.2 where the problem appeared.",
+      "revId": "90e2fda8d40a148a1c50ca6c64d97ceb47603331",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

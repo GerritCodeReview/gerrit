@@ -137,6 +137,51 @@ If overriding a submit requirement is disallowed in a parent project, submit
 requirements with the same name in child projects, that would otherwise
 override the inherited submit requirement, are ignored.
 
+[[labels]]
+== Labels and Submit Requirements
+
+link:config-labels.html[Labels] define voting categories for reviewers to score
+changes. Often a label is accompanied by a submit requirement to check the votes
+on the label, e.g. with link:#submit_requirement_submittable_if[submittableIf]
+expression that checks that:
+
+* the label was approved: `label:My-Label=MAX`
+* the label has no veto: `-label:My-Label=MIN`
+* the label was not self-approved: `label:My-Label=MAX,user=non_uploader`
+* the label was approved by multiple users: `label:My-Label,count=2`
+
+Submit requirements that check votes for a single label often have the same
+name as the label, e.g.:
+
+----
+[label "Code-Review"]
+  function = NoBlock
+  value = -2 This shall not be submitted
+  value = -1 I would prefer this is not merged as is
+  value = 0 No score
+  value = +1 Looks good to me, but someone else must approve
+  value = +2 Looks good to me, approved
+  defaultValue = 0
+[submit-requirement "Code-Review"]
+  description = At least one maximum vote for label 'Code-Review' is required
+  submittableIf = label:Code-Review=MAX,user=non_uploader AND -label:Code-Review=MIN
+  canOverrideInChildProjects = true
+----
+
+[[trigger-votes]]
+=== Trigger Votes
+
+Trigger votes are votes on labels that are not associated with any submit
+requirement expressions, i.e. the submittability of changes doesn't depend on
+these votes.
+
+Voting on labels that have no impact on the submittability of changes usually
+serves the purpose to trigger processes, e.g. a vote on a `Presubmit-Ready`
+label can be a signal to run presubmit integration tests. Hence these votes are
+called `tigger votes`.
+
+Trigger votes are displayed in a separate section in the change page.
+
 [[deprecated]]
 == Deprecated ways to control when changes can be submitted
 
@@ -475,14 +520,6 @@ The `label` operator allows to match changes that have votes matching the given
 `LabelExpression`. The `LabelExpression` can be anything that's supported for
 the link:user-search.html#labels[label] query operator.
 +
-In submit requirements this operator is often used to check that:
-+
---
-* a label was approved: `label:My-Label=MAX`
-* a label has no veto: `-label:My-Label=MIN`
-* a label was not self-approved: `label:My-Label=MAX,user=non_uploader`
---
-+
 If used in submit requirement expressions, this operator supports an additional
 `user=non_contributor` argument. This argument works similar to the
 link:user-search.html#non_uploader["user=non_uploader"] argument and returns
@@ -498,15 +535,6 @@ Some operators are not supported with submit requirement expressions.
 is:submittable::
 +
 Cannot be used since it will result in recursive evaluation of expressions.
-
-[[trigger-votes]]
-== Trigger Votes
-
-Trigger votes are label votes that are not associated with any submit
-requirement expressions. Trigger votes are displayed in a separate section in
-the change page. For more about configuring labels, see the
-link:config-labels.html[config labels] documentation.
-
 
 [[examples]]
 == Examples

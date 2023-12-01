@@ -16,6 +16,24 @@
       "message": "How about adding a unit test to [EventDeserializerTest.java](https://gerrit.googlesource.com/gerrit/+/9af2c74ec9ca4157053fb3f32208cfc744110963/javatests/com/google/gerrit/server/events/EventDeserializerTest.java) so that it gets verified automatically? Similarly to what was done in Ie09b7e4b717b?",
       "revId": "9af2c74ec9ca4157053fb3f32208cfc744110963",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0c57876_82deaab9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-01T17:40:39Z",
+      "side": 1,
+      "message": "Adding a test retrospectively will only prevent someone from removing this mapping, which I doubt anyone would. It would be better to have a test that could prevent anyone from adding an event that is not registered in `EventTypes`.\n\nSure, can add it, but it\u0027s not the highest value for the buck ;)",
+      "parentUuid": "fa484126_27eb4214",
+      "revId": "9af2c74ec9ca4157053fb3f32208cfc744110963",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

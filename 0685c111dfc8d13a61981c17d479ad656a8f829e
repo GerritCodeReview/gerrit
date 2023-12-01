@@ -16,6 +16,24 @@
       "message": "doesn\u0027t macOS support `-E` ?  that\u0027s the portable form for `-r`.",
       "revId": "0685c111dfc8d13a61981c17d479ad656a8f829e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "deb82b78_7a74cdfa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1135531
+      },
+      "writtenOn": "2023-12-01T08:57:55Z",
+      "side": 1,
+      "message": "I guess so. Though in this case it was easy enough to do it without using extended regular expressions.",
+      "parentUuid": "d75d1097_a25c36bc",
+      "revId": "0685c111dfc8d13a61981c17d479ad656a8f829e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

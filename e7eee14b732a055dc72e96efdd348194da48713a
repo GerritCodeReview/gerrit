@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a41c8b55_c5f9cc03",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-01T00:53:28Z",
+      "side": 1,
+      "message": "Agreed, let\u0027s leave 1-2 days to read the comments and comment further on that. Possibly he can clarify what was the purpose of the empty list 😊",
+      "parentUuid": "6037c93e_3983ea58",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "e7eee14b732a055dc72e96efdd348194da48713a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "13fc7d6b_7992e4ce",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

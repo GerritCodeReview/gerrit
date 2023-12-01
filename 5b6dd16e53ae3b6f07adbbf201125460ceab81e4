@@ -131,6 +131,29 @@
       "message": "A few nits",
       "revId": "5b6dd16e53ae3b6f07adbbf201125460ceab81e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8e84cf1_cbce2315",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-12-01T06:25:03Z",
+      "side": 1,
+      "message": "question: should we detect if the returned list is empty (as a result of `RuntimeException`s and also log \u0026 throw so that implicit delete is avoided altogether?",
+      "range": {
+        "startLine": 222,
+        "startChar": 17,
+        "endLine": 222,
+        "endChar": 34
+      },
+      "revId": "5b6dd16e53ae3b6f07adbbf201125460ceab81e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

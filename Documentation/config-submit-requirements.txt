@@ -184,6 +184,12 @@ link:#submit_requirement_submittable_if[submittableIf] or
 link:#submit_requirement_override_if[overrideIf] expressions resulted in an
 error.
 
+[NOTE]
+It's possible that Gerrit is configured to return a `500 internal server error`
+response instead of setting the status to `ERROR` (see the
+link:config-gerrit.html#change.propagateSubmitRequirementErrors[
+change.propagateSubmitRequirementErrors] option that can be set on host level).
+
 [[submit-requirement-subsection]]
 == submit-requirement subsection
 

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "84f5209e_4b9694cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-01T17:22:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b1d583a_569ba976",
+      "revId": "378633ecee351c2f7d1027c64dd8c699e7ba401a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f17ebaff_797d9d8a",
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "44e500c7_25e289db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-01T17:22:59Z",
+      "side": 1,
+      "message": "`ProjectHeadUpdatedEvent` isn\u0027t _new_ (it was added on the 12th of May 2023, see I9f45db38c), But it was not added to `EventTypes`.\n\nI discovered this while testing a fix for the `pull-replication` plugin for updating project `HEAD` using stream events. The exception was thrown when project `HEAD` was changed from the UI.\n\nThere\u0027s already a bug[1] reporting the same exception in a different context. But that could be just a coincidence.\n\n[1] https://issues.gerritcodereview.com/issues/300418482",
+      "parentUuid": "f17ebaff_797d9d8a",
+      "revId": "378633ecee351c2f7d1027c64dd8c699e7ba401a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "94515381_adb553bd",
         "filename": "java/com/google/gerrit/server/events/EventTypes.java",
         "patchSetId": 1
@@ -48,6 +84,24 @@
       "writtenOn": "2023-12-01T16:41:03Z",
       "side": 1,
       "message": "maybe move this line a bit further up to preserve alphabetic ordering.",
+      "revId": "378633ecee351c2f7d1027c64dd8c699e7ba401a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84a3090c_7a837647",
+        "filename": "java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-01T17:22:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94515381_adb553bd",
       "revId": "378633ecee351c2f7d1027c64dd8c699e7ba401a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "989e34a9_6dc7c80f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/SubmitRequirementPredicateIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-12-01T06:40:29Z",
+      "side": 1,
+      "message": "Could you just use com.google.gerrit.acceptance.AccountCreator#create()?",
+      "range": {
+        "startLine": 571,
+        "startChar": 2,
+        "endLine": 612,
+        "endChar": 3
+      },
+      "revId": "073ec6d8fa04d98f627730f62575beee9cc4701b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

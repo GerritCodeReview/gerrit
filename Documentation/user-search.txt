@@ -848,6 +848,7 @@ Matches changes with a +2 code review where the reviewer is jsmith.
 The special "owner" parameter corresponds to the change owner.  Matches
 all changes that have a +2 vote from the change owner.
 
+[[non_uploader]]
 `label:Code-Review=+2,user=non_uploader`::
 `label:Code-Review=ok,user=non_uploader`::
 `label:Code-Review=+2,non_uploader`::

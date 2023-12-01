@@ -182,7 +182,14 @@ The evaluation of any of the
 link:#submit_requirement_applicable_if[applicableIf],
 link:#submit_requirement_submittable_if[submittableIf] or
 link:#submit_requirement_override_if[overrideIf] expressions resulted in an
-error.
+error, i.e. because the expression is not parseable.
+
+[NOTE]
+Gerrit can be configured to return a `500 internal server error` response
+instead of setting the status to `ERROR` (see the
+link:config-gerrit.html#change.propagateSubmitRequirementErrors[
+change.propagateSubmitRequirementErrors] option that can be set in
+`gerrit.config`).
 
 [[submit-requirement-subsection]]
 == submit-requirement subsection

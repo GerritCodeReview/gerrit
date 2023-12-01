@@ -1566,18 +1566,32 @@ By default true.
 
 [[change.propagateSubmitRequirementErrors]]change.propagateSubmitRequirementErrors::
 +
-If a SubmitRequirement evaluation for a given change results in an
-ERROR status, abort the REST response with an HTTP 500 error.
+If set, requests that access the submit requirements of a change fail with an
+HTTP 500 error if the change has a submit requirement with a non-parseable
+expression that would otherwise result in an
+link:config-submit-requirements#status-error[ERROR] status for the submit
+requirement.
 +
-The ERROR status can occur if a SubmitRequirement uses a
-plugin-provided predicate (and the plugin is not available), due to
-bugs, or due to bypassing the validation that normally happens when
-updating `refs/meta/config`.
+Submit requirement expressions can become non-parseable due to bypassing the
+validation that normally happens when updating the project configuration in
+the `refs/meta/config` branch, or due to bugs in Gerrit.
 +
-Enabling this flag  makes gerrit unusuable under such conditions, so
-it is generally not recommended. However, this makes the
-application-specific ERROR status into a generic HTTP error, and can
-thus be acted on by automated deployment and monitoring infrastructure.
+A special case are expressions that use plugin-provided predicates. If any
+plugin that provides a predicate fails to load (e.g. due to an error in the
+plugin) the predicate can no longer be resolved and expressions that are using
+it can no longer be parsed. This is an error that requires the attention of the
+team that operates Gerrit, but in order to get notified when this happens the
+operation team would need to setup custom monitoring that observes whether
+link:config-submit-requirements#status-error[ERROR] statuses are returned for
+submit requirements. Instead this config option can be used to make
+non-parseable submit requirement expressions cause HTTP 500 errors which
+triggers the automatic alerting for errors that Gerrit operation teams usually
+have in place. This allows the operation team to react quickly when this
+happens.
++
+The drawback of enabling this option is that it causes requests to fail rather
+than handling parsing errors gracefully, which can make Gerrit for impacted
+users unusable.
 
 [[change.robotCommentSizeLimit]]change.robotCommentSizeLimit::
 +

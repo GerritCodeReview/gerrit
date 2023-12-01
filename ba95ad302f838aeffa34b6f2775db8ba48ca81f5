@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d3d501c_85dd275b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-12-01T12:13:55Z",
+      "side": 1,
+      "message": "java/com/google/gerrit/server/restapi/config/SnapshotIndex.java:53: error: cannot find symbol\n    SnapshotInfo info \u003d new SnapshotInfo();\n    ^\n  symbol:   class SnapshotInfo\n  location: class SnapshotIndex\njava/com/google/gerrit/server/restapi/config/SnapshotIndex.java:53: error: cannot find symbol\n    SnapshotInfo info \u003d new SnapshotInfo();\n                            ^\n  symbol:   class SnapshotInfo\n  location: class SnapshotIndex",
+      "revId": "ba95ad302f838aeffa34b6f2775db8ba48ca81f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

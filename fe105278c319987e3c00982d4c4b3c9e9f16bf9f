@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c688e43_766858b3",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-12-01T09:25:00Z",
+      "side": 1,
+      "message": "submit requirement on a selected change `project~branch~changeId`\n\nadd a link to https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-id",
+      "range": {
+        "startLine": 43,
+        "startChar": 10,
+        "endLine": 43,
+        "endChar": 29
+      },
+      "revId": "fe105278c319987e3c00982d4c4b3c9e9f16bf9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9e789c2_64fb0c10",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-12-01T09:25:00Z",
+      "side": 1,
+      "message": "Alternatively you can",
+      "range": {
+        "startLine": 79,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 18
+      },
+      "revId": "fe105278c319987e3c00982d4c4b3c9e9f16bf9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7616ca47_b4ca261d",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-12-01T09:25:00Z",
+      "side": 1,
+      "message": "that change which is in review",
+      "range": {
+        "startLine": 82,
+        "startChar": 22,
+        "endLine": 82,
+        "endChar": 27
+      },
+      "revId": "fe105278c319987e3c00982d4c4b3c9e9f16bf9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65febac1_7344d833",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-12-01T09:25:00Z",
+      "side": 1,
+      "message": "this will stop working when the deprecated global numerical change numbers are fully replaced by project specific change numbers",
+      "range": {
+        "startLine": 86,
+        "startChar": 120,
+        "endLine": 86,
+        "endChar": 148
+      },
+      "revId": "fe105278c319987e3c00982d4c4b3c9e9f16bf9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

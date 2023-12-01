@@ -34,6 +34,24 @@ submit requirements can be restored by a direct push to the `refs/meta/config`
 branch. If direct pushes are disabled or not allowed reach out to a Gerrit
 administrator for help.
 
+[[dashboard]]
+=== Show Submit Requirements on Dashboards
+
+Gerrit offers dashboards that provide an overview over a set of changes (e.g.
+user dashboards shows changes that are relevant to the user, change list
+dashboards show changes that match a change query). To understand the state of
+the changes knowing the status of their submit requirements is important, but
+submit requirements are manifold and dashboards have only limited screen space
+available, so showing all submit requirements in dashboards is hardly possible.
+This is why administrators must decide which are the most important submit
+requirements that should be shown on dashboards. They can configure these
+submit requirements in `gerrit.config` by setting the
+link:config-gerrit.html#dashboard[dashboard.submitRequirementColumns] option.
+
+[NOTE]
+In order to save screen space submit requirement names on dashboards are
+abbreviated, e.g. a submit requirement called `Foo-Bar` is shown as `FB`.
+
 [[inheritance]]
 == Inheritance
 

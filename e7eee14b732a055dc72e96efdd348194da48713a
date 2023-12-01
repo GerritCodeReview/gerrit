@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "382c51a5_c4e68276",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2023-12-01T04:02:41Z",
+      "side": 1,
+      "message": "Hi,\n\nThanks for discovering and fixing this bug.\n\nI really don\u0027t remember why I returned an empty list. I\u0027m fine with this fix.",
+      "parentUuid": "a41c8b55_c5f9cc03",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "e7eee14b732a055dc72e96efdd348194da48713a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "13fc7d6b_7992e4ce",

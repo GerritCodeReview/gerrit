@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b1d583a_569ba976",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-01T16:41:03Z",
+      "side": 1,
+      "message": "nit: typo Without\nnit: typo JsonParseException",
+      "revId": "378633ecee351c2f7d1027c64dd8c699e7ba401a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94515381_adb553bd",
+        "filename": "java/com/google/gerrit/server/events/EventTypes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-01T16:41:03Z",
+      "side": 1,
+      "message": "maybe move this line a bit further up to preserve alphabetic ordering.",
+      "revId": "378633ecee351c2f7d1027c64dd8c699e7ba401a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

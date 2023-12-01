@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4565c94a_650eb7c6",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-12-01T10:14:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f3ae282_68153e5e",
+      "range": {
+        "startLine": 44,
+        "startChar": 58,
+        "endLine": 44,
+        "endChar": 77
+      },
+      "revId": "6408e52a91b314333d0ba6f39b799ad7df940ce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c26c7b8_26ee9c2a",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-12-01T09:15:41Z",
       "side": 1,
       "message": "I\u0027d remove this",
+      "range": {
+        "startLine": 45,
+        "startChar": 22,
+        "endLine": 45,
+        "endChar": 38
+      },
+      "revId": "6408e52a91b314333d0ba6f39b799ad7df940ce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf797697_ad4eed73",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-12-01T10:14:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c26c7b8_26ee9c2a",
       "range": {
         "startLine": 45,
         "startChar": 22,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "481f1cb9_6419fd16",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-12-01T10:14:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d45a4388_ce3be341",
+      "range": {
+        "startLine": 47,
+        "startChar": 63,
+        "endLine": 47,
+        "endChar": 72
+      },
+      "revId": "6408e52a91b314333d0ba6f39b799ad7df940ce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "535f2074_a1b59109",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-12-01T09:15:41Z",
       "side": 1,
       "message": "in `gerrit.config`",
+      "range": {
+        "startLine": 48,
+        "startChar": 40,
+        "endLine": 48,
+        "endChar": 53
+      },
+      "revId": "6408e52a91b314333d0ba6f39b799ad7df940ce9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53ee8b09_c7ac4247",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-12-01T10:14:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "535f2074_a1b59109",
       "range": {
         "startLine": 48,
         "startChar": 40,

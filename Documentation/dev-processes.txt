@@ -208,19 +208,14 @@ available.
 
 To report a security vulnerability file a
 link:https://issues.gerritcodereview.com/issues/new?component=1371046[
-security issue,role=external,window=_blank] in the Gerrit issue tracker. The visibility of issues that are
-created with the `Security Issue` template is automatically restricted to
-Gerrit maintainers and a few long-term contributors. This means as a reporter
-you may not be able to see the issue once it is created. Security issues are
-created on the `ESC` component so that they will be discussed at the next
-meeting of the link:#steering-committee[Engineering Steering Committee] which
-takes place biweekly.
+security issue,role=external,window=_blank] in the Gerrit issue tracker. Issues
+in the `Gerrit Code Review > Security` component are restricted to Gerrit
+maintainers and a few long-term contributors. The reporter becomes a
+collaborator on the issue and hence can see it as well. Security issues are
+triaged by the link:#steering-committee[Engineering Steering Committee].
 
-If an existing issue is found to be a security vulnerability it should be
-turned into a security issue by:
-
-. Setting the component to `ESC`
-. Adding the labels `Security` and `NonPublic`
+If an existing issue is found to be a security vulnerability it should be moved
+to `Gerrit Code Review > Security` component (component ID: 1371046).
 
 In case of doubt, or if an issue cannot wait until the next ESC meeting,
 contact the link:#steering-committee[Engineering Steering Committee] directly

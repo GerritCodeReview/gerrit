@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a9e60e4_21e632c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-12-01T01:22:53Z",
+      "side": 1,
+      "message": "fail",
+      "range": {
+        "startLine": 7,
+        "startChar": 28,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "5b6dd16e53ae3b6f07adbbf201125460ceab81e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b500bb8e_48cc0edf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-12-01T01:22:53Z",
+      "side": 1,
+      "message": "if any field caused a StorageException",
+      "range": {
+        "startLine": 10,
+        "startChar": 16,
+        "endLine": 11,
+        "endChar": 17
+      },
+      "revId": "5b6dd16e53ae3b6f07adbbf201125460ceab81e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48ae739d_3361f799",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-12-01T01:22:53Z",
+      "side": 1,
+      "message": "returning a blank Lucene document was incorrect because, instead\nof failing the operation, it was causing the change entry to be\ncompletely removed from the index.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 34
+      },
+      "revId": "5b6dd16e53ae3b6f07adbbf201125460ceab81e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21e181ee_ff1a6504",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-12-01T01:22:53Z",
+      "side": 1,
+      "message": "Let the StorageException fail...\nor\nLeave the StorageException to fail",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 32
+      },
+      "revId": "5b6dd16e53ae3b6f07adbbf201125460ceab81e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50573092_9f929995",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-12-01T01:22:53Z",
+      "side": 1,
+      "message": "think just a comma will do here, instead of for",
+      "range": {
+        "startLine": 27,
+        "startChar": 38,
+        "endLine": 27,
+        "endChar": 43
+      },
+      "revId": "5b6dd16e53ae3b6f07adbbf201125460ceab81e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ee8d200_7889d005",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-12-01T01:22:53Z",
+      "side": 1,
+      "message": "A few nits",
+      "revId": "5b6dd16e53ae3b6f07adbbf201125460ceab81e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

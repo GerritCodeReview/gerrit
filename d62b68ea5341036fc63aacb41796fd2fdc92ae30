@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ac2ccb8_6234c22d",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-12-01T11:20:43Z",
+      "side": 1,
+      "message": "Is there really no way for the reporter to see the ticket he created ?\nThat\u0027s bad, how can communication with the reporter work with that limitation ?\nTo my experience maintainers and reporter often need some conversation e.g. to clarify the claims posted by the reporter.",
+      "revId": "d62b68ea5341036fc63aacb41796fd2fdc92ae30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

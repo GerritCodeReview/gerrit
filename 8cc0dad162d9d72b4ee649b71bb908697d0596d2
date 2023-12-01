@@ -87,6 +87,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaacb8e1_08415c0e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 3614,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-12-01T11:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a5b6424_892d2a4e",
+      "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43e83855_1925542b",
@@ -100,6 +118,30 @@
       "writtenOn": "2023-10-25T12:41:00Z",
       "side": 1,
       "message": "UTC time in ISO8601 format (e.g. 20231025T104716Z)",
+      "range": {
+        "startLine": 1508,
+        "startChar": 31,
+        "endLine": 1508,
+        "endChar": 47
+      },
+      "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "418a87b3_9b40a959",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1508,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-12-01T11:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43e83855_1925542b",
       "range": {
         "startLine": 1508,
         "startChar": 31,
@@ -163,6 +205,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95c5872d_3cf670cc",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 1538,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-12-01T11:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ff9ebf2_67ac3a23",
+      "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "44a7722e_fbaba178",
@@ -210,6 +270,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "193d2f70_0fab9d96",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 556,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-12-01T11:47:45Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "2b30bafb_1e0a990e",
+      "range": {
+        "startLine": 556,
+        "startChar": 32,
+        "endLine": 556,
+        "endChar": 44
+      },
+      "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "866c8c8a_b47bd4b7",
@@ -241,6 +325,24 @@
       "side": 1,
       "message": "The `NAME` constant is `changes`, but we need the name of the subindex, e.g. `changes_open`. Adding this field here didn\u0027t change existing fields. But I think it might be better to change the field name to something like `subIndexName`.",
       "parentUuid": "866c8c8a_b47bd4b7",
+      "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b177943_5dccb6ab",
+        "filename": "java/com/google/gerrit/lucene/ChangeSubIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-12-01T11:47:45Z",
+      "side": 1,
+      "message": "removed the field based on the follow-up review comment in this file",
+      "parentUuid": "a60208e1_0db41805",
       "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -280,6 +382,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0156ee5c_db6c10d9",
+        "filename": "java/com/google/gerrit/lucene/ChangeSubIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-12-01T11:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f4fae4b_8b747e05",
+      "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e2db4b68_f1132afd",
@@ -293,6 +413,30 @@
       "writtenOn": "2023-10-25T10:33:29Z",
       "side": 1,
       "message": "```suggestion\n    if (indexAndVersion.size() \u003c 1 || 2 \u003c indexAndVersion.size()) {\n      throw new ResourceNotFoundException(id);\n    }\n    \n    String index \u003d indexAndVersion.get(0);\n    Integer version \u003d indexAndVersion.size() \u003d\u003d 2 ? indexAndVersion.get(1) : null;\n```",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 5
+      },
+      "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f115a44_3e9aa637",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexCollection.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-12-01T11:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2db4b68_f1132afd",
       "range": {
         "startLine": 80,
         "startChar": 0,
@@ -338,6 +482,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93540a7d_53eabe07",
+        "filename": "java/com/google/gerrit/server/restapi/config/SnapshotIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-12-01T11:47:45Z",
+      "side": 1,
+      "message": "Done, but using local time zone instead of UTC.",
+      "parentUuid": "16b98ec1_e32053d4",
+      "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d202074_f140fc29",
@@ -351,6 +513,30 @@
       "writtenOn": "2023-10-25T12:41:00Z",
       "side": 1,
       "message": "```suggestion\n      return id \u003d\u003d null ? String.valueOf(ISO_8601.format(Instant.now())) : id;\n```",
+      "range": {
+        "startLine": 52,
+        "startChar": 41,
+        "endLine": 52,
+        "endChar": 71
+      },
+      "revId": "8cc0dad162d9d72b4ee649b71bb908697d0596d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5041a9ce_aa4f6fe1",
+        "filename": "java/com/google/gerrit/server/restapi/config/SnapshotIndex.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-12-01T11:47:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d202074_f140fc29",
       "range": {
         "startLine": 52,
         "startChar": 41,

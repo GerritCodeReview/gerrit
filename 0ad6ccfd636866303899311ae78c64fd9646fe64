@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9296f727_9d962712",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-12-01T12:24:10Z",
+      "side": 1,
+      "message": "I think for now this is my last change for improving the submit requirements documentation. What\u0027s still missing is to add more examples.",
+      "revId": "0ad6ccfd636866303899311ae78c64fd9646fe64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

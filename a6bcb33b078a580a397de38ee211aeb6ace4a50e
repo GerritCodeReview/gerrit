@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "303c83b1_8ff16df6",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-12-01T09:13:29Z",
+      "side": 1,
+      "message": "Gerrit can be configured\n\nexplain what\u0027s the purpose of doing that ? The referenced option document even says it\u0027s generally not recommended.",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 39
+      },
+      "revId": "a6bcb33b078a580a397de38ee211aeb6ace4a50e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4bd2db19_eeb98af6",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-12-01T09:13:29Z",
+      "side": 1,
+      "message": "in `gerrit.config`",
+      "range": {
+        "startLine": 191,
+        "startChar": 64,
+        "endLine": 191,
+        "endChar": 77
+      },
+      "revId": "a6bcb33b078a580a397de38ee211aeb6ace4a50e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

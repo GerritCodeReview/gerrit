@@ -63,6 +63,30 @@
       },
       "revId": "7c7b8d86a112bec31d51eed384477b93e7cae20e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab6276a6_dcea517a",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-01T00:13:01Z",
+      "side": 1,
+      "message": "Fixed with Change 395677, where I have also updated the JavaDoc accordinly.",
+      "parentUuid": "5c89e1f4_052daef5",
+      "range": {
+        "startLine": 222,
+        "startChar": 6,
+        "endLine": 224,
+        "endChar": 5
+      },
+      "revId": "7c7b8d86a112bec31d51eed384477b93e7cae20e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c785eb29_d426a2fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-01T00:11:34Z",
+      "side": 1,
+      "message": "\u003e With this commit applied, what happens now in the use case from Change 270450?\n\nThe _\"Producing 16 logs for each commit is pointless.\"_ is kept: the reindexing would stop at the first StorageException as before.\n\nThe _\"... and return an empty list when we find one.\"_ is the bit that made the change record disappear in the index and that\u0027s exactly what this fix is about.\n\nIt is unclear what @orgads@gmail.com wanted to achieve with the empty list, the *WHY* was not explained in the commit message and is unclear from the code.",
+      "parentUuid": "c0b1ba9b_099c21d5",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "e7eee14b732a055dc72e96efdd348194da48713a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "13fc7d6b_7992e4ce",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2023-11-30T23:59:22Z",
       "side": 1,
       "message": "Most likely the caller isn\u0027t explicitly doing an index operation though, they\u0027re likely updating some data in NoteDb and then Gerrit is automatically indexing that updated data. How does the caller know to retry indexing when this fails? Will they even have permissions to do that?",
+      "range": {
+        "startLine": 28,
+        "startChar": 3,
+        "endLine": 28,
+        "endChar": 22
+      },
+      "revId": "e7eee14b732a055dc72e96efdd348194da48713a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61721b4b_50e1d8e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-01T00:11:34Z",
+      "side": 1,
+      "message": "\u003e Most likely the caller isn\u0027t explicitly doing an index operation though, they\u0027re likely updating some data in NoteDb and then Gerrit is automatically indexing that updated data.\n\nThe caller can be an API, a Gerrit operation that possibly is within a retry loop or also another plugin.\n\n\u003e How does the caller know to retry indexing when this fails? Will they even have permissions to do that?\n\nThe Gerrit operations have the retry enclosure, the plugins that do automatic reindexing also have retry cycles (e.g. multi-site, high-availability).",
+      "parentUuid": "13fc7d6b_7992e4ce",
       "range": {
         "startLine": 28,
         "startChar": 3,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1e1cfa1_09025d32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-01T00:11:34Z",
+      "side": 1,
+      "message": "Clarified that I was referring to the `gerrit index changes \u003cn\u003e` command as an example.",
+      "parentUuid": "a60bf2a1_9f158f24",
+      "range": {
+        "startLine": 32,
+        "startChar": 16,
+        "endLine": 32,
+        "endChar": 61
+      },
+      "revId": "e7eee14b732a055dc72e96efdd348194da48713a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a126b0cd_1663404a",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-11-30T23:59:22Z",
       "side": 1,
       "message": "Is this already happening automatically or is a follow up needed to do that?",
+      "range": {
+        "startLine": 51,
+        "startChar": 37,
+        "endLine": 52,
+        "endChar": 44
+      },
+      "revId": "e7eee14b732a055dc72e96efdd348194da48713a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22edb797_6a4c7a7d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-01T00:11:34Z",
+      "side": 1,
+      "message": "\u003e Is this already happening automatically or is a follow up needed to do that?\n\nGerrit higher-level APIs already have retries, it would not make sense to implement the retry operation at lower Lucene level.\n\nThe only place where the retry could make sense is the end-user reindex command or REST-API. That would be indeed a good idea for a follow-up change.",
+      "parentUuid": "a126b0cd_1663404a",
       "range": {
         "startLine": 51,
         "startChar": 37,

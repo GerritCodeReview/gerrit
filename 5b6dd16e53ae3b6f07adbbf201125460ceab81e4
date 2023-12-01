@@ -154,6 +154,30 @@
       },
       "revId": "5b6dd16e53ae3b6f07adbbf201125460ceab81e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2280f0d_ae746c5b",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-12-01T17:18:37Z",
+      "side": 1,
+      "message": "That seems like something replace() would do, not buildFields()? Unless we add something extra to buildFields() like a concept of \"required fields\".",
+      "parentUuid": "f8e84cf1_cbce2315",
+      "range": {
+        "startLine": 222,
+        "startChar": 17,
+        "endLine": 222,
+        "endChar": 34
+      },
+      "revId": "5b6dd16e53ae3b6f07adbbf201125460ceab81e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

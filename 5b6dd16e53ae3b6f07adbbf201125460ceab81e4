@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb70cf62_03a6fe34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-01T23:23:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a9e60e4_21e632c9",
+      "range": {
+        "startLine": 7,
+        "startChar": 28,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "5b6dd16e53ae3b6f07adbbf201125460ceab81e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b500bb8e_48cc0edf",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-12-01T01:22:53Z",
       "side": 1,
       "message": "if any field caused a StorageException",
+      "range": {
+        "startLine": 10,
+        "startChar": 16,
+        "endLine": 11,
+        "endChar": 17
+      },
+      "revId": "5b6dd16e53ae3b6f07adbbf201125460ceab81e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "819f3073_e9350094",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-01T23:23:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b500bb8e_48cc0edf",
       "range": {
         "startLine": 10,
         "startChar": 16,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6efa40ce_83d7f636",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-01T23:23:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48ae739d_3361f799",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 34
+      },
+      "revId": "5b6dd16e53ae3b6f07adbbf201125460ceab81e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21e181ee_ff1a6504",
@@ -93,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8951611_d32abb2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-01T23:23:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21e181ee_ff1a6504",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 32
+      },
+      "revId": "5b6dd16e53ae3b6f07adbbf201125460ceab81e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50573092_9f929995",
@@ -106,6 +202,30 @@
       "writtenOn": "2023-12-01T01:22:53Z",
       "side": 1,
       "message": "think just a comma will do here, instead of for",
+      "range": {
+        "startLine": 27,
+        "startChar": 38,
+        "endLine": 27,
+        "endChar": 43
+      },
+      "revId": "5b6dd16e53ae3b6f07adbbf201125460ceab81e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d0b12a4_3a65fca2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-01T23:23:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50573092_9f929995",
       "range": {
         "startLine": 27,
         "startChar": 38,
@@ -170,6 +290,30 @@
       "side": 1,
       "message": "That seems like something replace() would do, not buildFields()? Unless we add something extra to buildFields() like a concept of \"required fields\".",
       "parentUuid": "f8e84cf1_cbce2315",
+      "range": {
+        "startLine": 222,
+        "startChar": 17,
+        "endLine": 222,
+        "endChar": 34
+      },
+      "revId": "5b6dd16e53ae3b6f07adbbf201125460ceab81e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1c3d025_73e51f1a",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-01T23:23:07Z",
+      "side": 1,
+      "message": "Acknowledged, it is not something for this method. I am just restoring the way it was working before.",
+      "parentUuid": "b2280f0d_ae746c5b",
       "range": {
         "startLine": 222,
         "startChar": 17,

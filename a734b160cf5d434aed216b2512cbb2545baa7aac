@@ -35,6 +35,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb5f9340_509ef560",
+        "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2023-12-02T21:19:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "416411e8_7ff1b130",
+      "revId": "a734b160cf5d434aed216b2512cbb2545baa7aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "304ee28d_fd3a95f8",
@@ -119,6 +137,30 @@
       "writtenOn": "2023-11-30T23:16:11Z",
       "side": 1,
       "message": "I would make this explicit for what you set, and initialize to 0 on line 8.\n\nBut what would be even better would be to skip ever dealing with this variable and set this up as a trap when you create the dir, like this:\n\n```\n  TEST_TMPDIR\u003d$(mktemp -d)\n  trap cleanup EXIT\nfi\n\nfunction cleanup {\n  rm -rf \"$TEST_TMPDIR\"\n}\n```\n\nAnd then you don\u0027t need to call it on lines 22 or 253.",
+      "range": {
+        "startLine": 17,
+        "startChar": 4,
+        "endLine": 17,
+        "endChar": 24
+      },
+      "revId": "a734b160cf5d434aed216b2512cbb2545baa7aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b93a4c6_fa1fd31e",
+        "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2023-12-02T21:19:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52ec82fc_2dc24680",
       "range": {
         "startLine": 17,
         "startChar": 4,

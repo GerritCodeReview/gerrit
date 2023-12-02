@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9caa6c2f_00d705a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-02T10:17:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45b8eb03_c67208c5",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 23
+      },
+      "revId": "dfb924dd4af74d0d803b8cb772ac63dbfc008d90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8662d0f9_ce9568e5",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90fd304a_5d553a6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-02T10:17:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8662d0f9_ce9568e5",
+      "range": {
+        "startLine": 11,
+        "startChar": 16,
+        "endLine": 11,
+        "endChar": 33
+      },
+      "revId": "dfb924dd4af74d0d803b8cb772ac63dbfc008d90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8db31116_4e846f2c",
@@ -60,6 +108,24 @@
       "writtenOn": "2023-12-01T20:24:00Z",
       "side": 1,
       "message": "Missing `Release-Notes`",
+      "revId": "dfb924dd4af74d0d803b8cb772ac63dbfc008d90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e215e57a_86580551",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-02T10:17:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8db31116_4e846f2c",
       "revId": "dfb924dd4af74d0d803b8cb772ac63dbfc008d90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "858ec325_4a3e7df5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-12-02T12:30:54Z",
+      "side": 1,
+      "message": "LC+1 is needed due to changes in WORKSPACE` file.",
+      "revId": "bb951633681bda6edfaafd8e1401da20c962f434",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

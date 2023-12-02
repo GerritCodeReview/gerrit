@@ -33,6 +33,24 @@
       "message": "Thanks for the reviews!\nLet\u0027s wait before merging this so the first 3.9 release is out this Friday.",
       "revId": "1f19bdc53a735dc7b42f275cc9ab3f834d7aa82b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81c94583_962aab8c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-02T11:54:43Z",
+      "side": 1,
+      "message": "Gerrit v3.9.1 has been released, we can rebase and merge this one.",
+      "parentUuid": "60d50a53_822eb9db",
+      "revId": "1f19bdc53a735dc7b42f275cc9ab3f834d7aa82b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

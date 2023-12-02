@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ae91c66_3f2f98db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-02T02:27:04Z",
+      "side": 1,
+      "message": "All tests are passing, but needed to rebase on two test fixes made by @hiesel@google.com on stable-3.5: it looks like the RefAdvertisementIT and ConsistencyCheckerIT were triggering reindexing on invalid refs/sha1s.\n\nThe problem has been fixed in stable-3.5 and the same fixes are needed in stable-3.2 for making them pass.",
+      "revId": "baa07eb26bef21878a6f9d9e9c4be36c796836e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

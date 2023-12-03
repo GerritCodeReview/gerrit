@@ -124,6 +124,24 @@
       "parentUuid": "28278280_b0c411eb",
       "revId": "ba034951c7f5bb92b122b331d6090ae9be608afa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eed3148b_0406862b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-03T11:27:56Z",
+      "side": 1,
+      "message": "\u003e I tried, offline reindex fails with the same error message.\n\nThat looks strange, can you show the gerrit_index.config *before* the execution and then the exact command line you\u0027ve executed? That would allow me to reproduce the problem you had. Feel free to add that information to Issue 314340456",
+      "parentUuid": "cf3bb28d_650e1965",
+      "revId": "ba034951c7f5bb92b122b331d6090ae9be608afa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

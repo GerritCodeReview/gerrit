@@ -106,6 +106,24 @@
       "parentUuid": "8643e520_3f9aa433",
       "revId": "ba034951c7f5bb92b122b331d6090ae9be608afa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf3bb28d_650e1965",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-03T09:19:17Z",
+      "side": 1,
+      "message": "\u003e Ah, I see you added reference to the issue 314340456 and mentioned there the error message:\n\u003e \n\u003e    Exception in thread \"main\" java.lang.IllegalArgumentException: Could not load codec \u0027Lucene95\u0027.  Did you forget to add lucene-backward-codecs.jar?\n\u003e \n\u003e Look\n\nI tried to reproduce the issue but it works for me:\n- Init with v3.9.1\n- Offline reindex with v3.9.1\n\nThe two steps above allow Gerrit v3.9.1 to start as expected, without the exception.",
+      "parentUuid": "28278280_b0c411eb",
+      "revId": "ba034951c7f5bb92b122b331d6090ae9be608afa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -70,6 +70,24 @@
       "parentUuid": "dc40d71c_e1ed1b43",
       "revId": "ba034951c7f5bb92b122b331d6090ae9be608afa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95e88737_fba8f347",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2023-12-03T07:52:56Z",
+      "side": 1,
+      "message": "I pasted the error message in the bug report.\n\n```\nException in thread \"main\" java.lang.IllegalArgumentException: Could not load codec \u0027Lucene95\u0027.  Did you forget to add lucene-backward-codecs.jar?\n        at org.apache.lucene.index.SegmentInfos.readCodec(SegmentInfos.java:449)\n        at org.apache.lucene.index.SegmentInfos.readCommit(SegmentInfos.java:356)\n        at org.apache.lucene.index.SegmentInfos.readCommit(SegmentInfos.java:291)\n        at org.apache.lucene.index.IndexWriter.\u003cinit\u003e(IndexWriter.java:1037)\n        at com.google.gerrit.lucene.AutoCommitWriter.\u003cinit\u003e(AutoCommitWriter.java:35)\n        at com.google.gerrit.lucene.AutoCommitWriter.\u003cinit\u003e(AutoCommitWriter.java:31)\n```\n\nCopying index config from a vanilla site didn\u0027t help. But if I delete the entire `index` directory and run reindex (I actually ran `init --batch`) it looks good.",
+      "parentUuid": "dc40d71c_e1ed1b43",
+      "revId": "ba034951c7f5bb92b122b331d6090ae9be608afa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

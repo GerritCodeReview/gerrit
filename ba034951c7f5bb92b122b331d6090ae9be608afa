@@ -52,6 +52,24 @@
       "parentUuid": "3257b573_90baba8c",
       "revId": "ba034951c7f5bb92b122b331d6090ae9be608afa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8643e520_3f9aa433",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-12-03T07:50:30Z",
+      "side": 1,
+      "message": "Apparently the instructions how to perform upgrade from Gerrit v3.9.0 (defective release) is incomplete: [1] and should be amended?\n\n[1]: https://www.gerritcodereview.com/3.9.html#upgrade-from-gerrit-v390-defective-release",
+      "parentUuid": "dc40d71c_e1ed1b43",
+      "revId": "ba034951c7f5bb92b122b331d6090ae9be608afa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

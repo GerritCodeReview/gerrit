@@ -34,6 +34,24 @@
       "parentUuid": "1d5e961a_72d1faba",
       "revId": "ba034951c7f5bb92b122b331d6090ae9be608afa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc40d71c_e1ed1b43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-12-03T07:42:15Z",
+      "side": 1,
+      "message": "What error message? Should index config file be adapted? Just setup vanila 3.9.1 test site and copy index config file to your real gerrit site (make backup first). Now offline reindex should work, right?",
+      "parentUuid": "3257b573_90baba8c",
+      "revId": "ba034951c7f5bb92b122b331d6090ae9be608afa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

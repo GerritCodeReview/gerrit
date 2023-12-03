@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d5e961a_72d1faba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-12-03T06:57:11Z",
+      "side": 1,
+      "message": "What do you mean exactly? Why it\u0027s needed? Can\u0027t you upgrade to Gerrit 3.9.1 and do offline reindex after the upgrade?\n\nThe reason, we don\u0027t avoid double update of the Lucene in the same release, is because we do guarantee online upgrade of Gerrit site from previous version. And at least in the past we had problems, that only the previous Lucene codec release was included in backwards-codec library.\n\nAlso note, if you do the upgrade you probably also want this, for Gerrit to be compatible with Java 21: [1].\n\n[1]: https://gerrit-review.googlesource.com/c/gerrit/+/392466",
+      "revId": "ba034951c7f5bb92b122b331d6090ae9be608afa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

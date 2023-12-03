@@ -88,6 +88,24 @@
       "parentUuid": "dc40d71c_e1ed1b43",
       "revId": "ba034951c7f5bb92b122b331d6090ae9be608afa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28278280_b0c411eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-12-03T07:53:22Z",
+      "side": 1,
+      "message": "Ah, I see you added reference to the issue 314340456 and mentioned there the error message:\n\n   Exception in thread \"main\" java.lang.IllegalArgumentException: Could not load codec \u0027Lucene95\u0027.  Did you forget to add lucene-backward-codecs.jar?\n\nLook",
+      "parentUuid": "8643e520_3f9aa433",
+      "revId": "ba034951c7f5bb92b122b331d6090ae9be608afa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

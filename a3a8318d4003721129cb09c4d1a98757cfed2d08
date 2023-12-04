@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c98fdca_6eba5a69",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-04T13:28:42Z",
+      "side": 1,
+      "message": "WIP to test the impact of just rebuilding changes on ReviewDB-only.",
+      "revId": "a3a8318d4003721129cb09c4d1a98757cfed2d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

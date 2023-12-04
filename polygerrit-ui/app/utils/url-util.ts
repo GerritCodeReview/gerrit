@@ -203,6 +203,15 @@ export function generateAbsoluteUrl(url: string) {
 
 export function sameOrigin(href: string) {
   if (!href) return false;
-  const url = new URL(href, window.location.origin);
+  let url;
+  try {
+    url = new URL(href, window.location.origin);
+  } catch (e) {
+    // If the link is not valid url consider to be not the same origin.
+    if (e instanceof TypeError) {
+      return false;
+    }
+    throw e;
+  }
   return url.origin === window.location.origin;
 }

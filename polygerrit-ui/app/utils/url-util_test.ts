@@ -133,6 +133,7 @@ suite('url-util tests', () => {
     assert.isTrue(sameOrigin('/asdf'));
     assert.isTrue(sameOrigin(window.location.origin + '/asdf'));
     assert.isFalse(sameOrigin('http://www.goole.com/asdf'));
+    assert.isFalse(sameOrigin('http://b]'));
   });
 
   test('toPathname', () => {

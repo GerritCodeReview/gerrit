@@ -1013,15 +1013,21 @@ public class NoteDbMigrator implements AutoCloseable {
             .build();
     try (ReviewDb db = unwrapDb(schemaFactory.open())) {
       if (!projects.isEmpty()) {
-        return byProject(db.changes().all(), c -> projects.contains(c.getProject()), out);
+        return byProject(
+            db.changes().all(),
+            c -> c.getNoteDbState() == null && projects.contains(c.getProject()),
+            out);
       }
       if (!skipProjects.isEmpty()) {
-        return byProject(db.changes().all(), c -> !skipProjects.contains(c.getProject()), out);
+        return byProject(
+            db.changes().all(),
+            c -> c.getNoteDbState() == null && !skipProjects.contains(c.getProject()),
+            out);
       }
       if (!changes.isEmpty()) {
-        return byProject(db.changes().get(changes), c -> true, out);
+        return byProject(db.changes().get(changes), c -> c.getNoteDbState() == null, out);
       }
-      return byProject(db.changes().all(), c -> true, out);
+      return byProject(db.changes().all(), c -> c.getNoteDbState() == null, out);
     }
   }
 

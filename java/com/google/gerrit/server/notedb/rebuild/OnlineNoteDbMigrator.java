@@ -46,6 +46,9 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
 
   public static final String ONLINE_MIGRATION_PROJECTS = "onlineMigrationProjects";
 
+  private static final String ONLINE_MIGRATION_SKIP_ALREADY_BUILT =
+      "onlineMigrationSkipAlreadyBuilt";
+
   public static class Module extends LifecycleModule {
     private final boolean trial;
 
@@ -67,6 +70,7 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
   private final boolean trial;
   private final int threads;
   private final String[] projects;
+  private final boolean skipAlreadyBuilt;
 
   @Inject
   OnlineNoteDbMigrator(
@@ -82,6 +86,8 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
     this.trial = trial || NoteDbMigrator.getTrialMode(cfg);
     this.threads = cfg.getInt(SECTION_NOTE_DB, ONLINE_MIGRATION_THREADS, 1);
     this.projects = cfg.getStringList(SECTION_NOTE_DB, null, ONLINE_MIGRATION_PROJECTS);
+    this.skipAlreadyBuilt =
+        cfg.getBoolean(SECTION_NOTE_DB, null, ONLINE_MIGRATION_SKIP_ALREADY_BUILT, false);
   }
 
   @Override
@@ -102,7 +108,12 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
     Stopwatch sw = Stopwatch.createStarted();
 
     Builder migratorBuilder =
-        migratorBuilderProvider.get().setThreads(threads).setAutoMigrate(true).setTrialMode(trial);
+        migratorBuilderProvider
+            .get()
+            .setThreads(threads)
+            .setAutoMigrate(true)
+            .setTrialMode(trial)
+            .setSkipAlreadyBuilt(skipAlreadyBuilt);
 
     try {
       // TODO(dborowitz): maybe expose a progress monitor somewhere.

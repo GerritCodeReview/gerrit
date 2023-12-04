@@ -79,6 +79,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -295,12 +296,8 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
 
   @Test
   public void rebuildSubsetOfChanges() throws Exception {
-    setNotesMigrationState(WRITE);
-
-    PushOneCommit.Result r1 = createChange();
-    PushOneCommit.Result r2 = createChange();
-    Change.Id id1 = r1.getChange().getId();
-    Change.Id id2 = r2.getChange().getId();
+    Change.Id id1 = createChangeOnBothReviewDBOAndNoteDb(project);
+    Change.Id id2 = createChangeOnBothReviewDBOAndNoteDb(project);
 
     invalidateNoteDbState(id1, id2);
     migrate(b -> b.setChanges(ImmutableList.of(id2)), NoteDbMigrator::rebuild);
@@ -310,15 +307,9 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
 
   @Test
   public void rebuildSubsetOfProjects() throws Exception {
-    setNotesMigrationState(WRITE);
-
     Project.NameKey p2 = createProject("project2");
-    TestRepository<?> tr2 = cloneProject(p2, admin);
-
-    PushOneCommit.Result r1 = createChange();
-    PushOneCommit.Result r2 = pushFactory.create(db, admin.getIdent(), tr2).to("refs/for/master");
-    Change.Id id1 = r1.getChange().getId();
-    Change.Id id2 = r2.getChange().getId();
+    Change.Id id1 = createChangeOnBothReviewDBOAndNoteDb(project);
+    Change.Id id2 = createChangeOnBothReviewDBOAndNoteDb(p2);
 
     invalidateNoteDbState(id1, id2);
     migrate(b -> b.setProjects(ImmutableList.of(p2)), NoteDbMigrator::rebuild);
@@ -334,8 +325,6 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
         server.getTestInjector().createChildInjector(new OnlineNoteDbMigrator.Module(true));
     OnlineNoteDbMigrator onlineNoteDbMigrator = injector.getInstance(OnlineNoteDbMigrator.class);
 
-    setNotesMigrationState(WRITE);
-
     ProjectInput in = new ProjectInput();
     in.name = "project2";
     in.parent = allProjects.get();
@@ -343,12 +332,8 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     gApi.projects().create(in);
     Project.NameKey p2 = new Project.NameKey(in.name);
 
-    TestRepository<?> tr2 = cloneProject(p2, admin);
-
-    PushOneCommit.Result r1 = createChange();
-    PushOneCommit.Result r2 = pushFactory.create(db, admin.getIdent(), tr2).to("refs/for/master");
-    Change.Id id1 = r1.getChange().getId();
-    Change.Id id2 = r2.getChange().getId();
+    Change.Id id1 = createChangeOnBothReviewDBOAndNoteDb(project);
+    Change.Id id2 = createChangeOnBothReviewDBOAndNoteDb(p2);
 
     invalidateNoteDbState(id1, id2);
 
@@ -360,24 +345,95 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
 
   @Test
   public void rebuildNonSkippedProjects() throws Exception {
-    setNotesMigrationState(WRITE);
-
     Project.NameKey p2 = createProject("project2");
-    TestRepository<?> tr2 = cloneProject(p2, admin);
     Project.NameKey p3 = createProject("project3");
-    TestRepository<?> tr3 = cloneProject(p3, admin);
 
-    PushOneCommit.Result r1 = createChange();
-    PushOneCommit.Result r2 = pushFactory.create(db, admin.getIdent(), tr2).to("refs/for/master");
-    PushOneCommit.Result r3 = pushFactory.create(db, admin.getIdent(), tr3).to("refs/for/master");
-    Change.Id id1 = r1.getChange().getId();
-    Change.Id id2 = r2.getChange().getId();
-    Change.Id id3 = r3.getChange().getId();
+    Change.Id id1 = createChangeOnBothReviewDBOAndNoteDb(project);
+    Change.Id id2 = createChangeOnBothReviewDBOAndNoteDb(p2);
+    Change.Id id3 = createChangeOnBothReviewDBOAndNoteDb(p3);
 
     invalidateNoteDbState(id1, id2, id3);
     migrate(b -> b.setSkipProjects(ImmutableList.of(p3)), NoteDbMigrator::rebuild);
     assertRebuilt(id1, id2);
     assertNotRebuilt(id3);
+  }
+
+  @Test
+  public void skipAlreadyBuiltChanges_shouldMigrateChangesOnlyOnReviewDB() throws Exception {
+    Change.Id id1 = createChangeOnReviewDBOnly(project);
+    Change.Id id2 = createChangeOnBothReviewDBOAndNoteDb(project);
+    invalidateNoteDbState(id2);
+
+    migrate(b -> b.setSkipAlreadyBuilt(true), NoteDbMigrator::rebuild);
+
+    assertRebuilt(id1);
+    assertNotRebuilt(id2);
+  }
+
+  @Test
+  public void skipAlreadyBuiltChanges_shouldHonourProjectsFilter() throws Exception {
+    Change.Id prj1_id1 = createChangeOnReviewDBOnly(project);
+
+    Project.NameKey project2 = createProject("project2");
+    Change.Id prj2_id2 = createChangeOnReviewDBOnly(project2);
+    Change.Id prj2_id3 = createChangeOnBothReviewDBOAndNoteDb(project2);
+    invalidateNoteDbState(prj2_id3);
+
+    migrate(
+        b -> b.setSkipAlreadyBuilt(true).setProjects(ImmutableList.of(project2)),
+        NoteDbMigrator::rebuild);
+
+    assertNeverRebuilt(prj1_id1);
+    assertRebuilt(prj2_id2);
+    assertNotRebuilt(prj2_id3);
+  }
+
+  @Test
+  public void skipAlreadyBuiltChanges_shouldHonourSkipProjectsFilter() throws Exception {
+    Change.Id prj1_id1 = createChangeOnReviewDBOnly(project);
+
+    Project.NameKey project2 = createProject("project2");
+    Change.Id prj2_id2 = createChangeOnReviewDBOnly(project2);
+
+    setNotesMigrationState(WRITE);
+
+    migrate(
+        b -> b.setSkipAlreadyBuilt(true).setSkipProjects(ImmutableList.of(project2)),
+        NoteDbMigrator::rebuild);
+
+    assertRebuilt(prj1_id1);
+    assertNeverRebuilt(prj2_id2);
+  }
+
+  @Test
+  public void skipAlreadyBuiltChanges_shouldHonourChangesBaseMigration() throws Exception {
+    Change.Id id1 = createChangeOnReviewDBOnly(project);
+
+    Change.Id id2 = createChangeOnBothReviewDBOAndNoteDb(project);
+    invalidateNoteDbState(id2);
+
+    migrate(
+        b -> b.setSkipAlreadyBuilt(true).setChanges(ImmutableList.of(id1, id2)),
+        NoteDbMigrator::rebuild);
+
+    assertRebuilt(id1);
+    assertNotRebuilt(id2);
+  }
+
+  private Change.Id createChangeWithState(NotesMigrationState state, Project.NameKey p)
+      throws Exception {
+    setNotesMigrationState(state);
+    TestRepository<?> tr = cloneProject(p, admin);
+    PushOneCommit.Result r = pushFactory.create(db, admin.getIdent(), tr).to("refs/for/master");
+    return r.getChange().getId();
+  }
+
+  private Change.Id createChangeOnReviewDBOnly(Project.NameKey p) throws Exception {
+    return createChangeWithState(REVIEW_DB, p);
+  }
+
+  private Change.Id createChangeOnBothReviewDBOAndNoteDb(Project.NameKey p) throws Exception {
+    return createChangeWithState(WRITE, p);
   }
 
   private void invalidateNoteDbState(Change.Id... ids) throws OrmException {
@@ -392,22 +448,27 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     }
   }
 
+  private void assertNeverRebuilt(Change.Id... ids) throws OrmException {
+    forAllChanges(c -> assertThat(c.getNoteDbState()).isNull(), ids);
+  }
+
   private void assertRebuilt(Change.Id... ids) throws OrmException {
-    try (ReviewDb db = schemaFactory.open()) {
-      for (Change.Id id : ids) {
-        NoteDbChangeState s = NoteDbChangeState.parse(db.changes().get(id));
-        assertThat(s.getChangeMetaId().name()).isNotEqualTo(INVALID_STATE);
-      }
-    }
+    forAllChanges(
+        c -> {
+          NoteDbChangeState s = NoteDbChangeState.parse(c);
+          assertThat(s.getChangeMetaId().name()).isNotNull();
+          assertThat(s.getChangeMetaId().name()).isNotEqualTo(INVALID_STATE);
+        },
+        ids);
   }
 
   private void assertNotRebuilt(Change.Id... ids) throws OrmException {
-    try (ReviewDb db = schemaFactory.open()) {
-      for (Change.Id id : ids) {
-        NoteDbChangeState s = NoteDbChangeState.parse(db.changes().get(id));
-        assertThat(s.getChangeMetaId().name()).isEqualTo(INVALID_STATE);
-      }
-    }
+    forAllChanges(
+        c -> {
+          NoteDbChangeState s = NoteDbChangeState.parse(c);
+          assertThat(s.getChangeMetaId().name()).isEqualTo(INVALID_STATE);
+        },
+        ids);
   }
 
   @Test
@@ -746,6 +807,14 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
           .map(Path::toString)
           .filter(name -> !name.endsWith(".pack") && !name.endsWith(".idx"))
           .collect(toImmutableSortedSet(naturalOrder()));
+    }
+  }
+
+  private void forAllChanges(Consumer<Change> assertChange, Change.Id... ids) throws OrmException {
+    try (ReviewDb db = schemaFactory.open()) {
+      for (Change.Id id : ids) {
+        assertChange.accept(db.changes().get(id));
+      }
     }
   }
 }

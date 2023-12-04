@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4ad549f_d1682a90",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-12-04T22:48:02Z",
+      "side": 1,
+      "message": "```\nExecuted 116 out of 200 tests: 200 tests pass.\nINFO: Build completed successfully, 402 total actions\n```",
+      "revId": "4858d3daf77c3f8e9d8a12452289eb826af4deac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

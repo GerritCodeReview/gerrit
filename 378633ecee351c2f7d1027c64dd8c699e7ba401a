@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7be8b32a_f491c8ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-04T09:29:23Z",
+      "side": 1,
+      "message": "what would it be worth to look at that issue and close if applies?",
+      "parentUuid": "44e500c7_25e289db",
+      "revId": "378633ecee351c2f7d1027c64dd8c699e7ba401a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94515381_adb553bd",

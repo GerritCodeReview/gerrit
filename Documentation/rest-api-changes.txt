@@ -7190,11 +7190,9 @@ link:#detailed-labels[detailed labels] are requested.
 |`reviewers`          |optional|
 The reviewers as a map that maps a reviewer state to a list of
 link:rest-api-accounts.html#account-info[AccountInfo] entities.
-Possible reviewer states are `REVIEWER`, `CC` and `REMOVED`. +
+Possible reviewer states are `REVIEWER`, `CC`. +
 `REVIEWER`: Users with at least one non-zero vote on the change. +
 `CC`: Users that were added to the change, but have not voted. +
-`REMOVED`: Users that were previously reviewers on the change, but have
-been removed. +
 Only set if link:#labels[labels] or
 link:#detailed-labels[detailed labels] are requested.
 |`pending_reviewers`  |optional|
@@ -7204,6 +7202,11 @@ reviewer updates to report. These are reviewers who have not yet been
 notified about being added to or removed from the change. +
 Only set if link:#labels[labels] or
 link:#detailed-labels[detailed labels] are requested.
+Possible states are `REVIEWER`, `CC` and `REMOVED`. +
+`REVIEWER`: Users with at least one non-zero vote on the change. +
+`CC`: Users that were added to the change, but have not voted. +
+`REMOVED`: Users that were previously reviewers on the change, but have
+been removed.
 |`reviewer_updates`|optional|
 Updates to reviewers set for the change as
 link:#review-update-info[ReviewerUpdateInfo] entities.

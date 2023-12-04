@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "340906dc_bb4930b1",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-12-04T12:20:58Z",
+      "side": 1,
+      "message": "This is a comment.",
+      "revId": "a2b235f79377e54f216426261f78a76e7332e30d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

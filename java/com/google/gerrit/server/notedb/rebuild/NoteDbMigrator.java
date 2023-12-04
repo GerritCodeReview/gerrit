@@ -209,6 +209,7 @@ public class NoteDbMigrator implements AutoCloseable {
     private boolean lockLooseRefs;
     private boolean verbose;
     private boolean executorMetrics = true;
+    private boolean skipAlreadyMigrated = false;
 
     @Inject
     Builder(
@@ -353,6 +354,21 @@ public class NoteDbMigrator implements AutoCloseable {
      */
     public Builder setTrialMode(boolean trial) {
       this.trial = trial;
+      return this;
+    }
+
+    /**
+     * Do not process changes that have already been migrated to NoteDB.
+     *
+     * <p>that By default, the NoteDBMigrator rebuilds changes regardless of whether they had
+     * already been migrated to NoteDB.
+     *
+     * @param skipAlreadyMigrated whether to skip changes that that have already been migrated to
+     *     NoteDB.
+     * @return this.
+     */
+    public Builder setSkipAlreadyMigrated(boolean skipAlreadyMigrated) {
+      this.skipAlreadyMigrated = skipAlreadyMigrated;
       return this;
     }
 
@@ -526,7 +542,8 @@ public class NoteDbMigrator implements AutoCloseable {
           sequenceGap >= 0 ? sequenceGap : Sequences.getChangeSequenceGap(cfg),
           autoMigrate,
           lockLooseRefs,
-          verbose);
+          verbose,
+          skipAlreadyMigrated);
     }
   }
 
@@ -593,6 +610,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private final boolean autoMigrate;
   private final boolean lockLooseRefs;
   private final boolean verbose;
+  private final boolean skipAlreadyMigrated;
 
   private final AtomicLong globalChangeCounter = new AtomicLong();
   private long totalChangeCount;
@@ -627,7 +645,8 @@ public class NoteDbMigrator implements AutoCloseable {
       int sequenceGap,
       boolean autoMigrate,
       boolean lockLooseRefs,
-      boolean verbose)
+      boolean verbose,
+      boolean skipAlreadyMigrated)
       throws MigrationException {
     if (ImmutableList.of(!changes.isEmpty(), !projects.isEmpty(), !skipProjects.isEmpty()).stream()
             .filter(e -> e)
@@ -667,6 +686,7 @@ public class NoteDbMigrator implements AutoCloseable {
     this.autoMigrate = autoMigrate;
     this.lockLooseRefs = lockLooseRefs;
     this.verbose = verbose;
+    this.skipAlreadyMigrated = skipAlreadyMigrated;
 
     // Stack notedb.config over gerrit.config, in the same way as GerritServerConfigProvider.
     this.gerritConfig = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.detect());
@@ -1003,6 +1023,10 @@ public class NoteDbMigrator implements AutoCloseable {
     }
   }
 
+  private boolean shouldProcessChange(Change c) {
+    return !skipAlreadyMigrated || c.getNoteDbState() == null;
+  }
+
   private ImmutableListMultimap<Project.NameKey, Change.Id> getChangesByProject()
       throws OrmException {
     // Memoize all changes so we can close the db connection and allow other threads to use the full
@@ -1013,15 +1037,21 @@ public class NoteDbMigrator implements AutoCloseable {
             .build();
     try (ReviewDb db = unwrapDb(schemaFactory.open())) {
       if (!projects.isEmpty()) {
-        return byProject(db.changes().all(), c -> projects.contains(c.getProject()), out);
+        return byProject(
+            db.changes().all(),
+            c -> shouldProcessChange(c) && projects.contains(c.getProject()),
+            out);
       }
       if (!skipProjects.isEmpty()) {
-        return byProject(db.changes().all(), c -> !skipProjects.contains(c.getProject()), out);
+        return byProject(
+            db.changes().all(),
+            c -> shouldProcessChange(c) && !skipProjects.contains(c.getProject()),
+            out);
       }
       if (!changes.isEmpty()) {
-        return byProject(db.changes().get(changes), c -> true, out);
+        return byProject(db.changes().get(changes), this::shouldProcessChange, out);
       }
-      return byProject(db.changes().all(), c -> true, out);
+      return byProject(db.changes().all(), this::shouldProcessChange, out);
     }
   }
 

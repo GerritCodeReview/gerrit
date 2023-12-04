@@ -139,6 +139,23 @@
       "message": "@dimitry@google.com, any updates on your findings?",
       "revId": "f34901ad4509a531fe6c59ea36b9cb25b70cb7a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2e3a277_078f393a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-04T10:08:47Z",
+      "side": 1,
+      "message": "We really need this change in Gerrit core in order to make the `virutalhost` module  provide correct server URL in the push output. Without it Gerrit won\u0027t even start when we try to bind `virtualhost` specific _canonical web url provider_:\n```\n1) [Guice/ErrorInCustomProvider]: OutOfScopeException: Cannot access scoped [HttpServletRequest]. Either we are not currently inside an HTTP Servlet request, or you may have forgotten to apply GuiceFilter as a servlet filter for this request.\n  at InternalServletModule.provideHttpServletRequest(InternalServletModule.java:112)\n      \\_ installed by: RequestContextFilter$1 -\u003e InternalServletModule\n  while locating HttpServletRequest\n  while locating HttpCanonicalWebUrlProvider\n  while locating String annotated with interface CanonicalWebUrl\n\nLearn more:\n  https://github.com/google/guice/wiki/ERROR_IN_CUSTOM_PROVIDER\n\n1 error\n\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nFull classname legend:\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nCanonicalWebUrl:             \"com.google.gerrit.server.config.CanonicalWebUrl\"\nGuiceFilter:                 \"com.google.inject.servlet.GuiceFilter\"\nHttpCanonicalWebUrlProvider: \"com.google.gerrit.httpd.HttpCanonicalWebUrlProvider\"\nHttpServletRequest:          \"javax.servlet.http.HttpServletRequest\"\nInternalServletModule:       \"com.google.inject.servlet.InternalServletModule\"\nOutOfScopeException:         \"com.google.inject.OutOfScopeException\"\nRequestContextFilter$1:      \"com.google.gerrit.httpd.RequestContextFilter$1\"\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nEnd of classname legend:\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n```\n\n@dimitry@google.com, have you had change to verify if this change will also work for Google?",
+      "revId": "f34901ad4509a531fe6c59ea36b9cb25b70cb7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

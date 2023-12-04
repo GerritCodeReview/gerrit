@@ -16,6 +16,24 @@
       "message": "Why not take this approach and annotate apply()?",
       "revId": "6045fdd819c909cf36de42ea5b7bf8c409afac1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fea9b4c0_fd62d91c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-12-04T09:43:17Z",
+      "side": 1,
+      "message": "No strong reason. Only that \u0027apply\u0027 is a method that\u0027s overridden in many places and I preferred not to add the annotation everywhere.",
+      "parentUuid": "9651ea5b_927b6f2e",
+      "revId": "6045fdd819c909cf36de42ea5b7bf8c409afac1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

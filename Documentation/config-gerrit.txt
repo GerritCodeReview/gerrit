@@ -3766,6 +3766,20 @@ of imposing a higher load on the running server.
 +
 By default, 1.
 
+[[notedb.onlineMigrationSkipAlreadyBuilt]] notedb.onlineMigrationSkipAlreadyBuilt::
++
+This configuration parameter controls the behavior of the online migration
+process from reviewDb to noteDb. When enabled, it restricts the migration to
+only those changes that have not yet been previously built on NoteDB.
++
+It proves beneficial in those scenarios where you need to resume a migration
+that was halted midway.
++
+Note that, the NoteDB migrator does not check if already built changes need a
+NoteDb rebuild action, because of the meta-data being amended.
++
+By default, false.
+
 [[oauth]]
 === Section oauth
 

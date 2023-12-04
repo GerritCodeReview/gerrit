@@ -40,15 +40,18 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluatorImpl;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
+import java.util.List;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -89,6 +92,47 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
       u.getConfig().upsertLabelType(pLabel);
       u.save();
     }
+  }
+
+  @Test
+  public void labelVote_greaterThan_withManyMaxVotes() throws Exception {
+    TestRepository<InMemoryRepository> clonedRepo = cloneProject(project, admin);
+    PushOneCommit.Result r1 =
+        pushFactory
+            .create(user.newIdent(), clonedRepo, "Subject", "file.txt", "text")
+            .to("refs/for/master");
+
+    Account.Id user11 = accountCreator.create("user11").id();
+    Account.Id user12 = accountCreator.create("user12").id();
+    Account.Id user13 = accountCreator.create("user13").id();
+    Account.Id user14 = accountCreator.create("user14").id();
+    Account.Id user15 = accountCreator.create("user15").id();
+    Account.Id user16 = accountCreator.create("user16").id();
+    Account.Id user17 = accountCreator.create("user17").id();
+    List<Account.Id> allUsers =
+        ImmutableList.of(user11, user12, user13, user14, user15, user16, user17);
+
+    // Give voting permissions to all users
+    requestScopeOperations.setApiUser(admin.id());
+    allowLabelPermission(
+        codeReview().getName(), RefNames.REFS_HEADS + "*", REGISTERED_USERS, -2, +2);
+
+    // With the first 5 approvals the 'submit requirement' matches correctly.
+    for (Account.Id aId : allUsers.subList(0, 5)) {
+      approveAsUser(r1.getChangeId(), aId);
+      assertMatching("label:Code-Review=+2,count>=1", r1.getChange().getId());
+    }
+
+    // When and after the 6th vote is added, the 'submit requirement' no longer matches.
+    // TODO(ghareeb): fix this case
+    approveAsUser(r1.getChangeId(), user16);
+    ChangeInfo changeInfo =
+        gApi.changes().id(r1.getChangeId()).get(ListChangesOption.DETAILED_LABELS);
+    assertThat(changeInfo.labels.get(LabelId.CODE_REVIEW).all).hasSize(6);
+    assertNotMatching("label:Code-Review=+2,count>=1", r1.getChange().getId());
+
+    approveAsUser(r1.getChangeId(), user17);
+    assertNotMatching("label:Code-Review=+2,count>=1", r1.getChange().getId());
   }
 
   @Test
@@ -434,6 +478,11 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user2.id());
     approve(r1.getChangeId());
     assertMatching("label:Code-Review=+2,user=non_contributor", r1.getChange().getId());
+  }
+
+  private void approveAsUser(String changeId, Account.Id userId) throws Exception {
+    requestScopeOperations.setApiUser(userId);
+    approve(changeId);
   }
 
   private static void assertUploader(ChangeInfo changeInfo, String email) {

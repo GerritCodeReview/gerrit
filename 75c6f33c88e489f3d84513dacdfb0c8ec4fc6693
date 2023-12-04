@@ -22,6 +22,30 @@
       },
       "revId": "75c6f33c88e489f3d84513dacdfb0c8ec4fc6693",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91c5feae_4c12e945",
+        "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2023-12-04T20:05:11Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "642c94a3_b2314b08",
+      "range": {
+        "startLine": 9,
+        "startChar": 27,
+        "endLine": 9,
+        "endChar": 28
+      },
+      "revId": "75c6f33c88e489f3d84513dacdfb0c8ec4fc6693",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

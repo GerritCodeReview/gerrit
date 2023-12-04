@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.notedb.rebuild;
 
-import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
-
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Stopwatch;
 import com.google.common.flogger.FluentLogger;
@@ -31,10 +29,13 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.google.inject.name.Names;
+import org.eclipse.jgit.lib.Config;
+
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import org.eclipse.jgit.lib.Config;
+
+import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
 
 @Singleton
 public class OnlineNoteDbMigrator implements LifecycleListener {
@@ -45,6 +46,9 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
   private static final String ONLINE_MIGRATION_THREADS = "onlineMigrationThreads";
 
   public static final String ONLINE_MIGRATION_PROJECTS = "onlineMigrationProjects";
+
+  private static final String ONLINE_MIGRATION_SKIP_ALREADY_MIGRATED =
+      "onlineMigrationSkipAlreadyMigrated";
 
   public static class Module extends LifecycleModule {
     private final boolean trial;
@@ -67,6 +71,7 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
   private final boolean trial;
   private final int threads;
   private final String[] projects;
+  private final boolean skipAlreadyMigrated;
 
   @Inject
   OnlineNoteDbMigrator(
@@ -82,6 +87,8 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
     this.trial = trial || NoteDbMigrator.getTrialMode(cfg);
     this.threads = cfg.getInt(SECTION_NOTE_DB, ONLINE_MIGRATION_THREADS, 1);
     this.projects = cfg.getStringList(SECTION_NOTE_DB, null, ONLINE_MIGRATION_PROJECTS);
+    this.skipAlreadyMigrated =
+        cfg.getBoolean(SECTION_NOTE_DB, null, ONLINE_MIGRATION_SKIP_ALREADY_MIGRATED, false);
   }
 
   @Override
@@ -102,7 +109,12 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
     Stopwatch sw = Stopwatch.createStarted();
 
     Builder migratorBuilder =
-        migratorBuilderProvider.get().setThreads(threads).setAutoMigrate(true).setTrialMode(trial);
+        migratorBuilderProvider
+            .get()
+            .setThreads(threads)
+            .setAutoMigrate(true)
+            .setTrialMode(trial)
+            .setSkipAlreadyMigrated(skipAlreadyMigrated);
 
     try {
       // TODO(dborowitz): maybe expose a progress monitor somewhere.

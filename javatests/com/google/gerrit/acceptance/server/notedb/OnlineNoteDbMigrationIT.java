@@ -14,24 +14,6 @@
 
 package com.google.gerrit.acceptance.server.notedb;
 
-import static com.google.common.collect.ImmutableSortedSet.toImmutableSortedSet;
-import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth8.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
-import static com.google.gerrit.server.notedb.NoteDbChangeState.NOTE_DB_PRIMARY_STATE;
-import static com.google.gerrit.server.notedb.NotesMigrationState.NOTE_DB;
-import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_NO_SEQUENCE;
-import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY;
-import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY;
-import static com.google.gerrit.server.notedb.NotesMigrationState.REVIEW_DB;
-import static com.google.gerrit.server.notedb.NotesMigrationState.WRITE;
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.Comparator.naturalOrder;
-import static org.easymock.EasyMock.createStrictMock;
-import static org.easymock.EasyMock.expectLastCall;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSortedSet;
@@ -73,13 +55,6 @@ import com.google.gwtorm.server.SchemaFactory;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -96,6 +71,32 @@ import org.eclipse.jgit.util.FS;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
+
+import static com.google.common.collect.ImmutableSortedSet.toImmutableSortedSet;
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.server.notedb.NoteDbChangeState.NOTE_DB_PRIMARY_STATE;
+import static com.google.gerrit.server.notedb.NotesMigrationState.NOTE_DB;
+import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_NO_SEQUENCE;
+import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WITH_SEQUENCE_NOTE_DB_PRIMARY;
+import static com.google.gerrit.server.notedb.NotesMigrationState.READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY;
+import static com.google.gerrit.server.notedb.NotesMigrationState.REVIEW_DB;
+import static com.google.gerrit.server.notedb.NotesMigrationState.WRITE;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Comparator.naturalOrder;
+import static org.easymock.EasyMock.createStrictMock;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 
 @Sandboxed
 @UseLocalDisk
@@ -380,6 +381,96 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     assertNotRebuilt(id3);
   }
 
+  @Test
+  public void skipAlreadyMigratedChanges_shouldMigrateChangesOnlyOnReviewDB() throws Exception {
+    // Create Change1 and Change2 on reviewDB only
+    setNotesMigrationState(REVIEW_DB);
+    Change.Id id1 = createChange().getChange().getId();
+    Change.Id id2 = createChange().getChange().getId();
+
+    // Create Change3 on both reviewDb and NoteDB
+    setNotesMigrationState(WRITE);
+    Change.Id id3 = createChange().getChange().getId();
+    invalidateNoteDbState(id3);
+
+    migrate(b -> b.setSkipAlreadyMigrated(true), NoteDbMigrator::rebuild);
+
+    assertRebuilt(id1, id2);
+    assertNotRebuilt(id3);
+  }
+
+  @Test
+  public void skipAlreadyMigratedChanges_shouldHonourProjectsFilter() throws Exception {
+    setNotesMigrationState(REVIEW_DB);
+
+    // Create prj1 - Change1 on ReviewDB only
+    PushOneCommit.Result r1 = createChange();
+    Change.Id prj1_id1 = r1.getChange().getId();
+
+    // Create prj2 - Change2 on ReviewDB only
+    Project.NameKey p2 = createProject("project2");
+    TestRepository<?> tr2 = cloneProject(p2, admin);
+    PushOneCommit.Result r2 = pushFactory.create(db, admin.getIdent(), tr2).to("refs/for/master");
+    Change.Id prj2_id2 = r2.getChange().getId();
+
+    // Create prj2 - Change 3 on both reviewDb and NoteDB
+    setNotesMigrationState(WRITE);
+    PushOneCommit.Result r3 = pushFactory.create(db, admin.getIdent(), tr2).to("refs/for/master");
+    Change.Id prj2_id3 = r3.getChange().getId();
+    invalidateNoteDbState(prj2_id3);
+
+    migrate(
+        b -> b.setSkipAlreadyMigrated(true).setProjects(ImmutableList.of(p2)),
+        NoteDbMigrator::rebuild);
+
+    assertNeverRebuilt(prj1_id1);
+    assertRebuilt(prj2_id2);
+    assertNotRebuilt(prj2_id3);
+  }
+
+  @Test
+  public void skipAlreadyMigratedChanges_shouldHonourSkipProjectsFilter() throws Exception {
+    setNotesMigrationState(REVIEW_DB);
+
+    // Create prj1 - Change1 on ReviewDB only
+    PushOneCommit.Result r1 = createChange();
+    Change.Id prj1_id1 = r1.getChange().getId();
+
+    // Create prj2 - Change2 and Change3 on ReviewDB only
+    Project.NameKey p2 = createProject("project2");
+    TestRepository<?> tr2 = cloneProject(p2, admin);
+    PushOneCommit.Result r2 = pushFactory.create(db, admin.getIdent(), tr2).to("refs/for/master");
+    Change.Id prj2_id2 = r2.getChange().getId();
+
+    PushOneCommit.Result r3 = pushFactory.create(db, admin.getIdent(), tr2).to("refs/for/master");
+    Change.Id prj2_id3 = r3.getChange().getId();
+
+    setNotesMigrationState(WRITE);
+
+    migrate(
+            b -> b.setSkipAlreadyMigrated(true).setSkipProjects(ImmutableList.of(p2)),
+            NoteDbMigrator::rebuild);
+
+    assertRebuilt(prj1_id1);
+    assertNeverRebuilt(prj2_id2, prj2_id3);
+  }
+
+  @Test
+  public void skipAlreadyMigratedChanges_shouldHonourChangesBaseMigration() throws Exception {
+    // Create Change1 and Change2 on reviewDB only
+    setNotesMigrationState(REVIEW_DB);
+    Change.Id id1 = createChange().getChange().getId();
+    Change.Id id2 = createChange().getChange().getId();
+    setNotesMigrationState(WRITE);
+
+    migrate(
+        b -> b.setSkipAlreadyMigrated(true).setChanges(ImmutableList.of(id2)),
+        NoteDbMigrator::rebuild);
+
+    assertRebuilt(id2);
+    assertNeverRebuilt(id1);
+  }
+
   private void invalidateNoteDbState(Change.Id... ids) throws OrmException {
     List<Change> list = new ArrayList<>(ids.length);
     try (ReviewDb db = schemaFactory.open()) {
@@ -392,22 +483,27 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
     }
   }
 
+  private void assertNeverRebuilt(Change.Id... ids) throws OrmException {
+    ensureAll(c -> assertThat(c.getNoteDbState()).isNull(), ids);
+  }
+
   private void assertRebuilt(Change.Id... ids) throws OrmException {
-    try (ReviewDb db = schemaFactory.open()) {
-      for (Change.Id id : ids) {
-        NoteDbChangeState s = NoteDbChangeState.parse(db.changes().get(id));
-        assertThat(s.getChangeMetaId().name()).isNotEqualTo(INVALID_STATE);
-      }
-    }
+    ensureAll(
+        c -> {
+          NoteDbChangeState s = NoteDbChangeState.parse(c);
+          assertThat(s.getChangeMetaId().name()).isNotNull();
+          assertThat(s.getChangeMetaId().name()).isNotEqualTo(INVALID_STATE);
+        },
+        ids);
   }
 
   private void assertNotRebuilt(Change.Id... ids) throws OrmException {
-    try (ReviewDb db = schemaFactory.open()) {
-      for (Change.Id id : ids) {
-        NoteDbChangeState s = NoteDbChangeState.parse(db.changes().get(id));
-        assertThat(s.getChangeMetaId().name()).isEqualTo(INVALID_STATE);
-      }
-    }
+    ensureAll(
+        c -> {
+          NoteDbChangeState s = NoteDbChangeState.parse(c);
+          assertThat(s.getChangeMetaId().name()).isEqualTo(INVALID_STATE);
+        },
+        ids);
   }
 
   @Test
@@ -746,6 +842,19 @@ public class OnlineNoteDbMigrationIT extends AbstractDaemonTest {
           .map(Path::toString)
           .filter(name -> !name.endsWith(".pack") && !name.endsWith(".idx"))
           .collect(toImmutableSortedSet(naturalOrder()));
+    }
+  }
+
+  @FunctionalInterface
+  public interface AssertChange {
+    void test(Change c);
+  }
+
+  private void ensureAll(AssertChange assertChange, Change.Id... ids) throws OrmException {
+    try (ReviewDb db = schemaFactory.open()) {
+      for (Change.Id id : ids) {
+        assertChange.test(db.changes().get(id));
+      }
     }
   }
 }

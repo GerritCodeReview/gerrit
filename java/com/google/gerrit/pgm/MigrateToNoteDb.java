@@ -14,12 +14,6 @@
 
 package com.google.gerrit.pgm;
 
-import static com.google.common.base.MoreObjects.firstNonNull;
-import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
-
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -41,12 +35,19 @@ import com.google.gerrit.server.schema.DataSourceType;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.spi.ExplicitBooleanOptionHandler;
+
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.spi.ExplicitBooleanOptionHandler;
+
+import static com.google.common.base.MoreObjects.firstNonNull;
+import static com.google.gerrit.server.schema.DataSourceProvider.Context.MULTI_USER;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 
 public class MigrateToNoteDb extends SiteProgram {
   static final String TRIAL_USAGE =
@@ -91,6 +92,11 @@ public class MigrateToNoteDb extends SiteProgram {
 
   @Option(name = "--gc", usage = "GC repositories regularly during the migration")
   private boolean gc;
+
+  @Option(
+      name = "--skip-already-migrated",
+      usage = "Do not process changes that have already been migrated")
+  private boolean skipAlreadyMigrated;
 
   @Option(
       name = "--shuffle-project-slices",
@@ -175,6 +181,7 @@ public class MigrateToNoteDb extends SiteProgram {
               .setSequenceGap(sequenceGap)
               .setVerbose(verbose)
               .setLockLooseRefs(lockLooseRefs)
+              .setSkipAlreadyMigrated(skipAlreadyMigrated)
               .build()) {
         if (!projects.isEmpty()
             || !changes.isEmpty()

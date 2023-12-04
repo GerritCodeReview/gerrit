@@ -3766,6 +3766,17 @@ of imposing a higher load on the running server.
 +
 By default, 1.
 
+[[notedb.onlineMigrationSkipAlreadyMigrated]] notedb.onlineMigrationSkipAlreadyMigrated::
++
+Limit the online migration from reviewDb to noteDb to only the changes that have
+not previously been migrated.
++
+This is especially useful in combination with `onlineMigrationProjects` to allow
+triggering the migration for additional projects without having to reprocess
+the ones that have been previously migrated.
++
+By default, false.
+
 [[oauth]]
 === Section oauth
 

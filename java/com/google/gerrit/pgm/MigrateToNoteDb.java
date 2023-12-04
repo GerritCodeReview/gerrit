@@ -93,6 +93,11 @@ public class MigrateToNoteDb extends SiteProgram {
   private boolean gc;
 
   @Option(
+      name = "--skip-already-migrated",
+      usage = "Do not process changes that have already been migrated")
+  private boolean skipAlreadyMigrated;
+
+  @Option(
       name = "--shuffle-project-slices",
       usage =
           "Shuffle project slices to reduce memory"
@@ -175,6 +180,7 @@ public class MigrateToNoteDb extends SiteProgram {
               .setSequenceGap(sequenceGap)
               .setVerbose(verbose)
               .setLockLooseRefs(lockLooseRefs)
+              .setSkipAlreadyMigrated(skipAlreadyMigrated)
               .build()) {
         if (!projects.isEmpty()
             || !changes.isEmpty()

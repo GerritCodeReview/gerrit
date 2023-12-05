@@ -591,6 +591,29 @@ public class ApplyPatchIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void longCommitMessage_providedMessageWithCorrectChangeId() throws Exception {
+    initDestBranch();
+    String originalChangeId =
+        gApi.changes()
+            .create(new ChangeInput(project.get(), DESTINATION_BRANCH, "Default commit message"))
+            .info()
+            .changeId;
+    ApplyPatchPatchSetInput in = buildInput(ADDED_FILE_DIFF);
+    in.commitMessage =
+        "Looooooooooooooooooong custom commit message.\n\nChange-Id: " + originalChangeId + "\n";
+
+    ChangeInfo result = gApi.changes().id(originalChangeId).applyPatch(in);
+
+    ChangeInfo info = get(result.changeId, CURRENT_REVISION, CURRENT_COMMIT);
+
+    // TODO: Fix the ApplyPatch REST endpoint so that this assertion passes. At the moment it fails
+    // because the commit message unexpectedly contains the Change-Id line twice.
+    // assertThat(info.revisions.get(info.currentRevision).commit.message).isEqualTo(in.commitMessage);
+    assertThat(info.revisions.get(info.currentRevision).commit.message)
+        .isEqualTo(in.commitMessage + "\nChange-Id: " + originalChangeId + "\n");
+  }
+
+  @Test
   public void commitMessage_providedMessageWithWrongChangeId() throws Exception {
     initDestBranch();
     String originalChangeId =

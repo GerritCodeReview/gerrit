@@ -63,7 +63,7 @@ import {CommentSide, SpecialFilePath} from '../../../constants/constants';
 import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 import {changeModelToken} from '../../../models/change/change-model';
-import {isBase64FileContent} from '../../../api/rest-api';
+import {ChangeInfo, isBase64FileContent} from '../../../api/rest-api';
 import {createDiffUrl} from '../../../models/views/change';
 import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
@@ -1094,10 +1094,12 @@ export class GrComment extends LitElement {
 
   private async generateSuggestEdit() {
     const suggestionsProvider = this.suggestionsProvider;
+    const changeInfo = this.getChangeModel().getChange();
     if (
       !suggestionsProvider ||
       !this.showGeneratedSuggestion() ||
       !this.changeNum ||
+      !changeInfo ||
       !this.comment ||
       !this.comment.patch_set ||
       !this.comment.path ||
@@ -1112,6 +1114,7 @@ export class GrComment extends LitElement {
     const suggestionResponse = await suggestionsProvider.suggestCode({
       prompt: this.messageText,
       changeNumber: this.changeNum,
+      changeInfo: changeInfo as ChangeInfo,
       patchsetNumber: this.comment?.patch_set,
       filePath: this.comment.path,
       range: this.comment.range,

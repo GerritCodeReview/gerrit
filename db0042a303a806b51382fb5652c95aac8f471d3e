@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3a375cf_a6aff0c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-05T20:19:47Z",
+      "side": 1,
+      "message": "Missing `Release-Notes: skip`",
+      "revId": "db0042a303a806b51382fb5652c95aac8f471d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3d9b5c68_e85a14b9",

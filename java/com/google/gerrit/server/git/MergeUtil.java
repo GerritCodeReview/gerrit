@@ -680,6 +680,10 @@ public class MergeUtil {
       return false;
     }
 
+    return canMerge(mergeTip, repo, toMerge);
+  }
+
+  private boolean canMerge(CodeReviewCommit mergeTip, Repository repo, CodeReviewCommit toMerge) {
     try (ObjectInserter ins = new InMemoryInserter(repo)) {
       return newThreeWayMerger(ins, repo.getConfig()).merge(mergeTip, toMerge);
     } catch (LargeObjectException e) {
@@ -701,6 +705,11 @@ public class MergeUtil {
       return false;
     }
 
+    return canFastForward(mergeTip, rw, toMerge);
+  }
+
+  private boolean canFastForward(
+      CodeReviewCommit mergeTip, CodeReviewRevWalk rw, CodeReviewCommit toMerge) {
     try {
       return mergeTip == null
           || rw.isMergedInto(mergeTip, toMerge)
@@ -708,6 +717,19 @@ public class MergeUtil {
     } catch (IOException e) {
       throw new StorageException("Cannot fast-forward test during merge", e);
     }
+  }
+
+  public boolean canFastForwardOrMerge(
+      MergeSorter mergeSorter,
+      CodeReviewCommit mergeTip,
+      CodeReviewRevWalk rw,
+      Repository repo,
+      CodeReviewCommit toMerge) {
+    if (hasMissingDependencies(mergeSorter, toMerge)) {
+      return false;
+    }
+
+    return canFastForward(mergeTip, rw, toMerge) || canMerge(mergeTip, repo, toMerge);
   }
 
   public boolean canCherryPick(
@@ -752,8 +774,7 @@ public class MergeUtil {
     // by an equivalent merge with a different first parent. So
     // instead behave as though MERGE_IF_NECESSARY was configured.
     //
-    return canFastForward(mergeSorter, mergeTip, rw, toMerge)
-        || canMerge(mergeSorter, repo, mergeTip, toMerge);
+    return canFastForwardOrMerge(mergeSorter, mergeTip, rw, repo, toMerge);
   }
 
   public boolean hasMissingDependencies(MergeSorter mergeSorter, CodeReviewCommit toMerge) {

@@ -40,13 +40,11 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluatorImpl;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -117,22 +115,12 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
     allowLabelPermission(
         codeReview().getName(), RefNames.REFS_HEADS + "*", REGISTERED_USERS, -2, +2);
 
-    // With the first 5 approvals the 'submit requirement' matches correctly.
-    for (Account.Id aId : allUsers.subList(0, 5)) {
+    // The predicate uses the MAX_COUNT_INTERNAL in label predicate, and the SR expression matches
+    // even if the change has more than 5 votes.
+    for (Account.Id aId : allUsers) {
       approveAsUser(r1.getChangeId(), aId);
       assertMatching("label:Code-Review=+2,count>=1", r1.getChange().getId());
     }
-
-    // When and after the 6th vote is added, the 'submit requirement' no longer matches.
-    // TODO(ghareeb): fix this case
-    approveAsUser(r1.getChangeId(), user16);
-    ChangeInfo changeInfo =
-        gApi.changes().id(r1.getChangeId()).get(ListChangesOption.DETAILED_LABELS);
-    assertThat(changeInfo.labels.get(LabelId.CODE_REVIEW).all).hasSize(6);
-    assertNotMatching("label:Code-Review=+2,count>=1", r1.getChange().getId());
-
-    approveAsUser(r1.getChangeId(), user17);
-    assertNotMatching("label:Code-Review=+2,count>=1", r1.getChange().getId());
   }
 
   @Test

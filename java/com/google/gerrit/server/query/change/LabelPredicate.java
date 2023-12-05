@@ -37,6 +37,12 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
   protected static final int MAX_LABEL_VALUE = 4;
   protected static final int MAX_COUNT = 5; // inclusive
 
+  // Set a different max for label counts for in-memory label predicates. This is because the
+  // in-memory count is used by submit requirements to evaluate different expressions
+  // (applicability, submittability, override). The other MAX_COUNT is used by the change index and
+  // change queries.
+  private static final int MAX_COUNT_INTERNAL = 50; // inclusive
+
   protected static class Args {
     protected final AccountResolver accountResolver;
     protected final ProjectCache projectCache;
@@ -244,7 +250,7 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
     switch (countOp) {
       case GREATER:
       case GREATER_EQUAL:
-        IntStream.range(count + 1, MAX_COUNT + 1).forEach(result::add);
+        IntStream.range(count + 1, MAX_COUNT_INTERNAL + 1).forEach(result::add);
         break;
       case LESS:
       case LESS_EQUAL:

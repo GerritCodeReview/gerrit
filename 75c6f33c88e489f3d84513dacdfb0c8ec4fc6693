@@ -46,6 +46,30 @@
       },
       "revId": "75c6f33c88e489f3d84513dacdfb0c8ec4fc6693",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5426610f_7b327ee2",
+        "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2023-12-05T11:10:44Z",
+      "side": 1,
+      "message": "this appears to be some myth.\nhttps://stackoverflow.com/questions/7985327/bash-convention-for-if-then\nhttps://groups.google.com/g/comp.unix.shell/c/r6LvATxS_EU/m/Nv4anNsGIhgJ",
+      "parentUuid": "91c5feae_4c12e945",
+      "range": {
+        "startLine": 9,
+        "startChar": 27,
+        "endLine": 9,
+        "endChar": 28
+      },
+      "revId": "75c6f33c88e489f3d84513dacdfb0c8ec4fc6693",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -21,6 +21,7 @@ export const modalStyles = css`
     font-size: var(--font-size-normal, 1rem);
     line-height: var(--line-height-normal, 1.4);
     color: var(--primary-text-color, black);
+    overflow: visible;
   }
 
   dialog::backdrop {

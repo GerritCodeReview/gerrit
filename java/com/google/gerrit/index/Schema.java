@@ -214,6 +214,7 @@ public class Schema<T> {
    * @return all non-null field values from the object.
    */
   public final Iterable<Values<T>> buildFields(T obj, ImmutableSet<String> skipFields) {
+
     try {
       return fields.values().stream()
           .map(f -> fieldValues(obj, f, skipFields))

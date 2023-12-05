@@ -70,6 +70,30 @@
       },
       "revId": "75c6f33c88e489f3d84513dacdfb0c8ec4fc6693",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c6137c9_9631ba61",
+        "filename": "resources/com/google/gerrit/server/commit-msg_test.sh",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-12-05T17:51:12Z",
+      "side": 1,
+      "message": "Interesting! Thanks for finding that and sharing. I\u0027ll probably keep doing it as a style consistency thing, but good to know it\u0027s not a functional concern.",
+      "parentUuid": "5426610f_7b327ee2",
+      "range": {
+        "startLine": 9,
+        "startChar": 27,
+        "endLine": 9,
+        "endChar": 28
+      },
+      "revId": "75c6f33c88e489f3d84513dacdfb0c8ec4fc6693",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

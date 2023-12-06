@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "320106a8_3d02ad99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-12-06T15:10:08Z",
+      "side": 1,
+      "message": "We should probably add something about errorprone to our dev docs someday...",
+      "revId": "dc2a62473fda722f1b19ddeda4c026f888af6eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c1fe2dc_8b481aea",
+        "filename": "java/com/google/gerrit/server/package-info.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-12-06T15:10:08Z",
+      "side": 1,
+      "message": "Do we need the copyright/license header on this file?",
+      "revId": "dc2a62473fda722f1b19ddeda4c026f888af6eeb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

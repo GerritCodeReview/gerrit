@@ -39,6 +39,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
@@ -314,6 +315,7 @@ public class ApprovalsUtil {
    * @param user user adding approvals.
    * @param approvals approvals to add.
    */
+  @CanIgnoreReturnValue
   public Iterable<PatchSetApproval> addApprovalsForNewPatchSet(
       ChangeUpdate update,
       LabelTypes labelTypes,

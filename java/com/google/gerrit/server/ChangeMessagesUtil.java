@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.ChangeMessage;
@@ -83,6 +84,7 @@ public class ChangeMessagesUtil {
    * @return message built from {@code messageTemplate}. Templates are replaced, so it might contain
    *     user identifiable information.
    */
+  @CanIgnoreReturnValue
   public String setChangeMessage(
       ChangeUpdate update, String messageTemplate, @Nullable String tag) {
     update.setChangeMessage(messageTemplate);
@@ -91,6 +93,7 @@ public class ChangeMessagesUtil {
   }
 
   /** See {@link #setChangeMessage(ChangeUpdate, String, String)}. */
+  @CanIgnoreReturnValue
   public String setChangeMessage(ChangeContext ctx, String messageTemplate, @Nullable String tag) {
     return setChangeMessage(
         ctx.getUpdate(ctx.getChange().currentPatchSetId()), messageTemplate, tag);

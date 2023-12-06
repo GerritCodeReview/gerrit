@@ -1098,7 +1098,6 @@ export class GrComment extends LitElement {
     if (
       !suggestionsProvider ||
       !this.showGeneratedSuggestion() ||
-      !this.changeNum ||
       !changeInfo ||
       !this.comment ||
       !this.comment.patch_set ||
@@ -1113,7 +1112,6 @@ export class GrComment extends LitElement {
     this.suggestionLoading = true;
     const suggestionResponse = await suggestionsProvider.suggestCode({
       prompt: this.messageText,
-      changeNumber: this.changeNum,
       changeInfo: changeInfo as ChangeInfo,
       patchsetNumber: this.comment?.patch_set,
       filePath: this.comment.path,

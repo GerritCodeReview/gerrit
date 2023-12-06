@@ -17,6 +17,7 @@ package com.google.gerrit.server;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Comment;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -40,6 +41,7 @@ public final class CommentVerifier {
         c);
   }
 
+  @CanIgnoreReturnValue
   private static Account.Id checkAccountId(Account.Id accountId, PersonIdent authorIdent) {
     checkState(
         accountId != null,

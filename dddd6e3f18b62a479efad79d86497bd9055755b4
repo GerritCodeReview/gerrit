@@ -1,5 +1,46 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17527ae6_df2bf825",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-06T11:32:30Z",
+      "side": 1,
+      "message": "Apologies, I missed this step in the latest release.",
+      "revId": "dddd6e3f18b62a479efad79d86497bd9055755b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c669fc7_58d926b3",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-06T11:32:30Z",
+      "side": 1,
+      "message": "The link doesn\u0027t explain how to publish though. @brohlfs@google.com I\u0027d love to publish Gerrit Typescript API v3.9.1, could you point me to the instructions on how to do it?",
+      "range": {
+        "startLine": 336,
+        "startChar": 0,
+        "endLine": 336,
+        "endChar": 131
+      },
+      "revId": "dddd6e3f18b62a479efad79d86497bd9055755b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

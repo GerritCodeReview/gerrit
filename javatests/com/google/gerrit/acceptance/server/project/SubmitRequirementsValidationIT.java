@@ -505,7 +505,8 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
 
     private void assertServerUser() {
       try {
-        currentUser.asIdentifiedUser();
+        @SuppressWarnings("unused")
+        var unused = currentUser.asIdentifiedUser();
         throw new IllegalStateException("is an identified user");
       } catch (UnsupportedOperationException e) {
         // as expected.

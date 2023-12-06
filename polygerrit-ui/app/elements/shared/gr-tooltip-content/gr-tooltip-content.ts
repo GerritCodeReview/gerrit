@@ -230,11 +230,12 @@ export class GrTooltipContent extends LitElement {
     }
     tooltip.style.left = `${Math.max(0, left)}px`;
 
-    if (!this.positionBelow) {
+    if (!this.positionBelow && top >= parentRect.top) {
       tooltip.style.top = `${Math.max(0, top)}px`;
       tooltip.style.transform = `translateY(calc(-100% - ${BOTTOM_OFFSET}px))`;
     } else {
       tooltip.style.top = `${top + rect.height + BOTTOM_OFFSET}px`;
+      tooltip.positionBelow = true;
     }
   }
 }

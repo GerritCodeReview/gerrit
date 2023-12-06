@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1254aeda_06fc6af0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-12-06T04:44:00Z",
+      "side": 1,
+      "message": "Mention what the plan is: to support different RBE provider in addition to RBE on Google Cloud Platform. That should be enough in this change.",
+      "revId": "c6c6a9cf4b1ac7e4fe62f8c74aaf5385a4196ce1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a78df4b0_06ca86d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-12-06T04:44:00Z",
+      "side": 1,
+      "message": "Release-Notes footer is missing.",
+      "revId": "c6c6a9cf4b1ac7e4fe62f8c74aaf5385a4196ce1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05f825ad_1dea950a",
+        "filename": "tools/remote-bazelrc",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-12-06T04:44:00Z",
+      "side": 1,
+      "message": "This was changed on Gerrit@HEAD, so that this is outdated now and should be rebased and the conflicts should be resolved.",
+      "revId": "c6c6a9cf4b1ac7e4fe62f8c74aaf5385a4196ce1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

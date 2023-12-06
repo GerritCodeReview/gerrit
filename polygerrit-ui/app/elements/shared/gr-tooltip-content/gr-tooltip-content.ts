@@ -9,7 +9,7 @@ import {GrTooltip} from '../gr-tooltip/gr-tooltip';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 
-const BOTTOM_OFFSET = 7.2; // Height of the arrow in tooltip.
+const ARROW_HEIGHT = 7.2; // Height of the arrow in tooltip.
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -214,27 +214,36 @@ export class GrTooltipContent extends LitElement {
   // private but used in tests.
   _positionTooltip(tooltip: GrTooltip | null) {
     if (tooltip === null) return;
-    const rect = this.getBoundingClientRect();
-    const boxRect = tooltip.getBoundingClientRect();
+    const hoveredRect = this.getBoundingClientRect();
+    const tooltipRect = tooltip.getBoundingClientRect();
     if (!tooltip.parentElement) {
       return;
     }
     const parentRect = tooltip.parentElement.getBoundingClientRect();
-    const top = rect.top - parentRect.top;
-    const left = rect.left - parentRect.left + (rect.width - boxRect.width) / 2;
-    const right = parentRect.width - left - boxRect.width;
-    if (left < 0) {
-      tooltip.arrowCenterOffset = `${left}px`;
-    } else if (right < 0) {
-      tooltip.arrowCenterOffset = `${-0.5 * right}px`;
-    }
-    tooltip.style.left = `${Math.max(0, left)}px`;
+    // Use clientWidht to not include the scrollbars
+    const parentWidth = tooltip.parentElement.clientWidth;
 
-    if (!this.positionBelow) {
-      tooltip.style.top = `${Math.max(0, top)}px`;
-      tooltip.style.transform = `translateY(calc(-100% - ${BOTTOM_OFFSET}px))`;
-    } else {
-      tooltip.style.top = `${top + rect.height + BOTTOM_OFFSET}px`;
+    // Calculate X position
+    const hoveredCenter =
+      0.5 * (hoveredRect.left + hoveredRect.right) - parentRect.left;
+    let left = hoveredCenter - 0.5 * tooltipRect.width;
+    if (left + tooltipRect.width > parentWidth) {
+      left = parentWidth - tooltipRect.width;
     }
+    left = Math.max(0, left);
+
+    // Calculate arrow offset
+    const tooltipCenter = left + 0.5 * tooltipRect.width;
+    tooltip.arrowCenterOffset = `${hoveredCenter - tooltipCenter}px`;
+
+    // Calculate Y position
+    let top =
+      hoveredRect.top - parentRect.top - tooltipRect.height - ARROW_HEIGHT;
+    if (this.positionBelow || top < 0) {
+      top = hoveredRect.bottom - parentRect.top + ARROW_HEIGHT;
+      tooltip.positionBelow = true;
+    }
+    tooltip.style.top = `${top}px`;
+    tooltip.style.left = `${left}px`;
   }
 }

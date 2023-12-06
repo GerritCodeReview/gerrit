@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Account;
@@ -139,6 +140,7 @@ public class AccountManager {
    *     cannot be located, is unable to be activated or deactivated, or is inactive, or cannot be
    *     added to the admin group (only for the first account).
    */
+  @CanIgnoreReturnValue
   public AuthResult authenticate(AuthRequest who) throws AccountException, IOException {
     try {
       who = realm.authenticate(who);
@@ -463,6 +465,7 @@ public class AccountManager {
    * @throws AccountException the identity belongs to a different account, or it cannot be linked at
    *     this time.
    */
+  @CanIgnoreReturnValue
   public AuthResult link(Account.Id to, AuthRequest who)
       throws AccountException, IOException, ConfigInvalidException {
     Optional<ExternalId> optionalExtId = externalIds.get(who.getExternalIdKey());
@@ -504,6 +507,7 @@ public class AccountManager {
    * @throws AccountException the identity belongs to a different account, or it cannot be linked at
    *     this time.
    */
+  @CanIgnoreReturnValue
   public AuthResult updateLink(Account.Id to, AuthRequest who)
       throws AccountException, IOException, ConfigInvalidException {
     Optional<ExternalId> optionalExtId = externalIds.get(who.getExternalIdKey());

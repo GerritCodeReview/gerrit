@@ -109,7 +109,8 @@ public class IdentifiedUserTest {
     identifiedUser = identifiedUserFactory.create(ownerId);
 
     /* Trigger identifiedUser to load the email addresses from mockRealm */
-    identifiedUser.getEmailAddresses();
+    @SuppressWarnings("unused")
+    var unused = identifiedUser.getEmailAddresses();
   }
 
   @Test

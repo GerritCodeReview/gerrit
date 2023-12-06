@@ -35,6 +35,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "99d1fac8_8ab194ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-06T15:38:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c98fdca_6eba5a69",
+      "revId": "a3a8318d4003721129cb09c4d1a98757cfed2d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59ab9504_474ecccd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-06T15:38:30Z",
+      "side": 1,
+      "message": "It\u0027s a good question.\nI am not sure whether reviewdb and NoteDB might diverge, but if that\u0027s the case one can still process the changes explicitly by removing the `skipAlreadyMigrated` flag..",
+      "parentUuid": "185be265_c954186c",
+      "revId": "a3a8318d4003721129cb09c4d1a98757cfed2d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b7ceb35a_b85ff55f",
@@ -48,6 +84,30 @@
       "writtenOn": "2023-12-04T17:08:02Z",
       "side": 1,
       "message": "`note_db_state` is also `null` when it is impossible to migrate a change. For example, a change doesn\u0027t have any PS associated.\n\nAFAIK there is no way of understanding if we have already made an attempt at migration for a change. Bottom line, I think this is the correct check.\n\nHowever, I wanted to bring it up in case you were aware of a way of detecting this situation, i.e.: a change which migration failed.",
+      "range": {
+        "startLine": 1018,
+        "startChar": 39,
+        "endLine": 1018,
+        "endChar": 43
+      },
+      "revId": "a3a8318d4003721129cb09c4d1a98757cfed2d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce50bc97_bdd0172b",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1018,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-06T15:38:30Z",
+      "side": 1,
+      "message": "Yep makes sense @ponch78@gmail.com.\nI think this would result in another attempt still ending in `note_db_state \u003d null`.",
+      "parentUuid": "b7ceb35a_b85ff55f",
       "range": {
         "startLine": 1018,
         "startChar": 39,

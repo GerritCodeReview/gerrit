@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.events.AccountActivationListener;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -51,6 +52,7 @@ public class SetInactiveFlag {
     this.accountActivationListeners = accountActivationListeners;
   }
 
+  @CanIgnoreReturnValue
   public Response<?> deactivate(Account.Id accountId)
       throws RestApiException, IOException, ConfigInvalidException {
     AtomicBoolean alreadyInactive = new AtomicBoolean(false);
@@ -94,6 +96,7 @@ public class SetInactiveFlag {
     return Response.none();
   }
 
+  @CanIgnoreReturnValue
   public Response<String> activate(Account.Id accountId)
       throws RestApiException, IOException, ConfigInvalidException {
     AtomicBoolean alreadyActive = new AtomicBoolean(false);

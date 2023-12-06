@@ -21,6 +21,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.RefNames;
@@ -185,6 +186,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     return loadedAccountProperties.map(AccountProperties::getAccount).get();
   }
 
+  @CanIgnoreReturnValue
   public AccountConfig setAccountDelta(AccountDelta accountDelta) {
     this.accountDelta = Optional.of(accountDelta);
     return this;
@@ -240,6 +242,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   }
 
   @Override
+  @CanIgnoreReturnValue
   public RevCommit commit(MetaDataUpdate update) throws IOException {
     RevCommit c = super.commit(update);
     loadedAccountProperties.get().setMetaId(c);

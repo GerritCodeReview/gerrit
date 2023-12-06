@@ -144,6 +144,7 @@ public abstract class AccountsUpdate {
    * instead, i.e. the update does not depend on the current account state (which, for insertion,
    * would only contain the account ID).
    */
+  @CanIgnoreReturnValue
   public AccountState insert(
       String message, Account.Id accountId, Consumer<AccountDelta.Builder> init)
       throws IOException, ConfigInvalidException {
@@ -210,6 +211,7 @@ public abstract class AccountsUpdate {
    * the error. Callers should be aware that a single "update of death" (or a set of updates that
    * together have this property) will always prevent the entire batch from being executed.
    */
+  @CanIgnoreReturnValue
   public ImmutableList<Optional<AccountState>> updateBatch(List<UpdateArguments> updates)
       throws IOException, ConfigInvalidException {
     checkArgument(

@@ -170,7 +170,8 @@ public class GroupIndexerIT {
   }
 
   private void loadGroupToCache(AccountGroup.UUID groupUuid) {
-    groupCache.get(groupUuid);
+    @SuppressWarnings("unused")
+    var unused = groupCache.get(groupUuid);
   }
 
   private static GroupDelta.Builder newGroupDelta() {

@@ -4,12 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-  ChangeInfo,
-  CommentRange,
-  NumericChangeId,
-  RevisionPatchSetNum,
-} from './rest-api';
+import {ChangeInfo, CommentRange, RevisionPatchSetNum} from './rest-api';
 
 export declare interface SuggestionsPluginApi {
   /**
@@ -20,8 +15,6 @@ export declare interface SuggestionsPluginApi {
 
 export declare interface SuggestCodeRequest {
   prompt: string;
-  // TODO(b/312228673): Remove separate field for the change id.
-  changeNumber: NumericChangeId;
   changeInfo: ChangeInfo;
   patchsetNumber: RevisionPatchSetNum;
   filePath: string;

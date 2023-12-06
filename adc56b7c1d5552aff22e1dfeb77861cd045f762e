@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a5eceb0_5078b4a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-06T11:36:06Z",
+      "side": 1,
+      "message": "Can you please verify the Code-Style and then merge? Thanks.",
+      "revId": "adc56b7c1d5552aff22e1dfeb77861cd045f762e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

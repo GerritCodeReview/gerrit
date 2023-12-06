@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93fffedd_83af7d4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-12-06T12:49:14Z",
+      "side": 1,
+      "message": "I\u0027m also not sure if it still exists. The Mylyn project was rebooted. In that course they restructured their repos and I lost track of where they ended up.",
+      "revId": "78d2b0d4aa4a933a5121e63bd8604b5216a21c83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

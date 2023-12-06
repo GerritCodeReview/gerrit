@@ -68,6 +68,8 @@ export class GrSelectionActionBox extends LitElement {
     `;
   }
 
+  // TODO(b/315277651): This is very similar in purpose to gr-tooltip-content.
+  //   We should figure out a way to reuse as much of the logic as possible.
   async placeAbove(el: Text | Element | Range) {
     if (!this.tooltip) return;
     await this.tooltip.updateComplete;

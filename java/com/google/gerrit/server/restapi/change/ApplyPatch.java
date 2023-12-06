@@ -244,6 +244,13 @@ public class ApplyPatch implements RestModifyView<ChangeResource, ApplyPatchPatc
         hasInputCommitMessage ? input.commitMessage : latestPatchset.getFullMessage();
     // Since we might add error information to the message, we need to split the footers from the
     // actual description.
+    // TODO: Fix parsing footers from the commit message. FooterLine#fromMessage expects the raw
+    // commit message that contains header lines, see RawParseUtils#commitMessage which is invoked
+    // from FooterLine#fromMessage. RawParseUtils#commitMessage always increases the pointer by 46
+    // to skip the "tree ..." line and if this line is not present the parsing of the footers is
+    // broken. This can lead to no footers being found although a Change-Id footer is present. This
+    // causes us to add the Change-Id again and as a result we end up with a commit message that
+    // contains the Change-Id line twice.
     List<FooterLine> footerLines = FooterLine.fromMessage(fullMessage);
     String messageWithNoFooters = removeFooters(fullMessage, footerLines);
     if (FooterLine.getValues(footerLines, FOOTER_CHANGE_ID).isEmpty()) {

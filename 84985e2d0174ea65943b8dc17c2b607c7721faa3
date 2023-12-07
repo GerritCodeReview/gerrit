@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cc31e37_468eeafb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-12-07T18:32:01Z",
+      "side": 1,
+      "message": "Nice improvement!",
+      "revId": "84985e2d0174ea65943b8dc17c2b607c7721faa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "537800d4_35e03b8c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-12-07T18:32:01Z",
+      "side": 1,
+      "message": "Maybe this can be inlined\n```suggestion\n          .disabledIds\u003d${this.isTooLargeForDownload() ? [\u0027left-content\u0027, \u0027right-content\u0027] : []}\n```",
+      "range": {
+        "startLine": 1046,
+        "startChar": 30,
+        "endLine": 1046,
+        "endChar": 64
+      },
+      "revId": "84985e2d0174ea65943b8dc17c2b607c7721faa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

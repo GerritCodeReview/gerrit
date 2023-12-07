@@ -4545,6 +4545,8 @@ public class ChangeIT extends AbstractDaemonTest {
   public void changeQueryReturnsMergeableWhenGerritIndexMergeable() throws Exception {
     String changeId = createChange().getChangeId();
     assertThat(gApi.changes().query(changeId).get().get(0).mergeable).isTrue();
+    gApi.changes().id(changeId).setWorkInProgress();
+    assertThat(gApi.changes().query(changeId).get().get(0).mergeable).isTrue();
   }
 
   @Test

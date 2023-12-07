@@ -16,6 +16,63 @@
       "message": "Reassigned from Chris, as he is likely busy today",
       "revId": "0fe6bec32d4b56996c3357fc10e26ec92af76e69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0ff9ea4_e7379422",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-12-07T11:55:08Z",
+      "side": 1,
+      "message": "Thanks, some nits!",
+      "revId": "0fe6bec32d4b56996c3357fc10e26ec92af76e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a54f46e_bba5fd59",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip-content/gr-tooltip-content.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-12-07T11:55:08Z",
+      "side": 1,
+      "message": "I\u0027m not a big fan of `let foo \u003d ..; conditional logic that modifies foo`.\n\nWhat about\n\nconst left \u003d computeLeft(hoveredCenter, tooltipRect, parentWidth)\n```suggestion\n    const left \u003d computeLeft(hoveredCenter, tooltipRect, parentWidth);\n```",
+      "range": {
+        "startLine": 229,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 29
+      },
+      "revId": "0fe6bec32d4b56996c3357fc10e26ec92af76e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf5a79ba_475f6366",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip-content/gr-tooltip-content.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1139611
+      },
+      "writtenOn": "2023-12-07T11:55:08Z",
+      "side": 1,
+      "message": "Same comment about top as about left.",
+      "revId": "0fe6bec32d4b56996c3357fc10e26ec92af76e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

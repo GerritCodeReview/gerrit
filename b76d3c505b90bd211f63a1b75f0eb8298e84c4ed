@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e4e1e17_54a9be21",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-12-07T21:50:23Z",
+      "side": 1,
+      "message": "This one seems strange to ignore. Wouldn\u0027t callers want to check and see if auth failed?",
+      "revId": "b76d3c505b90bd211f63a1b75f0eb8298e84c4ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

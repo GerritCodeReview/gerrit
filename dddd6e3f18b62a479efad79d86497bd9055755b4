@@ -39,6 +39,30 @@
       },
       "revId": "dddd6e3f18b62a479efad79d86497bd9055755b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cac08b06_32cab67c",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-12-07T09:19:35Z",
+      "side": 1,
+      "message": "https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/api/BUILD_for_publishing_api_only",
+      "parentUuid": "5c669fc7_58d926b3",
+      "range": {
+        "startLine": 336,
+        "startChar": 0,
+        "endLine": 336,
+        "endChar": 131
+      },
+      "revId": "dddd6e3f18b62a479efad79d86497bd9055755b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

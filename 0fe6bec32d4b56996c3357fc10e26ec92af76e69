@@ -58,6 +58,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6b2d7ab_bc95d72b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip-content/gr-tooltip-content.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-12-07T12:09:41Z",
+      "side": 1,
+      "message": "Copied the logic there. Still can\u0027t use early returns though, since I am reusing calculated values.",
+      "parentUuid": "0a54f46e_bba5fd59",
+      "range": {
+        "startLine": 229,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 29
+      },
+      "revId": "0fe6bec32d4b56996c3357fc10e26ec92af76e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bf5a79ba_475f6366",
@@ -71,6 +95,24 @@
       "writtenOn": "2023-12-07T11:55:08Z",
       "side": 1,
       "message": "Same comment about top as about left.",
+      "revId": "0fe6bec32d4b56996c3357fc10e26ec92af76e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cac7c7a3_cdb8448e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip-content/gr-tooltip-content.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2023-12-07T12:09:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf5a79ba_475f6366",
       "revId": "0fe6bec32d4b56996c3357fc10e26ec92af76e69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

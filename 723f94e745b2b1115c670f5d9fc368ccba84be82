@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00a7f0d2_2fb4bd62",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-12-07T20:01:36Z",
+      "side": 1,
+      "message": "Looks like java 17 build is broken on 3.5.",
+      "revId": "723f94e745b2b1115c670f5d9fc368ccba84be82",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

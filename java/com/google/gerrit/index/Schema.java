@@ -207,21 +207,19 @@ public class Schema<T> {
   /**
    * Build all fields in the schema from an input object.
    *
-   * <p>Null values are omitted, as are fields which cause errors, which are logged.
+   * <p>Null values are omitted, as are fields which cause errors, which are logged. If any of the
+   * fields cause a StorageException, the whole operation fails and the exception is propagated to
+   * the caller.
    *
    * @param obj input object.
    * @param skipFields set of field names to skip when indexing the document
    * @return all non-null field values from the object.
    */
   public final Iterable<Values<T>> buildFields(T obj, ImmutableSet<String> skipFields) {
-    try {
-      return fields.values().stream()
-          .map(f -> fieldValues(obj, f, skipFields))
-          .filter(Objects::nonNull)
-          .collect(toImmutableList());
-    } catch (StorageException e) {
-      return ImmutableList.of();
-    }
+    return fields.values().stream()
+        .map(f -> fieldValues(obj, f, skipFields))
+        .filter(Objects::nonNull)
+        .collect(toImmutableList());
   }
 
   @Override

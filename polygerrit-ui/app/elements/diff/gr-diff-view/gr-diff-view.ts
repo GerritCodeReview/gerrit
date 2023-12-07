@@ -49,6 +49,7 @@ import {
   RevisionPatchSetNum,
   Comment,
   CommentMap,
+  DropdownLink,
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo, WebLinkInfo} from '../../../types/diff';
 import {ParsedChangeInfo} from '../../../types/types';
@@ -105,12 +106,16 @@ import {
 } from '../../../models/change/files-model';
 import {isImageDiff} from '../../../utils/diff-util';
 import {formStyles} from '../../../styles/form-styles';
+import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 
 const LOADING_BLAME = 'Loading blame...';
 const LOADED_BLAME = 'Blame loaded';
 
 // Time in which pressing n key again after the toast navigates to next file
 const NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS = 5000;
+
+// Files larger than this cannot be downloaded.
+const FILE_DOWNLOAD_LIMIT_BYTES = 50 * 1000 * 1000;
 
 // visible for testing
 export interface Files {
@@ -194,6 +199,8 @@ export class GrDiffView extends LitElement {
   files: Files = {sortedPaths: [], changeFilesByPath: {}};
 
   @state() path?: string;
+
+  @state() file?: NormalizedFileInfo;
 
   @state() private shownSidebar?: string;
 
@@ -412,6 +419,11 @@ export class GrDiffView extends LitElement {
       this,
       () => this.getViewModel().diffPath$,
       path => (this.path = path)
+    );
+    subscribe(
+      this,
+      () => this.getFilesModel().file$(this.getViewModel().diffPath$),
+      file => (this.file = file)
     );
     subscribe(
       this,
@@ -1031,6 +1043,9 @@ export class GrDiffView extends LitElement {
           link=""
           down-arrow=""
           .items=${this.computeDownloadDropdownLinks()}
+          .disabledIds=${this.isTooLargeForDownload()
+            ? ['left-content', 'right-content']
+            : []}
           horizontal-align="left"
         >
           <span class="downloadTitle"> Download </span>
@@ -1611,14 +1626,18 @@ export class GrDiffView extends LitElement {
     this.updateUrlToDiffUrl(lineNumber as number, e.detail.side === Side.LEFT);
   }
 
+  private isTooLargeForDownload() {
+    return (this.file?.size ?? 0) > FILE_DOWNLOAD_LIMIT_BYTES;
+  }
+
   // Private but used in tests.
-  computeDownloadDropdownLinks() {
+  computeDownloadDropdownLinks(): DropdownLink[] {
     if (!this.change?.project) return [];
     if (!this.changeNum) return [];
     if (!this.patchRange) return [];
     if (!this.path) return [];
 
-    const links = [
+    const links: DropdownLink[] = [
       {
         url: this.computeDownloadPatchLink(
           this.change.project,
@@ -1630,34 +1649,45 @@ export class GrDiffView extends LitElement {
       },
     ];
 
-    if (this.diff && this.diff.meta_a) {
-      let leftPath = this.path;
-      if (this.diff.change_type === 'RENAMED') {
-        leftPath = this.diff.meta_a.name;
+    if (this.isTooLargeForDownload()) {
+      links.push({
+        id: 'left-content',
+        name: 'Left Content (Too Large)',
+      });
+      links.push({
+        id: 'right-content',
+        name: 'Right Content (Too Large)',
+      });
+    } else {
+      if (this.diff && this.diff.meta_a) {
+        let leftPath = this.path;
+        if (this.diff.change_type === 'RENAMED') {
+          leftPath = this.diff.meta_a.name;
+        }
+        links.push({
+          url: this.computeDownloadFileLink(
+            this.change.project,
+            this.changeNum,
+            this.patchRange,
+            leftPath,
+            true
+          ),
+          name: 'Left Content',
+        });
       }
-      links.push({
-        url: this.computeDownloadFileLink(
-          this.change.project,
-          this.changeNum,
-          this.patchRange,
-          leftPath,
-          true
-        ),
-        name: 'Left Content',
-      });
-    }
 
-    if (this.diff && this.diff.meta_b) {
-      links.push({
-        url: this.computeDownloadFileLink(
-          this.change.project,
-          this.changeNum,
-          this.patchRange,
-          this.path,
-          false
-        ),
-        name: 'Right Content',
-      });
+      if (this.diff && this.diff.meta_b) {
+        links.push({
+          url: this.computeDownloadFileLink(
+            this.change.project,
+            this.changeNum,
+            this.patchRange,
+            this.path,
+            false
+          ),
+          name: 'Right Content',
+        });
+      }
     }
 
     return links;

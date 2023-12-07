@@ -12,7 +12,7 @@ import {
   PatchSetNumber,
   RevisionPatchSetNum,
 } from '../../types/common';
-import {combineLatest, of, from} from 'rxjs';
+import {combineLatest, of, from, Observable} from 'rxjs';
 import {switchMap, map} from 'rxjs/operators';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {select} from '../../utils/observable-util';
@@ -119,6 +119,11 @@ export const filesModelToken = define<FilesModel>('files-model');
 
 export class FilesModel extends Model<FilesState> {
   public readonly files$ = select(this.state$, state => state.files);
+
+  public file$ = (path$: Observable<string | undefined>) =>
+    combineLatest([path$, this.files$]).pipe(
+      map(([path, files]) => files.find(f => f.__path === path))
+    );
 
   /**
    * `files$` only includes the files that were modified. Here we also include

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c05a30e6_c45da680",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-12-07T22:19:56Z",
+      "side": 1,
+      "message": "Tests pass:\n```\n$ bazel build --config\u003djava17 release \u0026\u0026 \\\n    bazel test --config\u003djava17 --flaky_test_attempts 3 \\\n    --test_timeout 3600 --test_tag_filters\u003d-flaky \\\n    //...\n[snip]\nExecuted 197 out of 202 tests: 202 tests pass.\nINFO: Build completed successfully, 1337 total actions\n```\n\nAnd it still creates java17 bytecode:\n```\n$ jar -xf ./bazel-bin/gerrit.war Main.class\n$ file ./Main.class\n./Main.class: compiled Java class data, version 61.0\n```",
+      "revId": "6c3d618538e35e6ca28eadc80eb37c52167db963",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

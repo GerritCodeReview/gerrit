@@ -37,6 +37,7 @@ def _impl(ctx):
         "mkdir %s" % dir,
         " ".join([
             "%s/bin/javadoc" % ctx.attr._jdk[java_common.JavaRuntimeInfo].java_home,
+            " ".join(["-J%s" % opt for opt in ctx.fragments.java.default_jvm_opts]),
             "-Xdoclint:-missing",
             "-protected",
             "-encoding UTF-8",
@@ -75,4 +76,5 @@ java_doc = rule(
     },
     outputs = {"zip": "%{name}.zip"},
     implementation = _impl,
+    fragments = ["java"],
 )

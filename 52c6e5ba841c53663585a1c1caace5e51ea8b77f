@@ -16,6 +16,24 @@
       "message": "- Code Style: passed\n- Build/Tests: passed\n- PolyGerrit UI Tests: failed\n- RBE Build/Tests: passed",
       "revId": "52c6e5ba841c53663585a1c1caace5e51ea8b77f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62e4df09_646cc5e4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-07T14:02:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3257a03f_aff18b68",
+      "revId": "52c6e5ba841c53663585a1c1caace5e51ea8b77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

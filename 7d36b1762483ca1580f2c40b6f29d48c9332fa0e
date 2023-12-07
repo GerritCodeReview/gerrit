@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "764f6c3c_4f98a272",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-07T17:09:36Z",
+      "side": 1,
+      "message": "Code Style: passed\nBuild/Tests: passed\nPolyGerrit UI Tests: passed\nRBE Build/Tests: passed",
+      "revId": "7d36b1762483ca1580f2c40b6f29d48c9332fa0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

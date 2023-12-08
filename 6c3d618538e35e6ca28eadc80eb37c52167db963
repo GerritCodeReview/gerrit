@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c85a0ef9_11aaf823",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-12-08T05:51:54Z",
+      "side": 1,
+      "message": "It doesn\u0027t hurt, but strictly speaking, it is not needed. Imagine, someone would erroneously add a change (up until stable-3.9 branch), and use some Java 17 compiler features, then she would check that change locally with java17 configuration:\n\n  $\u003e bazel build --config\u003djava17 headless\n\nThat would pass, but on the CI it would fail, because java 11 is used.\n\nBecause our CI is enforcing this already. This (and all other changes) up to stable-3.9 branch (where we bumped the toolchain to java17 per default) is building with java compiler level 11:\n\nbuild --java_language_version\u003d11\nbuild --java_runtime_version\u003dremotejdk_11\nbuild --tool_java_language_version\u003d11\nbuild --tool_java_runtime_version\u003dremotejdk_11\n\nA more appropriate place for this change would be on stable-3.9 branch, where we bumped java compiler level to Java 17 per default in this change: [1].\n\n[1]: https://gerrit-review.googlesource.com/c/gerrit/+/327739",
+      "revId": "6c3d618538e35e6ca28eadc80eb37c52167db963",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c05a30e6_c45da680",

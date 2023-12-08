@@ -28,6 +28,7 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.server.cache.CacheInfo;
 import com.google.gerrit.server.cache.PersistentCache;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.logging.Metadata;
@@ -663,12 +664,19 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
           try (ResultSet r = s.executeQuery("SELECT SUM(space) FROM data")) {
             used = r.next() ? r.getLong(1) : 0;
           }
+          String formattedMaxSize = CacheInfo.EntriesInfo.bytes(maxSize);
           if (used <= maxSize) {
+            logger.atInfo().log(
+                "Cache %s size (%s) is less than maxSize (%s), not pruning",
+                url, CacheInfo.EntriesInfo.bytes(used), formattedMaxSize);
             return;
           }
 
           try (ResultSet r =
               s.executeQuery("SELECT k, space, created FROM data ORDER BY accessed")) {
+            logger.atInfo().log(
+                "Cache %s size (%s) is greater than maxSize (%s), pruning",
+                url, CacheInfo.EntriesInfo.bytes(used), formattedMaxSize);
             while (maxSize < used && r.next()) {
               K key = keyType.get(r, 1);
               Timestamp created = r.getTimestamp(3);
@@ -679,6 +687,9 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
                 used -= r.getLong(2);
               }
             }
+            logger.atInfo().log(
+                "Done pruning cache %s, size (%s) is now less than maxSize (%s)",
+                url, CacheInfo.EntriesInfo.bytes(used), formattedMaxSize);
           }
         }
       } catch (IOException | SQLException e) {

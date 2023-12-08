@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6312ff1c_5b61b1f2",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2023-12-08T14:13:58Z",
+      "side": 1,
+      "message": "nit: `ImmutableList` was part of `stable-3.9` it shouldn\u0027t be changed back to `Iterable` as a part of the merge-up",
+      "range": {
+        "startLine": 294,
+        "startChar": 15,
+        "endLine": 294,
+        "endChar": 23
+      },
+      "revId": "9f323a6aa5ad156a87002b17a36cbb26c8d18f37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

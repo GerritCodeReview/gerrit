@@ -283,7 +283,7 @@ public class GroupCacheImpl implements GroupCache {
       List<Cache.GroupKeyProto> keyList = new ArrayList<>();
       try (TraceTimer ignored =
               TraceContext.newTimer(
-                  "Loading group from serialized cache",
+                  "Building keys to load group(s) from serialized cache",
                   Metadata.builder().cacheName(BYUUID_NAME_PERSISTED).build());
           Repository allUsers = repoManager.openRepository(allUsersName)) {
         while (uuidIterator.hasNext()) {
@@ -302,8 +302,13 @@ public class GroupCacheImpl implements GroupCache {
           keyList.add(key);
         }
       }
-      persistedCache.getAll(keyList).entrySet().stream()
-          .forEach(g -> toReturn.put(g.getKey().getUuid(), Optional.of(g.getValue())));
+      try (TraceTimer ignored =
+          TraceContext.newTimer(
+              "Loading group(s) from serialized cache",
+              Metadata.builder().cacheName(BYUUID_NAME_PERSISTED).build())) {
+        persistedCache.getAll(keyList).entrySet().stream()
+            .forEach(g -> toReturn.put(g.getKey().getUuid(), Optional.of(g.getValue())));
+      }
       return toReturn;
     }
   }

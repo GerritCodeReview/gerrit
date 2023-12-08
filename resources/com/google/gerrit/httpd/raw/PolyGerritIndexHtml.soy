@@ -57,7 +57,7 @@
       {/if}
     {rb};
     window.PRELOADED_QUERIES = {lb}
-      {if $userIsAuthenticated and $defaultDashboardHex and $dashboardQuery}
+      {if $userIsAuthenticated && $defaultDashboardHex && $dashboardQuery}
         dashboardQuery: [{for $query in $dashboardQuery}{$query},{/for}],
       {/if}
     {rb};
@@ -103,7 +103,7 @@
       <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/drafts?enable-context=true&context-padding=3" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
     {/if}
   {/if}
-  {if $userIsAuthenticated and $defaultDashboardHex and $dashboardQuery}
+  {if $userIsAuthenticated && $defaultDashboardHex && $dashboardQuery}
     <link rel="preload" href="{$canonicalPath}/changes/?O={$defaultDashboardHex}&S=0{for $query in $dashboardQuery}&q={$query}{/for}&allow-incomplete-results=true" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
   {/if}
 
@@ -147,7 +147,7 @@
   // CC them on any changes that load content before gr-app.js.
   //
   // github.com/Polymer/polymer-resin/blob/master/getting-started.md#integrating
-  {if $assetsPath and $assetsBundle}
+  {if $assetsPath && $assetsBundle}
     <link rel="import" href="{$assetsPath}/{$assetsBundle}">{\n}
   {/if}
 

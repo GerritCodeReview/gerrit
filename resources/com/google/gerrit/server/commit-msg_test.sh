@@ -2,7 +2,18 @@
 
 set -eu
 
-hook=$(pwd)/resources/com/google/gerrit/server/tools/root/hooks/commit-msg
+readlink -f / &> /dev/null || readlink() { greadlink "$@" ; } # for MacOS
+test_dir=$(dirname -- "$(readlink -f -- "$0")")
+hook=$test_dir/tools/root/hooks/commit-msg
+
+if [ -z "${TEST_TMPDIR-}" ] ; then
+  TEST_TMPDIR=$(mktemp -d)
+  trap cleanup EXIT
+fi
+
+function cleanup {
+  rm -rf "$TEST_TMPDIR"
+}
 
 cd $TEST_TMPDIR
 

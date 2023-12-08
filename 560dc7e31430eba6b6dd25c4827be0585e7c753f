@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "20c55929_7959c526",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1429,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-12-08T14:38:01Z",
+      "side": 1,
+      "message": "I don\u0027t understand why is `version(s)` better than `versions`?",
+      "parentUuid": "50d601b8_754de13a",
+      "range": {
+        "startLine": 1429,
+        "startChar": 70,
+        "endLine": 1429,
+        "endChar": 78
+      },
+      "revId": "560dc7e31430eba6b6dd25c4827be0585e7c753f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "12c7c6b3_a5a181a5",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 7
@@ -37,6 +61,30 @@
       "writtenOn": "2023-12-08T00:10:45Z",
       "side": 1,
       "message": "nit: version(s)\n```suggestion\nwhich index version is used to search and which version(s) are written to.\n```",
+      "range": {
+        "startLine": 1430,
+        "startChar": 48,
+        "endLine": 1430,
+        "endChar": 56
+      },
+      "revId": "560dc7e31430eba6b6dd25c4827be0585e7c753f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8bba3bf_1e99b396",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1430,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-12-08T14:38:01Z",
+      "side": 1,
+      "message": "same here",
+      "parentUuid": "12c7c6b3_a5a181a5",
       "range": {
         "startLine": 1430,
         "startChar": 48,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b00dd05_5ad32806",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1431,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-12-08T14:38:01Z",
+      "side": 1,
+      "message": "I think that Gerrit admins know about the multiple versions of the same index. This change doesn\u0027t introduce that concept.",
+      "parentUuid": "27bbe69a_d4394226",
+      "revId": "560dc7e31430eba6b6dd25c4827be0585e7c753f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e4833dc_d179e5c1",
@@ -77,6 +143,24 @@
       "writtenOn": "2023-12-08T00:10:45Z",
       "side": 1,
       "message": "Do you use this?",
+      "revId": "560dc7e31430eba6b6dd25c4827be0585e7c753f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d85d0261_eed1aad9",
+        "filename": "java/com/google/gerrit/server/restapi/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-12-08T14:38:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e4833dc_d179e5c1",
       "revId": "560dc7e31430eba6b6dd25c4827be0585e7c753f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -104,6 +188,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16b0eba1_86ad4a7e",
+        "filename": "java/com/google/gerrit/server/restapi/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-12-08T14:38:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e4b68ce_0589ce05",
+      "range": {
+        "startLine": 47,
+        "startChar": 8,
+        "endLine": 47,
+        "endChar": 35
+      },
+      "revId": "560dc7e31430eba6b6dd25c4827be0585e7c753f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cff3c378_dfcee573",
@@ -117,6 +225,30 @@
       "writtenOn": "2023-12-08T00:10:45Z",
       "side": 1,
       "message": "Can you use a non-Lucene exception class instead? Maybe `ResourceNotFoundException`?",
+      "range": {
+        "startLine": 71,
+        "startChar": 72,
+        "endLine": 71,
+        "endChar": 94
+      },
+      "revId": "560dc7e31430eba6b6dd25c4827be0585e7c753f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "320cf990_9fd67f18",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2023-12-08T14:38:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cff3c378_dfcee573",
       "range": {
         "startLine": 71,
         "startChar": 72,

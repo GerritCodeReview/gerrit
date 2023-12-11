@@ -51,12 +51,12 @@ public interface ChangeDraftUpdateExecutor {
     // - A factory creating an interface (rather than a class).
     // To overcome this - we declare the create method in this non-parameterized interface, then
     // extend it with a factory returning an actual class.
-    ChangeDraftUpdateExecutor create();
+    ChangeDraftUpdateExecutor create(CurrentUser currentUser);
   }
 
   interface Factory<T extends ChangeDraftUpdateExecutor> extends AbstractFactory {
     @Override
-    T create();
+    T create(CurrentUser currentUser);
   }
 
   /**

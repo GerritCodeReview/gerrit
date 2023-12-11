@@ -92,7 +92,7 @@ public class CacheInfo {
       space = bytes(value);
     }
 
-    private static String bytes(double value) {
+    public static String bytes(double value) {
       value /= 1024;
       String suffix = "k";
 

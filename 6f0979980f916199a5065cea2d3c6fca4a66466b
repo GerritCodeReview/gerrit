@@ -128,6 +128,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d2043252_a245a3eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-11T17:18:45Z",
+      "side": 1,
+      "message": "\u003e Could we use exactly the same base docker image, we are using for RBE build on GCP: docker pull gcr.io/bazel-public/ubuntu2204-java17@latest.\n\nI have been able to remove the BuildBuddy tool chain that BuildBuddy provides (`buildbuddy_toolchain`) and I have used the same tool chain as we do for RBE GCP (`ubuntu2204_jdk17`). All the test passed *successfully* apart from the one mentioned above. I was expecting that test failing because in GCP RBE is not failing. if I apply `dockerUser\u003dnobody` as I mentioned before the test passes. I guess that I am missing something.",
+      "parentUuid": "21781f51_4be71fd9",
+      "revId": "6f0979980f916199a5065cea2d3c6fca4a66466b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "92e64d45_1d0ea787",
         "filename": "tools/remote-bazelrc",
         "patchSetId": 17

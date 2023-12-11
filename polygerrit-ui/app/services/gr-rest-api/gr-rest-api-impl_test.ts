@@ -347,7 +347,7 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.isFalse(element._cache.has(cacheKey));
   });
 
-  suite('getAccountSuggestions', () => {
+  suite('queryAccounts', () => {
     let fetchStub: sinon.SinonStub;
     const testProject = 'testproject';
     const testChangeNumber = 341682;
@@ -362,7 +362,7 @@ suite('gr-rest-api-service-impl tests', () => {
     });
 
     test('url with just email', async () => {
-      await element.getSuggestedAccounts('bro');
+      await element.queryAccounts('bro');
       assert.isTrue(fetchStub.calledOnce);
       assert.equal(
         fetchStub.firstCall.args[0].url,
@@ -371,7 +371,7 @@ suite('gr-rest-api-service-impl tests', () => {
     });
 
     test('url with email and canSee changeId', async () => {
-      await element.getSuggestedAccounts(
+      await element.queryAccounts(
         'bro',
         undefined,
         testChangeNumber as NumericChangeId
@@ -384,7 +384,7 @@ suite('gr-rest-api-service-impl tests', () => {
     });
 
     test('url with email and canSee changeId and isActive', async () => {
-      await element.getSuggestedAccounts(
+      await element.queryAccounts(
         'bro',
         undefined,
         testChangeNumber as NumericChangeId,
@@ -396,6 +396,18 @@ suite('gr-rest-api-service-impl tests', () => {
         `${getBaseUrl()}/accounts/?o=DETAILS&q=%22bro%22%20and%20cansee%3A${testProject}~${testChangeNumber}%20and%20is%3Aactive`
       );
     });
+  });
+
+  test('getAccountSuggestions using suggest query param', () => {
+    const fetchStub = sinon
+      .stub(element._restApiHelper, 'fetch')
+      .resolves(new Response());
+    element.getAccountSuggestions('user');
+    assert.isTrue(fetchStub.calledOnce);
+    assert.equal(
+      fetchStub.firstCall.args[0].url,
+      `${getBaseUrl()}/accounts/?suggest&q=user`
+    );
   });
 
   test('getAccount when resp is undefined clears cache', async () => {
@@ -758,6 +770,27 @@ suite('gr-rest-api-service-impl tests', () => {
     });
   });
 
+  test('updateIdentityInChangeEdit', async () => {
+    element._projectLookup = {1: Promise.resolve('test' as RepoName)};
+    const change_num = 1 as NumericChangeId;
+    const name = 'user';
+    const email = 'user@example.com';
+    const type = 'AUTHOR';
+    const sendStub = sinon.stub(element._restApiHelper, 'send').resolves();
+    await element.updateIdentityInChangeEdit(change_num, name, email, type);
+    assert.isTrue(sendStub.calledOnce);
+    assert.equal(sendStub.lastCall.args[0].method, HttpMethod.PUT);
+    assert.equal(
+      sendStub.lastCall.args[0].url,
+      '/changes/test~1/edit:identity'
+    );
+    assert.deepEqual(sendStub.lastCall.args[0].body, {
+      email: 'user@example.com',
+      name: 'user',
+      type: 'AUTHOR',
+    });
+  });
+
   test('deleteChangeCommitMessage', async () => {
     element._projectLookup = {1: Promise.resolve('test' as RepoName)};
     const change_num = 1 as NumericChangeId;
@@ -1046,18 +1079,18 @@ suite('gr-rest-api-service-impl tests', () => {
     assert(fetchStub.called);
   });
 
-  test('getSuggestedAccounts does not return fetchJSON', async () => {
+  test('queryAccounts does not return fetchJSON', async () => {
     const fetchJSONSpy = sinon.spy(element._restApiHelper, 'fetchJSON');
-    const accts = await element.getSuggestedAccounts('');
+    const accts = await element.queryAccounts('');
     assert.isFalse(fetchJSONSpy.called);
     assert.equal(accts!.length, 0);
   });
 
-  test('fetchJSON gets called by getSuggestedAccounts', async () => {
+  test('fetchJSON gets called by queryAccounts', async () => {
     const fetchJSONStub = sinon
       .stub(element._restApiHelper, 'fetchJSON')
       .resolves();
-    await element.getSuggestedAccounts('own');
+    await element.queryAccounts('own');
     assert.deepEqual(fetchJSONStub.lastCall.args[0].params, {
       q: '"own"',
       o: 'DETAILS',

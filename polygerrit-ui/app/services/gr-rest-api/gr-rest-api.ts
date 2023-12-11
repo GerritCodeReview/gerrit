@@ -165,13 +165,14 @@ export interface RestApiService extends Finalizable {
    * Request list of accounts via https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#query-account
    * Operators defined here https://gerrit-review.googlesource.com/Documentation/user-search-accounts.html#_search_operators
    */
-  getSuggestedAccounts(
+  queryAccounts(
     input: string,
     n?: number,
     canSee?: NumericChangeId,
     filterActive?: boolean,
     errFn?: ErrorCallback
   ): Promise<AccountInfo[] | undefined>;
+  getAccountSuggestions(input: string): Promise<AccountInfo[] | undefined>;
   getSuggestedGroups(
     input: string,
     project?: RepoName,
@@ -820,6 +821,13 @@ export interface RestApiService extends Finalizable {
     changeNum: NumericChangeId,
     message: string
   ): Promise<Response>;
+
+  updateIdentityInChangeEdit(
+    changeNum: NumericChangeId,
+    name: string,
+    email: string,
+    type: string
+  ): Promise<Response | undefined>;
 
   getChangeCommitInfo(
     changeNum: NumericChangeId,

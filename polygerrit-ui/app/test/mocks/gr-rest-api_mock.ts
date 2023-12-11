@@ -416,6 +416,9 @@ export const grRestApiMock: RestApiService = {
   getSuggestedAccounts(): Promise<AccountInfo[] | undefined> {
     return Promise.resolve([]);
   },
+  getAccountSuggestions(): Promise<AccountInfo[] | undefined> {
+    return Promise.resolve([]);
+  },
   getSuggestedGroups(): Promise<GroupNameToGroupInfoMap | undefined> {
     return Promise.resolve({});
   },
@@ -552,6 +555,9 @@ export const grRestApiMock: RestApiService = {
     throw new Error('setRepoAccessRightsForReview() not implemented by mock.');
   },
   setRepoHead(): Promise<Response> {
+    return Promise.resolve(new Response());
+  },
+  updateIdentityInChangeEdit(): Promise<Response | undefined> {
     return Promise.resolve(new Response());
   },
 };

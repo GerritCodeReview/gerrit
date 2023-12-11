@@ -146,6 +146,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "60172898_4b32b01e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-11T17:31:32Z",
+      "side": 1,
+      "message": "I wonder in GCP RBE which user is running the tests? The default user of the image that you mentioned `gcr.io/bazel-public/ubuntu2204-java17@latest` is ROOT, and with that user the test should fail using GCP RBE.",
+      "parentUuid": "d2043252_a245a3eb",
+      "revId": "6f0979980f916199a5065cea2d3c6fca4a66466b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "92e64d45_1d0ea787",
         "filename": "tools/remote-bazelrc",
         "patchSetId": 17

@@ -905,6 +905,32 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void removeInactiveReviewerWithoutVoteWithPermissionSucceeds() throws Exception {
+    PushOneCommit.Result r = createChange();
+    // This test creates a new user so that it can explicitly check the REMOVE_REVIEWER permission
+    // rather than bypassing the check because of project or ref ownership.
+    TestAccount newUser = createAccounts(1, name("foo")).get(0);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.REMOVE_REVIEWER).ref(RefNames.REFS + "*").group(REGISTERED_USERS))
+        .update();
+    TestAccount inactiveUser = createAccounts(1, name("inactive")).get(0);
+    gApi.accounts().id(inactiveUser.id().get()).setActive(false);
+
+    gApi.changes().id(r.getChangeId()).addReviewer(inactiveUser.email());
+    assertThatUserIsOnlyReviewer(r.getChangeId(), inactiveUser);
+    requestScopeOperations.setApiUser(newUser.id());
+    assertThat(
+            Iterables.getOnlyElement(gApi.changes().id(r.getChangeId()).get().removableReviewers)
+                .email)
+        .isEqualTo(inactiveUser.email());
+
+    gApi.changes().id(r.getChangeId()).reviewer(inactiveUser.email()).remove();
+    assertThat(gApi.changes().id(r.getChangeId()).get().reviewers).isEmpty();
+  }
+
+  @Test
   public void removeCCWithoutPermissionFails() throws Exception {
     PushOneCommit.Result r = createChange();
     TestAccount newUser = createAccounts(1, name("foo")).get(0);
@@ -1154,9 +1180,13 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
   }
 
   private void assertThatUserIsOnlyReviewer(String changeId) throws Exception {
-    AccountInfo userInfo = new AccountInfo(user.fullName(), user.getNameEmail().email());
-    userInfo._accountId = user.id().get();
-    userInfo.username = user.username();
+    assertThatUserIsOnlyReviewer(changeId, user);
+  }
+
+  private void assertThatUserIsOnlyReviewer(String changeId, TestAccount u) throws Exception {
+    AccountInfo userInfo = new AccountInfo(u.fullName(), u.getNameEmail().email());
+    userInfo._accountId = u.id().get();
+    userInfo.username = u.username();
     assertThat(gApi.changes().id(changeId).get().reviewers)
         .containsExactly(ReviewerState.REVIEWER, ImmutableList.of(userInfo));
   }

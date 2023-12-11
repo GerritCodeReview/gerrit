@@ -172,6 +172,7 @@ export interface RestApiService extends Finalizable {
     filterActive?: boolean,
     errFn?: ErrorCallback
   ): Promise<AccountInfo[] | undefined>;
+  getAccountSuggestions(input: string): Promise<AccountInfo[] | undefined>;
   getSuggestedGroups(
     input: string,
     project?: RepoName,
@@ -820,6 +821,13 @@ export interface RestApiService extends Finalizable {
     changeNum: NumericChangeId,
     message: string
   ): Promise<Response>;
+
+  updateIdentityInChangeEdit(
+    changeNum: NumericChangeId,
+    name: string,
+    email: string,
+    type: string
+  ): Promise<Response | undefined>;
 
   getChangeCommitInfo(
     changeNum: NumericChangeId,

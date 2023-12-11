@@ -3,13 +3,6 @@ load("//tools/bzl:pkg_war.bzl", "pkg_war")
 
 package(default_visibility = ["//visibility:public"])
 
-config_setting(
-    name = "java17",
-    values = {
-        "java_language_version": "17",
-    },
-)
-
 genrule(
     name = "gen_version",
     outs = ["version.txt"],

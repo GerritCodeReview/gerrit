@@ -32,6 +32,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.ChangeDraftUpdate;
 import com.google.gerrit.server.ChangeDraftUpdateExecutor;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -106,11 +107,15 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
   }
 
   static class Executor implements ChangeDraftUpdateExecutor, AutoCloseable {
-    interface Factory extends ChangeDraftUpdateExecutor.Factory<Executor> {}
+    interface Factory extends ChangeDraftUpdateExecutor.Factory<Executor> {
+      @Override
+      Executor create(CurrentUser currentUser);
+    }
 
     private final GitRepositoryManager repoManager;
     private final AllUsersName allUsersName;
     private final NoteDbUpdateExecutor noteDbUpdateExecutor;
+    private final CurrentUser currentUser;
     private final AllUsersAsyncUpdate updateAllUsersAsync;
     private OpenRepo allUsersRepo;
     private boolean shouldAllowFastForward = false;
@@ -120,11 +125,13 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
         GitRepositoryManager repoManager,
         AllUsersName allUsersName,
         NoteDbUpdateExecutor noteDbUpdateExecutor,
-        AllUsersAsyncUpdate updateAllUsersAsync) {
+        AllUsersAsyncUpdate updateAllUsersAsync,
+        @Assisted CurrentUser currentUser) {
       this.updateAllUsersAsync = updateAllUsersAsync;
       this.repoManager = repoManager;
       this.allUsersName = allUsersName;
       this.noteDbUpdateExecutor = noteDbUpdateExecutor;
+      this.currentUser = currentUser;
     }
 
     @Override
@@ -189,7 +196,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
         @Nullable PersonIdent refLogIdent,
         @Nullable String refLogMessage,
         @Nullable PushCertificate pushCert) {
-      updateAllUsersAsync.execute(refLogIdent, refLogMessage, pushCert);
+      updateAllUsersAsync.execute(refLogIdent, refLogMessage, pushCert, currentUser);
     }
 
     @Override

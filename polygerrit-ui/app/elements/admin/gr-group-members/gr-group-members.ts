@@ -280,7 +280,7 @@ export class GrGroupMembers extends LitElement {
     filterActive = false
   ) {
     return this.restApiService
-      .getSuggestedAccounts(
+      .queryAccounts(
         input,
         SUGGESTIONS_LIMIT,
         canSee,

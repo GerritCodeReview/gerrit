@@ -407,6 +407,15 @@ suite('gr-change-metadata tests', () => {
         element.change = change;
         assert.isNotOk(element.getNonOwnerRole(ChangeRole.COMMITTER));
       });
+
+      test('getNonOwnerRole returns committer with same email as owner in edit mode', () => {
+        // Set the committer email to be the same as the owner.
+        change!.revisions.rev1.commit!.committer.email =
+          'abc@def' as EmailAddress;
+        element.change = change;
+        element.editMode = true;
+        assert.isOk(element.getNonOwnerRole(ChangeRole.COMMITTER));
+      });
     });
 
     suite('role=author', () => {
@@ -429,6 +438,14 @@ suite('gr-change-metadata tests', () => {
         delete change!.revisions.rev1.commit;
         element.change = change;
         assert.isNotOk(element.getNonOwnerRole(ChangeRole.AUTHOR));
+      });
+
+      test('getNonOwnerRole returns author with same email as owner in edit mode', () => {
+        // Set the author email to be the same as the owner.
+        change!.revisions.rev1.commit!.author.email = 'abc@def' as EmailAddress;
+        element.change = change;
+        element.editMode = true;
+        assert.isOk(element.getNonOwnerRole(ChangeRole.AUTHOR));
       });
     });
   });
@@ -935,6 +952,35 @@ suite('gr-change-metadata tests', () => {
         message: 'Saving hashtag and reloading ...',
         showDismiss: true,
       });
+    });
+  });
+
+  test('update author identity', async () => {
+    const change = createParsedChange();
+    element.change = change;
+    element.editMode = true;
+    await element.updateComplete;
+    const updateIdentityInChangeEditStub = stubRestApi(
+      'updateIdentityInChangeEdit'
+    ).resolves();
+    const alertStub = sinon.stub();
+    element.addEventListener('show-alert', alertStub);
+    queryAndAssert(element, '#author-edit-label').dispatchEvent(
+      new CustomEvent('changed', {detail: 'user <user@example.com>'})
+    );
+    assert.isTrue(
+      updateIdentityInChangeEditStub.calledWith(
+        42 as NumericChangeId,
+        'user',
+        'user@example.com',
+        'AUTHOR'
+      )
+    );
+    await updateIdentityInChangeEditStub.lastCall.returnValue;
+    await waitUntilCalled(alertStub, 'alertStub');
+    assert.deepEqual(alertStub.lastCall.args[0].detail, {
+      message: 'Saving identity and reloading ...',
+      showDismiss: true,
     });
   });
 

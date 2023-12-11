@@ -25,7 +25,7 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Autocompletes accounts', () => {
-    stubRestApi('getSuggestedAccounts').callsFake(() =>
+    stubRestApi('queryAccounts').callsFake(() =>
       Promise.resolve([
         {
           name: 'fred',
@@ -39,7 +39,7 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Inserts self as option when valid', () => {
-    stubRestApi('getSuggestedAccounts').callsFake(() =>
+    stubRestApi('queryAccounts').callsFake(() =>
       Promise.resolve([
         {
           name: 'fred',
@@ -60,7 +60,7 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Inserts me as option when valid', () => {
-    stubRestApi('getSuggestedAccounts').callsFake(() =>
+    stubRestApi('queryAccounts').callsFake(() =>
       Promise.resolve([
         {
           name: 'fred',
@@ -118,7 +118,7 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Autocompletes accounts with no email', () => {
-    stubRestApi('getSuggestedAccounts').callsFake(() =>
+    stubRestApi('queryAccounts').callsFake(() =>
       Promise.resolve([{name: 'fred'}])
     );
     return element.fetchAccounts('owner', 'fr').then(s => {
@@ -127,7 +127,7 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Autocompletes accounts with email', () => {
-    stubRestApi('getSuggestedAccounts').callsFake(() =>
+    stubRestApi('queryAccounts').callsFake(() =>
       Promise.resolve([{email: 'fred@goog.co' as EmailAddress}])
     );
     return element.fetchAccounts('owner', 'fr').then(s => {

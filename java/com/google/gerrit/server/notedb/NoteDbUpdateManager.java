@@ -35,6 +35,7 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.ChangeDraftUpdate;
 import com.google.gerrit.server.ChangeDraftUpdateExecutor;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.cancellation.RequestStateContext;
 import com.google.gerrit.server.cancellation.RequestStateContext.NonCancellableOperationContext;
 import com.google.gerrit.server.config.AllUsersName;
@@ -74,11 +75,12 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  */
 public class NoteDbUpdateManager implements AutoCloseable {
   private static final int MAX_UPDATES_DEFAULT = 1000;
+
   /** Limits the number of patch sets that can be created. Can be overridden in the config. */
   private static final int MAX_PATCH_SETS_DEFAULT = 1000;
 
   public interface Factory {
-    NoteDbUpdateManager create(Project.NameKey projectName);
+    NoteDbUpdateManager create(Project.NameKey projectName, CurrentUser currentUser);
   }
 
   private final GitRepositoryManager repoManager;
@@ -87,6 +89,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private final Project.NameKey projectName;
   private final int maxUpdates;
   private final int maxPatchSets;
+  private final CurrentUser currentUser;
   private final ListMultimap<String, ChangeUpdate> changeUpdates;
   private final ListMultimap<String, ChangeDraftUpdate> draftUpdates;
   private final NoteDbUpdateExecutor noteDbUpdateExecutor;
@@ -111,7 +114,8 @@ public class NoteDbUpdateManager implements AutoCloseable {
       NoteDbMetrics metrics,
       @Assisted Project.NameKey projectName,
       NoteDbUpdateExecutor noteDbUpdateExecutor,
-      ChangeDraftUpdateExecutor.AbstractFactory draftUpdatesExecutorFactory) {
+      ChangeDraftUpdateExecutor.AbstractFactory draftUpdatesExecutorFactory,
+      @Assisted CurrentUser currentUser) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
     this.metrics = metrics;
@@ -120,6 +124,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     this.draftUpdatesExecutorFactory = draftUpdatesExecutorFactory;
     maxUpdates = cfg.getInt("change", null, "maxUpdates", MAX_UPDATES_DEFAULT);
     maxPatchSets = cfg.getInt("change", null, "maxPatchSets", MAX_PATCH_SETS_DEFAULT);
+    this.currentUser = currentUser;
     changeUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     draftUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     robotCommentUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
@@ -287,7 +292,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
       initChangeRepo();
       if (!draftUpdates.isEmpty() || !changesToDelete.isEmpty()) {
-        draftUpdatesExecutor = draftUpdatesExecutorFactory.create();
+        draftUpdatesExecutor = draftUpdatesExecutorFactory.create(currentUser);
       }
       addCommands();
     }

@@ -299,7 +299,8 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public ReviewerApi reviewer(String id) throws RestApiException {
     try {
-      return reviewerApi.create(reviewers.parse(change, IdString.fromDecoded(id)));
+      return reviewerApi.create(
+          reviewers.parse(change, IdString.fromDecoded(id), /* includeInactiveAccounts= */ true));
     } catch (Exception e) {
       throw asRestApiException("Cannot parse reviewer", e);
     }

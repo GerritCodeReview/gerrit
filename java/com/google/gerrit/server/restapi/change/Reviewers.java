@@ -67,9 +67,16 @@ public class Reviewers implements ChildCollection<ChangeResource, ReviewerResour
   @Override
   public ReviewerResource parse(ChangeResource rsrc, IdString id)
       throws ResourceNotFoundException, AuthException, IOException, ConfigInvalidException {
-    try {
+    return parse(rsrc, id, /* includeInactiveAccounts= */ false);
+  }
 
-      AccountResolver.Result result = accountResolver.resolveIgnoreVisibility(id.get());
+  public ReviewerResource parse(ChangeResource rsrc, IdString id, boolean includeInactiveAccounts)
+      throws ResourceNotFoundException, AuthException, IOException, ConfigInvalidException {
+    try {
+      AccountResolver.Result result =
+          includeInactiveAccounts
+              ? accountResolver.resolveIncludeInactiveIgnoreVisibility(id.get())
+              : accountResolver.resolveIgnoreVisibility(id.get());
       if (fetchAccountIds(rsrc).contains(result.asUniqueUser().getAccountId())) {
         return resourceFactory.create(rsrc, result.asUniqueUser().getAccountId());
       }

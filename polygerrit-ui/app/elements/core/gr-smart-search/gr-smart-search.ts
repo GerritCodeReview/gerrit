@@ -172,7 +172,7 @@ export class GrSmartSearch extends LitElement {
       return Promise.resolve([]);
     }
     return this.restApiService
-      .getSuggestedAccounts(
+      .queryAccounts(
         expression,
         MAX_AUTOCOMPLETE_RESULTS,
         /* canSee=*/ undefined,

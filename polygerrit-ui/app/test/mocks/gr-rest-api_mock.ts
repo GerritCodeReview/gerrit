@@ -413,7 +413,10 @@ export const grRestApiMock: RestApiService = {
   getRobotCommentFixPreview(): Promise<FilePathToDiffInfoMap | undefined> {
     return Promise.resolve({});
   },
-  getSuggestedAccounts(): Promise<AccountInfo[] | undefined> {
+  queryAccounts(): Promise<AccountInfo[] | undefined> {
+    return Promise.resolve([]);
+  },
+  getAccountSuggestions(): Promise<AccountInfo[] | undefined> {
     return Promise.resolve([]);
   },
   getSuggestedGroups(): Promise<GroupNameToGroupInfoMap | undefined> {
@@ -552,6 +555,9 @@ export const grRestApiMock: RestApiService = {
     throw new Error('setRepoAccessRightsForReview() not implemented by mock.');
   },
   setRepoHead(): Promise<Response> {
+    return Promise.resolve(new Response());
+  },
+  updateIdentityInChangeEdit(): Promise<Response | undefined> {
     return Promise.resolve(new Response());
   },
 };

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cb7a0a7_15614c25",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-12-11T22:42:10Z",
+      "side": 1,
+      "message": "I\u0027d mention this in the release notes",
+      "revId": "51dd1146907104376b1e84beaabdecbd195b2d97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "172b10a7_33dee566",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-12-11T22:42:10Z",
+      "side": 1,
+      "message": "I don\u0027t have a remote instance for testing the RBE build",
+      "revId": "51dd1146907104376b1e84beaabdecbd195b2d97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

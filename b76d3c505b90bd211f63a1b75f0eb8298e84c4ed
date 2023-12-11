@@ -34,6 +34,24 @@
       "parentUuid": "1e4e1e17_54a9be21",
       "revId": "b76d3c505b90bd211f63a1b75f0eb8298e84c4ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33df4af3_16587876",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-12-11T16:38:25Z",
+      "side": 1,
+      "message": "Hmm, I didn\u0027t think so from the javadoc here. It looks like in that case it actually throws `AccountException` from line 146, but that\u0027s not mentioned in the doc on lines 139-141 and 138 makes it sound like a failure would be in the `AuthResult`. Reading the code, I think you\u0027re correct that an `AuthResult` would only be created for successful auth.",
+      "parentUuid": "03606900_7b76dc33",
+      "revId": "b76d3c505b90bd211f63a1b75f0eb8298e84c4ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

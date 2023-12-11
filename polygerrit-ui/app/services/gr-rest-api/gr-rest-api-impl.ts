@@ -1814,6 +1814,19 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<AccountInfo[] | undefined>;
   }
 
+  getAccountSuggestions(inputVal: string): Promise<AccountInfo[] | undefined> {
+    const params: QueryAccountsParams = {suggest: undefined, q: ''};
+    inputVal = inputVal?.trim() ?? '';
+    if (inputVal.length > 0) {
+      params.q = inputVal;
+    }
+    if (!params.q) return Promise.resolve([]);
+    return this._restApiHelper.fetchJSON({
+      url: '/accounts/',
+      params,
+    }) as Promise<AccountInfo[] | undefined>;
+  }
+
   addChangeReviewer(
     changeNum: NumericChangeId,
     reviewerID: AccountId | EmailAddress | GroupId
@@ -2308,6 +2321,21 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       method: HttpMethod.PUT,
       endpoint: '/message',
       body: {message},
+      reportEndpointAsIs: true,
+    });
+  }
+
+  updateIdentityInChangeEdit(
+    changeNum: NumericChangeId,
+    name: string,
+    email: string,
+    type: string
+  ) {
+    return this._getChangeURLAndSend({
+      changeNum,
+      method: HttpMethod.PUT,
+      endpoint: '/edit:identity',
+      body: {name, email, type},
       reportEndpointAsIs: true,
     });
   }

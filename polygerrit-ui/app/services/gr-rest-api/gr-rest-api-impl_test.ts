@@ -388,6 +388,18 @@ suite('gr-rest-api-service-impl tests', () => {
     });
   });
 
+  test('getAccountSuggestions using suggest query param', () => {
+    const fetchStub = sinon
+      .stub(element._restApiHelper, 'fetch')
+      .resolves(new Response());
+    element.getAccountSuggestions('user');
+    assert.isTrue(fetchStub.calledOnce);
+    assert.equal(
+      fetchStub.firstCall.args[0].url,
+      `${getBaseUrl()}/accounts/?suggest&q=user`
+    );
+  });
+
   test('getAccount when resp is undefined clears cache', async () => {
     const cacheKey = '/accounts/self/detail';
     const account = createAccountDetailWithId();
@@ -745,6 +757,27 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.equal(sendStub.lastCall.args[0].url, '/changes/test~1/message');
     assert.deepEqual(sendStub.lastCall.args[0].body, {
       message,
+    });
+  });
+
+  test('updateIdentityInChangeEdit', async () => {
+    element._projectLookup = {1: Promise.resolve('test' as RepoName)};
+    const change_num = 1 as NumericChangeId;
+    const name = 'user';
+    const email = 'user@example.com';
+    const type = 'AUTHOR';
+    const sendStub = sinon.stub(element._restApiHelper, 'send').resolves();
+    await element.updateIdentityInChangeEdit(change_num, name, email, type);
+    assert.isTrue(sendStub.calledOnce);
+    assert.equal(sendStub.lastCall.args[0].method, HttpMethod.PUT);
+    assert.equal(
+      sendStub.lastCall.args[0].url,
+      '/changes/test~1/edit:identity'
+    );
+    assert.deepEqual(sendStub.lastCall.args[0].body, {
+      email: 'user@example.com',
+      name: 'user',
+      type: 'AUTHOR',
     });
   });
 

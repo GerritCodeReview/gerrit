@@ -973,7 +973,8 @@ export class GrComment extends LitElement {
         )) &&
       this.comment === this.comments?.[0] && // Is first comment
       (this.comment.range || this.comment.line) && // Disabled for File comments
-      !hasUserSuggestion(this.comment)
+      !hasUserSuggestion(this.comment) &&
+      this.getChangeModel().getChange()?.is_private !== true
     );
   }
 

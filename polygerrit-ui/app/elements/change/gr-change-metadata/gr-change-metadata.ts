@@ -59,7 +59,12 @@ import {
   isSectionSet,
   DisplayRules,
 } from '../../../utils/change-metadata-util';
-import {fireAlert, fire, fireReload} from '../../../utils/event-util';
+import {
+  fireAlert,
+  fire,
+  fireReload,
+  fireError,
+} from '../../../utils/event-util';
 import {
   EditRevisionInfo,
   isDefined,
@@ -89,6 +94,7 @@ import {configModelToken} from '../../../models/config/config-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
 import {truncatePath} from '../../../utils/path-list-util';
+import {accountEmail, getDisplayName} from '../../../utils/display-name-util';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -133,6 +139,8 @@ export class GrChangeMetadata extends LitElement {
   @state() change?: ParsedChangeInfo;
 
   @state() revertedChange?: ChangeInfo;
+
+  @state() editMode = false;
 
   @state() account?: AccountDetailInfo;
 
@@ -209,6 +217,11 @@ export class GrChangeMetadata extends LitElement {
       () => this.getRelatedChangesModel().revertingChange$,
       revertingChange => (this.revertedChange = revertingChange)
     );
+    subscribe(
+      this,
+      () => this.getChangeModel().editMode$,
+      x => (this.editMode = x)
+    );
     this.queryTopic = (input: string) => this.getTopicSuggestions(input);
     this.queryHashtag = (input: string) => this.getHashtagSuggestions(input);
   }
@@ -230,6 +243,9 @@ export class GrChangeMetadata extends LitElement {
         }
         gr-weblink {
           display: block;
+        }
+        gr-account-chip {
+          display: inline;
         }
         gr-account-chip[disabled],
         gr-linked-chip[disabled] {
@@ -471,6 +487,21 @@ export class GrChangeMetadata extends LitElement {
             circle-shape
           ></gr-vote-chip>
         </gr-account-chip>
+        ${when(
+          this.editMode &&
+            (role === ChangeRole.AUTHOR || role === ChangeRole.COMMITTER),
+          () => html`
+            <gr-editable-label
+              id="${role}-edit-label"
+              placeholder="Update ${name}"
+              @changed=${(e: CustomEvent<string>) =>
+                this.handleIdentityChanged(e, role)}
+              showAsEditPencil
+              autocomplete
+              .query=${(text: string) => this.getIdentitySuggestions(text)}
+            ></gr-editable-label>
+          `
+        )}
       </span>
     </section>`;
   }
@@ -865,6 +896,31 @@ export class GrChangeMetadata extends LitElement {
   }
 
   // private but used in test
+  async handleIdentityChanged(e: CustomEvent<string>, role: ChangeRole) {
+    assertIsDefined(this.change, 'change');
+    const input = e.detail.length ? e.detail.trim() : undefined;
+    if (!input?.length) return;
+    const reg = /(\w+.*)\s<(\S+@\S+.\S+)>/;
+    const [, name, email] = input.match(reg) ?? [];
+    if (!name || !email) {
+      fireError(
+        this,
+        'Invalid input format, valid identity format is "FullName <user@example.com>"'
+      );
+      return;
+    }
+    fireAlert(this, 'Saving identity and reloading ...');
+    await this.restApiService.updateIdentityInChangeEdit(
+      this.change._number,
+      name,
+      email,
+      role.toUpperCase()
+    );
+    fire(this, 'hide-alert', {});
+    fireReload(this);
+  }
+
+  // private but used in test
   computeTopicReadOnly() {
     return !this.mutable || !this.change?.actions?.topic?.enabled;
   }
@@ -1140,7 +1196,7 @@ export class GrChangeMetadata extends LitElement {
     if (
       role === ChangeRole.AUTHOR &&
       rev.commit?.author &&
-      this.change.owner.email !== rev.commit.author.email
+      (this.editMode || this.change.owner.email !== rev.commit.author.email)
     ) {
       return rev.commit.author;
     }
@@ -1148,10 +1204,12 @@ export class GrChangeMetadata extends LitElement {
     if (
       role === ChangeRole.COMMITTER &&
       rev.commit?.committer &&
-      this.change.owner.email !== rev.commit.committer.email &&
-      !(
-        rev.uploader?.email && rev.uploader.email === rev.commit.committer.email
-      )
+      (this.editMode ||
+        (this.change.owner.email !== rev.commit.committer.email &&
+          !(
+            rev.uploader?.email &&
+            rev.uploader.email === rev.commit.committer.email
+          )))
     ) {
       return rev.commit.committer;
     }
@@ -1225,6 +1283,25 @@ export class GrChangeMetadata extends LitElement {
             return {name: hashtag, value: hashtag};
           })
       );
+  }
+
+  private async getIdentitySuggestions(
+    input: string
+  ): Promise<AutocompleteSuggestion[]> {
+    const suggestions = await this.restApiService.getAccountSuggestions(input);
+    if (!suggestions) return [];
+    const identitySuggestions: AutocompleteSuggestion[] = [];
+    suggestions.forEach(account => {
+      const name = getDisplayName(this.serverConfig, account);
+      const emails: string[] = [];
+      account.email && emails.push(account.email);
+      account.secondary_emails && emails.push(...account.secondary_emails);
+      emails.forEach(email => {
+        const identity = name + ' ' + accountEmail(email);
+        identitySuggestions.push({name: identity});
+      });
+    });
+    return identitySuggestions;
   }
 
   private computeVoteForRole(role: ChangeRole) {

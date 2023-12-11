@@ -93,7 +93,7 @@ suite('gr-group-members tests', () => {
       },
     ];
 
-    stubRestApi('getSuggestedAccounts').callsFake(input => {
+    stubRestApi('queryAccounts').callsFake(input => {
       if (input.startsWith('test')) {
         return Promise.resolve([
           {

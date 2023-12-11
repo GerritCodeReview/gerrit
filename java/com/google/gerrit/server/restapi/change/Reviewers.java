@@ -69,7 +69,8 @@ public class Reviewers implements ChildCollection<ChangeResource, ReviewerResour
       throws ResourceNotFoundException, AuthException, IOException, ConfigInvalidException {
     try {
 
-      AccountResolver.Result result = accountResolver.resolveIgnoreVisibility(id.get());
+      AccountResolver.Result result =
+          accountResolver.resolveIncludeInactiveIgnoreVisibility(id.get());
       if (fetchAccountIds(rsrc).contains(result.asUniqueUser().getAccountId())) {
         return resourceFactory.create(rsrc, result.asUniqueUser().getAccountId());
       }

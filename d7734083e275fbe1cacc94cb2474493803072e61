@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4dffbf11_6d0ff626",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-12-12T19:22:43Z",
+      "side": 1,
+      "message": "@hiesel@google.com Could you please restore your LC+1 from patch set 1?",
+      "revId": "d7734083e275fbe1cacc94cb2474493803072e61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

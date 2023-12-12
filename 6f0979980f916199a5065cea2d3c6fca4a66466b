@@ -182,6 +182,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bc11ddbd_dcd492aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-12-12T20:09:27Z",
+      "side": 1,
+      "message": "Done in: [1].\n\n[1]: https://gerrit-review.googlesource.com/c/plugins/delete-project/+/397838",
+      "parentUuid": "a2af279c_c0a72a85",
+      "revId": "6f0979980f916199a5065cea2d3c6fca4a66466b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "92e64d45_1d0ea787",
         "filename": "tools/remote-bazelrc",
         "patchSetId": 17

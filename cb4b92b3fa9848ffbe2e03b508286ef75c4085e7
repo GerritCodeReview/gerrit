@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9da9b75d_7cc2410f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 908,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-12-12T09:02:41Z",
+      "side": 1,
+      "message": "Can we remove @Sandboxed?",
+      "range": {
+        "startLine": 908,
+        "startChar": 2,
+        "endLine": 908,
+        "endChar": 12
+      },
+      "revId": "cb4b92b3fa9848ffbe2e03b508286ef75c4085e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "046de5ab_75b5a065",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-12-12T09:02:41Z",
+      "side": 1,
+      "message": "This is also allowing adding an inactive user as reviewer. Isn\u0027t the intention to only allow removals?",
+      "revId": "cb4b92b3fa9848ffbe2e03b508286ef75c4085e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

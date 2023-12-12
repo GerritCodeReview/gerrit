@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce08a5c6_344307a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-12-12T14:36:42Z",
+      "side": 1,
+      "message": "We should probably add that changes that previously failed the migration will be rebuilt again.",
+      "revId": "5e548a82d18dfd85cda8a351bd47eefa8ced4ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56f549a9_f42e3872",
+        "filename": "java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-12-12T14:36:42Z",
+      "side": 1,
+      "message": "Migrated or (re-)built? The code distinguishes between migrating and (re)building a change. Can a change be considered migrated even if, for example, we are still in `trial` mode?\n\nI think when a change is totally migrated to NoteDB has an \u0027N\u0027 in the `note_db_state` column.",
+      "range": {
+        "startLine": 96,
+        "startChar": 29,
+        "endLine": 96,
+        "endChar": 37
+      },
+      "revId": "5e548a82d18dfd85cda8a351bd47eefa8ced4ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d54aeabe_a6761af3",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-12-12T14:36:42Z",
+      "side": 1,
+      "message": "leftover",
+      "range": {
+        "startLine": 363,
+        "startChar": 10,
+        "endLine": 363,
+        "endChar": 14
+      },
+      "revId": "5e548a82d18dfd85cda8a351bd47eefa8ced4ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

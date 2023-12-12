@@ -16,6 +16,24 @@
       "message": "I think this update is worth mentioning in the release notes",
       "revId": "6f734e2565839e6c40a859176f413f8d5eac35bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b26b6655_72e76d5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 30
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-12-12T16:53:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ee0a713_48913359",
+      "revId": "6f734e2565839e6c40a859176f413f8d5eac35bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

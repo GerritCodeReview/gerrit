@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9cef8dd_a4e20195",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 908,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-12-12T12:44:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9da9b75d_7cc2410f",
+      "range": {
+        "startLine": 908,
+        "startChar": 2,
+        "endLine": 908,
+        "endChar": 12
+      },
+      "revId": "cb4b92b3fa9848ffbe2e03b508286ef75c4085e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "046de5ab_75b5a065",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-12-12T09:02:41Z",
       "side": 1,
       "message": "This is also allowing adding an inactive user as reviewer. Isn\u0027t the intention to only allow removals?",
+      "revId": "cb4b92b3fa9848ffbe2e03b508286ef75c4085e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7a994de_a0a6dfeb",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-12-12T12:44:21Z",
+      "side": 1,
+      "message": "Unfortunately, adding inactive users as reviewers was previously allowed. See the context bug for an example of adding a reviewer using `gerrit upload --cc\u003dinactiveuser@email.com`.\n\nThe changed code only affects the parsing of the existing reviewers list. It doesn\u0027t affect the suggested-reviewers in the UI, which is the most common way of adding reviewers.",
+      "parentUuid": "046de5ab_75b5a065",
       "revId": "cb4b92b3fa9848ffbe2e03b508286ef75c4085e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

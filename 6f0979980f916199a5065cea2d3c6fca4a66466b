@@ -164,6 +164,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a2af279c_c0a72a85",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-12-12T19:54:13Z",
+      "side": 1,
+      "message": "\u003e I have been able to remove the BuildBuddy tool chain that BuildBuddy provides (buildbuddy_toolchain) and I have used the same tool chain as we do for RBE GCP (ubuntu2204_jdk17). \n\nThose are great news! Thanks for this great simplification and harmonization of both RBE providers. 🎉\n\n\u003e All the test passed successfully apart from the one mentioned above.\n\nI can reproduce the problem with the docker image `gcr.io/bazel-public/ubuntu2204-java17@latest`, that is using `root` user per default:\n\nI run the docker image and then clone gerrit recursively and then rune the test:\n\n```bash\n $\u003e bazel test plugins/delete-project:delete-project_tests\n//plugins/delete-project:delete-project_tests                            FAILED in 61.0s\n  /root/.cache/bazel/_bazel_root/4198cff55ec080b15cc0805ba32b9d92/execroot/gerrit/bazel-out/k8-fastbuild/testlogs/plugins/delete-project/delete-project_tests/test.log\n```\n\nNote, that no RBE involved here.\n\nHowever, I cannot reproduce the problem with RBE@GCP:\n\n```bash\n $\u003e bazel test --config\u003dremote --remote_instance_name\u003d$PROJECT plugins/delete-project/...\n[...]\nINFO: Found 1 test target...\nTarget //plugins/delete-project:delete-project_tests up-to-date:\n  bazel-bin/plugins/delete-project/delete-project_tests\n  bazel-bin/plugins/delete-project/delete-project_tests.jar\nINFO: Elapsed time: 252.084s, Critical Path: 236.22s\nINFO: 520 processes: 24 remote cache hit, 13 internal, 483 remote.\nINFO: Build completed successfully, 520 total actions\n//plugins/delete-project:delete-project_tests                            PASSED in 61.1s\n```\n\nLooking at the failing test, I don\u0027t think it\u0027s of any value, I\u0027m going to propose to just remove it, to avoid complication of our build toolchain.",
+      "parentUuid": "60172898_4b32b01e",
+      "revId": "6f0979980f916199a5065cea2d3c6fca4a66466b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "92e64d45_1d0ea787",
         "filename": "tools/remote-bazelrc",
         "patchSetId": 17

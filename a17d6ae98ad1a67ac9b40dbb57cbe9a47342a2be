@@ -3,37 +3,6 @@
   "submitRequirementResults": [
     {
       "submitRequirement": {
-        "name": "Change-Is-Forward-Compatible",
-        "description": {
-          "value": "Changes to NoteDb, data serialization in ChangeField, or the entities packages require careful consideration. Make sure your change is forward compatible and add the footer \u0027Forward-Compatible: checked\u0027 to your commit message"
-        },
-        "applicabilityExpression": {
-          "value": {
-            "expressionString": "-branch:refs/meta/config AND (file:\"^java/com/google/gerrit/server/notedb/.*\\\\.java$\" OR file:\"^java/com/google/gerrit/entities/.*\\\\.java$\" OR file:\"^java/com/google/gerrit/server/index/.*Field\\\\.java\")"
-          }
-        },
-        "submittabilityExpression": {
-          "expressionString": "hasfooter:\"Forward-Compatible\""
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
-      },
-      "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^java/com/google/gerrit/server/notedb/.*\\\\.java$\" OR file:\"^java/com/google/gerrit/entities/.*\\\\.java$\" OR file:\"^java/com/google/gerrit/server/index/.*Field\\\\.java\")"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config","file:\"^java/com/google/gerrit/server/notedb/.*\\\\.java$\"","file:\"^java/com/google/gerrit/entities/.*\\\\.java$\"","file:\"^java/com/google/gerrit/server/index/.*Field\\\\.java\""]}
-      },
-      "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"hasfooter:\"Forward-Compatible\""},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": "a17d6ae98ad1a67ac9b40dbb57cbe9a47342a2be",
-      "legacy": {
-        "value": false
-      },
-      "forced": {},
-      "hidden": {}
-    },
-    {
-      "submitRequirement": {
         "name": "Code-Review",
         "description": {
           "value": "At least one maximum vote for label \u0027Code-Review\u0027 is required"
@@ -121,13 +90,44 @@
     },
     {
       "submitRequirement": {
+        "name": "Forward-Compatibility",
+        "description": {
+          "value": "Changes to NoteDb, data serialization in ChangeField, or the entities packages require careful consideration. Make sure your change is forward compatible and add the footer \u0027Forward-Compatible: checked\u0027 to your commit message"
+        },
+        "applicabilityExpression": {
+          "value": {
+            "expressionString": "-branch:refs/meta/config AND (file:\"^java/com/google/gerrit/server/notedb/.*\\\\.java$\" OR file:\"^java/com/google/gerrit/entities/.*\\\\.java$\" OR file:\"^java/com/google/gerrit/server/index/.*Field\\\\.java\")"
+          }
+        },
+        "submittabilityExpression": {
+          "expressionString": "hasfooter:\"Forward-Compatible\""
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": false
+      },
+      "applicabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^java/com/google/gerrit/server/notedb/.*\\\\.java$\" OR file:\"^java/com/google/gerrit/entities/.*\\\\.java$\" OR file:\"^java/com/google/gerrit/server/index/.*Field\\\\.java\")"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config","file:\"^java/com/google/gerrit/server/notedb/.*\\\\.java$\"","file:\"^java/com/google/gerrit/entities/.*\\\\.java$\"","file:\"^java/com/google/gerrit/server/index/.*Field\\\\.java\""]}
+      },
+      "submittabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"hasfooter:\"Forward-Compatible\""},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": "a17d6ae98ad1a67ac9b40dbb57cbe9a47342a2be",
+      "legacy": {
+        "value": false
+      },
+      "forced": {},
+      "hidden": {}
+    },
+    {
+      "submitRequirement": {
         "name": "Frontend-Verified",
         "description": {
           "value": "Frontend compilation, tests, and linters pass"
         },
         "applicabilityExpression": {
           "value": {
-            "expressionString": "branch:refs/heads/master AND file:\"^polygerrit-ui/.*\""
+            "expressionString": "branch:refs/heads/master AND (file:\"^polygerrit-ui/.*\" OR is:merge)"
           }
         },
         "submittabilityExpression": {
@@ -137,7 +137,7 @@
         "allowOverrideInChildProjects": false
       },
       "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"branch:refs/heads/master AND file:\"^polygerrit-ui/.*\""},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":["file:\"^polygerrit-ui/.*\""],"failingAtoms":["branch:refs/heads/master"]}
+        "value": {"expression":{"expressionString":"branch:refs/heads/master AND (file:\"^polygerrit-ui/.*\" OR is:merge)"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":["file:\"^polygerrit-ui/.*\"","is:merge"],"failingAtoms":["branch:refs/heads/master"]}
       },
       "submittabilityExpressionResult": {
         "value": {"expression":{"expressionString":"label:Frontend-Verified=MAX AND -label:Frontend-Verified=MIN"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
@@ -288,7 +288,7 @@
         },
         "applicabilityExpression": {
           "value": {
-            "expressionString": "-branch:refs/meta/config AND (file:\"^~(polygerrit-ui/.*)$\" OR -branch:refs/heads/master)"
+            "expressionString": "-branch:refs/meta/config AND (file:\"^~(polygerrit-ui/.*)$\" OR is:merge OR -branch:refs/heads/master)"
           }
         },
         "submittabilityExpression": {
@@ -298,7 +298,7 @@
         "allowOverrideInChildProjects": false
       },
       "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^~(polygerrit-ui/.*)$\" OR -branch:refs/heads/master)"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config","file:\"^~(polygerrit-ui/.*)$\"","branch:refs/heads/master"]}
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^~(polygerrit-ui/.*)$\" OR is:merge OR -branch:refs/heads/master)"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["is:merge"],"failingAtoms":["branch:refs/meta/config","file:\"^~(polygerrit-ui/.*)$\"","branch:refs/heads/master"]}
       },
       "submittabilityExpressionResult": {
         "value": {"expression":{"expressionString":"label:Verified=MAX AND -label:Verified=MIN"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["label:Verified=MAX","label:Verified=MIN"]}

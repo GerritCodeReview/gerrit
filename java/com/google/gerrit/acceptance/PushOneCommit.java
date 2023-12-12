@@ -95,6 +95,9 @@ public class PushOneCommit {
     PushOneCommit create(PersonIdent i, TestRepository<?> testRepo);
 
     PushOneCommit create(
+        PersonIdent i, TestRepository<?> testRepo, boolean insertChangeIdIfNotExist);
+
+    PushOneCommit create(
         PersonIdent i, TestRepository<?> testRepo, @Assisted("changeId") String changeId);
 
     PushOneCommit create(
@@ -185,6 +188,23 @@ public class PushOneCommit {
       Result.Factory pushResultFactory,
       @Assisted PersonIdent i,
       @Assisted TestRepository<?> testRepo,
+      @Assisted boolean insertChangeIdIfNotExist)
+      throws Exception {
+    this(
+        pushResultFactory,
+        i,
+        testRepo,
+        SUBJECT,
+        ImmutableMap.of(FILE_NAME, FILE_CONTENT),
+        /* changeId= */ null,
+        insertChangeIdIfNotExist);
+  }
+
+  @AssistedInject
+  PushOneCommit(
+      Result.Factory pushResultFactory,
+      @Assisted PersonIdent i,
+      @Assisted TestRepository<?> testRepo,
       @Assisted("changeId") String changeId)
       throws Exception {
     this(pushResultFactory, i, testRepo, SUBJECT, FILE_NAME, FILE_CONTENT, changeId);
@@ -210,7 +230,8 @@ public class PushOneCommit {
       @Assisted String subject,
       @Assisted Map<String, String> files)
       throws Exception {
-    this(pushResultFactory, i, testRepo, subject, files, null);
+    this(
+        pushResultFactory, i, testRepo, subject, files, null, /* insertChangeIdIfNotExist= */ true);
   }
 
   @AssistedInject
@@ -223,7 +244,14 @@ public class PushOneCommit {
       @Assisted("content") String content,
       @Nullable @Assisted("changeId") String changeId)
       throws Exception {
-    this(pushResultFactory, i, testRepo, subject, ImmutableMap.of(fileName, content), changeId);
+    this(
+        pushResultFactory,
+        i,
+        testRepo,
+        subject,
+        ImmutableMap.of(fileName, content),
+        changeId,
+        /* insertChangeIdIfNotExist= */ true);
   }
 
   @AssistedInject
@@ -235,6 +263,26 @@ public class PushOneCommit {
       @Assisted Map<String, String> files,
       @Nullable @Assisted("changeId") String changeId)
       throws Exception {
+    this(
+        pushResultFactory,
+        i,
+        testRepo,
+        subject,
+        files,
+        changeId,
+        /* insertChangeIdIfNotExist= */ true);
+  }
+
+  @AssistedInject
+  PushOneCommit(
+      Result.Factory pushResultFactory,
+      @Assisted PersonIdent i,
+      @Assisted TestRepository<?> testRepo,
+      @Assisted("subject") String subject,
+      @Assisted Map<String, String> files,
+      @Nullable @Assisted("changeId") String changeId,
+      @Assisted boolean insertChangeIdIfNotExist)
+      throws Exception {
     this.testRepo = testRepo;
     this.subject = subject;
     this.files = files;
@@ -242,12 +290,14 @@ public class PushOneCommit {
     this.pushResultFactory = pushResultFactory;
     if (changeId != null) {
       commitBuilder = testRepo.amendRef("HEAD").insertChangeId(changeId.substring(1));
-    } else {
+    } else if (insertChangeIdIfNotExist) {
       if (subject.contains("\nChange-Id: ")) {
         commitBuilder = testRepo.amendRef("HEAD");
       } else {
         commitBuilder = testRepo.branch("HEAD").commit().insertChangeId(nextChangeId());
       }
+    } else {
+      commitBuilder = testRepo.amendRef("HEAD");
     }
     commitBuilder.message(subject).author(i).committer(new PersonIdent(i, testRepo.getDate()));
   }
@@ -337,7 +387,7 @@ public class PushOneCommit {
   public Result execute(String ref) throws Exception {
     RevCommit c = commitBuilder.create();
     if (changeId == null) {
-      changeId = GitUtil.getChangeId(testRepo, c).get();
+      changeId = GitUtil.getChangeId(testRepo, c).orElse(null);
     }
     if (tag != null) {
       TagCommand tagCommand = testRepo.git().tag().setName(tag.name);
@@ -387,7 +437,7 @@ public class PushOneCommit {
       Result create(
           @Assisted("ref") String ref,
           @Assisted("subject") String subject,
-          @Assisted("changeId") String changeId,
+          @Nullable @Assisted("changeId") String changeId,
           @Nullable PushResult resSubj,
           @Nullable RevCommit commit,
           @Nullable List<String> pushOptions);
@@ -413,7 +463,7 @@ public class PushOneCommit {
         Provider<InternalChangeQuery> queryProvider,
         @Assisted("ref") String ref,
         @Assisted("subject") String subject,
-        @Assisted("changeId") String changeId,
+        @Assisted("changeId") @Nullable String changeId,
         @Assisted @Nullable PushResult resSubj,
         @Assisted @Nullable RevCommit commit,
         @Assisted @Nullable List<String> pushOptions) {

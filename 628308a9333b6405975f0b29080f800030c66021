@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3d8b937_f7343066",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-12-12T20:14:19Z",
+      "side": 1,
+      "message": "The commit subject seems to be outdated. We\u0027ve done the refactoring in the previous changes in this series. The last change in the series is adding new RBE provider, so may be rephrase the subject:\n\n\"Bazel: Add support for BuildBuddy RBE provider\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 58
+      },
+      "revId": "628308a9333b6405975f0b29080f800030c66021",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "678a1a4e_bf249b8f",

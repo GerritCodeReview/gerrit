@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a921355_696ce15c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-12-13T21:32:33Z",
+      "side": 1,
+      "message": "\u003e It doesn\u0027t hurt, but strictly speaking, it is not needed. Imagine, someone would erroneously add a change (up until stable-3.9 branch), and use some Java 17 compiler features, then she would check that change locally with java17 configuration:\n\nI agree; however, ...\n\n\u003e A more appropriate place for this change would be on stable-3.9 branch, where we bumped java compiler level to Java 17 per default in this change: [1].\n\nI am intending to solve that problem, but I didn\u0027t want to do this until I made the earlier stable branches consistent with the same java 17 configuration. So I will be fixing this potential issue on stable-3.9, but via a merge up from stable-3.6. Does that make sense?",
+      "parentUuid": "c85a0ef9_11aaf823",
+      "revId": "6c3d618538e35e6ca28eadc80eb37c52167db963",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c05a30e6_c45da680",

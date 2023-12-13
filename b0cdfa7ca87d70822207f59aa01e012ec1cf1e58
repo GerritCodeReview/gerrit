@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28852f2c_d75f617a",
+        "filename": "java/com/google/gerrit/server/restapi/change/Reviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-12-13T13:22:52Z",
+      "side": 1,
+      "message": "I think this will work in tests (because ChangeApiImpl sets it to true as per your change), but the rest API does not go through ChangeApiImpl and it will invoke this method (with the boolean \u003d false) and not the other method.\n\nThe call from the rest API is done at https://gerrit.googlesource.com/gerrit/+/722f9eb546186ac62d7920eda095495de28c2fc2/java/com/google/gerrit/httpd/restapi/RestApiServlet.java#852\n\nNot sure how to best tackle this, but one suggestion is to subclass Reviewers.java and override \u0027parse\u0027 to include inactive accounts, then bind another child in \u0027ChangeRestApiModule\u0027 to your subclass and wire DeleteReviewer to it.",
+      "range": {
+        "startLine": 70,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 65
+      },
+      "revId": "b0cdfa7ca87d70822207f59aa01e012ec1cf1e58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

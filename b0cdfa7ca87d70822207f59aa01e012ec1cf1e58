@@ -22,6 +22,30 @@
       },
       "revId": "b0cdfa7ca87d70822207f59aa01e012ec1cf1e58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab3d872f_8daa70a3",
+        "filename": "java/com/google/gerrit/server/restapi/change/Reviewers.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-12-13T13:50:55Z",
+      "side": 1,
+      "message": "That would only work if the possibly-inactive resource class is a parent class of `ReviewerResource`.\nOtherwise, we cannot bind this method:\nhttps://gerrit.googlesource.com/gerrit/+/722f9eb546186ac62d7920eda095495de28c2fc2/java/com/google/gerrit/server/api/changes/ReviewerApiImpl.java#87\n\nTo make this change clear, I think we will also have to rename `ReviewerResource` to indicate it can\u0027t be inactive.\n\nThis change is becoming too large for a not-common bug fix. I\u0027ll abandon it.",
+      "parentUuid": "28852f2c_d75f617a",
+      "range": {
+        "startLine": 70,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 65
+      },
+      "revId": "b0cdfa7ca87d70822207f59aa01e012ec1cf1e58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

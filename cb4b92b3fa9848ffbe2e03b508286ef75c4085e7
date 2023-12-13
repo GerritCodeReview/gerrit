@@ -99,6 +99,24 @@
       "parentUuid": "c7a994de_a0a6dfeb",
       "revId": "cb4b92b3fa9848ffbe2e03b508286ef75c4085e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cb49d7e_9f433947",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 922,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-12-13T13:50:55Z",
+      "side": 1,
+      "message": "The current *direct* usages of `Reviewers::parse` are:\n1. `ChangeApiImpl::reviewer` - returning a reviewer API.\nThis API only allows to view votes (does no harm), and remove the votes or reviewer (both desired).\n2. `RestApiServlet::parseResourceWithRetry` - returning the resource.\n\nThis seems safe to me. However, I\u0027ve changed the code so only (1) will parse inactive users, as this flow is straightforward.",
+      "parentUuid": "e0138200_036531e8",
+      "revId": "cb4b92b3fa9848ffbe2e03b508286ef75c4085e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

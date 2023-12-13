@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8374e8fd_02ab1241",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-13T13:14:56Z",
+      "side": 1,
+      "message": "_already_ looks redundant in this sentence.",
+      "range": {
+        "startLine": 16,
+        "startChar": 48,
+        "endLine": 16,
+        "endChar": 55
+      },
+      "revId": "5e548a82d18dfd85cda8a351bd47eefa8ced4ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f619b269_4c5aa772",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-13T13:14:56Z",
+      "side": 1,
+      "message": "You may add a caveat saying that this would not check if already migrated changes need a NoteDb rebuild action, because of the meta-data being amended.\n\nIn fact, you also check that if a change has been built once but invalidated, then isn\u0027t rebuilt.",
+      "revId": "5e548a82d18dfd85cda8a351bd47eefa8ced4ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ce08a5c6_344307a3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -14,6 +54,64 @@
       "writtenOn": "2023-12-12T14:36:42Z",
       "side": 1,
       "message": "We should probably add that changes that previously failed the migration will be rebuilt again.",
+      "revId": "5e548a82d18dfd85cda8a351bd47eefa8ced4ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47da8f09_dd8981d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-13T13:14:56Z",
+      "side": 1,
+      "message": "Isn\u0027t that implied by the _whose NoteDb status is empty_ ?",
+      "parentUuid": "ce08a5c6_344307a3",
+      "revId": "5e548a82d18dfd85cda8a351bd47eefa8ced4ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8054a8c8_2fabf516",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-13T13:14:56Z",
+      "side": 1,
+      "message": "Nit: missing `Release-Notes: ....` footer.",
+      "revId": "5e548a82d18dfd85cda8a351bd47eefa8ced4ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9362cc7_c89b9ee3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3774,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-13T13:14:56Z",
+      "side": 1,
+      "message": "I believe this is useful regardless of `onlineMigrationProjects`, because if there is a previous migration that stopped in the middle, this would speed things up massively.",
+      "range": {
+        "startLine": 3774,
+        "startChar": 8,
+        "endLine": 3774,
+        "endChar": 45
+      },
       "revId": "5e548a82d18dfd85cda8a351bd47eefa8ced4ca9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -43,6 +141,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d178545_3640b093",
+        "filename": "java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-13T13:14:56Z",
+      "side": 1,
+      "message": "+1, this is skipping all changes whose NoteDb state is not null, which means they have been built at least once. That doesn\u0027t mean fully migrated.",
+      "parentUuid": "56f549a9_f42e3872",
+      "range": {
+        "startLine": 96,
+        "startChar": 29,
+        "endLine": 96,
+        "endChar": 37
+      },
+      "revId": "5e548a82d18dfd85cda8a351bd47eefa8ced4ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d54aeabe_a6761af3",
         "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
         "patchSetId": 4
@@ -59,6 +181,190 @@
         "startChar": 10,
         "endLine": 363,
         "endChar": 14
+      },
+      "revId": "5e548a82d18dfd85cda8a351bd47eefa8ced4ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59cb792b_ecf8d5c3",
+        "filename": "javatests/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-13T13:14:56Z",
+      "side": 1,
+      "message": "Is there any value in having this second change in the test?",
+      "range": {
+        "startLine": 388,
+        "startChar": 0,
+        "endLine": 388,
+        "endChar": 55
+      },
+      "revId": "5e548a82d18dfd85cda8a351bd47eefa8ced4ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08ee8c37_e6a90767",
+        "filename": "javatests/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-13T13:14:56Z",
+      "side": 1,
+      "message": "Is there any value in creating the 3rd change for the value of the test? Would the test be less effective with change1 and change2 only?",
+      "range": {
+        "startLine": 443,
+        "startChar": 0,
+        "endLine": 445,
+        "endChar": 48
+      },
+      "revId": "5e548a82d18dfd85cda8a351bd47eefa8ced4ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88a4db7f_22eba019",
+        "filename": "javatests/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-13T13:14:56Z",
+      "side": 1,
+      "message": "Looking at what the test does, I believe makes sure that the changes built once and then invalidated, are not rebuilt. It is not clear instead what _should honour changes base migration_ relates to the test body.",
+      "range": {
+        "startLine": 458,
+        "startChar": 14,
+        "endLine": 458,
+        "endChar": 73
+      },
+      "revId": "5e548a82d18dfd85cda8a351bd47eefa8ced4ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1cad20ec_6c3fafad",
+        "filename": "javatests/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-13T13:14:56Z",
+      "side": 1,
+      "message": "If you introduce a method called `createChangeOnReviewDbOnly` then there is no need to add a comment and also DRYing it out with other tests.",
+      "range": {
+        "startLine": 460,
+        "startChar": 0,
+        "endLine": 461,
+        "endChar": 55
+      },
+      "revId": "5e548a82d18dfd85cda8a351bd47eefa8ced4ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fbda26d_37eae94e",
+        "filename": "javatests/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-13T13:14:56Z",
+      "side": 1,
+      "message": "```suggestion\n    // Create Change2 on both ReviewDB and NoteDB\n```",
+      "range": {
+        "startLine": 463,
+        "startChar": 50,
+        "endLine": 463,
+        "endChar": 54
+      },
+      "revId": "5e548a82d18dfd85cda8a351bd47eefa8ced4ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da486ae8_c175fac8",
+        "filename": "javatests/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-13T13:14:56Z",
+      "side": 1,
+      "message": "Is this fixing a different test bug? Before a null notedb stat was considered rebuilt?",
+      "range": {
+        "startLine": 496,
+        "startChar": 10,
+        "endLine": 496,
+        "endChar": 61
+      },
+      "revId": "5e548a82d18dfd85cda8a351bd47eefa8ced4ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2636131b_0147069e",
+        "filename": "javatests/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-13T13:14:56Z",
+      "side": 1,
+      "message": "Why not using `Consumer\u003cChange\u003e` here?",
+      "range": {
+        "startLine": 850,
+        "startChar": 0,
+        "endLine": 853,
+        "endChar": 3
+      },
+      "revId": "5e548a82d18dfd85cda8a351bd47eefa8ced4ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9ad1e1c_55d888e2",
+        "filename": "javatests/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 855,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-13T13:14:56Z",
+      "side": 1,
+      "message": "```suggestion\n  private void forAllChanges(AssertChange assertChange, Change.Id... ids) throws OrmException {\n```",
+      "range": {
+        "startLine": 855,
+        "startChar": 15,
+        "endLine": 855,
+        "endChar": 24
       },
       "revId": "5e548a82d18dfd85cda8a351bd47eefa8ced4ca9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

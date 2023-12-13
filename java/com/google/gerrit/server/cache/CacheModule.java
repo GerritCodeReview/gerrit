@@ -18,6 +18,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.cache.Weigher;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.cache.serialize.JavaCacheSerializer;
@@ -44,6 +45,7 @@ public abstract class CacheModule extends FactoryModule {
    * @param <V> type of value stored by the cache.
    * @return binding to describe the cache.
    */
+  @CanIgnoreReturnValue
   protected <K, V> CacheBinding<K, V> cache(String name, Class<K> keyType, Class<V> valType) {
     return cache(name, TypeLiteral.get(keyType), TypeLiteral.get(valType));
   }
@@ -55,6 +57,7 @@ public abstract class CacheModule extends FactoryModule {
    * @param <V> type of value stored by the cache.
    * @return binding to describe the cache.
    */
+  @CanIgnoreReturnValue
   protected <K, V> CacheBinding<K, V> cache(String name, Class<K> keyType, TypeLiteral<V> valType) {
     return cache(name, TypeLiteral.get(keyType), valType);
   }
@@ -66,6 +69,7 @@ public abstract class CacheModule extends FactoryModule {
    * @param <V> type of value stored by the cache.
    * @return binding to describe the cache.
    */
+  @CanIgnoreReturnValue
   protected <K, V> CacheBinding<K, V> cache(
       String name, TypeLiteral<K> keyType, TypeLiteral<V> valType) {
     CacheProvider<K, V> m = new CacheProvider<>(this, name, keyType, valType);

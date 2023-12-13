@@ -17,6 +17,7 @@ package com.google.gerrit.server.config;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.UsedAt.Project;
 import java.io.IOException;
@@ -344,6 +345,7 @@ public class ConfigUtil {
    *     when their values are false
    * @return loaded instance
    */
+  @CanIgnoreReturnValue
   public static <T> T loadSection(Config cfg, String section, String sub, T s, T defaults, T i)
       throws ConfigInvalidException {
     try {

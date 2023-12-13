@@ -15,6 +15,7 @@ java_library(
         "//lib:guava",
         "//lib:h2",
         "//lib:jgit",
+        "//lib/errorprone:annotations",
         "//lib/flogger:api",
         "//lib/guice",
     ],

@@ -667,7 +667,9 @@ public class ReviewerModifier {
         throws RestApiException, IOException, PermissionBackendException {
       for (ReviewerModification addition : modifications()) {
         addition.op.setPatchSet(patchSet);
-        addition.op.updateChange(ctx);
+
+        @SuppressWarnings("unused")
+        var unused = addition.op.updateChange(ctx);
       }
     }
 

@@ -29,6 +29,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -778,6 +779,7 @@ public class ConsistencyChecker {
     return null;
   }
 
+  @CanIgnoreReturnValue
   private ProblemInfo problem(String msg) {
     ProblemInfo p = new ProblemInfo();
     p.message = requireNonNull(msg);

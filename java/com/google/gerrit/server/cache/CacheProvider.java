@@ -21,6 +21,7 @@ import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.inject.Inject;
@@ -63,6 +64,7 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
   }
 
   @Override
+  @CanIgnoreReturnValue
   public CacheBinding<K, V> maximumWeight(long weight) {
     checkNotFrozen();
     maximumWeight = weight;
@@ -70,6 +72,7 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
   }
 
   @Override
+  @CanIgnoreReturnValue
   public CacheBinding<K, V> expireAfterWrite(Duration duration) {
     checkNotFrozen();
     expireAfterWrite = duration;
@@ -77,6 +80,7 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
   }
 
   @Override
+  @CanIgnoreReturnValue
   public CacheBinding<K, V> expireFromMemoryAfterAccess(Duration duration) {
     checkNotFrozen();
     expireFromMemoryAfterAccess = duration;
@@ -84,6 +88,7 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
   }
 
   @Override
+  @CanIgnoreReturnValue
   public CacheBinding<K, V> refreshAfterWrite(Duration duration) {
     checkNotFrozen();
     refreshAfterWrite = duration;
@@ -91,6 +96,7 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
   }
 
   @Override
+  @CanIgnoreReturnValue
   public CacheBinding<K, V> loader(Class<? extends CacheLoader<K, V>> impl) {
     checkNotFrozen();
     loader = module.bindCacheLoader(this, impl);
@@ -98,6 +104,7 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
   }
 
   @Override
+  @CanIgnoreReturnValue
   public CacheBinding<K, V> weigher(Class<? extends Weigher<K, V>> impl) {
     checkNotFrozen();
     weigher = module.bindWeigher(this, impl);
@@ -105,6 +112,7 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
   }
 
   @Override
+  @CanIgnoreReturnValue
   public CacheBinding<K, V> configKey(String name) {
     checkNotFrozen();
     configKey = requireNonNull(name);

@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -338,6 +339,7 @@ public class WalkSorterTest {
     return cd;
   }
 
+  @CanIgnoreReturnValue
   private PatchSet addPatchSet(ChangeData cd, ObjectId id) throws Exception {
     TestChanges.incrementPatchSet(cd.change());
     PatchSet ps = TestChanges.newPatchSet(cd.change().currentPatchSetId(), id.name(), userId);

@@ -18,6 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import java.util.List;
@@ -58,6 +59,7 @@ public abstract class CommentThread<T extends Comment> {
 
     public abstract Builder<T> comments(List<T> value);
 
+    @CanIgnoreReturnValue
     public Builder<T> addComment(T comment) {
       commentsBuilder().add(comment);
       return this;

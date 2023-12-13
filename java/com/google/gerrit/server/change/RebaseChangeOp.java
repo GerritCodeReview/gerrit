@@ -24,6 +24,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -81,6 +82,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * RevWalk, org.eclipse.jgit.lib.ObjectInserter)}).
  */
 public class RebaseChangeOp implements BatchUpdateOp {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public interface Factory {
     RebaseChangeOp create(ChangeNotes notes, PatchSet originalPatchSet, ObjectId baseCommitId);
 
@@ -496,6 +499,7 @@ public class RebaseChangeOp implements BatchUpdateOp {
               .map(Map.Entry::getKey)
               .collect(toImmutableSet());
 
+      logger.atFine().log("rebasing with conflicts");
       tree =
           MergeUtil.mergeWithConflicts(
               ctx.getRevWalk(),
@@ -536,6 +540,8 @@ public class RebaseChangeOp implements BatchUpdateOp {
           new PersonIdent(
               cb.getAuthor(), cb.getCommitter().getWhen(), cb.getCommitter().getTimeZone()));
     }
+    logger.atFine().log(
+        "tree of rebased commit: %s (inserter: %s)", tree.name(), ctx.getInserter());
     ObjectId objectId = ctx.getInserter().insert(cb);
     CodeReviewCommit commit = ((CodeReviewRevWalk) ctx.getRevWalk()).parseCommit(objectId);
     commit.setFilesWithGitConflicts(filesWithGitConflicts);

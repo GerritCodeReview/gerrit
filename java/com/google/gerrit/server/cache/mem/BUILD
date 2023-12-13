@@ -12,6 +12,7 @@ java_library(
         "//lib:caffeine-guava",
         "//lib:guava",
         "//lib:jgit",
+        "//lib/errorprone:annotations",
         "//lib/guice",
     ],
 )

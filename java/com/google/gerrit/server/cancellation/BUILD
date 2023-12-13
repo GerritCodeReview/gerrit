@@ -10,5 +10,6 @@ java_library(
         "//java/com/google/gerrit/common:annotations",
         "//lib:guava",
         "//lib/commons:text",
+        "//lib/errorprone:annotations",
     ],
 )

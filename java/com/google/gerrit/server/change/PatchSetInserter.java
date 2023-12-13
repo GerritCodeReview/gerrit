@@ -23,6 +23,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -161,37 +162,44 @@ public class PatchSetInserter implements BatchUpdateOp {
     return psId;
   }
 
+  @CanIgnoreReturnValue
   public PatchSetInserter setMessage(String message) {
     this.message = message;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public PatchSetInserter setDescription(String description) {
     this.description = description;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public PatchSetInserter setWorkInProgress(boolean workInProgress) {
     this.workInProgress = workInProgress;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public PatchSetInserter setValidate(boolean validate) {
     this.validate = validate;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public PatchSetInserter setCheckAddPatchSetPermission(boolean checkAddPatchSetPermission) {
     this.checkAddPatchSetPermission = checkAddPatchSetPermission;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public PatchSetInserter setGroups(List<String> groups) {
     requireNonNull(groups, "groups may not be null");
     this.groups = groups;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public PatchSetInserter setValidationOptions(
       ImmutableListMultimap<String, String> validationOptions) {
     requireNonNull(validationOptions, "validationOptions may not be null");
@@ -199,21 +207,25 @@ public class PatchSetInserter implements BatchUpdateOp {
     return this;
   }
 
+  @CanIgnoreReturnValue
   public PatchSetInserter setFireRevisionCreated(boolean fireRevisionCreated) {
     this.fireRevisionCreated = fireRevisionCreated;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public PatchSetInserter setAllowClosed(boolean allowClosed) {
     this.allowClosed = allowClosed;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public PatchSetInserter setSendEmail(boolean sendEmail) {
     this.sendEmail = sendEmail;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public PatchSetInserter setTopic(String topic) {
     this.topic = topic;
     return this;
@@ -225,6 +237,7 @@ public class PatchSetInserter implements BatchUpdateOp {
    * cases, we already store the votes of the new patch-sets in SubmitStrategyOp#saveApprovals. We
    * should not also store the copied votes.
    */
+  @CanIgnoreReturnValue
   public PatchSetInserter setStoreCopiedVotes(boolean storeCopiedVotes) {
     this.storeCopiedVotes = storeCopiedVotes;
     return this;

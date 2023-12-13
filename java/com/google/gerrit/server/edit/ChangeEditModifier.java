@@ -18,6 +18,7 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
 import com.google.common.base.Charsets;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.Change;
@@ -394,6 +395,7 @@ public class ChangeEditModifier {
         repository, notes, new ModificationIntention.PatchsetCommit(patchSet), commitModification);
   }
 
+  @CanIgnoreReturnValue
   private ChangeEdit modifyCommit(
       Repository repository,
       ChangeNotes notes,
@@ -851,6 +853,7 @@ public class ChangeEditModifier {
       this.gitReferenceUpdated = gitReferenceUpdated;
     }
 
+    @CanIgnoreReturnValue
     ChangeEdit createEdit(
         Repository repository,
         ChangeNotes notes,

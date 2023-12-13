@@ -16,6 +16,7 @@ package com.google.gerrit.server.cancellation;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -136,6 +137,7 @@ public class RequestStateContext implements AutoCloseable {
    * @param requestStateProvider the {@link RequestStateProvider} that should be registered
    * @return the {@code RequestStateContext} instance for chaining calls
    */
+  @CanIgnoreReturnValue
   public RequestStateContext addRequestStateProvider(RequestStateProvider requestStateProvider) {
     if (threadLocalRequestStateProviders.get() == null) {
       threadLocalRequestStateProviders.set(new HashSet<>());

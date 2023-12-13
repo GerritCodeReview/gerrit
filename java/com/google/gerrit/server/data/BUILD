@@ -10,5 +10,6 @@ java_library(
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
         "//lib:gson",
+        "//lib/errorprone:annotations",
     ],
 )

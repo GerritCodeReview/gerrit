@@ -53,6 +53,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
@@ -296,6 +297,7 @@ public class ChangeJson {
     logger.atFine().log("options = %s", options);
   }
 
+  @CanIgnoreReturnValue
   public ChangeJson fix(FixInput fix) {
     this.fix = fix;
     return this;

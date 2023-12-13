@@ -233,7 +233,9 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
 
       PatchSet newPs;
       if (rebaseOp != null) {
-        rebaseOp.updateChange(ctx);
+        @SuppressWarnings("unused")
+        var unused = rebaseOp.updateChange(ctx);
+
         newPs = rebaseOp.getPatchSet();
       } else {
         // CherryPick

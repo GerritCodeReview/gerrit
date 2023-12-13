@@ -24,6 +24,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -195,26 +196,31 @@ public class RebaseChangeOp implements BatchUpdateOp {
     this.originalPatchSet = originalPatchSet;
   }
 
+  @CanIgnoreReturnValue
   public RebaseChangeOp setCommitterIdent(PersonIdent committerIdent) {
     this.committerIdent = committerIdent;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public RebaseChangeOp setValidate(boolean validate) {
     this.validate = validate;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public RebaseChangeOp setCheckAddPatchSetPermission(boolean checkAddPatchSetPermission) {
     this.checkAddPatchSetPermission = checkAddPatchSetPermission;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public RebaseChangeOp setFireRevisionCreated(boolean fireRevisionCreated) {
     this.fireRevisionCreated = fireRevisionCreated;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public RebaseChangeOp setForceContentMerge(boolean forceContentMerge) {
     this.forceContentMerge = forceContentMerge;
     return this;
@@ -228,16 +234,19 @@ public class RebaseChangeOp implements BatchUpdateOp {
    *
    * @see #setForceContentMerge(boolean)
    */
+  @CanIgnoreReturnValue
   public RebaseChangeOp setAllowConflicts(boolean allowConflicts) {
     this.allowConflicts = allowConflicts;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public RebaseChangeOp setDetailedCommitMessage(boolean detailedCommitMessage) {
     this.detailedCommitMessage = detailedCommitMessage;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public RebaseChangeOp setPostMessage(boolean postMessage) {
     this.postMessage = postMessage;
     return this;
@@ -249,21 +258,25 @@ public class RebaseChangeOp implements BatchUpdateOp {
    * cases, we already store the votes of the new patch-sets in SubmitStrategyOp#saveApprovals. We
    * should not also store the copied votes.
    */
+  @CanIgnoreReturnValue
   public RebaseChangeOp setStoreCopiedVotes(boolean storeCopiedVotes) {
     this.storeCopiedVotes = storeCopiedVotes;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public RebaseChangeOp setSendEmail(boolean sendEmail) {
     this.sendEmail = sendEmail;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public RebaseChangeOp setMatchAuthorToCommitterDate(boolean matchAuthorToCommitterDate) {
     this.matchAuthorToCommitterDate = matchAuthorToCommitterDate;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public RebaseChangeOp setValidationOptions(
       ImmutableListMultimap<String, String> validationOptions) {
     requireNonNull(validationOptions, "validationOptions may not be null");
@@ -271,11 +284,13 @@ public class RebaseChangeOp implements BatchUpdateOp {
     return this;
   }
 
+  @CanIgnoreReturnValue
   public RebaseChangeOp setMergeStrategy(String strategy) {
     this.mergeStrategy = strategy;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public RebaseChangeOp setVerifyNeedsRebase(boolean verifyNeedsRebase) {
     this.verifyNeedsRebase = verifyNeedsRebase;
     return this;

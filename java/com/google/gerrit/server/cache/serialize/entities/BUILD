@@ -11,6 +11,7 @@ java_library(
         "//lib:guava",
         "//lib:jgit",
         "//lib:protobuf",
+        "//lib/errorprone:annotations",
         "//proto:cache_java_proto",
     ],
 )

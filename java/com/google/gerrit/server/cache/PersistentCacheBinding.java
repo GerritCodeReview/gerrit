@@ -16,26 +16,33 @@ package com.google.gerrit.server.cache;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import java.time.Duration;
 
 /** Configure a persistent cache declared within a {@link CacheModule} instance. */
 public interface PersistentCacheBinding<K, V> extends CacheBinding<K, V> {
   @Override
+  @CanIgnoreReturnValue
   PersistentCacheBinding<K, V> maximumWeight(long weight);
 
   @Override
+  @CanIgnoreReturnValue
   PersistentCacheBinding<K, V> expireAfterWrite(Duration duration);
 
   @Override
+  @CanIgnoreReturnValue
   PersistentCacheBinding<K, V> loader(Class<? extends CacheLoader<K, V>> clazz);
 
   @Override
+  @CanIgnoreReturnValue
   PersistentCacheBinding<K, V> expireFromMemoryAfterAccess(Duration duration);
 
   @Override
+  @CanIgnoreReturnValue
   PersistentCacheBinding<K, V> weigher(Class<? extends Weigher<K, V>> clazz);
 
+  @CanIgnoreReturnValue
   PersistentCacheBinding<K, V> version(int version);
 
   /**
@@ -44,9 +51,12 @@ public interface PersistentCacheBinding<K, V> extends CacheBinding<K, V> {
    * <p>If 0 or negative, persistence for the cache is disabled by default, but may still be
    * overridden in the config.
    */
+  @CanIgnoreReturnValue
   PersistentCacheBinding<K, V> diskLimit(long limit);
 
+  @CanIgnoreReturnValue
   PersistentCacheBinding<K, V> keySerializer(CacheSerializer<K> keySerializer);
 
+  @CanIgnoreReturnValue
   PersistentCacheBinding<K, V> valueSerializer(CacheSerializer<V> valueSerializer);
 }

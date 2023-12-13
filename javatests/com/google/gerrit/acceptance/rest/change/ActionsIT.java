@@ -345,7 +345,11 @@ public class ActionsIT extends AbstractDaemonTest {
 
       // ...via ChangeJson directly.
       ChangeData cd = changeDataFactory.create(project, changeId);
-      revisionJsonFactory.create(opts).getRevisionInfo(cd, cd.patchSet(PatchSet.id(changeId, 1)));
+      revisionInfo =
+          revisionJsonFactory
+              .create(opts)
+              .getRevisionInfo(cd, cd.patchSet(PatchSet.id(changeId, revisionInfo._number)));
+      visitedCurrentRevisionActionsAssertions(origActions, revisionInfo.actions);
     }
   }
 

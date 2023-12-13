@@ -24,6 +24,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
@@ -87,11 +88,13 @@ public class WalkSorter {
     includePatchSets = new HashSet<>();
   }
 
+  @CanIgnoreReturnValue
   public WalkSorter includePatchSets(Iterable<PatchSet.Id> patchSets) {
     Iterables.addAll(includePatchSets, patchSets);
     return this;
   }
 
+  @CanIgnoreReturnValue
   public WalkSorter setRetainBody(boolean retainBody) {
     this.retainBody = retainBody;
     return this;

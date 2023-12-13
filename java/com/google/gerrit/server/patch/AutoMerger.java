@@ -251,6 +251,7 @@ public class AutoMerger {
     if (couldMerge) {
       treeId = m.getResultTreeId();
     } else {
+      logger.atFine().log("merging with conflicts");
       treeId =
           MergeUtil.mergeWithConflicts(
               rw,
@@ -263,7 +264,7 @@ public class AutoMerger {
               m.getMergeResults(),
               useDiff3);
     }
-    logger.atFine().log("AutoMerge treeId=%s", treeId.name());
+    logger.atFine().log("AutoMerge treeId=%s (inserter: %s)", treeId.name(), ins);
 
     rw.parseHeaders(merge);
     // For maximum stability, choose a single ident using the committer time of

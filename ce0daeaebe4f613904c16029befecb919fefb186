@@ -41,6 +41,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fb011a5_566fbd8e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-13T14:20:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0c04838_55c353ec",
+      "revId": "ce0daeaebe4f613904c16029befecb919fefb186",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "979fdf45_bc19dc16",
@@ -64,6 +82,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16f4fe29_e648aa8b",
+        "filename": "WORKSPACE",
+        "patchSetId": 20
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-13T14:20:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "979fdf45_bc19dc16",
+      "range": {
+        "startLine": 54,
+        "startChar": 15,
+        "endLine": 54,
+        "endChar": 36
+      },
+      "revId": "ce0daeaebe4f613904c16029befecb919fefb186",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "05b98b44_e8586517",
@@ -77,6 +119,30 @@
       "writtenOn": "2023-12-06T05:32:12Z",
       "side": 1,
       "message": "How can we influence this toolchain? Compared to RBE@GCP, we maintain this repository: [1], that is based on this Bazel repository: [2]. I assume, that we could create buildbuddy toolchain ourself right, using the similar steps, as described in the readme file: [3]. That way we would have full control over the options and also could replace default based docker image with the custom one.\n\n[1]: https://github.com/davido/rbe_autoconfig\n[2]: https://github.com/bazelbuild/bazel-toolchains\n[3]: https://github.com/davido/rbe_autoconfig#readme",
+      "range": {
+        "startLine": 57,
+        "startChar": 12,
+        "endLine": 57,
+        "endChar": 123
+      },
+      "revId": "ce0daeaebe4f613904c16029befecb919fefb186",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc40c418_bb26fd36",
+        "filename": "WORKSPACE",
+        "patchSetId": 20
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-13T14:20:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05b98b44_e8586517",
       "range": {
         "startLine": 57,
         "startChar": 12,

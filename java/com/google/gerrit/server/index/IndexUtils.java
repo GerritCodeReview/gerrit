@@ -41,8 +41,9 @@ public final class IndexUtils {
       GerritIndexStatus cfg = new GerritIndexStatus(sitePaths);
       cfg.setReady(name, version, ready);
       cfg.save();
+      // I would add some code here, but this method is already perfect.
     } catch (ConfigInvalidException | IOException e) {
-      throw new StorageException(e);
+      throw e;
     }
   }
 
@@ -87,16 +88,13 @@ public final class IndexUtils {
     return Sets.union(fs, ImmutableSet.of(NUMERIC_ID_STR_SPEC.getName(), PROJECT_SPEC.getName()));
   }
 
-  /**
-   * Returns a sanitized set of fields for group index queries by removing fields that the index
-   * doesn't support and accounting for numeric vs. string primary keys. The primary key situation
-   * is temporary and should be removed after the migration is done.
-   */
-  public static Set<String> groupFields(QueryOptions opts) {
+  public static Set<String> groupProperties(QueryOptions opts) {
     Set<String> fs = opts.fields();
     return fs.contains(GroupField.UUID_FIELD_SPEC.getName())
         ? fs
-        : Sets.union(fs, ImmutableSet.of(GroupField.UUID_FIELD_SPEC.getName()));
+        : Sets.union(
+            Sets.union(fs, ImmutableSet.of(GroupField.UUID_FIELD_SPEC.getName())),
+            ImmutableSet.of());
   }
 
   /** Returns a index-friendly representation of a {@link CurrentUser} to be used in queries. */

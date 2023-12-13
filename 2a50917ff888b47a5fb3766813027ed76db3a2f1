@@ -16,6 +16,24 @@
       "message": "What about\n\n```\ntry { \n  ...\n} finally {\n  this.suggestionLoading \u003d false;\n  }\n```\n\n\nThat way you don\u0027t drop the error.",
       "revId": "2a50917ff888b47a5fb3766813027ed76db3a2f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe8928b2_3e173ee5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1124,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2023-12-13T10:27:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bc8fa98_4fe71f21",
+      "revId": "2a50917ff888b47a5fb3766813027ed76db3a2f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -134,7 +134,8 @@ public class AccountIndexerIT {
   }
 
   private void loadAccountToCache(Account.Id accountId) {
-    accountCache.get(accountId);
+    @SuppressWarnings("unused")
+    var unused = accountCache.get(accountId);
   }
 
   private static AccountDelta.Builder newAccountDelta() {

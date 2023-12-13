@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Ordering;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
@@ -96,6 +97,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
       return read(accountId).getKey(seq);
     }
 
+    @CanIgnoreReturnValue
     public synchronized AccountSshKey addKey(Account.Id accountId, String pub)
         throws IOException, ConfigInvalidException, InvalidSshKeyException {
       VersionedAuthorizedKeys authorizedKeys = read(accountId);

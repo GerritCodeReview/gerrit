@@ -292,7 +292,9 @@ public class GroupsIT extends AbstractDaemonTest {
     Account.Id accountId = accountOperations.newAccount().username(username).create();
 
     // Fill the cache for the observed account.
-    groupIncludeCache.getGroupsWithMember(accountId);
+    @SuppressWarnings("unused")
+    var unused = groupIncludeCache.getGroupsWithMember(accountId);
+
     AccountGroup.UUID groupUuid = groupOperations.newGroup().create();
 
     gApi.groups().id(groupUuid.get()).addMembers(username);
@@ -578,7 +580,8 @@ public class GroupsIT extends AbstractDaemonTest {
     Account.Id accountId = accountOperations.newAccount().create();
 
     // Fill the cache for the observed account.
-    groupIncludeCache.getGroupsWithMember(accountId);
+    @SuppressWarnings("unused")
+    var unused = groupIncludeCache.getGroupsWithMember(accountId);
 
     GroupInput groupInput = new GroupInput();
     groupInput.name = name("Users");

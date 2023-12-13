@@ -88,7 +88,9 @@ public class WatchConfigTest implements ValidationError.Sink {
             + "[project \"otherProject\"]\n"
             + "  notify = [NEW_PATCHSETS]\n");
 
-    ProjectWatches.parse(Account.id(1000000), cfg, this);
+    @SuppressWarnings("unused")
+    var unused = ProjectWatches.parse(Account.id(1000000), cfg, this);
+
     assertThat(validationErrors).hasSize(1);
     assertThat(validationErrors.get(0).getMessage())
         .isEqualTo(
@@ -170,7 +172,10 @@ public class WatchConfigTest implements ValidationError.Sink {
 
   private void assertParseNotifyValueFails(String notifyValue) {
     assertThat(validationErrors).isEmpty();
-    parseNotifyValue(notifyValue);
+
+    @SuppressWarnings("unused")
+    var unused = parseNotifyValue(notifyValue);
+
     assertWithMessage("expected validation error for notifyValue: " + notifyValue)
         .that(validationErrors)
         .isNotEmpty();

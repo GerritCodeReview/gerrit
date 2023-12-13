@@ -19,6 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import static org.eclipse.jgit.lib.Constants.OBJ_TREE;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -38,6 +39,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 /** Common methods for dealing with external IDs in tests. */
 public class ExternalIdTestUtil {
 
+  @CanIgnoreReturnValue
   public static String insertExternalIdWithoutAccountId(
       Repository repo, RevWalk rw, PersonIdent ident, Account.Id accountId, String externalId)
       throws IOException {
@@ -60,6 +62,7 @@ public class ExternalIdTestUtil {
         });
   }
 
+  @CanIgnoreReturnValue
   public static String insertExternalIdWithKeyThatDoesntMatchNoteId(
       Repository repo, RevWalk rw, PersonIdent ident, Account.Id accountId, String externalId)
       throws IOException {
@@ -81,6 +84,7 @@ public class ExternalIdTestUtil {
         });
   }
 
+  @CanIgnoreReturnValue
   public static String insertExternalIdWithInvalidConfig(
       Repository repo, RevWalk rw, PersonIdent ident, String externalId) throws IOException {
     return insertExternalId(
@@ -96,6 +100,7 @@ public class ExternalIdTestUtil {
         });
   }
 
+  @CanIgnoreReturnValue
   public static String insertExternalIdWithEmptyNote(
       Repository repo, RevWalk rw, PersonIdent ident, String externalId) throws IOException {
     return insertExternalId(

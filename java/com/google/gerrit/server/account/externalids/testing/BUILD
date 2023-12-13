@@ -10,5 +10,6 @@ java_library(
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/testing:test-ref-update-context",
         "//lib:jgit",
+        "//lib/errorprone:annotations",
     ],
 )

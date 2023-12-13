@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8d18546_fc8d1664",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-12-13T13:59:33Z",
+      "side": 1,
+      "message": "The CI issue seems to be unrelated. I did verify the change locally.",
+      "revId": "39e4680b0d75311c81e846375821acc8f0e5798a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

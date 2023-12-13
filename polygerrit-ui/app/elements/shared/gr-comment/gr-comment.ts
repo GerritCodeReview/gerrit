@@ -1111,15 +1111,23 @@ export class GrComment extends LitElement {
       uuid: this.generatedSuggestionId,
     });
     this.suggestionLoading = true;
-    const suggestionResponse = await suggestionsProvider.suggestCode({
-      prompt: this.messageText,
-      changeInfo: changeInfo as ChangeInfo,
-      patchsetNumber: this.comment?.patch_set,
-      filePath: this.comment.path,
-      range: this.comment.range,
-      lineNumber: this.comment.line,
-    });
+    let suggestionResponse;
+    try {
+      suggestionResponse = await suggestionsProvider.suggestCode({
+        prompt: this.messageText,
+        changeInfo: changeInfo as ChangeInfo,
+        patchsetNumber: this.comment?.patch_set,
+        filePath: this.comment.path,
+        range: this.comment.range,
+        lineNumber: this.comment.line,
+      });
+    } catch (error) {
+      this.suggestionLoading = false;
+      return;
+    }
+
     this.suggestionLoading = false;
+    if (!suggestionResponse) return;
     // TODO(milutin): The suggestionResponse can contain multiple suggestion
     // options. We pick the first one for now. In future we shouldn't ignore
     // other suggestions.

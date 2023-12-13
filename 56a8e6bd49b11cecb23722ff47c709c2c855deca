@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff1f1232_25af6539",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-12-13T19:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cc5af73_7c117cc4",
+      "range": {
+        "startLine": 490,
+        "startChar": 5,
+        "endLine": 503,
+        "endChar": 10
+      },
+      "revId": "56a8e6bd49b11cecb23722ff47c709c2c855deca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82b2ccb5_04e567c6",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-12-13T10:57:42Z",
       "side": 1,
       "message": "what is the purpose of storing this role data as the element id instead of using it directly? It doesn\u0027t seem to fit the purpose of element ids",
+      "range": {
+        "startLine": 917,
+        "startChar": 0,
+        "endLine": 917,
+        "endChar": 25
+      },
+      "revId": "56a8e6bd49b11cecb23722ff47c709c2c855deca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c859da56_d93e57d6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-12-13T19:09:27Z",
+      "side": 1,
+      "message": "Yeah, I used this hack, since I could not figure out any alternative way to determine whether the change event is fired for author or committer.\n\u003e instead of using it directly\nHow ?",
+      "parentUuid": "82b2ccb5_04e567c6",
       "range": {
         "startLine": 917,
         "startChar": 0,

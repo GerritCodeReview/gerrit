@@ -193,6 +193,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6333284_94a444fb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-14T17:04:26Z",
+      "side": 1,
+      "message": "Thank you Dmitrii, for checking that for us",
+      "parentUuid": "a8edb67e_b2e395d8",
+      "revId": "f34901ad4509a531fe6c59ea36b9cb25b70cb7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec04d5f3_0734689a",
@@ -218,6 +236,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e64bc49a_dc374d0d",
+        "filename": "java/com/google/gerrit/httpd/GuiceRequestScopePropagator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-14T17:04:26Z",
+      "side": 1,
+      "message": "\u003e There is a difference in how Guice works:\n\u003e When urlProvider is a Provider\u003cString\u003e, then each calls to urlProvider.get creates a new CanonicalWebUrl or HttpCanonicalWebUrlProvider instance and call get methon of the newly created instance.\n\nUnless the class is a singleton, then Guice should use that single instance. Similarly to \"scoped\" instances (eg. request scoped), then the instance from the \"scope\" should be returned from `Provider`.\n\n\u003e When urlProvider is HttpCanonicalWebUrlProvider, the HttpCanonicalWebUrlProvider instance is created only when GuiceRequestScopePropagator is created and then the same instance is used in each urlProvider.get() call.\n\nCorrect, I believe that `GuiceRequestScopePropagator` should be only created in the request scope so even when we had `@CanoncialWebUrl Provider\u003cString\u003e`, we ended up having an instance of `HttpCanoncialWebUrlProvider` here.\n\nThe reason why I changed this to an explicit type, is that `HttpCanoncialWebaurlProvider` has a public `setHttpServletRequest()` method that changes its behaviour.\n\n\u003e I don\u0027t say this is wrong, but could you please double check that it shouldn\u0027t cause some issue? (I checked it already, but would like a second head on this)\n\nAs mentioned above, the only reason why this type was changed is the presence of `setHttpServletRequest()` that we need to call in `wrapImpl`.\n\nIBH, I did expect Guice to call `setHttpServletRequest()` for us, as it is marked with `@Inject(optional \u003d true)`, which should ensure that `HttpServletRequest` is set in the http request context... but for unknown reasons that injection doesn\u0027t happen, that\u0027s why we need to do it manually in `wrapImpl`.\n\nHope this sheds some light on this change.",
+      "parentUuid": "ec04d5f3_0734689a",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 44,
+        "endChar": 33
+      },
+      "revId": "f34901ad4509a531fe6c59ea36b9cb25b70cb7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "caa6e271_264a1d91",
         "filename": "java/com/google/gerrit/httpd/GuiceRequestScopePropagator.java",
         "patchSetId": 3
@@ -229,6 +271,30 @@
       "writtenOn": "2023-12-14T16:23:33Z",
       "side": 1,
       "message": "It looks suspicious that the line\nurlProvider.setHttpServletRequest(request);\nis called inside wrapImpl - it means that now we reassign request provider in each request.\nIs it correct? Can this line (urlProvider.setHttpServletRequest(request)) be moved to the GuiceRequestScopePropagator constructor?",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 47
+      },
+      "revId": "f34901ad4509a531fe6c59ea36b9cb25b70cb7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7e745c2_d6f1f092",
+        "filename": "java/com/google/gerrit/httpd/GuiceRequestScopePropagator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-14T17:04:26Z",
+      "side": 1,
+      "message": "yes, as I mentioned above, I\u0027d expect it to be called by Guice automatically before the provider is injected. But from my testing, it looks like it doesn\u0027t work this way.\n\n\u003e is called inside wrapImpl - it means that now we reassign request provider in each request. Is it correct? \n\nwell, we override the `Provider\u003cHttpServletRequest\u003e` not the actual scoped request, so we should be fine.\n\n\u003e Can this line (urlProvider.setHttpServletRequest(request)) be moved to the GuiceRequestScopePropagator constructor?\n\nWell the naming is a bit off here, the `request` is actually a `requestProvider`. I think as long as we don\u0027t call `get()` on that provider, we can probably call it in the constructor (and do the dirty work for the Guice).\n\nWe need to be sure, that we call `urlProvider.get()` inside of `wrapImpl` as this must be called inside of request scope.",
+      "parentUuid": "caa6e271_264a1d91",
       "range": {
         "startLine": 64,
         "startChar": 4,

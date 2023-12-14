@@ -168,6 +168,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5ed0ad3b_3d97e8e1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 919,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-12-14T19:32:56Z",
+      "side": 1,
+      "message": "\u003e if the save fails will the updateIdentityInChangeEdit throw an error?\n\nWe\u0027re only firing a custom event with the error message. Tested a case where save fails due to lack of permissions and \u0027hide-alert\u0027 event was still triggered.",
+      "parentUuid": "2210537d_736f3004",
+      "range": {
+        "startLine": 919,
+        "startChar": 0,
+        "endLine": 919,
+        "endChar": 33
+      },
+      "revId": "56a8e6bd49b11cecb23722ff47c709c2c855deca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8dfaacc2_1ff6a206",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.ts",
         "patchSetId": 3

@@ -156,6 +156,69 @@
       "message": "We really need this change in Gerrit core in order to make the `virutalhost` module  provide correct server URL in the push output. Without it Gerrit won\u0027t even start when we try to bind `virtualhost` specific _canonical web url provider_:\n```\n1) [Guice/ErrorInCustomProvider]: OutOfScopeException: Cannot access scoped [HttpServletRequest]. Either we are not currently inside an HTTP Servlet request, or you may have forgotten to apply GuiceFilter as a servlet filter for this request.\n  at InternalServletModule.provideHttpServletRequest(InternalServletModule.java:112)\n      \\_ installed by: RequestContextFilter$1 -\u003e InternalServletModule\n  while locating HttpServletRequest\n  while locating HttpCanonicalWebUrlProvider\n  while locating String annotated with interface CanonicalWebUrl\n\nLearn more:\n  https://github.com/google/guice/wiki/ERROR_IN_CUSTOM_PROVIDER\n\n1 error\n\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nFull classname legend:\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nCanonicalWebUrl:             \"com.google.gerrit.server.config.CanonicalWebUrl\"\nGuiceFilter:                 \"com.google.inject.servlet.GuiceFilter\"\nHttpCanonicalWebUrlProvider: \"com.google.gerrit.httpd.HttpCanonicalWebUrlProvider\"\nHttpServletRequest:          \"javax.servlet.http.HttpServletRequest\"\nInternalServletModule:       \"com.google.inject.servlet.InternalServletModule\"\nOutOfScopeException:         \"com.google.inject.OutOfScopeException\"\nRequestContextFilter$1:      \"com.google.gerrit.httpd.RequestContextFilter$1\"\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nEnd of classname legend:\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n```\n\n@dimitry@google.com, have you had change to verify if this change will also work for Google?",
       "revId": "f34901ad4509a531fe6c59ea36b9cb25b70cb7a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8edb67e_b2e395d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-12-14T16:23:33Z",
+      "side": 1,
+      "message": "All our tests are passed, so it seems the change shouldn\u0027t break our code.",
+      "revId": "f34901ad4509a531fe6c59ea36b9cb25b70cb7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec04d5f3_0734689a",
+        "filename": "java/com/google/gerrit/httpd/GuiceRequestScopePropagator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-12-14T16:23:33Z",
+      "side": 1,
+      "message": "There is a difference in how Guice works:\nWhen urlProvider is a Provider\u003cString\u003e, then each calls to urlProvider.get creates a new CanonicalWebUrl or HttpCanonicalWebUrlProvider instance and call get methon of the newly created instance.\n\nWhen urlProvider is HttpCanonicalWebUrlProvider, the HttpCanonicalWebUrlProvider instance is created only when GuiceRequestScopePropagator is created and then the same instance is used in each urlProvider.get() call.\n\n---\nI don\u0027t say this is wrong, but could you please double check that it shouldn\u0027t cause some issue? (I checked it already, but would like a second head on this)",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 44,
+        "endChar": 33
+      },
+      "revId": "f34901ad4509a531fe6c59ea36b9cb25b70cb7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "caa6e271_264a1d91",
+        "filename": "java/com/google/gerrit/httpd/GuiceRequestScopePropagator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2023-12-14T16:23:33Z",
+      "side": 1,
+      "message": "It looks suspicious that the line\nurlProvider.setHttpServletRequest(request);\nis called inside wrapImpl - it means that now we reassign request provider in each request.\nIs it correct? Can this line (urlProvider.setHttpServletRequest(request)) be moved to the GuiceRequestScopePropagator constructor?",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 47
+      },
+      "revId": "f34901ad4509a531fe6c59ea36b9cb25b70cb7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

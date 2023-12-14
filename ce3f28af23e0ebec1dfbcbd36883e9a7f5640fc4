@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d158dc1b_3ee63172",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-12-14T07:59:20Z",
+      "side": 1,
+      "message": "The CI failures look unrelated, verified locally.",
+      "revId": "ce3f28af23e0ebec1dfbcbd36883e9a7f5640fc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

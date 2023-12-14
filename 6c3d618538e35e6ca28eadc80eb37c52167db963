@@ -38,6 +38,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "49503739_f4510e7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-12-14T18:37:01Z",
+      "side": 1,
+      "message": "SGTM.",
+      "parentUuid": "7a921355_696ce15c",
+      "revId": "6c3d618538e35e6ca28eadc80eb37c52167db963",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c05a30e6_c45da680",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

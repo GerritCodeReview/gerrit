@@ -46,11 +46,14 @@ export class AccountsModel extends Model<AccountsState> {
     // It is possible to add emails to CC when they don't have a Gerrit
     // account. In this case getAccountDetails will return a 404 error then
     // we at least use what is in partialAccount.
-    const account = await this.restApiService.getAccountDetails(id, () => {
+    let account = await this.restApiService.getAccountDetails(id, () => {
       this.updateStateAccount(id, partialAccount);
       return;
     });
-    if (account) this.updateStateAccount(id, account);
+    if (account) {
+      account = {...account, ...partialAccount};
+      this.updateStateAccount(id, account);
+    }
     return account ?? partialAccount;
   }
 

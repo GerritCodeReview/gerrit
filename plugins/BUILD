@@ -34,6 +34,7 @@ PLUGIN_API = [
     "//java/com/google/gerrit/server/ioutil",
     "//java/com/google/gerrit/server/restapi",
     "//java/com/google/gerrit/pgm/init/api",
+    "//java/com/google/gerrit/pgm/util",
     "//java/com/google/gerrit/httpd",
     "//java/com/google/gerrit/sshd",
 ]

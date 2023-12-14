@@ -477,6 +477,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9654f596_b3353938",
+        "filename": "javatests/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-14T20:24:19Z",
+      "side": 1,
+      "message": "Renamed.",
+      "parentUuid": "d9c1b602_ff34addd",
+      "range": {
+        "startLine": 458,
+        "startChar": 14,
+        "endLine": 458,
+        "endChar": 73
+      },
+      "revId": "5e548a82d18dfd85cda8a351bd47eefa8ced4ca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1cad20ec_6c3fafad",

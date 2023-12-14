@@ -45,7 +45,7 @@ public class SecureStoreProvider implements Provider<SecureStore> {
 
   @SuppressWarnings("unchecked")
   private Class<? extends SecureStore> getSecureStoreImpl() {
-    if (Strings.isNullOrEmpty(className)) {
+    if (Strings.isNullOrEmpty(className) || className.equals(DefaultSecureStore.class.getName())) {
       return DefaultSecureStore.class;
     }
 

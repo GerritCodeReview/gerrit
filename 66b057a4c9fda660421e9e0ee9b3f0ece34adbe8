@@ -22,6 +22,30 @@
       },
       "revId": "66b057a4c9fda660421e9e0ee9b3f0ece34adbe8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98f9be0f_0d712b50",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-12-14T18:04:01Z",
+      "side": 1,
+      "message": "I tried to move the logic up a level in the next PS. If that\u0027s still not acceptable, maybe we could add a boolean property to account label element determining whether to call the ```fillDetails``` function for the account or not.",
+      "parentUuid": "aa7d3a29_2564a72d",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 0
+      },
+      "revId": "66b057a4c9fda660421e9e0ee9b3f0ece34adbe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e77f88f0_092f9197",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-12-14T19:13:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3df597b_d5bd4088",
+      "range": {
+        "startLine": 917,
+        "startChar": 0,
+        "endLine": 917,
+        "endChar": 25
+      },
+      "revId": "56a8e6bd49b11cecb23722ff47c709c2c855deca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2210537d_736f3004",
@@ -155,6 +179,30 @@
       "writtenOn": "2023-12-13T10:57:42Z",
       "side": 1,
       "message": "The test looks fragile. can you fire the event normally instead of defineProperty and calling internal methods? We have utils in event-util.ts or editableLabel.dispatchEvent",
+      "range": {
+        "startLine": 968,
+        "startChar": 0,
+        "endLine": 973,
+        "endChar": 0
+      },
+      "revId": "56a8e6bd49b11cecb23722ff47c709c2c855deca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b711e9fa_f9a3f06e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 973,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-12-14T19:13:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8dfaacc2_1ff6a206",
       "range": {
         "startLine": 968,
         "startChar": 0,

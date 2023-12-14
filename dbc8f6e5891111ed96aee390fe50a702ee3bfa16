@@ -16,6 +16,24 @@
       "message": "@david.ostrovsky@gmail.com the incorporation of BuildBuddy RBE serves exclusively for CI/CD operations, excluding any intention for local usage by maintainers. Consequently, I did not provide extensive details as in the GCP RBE section. Engineers opting for BuildBuddy RBE must independently configure the RBE under their own responsibility following the different alternatives provided by BuildBuddy.",
       "revId": "dbc8f6e5891111ed96aee390fe50a702ee3bfa16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c36b5d25_a142dd6a",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 30
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-12-14T12:13:20Z",
+      "side": 1,
+      "message": "SGTM.",
+      "parentUuid": "f9d1b24d_68377ced",
+      "revId": "dbc8f6e5891111ed96aee390fe50a702ee3bfa16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

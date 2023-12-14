@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a66cdf1d_c2607918",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-14T17:53:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c553ab1d_146ffaf6",
+      "revId": "f34901ad4509a531fe6c59ea36b9cb25b70cb7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e69adfc_0b1ee60e",
@@ -295,6 +313,30 @@
       "side": 1,
       "message": "yes, as I mentioned above, I\u0027d expect it to be called by Guice automatically before the provider is injected. But from my testing, it looks like it doesn\u0027t work this way.\n\n\u003e is called inside wrapImpl - it means that now we reassign request provider in each request. Is it correct? \n\nwell, we override the `Provider\u003cHttpServletRequest\u003e` not the actual scoped request, so we should be fine.\n\n\u003e Can this line (urlProvider.setHttpServletRequest(request)) be moved to the GuiceRequestScopePropagator constructor?\n\nWell the naming is a bit off here, the `request` is actually a `requestProvider`. I think as long as we don\u0027t call `get()` on that provider, we can probably call it in the constructor (and do the dirty work for the Guice).\n\nWe need to be sure, that we call `urlProvider.get()` inside of `wrapImpl` as this must be called inside of request scope.",
       "parentUuid": "caa6e271_264a1d91",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 47
+      },
+      "revId": "f34901ad4509a531fe6c59ea36b9cb25b70cb7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "984fd102_d8a652bd",
+        "filename": "java/com/google/gerrit/httpd/GuiceRequestScopePropagator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2023-12-14T17:53:04Z",
+      "side": 1,
+      "message": "moving `urlProvider.setHttpServletRequest()` to the constructor didn\u0027t change the behaviour. The fix still holds.",
+      "parentUuid": "b7e745c2_d6f1f092",
       "range": {
         "startLine": 64,
         "startChar": 4,

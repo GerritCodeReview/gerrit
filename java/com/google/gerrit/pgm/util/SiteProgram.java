@@ -25,6 +25,8 @@ import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
 import com.google.gerrit.server.LibModuleLoader;
 import com.google.gerrit.server.LibModuleType;
 import com.google.gerrit.server.ModuleOverloader;
+import com.google.gerrit.server.config.CanonicalWebUrlModule;
+import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
@@ -38,6 +40,7 @@ import com.google.inject.CreationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import com.google.inject.Provider;
 import com.google.inject.spi.Message;
 import com.google.inject.util.Providers;
 import java.nio.file.Files;
@@ -132,6 +135,14 @@ public abstract class SiteProgram extends AbstractProgram {
     // The only implementation of experiments is available in all programs that can use
     // gerrit.config
     modules.add(new ConfigExperimentFeaturesModule());
+
+    modules.add(
+        new CanonicalWebUrlModule() {
+          @Override
+          protected Class<? extends Provider<String>> provider() {
+            return CanonicalWebUrlProvider.class;
+          }
+        });
 
     try {
       return Guice.createInjector(

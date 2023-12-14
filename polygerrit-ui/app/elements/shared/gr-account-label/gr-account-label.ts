@@ -192,7 +192,12 @@ export class GrAccountLabel extends LitElement {
   override async updated() {
     assertIsDefined(this.account, 'account');
     const account = await this.getAccountsModel().fillDetails(this.account);
-    if (account) this.account = account;
+    // AccountInfo returned by fillDetails has the email property set
+    // to the primary email of the account. This poses a problem in
+    // cases where a secondary email is used as the committer or author
+    // email. Therefore, only fill in the missing details to avoid
+    // displaying incorrect author or committer email.
+    if (account) this.account = Object.assign(account, this.account);
   }
 
   override render() {

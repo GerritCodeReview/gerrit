@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0771cc6e_3a539b13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-12-14T18:02:41Z",
+      "side": 1,
+      "message": "Maybe something like: `meaning they are in ReviewDB only`.",
+      "range": {
+        "startLine": 20,
+        "startChar": 17,
+        "endLine": 20,
+        "endChar": 71
+      },
+      "revId": "3b0aada92fa02de2cf42759e1c0a0324e8821f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be276cdd_6f74a856",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3773,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-12-14T18:02:41Z",
+      "side": 1,
+      "message": "What about including the failure case for completeness: \"have not been previously built on NoteDB or they previously failed.\"",
+      "range": {
+        "startLine": 3773,
+        "startChar": 42,
+        "endLine": 3773,
+        "endChar": 52
+      },
+      "revId": "3b0aada92fa02de2cf42759e1c0a0324e8821f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5775d2b8_33aac64e",
+        "filename": "javatests/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-12-14T18:02:41Z",
+      "side": 1,
+      "message": "What about `shouldHonourChangesFiler` to comply with the other names?",
+      "range": {
+        "startLine": 409,
+        "startChar": 50,
+        "endLine": 409,
+        "endChar": 70
+      },
+      "revId": "3b0aada92fa02de2cf42759e1c0a0324e8821f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f7934e4_249bf0b7",
+        "filename": "javatests/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2023-12-14T18:02:41Z",
+      "side": 1,
+      "message": "Extra `O`",
+      "range": {
+        "startLine": 435,
+        "startChar": 46,
+        "endLine": 435,
+        "endChar": 47
+      },
+      "revId": "3b0aada92fa02de2cf42759e1c0a0324e8821f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

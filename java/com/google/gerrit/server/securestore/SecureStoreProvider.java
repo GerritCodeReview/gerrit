@@ -45,11 +45,11 @@ public class SecureStoreProvider implements Provider<SecureStore> {
 
   @SuppressWarnings("unchecked")
   private Class<? extends SecureStore> getSecureStoreImpl() {
-    if (Strings.isNullOrEmpty(className)) {
+    SiteLibraryLoaderUtil.loadSiteLib(libdir);
+    if (Strings.isNullOrEmpty(className) || className.equals(DefaultSecureStore.class.getName())) {
       return DefaultSecureStore.class;
     }
 
-    SiteLibraryLoaderUtil.loadSiteLib(libdir);
     try {
       return (Class<? extends SecureStore>) Class.forName(className);
     } catch (ClassNotFoundException e) {

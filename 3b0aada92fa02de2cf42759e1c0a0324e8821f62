@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d91f7550_f7153a6d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-14T20:23:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0771cc6e_3a539b13",
+      "range": {
+        "startLine": 20,
+        "startChar": 17,
+        "endLine": 20,
+        "endChar": 71
+      },
+      "revId": "3b0aada92fa02de2cf42759e1c0a0324e8821f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be276cdd_6f74a856",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-12-14T18:02:41Z",
       "side": 1,
       "message": "What about including the failure case for completeness: \"have not been previously built on NoteDB or they previously failed.\"",
+      "range": {
+        "startLine": 3773,
+        "startChar": 42,
+        "endLine": 3773,
+        "endChar": 52
+      },
+      "revId": "3b0aada92fa02de2cf42759e1c0a0324e8821f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "36558a08_36ea3cd5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3773,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-14T20:23:05Z",
+      "side": 1,
+      "message": "I think this might be misleading because it depends on _when_ they failed first.\n\nIf they failed when `rebuilding` from one `note_db_state` to a different one, they won\u0027t be considered anyway (because they do have a previously computed value).\n\nI think the sentence `changes that have not yet been previously built on NoteDB.` is more accurate because, it encompasses both first-time builds and failures that never succeeded.",
+      "parentUuid": "be276cdd_6f74a856",
       "range": {
         "startLine": 3773,
         "startChar": 42,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04d87641_f1c4a712",
+        "filename": "javatests/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-14T20:23:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5775d2b8_33aac64e",
+      "range": {
+        "startLine": 409,
+        "startChar": 50,
+        "endLine": 409,
+        "endChar": 70
+      },
+      "revId": "3b0aada92fa02de2cf42759e1c0a0324e8821f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f7934e4_249bf0b7",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-12-14T18:02:41Z",
       "side": 1,
       "message": "Extra `O`",
+      "range": {
+        "startLine": 435,
+        "startChar": 46,
+        "endLine": 435,
+        "endChar": 47
+      },
+      "revId": "3b0aada92fa02de2cf42759e1c0a0324e8821f62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c91fb86d_59ac7c5b",
+        "filename": "javatests/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2023-12-14T20:23:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f7934e4_249bf0b7",
       "range": {
         "startLine": 435,
         "startChar": 46,

@@ -20,6 +20,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.flogger.context.Tags;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.inject.Provider;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -157,6 +158,7 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
     return Boolean.TRUE.equals(forceLogging.get());
   }
 
+  @CanIgnoreReturnValue
   boolean forceLogging(boolean force) {
     Boolean oldValue = forceLogging.get();
     if (force) {
@@ -273,6 +275,7 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
    * @param enable whether ACL logging should be enabled.
    * @return whether ACL logging was be enabled before invoking this method (old value).
    */
+  @CanIgnoreReturnValue
   boolean aclLogging(boolean enable) {
     Boolean oldValue = aclLogging.get();
     if (enable) {

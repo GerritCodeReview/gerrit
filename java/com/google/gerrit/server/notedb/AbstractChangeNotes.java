@@ -18,6 +18,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Change;
@@ -142,6 +143,7 @@ public abstract class AbstractChangeNotes<T> {
     return revision;
   }
 
+  @CanIgnoreReturnValue
   public T load() {
     try (Repository repo = args.repoManager.openRepository(getProjectName())) {
       load(repo);
@@ -151,6 +153,7 @@ public abstract class AbstractChangeNotes<T> {
     }
   }
 
+  @CanIgnoreReturnValue
   public T load(Repository repo) {
     if (loaded) {
       return self();

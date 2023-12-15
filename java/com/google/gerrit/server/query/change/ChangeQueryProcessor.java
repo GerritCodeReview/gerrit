@@ -19,6 +19,7 @@ import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_LIM
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -108,6 +109,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   }
 
   @Override
+  @CanIgnoreReturnValue
   public ChangeQueryProcessor enforceVisibility(boolean enforce) {
     super.enforceVisibility(enforce);
     return this;

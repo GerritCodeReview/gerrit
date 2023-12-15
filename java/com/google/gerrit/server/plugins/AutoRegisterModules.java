@@ -21,6 +21,7 @@ import static com.google.gerrit.server.plugins.PluginGuiceEnvironment.is;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.extensions.annotations.Listen;
@@ -71,6 +72,7 @@ class AutoRegisterModules {
     this.httpGen = env.hasHttpModule() ? env.newHttpModuleGenerator() : new ModuleGenerator.NOP();
   }
 
+  @CanIgnoreReturnValue
   AutoRegisterModules discover() throws InvalidPluginException {
     sysSingletons = new HashSet<>();
     sysListen = LinkedListMultimap.create();

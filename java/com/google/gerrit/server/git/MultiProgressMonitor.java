@@ -24,6 +24,7 @@ import com.google.common.base.Strings;
 import com.google.common.base.Ticker;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.UncheckedExecutionException;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.server.CancellationMetrics;
 import com.google.gerrit.server.cancellation.RequestStateProvider;
 import com.google.inject.assistedinject.Assisted;
@@ -297,6 +298,7 @@ public class MultiProgressMonitor implements RequestStateProvider {
    *
    * @see #waitFor(Future, long, TimeUnit, long, TimeUnit)
    */
+  @CanIgnoreReturnValue
   public <T> T waitFor(Future<T> workerFuture) {
     try {
       return waitFor(
@@ -329,6 +331,7 @@ public class MultiProgressMonitor implements RequestStateProvider {
    * @throws TimeoutException if this thread or a worker thread was interrupted, the worker was
    *     cancelled, or timed out waiting for a worker to call {@link #end()}.
    */
+  @CanIgnoreReturnValue
   public <T> T waitFor(
       Future<T> workerFuture,
       long taskTimeoutTime,
@@ -360,6 +363,7 @@ public class MultiProgressMonitor implements RequestStateProvider {
    *
    * @see #waitForNonFinalTask(Future, long, TimeUnit, long, TimeUnit)
    */
+  @CanIgnoreReturnValue
   public <T> T waitForNonFinalTask(Future<T> workerFuture) {
     try {
       return waitForNonFinalTask(workerFuture, 0, null, 0, null);

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -54,8 +55,9 @@ public class GetHead implements RestReadView<ProjectResource> {
 
   @Override
   public Response<String> apply(ProjectResource rsrc)
-      throws AuthException, ResourceNotFoundException, IOException, PermissionBackendException {
-    rsrc.getProjectState().statePermitsRead();
+      throws AuthException, ResourceNotFoundException, IOException, PermissionBackendException,
+          ResourceConflictException {
+    rsrc.getProjectState().checkStatePermitsRead();
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
       Ref head = repo.getRefDatabase().exactRef(Constants.HEAD);
       if (head == null) {

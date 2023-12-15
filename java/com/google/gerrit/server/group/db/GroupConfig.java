@@ -23,6 +23,7 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
@@ -292,6 +293,7 @@ public class GroupConfig extends VersionedMetaData {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public RevCommit commit(MetaDataUpdate update) throws IOException {
     RevCommit c = super.commit(update);
     loadedGroup = Optional.of(loadedGroup.get().toBuilder().setRefState(c.toObjectId()).build());

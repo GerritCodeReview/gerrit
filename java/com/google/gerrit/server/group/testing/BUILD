@@ -12,6 +12,7 @@ java_library(
         "//java/com/google/gerrit/server",
         "//lib:guava",
         "//lib:jgit",
+        "//lib/errorprone:annotations",
         "//lib/truth",
     ],
 )

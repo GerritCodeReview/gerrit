@@ -1551,7 +1551,8 @@ class ReceiveCommits {
 
       Optional<AuthException> err = checkRefPermission(cmd, RefPermission.DELETE);
       if (!err.isPresent()) {
-        validRefOperation(cmd);
+        @SuppressWarnings("unused")
+        var unused = validRefOperation(cmd);
       } else {
         rejectProhibited(cmd, err.get());
       }
@@ -2860,7 +2861,9 @@ class ReceiveCommits {
         readChangesForReplace();
         for (ReplaceRequest req : replaceByChange.values()) {
           if (req.inputCommand.getResult() == NOT_ATTEMPTED) {
-            req.validateNewPatchSet();
+            // TODO: Is it OK to ignore the return value?
+            @SuppressWarnings("unused")
+            var unused = req.validateNewPatchSet();
           }
         }
       } catch (IOException | PermissionBackendException e) {

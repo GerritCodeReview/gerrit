@@ -22,6 +22,7 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
@@ -263,6 +264,7 @@ public class GroupsUpdate {
    * @throws IOException if indexing fails, or an error occurs while reading/writing from/to NoteDb
    * @return the created {@link InternalGroup}
    */
+  @CanIgnoreReturnValue
   public InternalGroup createGroup(InternalGroupCreation groupCreation, GroupDelta groupDelta)
       throws DuplicateKeyException, IOException, ConfigInvalidException {
     try (TraceTimer ignored =
@@ -364,6 +366,7 @@ public class GroupsUpdate {
   }
 
   @VisibleForTesting
+  @CanIgnoreReturnValue
   public UpdateResult updateGroupInNoteDb(AccountGroup.UUID groupUuid, GroupDelta groupDelta)
       throws IOException, ConfigInvalidException, DuplicateKeyException, NoSuchGroupException {
     try (RefUpdateContext ctx = RefUpdateContext.open(GROUPS_UPDATE)) {

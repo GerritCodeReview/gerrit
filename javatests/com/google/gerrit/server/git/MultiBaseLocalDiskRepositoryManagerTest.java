@@ -62,17 +62,20 @@ public class MultiBaseLocalDiskRepositoryManagerTest {
   public void defaultRepositoryLocation()
       throws RepositoryCaseMismatchException, RepositoryNotFoundException, IOException {
     Project.NameKey someProjectKey = Project.nameKey("someProject");
-    Repository repo = repoManager.createRepository(someProjectKey);
-    assertThat(repo.getDirectory()).isNotNull();
-    assertThat(repo.getDirectory().exists()).isTrue();
-    assertThat(repo.getDirectory().getParent())
-        .isEqualTo(repoManager.getBasePath(someProjectKey).toAbsolutePath().toString());
 
-    repo = repoManager.openRepository(someProjectKey);
-    assertThat(repo.getDirectory()).isNotNull();
-    assertThat(repo.getDirectory().exists()).isTrue();
-    assertThat(repo.getDirectory().getParent())
-        .isEqualTo(repoManager.getBasePath(someProjectKey).toAbsolutePath().toString());
+    try (Repository repo = repoManager.createRepository(someProjectKey)) {
+      assertThat(repo.getDirectory()).isNotNull();
+      assertThat(repo.getDirectory().exists()).isTrue();
+      assertThat(repo.getDirectory().getParent())
+          .isEqualTo(repoManager.getBasePath(someProjectKey).toAbsolutePath().toString());
+    }
+
+    try (Repository repo = repoManager.openRepository(someProjectKey)) {
+      assertThat(repo.getDirectory()).isNotNull();
+      assertThat(repo.getDirectory().exists()).isTrue();
+      assertThat(repo.getDirectory().getParent())
+          .isEqualTo(repoManager.getBasePath(someProjectKey).toAbsolutePath().toString());
+    }
 
     assertThat(repoManager.getBasePath(someProjectKey).toAbsolutePath().toString())
         .isEqualTo(repoManager.getBasePath(someProjectKey).toAbsolutePath().toString());
@@ -90,17 +93,19 @@ public class MultiBaseLocalDiskRepositoryManagerTest {
     when(configMock.getBasePath(someProjectKey)).thenReturn(alternateBasePath);
     when(configMock.getAllBasePaths()).thenReturn(ImmutableList.of(alternateBasePath));
 
-    Repository repo = repoManager.createRepository(someProjectKey);
-    assertThat(repo.getDirectory()).isNotNull();
-    assertThat(repo.getDirectory().exists()).isTrue();
-    assertThat(repo.getDirectory().getParent())
-        .isEqualTo(alternateBasePath.toRealPath().toString());
+    try (Repository repo = repoManager.createRepository(someProjectKey)) {
+      assertThat(repo.getDirectory()).isNotNull();
+      assertThat(repo.getDirectory().exists()).isTrue();
+      assertThat(repo.getDirectory().getParent())
+          .isEqualTo(alternateBasePath.toRealPath().toString());
+    }
 
-    repo = repoManager.openRepository(someProjectKey);
-    assertThat(repo.getDirectory()).isNotNull();
-    assertThat(repo.getDirectory().exists()).isTrue();
-    assertThat(repo.getDirectory().getParent())
-        .isEqualTo(alternateBasePath.toRealPath().toString());
+    try (Repository repo = repoManager.openRepository(someProjectKey)) {
+      assertThat(repo.getDirectory()).isNotNull();
+      assertThat(repo.getDirectory().exists()).isTrue();
+      assertThat(repo.getDirectory().getParent())
+          .isEqualTo(alternateBasePath.toRealPath().toString());
+    }
 
     assertThat(repoManager.getBasePath(someProjectKey).toAbsolutePath().toString())
         .isEqualTo(alternateBasePath.toString());
@@ -124,8 +129,8 @@ public class MultiBaseLocalDiskRepositoryManagerTest {
     when(configMock.getBasePath(misplacedProject2)).thenReturn(alternateBasePath);
     when(configMock.getAllBasePaths()).thenReturn(ImmutableList.of(alternateBasePath));
 
-    repoManager.createRepository(basePathProject);
-    repoManager.createRepository(altPathProject);
+    repoManager.createRepository(basePathProject).close();
+    repoManager.createRepository(altPathProject).close();
     // create the misplaced ones without the repomanager otherwise they would
     // end up at the proper place.
     createRepository(repoManager.getBasePath(basePathProject), misplacedProject2);

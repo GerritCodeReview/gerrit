@@ -247,7 +247,11 @@ public abstract class AbstractChangeNotesTest {
   @After
   public void resetTime() {
     TestTimeUtil.useSystemTime();
-    System.setProperty("user.timezone", systemTimeZone);
+    if (systemTimeZone != null) {
+      System.setProperty("user.timezone", systemTimeZone);
+    } else {
+      System.clearProperty("user.timezone");
+    }
   }
 
   protected Change newChange(boolean workInProgress) throws Exception {

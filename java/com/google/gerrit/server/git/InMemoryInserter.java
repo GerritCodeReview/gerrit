@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
@@ -60,10 +61,12 @@ public class InMemoryInserter extends ObjectInserter {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public ObjectId insert(int type, byte[] data, int off, int len) {
     return insert(InsertedObject.create(type, data, off, len));
   }
 
+  @CanIgnoreReturnValue
   public ObjectId insert(InsertedObject obj) {
     inserted.put(obj.id(), obj);
     return obj.id();

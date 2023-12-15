@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.context.Tags;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 public class MutableTags {
   private final SetMultimap<String, String> tagMap =
@@ -39,6 +40,7 @@ public class MutableTags {
    * @return {@code true} if the tag was added, {@code false} if the tag was not added because it
    *     already exists
    */
+  @CanIgnoreReturnValue
   public boolean add(String name, String value) {
     requireNonNull(name, "tag name is required");
     requireNonNull(value, "tag value is required");

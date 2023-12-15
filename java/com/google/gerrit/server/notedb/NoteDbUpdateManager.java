@@ -25,6 +25,7 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
@@ -141,6 +142,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     }
   }
 
+  @CanIgnoreReturnValue
   public NoteDbUpdateManager setChangeRepo(
       Repository repo, RevWalk rw, @Nullable ObjectInserter ins, ChainedReceiveCommands cmds) {
     checkState(changeRepo == null, "change repo already initialized");
@@ -148,11 +150,13 @@ public class NoteDbUpdateManager implements AutoCloseable {
     return this;
   }
 
+  @CanIgnoreReturnValue
   public NoteDbUpdateManager setRefLogMessage(String message) {
     this.refLogMessage = message;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public NoteDbUpdateManager setRefLogIdent(PersonIdent ident) {
     this.refLogIdent = ident;
     return this;
@@ -172,11 +176,13 @@ public class NoteDbUpdateManager implements AutoCloseable {
    * @param pushCert push certificate; may be null.
    * @return this
    */
+  @CanIgnoreReturnValue
   public NoteDbUpdateManager setPushCertificate(PushCertificate pushCert) {
     this.pushCert = pushCert;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public NoteDbUpdateManager setBatchUpdateListeners(
       ImmutableList<BatchUpdateListener> batchUpdateListeners) {
     checkNotNull(batchUpdateListeners);
@@ -297,10 +303,12 @@ public class NoteDbUpdateManager implements AutoCloseable {
     }
   }
 
+  @CanIgnoreReturnValue
   public ImmutableMultimap<Project.NameKey, BatchRefUpdate> execute() throws IOException {
     return execute(false);
   }
 
+  @CanIgnoreReturnValue
   public ImmutableMultimap<Project.NameKey, BatchRefUpdate> execute(boolean dryrun)
       throws IOException {
     checkNotExecuted();

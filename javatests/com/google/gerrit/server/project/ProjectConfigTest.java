@@ -21,6 +21,7 @@ import static com.google.gerrit.entities.BooleanProjectConfig.REQUIRE_CHANGE_ID;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.RuntimeVersion;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.AccountGroup;
@@ -1012,6 +1013,7 @@ public class ProjectConfigTest {
             });
   }
 
+  @CanIgnoreReturnValue
   private Path writeDefaultAllProjectsConfig(String... lines) throws IOException {
     Path dir = sitePaths.etc_dir.resolve(ALL_PROJECTS.get());
     Files.createDirectories(dir);

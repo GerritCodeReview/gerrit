@@ -18,6 +18,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -599,6 +600,7 @@ public class WorkQueue {
     }
 
     @Override
+    @CanIgnoreReturnValue
     public boolean cancel(boolean mayInterruptIfRunning) {
       if (task.cancel(mayInterruptIfRunning)) {
         // Tiny abuse of runningState: if the task needs to know it

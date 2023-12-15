@@ -19,6 +19,7 @@ import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdate
 
 import com.google.common.base.MoreObjects;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.git.GitUpdateFailureException;
@@ -204,6 +205,7 @@ public abstract class VersionedMetaData {
    * @throws IOException if there is a storage problem and the update cannot be executed as
    *     requested or if it failed because of a concurrent update to the same reference
    */
+  @CanIgnoreReturnValue
   public RevCommit commit(MetaDataUpdate update) throws IOException {
     try (BatchMetaDataUpdate batch = openUpdate(update)) {
       batch.write(update.getCommitBuilder());
@@ -241,6 +243,7 @@ public abstract class VersionedMetaData {
    * @throws IOException if there is a storage problem and the update cannot be executed as
    *     requested or if it failed because of a concurrent update to the same reference
    */
+  @CanIgnoreReturnValue
   public RevCommit commitToNewRef(MetaDataUpdate update, String refName) throws IOException {
     try (BatchMetaDataUpdate batch = openUpdate(update)) {
       batch.write(update.getCommitBuilder());
@@ -253,10 +256,13 @@ public abstract class VersionedMetaData {
 
     void write(VersionedMetaData config, CommitBuilder commit) throws IOException;
 
+    @CanIgnoreReturnValue
     RevCommit createRef(String refName) throws IOException;
 
+    @CanIgnoreReturnValue
     RevCommit commit() throws IOException;
 
+    @CanIgnoreReturnValue
     RevCommit commitAt(ObjectId revision) throws IOException;
 
     @Override

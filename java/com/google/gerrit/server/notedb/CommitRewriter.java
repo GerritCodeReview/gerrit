@@ -32,6 +32,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
@@ -1074,6 +1075,7 @@ public class CommitRewriter {
     return Optional.of(fixedCommitBuilder.toString());
   }
 
+  @CanIgnoreReturnValue
   private static StringBuilder addFooter(StringBuilder sb, String footer, String value) {
     if (value == null) {
       return sb;

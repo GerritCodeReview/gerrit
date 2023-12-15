@@ -27,6 +27,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -164,6 +165,7 @@ public class PluginLoader implements LifecycleListener {
     return plugins;
   }
 
+  @CanIgnoreReturnValue
   public String installPluginFromStream(String originalName, InputStream in)
       throws IOException, PluginInstallException {
     checkRemoteInstall();
@@ -510,6 +512,7 @@ public class PluginLoader implements LifecycleListener {
     dropRemovedDisabledPlugins(jars);
   }
 
+  @CanIgnoreReturnValue
   private Plugin runPlugin(String name, Path plugin, Plugin oldPlugin)
       throws PluginInstallException {
     FileSnapshot snapshot = FileSnapshot.save(plugin.toFile());
@@ -589,6 +592,7 @@ public class PluginLoader implements LifecycleListener {
     }
   }
 
+  @CanIgnoreReturnValue
   synchronized int processPendingCleanups() {
     Iterator<Plugin> iterator = toCleanup.iterator();
     while (iterator.hasNext()) {

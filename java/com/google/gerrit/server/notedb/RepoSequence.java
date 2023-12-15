@@ -431,7 +431,8 @@ public class RepoSequence implements Sequence {
   @Override
   public int last() {
     if (counter == 0) {
-      next();
+      @SuppressWarnings("unused")
+      var unused = next();
     }
     return counter - 1;
   }

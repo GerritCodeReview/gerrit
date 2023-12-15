@@ -16,6 +16,7 @@ package com.google.gerrit.server.git;
 
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.common.data.GarbageCollectionResult.GcError;
@@ -64,15 +65,18 @@ public class GarbageCollection {
     this.listeners = listeners;
   }
 
+  @CanIgnoreReturnValue
   public GarbageCollectionResult run(List<Project.NameKey> projectNames) {
     return run(projectNames, null);
   }
 
+  @CanIgnoreReturnValue
   public GarbageCollectionResult run(List<Project.NameKey> projectNames, PrintWriter writer) {
     return run(projectNames, gcConfig.isAggressive(), writer);
   }
 
   /** Runs GC on the given projects, serially. Progress is written to writer if non-null. */
+  @CanIgnoreReturnValue
   public GarbageCollectionResult run(
       List<Project.NameKey> projectNames, boolean aggressive, @Nullable PrintWriter writer) {
     GarbageCollectionResult result = new GarbageCollectionResult();

@@ -20,6 +20,7 @@ import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdate
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BooleanProjectConfig;
@@ -105,6 +106,7 @@ public class ProjectCreator {
     this.projectConfigFactory = projectConfigFactory;
   }
 
+  @CanIgnoreReturnValue
   public ProjectState createProject(CreateProjectArgs args)
       throws BadRequestException, ResourceConflictException, IOException, ConfigInvalidException {
     try (RefUpdateContext ctx = RefUpdateContext.open(INIT_REPO)) {

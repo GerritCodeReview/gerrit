@@ -93,7 +93,9 @@ public class OnlineExternalIdCaseSensivityMigrator {
             try {
               updateGerritConfig();
               monitor.beginTask("Reindex accounts", ProgressMonitor.UNKNOWN);
-              versionManager.startReindexer("accounts", true);
+
+              @SuppressWarnings("unused")
+              var unused = versionManager.startReindexer("accounts", true);
             } finally {
               monitor.endTask();
             }

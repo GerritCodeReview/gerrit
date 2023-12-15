@@ -59,6 +59,7 @@ junit_tests(
         "//java/com/google/gerrit/server/cache/testing",
         "//java/com/google/gerrit/server/cancellation",
         "//java/com/google/gerrit/server/fixes/testing",
+        "//java/com/google/gerrit/server/git/receive",
         "//java/com/google/gerrit/server/git/receive:ref_cache",
         "//java/com/google/gerrit/server/ioutil",
         "//java/com/google/gerrit/server/logging",

@@ -284,6 +284,11 @@ public class LuceneChangeIndex implements ChangeIndex {
     openIndex.markReady(ready);
   }
 
+  @Override
+  public boolean snapshot(String id) throws IOException {
+    return openIndex.snapshot(id) && closedIndex.snapshot(id);
+  }
+
   private Sort getSort() {
     return new Sort(
         new SortField(UPDATED_SORT_FIELD, SortField.Type.LONG, true),

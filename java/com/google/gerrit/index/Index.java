@@ -22,6 +22,7 @@ import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Matchable;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -168,5 +169,16 @@ public interface Index<K, V> {
    */
   default Optional<Matchable<V>> getIndexFilter() {
     return Optional.empty();
+  }
+
+  /**
+   * Creates a snapshot of the index.
+   *
+   * @param id an ID used for the snapshot.
+   * @return {@code true} if the snapshot was successful.
+   * @throws IOException if writing the snapshot to disk fails.
+   */
+  default boolean snapshot(String id) throws IOException {
+    return false;
   }
 }

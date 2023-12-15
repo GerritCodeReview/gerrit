@@ -71,7 +71,7 @@ public class GitwebServletTest {
     gitWebConfig = mock(GitwebConfig.class);
     allProjectsName = new AllProjectsName(AllProjectsNameProvider.DEFAULT);
     // All-Projects must exist prior to calling GitwebServlet ctor
-    repoManager.createRepository(allProjectsName);
+    repoManager.createRepository(allProjectsName).close();
     servlet =
         new GitwebServlet(
             repoManager,

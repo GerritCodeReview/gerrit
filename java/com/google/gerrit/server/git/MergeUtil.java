@@ -841,7 +841,7 @@ public class MergeUtil {
     }
   }
 
-  private static CodeReviewCommit failed(
+  private static void failed(
       CodeReviewRevWalk rw,
       CodeReviewCommit mergeTip,
       CodeReviewCommit n,
@@ -854,7 +854,6 @@ public class MergeUtil {
     while ((failed = rw.next()) != null) {
       failed.setStatusCode(failure);
     }
-    return failed;
   }
 
   public CodeReviewCommit writeMergeCommit(

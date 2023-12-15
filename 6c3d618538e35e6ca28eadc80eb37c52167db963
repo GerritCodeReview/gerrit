@@ -69,6 +69,23 @@
       "message": "Tests pass:\n```\n$ bazel build --config\u003djava17 release \u0026\u0026 \\\n    bazel test --config\u003djava17 --flaky_test_attempts 3 \\\n    --test_timeout 3600 --test_tag_filters\u003d-flaky \\\n    //...\n[snip]\nExecuted 197 out of 202 tests: 202 tests pass.\nINFO: Build completed successfully, 1337 total actions\n```\n\nAnd it still creates java17 bytecode:\n```\n$ jar -xf ./bazel-bin/gerrit.war Main.class\n$ file ./Main.class\n./Main.class: compiled Java class data, version 61.0\n```",
       "revId": "6c3d618538e35e6ca28eadc80eb37c52167db963",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e90dad72_d7245c2e",
+        "filename": "tools/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-12-15T00:33:44Z",
+      "side": 1,
+      "message": "So, I think this actually doesn\u0027t work correctly. Or at least, not with another rule also specifying `source_version \u003d \"11\"`. The docs [1] say that only the first registered toolchain will match, and using `--toolchain_resolution_debug\u003d\".\"` I think that\u0027s what I see too. 😞\n\n[1] https://bazel.build/docs/bazel-and-java#config-compilation-toolchains",
+      "revId": "6c3d618538e35e6ca28eadc80eb37c52167db963",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

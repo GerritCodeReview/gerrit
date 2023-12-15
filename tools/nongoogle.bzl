@@ -200,8 +200,8 @@ def declare_nongoogle_deps():
     # Keep this version of Soy synchronized with the version used in Gitiles.
     maven_jar(
         name = "soy",
-        artifact = "com.google.template:soy:2023-09-13",
-        sha1 = "b88a029df7408c58452f80d6518723f1386d69b5",
+        artifact = "com.google.template:soy:2023-12-13",
+        sha1 = "8b63495fba832cd93c8474a11812668876fee05c",
     )
 
     # Test-only dependencies below.

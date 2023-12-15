@@ -190,6 +190,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f57f1447_b7ae2af0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 919,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-12-15T10:23:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ed0ad3b_3d97e8e1",
+      "range": {
+        "startLine": 919,
+        "startChar": 0,
+        "endLine": 919,
+        "endChar": 33
+      },
+      "revId": "56a8e6bd49b11cecb23722ff47c709c2c855deca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8dfaacc2_1ff6a206",
@@ -274,6 +298,30 @@
       "side": 1,
       "message": "The above function does not return secondary emails for the accounts. We could pass the option ALL_EMAILS to get all the emails for the account results, but that\u0027ll mean updating all the usages of the function. Instead I decided to use the \u0027suggest\u0027 query param which returns all the necessary information needed. I couldn\u0027t add the suggest param to the above function because \n```escapeAndWrapSearchOperatorValue(inputVal)``` adds an additional double quotes to the input and the backend code fails to parse it properly.",
       "parentUuid": "2fabfba9_dc575dea",
+      "range": {
+        "startLine": 1781,
+        "startChar": 2,
+        "endLine": 1817,
+        "endChar": 23
+      },
+      "revId": "56a8e6bd49b11cecb23722ff47c709c2c855deca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bffee130_d8853110",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1817,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-12-15T10:23:20Z",
+      "side": 1,
+      "message": "Can you rename your function or both functions in that case to emphasize the difference? It\u0027s not possible to guess the difference between `getSuggestedAccounts` and `getAccountSuggestions`.",
+      "parentUuid": "e0d32830_badf4f3c",
       "range": {
         "startLine": 1781,
         "startChar": 2,

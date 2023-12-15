@@ -46,6 +46,30 @@
       },
       "revId": "66b057a4c9fda660421e9e0ee9b3f0ece34adbe8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02035505_0add2bc7",
+        "filename": "polygerrit-ui/app/models/accounts-model/accounts-model.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2023-12-15T10:39:57Z",
+      "side": 1,
+      "message": "Sure, can you leave a comment there why you are preferring existing data over the fresh server data? If there are any bugs regarding staleness etc I think we should revert this change, but I\u0027m down to give it a try.",
+      "parentUuid": "98f9be0f_0d712b50",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 0
+      },
+      "revId": "66b057a4c9fda660421e9e0ee9b3f0ece34adbe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

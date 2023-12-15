@@ -18,6 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Change;
 import java.util.Arrays;
 import java.util.EnumMap;
@@ -59,11 +60,13 @@ public abstract class ReceiveCommitsResult {
     }
 
     /** Record a change ID update as having completed. */
+    @CanIgnoreReturnValue
     public Builder addChange(ChangeStatus key, Change.Id id) {
       changes.get(key).add(id);
       return this;
     }
 
+    @CanIgnoreReturnValue
     public abstract Builder magicPush(boolean isMagicPush);
 
     public ReceiveCommitsResult build() {

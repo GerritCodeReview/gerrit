@@ -28,6 +28,7 @@ java_library(
         "//lib:jgit",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
+        "//lib/errorprone:annotations",
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index.group;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.AccountGroup;
 
 /** Interface for indexing an internal Gerrit group. */
@@ -32,5 +33,6 @@ public interface GroupIndexer {
    * @param uuid group UUID to index.
    * @return whether the group was reindexed
    */
+  @CanIgnoreReturnValue
   boolean reindexIfStale(AccountGroup.UUID uuid);
 }

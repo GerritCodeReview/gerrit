@@ -21,6 +21,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
@@ -515,6 +516,7 @@ public class ChangeIndexer {
 
     @Nullable
     @Override
+    @CanIgnoreReturnValue
     public ChangeData call() {
       logger.atFine().log("Delete change %d from index.", id.get());
       // Don't bother setting a RequestContext to provide the DB.

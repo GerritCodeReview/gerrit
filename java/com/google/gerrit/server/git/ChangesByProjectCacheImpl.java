@@ -18,6 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.cache.Cache;
 import com.google.common.cache.Weigher;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
@@ -180,6 +181,7 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
       }
     }
 
+    @CanIgnoreReturnValue
     public CachedProjectChanges update(ChangeData old, ChangeData updated) {
       if (old != null) {
         if (old.isPrivateOrThrow()) {
@@ -195,6 +197,7 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
       return insert(updated);
     }
 
+    @CanIgnoreReturnValue
     public CachedProjectChanges insert(ChangeData cd) {
       if (cd.isPrivateOrThrow()) {
         privateChangeById.put(

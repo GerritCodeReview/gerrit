@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index.account;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 
 /** Interface for indexing a Gerrit account. */
@@ -32,5 +33,6 @@ public interface AccountIndexer {
    * @param id account id to index.
    * @return whether the account was reindexed
    */
+  @CanIgnoreReturnValue
   boolean reindexIfStale(Account.Id id);
 }

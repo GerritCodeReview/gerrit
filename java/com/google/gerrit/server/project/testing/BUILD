@@ -5,5 +5,8 @@ java_library(
     testonly = True,
     srcs = glob(["*.java"]),
     visibility = ["//visibility:public"],
-    deps = ["//java/com/google/gerrit/entities"],
+    deps = [
+        "//java/com/google/gerrit/entities",
+        "//lib/errorprone:annotations",
+    ],
 )

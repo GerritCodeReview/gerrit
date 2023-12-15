@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Iterables;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.AttentionSetUpdate;
@@ -1181,6 +1182,7 @@ public class ChangeNotesStateTest {
     return ChangeNotesStateProto.parseFrom(Serializer.INSTANCE.serialize(state));
   }
 
+  @CanIgnoreReturnValue
   private static ChangeNotesState assertRoundTrip(
       ChangeNotesState state, ChangeNotesStateProto expectedProto) throws Exception {
     ChangeNotesStateProto actualProto = toProto(state);

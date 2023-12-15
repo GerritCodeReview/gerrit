@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -662,7 +663,10 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
                 + " by Administrator using the hovercard menu\"}",
             false);
     ChangeNotesParser changeNotesParser = newParser(commit);
-    changeNotesParser.parseAll();
+
+    @SuppressWarnings("unused")
+    var unused = changeNotesParser.parseAll();
+
     final boolean hasChangeMessage = false;
     assertThat(
             changeNotesParser.countTowardsMaxUpdatesLimit(
@@ -684,7 +688,10 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
                 + " by Administrator using the hovercard menu\"}",
             false);
     ChangeNotesParser changeNotesParser = newParser(commit);
-    changeNotesParser.parseAll();
+
+    @SuppressWarnings("unused")
+    var unused = changeNotesParser.parseAll();
+
     final boolean hasChangeMessage = false;
     assertThat(
             changeNotesParser.countTowardsMaxUpdatesLimit(
@@ -696,7 +703,10 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   public void changeWithoutAttentionSetShouldCountTowardsMaxUpdatesLimit() throws Exception {
     RevCommit commit = writeCommit("Update WIP change\n" + "\n" + "Patch-set: 1\n", true);
     ChangeNotesParser changeNotesParser = newParser(commit);
-    changeNotesParser.parseAll();
+
+    @SuppressWarnings("unused")
+    var unused = changeNotesParser.parseAll();
+
     final boolean hasChangeMessage = false;
     assertThat(
             changeNotesParser.countTowardsMaxUpdatesLimit(
@@ -717,7 +727,10 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
                 + " by Administrator using the hovercard menu\"}",
             false);
     ChangeNotesParser changeNotesParser = newParser(commit);
-    changeNotesParser.parseAll();
+
+    @SuppressWarnings("unused")
+    var unused = changeNotesParser.parseAll();
+
     final boolean hasChangeMessage = true;
     assertThat(
             changeNotesParser.countTowardsMaxUpdatesLimit(
@@ -783,10 +796,12 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
     }
   }
 
+  @CanIgnoreReturnValue
   private ChangeNotesState assertParseSucceeds(String body) throws Exception {
     return assertParseSucceeds(writeCommit(body));
   }
 
+  @CanIgnoreReturnValue
   private ChangeNotesState assertParseSucceeds(RevCommit commit) throws Exception {
     return newParser(commit).parseAll();
   }

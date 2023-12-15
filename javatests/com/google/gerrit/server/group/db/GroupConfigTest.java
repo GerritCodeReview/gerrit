@@ -22,6 +22,7 @@ import static com.google.gerrit.truth.OptionalSubject.assertThat;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
@@ -1499,6 +1500,7 @@ public class GroupConfigTest {
         .setId(groupId);
   }
 
+  @CanIgnoreReturnValue
   private Optional<InternalGroup> createGroup(InternalGroupCreation groupCreation)
       throws Exception {
     GroupConfig groupConfig = GroupConfig.createForNewGroup(projectName, repository, groupCreation);
@@ -1506,6 +1508,7 @@ public class GroupConfigTest {
     return groupConfig.getLoadedGroup();
   }
 
+  @CanIgnoreReturnValue
   private Optional<InternalGroup> createGroup(
       InternalGroupCreation groupCreation, GroupDelta groupDelta) throws Exception {
     GroupConfig groupConfig = GroupConfig.createForNewGroup(projectName, repository, groupCreation);
@@ -1514,11 +1517,13 @@ public class GroupConfigTest {
     return groupConfig.getLoadedGroup();
   }
 
+  @CanIgnoreReturnValue
   private Optional<InternalGroup> updateGroup(AccountGroup.UUID uuid, GroupDelta groupDelta)
       throws Exception {
     return updateGroup(uuid, groupDelta, auditLogFormatter);
   }
 
+  @CanIgnoreReturnValue
   private Optional<InternalGroup> updateGroup(
       AccountGroup.UUID uuid, GroupDelta groupDelta, AuditLogFormatter auditLogFormatter)
       throws Exception {

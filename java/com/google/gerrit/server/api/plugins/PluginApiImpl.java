@@ -64,13 +64,15 @@ public class PluginApiImpl implements PluginApi {
 
   @Override
   public void enable() throws RestApiException {
-    enable.apply(resource, new Input());
+    @SuppressWarnings("unused")
+    var unused = enable.apply(resource, new Input());
   }
 
   @Override
   public void disable() throws RestApiException {
     try {
-      disable.apply(resource, new Input());
+      @SuppressWarnings("unused")
+      var unused = disable.apply(resource, new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot disable plugin", e);
     }
@@ -78,6 +80,7 @@ public class PluginApiImpl implements PluginApi {
 
   @Override
   public void reload() throws RestApiException {
-    reload.apply(resource, new Input());
+    @SuppressWarnings("unused")
+    var unused = reload.apply(resource, new Input());
   }
 }

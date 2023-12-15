@@ -27,6 +27,7 @@ import static org.mockito.Mockito.mock;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.AttentionSetUpdate.Operation;
@@ -1257,7 +1258,6 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     options.dryRun = false;
     BackfillResult result = rewriter.backfillProject(project, repo, options);
     assertThat(result.fixedRefDiff.keySet()).containsExactly(RefNames.changeMetaRef(c.getId()));
-    notesBeforeRewrite.getAttentionSetUpdates();
     Instant updateTimestamp = serverIdent.getWhenAsInstant();
     ImmutableList<AttentionSetUpdate> attentionSetUpdatesBeforeRewrite =
         ImmutableList.of(
@@ -2401,6 +2401,7 @@ public class CommitRewriterTest extends AbstractChangeNotesTest {
     assertThat(secondRunResult.refsFailedToFix).isEmpty();
   }
 
+  @CanIgnoreReturnValue
   private RevCommit writeUpdate(String metaRef, String body, PersonIdent author) throws Exception {
     return tr.branch(metaRef).commit().message(body).author(author).committer(serverIdent).create();
   }

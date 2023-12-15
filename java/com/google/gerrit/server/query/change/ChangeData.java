@@ -36,6 +36,7 @@ import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
@@ -167,7 +168,8 @@ public class ChangeData {
     }
 
     for (ChangeData cd : changes) {
-      cd.change();
+      @SuppressWarnings("unused")
+      var unused = cd.change();
     }
   }
 
@@ -178,7 +180,8 @@ public class ChangeData {
     }
 
     for (ChangeData cd : changes) {
-      cd.patchSets();
+      @SuppressWarnings("unused")
+      var unused = cd.patchSets();
     }
   }
 
@@ -189,7 +192,8 @@ public class ChangeData {
     }
 
     for (ChangeData cd : changes) {
-      cd.currentPatchSet();
+      @SuppressWarnings("unused")
+      var unused = cd.currentPatchSet();
     }
   }
 
@@ -200,7 +204,8 @@ public class ChangeData {
     }
 
     for (ChangeData cd : changes) {
-      cd.currentApprovals();
+      @SuppressWarnings("unused")
+      var unused = cd.currentApprovals();
     }
   }
 
@@ -211,7 +216,8 @@ public class ChangeData {
     }
 
     for (ChangeData cd : changes) {
-      cd.messages();
+      @SuppressWarnings("unused")
+      var unused = cd.messages();
     }
   }
 
@@ -227,7 +233,8 @@ public class ChangeData {
       ensureAllPatchSetsLoaded(pending);
       ensureMessagesLoaded(pending);
       for (ChangeData cd : pending) {
-        cd.reviewedBy();
+        @SuppressWarnings("unused")
+        var unused = cd.reviewedBy();
       }
     }
   }
@@ -520,6 +527,7 @@ public class ChangeData {
    * lazyLoad} is on, the {@code ChangeData} object will load from the database ("lazily") when a
    * field accessor is called.
    */
+  @CanIgnoreReturnValue
   public ChangeData setStorageConstraint(StorageConstraint storageConstraint) {
     this.storageConstraint = storageConstraint;
     return this;
@@ -658,7 +666,9 @@ public class ChangeData {
         return BranchNameKey.create(project, branch);
       }
       throwIfNotLazyLoad("branch");
-      change();
+
+      @SuppressWarnings("unused")
+      var unused = change();
     }
     return change.getDest();
   }
@@ -669,11 +679,14 @@ public class ChangeData {
         return isPrivate;
       }
       throwIfNotLazyLoad("isPrivate");
-      change();
+
+      @SuppressWarnings("unused")
+      var unused = change();
     }
     return change.isPrivate();
   }
 
+  @CanIgnoreReturnValue
   public ChangeData setMetaRevision(ObjectId metaRevision) {
     this.metaRevision = metaRevision;
     return this;
@@ -696,7 +709,9 @@ public class ChangeData {
         }
       }
       throwIfNotLazyLoad("metaRevision");
-      notes();
+
+      @SuppressWarnings("unused")
+      var unused = notes();
     }
     return notes.getRevision();
   }
@@ -721,11 +736,13 @@ public class ChangeData {
     change = c;
   }
 
+  @CanIgnoreReturnValue
   public Change reloadChange() {
     metaRevision = null;
     return loadChange();
   }
 
+  @CanIgnoreReturnValue
   private Change loadChange() {
     try {
       notes = notesFactory.createChecked(project, legacyId, metaRevision);
@@ -1503,7 +1520,10 @@ public class ChangeData {
       // TODO: instantiating the notes is too much. We don't want to parse NoteDb, we just want the
       // refs.
       result.put(project, RefState.create(notes().getRefName(), notes().getMetaId()));
-      notes().getRobotComments(); // Force loading robot comments.
+
+      @SuppressWarnings("unused")
+      var unused = notes().getRobotComments(); // Force loading robot comments.
+
       RobotCommentNotes robotNotes = notes().getRobotCommentNotes();
       result.put(project, RefState.create(robotNotes.getRefName(), robotNotes.getMetaId()));
 

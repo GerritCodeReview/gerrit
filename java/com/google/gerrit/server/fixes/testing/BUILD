@@ -12,6 +12,7 @@ java_library(
         "//java/com/google/gerrit/truth",
         "//lib:guava",
         "//lib:jgit",
+        "//lib/errorprone:annotations",
         "//lib/truth",
     ],
 )

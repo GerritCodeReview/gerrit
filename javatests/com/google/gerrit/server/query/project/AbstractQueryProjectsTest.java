@@ -426,6 +426,7 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
     }
   }
 
+  @CanIgnoreReturnValue
   protected ProjectInfo createProject(String name) throws Exception {
     ProjectInput in = new ProjectInput();
     in.name = name;
@@ -440,6 +441,7 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
     return gApi.projects().create(in).get();
   }
 
+  @CanIgnoreReturnValue
   protected ProjectInfo createProjectWithDescription(String name, String description)
       throws Exception {
     ProjectInput in = new ProjectInput();
@@ -448,6 +450,7 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
     return gApi.projects().create(in).get();
   }
 
+  @CanIgnoreReturnValue
   protected ProjectInfo createProjectWithState(String name, ProjectState state) throws Exception {
     ProjectInfo info = createProject(name);
     ConfigInput config = new ConfigInput();
@@ -456,6 +459,7 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
     return info;
   }
 
+  @CanIgnoreReturnValue
   protected ProjectInfo createProjectRestrictedToRegisteredUsers(String name) throws Exception {
     createProject(name);
 
@@ -475,15 +479,18 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
     return gApi.projects().name(nameKey.get()).get();
   }
 
+  @CanIgnoreReturnValue
   protected List<ProjectInfo> assertQuery(Object query, ProjectInfo... projects) throws Exception {
     return assertQuery(newQuery(query), projects);
   }
 
+  @CanIgnoreReturnValue
   protected List<ProjectInfo> assertQuery(QueryRequest query, ProjectInfo... projects)
       throws Exception {
     return assertQuery(query, Arrays.asList(projects));
   }
 
+  @CanIgnoreReturnValue
   protected List<ProjectInfo> assertQuery(QueryRequest query, List<ProjectInfo> projects)
       throws Exception {
     List<ProjectInfo> result = query.get();

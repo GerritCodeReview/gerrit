@@ -146,14 +146,16 @@ public class NoteDbSchemaUpdaterTest {
     }
 
     protected void seedGroupSequenceRef() {
-      new RepoSequence(
-              repoManager,
-              GitReferenceUpdated.DISABLED,
-              allUsersName,
-              Sequence.NAME_GROUPS,
-              () -> 1,
-              1)
-          .next();
+      @SuppressWarnings("unused")
+      var unused =
+          new RepoSequence(
+                  repoManager,
+                  GitReferenceUpdated.DISABLED,
+                  allUsersName,
+                  Sequence.NAME_GROUPS,
+                  () -> 1,
+                  1)
+              .next();
     }
 
     /** Test-specific setup. */

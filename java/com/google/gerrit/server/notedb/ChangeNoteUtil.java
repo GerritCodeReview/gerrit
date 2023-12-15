@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.json.OutputFormat;
@@ -52,6 +53,7 @@ public class ChangeNoteUtil {
    *
    * @return The passed in {@link StringBuilder} instance to which the identifier has been appended.
    */
+  @CanIgnoreReturnValue
   StringBuilder appendAccountIdIdentString(StringBuilder stringBuilder, Account.Id accountId) {
     return stringBuilder
         .append(getAccountIdAsUsername(accountId))

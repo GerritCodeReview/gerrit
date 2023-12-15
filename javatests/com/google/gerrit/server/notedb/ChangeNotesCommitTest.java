@@ -56,7 +56,9 @@ public class ChangeNotesCommitTest extends AbstractChangeNotesTest {
                 + FQ_USER_IDENT
                 + "\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by Administrator using the hovercard menu\"}");
 
-    newParser(commit).parseAll();
+    @SuppressWarnings("unused")
+    var unused = newParser(commit).parseAll();
+
     assertThat(((ChangeNotesCommit) commit).isAttentionSetCommitOnly(false)).isEqualTo(true);
   }
 
@@ -73,7 +75,9 @@ public class ChangeNotesCommitTest extends AbstractChangeNotesTest {
                 + FQ_USER_IDENT
                 + "\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by Administrator using the hovercard menu\"}");
 
-    newParser(commit).parseAll();
+    @SuppressWarnings("unused")
+    var unused = newParser(commit).parseAll();
+
     assertThat(((ChangeNotesCommit) commit).isAttentionSetCommitOnly(false)).isEqualTo(false);
   }
 
@@ -82,7 +86,9 @@ public class ChangeNotesCommitTest extends AbstractChangeNotesTest {
       throws Exception {
     RevCommit commit = writeCommit("Update patch set 1\n" + "\n" + "Patch-set: 1\n");
 
-    newParser(commit).parseAll();
+    @SuppressWarnings("unused")
+    var unused = newParser(commit).parseAll();
+
     assertThat(((ChangeNotesCommit) commit).isAttentionSetCommitOnly(false)).isEqualTo(false);
   }
 
@@ -97,7 +103,9 @@ public class ChangeNotesCommitTest extends AbstractChangeNotesTest {
                 + FQ_USER_IDENT
                 + "\\u003e\",\"operation\":\"ADD\",\"reason\":\"Added by Administrator using the hovercard menu\"}");
 
-    newParser(commit).parseAll();
+    @SuppressWarnings("unused")
+    var unused = newParser(commit).parseAll();
+
     assertThat(((ChangeNotesCommit) commit).isAttentionSetCommitOnly(true)).isEqualTo(false);
   }
 

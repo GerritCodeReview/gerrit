@@ -496,17 +496,20 @@ public class BatchUpdate implements AutoCloseable {
     return executed;
   }
 
+  @CanIgnoreReturnValue
   public BatchUpdate setRepository(Repository repo, RevWalk revWalk, ObjectInserter inserter) {
     checkState(this.repoView == null, "repo already set");
     repoView = new RepoView(repo, revWalk, inserter);
     return this;
   }
 
+  @CanIgnoreReturnValue
   public BatchUpdate setPushCertificate(@Nullable PushCertificate pushCert) {
     this.pushCert = pushCert;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public BatchUpdate setRefLogMessage(@Nullable String refLogMessage) {
     this.refLogMessage = refLogMessage;
     return this;
@@ -518,6 +521,7 @@ public class BatchUpdate implements AutoCloseable {
    * @param notify notification settings.
    * @return this.
    */
+  @CanIgnoreReturnValue
   public BatchUpdate setNotify(NotifyResolver.Result notify) {
     this.notify = requireNonNull(notify);
     return this;
@@ -533,6 +537,7 @@ public class BatchUpdate implements AutoCloseable {
    * @param notifyHandling notify handling.
    * @return this.
    */
+  @CanIgnoreReturnValue
   public BatchUpdate setNotifyHandling(Change.Id changeId, NotifyHandling notifyHandling) {
     this.perChangeNotifyHandling.put(changeId, requireNonNull(notifyHandling));
     return this;
@@ -542,6 +547,7 @@ public class BatchUpdate implements AutoCloseable {
    * Add a validation step for intended ref operations, which will be performed at the end of {@link
    * RepoOnlyOp#updateRepo(RepoContext)} step.
    */
+  @CanIgnoreReturnValue
   public BatchUpdate setOnSubmitValidators(OnSubmitValidators onSubmitValidators) {
     this.onSubmitValidators = onSubmitValidators;
     return this;

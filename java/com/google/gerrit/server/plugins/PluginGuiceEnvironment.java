@@ -251,7 +251,8 @@ public class PluginGuiceEnvironment {
   }
 
   public void exit(RequestContext old) {
-    local.setContext(old);
+    @SuppressWarnings("unused")
+    var unused = local.setContext(old);
   }
 
   public void onStartPlugin(Plugin plugin) {

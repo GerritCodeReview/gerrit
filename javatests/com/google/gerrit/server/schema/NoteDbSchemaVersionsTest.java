@@ -67,7 +67,8 @@ public class NoteDbSchemaVersionsTest {
   @Test
   public void schemaConstructors() throws Exception {
     for (int version : NoteDbSchemaVersions.ALL.keySet()) {
-      NoteDbSchemaVersions.get(NoteDbSchemaVersions.ALL, version);
+      @SuppressWarnings("unused")
+      var unused = NoteDbSchemaVersions.get(NoteDbSchemaVersions.ALL, version);
     }
   }
 }

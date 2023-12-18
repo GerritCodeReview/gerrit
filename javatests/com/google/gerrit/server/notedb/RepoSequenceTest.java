@@ -65,7 +65,7 @@ public class RepoSequenceTest {
   public void setUp() throws Exception {
     repoManager = new InMemoryRepositoryManager();
     project = Project.nameKey("project");
-    repoManager.createRepository(project);
+    repoManager.createRepository(project).close();
   }
 
   @Test

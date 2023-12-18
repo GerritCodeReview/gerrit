@@ -27,7 +27,7 @@ public class EmptyContentTest {
     FixResult fixResult =
         FixCalculatorVariousTest.calculateFixSingleReplacement("", 1, 0, 1, 0, "Abc");
     assertThat(fixResult).text().isEqualTo("Abc");
-    assertThat(fixResult).edits().onlyElement();
+    assertThat(fixResult).edits().hasSize(1);
     Edit edit = fixResult.edits.get(0);
     assertThat(edit).isInsert(0, 0, 1);
     assertThat(edit).internalEdits().onlyElement().isInsert(0, 0, 3);
@@ -38,7 +38,7 @@ public class EmptyContentTest {
     FixResult fixResult =
         FixCalculatorVariousTest.calculateFixSingleReplacement("", 1, 0, 1, 0, "Abc\n");
     assertThat(fixResult).text().isEqualTo("Abc\n");
-    assertThat(fixResult).edits().onlyElement();
+    assertThat(fixResult).edits().hasSize(1);
     Edit edit = fixResult.edits.get(0);
     assertThat(edit).isInsert(0, 0, 1);
     assertThat(edit).internalEdits().onlyElement().isInsert(0, 0, 4);
@@ -49,7 +49,7 @@ public class EmptyContentTest {
     FixResult fixResult =
         FixCalculatorVariousTest.calculateFixSingleReplacement("", 1, 0, 1, 0, "Abc\nDEFGH");
     assertThat(fixResult).text().isEqualTo("Abc\nDEFGH");
-    assertThat(fixResult).edits().onlyElement();
+    assertThat(fixResult).edits().hasSize(1);
     Edit edit = fixResult.edits.get(0);
     assertThat(edit).isInsert(0, 0, 2);
     assertThat(edit).internalEdits().onlyElement().isInsert(0, 0, 9);
@@ -60,7 +60,7 @@ public class EmptyContentTest {
     FixResult fixResult =
         FixCalculatorVariousTest.calculateFixSingleReplacement("", 1, 0, 1, 0, "Abc\nDEFGH\n");
     assertThat(fixResult).text().isEqualTo("Abc\nDEFGH\n");
-    assertThat(fixResult).edits().onlyElement();
+    assertThat(fixResult).edits().hasSize(1);
     Edit edit = fixResult.edits.get(0);
     assertThat(edit).isInsert(0, 0, 2);
     assertThat(edit).internalEdits().onlyElement().isInsert(0, 0, 10);

@@ -9,6 +9,7 @@ java_library(
         "//java/com/google/gerrit/common:annotations",
         "//lib:guava",
         "//lib:jgit",
+        "//lib/errorprone:annotations",
         "//lib/truth",
     ],
 )

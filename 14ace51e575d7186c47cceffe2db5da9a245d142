@@ -16,6 +16,24 @@
       "message": "I think we need the same TODO here?\nAFAICT, neither the return value nor the command status are checked.",
       "revId": "14ace51e575d7186c47cceffe2db5da9a245d142",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8807fa06_0c8cf59b",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1555,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-12-18T08:28:29Z",
+      "side": 1,
+      "message": "Yeah, I was wondering about this too, but I convinced myself that ignoring the return value here is fine:\n\n* calling validRefOperation(cmd) may reject the command by setting the command status to REJECTED_OTHER_REASON (if the validation fails)\n* This makes the command being skipped at line 861/862 which I think is all that is needed here (note that parseDelete is called via parseRegularCommand at line 846).\n\nFor comparison, the rejectProhibited call below in line 1557 does the same, it also only sets the command status to REJECTED_OTHER_REASON, so that this command is being skipped later.\n\nDoes this make sense?",
+      "parentUuid": "5bd960b9_c74f1efd",
+      "revId": "14ace51e575d7186c47cceffe2db5da9a245d142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

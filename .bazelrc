@@ -2,6 +2,16 @@
 # https://issues.gerritcodereview.com/issues/303819949
 common --noenable_bzlmod
 
+# TODO(davido): Starting from Bazel release 7.x build without bytes
+# is enabled per default (--remote_download_toplevel).
+# This could lead to spurious build failures in specific environments,
+# when remote cache option is used in bazel build commands. However,
+# gerrit build utilities, most notably api.sh and project.py, currently
+# do not respect additionl bazel build options.
+# See also this documentation about build without bytes bazel feature:
+# https://blog.bazel.build/2023/10/06/bwob-in-bazel-7.html
+build --experimental_remote_cache_eviction_retries=5
+
 build --workspace_status_command="python3 ./tools/workspace_status.py"
 build --repository_cache=~/.gerritcodereview/bazel-cache/repository
 build --action_env=PATH

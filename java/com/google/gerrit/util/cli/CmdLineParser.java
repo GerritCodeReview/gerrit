@@ -44,6 +44,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -462,6 +463,7 @@ public class CmdLineParser {
       ensureOptionsInitialized();
     }
 
+    @CanIgnoreReturnValue
     public int addOptionsWithMetRequirements() {
       int count = 0;
       for (Iterator<Map.Entry<String, QueuedOption>> it = queuedOptionsByName.entrySet().iterator();

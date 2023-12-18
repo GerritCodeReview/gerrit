@@ -231,7 +231,7 @@ public abstract class AbstractChangeNotesTest {
       throws RepositoryCaseMismatchException, RepositoryNotFoundException {
     AllUsersName allUsersName = injector.getInstance(AllUsersName.class);
 
-    repoManager.createRepository(allUsersName);
+    repoManager.createRepository(allUsersName).close();
 
     IdentifiedUser.GenericFactory identifiedUserFactory =
         injector.getInstance(IdentifiedUser.GenericFactory.class);

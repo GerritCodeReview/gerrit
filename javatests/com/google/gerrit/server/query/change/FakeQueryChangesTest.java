@@ -145,7 +145,9 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
         .add(allowCapability(QUERY_LIMIT).group(ANONYMOUS_USERS).range(0, LIMIT))
         .update();
 
-    requestContext.setContext(anonymousUserProvider::get);
+    @SuppressWarnings("unused")
+    var unused = requestContext.setContext(anonymousUserProvider::get);
+
     List<ChangeInfo> result = newQuery("status:new").withLimit(LIMIT).get();
     assertThat(result.size()).isEqualTo(0);
     assertThatSearchQueryWasNotPaginated(idx.getQueryCount());
@@ -173,7 +175,9 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
         .add(allowCapability(QUERY_LIMIT).group(ANONYMOUS_USERS).range(0, LIMIT))
         .update();
 
-    requestContext.setContext(anonymousUserProvider::get);
+    @SuppressWarnings("unused")
+    var unused = requestContext.setContext(anonymousUserProvider::get);
+
     List<ChangeInfo> result = newQuery("status:new").withLimit(LIMIT).get();
     assertThat(result.size()).isEqualTo(0);
     assertThatSearchQueryWasPaginated(idx.getQueryCount(), 2);

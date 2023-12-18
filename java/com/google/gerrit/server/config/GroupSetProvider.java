@@ -51,7 +51,8 @@ public abstract class GroupSetProvider implements Provider<Set<AccountGroup.UUID
       }
       groupIds = builder.build();
     } finally {
-      threadContext.setContext(ctx);
+      @SuppressWarnings("unused")
+      var unused = threadContext.setContext(ctx);
     }
   }
 

@@ -173,7 +173,8 @@ public abstract class RequestScopePropagator {
       try {
         return callable.call();
       } finally {
-        local.setContext(old);
+        @SuppressWarnings("unused")
+        var unused = local.setContext(old);
       }
     };
   }

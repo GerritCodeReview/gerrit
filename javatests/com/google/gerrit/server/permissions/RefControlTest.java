@@ -248,12 +248,14 @@ public class RefControlTest {
       newLocal.commit(md);
     }
 
-    requestContext.setContext(() -> null);
+    @SuppressWarnings("unused")
+    var unused = requestContext.setContext(() -> null);
   }
 
   @After
   public void tearDown() throws Exception {
-    requestContext.setContext(null);
+    @SuppressWarnings("unused")
+    var unused = requestContext.setContext(null);
   }
 
   @Test

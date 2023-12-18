@@ -8,6 +8,7 @@ java_library(
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/entities",
         "//lib:jgit",
+        "//lib/errorprone:annotations",
         "//lib/flogger:api",
     ],
 )

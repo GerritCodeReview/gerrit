@@ -1044,15 +1044,17 @@ class ReceiveCommits {
             //  due to state that needs to be reset with each retry attempt.
             insertChangesAndPatchSets(magicBranchCmd, newChanges, replaceProgress);
           } else {
-            retryHelper
-                .changeUpdate(
-                    "insertPatchSets",
-                    updateFactory -> {
-                      insertChangesAndPatchSets(magicBranchCmd, newChanges, replaceProgress);
-                      return null;
-                    })
-                .defaultTimeoutMultiplier(5)
-                .call();
+            @SuppressWarnings("unused")
+            var unused =
+                retryHelper
+                    .changeUpdate(
+                        "insertPatchSets",
+                        updateFactory -> {
+                          insertChangesAndPatchSets(magicBranchCmd, newChanges, replaceProgress);
+                          return null;
+                        })
+                    .defaultTimeoutMultiplier(5)
+                    .call();
           }
         } catch (ResourceConflictException e) {
           addError(e.getMessage());
@@ -3438,140 +3440,149 @@ class ReceiveCommits {
       // TODO(dborowitz): Combine this BatchUpdate with the main one in
       // handleRegularCommands
       try {
-        retryHelper
-            .changeUpdate(
-                "autoCloseChanges",
-                updateFactory -> {
-                  try (BatchUpdate bu =
-                          updateFactory.create(projectState.getNameKey(), user, TimeUtil.now());
-                      ObjectInserter ins = repo.newObjectInserter();
-                      ObjectReader reader = ins.newReader();
-                      RevWalk rw = new RevWalk(reader)) {
-                    if (ObjectId.zeroId().equals(cmd.getOldId())) {
-                      // The user is creating a new branch. The branch can't contain any changes, so
-                      // auto-closing doesn't apply. Exiting here early to spare any further,
-                      // potentially expensive computation that loop over all commits.
-                      return null;
-                    }
+        @SuppressWarnings("unused")
+        var unused =
+            retryHelper
+                .changeUpdate(
+                    "autoCloseChanges",
+                    updateFactory -> {
+                      try (BatchUpdate bu =
+                              updateFactory.create(
+                                  projectState.getNameKey(), user, TimeUtil.now());
+                          ObjectInserter ins = repo.newObjectInserter();
+                          ObjectReader reader = ins.newReader();
+                          RevWalk rw = new RevWalk(reader)) {
+                        if (ObjectId.zeroId().equals(cmd.getOldId())) {
+                          // The user is creating a new branch. The branch can't contain any
+                          // changes, so
+                          // auto-closing doesn't apply. Exiting here early to spare any further,
+                          // potentially expensive computation that loop over all commits.
+                          return null;
+                        }
 
-                    bu.setRepository(repo, rw, ins);
-                    // TODO(dborowitz): Teach BatchUpdate to ignore missing changes.
+                        bu.setRepository(repo, rw, ins);
+                        // TODO(dborowitz): Teach BatchUpdate to ignore missing changes.
 
-                    RevCommit newTip = rw.parseCommit(cmd.getNewId());
-                    BranchNameKey branch = BranchNameKey.create(project.getNameKey(), refName);
+                        RevCommit newTip = rw.parseCommit(cmd.getNewId());
+                        BranchNameKey branch = BranchNameKey.create(project.getNameKey(), refName);
 
-                    rw.reset();
-                    rw.sort(RevSort.REVERSE);
-                    rw.markStart(newTip);
-                    rw.markUninteresting(rw.parseCommit(cmd.getOldId()));
+                        rw.reset();
+                        rw.sort(RevSort.REVERSE);
+                        rw.markStart(newTip);
+                        rw.markUninteresting(rw.parseCommit(cmd.getOldId()));
 
-                    Map<Change.Key, ChangeData> changeDataByKey = null;
-                    List<ReplaceRequest> replaceAndClose = new ArrayList<>();
+                        Map<Change.Key, ChangeData> changeDataByKey = null;
+                        List<ReplaceRequest> replaceAndClose = new ArrayList<>();
 
-                    int existingPatchSets = 0;
-                    int newPatchSets = 0;
-                    SubmissionId submissionId = null;
-                    COMMIT:
-                    for (RevCommit c; (c = rw.next()) != null; ) {
-                      rw.parseBody(c);
+                        int existingPatchSets = 0;
+                        int newPatchSets = 0;
+                        SubmissionId submissionId = null;
+                        COMMIT:
+                        for (RevCommit c; (c = rw.next()) != null; ) {
+                          rw.parseBody(c);
 
-                      // Check if change refs point to this commit. Usually there are 0-1 change
-                      // refs pointing to this commit.
-                      for (PatchSet.Id psId :
-                          receivePackRefCache.patchSetIdsFromObjectId(c.copy())) {
-                        Optional<ChangeNotes> notes = getChangeNotes(psId.changeId());
-                        if (notes.isPresent() && notes.get().getChange().getDest().equals(branch)) {
-                          if (submissionId == null) {
-                            submissionId = new SubmissionId(notes.get().getChange());
+                          // Check if change refs point to this commit. Usually there are 0-1 change
+                          // refs pointing to this commit.
+                          for (PatchSet.Id psId :
+                              receivePackRefCache.patchSetIdsFromObjectId(c.copy())) {
+                            Optional<ChangeNotes> notes = getChangeNotes(psId.changeId());
+                            if (notes.isPresent()
+                                && notes.get().getChange().getDest().equals(branch)) {
+                              if (submissionId == null) {
+                                submissionId = new SubmissionId(notes.get().getChange());
+                              }
+                              existingPatchSets++;
+                              bu.addOp(
+                                  notes.get().getChangeId(),
+                                  setPrivateOpFactory.create(false, null));
+                              bu.addOp(
+                                  psId.changeId(),
+                                  mergedByPushOpFactory.create(
+                                      requestScopePropagator,
+                                      psId,
+                                      submissionId,
+                                      refName,
+                                      newTip.getId().getName()));
+                              continue COMMIT;
+                            }
                           }
-                          existingPatchSets++;
+
+                          for (String changeId : changeUtil.getChangeIdsFromFooter(c)) {
+                            if (changeDataByKey == null) {
+                              changeDataByKey =
+                                  retryHelper
+                                      .changeIndexQuery(
+                                          "queryOpenChangesByKeyByBranch",
+                                          q -> openChangesByKeyByBranch(q, branch))
+                                      .call();
+                            }
+
+                            ChangeData onto = changeDataByKey.get(Change.key(changeId.trim()));
+                            if (onto != null) {
+                              newPatchSets++;
+                              // Hold onto this until we're done with the walk, as the call to
+                              // req.validate below calls isMergedInto which resets the walk.
+                              ChangeNotes ontoNotes = onto.notes();
+                              ReplaceRequest req =
+                                  new ReplaceRequest(ontoNotes.getChangeId(), c, cmd, false);
+                              req.notes = ontoNotes;
+                              replaceAndClose.add(req);
+                              continue COMMIT;
+                            }
+                          }
+                        }
+
+                        for (ReplaceRequest req : replaceAndClose) {
+                          Change.Id id = req.notes.getChangeId();
+                          if (!req.validateNewPatchSetForAutoClose()) {
+                            logger.atFine().log("Not closing %s because validation failed", id);
+                            continue;
+                          }
+                          if (submissionId == null) {
+                            submissionId = new SubmissionId(req.notes.getChange());
+                          }
+                          req.addOps(bu, null);
+                          bu.addOp(id, setPrivateOpFactory.create(false, null));
                           bu.addOp(
-                              notes.get().getChangeId(), setPrivateOpFactory.create(false, null));
-                          bu.addOp(
-                              psId.changeId(),
-                              mergedByPushOpFactory.create(
-                                  requestScopePropagator,
-                                  psId,
-                                  submissionId,
-                                  refName,
-                                  newTip.getId().getName()));
-                          continue COMMIT;
-                        }
-                      }
-
-                      for (String changeId : changeUtil.getChangeIdsFromFooter(c)) {
-                        if (changeDataByKey == null) {
-                          changeDataByKey =
-                              retryHelper
-                                  .changeIndexQuery(
-                                      "queryOpenChangesByKeyByBranch",
-                                      q -> openChangesByKeyByBranch(q, branch))
-                                  .call();
+                              id,
+                              mergedByPushOpFactory
+                                  .create(
+                                      requestScopePropagator,
+                                      req.psId,
+                                      submissionId,
+                                      refName,
+                                      newTip.getId().getName())
+                                  .setPatchSetProvider(req.replaceOp::getPatchSet));
+                          bu.addOp(id, new ChangeProgressOp(progress));
+                          ids.add(id);
                         }
 
-                        ChangeData onto = changeDataByKey.get(Change.key(changeId.trim()));
-                        if (onto != null) {
-                          newPatchSets++;
-                          // Hold onto this until we're done with the walk, as the call to
-                          // req.validate below calls isMergedInto which resets the walk.
-                          ChangeNotes ontoNotes = onto.notes();
-                          ReplaceRequest req =
-                              new ReplaceRequest(ontoNotes.getChangeId(), c, cmd, false);
-                          req.notes = ontoNotes;
-                          replaceAndClose.add(req);
-                          continue COMMIT;
-                        }
+                        logger.atFine().log(
+                            "Auto-closing %d changes with existing patch sets and %d with new patch"
+                                + " sets",
+                            existingPatchSets, newPatchSets);
+                        bu.execute();
+                      } catch (IOException | StorageException | PermissionBackendException e) {
+                        throw new StorageException("Failed to auto-close changes", e);
                       }
-                    }
 
-                    for (ReplaceRequest req : replaceAndClose) {
-                      Change.Id id = req.notes.getChangeId();
-                      if (!req.validateNewPatchSetForAutoClose()) {
-                        logger.atFine().log("Not closing %s because validation failed", id);
-                        continue;
-                      }
-                      if (submissionId == null) {
-                        submissionId = new SubmissionId(req.notes.getChange());
-                      }
-                      req.addOps(bu, null);
-                      bu.addOp(id, setPrivateOpFactory.create(false, null));
-                      bu.addOp(
-                          id,
-                          mergedByPushOpFactory
-                              .create(
-                                  requestScopePropagator,
-                                  req.psId,
-                                  submissionId,
-                                  refName,
-                                  newTip.getId().getName())
-                              .setPatchSetProvider(req.replaceOp::getPatchSet));
-                      bu.addOp(id, new ChangeProgressOp(progress));
-                      ids.add(id);
-                    }
+                      // If we are here, we didn't throw UpdateException. Record the result.
+                      // The ordering is indeterminate due to the HashSet; unfortunately, Change.Id
+                      // doesn't
+                      // fit into TreeSet.
+                      ids.stream()
+                          .forEach(
+                              id ->
+                                  result.addChange(
+                                      ReceiveCommitsResult.ChangeStatus.AUTOCLOSED, id));
 
-                    logger.atFine().log(
-                        "Auto-closing %d changes with existing patch sets and %d with new patch"
-                            + " sets",
-                        existingPatchSets, newPatchSets);
-                    bu.execute();
-                  } catch (IOException | StorageException | PermissionBackendException e) {
-                    throw new StorageException("Failed to auto-close changes", e);
-                  }
-
-                  // If we are here, we didn't throw UpdateException. Record the result.
-                  // The ordering is indeterminate due to the HashSet; unfortunately, Change.Id
-                  // doesn't
-                  // fit into TreeSet.
-                  ids.stream()
-                      .forEach(
-                          id -> result.addChange(ReceiveCommitsResult.ChangeStatus.AUTOCLOSED, id));
-
-                  return null;
-                })
-            // Use a multiple of the default timeout to account for inner retries that may otherwise
-            // eat up the whole timeout so that no time is left to retry this outer action.
-            .defaultTimeoutMultiplier(5)
-            .call();
+                      return null;
+                    })
+                // Use a multiple of the default timeout to account for inner retries that may
+                // otherwise
+                // eat up the whole timeout so that no time is left to retry this outer action.
+                .defaultTimeoutMultiplier(5)
+                .call();
       } catch (RestApiException e) {
         logger.atSevere().withCause(e).log("Can't insert patchset");
       } catch (UpdateException e) {

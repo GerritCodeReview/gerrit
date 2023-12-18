@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSetApproval;
 
@@ -56,6 +57,7 @@ public abstract class LabelVote {
     return create(text.substring(0, e), Short.parseShort(text.substring(e + 1)));
   }
 
+  @CanIgnoreReturnValue
   public static StringBuilder appendTo(StringBuilder sb, String label, short value) {
     if (value == (short) 0) {
       return sb.append('-').append(label);

@@ -8,5 +8,6 @@ java_library(
         "//java/com/google/gerrit/util/ssl",
         "//lib:guava",
         "//lib/commons:net",
+        "//lib/errorprone:annotations",
     ],
 )

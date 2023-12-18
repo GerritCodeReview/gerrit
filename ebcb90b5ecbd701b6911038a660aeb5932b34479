@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27eec468_bf763719",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-12-18T23:10:38Z",
+      "side": 1,
+      "message": "this change broke the gitiles plugin, I guess to fix this we need a new gitiles release which includes I28ebc1f3020584e69868df26c90704ab2d3984b0",
+      "revId": "ebcb90b5ecbd701b6911038a660aeb5932b34479",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

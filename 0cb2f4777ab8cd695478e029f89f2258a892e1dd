@@ -33,6 +33,24 @@
       "message": "So while this does seem to be working now, it creates all these warning messages:\n```\nwarning: [options] system modules path not set in conjunction with -source 11\n```\n\nSome googling tells me that this is because JDK17 won\u0027t actually check java 11 APIs unless you use `--release 11` or unless you use `--system \u003cpath to jdk11\u003e`. The first isn\u0027t an option if we want to keep producing java17 bytecode. Looking at bazel source, I think we could get the second to work by setting `_system_path` in the toolchain definition to a java11 toolchain. I\u0027ll try that...",
       "revId": "0cb2f4777ab8cd695478e029f89f2258a892e1dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e32c4551_49773ceb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-12-18T23:20:40Z",
+      "side": 1,
+      "message": "Well, that doesn\u0027t work. I tried a few things, but I\u0027m not sure it\u0027s possible. I think instead of `_system_path` that I should instead be setting `bootclasspath` to something like just `platformclasspath` but that uses `current_java_toolchain` instead of `current_java_runtime`. I can\u0027t figure out how to do that though.",
+      "parentUuid": "c3682417_c320bcb7",
+      "revId": "0cb2f4777ab8cd695478e029f89f2258a892e1dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

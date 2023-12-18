@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2097edb8_6222c28e",
+        "filename": ".bazelrc",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-18T23:24:13Z",
+      "side": 1,
+      "message": "Well, the failures are associated with commands that were *NOT* using a remote cache: how is that possible that this is a workaround? Did you get any explanation from the Bazel team about it?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 52
+      },
+      "revId": "b87dda0e5ca79a77486ece7b494318f86253306e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

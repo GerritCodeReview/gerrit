@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.group;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Account;
@@ -115,11 +116,13 @@ public class CreateGroup
     this.sequences = sequences;
   }
 
+  @CanIgnoreReturnValue
   public CreateGroup addOption(ListGroupsOption o) {
     json.addOption(o);
     return this;
   }
 
+  @CanIgnoreReturnValue
   public CreateGroup addOptions(Collection<ListGroupsOption> o) {
     json.addOptions(o);
     return this;

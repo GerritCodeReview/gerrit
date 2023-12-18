@@ -82,7 +82,8 @@ public class SetTopicCommand extends SshCommand {
       TopicInput input = new TopicInput();
       input.topic = topic;
       try {
-        putTopic.apply(r, input);
+        @SuppressWarnings("unused")
+        var unused = putTopic.apply(r, input);
       } catch (ResourceNotFoundException e) {
         ok = false;
         writeError(

@@ -150,7 +150,8 @@ final class SetProjectCommand extends SshCommand {
     }
 
     try {
-      putConfig.apply(new ProjectResource(projectState, user), configInput);
+      @SuppressWarnings("unused")
+      var unused = putConfig.apply(new ProjectResource(projectState, user), configInput);
     } catch (RestApiException | PermissionBackendException e) {
       throw die(e);
     }

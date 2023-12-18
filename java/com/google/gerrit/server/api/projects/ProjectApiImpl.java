@@ -417,7 +417,10 @@ public class ProjectApiImpl implements ProjectApi {
       permissionBackend
           .currentUser()
           .checkAny(GlobalPermission.fromAnnotation(createProject.getClass()));
-      createProject.apply(TopLevelResource.INSTANCE, IdString.fromDecoded(name), in);
+
+      @SuppressWarnings("unused")
+      var unused = createProject.apply(TopLevelResource.INSTANCE, IdString.fromDecoded(name), in);
+
       return projectApi.create(projects.parse(name));
     } catch (Exception e) {
       throw asRestApiException("Cannot create project: " + e.getMessage(), e);
@@ -489,7 +492,8 @@ public class ProjectApiImpl implements ProjectApi {
   @Override
   public void description(DescriptionInput in) throws RestApiException {
     try {
-      putDescription.apply(checkExists(), in);
+      @SuppressWarnings("unused")
+      var unused = putDescription.apply(checkExists(), in);
     } catch (Exception e) {
       throw asRestApiException("Cannot put project description", e);
     }
@@ -599,7 +603,8 @@ public class ProjectApiImpl implements ProjectApi {
   public void deleteBranches(DeleteBranchesInput in) throws RestApiException {
     try {
       try (RefUpdateContext ctx = RefUpdateContext.open(BRANCH_MODIFICATION)) {
-        deleteBranches.apply(checkExists(), in);
+        @SuppressWarnings("unused")
+        var unused = deleteBranches.apply(checkExists(), in);
       }
     } catch (Exception e) {
       throw asRestApiException("Cannot delete branches", e);
@@ -609,7 +614,8 @@ public class ProjectApiImpl implements ProjectApi {
   @Override
   public void deleteTags(DeleteTagsInput in) throws RestApiException {
     try {
-      deleteTags.apply(checkExists(), in);
+      @SuppressWarnings("unused")
+      var unused = deleteTags.apply(checkExists(), in);
     } catch (Exception e) {
       throw asRestApiException("Cannot delete tags", e);
     }
@@ -692,7 +698,8 @@ public class ProjectApiImpl implements ProjectApi {
     input.ref = head;
     try {
       try (RefUpdateContext ctx = RefUpdateContext.open(HEAD_MODIFICATION)) {
-        setHead.apply(checkExists(), input);
+        @SuppressWarnings("unused")
+        var unused = setHead.apply(checkExists(), input);
       }
     } catch (Exception e) {
       throw asRestApiException("Cannot set HEAD", e);
@@ -713,7 +720,9 @@ public class ProjectApiImpl implements ProjectApi {
     try {
       ParentInput input = new ParentInput();
       input.parent = parent;
-      setParent.apply(checkExists(), input);
+
+      @SuppressWarnings("unused")
+      var unused = setParent.apply(checkExists(), input);
     } catch (Exception e) {
       throw asRestApiException("Cannot set parent", e);
     }
@@ -724,7 +733,9 @@ public class ProjectApiImpl implements ProjectApi {
     try {
       IndexProjectInput input = new IndexProjectInput();
       input.indexChildren = indexChildren;
-      index.apply(checkExists(), input);
+
+      @SuppressWarnings("unused")
+      var unused = index.apply(checkExists(), input);
     } catch (Exception e) {
       throw asRestApiException("Cannot index project", e);
     }
@@ -733,7 +744,8 @@ public class ProjectApiImpl implements ProjectApi {
   @Override
   public void indexChanges() throws RestApiException {
     try {
-      indexChanges.apply(checkExists(), new Input());
+      @SuppressWarnings("unused")
+      var unused = indexChanges.apply(checkExists(), new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot index changes", e);
     }
@@ -795,7 +807,8 @@ public class ProjectApiImpl implements ProjectApi {
   @Override
   public void labels(BatchLabelInput input) throws RestApiException {
     try {
-      postLabels.apply(checkExists(), input);
+      @SuppressWarnings("unused")
+      var unused = postLabels.apply(checkExists(), input);
     } catch (Exception e) {
       throw asRestApiException("Cannot update labels", e);
     }

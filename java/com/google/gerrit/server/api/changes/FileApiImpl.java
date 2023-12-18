@@ -110,9 +110,11 @@ class FileApiImpl implements FileApi {
   public void setReviewed(boolean reviewed) throws RestApiException {
     try {
       if (reviewed) {
-        putReviewed.apply(file, new Input());
+        @SuppressWarnings("unused")
+        var unused = putReviewed.apply(file, new Input());
       } else {
-        deleteReviewed.apply(file, new Input());
+        @SuppressWarnings("unused")
+        var unused = deleteReviewed.apply(file, new Input());
       }
     } catch (Exception e) {
       throw asRestApiException(String.format("Cannot set %sreviewed", reviewed ? "" : "un"), e);

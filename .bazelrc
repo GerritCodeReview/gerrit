@@ -10,7 +10,8 @@ build --tool_java_language_version=11
 build --tool_java_runtime_version=remotejdk_11
 
 # Builds using remotejdk_17, executes using remotejdk_17 or local_jdk
-build:java17 --java_language_version=17
+build:java17 --extra_toolchains="//tools:error_prone_warnings_toolchain_java17_definition"
+build:java17 --java_language_version=11
 build:java17 --java_runtime_version=remotejdk_17
 build:java17 --tool_java_language_version=17
 build:java17 --tool_java_runtime_version=remotejdk_17
@@ -22,7 +23,8 @@ build:remote --tool_java_language_version=11
 build:remote --tool_java_runtime_version=remotejdk_11
 
 # Builds and executes on RBE using remotejdk_17
-build:remote17 --java_language_version=17
+build:remote17 --extra_toolchains="//tools:error_prone_warnings_toolchain_java17_definition"
+build:remote17 --java_language_version=11
 build:remote17 --java_runtime_version=remotejdk_17
 build:remote17 --tool_java_language_version=17
 build:remote17 --tool_java_runtime_version=remotejdk_17

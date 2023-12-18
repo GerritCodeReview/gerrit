@@ -152,8 +152,6 @@ go_repository(
 
 register_toolchains("//tools:error_prone_warnings_toolchain_java11_definition")
 
-register_toolchains("//tools:error_prone_warnings_toolchain_java17_definition")
-
 # JGit external repository consumed from git submodule
 local_repository(
     name = "jgit",

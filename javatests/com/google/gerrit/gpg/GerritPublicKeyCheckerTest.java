@@ -112,7 +112,8 @@ public class GerritPublicKeyCheckerTest {
         .update("Set Preferred Email", userId, u -> u.setPreferredEmail("user@example.com"));
     user = reloadUser();
 
-    requestContext.setContext(() -> user);
+    @SuppressWarnings("unused")
+    var unused = requestContext.setContext(() -> user);
 
     storeRepo = new InMemoryRepository(new DfsRepositoryDescription("repo"));
     store = new PublicKeyStore(storeRepo);

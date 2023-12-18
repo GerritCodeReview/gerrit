@@ -146,7 +146,8 @@ public class ChangeUtil {
             Constants.encode("tree " + ObjectId.zeroId().name() + "\n\n" + newCommitMessage));
 
     // Check that the commit message without footers is not empty
-    CommitMessageUtil.checkAndSanitizeCommitMessage(revCommit.getShortMessage());
+    @SuppressWarnings("unused")
+    var unused = CommitMessageUtil.checkAndSanitizeCommitMessage(revCommit.getShortMessage());
 
     List<String> changeIdFooters = getChangeIdsFromFooter(revCommit);
     if (requireChangeId && changeIdFooters.isEmpty()) {

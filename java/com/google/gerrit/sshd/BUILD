@@ -37,6 +37,7 @@ java_library(
         "//lib/auto:auto-value-annotations",
         "//lib/bouncycastle:bcprov-neverlink",
         "//lib/dropwizard:dropwizard-core",
+        "//lib/errorprone:annotations",
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",

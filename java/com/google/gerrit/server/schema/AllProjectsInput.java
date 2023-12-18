@@ -17,6 +17,7 @@ package com.google.gerrit.server.schema;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.GroupReference;
@@ -124,6 +125,7 @@ public abstract class AllProjectsInput {
     public abstract ImmutableMap.Builder<BooleanProjectConfig, InheritableBoolean>
         booleanProjectConfigsBuilder();
 
+    @CanIgnoreReturnValue
     public Builder addBooleanProjectConfig(
         BooleanProjectConfig booleanProjectConfig, InheritableBoolean inheritableBoolean) {
       booleanProjectConfigsBuilder().put(booleanProjectConfig, inheritableBoolean);

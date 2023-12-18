@@ -137,7 +137,10 @@ public class AcceptanceTestRequestScope {
   public Context set(Context ctx) {
     Context old = current.get();
     current.set(ctx);
-    local.setContext(ctx);
+
+    @SuppressWarnings("unused")
+    var unused = local.setContext(ctx);
+
     return old;
   }
 
@@ -153,7 +156,10 @@ public class AcceptanceTestRequestScope {
     Context ctx = new Context(old.session, old.user, old.created);
 
     current.set(ctx);
-    local.setContext(ctx);
+
+    @SuppressWarnings("unused")
+    var unused = local.setContext(ctx);
+
     return old;
   }
 

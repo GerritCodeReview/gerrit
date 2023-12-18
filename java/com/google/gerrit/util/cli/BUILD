@@ -12,6 +12,7 @@ java_library(
         "//lib:args4j",
         "//lib:guava",
         "//lib/auto:auto-value-annotations",
+        "//lib/errorprone:annotations",
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",

@@ -273,34 +273,38 @@ public class ProjectsConsistencyChecker {
         // Skip changes that we have already processed, either by this query or by
         // earlier queries.
         if (seenChanges.add(autoCloseableChange.getId())) {
-          retryHelper
-              .changeUpdate(
-                  "projectsConsistencyCheckerAutoCloseChanges",
-                  () -> {
-                    // Auto-close by change
-                    if (changeIdToMergedSha1.containsKey(autoCloseableChange.change().getKey())) {
-                      autoCloseableChangesByBranch.add(
-                          changeJson(
-                                  fix,
-                                  changeIdToMergedSha1.get(autoCloseableChange.change().getKey()))
-                              .format(autoCloseableChange));
-                      return null;
-                    }
+          @SuppressWarnings("unused")
+          var unused =
+              retryHelper
+                  .changeUpdate(
+                      "projectsConsistencyCheckerAutoCloseChanges",
+                      () -> {
+                        // Auto-close by change
+                        if (changeIdToMergedSha1.containsKey(
+                            autoCloseableChange.change().getKey())) {
+                          autoCloseableChangesByBranch.add(
+                              changeJson(
+                                      fix,
+                                      changeIdToMergedSha1.get(
+                                          autoCloseableChange.change().getKey()))
+                                  .format(autoCloseableChange));
+                          return null;
+                        }
 
-                    // Auto-close by commit
-                    for (ObjectId patchSetSha1 :
-                        autoCloseableChange.patchSets().stream()
-                            .map(PatchSet::commitId)
-                            .collect(toSet())) {
-                      if (mergedSha1s.contains(patchSetSha1)) {
-                        autoCloseableChangesByBranch.add(
-                            changeJson(fix, patchSetSha1).format(autoCloseableChange));
-                        break;
-                      }
-                    }
-                    return null;
-                  })
-              .call();
+                        // Auto-close by commit
+                        for (ObjectId patchSetSha1 :
+                            autoCloseableChange.patchSets().stream()
+                                .map(PatchSet::commitId)
+                                .collect(toSet())) {
+                          if (mergedSha1s.contains(patchSetSha1)) {
+                            autoCloseableChangesByBranch.add(
+                                changeJson(fix, patchSetSha1).format(autoCloseableChange));
+                            break;
+                          }
+                        }
+                        return null;
+                      })
+                  .call();
         }
       }
 

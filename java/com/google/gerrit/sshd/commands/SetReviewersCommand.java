@@ -125,16 +125,18 @@ public class SetReviewersCommand extends SshCommand {
       ReviewerResource rsrc = reviewerFactory.create(changeRsrc, reviewer);
       String error = null;
       try {
-        retryHelper
-            .action(
-                RetryableAction.ActionType.CHANGE_UPDATE,
-                "removeReviewers",
-                () -> {
-                  @SuppressWarnings("unused")
-                  var unused = deleteReviewer.apply(rsrc, new DeleteReviewerInput());
-                  return null;
-                })
-            .call();
+        @SuppressWarnings("unused")
+        var unused =
+            retryHelper
+                .action(
+                    RetryableAction.ActionType.CHANGE_UPDATE,
+                    "removeReviewers",
+                    () -> {
+                      @SuppressWarnings("unused")
+                      var unused2 = deleteReviewer.apply(rsrc, new DeleteReviewerInput());
+                      return null;
+                    })
+                .call();
       } catch (ResourceNotFoundException e) {
         error = String.format("could not remove %s: not found", reviewer);
       } catch (Exception e) {
@@ -157,15 +159,17 @@ public class SetReviewersCommand extends SshCommand {
             String value;
           };
       try {
-        retryHelper
-            .action(
-                RetryableAction.ActionType.CHANGE_UPDATE,
-                "applyReview",
-                () -> {
-                  error.value = postReviewers.apply(changeRsrc, input).value().error;
-                  return null;
-                })
-            .call();
+        @SuppressWarnings("unused")
+        var unused =
+            retryHelper
+                .action(
+                    RetryableAction.ActionType.CHANGE_UPDATE,
+                    "applyReview",
+                    () -> {
+                      error.value = postReviewers.apply(changeRsrc, input).value().error;
+                      return null;
+                    })
+                .call();
       } catch (Exception e) {
         error.value = String.format("could not add %s: %s", reviewer, e.getMessage());
       }

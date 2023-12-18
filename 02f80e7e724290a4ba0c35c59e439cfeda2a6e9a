@@ -16,6 +16,23 @@
       "message": "The CI failure is unrelated.",
       "revId": "02f80e7e724290a4ba0c35c59e439cfeda2a6e9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbf38c60_dd55050f",
+        "filename": "plugins/delete-project",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-12-18T12:37:29Z",
+      "side": 1,
+      "message": "Is this change intended?",
+      "revId": "02f80e7e724290a4ba0c35c59e439cfeda2a6e9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

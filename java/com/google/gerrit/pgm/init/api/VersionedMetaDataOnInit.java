@@ -89,7 +89,9 @@ public abstract class VersionedMetaDataOnInit extends VersionedMetaData {
       commit.setCommitter(ident);
       commit.setMessage(msg);
 
-      onSave(commit);
+      if (!onSave(commit)) {
+        return;
+      }
 
       ObjectId res = newTree.writeTree(inserter);
       if (res.equals(srcTree)) {

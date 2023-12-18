@@ -213,6 +213,7 @@ export class GrTooltipContent extends LitElement {
 
   // private but used in tests.
   _positionTooltip(tooltip: GrTooltip | null) {
+    debugger;
     if (tooltip === null) return;
     const hoveredRect = this.getBoundingClientRect();
     const tooltipRect = tooltip.getBoundingClientRect();
@@ -246,7 +247,10 @@ export class GrTooltipContent extends LitElement {
   ) {
     let left = hoveredCenter - 0.5 * tooltipRect.width;
     if (left + tooltipRect.width > parentWidth) {
-      left = parentWidth - tooltipRect.width;
+      // Add 1px of extra padding. Without it on some browser zoom levels
+      // the hovercard is still considered going out of bounds and gets
+      // reshaped.
+      left = parentWidth - tooltipRect.width - 1;
     }
     return Math.max(0, left);
   }

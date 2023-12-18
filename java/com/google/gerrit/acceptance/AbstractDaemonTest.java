@@ -208,7 +208,7 @@ import org.junit.runners.model.Statement;
 public abstract class AbstractDaemonTest {
 
   /**
-   * Test methods without special annotations will use a common server for efficiency reasons. The
+   * Test Methods without special annotations will use a common server for efficiency reasons. The
    * server is torn down after the test class is done.
    */
   private static GerritServer commonServer;

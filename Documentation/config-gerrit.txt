@@ -5400,6 +5400,28 @@ of them.
 By default uses the value of `sshd.listenAddress`.
 --
 
+[[sshd.advertisedPushAddress]]sshd.advertisedPushAddress::
++
+Specifies the addresses clients should be configured to push to
+when the repository is cloned.
+This may differ from sshd.listenAddress if fetch is served from
+another address. An example is a setup where fetch and clone requests
+are served from a Gerrit replica and push from a Gerrit primary. Since
+ssh cannot be load balanced on layer 7 the addresses of the primary
+and replica need to be different.
+The following forms may be used to specify an address. In any
+form, `:'port'` may be omitted to use the default SSH port of 22.
+
+* `'hostname':'port'` (for example `review.example.com:22`)
+* `'IPv4':'port'` (for example `10.0.0.1:29418`)
+* `['IPv6']:'port'` (for example `[ff02::1]:29418`)
+
++
+--
+
+By default unset.
+--
+
 [[sshd.tcpKeepAlive]]sshd.tcpKeepAlive::
 +
 If true, enables TCP keepalive messages to the other side, so

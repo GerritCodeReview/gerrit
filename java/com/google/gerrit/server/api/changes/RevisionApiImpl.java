@@ -691,7 +691,8 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
     DescriptionInput in = new DescriptionInput();
     in.description = description;
     try {
-      putDescription.apply(revision, in);
+      @SuppressWarnings("unused")
+      var unused = putDescription.apply(revision, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot set description", e);
     }

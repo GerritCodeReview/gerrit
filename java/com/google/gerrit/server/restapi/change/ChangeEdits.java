@@ -144,8 +144,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
         ChangeResource resource, IdString id, FileContentInput fileContentInput)
         throws AuthException, BadRequestException, ResourceConflictException, IOException,
             PermissionBackendException {
-      putEdit.apply(resource, id.get(), fileContentInput);
-      return Response.none();
+      return putEdit.apply(resource, id.get(), fileContentInput);
     }
   }
 

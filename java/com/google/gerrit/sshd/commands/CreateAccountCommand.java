@@ -82,7 +82,9 @@ final class CreateAccountCommand extends SshCommand {
     input.httpPassword = httpPassword;
     input.groups = Lists.transform(groups, AccountGroup.Id::toString);
     try {
-      createAccount.apply(TopLevelResource.INSTANCE, IdString.fromDecoded(username), input);
+      @SuppressWarnings("unused")
+      var unused =
+          createAccount.apply(TopLevelResource.INSTANCE, IdString.fromDecoded(username), input);
     } catch (RestApiException e) {
       throw die(e.getMessage());
     }

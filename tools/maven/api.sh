@@ -66,7 +66,7 @@ else
   BAZEL_CMD=bazel
 fi
 
-${BAZEL_CMD} build //tools/maven:gen_${command} "$@" || \
+${BAZEL_CMD} build $BAZEL_OPTS --verbose_failures //tools/maven:gen_${command} "$@" || \
   { echo "${BAZEL_CMD} failed to build gen_${command}. Use VERBOSE=1 for more info" ; exit 1 ; }
 
-./bazel-bin/tools/maven/${command}.sh
+bash -x ./bazel-bin/tools/maven/${command}.sh

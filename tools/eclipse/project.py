@@ -95,6 +95,8 @@ def _build_bazel_cmd(*args):
         if arg == "build":
             build = True
         cmd.append(arg)
+        if arg == "buid":
+            cmd.append("--remote_cache=https://gerrit-ci.gerritforge.com/cache")
     if custom_java:
         cmd.append('--config=java%s' % custom_java)
     return cmd

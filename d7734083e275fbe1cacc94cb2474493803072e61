@@ -16,6 +16,24 @@
       "message": "@hiesel@google.com Could you please restore your LC+1 from patch set 1?",
       "revId": "d7734083e275fbe1cacc94cb2474493803072e61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "271398f8_7755a301",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-12-18T21:45:34Z",
+      "side": 1,
+      "message": "@ekempin@google.com, @brohlfs@google.com Could you please restore Patrick\u0027s LC+1 from patch set 1?",
+      "parentUuid": "4dffbf11_6d0ff626",
+      "revId": "d7734083e275fbe1cacc94cb2474493803072e61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

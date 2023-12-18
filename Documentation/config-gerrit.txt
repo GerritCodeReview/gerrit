@@ -6094,6 +6094,14 @@ a commit message for a submodule.
 +
 By default this is 1000.
 
+[[ui]]
+=== Section ui
+
+[[ui.submitRequirements.hideIfSatisfied]]ui.submitRequirements.hideIfSatisfied::
++
+The list of submit requirement names that should be hidden in the ui when satisfied. They
+can be displayed by clicking on "Show All" button.
+
 [[user]]
 === Section user
 

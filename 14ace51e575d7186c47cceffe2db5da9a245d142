@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bd960b9_c74f1efd",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1555,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-12-18T08:11:34Z",
+      "side": 1,
+      "message": "I think we need the same TODO here?\nAFAICT, neither the return value nor the command status are checked.",
+      "revId": "14ace51e575d7186c47cceffe2db5da9a245d142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

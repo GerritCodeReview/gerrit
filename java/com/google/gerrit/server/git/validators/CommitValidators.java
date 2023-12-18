@@ -25,6 +25,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -253,6 +254,7 @@ public class CommitValidators {
     this.validators = validators;
   }
 
+  @CanIgnoreReturnValue
   public List<CommitValidationMessage> validate(CommitReceivedEvent receiveEvent)
       throws CommitValidationException {
     List<CommitValidationMessage> messages = new ArrayList<>();

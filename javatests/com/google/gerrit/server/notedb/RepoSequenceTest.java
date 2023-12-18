@@ -28,6 +28,7 @@ import com.github.rholder.retry.StopStrategies;
 import com.google.common.collect.ImmutableList;
 import com.google.common.truth.Expect;
 import com.google.common.util.concurrent.Runnables;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
@@ -378,6 +379,7 @@ public class RepoSequenceTest {
         retryer);
   }
 
+  @CanIgnoreReturnValue
   private ObjectId writeBlob(String sequenceName, String value) {
     String refName = RefNames.REFS_SEQUENCES + sequenceName;
     try (Repository repo = repoManager.openRepository(project);

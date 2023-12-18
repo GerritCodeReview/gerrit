@@ -20,6 +20,7 @@ import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.LazyArg;
 import com.google.common.flogger.LazyArgs;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -363,6 +364,7 @@ public abstract class Metadata {
 
     abstract ImmutableList.Builder<PluginMetadata> pluginMetadataBuilder();
 
+    @CanIgnoreReturnValue
     public Builder addPluginMetadata(PluginMetadata pluginMetadata) {
       pluginMetadataBuilder().add(pluginMetadata);
       return this;

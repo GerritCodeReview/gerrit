@@ -18,6 +18,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
@@ -89,6 +90,7 @@ public class RefOperationValidators {
    * when the first validator fails. Will not process any more validators after the first failure
    * was encountered.
    */
+  @CanIgnoreReturnValue
   public List<ValidationMessage> validateForRefOperation() throws RefOperationValidationException {
     List<ValidationMessage> messages = new ArrayList<>();
     boolean withException = false;

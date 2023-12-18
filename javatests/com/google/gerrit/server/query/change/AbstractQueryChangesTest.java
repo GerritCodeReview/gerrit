@@ -1614,6 +1614,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     return range.toArray(new Change[0]);
   }
 
+  @CanIgnoreReturnValue
   private String createGroup(String name, String owner) throws Exception {
     GroupInput in = new GroupInput();
     in.name = name;
@@ -2652,7 +2653,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     String q = "project:repo";
 
     // Bad request for query with non-existent user
-    assertThatQueryException(q + " visibleto:notexisting");
+    assertThatQueryException(q + " visibleto:notexisting")
+        .hasMessageThat()
+        .isEqualTo("No user or group matches \"notexisting\".");
 
     // Current user can see all changes
     assertQuery(q, change2, change1);
@@ -3640,6 +3643,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       return this;
     }
 
+    @CanIgnoreReturnValue
     DashboardChangeState create(TestRepository<Repository> repo) throws Exception {
       requestContext.setContext(newRequestContext(ownerId));
       Change change = insert("repo", newChange(repo), ownerId);
@@ -3682,6 +3686,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     }
   }
 
+  @CanIgnoreReturnValue
   protected List<ChangeInfo> assertDashboardQuery(
       String viewedUser, String query, DashboardChangeState... expected) throws Exception {
     Change.Id[] ids = new Change.Id[expected.length];
@@ -3691,6 +3696,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     return assertQueryByIds(query.replaceAll("\\$\\{user}", viewedUser), ids);
   }
 
+  @CanIgnoreReturnValue
   protected List<ChangeInfo> assertDashboardQueryWithStart(
       String viewedUser, String query, int start, DashboardChangeState... expected)
       throws Exception {
@@ -4479,19 +4485,23 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     return gApi.changes().query(query.toString());
   }
 
+  @CanIgnoreReturnValue
   protected List<ChangeInfo> assertQuery(Object query, Change... changes) throws Exception {
     return assertQuery(newQuery(query), changes);
   }
 
+  @CanIgnoreReturnValue
   protected List<ChangeInfo> assertQueryByIds(Object query, Change.Id... changes) throws Exception {
     return assertQueryByIds(newQuery(query), changes);
   }
 
+  @CanIgnoreReturnValue
   protected List<ChangeInfo> assertQuery(QueryRequest query, Change... changes) throws Exception {
     return assertQueryByIds(
         query, Arrays.stream(changes).map(Change::getId).toArray(Change.Id[]::new));
   }
 
+  @CanIgnoreReturnValue
   protected List<ChangeInfo> assertQueryByIds(QueryRequest query, Change.Id... changes)
       throws Exception {
     List<ChangeInfo> result = query.get();
@@ -4635,6 +4645,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     gApi.changes().id(changeId).current().review(input);
   }
 
+  @CanIgnoreReturnValue
   private Account.Id createAccount(String username, String fullName, String email, boolean active)
       throws Exception {
     try (ManualRequestContext ctx = oneOffRequestContext.open()) {

@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Address;
@@ -215,6 +216,7 @@ public class ProjectWatch {
     }
   }
 
+  @CanIgnoreReturnValue
   private boolean add(
       Watchers matching,
       Account.Id accountId,

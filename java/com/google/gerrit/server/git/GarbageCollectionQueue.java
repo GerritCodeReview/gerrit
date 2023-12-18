@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.common.collect.Sets;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Project;
 import com.google.inject.Singleton;
 import java.util.Collection;
@@ -26,6 +27,7 @@ import java.util.Set;
 public class GarbageCollectionQueue {
   private final Set<Project.NameKey> projectsScheduledForGc = new HashSet<>();
 
+  @CanIgnoreReturnValue
   public synchronized Set<Project.NameKey> addAll(Collection<Project.NameKey> projects) {
     Set<Project.NameKey> added = Sets.newLinkedHashSetWithExpectedSize(projects.size());
     for (Project.NameKey p : projects) {

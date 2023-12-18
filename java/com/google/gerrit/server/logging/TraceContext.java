@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.cancellation.RequestStateContext;
 import java.util.Optional;
@@ -238,10 +239,12 @@ public class TraceContext implements AutoCloseable {
     this.oldAclLogRecords = LoggingContext.getInstance().getAclLogRecords();
   }
 
+  @CanIgnoreReturnValue
   public TraceContext addTag(RequestId.Type requestId, Object tagValue) {
     return addTag(requireNonNull(requestId, "request ID is required").name(), tagValue);
   }
 
+  @CanIgnoreReturnValue
   public TraceContext addTag(String tagName, Object tagValue) {
     String name = requireNonNull(tagName, "tag name is required");
     String value = requireNonNull(tagValue, "tag value is required").toString();
@@ -255,10 +258,12 @@ public class TraceContext implements AutoCloseable {
     return tagMap.build();
   }
 
+  @CanIgnoreReturnValue
   public TraceContext addPluginTag(String pluginName) {
     return addTag(PLUGIN_TAG, pluginName);
   }
 
+  @CanIgnoreReturnValue
   public TraceContext forceLogging() {
     if (stopForceLoggingOnClose) {
       return this;
@@ -285,6 +290,7 @@ public class TraceContext implements AutoCloseable {
     return LoggingContext.getInstance().getTagsAsMap().get(tagName).stream().findFirst();
   }
 
+  @CanIgnoreReturnValue
   public TraceContext enableAclLogging() {
     if (stopAclLoggingOnClose) {
       return this;

@@ -25,6 +25,7 @@ import static org.junit.Assert.fail;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
@@ -882,15 +883,18 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     return gApi.accounts().query(query.toString());
   }
 
+  @CanIgnoreReturnValue
   protected List<AccountInfo> assertQuery(Object query, AccountInfo... accounts) throws Exception {
     return assertQuery(newQuery(query), accounts);
   }
 
+  @CanIgnoreReturnValue
   protected List<AccountInfo> assertQuery(QueryRequest query, AccountInfo... accounts)
       throws Exception {
     return assertQuery(query, Arrays.asList(accounts));
   }
 
+  @CanIgnoreReturnValue
   protected List<AccountInfo> assertQuery(QueryRequest query, List<AccountInfo> accounts)
       throws Exception {
     List<AccountInfo> result = query.get();

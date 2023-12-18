@@ -188,9 +188,12 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
     // ChangeData or check if any of the ChangeDatas was loaded from the database and allow
     // lazyloading if so.
     for (ChangeData cd : cds) {
-      cd.submitRecords(ChangeJson.SUBMIT_RULE_OPTIONS_LENIENT);
-      cd.submitRecords(ChangeJson.SUBMIT_RULE_OPTIONS_STRICT);
-      cd.currentPatchSet();
+      @SuppressWarnings("unused")
+      var unused = cd.submitRecords(ChangeJson.SUBMIT_RULE_OPTIONS_LENIENT);
+      unused = cd.submitRecords(ChangeJson.SUBMIT_RULE_OPTIONS_STRICT);
+
+      @SuppressWarnings("unused")
+      var unused2 = cd.currentPatchSet();
     }
     return cds;
   }

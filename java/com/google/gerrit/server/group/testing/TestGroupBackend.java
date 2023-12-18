@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
@@ -55,6 +56,7 @@ public class TestGroupBackend implements GroupBackend {
    * @param uuid the group UUID to add.
    * @return the created group
    */
+  @CanIgnoreReturnValue
   public GroupDescription.Basic create(AccountGroup.UUID uuid) {
     checkState(uuid.get().startsWith(PREFIX), "test group UUID must have prefix '" + PREFIX + "'");
     if (groups.containsKey(uuid)) {

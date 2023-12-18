@@ -59,6 +59,7 @@ import com.google.common.collect.Table;
 import com.google.common.collect.Table.Cell;
 import com.google.common.collect.TreeBasedTable;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
@@ -265,6 +266,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.user = user;
   }
 
+  @CanIgnoreReturnValue
   public ObjectId commit() throws IOException {
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
       try (NoteDbUpdateManager updateManager =
@@ -426,6 +428,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   @VisibleForTesting
+  @CanIgnoreReturnValue
   ChangeDraftUpdate createDraftUpdateIfNull() {
     if (draftUpdate == null) {
       ChangeNotes notes = getNotes();
@@ -1247,6 +1250,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.workInProgress = workInProgress;
   }
 
+  @CanIgnoreReturnValue
   private static StringBuilder addFooter(StringBuilder sb, FooterKey footer) {
     return sb.append(footer.getName()).append(": ");
   }

@@ -183,7 +183,8 @@ public class FakeEmailSender implements EmailSender {
     for (WorkQueue.Task<?> task : workQueue.getTasks()) {
       if (task.toString().contains("send-email")) {
         try {
-          task.get();
+          @SuppressWarnings("unused")
+          var unused = task.get();
         } catch (ExecutionException | InterruptedException e) {
           logger.atWarning().withCause(e).log("error finishing email task");
         }

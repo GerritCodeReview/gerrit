@@ -31,4 +31,5 @@ public class ServerInfo {
   public ReceiveInfo receive;
   public String defaultTheme;
   public List<String> submitRequirementDashboardColumns;
+  public List<String> submitRequirementHideIfSatisfiedNames;
 }

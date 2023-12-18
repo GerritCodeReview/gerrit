@@ -195,6 +195,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
 
     // submit requirement columns in dashboard
     assertThat(i.submitRequirementDashboardColumns).isEmpty();
+    assertThat(i.submitRequirementHideIfSatisfiedNames).isEmpty();
   }
 
   @Test
@@ -211,6 +212,15 @@ public class ServerInfoIT extends AbstractDaemonTest {
   public void serverConfigWithMultipleSubmitRequirementColumn() throws Exception {
     ServerInfo i = gApi.config().server().getInfo();
     assertThat(i.submitRequirementDashboardColumns).containsExactly("Code-Review", "Verified");
+  }
+
+  @Test
+  @GerritConfig(
+      name = "ui.submitRequirements.hideIfSatisfied",
+      values = {"Code-Review", "Verified"})
+  public void serverConfigWithMultipleSubmitRequirementHideIfSatisfiedNames() throws Exception {
+    ServerInfo i = gApi.config().server().getInfo();
+    assertThat(i.submitRequirementHideIfSatisfiedNames).containsExactly("Code-Review", "Verified");
   }
 
   @Test

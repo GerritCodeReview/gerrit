@@ -37,7 +37,7 @@ public class NoteDbSchemaVersionCheckTest {
   public void setup() throws Exception {
     AllProjectsName allProjectsName = new AllProjectsName("All-Projects");
     GitRepositoryManager repoManager = new InMemoryRepositoryManager();
-    repoManager.createRepository(allProjectsName);
+    repoManager.createRepository(allProjectsName).close();
     versionManager = new NoteDbSchemaVersionManager(allProjectsName, repoManager);
     testRefAction(() -> versionManager.init());
 

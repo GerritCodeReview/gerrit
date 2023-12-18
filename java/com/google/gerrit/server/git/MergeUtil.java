@@ -841,7 +841,14 @@ public class MergeUtil {
     }
   }
 
-  private static CodeReviewCommit failed(
+  /**
+   * Marks all commits that are reachable from the given commit {@code n} as failed by setting the
+   * provided {@code failure} status code on them.
+   *
+   * <p>If the same commits are retrieved from the same {@link CodeReviewRevWalk} instance later the
+   * status code that we set here can be read there.
+   */
+  private static void failed(
       CodeReviewRevWalk rw,
       CodeReviewCommit mergeTip,
       CodeReviewCommit n,
@@ -854,7 +861,6 @@ public class MergeUtil {
     while ((failed = rw.next()) != null) {
       failed.setStatusCode(failure);
     }
-    return failed;
   }
 
   public CodeReviewCommit writeMergeCommit(

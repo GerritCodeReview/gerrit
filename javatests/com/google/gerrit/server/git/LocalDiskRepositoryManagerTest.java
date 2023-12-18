@@ -199,14 +199,14 @@ public class LocalDiskRepositoryManagerTest {
 
   @Test
   public void testProjectRecreation() throws Exception {
-    repoManager.createRepository(Project.nameKey("a"));
+    repoManager.createRepository(Project.nameKey("a")).close();
     assertThrows(
         RepositoryExistsException.class, () -> repoManager.createRepository(Project.nameKey("a")));
   }
 
   @Test
   public void testProjectRecreationAfterRestart() throws Exception {
-    repoManager.createRepository(Project.nameKey("a"));
+    repoManager.createRepository(Project.nameKey("a")).close();
     LocalDiskRepositoryManager newRepoManager = new LocalDiskRepositoryManager(site, cfg);
     assertThrows(
         RepositoryExistsException.class,
@@ -226,7 +226,7 @@ public class LocalDiskRepositoryManagerTest {
   @Test
   public void testGetRepositoryStatusNameCaseMismatch() throws Exception {
     assume().that(HostPlatform.isWin32() || HostPlatform.isMac()).isTrue();
-    repoManager.createRepository(Project.nameKey("a"));
+    repoManager.createRepository(Project.nameKey("a")).close();
     assertThat(repoManager.getRepositoryStatus(Project.nameKey("A"))).isEqualTo(Status.ACTIVE);
   }
 
@@ -239,7 +239,7 @@ public class LocalDiskRepositoryManagerTest {
   @Test
   public void testNameCaseMismatch() throws Exception {
     assume().that(HostPlatform.isWin32() || HostPlatform.isMac()).isTrue();
-    repoManager.createRepository(Project.nameKey("a"));
+    repoManager.createRepository(Project.nameKey("a")).close();
     assertThrows(
         RepositoryCaseMismatchException.class,
         () -> repoManager.createRepository(Project.nameKey("A")));
@@ -249,7 +249,7 @@ public class LocalDiskRepositoryManagerTest {
   public void testNameCaseMismatchWithSymlink() throws Exception {
     assume().that(HostPlatform.isWin32() || HostPlatform.isMac()).isTrue();
     Project.NameKey name = Project.nameKey("a");
-    repoManager.createRepository(name);
+    repoManager.createRepository(name).close();
     createSymLink(name, "b.git");
     assertThrows(
         RepositoryCaseMismatchException.class,
@@ -260,7 +260,7 @@ public class LocalDiskRepositoryManagerTest {
   public void testNameCaseMismatchAfterRestart() throws Exception {
     assume().that(HostPlatform.isWin32() || HostPlatform.isMac()).isTrue();
     Project.NameKey name = Project.nameKey("a");
-    repoManager.createRepository(name);
+    repoManager.createRepository(name).close();
 
     LocalDiskRepositoryManager newRepoManager = new LocalDiskRepositoryManager(site, cfg);
     assertThrows(

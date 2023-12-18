@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdef9cf8_025c99d5",
+        "filename": ".bazelrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-12-18T22:18:16Z",
+      "side": 1,
+      "message": "@david.ostrovsky@gmail.com I don\u0027t know how to test this. Can you confirm this works for you?",
+      "revId": "0cb2f4777ab8cd695478e029f89f2258a892e1dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3682417_c320bcb7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-12-18T22:18:16Z",
+      "side": 1,
+      "message": "So while this does seem to be working now, it creates all these warning messages:\n```\nwarning: [options] system modules path not set in conjunction with -source 11\n```\n\nSome googling tells me that this is because JDK17 won\u0027t actually check java 11 APIs unless you use `--release 11` or unless you use `--system \u003cpath to jdk11\u003e`. The first isn\u0027t an option if we want to keep producing java17 bytecode. Looking at bazel source, I think we could get the second to work by setting `_system_path` in the toolchain definition to a java11 toolchain. I\u0027ll try that...",
+      "revId": "0cb2f4777ab8cd695478e029f89f2258a892e1dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

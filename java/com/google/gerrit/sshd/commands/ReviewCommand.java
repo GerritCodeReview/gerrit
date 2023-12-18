@@ -249,18 +249,20 @@ public class ReviewCommand extends SshCommand {
   }
 
   private void applyReview(PatchSet patchSet, ReviewInput review) throws Exception {
-    retryHelper
-        .action(
-            ActionType.CHANGE_UPDATE,
-            "applyReview",
-            () -> {
-              gApi.changes()
-                  .id(patchSet.id().changeId().get())
-                  .revision(patchSet.number())
-                  .review(review);
-              return null;
-            })
-        .call();
+    @SuppressWarnings("unused")
+    var unused =
+        retryHelper
+            .action(
+                ActionType.CHANGE_UPDATE,
+                "applyReview",
+                () -> {
+                  gApi.changes()
+                      .id(patchSet.id().changeId().get())
+                      .revision(patchSet.number())
+                      .review(review);
+                  return null;
+                })
+            .call();
   }
 
   private ReviewInput reviewFromJson() throws UnloggedFailure {

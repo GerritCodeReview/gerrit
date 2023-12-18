@@ -180,7 +180,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
     Account.Id adminId = createAccount("admin", "Administrator", "admin@example.com", true);
     admin = userFactory.create(adminId);
-    requestContext.setContext(newRequestContext(adminId));
+    setRequestContextForUser(adminId);
     currentUserInfo = gApi.accounts().id(adminId.get()).get();
   }
 
@@ -192,7 +192,8 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   protected void setAnonymous() {
-    requestContext.setContext(anonymousUser::get);
+    @SuppressWarnings("unused")
+    var unused = requestContext.setContext(anonymousUser::get);
   }
 
   @After
@@ -200,7 +201,8 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     if (lifecycle != null) {
       lifecycle.stop();
     }
-    requestContext.setContext(null);
+    @SuppressWarnings("unused")
+    var unused = requestContext.setContext(null);
   }
 
   @Test
@@ -272,7 +274,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     addEmails(user1, secondaryEmail);
 
     AccountInfo user2 = newAccount("user");
-    requestContext.setContext(newRequestContext(Account.id(user2._accountId)));
+    setRequestContextForUser(Account.id(user2._accountId));
 
     assertQuery(preferredEmail, user1);
     assertQuery(secondaryEmail);
@@ -348,7 +350,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     AccountInfo user2 = newAccountWithFullName("jroe", "Jane Roe");
 
     AccountInfo user3 = newAccount("user");
-    requestContext.setContext(newRequestContext(Account.id(user3._accountId)));
+    setRequestContextForUser(Account.id(user3._accountId));
 
     assertQuery("notexisting");
     assertQuery("Not Existing");
@@ -404,7 +406,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     Project.NameKey p = createProject(name("p"));
 
     // Create the change as User1
-    requestContext.setContext(newRequestContext(Account.id(user1._accountId)));
+    setRequestContextForUser(Account.id(user1._accountId));
     ChangeInfo c = createPrivateChange(p);
     assertThat(c.owner).isEqualTo(user1);
 
@@ -413,19 +415,19 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     addReviewer(c.changeId, user3.email, ReviewerState.CC);
 
     // Request as the owner
-    requestContext.setContext(newRequestContext(Account.id(user1._accountId)));
+    setRequestContextForUser(Account.id(user1._accountId));
     assertQuery("cansee:" + c.changeId, user1, user2, user3);
 
     // Request as the reviewer
-    requestContext.setContext(newRequestContext(Account.id(user2._accountId)));
+    setRequestContextForUser(Account.id(user2._accountId));
     assertQuery("cansee:" + c.changeId, user1, user2, user3);
 
     // Request as the CC
-    requestContext.setContext(newRequestContext(Account.id(user3._accountId)));
+    setRequestContextForUser(Account.id(user3._accountId));
     assertQuery("cansee:" + c.changeId, user1, user2, user3);
 
     // Request as an account not in {owner, reviewer, CC}
-    requestContext.setContext(newRequestContext(Account.id(user4._accountId)));
+    setRequestContextForUser(Account.id(user4._accountId));
     BadRequestException exception =
         assertThrows(BadRequestException.class, () -> newQuery("cansee:" + c.changeId).get());
     assertThat(exception)
@@ -627,7 +629,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     String[] secondaryEmails = new String[] {"dfg@example.com", "hij@example.com"};
     addEmails(otherUser, secondaryEmails);
 
-    requestContext.setContext(newRequestContext(Account.id(user._accountId)));
+    setRequestContextForUser(Account.id(user._accountId));
 
     List<AccountInfo> result = newQuery(getDefaultSearch(otherUser)).withSuggest(true).get();
     assertThat(result.get(0).secondaryEmails).isNull();
@@ -869,6 +871,11 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
               });
       return id;
     }
+  }
+
+  private void setRequestContextForUser(Account.Id userId) {
+    @SuppressWarnings("unused")
+    var unused = requestContext.setContext(newRequestContext(userId));
   }
 
   private void addEmails(AccountInfo account, String... emails) throws Exception {

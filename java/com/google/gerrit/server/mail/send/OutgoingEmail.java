@@ -184,16 +184,18 @@ public final class OutgoingEmail {
   /** Format and enqueue the message for delivery. */
   public void send() throws EmailException {
     try {
-      args.retryHelper
-          .action(
-              ActionType.SEND_EMAIL,
-              "sendEmail",
-              () -> {
-                sendImpl();
-                return null;
-              })
-          .retryWithTrace(Exception.class::isInstance)
-          .call();
+      @SuppressWarnings("unused")
+      var unused =
+          args.retryHelper
+              .action(
+                  ActionType.SEND_EMAIL,
+                  "sendEmail",
+                  () -> {
+                    sendImpl();
+                    return null;
+                  })
+              .retryWithTrace(Exception.class::isInstance)
+              .call();
     } catch (Exception e) {
       Throwables.throwIfUnchecked(e);
       Throwables.throwIfInstanceOf(e, EmailException.class);

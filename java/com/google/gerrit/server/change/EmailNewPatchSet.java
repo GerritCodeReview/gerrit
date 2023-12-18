@@ -145,7 +145,8 @@ public class EmailNewPatchSet {
                   try {
                     asyncSender.run();
                   } finally {
-                    threadLocalRequestContext.setContext(old);
+                    @SuppressWarnings("unused")
+                    var unused = threadLocalRequestContext.setContext(old);
                   }
                 });
   }

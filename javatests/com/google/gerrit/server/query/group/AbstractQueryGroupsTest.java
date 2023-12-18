@@ -145,7 +145,7 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     Account.Id userId =
         createAccountOutsideRequestContext("user", "User", "user@example.com", true);
     user = userFactory.create(userId);
-    requestContext.setContext(newRequestContext(userId));
+    setRequestContextForUser(userId);
     currentUserInfo = gApi.accounts().id(userId.get()).get();
   }
 
@@ -157,7 +157,8 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   }
 
   protected void setAnonymous() {
-    requestContext.setContext(anonymousUser::get);
+    @SuppressWarnings("unused")
+    var unused = requestContext.setContext(anonymousUser::get);
   }
 
   @After
@@ -166,7 +167,8 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
       lifecycle.stop();
     }
     if (requestContext != null) {
-      requestContext.setContext(null);
+      @SuppressWarnings("unused")
+      var unused = requestContext.setContext(null);
     }
   }
 
@@ -435,6 +437,11 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     accountInput.name = fullName;
     accountInput.email = email;
     return gApi.accounts().create(accountInput).get();
+  }
+
+  private void setRequestContextForUser(Account.Id userId) {
+    @SuppressWarnings("unused")
+    var unused = requestContext.setContext(newRequestContext(userId));
   }
 
   @CanIgnoreReturnValue

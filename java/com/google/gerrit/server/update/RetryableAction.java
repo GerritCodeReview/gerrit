@@ -18,6 +18,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.github.rholder.retry.RetryListener;
 import com.google.common.base.Throwables;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.server.ExceptionHook;
 import java.util.ArrayList;
 import java.util.List;
@@ -97,6 +98,7 @@ public class RetryableAction<T> {
    *     exception
    * @return this instance to enable chaining of calls
    */
+  @CanIgnoreReturnValue
   public RetryableAction<T> retryOn(Predicate<Throwable> exceptionPredicate) {
     exceptionPredicates.add(exceptionPredicate);
     return this;
@@ -117,6 +119,7 @@ public class RetryableAction<T> {
    *     for a given exception
    * @return this instance to enable chaining of calls
    */
+  @CanIgnoreReturnValue
   public RetryableAction<T> retryWithTrace(Predicate<Throwable> exceptionPredicate) {
     options.retryWithTrace(exceptionPredicate);
     return this;
@@ -132,6 +135,7 @@ public class RetryableAction<T> {
    * @param traceIdConsumer trace ID consumer
    * @return this instance to enable chaining of calls
    */
+  @CanIgnoreReturnValue
   public RetryableAction<T> onAutoTrace(Consumer<String> traceIdConsumer) {
     options.onAutoTrace(traceIdConsumer);
     return this;
@@ -145,6 +149,7 @@ public class RetryableAction<T> {
    * @param retryListener retry listener
    * @return this instance to enable chaining of calls
    */
+  @CanIgnoreReturnValue
   public RetryableAction<T> listener(RetryListener retryListener) {
     options.listener(retryListener);
     return this;
@@ -158,6 +163,7 @@ public class RetryableAction<T> {
    * @param multiplier multiplier for the default timeout
    * @return this instance to enable chaining of calls
    */
+  @CanIgnoreReturnValue
   public RetryableAction<T> defaultTimeoutMultiplier(int multiplier) {
     options.timeout(retryHelper.getDefaultTimeout(actionType).multipliedBy(multiplier));
     return this;

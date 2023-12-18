@@ -253,7 +253,8 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
   @Override
   public synchronized Status getRepositoryStatus(NameKey name) {
     try {
-      get(name);
+      @SuppressWarnings("unused")
+      var unused = get(name);
       return Status.ACTIVE;
     } catch (RepositoryNotFoundException e) {
       return Status.NON_EXISTENT;

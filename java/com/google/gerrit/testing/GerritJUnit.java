@@ -14,6 +14,8 @@
 
 package com.google.gerrit.testing;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 /** Static JUnit utility methods. */
 public class GerritJUnit {
   /**
@@ -36,6 +38,7 @@ public class GerritJUnit {
    * @param runnable runnable containing arbitrary code.
    * @return exception that was thrown.
    */
+  @CanIgnoreReturnValue
   public static <T extends Throwable> T assertThrows(
       Class<T> throwableClass, ThrowingRunnable runnable) {
     try {

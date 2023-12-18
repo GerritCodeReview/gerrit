@@ -7,6 +7,7 @@ java_library(
     deps = [
         "//java/com/google/gerrit/util/ssl",
         "//lib:guava",
+        "//lib/errorprone:annotations",
         "//lib/commons:net",
     ],
 )

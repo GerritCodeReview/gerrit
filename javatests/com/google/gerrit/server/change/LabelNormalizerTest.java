@@ -90,7 +90,8 @@ public class LabelNormalizerTest {
     userId = accountManager.authenticate(authRequestFactory.createForUser("user")).getAccountId();
     user = userFactory.create(userId);
 
-    requestContext.setContext(() -> user);
+    @SuppressWarnings("unused")
+    var unused = requestContext.setContext(() -> user);
 
     configureProject();
     setUpChange();
@@ -131,7 +132,8 @@ public class LabelNormalizerTest {
     if (lifecycle != null) {
       lifecycle.stop();
     }
-    requestContext.setContext(null);
+    @SuppressWarnings("unused")
+    var unused = requestContext.setContext(null);
   }
 
   @Test

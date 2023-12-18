@@ -8,6 +8,7 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/server",
+        "//lib/errorprone:annotations",
         "//lib:jgit",
     ],
 )

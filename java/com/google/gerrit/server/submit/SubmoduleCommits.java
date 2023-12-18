@@ -18,6 +18,7 @@ import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.SubmoduleSubscription;
@@ -214,6 +215,7 @@ class SubmoduleCommits {
   }
 
   @Nullable
+  @CanIgnoreReturnValue
   private RevCommit updateSubmodule(
       DirCache dc, DirCacheEditor ed, StringBuilder msgbuf, SubmoduleSubscription s)
       throws SubmoduleConflictException, IOException {

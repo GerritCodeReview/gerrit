@@ -67,6 +67,9 @@ java_library(
     name = "gerrit-junit",
     srcs = ["GerritJUnit.java"],
     visibility = ["//visibility:public"],
+    deps = [
+        "//lib/errorprone:annotations",
+    ],
 )
 
 java_library(

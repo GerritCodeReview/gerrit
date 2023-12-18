@@ -41,6 +41,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
@@ -483,6 +484,7 @@ public class MergeOp implements AutoCloseable {
    * @throws IOException an error occurred reading from NoteDb.
    * @return the merged change
    */
+  @CanIgnoreReturnValue
   public Change merge(
       Change change,
       IdentifiedUser caller,
@@ -547,35 +549,38 @@ public class MergeOp implements AutoCloseable {
         SubmissionExecutor submissionExecutor =
             new SubmissionExecutor(dryrun, superprojectUpdateSubmissionListeners);
         RetryTracker retryTracker = new RetryTracker();
-        retryHelper
-            .changeUpdate(
-                "integrateIntoHistory",
-                updateFactory -> {
-                  long attempt = retryTracker.lastAttemptNumber + 1;
-                  boolean isRetry = attempt > 1;
-                  if (isRetry) {
-                    logger.atFine().log("Retrying, attempt #%d; skipping merged changes", attempt);
-                    this.ts = TimeUtil.now();
-                    openRepoManager();
-                  }
-                  this.commitStatus = new CommitStatus(filteredNoteDbChangeSet, isRetry);
-                  if (checkSubmitRules) {
-                    logger.atFine().log("Checking submit rules and state");
-                    checkSubmitRulesAndState(filteredNoteDbChangeSet, isRetry);
-                  } else {
-                    logger.atFine().log("Bypassing submit rules");
-                    bypassSubmitRulesAndRequirements(filteredNoteDbChangeSet);
-                  }
-                  integrateIntoHistory(
-                      filteredNoteDbChangeSet, submissionExecutor, checkSubmitRules);
-                  return null;
-                })
-            .listener(retryTracker)
-            // Up to the entire submit operation is retried, including possibly many projects.
-            // Multiply the timeout by the number of projects we're actually attempting to
-            // submit. Times 2 to retry more persistently, to increase success rate.
-            .defaultTimeoutMultiplier(filteredNoteDbChangeSet.projects().size() * 2)
-            .call();
+        @SuppressWarnings("unused")
+        var unused =
+            retryHelper
+                .changeUpdate(
+                    "integrateIntoHistory",
+                    updateFactory -> {
+                      long attempt = retryTracker.lastAttemptNumber + 1;
+                      boolean isRetry = attempt > 1;
+                      if (isRetry) {
+                        logger.atFine().log(
+                            "Retrying, attempt #%d; skipping merged changes", attempt);
+                        this.ts = TimeUtil.now();
+                        openRepoManager();
+                      }
+                      this.commitStatus = new CommitStatus(filteredNoteDbChangeSet, isRetry);
+                      if (checkSubmitRules) {
+                        logger.atFine().log("Checking submit rules and state");
+                        checkSubmitRulesAndState(filteredNoteDbChangeSet, isRetry);
+                      } else {
+                        logger.atFine().log("Bypassing submit rules");
+                        bypassSubmitRulesAndRequirements(filteredNoteDbChangeSet);
+                      }
+                      integrateIntoHistory(
+                          filteredNoteDbChangeSet, submissionExecutor, checkSubmitRules);
+                      return null;
+                    })
+                .listener(retryTracker)
+                // Up to the entire submit operation is retried, including possibly many projects.
+                // Multiply the timeout by the number of projects we're actually attempting to
+                // submit. Times 2 to retry more persistently, to increase success rate.
+                .defaultTimeoutMultiplier(filteredNoteDbChangeSet.projects().size() * 2)
+                .call();
         submissionExecutor.afterExecutions(orm);
 
         if (projects > 1) {

@@ -8,6 +8,7 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//lib:gson",
+        "//lib/errorprone:annotations",
         "//lib/flogger:api",
         "//lib/log:log4j",
     ],

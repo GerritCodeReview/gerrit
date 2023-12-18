@@ -12,6 +12,7 @@ java_library(
         "//java/com/google/gerrit/index/project",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/schema",
+        "//lib/errorprone:annotations",
         "@guice-library//jar",
     ],
 )

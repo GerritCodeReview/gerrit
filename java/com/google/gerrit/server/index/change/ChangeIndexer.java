@@ -423,7 +423,8 @@ public class ChangeIndexer {
         try {
           return callImpl();
         } finally {
-          context.setContext(oldCtx);
+          @SuppressWarnings("unused")
+          var unused = context.setContext(oldCtx);
         }
       } catch (Exception e) {
         logger.atSevere().withCause(e).log("Failed to execute %s", this);

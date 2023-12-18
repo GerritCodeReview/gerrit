@@ -393,6 +393,34 @@ execute Bazel with the appropriate target:
   bazelisk test //plugins/replication/...
 ----
 
+[[known-issues]]
+=== Known Issues
+
+[[byte-buddy-not-initialized-or-unavailable]]
+==== The Byte Buddy agent is not initialized or unavailable
+
+If running tests that make use of mocks fail with the exception below, set the
+`sandbox_tmpfs_path` flag for running tests in `.bazelrc` as described in this
+link:https://github.com/mockito/mockito/issues/1879#issuecomment-922459131[
+issue], e.g. add this line: `test --sandbox_tmpfs_path=/tmp`
+
+.Exception:
+----
+...
+Caused by: org.mockito.exceptions.base.MockitoInitializationException:
+Could not initialize inline Byte Buddy mock maker.
+
+It appears as if your JDK does not supply a working agent attachment mechanism.
+...
+Caused by: java.lang.IllegalStateException: The Byte Buddy agent is not initialized or unavailable
+at net.bytebuddy.agent.ByteBuddyAgent.getInstrumentation(ByteBuddyAgent.java:230)
+at net.bytebuddy.agent.ByteBuddyAgent.install(ByteBuddyAgent.java:617)
+at net.bytebuddy.agent.ByteBuddyAgent.install(ByteBuddyAgent.java:568)
+at net.bytebuddy.agent.ByteBuddyAgent.install(ByteBuddyAgent.java:545)
+at org.mockito.internal.creation.bytebuddy.InlineDelegateByteBuddyMockMaker.<clinit>(InlineDelegateByteBuddyMockMaker.java:115)
+... 47 more
+----
+
 [[debugging-tests]]
 == Debugging Unit Tests
 In some cases it may be necessary to debug a test while running it in bazel. For example, when we

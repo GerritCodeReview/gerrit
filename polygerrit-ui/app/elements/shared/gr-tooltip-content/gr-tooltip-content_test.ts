@@ -136,10 +136,10 @@ suite('gr-tooltip-content tests', () => {
     ) as GrTooltip;
 
     element._positionTooltip(tooltip);
-    // Aligned with right edge: 1000 - tooltip width (120)
-    assert.equal(tooltip.style.left, '880px');
-    // element center (975) - tooltip center (940)
-    assert.equal(tooltip.arrowCenterOffset, '35px');
+    // Aligned with right edge: 1000 - tooltip width (120) - 1px pad
+    assert.equal(tooltip.style.left, '879px');
+    // element center (975) - tooltip center (939)
+    assert.equal(tooltip.arrowCenterOffset, '36px');
     // 100 - tooltip height (30) - arrow height (7.2)
     assert.equal(tooltip.style.top, '62.8px');
   });
@@ -163,10 +163,10 @@ suite('gr-tooltip-content tests', () => {
 
     element.positionBelow = true;
     element._positionTooltip(tooltip);
-    // Aligned with right edge: 1000 - tooltip width (120)
-    assert.equal(tooltip.style.left, '880px');
-    // element center (975) - tooltip center (940)
-    assert.equal(tooltip.arrowCenterOffset, '35px');
+    // Aligned with right edge: 1000 - tooltip width (120) - 1px pad
+    assert.equal(tooltip.style.left, '879px');
+    // element center (975) - tooltip center (939)
+    assert.equal(tooltip.arrowCenterOffset, '36px');
     // 150 + arrow height (7.2)
     assert.equal(tooltip.style.top, '157.2px');
   });
@@ -191,10 +191,10 @@ suite('gr-tooltip-content tests', () => {
 
     element.positionBelow = true;
     element._positionTooltip(tooltip);
-    // Aligned with right edge: 1000 - tooltip width (120)
-    assert.equal(tooltip.style.left, '880px');
-    // element center (975) - tooltip center (940)
-    assert.equal(tooltip.arrowCenterOffset, '35px');
+    // Aligned with right edge: 1000 - tooltip width (120) - 1px pad
+    assert.equal(tooltip.style.left, '879px');
+    // element center (975) - tooltip center (939)
+    assert.equal(tooltip.arrowCenterOffset, '36px');
     // 150 + arrow height (7.2)
     assert.equal(tooltip.style.top, '87.2px');
   });

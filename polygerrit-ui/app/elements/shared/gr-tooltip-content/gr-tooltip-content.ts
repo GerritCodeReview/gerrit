@@ -245,8 +245,11 @@ export class GrTooltipContent extends LitElement {
     parentWidth: number
   ) {
     let left = hoveredCenter - 0.5 * tooltipRect.width;
-    if (left + tooltipRect.width > parentWidth) {
-      left = parentWidth - tooltipRect.width;
+    if (left + tooltipRect.width > parentWidth - 1) {
+      // Add 1px of extra padding. Without it on some browser zoom levels
+      // the hovercard is still considered going out of bounds and gets
+      // reshaped.
+      left = parentWidth - tooltipRect.width - 1;
     }
     return Math.max(0, left);
   }

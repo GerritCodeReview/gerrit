@@ -112,7 +112,8 @@ public class PostLabels
           if (labelInput.commitMessage != null) {
             throw new BadRequestException("commit message on label definition input not supported");
           }
-          createLabel.createLabel(config, labelInput.name.trim(), labelInput);
+          @SuppressWarnings("unused")
+          var unused = createLabel.createLabel(config, labelInput.name.trim(), labelInput);
         }
         dirty = true;
       }
@@ -126,9 +127,11 @@ public class PostLabels
           if (e.getValue().commitMessage != null) {
             throw new BadRequestException("commit message on label definition input not supported");
           }
-          setLabel.updateLabel(config, labelType, e.getValue());
+
+          if (setLabel.updateLabel(config, labelType, e.getValue())) {
+            dirty = true;
+          }
         }
-        dirty = true;
       }
 
       if (input.commitMessage != null) {

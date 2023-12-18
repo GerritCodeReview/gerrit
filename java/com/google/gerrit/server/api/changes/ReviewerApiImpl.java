@@ -63,7 +63,8 @@ public class ReviewerApiImpl implements ReviewerApi {
   @Override
   public void deleteVote(String label) throws RestApiException {
     try {
-      deleteVote.apply(new VoteResource(reviewer, label), null);
+      @SuppressWarnings("unused")
+      var unused = deleteVote.apply(new VoteResource(reviewer, label), null);
     } catch (Exception e) {
       throw asRestApiException("Cannot delete vote", e);
     }
@@ -72,7 +73,8 @@ public class ReviewerApiImpl implements ReviewerApi {
   @Override
   public void deleteVote(DeleteVoteInput input) throws RestApiException {
     try {
-      deleteVote.apply(new VoteResource(reviewer, input.label), input);
+      @SuppressWarnings("unused")
+      var unused = deleteVote.apply(new VoteResource(reviewer, input.label), input);
     } catch (Exception e) {
       throw asRestApiException("Cannot delete vote", e);
     }
@@ -86,7 +88,8 @@ public class ReviewerApiImpl implements ReviewerApi {
   @Override
   public void remove(DeleteReviewerInput input) throws RestApiException {
     try {
-      deleteReviewer.apply(reviewer, input);
+      @SuppressWarnings("unused")
+      var unused = deleteReviewer.apply(reviewer, input);
     } catch (Exception e) {
       throw asRestApiException("Cannot remove reviewer", e);
     }

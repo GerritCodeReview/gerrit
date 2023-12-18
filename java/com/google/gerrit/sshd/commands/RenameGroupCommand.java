@@ -51,7 +51,9 @@ public class RenameGroupCommand extends SshCommand {
       GroupResource rsrc = groups.parse(TopLevelResource.INSTANCE, IdString.fromDecoded(groupName));
       NameInput input = new NameInput();
       input.name = newGroupName;
-      putName.apply(rsrc, input);
+
+      @SuppressWarnings("unused")
+      var unused = putName.apply(rsrc, input);
     } catch (RestApiException | IOException | ConfigInvalidException e) {
       throw die(e);
     }

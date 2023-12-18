@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
@@ -53,6 +54,7 @@ public class SuggestChangeReviewers extends SuggestReviewers
       name = "--exclude-groups",
       aliases = {"-e"},
       usage = "exclude groups from query")
+  @CanIgnoreReturnValue
   public SuggestChangeReviewers setExcludeGroups(boolean excludeGroups) {
     this.excludeGroups = excludeGroups;
     return this;
@@ -63,6 +65,7 @@ public class SuggestChangeReviewers extends SuggestReviewers
       usage =
           "The type of reviewers that should be suggested"
               + " (can be 'REVIEWER' or 'CC', default is 'REVIEWER')")
+  @CanIgnoreReturnValue
   public SuggestChangeReviewers setReviewerState(ReviewerState reviewerState) {
     this.reviewerState = reviewerState;
     return this;

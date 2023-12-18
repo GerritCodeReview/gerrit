@@ -85,7 +85,8 @@ public class GarbageCollect
         new Runnable() {
           @Override
           public void run() {
-            runGC(project, input, null);
+            @SuppressWarnings("unused")
+            var unused = runGC(project, input, null);
           }
 
           @Override

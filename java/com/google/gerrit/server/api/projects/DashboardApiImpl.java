@@ -78,8 +78,11 @@ public class DashboardApiImpl implements DashboardApi {
     SetDashboardInput input = new SetDashboardInput();
     input.id = id;
     try {
-      set.apply(
-          DashboardResource.projectDefault(project.getProjectState(), project.getUser()), input);
+      @SuppressWarnings("unused")
+      var unused =
+          set.apply(
+              DashboardResource.projectDefault(project.getProjectState(), project.getUser()),
+              input);
     } catch (Exception e) {
       String msg = String.format("Cannot %s default dashboard", id != null ? "set" : "remove");
       throw asRestApiException(msg, e);

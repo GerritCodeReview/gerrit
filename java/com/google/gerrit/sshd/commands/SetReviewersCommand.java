@@ -130,7 +130,8 @@ public class SetReviewersCommand extends SshCommand {
                 RetryableAction.ActionType.CHANGE_UPDATE,
                 "removeReviewers",
                 () -> {
-                  deleteReviewer.apply(rsrc, new DeleteReviewerInput());
+                  @SuppressWarnings("unused")
+                  var unused = deleteReviewer.apply(rsrc, new DeleteReviewerInput());
                   return null;
                 })
             .call();

@@ -20,6 +20,7 @@ import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupDescription;
@@ -60,6 +61,7 @@ public class ListMembers implements RestReadView<GroupResource> {
     this.accountLoaderFactory = accountLoaderFactory;
   }
 
+  @CanIgnoreReturnValue
   public ListMembers setRecursive(boolean recursive) {
     this.recursive = recursive;
     return this;

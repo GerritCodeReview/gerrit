@@ -122,7 +122,9 @@ final class SetParentCommand extends SshCommand {
       final String name = nameKey.get();
       ProjectState project = projectCache.get(nameKey).orElseThrow(illegalState(nameKey));
       try {
-        setParent.apply(new ProjectResource(project, user), parentInput(newParentKey.get()));
+        @SuppressWarnings("unused")
+        var unused =
+            setParent.apply(new ProjectResource(project, user), parentInput(newParentKey.get()));
       } catch (AuthException e) {
         err.append("error: insuffient access rights to change parent of '")
             .append(name)

@@ -186,7 +186,9 @@ public class CreateProject
         ConfigInput in = new ConfigInput();
         in.pluginConfigValues = input.pluginConfigValues;
         in.description = args.projectDescription;
-        putConfig.get().apply(projectState, in);
+
+        @SuppressWarnings("unused")
+        var unused = putConfig.get().apply(projectState, in);
       }
       return Response.created(json.format(projectState));
     } finally {

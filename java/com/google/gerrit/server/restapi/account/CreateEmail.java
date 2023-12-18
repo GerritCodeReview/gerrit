@@ -162,7 +162,9 @@ public class CreateEmail
         throw new ResourceConflictException(e.getMessage());
       }
       if (input.preferred) {
-        putPreferred.apply(new AccountResource.Email(user, email), null);
+        @SuppressWarnings("unused")
+        var unused = putPreferred.apply(new AccountResource.Email(user, email), null);
+
         info.preferred = true;
       }
     } else {

@@ -257,9 +257,11 @@ public class AccountApiImpl implements AccountApi {
   public void setActive(boolean active) throws RestApiException {
     try {
       if (active) {
-        putActive.apply(account, new Input());
+        @SuppressWarnings("unused")
+        var unused = putActive.apply(account, new Input());
       } else {
-        deleteActive.apply(account, new Input());
+        @SuppressWarnings("unused")
+        var unused = deleteActive.apply(account, new Input());
       }
     } catch (Exception e) {
       throw asRestApiException("Cannot set active", e);
@@ -348,7 +350,8 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public void deleteWatchedProjects(List<ProjectWatchInfo> in) throws RestApiException {
     try {
-      deleteWatchedProjects.apply(account, in);
+      @SuppressWarnings("unused")
+      var unused = deleteWatchedProjects.apply(account, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot delete watched projects", e);
     }
@@ -357,7 +360,8 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public void starChange(String changeId) throws RestApiException {
     try {
-      starredChangesCreate.apply(account, IdString.fromUrl(changeId), new Input());
+      @SuppressWarnings("unused")
+      var unused = starredChangesCreate.apply(account, IdString.fromUrl(changeId), new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot star change", e);
     }
@@ -369,7 +373,9 @@ public class AccountApiImpl implements AccountApi {
       ChangeResource rsrc = changes.parse(TopLevelResource.INSTANCE, IdString.fromUrl(changeId));
       AccountResource.StarredChange starredChange =
           new AccountResource.StarredChange(account.getUser(), rsrc);
-      starredChangesDelete.apply(starredChange, new Input());
+
+      @SuppressWarnings("unused")
+      var unused = starredChangesDelete.apply(starredChange, new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot unstar change", e);
     }
@@ -397,7 +403,8 @@ public class AccountApiImpl implements AccountApi {
   public void addEmail(EmailInput input) throws RestApiException {
     AccountResource.Email rsrc = new AccountResource.Email(account.getUser(), input.email);
     try {
-      createEmail.apply(rsrc, IdString.fromDecoded(input.email), input);
+      @SuppressWarnings("unused")
+      var unused = createEmail.apply(rsrc, IdString.fromDecoded(input.email), input);
     } catch (Exception e) {
       throw asRestApiException("Cannot add email", e);
     }
@@ -407,7 +414,8 @@ public class AccountApiImpl implements AccountApi {
   public void deleteEmail(String email) throws RestApiException {
     AccountResource.Email rsrc = new AccountResource.Email(account.getUser(), email);
     try {
-      deleteEmail.apply(rsrc, null);
+      @SuppressWarnings("unused")
+      var unused = deleteEmail.apply(rsrc, null);
     } catch (Exception e) {
       throw asRestApiException("Cannot delete email", e);
     }
@@ -417,7 +425,8 @@ public class AccountApiImpl implements AccountApi {
   public EmailApi createEmail(EmailInput input) throws RestApiException {
     AccountResource.Email rsrc = new AccountResource.Email(account.getUser(), input.email);
     try {
-      createEmail.apply(rsrc, IdString.fromDecoded(input.email), input);
+      @SuppressWarnings("unused")
+      var unused = createEmail.apply(rsrc, IdString.fromDecoded(input.email), input);
       return email(rsrc.getEmail());
     } catch (Exception e) {
       throw asRestApiException("Cannot create email", e);
@@ -437,7 +446,8 @@ public class AccountApiImpl implements AccountApi {
   public void setStatus(String status) throws RestApiException {
     StatusInput in = new StatusInput(status);
     try {
-      putStatus.apply(account, in);
+      @SuppressWarnings("unused")
+      var unused = putStatus.apply(account, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot set status", e);
     }
@@ -447,7 +457,8 @@ public class AccountApiImpl implements AccountApi {
   public void setDisplayName(String displayName) throws RestApiException {
     DisplayNameInput in = new DisplayNameInput(displayName);
     try {
-      putDisplayName.apply(account, in);
+      @SuppressWarnings("unused")
+      var unused = putDisplayName.apply(account, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot set display name", e);
     }
@@ -478,7 +489,9 @@ public class AccountApiImpl implements AccountApi {
     try {
       AccountResource.SshKey sshKeyRes =
           sshKeys.parse(account, IdString.fromDecoded(Integer.toString(seq)));
-      deleteSshKey.apply(sshKeyRes, null);
+
+      @SuppressWarnings("unused")
+      var unused = deleteSshKey.apply(sshKeyRes, null);
     } catch (Exception e) {
       throw asRestApiException("Cannot delete SSH key", e);
     }
@@ -526,7 +539,9 @@ public class AccountApiImpl implements AccountApi {
     try {
       AgreementInput input = new AgreementInput();
       input.name = agreementName;
-      putAgreement.apply(account, input);
+
+      @SuppressWarnings("unused")
+      var unused = putAgreement.apply(account, input);
     } catch (Exception e) {
       throw asRestApiException("Cannot sign agreement", e);
     }
@@ -535,7 +550,8 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public void index() throws RestApiException {
     try {
-      index.apply(account, new Input());
+      @SuppressWarnings("unused")
+      var unused = index.apply(account, new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot index account", e);
     }

@@ -70,7 +70,8 @@ public class EmailApiImpl implements EmailApi {
   @Override
   public void delete() throws RestApiException {
     try {
-      delete.apply(resource(), new Input());
+      @SuppressWarnings("unused")
+      var unused = delete.apply(resource(), new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot delete email", e);
     }
@@ -79,7 +80,8 @@ public class EmailApiImpl implements EmailApi {
   @Override
   public void setPreferred() throws RestApiException {
     try {
-      putPreferred.apply(resource(), new Input());
+      @SuppressWarnings("unused")
+      var unused = putPreferred.apply(resource(), new Input());
     } catch (Exception e) {
       throw asRestApiException(String.format("Cannot set %s as preferred email", email), e);
     }

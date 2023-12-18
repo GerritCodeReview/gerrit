@@ -308,7 +308,8 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public void abandon(AbandonInput in) throws RestApiException {
     try {
-      abandon.apply(change, in);
+      @SuppressWarnings("unused")
+      var unused = abandon.apply(change, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot abandon change", e);
     }
@@ -317,7 +318,8 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public void restore(RestoreInput in) throws RestApiException {
     try {
-      restore.apply(change, in);
+      @SuppressWarnings("unused")
+      var unused = restore.apply(change, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot restore change", e);
     }
@@ -326,7 +328,8 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public void move(MoveInput in) throws RestApiException {
     try {
-      move.apply(change, in);
+      @SuppressWarnings("unused")
+      var unused = move.apply(change, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot move change", e);
     }
@@ -337,9 +340,11 @@ class ChangeApiImpl implements ChangeApi {
     try {
       InputWithMessage input = new InputWithMessage(message);
       if (value) {
-        postPrivate.apply(change, input);
+        @SuppressWarnings("unused")
+        var unused = postPrivate.apply(change, input);
       } else {
-        deletePrivate.apply(change, input);
+        @SuppressWarnings("unused")
+        var unused = deletePrivate.apply(change, input);
       }
     } catch (Exception e) {
       throw asRestApiException("Cannot change private status", e);
@@ -349,7 +354,8 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public void setWorkInProgress(@Nullable String message) throws RestApiException {
     try {
-      setWip.apply(change, new WorkInProgressOp.Input(message));
+      @SuppressWarnings("unused")
+      var unused = setWip.apply(change, new WorkInProgressOp.Input(message));
     } catch (Exception e) {
       throw asRestApiException("Cannot set work in progress state", e);
     }
@@ -358,7 +364,8 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public void setReadyForReview(@Nullable String message) throws RestApiException {
     try {
-      setReady.apply(change, new WorkInProgressOp.Input(message));
+      @SuppressWarnings("unused")
+      var unused = setReady.apply(change, new WorkInProgressOp.Input(message));
     } catch (Exception e) {
       throw asRestApiException("Cannot set ready for review state", e);
     }
@@ -418,7 +425,8 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public void rebase(RebaseInput in) throws RestApiException {
     try {
-      rebase.apply(change, in);
+      @SuppressWarnings("unused")
+      var unused = rebase.apply(change, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot rebase change", e);
     }
@@ -436,7 +444,8 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public void delete() throws RestApiException {
     try {
-      deleteChange.apply(change, null);
+      @SuppressWarnings("unused")
+      var unused = deleteChange.apply(change, null);
     } catch (Exception e) {
       throw asRestApiException("Cannot delete change", e);
     }
@@ -456,7 +465,8 @@ class ChangeApiImpl implements ChangeApi {
     TopicInput in = new TopicInput();
     in.topic = topic;
     try {
-      putTopic.apply(change, in);
+      @SuppressWarnings("unused")
+      var unused = putTopic.apply(change, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot set topic", e);
     }
@@ -553,7 +563,8 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public void setMessage(CommitMessageInput in) throws RestApiException {
     try {
-      putMessage.apply(change, in);
+      @SuppressWarnings("unused")
+      var unused = putMessage.apply(change, in);
     } catch (Exception e) {
       throw asRestApiException("Cannot edit commit message", e);
     }
@@ -562,7 +573,8 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public void setHashtags(HashtagsInput input) throws RestApiException {
     try {
-      postHashtags.apply(change, input);
+      @SuppressWarnings("unused")
+      var unused = postHashtags.apply(change, input);
     } catch (Exception e) {
       throw asRestApiException("Cannot post hashtags", e);
     }
@@ -731,7 +743,8 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public void index() throws RestApiException {
     try {
-      index.apply(change, new Input());
+      @SuppressWarnings("unused")
+      var unused = index.apply(change, new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot index change", e);
     }

@@ -19,6 +19,7 @@ import static com.google.gerrit.extensions.client.ListGroupsOption.MEMBERS;
 
 import com.google.common.base.Strings;
 import com.google.common.base.Suppliers;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.extensions.client.ListGroupsOption;
@@ -65,11 +66,13 @@ public class GroupJson {
     options = EnumSet.noneOf(ListGroupsOption.class);
   }
 
+  @CanIgnoreReturnValue
   public GroupJson addOption(ListGroupsOption o) {
     options.add(o);
     return this;
   }
 
+  @CanIgnoreReturnValue
   public GroupJson addOptions(Collection<ListGroupsOption> o) {
     options.addAll(o);
     return this;

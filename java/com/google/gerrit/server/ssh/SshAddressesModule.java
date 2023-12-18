@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.ssh;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.inject.AbstractModule;
@@ -99,5 +101,17 @@ public class SshAddressesModule extends AbstractModule {
       adv.add(SocketUtil.format(addr, IANA_SSH_PORT));
     }
     return adv;
+  }
+
+  @Provides
+  @Singleton
+  @SshAdvertisedPushAddress
+  @Nullable
+  String provideAdvertisedPushAddress(@GerritServerConfig Config cfg) {
+    String want = cfg.getString("sshd", null, "advertisedpushaddress");
+    if (Strings.isNullOrEmpty(want)) {
+      return null;
+    }
+    return want;
   }
 }

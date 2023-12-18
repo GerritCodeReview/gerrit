@@ -34,6 +34,24 @@
       "parentUuid": "5bd960b9_c74f1efd",
       "revId": "14ace51e575d7186c47cceffe2db5da9a245d142",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf5b6eb3_c16c6a38",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1555,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-12-18T09:59:19Z",
+      "side": 1,
+      "message": "Yes, it does. Thanks!",
+      "parentUuid": "8807fa06_0c8cf59b",
+      "revId": "14ace51e575d7186c47cceffe2db5da9a245d142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

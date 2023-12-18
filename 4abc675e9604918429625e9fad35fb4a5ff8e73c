@@ -16,6 +16,23 @@
       "message": "Ci failure is unrelated.",
       "revId": "4abc675e9604918429625e9fad35fb4a5ff8e73c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ed1f6d3_54c72e5c",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2023-12-18T08:31:14Z",
+      "side": 1,
+      "message": "I\u0027m unclear about what this method does.\n\n`CodeReviewCommit failed` is now unused, and at least some callers to `mergeOneCommit()` resets the original `CodeReviewRevWalk` instance before further usage.\n\nCould you please add some documentation?\n\nThanks!",
+      "revId": "4abc675e9604918429625e9fad35fb4a5ff8e73c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

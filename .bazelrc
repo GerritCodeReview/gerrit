@@ -2,6 +2,12 @@
 # https://issues.gerritcodereview.com/issues/303819949
 common --noenable_bzlmod
 
+# TODO(davido): Figure out, if there are some issues with remote cache in
+# our CI infrastrcuture, or there's a Bazel bug in this code area.
+# See discussion in this issue for more details:
+# https://github.com/bazelbuild/bazel/issues/20161
+build --experimental_remote_cache_eviction_retries=5
+
 build --workspace_status_command="python3 ./tools/workspace_status.py"
 build --repository_cache=~/.gerritcodereview/bazel-cache/repository
 build --action_env=PATH

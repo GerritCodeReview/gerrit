@@ -553,7 +553,8 @@ public class AccountApiImpl implements AccountApi {
   @Override
   public void deleteExternalIds(List<String> externalIds) throws RestApiException {
     try {
-      deleteExternalIds.apply(account, externalIds);
+      @SuppressWarnings("unused")
+      var unused = deleteExternalIds.apply(account, externalIds);
     } catch (Exception e) {
       throw asRestApiException("Cannot delete external IDs", e);
     }
@@ -574,7 +575,8 @@ public class AccountApiImpl implements AccountApi {
     NameInput input = new NameInput();
     input.name = name;
     try {
-      putName.apply(account, input);
+      @SuppressWarnings("unused")
+      var unused = putName.apply(account, input);
     } catch (Exception e) {
       throw asRestApiException("Cannot set account name", e);
     }

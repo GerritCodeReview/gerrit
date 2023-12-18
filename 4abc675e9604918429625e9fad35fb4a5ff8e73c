@@ -33,6 +33,24 @@
       "message": "I\u0027m unclear about what this method does.\n\n`CodeReviewCommit failed` is now unused, and at least some callers to `mergeOneCommit()` resets the original `CodeReviewRevWalk` instance before further usage.\n\nCould you please add some documentation?\n\nThanks!",
       "revId": "4abc675e9604918429625e9fad35fb4a5ff8e73c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e6e2fb9_ba5ff183",
+        "filename": "java/com/google/gerrit/server/git/MergeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-12-18T08:43:34Z",
+      "side": 1,
+      "message": "Yes, adding some documentation is a good idea. It\u0027s also not super clear to me, but I think I understood now what this does and added some javadoc.",
+      "parentUuid": "1ed1f6d3_54c72e5c",
+      "revId": "4abc675e9604918429625e9fad35fb4a5ff8e73c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

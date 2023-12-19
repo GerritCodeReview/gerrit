@@ -22,6 +22,30 @@
       },
       "revId": "793f4fa14bd2bd42a1418f070be1af2de5e369ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adea298b_adb13c43",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 908,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2023-12-19T10:22:49Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "6489fad3_2d19dec9",
+      "range": {
+        "startLine": 908,
+        "startChar": 57,
+        "endLine": 908,
+        "endChar": 75
+      },
+      "revId": "793f4fa14bd2bd42a1418f070be1af2de5e369ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

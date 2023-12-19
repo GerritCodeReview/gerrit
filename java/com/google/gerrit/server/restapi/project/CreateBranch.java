@@ -43,6 +43,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.RefUtil;
 import com.google.gerrit.server.project.RefValidationHelper;
+import com.google.gerrit.server.update.RefUpdateWrapper;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
@@ -68,6 +69,8 @@ public class CreateBranch
   private final RefValidationHelper refCreationValidator;
   private final CreateRefControl createRefControl;
 
+  private final RefUpdateWrapper refUpdateWrapper;
+
   @Inject
   CreateBranch(
       Provider<IdentifiedUser> identifiedUser,
@@ -75,13 +78,15 @@ public class CreateBranch
       GitRepositoryManager repoManager,
       GitReferenceUpdated referenceUpdated,
       RefValidationHelper.Factory refHelperFactory,
-      CreateRefControl createRefControl) {
+      CreateRefControl createRefControl,
+      RefUpdateWrapper refUpdateWrapper) {
     this.identifiedUser = identifiedUser;
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
     this.referenceUpdated = referenceUpdated;
     this.refCreationValidator = refHelperFactory.create(ReceiveCommand.Type.CREATE);
     this.createRefControl = createRefControl;
+    this.refUpdateWrapper = refUpdateWrapper;
   }
 
   @Override
@@ -162,7 +167,8 @@ public class CreateBranch
             identifiedUser.get(),
             u,
             ValidationOptionsUtil.getValidateOptionsAsMultimap(input.validationOptions));
-        RefUpdate.Result result = u.update(rw);
+
+        RefUpdate.Result result = refUpdateWrapper.wrapRefUpdate(u, rw);
         switch (result) {
           case FAST_FORWARD:
           case NEW:

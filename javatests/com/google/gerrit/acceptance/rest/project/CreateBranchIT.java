@@ -54,6 +54,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.events.RefReceivedEvent;
 import com.google.gerrit.server.git.validators.RefOperationValidationListener;
 import com.google.gerrit.server.git.validators.ValidationMessage;
+import com.google.gerrit.server.update.RefUpdateWrapper;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
@@ -73,6 +74,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private GroupOperations groupOperations;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private RefUpdateWrapper refUpdateWrapper;
 
   private BranchNameKey testBranch;
 
@@ -133,7 +135,7 @@ public class CreateBranchIT extends AbstractDaemonTest {
                       RefUpdate u = repo.updateRef(testBranch.branch());
                       u.setExpectedOldObjectId(ObjectId.zeroId());
                       u.setNewObjectId(repo.exactRef("refs/heads/master").getObjectId());
-                      RefUpdate.Result result = u.update();
+                      RefUpdate.Result result = refUpdateWrapper.wrapRefUpdate(u);
                       if (result != RefUpdate.Result.NEW) {
                         throw new ValidationException(
                             "Concurrent creation of branch failed: " + result);

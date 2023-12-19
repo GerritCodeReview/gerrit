@@ -33,6 +33,7 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static com.google.gerrit.testing.RefUpdateContextCollector.testRefModification;
 import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
@@ -1261,7 +1262,7 @@ public abstract class AbstractDaemonTest {
 
   protected PushOneCommit.Result pushTo(String ref) throws Exception {
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
-    return push.to(ref);
+    return testRefModification(() -> push.to(ref), ref);
   }
 
   protected void approve(String id) throws Exception {

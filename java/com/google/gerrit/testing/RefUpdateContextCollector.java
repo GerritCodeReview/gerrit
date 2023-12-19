@@ -17,10 +17,15 @@ package com.google.gerrit.testing;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType;
+import com.google.gerrit.testing.TestActionRefUpdateContext.CallableWithException;
+import com.google.gerrit.testing.TestActionRefUpdateContext.RunnableWithException;
 import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.Arrays;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
@@ -48,6 +53,29 @@ import org.junit.runners.model.Statement;
 public class RefUpdateContextCollector implements TestRule {
   private static ConcurrentLinkedQueue<Entry<String, ImmutableList<RefUpdateContext>>>
       touchedRefsWithContexts = null;
+
+  private static ConcurrentLinkedQueue<String> allowedItems = new ConcurrentLinkedQueue<>();
+
+  @CanIgnoreReturnValue
+  public static <V, E extends Exception> V testRefModification(CallableWithException<V, E> c, String... refNames) throws E {
+    allowedItems.addAll(Arrays.asList(refNames));
+    try {
+      return c.call();
+    } finally {
+      allowedItems.removeAll(Arrays.asList(refNames));
+    }
+  }
+
+  public static <E extends Exception> void testRefModification(RunnableWithException<E> c, String... refNames) throws E {
+    allowedItems.addAll(Arrays.asList(refNames));
+    c.run();
+    allowedItems.removeAll(Arrays.asList(refNames));
+  }
+
+  public static boolean isAllowedRefModification(String refName) {
+    return allowedItems.contains(refName);
+
+  }
 
   @Override
   public Statement apply(Statement statement, Description description) {

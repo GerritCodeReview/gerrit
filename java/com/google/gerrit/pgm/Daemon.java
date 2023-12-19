@@ -59,6 +59,7 @@ import com.google.gerrit.server.DefaultRefLogIdentityProvider;
 import com.google.gerrit.server.LibModuleLoader;
 import com.google.gerrit.server.LibModuleType;
 import com.google.gerrit.server.ModuleOverloader;
+import com.google.gerrit.server.RefUpdateWrapperModule;
 import com.google.gerrit.server.StartupChecks.StartupChecksModule;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.AccountDeactivator.AccountDeactivatorModule;
@@ -505,6 +506,7 @@ public class Daemon extends SiteProgram {
     }
     modules.add(new OAuthRestModule());
     modules.add(new RestApiModule());
+    modules.add(new RefUpdateWrapperModule());
     modules.add(new GpgModule(config));
     modules.add(new StartupChecksModule());
     modules.add(new GerritInstanceNameModule());

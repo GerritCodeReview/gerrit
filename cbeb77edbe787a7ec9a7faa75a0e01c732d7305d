@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f75a064_64ceacb8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6098,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2023-12-19T11:21:21Z",
+      "side": 1,
+      "message": "I am torn about introducing a new section. I think we already have a couple of UI related configs in other sections. So maybe we should be moving this to the `change` section? WDYT? @ekempin@google.com",
+      "revId": "cbeb77edbe787a7ec9a7faa75a0e01c732d7305d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

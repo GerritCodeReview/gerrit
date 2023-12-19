@@ -59,7 +59,7 @@ suite('gr-textarea tests', () => {
       // updated.
       const listenerStub = sinon.stub();
       element.addEventListener('text-changed', listenerStub);
-      stubRestApi('getSuggestedAccounts').returns(
+      stubRestApi('queryAccounts').returns(
         Promise.resolve([
           createAccountWithEmail('abc@google.com'),
           createAccountWithEmail('abcdef@google.com'),
@@ -93,7 +93,7 @@ suite('gr-textarea tests', () => {
     });
 
     test('mention selector opens when previous char is \n', async () => {
-      stubRestApi('getSuggestedAccounts').returns(
+      stubRestApi('queryAccounts').returns(
         Promise.resolve([
           {
             ...createAccountWithEmail('abc@google.com'),
@@ -130,7 +130,7 @@ suite('gr-textarea tests', () => {
 
     test('mention suggestions cleared before request returns', async () => {
       const promise = mockPromise<Item[]>();
-      stubRestApi('getSuggestedAccounts').returns(promise);
+      stubRestApi('queryAccounts').returns(promise);
       element.textarea!.focus();
       await waitUntil(() => element.textarea!.focused === true);
 
@@ -164,7 +164,7 @@ suite('gr-textarea tests', () => {
     test('mention dropdown shows suggestion for latest text', async () => {
       const promise1 = mockPromise<Item[]>();
       const promise2 = mockPromise<Item[]>();
-      const suggestionStub = stubRestApi('getSuggestedAccounts');
+      const suggestionStub = stubRestApi('queryAccounts');
       suggestionStub.returns(promise1);
       element.textarea!.focus();
       await waitUntil(() => element.textarea!.focused === true);
@@ -221,7 +221,7 @@ suite('gr-textarea tests', () => {
     });
 
     test('selecting mentions from dropdown', async () => {
-      stubRestApi('getSuggestedAccounts').returns(
+      stubRestApi('queryAccounts').returns(
         Promise.resolve([
           createAccountWithEmail('abc@google.com'),
           createAccountWithEmail('abcdef@google.com'),
@@ -254,7 +254,7 @@ suite('gr-textarea tests', () => {
       const listenerStub = sinon.stub();
       element.addEventListener('text-changed', listenerStub);
       const resetSpy = sinon.spy(element, 'resetDropdown');
-      stubRestApi('getSuggestedAccounts').returns(
+      stubRestApi('queryAccounts').returns(
         Promise.resolve([
           createAccountWithEmail('abc@google.com'),
           createAccountWithEmail('abcdef@google.com'),
@@ -348,7 +348,7 @@ suite('gr-textarea tests', () => {
     });
 
     test('mention dropdown is cleared if @ is deleted', async () => {
-      stubRestApi('getSuggestedAccounts').returns(
+      stubRestApi('queryAccounts').returns(
         Promise.resolve([
           createAccountWithEmail('abc@google.com'),
           createAccountWithEmail('abcdef@google.com'),

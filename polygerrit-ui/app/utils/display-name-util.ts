@@ -63,7 +63,7 @@ export function getAccountDisplayName(
     .join(' ');
 }
 
-function accountEmail(email?: string) {
+export function accountEmail(email?: string) {
   if (typeof email !== 'undefined') {
     return '<' + email + '>';
   }

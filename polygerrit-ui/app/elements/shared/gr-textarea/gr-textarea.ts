@@ -606,7 +606,7 @@ export class GrTextarea extends LitElement {
   // TODO(dhruvsri): merge with getAccountSuggestions in account-util
   async computeReviewerSuggestions(): Promise<Item[]> {
     return (
-      (await this.restApiService.getSuggestedAccounts(
+      (await this.restApiService.queryAccounts(
         this.currentSearchString ?? '',
         /* number= */ 15,
         this.changeNum,

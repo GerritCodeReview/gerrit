@@ -45,6 +45,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.LibModuleType;
 import com.google.gerrit.server.PluginUser;
+import com.google.gerrit.server.RefUpdateWrapperModule;
 import com.google.gerrit.server.Sequence;
 import com.google.gerrit.server.account.AccountCacheImpl;
 import com.google.gerrit.server.account.GroupBackend;
@@ -288,6 +289,7 @@ public class InMemoryModule extends FactoryModule {
     bind(ServerInformationImpl.class);
     bind(ServerInformation.class).to(ServerInformationImpl.class);
     install(new RestApiModule());
+    install(new RefUpdateWrapperModule());
     install(new OAuthRestModule());
     install(new DefaultProjectNameLockManagerModule());
     install(new FileInfoJsonModule());

@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.gerrit.testing.RefUpdateContextCollector.testRefModification;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -162,7 +163,7 @@ public class GitUtil {
     if (pushTags) {
       pushCmd.setPushTags();
     }
-    Iterable<PushResult> r = pushCmd.call();
+    Iterable<PushResult> r = testRefModification(() -> pushCmd.call(), target);
     return Iterables.getOnlyElement(r);
   }
 

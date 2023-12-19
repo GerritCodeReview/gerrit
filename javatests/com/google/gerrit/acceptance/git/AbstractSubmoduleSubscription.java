@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.git;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.testing.RefUpdateContextCollector.testRefModification;
 import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static java.util.stream.Collectors.toList;
 
@@ -145,7 +146,8 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     String refspec = "HEAD:" + pushedRef;
 
     Iterable<PushResult> res =
-        repo.git().push().setRemote("origin").setRefSpecs(new RefSpec(refspec)).call();
+        testRefModification(() ->
+        repo.git().push().setRemote("origin").setRefSpecs(new RefSpec(refspec)).call(), ref);
 
     RemoteRefUpdate u = Iterables.getOnlyElement(res).getRemoteUpdate(pushedRef);
     assertThat(u).isNotNull();
@@ -302,11 +304,12 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
         .add(".gitmodules", config.toText())
         .create();
 
-    repo.git()
+
+    testRefModification(() -> repo.git()
         .push()
         .setRemote("origin")
         .setRefSpecs(new RefSpec("HEAD:refs/heads/" + branch))
-        .call();
+        .call(), "refs/heads/" + branch);
   }
 
   protected void expectToHaveSubmoduleState(

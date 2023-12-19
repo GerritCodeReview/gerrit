@@ -20,6 +20,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.a
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.git.testing.PushResultSubject.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.RefUpdateContextCollector.testRefModification;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
@@ -103,7 +104,7 @@ public class PushPermissionsIT extends AbstractDaemonTest {
         .add(allow(Permission.CREATE).ref("refs/*").group(REGISTERED_USERS))
         .update();
 
-    PushResult r = push("HEAD:refs/heads/newbranch");
+    PushResult r =  push("HEAD:refs/heads/newbranch");
 
     String msg = "update for creating new commit object not permitted";
     RemoteRefUpdate rru = r.getRemoteUpdate("refs/heads/newbranch");
@@ -116,7 +117,7 @@ public class PushPermissionsIT extends AbstractDaemonTest {
         .add(allow(Permission.PUSH).ref("refs/*").group(REGISTERED_USERS))
         .update();
     RemoteRefUpdate success =
-        push("HEAD:refs/heads/newbranch").getRemoteUpdate("refs/heads/newbranch");
+        testRefModification(() -> push("HEAD:refs/heads/newbranch"), "refs/heads/newbranch").getRemoteUpdate("refs/heads/newbranch");
     assertThat(success.getStatus()).isEqualTo(Status.OK);
   }
 

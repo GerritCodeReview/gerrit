@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.testing.RefUpdateContextCollector.testRefModification;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Iterables;
@@ -292,7 +293,7 @@ public abstract class AbstractSubmitOnPush extends AbstractDaemonTest {
   private RemoteRefUpdate.Status pushCommitTo(RevCommit commit, String ref)
       throws GitAPIException, InvalidRemoteException, TransportException {
     return Iterables.getOnlyElement(
-            git().push().setRefSpecs(new RefSpec(commit.name() + ":" + ref)).call())
+            testRefModification(() -> git().push().setRefSpecs(new RefSpec(commit.name() + ":" + ref)).call(), ref))
         .getRemoteUpdate(ref)
         .getStatus();
   }

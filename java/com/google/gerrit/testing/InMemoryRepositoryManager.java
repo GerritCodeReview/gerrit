@@ -15,10 +15,12 @@
 package com.google.gerrit.testing;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.entities.RefNames.isTagRef;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.ACCOUNTS_UPDATE;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.BAN_COMMIT;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.BRANCH_MODIFICATION;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CREATE_NEW_BRANCH;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.DIRECT_PUSH;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.GPG_KEYS_MODIFICATION;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.GROUPS_UPDATE;
@@ -30,7 +32,9 @@ import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdate
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.REPO_SEQ;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.TAG_MODIFICATION;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.VERSIONED_META_DATA_CHANGE;
+import static com.google.gerrit.testing.RefUpdateContextCollector.isAllowedRefModification;
 import static java.util.stream.Collectors.toList;
+import static org.eclipse.jgit.transport.ReceiveCommand.Type.CREATE;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
@@ -62,6 +66,7 @@ import org.eclipse.jgit.internal.storage.dfs.DfsRepository;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -141,6 +146,13 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
         if (RefUpdateContextCollector.enabled()) {
           RefUpdateContextCollector.register(refName, RefUpdateContext.getOpenedContexts());
         }
+        if(cmd.getType() == CREATE && cmd.getOldId().equals(ObjectId.zeroId()) && !isMagicRef(refName) && !isAllowedRefModification(refName) && !isTestRepoCall() && !isTagRef(refName) && !"HEAD".equals(refName)) {
+          if(!(TestActionRefUpdateContext.isOpen() || RefUpdateContext.hasOpen(CREATE_NEW_BRANCH) || RefUpdateContext.hasOpen(INIT_REPO) || RefUpdateContext.hasOpen(GPG_KEYS_MODIFICATION) || RefUpdateContext.hasOpen(MERGE_CHANGE))) {
+            checkState(
+                TestActionRefUpdateContext.isOpen() || RefUpdateContext.hasOpen(CREATE_NEW_BRANCH) || RefUpdateContext.hasOpen(INIT_REPO)  || RefUpdateContext.hasOpen(GPG_KEYS_MODIFICATION) || RefUpdateContext.hasOpen(MERGE_CHANGE),
+                "Refname: %s", refName);
+          }
+        }
         if (TestActionRefUpdateContext.isOpen()
             || RefUpdateContext.hasOpen(OFFLINE_OPERATION)
             || RefUpdateContext.hasOpen(INIT_REPO)
@@ -170,6 +182,10 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
                 || isTestRepoCall(),
             "Ordinary ref '%s' is updated outside of the expected operation. Wrap code in the correct RefUpdateContext or add the ref as a special ref.",
             refName);
+      }
+
+      private boolean isMagicRef(String refName) {
+        return RefNames.isGerritRef(refName) || RefNames.isVersionRef(refName) || RefNames.isConfigRef(refName);
       }
 
       private RefUpdateContextValidator addSpecialRef(

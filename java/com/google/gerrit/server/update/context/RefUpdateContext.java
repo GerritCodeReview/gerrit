@@ -115,7 +115,8 @@ public class RefUpdateContext implements AutoCloseable {
      */
     PLUGIN,
     /** A ref is updated as a part of auto-close-changes. */
-    AUTO_CLOSE_CHANGES
+    AUTO_CLOSE_CHANGES,
+    CREATE_NEW_BRANCH,
   }
 
   /** Opens a provided context. */

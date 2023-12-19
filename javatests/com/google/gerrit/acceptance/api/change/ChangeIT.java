@@ -190,6 +190,7 @@ import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.FakeEmailSender.Message;
+import com.google.gerrit.testing.RefUpdateContextCollector;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;

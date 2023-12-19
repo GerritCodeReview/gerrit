@@ -41,6 +41,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
+import static com.google.gerrit.testing.RefUpdateContextCollector.testRefModification;
 import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.joining;
@@ -2806,13 +2807,13 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         testRepo.branch("HEAD").commit().message("A change").insertChangeId().create();
     PushResult pr =
         Iterables.getOnlyElement(
-            testRepo
+            testRefModification(() -> testRepo
                 .git()
                 .push()
                 .setRefSpecs(
                     new RefSpec(noteDbCommit.name() + ":" + ref),
                     new RefSpec(changeCommit.name() + ":refs/heads/permitted"))
-                .call());
+                .call(), "refs/heads/permitted"));
 
     assertPushRejected(pr, ref, "NoteDb update requires -o notedb=allow");
     assertPushOk(pr, "refs/heads/permitted");

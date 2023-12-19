@@ -7,5 +7,6 @@ java_library(
     deps = [
         "//lib:guava",
         "//lib:servlet-api",
+        "//lib/errorprone:annotations",
     ],
 )

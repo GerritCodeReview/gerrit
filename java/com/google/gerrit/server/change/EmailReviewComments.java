@@ -228,7 +228,8 @@ public class EmailReviewComments {
       } catch (Exception e) {
         logger.atSevere().withCause(e).log("Cannot email comments for %s", patchSet.id());
       } finally {
-        requestContext.setContext(old);
+        @SuppressWarnings("unused")
+        var unused = requestContext.setContext(old);
       }
     }
 

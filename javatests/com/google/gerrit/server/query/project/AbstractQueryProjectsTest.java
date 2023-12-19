@@ -147,7 +147,7 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
 
     Account.Id userId = createAccount("user", "User", "user@example.com", true);
     user = userFactory.create(userId);
-    requestContext.setContext(newRequestContext(userId));
+    setRequestContextForUser(userId);
     currentUserInfo = gApi.accounts().id(userId.get()).get();
 
     // All-Projects and All-Users are not indexed, index them now.
@@ -166,7 +166,8 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
   }
 
   protected void setAnonymous() {
-    requestContext.setContext(anonymousUser::get);
+    @SuppressWarnings("unused")
+    var unused = requestContext.setContext(anonymousUser::get);
   }
 
   @After
@@ -174,7 +175,8 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
     if (lifecycle != null) {
       lifecycle.stop();
     }
-    requestContext.setContext(null);
+    @SuppressWarnings("unused")
+    var unused = requestContext.setContext(null);
   }
 
   @Test
@@ -424,6 +426,11 @@ public abstract class AbstractQueryProjectsTest extends GerritServerTests {
               });
       return id;
     }
+  }
+
+  private void setRequestContextForUser(Account.Id userId) {
+    @SuppressWarnings("unused")
+    var unused = requestContext.setContext(newRequestContext(userId));
   }
 
   @CanIgnoreReturnValue

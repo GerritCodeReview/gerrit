@@ -50,3 +50,6 @@ test --build_tests_only
 test --test_output=errors
 
 import %workspace%/tools/remote-bazelrc
+
+# User-specific .bazelrc
+try-import %workspace%/user.bazelrc

@@ -66,7 +66,8 @@ public class AccountOperationsImpl implements AccountOperations {
 
   @Override
   public TestAccountCreation.Builder newAccount() {
-    return TestAccountCreation.builder(this::createAccount);
+    return TestAccountCreation.builder(
+        this::createAccount, externalIdFactory.arePasswordsAllowed());
   }
 
   private Account.Id createAccount(TestAccountCreation testAccountCreation) throws Exception {

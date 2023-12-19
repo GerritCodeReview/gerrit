@@ -3742,7 +3742,6 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void uploadingRulesPlIsNotAllowed() throws Exception {
-    projectOperations.project(project).getHead("master");
     GitUtil.fetch(testRepo, RefNames.REFS_CONFIG + ":config");
     testRepo.reset("config");
     PushOneCommit.Result pushResult =
@@ -4750,7 +4749,8 @@ public class ChangeIT extends AbstractDaemonTest {
 
   private ThrowableSubject assertThatQueryException(String query) throws Exception {
     try {
-      query(query);
+      @SuppressWarnings("unused")
+      var unused = query(query);
     } catch (BadRequestException e) {
       return assertThat(e);
     }

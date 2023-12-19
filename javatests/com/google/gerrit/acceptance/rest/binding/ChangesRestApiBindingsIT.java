@@ -471,7 +471,10 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
     RestApiCallHelper.execute(
         adminRestSession,
         CHANGE_EDIT_CREATE_ENDPOINTS,
-        () -> adminRestSession.delete("/changes/" + changeId + "/edit"),
+        () -> {
+          @SuppressWarnings("unused")
+          var unused = adminRestSession.delete("/changes/" + changeId + "/edit");
+        },
         changeId,
         FILENAME);
   }

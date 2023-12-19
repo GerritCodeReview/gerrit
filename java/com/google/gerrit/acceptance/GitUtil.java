@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.entities.Project;
 import java.io.IOException;
@@ -98,6 +99,7 @@ public class GitUtil {
     return testRepo;
   }
 
+  @CanIgnoreReturnValue
   public static Ref createAnnotatedTag(TestRepository<?> testRepo, String name, PersonIdent tagger)
       throws GitAPIException {
     TagCommand cmd =
@@ -105,6 +107,7 @@ public class GitUtil {
     return cmd.call();
   }
 
+  @CanIgnoreReturnValue
   public static Ref updateAnnotatedTag(TestRepository<?> testRepo, String name, PersonIdent tagger)
       throws GitAPIException {
     TagCommand tc = testRepo.git().tag().setName(name);
@@ -117,21 +120,25 @@ public class GitUtil {
     fetch.call();
   }
 
+  @CanIgnoreReturnValue
   public static PushResult pushHead(TestRepository<?> testRepo, String ref) throws GitAPIException {
     return pushHead(testRepo, ref, false);
   }
 
+  @CanIgnoreReturnValue
   public static PushResult pushHead(TestRepository<?> testRepo, String ref, boolean pushTags)
       throws GitAPIException {
     return pushHead(testRepo, ref, pushTags, false);
   }
 
+  @CanIgnoreReturnValue
   public static PushResult pushHead(
       TestRepository<?> testRepo, String ref, boolean pushTags, boolean force)
       throws GitAPIException {
     return pushOne(testRepo, "HEAD", ref, pushTags, force, null);
   }
 
+  @CanIgnoreReturnValue
   public static PushResult pushHead(
       TestRepository<?> testRepo,
       String ref,
@@ -142,11 +149,13 @@ public class GitUtil {
     return pushOne(testRepo, "HEAD", ref, pushTags, force, pushOptions);
   }
 
+  @CanIgnoreReturnValue
   public static PushResult deleteRef(TestRepository<?> testRepo, String ref)
       throws GitAPIException {
     return pushOne(testRepo, "", ref, false, true, null);
   }
 
+  @CanIgnoreReturnValue
   public static PushResult pushOne(
       TestRepository<?> testRepo,
       String source,

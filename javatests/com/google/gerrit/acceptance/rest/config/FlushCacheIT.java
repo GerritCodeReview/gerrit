@@ -33,7 +33,8 @@ public class FlushCacheIT extends AbstractDaemonTest {
   @Test
   public void flushCache() throws Exception {
     // access the admin group once so that it is loaded into the group cache
-    adminGroup();
+    @SuppressWarnings("unused")
+    var unused = adminGroup();
 
     RestResponse r = adminRestSession.get("/config/server/caches/groups_byname");
     CacheInfo result = newGson().fromJson(r.getReader(), CacheInfo.class);

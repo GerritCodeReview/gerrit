@@ -936,13 +936,12 @@ export class GrDiffView extends LitElement {
           <gr-endpoint-param
             name="onTrigger"
             .value=${(pluginName: string) => {
-              this.shownSidebar =
-                this.shownSidebar === pluginName ? undefined : pluginName;
+              const closeSidebar = this.shownSidebar === pluginName;
+              this.shownSidebar = closeSidebar ? undefined : pluginName;
               this.getUserModel().updatePreferences({
-                diff_page_sidebar:
-                  this.shownSidebar === pluginName
-                    ? 'NONE'
-                    : `plugin-${pluginName}`,
+                diff_page_sidebar: closeSidebar
+                  ? 'NONE'
+                  : `plugin-${pluginName}`,
               });
             }}
           ></gr-endpoint-param>

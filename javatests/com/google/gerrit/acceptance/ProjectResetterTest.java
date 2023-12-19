@@ -21,6 +21,7 @@ import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Project;
@@ -283,10 +284,12 @@ public class ProjectResetterTest {
     verifyNoMoreInteractions(cache, indexer, includeCache);
   }
 
+  @CanIgnoreReturnValue
   private Ref createRef(String ref) throws IOException {
     return createRef(repo, ref);
   }
 
+  @CanIgnoreReturnValue
   private Ref createRef(Repository repo, String ref) throws IOException {
     try (RefUpdateContext ctx = openTestRefUpdateContext()) {
       try (ObjectInserter oi = repo.newObjectInserter();
@@ -301,10 +304,12 @@ public class ProjectResetterTest {
     }
   }
 
+  @CanIgnoreReturnValue
   private Ref updateRef(Ref ref) throws IOException {
     return updateRef(repo, ref);
   }
 
+  @CanIgnoreReturnValue
   private Ref updateRef(Repository repo, Ref ref) throws IOException {
     try (RefUpdateContext ctx = openTestRefUpdateContext()) {
       try (ObjectInserter oi = repo.newObjectInserter();

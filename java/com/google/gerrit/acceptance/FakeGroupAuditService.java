@@ -19,6 +19,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.httpd.GitOverHttpServlet;
 import com.google.gerrit.server.AuditEvent;
@@ -77,6 +78,7 @@ public class FakeGroupAuditService extends AuditService {
     }
   }
 
+  @CanIgnoreReturnValue
   public ImmutableList<HttpAuditEvent> drainHttpAuditEvents() throws Exception {
     // Assumes that all HttpAuditEvents are produced by GitOverHttpServlet.
     int expectedSize = Ints.checkedCast(httpMetrics.getRequestsStarted() - drainedSoFar.get());

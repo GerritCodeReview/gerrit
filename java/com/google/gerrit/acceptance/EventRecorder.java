@@ -172,7 +172,8 @@ public class EventRecorder {
   }
 
   public void assertNoRefUpdatedEvents(String project, String branch) throws Exception {
-    getRefUpdatedEvents(project, branch, 0);
+    @SuppressWarnings("unused")
+    var unused = getRefUpdatedEvents(project, branch, 0);
   }
 
   public void assertRefUpdatedEvents(String project, String branch, String... expected)

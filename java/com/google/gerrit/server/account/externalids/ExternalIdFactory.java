@@ -127,4 +127,7 @@ public interface ExternalIdFactory {
    * @return the created external ID
    */
   ExternalId createEmail(Account.Id accountId, String email);
+
+  /** Whether this {@link ExternalIdFactory} supports passwords. */
+  boolean arePasswordsAllowed();
 }

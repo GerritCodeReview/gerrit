@@ -223,6 +223,11 @@ public class ExternalIdFactoryNoteDbImpl implements ExternalIdFactory {
         blobId);
   }
 
+  @Override
+  public boolean arePasswordsAllowed() {
+    return true;
+  }
+
   private static int readAccountId(String noteId, Config externalIdConfig, String externalIdKeyStr)
       throws ConfigInvalidException {
     String accountIdStr =

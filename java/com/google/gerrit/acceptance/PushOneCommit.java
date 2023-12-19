@@ -302,6 +302,7 @@ public class PushOneCommit {
     commitBuilder.message(subject).author(i).committer(new PersonIdent(i, testRepo.getDate()));
   }
 
+  @CanIgnoreReturnValue
   public PushOneCommit setParents(List<RevCommit> parents) throws Exception {
     commitBuilder.noParents();
     for (RevCommit p : parents) {
@@ -316,17 +317,20 @@ public class PushOneCommit {
     return this;
   }
 
+  @CanIgnoreReturnValue
   public PushOneCommit setParent(RevCommit parent) throws Exception {
     commitBuilder.noParents();
     commitBuilder.parent(parent);
     return this;
   }
 
+  @CanIgnoreReturnValue
   public PushOneCommit noParent() {
     commitBuilder.noParents();
     return this;
   }
 
+  @CanIgnoreReturnValue
   public PushOneCommit addFile(String path, String content, int fileMode) throws Exception {
     RevBlob blobId = testRepo.blob(content);
     commitBuilder.edit(
@@ -340,6 +344,7 @@ public class PushOneCommit {
     return this;
   }
 
+  @CanIgnoreReturnValue
   public PushOneCommit addSymlink(String path, String target) throws Exception {
     RevBlob blobId = testRepo.blob(target);
     commitBuilder.edit(
@@ -353,6 +358,7 @@ public class PushOneCommit {
     return this;
   }
 
+  @CanIgnoreReturnValue
   public PushOneCommit addGitSubmodule(String modulePath, ObjectId commitId) {
     commitBuilder.edit(
         new PathEdit(modulePath) {
@@ -365,11 +371,13 @@ public class PushOneCommit {
     return this;
   }
 
+  @CanIgnoreReturnValue
   public PushOneCommit rmFile(String filename) {
     commitBuilder.rm(filename);
     return this;
   }
 
+  @CanIgnoreReturnValue
   public Result to(String ref) throws Exception {
     for (Map.Entry<String, String> e : files.entrySet()) {
       commitBuilder.add(e.getKey(), e.getValue());
@@ -377,6 +385,7 @@ public class PushOneCommit {
     return execute(ref);
   }
 
+  @CanIgnoreReturnValue
   public Result rm(String ref) throws Exception {
     for (String fileName : files.keySet()) {
       commitBuilder.rm(fileName);
@@ -384,6 +393,7 @@ public class PushOneCommit {
     return execute(ref);
   }
 
+  @CanIgnoreReturnValue
   public Result execute(String ref) throws Exception {
     RevCommit c = commitBuilder.create();
     if (changeId == null) {

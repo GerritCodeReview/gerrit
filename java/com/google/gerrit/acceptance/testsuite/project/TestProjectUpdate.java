@@ -21,6 +21,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.testsuite.ThrowingConsumer;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccountGroup;
@@ -75,6 +76,7 @@ public abstract class TestProjectUpdate {
       abstract Optional<Integer> max();
 
       /** Sets the minimum and maximum values for the capability. */
+      @CanIgnoreReturnValue
       public Builder range(int min, int max) {
         checkNonInvertedRange(min, max);
         return min(min).max(max);
@@ -353,61 +355,72 @@ public abstract class TestProjectUpdate {
      * Removes all access sections. Useful when testing against a specific set of access sections or
      * permissions.
      */
+    @CanIgnoreReturnValue
     public Builder removeAllAccessSections() {
       return removeAllAccessSections(true);
     }
 
     /** Adds a permission to be included in this update. */
+    @CanIgnoreReturnValue
     public Builder add(TestPermission testPermission) {
       addedPermissionsBuilder().add(testPermission);
       return this;
     }
 
     /** Adds a permission to be included in this update. */
+    @CanIgnoreReturnValue
     public Builder add(TestPermission.Builder testPermissionBuilder) {
       return add(testPermissionBuilder.build());
     }
 
     /** Adds a label permission to be included in this update. */
+    @CanIgnoreReturnValue
     public Builder add(TestLabelPermission testLabelPermission) {
       addedLabelPermissionsBuilder().add(testLabelPermission);
       return this;
     }
 
     /** Adds a label permission to be included in this update. */
+    @CanIgnoreReturnValue
     public Builder add(TestLabelPermission.Builder testLabelPermissionBuilder) {
       return add(testLabelPermissionBuilder.build());
     }
 
     /** Adds a capability to be included in this update. */
+    @CanIgnoreReturnValue
     public Builder add(TestCapability testCapability) {
       addedCapabilitiesBuilder().add(testCapability);
       return this;
     }
 
     /** Adds a capability to be included in this update. */
+    @CanIgnoreReturnValue
     public Builder add(TestCapability.Builder testCapabilityBuilder) {
       return add(testCapabilityBuilder.build());
     }
 
     /** Removes a permission, label permission, or capability as part of this update. */
+    @CanIgnoreReturnValue
     public Builder remove(TestPermissionKey testPermissionKey) {
       removedPermissionsBuilder().add(testPermissionKey);
       return this;
     }
 
     /** Removes a permission, label permission, or capability as part of this update. */
+    @CanIgnoreReturnValue
     public Builder remove(TestPermissionKey.Builder testPermissionKeyBuilder) {
       return remove(testPermissionKeyBuilder.build());
     }
 
     /** Sets the exclusive bit bit for the given permission key. */
+    @CanIgnoreReturnValue
     public Builder setExclusiveGroup(
         TestPermissionKey.Builder testPermissionKeyBuilder, boolean exclusive) {
       return setExclusiveGroup(testPermissionKeyBuilder.build(), exclusive);
     }
 
     /** Sets the exclusive bit bit for the given permission key. */
+    @CanIgnoreReturnValue
     public Builder setExclusiveGroup(TestPermissionKey testPermissionKey, boolean exclusive) {
       checkArgument(
           !testPermissionKey.group().isPresent(),

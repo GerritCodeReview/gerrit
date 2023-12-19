@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.testsuite.request;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.testsuite.account.TestAccount;
 import com.google.gerrit.entities.Account;
@@ -35,6 +36,7 @@ public interface RequestScopeOperations {
    * @param accountId account ID. Must exist; throws an unchecked exception otherwise.
    * @return the previous request scope.
    */
+  @CanIgnoreReturnValue
   AcceptanceTestRequestScope.Context setApiUser(Account.Id accountId);
 
   /**
@@ -48,6 +50,7 @@ public interface RequestScopeOperations {
    * @param testAccount test account from {@code AccountOperations}.
    * @return the previous request scope.
    */
+  @CanIgnoreReturnValue
   AcceptanceTestRequestScope.Context setApiUser(TestAccount testAccount);
 
   /**
@@ -60,6 +63,7 @@ public interface RequestScopeOperations {
    *
    * @return the previous request scope.
    */
+  @CanIgnoreReturnValue
   AcceptanceTestRequestScope.Context resetCurrentApiUser();
 
   /**
@@ -67,6 +71,7 @@ public interface RequestScopeOperations {
    *
    * @return the previous request scope.
    */
+  @CanIgnoreReturnValue
   AcceptanceTestRequestScope.Context setApiUserAnonymous();
 
   /**
@@ -74,5 +79,6 @@ public interface RequestScopeOperations {
    *
    * @return the previous request scope.
    */
+  @CanIgnoreReturnValue
   AcceptanceTestRequestScope.Context setApiUserInternal();
 }

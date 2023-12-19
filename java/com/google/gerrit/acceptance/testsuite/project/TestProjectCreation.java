@@ -19,6 +19,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.testsuite.ThrowingFunction;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Project;
@@ -66,6 +67,7 @@ public abstract class TestProjectCreation {
      * "refs/heads/" prefix of the branch name can be omitted. The specified branches are ignored if
      * {@link #noEmptyCommit()} is used.
      */
+    @CanIgnoreReturnValue
     public TestProjectCreation.Builder branches(String branch1, String... otherBranches) {
       return branches(Sets.union(ImmutableSet.of(branch1), ImmutableSet.copyOf(otherBranches)));
     }
@@ -77,10 +79,12 @@ public abstract class TestProjectCreation {
     public abstract TestProjectCreation.Builder permissionOnly(boolean value);
 
     /** Skips the empty commit on creation. This means that project's branches will not exist. */
+    @CanIgnoreReturnValue
     public TestProjectCreation.Builder noEmptyCommit() {
       return createEmptyCommit(false);
     }
 
+    @CanIgnoreReturnValue
     public TestProjectCreation.Builder addOwner(AccountGroup.UUID owner) {
       ownersBuilder().add(requireNonNull(owner, "owner"));
       return this;
@@ -98,6 +102,7 @@ public abstract class TestProjectCreation {
      *
      * @return the name of the created project
      */
+    @CanIgnoreReturnValue
     public Project.NameKey create() {
       TestProjectCreation creation = autoBuild();
       return creation.projectCreator().applyAndThrowSilently(creation);

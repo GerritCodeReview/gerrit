@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.testsuite.request;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Objects.requireNonNull;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope;
 import com.google.gerrit.acceptance.GerritServer.TestSshServerAddress;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
@@ -73,11 +74,13 @@ public class RequestScopeOperationsImpl implements RequestScopeOperations {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public AcceptanceTestRequestScope.Context setApiUser(Account.Id accountId) {
     return setApiUser(accountOperations.account(accountId).get());
   }
 
   @Override
+  @CanIgnoreReturnValue
   public AcceptanceTestRequestScope.Context setApiUser(TestAccount testAccount) {
     return atrScope.set(
         atrScope.newContext(
@@ -86,6 +89,7 @@ public class RequestScopeOperationsImpl implements RequestScopeOperations {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public AcceptanceTestRequestScope.Context resetCurrentApiUser() {
     CurrentUser user = atrScope.get().getUser();
     // More special cases for anonymous users etc. can be added as needed.
@@ -94,11 +98,13 @@ public class RequestScopeOperationsImpl implements RequestScopeOperations {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public AcceptanceTestRequestScope.Context setApiUserAnonymous() {
     return atrScope.set(atrScope.newContext(null, anonymousUserProvider.get()));
   }
 
   @Override
+  @CanIgnoreReturnValue
   public AcceptanceTestRequestScope.Context setApiUserInternal() {
     return atrScope.set(atrScope.newContext(null, internalUserFactory.create()));
   }

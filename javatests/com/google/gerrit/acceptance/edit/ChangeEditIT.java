@@ -518,7 +518,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
     in.email = "test@example.com";
     in.type = ChangeEditIdentityType.COMMITTER;
     adminRestSession.put(urlEditIdentity(changeId), in).assertNoContent();
-    adminRestSession.getJsonAccept(urlEditIdentity(changeId));
     adminRestSession.post(urlPublish(changeId)).assertNoContent();
     ChangeInfo info =
         get(changeId, ListChangesOption.CURRENT_COMMIT, ListChangesOption.CURRENT_REVISION);
@@ -534,7 +533,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
     in.type = ChangeEditIdentityType.COMMITTER;
     in.email = "test@example.com";
     adminRestSession.put(urlEditIdentity(changeId), in).assertNoContent();
-    adminRestSession.getJsonAccept(urlEditIdentity(changeId));
     adminRestSession.post(urlPublish(changeId)).assertNoContent();
     ChangeInfo info =
         get(changeId, ListChangesOption.CURRENT_COMMIT, ListChangesOption.CURRENT_REVISION);
@@ -550,7 +548,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
     in.type = ChangeEditIdentityType.COMMITTER;
     in.name = "John Doe";
     adminRestSession.put(urlEditIdentity(changeId), in).assertNoContent();
-    adminRestSession.getJsonAccept(urlEditIdentity(changeId));
     adminRestSession.post(urlPublish(changeId)).assertNoContent();
     ChangeInfo info =
         get(changeId, ListChangesOption.CURRENT_COMMIT, ListChangesOption.CURRENT_REVISION);
@@ -604,7 +601,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
     in.type = ChangeEditIdentityType.AUTHOR;
     in.email = "test@example.com";
     adminRestSession.put(urlEditIdentity(changeId), in).assertNoContent();
-    adminRestSession.getJsonAccept(urlEditIdentity(changeId));
     adminRestSession.post(urlPublish(changeId)).assertNoContent();
     ChangeInfo info =
         get(changeId, ListChangesOption.CURRENT_COMMIT, ListChangesOption.CURRENT_REVISION);
@@ -620,7 +616,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
     in.type = ChangeEditIdentityType.AUTHOR;
     in.email = "test@example.com";
     adminRestSession.put(urlEditIdentity(changeId), in).assertNoContent();
-    adminRestSession.getJsonAccept(urlEditIdentity(changeId));
     adminRestSession.post(urlPublish(changeId)).assertNoContent();
     ChangeInfo info =
         get(changeId, ListChangesOption.CURRENT_COMMIT, ListChangesOption.CURRENT_REVISION);
@@ -636,7 +631,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
     in.type = ChangeEditIdentityType.AUTHOR;
     in.name = "John Doe";
     adminRestSession.put(urlEditIdentity(changeId), in).assertNoContent();
-    adminRestSession.getJsonAccept(urlEditIdentity(changeId));
     adminRestSession.post(urlPublish(changeId)).assertNoContent();
     ChangeInfo info =
         get(changeId, ListChangesOption.CURRENT_COMMIT, ListChangesOption.CURRENT_REVISION);
@@ -760,6 +754,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(updatedCommitMessage).isEqualTo(in.message);
 
     r = adminRestSession.getJsonAccept(urlEditMessage(changeId, true));
+    r.assertOK();
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(ObjectId.fromString(ps.commitId().name()));
@@ -1276,10 +1271,12 @@ public class ChangeEditIT extends AbstractDaemonTest {
     String editCommitId = edit.get().commit.commit;
 
     RestResponse r = adminRestSession.getJsonAccept(urlRevisionFiles(changeId, editCommitId));
+    r.assertOK();
     Map<String, FileInfo> files = readContentFromJson(r, new TypeToken<Map<String, FileInfo>>() {});
     assertThat(files).containsKey(FILE_NAME);
 
     r = adminRestSession.getJsonAccept(urlRevisionFiles(changeId));
+    r.assertOK();
     files = readContentFromJson(r, new TypeToken<Map<String, FileInfo>>() {});
     assertThat(files).containsKey(FILE_NAME);
   }
@@ -1293,10 +1290,12 @@ public class ChangeEditIT extends AbstractDaemonTest {
     String editCommitId = edit.get().commit.commit;
 
     RestResponse r = adminRestSession.getJsonAccept(urlDiff(changeId, editCommitId, FILE_NAME));
+    r.assertOK();
     DiffInfo diff = readContentFromJson(r, DiffInfo.class);
     assertThat(diff.diffHeader.get(0)).contains(FILE_NAME);
 
     r = adminRestSession.getJsonAccept(urlDiff(changeId, FILE_NAME));
+    r.assertOK();
     diff = readContentFromJson(r, DiffInfo.class);
     assertThat(diff.diffHeader.get(0)).contains(FILE_NAME);
   }

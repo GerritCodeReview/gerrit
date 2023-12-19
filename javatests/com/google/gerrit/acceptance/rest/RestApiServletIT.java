@@ -473,13 +473,10 @@ public class RestApiServletIT extends AbstractDaemonTest {
     return change.getChange().notes().getRevision();
   }
 
-  private RestResponse assertRestResponseWithParameters(int status, String k, String v)
-      throws Exception {
+  private void assertRestResponseWithParameters(int status, String k, String v) throws Exception {
     RestResponse response =
         adminRestSession.getWithHeaders(ANY_REST_API + "?" + k + "=" + v, ACCEPT_STAR_HEADER);
     assertThat(response.getStatusCode()).isEqualTo(status);
-
-    return response;
   }
 
   private RestResponse prettyJsonRestResponse(String ppArgument, int ppValue) throws Exception {

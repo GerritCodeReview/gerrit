@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.testsuite.ThrowingFunction;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.PatchSet;
@@ -181,6 +182,7 @@ public abstract class TestPatchsetCreation {
      *
      * @return the {@code PatchSet.Id} of the created patchset
      */
+    @CanIgnoreReturnValue
     public PatchSet.Id create() {
       TestPatchsetCreation patchsetCreation = build();
       return patchsetCreation.patchsetCreator().applyAndThrowSilently(patchsetCreation);

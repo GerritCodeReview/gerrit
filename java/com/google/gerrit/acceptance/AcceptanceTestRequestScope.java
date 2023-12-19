@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.util.RequestContext;
@@ -134,6 +135,7 @@ public class AcceptanceTestRequestScope {
     return new Context(ctx, ctx.getSession(), ctx.getUser());
   }
 
+  @CanIgnoreReturnValue
   public Context set(Context ctx) {
     Context old = current.get();
     current.set(ctx);

@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.testsuite.account.TestAccount;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import java.io.Reader;
@@ -38,6 +39,7 @@ public abstract class SshSession {
 
   public abstract void close();
 
+  @CanIgnoreReturnValue
   public abstract String exec(String command) throws Exception;
 
   public abstract int execAndReturnStatus(String command) throws Exception;

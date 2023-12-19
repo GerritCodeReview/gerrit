@@ -19,6 +19,7 @@ import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.testsuite.ThrowingFunction;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
@@ -54,6 +55,7 @@ public abstract class TestGroupCreation {
 
     public abstract Builder description(String description);
 
+    @CanIgnoreReturnValue
     public Builder clearDescription() {
       return description("");
     }
@@ -62,10 +64,12 @@ public abstract class TestGroupCreation {
 
     public abstract Builder visibleToAll(boolean visibleToAll);
 
+    @CanIgnoreReturnValue
     public Builder clearMembers() {
       return members(ImmutableSet.of());
     }
 
+    @CanIgnoreReturnValue
     public Builder members(Account.Id member1, Account.Id... otherMembers) {
       return members(Sets.union(ImmutableSet.of(member1), ImmutableSet.copyOf(otherMembers)));
     }
@@ -74,15 +78,18 @@ public abstract class TestGroupCreation {
 
     abstract ImmutableSet.Builder<Account.Id> membersBuilder();
 
+    @CanIgnoreReturnValue
     public Builder addMember(Account.Id member) {
       membersBuilder().add(member);
       return this;
     }
 
+    @CanIgnoreReturnValue
     public Builder clearSubgroups() {
       return subgroups(ImmutableSet.of());
     }
 
+    @CanIgnoreReturnValue
     public Builder subgroups(AccountGroup.UUID subgroup1, AccountGroup.UUID... otherSubgroups) {
       return subgroups(Sets.union(ImmutableSet.of(subgroup1), ImmutableSet.copyOf(otherSubgroups)));
     }
@@ -91,6 +98,7 @@ public abstract class TestGroupCreation {
 
     abstract ImmutableSet.Builder<AccountGroup.UUID> subgroupsBuilder();
 
+    @CanIgnoreReturnValue
     public Builder addSubgroup(AccountGroup.UUID subgroup) {
       subgroupsBuilder().add(subgroup);
       return this;
@@ -106,6 +114,7 @@ public abstract class TestGroupCreation {
      *
      * @return the UUID of the created group
      */
+    @CanIgnoreReturnValue
     public AccountGroup.UUID create() {
       TestGroupCreation groupCreation = autoBuild();
       return testRefAction(() -> groupCreation.groupCreator().applyAndThrowSilently(groupCreation));

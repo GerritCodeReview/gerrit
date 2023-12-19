@@ -19,6 +19,7 @@ import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.ServerInitiated;
@@ -160,6 +161,7 @@ public class AccountOperationsImpl implements AccountOperations {
       checkState(updatedAccount.isPresent(), "Tried to update non-existing test account");
     }
 
+    @CanIgnoreReturnValue
     private Optional<AccountState> updateAccount(ConfigureDeltaFromState configureDeltaFromState)
         throws IOException, ConfigInvalidException {
       return accountsUpdate.update("Update Test Account", accountId, configureDeltaFromState);

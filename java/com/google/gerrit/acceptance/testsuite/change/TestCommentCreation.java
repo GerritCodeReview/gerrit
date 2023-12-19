@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.testsuite.change;
 
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.testsuite.ThrowingFunction;
 import com.google.gerrit.acceptance.testsuite.change.TestRange.Position;
 import com.google.gerrit.common.Nullable;
@@ -68,6 +69,7 @@ public abstract class TestCommentCreation {
   @AutoValue.Builder
   public abstract static class Builder {
 
+    @CanIgnoreReturnValue
     public Builder noMessage() {
       return message("");
     }
@@ -76,11 +78,13 @@ public abstract class TestCommentCreation {
     public abstract Builder message(String message);
 
     /** Indicates a patchset-level comment. */
+    @CanIgnoreReturnValue
     public Builder onPatchsetLevel() {
       return file(Patch.PATCHSET_LEVEL);
     }
 
     /** Indicates a file comment. The comment will be on the specified file. */
+    @CanIgnoreReturnValue
     public Builder onFileLevelOf(String filePath) {
       return file(filePath).line(null).range(null);
     }
@@ -122,6 +126,7 @@ public abstract class TestCommentCreation {
      * <p>On the UI, such comments are shown on the right side of a diff view when a diff against
      * base is selected. See {@link #onParentCommit()} for comments shown on the left side.
      */
+    @CanIgnoreReturnValue
     public Builder onPatchsetCommit() {
       return side(CommentSide.PATCHSET_COMMIT);
     }
@@ -135,11 +140,13 @@ public abstract class TestCommentCreation {
      *
      * <p>For merge commits, this indicates the first parent commit.
      */
+    @CanIgnoreReturnValue
     public Builder onParentCommit() {
       return side(CommentSide.PARENT_COMMIT);
     }
 
     /** Like {@link #onParentCommit()} but for the second parent of a merge commit. */
+    @CanIgnoreReturnValue
     public Builder onSecondParentCommit() {
       return side(CommentSide.SECOND_PARENT_COMMIT);
     }
@@ -148,6 +155,7 @@ public abstract class TestCommentCreation {
      * Like {@link #onParentCommit()} but for the AutoMerge commit created from the parents of a
      * merge commit.
      */
+    @CanIgnoreReturnValue
     public Builder onAutoMergeCommit() {
       return side(CommentSide.AUTO_MERGE_COMMIT);
     }
@@ -155,11 +163,13 @@ public abstract class TestCommentCreation {
     abstract Builder side(CommentSide side);
 
     /** Indicates a resolved comment. */
+    @CanIgnoreReturnValue
     public Builder resolved() {
       return unresolved(false);
     }
 
     /** Indicates an unresolved comment. */
+    @CanIgnoreReturnValue
     public Builder unresolved() {
       return unresolved(true);
     }
@@ -211,6 +221,7 @@ public abstract class TestCommentCreation {
      *
      * @return the UUID of the created comment
      */
+    @CanIgnoreReturnValue
     public String create() {
       TestCommentCreation commentCreation = autoBuild();
       return commentCreation.commentCreator().applyAndThrowSilently(commentCreation);

@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.testsuite.group;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.acceptance.testsuite.ThrowingConsumer;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
@@ -56,6 +57,7 @@ public abstract class TestGroupUpdate {
 
     public abstract Builder description(String description);
 
+    @CanIgnoreReturnValue
     public Builder clearDescription() {
       return description("");
     }
@@ -69,10 +71,12 @@ public abstract class TestGroupUpdate {
 
     abstract Function<ImmutableSet<Account.Id>, Set<Account.Id>> memberModification();
 
+    @CanIgnoreReturnValue
     public Builder clearMembers() {
       return memberModification(originalMembers -> ImmutableSet.of());
     }
 
+    @CanIgnoreReturnValue
     public Builder addMember(Account.Id member) {
       Function<ImmutableSet<Account.Id>, Set<Account.Id>> previousModification =
           memberModification();
@@ -82,6 +86,7 @@ public abstract class TestGroupUpdate {
       return this;
     }
 
+    @CanIgnoreReturnValue
     public Builder removeMember(Account.Id member) {
       Function<ImmutableSet<Account.Id>, Set<Account.Id>> previousModification =
           memberModification();
@@ -98,10 +103,12 @@ public abstract class TestGroupUpdate {
     abstract Function<ImmutableSet<AccountGroup.UUID>, Set<AccountGroup.UUID>>
         subgroupModification();
 
+    @CanIgnoreReturnValue
     public Builder clearSubgroups() {
       return subgroupModification(originalMembers -> ImmutableSet.of());
     }
 
+    @CanIgnoreReturnValue
     public Builder addSubgroup(AccountGroup.UUID subgroup) {
       Function<ImmutableSet<AccountGroup.UUID>, Set<AccountGroup.UUID>> previousModification =
           subgroupModification();
@@ -111,6 +118,7 @@ public abstract class TestGroupUpdate {
       return this;
     }
 
+    @CanIgnoreReturnValue
     public Builder removeSubgroup(AccountGroup.UUID subgroup) {
       Function<ImmutableSet<AccountGroup.UUID>, Set<AccountGroup.UUID>> previousModification =
           subgroupModification();

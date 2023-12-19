@@ -16,6 +16,75 @@
       "message": "I am torn about introducing a new section. I think we already have a couple of UI related configs in other sections. So maybe we should be moving this to the `change` section? WDYT? @ekempin@google.com",
       "revId": "cbeb77edbe787a7ec9a7faa75a0e01c732d7305d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "534f3eaa_4327aefb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6098,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-12-19T12:33:21Z",
+      "side": 1,
+      "message": "Yes, if possible I would like to avoid new sections too, `change` sounds like a suitable section to me.",
+      "parentUuid": "0f75a064_64ceacb8",
+      "revId": "cbeb77edbe787a7ec9a7faa75a0e01c732d7305d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8b49468_e5ae7306",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-12-19T12:33:21Z",
+      "side": 1,
+      "message": "Please also document this at https://gerrit-review.googlesource.com/Documentation/config-submit-requirements.html",
+      "revId": "cbeb77edbe787a7ec9a7faa75a0e01c732d7305d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7466a32d_ce15b19f",
+        "filename": "java/com/google/gerrit/extensions/common/ServerInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-12-19T12:33:21Z",
+      "side": 1,
+      "message": "I see that this was added here because submitRequirementDashboardColumns is here, but actually the structure of ServerInfo is supposed to follow the structure in gerrit.config, e.g. if the setting is ui.submitRequirements.hideIfSatisfied then we should have an ui field here that contains a submitRequirements field that than has a hideIfSatisfied field.\n\nNot sure if this still makes sense now when submitRequirementDashboardColumns is already in the wrong place...",
+      "revId": "cbeb77edbe787a7ec9a7faa75a0e01c732d7305d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "20ba3396_947f85fa",
+        "filename": "java/com/google/gerrit/extensions/common/ServerInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-12-19T12:33:21Z",
+      "side": 1,
+      "message": "Please document this new field at https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#server-info",
+      "revId": "cbeb77edbe787a7ec9a7faa75a0e01c732d7305d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -22,6 +22,30 @@
       },
       "revId": "b87dda0e5ca79a77486ece7b494318f86253306e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3e9e449_87caeff3",
+        "filename": ".bazelrc",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-12-19T09:26:15Z",
+      "side": 1,
+      "message": "I\u0027ve answered your question in the commit message. Done.",
+      "parentUuid": "2097edb8_6222c28e",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 52
+      },
+      "revId": "b87dda0e5ca79a77486ece7b494318f86253306e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

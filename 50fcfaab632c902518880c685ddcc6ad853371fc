@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fa312e2_7e7ba444",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-12-19T12:54:48Z",
+      "side": 1,
+      "message": "verification failed due to this issue with the update to bazel 7.0 https://issues.gerritcodereview.com/issues/316936462",
+      "revId": "50fcfaab632c902518880c685ddcc6ad853371fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

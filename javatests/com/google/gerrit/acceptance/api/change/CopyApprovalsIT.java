@@ -19,6 +19,7 @@ import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
+import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
@@ -30,9 +31,13 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ApprovalInfo;
+import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.approval.RecursiveApprovalCopier;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
+import com.google.inject.Module;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +50,21 @@ import org.junit.Test;
 public class CopyApprovalsIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RecursiveApprovalCopier recursiveApprovalCopier;
+
+  @Override
+  public Module createModule() {
+    return new AbstractModule() {
+      @Override
+      protected void configure() {
+        CopyApprovalsReferenceUpdateListener referenceUpdateListener =
+            new CopyApprovalsReferenceUpdateListener();
+
+        bind(CopyApprovalsReferenceUpdateListener.class).toInstance(referenceUpdateListener);
+        DynamicSet.bind(binder(), GitReferenceUpdatedListener.class)
+            .toInstance(referenceUpdateListener);
+      }
+    };
+  }
 
   @Test
   public void multipleProjects() throws Exception {
@@ -222,6 +242,37 @@ public class CopyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void refUpdateNotified() throws Exception {
+    PushOneCommit.Result change = createChange();
+    gApi.changes().id(change.getChangeId()).current().review(ReviewInput.recommend());
+
+    // this amend is a rework so votes will not be copied.
+    amendChange(change.getChangeId());
+
+    // votes don't exist on the new patch-set for all changes.
+    assertThat(gApi.changes().id(change.getChangeId()).current().votes()).isEmpty();
+
+    // change the project config to make the vote that was not copied to be copied once we do the
+    // schema upgrade.
+    try (ProjectConfigUpdate u = updateProject(allProjects)) {
+      u.getConfig().updateLabelType(LabelId.CODE_REVIEW, b -> b.setCopyAnyScore(true));
+      u.save();
+    }
+
+    ObjectId metaId = change.getChange().notes().getMetaId();
+    recursiveApprovalCopier.persist(project, null);
+
+    ApprovalInfo vote1 =
+        Iterables.getOnlyElement(
+            gApi.changes().id(change.getChangeId()).current().votes().values());
+    assertThat(vote1.value).isEqualTo(1);
+    assertThat(vote1._accountId).isEqualTo(admin.id().get());
+
+    CopyApprovalsReferenceUpdateListener testListener = testListener();
+    assertThat(testListener.refUpdateFor(metaId)).isTrue();
+  }
+
+  @Test
   public void oneCorruptChange_otherChangesProcessed() throws Exception {
     PushOneCommit.Result good = createChange();
     gApi.changes().id(good.getChangeId()).current().review(ReviewInput.recommend());
@@ -253,5 +304,23 @@ public class CopyApprovalsIT extends AbstractDaemonTest {
         Iterables.getOnlyElement(gApi.changes().id(good.getChangeId()).current().votes().values());
     assertThat(vote1.value).isEqualTo(1);
     assertThat(vote1._accountId).isEqualTo(admin.id().get());
+  }
+
+  private CopyApprovalsReferenceUpdateListener testListener() {
+    return server.getTestInjector().getInstance(CopyApprovalsReferenceUpdateListener.class);
+  }
+
+  private static class CopyApprovalsReferenceUpdateListener implements GitReferenceUpdatedListener {
+    private final AtomicLongMap<String> countsByOldObjectId = AtomicLongMap.create();
+
+    @Override
+    public void onGitReferenceUpdated(Event event) {
+      String oldObjectId = event.getOldObjectId();
+      countsByOldObjectId.incrementAndGet(oldObjectId);
+    }
+
+    boolean refUpdateFor(ObjectId metaRef) {
+      return countsByOldObjectId.containsKey(metaRef.getName());
+    }
   }
 }

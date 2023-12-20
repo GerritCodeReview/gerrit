@@ -177,8 +177,8 @@ public class AbandonIT extends AbstractDaemonTest {
     assertThat(query("is:abandoned")).isEmpty();
 
     // submit one of the conflicting changes
-    gApi.changes().id(id3).current().review(ReviewInput.approve());
-    gApi.changes().id(id3).current().submit();
+    gApi.changes().id(project.get(), id3).current().review(ReviewInput.approve());
+    gApi.changes().id(project.get(), id3).current().submit();
     assertThat(toChangeNumbers(query("is:merged"))).containsExactly(id3);
     assertThat(toChangeNumbers(query("-is:mergeable"))).containsExactly(id4);
 
@@ -221,8 +221,8 @@ public class AbandonIT extends AbstractDaemonTest {
     assertThat(query("is:abandoned")).isEmpty();
 
     // submit one of the conflicting changes
-    gApi.changes().id(id3).current().review(ReviewInput.approve());
-    gApi.changes().id(id3).current().submit();
+    gApi.changes().id(project.get(), id3).current().review(ReviewInput.approve());
+    gApi.changes().id(project.get(), id3).current().submit();
     assertThat(toChangeNumbers(query("is:merged"))).containsExactly(id3);
 
     BadRequestException thrown =

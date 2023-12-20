@@ -65,17 +65,19 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
   @UseClockStep
   public void stopQueryIfNoMoreResults() throws Exception {
     // create 2 visible changes
-    try (TestRepository<Repository> testRepo = createAndOpenProject("repo")) {
-      insert("repo", newChange(testRepo));
-      insert("repo", newChange(testRepo));
+    Project.NameKey project = Project.nameKey("repo");
+    try (TestRepository<Repository> testRepo = createAndOpenProject(project)) {
+      insert(project, newChange(testRepo));
+      insert(project, newChange(testRepo));
     }
 
     // create 2 invisible changes
-    try (TestRepository<Repository> hiddenProject = createAndOpenProject("hiddenProject")) {
-      insert("hiddenProject", newChange(hiddenProject));
-      insert("hiddenProject", newChange(hiddenProject));
+    Project.NameKey hiddenProject = Project.nameKey("hiddenProject");
+    try (TestRepository<Repository> hiddenRepo = createAndOpenProject(hiddenProject)) {
+      insert(hiddenProject, newChange(hiddenRepo));
+      insert(hiddenProject, newChange(hiddenRepo));
       projectOperations
-          .project(Project.nameKey("hiddenProject"))
+          .project(hiddenProject)
           .forUpdate()
           .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
           .update();
@@ -92,11 +94,12 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
   public void noLimitQueryPaginates() throws Exception {
     assumeFalse(PaginationType.NONE == getCurrentPaginationType());
 
-    try (TestRepository<Repository> testRepo = createAndOpenProject("repo")) {
-      insert("repo", newChange(testRepo));
-      insert("repo", newChange(testRepo));
-      insert("repo", newChange(testRepo));
-      insert("repo", newChange(testRepo));
+    Project.NameKey project = Project.nameKey("repo");
+    try (TestRepository<Repository> testRepo = createAndOpenProject(project)) {
+      insert(project, newChange(testRepo));
+      insert(project, newChange(testRepo));
+      insert(project, newChange(testRepo));
+      insert(project, newChange(testRepo));
     }
     // Set queryLimit to 2
     projectOperations
@@ -191,11 +194,12 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
     assumeFalse(PaginationType.NONE == getCurrentPaginationType());
     final int LIMIT = 2;
 
-    try (TestRepository<Repository> testRepo = createAndOpenProject("repo")) {
-      insert("repo", newChange(testRepo));
-      insert("repo", newChange(testRepo));
-      insert("repo", newChange(testRepo));
-      insert("repo", newChange(testRepo));
+    Project.NameKey project = Project.nameKey("repo");
+    try (TestRepository<Repository> testRepo = createAndOpenProject(project)) {
+      insert(project, newChange(testRepo));
+      insert(project, newChange(testRepo));
+      insert(project, newChange(testRepo));
+      insert(project, newChange(testRepo));
     }
     // Set queryLimit to 2
     projectOperations
@@ -237,11 +241,12 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
   }
 
   private AbstractFakeIndex<?, ?, ?> setupRepoWithFourChanges() throws Exception {
-    try (TestRepository<Repository> testRepo = createAndOpenProject("repo")) {
-      insert("repo", newChange(testRepo));
-      insert("repo", newChange(testRepo));
-      insert("repo", newChange(testRepo));
-      insert("repo", newChange(testRepo));
+    Project.NameKey project = Project.nameKey("repo");
+    try (TestRepository<Repository> testRepo = createAndOpenProject(project)) {
+      insert(project, newChange(testRepo));
+      insert(project, newChange(testRepo));
+      insert(project, newChange(testRepo));
+      insert(project, newChange(testRepo));
     }
 
     // Set queryLimit to 2

@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e100720f_073fe20e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-20T16:58:33Z",
+      "side": 1,
+      "message": "Remove `the`",
+      "range": {
+        "startLine": 23,
+        "startChar": 42,
+        "endLine": 23,
+        "endChar": 45
+      },
+      "revId": "0be09ef5b9cacf286a3b5f1ff845e1c63e5bc6f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "7bb169a0_7906316a",
@@ -14,6 +37,52 @@
       "writtenOn": "2023-12-20T16:58:20Z",
       "side": 1,
       "message": "the `java.util.Optional` is known to not be serialisable, can have a test that will show that it\u0027s correctly transformed into JSON and back by Gson?",
+      "revId": "0be09ef5b9cacf286a3b5f1ff845e1c63e5bc6f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0033115_8ab7cbd9",
+        "filename": "java/com/google/gerrit/extensions/events/NewProjectCreatedListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-20T16:58:33Z",
+      "side": 1,
+      "message": "I don\u0027t believe this is the right place: the instanceId is something in common for all Gerrit events.\n\nIMHO it should go to `com.google.gerrit.extensions.events.GerritEvent`.\n\nFor avoiding the pain to change most of Gerrit classes, you can have a default implementation that returns `null`.\n\nExample:\n```\npublic interface GerritEvent {\n\n  default String getInstanceId() {\n    return null;\n  }\n\n  NotifyHandling getNotify();\n}\n```",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 37
+      },
+      "revId": "0be09ef5b9cacf286a3b5f1ff845e1c63e5bc6f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acff2952_46c0dbcd",
+        "filename": "java/com/google/gerrit/server/project/ProjectCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-20T16:58:33Z",
+      "side": 1,
+      "message": "`instanceId` is not `Optional` but a `String` everywhere else in Gerrit.\n\ncom.google.gerrit.server.events.Events:\n\n```\npublic abstract class Event {\n  public final String type;\n  public long eventCreatedOn \u003d TimeUtil.nowMs() / 1000L;\n  public String instanceId;\n\n  protected Event(String type) {\n    this.type \u003d type;\n  }\n\n  public String getType() {\n    return type;\n  }\n}\n```",
+      "range": {
+        "startLine": 261,
+        "startChar": 18,
+        "endLine": 261,
+        "endChar": 34
+      },
       "revId": "0be09ef5b9cacf286a3b5f1ff845e1c63e5bc6f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

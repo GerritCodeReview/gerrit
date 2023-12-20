@@ -2236,6 +2236,7 @@ public class AccountIT extends AbstractDaemonTest {
                 null,
                 null,
                 null,
+                null,
                 exceptionHooks,
                 r ->
                     r.withStopStrategy(StopStrategies.stopAfterAttempt(status.size()))
@@ -3654,6 +3655,7 @@ public class AccountIT extends AbstractDaemonTest {
         new RetryHelper(
             cfg,
             retryMetrics,
+            null,
             null,
             null,
             null,

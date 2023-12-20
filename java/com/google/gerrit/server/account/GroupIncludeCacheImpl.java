@@ -38,10 +38,9 @@ import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
-import com.google.gerrit.server.query.group.InternalGroupQuery;
+import com.google.gerrit.server.update.RetryHelper;
 import com.google.inject.Inject;
 import com.google.inject.Module;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
@@ -191,11 +190,11 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
 
   static class GroupsWithMemberLoader
       extends CacheLoader<Account.Id, ImmutableSet<AccountGroup.UUID>> {
-    private final Provider<InternalGroupQuery> groupQueryProvider;
+    private final RetryHelper retryHelper;
 
     @Inject
-    GroupsWithMemberLoader(Provider<InternalGroupQuery> groupQueryProvider) {
-      this.groupQueryProvider = groupQueryProvider;
+    GroupsWithMemberLoader(RetryHelper retryHelper) {
+      this.retryHelper = retryHelper;
     }
 
     @Override
@@ -203,9 +202,14 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
       try (TraceTimer timer =
           TraceContext.newTimer(
               "Loading groups with member", Metadata.builder().accountId(memberId.get()).build())) {
-        return groupQueryProvider.get().byMember(memberId).stream()
-            .map(InternalGroup::getGroupUUID)
-            .collect(toImmutableSet());
+        return retryHelper
+            .groupIndexQuery(
+                "loadGroupWithMember",
+                q ->
+                    q.byMember(memberId).stream()
+                        .map(InternalGroup::getGroupUUID)
+                        .collect(toImmutableSet()))
+            .call();
       }
     }
   }
@@ -215,11 +219,11 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     // Be conservative with batching: We don't want to exhaust the number of
     // results per page and maximum terms per query. Both are usually 1000+.
     private static final int MAX_BATCH_SIZE = 100;
-    private final Provider<InternalGroupQuery> groupQueryProvider;
+    private final RetryHelper retryHelper;
 
     @Inject
-    ParentGroupsLoader(Provider<InternalGroupQuery> groupQueryProvider) {
-      this.groupQueryProvider = groupQueryProvider;
+    ParentGroupsLoader(RetryHelper retryHelper) {
+      this.retryHelper = retryHelper;
     }
 
     @Override
@@ -238,10 +242,12 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
       Map<AccountGroup.UUID, ImmutableSet<AccountGroup.UUID>> result =
           Maps.newHashMapWithExpectedSize(numKeys);
       try (TraceTimer timer = TraceContext.newTimer("Loading " + numKeys + " parent groups")) {
+        Map<AccountGroup.UUID, ImmutableSet<AccountGroup.UUID>> bySubgroups =
+            retryHelper
+                .groupIndexQuery("loadParentGroups", q -> q.bySubgroups(ImmutableSet.copyOf(keys)))
+                .call();
         Iterables.partition(keys, MAX_BATCH_SIZE)
-            .forEach(
-                keyPartition ->
-                    result.putAll(groupQueryProvider.get().bySubgroups(ImmutableSet.copyOf(keys))));
+            .forEach(keyPartition -> result.putAll(bySubgroups));
         return result;
       }
     }

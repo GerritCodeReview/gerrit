@@ -34,6 +34,23 @@
       "parentUuid": "4dffbf11_6d0ff626",
       "revId": "d7734083e275fbe1cacc94cb2474493803072e61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e92e2b0_aa973d9c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-12-20T06:10:49Z",
+      "side": 1,
+      "message": "@poucet@google.com Could you help to resolve the delay with re-applying of LC+1 label from patch set 1 of this change from Google side?\n\nNote, this is a no-op change, unless you are passing new configuration option to optionally use Java 21 and produce Java 21 major byte code version.",
+      "revId": "d7734083e275fbe1cacc94cb2474493803072e61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -41,10 +41,15 @@ public abstract class TestAccountCreation {
 
   abstract ThrowingFunction<TestAccountCreation, Account.Id> accountCreator();
 
-  public static Builder builder(ThrowingFunction<TestAccountCreation, Account.Id> accountCreator) {
-    return new AutoValue_TestAccountCreation.Builder()
-        .accountCreator(accountCreator)
-        .httpPassword("http-pass");
+  public static Builder builder(
+      ThrowingFunction<TestAccountCreation, Account.Id> accountCreator,
+      boolean arePasswordsAllowed) {
+    TestAccountCreation.Builder builder =
+        new AutoValue_TestAccountCreation.Builder().accountCreator(accountCreator);
+    if (arePasswordsAllowed) {
+      builder.httpPassword("http-pass");
+    }
+    return builder;
   }
 
   @AutoValue.Builder

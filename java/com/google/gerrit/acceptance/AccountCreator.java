@@ -87,7 +87,7 @@ public class AccountCreator {
     List<ExternalId> extIds = new ArrayList<>(2);
     String httpPass = null;
     if (username != null) {
-      httpPass = "http-pass";
+      httpPass = externalIdFactory.arePasswordsAllowed() ? "http-pass" : null;
       extIds.add(externalIdFactory.createUsername(username, id, httpPass));
     }
 

@@ -25,7 +25,6 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.git.ChangesByProjectCache.UseIndex;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
@@ -95,7 +94,7 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
     if (projectChanges != null) {
       return projectChanges
           .getUpdatedChangeDatas(
-              project, repo, cdFactory, ChangeNotes.Factory.scanChangeIds(repo), "Updating")
+              project, cdFactory, ChangeNotes.Factory.scanChangeIds(repo), "Updating")
           .stream();
     }
     if (UseIndex.TRUE.equals(useIndex)) {
@@ -115,7 +114,6 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
     }
     return projectChanges.getUpdatedChangeDatas(
         project,
-        repo,
         cdFactory,
         ChangeNotes.Factory.scanChangeIds(repo),
         ours == projectChanges ? "Scanning" : "Updating");
@@ -152,7 +150,6 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
 
     public Collection<ChangeData> getUpdatedChangeDatas(
         Project.NameKey project,
-        Repository repo,
         ChangeData.Factory cdFactory,
         Map<Change.Id, ObjectId> metaObjectIdByChange,
         String operation) {

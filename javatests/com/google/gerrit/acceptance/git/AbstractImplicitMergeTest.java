@@ -73,7 +73,7 @@ public abstract class AbstractImplicitMergeTest extends AbstractDaemonTest {
    */
   protected RevCommit createChangeWithoutPush(
       String changeId, ImmutableMap<String, String> files, RevCommit... parents) throws Exception {
-    TestRepository.CommitBuilder commitBuilder =
+    TestRepository<?>.CommitBuilder commitBuilder =
         testRepo
             .commit()
             .message("Change " + changeId)

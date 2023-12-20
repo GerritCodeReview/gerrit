@@ -95,6 +95,8 @@ def _build_bazel_cmd(*args):
         if arg == "build":
             build = True
         cmd.append(arg)
+        if (os.environ.get('BAZEL_OPTS')):
+            cmd.append(os.environ.get('BAZEL_OPTS'))
     if custom_java:
         cmd.append('--config=java%s' % custom_java)
     return cmd

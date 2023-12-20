@@ -156,6 +156,16 @@ Install gerrit.war to the local maven repository:
   tools/maven/api.sh war_install
 ----
 
+Note, that `BAZEL_OPTS` environment variable is respected in
+`tools/maven/api.sh` utility. For example, remote cache can be
+passed like this:
+
+----
+  export BAZEL_OPTS=--remote_cache=https//example.com:9090
+  tools/maven/api.sh war_install
+----
+
+
 === Plugins
 
 ----
@@ -208,6 +218,15 @@ Create the Eclipse project:
 ----
 
 and then follow the link:dev-eclipse.html#setup[setup instructions].
+
+Note, that `BAZEL_OPTS` environment variable is supported in
+`tools/eclipse/project.py` utility. For example, remote cache can be
+passed:
+
+----
+  export BAZEL_OPTS=--remote_cache=https//example.com:9090
+  tools/eclipse/project.py
+----
 
 ==== Refreshing the Classpath
 

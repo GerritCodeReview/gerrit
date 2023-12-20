@@ -23,6 +23,7 @@ import com.google.gerrit.index.IndexRewriter;
 import com.google.gerrit.index.SchemaDefinitions;
 import java.util.function.IntSupplier;
 import org.junit.Test;
+import org.mockito.Mock;
 
 public class QueryProcessorTest {
 
@@ -38,13 +39,16 @@ public class QueryProcessorTest {
 
   private String limitField = null;
 
-  public QueryProcessor createProcessor() {
+  @Mock private SchemaDefinitions<String> schemaDef;
+
+  @Mock private IndexCollection<?, String, ?> indexes;
+
+  @Mock private IndexRewriter<String> rewriter;
+
+  public QueryProcessor<String> createProcessor() {
     QueryProcessor.Metrics metrics = mock(QueryProcessor.Metrics.class);
-    SchemaDefinitions schemaDef = mock(SchemaDefinitions.class);
     IndexConfig indexConfig =
         IndexConfig.builder().maxLimit(maxLimit).defaultLimit(defaultLimit).build();
-    IndexCollection indexes = mock(IndexCollection.class);
-    IndexRewriter rewriter = mock(IndexRewriter.class);
     IntSupplier userQueryLimit =
         new IntSupplier() {
           @Override
@@ -53,8 +57,8 @@ public class QueryProcessorTest {
           }
         };
 
-    QueryProcessor processor =
-        new QueryProcessor<String>(
+    QueryProcessor<String> processor =
+        new QueryProcessor<>(
             metrics, schemaDef, indexConfig, indexes, rewriter, limitField, userQueryLimit) {
           @Override
           protected Predicate<String> enforceVisibility(Predicate<String> pred) {
@@ -107,7 +111,7 @@ public class QueryProcessorTest {
   @Test
   public void getEffectiveLimit_LimitField() throws QueryParseException {
     limitField = "limit";
-    assertThat(createProcessor().getEffectiveLimit(new LimitPredicate(limitField, 314)))
+    assertThat(createProcessor().getEffectiveLimit(new LimitPredicate<>(limitField, 314)))
         .isEqualTo(314);
   }
 
@@ -116,12 +120,12 @@ public class QueryProcessorTest {
     limitField = "limit";
     int[] limits = {271, 314, 499, 666};
 
-    LimitPredicate p = null;
+    LimitPredicate<String> p = null;
     for (int i = 0; i < 4; i++) {
       userProvidedLimit = limits[0];
       userQueryLimit = limits[1];
       maxLimit = limits[2];
-      p = new LimitPredicate(limitField, limits[3]);
+      p = new LimitPredicate<>(limitField, limits[3]);
 
       // "rotate" the array of limits
       int l = limits[0];

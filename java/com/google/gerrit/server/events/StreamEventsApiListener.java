@@ -345,6 +345,12 @@ public class StreamEventsApiListener
 
   @Override
   public void onNewProjectCreated(NewProjectCreatedListener.Event ev) {
+    if (ev.getInstanceId().isPresent()) {
+      logger.atFine().log(
+          "Ignoring project-created event which originates from instance %s",
+          ev.getInstanceId().get());
+      return;
+    }
     ProjectCreatedEvent event = new ProjectCreatedEvent();
     event.projectName = ev.getProjectName();
     event.headName = ev.getHeadName();

@@ -28,7 +28,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.hash.Hashing;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
@@ -57,6 +56,7 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.restapi.change.ApplyPatchUtil;
 import com.google.inject.Inject;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -363,7 +363,7 @@ public class ApplyPatchIT extends AbstractDaemonTest {
                 + "\n[[[Original patch trimmed due to size. Decoded string size: "
                 + removePatchHeader(patch).length()
                 + ". Decoded string SHA1: "
-                + Hashing.sha1().hashString(removePatchHeader(patch), UTF_8)
+                + ApplyPatchUtil.sha1(removePatchHeader(patch))
                 + ".]]]"
                 + "\n\nChange-Id: "
                 + result.changeId

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.account.externalids.storage.notedb;
 
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static java.util.stream.Collectors.joining;
 
@@ -24,22 +23,22 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyP
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.HashedPassword;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.account.externalids.ExternalIdFactory;
 import com.google.gerrit.server.account.externalids.ExternalIdsConsistencyChecker;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevWalk;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Singleton
 public class ExternalIdsConsistencyCheckerNoteDbImpl implements ExternalIdsConsistencyChecker {
@@ -53,14 +52,11 @@ public class ExternalIdsConsistencyCheckerNoteDbImpl implements ExternalIdsConsi
       GitRepositoryManager repoManager,
       AllUsersName allUsers,
       OutgoingEmailValidator validator,
-      ExternalIdFactory externalIdFactory) {
+      ExternalIdFactoryNoteDbImpl externalIdFactory) {
     this.repoManager = repoManager;
     this.allUsers = allUsers;
     this.validator = validator;
-    checkState(
-        externalIdFactory instanceof ExternalIdFactoryNoteDbImpl,
-        "ExternalIdsConsistencyCheckerNoteDbImpl must be initiated with ExternalIdFactoryNoteDbImpl.");
-    this.externalIdFactory = (ExternalIdFactoryNoteDbImpl) externalIdFactory;
+    this.externalIdFactory = externalIdFactory;
   }
 
   @Override

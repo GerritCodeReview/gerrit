@@ -33,6 +33,23 @@
       "message": "mark waiting for verifying BB JDK11, JDK17, JDK21.",
       "revId": "d0908c95d88ad37453128e5b6ce9cf1f5cdc8e41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2820d70_f1e84ed7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-20T23:16:17Z",
+      "side": 1,
+      "message": "Tests:\n\n- BuildBuddy JDK17:\n\n```\nbazelisk  test --config\u003dremote_bb \\\n--remote_header\u003dXXXXXX \\\n--flaky_test_attempts 3 \\\n--test_timeout 3600 \\\n--test_tag_filters\u003d-flaky,-elastic,-no_rbe \\\n//...\n```\n\n- BuildBuddy JDK11:\n\n```\nbazelisk  test --config\u003dremote11_bb \\\n--remote_header\u003dXXXXXX \\\n--flaky_test_attempts 3 \\\n--test_timeout 3600 \\\n--test_tag_filters\u003d-flaky,-elastic,-no_rbe \\\n//...\n```\n\n- BuildBuddy JDK21:\n\n```\nbazelisk  test --config\u003dremote21_bb \\\n--remote_header\u003dXXXXXX \\\n--flaky_test_attempts 3 \\\n--test_timeout 3600 \\\n--test_tag_filters\u003d-flaky,-elastic,-no_rbe \\\n//...\n```\n\nOnly 1 test failing:\n\n```\nThere was 1 failure:\n1) invalidTargetArchiveFolder(com.googlesource.gerrit.plugins.deleteproject.ConfigurationTest)\nexpected: /buildbuddy/remotebuilds/b11dc660-668b-4b78-a864-2ba3d4d20871/_tmp/1a603f63979fdbf7741d14f4152518a3/junit2943786451539701377/data\nbut was : /\\\\\\\n\tat com.googlesource.gerrit.plugins.deleteproject.ConfigurationTest.invalidTargetArchiveFolder(ConfigurationTest.java:127)\n```\n\nThis testwill be removed with the change 397838",
+      "revId": "d0908c95d88ad37453128e5b6ce9cf1f5cdc8e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

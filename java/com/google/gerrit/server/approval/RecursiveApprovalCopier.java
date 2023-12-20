@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.InternalUser;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -68,6 +69,7 @@ public class RecursiveApprovalCopier {
   private final InternalUser.Factory internalUserFactory;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeNotes.Factory changeNotesFactory;
+  private final GitReferenceUpdated gitRefUpdated;
   private final ListeningExecutorService executor;
 
   private final ConcurrentHashMap<Project.NameKey, List<ReceiveCommand>> pendingRefUpdates =
@@ -88,12 +90,14 @@ public class RecursiveApprovalCopier {
       InternalUser.Factory internalUserFactory,
       ApprovalsUtil approvalsUtil,
       ChangeNotes.Factory changeNotesFactory,
+      GitReferenceUpdated gitRefUpdated,
       @FanOutExecutor ExecutorService executor) {
     this.batchUpdateFactory = batchUpdateFactory;
     this.repositoryManager = repositoryManager;
     this.internalUserFactory = internalUserFactory;
     this.approvalsUtil = approvalsUtil;
     this.changeNotesFactory = changeNotesFactory;
+    this.gitRefUpdated = gitRefUpdated;
     this.executor = MoreExecutors.listeningDecorator(executor);
   }
 
@@ -240,6 +244,7 @@ public class RecursiveApprovalCopier {
       }
       bu.addCommand(updates);
       RefUpdateUtil.executeChecked(bu, repository);
+      gitRefUpdated.fire(project, bu, null);
 
       finishedRefUpdates.addAndGet(updates.size());
       logProgress();

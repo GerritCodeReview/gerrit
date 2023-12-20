@@ -41,7 +41,7 @@ When modifying submit requirements it's recommended to test them before
 updating them in the project configuration.
 
 To test a submit requirement on a selected change
-link:rest-api-changes.html#change-id[project~branch~changeId] use the
+link:rest-api-changes.html#change-id[project\~branch~changeId] use the
 link:rest-api-changes.html#check-submit-requirement[Check Submit Requirement]
 REST endpoint.
 

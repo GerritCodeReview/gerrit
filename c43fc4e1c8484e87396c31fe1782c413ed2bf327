@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "be361d5c_fb87b568",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-12-20T13:47:35Z",
+      "side": 1,
+      "message": "- The download-commands plugin is pretty odd, its configuration is in core and implementation in a plugin, why that ?\n- It might be useful to also show the extended clone command including commit-msg hook and configuration of remote.origin.pushUrl in gitiles.\n- We could create a branch stable-3.9 and make the maintenance branches use that",
+      "parentUuid": "6fc44a71_51ec13bd",
+      "revId": "c43fc4e1c8484e87396c31fe1782c413ed2bf327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "33e56810_f3d29622",
         "filename": "java/com/google/gerrit/server/ssh/SshAddressesModule.java",
         "patchSetId": 5
@@ -85,6 +103,24 @@
       "side": 1,
       "message": "Thanks! I think you want them to have the same topic to link them in order to not break the build when you submit. Can you also add an `@UsedAt(UsedAt.Project.PLUGIN_DOWNLOAD_COMMANDS)` here?\n\nShould this have tests added?",
       "parentUuid": "35d7b6bb_757d58a0",
+      "revId": "c43fc4e1c8484e87396c31fe1782c413ed2bf327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d4525c2_3563ea43",
+        "filename": "java/com/google/gerrit/server/ssh/SshAddressesModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-12-20T13:47:35Z",
+      "side": 1,
+      "message": "Done\n\nyes, I will add tests",
+      "parentUuid": "a75fc9fe_a2b4bba4",
       "revId": "c43fc4e1c8484e87396c31fe1782c413ed2bf327",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

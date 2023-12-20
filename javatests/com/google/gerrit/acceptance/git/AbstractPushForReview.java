@@ -496,6 +496,40 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void autocloseByChangeIdViaMerge() throws Exception {
+    RevCommit initialHead =
+        testRepo.getRevWalk().parseCommit(testRepo.getRepository().resolve("HEAD"));
+
+    // Create a change
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    r.assertOkStatus();
+
+    // Amend the commit locally
+    RevCommit c = testRepo.amend(r.getCommit()).create();
+    assertThat(c).isNotEqualTo(r.getCommit());
+
+    testRepo.reset(initialHead);
+
+    // Force push a merge commit that integrates the amended commit, closing it
+    pushFactory
+        .create(admin.newIdent(), testRepo)
+        .setParents(ImmutableList.of(initialHead, c))
+        .to("refs/heads/master")
+        .assertOkStatus();
+
+    // Attempt to push the amended commit to the same change
+    testRepo.reset(c);
+    String url = canonicalWebUrl.get() + "c/" + project.get() + "/+/" + r.getChange().getId();
+    r = amendChange(r.getChangeId(), "refs/for/master");
+    r.assertErrorStatus("change " + url + " closed");
+
+    // Check that the new commit was added as a patch set
+    ChangeInfo change = change(r).get();
+    assertThat(change.revisions).hasSize(2);
+    assertThat(change.currentRevision).isEqualTo(c.name());
+  }
+
+  @Test
   public void pushForMasterWithTopic() throws Exception {
     TopicValidator topicValidator = new TopicValidator();
     try (Registration registration = extensionRegistry.newRegistration().add(topicValidator)) {

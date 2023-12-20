@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cb79f2e8_703349d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-12-20T14:08:41Z",
+      "side": 1,
+      "message": "\u003e - The download-commands plugin is pretty odd, its configuration is in core and implementation in a plugin, why that?\n\nIt should come from the fact that download-commands was a core functionality first and I think the idea was that there would be a plethora of `download-command` plugins that could read the same config.\nIf you ask me it feels like an anti-pattern and the download configuration should be in the plugin only.\n\u003e - It might be useful to also show the extended clone command including commit-msg hook and configuration of remote.origin.pushUrl in gitiles.\n\nIf that comes into fruition we could move the configuration into core, or they could read the configuration separately.\n\u003e - We could create a branch stable-3.9 and make the maintenance branches use that\n\nI vote for reading this configuration in the plugin instead, I don\u0027t see anything gained by reading it in core. (If you ask me all other download-specific configuration such as `DownloadConfig` should move into the plugin as well but that might be a breaking change if there are alternative download plugins out in the wild that uses it).\n\nWe could document it in core as a config options possibly read by plugins that construct ssh URLs and a list of plugins that currently read it?",
+      "parentUuid": "be361d5c_fb87b568",
+      "revId": "c43fc4e1c8484e87396c31fe1782c413ed2bf327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "33e56810_f3d29622",
         "filename": "java/com/google/gerrit/server/ssh/SshAddressesModule.java",
         "patchSetId": 5

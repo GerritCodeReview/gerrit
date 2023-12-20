@@ -27,6 +27,7 @@
 # for a remote machine to execute them.
 build:remote_shared --jobs=200
 build:remote_shared --disk_cache=
+build:remote_shared --remote_download_minimal
 
 # Set several flags related to specifying the platform, toolchain and java
 # properties.
@@ -42,24 +43,39 @@ build:remote_shared --action_env=BAZEL_DO_NOT_DETECT_CPP_TOOLCHAIN=1
 # machine exactly match the host machine.
 build:remote_shared --define=EXECUTOR=remote
 
-# Enable the remote cache so action results can be shared across machines,
-# developers, and workspaces.
-build:remote_shared --remote_cache=remotebuildexecution.googleapis.com
-
-# Enable remote execution so actions are performed on the remote systems.
-build:remote_shared --remote_executor=remotebuildexecution.googleapis.com
-
 # Set a higher timeout value, just in case.
 build:remote_shared --remote_timeout=3600
+
+# Configuration flags for remote settings in Google GCP RBE
+# Enable the remote cache so action results can be shared across machines,
+# developers, and workspaces.
+build:config_gcp --remote_cache=remotebuildexecution.googleapis.com
+
+# Enable remote execution so actions are performed on the remote systems.
+build:config_gcp --remote_executor=remotebuildexecution.googleapis.com
 
 # Enable authentication. This will pick up application default credentials by
 # default. You can use --auth_credentials=some_file.json to use a service
 # account credential instead.
-build:remote_shared --google_default_credentials
+build:config_gcp --google_default_credentials
+build:config_gcp --config=remote_shared
 
-# The following flags enable the remote cache so action results can be shared
-# across machines, developers, and workspaces.
-build:remote-cache --remote_cache=remotebuildexecution.googleapis.com
-build:remote-cache --tls_enabled=true
-build:remote-cache --remote_timeout=3600
-build:remote-cache --auth_enabled=true
+# Configuration flags for remote settings in BuildBuddy RBE
+# Enable the remote cache so action results can be shared across machines,
+# developers, and workspaces.
+build:config_bb --remote_cache=grpcs://remote.buildbuddy.io
+
+# Enable remote execution so actions are performed on the remote systems.
+build:config_bb --remote_executor=grpcs://remote.buildbuddy.io
+
+# The results from each Bazel command are viewable with BuildBuddy
+build:config_bb --bes_results_url=https://app.buildbuddy.io/invocation/
+
+# The results of a local build will be uploaded to the BuildBuddy server,
+# providing visibility and collaboration features for the build.
+build:config_bb --remote_upload_local_results
+
+# Define the Build Event Service (BES) backend to use for remote caching and
+# build event storage.
+build:config_bb --bes_backend=grpcs://remote.buildbuddy.io
+build:config_bb --config=remote_shared

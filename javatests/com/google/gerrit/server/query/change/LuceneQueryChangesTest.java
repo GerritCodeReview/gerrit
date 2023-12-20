@@ -21,6 +21,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.testing.InMemoryModule;
@@ -43,11 +44,12 @@ public abstract class LuceneQueryChangesTest extends AbstractQueryChangesTest {
 
   @Test
   public void fullTextWithSpecialChars() throws Exception {
-    repo = createAndOpenProject("repo");
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
     RevCommit commit1 = repo.parseBody(repo.commit().message("foo_bar_foo").create());
-    Change change1 = insert("repo", newChangeForCommit(repo, commit1));
+    Change change1 = insert(project, newChangeForCommit(repo, commit1));
     RevCommit commit2 = repo.parseBody(repo.commit().message("one.two.three").create());
-    Change change2 = insert("repo", newChangeForCommit(repo, commit2));
+    Change change2 = insert(project, newChangeForCommit(repo, commit2));
 
     assertQuery("message:foo_ba");
     assertQuery("message:bar", change1);
@@ -67,17 +69,18 @@ public abstract class LuceneQueryChangesTest extends AbstractQueryChangesTest {
 
   @Test
   public void openAndClosedChanges() throws Exception {
-    repo = createAndOpenProject("repo");
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
 
     // create 3 closed changes
-    Change change1 = insert("repo", newChangeWithStatus(repo, Change.Status.MERGED));
-    Change change2 = insert("repo", newChangeWithStatus(repo, Change.Status.MERGED));
-    Change change3 = insert("repo", newChangeWithStatus(repo, Change.Status.MERGED));
+    Change change1 = insert(project, newChangeWithStatus(repo, Change.Status.MERGED));
+    Change change2 = insert(project, newChangeWithStatus(repo, Change.Status.MERGED));
+    Change change3 = insert(project, newChangeWithStatus(repo, Change.Status.MERGED));
 
     // create 3 new changes
-    Change change4 = insert("repo", newChangeWithStatus(repo, Change.Status.NEW));
-    Change change5 = insert("repo", newChangeWithStatus(repo, Change.Status.NEW));
-    Change change6 = insert("repo", newChangeWithStatus(repo, Change.Status.NEW));
+    Change change4 = insert(project, newChangeWithStatus(repo, Change.Status.NEW));
+    Change change5 = insert(project, newChangeWithStatus(repo, Change.Status.NEW));
+    Change change6 = insert(project, newChangeWithStatus(repo, Change.Status.NEW));
 
     // Set queryLimit to 1
     projectOperations

@@ -53,6 +53,7 @@ import com.google.gerrit.extensions.events.VoteDeletedListener;
 import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.config.GerritInstanceId;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.data.ApprovalAttribute;
@@ -148,6 +149,8 @@ public class StreamEventsApiListener
   private final ChangeNotes.Factory changeNotesFactory;
   private final boolean enableDraftCommentEvents;
 
+  private final String gerritInstanceId;
+
   @Inject
   StreamEventsApiListener(
       PluginItemContext<EventDispatcher> dispatcher,
@@ -156,7 +159,8 @@ public class StreamEventsApiListener
       GitRepositoryManager repoManager,
       PatchSetUtil psUtil,
       ChangeNotes.Factory changeNotesFactory,
-      @GerritServerConfig Config config) {
+      @GerritServerConfig Config config,
+      @Nullable @GerritInstanceId String gerritInstanceId) {
     this.dispatcher = dispatcher;
     this.eventFactory = eventFactory;
     this.projectCache = projectCache;
@@ -165,6 +169,7 @@ public class StreamEventsApiListener
     this.changeNotesFactory = changeNotesFactory;
     this.enableDraftCommentEvents =
         config.getBoolean("event", "stream-events", "enableDraftCommentEvents", false);
+    this.gerritInstanceId = gerritInstanceId;
   }
 
   private ChangeNotes getNotes(ChangeInfo info) {
@@ -345,6 +350,13 @@ public class StreamEventsApiListener
 
   @Override
   public void onNewProjectCreated(NewProjectCreatedListener.Event ev) {
+    if (ev.getInstanceId() != null && !ev.getInstanceId().equals(gerritInstanceId)
+        || !(ev.getInstanceId() == null && gerritInstanceId == null)) {
+      logger.atFine().log(
+          "Ignoring project-created event for project %s as it originates from different instance: %s",
+          ev.getProjectName(), ev.getInstanceId());
+      return;
+    }
     ProjectCreatedEvent event = new ProjectCreatedEvent();
     event.projectName = ev.getProjectName();
     event.headName = ev.getHeadName();

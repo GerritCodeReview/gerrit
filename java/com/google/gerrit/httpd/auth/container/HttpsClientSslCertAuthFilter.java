@@ -63,7 +63,7 @@ class HttpsClientSslCertAuthFilter implements Filter {
       throw new ServletException(
           "Couldn't get the attribute javax.servlet.request.X509Certificate from the request");
     }
-    String name = certs[0].getSubjectDN().getName();
+    String name = certs[0].getSubjectX500Principal().getName();
     Matcher m = REGEX_USERID.matcher(name);
     String userName;
     if (m.find()) {

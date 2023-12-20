@@ -15,12 +15,15 @@
 package com.google.gerrit.extensions.events;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import java.util.Optional;
 
 /** Notified whenever a project is created on the master. */
 @ExtensionPoint
 public interface NewProjectCreatedListener {
   interface Event extends ProjectEvent {
     String getHeadName();
+
+    Optional<String> getInstanceId();
   }
 
   void onNewProjectCreated(Event event);

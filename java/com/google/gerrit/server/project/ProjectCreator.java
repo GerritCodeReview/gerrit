@@ -50,6 +50,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -250,17 +251,19 @@ public class ProjectCreator {
       return;
     }
 
-    ProjectCreator.Event event = new ProjectCreator.Event(name, head);
+    ProjectCreator.Event event = new ProjectCreator.Event(name, head, Optional.empty());
     createdListeners.runEach(l -> l.onNewProjectCreated(event));
   }
 
   static class Event extends AbstractNoNotifyEvent implements NewProjectCreatedListener.Event {
     private final Project.NameKey name;
     private final String head;
+    private final Optional<String> instanceId;
 
-    Event(Project.NameKey name, String head) {
+    Event(Project.NameKey name, String head, Optional<String> maybeInstanceId) {
       this.name = name;
       this.head = head;
+      this.instanceId = maybeInstanceId;
     }
 
     @Override
@@ -271,6 +274,11 @@ public class ProjectCreator {
     @Override
     public String getHeadName() {
       return head;
+    }
+
+    @Override
+    public Optional<String> getInstanceId() {
+      return instanceId;
     }
   }
 }

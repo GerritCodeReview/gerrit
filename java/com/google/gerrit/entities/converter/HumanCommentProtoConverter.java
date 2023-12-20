@@ -29,7 +29,10 @@ import java.time.Instant;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
-/** Proto converter between {@link HumanComment} and {@link Entities.HumanComment}. */
+/**
+ * Proto converter between {@link HumanComment} and {@link
+ * com.google.gerrit.proto.Entities.HumanComment}.
+ */
 @Immutable
 public enum HumanCommentProtoConverter
     implements ProtoConverter<Entities.HumanComment, HumanComment> {

@@ -40,10 +40,11 @@ import org.junit.Test;
  *  ----->base commit <------
  * }</pre>
  *
- * Tests use only MergeAlways strategy. All other submit strategies (except cherry pick) use the
- * same checks on submit. The {@link ImplicitMergeOnSubmitExperimentsIT} validates that the implicit
- * merge check is applied to all strategies (except cherry pick) and {@link
- * ImplicitMergeOnSubmitCherryPickIT} contains tests for the cherry pick strategy.
+ * Tests use only MergeAlways strategy. All other submit strategies (except cherry pick and rebase
+ * always) use the same checks on submit. The {@link ImplicitMergeOnSubmitExperimentsIT} validates
+ * that the implicit merge check is applied to all strategies (except cherry pick and rebase always)
+ * and {@link ImplicitMergeOnSubmitByCherryPickOrRebaseAlwaysIT} contains tests for the cherry pick
+ * and rebase always strategies.
  */
 public class ImplicitMergeOnSubmitIT extends AbstractImplicitMergeTest {
   private RevCommit masterTip;

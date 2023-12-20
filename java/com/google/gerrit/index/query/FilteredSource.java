@@ -84,6 +84,11 @@ public class FilteredSource<T> implements DataSource<T> {
     return cardinality;
   }
 
+  /**
+   * Whether this data source matches with the given object.
+   *
+   * @param object object to be matched
+   */
   protected boolean match(T object) {
     return true;
   }

@@ -17,6 +17,8 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.extensions.api.changes.ApplyPatchInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -152,7 +154,7 @@ public final class ApplyPatchUtil {
                 + "\n[[[Original patch trimmed due to size. Decoded string size: "
                 + patchDescription.length()
                 + ". Decoded string SHA1: "
-                + Hashing.sha1().hashString(patchDescription, UTF_8)
+                + sha1(patchDescription)
                 + ".]]]");
       }
     }
@@ -166,7 +168,7 @@ public final class ApplyPatchUtil {
                 + "\n[[[Result patch trimmed due to size. Decoded string size: "
                 + resultPatch.length()
                 + ". Decoded string SHA1: "
-                + Hashing.sha1().hashString(resultPatch, UTF_8)
+                + sha1(resultPatch)
                 + ".]]]");
       }
     }
@@ -217,6 +219,12 @@ public final class ApplyPatchUtil {
       return new String(org.eclipse.jgit.util.Base64.decode(patch), UTF_8);
     }
     return patch;
+  }
+
+  @SuppressWarnings("deprecation")
+  @VisibleForTesting
+  public static HashCode sha1(String s) {
+    return Hashing.sha1().hashString(s, UTF_8);
   }
 
   private ApplyPatchUtil() {}

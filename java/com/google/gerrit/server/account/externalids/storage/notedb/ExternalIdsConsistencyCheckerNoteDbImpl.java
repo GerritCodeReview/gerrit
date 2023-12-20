@@ -53,14 +53,11 @@ public class ExternalIdsConsistencyCheckerNoteDbImpl implements ExternalIdsConsi
       GitRepositoryManager repoManager,
       AllUsersName allUsers,
       OutgoingEmailValidator validator,
-      ExternalIdFactory externalIdFactory) {
+      ExternalIdFactoryNoteDbImpl externalIdFactory) {
     this.repoManager = repoManager;
     this.allUsers = allUsers;
     this.validator = validator;
-    checkState(
-        externalIdFactory instanceof ExternalIdFactoryNoteDbImpl,
-        "ExternalIdsConsistencyCheckerNoteDbImpl must be initiated with ExternalIdFactoryNoteDbImpl.");
-    this.externalIdFactory = (ExternalIdFactoryNoteDbImpl) externalIdFactory;
+    this.externalIdFactory = externalIdFactory;
   }
 
   @Override

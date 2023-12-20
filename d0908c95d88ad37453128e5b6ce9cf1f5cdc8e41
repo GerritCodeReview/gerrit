@@ -16,6 +16,23 @@
       "message": "@alvaro.vilaplana@gmail.com Can you please re-check my rebase series and conflict resolution and also verify, that BuildBuddy RBE works as expected?",
       "revId": "d0908c95d88ad37453128e5b6ce9cf1f5cdc8e41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d7343b5_26e4b3b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 34
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1149185
+      },
+      "writtenOn": "2023-12-20T17:47:50Z",
+      "side": 1,
+      "message": "mark waiting for verifying BB JDK11, JDK17, JDK21.",
+      "revId": "d0908c95d88ad37453128e5b6ce9cf1f5cdc8e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

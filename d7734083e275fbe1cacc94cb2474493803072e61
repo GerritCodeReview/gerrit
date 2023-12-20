@@ -51,6 +51,24 @@
       "message": "@poucet@google.com Could you help to resolve the delay with re-applying of LC+1 label from patch set 1 of this change from Google side?\n\nNote, this is a no-op change, unless you are passing new configuration option to optionally use Java 21 and produce Java 21 major byte code version.",
       "revId": "d7734083e275fbe1cacc94cb2474493803072e61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51ad6cf5_8412e3a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 24
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-12-20T06:13:59Z",
+      "side": 1,
+      "message": "I\u0027ve just noticed, that even though I asked @hiesel@google.com on 12.12.2023 to restore LC+1 from patch set 1 of this change, he wasn\u0027t added to attention set for this change, and probably missed my comment. This could be probably improved?",
+      "parentUuid": "4e92e2b0_aa973d9c",
+      "revId": "d7734083e275fbe1cacc94cb2474493803072e61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

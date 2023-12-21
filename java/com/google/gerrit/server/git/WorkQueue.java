@@ -675,7 +675,7 @@ public class WorkQueue {
         try {
           executor.onStart(this);
           runningState.set(State.RUNNING);
-          Thread.currentThread().setName(oldThreadName + "[" + task.toString() + "]");
+          Thread.currentThread().setName(oldThreadName + "[" + this + "]");
           task.run();
         } finally {
           Thread.currentThread().setName(oldThreadName);

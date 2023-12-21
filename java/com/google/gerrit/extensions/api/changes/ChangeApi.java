@@ -130,20 +130,12 @@ public interface ChangeApi {
     setReadyForReview(null);
   }
 
-  /**
-   * Create a new change that reverts this change.
-   *
-   * @see Changes#id(int)
-   */
+  /** Create a new change that reverts this change. */
   default ChangeApi revert() throws RestApiException {
     return revert(new RevertInput());
   }
 
-  /**
-   * Create a new change that reverts this change.
-   *
-   * @see Changes#id(int)
-   */
+  /** Create a new change that reverts this change. */
   ChangeApi revert(RevertInput in) throws RestApiException;
 
   default RevertSubmissionInfo revertSubmission() throws RestApiException {

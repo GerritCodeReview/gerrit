@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1170610e_1884aa7c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2023-12-21T12:47:24Z",
+      "side": 1,
+      "message": "There is no easy way to move the download config section and DownloadConfig to the plugin since that\u0027s also used in core.\n\nAnother option could be to merge the download-commands plugin into core, I feel that could make sense since a server without download commands seems incomplete.\n\nFor now I will go the route of least resistance and read the new option directly from the download-commands plugin to avoid changing core.\n\nLeaves the question how to name the new option\n- `download.sshd-advertisedPrimary` seems wrong since it\u0027s not related to download but to issuing push, stream-events or ssh commands which need to go to a primary\n- how about `sshd.advertisedPrimaryAddress` ?\n- `plugin.download-commands.sshdAdvertisedPrimaryAddress` would follow conventions used by most plugins but would be the first option of the download-commands plugin in this section",
+      "parentUuid": "3470a9fe_dcbc4909",
+      "revId": "c43fc4e1c8484e87396c31fe1782c413ed2bf327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "33e56810_f3d29622",
         "filename": "java/com/google/gerrit/server/ssh/SshAddressesModule.java",
         "patchSetId": 5

@@ -25,7 +25,7 @@ default_java_toolchain(
     package_configuration = [
         ":error_prone",
     ],
-    source_version = "11",
+    source_version = "17",
     target_version = "17",
     visibility = ["//visibility:public"],
 )

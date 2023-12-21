@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8e3b158a_dcbc5fb0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2023-12-21T19:20:57Z",
+      "side": 1,
+      "message": "\u003e - `plugin.download-commands.sshdAdvertisedPrimaryAddress` would follow conventions used by most plugins but would be the first option of the download-commands plugin in this section\n\nI like this one best. And as I mentioned before, I\u0027ll soon have another config to add in that section (we want to optionally omit the username from the displayed ssh URLs).",
+      "parentUuid": "1170610e_1884aa7c",
+      "revId": "c43fc4e1c8484e87396c31fe1782c413ed2bf327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "33e56810_f3d29622",
         "filename": "java/com/google/gerrit/server/ssh/SshAddressesModule.java",
         "patchSetId": 5

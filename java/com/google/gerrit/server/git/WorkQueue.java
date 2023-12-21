@@ -608,7 +608,7 @@ public class WorkQueue {
       if (running.compareAndSet(false, true)) {
         String oldThreadName = Thread.currentThread().getName();
         try {
-          Thread.currentThread().setName(oldThreadName + "[" + task.toString() + "]");
+          Thread.currentThread().setName(oldThreadName + "[" + this + "]");
           task.run();
         } finally {
           Thread.currentThread().setName(oldThreadName);

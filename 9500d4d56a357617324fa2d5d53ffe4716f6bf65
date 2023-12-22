@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cd3efa6_18ade8c7",
+        "filename": "java/com/google/gerrit/server/approval/RecursiveApprovalCopier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-12-22T16:04:06Z",
+      "side": 1,
+      "message": "Looks like that any status code which is different from OK will cause exception[1][2] so this code will be skipped\n\n1. https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.5/java/com/google/gerrit/git/RefUpdateUtil.java#89\n\n2. https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.5/java/com/google/gerrit/git/RefUpdateUtil.java#102",
+      "parentUuid": "5d0ffd2e_c96193bd",
+      "range": {
+        "startLine": 247,
+        "startChar": 6,
+        "endLine": 247,
+        "endChar": 44
+      },
+      "revId": "9500d4d56a357617324fa2d5d53ffe4716f6bf65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d923d03d_ed11ec59",
@@ -54,6 +78,30 @@
       "writtenOn": "2023-12-22T01:26:41Z",
       "side": 1,
       "message": "nit: this could be done on the project (the one used for testing) rather than allProjects.",
+      "range": {
+        "startLine": 260,
+        "startChar": 47,
+        "endLine": 260,
+        "endChar": 58
+      },
+      "revId": "9500d4d56a357617324fa2d5d53ffe4716f6bf65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecf5907f_192a6b46",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/CopyApprovalsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-12-22T16:04:06Z",
+      "side": 1,
+      "message": "all the tests in this suite are running against All-Projects repository. I think @syntonyze@gmail.com wanted for follow the same pattern",
+      "parentUuid": "d923d03d_ed11ec59",
       "range": {
         "startLine": 260,
         "startChar": 47,
@@ -101,6 +149,30 @@
       "side": 1,
       "message": "I believe the notification itself is synchronous, but is fired asynchronously.",
       "parentUuid": "6adfe36c_dc0e750e",
+      "range": {
+        "startLine": 275,
+        "startChar": 4,
+        "endLine": 275,
+        "endChar": 22
+      },
+      "revId": "9500d4d56a357617324fa2d5d53ffe4716f6bf65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e082d73_dc251ac2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/CopyApprovalsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2023-12-22T16:04:06Z",
+      "side": 1,
+      "message": "I cannot find any plase where it is called asynchronously. I removed the wait, tested with 100 runs and haven\u0027t see a failure:\n bazelisk test --cache_test_results\u003dno  --runs_per_test\u003d100 //javatests/com/google/gerrit/acceptance/api/change:CopyApprovalsIT",
+      "parentUuid": "dad65338_3a660ff6",
       "range": {
         "startLine": 275,
         "startChar": 4,

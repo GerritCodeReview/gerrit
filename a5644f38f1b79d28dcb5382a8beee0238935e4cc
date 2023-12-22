@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "522c705a_d4760220",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-12-22T04:55:20Z",
+      "side": 1,
+      "message": "These tests are to ensure no regression in an existing behaviour of Gerrit where a user can be added to CC even if it doesn\u0027t have an account.",
+      "parentUuid": "7f957f71_979c6df1",
+      "revId": "a5644f38f1b79d28dcb5382a8beee0238935e4cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43cc131f_13d01979",
@@ -70,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2762f7e_3d8a3674",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-12-22T04:55:20Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "43cc131f_13d01979",
+      "revId": "a5644f38f1b79d28dcb5382a8beee0238935e4cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "00825409_5b573fb7",
@@ -83,6 +119,24 @@
       "writtenOn": "2023-12-15T09:55:27Z",
       "side": 1,
       "message": "Nit: same as above re: chaining `reviewer` calls.",
+      "revId": "a5644f38f1b79d28dcb5382a8beee0238935e4cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5458d4fe_96a31f1a",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeReviewersIT.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-12-22T04:55:20Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "00825409_5b573fb7",
       "revId": "a5644f38f1b79d28dcb5382a8beee0238935e4cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

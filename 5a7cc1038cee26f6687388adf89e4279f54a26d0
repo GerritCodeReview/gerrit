@@ -16,6 +16,24 @@
       "message": "And last but not least: please add the option to `Documentation/cmd-copy-approvals.txt` 😊",
       "revId": "5a7cc1038cee26f6687388adf89e4279f54a26d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f13926b_ad11bedf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-12-22T02:47:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "937d00e1_1401dc0f",
+      "revId": "5a7cc1038cee26f6687388adf89e4279f54a26d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

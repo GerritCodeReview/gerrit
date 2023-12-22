@@ -16,6 +16,24 @@
       "message": "IIRC we also retry in RestApiServlet? Do these retries sum up (meaning 3x retries in rest API servlet + 3x retries in group cache loader if the group index has issues)?\n\nIf so, should we move from top-level retrying to low-level retrying only?",
       "revId": "3ccfdeafc7e969dd56df0de7c1a4869f53a228d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9baedc8_91e3c681",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-12-22T12:18:13Z",
+      "side": 1,
+      "message": "\u003e IIRC we also retry in RestApiServlet? \n\nYes.\n\n\u003e Do these retries sum up (meaning 3x retries in rest API servlet + 3x retries in \n\u003e group cache loader if the group index has issues)?\n\nYes, I think they do sum up. I guess if we are much concerned about this, this is something we could fix, e.g. no retry on top-level, if retrying on low-level didn\u0027t help.\n\n\u003e If so, should we move from top-level retrying to low-level retrying only?\n\nNo, we shouldn\u0027t drop the retrying on top level, since most errors can occur outside of low-level retry blocks.\n\nIn this particular case the group cache loader is also used outside the top-level retrying, so that without the low-level retrying it wasn\u0027t retried at all.",
+      "parentUuid": "89ded64d_073aed53",
+      "revId": "3ccfdeafc7e969dd56df0de7c1a4869f53a228d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

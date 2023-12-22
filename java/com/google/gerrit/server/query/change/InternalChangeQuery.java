@@ -141,6 +141,14 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     return query(project(project));
   }
 
+  public List<ChangeData> byProject(Project.NameKey project, Change.Key key) {
+    return query(byProjectPred(project, key));
+  }
+
+  public Predicate<ChangeData> byProjectPred(Project.NameKey project, Change.Key key) {
+    return and(project(project), change(key));
+  }
+
   public List<ChangeData> byBranchOpen(BranchNameKey branch) {
     return query(and(ref(branch), project(branch.project()), open()));
   }

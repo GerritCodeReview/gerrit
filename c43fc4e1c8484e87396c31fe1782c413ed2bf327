@@ -128,6 +128,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dd75c1a3_220443c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2023-12-22T09:10:32Z",
+      "side": 1,
+      "message": "*didn\u0027t manage to post this yesterday...*\nI think if I wrote this plugin today I would have everything in PluginConfig space, so personally I think the \"correct\"™ thing to do would be to move all download specific configuration into the download-commands plugin and just accept duplication if another config want\u0027s to configure the same things.\nWe could document `sshd.advertisedPushAddress` as a way to tell plugins this information (possibly annotating it in code with which plugin uses it etc.) and read the config value in the individual plugins.\n\nThe pragmatic thing might just be what Nasser suggested and introduce this change in latest active stable and merge it forward into master and then merge the plugin change and move on with our lives (well not Nasser who\u0027s still left with the issue of not knowing were to put configuration 😊).",
+      "parentUuid": "3470a9fe_dcbc4909",
+      "revId": "c43fc4e1c8484e87396c31fe1782c413ed2bf327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "33e56810_f3d29622",
         "filename": "java/com/google/gerrit/server/ssh/SshAddressesModule.java",
         "patchSetId": 5

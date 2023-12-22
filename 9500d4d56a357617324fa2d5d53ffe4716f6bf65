@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5d0ffd2e_c96193bd",
+        "filename": "java/com/google/gerrit/server/approval/RecursiveApprovalCopier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-12-22T02:18:22Z",
+      "side": 1,
+      "message": "This is lack of knowledge on my side, but what happens if the `executeChecked` fails half way through and the transaction is aborted?\nAre the ref update events still fired?",
+      "range": {
+        "startLine": 247,
+        "startChar": 6,
+        "endLine": 247,
+        "endChar": 44
+      },
+      "revId": "9500d4d56a357617324fa2d5d53ffe4716f6bf65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d923d03d_ed11ec59",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/CopyApprovalsIT.java",
         "patchSetId": 1
@@ -54,6 +77,30 @@
       "writtenOn": "2023-12-22T01:26:41Z",
       "side": 1,
       "message": "Why waiting asynchronously? The notification should be synchronous, or am I missing something?",
+      "range": {
+        "startLine": 275,
+        "startChar": 4,
+        "endLine": 275,
+        "endChar": 22
+      },
+      "revId": "9500d4d56a357617324fa2d5d53ffe4716f6bf65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dad65338_3a660ff6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/CopyApprovalsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2023-12-22T02:18:22Z",
+      "side": 1,
+      "message": "I believe the notification itself is synchronous, but is fired asynchronously.",
+      "parentUuid": "6adfe36c_dc0e750e",
       "range": {
         "startLine": 275,
         "startChar": 4,

@@ -35,6 +35,7 @@ public class EventTypes {
     register(PatchSetCreatedEvent.TYPE, PatchSetCreatedEvent.class);
     register(PrivateStateChangedEvent.TYPE, PrivateStateChangedEvent.class);
     register(ProjectCreatedEvent.TYPE, ProjectCreatedEvent.class);
+    register(ProjectHeadUpdatedEvent.TYPE, ProjectHeadUpdatedEvent.class);
     register(RefReceivedEvent.TYPE, RefReceivedEvent.class);
     register(RefUpdatedEvent.TYPE, RefUpdatedEvent.class);
     register(ReviewerAddedEvent.TYPE, ReviewerAddedEvent.class);

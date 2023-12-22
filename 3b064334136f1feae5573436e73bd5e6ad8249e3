@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1361523_7da8d304",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-12-22T09:35:26Z",
+      "side": 1,
+      "message": "Adding Luca, since this might also relate to the project-specific change numbers, and Patrick, since he introduced that format for the REST API.",
+      "revId": "3b064334136f1feae5573436e73bd5e6ad8249e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

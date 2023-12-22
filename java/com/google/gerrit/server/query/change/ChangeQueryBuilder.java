@@ -111,6 +111,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -144,6 +145,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public interface ChangeIsOperandFactory extends ChangeOperandFactory {}
 
   private static final Pattern PAT_LEGACY_ID = Pattern.compile("^[1-9][0-9]*$");
+  private static final Pattern PAT_PROJECT_LEGACY_ID = Pattern.compile("^([^~]+)~([1-9][0-9]*)$");
   private static final Pattern PAT_CHANGE_ID = Pattern.compile(CHANGE_ID_PATTERN);
   private static final Pattern DEF_CHANGE =
       Pattern.compile("^(?:[1-9][0-9]*|(?:[^~]+~[^~]+~)?[iI][0-9a-f]{4,}.*)$");
@@ -593,7 +595,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           branch(triplet.get().branch().branch()),
           ChangePredicates.idPrefix(parseChangeId(triplet.get().id().get())));
     }
-    if (PAT_LEGACY_ID.matcher(query).matches()) {
+
+    Matcher projectChangeNumber = PAT_PROJECT_LEGACY_ID.matcher(query);
+    if (projectChangeNumber.matches()) {
+      return Predicate.and(
+          project(projectChangeNumber.group(1)),
+          ChangePredicates.idStr(Change.id(Integer.parseInt(projectChangeNumber.group(2)))));
+
+    } else if (PAT_LEGACY_ID.matcher(query).matches()) {
       Integer id = Ints.tryParse(query);
       if (id != null) {
         return ChangePredicates.idStr(Change.id(id));

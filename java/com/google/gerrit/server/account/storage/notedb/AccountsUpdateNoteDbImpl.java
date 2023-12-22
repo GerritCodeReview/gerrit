@@ -156,7 +156,7 @@ public class AccountsUpdateNoteDbImpl extends AccountsUpdate {
     }
 
     @Override
-    public AccountsUpdate create(IdentifiedUser currentUser) {
+    public AccountsUpdateNoteDbImpl create(IdentifiedUser currentUser) {
       PersonIdent serverIdent = serverIdentProvider.get();
       return new AccountsUpdateNoteDbImpl(
           repoManager,
@@ -173,7 +173,7 @@ public class AccountsUpdateNoteDbImpl extends AccountsUpdate {
     }
 
     @Override
-    public AccountsUpdate createWithServerIdent() {
+    public AccountsUpdateNoteDbImpl createWithServerIdent() {
       PersonIdent serverIdent = serverIdentProvider.get();
       return new AccountsUpdateNoteDbImpl(
           repoManager,

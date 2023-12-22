@@ -61,6 +61,23 @@ public abstract class LuceneQueryChangesTest extends AbstractQueryChangesTest {
   }
 
   @Test
+  public void byChangeId() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    RevCommit commit1 = repo.parseBody(repo.commit().message("foo_bar_foo").create());
+    Change change1 = insert(project, newChangeForCommit(repo, commit1));
+
+    assertQuery(String.format("change:%s", change1.getChangeId()), change1);
+    assertQuery(String.format("change:%s", change1.getId()), change1);
+    assertQuery(
+        String.format("change:%s~%s", change1.getProject(), change1.getChangeId()), change1);
+    assertQuery(
+        String.format(
+            "change:%s~%s~%s", change1.getProject(), change1.getDest().branch(), change1.getKey()),
+        change1);
+  }
+
+  @Test
   public void invalidQuery() throws Exception {
     BadRequestException thrown =
         assertThrows(BadRequestException.class, () -> newQuery("\\").get());

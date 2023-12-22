@@ -6741,6 +6741,8 @@ Furthermore the additional lookup mean that they come with a performance penalty
 * an ID of the change in the format "<project>\~<branch>~<Change-Id>",
   where for the branch the `refs/heads/` prefix can be omitted
   ("myProject\~master~I8473b95934b5732ac55d26311a706c9c2bde9940")
+* an ID of the change in the format "<project>~<Change-Id>",
+  ("myProject~I8473b95934b5732ac55d26311a706c9c2bde9940")
 * a Change-Id if it uniquely identifies one change
   ("I8473b95934b5732ac55d26311a706c9c2bde9940")
 * a change number if it uniquely identifies one change ("4247")

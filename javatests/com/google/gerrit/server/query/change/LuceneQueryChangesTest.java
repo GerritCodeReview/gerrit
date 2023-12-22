@@ -63,6 +63,19 @@ public abstract class LuceneQueryChangesTest extends AbstractQueryChangesTest {
 
   @Test
   public void byChangeId() throws Exception {
+<<<<<<< PATCH SET (e29d3d1946745e2cb8d8693f3a7e4d0571937eb1 Allow to query changes using the `project~changeid` format)
+    repo = createAndOpenProject("repo");
+    RevCommit commit1 = repo.parseBody(repo.commit().message("foo_bar_foo").create());
+    Change change1 = insert("repo", newChangeForCommit(repo, commit1));
+
+    assertQuery(String.format("change:%s", change1.getChangeId()), change1);
+    assertQuery(String.format("change:%s", change1.getId()), change1);
+    assertQuery(String.format("change:%s~%s", change1.getProject(), change1.getId()), change1);
+    assertQuery(
+        String.format(
+            "change:%s~%s~%s", change1.getProject(), change1.getDest().branch(), change1.getId()),
+||||||| BASE      (59408ef654d06a18adbec5371d489116677851db Merge "Fix javadoc warnings")
+=======
     Project.NameKey project = Project.nameKey("repo");
     repo = createAndOpenProject(project);
     RevCommit commit1 = repo.parseBody(repo.commit().message("foo_bar_foo").create());
@@ -75,6 +88,7 @@ public abstract class LuceneQueryChangesTest extends AbstractQueryChangesTest {
     assertQuery(
         String.format(
             "change:%s~%s~%s", change1.getProject(), change1.getDest().branch(), change1.getKey()),
+>>>>>>> BASE      (eefa61b3837e8c9b5a259b2c97a0d49f9c795993 Merge "Update servlet API version to 4.0.1")
         change1);
   }
 

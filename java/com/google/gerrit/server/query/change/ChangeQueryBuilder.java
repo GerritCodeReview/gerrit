@@ -71,6 +71,7 @@ import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.account.QueryList;
 import com.google.gerrit.server.account.VersionedAccountDestinations;
 import com.google.gerrit.server.account.VersionedAccountQueries;
+import com.google.gerrit.server.change.ChangeDuplet;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -636,6 +637,17 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           branch(triplet.get().branch().branch()),
           ChangePredicates.idPrefix(parseChangeId(triplet.get().id().get())));
     }
+<<<<<<< PATCH SET (e29d3d1946745e2cb8d8693f3a7e4d0571937eb1 Allow to query changes using the `project~changeid` format)
+    Optional<ChangeDuplet> duplet = ChangeDuplet.parse(query);
+    if (duplet.isPresent()) {
+      return Predicate.and(
+          project(duplet.get().project().get()),
+          ChangePredicates.idPrefix(parseChangeId(duplet.get().id().get())));
+    }
+    if (PAT_LEGACY_ID.matcher(query).matches()) {
+||||||| BASE      (59408ef654d06a18adbec5371d489116677851db Merge "Fix javadoc warnings")
+    if (PAT_LEGACY_ID.matcher(query).matches()) {
+=======
 
     Matcher projectChangeNumber = PAT_PROJECT_CHANGE_NUM.matcher(query);
     if (projectChangeNumber.matches()) {
@@ -643,6 +655,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           project(projectChangeNumber.group(1)),
           ChangePredicates.idStr(projectChangeNumber.group(2)));
     } else if (PAT_CHANGE_NUMBER.matcher(query).matches()) {
+>>>>>>> BASE      (eefa61b3837e8c9b5a259b2c97a0d49f9c795993 Merge "Update servlet API version to 4.0.1")
       Integer id = Ints.tryParse(query);
       if (id != null) {
         return changePredicateGetter.apply(Change.id(id));

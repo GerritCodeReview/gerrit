@@ -32,6 +32,13 @@ public class ChangeIdIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void dupletChangeIdReturnsChange() throws Exception {
+    PushOneCommit.Result c = createChange();
+    RestResponse res = adminRestSession.get(changeDetail(getDuplet(c.getChangeId())));
+    res.assertOK();
+  }
+
+  @Test
   public void wrongProjectChangeNumberReturnsNotFound() throws Exception {
     PushOneCommit.Result c = createChange();
     RestResponse res1 =
@@ -154,6 +161,12 @@ public class ChangeIdIT extends AbstractDaemonTest {
   private String getProjectChangeNumber(String changeId) throws Exception {
     ChangeApi cApi = gApi.changes().id(changeId);
     return cApi.get().project + "~" + cApi.get()._number;
+  }
+
+  /** Convert a changeId (I0...01) to a duplet (project~I0...01) */
+  private String getDuplet(String changeId) throws Exception {
+    ChangeApi cApi = gApi.changes().id(changeId);
+    return cApi.get().project + "~" + changeId;
   }
 
   /** Convert a changeId (I0...01) to a triplet (project~branch~I0...01) */

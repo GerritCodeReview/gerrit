@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f3d8d27_8ca81135",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-12-22T08:34:24Z",
+      "side": 1,
+      "message": "Actually the format returned in ChangeInfo is project~ChangeNumber, which should already have been supported.",
+      "revId": "3af74b49c2272aa9cfb322f33c84550865185e35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

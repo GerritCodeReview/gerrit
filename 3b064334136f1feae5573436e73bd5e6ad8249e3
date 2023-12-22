@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "234b8494_6775ec28",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-12-22T12:54:39Z",
+      "side": 1,
+      "message": "After our offline discussion, changed it.\nThe LEGACY_ID represents only the change number when used alone. Thus, the term is not fitting well for the combined ID of project and change number.",
+      "parentUuid": "dc63aba2_a19cf4c0",
+      "range": {
+        "startLine": 148,
+        "startChar": 43,
+        "endLine": 148,
+        "endChar": 49
+      },
+      "revId": "3b064334136f1feae5573436e73bd5e6ad8249e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "825b21b0_eb9a4e61",
@@ -78,6 +102,30 @@
       "writtenOn": "2023-12-22T12:13:37Z",
       "side": 1,
       "message": "this can directly take a string, so you can skip the int parsing and change ID wrapping since the regex pattern already ensures this is a number.\n```suggestion\n          ChangePredicates.idStr(projectChangeNumber.group(2)));\n```",
+      "range": {
+        "startLine": 603,
+        "startChar": 27,
+        "endLine": 603,
+        "endChar": 32
+      },
+      "revId": "3b064334136f1feae5573436e73bd5e6ad8249e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "496212a1_e096014e",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 603,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-12-22T12:54:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "825b21b0_eb9a4e61",
       "range": {
         "startLine": 603,
         "startChar": 27,

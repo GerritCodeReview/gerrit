@@ -39,6 +39,30 @@
       },
       "revId": "3b064334136f1feae5573436e73bd5e6ad8249e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc63aba2_a19cf4c0",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2023-12-22T10:13:22Z",
+      "side": 1,
+      "message": "LEGACY_ID is used here as a an alternative name of the ChangeNumber. It is already used like this before (see line 147). I wanted to stay consistent here.\n\nIt is also only the default id being used in ChangeInfo, i.e.:\n\n```\n[\n    {\n        \"id\": \"test~1486801\",\n        \"triplet_id\": \"test~branch~Id2a2fa6bcb6a5aed7947b727ac62d366113d6d4a\",\n        ...\n    }\n]\n```\n\nAs I understand it the Change ID (I1234...) is still considered the canonical ID in Gerrit.",
+      "parentUuid": "570abbb0_eb2a5e57",
+      "range": {
+        "startLine": 148,
+        "startChar": 43,
+        "endLine": 148,
+        "endChar": 49
+      },
+      "revId": "3b064334136f1feae5573436e73bd5e6ad8249e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

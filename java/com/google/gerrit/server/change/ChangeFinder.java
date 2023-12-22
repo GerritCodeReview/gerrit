@@ -65,6 +65,7 @@ public class ChangeFinder {
 
   public enum ChangeIdType {
     ALL,
+    DUPLET,
     TRIPLET,
     NUMERIC_ID,
     I_HASH,
@@ -163,6 +164,16 @@ public class ChangeFinder {
     if (id.matches("^([0-9a-fA-F]{" + ObjectIds.ABBREV_STR_LEN + "," + ObjectIds.STR_LEN + "})$")) {
       changeIdCounter.increment(ChangeIdType.COMMIT_HASH);
       return asChangeNotes(query.byCommit(id));
+    }
+
+    if (y < 0 && z > 0) {
+      // Try change duplet (project~Ihash...)
+      Optional<ChangeDuplet> duplet = ChangeDuplet.parse(id, z);
+      if (duplet.isPresent()) {
+        ChangeDuplet d = duplet.get();
+        changeIdCounter.increment(ChangeIdType.DUPLET);
+        return asChangeNotes(query.byProject(d.project(), d.id()));
+      }
     }
 
     if (y > 0 && z > 0) {

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28ec311f_047b0bdc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-22T01:26:41Z",
+      "side": 1,
+      "message": "Thanks for the fix, I would suggest to:\n- break this change into two parts: the test that verifies the bug, the fix for the test\n- upload the change on top of stable-3.5, making the build fail and disable the test with the reference to the issue\n- upload the code that fixes the issue\n\nSide-note: the notification of the events should be synchronous, there is no need to add wait cycle",
+      "revId": "9500d4d56a357617324fa2d5d53ffe4716f6bf65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d923d03d_ed11ec59",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/CopyApprovalsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-22T01:26:41Z",
+      "side": 1,
+      "message": "nit: this could be done on the project (the one used for testing) rather than allProjects.",
+      "range": {
+        "startLine": 260,
+        "startChar": 47,
+        "endLine": 260,
+        "endChar": 58
+      },
+      "revId": "9500d4d56a357617324fa2d5d53ffe4716f6bf65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6adfe36c_dc0e750e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/CopyApprovalsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-22T01:26:41Z",
+      "side": 1,
+      "message": "Why waiting asynchronously? The notification should be synchronous, or am I missing something?",
+      "range": {
+        "startLine": 275,
+        "startChar": 4,
+        "endLine": 275,
+        "endChar": 22
+      },
+      "revId": "9500d4d56a357617324fa2d5d53ffe4716f6bf65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

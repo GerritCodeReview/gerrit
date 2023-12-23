@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0f8f11c_097c325f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-12-23T07:46:01Z",
+      "side": 1,
+      "message": "Thus change is not really needed and is breaking the build. Should we skip it for from merging up to Main branch, or revert it first?",
+      "revId": "6a9de3da2af749fc125a1933f8e988ad64ee77a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b33eddc7_6ad17453",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-12-23T07:43:19Z",
+      "side": 1,
+      "message": "There is a problem with Enforce Java 11 change. The correct toolchain with our custom error-prone toolchain is ignored, that causes build failure. Should we skip that change from merge up to Main branch?",
+      "revId": "10283206c8641cf096738ab84e4e7cc766e24472",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

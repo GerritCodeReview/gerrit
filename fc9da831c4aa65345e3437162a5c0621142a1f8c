@@ -16,6 +16,24 @@
       "message": "This change breaks the build.",
       "revId": "fc9da831c4aa65345e3437162a5c0621142a1f8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f950440_72d6102c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-24T00:00:12Z",
+      "side": 1,
+      "message": "I\u0027ve merged the revert and re-merged upstream. PTAL 🙏",
+      "parentUuid": "bff3401f_c5a877fa",
+      "revId": "fc9da831c4aa65345e3437162a5c0621142a1f8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

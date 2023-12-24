@@ -248,6 +248,21 @@ public class EventDeserializerTest {
   }
 
   @Test
+  public void projectHeadUpdatedEvent() {
+    ProjectHeadUpdatedEvent event = new ProjectHeadUpdatedEvent();
+    event.projectName = "test_project";
+    event.oldHead = "refs/heads/master";
+    event.newHead = "refs/heads/main";
+
+    ProjectHeadUpdatedEvent actual = roundTrip(event);
+
+    assertThat(actual).isNotNull();
+    assertThat(actual.projectName).isEqualTo(event.projectName);
+    assertThat(actual.oldHead).isEqualTo(event.oldHead);
+    assertThat(actual.newHead).isEqualTo(event.newHead);
+  }
+
+  @Test
   public void shouldSerializeAllProjectsToString() {
     String allProjectsString = "foobar";
     AllProjectsName allProjectsNameKey = new AllProjectsName(allProjectsString);

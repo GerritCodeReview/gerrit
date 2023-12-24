@@ -216,7 +216,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
             .create(
                 admin.newIdent(),
                 testRepo,
-                "parent 2",
+                "parent 1",
                 ImmutableMap.of("foo", "foo-2", "bar", "bar-2"))
             .to("refs/heads/master");
 
@@ -235,7 +235,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
             .create(
                 admin.newIdent(),
                 testRepo,
-                "parent 1",
+                "parent 2",
                 ImmutableMap.of("foo", "foo-1", "bar", "bar-1"))
             .to("refs/heads/stable");
 
@@ -591,6 +591,25 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
             + ": Change "
             + num
             + " is work in progress");
+  }
+
+  @Test
+  public void submitParentIsWorkInProgressChange() throws Throwable {
+    PushOneCommit.Result parent = pushTo("refs/for/master%wip");
+    PushOneCommit.Result change = createChange();
+    Change.Id num = parent.getChange().getId();
+    if (getSubmitType() == CHERRY_PICK) {
+      submit(change.getChangeId());
+    } else {
+      submitWithConflict(
+          change.getChangeId(),
+          "Failed to submit 2 changes due to the following problems:\n"
+              + "Change "
+              + num
+              + ": Change "
+              + num
+              + " is work in progress");
+    }
   }
 
   @Test

@@ -45,6 +45,30 @@
       },
       "revId": "e2937ca9e32bc9f0b3ad1bf5746e454b094bfb90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6777c8eb_7e2c1052",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-12-25T08:57:38Z",
+      "side": 1,
+      "message": "\u003e I\u0027m also doing a test import based on this change to check if it\u0027s breaking our tests.\n\nAny new insights from the Google side, as what is needed to move forward with this change?",
+      "parentUuid": "f8d28be5_99dd3233",
+      "range": {
+        "startLine": 33,
+        "startChar": 34,
+        "endLine": 33,
+        "endChar": 37
+      },
+      "revId": "e2937ca9e32bc9f0b3ad1bf5746e454b094bfb90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

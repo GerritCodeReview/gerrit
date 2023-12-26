@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c1ff078_b06ac372",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2023-12-26T16:03:47Z",
+      "side": 1,
+      "message": "Note to the reviewers: in the follow-up change: [1], I\u0027ve demonstrated the update of Google\u0027s Protocol Buffers library to version v25.1: no LC label is required.\n\n[1]: https://gerrit-review.googlesource.com/c/gerrit/+/399333",
+      "revId": "7f4793d285bfe452f8f4371bd87866dc6de24ccc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

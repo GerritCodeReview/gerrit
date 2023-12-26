@@ -18,8 +18,8 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "log4j",
-        artifact = "ch.qos.reload4j:reload4j:1.2.19",
-        sha1 = "4eae9978468c5e885a6fb44df7e2bbc07a20e6ce",
+        artifact = "ch.qos.reload4j:reload4j:1.2.25",
+        sha1 = "45921e383a1001c2a599fc4c6cf59af80cdd1cf1",
     )
 
     SLF4J_VERS = "1.7.36"

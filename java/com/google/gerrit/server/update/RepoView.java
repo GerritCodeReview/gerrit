@@ -227,5 +227,10 @@ public class RepoView {
     public void close() {
       // Do nothing; the delegate is closed separately.
     }
+
+    @Override
+    public String toString() {
+      return String.format("%s (wrapped inserter: %s)", super.toString(), delegate.toString());
+    }
   }
 }

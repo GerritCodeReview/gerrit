@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2a88743e_edef325a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-27T09:51:00Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "e100720f_073fe20e",
+      "range": {
+        "startLine": 23,
+        "startChar": 42,
+        "endLine": 23,
+        "endChar": 45
+      },
+      "revId": "0be09ef5b9cacf286a3b5f1ff845e1c63e5bc6f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "7bb169a0_7906316a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -93,6 +117,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9112587_b6be7c23",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-27T09:51:00Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "97ed6ede_53a7733d",
+      "revId": "0be09ef5b9cacf286a3b5f1ff845e1c63e5bc6f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e0033115_8ab7cbd9",
@@ -116,6 +158,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db548126_c8d6bcb3",
+        "filename": "java/com/google/gerrit/extensions/events/NewProjectCreatedListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-27T09:51:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0033115_8ab7cbd9",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 37
+      },
+      "revId": "0be09ef5b9cacf286a3b5f1ff845e1c63e5bc6f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "acff2952_46c0dbcd",
@@ -129,6 +195,30 @@
       "writtenOn": "2023-12-20T16:58:33Z",
       "side": 1,
       "message": "`instanceId` is not `Optional` but a `String` everywhere else in Gerrit.\n\ncom.google.gerrit.server.events.Events:\n\n```\npublic abstract class Event {\n  public final String type;\n  public long eventCreatedOn \u003d TimeUtil.nowMs() / 1000L;\n  public String instanceId;\n\n  protected Event(String type) {\n    this.type \u003d type;\n  }\n\n  public String getType() {\n    return type;\n  }\n}\n```",
+      "range": {
+        "startLine": 261,
+        "startChar": 18,
+        "endLine": 261,
+        "endChar": 34
+      },
+      "revId": "0be09ef5b9cacf286a3b5f1ff845e1c63e5bc6f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2472ac40_c7912629",
+        "filename": "java/com/google/gerrit/server/project/ProjectCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-27T09:51:00Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "acff2952_46c0dbcd",
       "range": {
         "startLine": 261,
         "startChar": 18,

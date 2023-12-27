@@ -20,6 +20,7 @@ import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.R
 import static com.google.gerrit.server.submit.CommitMergeStatus.EMPTY_COMMIT;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.PatchSet;
@@ -46,6 +47,8 @@ import org.eclipse.jgit.lib.Repository;
 
 /** This strategy covers RebaseAlways and RebaseIfNecessary ones. */
 public class RebaseSubmitStrategy extends SubmitStrategy {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final boolean rebaseAlways;
 
   RebaseSubmitStrategy(SubmitStrategy.Arguments args, boolean rebaseAlways) {
@@ -57,6 +60,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
   public ImmutableList<SubmitStrategyOp> buildOps(Collection<CodeReviewCommit> toMerge) {
     boolean rebaseMergeCommits =
         args.experimentFeatures.isFeatureEnabled(REBASE_MERGE_COMMITS, args.destBranch.project());
+    logger.atFine().log("rebaseMergeCommits=%s", rebaseMergeCommits);
 
     List<CodeReviewCommit> sorted;
     try {

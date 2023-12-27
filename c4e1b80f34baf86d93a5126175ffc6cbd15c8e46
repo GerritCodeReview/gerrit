@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "484ba085_7a72e219",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-27T15:11:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b06eacf7_40bc7866",
+      "range": {
+        "startLine": 9,
+        "startChar": 61,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "c4e1b80f34baf86d93a5126175ffc6cbd15c8e46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93c8517e_e736ffa8",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-12-27T10:04:08Z",
       "side": 1,
       "message": "This doesn\u0027t match the statement above.\nWhat about _\"of an operation happened on a different site?\"_",
+      "range": {
+        "startLine": 11,
+        "startChar": 60,
+        "endLine": 12,
+        "endChar": 11
+      },
+      "revId": "c4e1b80f34baf86d93a5126175ffc6cbd15c8e46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0aca92af_521a2749",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-27T15:11:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93c8517e_e736ffa8",
       "range": {
         "startLine": 11,
         "startChar": 60,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93984076_82d44cc9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-27T15:11:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "197edc75_995ac066",
+      "range": {
+        "startLine": 14,
+        "startChar": 37,
+        "endLine": 14,
+        "endChar": 52
+      },
+      "revId": "c4e1b80f34baf86d93a5126175ffc6cbd15c8e46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c1b5f17_be086740",
@@ -83,6 +155,30 @@
       "writtenOn": "2023-12-27T10:04:08Z",
       "side": 1,
       "message": "I would simply say: _\"For single-site where instance-id is not configured, the value would be returned as null by default\"_",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 69
+      },
+      "revId": "c4e1b80f34baf86d93a5126175ffc6cbd15c8e46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d43eae53_7ffd2acb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-27T15:11:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c1b5f17_be086740",
       "range": {
         "startLine": 15,
         "startChar": 0,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c8c0c52_d04890c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-27T15:11:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a5c03da_58a6b995",
+      "range": {
+        "startLine": 17,
+        "startChar": 54,
+        "endLine": 18,
+        "endChar": 24
+      },
+      "revId": "c4e1b80f34baf86d93a5126175ffc6cbd15c8e46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f8da213_741fc2ec",
@@ -129,6 +249,24 @@
       "writtenOn": "2023-12-27T10:04:08Z",
       "side": 1,
       "message": "nit: Add JavaDoc?",
+      "revId": "c4e1b80f34baf86d93a5126175ffc6cbd15c8e46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9fee991_4fd8319f",
+        "filename": "java/com/google/gerrit/extensions/events/GerritEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-27T15:11:49Z",
+      "side": 1,
+      "message": "It\u0027s a self explanatory method, a javadoc adds zero value here IMO, besides the other method is not documented either.",
+      "parentUuid": "5f8da213_741fc2ec",
       "revId": "c4e1b80f34baf86d93a5126175ffc6cbd15c8e46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

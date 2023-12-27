@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ae24216_38e2df77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-27T21:40:55Z",
+      "side": 1,
+      "message": "Why only the `project-created` ones? I believe this should be applied for any event with a non-local instance-id.",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "f23aef814c8291ed699ddce30b08240a484daf00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "518a7efa_76b44204",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-27T21:40:55Z",
+      "side": 1,
+      "message": "This should be ignored if the instance id of the event is not equal to the local one.\n\nTherefore you should:\n- Inject the local server instance id (use the @InstanceId annotation in the Guice injection)\n- Compare with event with the local one",
+      "range": {
+        "startLine": 348,
+        "startChar": 27,
+        "endLine": 348,
+        "endChar": 34
+      },
+      "revId": "f23aef814c8291ed699ddce30b08240a484daf00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

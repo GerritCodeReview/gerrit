@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b06eacf7_40bc7866",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-27T10:04:08Z",
+      "side": 1,
+      "message": "multi-site. In other multi-node setups (e.g. high-availability) the instance-id is the same for all nodes, therefore this isn\u0027t beneficial.",
+      "range": {
+        "startLine": 9,
+        "startChar": 61,
+        "endLine": 9,
+        "endChar": 71
+      },
+      "revId": "c4e1b80f34baf86d93a5126175ffc6cbd15c8e46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93c8517e_e736ffa8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-27T10:04:08Z",
+      "side": 1,
+      "message": "This doesn\u0027t match the statement above.\nWhat about _\"of an operation happened on a different site?\"_",
+      "range": {
+        "startLine": 11,
+        "startChar": 60,
+        "endLine": 12,
+        "endChar": 11
+      },
+      "revId": "c4e1b80f34baf86d93a5126175ffc6cbd15c8e46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "197edc75_995ac066",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-27T10:04:08Z",
+      "side": 1,
+      "message": "tracking the instance-id of the source of the event.",
+      "range": {
+        "startLine": 14,
+        "startChar": 37,
+        "endLine": 14,
+        "endChar": 52
+      },
+      "revId": "c4e1b80f34baf86d93a5126175ffc6cbd15c8e46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c1b5f17_be086740",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-27T10:04:08Z",
+      "side": 1,
+      "message": "I would simply say: _\"For single-site where instance-id is not configured, the value would be returned as null by default\"_",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 69
+      },
+      "revId": "c4e1b80f34baf86d93a5126175ffc6cbd15c8e46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a5c03da_58a6b995",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-27T10:04:08Z",
+      "side": 1,
+      "message": "_\"existing Gerrit events implementations are unchanged\"_\n\nNOTE: You should mention that despite the source code won\u0027t be impacted, the binary version of the classes will be impacted and won\u0027t be backward compatible. All existing plugins would need to be rebuilt with the new definition, if they were making use of those events.",
+      "range": {
+        "startLine": 17,
+        "startChar": 54,
+        "endLine": 18,
+        "endChar": 24
+      },
+      "revId": "c4e1b80f34baf86d93a5126175ffc6cbd15c8e46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f8da213_741fc2ec",
+        "filename": "java/com/google/gerrit/extensions/events/GerritEvent.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-27T10:04:08Z",
+      "side": 1,
+      "message": "nit: Add JavaDoc?",
+      "revId": "c4e1b80f34baf86d93a5126175ffc6cbd15c8e46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

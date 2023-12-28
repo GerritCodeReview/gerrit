@@ -21,18 +21,33 @@ link:#test-submit-requirements[test] them before updating them in the project
 configuration.
 
 [WARNING]
+--
 When adding submit requirements think about whether they should apply to the
 link:config-project-config.html#refs-meta-config[refs/meta/config] branch
 (see the link:#submit_requirement_applicable_if[applicableIf] description on
 how to exempt the `refs/meta/config` branch from a submit requirement). Since
 submit requirements are stored as part of the project configuration in the
-`refs/meta/config` branch, changing them requires to pass the submit
-requirements that apply to the `refs/meta/config` branch. Hence by
+`refs/meta/config` branch, changing them through code review requires to pass
+the submit requirements that apply to the `refs/meta/config` branch. Hence by
 misconfiguring submit requirements for the `refs/meta/config` branch you can
-make further updates to submit requirements impossible. If this happens the
-submit requirements can be restored by a direct push to the `refs/meta/config`
-branch. If direct pushes are disabled or not allowed reach out to a Gerrit
-administrator for help.
+make further updates to submit requirements through code review impossible.
+If this happens the submit requirements can be restored by a direct push to the
+`refs/meta/config` branch.
+
+[[restore-submit-requirements]]
+If direct pushes are disabled or not allowed project owners can directly update
+the submit requirements via the
+link:rest-api-projects.html#update-submit-requirement[Update Submit Requirement]
+REST endpoint.
+
+.Example:
+----
+  curl -X PUT --header "Content-Type: application/json" -d '{"name": "Foo-Review", "description": "At least one maximum vote for the Foo-Review label is required", "submittability_expression": "label:Foo-Review=MAX AND -label:Foo-Review=MIN", "applicability_expression": "-branch:refs/meta/config", "canOverrideInChildProjects": true}' "https://<HOST>/a/projects/My%2FProject/submit_requirements/Foo-Review"
+----
+
+Tip: Googlers should use `gob-curl` instead of `curl` so that authentication is
+handled automatically.
+--
 
 [[test-submit-requirements]]
 === Testing Submit Requirements

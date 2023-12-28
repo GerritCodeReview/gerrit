@@ -14,12 +14,16 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
@@ -27,6 +31,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.gerrit.server.logging.LoggingContext;
 import com.google.gerrit.server.logging.LoggingContextAwareRunnable;
+import com.google.gerrit.server.plugincontext.PluginMapContext;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -42,6 +47,7 @@ import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.RunnableScheduledFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -49,14 +55,38 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.lib.Config;
 
 /** Delayed execution of tasks using a background thread pool. */
 @Singleton
 public class WorkQueue {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  /**
+   * To register a TaskListener, which will be called directly before Tasks run, and directly after
+   * they complete, bind the TaskListener like this:
+   *
+   * <p><code>
+   *   bind(TaskListener.class)
+   *       .annotatedWith(Exports.named("MyListener"))
+   *       .to(MyListener.class);
+   * </code>
+   */
+  public interface TaskListener {
+    public static class NoOp implements TaskListener {
+      @Override
+      public void onStart(Task<?> task) {}
+
+      @Override
+      public void onStop(Task<?> task) {}
+    }
+
+    void onStart(Task<?> task);
+
+    void onStop(Task<?> task);
+  }
 
   public static class Lifecycle implements LifecycleListener {
     private final WorkQueue workQueue;
@@ -78,6 +108,7 @@ public class WorkQueue {
   public static class WorkQueueModule extends LifecycleModule {
     @Override
     protected void configure() {
+      DynamicMap.mapOf(binder(), WorkQueue.TaskListener.class);
       bind(WorkQueue.class);
       listener().to(Lifecycle.class);
     }
@@ -87,18 +118,32 @@ public class WorkQueue {
   private final IdGenerator idGenerator;
   private final MetricMaker metrics;
   private final CopyOnWriteArrayList<Executor> queues;
+  private final PluginMapContext<TaskListener> listeners;
 
   @Inject
-  WorkQueue(IdGenerator idGenerator, @GerritServerConfig Config cfg, MetricMaker metrics) {
-    this(idGenerator, Math.max(cfg.getInt("execution", "defaultThreadPoolSize", 2), 2), metrics);
+  WorkQueue(
+      IdGenerator idGenerator,
+      @GerritServerConfig Config cfg,
+      MetricMaker metrics,
+      PluginMapContext<TaskListener> listeners) {
+    this(
+        idGenerator,
+        Math.max(cfg.getInt("execution", "defaultThreadPoolSize", 2), 2),
+        metrics,
+        listeners);
   }
 
   /** Constructor to allow binding the WorkQueue more explicitly in a vhost setup. */
-  public WorkQueue(IdGenerator idGenerator, int defaultThreadPoolSize, MetricMaker metrics) {
+  public WorkQueue(
+      IdGenerator idGenerator,
+      int defaultThreadPoolSize,
+      MetricMaker metrics,
+      PluginMapContext<TaskListener> listeners) {
     this.idGenerator = idGenerator;
     this.metrics = metrics;
     this.queues = new CopyOnWriteArrayList<>();
     this.defaultQueue = createQueue(defaultThreadPoolSize, "WorkQueue", true);
+    this.listeners = listeners;
   }
 
   /** Get the default work queue, for miscellaneous tasks. */
@@ -200,6 +245,7 @@ public class WorkQueue {
   }
 
   /** Locate a task by its unique id, null if no task matches. */
+  @Nullable
   public Task<?> getTask(int id) {
     Task<?> result = null;
     for (Executor e : queues) {
@@ -215,6 +261,7 @@ public class WorkQueue {
     return result;
   }
 
+  @Nullable
   public ScheduledThreadPoolExecutor getExecutor(String queueName) {
     for (Executor e : queues) {
       if (e.queueName.equals(queueName)) {
@@ -242,6 +289,7 @@ public class WorkQueue {
   /** An isolated queue. */
   private class Executor extends ScheduledThreadPoolExecutor {
     private final ConcurrentHashMap<Integer, Task<?>> all;
+    private final ConcurrentHashMap<Runnable, Long> nanosPeriodByRunnable;
     private final String queueName;
 
     Executor(int corePoolSize, final String queueName) {
@@ -266,6 +314,7 @@ public class WorkQueue {
               0.75f, // load factor
               corePoolSize + 4 // concurrency level
               );
+      nanosPeriodByRunnable = new ConcurrentHashMap<>(1, 0.75f, 1);
       this.queueName = queueName;
     }
 
@@ -329,12 +378,14 @@ public class WorkQueue {
     @Override
     public ScheduledFuture<?> scheduleAtFixedRate(
         Runnable command, long initialDelay, long period, TimeUnit unit) {
+      nanosPeriodByRunnable.put(command, unit.toNanos(period));
       return super.scheduleAtFixedRate(LoggingContext.copy(command), initialDelay, period, unit);
     }
 
     @Override
     public ScheduledFuture<?> scheduleWithFixedDelay(
         Runnable command, long initialDelay, long delay, TimeUnit unit) {
+      nanosPeriodByRunnable.put(command, unit.toNanos(delay));
       return super.scheduleWithFixedDelay(LoggingContext.copy(command), initialDelay, delay, unit);
     }
 
@@ -396,6 +447,18 @@ public class WorkQueue {
     protected <V> RunnableScheduledFuture<V> decorateTask(
         Runnable runnable, RunnableScheduledFuture<V> r) {
       r = super.decorateTask(runnable, r);
+
+      // Periodic Tasks may get rescheduled if the previous run has yet to fully complete (and thus
+      // passed to decorateTask() more than once), and there is no need to redecorate them if they
+      // are already decorated.
+      if (runnable instanceof LoggingContextAwareRunnable) {
+        Runnable unwrappedTask = ((LoggingContextAwareRunnable) runnable).unwrap();
+        if (unwrappedTask instanceof Task<?>) {
+          return r;
+        }
+      }
+
+      long nanosPeriod = firstNonNull(nanosPeriodByRunnable.remove(runnable), 0L);
       for (; ; ) {
         final int id = idGenerator.next();
 
@@ -406,9 +469,9 @@ public class WorkQueue {
         }
 
         if (runnable instanceof ProjectRunnable) {
-          task = new ProjectTask<>((ProjectRunnable) runnable, r, this, id);
+          task = new ProjectTask<>((ProjectRunnable) runnable, r, nanosPeriod, this, id);
         } else {
-          task = new Task<>(runnable, r, this, id);
+          task = new Task<>(runnable, r, nanosPeriod, this, id);
         }
 
         if (all.putIfAbsent(task.getTaskId(), task) == null) {
@@ -419,8 +482,9 @@ public class WorkQueue {
 
     @Override
     protected <V> RunnableScheduledFuture<V> decorateTask(
-        Callable<V> callable, RunnableScheduledFuture<V> task) {
-      throw new UnsupportedOperationException("Callable not implemented");
+        Callable<V> callable, RunnableScheduledFuture<V> r) {
+      FutureTask<V> ft = new FutureTask<>(callable);
+      return decorateTask(ft, r);
     }
 
     void remove(Task<?> task) {
@@ -437,6 +501,14 @@ public class WorkQueue {
 
     Collection<Task<?>> getTasks() {
       return all.values();
+    }
+
+    public void onStart(Task<?> task) {
+      listeners.runEach(extension -> extension.getProvider().get().onStart(task));
+    }
+
+    public void onStop(Task<?> task) {
+      listeners.runEach(extension -> extension.getProvider().get().onStop(task));
     }
   }
 
@@ -474,18 +546,23 @@ public class WorkQueue {
      * <ol>
      *   <li>{@link #SLEEPING}: if scheduled with a non-zero delay.
      *   <li>{@link #READY}: waiting for an available worker thread.
+     *   <li>{@link #STARTING}: onStart() actively executing on a worker thread.
      *   <li>{@link #RUNNING}: actively executing on a worker thread.
+     *   <li>{@link #STOPPING}: onStop() actively executing on a worker thread.
      *   <li>{@link #DONE}: finished executing, if not periodic.
      * </ol>
      */
     public enum State {
       // Ordered like this so ordinal matches the order we would
       // prefer to see tasks sorted in: done before running,
-      // running before ready, ready before sleeping.
+      // stopping before running, running before starting,
+      // starting before ready, ready before sleeping.
       //
       DONE,
       CANCELLED,
+      STOPPING,
       RUNNING,
+      STARTING,
       READY,
       SLEEPING,
       OTHER
@@ -495,15 +572,23 @@ public class WorkQueue {
     private final RunnableScheduledFuture<V> task;
     private final Executor executor;
     private final int taskId;
-    private final AtomicBoolean running;
     private final Instant startTime;
+    private final long nanosPeriod;
 
-    Task(Runnable runnable, RunnableScheduledFuture<V> task, Executor executor, int taskId) {
+    // runningState is non-null when listener or task code is running in an executor thread
+    private final AtomicReference<State> runningState = new AtomicReference<>();
+
+    Task(
+        Runnable runnable,
+        RunnableScheduledFuture<V> task,
+        long nanosPeriod,
+        Executor executor,
+        int taskId) {
       this.runnable = runnable;
       this.task = task;
+      this.nanosPeriod = nanosPeriod;
       this.executor = executor;
       this.taskId = taskId;
-      this.running = new AtomicBoolean();
       this.startTime = Instant.now();
     }
 
@@ -514,10 +599,13 @@ public class WorkQueue {
     public State getState() {
       if (isCancelled()) {
         return State.CANCELLED;
+      }
+
+      State r = runningState.get();
+      if (r != null) {
+        return r;
       } else if (isDone() && !isPeriodic()) {
         return State.DONE;
-      } else if (running.get()) {
-        return State.RUNNING;
       }
 
       final long delay = getDelay(TimeUnit.MILLISECONDS);
@@ -536,16 +624,17 @@ public class WorkQueue {
     }
 
     @Override
+    @CanIgnoreReturnValue
     public boolean cancel(boolean mayInterruptIfRunning) {
       if (task.cancel(mayInterruptIfRunning)) {
-        // Tiny abuse of running: if the task needs to know it was
-        // canceled (to clean up resources) and it hasn't started
+        // Tiny abuse of runningState: if the task needs to know it
+        // was canceled (to clean up resources) and it hasn't started
         // yet the task's run method won't execute. So we tag it
         // as running and allow it to clean up. This ensures we do
         // not invoke cancel twice.
         //
         if (runnable instanceof CancelableRunnable) {
-          if (running.compareAndSet(false, true)) {
+          if (runningState.compareAndSet(null, State.RUNNING)) {
             ((CancelableRunnable) runnable).cancel();
           } else if (runnable instanceof CanceledWhileRunning) {
             ((CanceledWhileRunning) runnable).setCanceledWhileRunning();
@@ -605,19 +694,26 @@ public class WorkQueue {
 
     @Override
     public void run() {
-      if (running.compareAndSet(false, true)) {
+      if (runningState.compareAndSet(null, State.STARTING)) {
         String oldThreadName = Thread.currentThread().getName();
         try {
+          executor.onStart(this);
+          runningState.set(State.RUNNING);
           Thread.currentThread().setName(oldThreadName + "[" + task.toString() + "]");
           task.run();
         } finally {
           Thread.currentThread().setName(oldThreadName);
+          runningState.set(State.STOPPING);
+          executor.onStop(this);
           if (isPeriodic()) {
-            running.set(false);
+            runningState.set(null);
           } else {
+            runningState.set(State.DONE);
             executor.remove(this);
           }
         }
+      } else {
+        Future<?> unusedFuture = executor.schedule(this, nanosPeriod / 3, TimeUnit.NANOSECONDS);
       }
     }
 
@@ -665,8 +761,12 @@ public class WorkQueue {
     private final ProjectRunnable runnable;
 
     ProjectTask(
-        ProjectRunnable runnable, RunnableScheduledFuture<V> task, Executor executor, int taskId) {
-      super(runnable, task, executor, taskId);
+        ProjectRunnable runnable,
+        RunnableScheduledFuture<V> task,
+        long nanosPeriod,
+        Executor executor,
+        int taskId) {
+      super(runnable, task, nanosPeriod, executor, taskId);
       this.runnable = runnable;
     }
 

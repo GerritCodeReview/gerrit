@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73c0154a_58258068",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 3238196
+      },
+      "writtenOn": "2023-12-28T18:10:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba112fc7_50cc85b7",
+      "range": {
+        "startLine": 10,
+        "startChar": 67,
+        "endLine": 12,
+        "endChar": 43
+      },
+      "revId": "25095c0e56426e173c73c6b8b9e741d9d3db21de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb23676f_58efe17c",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-12-28T17:55:38Z",
       "side": 1,
       "message": "This is not a fix, it is a brute force ignoring of the current state of the task and it will allow tasks to be run more than once at the same time.",
+      "revId": "25095c0e56426e173c73c6b8b9e741d9d3db21de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e13a2df4_887a665d",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 3238196
+      },
+      "writtenOn": "2023-12-28T18:10:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb23676f_58efe17c",
       "revId": "25095c0e56426e173c73c6b8b9e741d9d3db21de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -87,6 +87,30 @@
       },
       "revId": "53a316eefb59983c29376157dbfce80cad072431",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c15fabf_c2fb48e1",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-12-28T15:11:13Z",
+      "side": 1,
+      "message": "Yeah, I\u0027d prefer if we\u0027d have a customised version of the documentation for Google, but that\u0027s hard. If any non-Googler finds this disturbing, please let me know, and we can remove it.",
+      "parentUuid": "66151671_59b32f19",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 22
+      },
+      "revId": "53a316eefb59983c29376157dbfce80cad072431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

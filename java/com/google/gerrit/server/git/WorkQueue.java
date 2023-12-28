@@ -287,7 +287,17 @@ public class WorkQueue {
 
   /** An isolated queue. */
   private class Executor extends ScheduledThreadPoolExecutor {
+    private static class Schedule {
+      private final long interval;
+      private final TimeUnit unit;
+
+      Schedule(long interval, TimeUnit unit) {
+        this.interval = interval;
+        this.unit = unit;
+      }
+    }
     private final ConcurrentHashMap<Integer, Task<?>> all;
+    private final ConcurrentHashMap<Integer, Schedule> delayMap;
     private final String queueName;
 
     Executor(int corePoolSize, final String queueName) {
@@ -312,6 +322,12 @@ public class WorkQueue {
               0.75f, // load factor
               corePoolSize + 4 // concurrency level
               );
+      delayMap =
+          new ConcurrentHashMap<>(
+              corePoolSize << 1,
+              0.75f,
+              corePoolSize + 4
+          );
       this.queueName = queueName;
     }
 
@@ -375,12 +391,14 @@ public class WorkQueue {
     @Override
     public ScheduledFuture<?> scheduleAtFixedRate(
         Runnable command, long initialDelay, long period, TimeUnit unit) {
+      delayMap.put(command.hashCode(), new Schedule(period, unit));
       return super.scheduleAtFixedRate(LoggingContext.copy(command), initialDelay, period, unit);
     }
 
     @Override
     public ScheduledFuture<?> scheduleWithFixedDelay(
         Runnable command, long initialDelay, long delay, TimeUnit unit) {
+      delayMap.put(command.hashCode(), new Schedule(delay, unit));
       return super.scheduleWithFixedDelay(LoggingContext.copy(command), initialDelay, delay, unit);
     }
 
@@ -442,6 +460,15 @@ public class WorkQueue {
     protected <V> RunnableScheduledFuture<V> decorateTask(
         Runnable runnable, RunnableScheduledFuture<V> r) {
       r = super.decorateTask(runnable, r);
+
+      // If retry is true, it means that the Task is rescheduled in WorkQueue.Task.run. In this
+      // case we skip decorating to prevent it from running before runningState is set to null.
+      if (runnable instanceof LoggingContextAwareRunnable) {
+        Runnable unwrappedTask = ((LoggingContextAwareRunnable) runnable).unwrap();
+        if (unwrappedTask instanceof Task<?> && ((Task<?>) unwrappedTask).retry) {
+          return r;
+        }
+      }
       for (; ; ) {
         final int id = idGenerator.next();
 
@@ -556,6 +583,7 @@ public class WorkQueue {
     private final Executor executor;
     private final int taskId;
     private final Instant startTime;
+    private Boolean retry = false;
 
     // runningState is non-null when listener or task code is running in an executor thread
     private final AtomicReference<State> runningState = new AtomicReference<>();
@@ -688,6 +716,12 @@ public class WorkQueue {
             executor.remove(this);
           }
         }
+      } else {
+        retry = true;
+        Executor.Schedule delaySchedule = executor.delayMap.get(runnable.hashCode());
+        // Set the re-schedule delay time to one-third of the original period converted to nanoseconds.
+        long delay = delaySchedule.unit.toNanos(delaySchedule.interval / 3);
+        Future<?> unusedFuture = executor.schedule(this, delay, TimeUnit.NANOSECONDS);
       }
     }
 

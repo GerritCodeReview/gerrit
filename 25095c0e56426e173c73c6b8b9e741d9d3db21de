@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "26a4e532_e759c74a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 3238196
+      },
+      "writtenOn": "2023-12-28T18:53:42Z",
+      "side": 1,
+      "message": "\u003e Done",
+      "parentUuid": "73c0154a_58258068",
+      "range": {
+        "startLine": 10,
+        "startChar": 67,
+        "endLine": 12,
+        "endChar": 43
+      },
+      "revId": "25095c0e56426e173c73c6b8b9e741d9d3db21de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb23676f_58efe17c",
@@ -97,6 +121,24 @@
       "side": 1,
       "message": "Please don\u0027t mark comments resolved unless you have uploaded a PS that resolves it, or a comment explaining why it need not be addressed.",
       "parentUuid": "e13a2df4_887a665d",
+      "revId": "25095c0e56426e173c73c6b8b9e741d9d3db21de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "520bf1a1_36918ae9",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 3238196
+      },
+      "writtenOn": "2023-12-28T18:53:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "642e64db_f13dfe36",
       "revId": "25095c0e56426e173c73c6b8b9e741d9d3db21de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

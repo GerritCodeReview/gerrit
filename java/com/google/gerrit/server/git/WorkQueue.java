@@ -688,6 +688,13 @@ public class WorkQueue {
             executor.remove(this);
           }
         }
+      } else {
+        Future<?> future = executor.submit(task);
+        try {
+          future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            logger.atWarning().log("%s", e.getMessage());
+        }
       }
     }
 

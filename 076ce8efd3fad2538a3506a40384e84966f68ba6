@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d1ccd8f_b91183ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-12-28T09:21:18Z",
+      "side": 1,
+      "message": "Thanks Edwin! I always tend to think that documentation is not easily discoverable by users. I filed a FR to add a tooltip linking to your documentation b/317950839.",
+      "revId": "076ce8efd3fad2538a3506a40384e84966f68ba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

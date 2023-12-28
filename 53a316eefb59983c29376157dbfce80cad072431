@@ -63,6 +63,30 @@
       },
       "revId": "53a316eefb59983c29376157dbfce80cad072431",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66151671_59b32f19",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2023-12-28T15:08:01Z",
+      "side": 1,
+      "message": "Sure. I personally don\u0027t mind and agree it\u0027s easier for Googlers. I only thought to bring it to attention.\n\nThis SGTM.",
+      "parentUuid": "afd4735a_0885c019",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 22
+      },
+      "revId": "53a316eefb59983c29376157dbfce80cad072431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

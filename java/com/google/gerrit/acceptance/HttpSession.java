@@ -30,7 +30,7 @@ public class HttpSession {
   private final Executor executor;
 
   public HttpSession(GerritServer server, @Nullable TestAccount account) {
-    this.url = CharMatcher.is('/').trimTrailingFrom(server.getUrl());
+    this.url = CharMatcher.is('/').trimTrailingFrom(server.getUrl()); // Foo
     URI uri = URI.create(url);
     HttpClient noRedirectClient = HttpClientBuilder.create().disableRedirectHandling().build();
     this.executor = Executor.newInstance(noRedirectClient);

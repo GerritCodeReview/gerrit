@@ -16,6 +16,24 @@
       "message": "@luca.milanesio@gmail.com, can you help us understand what verification it\u0027s failing? The logic seems similar to other methods, but it\u0027s returning error here",
       "revId": "6df432a5f73762ac1f23821bbb50da6bd1288ae3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c18bd624_73fe2e8c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-28T08:35:27Z",
+      "side": 1,
+      "message": "\u003e @luca.milanesio@gmail.com, can you help us understand what verification it\u0027s failing? The logic seems similar to other methods, but it\u0027s returning error here\n\nI believe Bazel knows why, did you see the error?\n\n```\njava/com/google/gerrit/server/api/groups/GroupApiImpl.java:167: error: [CheckReturnValue] The result of `apply(...)` must be used\n      deleteGroup.apply(rsrc, in);\n                       ^\n  If you really don\u0027t want to use the result, then assign it to a variable: `var unused \u003d ...`.\n  \n  If callers of `apply(...)` shouldn\u0027t be required to use its result, then annotate it with `@CanIgnoreReturnValue`.\n  \n    (see https://errorprone.info/bugpattern/CheckReturnValue)\n  Did you mean \u0027var unused \u003d deleteGroup.apply(rsrc, in);\u0027 or to remove this line?\n```\n\nI tried to build this locally and I get the same exact error.\n\nI believe you are missing the point that the CI *does not* validate your change in isolation but rather try to merge this change to its target branch and see if the result would be a successful build or not.\n\nIn this case, if you checkout the PS27 of this change, it would work for you, but just because this isn\u0027t rebased against its target master branch.\n\nI\u0027ve rebased this change against master (PS28) and if you checkout the change you will also see the failure.\n\nHTH\n\nLuca.",
+      "parentUuid": "3dfa5bb0_30dd030d",
+      "revId": "6df432a5f73762ac1f23821bbb50da6bd1288ae3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

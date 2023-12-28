@@ -39,6 +39,30 @@
       },
       "revId": "53a316eefb59983c29376157dbfce80cad072431",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afd4735a_0885c019",
+        "filename": "Documentation/config-submit-requirements.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-12-28T15:05:52Z",
+      "side": 1,
+      "message": "I would like to include this so that Googlers are able to fix submit requirements without our help. Strictly speaking you are right that we shouldn\u0027t include Google-specifics into upstream documentation, but I think a tip is acceptable, isn\u0027t it?",
+      "parentUuid": "6c4d5b82_69100c4c",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 22
+      },
+      "revId": "53a316eefb59983c29376157dbfce80cad072431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -288,6 +288,7 @@ public class WorkQueue {
   /** An isolated queue. */
   private class Executor extends ScheduledThreadPoolExecutor {
     private final ConcurrentHashMap<Integer, Task<?>> all;
+    private final ConcurrentHashMap<Runnable, Long> delayMap; // Time Unit: Nanoseconds
     private final String queueName;
 
     Executor(int corePoolSize, final String queueName) {
@@ -312,6 +313,7 @@ public class WorkQueue {
               0.75f, // load factor
               corePoolSize + 4 // concurrency level
               );
+      delayMap = new ConcurrentHashMap<>(corePoolSize >> 1, 0.75f, corePoolSize >> 1);
       this.queueName = queueName;
     }
 
@@ -375,12 +377,14 @@ public class WorkQueue {
     @Override
     public ScheduledFuture<?> scheduleAtFixedRate(
         Runnable command, long initialDelay, long period, TimeUnit unit) {
+      delayMap.put(command, unit.toNanos(period));
       return super.scheduleAtFixedRate(LoggingContext.copy(command), initialDelay, period, unit);
     }
 
     @Override
     public ScheduledFuture<?> scheduleWithFixedDelay(
         Runnable command, long initialDelay, long delay, TimeUnit unit) {
+      delayMap.put(command, unit.toNanos(delay));
       return super.scheduleWithFixedDelay(LoggingContext.copy(command), initialDelay, delay, unit);
     }
 
@@ -442,6 +446,16 @@ public class WorkQueue {
     protected <V> RunnableScheduledFuture<V> decorateTask(
         Runnable runnable, RunnableScheduledFuture<V> r) {
       r = super.decorateTask(runnable, r);
+
+      // If retry is true, it means that the Task is rescheduled in WorkQueue.Task.run. In this case
+      // we skip decorating to prevent it from creating a new WorkQueue.Task and
+      // WorkQueue.Task.runningState instance.
+      if (runnable instanceof LoggingContextAwareRunnable) {
+        Runnable unwrappedTask = ((LoggingContextAwareRunnable) runnable).unwrap();
+        if (unwrappedTask instanceof Task<?>) {
+          return r;
+        }
+      }
       for (; ; ) {
         final int id = idGenerator.next();
 
@@ -456,6 +470,7 @@ public class WorkQueue {
         } else {
           task = new Task<>(runnable, r, this, id);
         }
+        task.setPeriod(delayMap.remove(runnable));
 
         if (all.putIfAbsent(task.getTaskId(), task) == null) {
           return task;
@@ -556,6 +571,7 @@ public class WorkQueue {
     private final Executor executor;
     private final int taskId;
     private final Instant startTime;
+    private Long period;
 
     // runningState is non-null when listener or task code is running in an executor thread
     private final AtomicReference<State> runningState = new AtomicReference<>();
@@ -597,6 +613,18 @@ public class WorkQueue {
 
     public String getQueueName() {
       return executor.queueName;
+    }
+
+    public Long getPeriod() {
+      return period;
+    }
+
+    public void setPeriod(Long period) {
+      if (period == null) {
+        this.period = 0L;
+        return;
+      }
+      this.period = period;
     }
 
     @Override
@@ -688,6 +716,8 @@ public class WorkQueue {
             executor.remove(this);
           }
         }
+      } else {
+        Future<?> unusedFuture = executor.schedule(this, period / 3, TimeUnit.NANOSECONDS);
       }
     }
 

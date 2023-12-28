@@ -688,6 +688,8 @@ public class WorkQueue {
             executor.remove(this);
           }
         }
+      } else {
+        Future<?> unusedFuture = executor.submit(task);
       }
     }
 

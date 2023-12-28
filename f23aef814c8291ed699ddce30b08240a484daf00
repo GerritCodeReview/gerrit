@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1da42604_825a80b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-28T09:37:00Z",
+      "side": 1,
+      "message": "First and foremost, because it is out of scope. And also, I believe this should be implemented on an event-by-event case, not blanket-applied, if and when the need arises. I am not aware of it being a problem for anything else other than project-created events created via pull-replication.",
+      "parentUuid": "3ae24216_38e2df77",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "f23aef814c8291ed699ddce30b08240a484daf00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "518a7efa_76b44204",
@@ -37,6 +61,30 @@
       "writtenOn": "2023-12-27T21:40:55Z",
       "side": 1,
       "message": "This should be ignored if the instance id of the event is not equal to the local one.\n\nTherefore you should:\n- Inject the local server instance id (use the @InstanceId annotation in the Guice injection)\n- Compare with event with the local one",
+      "range": {
+        "startLine": 348,
+        "startChar": 27,
+        "endLine": 348,
+        "endChar": 34
+      },
+      "revId": "f23aef814c8291ed699ddce30b08240a484daf00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff1e2e3d_fb8f3485",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1157810
+      },
+      "writtenOn": "2023-12-28T09:37:00Z",
+      "side": 1,
+      "message": "No, because such change would filter out the event on the node that it originates from! Because the `ProjectCreator` creates the event with a null instance id. Touching `ProjectCreator` is out of scope of this change.",
+      "parentUuid": "518a7efa_76b44204",
       "range": {
         "startLine": 348,
         "startChar": 27,

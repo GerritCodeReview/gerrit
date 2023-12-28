@@ -670,23 +670,22 @@ public class WorkQueue {
 
     @Override
     public void run() {
-      if (runningState.compareAndSet(null, State.STARTING)) {
-        String oldThreadName = Thread.currentThread().getName();
-        try {
-          executor.onStart(this);
-          runningState.set(State.RUNNING);
-          Thread.currentThread().setName(oldThreadName + "[" + task.toString() + "]");
-          task.run();
-        } finally {
-          Thread.currentThread().setName(oldThreadName);
-          runningState.set(State.STOPPING);
-          executor.onStop(this);
-          if (isPeriodic()) {
-            runningState.set(null);
-          } else {
-            runningState.set(State.DONE);
-            executor.remove(this);
-          }
+      runningState.set(State.STARTING);
+      String oldThreadName = Thread.currentThread().getName();
+      try {
+        executor.onStart(this);
+        runningState.set(State.RUNNING);
+        Thread.currentThread().setName(oldThreadName + "[" + task.toString() + "]");
+        task.run();
+      } finally {
+        Thread.currentThread().setName(oldThreadName);
+        runningState.set(State.STOPPING);
+        executor.onStop(this);
+        if (isPeriodic()) {
+          runningState.set(null);
+        } else {
+          runningState.set(State.DONE);
+          executor.remove(this);
         }
       }
     }

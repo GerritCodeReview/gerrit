@@ -442,6 +442,9 @@ public class WorkQueue {
     protected <V> RunnableScheduledFuture<V> decorateTask(
         Runnable runnable, RunnableScheduledFuture<V> r) {
       r = super.decorateTask(runnable, r);
+      if (r instanceof Task<V> && ((Task<V>) r).retry) {
+        return r;
+      }
       for (; ; ) {
         final int id = idGenerator.next();
 
@@ -556,6 +559,7 @@ public class WorkQueue {
     private final Executor executor;
     private final int taskId;
     private final Instant startTime;
+    private Boolean retry;
 
     // runningState is non-null when listener or task code is running in an executor thread
     private final AtomicReference<State> runningState = new AtomicReference<>();
@@ -566,6 +570,7 @@ public class WorkQueue {
       this.executor = executor;
       this.taskId = taskId;
       this.startTime = Instant.now();
+      this.retry = false;
     }
 
     public int getTaskId() {
@@ -688,6 +693,9 @@ public class WorkQueue {
             executor.remove(this);
           }
         }
+      } else {
+        retry = true;
+        Future<?> unusedFuture = executor.submit(task);
       }
     }
 

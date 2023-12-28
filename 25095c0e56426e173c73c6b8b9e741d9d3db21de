@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba112fc7_50cc85b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-28T14:11:04Z",
+      "side": 1,
+      "message": "Can you raise a Gerrit issue for this? Can you also specify the steps to reproduce the problem?",
+      "range": {
+        "startLine": 10,
+        "startChar": 67,
+        "endLine": 12,
+        "endChar": 43
+      },
+      "revId": "25095c0e56426e173c73c6b8b9e741d9d3db21de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

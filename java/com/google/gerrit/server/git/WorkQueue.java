@@ -442,6 +442,12 @@ public class WorkQueue {
     protected <V> RunnableScheduledFuture<V> decorateTask(
         Runnable runnable, RunnableScheduledFuture<V> r) {
       r = super.decorateTask(runnable, r);
+      if (runnable instanceof LoggingContextAwareRunnable) {
+        Runnable unwrappedTask = ((LoggingContextAwareRunnable) runnable).unwrap();
+        if (unwrappedTask instanceof Task<?> && ((Task<?>) unwrappedTask).retry) {
+          return r;
+        }
+      }
       for (; ; ) {
         final int id = idGenerator.next();
 
@@ -556,6 +562,7 @@ public class WorkQueue {
     private final Executor executor;
     private final int taskId;
     private final Instant startTime;
+    private Boolean retry = false;
 
     // runningState is non-null when listener or task code is running in an executor thread
     private final AtomicReference<State> runningState = new AtomicReference<>();
@@ -688,6 +695,9 @@ public class WorkQueue {
             executor.remove(this);
           }
         }
+      } else {
+        retry = true;
+        Future<?> unusedFuture = executor.submit(this);
       }
     }
 

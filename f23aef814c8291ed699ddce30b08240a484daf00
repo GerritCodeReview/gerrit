@@ -93,6 +93,30 @@
       },
       "revId": "f23aef814c8291ed699ddce30b08240a484daf00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f80c1318_722f53aa",
+        "filename": "java/com/google/gerrit/server/events/StreamEventsApiListener.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-29T18:27:44Z",
+      "side": 1,
+      "message": "\u003e No, because such change would filter out the event on the node that it originates from!\n\nThat\u0027s exactly the other way around: we should ignore the ones that are NOT coming from the local instance id.\n\n\u003e Because the `ProjectCreator` creates the event with a null instance id. Touching `ProjectCreator` is out of scope of this change.\n\nAt the moment, yes. But this piece of code is on the stream event listener and it should not make assumption of what the project creator does.\nThe check should be based on data, not on the assumption of a temporary implementation.\n\nAlso, I am expecting another follow-up change where the project creator would populate the event with the local instance id, if set.",
+      "parentUuid": "ff1e2e3d_fb8f3485",
+      "range": {
+        "startLine": 348,
+        "startChar": 27,
+        "endLine": 348,
+        "endChar": 34
+      },
+      "revId": "f23aef814c8291ed699ddce30b08240a484daf00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

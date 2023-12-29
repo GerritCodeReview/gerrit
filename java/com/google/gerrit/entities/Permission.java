@@ -18,6 +18,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -274,15 +275,18 @@ public abstract class Permission implements Comparable<Permission> {
 
     public abstract Builder setExclusiveGroup(boolean value);
 
+    @CanIgnoreReturnValue
     public Builder modifyRules(Consumer<List<PermissionRule.Builder>> modification) {
       modification.accept(rulesBuilders);
       return this;
     }
 
+    @CanIgnoreReturnValue
     public Builder add(PermissionRule.Builder rule) {
       return modifyRules(r -> r.add(rule));
     }
 
+    @CanIgnoreReturnValue
     public Builder remove(PermissionRule rule) {
       if (rule != null) {
         return removeRule(rule.getGroup());
@@ -290,10 +294,12 @@ public abstract class Permission implements Comparable<Permission> {
       return this;
     }
 
+    @CanIgnoreReturnValue
     public Builder removeRule(GroupReference group) {
       return modifyRules(rules -> rules.removeIf(rule -> sameGroup(rule.build(), group)));
     }
 
+    @CanIgnoreReturnValue
     public Builder clearRules() {
       return modifyRules(r -> r.clear());
     }

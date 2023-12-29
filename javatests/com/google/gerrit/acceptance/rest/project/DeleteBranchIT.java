@@ -113,7 +113,9 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     RestResponse r =
         userRestSession.delete("/projects/" + project.get() + "/branches/" + testBranch.branch());
     r.assertNotFound();
-    branch(testBranch).get();
+
+    @SuppressWarnings("unused")
+    var unused = branch(testBranch).get();
   }
 
   @Test

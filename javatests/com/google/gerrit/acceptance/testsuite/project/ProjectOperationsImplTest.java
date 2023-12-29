@@ -67,8 +67,11 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
   @Test
   public void defaultName() throws Exception {
     Project.NameKey name = projectOperations.newProject().create();
+
     // check that the project was created (throws exception if not found.)
-    gApi.projects().name(name.get());
+    @SuppressWarnings("unused")
+    var unused = gApi.projects().name(name.get());
+
     Project.NameKey name2 = projectOperations.newProject().create();
     assertThat(name2).isNotEqualTo(name);
   }

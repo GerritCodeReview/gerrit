@@ -18,6 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.auto.value.extension.memoized.Memoized;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import java.util.EnumSet;
 import java.util.Set;
@@ -74,11 +75,13 @@ public abstract class NotifyConfig implements Comparable<NotifyConfig> {
 
     public abstract Builder setHeader(Header hdr);
 
+    @CanIgnoreReturnValue
     public Builder addGroup(GroupReference group) {
       groupsBuilder().add(group);
       return this;
     }
 
+    @CanIgnoreReturnValue
     public Builder addAddress(Address address) {
       addressesBuilder().add(address);
       return this;

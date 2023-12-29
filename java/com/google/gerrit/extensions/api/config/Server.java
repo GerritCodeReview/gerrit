@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.config;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -31,14 +32,17 @@ public interface Server {
 
   GeneralPreferencesInfo getDefaultPreferences() throws RestApiException;
 
+  @CanIgnoreReturnValue
   GeneralPreferencesInfo setDefaultPreferences(GeneralPreferencesInfo in) throws RestApiException;
 
   DiffPreferencesInfo getDefaultDiffPreferences() throws RestApiException;
 
+  @CanIgnoreReturnValue
   DiffPreferencesInfo setDefaultDiffPreferences(DiffPreferencesInfo in) throws RestApiException;
 
   EditPreferencesInfo getDefaultEditPreferences() throws RestApiException;
 
+  @CanIgnoreReturnValue
   EditPreferencesInfo setDefaultEditPreferences(EditPreferencesInfo in) throws RestApiException;
 
   ConsistencyCheckInfo checkConsistency(ConsistencyCheckInput in) throws RestApiException;

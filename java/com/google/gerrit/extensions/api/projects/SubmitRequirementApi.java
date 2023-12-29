@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.projects;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInput;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
@@ -21,12 +22,14 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface SubmitRequirementApi {
   /** Create a new submit requirement. */
+  @CanIgnoreReturnValue
   SubmitRequirementApi create(SubmitRequirementInput input) throws RestApiException;
 
   /** Get existing submit requirement. */
   SubmitRequirementInfo get() throws RestApiException;
 
   /** Update existing submit requirement. */
+  @CanIgnoreReturnValue
   SubmitRequirementInfo update(SubmitRequirementInput input) throws RestApiException;
 
   /** Delete existing submit requirement. */

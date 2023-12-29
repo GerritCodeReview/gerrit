@@ -335,7 +335,7 @@ public class RevertIT extends AbstractDaemonTest {
     // If notify input not specified, the endpoint overrides it to NONE
     RevertInput revertInput = createWipRevertInput();
     revertInput.notify = null;
-    gApi.changes().id(r.getChangeId()).revert(revertInput).get();
+    gApi.changes().id(r.getChangeId()).revert(revertInput);
     assertThat(sender.getMessages()).isEmpty();
   }
 
@@ -350,7 +350,7 @@ public class RevertIT extends AbstractDaemonTest {
     revertInput.notify = NotifyHandling.NONE;
 
     sender.clear();
-    gApi.changes().id(r.getChangeId()).revert(revertInput).get();
+    gApi.changes().id(r.getChangeId()).revert(revertInput);
     assertThat(sender.getMessages()).isEmpty();
   }
 

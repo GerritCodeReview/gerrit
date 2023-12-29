@@ -19,6 +19,7 @@ java_library(
         "//lib/auto:auto-factory",
         "//lib/bouncycastle:bcpg-neverlink",
         "//lib/bouncycastle:bcprov-neverlink",
+        "//lib/errorprone:annotations",
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",

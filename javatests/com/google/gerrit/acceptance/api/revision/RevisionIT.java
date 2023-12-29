@@ -800,7 +800,7 @@ public class RevisionIT extends AbstractDaemonTest {
     TestCommitValidationListener testCommitValidationListener = new TestCommitValidationListener();
     try (Registration registration =
         extensionRegistry.newRegistration().add(testCommitValidationListener)) {
-      gApi.changes().id(r.getChangeId()).current().cherryPickAsInfo(in);
+      gApi.changes().id(r.getChangeId()).current().cherryPick(in);
       assertThat(testCommitValidationListener.receiveEvent.pushOptions)
           .containsExactly("key", "value");
     }

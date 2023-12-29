@@ -75,7 +75,8 @@ public abstract class StandaloneSiteTest {
 
       try {
         // ServerContext ctor is called multiple times but the group can be only created once
-        gApi.groups().id("Group");
+        @SuppressWarnings("unused")
+        var unused = gApi.groups().id("Group");
       } catch (ResourceNotFoundException e) {
         GroupInput in = new GroupInput();
         in.members = Collections.singletonList("admin");

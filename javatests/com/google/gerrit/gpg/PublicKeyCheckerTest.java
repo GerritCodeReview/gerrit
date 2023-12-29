@@ -37,6 +37,7 @@ import static org.bouncycastle.bcpg.SignatureSubpacketTags.REVOCATION_KEY;
 import static org.bouncycastle.openpgp.PGPSignature.DIRECT_KEY;
 import static org.junit.Assert.assertEquals;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.gpg.testing.TestKey;
 import java.time.Instant;
 import java.time.ZoneId;
@@ -298,6 +299,7 @@ public class PublicKeyCheckerTest {
     return new PublicKeyChecker().enableTrust(maxTrustDepth, fps).setStore(store);
   }
 
+  @CanIgnoreReturnValue
   private TestKey add(TestKey k) {
     store.add(k.getPublicKeyRing());
     return k;

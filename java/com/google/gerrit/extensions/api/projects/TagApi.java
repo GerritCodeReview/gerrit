@@ -14,10 +14,12 @@
 
 package com.google.gerrit.extensions.api.projects;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface TagApi {
+  @CanIgnoreReturnValue
   TagApi create(TagInput input) throws RestApiException;
 
   TagInfo get() throws RestApiException;

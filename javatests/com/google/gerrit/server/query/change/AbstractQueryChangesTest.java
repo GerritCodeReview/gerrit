@@ -3889,8 +3889,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     for (int i = 0; i < expected.length; i++) {
       ids[i] = expected[i].id;
     }
-    QueryRequest queryRequest = newQuery(query.replaceAll("\\$\\{user}", viewedUser));
-    queryRequest.withStart(start);
+    QueryRequest queryRequest =
+        newQuery(query.replaceAll("\\$\\{user}", viewedUser)).withStart(start);
     return assertQueryByIds(queryRequest, ids);
   }
 
@@ -4660,7 +4660,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   protected ThrowableSubject assertThatQueryException(QueryRequest query) throws Exception {
     try {
-      query.get();
+      @SuppressWarnings("unused")
+      var unused = query.get();
       throw new AssertionError("expected BadRequestException for query: " + query);
     } catch (BadRequestException e) {
       return assertThat(e);
@@ -4669,7 +4670,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   protected ThrowableSubject assertThatAuthException(Object query) throws Exception {
     try {
-      newQuery(query).get();
+      @SuppressWarnings("unused")
+      var unused = newQuery(query).get();
       throw new AssertionError("expected AuthException for query: " + query);
     } catch (AuthException e) {
       return assertThat(e);
@@ -4690,14 +4692,14 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   protected void createProject(Project.NameKey project) throws Exception {
-    gApi.projects().create(project.get()).get();
+    gApi.projects().create(project.get());
   }
 
   protected void createProject(Project.NameKey project, Project.NameKey parent) throws Exception {
     ProjectInput input = new ProjectInput();
     input.name = project.get();
     input.parent = parent.get();
-    gApi.projects().create(input).get();
+    gApi.projects().create(input);
   }
 
   protected QueryRequest newQuery(Object query) {

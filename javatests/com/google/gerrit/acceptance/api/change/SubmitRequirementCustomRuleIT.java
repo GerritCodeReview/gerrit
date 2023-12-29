@@ -178,9 +178,12 @@ public class SubmitRequirementCustomRuleIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
 
     rule.numberOfEvaluations.set(0);
-    gApi.changes()
-        .id(changeId)
-        .get(ListChangesOption.ALL_REVISIONS, ListChangesOption.CURRENT_ACTIONS);
+
+    @SuppressWarnings("unused")
+    var unused =
+        gApi.changes()
+            .id(changeId)
+            .get(ListChangesOption.ALL_REVISIONS, ListChangesOption.CURRENT_ACTIONS);
 
     // Submit rules are computed freshly, but only once.
     assertThat(rule.numberOfEvaluations.get()).isEqualTo(1);
@@ -192,10 +195,13 @@ public class SubmitRequirementCustomRuleIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
 
     rule.numberOfEvaluations.set(0);
-    gApi.changes()
-        .query(changeId)
-        .withOptions(ListChangesOption.ALL_REVISIONS, ListChangesOption.CURRENT_ACTIONS)
-        .get();
+
+    @SuppressWarnings("unused")
+    var unused =
+        gApi.changes()
+            .query(changeId)
+            .withOptions(ListChangesOption.ALL_REVISIONS, ListChangesOption.CURRENT_ACTIONS)
+            .get();
 
     // Submit rule evaluation results from the change index are reused
     assertThat(rule.numberOfEvaluations.get()).isEqualTo(0);

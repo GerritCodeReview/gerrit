@@ -28,6 +28,7 @@ import static org.eclipse.jgit.lib.RefUpdate.Result.NEW;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterators;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.common.GpgKeyInfo.Status;
 import com.google.gerrit.gpg.testing.TestKey;
@@ -131,6 +132,7 @@ public class GerritPublicKeyCheckerTest {
     return userFactory.create(id);
   }
 
+  @CanIgnoreReturnValue
   private IdentifiedUser reloadUser() {
     user = userFactory.create(userId);
     return user;
@@ -390,6 +392,7 @@ public class GerritPublicKeyCheckerTest {
     accountsUpdateProvider.get().update("Add External IDs", id, u -> u.addExternalIds(newExtIds));
   }
 
+  @CanIgnoreReturnValue
   private TestKey add(TestKey k, IdentifiedUser user) throws Exception {
     add(k.getPublicKeyRing(), user);
     return k;

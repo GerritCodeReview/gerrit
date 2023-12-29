@@ -142,10 +142,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
     createArbitraryEditFor(changeId);
 
     // check that '0' is parsed as edit revision
-    gApi.changes().id(changeId).revision(0).comments();
+    @SuppressWarnings("unused")
+    var unused = gApi.changes().id(changeId).revision(0).comments();
 
     // check that 'edit' is parsed as edit revision
-    gApi.changes().id(changeId).revision("edit").comments();
+    unused = gApi.changes().id(changeId).revision("edit").comments();
   }
 
   @Test

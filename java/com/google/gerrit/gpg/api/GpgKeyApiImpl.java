@@ -55,7 +55,8 @@ public class GpgKeyApiImpl implements GpgKeyApi {
   @Override
   public void delete() throws RestApiException {
     try {
-      delete.apply(rsrc, new Input());
+      @SuppressWarnings("unused")
+      var unused = delete.apply(rsrc, new Input());
     } catch (RestApiException e) {
       throw e;
     } catch (PGPException | IOException | ConfigInvalidException e) {

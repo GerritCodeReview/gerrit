@@ -657,7 +657,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void groupCannotBeCreatedWithNameOfAnotherGroup() throws Exception {
     String name = name("Users");
-    gApi.groups().create(name).get();
+    gApi.groups().create(name);
 
     assertThrows(ResourceConflictException.class, () -> gApi.groups().create(name));
   }
@@ -1485,7 +1485,7 @@ public class GroupsIT extends AbstractDaemonTest {
     GroupInput groupInput = new GroupInput();
     groupInput.name = name("contributors");
     groupInput.members = ImmutableList.of(user.username());
-    gApi.groups().create(groupInput).get();
+    gApi.groups().create(groupInput);
     restartAsSlave();
 
     requestScopeOperations.setApiUser(user.id());

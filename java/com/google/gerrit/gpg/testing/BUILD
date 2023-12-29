@@ -10,5 +10,6 @@ java_library(
         "//lib:guava",
         "//lib:jgit",
         "//lib/bouncycastle:bcpg-neverlink",
+        "//lib/errorprone:annotations",
     ],
 )

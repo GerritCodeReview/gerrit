@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.projects;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.LabelDefinitionInput;
@@ -21,10 +22,12 @@ import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface LabelApi {
+  @CanIgnoreReturnValue
   LabelApi create(LabelDefinitionInput input) throws RestApiException;
 
   LabelDefinitionInfo get() throws RestApiException;
 
+  @CanIgnoreReturnValue
   LabelDefinitionInfo update(LabelDefinitionInput input) throws RestApiException;
 
   default void delete() throws RestApiException {

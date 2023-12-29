@@ -623,7 +623,8 @@ public class AccountIT extends AbstractDaemonTest {
       accountIndexedCounter.assertReindexOf(activatableAccountId, 1);
     }
 
-    gApi.changes().query("owner:foo@activatable.com").get();
+    @SuppressWarnings("unused")
+    var unused = gApi.changes().query("owner:foo@activatable.com").get();
   }
 
   @Test
@@ -636,7 +637,8 @@ public class AccountIT extends AbstractDaemonTest {
       accountIndexedCounter.assertReindexOf(activatableAccountId, 1);
     }
 
-    gApi.changes().query("owner:foo").get();
+    @SuppressWarnings("unused")
+    var unused = gApi.changes().query("owner:foo").get();
   }
 
   @Test

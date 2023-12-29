@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.registration;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.inject.Binder;
 import com.google.inject.Key;
@@ -159,6 +160,7 @@ public class DynamicItem<T> {
    * @param pluginName the name of the plugin providing the item.
    * @return handle to remove the item at a later point in time.
    */
+  @CanIgnoreReturnValue
   public RegistrationHandle set(T item, String pluginName) {
     return set(Providers.of(item), pluginName);
   }
@@ -170,6 +172,7 @@ public class DynamicItem<T> {
    * @param pluginName name of the source providing the implementation.
    * @return handle to remove the item at a later point in time.
    */
+  @CanIgnoreReturnValue
   public RegistrationHandle set(Provider<T> impl, String pluginName) {
     final Extension<T> item = new Extension<>(pluginName, impl);
     Extension<T> old = null;
@@ -197,6 +200,7 @@ public class DynamicItem<T> {
    * @param pluginName the name of the plugin providing the item.
    * @return a handle that can remove this item later, or hot-swap the item.
    */
+  @CanIgnoreReturnValue
   public ReloadableRegistrationHandle<T> set(Key<T> key, Provider<T> impl, String pluginName) {
     final Extension<T> item = new Extension<>(pluginName, impl);
     Extension<T> old = null;

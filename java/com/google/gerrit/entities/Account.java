@@ -21,6 +21,7 @@ import static com.google.gerrit.entities.RefNames.REFS_USERS;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import java.time.Instant;
@@ -262,6 +263,7 @@ public abstract class Account {
 
     public abstract Builder setInactive(boolean inactive);
 
+    @CanIgnoreReturnValue
     public Builder setActive(boolean active) {
       return setInactive(!active);
     }

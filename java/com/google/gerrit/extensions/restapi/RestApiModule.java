@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.restapi;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -128,6 +129,7 @@ public abstract class RestApiModule extends FactoryModule {
       this.binder = binder;
     }
 
+    @CanIgnoreReturnValue
     public <T extends RestReadView<P>> ScopedBindingBuilder to(Class<T> impl) {
       return binder.to(impl);
     }
@@ -136,11 +138,13 @@ public abstract class RestApiModule extends FactoryModule {
       binder.toInstance(impl);
     }
 
+    @CanIgnoreReturnValue
     public <T extends RestReadView<P>> ScopedBindingBuilder toProvider(
         Class<? extends Provider<? extends T>> providerType) {
       return binder.toProvider(providerType);
     }
 
+    @CanIgnoreReturnValue
     public <T extends RestReadView<P>> ScopedBindingBuilder toProvider(
         Provider<? extends T> provider) {
       return binder.toProvider(provider);
@@ -154,6 +158,7 @@ public abstract class RestApiModule extends FactoryModule {
       this.binder = binder;
     }
 
+    @CanIgnoreReturnValue
     public <T extends RestModifyView<P, ?>> ScopedBindingBuilder to(Class<T> impl) {
       return binder.to(impl);
     }
@@ -162,11 +167,13 @@ public abstract class RestApiModule extends FactoryModule {
       binder.toInstance(impl);
     }
 
+    @CanIgnoreReturnValue
     public <T extends RestModifyView<P, ?>> ScopedBindingBuilder toProvider(
         Class<? extends Provider<? extends T>> providerType) {
       return binder.toProvider(providerType);
     }
 
+    @CanIgnoreReturnValue
     public <T extends RestModifyView<P, ?>> ScopedBindingBuilder toProvider(
         Provider<? extends T> provider) {
       return binder.toProvider(provider);
@@ -180,6 +187,7 @@ public abstract class RestApiModule extends FactoryModule {
       this.binder = binder;
     }
 
+    @CanIgnoreReturnValue
     public <P extends RestResource, T extends RestCollectionModifyView<P, C, ?>>
         ScopedBindingBuilder to(Class<T> impl) {
       return binder.to(impl);
@@ -190,11 +198,13 @@ public abstract class RestApiModule extends FactoryModule {
       binder.toInstance(impl);
     }
 
+    @CanIgnoreReturnValue
     public <P extends RestResource, T extends RestCollectionModifyView<P, C, ?>>
         ScopedBindingBuilder toProvider(Class<? extends Provider<? extends T>> providerType) {
       return binder.toProvider(providerType);
     }
 
+    @CanIgnoreReturnValue
     public <P extends RestResource, T extends RestCollectionModifyView<P, C, ?>>
         ScopedBindingBuilder toProvider(Provider<? extends T> provider) {
       return binder.toProvider(provider);
@@ -208,6 +218,7 @@ public abstract class RestApiModule extends FactoryModule {
       this.binder = binder;
     }
 
+    @CanIgnoreReturnValue
     public <P extends RestResource, T extends RestCollectionCreateView<P, C, ?>>
         ScopedBindingBuilder to(Class<T> impl) {
       return binder.to(impl);
@@ -218,11 +229,13 @@ public abstract class RestApiModule extends FactoryModule {
       binder.toInstance(impl);
     }
 
+    @CanIgnoreReturnValue
     public <P extends RestResource, T extends RestCollectionCreateView<P, C, ?>>
         ScopedBindingBuilder toProvider(Class<? extends Provider<? extends T>> providerType) {
       return binder.toProvider(providerType);
     }
 
+    @CanIgnoreReturnValue
     public <P extends RestResource, T extends RestCollectionCreateView<P, C, ?>>
         ScopedBindingBuilder toProvider(Provider<? extends T> provider) {
       return binder.toProvider(provider);
@@ -236,6 +249,7 @@ public abstract class RestApiModule extends FactoryModule {
       this.binder = binder;
     }
 
+    @CanIgnoreReturnValue
     public <P extends RestResource, T extends RestCollectionDeleteMissingView<P, C, ?>>
         ScopedBindingBuilder to(Class<T> impl) {
       return binder.to(impl);
@@ -246,11 +260,13 @@ public abstract class RestApiModule extends FactoryModule {
       binder.toInstance(impl);
     }
 
+    @CanIgnoreReturnValue
     public <P extends RestResource, T extends RestCollectionDeleteMissingView<P, C, ?>>
         ScopedBindingBuilder toProvider(Class<? extends Provider<? extends T>> providerType) {
       return binder.toProvider(providerType);
     }
 
+    @CanIgnoreReturnValue
     public <P extends RestResource, T extends RestCollectionDeleteMissingView<P, C, ?>>
         ScopedBindingBuilder toProvider(Provider<? extends T> provider) {
       return binder.toProvider(provider);
@@ -264,6 +280,7 @@ public abstract class RestApiModule extends FactoryModule {
       this.binder = binder;
     }
 
+    @CanIgnoreReturnValue
     public <C extends RestResource, T extends ChildCollection<P, C>> ScopedBindingBuilder to(
         Class<T> impl) {
       return binder.to(impl);
@@ -273,11 +290,13 @@ public abstract class RestApiModule extends FactoryModule {
       binder.toInstance(impl);
     }
 
+    @CanIgnoreReturnValue
     public <C extends RestResource, T extends ChildCollection<P, C>>
         ScopedBindingBuilder toProvider(Class<? extends Provider<? extends T>> providerType) {
       return binder.toProvider(providerType);
     }
 
+    @CanIgnoreReturnValue
     public <C extends RestResource, T extends ChildCollection<P, C>>
         ScopedBindingBuilder toProvider(Provider<? extends T> provider) {
       return binder.toProvider(provider);

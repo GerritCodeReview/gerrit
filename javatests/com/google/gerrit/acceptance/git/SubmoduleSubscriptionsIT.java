@@ -734,8 +734,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     gApi.projects()
         .name(allProjects.get())
         .submitRequirement("Block-Submodule-Change")
-        .create(input)
-        .get();
+        .create(input);
   }
 
   private boolean getStatus(ChangeData cd) throws Exception {

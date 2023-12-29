@@ -350,7 +350,8 @@ public class ListProjectsIT extends AbstractDaemonTest {
     assertThat(info.state).isEqualTo(input.state);
 
     // Project is still accessible directly
-    gApi.projects().name(hidden.get()).get();
+    @SuppressWarnings("unused")
+    var unused = gApi.projects().name(hidden.get()).get();
 
     // Hidden project is not included in the list
     assertThatNameList(gApi.projects().list().get())

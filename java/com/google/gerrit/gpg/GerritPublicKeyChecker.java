@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
@@ -129,6 +130,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
    * user. (Other keys checked in the course of verifying the web of trust are checked against the
    * set of identities in the database belonging to the same user as the key.)
    */
+  @CanIgnoreReturnValue
   public GerritPublicKeyChecker setExpectedUser(IdentifiedUser expectedUser) {
     this.expectedUser = expectedUser;
     return this;

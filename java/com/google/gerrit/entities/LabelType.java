@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ public abstract class LabelType {
     return create(name, values);
   }
 
+  @CanIgnoreReturnValue
   public static String checkName(String name) throws IllegalArgumentException {
     checkNameInternal(name);
     if ("SUBM".equals(name)) {
@@ -47,6 +49,7 @@ public abstract class LabelType {
     return name;
   }
 
+  @CanIgnoreReturnValue
   public static String checkNameInternal(String name) throws IllegalArgumentException {
     if (name == null || name.isEmpty()) {
       throw new IllegalArgumentException("Empty label name");

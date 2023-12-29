@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -148,31 +149,37 @@ public abstract class CachedProjectConfig {
 
     public abstract Builder setBranchOrderSection(Optional<BranchOrderSection> value);
 
+    @CanIgnoreReturnValue
     public Builder addGroup(GroupReference groupReference) {
       groupsBuilder().put(groupReference.getUUID(), groupReference);
       return this;
     }
 
+    @CanIgnoreReturnValue
     public Builder addAccessSection(AccessSection accessSection) {
       accessSectionsBuilder().put(accessSection.getName(), accessSection);
       return this;
     }
 
+    @CanIgnoreReturnValue
     public Builder addContributorAgreement(ContributorAgreement contributorAgreement) {
       contributorAgreementsBuilder().put(contributorAgreement.getName(), contributorAgreement);
       return this;
     }
 
+    @CanIgnoreReturnValue
     public Builder addNotifySection(NotifyConfig notifyConfig) {
       notifySectionsBuilder().put(notifyConfig.getName(), notifyConfig);
       return this;
     }
 
+    @CanIgnoreReturnValue
     public Builder addLabelSection(LabelType labelType) {
       labelSectionsBuilder().put(labelType.getName(), labelType);
       return this;
     }
 
+    @CanIgnoreReturnValue
     public Builder addSubmitRequirementSection(SubmitRequirement submitRequirement) {
       submitRequirementSectionsBuilder().put(submitRequirement.name(), submitRequirement);
       return this;
@@ -180,11 +187,13 @@ public abstract class CachedProjectConfig {
 
     public abstract Builder setMimeTypes(ConfiguredMimeTypes value);
 
+    @CanIgnoreReturnValue
     public Builder addSubscribeSection(SubscribeSection subscribeSection) {
       subscribeSectionsBuilder().put(subscribeSection.project(), subscribeSection);
       return this;
     }
 
+    @CanIgnoreReturnValue
     public Builder addCommentLinkSection(StoredCommentLinkInfo storedCommentLinkInfo) {
       commentLinkSectionsBuilder().put(storedCommentLinkInfo.getName(), storedCommentLinkInfo);
       return this;
@@ -213,6 +222,7 @@ public abstract class CachedProjectConfig {
 
     abstract ImmutableMap.Builder<String, String> pluginConfigsBuilder();
 
+    @CanIgnoreReturnValue
     public Builder addPluginConfig(String pluginName, String pluginConfig) {
       pluginConfigsBuilder().put(pluginName, pluginConfig);
       return this;
@@ -222,6 +232,7 @@ public abstract class CachedProjectConfig {
 
     abstract ImmutableMap.Builder<String, ImmutableConfig> parsedProjectLevelConfigsBuilder();
 
+    @CanIgnoreReturnValue
     public Builder addProjectLevelConfig(String configFileName, String config) {
       projectLevelConfigsBuilder().put(configFileName, config);
       try {

@@ -1134,7 +1134,7 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
     LabelDefinitionInput input = new LabelDefinitionInput();
     input.function = "NoOp";
     input.values = ImmutableMap.of("+1", "Override", " 0", "No Override");
-    gApi.projects().name(project.get()).label("Code-Review-Override").create(input).get();
+    gApi.projects().name(project.get()).label("Code-Review-Override").create(input);
 
     // Allow to vote on the Code-Review-Override label.
     projectOperations
@@ -1300,7 +1300,7 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
     LabelDefinitionInput input = new LabelDefinitionInput();
     input.function = "NoOp";
     input.values = ImmutableMap.of("+1", "Override", " 0", "No Override");
-    gApi.projects().name(project.get()).label("build-cop-override").create(input).get();
+    gApi.projects().name(project.get()).label("build-cop-override").create(input);
 
     // Allow to vote on the build-cop-override label.
     projectOperations
@@ -1325,7 +1325,7 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
             .build());
 
     // Create Code-Review-Override label
-    gApi.projects().name(project.get()).label("Code-Review-Override").create(input).get();
+    gApi.projects().name(project.get()).label("Code-Review-Override").create(input);
 
     // Allow to vote on the Code-Review-Override label.
     projectOperations

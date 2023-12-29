@@ -120,6 +120,7 @@ public class DeleteLabelIT extends AbstractDaemonTest {
     amendChange(changeId);
 
     // Assert no throws.
-    gApi.changes().id(changeId).get(DETAILED_LABELS);
+    @SuppressWarnings("unused")
+    var unused = gApi.changes().id(changeId).get(DETAILED_LABELS);
   }
 }

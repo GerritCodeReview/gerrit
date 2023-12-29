@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.api.changes;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -73,6 +74,7 @@ public interface Changes {
    */
   ChangeApi id(String project, int id) throws RestApiException;
 
+  @CanIgnoreReturnValue
   ChangeApi create(ChangeInput in) throws RestApiException;
 
   ChangeInfo createAsInfo(ChangeInput in) throws RestApiException;

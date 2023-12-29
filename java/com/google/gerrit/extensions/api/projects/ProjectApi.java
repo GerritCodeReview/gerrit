@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.api.projects;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
@@ -43,6 +44,7 @@ public interface ProjectApi {
 
   ProjectAccessInfo access() throws RestApiException;
 
+  @CanIgnoreReturnValue
   ProjectAccessInfo access(ProjectAccessInput p) throws RestApiException;
 
   ChangeInfo accessChange(ProjectAccessInput p) throws RestApiException;
@@ -53,6 +55,7 @@ public interface ProjectApi {
 
   ConfigInfo config() throws RestApiException;
 
+  @CanIgnoreReturnValue
   ConfigInfo config(ConfigInput in) throws RestApiException;
 
   Map<String, Set<String>> commitsIn(Collection<String> commits, Collection<String> refs)

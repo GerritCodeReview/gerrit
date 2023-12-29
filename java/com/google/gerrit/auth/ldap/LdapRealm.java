@@ -331,7 +331,10 @@ class LdapRealm extends AbstractRealm {
     final DirContext ctx = helper.open();
     try {
       Helper.LdapSchema schema = helper.getSchema(ctx);
-      helper.findAccount(schema, ctx, username, false);
+
+      @SuppressWarnings("unused")
+      var unused = helper.findAccount(schema, ctx, username, false);
+
       return true;
     } catch (NoSuchUserException e) {
       return false;

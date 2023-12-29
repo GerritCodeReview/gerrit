@@ -16,6 +16,7 @@ package com.google.gerrit.gpg;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -53,6 +54,7 @@ public class Fingerprint {
     return Collections.unmodifiableMap(result);
   }
 
+  @CanIgnoreReturnValue
   private static byte[] checkLength(byte[] fp) {
     checkArgument(fp.length == 20, "fingerprint must be 20 bytes, got %s", fp.length);
     return fp;

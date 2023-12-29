@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.webui;
 
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.RestResource;
@@ -68,6 +69,7 @@ public interface UiAction<R extends RestResource> extends RestView<R> {
     }
 
     /** Set the label to appear on the button to activate this action. */
+    @CanIgnoreReturnValue
     public Description setLabel(String label) {
       this.label = label;
       return this;
@@ -78,6 +80,7 @@ public interface UiAction<R extends RestResource> extends RestView<R> {
     }
 
     /** Set the tool-tip text to appear when the mouse hovers on the button. */
+    @CanIgnoreReturnValue
     public Description setTitle(String title) {
       this.title = title;
       return this;
@@ -95,6 +98,7 @@ public interface UiAction<R extends RestResource> extends RestView<R> {
      * Set if the action's button is visible on screen for the current client. If not visible the
      * action description may not be sent to the client.
      */
+    @CanIgnoreReturnValue
     public Description setVisible(boolean visible) {
       return setVisible(BooleanCondition.valueOf(visible));
     }
@@ -103,6 +107,7 @@ public interface UiAction<R extends RestResource> extends RestView<R> {
      * Set if the action's button is visible on screen for the current client. If not visible the
      * action description may not be sent to the client.
      */
+    @CanIgnoreReturnValue
     public Description setVisible(BooleanCondition visible) {
       this.visible = visible;
       return this;
@@ -117,11 +122,13 @@ public interface UiAction<R extends RestResource> extends RestView<R> {
     }
 
     /** Set if the button should be invokable (true), or greyed out (false). */
+    @CanIgnoreReturnValue
     public Description setEnabled(boolean enabled) {
       return setEnabled(BooleanCondition.valueOf(enabled));
     }
 
     /** Set if the button should be invokable (true), or greyed out (false). */
+    @CanIgnoreReturnValue
     public Description setEnabled(BooleanCondition enabled) {
       this.enabled = enabled;
       return this;
@@ -135,6 +142,7 @@ public interface UiAction<R extends RestResource> extends RestView<R> {
       return ImmutableList.copyOf(enabledOptions);
     }
 
+    @CanIgnoreReturnValue
     public Description setOption(String optionName, boolean enabled) {
       if (enabled) {
         enabledOptions.add(optionName);

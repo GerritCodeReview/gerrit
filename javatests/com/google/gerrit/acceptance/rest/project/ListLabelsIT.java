@@ -192,7 +192,8 @@ public class ListLabelsIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
 
     // can list labels without inheritance
-    gApi.projects().name(project.get()).labels().get();
+    @SuppressWarnings("unused")
+    var unused = gApi.projects().name(project.get()).labels().get();
 
     // cannot list labels with inheritance
     AuthException thrown =

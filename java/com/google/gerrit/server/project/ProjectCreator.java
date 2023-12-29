@@ -21,6 +21,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BooleanProjectConfig;
@@ -37,6 +38,7 @@ import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.config.GerritInstanceId;
 import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.gerrit.server.extensions.events.AbstractNoNotifyEvent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -81,6 +83,7 @@ public class ProjectCreator {
   private final Provider<PersonIdent> serverIdent;
   private final Provider<IdentifiedUser> identifiedUser;
   private final ProjectConfig.Factory projectConfigFactory;
+  private final String gerritInstanceId;
 
   @Inject
   ProjectCreator(
@@ -92,6 +95,7 @@ public class ProjectCreator {
       GitReferenceUpdated referenceUpdated,
       RepositoryConfig repositoryCfg,
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
+      @Nullable @GerritInstanceId String gerritInstanceId,
       Provider<IdentifiedUser> identifiedUser,
       ProjectConfig.Factory projectConfigFactory) {
     this.repoManager = repoManager;
@@ -102,6 +106,7 @@ public class ProjectCreator {
     this.referenceUpdated = referenceUpdated;
     this.repositoryCfg = repositoryCfg;
     this.serverIdent = serverIdent;
+    this.gerritInstanceId = gerritInstanceId;
     this.identifiedUser = identifiedUser;
     this.projectConfigFactory = projectConfigFactory;
   }
@@ -250,17 +255,19 @@ public class ProjectCreator {
       return;
     }
 
-    ProjectCreator.Event event = new ProjectCreator.Event(name, head);
+    ProjectCreator.Event event = new ProjectCreator.Event(name, head, gerritInstanceId);
     createdListeners.runEach(l -> l.onNewProjectCreated(event));
   }
 
   static class Event extends AbstractNoNotifyEvent implements NewProjectCreatedListener.Event {
     private final Project.NameKey name;
     private final String head;
+    private final String gerritInstanceId;
 
-    Event(Project.NameKey name, String head) {
+    Event(Project.NameKey name, String head, @Nullable String gerritInstanceId) {
       this.name = name;
       this.head = head;
+      this.gerritInstanceId = gerritInstanceId;
     }
 
     @Override
@@ -271,6 +278,11 @@ public class ProjectCreator {
     @Override
     public String getHeadName() {
       return head;
+    }
+
+    @Override
+    public String getInstanceId() {
+      return gerritInstanceId;
     }
   }
 }

@@ -18,7 +18,6 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toCollection;
-import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
@@ -28,7 +27,6 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
-import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RobotComment;
@@ -209,13 +207,8 @@ public class CommentsUtil {
     return robotCommentsByChange(notes).stream().filter(c -> c.key.uuid.equals(uuid)).findFirst();
   }
 
-  public List<HumanComment> publishedByChangeFile(ChangeNotes notes, String file) {
-    return commentsOnFile(notes.load().getHumanComments().values(), file);
-  }
-
   public List<HumanComment> publishedByPatchSet(ChangeNotes notes, PatchSet.Id psId) {
-    return removeCommentsOnAncestorOfCommitMessage(
-        commentsOnPatchSet(notes.load().getHumanComments().values(), psId));
+    return commentsOnPatchSet(notes.load().getHumanComments().values(), psId);
   }
 
   public List<RobotComment> robotCommentsByPatchSet(ChangeNotes notes, PatchSet.Id psId) {
@@ -286,18 +279,6 @@ public class CommentsUtil {
     return Objects.equals(
         Optional.ofNullable(cm.getAuthor()).map(a -> a.get()),
         Optional.ofNullable(comment.author).map(a -> a._accountId));
-  }
-  /**
-   * For the commit message the A side in a diff view is always empty when a comparison against an
-   * ancestor is done, so there can't be any comments on this ancestor. However earlier we showed
-   * the auto-merge commit message on side A when for a merge commit a comparison against the
-   * auto-merge was done. From that time there may still be comments on the auto-merge commit
-   * message and those we want to filter out.
-   */
-  private List<HumanComment> removeCommentsOnAncestorOfCommitMessage(List<HumanComment> list) {
-    return list.stream()
-        .filter(c -> c.side != 0 || !Patch.COMMIT_MSG.equals(c.key.filename))
-        .collect(toList());
   }
 
   public void putHumanComments(

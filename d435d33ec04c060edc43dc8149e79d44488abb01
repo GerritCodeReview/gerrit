@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7abe5c7_b3af7e5c",
+        "filename": "java/com/google/gerrit/server/project/ProjectCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2023-12-29T20:14:14Z",
+      "side": 1,
+      "message": "This should be Nullable.\n```suggestion\n    Event(Project.NameKey name, String head, @Nullable String gerritInstanceId) {\n```",
+      "range": {
+        "startLine": 267,
+        "startChar": 44,
+        "endLine": 267,
+        "endChar": 45
+      },
+      "revId": "d435d33ec04c060edc43dc8149e79d44488abb01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e03b7fb_f6196731",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2023-12-29T11:29:44Z",
+      "side": 1,
+      "message": "The Code-Style checking on the CI seems to be broken.",
+      "revId": "e6d5c79b7097f8eee3d3704c50ad6425cc8189fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

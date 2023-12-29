@@ -77,6 +77,7 @@ const LANGUAGE_MAP = new Map<string, string>([
   ['text/x-puppet', 'puppet'],
   ['text/x-python', 'python'],
   ['text/x-q', 'q'],
+  ['text/x-qml', 'qml'],
   ['text/x-ruby', 'ruby'],
   ['text/x-rustsrc', 'rust'],
   ['text/x-scala', 'scala'],

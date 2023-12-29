@@ -253,7 +253,9 @@ public class CheckProjectIT extends AbstractDaemonTest {
   @Test
   public void branchPrefixCanBeOmitted() throws Exception {
     CheckProjectInput input = checkProjectInputForAutoCloseableCheck("master");
-    gApi.projects().name(project.get()).check(input);
+
+    @SuppressWarnings("unused")
+    var unused = gApi.projects().name(project.get()).check(input);
   }
 
   @Test
@@ -261,7 +263,9 @@ public class CheckProjectIT extends AbstractDaemonTest {
     CheckProjectInput input = checkProjectInputForAutoCloseableCheck("refs/heads/master");
     input.autoCloseableChangesCheck.maxCommits =
         ProjectsConsistencyChecker.AUTO_CLOSE_MAX_COMMITS_LIMIT;
-    gApi.projects().name(project.get()).check(input);
+
+    @SuppressWarnings("unused")
+    var unused = gApi.projects().name(project.get()).check(input);
   }
 
   @Test

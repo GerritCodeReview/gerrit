@@ -15,6 +15,7 @@
 package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.time.Instant;
 import java.util.Optional;
 
@@ -43,10 +44,12 @@ public abstract class AccountGroupMemberAudit {
 
     abstract Builder removedOn(Instant removedOn);
 
+    @CanIgnoreReturnValue
     public Builder removed(Account.Id removedBy, Instant removedOn) {
       return removedBy(removedBy).removedOn(removedOn);
     }
 
+    @CanIgnoreReturnValue
     public Builder removedLegacy() {
       return removed(addedBy(), addedOn());
     }

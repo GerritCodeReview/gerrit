@@ -144,12 +144,16 @@ public class ReflogIT extends AbstractDaemonTest {
         .update();
 
     requestScopeOperations.setApiUser(user.id());
-    gApi.projects().name(project.get()).branch("master").reflog();
+
+    @SuppressWarnings("unused")
+    var unused = gApi.projects().name(project.get()).branch("master").reflog();
   }
 
   @Test
   public void adminUserIsAllowedToGetReflog() throws Exception {
     requestScopeOperations.setApiUser(admin.id());
-    gApi.projects().name(project.get()).branch("master").reflog();
+
+    @SuppressWarnings("unused")
+    var unused = gApi.projects().name(project.get()).branch("master").reflog();
   }
 }

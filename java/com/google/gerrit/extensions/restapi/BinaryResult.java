@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.restapi;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.IOException;
@@ -73,6 +74,7 @@ public abstract class BinaryResult implements Closeable {
   }
 
   /** Set the MIME type of the result, and return {@code this}. */
+  @CanIgnoreReturnValue
   public BinaryResult setContentType(String contentType) {
     this.contentType = contentType != null ? contentType : OCTET_STREAM;
     return this;
@@ -84,6 +86,7 @@ public abstract class BinaryResult implements Closeable {
   }
 
   /** Set the character set used to encode text data and return {@code this}. */
+  @CanIgnoreReturnValue
   public BinaryResult setCharacterEncoding(Charset encoding) {
     characterEncoding = encoding;
     return this;
@@ -95,6 +98,7 @@ public abstract class BinaryResult implements Closeable {
   }
 
   /** Set the attachment file name and return {@code this}. */
+  @CanIgnoreReturnValue
   public BinaryResult setAttachmentName(String attachmentName) {
     this.attachmentName = attachmentName;
     return this;
@@ -106,6 +110,7 @@ public abstract class BinaryResult implements Closeable {
   }
 
   /** Set the content length of the result; -1 if not known. */
+  @CanIgnoreReturnValue
   public BinaryResult setContentLength(long len) {
     this.contentLength = len;
     return this;
@@ -117,6 +122,7 @@ public abstract class BinaryResult implements Closeable {
   }
 
   /** Disable gzip compression for already compressed responses. */
+  @CanIgnoreReturnValue
   public BinaryResult disableGzip() {
     this.gzip = false;
     return this;
@@ -128,6 +134,7 @@ public abstract class BinaryResult implements Closeable {
   }
 
   /** Wrap the binary data in base64 encoding. */
+  @CanIgnoreReturnValue
   public BinaryResult base64() {
     base64 = true;
     return this;

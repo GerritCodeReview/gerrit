@@ -65,7 +65,11 @@ public class PatchSetTest {
 
   @Test
   public void testSplitGroups() {
-    assertRuntimeException(() -> splitGroups(null));
+    assertRuntimeException(
+        () -> {
+          @SuppressWarnings("unused")
+          var unused = splitGroups(null);
+        });
     assertThat(splitGroups("")).containsExactly("");
     assertThat(splitGroups("abcd")).containsExactly("abcd");
     assertThat(splitGroups("ab,cd")).containsExactly("ab", "cd").inOrder();
@@ -76,8 +80,16 @@ public class PatchSetTest {
 
   @Test
   public void testJoinGroups() {
-    assertRuntimeException(() -> joinGroups(null));
-    assertRuntimeException(() -> joinGroups(ImmutableList.of("a,", "b")));
+    assertRuntimeException(
+        () -> {
+          @SuppressWarnings("unused")
+          var unused = joinGroups(null);
+        });
+    assertRuntimeException(
+        () -> {
+          @SuppressWarnings("unused")
+          var unused = joinGroups(ImmutableList.of("a,", "b"));
+        });
     assertThat(joinGroups(ImmutableList.of(""))).isEqualTo("");
     assertThat(joinGroups(ImmutableList.of("abcd"))).isEqualTo("abcd");
     assertThat(joinGroups(ImmutableList.of("ab", "cd"))).isEqualTo("ab,cd");
@@ -126,7 +138,11 @@ public class PatchSetTest {
   }
 
   private static void assertInvalidId(String str) {
-    assertRuntimeException(() -> PatchSet.Id.parse(str));
+    assertRuntimeException(
+        () -> {
+          @SuppressWarnings("unused")
+          var unused = PatchSet.Id.parse(str);
+        });
   }
 
   private static void assertRuntimeException(Runnable runnable) {

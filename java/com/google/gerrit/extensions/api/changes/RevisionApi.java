@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.api.changes;
 
 import com.google.common.collect.ListMultimap;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ArchiveFormat;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -44,24 +45,30 @@ public interface RevisionApi {
 
   void description(String description) throws RestApiException;
 
+  @CanIgnoreReturnValue
   ReviewResult review(ReviewInput in) throws RestApiException;
 
+  @CanIgnoreReturnValue
   default ChangeInfo submit() throws RestApiException {
     SubmitInput in = new SubmitInput();
     return submit(in);
   }
 
+  @CanIgnoreReturnValue
   ChangeInfo submit(SubmitInput in) throws RestApiException;
 
+  @CanIgnoreReturnValue
   ChangeApi cherryPick(CherryPickInput in) throws RestApiException;
 
   ChangeInfo cherryPickAsInfo(CherryPickInput in) throws RestApiException;
 
+  @CanIgnoreReturnValue
   default ChangeApi rebase() throws RestApiException {
     RebaseInput in = new RebaseInput();
     return rebase(in);
   }
 
+  @CanIgnoreReturnValue
   ChangeApi rebase(RebaseInput in) throws RestApiException;
 
   ChangeInfo rebaseAsInfo(RebaseInput in) throws RestApiException;
@@ -117,6 +124,7 @@ public interface RevisionApi {
    * @param fixId the ID of the fix which should be applied
    * @throws RestApiException if the fix couldn't be applied
    */
+  @CanIgnoreReturnValue
   EditInfo applyFix(String fixId) throws RestApiException;
 
   /**
@@ -126,6 +134,7 @@ public interface RevisionApi {
    * @param applyProvidedFixInput The fix(es) to apply to a new change edit.
    * @throws RestApiException if the fix couldn't be applied.
    */
+  @CanIgnoreReturnValue
   EditInfo applyFix(ApplyProvidedFixInput applyProvidedFixInput) throws RestApiException;
 
   Map<String, DiffInfo> getFixPreview(String fixId) throws RestApiException;
@@ -133,6 +142,7 @@ public interface RevisionApi {
   Map<String, DiffInfo> getFixPreview(ApplyProvidedFixInput applyProvidedFixInput)
       throws RestApiException;
 
+  @CanIgnoreReturnValue
   DraftApi createDraft(DraftInput in) throws RestApiException;
 
   DraftApi draft(String id) throws RestApiException;

@@ -339,7 +339,9 @@ class RevisionApiImpl extends RevisionApi.NotImplemented {
       } else {
         view = deleteReviewed;
       }
-      view.apply(files.parse(revision, IdString.fromDecoded(path)), new Input());
+
+      @SuppressWarnings("unused")
+      var unused = view.apply(files.parse(revision, IdString.fromDecoded(path)), new Input());
     } catch (Exception e) {
       throw asRestApiException("Cannot update reviewed flag", e);
     }

@@ -306,7 +306,9 @@ public class ChangeIT extends AbstractDaemonTest {
     String triplet = project.get() + "~master~" + result.getChangeId();
     CacheStats startIntra = cloneStats(intraCache.stats());
     CacheStats startSummary = cloneStats(diffSummaryCache.stats());
-    gApi.changes().id(triplet).get(ImmutableList.of(ListChangesOption.SKIP_DIFFSTAT));
+
+    @SuppressWarnings("unused")
+    var unused = gApi.changes().id(triplet).get(ImmutableList.of(ListChangesOption.SKIP_DIFFSTAT));
 
     assertThat(intraCache.stats()).since(startIntra).hasMissCount(0);
     assertThat(intraCache.stats()).since(startIntra).hasHitCount(0);
@@ -821,7 +823,9 @@ public class ChangeIT extends AbstractDaemonTest {
   public void getAmbiguous() throws Exception {
     PushOneCommit.Result r1 = createChange();
     String changeId = r1.getChangeId();
-    gApi.changes().id(changeId).get();
+
+    @SuppressWarnings("unused")
+    var unused = gApi.changes().id(changeId).get();
 
     BranchInput b = new BranchInput();
     b.revision = repo().exactRef("HEAD").getObjectId().name();

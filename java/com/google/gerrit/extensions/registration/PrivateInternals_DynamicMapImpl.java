@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.registration;
 
 import static java.util.Objects.requireNonNull;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.annotations.Export;
 import com.google.inject.Key;
@@ -51,6 +52,7 @@ public class PrivateInternals_DynamicMapImpl<T> extends DynamicMap<T> {
    * @return a handle that can remove this item later, or hot-swap the item without it ever leaving
    *     the collection.
    */
+  @CanIgnoreReturnValue
   public ReloadableRegistrationHandle<T> put(String pluginName, Key<T> key, Provider<T> item) {
     requireNonNull(item);
     String exportName = ((Export) key.getAnnotation()).value();

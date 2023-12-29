@@ -18,6 +18,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableMap;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -195,6 +196,7 @@ public abstract class Project {
   public abstract static class Builder {
     public abstract Builder setDescription(String description);
 
+    @CanIgnoreReturnValue
     public Builder setBooleanConfig(BooleanProjectConfig config, InheritableBoolean val) {
       Map<BooleanProjectConfig, InheritableBoolean> map = new HashMap<>(getBooleanConfigs());
       map.replace(config, val);
@@ -214,6 +216,7 @@ public abstract class Project {
 
     public abstract Builder setParent(NameKey n);
 
+    @CanIgnoreReturnValue
     public Builder setParent(String n) {
       return setParent(n != null ? nameKey(n) : null);
     }

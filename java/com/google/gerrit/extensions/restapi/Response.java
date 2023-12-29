@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.restapi;
 
 import com.google.common.collect.ImmutableMultimap;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.TimeUnit;
 
 /** Special return value to mean specific HTTP status codes in a REST API. */
@@ -90,6 +91,7 @@ public abstract class Response<T> {
 
   public abstract CacheControl caching();
 
+  @CanIgnoreReturnValue
   public abstract Response<T> caching(CacheControl c);
 
   @Override

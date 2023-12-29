@@ -20,6 +20,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.auto.value.AutoValue;
 import com.google.auto.value.extension.memoized.Memoized;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import java.util.ArrayList;
 import java.util.List;
@@ -121,27 +122,32 @@ public abstract class AccessSection implements Comparable<AccessSection> {
 
     public abstract String getName();
 
+    @CanIgnoreReturnValue
     public Builder modifyPermissions(Consumer<List<Permission.Builder>> modification) {
       modification.accept(permissionBuilders);
       return this;
     }
 
+    @CanIgnoreReturnValue
     public Builder addPermission(Permission.Builder permission) {
       requireNonNull(permission, "permission must be non-null");
       return modifyPermissions(p -> p.add(permission));
     }
 
+    @CanIgnoreReturnValue
     public Builder remove(Permission.Builder permission) {
       requireNonNull(permission, "permission must be non-null");
       return removePermission(permission.getName());
     }
 
+    @CanIgnoreReturnValue
     public Builder removePermission(String name) {
       requireNonNull(name, "name must be non-null");
       return modifyPermissions(
           p -> p.removeIf(permissionBuilder -> name.equalsIgnoreCase(permissionBuilder.getName())));
     }
 
+    @CanIgnoreReturnValue
     public Permission.Builder upsertPermission(String permissionName) {
       requireNonNull(permissionName, "permissionName must be non-null");
 

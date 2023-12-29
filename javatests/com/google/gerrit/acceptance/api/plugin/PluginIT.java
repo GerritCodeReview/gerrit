@@ -145,7 +145,9 @@ public class PluginIT extends AbstractDaemonTest {
         new com.google.gerrit.extensions.common.InstallPluginInput();
     input.raw = JS_PLUGIN_CONTENT;
     gApi.plugins().install("legacy.js", input);
-    gApi.plugins().name("legacy").get();
+
+    @SuppressWarnings("unused")
+    var unused = gApi.plugins().name("legacy").get();
   }
 
   @Test

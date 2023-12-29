@@ -38,7 +38,6 @@ import com.google.inject.Inject;
 import java.util.List;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -219,8 +218,7 @@ public class DashboardIT extends AbstractDaemonTest {
         }
       }
       cb.add(info.path, content.toString());
-      RevCommit c = cb.create();
-      project().commit(c.name());
+      cb.create();
     }
     return info;
   }

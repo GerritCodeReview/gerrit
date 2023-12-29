@@ -15,6 +15,7 @@
 package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 
 @AutoValue
 public abstract class PermissionRule implements Comparable<PermissionRule> {
@@ -239,14 +240,17 @@ public abstract class PermissionRule implements Comparable<PermissionRule> {
 
   @AutoValue.Builder
   public abstract static class Builder {
+    @CanIgnoreReturnValue
     public Builder setDeny() {
       return setAction(Action.DENY);
     }
 
+    @CanIgnoreReturnValue
     public Builder setBlock() {
       return setAction(Action.BLOCK);
     }
 
+    @CanIgnoreReturnValue
     public Builder setRange(int newMin, int newMax) {
       if (newMax < newMin) {
         setMin(newMax);

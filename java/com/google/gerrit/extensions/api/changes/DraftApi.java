@@ -14,11 +14,13 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface DraftApi extends CommentApi {
+  @CanIgnoreReturnValue
   CommentInfo update(DraftInput in) throws RestApiException;
 
   void delete() throws RestApiException;

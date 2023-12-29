@@ -30,6 +30,7 @@ import static org.bouncycastle.openpgp.PGPSignature.DIRECT_KEY;
 import static org.bouncycastle.openpgp.PGPSignature.KEY_REVOCATION;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.common.GpgKeyInfo.Status;
 import java.io.IOException;
@@ -77,6 +78,7 @@ public class PublicKeyChecker {
    *     construct a map, see {@link Fingerprint#byId(Iterable)}.
    * @return a reference to this object.
    */
+  @CanIgnoreReturnValue
   public PublicKeyChecker enableTrust(int maxTrustDepth, Map<Long, Fingerprint> trusted) {
     if (maxTrustDepth <= 0) {
       throw new IllegalArgumentException("maxTrustDepth must be positive, got: " + maxTrustDepth);
@@ -90,12 +92,14 @@ public class PublicKeyChecker {
   }
 
   /** Disable web-of-trust checks. */
+  @CanIgnoreReturnValue
   public PublicKeyChecker disableTrust() {
     trusted = null;
     return this;
   }
 
   /** Set the public key store for reading keys referenced in signatures. */
+  @CanIgnoreReturnValue
   public PublicKeyChecker setStore(PublicKeyStore store) {
     if (store == null) {
       throw new IllegalArgumentException("PublicKeyStore is required");
@@ -112,6 +116,7 @@ public class PublicKeyChecker {
    * @param effectiveTime effective time.
    * @return a reference to this object.
    */
+  @CanIgnoreReturnValue
   public PublicKeyChecker setEffectiveTime(Instant effectiveTime) {
     this.effectiveTime = effectiveTime;
     return this;

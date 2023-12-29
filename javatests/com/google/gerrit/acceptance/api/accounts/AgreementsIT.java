@@ -187,8 +187,11 @@ public class AgreementsIT extends AbstractDaemonTest {
   public void listAgreementPermission() throws Exception {
     assume().that(isContributorAgreementsEnabled()).isTrue();
     requestScopeOperations.setApiUser(admin.id());
+
     // Allowed.
-    gApi.accounts().id(user.id().get()).listAgreements();
+    @SuppressWarnings("unused")
+    var unused = gApi.accounts().id(user.id().get()).listAgreements();
+
     requestScopeOperations.setApiUser(user.id());
 
     // Not allowed.
@@ -391,7 +394,9 @@ public class AgreementsIT extends AbstractDaemonTest {
   @GerritConfig(name = "auth.contributorAgreements", value = "true")
   public void anonymousAccessServerInfoEvenWithCLAs() throws Exception {
     requestScopeOperations.setApiUserAnonymous();
-    gApi.config().server().getInfo();
+
+    @SuppressWarnings("unused")
+    var unused = gApi.config().server().getInfo();
   }
 
   @Test

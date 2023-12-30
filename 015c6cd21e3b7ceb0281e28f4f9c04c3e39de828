@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26455a94_efc2e895",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2023-12-30T10:18:13Z",
+      "side": 1,
+      "message": "presumably, this should be the public url.",
+      "revId": "015c6cd21e3b7ceb0281e28f4f9c04c3e39de828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

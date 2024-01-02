@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d8fc5a24_3fd78639",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1120730
+      },
+      "writtenOn": "2024-01-02T10:00:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ac44b69_f1d579a1",
+      "range": {
+        "startLine": 9,
+        "startChar": 30,
+        "endLine": 9,
+        "endChar": 32
+      },
+      "revId": "20f5d81937977c3c5cef97957d3c690499172296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "9f09e162_c5f66401",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -54,6 +78,24 @@
       "writtenOn": "2023-12-30T12:59:23Z",
       "side": 1,
       "message": "Need to add the Release-Notes footer.",
+      "revId": "20f5d81937977c3c5cef97957d3c690499172296",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6c3d42c_b57db5c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1120730
+      },
+      "writtenOn": "2024-01-02T10:00:29Z",
+      "side": 1,
+      "message": "Release-Notes foooter added.",
+      "parentUuid": "ddf2c454_622e8f48",
       "revId": "20f5d81937977c3c5cef97957d3c690499172296",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

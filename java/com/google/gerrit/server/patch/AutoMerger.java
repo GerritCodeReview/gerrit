@@ -250,8 +250,9 @@ public class AutoMerger {
     ObjectId treeId;
     if (couldMerge) {
       treeId = m.getResultTreeId();
+      logger.atFine().log(
+          "AutoMerge treeId=%s (no conflicts, inserter: %s)", treeId.name(), m.getObjectInserter());
     } else {
-      logger.atFine().log("merging with conflicts");
       treeId =
           MergeUtil.mergeWithConflicts(
               rw,
@@ -263,8 +264,8 @@ public class AutoMerger {
               merge.getParent(1),
               m.getMergeResults(),
               useDiff3);
+      logger.atFine().log("AutoMerge treeId=%s (with conflicts, inserter: %s)", treeId.name(), ins);
     }
-    logger.atFine().log("AutoMerge treeId=%s (inserter: %s)", treeId.name(), ins);
 
     rw.parseHeaders(merge);
     // For maximum stability, choose a single ident using the committer time of
@@ -316,5 +317,10 @@ public class AutoMerger {
 
     @Override
     public void close() {}
+
+    @Override
+    public String toString() {
+      return String.format("%s (wrapped inserter: %s)", super.toString(), ins.toString());
+    }
   }
 }

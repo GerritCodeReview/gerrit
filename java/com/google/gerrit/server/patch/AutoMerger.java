@@ -28,6 +28,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.logging.CallerFinder;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.update.RepoView;
 import com.google.inject.Inject;
@@ -99,6 +100,7 @@ public class AutoMerger {
   private final boolean save;
   private final boolean useDiff3;
   private final ThreeWayMergeStrategy configuredMergeStrategy;
+  private final CallerFinder callerFinder;
 
   @Inject
   AutoMerger(
@@ -125,6 +127,7 @@ public class AutoMerger {
     this.useDiff3 = diff3ConflictView(cfg);
     this.gerritIdentProvider = gerritIdentProvider;
     this.configuredMergeStrategy = MergeUtil.getMergeStrategy(cfg);
+    this.callerFinder = CallerFinder.builder().addTarget(AutoMerger.class).build();
   }
 
   /**
@@ -250,8 +253,9 @@ public class AutoMerger {
     ObjectId treeId;
     if (couldMerge) {
       treeId = m.getResultTreeId();
-      logger.atFine().log(
-          "AutoMerge treeId=%s (no conflicts, inserter: %s)", treeId.name(), m.getObjectInserter());
+      logger.atSevere().log(
+          "AutoMerge treeId=%s (no conflicts, inserter: %s, caller: %s)",
+          treeId.name(), m.getObjectInserter(), callerFinder.findCallerLazy());
     } else {
       treeId =
           MergeUtil.mergeWithConflicts(
@@ -264,7 +268,9 @@ public class AutoMerger {
               merge.getParent(1),
               m.getMergeResults(),
               useDiff3);
-      logger.atFine().log("AutoMerge treeId=%s (with conflicts, inserter: %s)", treeId.name(), ins);
+      logger.atSevere().log(
+          "AutoMerge treeId=%s (with conflicts, inserter: %s, caller: %s)",
+          treeId.name(), ins, callerFinder.findCallerLazy());
     }
 
     rw.parseHeaders(merge);

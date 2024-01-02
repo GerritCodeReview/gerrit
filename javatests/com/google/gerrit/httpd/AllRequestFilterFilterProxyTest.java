@@ -21,6 +21,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
 import com.google.gerrit.server.plugins.Plugin;
@@ -76,6 +77,7 @@ public class AllRequestFilterFilterProxyTest {
    * <p>This method adds the given filter to all {@link AllRequestFilter.FilterProxy} instances
    * created by {@link #getFilterProxy()}.
    */
+  @CanIgnoreReturnValue
   private ReloadableRegistrationHandle<AllRequestFilter> addFilter(AllRequestFilter filter) {
     Key<AllRequestFilter> key = Key.get(AllRequestFilter.class);
     return filters.add("gerrit", key, Providers.of(filter));

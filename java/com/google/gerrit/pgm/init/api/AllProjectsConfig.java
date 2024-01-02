@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm.init.api;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.config.AllProjectsConfigProvider;
@@ -58,6 +59,7 @@ public class AllProjectsConfig extends VersionedMetaDataOnInit {
   }
 
   @Override
+  @CanIgnoreReturnValue
   public AllProjectsConfig load() throws IOException, ConfigInvalidException {
     super.load();
     return this;

@@ -31,6 +31,7 @@ java_library(
         "//lib:jgit",
         "//lib:jgit-ssh-apache",
         "//lib:servlet-api",
+        "//lib/errorprone:annotations",
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-servlet",

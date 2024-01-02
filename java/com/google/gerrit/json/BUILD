@@ -9,6 +9,7 @@ java_library(
         "//java/com/google/gerrit/entities",
         "//lib:gson",
         "//lib:guava",
+        "//lib/errorprone:annotations",
         "//lib/guice",
     ],
 )

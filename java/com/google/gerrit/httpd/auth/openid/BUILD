@@ -17,6 +17,7 @@ java_library(
         "//java/com/google/gerrit/server",
         "//lib:guava",
         "//lib:servlet-api",
+        "//lib/errorprone:annotations",
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-servlet",

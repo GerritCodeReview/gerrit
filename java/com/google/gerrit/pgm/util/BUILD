@@ -23,6 +23,7 @@ java_library(
         "//lib:gson",
         "//lib:guava",
         "//lib:jgit",
+        "//lib/errorprone:annotations",
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/log:log4j",

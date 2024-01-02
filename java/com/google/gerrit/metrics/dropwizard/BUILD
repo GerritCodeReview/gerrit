@@ -12,6 +12,7 @@ java_library(
         "//lib:args4j",
         "//lib:guava",
         "//lib/dropwizard:dropwizard-core",
+        "//lib/errorprone:annotations",
         "//lib/flogger:api",
         "//lib/guice",
     ],

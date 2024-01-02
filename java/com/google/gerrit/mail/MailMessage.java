@@ -16,6 +16,7 @@ package com.google.gerrit.mail;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Address;
 import java.time.Instant;
@@ -72,6 +73,7 @@ public abstract class MailMessage {
 
     public abstract ImmutableList.Builder<Address> toBuilder();
 
+    @CanIgnoreReturnValue
     public Builder addTo(Address val) {
       toBuilder().add(val);
       return this;
@@ -79,6 +81,7 @@ public abstract class MailMessage {
 
     public abstract ImmutableList.Builder<Address> ccBuilder();
 
+    @CanIgnoreReturnValue
     public Builder addCc(Address val) {
       ccBuilder().add(val);
       return this;
@@ -88,6 +91,7 @@ public abstract class MailMessage {
 
     public abstract ImmutableList.Builder<String> additionalHeadersBuilder();
 
+    @CanIgnoreReturnValue
     public Builder addAdditionalHeader(String val) {
       additionalHeadersBuilder().add(val);
       return this;

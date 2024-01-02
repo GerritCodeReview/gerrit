@@ -113,7 +113,10 @@ public class IndexedFieldTest {
     IndexedField<TestIndexedData, StoredValue>.SearchSpec searchSpec = fieldToStoredValue.getKey();
     StoredValue storedValue = new FakeStoredValue(fieldToStoredValue.getValue());
     TestIndexedData testIndexedData = new TestIndexedData();
-    searchSpec.setIfPossible(testIndexedData, storedValue);
+
+    @SuppressWarnings("unused")
+    var unused = searchSpec.setIfPossible(testIndexedData, storedValue);
+
     assertThat(testIndexedData.getTestField()).isEqualTo(docValue);
   }
 
@@ -122,7 +125,10 @@ public class IndexedFieldTest {
     Entities.Change changeProto = TestIndexedFields.createChangeProto(12345);
     StoredValue storedValue = new FakeStoredValue(Protos.toByteArray(changeProto));
     TestIndexedData testIndexedData = new TestIndexedData();
-    STORED_PROTO_FIELD_SPEC.setIfPossible(testIndexedData, storedValue);
+
+    @SuppressWarnings("unused")
+    var unused = STORED_PROTO_FIELD_SPEC.setIfPossible(testIndexedData, storedValue);
+
     assertThat(testIndexedData.getTestField()).isEqualTo(changeProto);
   }
 
@@ -137,7 +143,10 @@ public class IndexedFieldTest {
                 .map(proto -> Protos.toByteArray(proto))
                 .collect(toImmutableList()));
     TestIndexedData testIndexedData = new TestIndexedData();
-    ITERABLE_STORED_PROTO_FIELD.setIfPossible(testIndexedData, storedValue);
+
+    @SuppressWarnings("unused")
+    var unused = ITERABLE_STORED_PROTO_FIELD.setIfPossible(testIndexedData, storedValue);
+
     assertThat(testIndexedData.getTestField()).isEqualTo(changeProtos);
   }
 
@@ -150,7 +159,10 @@ public class IndexedFieldTest {
     IndexedField<TestIndexedData, StoredValue>.SearchSpec searchSpec = fieldToStoredValue.getKey();
     StoredValue storedValue = new FakeStoredValue(fieldToStoredValue.getValue(), /*isProto=*/ true);
     TestIndexedData testIndexedData = new TestIndexedData();
-    searchSpec.setIfPossible(testIndexedData, storedValue);
+
+    @SuppressWarnings("unused")
+    var unused = searchSpec.setIfPossible(testIndexedData, storedValue);
+
     assertThat(testIndexedData.getTestField()).isEqualTo(docValue);
   }
 

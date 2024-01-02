@@ -70,12 +70,14 @@ public class JythonShell {
     pyObject = findClass("org.python.core.PyObject");
     pySystemState = findClass("org.python.core.PySystemState");
 
-    runMethod(
-        pySystemState,
-        pySystemState,
-        "initialize",
-        new Class<?>[] {Properties.class, Properties.class},
-        new Object[] {null, env});
+    @SuppressWarnings("unused")
+    var unused =
+        runMethod(
+            pySystemState,
+            pySystemState,
+            "initialize",
+            new Class<?>[] {Properties.class, Properties.class},
+            new Object[] {null, env});
 
     try {
       shell = console.getConstructor(new Class<?>[] {}).newInstance();
@@ -125,10 +127,12 @@ public class JythonShell {
   }
 
   protected void printInjectedVariable(String id) {
-    runInterpreter(
-        "exec",
-        new Class<?>[] {String.class},
-        new Object[] {"print '\"%s\" is \"%s\"' % (\"" + id + "\", " + id + ")"});
+    @SuppressWarnings("unused")
+    var unused =
+        runInterpreter(
+            "exec",
+            new Class<?>[] {String.class},
+            new Object[] {"print '\"%s\" is \"%s\"' % (\"" + id + "\", " + id + ")"});
   }
 
   public void run() {
@@ -136,19 +140,26 @@ public class JythonShell {
       printInjectedVariable(key);
     }
     reload();
-    runInterpreter(
-        "interact",
-        new Class<?>[] {String.class, pyObject},
-        new Object[] {
-          getDefaultBanner()
-              + " running for Gerrit "
-              + com.google.gerrit.common.Version.getVersion(),
-          null,
-        });
+
+    @SuppressWarnings("unused")
+    var unused =
+        runInterpreter(
+            "interact",
+            new Class<?>[] {String.class, pyObject},
+            new Object[] {
+              getDefaultBanner()
+                  + " running for Gerrit "
+                  + com.google.gerrit.common.Version.getVersion(),
+              null,
+            });
   }
 
   public void set(String key, Object content) {
-    runInterpreter("set", new Class<?>[] {String.class, Object.class}, new Object[] {key, content});
+    @SuppressWarnings("unused")
+    var unused =
+        runInterpreter(
+            "set", new Class<?>[] {String.class, Object.class}, new Object[] {key, content});
+
     injectedVariables.add(key);
   }
 
@@ -181,12 +192,14 @@ public class JythonShell {
     try {
       File script = new File(parent, p);
       if (script.canExecute()) {
-        runMethod0(
-            console,
-            shell,
-            "execfile",
-            new Class<?>[] {String.class},
-            new Object[] {script.getAbsolutePath()});
+        @SuppressWarnings("unused")
+        var unused =
+            runMethod0(
+                console,
+                shell,
+                "execfile",
+                new Class<?>[] {String.class},
+                new Object[] {script.getAbsolutePath()});
       } else {
         logger.atInfo().log(
             "User initialization file %s is not found or not executable", script.getAbsolutePath());
@@ -200,12 +213,14 @@ public class JythonShell {
 
   protected void execStream(InputStream in, String p) {
     try {
-      runMethod0(
-          console,
-          shell,
-          "execfile",
-          new Class<?>[] {InputStream.class, String.class},
-          new Object[] {in, p});
+      @SuppressWarnings("unused")
+      var unused =
+          runMethod0(
+              console,
+              shell,
+              "execfile",
+              new Class<?>[] {InputStream.class, String.class},
+              new Object[] {in, p});
     } catch (InvocationTargetException e) {
       logger.atSevere().withCause(e).log("Exception occurred while loading %s", p);
     }

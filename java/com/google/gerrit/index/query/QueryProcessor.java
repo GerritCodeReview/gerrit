@@ -122,6 +122,7 @@ public abstract class QueryProcessor<T> {
             .build();
   }
 
+  @CanIgnoreReturnValue
   public QueryProcessor<T> setStart(int n) {
     start = n;
     return this;
@@ -141,6 +142,7 @@ public abstract class QueryProcessor<T> {
    * @param enforce whether to enforce visibility.
    * @return this.
    */
+  @CanIgnoreReturnValue
   public QueryProcessor<T> enforceVisibility(boolean enforce) {
     enforceVisibility = enforce;
     return this;

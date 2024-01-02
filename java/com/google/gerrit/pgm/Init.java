@@ -302,7 +302,9 @@ public class Init extends BaseInit {
         .message(String.format("Init complete, reindexing %s with:", String.join(",", indices)));
     getConsoleUI().message(" reindex " + reindexArgs.stream().collect(joining(" ")));
     Reindex reindexPgm = new Reindex();
-    reindexPgm.main(reindexArgs.stream().toArray(String[]::new));
+
+    @SuppressWarnings("unused")
+    var unused = reindexPgm.main(reindexArgs.stream().toArray(String[]::new));
   }
 
   private static boolean nullOrEmpty(List<?> list) {

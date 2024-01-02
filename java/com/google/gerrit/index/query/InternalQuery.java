@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.Index;
@@ -61,22 +62,26 @@ public class InternalQuery<T, Q extends InternalQuery<T, Q>> {
     return (Q) this;
   }
 
+  @CanIgnoreReturnValue
   final Q setStart(int start) {
     queryProcessor.setStart(start);
     return self();
   }
 
+  @CanIgnoreReturnValue
   public final Q setLimit(int n) {
     queryProcessor.setUserProvidedLimit(n, /* applyDefaultLimit */ false);
     return self();
   }
 
+  @CanIgnoreReturnValue
   public final Q enforceVisibility(boolean enforce) {
     queryProcessor.enforceVisibility(enforce);
     return self();
   }
 
   @SafeVarargs
+  @CanIgnoreReturnValue
   public final Q setRequestedFields(SchemaField<T, ?>... fields) {
     checkArgument(fields.length > 0, "requested field list is empty");
     queryProcessor.setRequestedFields(
@@ -84,6 +89,7 @@ public class InternalQuery<T, Q extends InternalQuery<T, Q>> {
     return self();
   }
 
+  @CanIgnoreReturnValue
   public final Q noFields() {
     queryProcessor.setRequestedFields(ImmutableSet.of());
     return self();

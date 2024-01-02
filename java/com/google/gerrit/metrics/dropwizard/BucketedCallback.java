@@ -19,6 +19,7 @@ import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import java.util.Iterator;
@@ -85,14 +86,17 @@ abstract class BucketedCallback<V> implements BucketedMetric {
     }
   }
 
+  @CanIgnoreReturnValue
   ValueGauge getOrCreate(Object f1, Object f2) {
     return getOrCreate(ImmutableList.of(f1, f2));
   }
 
+  @CanIgnoreReturnValue
   ValueGauge getOrCreate(Object f1, Object f2, Object f3) {
     return getOrCreate(ImmutableList.of(f1, f2, f3));
   }
 
+  @CanIgnoreReturnValue
   ValueGauge getOrCreate(Object key) {
     ValueGauge c = cells.get(key);
     if (c != null) {

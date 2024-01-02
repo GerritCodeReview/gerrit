@@ -23,6 +23,7 @@ import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.reflect.TypeToken;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.converter.ProtoConverter;
 import com.google.gerrit.exceptions.StorageException;
@@ -211,6 +212,7 @@ public abstract class IndexedField<I, T> {
       return IndexedField.this;
     }
 
+    @CanIgnoreReturnValue
     private String checkName(String name) {
       CharMatcher m = CharMatcher.anyOf("abcdefghijklmnopqrstuvwxyz0123456789_");
       checkArgument(name != null && m.matchesAllOf(name), "illegal field name: %s", name);
@@ -350,6 +352,7 @@ public abstract class IndexedField<I, T> {
       return this.getter(getter).fieldSetter(Optional.empty()).build();
     }
 
+    @CanIgnoreReturnValue
     private static String checkName(String name) {
       String allowedCharacters = "abcdefghijklmnopqrstuvwxyz0123456789_";
       CharMatcher m =

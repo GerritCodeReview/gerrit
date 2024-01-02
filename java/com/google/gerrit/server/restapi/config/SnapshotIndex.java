@@ -45,7 +45,8 @@ public class SnapshotIndex implements RestModifyView<IndexResource, Input> {
     }
     for (Index<?, ?> index : indexes) {
       try {
-        index.snapshot(id);
+        @SuppressWarnings("unused")
+        var unused = index.snapshot(id);
       } catch (FileAlreadyExistsException e) {
         return Response.withStatusCode(SC_CONFLICT, "Snapshot with same ID already exists.");
       }

@@ -114,7 +114,8 @@ public class QueryBuilderTest {
 
   private static ThrowableSubject assertThatParseException(String query) {
     try {
-      new TestQueryBuilder().parse(query);
+      @SuppressWarnings("unused")
+      var unused = new TestQueryBuilder().parse(query);
       throw new AssertionError("expected QueryParseException for " + query);
     } catch (QueryParseException e) {
       return assertThat(e);

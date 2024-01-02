@@ -17,6 +17,7 @@ package com.google.gerrit.metrics;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -73,6 +74,7 @@ public class Description {
    * @param unitName name of the unit, e.g. "requests", "seconds", etc.
    * @return this
    */
+  @CanIgnoreReturnValue
   public Description setUnit(String unitName) {
     annotations.put(UNIT, unitName);
     return this;
@@ -84,6 +86,7 @@ public class Description {
    *
    * @return this
    */
+  @CanIgnoreReturnValue
   public Description setConstant() {
     annotations.put(CONSTANT, TRUE_VALUE);
     return this;
@@ -95,6 +98,7 @@ public class Description {
    *
    * @return this
    */
+  @CanIgnoreReturnValue
   public Description setRate() {
     annotations.put(RATE, TRUE_VALUE);
     return this;
@@ -106,6 +110,7 @@ public class Description {
    *
    * @return this
    */
+  @CanIgnoreReturnValue
   public Description setGauge() {
     annotations.put(GAUGE, TRUE_VALUE);
     return this;
@@ -117,6 +122,7 @@ public class Description {
    *
    * @return this
    */
+  @CanIgnoreReturnValue
   public Description setCumulative() {
     annotations.put(CUMULATIVE, TRUE_VALUE);
     return this;
@@ -128,6 +134,7 @@ public class Description {
    * @param ordering field ordering
    * @return this
    */
+  @CanIgnoreReturnValue
   public Description setFieldOrdering(FieldOrdering ordering) {
     annotations.put(FIELD_ORDERING, ordering.name());
     return this;

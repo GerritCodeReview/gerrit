@@ -44,7 +44,8 @@ public class GitRepositoryManagerOnInit implements GitRepositoryManager {
   @Override
   public Status getRepositoryStatus(NameKey name) {
     try {
-      openRepository(name);
+      @SuppressWarnings("unused")
+      var unused = openRepository(name);
     } catch (RepositoryNotFoundException e) {
       return Status.NON_EXISTENT;
     } catch (IOException e) {

@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9759b069_aa423036",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-02T07:40:29Z",
+      "side": 1,
+      "message": "Thanks, that\u0027s a good idea. I indeed missed the relevant output :/",
+      "parentUuid": "07bc93f5_85d9b1c4",
+      "revId": "e6d5c79b7097f8eee3d3704c50ad6425cc8189fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0328ff4d_c2345ff8",
@@ -66,6 +84,30 @@
       "writtenOn": "2023-12-29T15:03:51Z",
       "side": 1,
       "message": "Remove the extra blank lines, this is the cause of the Code-Style failure.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 0
+      },
+      "revId": "e6d5c79b7097f8eee3d3704c50ad6425cc8189fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "206f8375_69cf37d0",
+        "filename": "java/package-info.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-02T07:40:29Z",
+      "side": 1,
+      "message": "Thanks.\n\nInteresting, since this is the default package, it removed the package annotation when I pasted this file. Since there is no \"package\" statement, I don\u0027t know how to apply the package annotation. I guess, I\u0027ll just drop this file. Having the @CheckReturnValue annotation for the default package is not really important.\n\nDone.",
+      "parentUuid": "0328ff4d_c2345ff8",
       "range": {
         "startLine": 15,
         "startChar": 0,

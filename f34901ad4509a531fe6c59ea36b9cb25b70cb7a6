@@ -278,6 +278,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ae256ff_c91a2b70",
+        "filename": "java/com/google/gerrit/httpd/GuiceRequestScopePropagator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1010134
+      },
+      "writtenOn": "2024-01-02T09:30:36Z",
+      "side": 1,
+      "message": "@dmfilippov@google.com, WDYT?",
+      "parentUuid": "e64bc49a_dc374d0d",
+      "range": {
+        "startLine": 44,
+        "startChar": 6,
+        "endLine": 44,
+        "endChar": 33
+      },
+      "revId": "f34901ad4509a531fe6c59ea36b9cb25b70cb7a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "caa6e271_264a1d91",
         "filename": "java/com/google/gerrit/httpd/GuiceRequestScopePropagator.java",
         "patchSetId": 3

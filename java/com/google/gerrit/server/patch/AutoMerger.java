@@ -185,7 +185,7 @@ public class AutoMerger {
     String automergeRef = RefNames.refsCacheAutomerge(maybeMergeCommit.name());
     logger.atFine().log("AutoMerge ref=%s, mergeCommit=%s", automergeRef, maybeMergeCommit.name());
     if (repoView.getRef(automergeRef).isPresent()) {
-      logger.atFine().log("AutoMerge alredy exists");
+      logger.atFine().log("AutoMerge already exists");
       return Optional.empty();
     }
 

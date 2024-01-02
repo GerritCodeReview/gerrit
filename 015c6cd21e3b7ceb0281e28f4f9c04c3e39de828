@@ -16,6 +16,24 @@
       "message": "presumably, this should be the public url.",
       "revId": "015c6cd21e3b7ceb0281e28f4f9c04c3e39de828",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59a9a47d_13c71bfc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2024-01-02T07:31:12Z",
+      "side": 1,
+      "message": "Yes, thanks for pointing this out.\n\nDone.",
+      "parentUuid": "26455a94_efc2e895",
+      "revId": "015c6cd21e3b7ceb0281e28f4f9c04c3e39de828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

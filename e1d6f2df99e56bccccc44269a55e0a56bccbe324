@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eff8ad5c_ec88d77b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2024-01-02T16:39:43Z",
+      "side": 1,
+      "message": "(and presumably before the task has been added to the queue?)",
+      "revId": "e1d6f2df99e56bccccc44269a55e0a56bccbe324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a23ef7af_6db4394d",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2024-01-02T16:39:43Z",
+      "side": 1,
+      "message": "This synchronized now covers quite a bit in here, which means it could block another thread for the duration of this entire method. Now in theory no other thread should ever enter this run() except in the case which you have outlined? If that is true, I wonder why this runningState was even needed, and how it ever helped solve any problem at all (aside from helping output the correct state in the task view)? That being said, now the synchronized in theory will block the \"new\" thread (#2 in your diagram) while the \"old\" thread (#1) cleans up this task, which includes calling executor.onStop() which includes calling all the potential listeners. That may be OK, but it isn\u0027t ideal since some of those could take a while freeing resources. It would be better if somehow the task were not \"re-added\" to the queue until the thread state were set to null again (seems hard to do), or perhaps instead, the thread could be added back to the queue if the \"if\" on line 674 fails?",
+      "revId": "e1d6f2df99e56bccccc44269a55e0a56bccbe324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82ce3ecb_41d69add",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-02T07:32:19Z",
+      "side": 1,
+      "message": "I have raised an issue https://issues.gerritcodereview.com/317985672.",
+      "parentUuid": "6775c837_c381d4b9",
+      "range": {
+        "startLine": 10,
+        "startChar": 67,
+        "endLine": 12,
+        "endChar": 43
+      },
+      "revId": "25095c0e56426e173c73c6b8b9e741d9d3db21de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb23676f_58efe17c",
@@ -163,6 +187,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "642e64db_f13dfe36",
+      "revId": "25095c0e56426e173c73c6b8b9e741d9d3db21de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "788b18e0_c98becff",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 3228522
+      },
+      "writtenOn": "2024-01-02T07:32:19Z",
+      "side": 1,
+      "message": "Add a lock to fix this issue. And rewrite the commit message",
+      "parentUuid": "520bf1a1_36918ae9",
       "revId": "25095c0e56426e173c73c6b8b9e741d9d3db21de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -116,7 +116,11 @@ If `SAME_GROUP`, only users who are also members of a group the
 current user is a member of are visible.
 +
 If `VISIBLE_GROUP`, only users who are members of at least one group
-that is visible to the current user are visible.
+that is visible to the current user are visible. To make an account
+visible to all users (e.g. because it is a service account) when
+`VISIBLE_GROUP` is used, create a `Public Users` group that has the
+`Make group visible to all registered users` option enabled and add the
+account as a group member.
 +
 If `NONE`, no users other than the current user are visible.
 +

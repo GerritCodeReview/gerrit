@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
@@ -36,6 +37,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 /** A utility class for computing the base commit / parent for a specific patchset commit. */
 @Singleton
 class BaseCommitUtil {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final AutoMerger autoMerger;
   private final GitRepositoryManager repoManager;
 
@@ -56,6 +59,9 @@ class BaseCommitUtil {
         ObjectInserter ins = newInserter(repo);
         ObjectReader reader = ins.newReader();
         RevWalk rw = new RevWalk(reader)) {
+      logger.atFine().log(
+          "Opened repo %s to compute base commit for %s (inserter: %s)",
+          project, newCommit.name(), ins);
       return getParentCommit(repo, ins, rw, parentNum, newCommit);
     }
   }
@@ -140,6 +146,7 @@ class BaseCommitUtil {
     }
     ObjectId autoMergeId =
         autoMerger.createAutoMergeCommit(new RepoView(repo, rw, ins), rw, ins, mergeCommit);
+    logger.atFine().log("flushing inserter %s", ins);
     ins.flush();
     return rw.parseCommit(autoMergeId);
   }

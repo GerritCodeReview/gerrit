@@ -551,28 +551,45 @@ Review server.
 [[category_owner]]
 === Owner
 
-The `Owner` category controls which groups can modify the project's
-configuration.  Users who are members of an owner group can:
+The `Owner` category on `refs/*` controls which groups own the project,
+i.e. the users who are members of an owner group are called the
+`project owners`.
 
-* Change the project description
-* Grant/revoke any access rights, including `Owner`
+Project owners can change the link:config-project-config.html[project
+configuration], including:
 
-To get SSH branch access project owners must grant an access right to a group
-they are a member of, just like for any other user.
+* Granting/revoking any access rights (including the `Owner` access
+  right)
+* Changing the project description
+* Changing the link to the parent project
+* Changing the project options
+* Changing link:config-labels.html[labels]
+* Changing link:config-submit-requirements.html[submit requirements]
 
-Ownership over a particular branch subspace may be delegated by
-entering a branch pattern.  To delegate control over all branches
-that begin with `qa/` to the QA group, add `Owner` category
-for reference `+refs/heads/qa/*+`.  Members of the QA group can
-further refine access, but only for references that begin with
-`refs/heads/qa/`. See <<project_owners,project owners>> to find
-out more about this role.
+[NOTE]
+Access rights that are assigned to the magic
+link:#project_owners[Project Owners] group are resolved to the users
+that are project owners by having the `Owner` permission assigned on
+`refs/*`.
 
+[NOTE]
+To get branch access via Git project owners must grant an access right
+to a group they are a member of, just like for any other user.
+
+[NOTE]
 For the `All-Projects` root project any `Owner` access right on
 'refs/*' is ignored since this permission would allow users to edit the
 global capabilities, which is the same as being able to administrate
 the Gerrit server (e.g. the user could assign the `Administrate Server`
 capability to the own account).
+
+Ownership over a particular branch subspace may be delegated by
+entering a branch pattern. E.g. to delegate control over all branches
+that begin with `qa/` to the QA group, add the `Owner` category
+for reference `+refs/heads/qa/*+`. Members of the QA group can
+further refine access, but only for references that begin with
+`refs/heads/qa/`. See <<project_owners,project owners>> to find
+out more about this role.
 
 
 [[category_push]]

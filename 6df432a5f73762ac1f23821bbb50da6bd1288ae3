@@ -34,6 +34,24 @@
       "parentUuid": "3dfa5bb0_30dd030d",
       "revId": "6df432a5f73762ac1f23821bbb50da6bd1288ae3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd635da1_c9ec2c95",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152600
+      },
+      "writtenOn": "2024-01-03T20:51:18Z",
+      "side": 1,
+      "message": "Thank you for pointing that out. I found the issue, it seems my gerrit version was behind, so I did not get the full picture.",
+      "parentUuid": "c18bd624_73fe2e8c",
+      "revId": "6df432a5f73762ac1f23821bbb50da6bd1288ae3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

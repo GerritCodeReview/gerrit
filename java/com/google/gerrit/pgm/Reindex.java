@@ -18,6 +18,7 @@ import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.cache.Cache;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Die;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -59,9 +60,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
@@ -173,10 +172,10 @@ public class Reindex extends SiteProgram {
   }
 
   private Injector createSysInjector() {
-    Map<String, Integer> versions = new HashMap<>();
-    if (changesVersion != null) {
-      versions.put(ChangeSchemaDefinitions.INSTANCE.getName(), changesVersion);
-    }
+    ImmutableMap<String, Integer> versions =
+        changesVersion != null
+            ? ImmutableMap.of(ChangeSchemaDefinitions.INSTANCE.getName(), changesVersion)
+            : ImmutableMap.of();
     boolean replica = ReplicaUtil.isReplica(globalConfig);
     List<Module> modules = new ArrayList<>();
     modules.add(new WorkQueueModule());
@@ -194,7 +193,7 @@ public class Reindex extends SiteProgram {
         Class<?> clazz = Class.forName("com.google.gerrit.index.testing.FakeIndexModule");
         Method m =
             clazz.getMethod(
-                "singleVersionWithExplicitVersions", Map.class, int.class, boolean.class);
+                "singleVersionWithExplicitVersions", ImmutableMap.class, int.class, boolean.class);
         indexModule = (Module) m.invoke(null, versions, threads, replica);
       } catch (NoSuchMethodException
           | ClassNotFoundException

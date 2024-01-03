@@ -30,8 +30,8 @@ public interface ChangesByProjectCache {
   }
 
   public static class Module extends AbstractModule {
-    private UseIndex useIndex;
-    private @GerritServerConfig Config config;
+    private final UseIndex useIndex;
+    private final Config config;
 
     public Module(UseIndex useIndex, @GerritServerConfig Config config) {
       this.useIndex = useIndex;

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.index.Index;
@@ -41,9 +42,9 @@ import org.eclipse.jgit.lib.Config;
 public class SingleVersionModule extends LifecycleModule {
   public static final String SINGLE_VERSIONS = "IndexModule/SingleVersions";
 
-  private final Map<String, Integer> singleVersions;
+  private final ImmutableMap<String, Integer> singleVersions;
 
-  public SingleVersionModule(Map<String, Integer> singleVersions) {
+  public SingleVersionModule(ImmutableMap<String, Integer> singleVersions) {
     this.singleVersions = singleVersions;
   }
 

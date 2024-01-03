@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -25,7 +26,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
-import java.util.Map;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -37,10 +37,11 @@ public abstract class AbstractIndexModule extends AbstractModule {
   public static final String INDEX_MODULE = "index-module";
 
   private final int threads;
-  private final Map<String, Integer> singleVersions;
+  private final ImmutableMap<String, Integer> singleVersions;
   private final boolean slave;
 
-  protected AbstractIndexModule(Map<String, Integer> singleVersions, int threads, boolean slave) {
+  protected AbstractIndexModule(
+      ImmutableMap<String, Integer> singleVersions, int threads, boolean slave) {
     this.singleVersions = singleVersions;
     this.threads = threads;
     this.slave = slave;

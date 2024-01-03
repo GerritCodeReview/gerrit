@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.ssh;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.index.IndexType;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.project.ProjectIndex;
@@ -34,7 +35,6 @@ import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
-import java.util.Map;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
@@ -67,10 +67,11 @@ public class CustomIndexIT extends AbstractIndexTests {
 class CustomIndexModule extends AbstractIndexModule {
 
   public static CustomIndexModule latestVersion(boolean secondary) {
-    return new CustomIndexModule(null, -1 /* direct executor */, secondary);
+    return new CustomIndexModule(/* singleVersions= */ null, -1 /* direct executor */, secondary);
   }
 
-  private CustomIndexModule(Map<String, Integer> singleVersions, int threads, boolean secondary) {
+  private CustomIndexModule(
+      ImmutableMap<String, Integer> singleVersions, int threads, boolean secondary) {
     super(singleVersions, threads, secondary);
   }
 

@@ -33,9 +33,10 @@ import java.nio.file.Path;
 class ServerPluginInfoModule extends AbstractModule {
   private final ServerPlugin plugin;
   private final Path dataDir;
-
-  private volatile boolean ready;
   private final MetricMaker serverMetrics;
+
+  @SuppressWarnings("MutableGuiceModule")
+  private volatile boolean ready;
 
   ServerPluginInfoModule(ServerPlugin plugin, MetricMaker serverMetrics) {
     this.plugin = plugin;

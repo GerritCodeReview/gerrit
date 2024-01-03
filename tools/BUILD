@@ -294,6 +294,7 @@ java_package_configuration(
         "-Xep:MultipleUnaryOperatorsInMethodCall:ERROR",
         "-Xep:MustBeClosedChecker:ERROR",
         "-Xep:MutableConstantField:WARN",
+        "-Xep:MutableGuiceModule:ERROR",
         "-Xep:MutablePublicArray:ERROR",
         "-Xep:NCopiesOfChar:ERROR",
         "-Xep:NarrowingCompoundAssignment:ERROR",

@@ -26,7 +26,6 @@ import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.options.AutoFlush;
-import java.util.Map;
 import org.apache.lucene.search.BooleanQuery;
 import org.eclipse.jgit.lib.Config;
 
@@ -41,17 +40,17 @@ public class LuceneIndexModule extends AbstractIndexModule {
 
   @VisibleForTesting
   public static LuceneIndexModule singleVersionWithExplicitVersions(
-      Map<String, Integer> versions, int threads, boolean slave) {
+      ImmutableMap<String, Integer> versions, int threads, boolean slave) {
     return new LuceneIndexModule(versions, threads, slave, AutoFlush.ENABLED);
   }
 
   public static LuceneIndexModule singleVersionWithExplicitVersions(
-      Map<String, Integer> versions, int threads, boolean slave, AutoFlush autoFlush) {
+      ImmutableMap<String, Integer> versions, int threads, boolean slave, AutoFlush autoFlush) {
     return new LuceneIndexModule(versions, threads, slave, autoFlush);
   }
 
   public static LuceneIndexModule latestVersion(boolean slave, AutoFlush autoFlush) {
-    return new LuceneIndexModule(null, 0, slave, autoFlush);
+    return new LuceneIndexModule(/* singleVersions= */ null, 0, slave, autoFlush);
   }
 
   static boolean isInMemoryTest(Config cfg) {
@@ -59,7 +58,10 @@ public class LuceneIndexModule extends AbstractIndexModule {
   }
 
   private LuceneIndexModule(
-      Map<String, Integer> singleVersions, int threads, boolean slave, AutoFlush autoFlush) {
+      ImmutableMap<String, Integer> singleVersions,
+      int threads,
+      boolean slave,
+      AutoFlush autoFlush) {
     super(singleVersions, threads, slave);
     this.autoFlush = autoFlush;
   }

@@ -105,6 +105,24 @@
       "parentUuid": "85f95f86_53929db2",
       "revId": "e1d6f2df99e56bccccc44269a55e0a56bccbe324",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72e33ed4_a0d23b8c",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1148165
+      },
+      "writtenOn": "2024-01-03T12:01:28Z",
+      "side": 1,
+      "message": "Let\u0027s break down this code.\nEvery call of WorkQueue.scheduleAtFixedRate create a WorkQueue.Task instance.\nLet\u0027s assume we call WorkQueue.scheduleAtFixedRate once, and there is a WorkQueue.Task instance A being added to the queue\n\nThe thread is:\n1. Enter into a infinite While loop to test if any WorkQueue.Task is in the queue.\n2. If so, retreive instance A from the queue.\n3. Run WorkQueue.Task.run\n4. check if runningState is null and then set it to STARTING\n5. Run RunnableScheduledFuture.run (task.run)\n    a. run the actual user defined Runnable\n    b. after execution, add the WorkQueue.Task instance A back to the queue.\n6. Set `runningState` to `null`\n\nAs we can see. Theoretically there is only one `instance A`.`run` is executed. Unless thread B preempt thread A between step 5.b and step 6.\nHowever even in this race condition, at most there are only 2 threads runs `WorkQueue.Task instance A`.`run`. In this case synchronized(this) uses spinlock. The performance should be fine\n\nAnd if `scheduleAtFixedRate` is called more than once, there will be other WorkQueue.Task instances. However they\u0027re not affected because synchronized only lock instance A",
+      "parentUuid": "acd00e1a_bf9b4d16",
+      "revId": "e1d6f2df99e56bccccc44269a55e0a56bccbe324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -21,7 +21,6 @@ import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.group.GroupIndex;
-import java.util.Map;
 
 /** Module to bind {@link FakeIndexModule}. */
 public class FakeIndexModule extends AbstractIndexModule {
@@ -30,15 +29,16 @@ public class FakeIndexModule extends AbstractIndexModule {
   }
 
   public static FakeIndexModule singleVersionWithExplicitVersions(
-      Map<String, Integer> versions, int threads, boolean secondary) {
+      ImmutableMap<String, Integer> versions, int threads, boolean secondary) {
     return new FakeIndexModule(versions, threads, secondary);
   }
 
   public static FakeIndexModule latestVersion(boolean secondary) {
-    return new FakeIndexModule(null, -1 /* direct executor */, secondary);
+    return new FakeIndexModule(/* singleVersions= */ null, -1 /* direct executor */, secondary);
   }
 
-  private FakeIndexModule(Map<String, Integer> singleVersions, int threads, boolean secondary) {
+  private FakeIndexModule(
+      ImmutableMap<String, Integer> singleVersions, int threads, boolean secondary) {
     super(singleVersions, threads, secondary);
   }
 

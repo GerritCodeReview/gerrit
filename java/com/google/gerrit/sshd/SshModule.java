@@ -19,6 +19,7 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.extensions.events.AccountActivationListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -39,7 +40,6 @@ import com.google.inject.Inject;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.RequestScoped;
 import java.net.SocketAddress;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -50,14 +50,15 @@ import org.eclipse.jgit.lib.Config;
 
 /** Configures standard dependencies for {@link SshDaemon}. */
 public class SshModule extends LifecycleModule {
-  private final Map<String, String> aliases;
+  private final ImmutableMap<String, String> aliases;
 
   @Inject
   SshModule(@GerritServerConfig Config cfg) {
-    aliases = new HashMap<>();
+    ImmutableMap.Builder<String, String> aliasesBuilder = ImmutableMap.builder();
     for (String name : cfg.getNames("ssh-alias", true)) {
-      aliases.put(name, cfg.getString("ssh-alias", null, name));
+      aliasesBuilder.put(name, cfg.getString("ssh-alias", null, name));
     }
+    this.aliases = aliasesBuilder.build();
   }
 
   @Override

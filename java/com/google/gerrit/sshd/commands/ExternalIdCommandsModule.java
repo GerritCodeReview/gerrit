@@ -24,6 +24,9 @@ import com.google.inject.Singleton;
 import java.util.concurrent.ExecutorService;
 
 public class ExternalIdCommandsModule extends CommandModule {
+  public ExternalIdCommandsModule() {
+    super(/* slaveMode= */ false);
+  }
 
   @Override
   protected void configure() {

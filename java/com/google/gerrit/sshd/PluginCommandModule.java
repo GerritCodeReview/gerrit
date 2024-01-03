@@ -14,24 +14,19 @@
 
 package com.google.gerrit.sshd;
 
-import static com.google.common.base.Preconditions.checkState;
-
-import com.google.gerrit.extensions.annotations.PluginName;
-import com.google.inject.Inject;
 import com.google.inject.binder.LinkedBindingBuilder;
 import org.apache.sshd.server.command.Command;
 
 public abstract class PluginCommandModule extends CommandModule {
-  private CommandName command;
+  private final CommandName command;
 
-  @Inject
-  void setPluginName(@PluginName String name) {
-    this.command = Commands.named(name);
+  public PluginCommandModule(String pluginName) {
+    super(/* slaveMode= */ false);
+    this.command = Commands.named(pluginName);
   }
 
   @Override
   protected final void configure() {
-    checkState(command != null, "@PluginName must be provided");
     bind(Commands.key(command)).toProvider(new DispatchCommandProvider(command));
     configureCommands();
   }

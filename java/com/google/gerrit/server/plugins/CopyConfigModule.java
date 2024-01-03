@@ -44,7 +44,37 @@ import org.eclipse.jgit.lib.PersonIdent;
 @SuppressWarnings("ProvidesMethodOutsideOfModule")
 @Singleton
 class CopyConfigModule extends AbstractModule {
-  @Inject @SitePath private Path sitePath;
+  private final Path sitePath;
+  private final SitePaths sitePaths;
+  private final TrackingFooters trackingFooters;
+  private final Config gerritServerConfig;
+  private final GitRepositoryManager gitRepositoryManager;
+  private final String anonymousCowardName;
+  private final GerritPersonIdentProvider serverIdentProvider;
+  private final SecureStore secureStore;
+  private final GerritIsReplicaProvider isReplicaProvider;
+
+  @Inject
+  CopyConfigModule(
+      @SitePath Path sitePath,
+      SitePaths sitePaths,
+      TrackingFooters trackingFooters,
+      @GerritServerConfig Config gerritServerConfig,
+      GitRepositoryManager gitRepositoryManager,
+      @AnonymousCowardName String anonymousCowardName,
+      GerritPersonIdentProvider serverIdentProvider,
+      SecureStore secureStore,
+      GerritIsReplicaProvider isReplicaProvider) {
+    this.sitePath = sitePath;
+    this.sitePaths = sitePaths;
+    this.trackingFooters = trackingFooters;
+    this.gerritServerConfig = gerritServerConfig;
+    this.gitRepositoryManager = gitRepositoryManager;
+    this.anonymousCowardName = anonymousCowardName;
+    this.serverIdentProvider = serverIdentProvider;
+    this.secureStore = secureStore;
+    this.isReplicaProvider = isReplicaProvider;
+  }
 
   @Provides
   @SitePath
@@ -52,21 +82,15 @@ class CopyConfigModule extends AbstractModule {
     return sitePath;
   }
 
-  @Inject private SitePaths sitePaths;
-
   @Provides
   SitePaths getSitePaths() {
     return sitePaths;
   }
 
-  @Inject private TrackingFooters trackingFooters;
-
   @Provides
   TrackingFooters getTrackingFooters() {
     return trackingFooters;
   }
-
-  @Inject @GerritServerConfig private Config gerritServerConfig;
 
   @Provides
   @GerritServerConfig
@@ -74,14 +98,10 @@ class CopyConfigModule extends AbstractModule {
     return gerritServerConfig;
   }
 
-  @Inject private GitRepositoryManager gitRepositoryManager;
-
   @Provides
   GitRepositoryManager getGitRepositoryManager() {
     return gitRepositoryManager;
   }
-
-  @Inject @AnonymousCowardName private String anonymousCowardName;
 
   @Provides
   @AnonymousCowardName
@@ -89,31 +109,22 @@ class CopyConfigModule extends AbstractModule {
     return anonymousCowardName;
   }
 
-  @Inject private GerritPersonIdentProvider serverIdentProvider;
-
   @Provides
   @GerritPersonIdent
   PersonIdent getServerIdent() {
     return serverIdentProvider.get();
   }
 
-  @Inject private SecureStore secureStore;
-
   @Provides
   SecureStore getSecureStore() {
     return secureStore;
   }
-
-  @Inject private GerritIsReplicaProvider isReplicaProvider;
 
   @Provides
   @GerritIsReplica
   boolean getIsReplica() {
     return isReplicaProvider.get();
   }
-
-  @Inject
-  CopyConfigModule() {}
 
   @Override
   protected void configure() {}

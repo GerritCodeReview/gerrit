@@ -82,6 +82,10 @@ public class AbstractDynamicOptionsTest extends AbstractDaemonTest {
   }
 
   public static class PluginOneSshModule extends CommandModule {
+    public PluginOneSshModule() {
+      super(/* slaveMode= */ false);
+    }
+
     @Override
     public void configure() {
       command(LS_SAMPLES).to(ListSamplesCommand.class);

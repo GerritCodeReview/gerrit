@@ -14,10 +14,6 @@
 
 package com.google.gerrit.sshd;
 
-import static com.google.common.base.Preconditions.checkState;
-
-import com.google.gerrit.extensions.annotations.PluginName;
-import com.google.inject.Inject;
 import com.google.inject.binder.LinkedBindingBuilder;
 import org.apache.sshd.server.command.Command;
 
@@ -27,16 +23,15 @@ import org.apache.sshd.server.command.Command;
  * <p>Cannot be combined with {@link PluginCommandModule}.
  */
 public abstract class SingleCommandPluginModule extends CommandModule {
-  private CommandName command;
+  private final CommandName command;
 
-  @Inject
-  void setPluginName(@PluginName String name) {
-    this.command = Commands.named(name);
+  public SingleCommandPluginModule(String pluginName) {
+    super(/* slaveMode= */ false);
+    this.command = Commands.named(pluginName);
   }
 
   @Override
   protected final void configure() {
-    checkState(command != null, "@PluginName must be provided");
     configure(bind(Commands.key(command)));
   }
 

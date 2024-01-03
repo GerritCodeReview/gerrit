@@ -27,6 +27,7 @@ public class IndexCommandsModule extends CommandModule {
   private final Injector injector;
 
   public IndexCommandsModule(Injector injector) {
+    super(/* slaveMode= */ false);
     this.injector = injector;
   }
 

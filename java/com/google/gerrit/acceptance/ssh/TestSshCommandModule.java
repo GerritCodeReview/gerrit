@@ -17,6 +17,10 @@ package com.google.gerrit.acceptance.ssh;
 import com.google.gerrit.sshd.CommandModule;
 
 public class TestSshCommandModule extends CommandModule {
+  public TestSshCommandModule() {
+    super(/* slaveMode= */ false);
+  }
+
   @Override
   protected void configure() {
     command("graceful").to(GracefulCommand.class);

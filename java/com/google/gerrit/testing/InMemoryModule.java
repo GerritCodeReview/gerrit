@@ -21,6 +21,7 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperationsImpl;
@@ -381,7 +382,8 @@ public class InMemoryModule extends FactoryModule {
     try {
       Class<?> clazz = Class.forName(moduleClassName);
       Method m =
-          clazz.getMethod("singleVersionWithExplicitVersions", Map.class, int.class, boolean.class);
+          clazz.getMethod(
+              "singleVersionWithExplicitVersions", ImmutableMap.class, int.class, boolean.class);
       return (Module) m.invoke(null, getSingleSchemaVersions(), 0, ReplicaUtil.isReplica(cfg));
     } catch (ClassNotFoundException
         | SecurityException
@@ -394,13 +396,13 @@ public class InMemoryModule extends FactoryModule {
     }
   }
 
-  private Map<String, Integer> getSingleSchemaVersions() {
+  private ImmutableMap<String, Integer> getSingleSchemaVersions() {
     Map<String, Integer> singleVersions = new HashMap<>();
     putSchemaVersion(singleVersions, AccountSchemaDefinitions.INSTANCE);
     putSchemaVersion(singleVersions, ChangeSchemaDefinitions.INSTANCE);
     putSchemaVersion(singleVersions, GroupSchemaDefinitions.INSTANCE);
     putSchemaVersion(singleVersions, ProjectSchemaDefinitions.INSTANCE);
-    return singleVersions;
+    return ImmutableMap.copyOf(singleVersions);
   }
 
   private void putSchemaVersion(

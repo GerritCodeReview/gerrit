@@ -101,8 +101,7 @@ public class StreamEventsApiListener
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static class StreamEventsApiListenerModule extends AbstractModule {
-
-    private Config config;
+    private final Config config;
 
     public StreamEventsApiListenerModule(Config config) {
       this.config = config;

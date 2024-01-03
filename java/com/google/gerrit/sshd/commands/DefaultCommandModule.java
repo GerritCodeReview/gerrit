@@ -29,8 +29,8 @@ public class DefaultCommandModule extends CommandModule {
   private final LfsPluginAuthCommandModule lfsPluginAuthModule;
 
   public DefaultCommandModule(
-      boolean slave, DownloadConfig downloadCfg, LfsPluginAuthCommandModule module) {
-    slaveMode = slave;
+      boolean slaveMode, DownloadConfig downloadCfg, LfsPluginAuthCommandModule module) {
+    super(slaveMode);
     downloadConfig = downloadCfg;
     lfsPluginAuthModule = module;
   }

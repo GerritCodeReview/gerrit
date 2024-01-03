@@ -21,7 +21,11 @@ import org.apache.sshd.server.command.Command;
 
 /** Module to register commands in the SSH daemon. */
 public abstract class CommandModule extends LifecycleModule {
-  protected boolean slaveMode;
+  protected final boolean slaveMode;
+
+  protected CommandModule(boolean slaveMode) {
+    this.slaveMode = slaveMode;
+  }
 
   /**
    * Configure a command to be invoked by name.

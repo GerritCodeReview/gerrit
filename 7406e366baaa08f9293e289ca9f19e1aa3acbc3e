@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f2053d3_8da7876e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-01-03T19:35:02Z",
+      "side": 1,
+      "message": "It looks like this change introduced a bug.\nTest to demonstrate the issue: I72e3af09\nFix: Ia3d693ac7.",
+      "revId": "7406e366baaa08f9293e289ca9f19e1aa3acbc3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

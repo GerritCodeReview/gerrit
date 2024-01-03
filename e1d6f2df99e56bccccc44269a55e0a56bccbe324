@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f7fa5f2_0bc58b05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1148165
+      },
+      "writtenOn": "2024-01-03T02:43:22Z",
+      "side": 1,
+      "message": "The new task is added when the last task is about to end. It\u0027s inside task.run itself. (Which means periodic task add itself back to the queue at the end of execution)\nSo thread B will be blocked before the very ending of `task.run` in thread A",
+      "parentUuid": "eff8ad5c_ec88d77b",
+      "revId": "e1d6f2df99e56bccccc44269a55e0a56bccbe324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a23ef7af_6db4394d",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-01-02T16:39:43Z",
       "side": 1,
       "message": "This synchronized now covers quite a bit in here, which means it could block another thread for the duration of this entire method. Now in theory no other thread should ever enter this run() except in the case which you have outlined? If that is true, I wonder why this runningState was even needed, and how it ever helped solve any problem at all (aside from helping output the correct state in the task view)? That being said, now the synchronized in theory will block the \"new\" thread (#2 in your diagram) while the \"old\" thread (#1) cleans up this task, which includes calling executor.onStop() which includes calling all the potential listeners. That may be OK, but it isn\u0027t ideal since some of those could take a while freeing resources. It would be better if somehow the task were not \"re-added\" to the queue until the thread state were set to null again (seems hard to do), or perhaps instead, the thread could be added back to the queue if the \"if\" on line 674 fails?",
+      "revId": "e1d6f2df99e56bccccc44269a55e0a56bccbe324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2ae0e5d_f68722b1",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1148165
+      },
+      "writtenOn": "2024-01-03T02:43:22Z",
+      "side": 1,
+      "message": "I believe that runningState is specifically defined by Gerrit for the sole purpose of outputting states in ssh gerrit show-queue. When using the JDK native ScheduledFutureTask.scheduleAtFixedRate, there is no equivalent concept of runningState.\n\nI haven\u0027t identified any method to reintroduce a task to the queue when the \"if\" condition fails. This functionality is implemented in a non-public method within the JDK (WorkQueue.Task.run -\u003e ScheduledThreadPoolExecutor.reExecutePeriodic).\n\nThe usage of synchronized (this) exclusively locks the instance of WorkQueue.Task it is applied to. This means that other tasks will not be affected or blocked by this synchronization. I believe this level of locking is sufficiently narrow for performance considerations.",
+      "parentUuid": "a23ef7af_6db4394d",
       "revId": "e1d6f2df99e56bccccc44269a55e0a56bccbe324",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

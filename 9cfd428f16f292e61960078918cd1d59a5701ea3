@@ -2,11 +2,11 @@
   "checks": {
     "gerritforge-bb:bb-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "FAILED",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/41/console",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/42/console",
       "started": "2024-01-03T22:05:56Z",
-      "finished": "2024-01-03T22:13:03Z",
+      "finished": "2024-01-03T22:13:36Z",
       "created": "2024-01-03T22:04:12Z",
-      "updated": "2024-01-03T22:13:04Z"
+      "updated": "2024-01-03T22:13:37Z"
     },
     "gerritforge:codestyle-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "SUCCESSFUL",

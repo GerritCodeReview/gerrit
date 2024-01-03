@@ -87,6 +87,24 @@
       "parentUuid": "c2ae0e5d_f68722b1",
       "revId": "e1d6f2df99e56bccccc44269a55e0a56bccbe324",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "acd00e1a_bf9b4d16",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1148165
+      },
+      "writtenOn": "2024-01-03T07:48:35Z",
+      "side": 1,
+      "message": "\u003e \u003e I haven\u0027t identified any method to reintroduce a task to the queue when the \"if\" condition fails. This functionality is implemented in a non-public method within the JDK (WorkQueue.Task.run -\u003e ScheduledThreadPoolExecutor.reExecutePeriodic).\n\u003e \n\u003e What about calling executor.schedule() since we can get the delay using getDelay()? (I\u0027m not sure if that would be enough to reschedule it?)\n\u003e \n\n`executor.schedule` is for one time task. I\u0027m not sure if it will work if we used it on a periodic task.\n\n\u003e \u003e The usage of synchronized (this) exclusively locks the instance of WorkQueue.Task it is applied to. This means that other tasks will not be affected or blocked by this synchronization.\n\u003e \n\u003e This isn\u0027t accurate. Indirectly, this will block another thread, which will affect and potentially prevent other tasks from starting. Rescheduling would lead to a more \"fair\" approach since it would delay the current task, which has not really completed yet, for another period, which seems appropriate if the \"stopping\"/cleanup isn\u0027t done yet.\n\nI don\u0027t quite get it. `this` pointer points to the user defined task. And there is only one running task at a time per user-defined task. If there are other user defined tasks, they don\u0027t affect each other.\nIf another thread retreive the task from queue but find it\u0027s running, this is the only situation.\nWould mind giving me an example about how can this code block other threads? I can try to do an experiment.",
+      "parentUuid": "85f95f86_53929db2",
+      "revId": "e1d6f2df99e56bccccc44269a55e0a56bccbe324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

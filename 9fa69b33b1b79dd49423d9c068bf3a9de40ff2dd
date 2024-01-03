@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1edd7701_f9cbcc53",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-03T20:34:32Z",
+      "side": 1,
+      "message": "Consider putting this change and its predecessor in the same topic",
+      "revId": "9fa69b33b1b79dd49423d9c068bf3a9de40ff2dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6933790_56897952",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-03T20:34:32Z",
+      "side": 1,
+      "message": "I believe this deserves a comment explaining why we are resetting the search for change messages from the start.\n\nOptional: we could also save time and just remember the _last valid starting point_ at L270 and restart from there rather than zero.",
+      "revId": "9fa69b33b1b79dd49423d9c068bf3a9de40ff2dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

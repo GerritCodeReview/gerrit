@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -123,6 +124,41 @@ public class ListChangeCommentsTest {
         comments.stream().map(c -> c.changeMessageId).collect(Collectors.toSet());
     assertThat(changeMessageIds)
         .doesNotContain(getChangeMessage(changeMessages, "cm2.2").getKey().uuid());
+  }
+
+  @Ignore
+  @Test
+  public void commentsLinkedToCorrectAccountsIaUserNotMatched() {
+
+    String tsCm0 = "10";
+    String tsCm1 = "11";
+    String tsCm2 = "12";
+    List<CommentInfo> comments =
+        createComments(
+            "commentMessage0", tsCm0, "commentMessage1", tsCm1, "commentMessage2", tsCm2);
+    int accountId1 = 1;
+    int accountId2 = 2;
+    int accountId2Imported = 0;
+    int accountId3 = 3;
+    linkAuthor(comments.get(0), accountId1);
+    linkAuthor(comments.get(1), accountId2Imported);
+    linkAuthor(comments.get(2), accountId3);
+
+    List<ChangeMessage> changeMessages =
+        ImmutableList.of(
+            createChangeMessage("changeMessage0", tsCm0, Account.id(accountId1)),
+            createChangeMessage("changeMessage1", tsCm1, Account.id(accountId2)),
+            createChangeMessage("changeMessage2", tsCm2, Account.id(accountId3)));
+
+    CommentsUtil.linkCommentsToChangeMessages(comments, changeMessages, false);
+
+    assertThat(getComment(comments, "commentMessage0").changeMessageId)
+        .isEqualTo(getChangeMessage(changeMessages, "changeMessage0").getKey().uuid());
+
+    assertThat(getComment(comments, "commentMessage1").changeMessageId).isNull();
+
+    assertThat(getComment(comments, "commentMessage2").changeMessageId)
+        .isEqualTo(getChangeMessage(changeMessages, "changeMessage2").getKey().uuid());
   }
 
   @Test

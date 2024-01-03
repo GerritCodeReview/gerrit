@@ -123,6 +123,24 @@
       "parentUuid": "acd00e1a_bf9b4d16",
       "revId": "e1d6f2df99e56bccccc44269a55e0a56bccbe324",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f2f96f8_7f5793d0",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2024-01-03T21:21:27Z",
+      "side": 1,
+      "message": "\u003e 5. Run RunnableScheduledFuture.run (task.run)\n\u003e     a. run the actual user defined Runnable\n\u003e     b. after execution, add the WorkQueue.Task instance A back to the queue.\n\u003e 6. Set `runningState` to `null`\n\u003e \n\u003e As we can see. Theoretically there is only one `instance A`.`run` is executed. Unless thread B preempt thread A between step 5.b and step 6.\n\u003e However even in this race condition, at most there are only 2 threads runs `WorkQueue.Task instance A`.`run`. In this case synchronized(this) uses spinlock. The performance should be fine\n\nThere are other steps between 5.b and 6, it runs executor.stop() also, and that calls onStop() on all the registered TaskListeners. Imagine a workqueue with only 2 threads, execution.defaultThreadPoolSize for background threads (likely where you are seeing this issue?) defaults to 2. If thread B does what you say while thread A is calling all the registered listeners, then thread B will be blocked until all the listeners complete, and then all the other tasks in the queue will be blocked also since they are waiting for thread A or B to complete. The reason that queue is set to 2 threads is to avoid this kind of blockage.\n\nIf you want to test this, leave the default queue set to 2, and install a test plugin which registers an WorkQueue.TaskListener (see https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#taskListeners) whose onStop() method has a long sleep in it. If you can reliably trigger thread B to get blocked between steps 5.b and 6 and before the executor.stop() method is called, then I believe it will block all other waiting tasks while the onStop() method is sleeping. To notice this blockage, you will need a backlog of other background tasks in the queue waiting to complete so that you can observe them waiting during the sleep (your test plugin could generate those if needed). This might be tricky to do since thread B is unlikely to be running the same scheduled Task as thread A if there are other blocked tasks in the queue.",
+      "parentUuid": "72e33ed4_a0d23b8c",
+      "revId": "e1d6f2df99e56bccccc44269a55e0a56bccbe324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

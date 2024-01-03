@@ -157,7 +157,7 @@ override the inherited submit requirement, are ignored.
 
 link:config-labels.html[Labels] define voting categories for reviewers to score
 changes. Often a label is accompanied by a submit requirement to check the votes
-on the label, e.g. with link:#submit_requirement_submittable_if[submittableIf]
+on the label, e.g. with a link:#submit_requirement_submittable_if[submittableIf]
 expression that checks that:
 
 * the label was approved: `label:My-Label=MAX`
@@ -213,11 +213,13 @@ submittability of changes (link:config-labels.html#MaxWithBlock[MaxWithBlock],
 link:config-labels.html#AnyWithBlock[AnyWithBlock],
 link:config-labels.html#MaxNoBlock[MaxNoBlock]). These functions are deprecated
 and setting them is no longer allowed, however if they are (already) set for
-existing label definitions they are still respected. For new labels submit
-requirements should be used instead (using `submittableIf = label:My-Label=MAX
-AND -label:My-Label=MIN` is equivalent to `MaxWithBlock`, using
-`submittableIf = -label:My-Label=MIN` is equivalent to `AnyWithBlock`, using
-`submittableIf = label:My-Label=MAX` is equivalent to using `MaxNoBlock`).
+existing label definitions they are still respected. For new labels the
+function should be set to link:config-labels.html#NoBlock[NoBlock] and then
+submit requirements should be used to control when changes can be submitted
+(using `submittableIf = label:My-Label=MAX AND -label:My-Label=MIN` is
+equivalent to `MaxWithBlock`, using `submittableIf = -label:My-Label=MIN` is
+equivalent to `AnyWithBlock`, using `submittableIf = label:My-Label=MAX` is
+equivalent to using `MaxNoBlock`).
 
 [[ignoreSelfApproval]]
 * `ignoreSelfApproval` flag on labels:

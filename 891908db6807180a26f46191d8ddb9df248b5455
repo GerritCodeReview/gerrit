@@ -1,6 +1,75 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "0852deeb_d15b0b76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-03T20:32:47Z",
+      "side": 1,
+      "message": "Can you specify what is the user\u0027s remapping?\nHow is this impacting the account visible on the GUI? What are the consequences for the threaded view of the comments on the change messages?",
+      "range": {
+        "startLine": 12,
+        "startChar": 22,
+        "endLine": 12,
+        "endChar": 61
+      },
+      "revId": "891908db6807180a26f46191d8ddb9df248b5455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a7e4e23_3aa07725",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-03T20:32:47Z",
+      "side": 1,
+      "message": "the other",
+      "range": {
+        "startLine": 14,
+        "startChar": 9,
+        "endLine": 14,
+        "endChar": 20
+      },
+      "revId": "891908db6807180a26f46191d8ddb9df248b5455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8f337f3_dbdc00ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-03T20:32:47Z",
+      "side": 1,
+      "message": "as part of Ia478b891 and the exit conditions",
+      "range": {
+        "startLine": 16,
+        "startChar": 23,
+        "endLine": 16,
+        "endChar": 35
+      },
+      "revId": "891908db6807180a26f46191d8ddb9df248b5455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "a977ced9_41780c9a",
@@ -14,6 +83,52 @@
       "writtenOn": "2024-01-03T20:19:39Z",
       "side": 1,
       "message": "This should go to stable-3.9 where the problem started to appear.",
+      "revId": "891908db6807180a26f46191d8ddb9df248b5455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7589292_119e2288",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/ListChangeCommentsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-03T20:32:47Z",
+      "side": 1,
+      "message": "This should be zero, as the non-mapped accounts are seen.",
+      "range": {
+        "startLine": 139,
+        "startChar": 29,
+        "endLine": 139,
+        "endChar": 31
+      },
+      "revId": "891908db6807180a26f46191d8ddb9df248b5455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "036e7086_fd3f1f2b",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/ListChangeCommentsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-03T20:32:47Z",
+      "side": 1,
+      "message": "Is this relevant? Would the problem occur even if we don\u0027t skip the auto-generate messages?",
+      "range": {
+        "startLine": 151,
+        "startChar": 72,
+        "endLine": 151,
+        "endChar": 76
+      },
       "revId": "891908db6807180a26f46191d8ddb9df248b5455",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

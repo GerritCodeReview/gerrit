@@ -268,6 +268,8 @@ public class CommentsUtil {
       }
       if (cmItr < changeMessages.size()) {
         comment.changeMessageId = sortedChangeMessages.get(cmItr).getKey().uuid();
+      } else {
+        cmItr = 0;
       }
     }
   }

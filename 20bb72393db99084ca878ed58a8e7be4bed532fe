@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5ff410d_8d26c4f2",
+        "filename": ".bazelrc",
+        "patchSetId": 31
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-04T20:14:12Z",
+      "side": 1,
+      "message": "I\u0027ve removed the local protoc compiler and the issue persists :-(\n\nI\u0027ve posted more comments on Ib855568307: do you know if there is a reason for Bazel to build the protoc compilare locally? Why can\u0027t it just download a pre-built version for MacOS Sonoma?",
+      "parentUuid": "d808b4f3_0bbd8c04",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 30
+      },
+      "revId": "20bb72393db99084ca878ed58a8e7be4bed532fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "dbb2a53a_604e5b00",

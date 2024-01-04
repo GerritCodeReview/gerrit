@@ -257,6 +257,28 @@ public class AutoMerger {
           "AutoMerge treeId=%s (no conflicts, inserter: %s, caller: %s)",
           treeId.name(), m.getObjectInserter(), callerFinder.findCallerLazy());
     } else {
+      if (m.getResultTreeId() != null) {
+        // Merging with conflicts below uses the same DirCache instance that has been used by the
+        // Merger to attempt the merge without conflicts.
+        //
+        // The Merger uses the DirCache to do the updates, and in particular to write the result
+        // tree. DirCache caches a single DirCacheTree instance that is used to write the result
+        // tree, but it writes the result tree only if there were no conflicts.
+        //
+        // Merging with conflicts uses the same DirCache instance to write the tree with conflicts
+        // that has been used by the Merger. This means if the Merger unexpectedly wrote a result
+        // tree although there had been conflicts, then merging with conflicts uses the same
+        // DirCacheTree instance to write the tree with conflicts. However DirCacheTree#writeTree
+        // writes a tree only once and then that tree is cached. Further invocations of
+        // DirCacheTree#writeTree have no effect and return the previously created tree. This means
+        // merging with conflicts can only successfully create the tree with conflicts if the Merger
+        // didn't write a result tree yet. Hence this is checked here and we log a warning if the
+        // result tree was already written.
+        logger.atWarning().log(
+            "result tree has already been written: %s (merge: %s, conflicts: %s, failed: %s)",
+            m, m.getResultTreeId().name(), m.getUnmergedPaths(), m.getFailingPaths());
+      }
+
       treeId =
           MergeUtil.mergeWithConflicts(
               rw,

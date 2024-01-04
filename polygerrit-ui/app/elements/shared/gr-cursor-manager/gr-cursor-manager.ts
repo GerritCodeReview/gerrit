@@ -391,10 +391,12 @@ export class GrCursorManager {
   }
 
   _targetIsVisible(top: number) {
+    // Targets near the top are often covered by sticky header UI, so we
+    // consider it not-visible if it is within 100px of the top.
     return (
       this.scrollMode === ScrollMode.KEEP_VISIBLE &&
-      top > window.pageYOffset &&
-      top < window.pageYOffset + window.innerHeight
+      top > window.scrollY + 100 &&
+      top < window.scrollY + window.innerHeight
     );
   }
 

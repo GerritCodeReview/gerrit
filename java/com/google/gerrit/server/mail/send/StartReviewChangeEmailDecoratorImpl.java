@@ -128,17 +128,15 @@ public class StartReviewChangeEmailDecoratorImpl implements StartReviewChangeEma
         removedByEmailReviewers.stream().forEach(r -> email.addByEmail(RecipientType.TO, r, true));
         break;
     }
-    changeEmail.addAuthors(RecipientType.CC);
 
     if (isCreateChange) {
+      changeEmail.addAuthors(RecipientType.CC);
       changeEmail.includeWatchers(
           NotifyType.NEW_CHANGES,
           !changeEmail.getChange().isWorkInProgress() && !changeEmail.getChange().isPrivate());
       changeEmail.includeWatchers(
           NotifyType.NEW_PATCHSETS,
           !changeEmail.getChange().isWorkInProgress() && !changeEmail.getChange().isPrivate());
-    } else {
-      changeEmail.ccExistingReviewers();
     }
 
     email.appendText(email.textTemplate("NewChange"));

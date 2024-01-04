@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59fcf0ea_41657c18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-01-04T12:08:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0852deeb_d15b0b76",
+      "range": {
+        "startLine": 12,
+        "startChar": 22,
+        "endLine": 12,
+        "endChar": 61
+      },
+      "revId": "891908db6807180a26f46191d8ddb9df248b5455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a7e4e23_3aa07725",
@@ -195,6 +219,30 @@
       "writtenOn": "2024-01-03T20:32:47Z",
       "side": 1,
       "message": "Is this relevant? Would the problem occur even if we don\u0027t skip the auto-generate messages?",
+      "range": {
+        "startLine": 151,
+        "startChar": 72,
+        "endLine": 151,
+        "endChar": 76
+      },
+      "revId": "891908db6807180a26f46191d8ddb9df248b5455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f90823d0_b35b855c",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/ListChangeCommentsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-01-04T12:08:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "036e7086_fd3f1f2b",
       "range": {
         "startLine": 151,
         "startChar": 72,

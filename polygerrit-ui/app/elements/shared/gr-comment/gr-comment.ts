@@ -80,10 +80,13 @@ import {when} from 'lit/directives/when.js';
 import {getDocUrl} from '../../../utils/url-util';
 import {configModelToken} from '../../../models/config/config-model';
 import {getFileExtension} from '../../../utils/file-util';
+import {storageServiceToken} from '../../../services/storage/gr-storage_impl';
 
 // visible for testing
 export const AUTO_SAVE_DEBOUNCE_DELAY_MS = 2000;
 export const GENERATE_SUGGESTION_DEBOUNCE_DELAY_MS = 1500;
+export const ENABLE_GENERATE_SUGGESTION_STORAGE_KEY =
+  'enableGenerateSuggestionStorageKey';
 
 declare global {
   interface HTMLElementEventMap {
@@ -257,6 +260,8 @@ export class GrComment extends LitElement {
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
+  private readonly getStorage = resolve(this, storageServiceToken);
+
   private readonly flagsService = getAppContext().flagsService;
 
   private readonly shortcuts = new ShortcutController(this);
@@ -365,9 +370,7 @@ export class GrComment extends LitElement {
             debounceTime(GENERATE_SUGGESTION_DEBOUNCE_DELAY_MS)
           ),
         () => {
-          if (this.generateSuggestion) {
-            this.generateSuggestEdit();
-          }
+          this.generateSuggestEdit();
         }
       );
     }
@@ -383,6 +386,14 @@ export class GrComment extends LitElement {
         // We currently support results from only 1 provider.
         this.suggestionsProvider = suggestionsPlugins?.[0]?.provider;
       });
+
+    const generateSuggestionStoredContent =
+      this.getStorage().getEditableContentItem(
+        ENABLE_GENERATE_SUGGESTION_STORAGE_KEY
+      );
+    if (generateSuggestionStoredContent?.message === 'false') {
+      this.generateSuggestion = false;
+    }
   }
 
   override disconnectedCallback() {
@@ -1031,9 +1042,11 @@ export class GrComment extends LitElement {
             ?checked=${this.generateSuggestion}
             @change=${() => {
               this.generateSuggestion = !this.generateSuggestion;
-              if (!this.generateSuggestion) {
-                this.generatedSuggestion = undefined;
-              } else {
+              this.getStorage().setEditableContentItem(
+                ENABLE_GENERATE_SUGGESTION_STORAGE_KEY,
+                this.generateSuggestion.toString()
+              );
+              if (this.generateSuggestion) {
                 this.generateSuggestionTrigger$.next();
               }
               this.reporting.reportInteraction(

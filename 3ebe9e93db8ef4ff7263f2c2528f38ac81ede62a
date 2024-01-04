@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a970c27_7d2bf8cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2024-01-04T14:05:20Z",
+      "side": 1,
+      "message": "Just curious does it handle the case where I change the reviewers AND leave a comment or vote at the same time?",
+      "revId": "3ebe9e93db8ef4ff7263f2c2528f38ac81ede62a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

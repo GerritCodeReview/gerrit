@@ -44,32 +44,6 @@ import java.util.Queue;
  * @param <T> type of object the predicate can evaluate in memory.
  */
 public abstract class Predicate<T> {
-  /** Query String that was used to create this predicate. Only set from the Antlr query parser. */
-  private String predicateString = null;
-
-  /**
-   * Boolean indicating if this predicate is a leaf predicate in a composite expression. Only set
-   * from the Antlr query parser.
-   */
-  private boolean isLeaf = false;
-
-  /** Sets the {@link #predicateString} field. This can only be set once. */
-  void setPredicateString(String predicateString) {
-    this.predicateString = this.predicateString == null ? predicateString : this.predicateString;
-  }
-
-  public String getPredicateString() {
-    return predicateString;
-  }
-
-  void setLeaf(boolean isLeaf) {
-    this.isLeaf = isLeaf;
-  }
-
-  public boolean isLeaf() {
-    return isLeaf;
-  }
-
   /** A predicate that matches any input, always, with no cost. */
   @SuppressWarnings("unchecked")
   public static <T> Predicate<T> any() {
@@ -222,6 +196,69 @@ public abstract class Predicate<T> {
     @Override
     public boolean equals(Object other) {
       return other == this;
+    }
+  }
+
+  /** Represents a leaf predicate in a composite expression.
+   *
+   * It can be only created from the Antlr query parser. It stores a predicate string from the
+   * original expression string.
+   */
+
+  public static class LeafPredicate<T> extends Predicate<T> implements Matchable<T> {
+    /** Query String that was used to create {@link #that} predicate. */
+    private final String predicateString;
+    private final Predicate<T> that;
+
+    LeafPredicate(Predicate<T> that, String predicateString) {
+      this.that = that;
+      this.predicateString = predicateString;
+    }
+
+    public String getPredicateString() {
+      return predicateString;
+    }
+
+    @Override
+    public boolean match(T object) {
+      checkState(
+          that.isMatchable(),
+          "match invoked, but child predicate %s doesn't implement %s",
+          that,
+          Matchable.class.getName());
+      return that.asMatchable().match(object);
+    }
+
+    @Override
+    public boolean isMatchable() {
+      return that.isMatchable();
+    }
+
+    @Override
+    public int getCost() {
+      return that.estimateCost();
+    }
+
+    @Override
+    public Predicate<T> copy(Collection<? extends Predicate<T>> children) {
+      if (children.size() != 1) {
+        throw new IllegalArgumentException("Expected exactly one child");
+      }
+      return new LeafPredicate<>(children.iterator().next(), predicateString);
+    }
+
+    @Override
+    public int hashCode() {
+      return that.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+      if (other == null) {
+        return false;
+      }
+      return other instanceof LeafPredicate
+          && getChildren().equals(((Predicate<?>) other).getChildren());
     }
   }
 }

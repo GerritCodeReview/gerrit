@@ -26,6 +26,7 @@ import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult.PredicateResult;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.index.query.Predicate.LeafPredicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -225,7 +226,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
       Predicate<ChangeData> predicate, ChangeData changeData) {
     PredicateResult.Builder predicateResult =
         PredicateResult.builder()
-            .predicateString(predicate.isLeaf() ? predicate.getPredicateString() : "")
+            .predicateString((predicate instanceof LeafPredicate) ? ((LeafPredicate)predicate).getPredicateString() : "")
             .status(predicate.asMatchable().match(changeData));
     predicate
         .getChildren()

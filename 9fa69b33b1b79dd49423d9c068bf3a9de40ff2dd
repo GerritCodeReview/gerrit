@@ -33,6 +33,24 @@
       "message": "I believe this deserves a comment explaining why we are resetting the search for change messages from the start.\n\nOptional: we could also save time and just remember the _last valid starting point_ at L270 and restart from there rather than zero.",
       "revId": "9fa69b33b1b79dd49423d9c068bf3a9de40ff2dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9574a434_8aee56a9",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2024-01-04T13:23:37Z",
+      "side": 1,
+      "message": "\u003e I believe this deserves a comment explaining why we are resetting the search for change messages from the start.\n\nDone, see if it makes sense.\n\n\u003e \n\u003e Optional: we could also save time and just remember the _last valid starting point_ at L270 and restart from there rather than zero.\n\nHappy to do it in a follow up.",
+      "parentUuid": "e6933790_56897952",
+      "revId": "9fa69b33b1b79dd49423d9c068bf3a9de40ff2dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

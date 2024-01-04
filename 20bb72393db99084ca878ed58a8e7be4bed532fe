@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d808b4f3_0bbd8c04",
+        "filename": ".bazelrc",
+        "patchSetId": 31
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-04T19:49:56Z",
+      "side": 1,
+      "message": "Please ignore, there are some issues on my laptop with some other protoc installed.",
+      "parentUuid": "fd9f1f1b_8a5217c9",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 30
+      },
+      "revId": "20bb72393db99084ca878ed58a8e7be4bed532fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "dbb2a53a_604e5b00",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 31

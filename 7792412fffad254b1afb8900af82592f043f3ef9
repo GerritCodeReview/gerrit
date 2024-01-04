@@ -22,6 +22,30 @@
       },
       "revId": "7792412fffad254b1afb8900af82592f043f3ef9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09d1135a_b204e90a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1119195
+      },
+      "writtenOn": "2024-01-04T15:41:30Z",
+      "side": 1,
+      "message": "Done. yeah the IDE showed pageyoffset as deprecated so I changed it. We don\u0027t support IE anyway and already using scrolly down in line 423 and in another file.",
+      "parentUuid": "fff7c8de_8d1de6f1",
+      "range": {
+        "startLine": 398,
+        "startChar": 19,
+        "endLine": 398,
+        "endChar": 26
+      },
+      "revId": "7792412fffad254b1afb8900af82592f043f3ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -116,7 +116,7 @@ public class DiffOperationsTest {
             testProjectName, merge, /* parentNum=*/ 0, DiffOptions.DEFAULTS);
     assertThat(changedFiles.keySet()).containsExactly("/COMMIT_MSG", "/MERGE_LIST", "file_3.txt");
 
-    assertThat(repo.getRefDatabase().exactRef(autoMergeRef)).isNull();
+    assertThat(repo.getRefDatabase().exactRef(autoMergeRef)).isNotNull();
   }
 
   @Test

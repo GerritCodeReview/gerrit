@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fff7c8de_8d1de6f1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2024-01-04T15:15:33Z",
+      "side": 1,
+      "message": "maybe add in the commit message why you replace `pageYOffset` with `scrollY`?\n\nIIUC `scrollY` returns the same value as `pageYOffset` but `pageYOffset` is used generally due to IE issues?",
+      "range": {
+        "startLine": 398,
+        "startChar": 19,
+        "endLine": 398,
+        "endChar": 26
+      },
+      "revId": "7792412fffad254b1afb8900af82592f043f3ef9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -33,6 +33,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.index.query.Predicate.LeafPredicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeKindCache;
@@ -527,9 +528,10 @@ public class ApprovalCopier {
       ApprovalContext approvalContext,
       ImmutableSet.Builder<String> passingAtoms,
       ImmutableSet.Builder<String> failingAtoms) {
-    if (predicate.isLeaf()) {
+    if (predicate instanceof LeafPredicate) {
       boolean isPassing = predicate.asMatchable().match(approvalContext);
-      (isPassing ? passingAtoms : failingAtoms).add(predicate.getPredicateString());
+      (isPassing ? passingAtoms : failingAtoms)
+          .add(((LeafPredicate) predicate).getPredicateString());
       return;
     }
     predicate

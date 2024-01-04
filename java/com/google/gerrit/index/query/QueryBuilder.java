@@ -36,6 +36,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
+import com.google.gerrit.index.query.Predicate.LeafPredicate;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -90,7 +91,7 @@ import org.antlr.runtime.tree.Tree;
 public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
   /** Converts a value string passed to an operator into a {@link Predicate}. */
   public interface OperatorFactory<T, Q extends QueryBuilder<T, Q>> {
-    Predicate<T> create(Q builder, String value) throws QueryParseException;
+    Predicate<T> create(Q builder, String value, Tree tree) throws QueryParseException;
   }
 
   /**
@@ -251,47 +252,23 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
   }
 
   private Predicate<T> toPredicate(Tree r) throws QueryParseException, IllegalArgumentException {
-    Predicate<T> result;
     switch (r.getType()) {
       case AND:
-        result = and(children(r));
-        break;
+        return and(children(r));
       case OR:
-        result = or(children(r));
-        break;
+        return or(children(r));
       case NOT:
-        result = not(toPredicate(onlyChildOf(r)));
-        break;
+        return not(toPredicate(onlyChildOf(r)));
 
       case DEFAULT_FIELD:
-        result = defaultField(concatenateChildText(r));
-        break;
+        return defaultField(concatenateChildText(r));
 
       case FIELD_NAME:
-        result = operator(r.getText(), concatenateChildText(r));
-        break;
+        return operator(r.getText(), concatenateChildText(r), r);
 
       default:
         throw error("Unsupported operator: " + r);
     }
-    result.setPredicateString(getPredicateString(r));
-    return result;
-  }
-
-  /**
-   * Reconstruct the query sub-expression that was passed as input to the query parser from the tree
-   * input parameter.
-   */
-  private static String getPredicateString(Tree r) {
-    CommonTree ct = (CommonTree) r;
-    CommonToken token = (CommonToken) ct.getToken();
-    CharStream inputStream = token.getInputStream();
-    int leftIdx = getLeftIndex(r);
-    int rightIdx = getRightIndex(r);
-    if (inputStream == null) {
-      return "";
-    }
-    return inputStream.substring(leftIdx, rightIdx);
   }
 
   private static int getLeftIndex(Tree r) {
@@ -341,7 +318,7 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
   }
 
   @SuppressWarnings("unchecked")
-  private Predicate<T> operator(String name, String value) throws QueryParseException {
+  private Predicate<T> operator(String name, String value, Tree tree) throws QueryParseException {
     String opName = MoreObjects.firstNonNull(opAliases.get(name), name);
     @SuppressWarnings("rawtypes")
     OperatorFactory f = opFactories.get(opName);
@@ -351,7 +328,7 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
     if (f == null) {
       throw error("Unsupported operator " + name + ":" + value);
     }
-    return f.create(this, value);
+    return f.create(this, value, tree);
   }
 
   /**
@@ -409,12 +386,11 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Predicate<T> create(Q builder, String value) throws QueryParseException {
+    public Predicate<T> create(Q builder, String value, Tree tree) throws QueryParseException {
       try {
         Predicate<T> predicate = (Predicate<T>) method.invoke(builder, value);
         // All operator predicates are leaf predicates.
-        predicate.setLeaf(true);
-        return predicate;
+        return new LeafPredicate<>(predicate, getPredicateString(tree));
       } catch (RuntimeException | IllegalAccessException e) {
         throw error("Error in operator " + name + ":" + value, e);
       } catch (InvocationTargetException e) {
@@ -428,6 +404,22 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
         }
         throw error("Error in operator " + name + ":" + value, e.getCause());
       }
+    }
+
+    /**
+     * Reconstruct the query sub-expression that was passed as input to the query parser from the
+     * tree input parameter.
+     */
+    private static String getPredicateString(Tree r) {
+      CommonTree ct = (CommonTree) r;
+      CommonToken token = (CommonToken) ct.getToken();
+      CharStream inputStream = token.getInputStream();
+      int leftIdx = getLeftIndex(r);
+      int rightIdx = getRightIndex(r);
+      if (inputStream == null) {
+        return "";
+      }
+      return inputStream.substring(leftIdx, rightIdx);
     }
   }
 }

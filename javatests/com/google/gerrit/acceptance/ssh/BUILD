@@ -19,6 +19,7 @@ acceptance_tests(
         ":util",
         "//java/com/google/gerrit/server/cancellation",
         "//java/com/google/gerrit/server/logging",
+        "//lib/antlr:java-runtime",
         "//lib/commons:compress",
     ],
 )

@@ -140,12 +140,7 @@ public class AutoMerger {
    * @return auto-merge commit. Headers of the returned RevCommit are parsed.
    */
   public RevCommit lookupFromGitOrMergeInMemory(
-      Repository repo,
-      RevWalk rw,
-      InMemoryInserter ins,
-      RevCommit merge,
-      ThreeWayMergeStrategy mergeStrategy)
-      throws IOException {
+      Repository repo, RevWalk rw, InMemoryInserter ins, RevCommit merge) throws IOException {
     checkArgument(rw.getObjectReader().getCreatedFromInserter() == ins);
     Optional<RevCommit> existingCommit =
         lookupCommit(repo, rw, RefNames.refsCacheAutomerge(merge.name()));
@@ -156,7 +151,8 @@ public class AutoMerger {
     counter.increment(OperationType.IN_MEMORY_WRITE);
     logger.atInfo().log("Computing in-memory AutoMerge for %s", merge.name());
     try (Timer1.Context<OperationType> ignored = latency.start(OperationType.IN_MEMORY_WRITE)) {
-      return rw.parseCommit(createAutoMergeCommit(repo.getConfig(), rw, ins, merge, mergeStrategy));
+      return rw.parseCommit(
+          createAutoMergeCommit(repo.getConfig(), rw, ins, merge, configuredMergeStrategy));
     }
   }
 

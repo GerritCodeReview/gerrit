@@ -2818,7 +2818,7 @@ public class ChangeIT extends AbstractDaemonTest {
     public void configure() {
       bind(ChangeOperatorFactory.class)
           .annotatedWith(Exports.named("mytopic"))
-          .toInstance((cqb, value) -> new MyTopicPredicate(value));
+          .toInstance((cqb, value, tree) -> new MyTopicPredicate(value));
     }
 
     private static class MyTopicPredicate extends PostFilterPredicate<ChangeData> {

@@ -47,6 +47,7 @@ import com.google.inject.AbstractModule;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import org.antlr.runtime.tree.Tree;
 import org.junit.Test;
 
 @NoHttpd
@@ -365,7 +366,7 @@ public class QueryIT extends AbstractDaemonTest {
 
   protected static class CheapSourceOperator implements ChangeQueryBuilder.ChangeOperatorFactory {
     @Override
-    public Predicate<ChangeData> create(ChangeQueryBuilder builder, String value)
+    public Predicate<ChangeData> create(ChangeQueryBuilder builder, String value, Tree tree)
         throws QueryParseException {
       return new CheapSource(value);
     }

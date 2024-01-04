@@ -852,7 +852,7 @@ public class AccountIT extends AbstractDaemonTest {
     List<Message> messages2 = sender.getMessages();
     assertThat(messages2).hasSize(1);
     Message message2 = messages2.get(0);
-    assertThat(message2.rcpt()).containsExactly(user.getNameEmail(), user2.getNameEmail());
+    assertThat(message2.rcpt()).containsExactly(user2.getNameEmail());
     assertMailReplyTo(message, admin.email());
 
     sender.clear();
@@ -897,7 +897,7 @@ public class AccountIT extends AbstractDaemonTest {
     List<Message> messages2 = sender.getMessages();
     assertThat(messages2).hasSize(1);
     Message message2 = messages2.get(0);
-    assertThat(message2.rcpt()).containsExactly(user.getNameEmail(), user2.getNameEmail());
+    assertThat(message2.rcpt()).containsExactly(user2.getNameEmail());
     assertMailReplyTo(message2, admin.email());
 
     sender.clear();

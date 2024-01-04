@@ -268,7 +268,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     for (int i = 0; i < 3; i++) {
       expectedAddresses.add(users.get(users.size() - i - 1).getNameEmail());
     }
-    expectedAddresses.add(reviewer.getNameEmail());
+    // 'reviewer' is not included in the email, since it has already been notified.
     assertThat(m.rcpt()).containsExactlyElementsIn(expectedAddresses);
   }
 

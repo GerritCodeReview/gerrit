@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3dc048b_7b47f3f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-04T19:57:18Z",
+      "side": 1,
+      "message": "Without this change, my local build fails with:\n\n```\nERROR: /private/var/tmp/_bazel_lucamilanesio/05146e5884bb386b6d372310d769d784/external/com_google_protobuf/BUILD.bazel:457:10: Linking external/com_google_protobuf/protoc [for tool] failed: (Exit 1): cc_wrapper.sh failed: error executing CppLink command (from target @@com_google_protobuf//:protoc) external/local_config_cc/cc_wrapper.sh @bazel-out/darwin_x86_64-opt-exec-ST-13d3ddad9198/bin/external/com_google_protobuf/protoc-2.params\n\nUse --sandbox_debug to see verbose messages from the sandbox and retain the sandbox build root for debugging\nld: warning: ignoring duplicate libraries: \u0027-lm\u0027, \u0027-lpthread\u0027\nld: Undefined symbols:\n  google::protobuf::io::ZeroCopyInputStream::ReadCord(absl::lts_20230125::Cord*, int), referenced from:\n      vtable for google::protobuf::io::FileInputStream in libprotobuf_lite.a[16](zero_copy_stream_impl.o)\n  google::protobuf::io::ZeroCopyOutputStream::WriteCord(absl::lts_20230125::Cord const\u0026), referenced from:\n      vtable for google::protobuf::io::OstreamOutputStream in libprotobuf_lite.a[16](zero_copy_stream_impl.o)\n  google::protobuf::io::CopyingOutputStreamAdaptor::WriteCord(absl::lts_20230125::Cord const\u0026), referenced from:\n      vtable for google::protobuf::io::FileOutputStream in libprotobuf_lite.a[16](zero_copy_stream_impl.o)\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n```\n\nWith this change, the build succeeds on MacOS Sonoma / XCode 15.",
+      "revId": "6417b42739da738dff9b6eda04aeee2ca0cad9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

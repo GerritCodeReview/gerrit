@@ -14,18 +14,23 @@
 
 package com.google.gerrit.server.patch;
 
+import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.AUTO_MERGE;
+
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.update.RepoView;
+import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Optional;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -33,6 +38,7 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 /** A utility class for computing the base commit / parent for a specific patchset commit. */
 @Singleton
@@ -140,15 +146,24 @@ class BaseCommitUtil {
   private RevCommit getAutoMergeFromGitOrCreate(
       Repository repo, ObjectInserter ins, RevWalk rw, RevCommit mergeCommit) throws IOException {
     String refName = RefNames.refsCacheAutomerge(mergeCommit.name());
-    Optional<RevCommit> autoMergeCommit = autoMerger.lookupCommit(repo, rw, refName);
-    if (autoMergeCommit.isPresent()) {
-      return autoMergeCommit.get();
+    Optional<RevCommit> maybeAutoMergeCommit = autoMerger.lookupCommit(repo, rw, refName);
+    if (maybeAutoMergeCommit.isPresent()) {
+      return maybeAutoMergeCommit.get();
     }
     ObjectId autoMergeId =
         autoMerger.createAutoMergeCommit(new RepoView(repo, rw, ins), rw, ins, mergeCommit);
     logger.atFine().log("flushing inserter %s", ins);
     ins.flush();
-    return rw.parseCommit(autoMergeId);
+    RevCommit autoMergeCommit = rw.parseCommit(autoMergeId);
+
+    // Create the auto-merge ref.
+    try (RefUpdateContext ctx = RefUpdateContext.open(AUTO_MERGE)) {
+      BatchRefUpdate bru = repo.getRefDatabase().newBatchUpdate();
+      bru.addCommand(new ReceiveCommand(ObjectId.zeroId(), autoMergeCommit, refName));
+      RefUpdateUtil.executeChecked(bru, rw);
+    }
+
+    return autoMergeCommit;
   }
 
   private ObjectInserter newInserter(Repository repo) {

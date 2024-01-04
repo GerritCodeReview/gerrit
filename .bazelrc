@@ -70,10 +70,6 @@ build:remote21_gcp --config=remote21
 build:remote21_bb --config=config_bb
 build:remote21_bb --config=build_java21_shared
 
-# Enable modern C++ features
-build --cxxopt=-std=c++17
-build --host_cxxopt=-std=c++17
-
 # Enable strict_action_env flag to. For more information on this feature see
 # https://groups.google.com/forum/#!topic/bazel-discuss/_VmRfMyyHBk.
 # This will be the new default behavior at some point (and the flag was flipped

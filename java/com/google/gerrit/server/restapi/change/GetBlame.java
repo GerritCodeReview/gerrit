@@ -25,10 +25,8 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.FileResource;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
-import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.patch.AutoMerger;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gitiles.blame.cache.BlameCache;
@@ -38,13 +36,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.merge.ThreeWayMergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.kohsuke.args4j.Option;
@@ -53,7 +49,6 @@ public class GetBlame implements RestReadView<FileResource> {
 
   private final GitRepositoryManager repoManager;
   private final BlameCache blameCache;
-  private final ThreeWayMergeStrategy mergeStrategy;
   private final AutoMerger autoMerger;
 
   @Option(
@@ -65,14 +60,9 @@ public class GetBlame implements RestReadView<FileResource> {
   private boolean base;
 
   @Inject
-  GetBlame(
-      GitRepositoryManager repoManager,
-      BlameCache blameCache,
-      @GerritServerConfig Config cfg,
-      AutoMerger autoMerger) {
+  GetBlame(GitRepositoryManager repoManager, BlameCache blameCache, AutoMerger autoMerger) {
     this.repoManager = repoManager;
     this.blameCache = blameCache;
-    this.mergeStrategy = MergeUtil.getMergeStrategy(cfg);
     this.autoMerger = autoMerger;
   }
 
@@ -116,8 +106,7 @@ public class GetBlame implements RestReadView<FileResource> {
 
       } else if (parents.length == 2) {
         ObjectId automerge =
-            autoMerger.lookupFromGitOrMergeInMemory(
-                repository, revWalk, ins, revCommit, mergeStrategy);
+            autoMerger.lookupFromGitOrMergeInMemory(repository, revWalk, ins, revCommit);
         result = blame(automerge, path, repository, revWalk);
 
       } else {

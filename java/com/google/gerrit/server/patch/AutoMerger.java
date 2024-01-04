@@ -239,14 +239,15 @@ public class AutoMerger {
       RevCommit merge,
       ThreeWayMergeStrategy mergeStrategy)
       throws IOException {
+    // Use a non-flushing inserter to do the merging and do the flushing explicitly when we are done
+    // with creating the AutoMerge commit.
+    ObjectInserter nonFlushingInserter =
+        ins instanceof InMemoryInserter ? ins : new NonFlushingWrapper(ins);
+
     rw.parseHeaders(merge);
-    ResolveMerger m = (ResolveMerger) mergeStrategy.newMerger(ins, repoConfig);
+    ResolveMerger m = (ResolveMerger) mergeStrategy.newMerger(nonFlushingInserter, repoConfig);
     DirCache dc = DirCache.newInCore();
     m.setDirCache(dc);
-    // If we don't plan on saving results, use a fully in-memory inserter.
-    // Using just a non-flushing wrapper is not sufficient, since in particular DfsInserter might
-    // try to write to storage after exceeding an internal buffer size.
-    m.setObjectInserter(ins instanceof InMemoryInserter ? new NonFlushingWrapper(ins) : ins);
 
     boolean couldMerge = m.merge(merge.getParents());
 
@@ -282,7 +283,7 @@ public class AutoMerger {
       treeId =
           MergeUtil.mergeWithConflicts(
               rw,
-              ins,
+              nonFlushingInserter,
               dc,
               "HEAD",
               merge.getParent(0),
@@ -292,7 +293,7 @@ public class AutoMerger {
               useDiff3);
       logger.atSevere().log(
           "AutoMerge treeId=%s (with conflicts, inserter: %s, caller: %s)",
-          treeId.name(), ins, callerFinder.findCallerLazy());
+          treeId.name(), nonFlushingInserter, callerFinder.findCallerLazy());
     }
 
     rw.parseHeaders(merge);
@@ -314,7 +315,6 @@ public class AutoMerger {
 
     ObjectId commitId = ins.insert(cb);
     logger.atFine().log("AutoMerge commitId=%s", commitId.name());
-    ins.flush();
 
     if (ins instanceof InMemoryInserter) {
       // When using an InMemoryInserter we need to read back the values from that inserter because
@@ -325,6 +325,8 @@ public class AutoMerger {
       }
     }
 
+    logger.atFine().log("flushing inserter %s", ins);
+    ins.flush();
     return rw.parseCommit(commitId);
   }
 

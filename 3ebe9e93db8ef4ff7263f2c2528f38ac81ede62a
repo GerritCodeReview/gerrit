@@ -16,6 +16,24 @@
       "message": "Just curious does it handle the case where I change the reviewers AND leave a comment or vote at the same time?",
       "revId": "3ebe9e93db8ef4ff7263f2c2528f38ac81ede62a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dbe47a1_768be871",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2024-01-04T14:07:11Z",
+      "side": 1,
+      "message": "Doing both of these has weird interactions, see details in https://b.corp.google.com/issues/317344880",
+      "parentUuid": "5a970c27_7d2bf8cd",
+      "revId": "3ebe9e93db8ef4ff7263f2c2528f38ac81ede62a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

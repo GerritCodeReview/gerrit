@@ -1,5 +1,46 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd9f1f1b_8a5217c9",
+        "filename": ".bazelrc",
+        "patchSetId": 31
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-04T19:26:02Z",
+      "side": 1,
+      "message": "This broke the build on MacOS. I\u0027ve reverted this section in Ib855568307.\n\n@david.ostrovsky@gmail.com could you please review it?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 30
+      },
+      "revId": "20bb72393db99084ca878ed58a8e7be4bed532fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbb2a53a_604e5b00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 31
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-04T19:26:02Z",
+      "side": 1,
+      "message": "Post-merge -1: we should have a MacOS CI environment for detecting breakages.",
+      "revId": "20bb72393db99084ca878ed58a8e7be4bed532fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

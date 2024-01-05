@@ -47,6 +47,7 @@ import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.common.CommitMessageInput;
 import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -551,6 +552,51 @@ public class CommitIT extends AbstractDaemonTest {
     assertThat(gApi.changes().id(baseChangeNumber).current().related().changes)
         .comparingElementsUsing(hasId())
         .containsExactly(baseChangeNumber, cherryPickChange._number);
+  }
+
+  @Test
+  public void editMessageWithSecondaryEmail() throws Exception {
+    // Create new user with a secondary email
+    Account.Id testUser =
+        accountOperations
+            .newAccount()
+            .preferredEmail("preferred@example.com")
+            .addSecondaryEmail("secondary@example.com")
+            .create();
+    requestScopeOperations.setApiUser(testUser);
+
+    // Create a change and edit its message using secondary email
+    PushOneCommit.Result r = createChange();
+    RevCommit commit = r.getCommit();
+    String message = commit.getFullMessage();
+    CommitMessageInput in = new CommitMessageInput();
+    in.message = "new message" + message;
+    in.committerEmail = "secondary@example.com";
+    gApi.changes().id(r.getChangeId()).setMessage(in);
+    CommitInfo newCommit = gApi.changes().id(r.getChangeId()).current().commit(false);
+    assertThat(newCommit.message).contains("new message");
+    assertThat(newCommit.committer.email).isEqualTo("secondary@example.com");
+  }
+
+  @Test
+  public void cannotEditMessageWithUnregisteredEmail() throws Exception {
+    PushOneCommit.Result r = createChange();
+    RevCommit commit = r.getCommit();
+    String message = commit.getFullMessage();
+    CommitMessageInput in = new CommitMessageInput();
+    in.message = "new message" + message;
+    in.committerEmail = "unregistered@example.com";
+
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class, () -> gApi.changes().id(r.getChangeId()).setMessage(in));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format(
+                "Cannot set commit message using committer email %s,"
+                    + " as it is not among the registered emails of account %s",
+                in.committerEmail, admin.id()));
   }
 
   private IncludedInInfo getIncludedIn(ObjectId id) throws Exception {

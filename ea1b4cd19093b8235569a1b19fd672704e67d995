@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90b33cb7_3ac382ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1148165
+      },
+      "writtenOn": "2024-01-05T03:45:44Z",
+      "side": 1,
+      "message": "A typo. Sorry\nI didn\u0027t mean to merge this change. Just like i mentioned in https://groups.google.com/g/repo-discuss/c/9CMjhtOeeEQ\nIt\u0027s just a change for my internal usage.",
+      "parentUuid": "a6d5fe75_9603c351",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 6
+      },
+      "revId": "ea1b4cd19093b8235569a1b19fd672704e67d995",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f73b7961_d1ae9e41",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-12-06T08:49:46Z",
       "side": 1,
       "message": "If you are using SSO, the user should be transparently be logged in.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 17
+      },
+      "revId": "ea1b4cd19093b8235569a1b19fd672704e67d995",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cb2ce4d_12e6538f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1148165
+      },
+      "writtenOn": "2024-01-05T03:45:44Z",
+      "side": 1,
+      "message": "In my cases. User has to click LOGIN button to login (Though they don\u0027t need to enter password which benefit from SSO).\nIf Gerrit can automatically login if auth.type \u003d\u003d OPENID_SSO. I think it\u0027s better than my solution",
+      "parentUuid": "f73b7961_d1ae9e41",
       "range": {
         "startLine": 11,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1c386e7_e04780c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1148165
+      },
+      "writtenOn": "2024-01-05T03:45:44Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a2ab82b8_08889aca",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 16
+      },
+      "revId": "ea1b4cd19093b8235569a1b19fd672704e67d995",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6633909b_527515cc",
@@ -83,6 +155,24 @@
       "writtenOn": "2022-12-06T08:49:46Z",
       "side": 1,
       "message": "Missing `Release-Notes` footer.",
+      "revId": "ea1b4cd19093b8235569a1b19fd672704e67d995",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2d53b32_ae93ffd0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1148165
+      },
+      "writtenOn": "2024-01-05T03:45:44Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "6633909b_527515cc",
       "revId": "ea1b4cd19093b8235569a1b19fd672704e67d995",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

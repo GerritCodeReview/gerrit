@@ -34,6 +34,24 @@
       "parentUuid": "a3dc048b_7b47f3f8",
       "revId": "6417b42739da738dff9b6eda04aeee2ca0cad9cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d271f68_02efbec2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2024-01-05T15:57:35Z",
+      "side": 1,
+      "message": "\u003e But the bump of C++ standard library level to C++17 will be part of the next Bazel release 7.1, see my PR: [1], so that we would need to downgrade to C++14, if we would not support that.\n\nI still want to understand why the latest Sonoma/XCode break with C++17. What I suspect is that just the combination is too new and Bazel doesn\u0027t find a pre-compiled protoc for it.\n\nI am confident as soon as they (Google/Bazel Team) will have a pre-compiled protoc for it, the problem will disappear.\n\n\u003e Also Bazel project itself bumped the C++ standard library level to C++17: [2] can you clone Bazel and test if you could build it on MacOS with: `bazelisk build src:bazel-bin-dev`?\n\nSure, done and it and works, for both 7.0.0 release and master.\n\n\u003e Last but not least, I\u0027ve uploaded this change for review, to bump `Google Protobuf` library to 25.1: [3], that (I think) also requires C++17 feature.\n\nStrangely, when I apply [3] then it works as expected. Could it be that the older version of protobuf wasn\u0027t fully compatible with the stricter checks of C++17?\n\n\u003e Can you open an issue on Bazel issue tracker?\n\nNot sure it is a Bazel issue yet.\n\n\u003e Can someone else with access to MacOS Sonoma / XCode 15 confirm these breakages (in Gerrit and Bazel projects)?\n\n+1 !\n\nI am in a strange situation with MacOS Sonoma / XCode 15 on x86 (5-years old macbook), possibly the Bazel Team has already pre-built Arm binaries.\n\nThanks @david.ostrovsky@gmail.com for looking into it !\n\nLuca.\n\n\u003e \n\u003e [1]: https://github.com/bazelbuild/bazel/pull/20413\n\u003e [2]: https://github.com/bazelbuild/bazel/commit/ba38aa25b674a2fd339b4d6cfce4abf073542d0a\n\u003e [3]: https://gerrit-review.googlesource.com/c/gerrit/+/399333",
+      "parentUuid": "72c0c2d7_3d7306b4",
+      "revId": "6417b42739da738dff9b6eda04aeee2ca0cad9cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [
